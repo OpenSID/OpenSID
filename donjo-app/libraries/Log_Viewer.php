@@ -532,7 +532,6 @@ class Log_Viewer
      */
     private function prepareRawFileName($fileNameInBase64)
     {
-
         //let's determine what the current log file is
         if (null !== $fileNameInBase64 && ! empty($fileNameInBase64)) {
             $currentFile = $this->logFolderPath . '/' . basename(base64_decode($fileNameInBase64, true));

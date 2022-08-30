@@ -40,11 +40,10 @@
                             </div>
                         </div>
                     <?php endforeach ?>
-                    <?php 
+                    <?php
                         $this->load->view('surat/form/tgl_berlaku');
-                        $this->load->view('surat/form/_pamong');
-                        $this->load->view('surat/form/tampil_foto');
-                    ?>
+    $this->load->view('surat/form/_pamong');
+    ?>
                 </form>
             </div>
             <?php $this->load->view('surat/form/tombol_cetak'); ?>

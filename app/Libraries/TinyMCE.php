@@ -797,9 +797,8 @@ class TinyMCE
                 'penandatangan' => $penandatangan,
                 'atas_nama'     => $atas_nama,
             ];
-        } else {
-            session_error(', ' . setting('sebutan_kepala_desa') . ' belum ditentukan.');
-            redirect('pengurus');
         }
+        session_error(', ' . setting('sebutan_kepala_desa') . ' belum ditentukan.');
+        redirect('pengurus');
     }
 }

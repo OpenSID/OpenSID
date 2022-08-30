@@ -401,7 +401,7 @@ class User_model extends CI_Model
 
         if (
             empty($data['username']) || empty($data['password'])
-            || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())
+                                     || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())
         ) {
             session_error(' -> Nama, Username dan Kata Sandi harus diisi');
             redirect('man_user');

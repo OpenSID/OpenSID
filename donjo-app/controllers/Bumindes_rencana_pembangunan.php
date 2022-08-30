@@ -92,20 +92,16 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $tahun = $this->input->post('tahun');
-
-        $data = [
-            'aksi'           => $aksi,
-            'config'         => $this->header['desa'],
-            'tahun'          => $tahun,
-            'pamong_ketahui' => $this->pamong_model->get_ttd(),
-            'pamong_ttd'     => $this->pamong_model->get_ub(),
-            'main'           => $this->model->get_data('', $tahun)->get()->result(),
-            'tgl_cetak'      => $this->input->post('tgl_cetak'),
-            'file'           => 'Buku ' . ucwords($this->tipe) . ' Kerja Pembangunan',
-            'isi'            => 'bumindes/pembangunan/' . $this->tipe . '/cetak',
-            'letak_ttd'      => ['1', '1', '3'],
-        ];
+        $tahun             = $this->input->post('tahun');
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['main']      = $this->model->get_data('', $tahun)->get()->result();
+        $data['config']    = $this->header['desa'];
+        $data['tahun']     = $tahun;
+        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
+        $data['file']      = 'Buku ' . ucwords($this->tipe) . ' Kerja Pembangunan';
+        $data['isi']       = 'bumindes/pembangunan/' . $this->tipe . '/cetak';
+        $data['letak_ttd'] = ['1', '1', '3'];
 
         $this->load->view('global/format_cetak', $data);
     }

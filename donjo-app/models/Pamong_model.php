@@ -210,8 +210,8 @@ class Pamong_model extends CI_Model
 
     public function insert()
     {
-        $post = $this->input->post();
-        $data = $this->siapkan_data($post);
+        $post         = $this->input->post();
+        $data         = $this->siapkan_data($post);
         $data['urut'] = $this->urut_model->urut_max() + 1;
 
         $data['pamong_tgl_terdaftar'] = date('Y-m-d');
@@ -330,7 +330,7 @@ class Pamong_model extends CI_Model
 
         if ($data['jabatan_id'] == 1) {
             $data['urut'] = 1;
-        } else if ($data['jabatan_id'] == 2) {
+        } elseif ($data['jabatan_id'] == 2) {
             $data['urut'] = 2;
         }
 
@@ -466,7 +466,6 @@ class Pamong_model extends CI_Model
             ->join('kehadiran_perangkat_desa k', 'k.pamong_id = dp.pamong_id', 'left')
             ->join('ref_jabatan rj', 'rj.id = dp.jabatan_id', 'left')
             ->where('dp.pamong_status', '1')
-            ->order_by('dp.jabatan_id')
             ->order_by('dp.urut')
             ->get()
             ->result_array();

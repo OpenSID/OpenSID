@@ -180,7 +180,7 @@ class Permohonan_surat_model extends CI_Model
     public function list_permohonan_perorangan($id_pemohon, $kat = null)
     {
         if ($kat == 1) {
-            $this->db->where_not_in('u.status', [4]);
+            $this->db->where_not_in('u.status', [PermohonanSurat::SUDAH_DIAMBIL]);
         }
 
         $data = $this->db
@@ -223,12 +223,12 @@ class Permohonan_surat_model extends CI_Model
 
     public function proses($id, $status, $id_pemohon = '')
     {
-        if ($status == 0) {
+        if ($status == PermohonanSurat::BELUM_LENGKAP) {
             // Belum Lengkap
-            $this->db->where('status', 1);
-        } elseif ($status == 5) {
+            $this->db->where('status', PermohonanSurat::SEDANG_DIPERIKSA);
+        } elseif ($status == PermohonanSurat::DIBATALKAN) {
             // Batalkan hanya jika status = 0 (belum lengkap) atau 1 (sedang diproses)
-            $this->db->where_in('status', ['0', '1']);
+            $this->db->where_in('status', [PermohonanSurat::BELUM_LENGKAP, PermohonanSurat::SEDANG_DIPERIKSA]);
 
             if ($id_pemohon) {
                 $this->db->where('id_pemohon', $id_pemohon);
@@ -259,8 +259,8 @@ class Permohonan_surat_model extends CI_Model
 
     public function get_syarat_permohonan($id)
     {
-        $permohonan             = PermohonanSurat::select(['syarat'])->find($id) ?? show_404();
-        $syarat_surat           = collect($permohonan->syarat)->map(static function ($item, $key) {
+        $permohonan   = PermohonanSurat::select(['syarat'])->find($id) ?? show_404();
+        $syarat_surat = collect($permohonan->syarat)->map(static function ($item, $key) {
             $syaratSurat        = SyaratSurat::select(['ref_syarat_nama'])->find($key);
             $dokumenKelengkapan = Dokumen::select(['nama'])->find($item);
 

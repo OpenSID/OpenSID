@@ -113,7 +113,7 @@
                     },
                 ],
                 order: [
-                    [7, 'asc']
+                    [7, 'desc']
                 ],
                 pageLength: 25
             });

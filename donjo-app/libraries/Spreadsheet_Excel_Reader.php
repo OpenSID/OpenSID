@@ -1472,7 +1472,6 @@ class Spreadsheet_Excel_Reader
                     }
                     $this->boundsheets[] = ['name' => $rec_name, 'offset' => $rec_offset];
                     break;
-
             }
 
             $pos += $length + 4;

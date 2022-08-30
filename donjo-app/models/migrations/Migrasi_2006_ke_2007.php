@@ -54,7 +54,6 @@ class Migrasi_2006_ke_2007 extends CI_model
 
     private function data_apbdes_manual()
     {
-
         // Update Menu Keuangan - perbaikan urutan sub menu
         $this->db->where('id', 202)
             ->set('urut', '1')

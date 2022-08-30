@@ -37,6 +37,7 @@
 
 use App\Models\Config;
 use App\Models\LogSurat;
+use App\Models\Pamong;
 use App\Models\Pesan;
 use Illuminate\Support\Facades\Schema;
 
@@ -192,7 +193,7 @@ class Web_Controller extends MY_Controller
         $this->load->model('pamong_model');
 
         $main         = $this->header;
-        $pamong_kades = $this->pamong_model->get_ttd();
+        $pamong_kades = Pamong::ttd('a.n')->first();
 
         // TODO : Gunakan view blade
         if (file_exists(DESAPATH . 'offline_mode.php')) {
@@ -547,5 +548,16 @@ class Admin_Controller extends Premium
         $this->load->view('nav');
         $this->load->view($view, $data);
         $this->load->view('footer');
+    }
+
+    public function modal_penandatangan()
+    {
+        $this->load->model('pamong_model');
+
+        return [
+            'pamong'         => $this->pamong_model->list_data(),
+            'pamong_ttd'     => Pamong::kepalaDesa()->first(),
+            'pamong_ketahui' => Pamong::ttd('a.n')->first(),
+        ];
     }
 }

@@ -38,12 +38,12 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\Config;
-use App\Models\Penduduk;
-use Mike42\Escpos\Printer;
 use App\Models\FormatSurat;
-use App\Models\SyaratSurat;
+use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
+use App\Models\SyaratSurat;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use Mike42\Escpos\Printer;
 
 class Surat extends Mandiri_Controller
 {
@@ -229,12 +229,12 @@ class Surat extends Mandiri_Controller
     {
         // RTF
         if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
-            $data['config']     = $data['lokasi'] = Config::first();
+            $data['config']    = $data['lokasi'] = Config::first();
             $data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
         }
 
         // Panggil 1 penduduk berdasarkan datanya sendiri
-        $data['penduduk']           = [$data['periksa']['penduduk']];
+        $data['penduduk'] = [$data['periksa']['penduduk']];
 
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
         $data['surat']              = FormatSurat::where('url_surat', $url)->first();
@@ -242,7 +242,7 @@ class Surat extends Mandiri_Controller
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
         $data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
 
-        $data_form                  = $this->surat_model->get_data_form($url);
+        $data_form = $this->surat_model->get_data_form($url);
         if (is_file($data_form)) {
             include $data_form;
         }

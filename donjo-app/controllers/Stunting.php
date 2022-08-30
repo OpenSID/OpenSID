@@ -1121,7 +1121,7 @@ class Stunting extends Admin_Controller
                 $jumlahKekRisti++;
             }
         }
-        
+
         //HITUNG HASIL PENGUKURAN TIKAR PERTUMBUHAN
         $status_tikar = collect(Anak::STATUS_TIKAR_ANAK)->pluck('simbol', 'id');
         $tikar        = ['TD' => 0, 'M' => 0, 'K' => 0, 'H' => 0];

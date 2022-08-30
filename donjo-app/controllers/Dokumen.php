@@ -184,12 +184,10 @@ class Dokumen extends Admin_Controller
 
     public function dialog_cetak($kat = 1)
     {
+        $data                    = $this->modal_penandatangan();
         $data['form_action']     = site_url("dokumen/cetak/{$kat}");
         $data['kat']             = $kat;
         $data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
-        $data['pamong']          = $this->pamong_model->list_data();
-        $data['pamong_ttd']      = $this->pamong_model->get_ub();
-        $data['pamong_ketahui']  = $this->pamong_model->get_ttd();
         $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat);
         $this->load->view('dokumen/dialog_cetak', $data);
     }
@@ -231,12 +229,10 @@ class Dokumen extends Admin_Controller
 
     public function dialog_excel($kat = 1)
     {
+        $data                    = $this->modal_penandatangan();
         $data['form_action']     = site_url("dokumen/excel/{$kat}");
         $data['kat']             = $kat;
         $data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
-        $data['pamong']          = $this->pamong_model->list_data();
-        $data['pamong_ttd']      = $this->pamong_model->get_ub();
-        $data['pamong_ketahui']  = $this->pamong_model->get_ttd();
         $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat);
         $this->load->view('dokumen/dialog_cetak', $data);
     }

@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\StatusEnum;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 class Penduduk extends Admin_Controller
@@ -405,7 +406,7 @@ class Penduduk extends Admin_Controller
         $data['list_warganegara']     = $this->referensi_model->list_data('tweb_penduduk_warganegara');
         $data['list_golongan_darah']  = $this->referensi_model->list_data('tweb_golongan_darah');
         $data['list_sakit_menahun']   = $this->referensi_model->list_data('tweb_sakit_menahun');
-        $data['list_tag_id_card']     = $this->referensi_model->list_ref(STATUS);
+        $data['list_tag_id_card']     = StatusEnum::DAFTAR;
         $data['form_action']          = site_url("{$this->controller}/adv_search_proses");
 
         $this->load->view('sid/kependudukan/ajax_adv_search_form', $data);

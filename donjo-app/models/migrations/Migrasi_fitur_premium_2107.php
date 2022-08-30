@@ -493,7 +493,6 @@ class Migrasi_fitur_premium_2107 extends MY_Model
         }
 
         if ($hasil && $this->db->truncate('ref_penduduk_suku')) {
-
             // Tambahkan data awal tabel ref_penduduk_suku
             $insert_batch = [
                 ['suku' => 'Aceh', 'deskripsi' => 'Aceh'],

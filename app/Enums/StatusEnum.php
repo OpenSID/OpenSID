@@ -35,14 +35,15 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace App\Enums;
 
-$route['data-kelompok/(:any)'] = WEB . '/kelompok/detail/$1';
-$route['data-lembaga/(:any)']  = WEB . '/lembaga/detail/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['pemerintah']           = WEB . '/pemerintah';
-
-// SDGS
-$route['status-sdgs'] = WEB . '/sdgs/index';
-$route['peta']        = WEB . '/peta/index';
+// Gunakan hanya jika kondisi hanya ada 2 yakni 1 (true) atau 0 (false)
+class StatusEnum
+{
+    public const YA     = 1;
+    public const TIDAK  = 0;
+    public const DAFTAR = [
+        self::YA    => 'Ya',
+        self::TIDAK => 'Tidak',
+    ];
+}

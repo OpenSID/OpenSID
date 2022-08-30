@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Pamong;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_penduduk_induk extends Admin_Controller
@@ -126,8 +128,8 @@ class Bumindes_penduduk_induk extends Admin_Controller
         $data = [
             'aksi'           => $aksi,
             'config'         => $this->header['desa'],
-            'pamong_ketahui' => $this->pamong_model->get_ttd(),
-            'pamong_ttd'     => $this->pamong_model->get_ub(),
+            'pamong_ketahui' => Pamong::ttd('a.n')->first(),
+            'pamong_ttd'     => Pamong::kepalaDesa()->first(),
             'main'           => $this->penduduk_model->list_data($o, 0),
             'bulan'          => $this->session->filter_bulan,
             'tahun'          => $this->session->filter_tahun,

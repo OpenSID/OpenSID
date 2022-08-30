@@ -210,8 +210,6 @@
         set_marker_content(marker_rt, '<?= addslashes(json_encode($rt_gis)) ?>', 'RT', 'rt', '#isi_popup_rt_', '<?= favico_desa() ?>');
       <?php endif; ?>
 
-
-
       //Menampilkan overlayLayers Peta Semua Wilayah
       var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?= ucwords($this->setting->sebutan_desa) ?>", "<?= ucwords($this->setting->sebutan_dusun) ?>", true);
 
@@ -271,8 +269,23 @@
         }
       });
 
+      // deklrasi variabel agar mudah di baca
+			var all_area = '<?= addslashes(json_encode($area)) ?>';
+			var all_garis = '<?= addslashes(json_encode($garis)) ?>';
+			var all_lokasi = '<?= addslashes(json_encode($lokasi)) ?>';
+			var all_lokasi_pembangunan = '<?= addslashes(json_encode($lokasi_pembangunan)) ?>';
+			var LOKASI_SIMBOL_LOKASI = '<?= base_url(LOKASI_SIMBOL_LOKASI) ?>';
+			var favico_desa = '<?= favico_desa() ?>';
+			var LOKASI_FOTO_AREA = '<?= base_url(LOKASI_FOTO_AREA) ?>';
+			var LOKASI_FOTO_GARIS = '<?= base_url(LOKASI_FOTO_GARIS) ?>';
+			var LOKASI_FOTO_LOKASI = '<?= base_url(LOKASI_FOTO_LOKASI) ?>';
+			var LOKASI_GALERI = '<?= base_url(LOKASI_GALERI) ?>';
+			var info_pembangunan = '<?= site_url('pembangunan') ?>';
+			var all_persil = '<?= addslashes(json_encode($persil)) ?>';
+      var TAMPIL_LUAS = <?= setting('tampil_luas_peta') ?>
+
       // Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
-      var layerCustom = tampilkan_layer_area_garis_lokasi_plus(mymap, '<?= addslashes(json_encode($area)) ?>', '<?= addslashes(json_encode($garis)) ?>', '<?= addslashes(json_encode($lokasi)) ?>', '<?= addslashes(json_encode($lokasi_pembangunan)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', "<?= favico_desa() ?>", '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url('pembangunan/') ?>', "<?= setting('tampil_luas_peta') ?>");
+      var layerCustom = tampilkan_layer_area_garis_lokasi_plus(mymap, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil, TAMPIL_LUAS);
 
       // Menampilkan OverLayer Covid dan Desa Pengguna OpenSID
       var mylayer = L.featureGroup();

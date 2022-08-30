@@ -281,7 +281,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<select class="form-control input-sm select2" id="tag_id_card" name="tag_id_card">
 							<option value=""> -- </option>
 							<?php foreach ($list_tag_id_card as $key => $value) : ?>
-								<option value="<?= $key ?>" <?= selected($tag_id_card, $key) ?>><?= strtoupper($value) ?></option>
+								<option value="<?= $key ?>" <?= selected($tag_id_card, (string) $key) ?>><?= strtoupper($value) ?></option>
 							<?php endforeach; ?>
 						</select>
 					</div>

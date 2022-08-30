@@ -397,7 +397,6 @@ class Keluar_model extends CI_Model
                 break;
 
             default:  $this->db->order_by('u.tanggal', 'DESC');
-
         }
 
         // TODO : Sederhanakan, ini berulang

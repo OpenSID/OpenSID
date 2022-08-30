@@ -168,19 +168,16 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
 
     public function cetak_tanah_kas_desa($aksi = '')
     {
-        $data = [
-            'aksi'           => $aksi,
-            'config'         => $this->header['desa'],
-            'pamong_ketahui' => $this->pamong_model->get_ttd(),
-            'pamong_ttd'     => $this->pamong_model->get_ub(),
-            'main'           => $this->tanah_kas_desa_model->cetak_tanah_kas_desa(),
-            'bulan'          => $this->session->filter_bulan,
-            'tahun'          => $this->session->filter_tahun,
-            'tgl_cetak'      => $this->input->post('tgl_cetak'),
-            'file'           => 'Buku Tanah Kas Desa',
-            'isi'            => 'bumindes/pembangunan/tanah_kas_desa/tanah_kas_desa_cetak',
-            'letak_ttd'      => ['1', '1', '20'],
-        ];
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['main']      = $this->tanah_kas_desa_model->cetak_tanah_kas_desa();
+        $data['config']    = $this->header['desa'];
+        $data['bulan']     = $this->session->filter_bulan ?: date('m');
+        $data['tahun']     = $this->session->filter_tahun ?: date('Y');
+        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
+        $data['file']      = 'Buku Tanah Kas Desa';
+        $data['isi']       = 'bumindes/pembangunan/tanah_kas_desa/tanah_kas_desa_cetak';
+        $data['letak_ttd'] = ['1', '1', '20'];
 
         $this->load->view('global/format_cetak', $data);
     }

@@ -138,7 +138,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $mulai = 1; foreach ($main as $key => $data): ?>
+                                            <?php $mulai = 1;
+
+        foreach ($main as $key => $data): ?>
                                                 <tr <?= jecho(in_array($data['jabatan_id'], [1, 2]), true, 'class="select-row"') ?>>
                                                     <td class="text-center">
                                                         <input type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />

@@ -19,7 +19,7 @@
                 <div class="form-group cari_nik">
                     <label for="nik"  class="col-sm-3 control-label">NIK / Nama <?= $pemohon?></label>
                     <div class="col-sm-6 col-lg-4">
-                    <select class="form-control readonly-permohonan readonly-periksa" id="nik" name="nik" style ="width:100%;">
+                    <select class="form-control input-sm readonly-permohonan readonly-periksa" id="nik" name="nik" style ="width:100%;">
                         <?php if ($individu): ?>
                             <option value="<?= $individu['id']?>" selected><?= $individu['nik'] . ' - ' . $individu['tag_id_card'] . ' - ' . $individu['nama']?></option>
                         <?php endif; ?>
@@ -45,11 +45,10 @@
                         </div>
                     </div>
                 <?php endforeach ?>
-                <?php 
+                <?php
                     $this->load->view('surat/form/tgl_berlaku');
-                    $this->load->view('surat/form/_pamong');
-                    $this->load->view('surat/form/tampil_foto');
-                ?>
+        $this->load->view('surat/form/_pamong');
+        ?>
             </form>
 
             <textarea id="isian_form" hidden="hidden"><?= $isian_form; ?></textarea>

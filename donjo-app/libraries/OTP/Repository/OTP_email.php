@@ -88,7 +88,7 @@ class OTP_email implements OTP_interface
             return true;
         }
 
-        $token                                = $this->ci->db->from('tweb_penduduk')
+        $token = $this->ci->db->from('tweb_penduduk')
             ->where('email_token', $raw_token = hash('sha256', $otp))
             ->get()
             ->row();

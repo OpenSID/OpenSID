@@ -105,7 +105,7 @@ class Bdt_model extends CI_Model
         $this->load->library('Spreadsheet_Excel_Reader');
         $data = new Spreadsheet_Excel_Reader($_FILES['bdt']['tmp_name'], false);
         // Baca jumlah baris berkas BDT
-        $this->jml_baris     = $data->rowcount($sheet_index     = 0);
+        $this->jml_baris     = $data->rowcount($sheet_index = 0);
         $this->baris_pertama = $this->cari_baris_pertama($data, $this->jml_baris);
         if ($this->baris_pertama <= 0) {
             $_SESSION['error_msg'] .= ' -> Tidak ada data';

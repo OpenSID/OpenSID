@@ -746,7 +746,7 @@ class Surat_model extends CI_Model
     */
     public function case_replace($dari, $ke, $str)
     {
-        $replacer    = static function ($matches) use ($ke) {
+        $replacer = static function ($matches) use ($ke) {
             $matches = array_map(static function ($match) {
                 return preg_replace('/[\\[\\]]/', '', $match);
             }, $matches);
@@ -760,12 +760,11 @@ class Surat_model extends CI_Model
             return strtolower($ke);
         };
         $dari = str_replace('[', '\\[', $dari);
-        $str  = preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
 
-        return $str;
+        return preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
     }
 
-    private function atas_nama($data, $buffer)
+    private function atas_nama($data, $buffer = null)
     {
         //Data penandatangan
         $input     = $data['input'];
@@ -796,6 +795,11 @@ class Surat_model extends CI_Model
             $niap_pamong = $pamong->pamong_niap;
         }
 
+        // Untuk lampiran
+        if (null === $buffer) {
+            return $atas_nama;
+        }
+
         $buffer = str_replace('[penandatangan]', $atas_nama, $buffer);
         $buffer = str_replace('[jabatan]', "{$pamong->pamong_jabatan}", $buffer);
         $buffer = str_replace('[nama_pamong]', $nama_pamong, $buffer);
@@ -811,6 +815,12 @@ class Surat_model extends CI_Model
         }
 
         return str_replace('NIP: [pamong_nip]', $pamong_nip, $buffer);
+    }
+
+    // Fuction ini di include ke lampiran
+    private function penandatangan_lampiran($data)
+    {
+        $akas = str_replace('\par', '<br>', $this->atas_nama($data));
     }
 
     public function surat_rtf($data)

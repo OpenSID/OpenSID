@@ -582,7 +582,7 @@ class Analisis_import_model extends CI_Model
         }
 
         // Mencari nilai untuk pertanyaan-pertanyaan yang dimasukkan sebelumnya
-        foreach ($existing_data['indikator'] as $key_indikator => $val_indikator) {
+        foreach ($existing_data['indikator'] as $key_indikator  => $val_indikator) {
             foreach ($variabel['pertanyaan'] as $key_pertanyaan => $val_pertanyaan) {
                 if ($val_indikator == $val_pertanyaan['title']) {
                     // Mengisi nilai

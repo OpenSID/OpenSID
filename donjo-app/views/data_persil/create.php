@@ -23,7 +23,7 @@
 								<div class="form-group ">
 									<label for="jenis_pemilik" class="col-sm-3 control-label">Jenis Pemilik</label>
 									<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-										<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php (empty($cdesa)                   || $cdesa['jenis_pemilik'] == 1) && print 'active' ?>">
+										<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php (empty($cdesa) || $cdesa['jenis_pemilik'] == 1) && print 'active' ?>">
 											<input type="radio" name="jenis_pemilik" class="form-check-input" value="1" autocomplete="off" <?php selected((empty($cdesa) || $cdesa['jenis_pemilik'] == 1), true, true)?> onchange="pilih_pemilik(this.value);">Warga Desa
 										</label>
 										<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= ($cdesa['jenis_pemilik'] == 2) && print 'active' ?>">

@@ -178,11 +178,11 @@ class Penduduk_model extends MY_Model
 
     protected function tag_id_card_sql()
     {
-        $tag_id_card = $this->session->tag_id_card;
+        $tag_id_card = (string) $this->session->tag_id_card;
 
         if ($tag_id_card == '1') {
             $this->db->where('u.tag_id_card !=', null);
-        } elseif ($tag_id_card == '2') {
+        } elseif ($tag_id_card == '0') {
             $this->db->where('u.tag_id_card', null);
         }
     }
@@ -257,7 +257,7 @@ class Penduduk_model extends MY_Model
                 break;
 
             default:
-            }
+        }
     }
 
     protected function status_ktp_sql()
@@ -292,7 +292,7 @@ class Penduduk_model extends MY_Model
                 break;
 
             default:
-            }
+        }
     }
 
     public function get_alamat_wilayah($id)

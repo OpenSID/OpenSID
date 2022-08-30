@@ -645,13 +645,4 @@ class Kelompok_model extends MY_Model
 
         return $judul;
     }
-
-    public function slug($slug = null)
-    {
-        return $this->db
-            ->select('id')
-            ->get_where($this->table, ['slug' => $slug])
-            ->row()
-            ->id;
-    }
 }

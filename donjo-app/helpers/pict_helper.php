@@ -184,8 +184,8 @@ function UploadGambar($fupload_name, $old_gambar)
     move_uploaded_file($_FILES['gambar']['tmp_name'], $vfile_upload);
 
     $im_src     = imagecreatefromjpeg($vfile_upload);
-    $src_width  = imageSX($im_src);
-    $src_height = imageSY($im_src);
+    $src_width  = imagesx($im_src);
+    $src_height = imagesy($im_src);
     if (($src_width * 25) < ($src_height * 44)) {
         $dst_width  = 440;
         $dst_height = ($dst_width / $src_width) * $src_height;
@@ -303,8 +303,8 @@ function UploadSimbolx($fupload_name, $old_gambar)
     move_uploaded_file($_FILES['gambar']['tmp_name'], $vfile_upload);
 
     $im_src     = imagecreatefromjpeg($vfile_upload);
-    $src_width  = imageSX($im_src);
-    $src_height = imageSY($im_src);
+    $src_width  = imagesx($im_src);
+    $src_height = imagesy($im_src);
     if (($src_width * 20) < ($src_height * 44)) {
         $dst_width  = 440;
         $dst_height = ($dst_width / $src_width) * $src_height;
@@ -377,8 +377,8 @@ function UploadLokasi($fupload_name)
     move_uploaded_file($_FILES['foto']['tmp_name'], $vfile_upload);
 
     $im_src     = imagecreatefromjpeg($vfile_upload);
-    $src_width  = imageSX($im_src);
-    $src_height = imageSY($im_src);
+    $src_width  = imagesx($im_src);
+    $src_height = imagesy($im_src);
     if (($src_width / $src_height) < (12 / 10)) {
         $dst_width  = 120;
         $dst_height = ($dst_width / $src_width) * $src_height;
@@ -400,8 +400,8 @@ function UploadLokasi($fupload_name)
     imagedestroy($im);
 
     $im_src     = imagecreatefromjpeg($vfile_upload);
-    $src_width  = imageSX($im_src);
-    $src_height = imageSY($im_src);
+    $src_width  = imagesx($im_src);
+    $src_height = imagesy($im_src);
     if (($src_width / $src_height) < (44 / 30)) {
         $dst_width  = 880;
         $dst_height = ($dst_width / $src_width) * $src_height;
@@ -436,8 +436,8 @@ function UploadGaris($fupload_name)
     move_uploaded_file($_FILES['foto']['tmp_name'], $vfile_upload);
 
     $im_src     = imagecreatefromjpeg($vfile_upload);
-    $src_width  = imageSX($im_src);
-    $src_height = imageSY($im_src);
+    $src_width  = imagesx($im_src);
+    $src_height = imagesy($im_src);
     if (($src_width / $src_height) < (12 / 10)) {
         $dst_width  = 120;
         $dst_height = ($dst_width / $src_width) * $src_height;
@@ -459,8 +459,8 @@ function UploadGaris($fupload_name)
     imagedestroy($im);
 
     $im_src     = imagecreatefromjpeg($vfile_upload);
-    $src_width  = imageSX($im_src);
-    $src_height = imageSY($im_src);
+    $src_width  = imagesx($im_src);
+    $src_height = imagesy($im_src);
     if (($src_width / $src_height) < (44 / 30)) {
         $dst_width  = 880;
         $dst_height = ($dst_width / $src_width) * $src_height;
@@ -495,8 +495,8 @@ function UploadArea($fupload_name)
     move_uploaded_file($_FILES['foto']['tmp_name'], $vfile_upload);
 
     $im_src     = imagecreatefromjpeg($vfile_upload);
-    $src_width  = imageSX($im_src);
-    $src_height = imageSY($im_src);
+    $src_width  = imagesx($im_src);
+    $src_height = imagesy($im_src);
     if (($src_width / $src_height) < (12 / 10)) {
         $dst_width  = 120;
         $dst_height = ($dst_width / $src_width) * $src_height;
@@ -518,8 +518,8 @@ function UploadArea($fupload_name)
     imagedestroy($im);
 
     $im_src     = imagecreatefromjpeg($vfile_upload);
-    $src_width  = imageSX($im_src);
-    $src_height = imageSY($im_src);
+    $src_width  = imagesx($im_src);
+    $src_height = imagesy($im_src);
     if (($src_width / $src_height) < (44 / 30)) {
         $dst_width  = 880;
         $dst_height = ($dst_width / $src_width) * $src_height;
@@ -591,8 +591,8 @@ function resizeImage($filepath_in, $tipe_file, $dimensi, $filepath_out = '')
     $is_png = ($tipe_file == 'image/png' || $tipe_file == 'image/x-png');
 
     $image      = ($is_png) ? imagecreatefrompng($filepath_in) : imagecreatefromjpeg($filepath_in);
-    $width      = imageSX($image);
-    $height     = imageSY($image);
+    $width      = imagesx($image);
+    $height     = imagesy($image);
     $new_width  = $dimensi['width'];
     $new_height = $dimensi['height'];
     if ($width > $new_width && $height > $new_height) {
@@ -669,8 +669,8 @@ function UploadResizeImage($lokasi, $dimensi, $jenis_upload, $fupload_name, $nam
     $is_png = ($tipe_file == 'image/png' || $tipe_file == 'image/x-png');
 
     $image      = ($is_png) ? imagecreatefrompng($filepath_in) : imagecreatefromjpeg($filepath_in);
-    $width      = imageSX($image);
-    $height     = imageSY($image);
+    $width      = imagesx($image);
+    $height     = imagesy($image);
     $new_width  = $dimensi['width'];
     $new_height = $dimensi['height'];
     if ($width > $new_width && $height > $new_height) {
@@ -760,8 +760,8 @@ function UploadPengesahan($fupload_name)
     move_uploaded_file($_FILES['pengesahan']['tmp_name'], $vfile_upload);
 
     $im_src     = imagecreatefromjpeg($vfile_upload);
-    $src_width  = imageSX($im_src);
-    $src_height = imageSY($im_src);
+    $src_width  = imagesx($im_src);
+    $src_height = imagesy($im_src);
     if (($src_width / $src_height) < (12 / 10)) {
         $dst_width  = 120;
         $dst_height = ($dst_width / $src_width) * $src_height;

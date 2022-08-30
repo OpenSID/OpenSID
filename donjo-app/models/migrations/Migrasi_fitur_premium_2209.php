@@ -35,10 +35,10 @@
  *
  */
 
+use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
 use App\Models\KB;
 use App\Models\Pamong;
-use App\Libraries\TinyMCE;
 use App\Models\RefJabatan;
 use Illuminate\Support\Facades\DB;
 
@@ -537,6 +537,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
         return $hasil;
     }
+
     protected function migrasi_2022082371($hasil)
     {
         if (! $this->db->field_exists('form_isian', 'tweb_surat_format')) {
@@ -551,6 +552,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             // Sesuaikan data awal surat tinymce
             FormatSurat::jenis(FormatSurat::TINYMCE)->update(['form_isian' => '{"individu":{"sex":"","status_dasar":""}}']);
         }
+
         return $hasil;
     }
 
@@ -581,6 +583,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             ];
             $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
         }
+
         return $hasil;
     }
 }

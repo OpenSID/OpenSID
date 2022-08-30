@@ -36,7 +36,6 @@
  */
 
 namespace {
-
     if (! defined('PASSWORD_BCRYPT')) {
         /**
          * PHPUnit Process isolation caches constants, but not function declarations.
@@ -50,7 +49,6 @@ namespace {
     }
 
     if (! function_exists('password_hash')) {
-
         /**
          * Hash the password using the specified algorithm
          *
@@ -294,13 +292,10 @@ namespace {
             return $status === 0;
         }
     }
-
 }
 
 namespace PasswordCompat\binary {
-
     if (! function_exists('PasswordCompat\\binary\\_strlen')) {
-
         /**
          * Count the number of bytes in a string
          *

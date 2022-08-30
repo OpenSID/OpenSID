@@ -35,10 +35,10 @@
  *
  */
 
-use App\Models\Config;
-use App\Models\Penduduk;
 use App\Libraries\TinyMCE;
+use App\Models\Config;
 use App\Models\FormatSurat;
+use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -69,18 +69,18 @@ class Permohonan_surat_admin extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        if ($row->status == 0) {
-                            $aksi .= '<a class="btn btn-social bg-navy btn-flat btn-sm btn-proses" title="Surat Belum Lengkap" style="width: 170px"><i class="fa fa-info-circle"></i>Belum Lengkap</a> ';
-                        } elseif ($row->status == 1) {
-                            $aksi .= '<a href="' . route('permohonan_surat_admin/periksa', $row->id) . '" class="btn btn-social btn-info btn-flat btn-sm pesan-hover" title="Klik untuk memeriksa" style="width: 170px"><i class="fa fa-spinner"></i>Sedang Diperiksa</a> ';
-                        } elseif ($row->status == 2) {
-                            $aksi .= '<a class="btn btn-social bg-purple btn-flat btn-sm btn-proses" title="Surat Menunggu Tandatangan" style="width: 170px"><i class="fa fa-edit"></i>Menunggu Tandatangan</a> ';
-                        } elseif ($row->status == 3) {
-                            $aksi .= '<a href="' . route("permohonan_surat_admin/proses/{$row->id}/4") . '" class="btn btn-social bg-orange btn-flat btn-sm pesan-hover" title="Klik jika telah diambil" style="width: 170px"><i class="fa fa-thumbs-o-up"></i>Siap Diambil</a> ';
-                        } elseif ($row->status == 4) {
-                            $aksi .= '<a class="btn btn-social btn-success btn-flat btn-sm btn-proses" title="Surat Sudah Diambil" style="width: 170px"><i class="fa fa-check"></i>Sudah Diambil</a> ';
+                        if ($row->status == PermohonanSurat::BELUM_LENGKAP) {
+                            $aksi .= '<a class="btn btn-social bg-navy btn-flat btn-sm btn-proses" title="Surat Belum Lengkap" style="width: 170px"><i class="fa fa-info-circle"></i> ' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::BELUM_LENGKAP] . '</a> ';
+                        } elseif ($row->status == PermohonanSurat::SEDANG_DIPERIKSA) {
+                            $aksi .= '<a href="' . route('permohonan_surat_admin/periksa', $row->id) . '" class="btn btn-social btn-info btn-flat btn-sm pesan-hover" title="Klik untuk memeriksa" style="width: 170px"><i class="fa fa-spinner"></i>' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::SEDANG_DIPERIKSA] . '</a> ';
+                        } elseif ($row->status == PermohonanSurat::MENUNGGU_TANDA_TANGAN) {
+                            $aksi .= '<a class="btn btn-social bg-purple btn-flat btn-sm btn-proses" title="Surat Menunggu Tandatangan" style="width: 170px"><i class="fa fa-edit"></i>' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::MENUNGGU_TANDA_TANGAN] . '</a> ';
+                        } elseif ($row->status == PermohonanSurat::SIAP_DIAMBIL) {
+                            $aksi .= '<a href="' . route("permohonan_surat_admin/proses/{$row->id}/4") . '" class="btn btn-social bg-orange btn-flat btn-sm pesan-hover" title="Klik jika telah diambil" style="width: 170px"><i class="fa fa-thumbs-o-up"></i>' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::SIAP_DIAMBIL] . '</a> ';
+                        } elseif ($row->status == PermohonanSurat::SUDAH_DIAMBIL) {
+                            $aksi .= '<a class="btn btn-social btn-success btn-flat btn-sm btn-proses" title="Surat Sudah Diambil" style="width: 170px"><i class="fa fa-check"></i>' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::SUDAH_DIAMBIL] . '</a> ';
                         } else {
-                            $aksi .= '<a class="btn btn-social btn-danger btn-flat btn-sm btn-proses" title="Surat Dibatalkan" style="width: 170px"><i class="fa fa-times"></i>Dibatalkan</a> ';
+                            $aksi .= '<a class="btn btn-social btn-danger btn-flat btn-sm btn-proses" title="Surat Dibatalkan" style="width: 170px"><i class="fa fa-times"></i>' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::DIBATALKAN] . '</a> ';
                         }
                     }
 
@@ -107,16 +107,16 @@ class Permohonan_surat_admin extends Admin_Controller
         if (! $id || ! $periksa) {
             redirect('permohonan_surat_admin');
         }
-        $url   = $periksa->surat->url_surat;
+        $url = $periksa->surat->url_surat;
 
         $data['periksa']      = $periksa;
         $data['surat']        = $periksa->surat;
         $data['url']          = $url;
         $data['list_dokumen'] = $this->penduduk_model->list_dokumen($periksa->id_pemohon);
         $data['individu']     = $periksa->penduduk;
-        
+
         $this->get_data_untuk_form($url, $data);
-        $data['isian_form'] = json_encode($this->ambil_isi_form($data['periksa']['isian_form']));
+        $data['isian_form']        = json_encode($this->ambil_isi_form($data['periksa']['isian_form']));
         $data['surat_url']         = rtrim($_SERVER['REQUEST_URI'], '/clear');
         $data['syarat_permohonan'] = $this->permohonan_surat_model->get_syarat_permohonan($id);
         $data['form_action']       = site_url("surat/periksa_doc/{$id}/{$url}");
@@ -148,13 +148,13 @@ class Permohonan_surat_admin extends Admin_Controller
     {
         // RTF
         if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
-            $data['config']     = $data['lokasi'] = Config::first();
-            $data['perempuan']  = $this->surat_model->list_penduduk_perempuan();
-            $data['anggota']    = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
+            $data['config']    = $data['lokasi'] = Config::first();
+            $data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
+            $data['anggota']   = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
         }
-        
+
         // Panggil 1 penduduk berdasarkan datanya sendiri
-        $data['penduduk']           = [$data['periksa']['penduduk']];
+        $data['penduduk'] = [$data['periksa']['penduduk']];
 
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
         $data['input']              = $this->input->post();

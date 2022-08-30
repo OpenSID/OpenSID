@@ -183,12 +183,11 @@ class Surat_keluar extends Admin_Controller
 
     public function dialog_cetak($o = 0)
     {
-        $data['aksi']           = 'Cetak';
-        $data['pamong']         = $this->pamong_model->list_data();
-        $data['pamong_ttd']     = $this->pamong_model->get_ub();
-        $data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-        $data['tahun_surat']    = $this->surat_keluar_model->list_tahun_surat();
-        $data['form_action']    = site_url("surat_keluar/cetak/{$o}");
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = 'Cetak';
+        $data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
+        $data['form_action'] = site_url("surat_keluar/cetak/{$o}");
+
         $this->load->view('surat_keluar/ajax_cetak', $data);
     }
 

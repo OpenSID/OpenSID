@@ -193,11 +193,9 @@ class Surat_masuk extends Admin_Controller
 
     public function dialog_disposisi($o, $id)
     {
-        $data['aksi']           = 'Cetak';
-        $data['pamong']         = $this->pamong_model->list_data();
-        $data['pamong_ttd']     = $this->pamong_model->get_ub();
-        $data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-        $data['form_action']    = site_url("surat_masuk/disposisi/{$id}");
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = 'Cetak';
+        $data['form_action'] = site_url("surat_masuk/disposisi/{$id}");
         $this->load->view('global/ttd_pamong', $data);
     }
 

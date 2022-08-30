@@ -42,14 +42,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class PermohonanSurat extends Model
 {
-    public const BELUM_LENGKAP = 0;
-    public const SEDANG_DIPERIKSA = 1;
+    public const BELUM_LENGKAP         = 0;
+    public const SEDANG_DIPERIKSA      = 1;
     public const MENUNGGU_TANDA_TANGAN = 2;
-    public const SIAP_DIAMBIL = 3;
-    public const SUDAH_DIAMBIL = 4;
-    public const DIBATALKAN = 5;
-
-    public const STATUS_PERMOHONAN = [
+    public const SIAP_DIAMBIL          = 3;
+    public const SUDAH_DIAMBIL         = 4;
+    public const DIBATALKAN            = 5;
+    public const STATUS_PERMOHONAN     = [
         self::BELUM_LENGKAP         => 'Belum Lengkap',
         self::SEDANG_DIPERIKSA      => 'Sedang Diperiksa',
         self::MENUNGGU_TANDA_TANGAN => 'Menunggu Tandatangan',
