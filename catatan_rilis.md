@@ -28,6 +28,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 21.[#5528](https://github.com/OpenSID/OpenSID/issues/5528) Memperbaiki pengaturan masa berlaku tidak berfungsi pada surat pengantar.
 22.[#5527](https://github.com/OpenSID/OpenSID/issues/5527) Memperbaiki edit sebelum cetak PDF tidak berfungsi.
 23.[#5505](https://github.com/OpenSID/OpenSID/issues/5505) Memperbaiki scorecard konvergensi pada tabel jumlah sasaran dan tabel hasil pengukuran tidak berfungsi dengan benar.
+24.[#5545](https://github.com/OpenSID/OpenSID/issues/5545) Memperbaiki judul peraturan desa tidak tersimpan / kosong.
 
 #### Perubahan Teknis
 
