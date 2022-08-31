@@ -125,7 +125,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
         foreach ($data_kehadiran as $row) {
             $data = [
                 $row->pamong->pamong_nama != null ? $row->pamong->pamong_nama : $row->pamong->penduduk->nama,
-                $row->pamong->jabatan,
+                $row->pamong->jabatan->nama,
                 tgl_indo($row->tanggal),
                 date('H:i', strtotime($row->jam_masuk)),
                 $row->jam_keluar == null ? '-' : date('H:i', strtotime($row->jam_keluar)),
