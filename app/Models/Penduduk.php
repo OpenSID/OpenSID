@@ -472,6 +472,14 @@ class Penduduk extends Model
         return $tglLahir->diffInYears($tglSekarang) . ' Tahun';
     }
 
+    public function getUmurAttribute()
+    {
+        $tglSekarang = Carbon::now();
+        $tglLahir    = Carbon::parse($this->tanggallahir);
+
+        return $tglLahir->diffInYears($tglSekarang);
+    }
+
     public function getAlamatWilayahAttribute()
     {
         if (! in_array($this->id_kk, [0, null])) {

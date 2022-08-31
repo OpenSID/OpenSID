@@ -628,6 +628,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
         return $hasil;
     }
+
     protected function migrasi_2022083171($hasil)
     {
         // tambahkan digit id telegram
@@ -642,8 +643,10 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
             $hasil = $hasil && $this->dbforge->modify_column('user', $fields);
         }
+
         return $hasil;
-      }
+    }
+
       protected function migrasi_2022090171($hasil)
       {
           return $hasil && $this->tambah_setting([

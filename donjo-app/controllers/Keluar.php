@@ -393,7 +393,7 @@ class Keluar extends Admin_Controller
         $surat->filesurat;
         $surat->pamong;
         $mandiri  = PermohonanSurat::where('id_surat', $surat->id_format_surat)->where('isian_form->nomor', $surat->no_surat)->first();
-        $individu = $this->surat_model->get_penduduk($id);
+        $individu = $surat->penduduk;
         $operator = ($this->isAdmin->jabatan_id == 1 || $this->isAdmin->jabatan_id == 2) ? false : true;
 
         if ($this->isAdmin->jabatan_id == 1) {
