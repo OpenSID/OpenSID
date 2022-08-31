@@ -57,9 +57,12 @@ class Notif_model extends CI_Model
             return null;
         }
 
-        $tgl_akhir    = $response->body->tanggal_berlangganan->akhir;
-        $tgl_akhir    = strtotime($tgl_akhir);
-        $masa_berlaku = round(($tgl_akhir - time()) / (60 * 60 * 24));
+        if (is_array($response->body->tanggal_berlangganan)) {
+            $tgl_akhir    = strtotime($response->body->tanggal_berlangganan->tgl_akhir);
+            $masa_berlaku = round(($tgl_akhir - time()) / (60 * 60 * 24));
+        } else {
+            return null;
+        }
 
         switch (true) {
             case $masa_berlaku > 30:

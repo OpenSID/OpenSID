@@ -845,11 +845,14 @@ function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $foreqr)
     imagedestroy($QR);
 }
 
-function upload_foto_penduduk($id, $nik)
+function upload_foto_penduduk($nama_file = null)
 {
-    $foto      = $_POST['foto'];
-    $old_foto  = $_POST['old_foto'];
-    $nama_file = ($nik ?: '0') . '-' . $id;
+    $foto     = $_POST['foto'];
+    $old_foto = $_POST['old_foto'];
+
+    if ($nama_file === null) {
+        $nama_file = time() . mt_rand(10000, 999999);
+    }
 
     if ($_FILES['foto']['tmp_name']) {
         $nama_file = $nama_file . get_extension($_FILES['foto']['name']);

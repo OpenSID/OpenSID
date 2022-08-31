@@ -953,7 +953,7 @@ class Penduduk_model extends MY_Model
         $idku = $this->db->insert_id();
 
         // Upload foto dilakukan setelah ada id, karena nama foto berisi id pend
-        if ($foto = upload_foto_penduduk($idku, $this->input->post('nik'))) {
+        if ($foto = upload_foto_penduduk()) {
             $this->db->where('id', $idku)->update('tweb_penduduk', ['foto' => $foto]);
         }
 
@@ -1024,7 +1024,7 @@ class Penduduk_model extends MY_Model
             unset($data['alamat']);
         }
 
-        if ($foto = upload_foto_penduduk($id, $this->input->post('nik'))) {
+        if ($foto = upload_foto_penduduk()) {
             $data['foto'] = $foto;
         } else {
             unset($data['foto']);
