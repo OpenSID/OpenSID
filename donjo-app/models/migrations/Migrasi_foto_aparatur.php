@@ -49,7 +49,7 @@ class Migrasi_foto_aparatur extends MY_model
         // Semua penduduk yang memiliki foto
         $daftar_penduduk = $this->db
             ->select(['id', 'nik', 'foto'])
-            ->where('foto', '!=', '')
+            ->where('foto !=', '')
             ->get('tweb_penduduk')
             ->result();
 
@@ -70,7 +70,7 @@ class Migrasi_foto_aparatur extends MY_model
         // Semua aparatur penduduk luar desa
         $daftar_pamong = $this->db
             ->select(['pamong_id', 'pamong_nik', 'foto'])
-            ->where('foto', '!=', '')
+            ->where('foto !=', '')
             ->get('tweb_desa_pamong')
             ->result();
 
