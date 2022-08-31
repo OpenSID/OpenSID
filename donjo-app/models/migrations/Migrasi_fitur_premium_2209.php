@@ -590,7 +590,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
     protected function migrasi_2022083171($hasil)
     {
-        // tambahkan digit id telegram 
+        // tambahkan digit id telegram
         if ($this->db->field_exists('id_telegram', 'user')) {
             $fields = [
                 'id_telegram' => [
@@ -602,7 +602,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
             $hasil = $hasil && $this->dbforge->modify_column('user', $fields);
         }
-        
+
         return $hasil;
     }
 }

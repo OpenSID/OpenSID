@@ -103,7 +103,7 @@ class Man_user extends Admin_Controller
 
         $data['user_group'] = $this->referensi_model->list_data('user_grup');
 
-        $data['pamong'] = Pamong::daftar()->get();
+        $data['pamong'] = Pamong::selectData()->daftar()->get();
 
         $this->render('man_user/manajemen_user_form', $data);
     }
