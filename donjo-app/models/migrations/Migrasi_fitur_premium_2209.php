@@ -67,8 +67,9 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022082171($hasil);
         $hasil = $hasil && $this->migrasi_2022082271($hasil);
         $hasil = $hasil && $this->migrasi_2022082371($hasil);
+        $hasil = $hasil && $this->migrasi_2022082571($hasil);
 
-        return $hasil && $this->migrasi_2022082571($hasil);
+        return $hasil && $this->migrasi_2022083171($hasil);
     }
 
     protected function migrasi_2022080271($hasil)
@@ -584,6 +585,24 @@ class Migrasi_fitur_premium_2209 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
         }
 
+        return $hasil;
+    }
+
+    protected function migrasi_2022083171($hasil)
+    {
+        // tambahkan digit id telegram 
+        if ($this->db->field_exists('id_telegram', 'user')) {
+            $fields = [
+                'id_telegram' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('user', $fields);
+        }
+        
         return $hasil;
     }
 }

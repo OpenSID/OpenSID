@@ -65,7 +65,7 @@
                                     <select class="form-control select2 input-sm" id="pamong_id" name="pamong_id">
                                         <option value>-- Silakan Masukan Nama Staf --</option>
                                         <?php foreach ($pamong as $item) : ?>
-                                            <option value="<?= $item->pamong_id ?>" data-nama="<?= $pamong_nama ?>" <?= selected($user['pamong_id'], $item->pamong_id); ?>><?= $item->pamong_jabatan . ' - ' . $item->pamong_nama ?></option>
+                                            <option value="<?= $item->pamong_id ?>" data-nama="<?= $item['pamong_nama'] ?>" <?= selected($user['pamong_id'], $item->pamong_id); ?>><?= $item->jabatan->nama . ' - ' . $item->pamong_nama ?></option>
                                         <?php endforeach ?>
                                     </select>
                                 </div>
@@ -117,7 +117,7 @@
                             <div class="form-group">
                                 <label for="catatan" class="col-sm-3 control-label">User ID Telegram</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control input-sm" type="text" id="id_telegram" name="id_telegram" value="<?= $user['id_telegram'] ?>" maxlength="9"/>
+                                    <input class="form-control input-sm" type="text" id="id_telegram" name="id_telegram" value="<?= $user['id_telegram'] ?>" maxlength="10"/>
                                 </div>
                             </div>
                         </div>
