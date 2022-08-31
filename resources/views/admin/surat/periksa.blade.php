@@ -190,12 +190,11 @@
             var next =  `{{ $next??'' }}`;
             var tte = `{{ setting('tte') ?? ''  }}`;
             var ulang = $(this).data('ulang')
-            console.log(ulang)
             var pesan = `Apakah setuju surat ini di teruskan ke ${next}?`
             if (next != '' && ulang) {
                 pesan = `Kirim ulang surat ini untuk diperiksa?`
             } else if(next == '' && tte == '0') {
-                pesan = `Apakah setuju surat ini di teruskan ke ${next}?`
+                pesan = `Apakah setuju surat ini di teruskan ke Arsip?`
             } else if(next == '' && tte == '1') {
                 pesan = 'Apakah setuju surat ini untuk ditandatangani secara elektronik?'
             }
