@@ -280,14 +280,14 @@
         }).show();
         // $('#status .modal-content')
         for (var i = 0; i < modul.length; i++) {
-
             var val = modul[i];
             // cek pagination
             let page = await $.ajax({
                     'url': "<?= site_url($this->controller . '/total') ?>",
                     data: {
                         'modul': val.modul,
-                        'model': val.model
+                        'model': val.model,
+                        'inkremental' : val.inkremental
                     },
                     type: 'Post',
                 })
