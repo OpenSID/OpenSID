@@ -605,4 +605,14 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
         return $hasil;
     }
+
+    protected function migrasi_2022083171($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'kode_desa_bps',
+            'value'      => null,
+            'keterangan' => 'Kode Desa BPS (Dapat di cek di <a href="https://sig.bps.go.id/bridging-kode" target="_blank">https://sig.bps.go.id/bridging-kode</a>)',
+            'kategori'   => 'status sdgs',
+        ]);
+    }
 }

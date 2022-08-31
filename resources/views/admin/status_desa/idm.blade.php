@@ -2,7 +2,7 @@
 
 @push('css')
     <style>
-        .small-box {
+        .radius {
             border-radius: 5px;
         }
     </style>
@@ -10,17 +10,19 @@
 
 @section('title')
     <h1>
-        Status Desa
+        Status IDM Desa
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Status Desa</li>
+    <li class="active">Status IDM Desa</li>
 @endsection
 
 @section('content')
 
     @include('admin.layouts.components.notifikasi')
+
+    @include('admin.status_desa.navigasi')
 
     <div class="box box-info">
         <div class="box-header with-border">
@@ -33,7 +35,7 @@
                 @endforeach
             </select>
             <a class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                {!! cek_koneksi_internet() == false || is_null($idm->error_msg) ? 'disabled title="Perangkat tidak terhubung dengan jaringan"' : 'href="' . route('status_desa.perbarui', $tahun) . '"' !!}><i class="fa fa-refresh"></i>Perbarui</a>
+                {!! cek_koneksi_internet() == false || is_null($idm->error_msg) ? 'disabled title="Perangkat tidak terhubung dengan jaringan"' : 'href="' . route('status_desa.perbarui_idm', $tahun) . '"' !!}><i class="fa fa-refresh"></i>Perbarui</a>
             @if (empty($idm->error_msg))
                 <a class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                     href="{{ route('status_desa.simpan', $tahun) }}"><i class="fa fa-check-circle"></i>Simpan</a>
@@ -50,7 +52,7 @@
                     <div class="col-lg-6 col-xs-12">
                         <div class="row">
                             <div class="col-lg-6 col-xs-12">
-                                <div class="small-box bg-blue">
+                                <div class="small-box bg-blue radius">
                                     <div class="inner">
                                         <h3>{{ number_format($idm->SUMMARIES->SKOR_SAAT_INI, 4) }}</h3>
                                         <p>SKOR IDM SAAT INI</p>
@@ -61,7 +63,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-xs-12">
-                                <div class="small-box bg-yellow">
+                                <div class="small-box bg-yellow radius">
                                     <div class="inner">
                                         <h3>{{ $idm->SUMMARIES->STATUS }}</h3>
                                         <p>STATUS IDM</p>
@@ -72,7 +74,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-xs-12">
-                                <div class="small-box bg-red">
+                                <div class="small-box bg-red radius">
                                     <div class="inner">
                                         <h3>{{ number_format($idm->SUMMARIES->SKOR_MINIMAL, 4) }}</h2>
                                             <p>SKOR IDM MINIMAL</p>
@@ -83,7 +85,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-xs-12">
-                                <div class="small-box bg-green">
+                                <div class="small-box bg-green radius">
                                     <div class="inner">
                                         <h3>{{ $idm->SUMMARIES->TARGET_STATUS }}</h3>
                                         <p>TARGET STATUS</p>

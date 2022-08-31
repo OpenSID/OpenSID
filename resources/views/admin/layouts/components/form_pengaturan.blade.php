@@ -93,7 +93,7 @@
                 <input id="{{ $set->key }}" name="{{ $set->key }}" class="form-control input-sm {{ jecho($set->jenis == 'int', false, 'digits') }}" type="text" value="{{ $set->value }}" @disabled($set->kategori == 'readonly')></input>
               @endif
           @endif
-          <label><code>{{ $set->keterangan }}</code></label>
+          <label><code>{!! $set->keterangan !!}</code></label>
         </div>
       @endif
     @endforeach
