@@ -1,4 +1,5 @@
 Di rilis ini, versi 22.09-premium menyediakan fitur TTE dan penyesuaian alur pemeriksaan surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+
 Terima kasih pada Irvan1609 yang terus berkontribusi.
 
 #### Penambahan Fitur

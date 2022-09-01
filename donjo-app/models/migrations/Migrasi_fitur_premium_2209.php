@@ -103,6 +103,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
         return $hasil;
     }
+
     protected function migrasi_2022080272($hasil)
     {
         if (! $this->db->field_exists('notif_telegram', 'user')) {
@@ -133,6 +134,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
         return $hasil;
     }
+
     protected function migrasi_2022070551($hasil)
     {
         $hasil && $this->tambah_setting([

@@ -65,30 +65,30 @@ class Sinkronisasi extends Admin_Controller
         $modul = [
             'Program Bantuan' => [
                 [
-                    'path'  => 'kirim_program_bantuan',
-                    'modul' => 'program-bantuan',
-                    'model' => 'Bantuan',
-                    'inkremental' => 0
+                    'path'        => 'kirim_program_bantuan',
+                    'modul'       => 'program-bantuan',
+                    'model'       => 'Bantuan',
+                    'inkremental' => 0,
                 ],
                 [
-                    'path'  => 'kirim_peserta_program_bantuan',
-                    'modul' => 'program-bantuan-peserta',
-                    'model' => 'BantuanPeserta',
-                    'inkremental' => 0
+                    'path'        => 'kirim_peserta_program_bantuan',
+                    'modul'       => 'program-bantuan-peserta',
+                    'model'       => 'BantuanPeserta',
+                    'inkremental' => 0,
                 ],
             ],
             'Pembangunan' => [
                 [
-                    'path'  => 'kirim_pembangunan',
-                    'modul' => 'pembangunan',
-                    'model' => 'Pembangunan',
-                    'inkremental' => 1
+                    'path'        => 'kirim_pembangunan',
+                    'modul'       => 'pembangunan',
+                    'model'       => 'Pembangunan',
+                    'inkremental' => 1,
                 ],
                 [
-                    'path'  => 'kirim_dokumentasi_pembangunan',
-                    'modul' => 'pembangunan-dokumentasi',
-                    'model' => 'PembangunanDokumentasi',
-                    'inkremental' => 1 
+                    'path'        => 'kirim_dokumentasi_pembangunan',
+                    'modul'       => 'pembangunan-dokumentasi',
+                    'model'       => 'PembangunanDokumentasi',
+                    'inkremental' => 1,
                 ],
             ],
         ];
@@ -365,8 +365,8 @@ class Sinkronisasi extends Admin_Controller
     public function total()
     {
         if ($this->input->is_ajax_request()) {
-            $modul            = $this->input->post('modul');
-            $model            = $this->input->post('model');
+            $modul       = $this->input->post('modul');
+            $model       = $this->input->post('model');
             $inkremental = $this->input->post('inkremental');
             if ($inkremental == '0') {
                 return json(1); // tanpa inkremental
@@ -426,7 +426,7 @@ class Sinkronisasi extends Admin_Controller
 
     public function data_program_bantuan()
     {
-        $writer           = WriterEntityFactory::createCSVWriter();
+        $writer = WriterEntityFactory::createCSVWriter();
 
         // Buat data Program bantuan
         $bantuan_opendk = LOKASI_SINKRONISASI_ZIP . namafile('program bantuan') . '_opendk.csv';
