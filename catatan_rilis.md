@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.08-premium-beta04 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.09-premium menyediakan fitur TTE dan penyesuaian alur pemeriksaan surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 Terima kasih pada Irvan1609 yang terus berkontribusi.
 
 #### Penambahan Fitur
@@ -6,7 +6,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 1. [#5232](https://github.com/OpenSID/OpenSID/issues/5232) Penambahan pengaturan default jenis peta yang digunakan.
 2. [#5308](https://github.com/OpenSID/OpenSID/issues/5308) Penambahan unduh template rtf bawaan sistem yang sudah di ubah.
 3. [#5266](https://github.com/OpenSID/OpenSID/issues/5266) Penambahan tampilan dan pencarian tag id card pada data pemilih.
-4. [#5304](https://github.com/OpenSID/OpenSID/issues/5304) Penambahan format surat tinymce kepermohonan surat layanan mandiri.
+4. [#5304](https://github.com/OpenSID/OpenSID/issues/5304) Penambahan format surat TinyMCE kepermohonan surat layanan mandiri.
 5. [#5270](https://github.com/OpenSID/OpenSID/issues/5270) Sesuaikan alur pemeriksaan surat.
 6. [#5273](https://github.com/OpenSID/OpenSID/issues/5273) Penambahan notifikasi ketika ada surat permintaan surat untuk diperiksa atau ditandatangani.
 7. [#5412](https://github.com/OpenSID/OpenSID/issues/5412) Penambahan fitur untuk menentukan kepala desa dan sekdes hanya di pemerintah desa.
@@ -28,12 +28,13 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 23. [#4835](https://github.com/OpenSID/OpenSID/issues/4835) Penambahan pengaturan untuk mengaktifkan / non aktifkan modul tte.
 24. [#5410](https://github.com/OpenSID/OpenSID/issues/5410) Penambahan pengisian passphrase yang hanya bisa dilakukan oleh kepala desa dan hanya saat tte aktif.
 25. [#5407](https://github.com/OpenSID/OpenSID/issues/5407) Penambahan template untuk penempatan kotak Info BSRE di surat TinyMCE.
-26. [#4853](https://github.com/OpenSID/OpenSID/issues/4853) Penambahan  penanganan exception dalam proses TTE.
+26. [#4853](https://github.com/OpenSID/OpenSID/issues/4853) Penambahan penanganan exception dalam proses TTE.
 27. [#5501](https://github.com/OpenSID/OpenSID/issues/5501) Penambahan validasi anjungan dari layanan.
 28. [#5448](https://github.com/OpenSID/OpenSID/issues/5448) Penambahan tombol memberhentikan proses backup inkremental.
 29. [#5503](https://github.com/OpenSID/OpenSID/issues/5503) Penambahan inputan waktu pemeriksaan dimenu stunting.
 30. [#5315](https://github.com/OpenSID/OpenSID/issues/5315) Penambahan pengaturan surat untuk menampilkan header dan footer surat TinyMCE.
 31. [#5302](https://github.com/OpenSID/OpenSID/issues/5302) Penambahan pilih data penduduk dinamis pada surat TinyMCE.
+32. [#4835](https://github.com/OpenSID/OpenSID/issues/4835) Penambahan fitur TTE versi demo.
 
 #### Perbaikan BUG
 
@@ -73,4 +74,4 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 5. Mengembalikan fungsi pencarian cetak surat.
 6. Menambahkan penjelasan tambahan di impor analisis.
 7. Memperbarui .gitignore.
-8. Deploy Website Berputar
+8. Deploy Website Berputar.
