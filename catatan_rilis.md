@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.08-pasca menyediakan fitur Pendaftaran pada Layanan Mandiri. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.09 menyediakan fitur Pendaftaran pada Layanan Mandiri. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan1609 dan @nurudin-fst yang baru mulai berkontribusi.
 
