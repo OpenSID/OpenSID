@@ -212,7 +212,7 @@
 							</li>
 							<li>
 								<a href="#" data-toggle="control-sidebar" title="Informasi">
-									<span><i class="fa fa-question-circle fa-lg""></i>&nbsp;</span>
+									<span><i class="fa fa-question-circle fa-lg"></i>&nbsp;</span>
 								</a>
 							</li>
 							<?php if ($this->header['kategori'] && can('u', $this->controller)): ?>
