@@ -115,13 +115,13 @@ class Suplemen_model extends MY_Model
         $data = [];
 
         switch ($sasaran) {
-            // Sasaran Penduduk
+                // Sasaran Penduduk
             case '1':
                 $data['judul'] = 'NIK / Nama Penduduk';
                 $data['data']  = $this->list_penduduk($id);
                 break;
 
-            // Sasaran Keluarga
+                // Sasaran Keluarga
             case '2':
                 $data['judul'] = 'No.KK / Nama Kepala Keluarga';
                 $data['data']  = $this->list_kk($id);
@@ -238,7 +238,7 @@ class Suplemen_model extends MY_Model
         $suplemen = $this->db->where('id', $suplemen_id)->get($this->table)->row_array();
 
         switch ($suplemen['sasaran']) {
-            // Sasaran Penduduk
+                // Sasaran Penduduk
             case '1':
                 $data                                = $this->get_penduduk_terdata($suplemen_id, $p);
                 $data['judul']['judul_terdata_info'] = 'No. KK';
@@ -246,7 +246,7 @@ class Suplemen_model extends MY_Model
                 $data['judul']['judul_terdata_nama'] = 'Nama Penduduk';
                 break;
 
-            // Sasaran Keluarga
+                // Sasaran Keluarga
             case '2':
                 $data                                = $this->get_kk_terdata($suplemen_id, $p);
                 $data['judul']['judul_terdata_info'] = 'NIK KK';
@@ -255,7 +255,7 @@ class Suplemen_model extends MY_Model
 
                 break;
 
-            // Sasaran X
+                // Sasaran X
             default:
                 // code...
                 break;
@@ -309,6 +309,18 @@ class Suplemen_model extends MY_Model
             ->select('s.*, s.id_terdata, o.nik, o.nama, o.tempatlahir, o.tanggallahir, o.sex, k.no_kk, w.rt, w.rw, w.dusun')
             ->select('(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat');
         $this->search_sql('1');
+        if ($sex = $this->session->sex) {
+            $this->db->where('o.sex', $sex);
+        }
+        if ($dusun = $this->session->dusun) {
+            $this->db->where('w.dusun', $dusun);
+        }
+        if ($rw = $this->session->rw) {
+            $this->db->where('w.rw', $rw);
+        }
+        if ($rt = $this->session->rt) {
+            $this->db->where('w.rt', $rt);
+        }
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -354,6 +366,18 @@ class Suplemen_model extends MY_Model
         $this->db
             ->select('s.*, s.id_terdata, o.no_kk, s.id_suplemen, o.nik_kepala, o.alamat, q.nik, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun');
         $this->search_sql('2');
+        if ($sex = $this->session->sex) {
+            $this->db->where('q.sex', $sex);
+        }
+        if ($dusun = $this->session->dusun) {
+            $this->db->where('w.dusun', $dusun);
+        }
+        if ($rw = $this->session->rw) {
+            $this->db->where('w.rw', $rw);
+        }
+        if ($rt = $this->session->rt) {
+            $this->db->where('w.rt', $rt);
+        }
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -380,7 +404,7 @@ class Suplemen_model extends MY_Model
         $this->load->model('surat_model');
 
         switch ($sasaran) {
-            // Sasaran Penduduk
+                // Sasaran Penduduk
             case 1:
                 $sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.id_kk AS id_kk,
 				u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
@@ -406,7 +430,7 @@ class Suplemen_model extends MY_Model
                 $data['alamat_wilayah'] = $this->surat_model->get_alamat_wilayah($data);
                 break;
 
-            // Sasaran Keluarga
+                // Sasaran Keluarga
             case 2:
                 $data                 = $this->keluarga_model->get_kepala_kk($id_terdata);
                 $data['terdata_info'] = $data['nik'];
@@ -468,6 +492,15 @@ class Suplemen_model extends MY_Model
     {
         $this->db->where('id', $id_terdata);
         $this->db->delete('suplemen_terdata');
+    }
+
+    public function hapus_terdata_all()
+    {
+        $id_cb = $this->input->post('id_cb');
+
+        foreach ($id_cb as $id) {
+            $this->hapus_terdata($id);
+        }
     }
 
     // $id = suplemen_terdata.id
@@ -562,7 +595,6 @@ class Suplemen_model extends MY_Model
                 break;
 
             default:
-
         }
         if (! empty($list_suplemen)) {
             return ['daftar_suplemen' => $list_suplemen, 'profil' => $data_profil];
@@ -740,10 +772,7 @@ class Suplemen_model extends MY_Model
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('userfile')) {
-            $this->session->error_msg = $this->upload->display_errors();
-            $this->session->success   = -1;
-
-            return;
+            return session_error($this->upload->display_errors());
         }
 
         // Data Suplemen
@@ -756,17 +785,19 @@ class Suplemen_model extends MY_Model
         $reader = ReaderEntityFactory::createXLSXReader();
         $reader->open($file);
 
-        $data_peserta = [];
+        $data_peserta      = [];
+        $terdaftar_peserta = [];
 
         foreach ($reader->getSheetIterator() as $sheet) {
-            $no_baris  = 0;
-            $no_gagal  = 0;
-            $no_sukses = 0;
-            $pesan     = '';
+            $baris_pertama = true;
+            $no_baris      = 0;
+            $no_gagal      = 0;
+            $no_sukses     = 0;
+            $pesan         = '';
 
             $field = ['id', 'nama', 'sasaran', 'keterangan'];
 
-            // // Sheet Program
+            // Sheet Program
             if ($sheet->getName() == 'Peserta') {
                 $suplemen_record = $this->get_suplemen($suplemen_id);
                 $sasaran         = $suplemen_record['sasaran'];
@@ -780,7 +811,6 @@ class Suplemen_model extends MY_Model
                 }
 
                 foreach ($sheet->getRowIterator() as $row) {
-                    $no_baris++;
                     $cells   = $row->getCells();
                     $peserta = trim((string) $cells[0]); // NIK atau No_kk sesuai sasaran
 
@@ -790,9 +820,13 @@ class Suplemen_model extends MY_Model
                     }
 
                     // Abaikan baris pertama / judul
-                    if ($no_baris <= 1) {
+                    if ($baris_pertama) {
+                        $baris_pertama = false;
+
                         continue;
                     }
+
+                    $no_baris++;
 
                     // Cek valid data peserta sesuai sasaran
                     $cek_peserta = $this->cek_peserta($peserta, $sasaran);
@@ -819,6 +853,8 @@ class Suplemen_model extends MY_Model
 
                         continue;
                     }
+
+                    $terdaftar_peserta[] = $peserta;
 
                     // Simpan data peserta yg diimpor dalam bentuk array
                     $simpan = [

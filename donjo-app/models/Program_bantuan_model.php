@@ -54,6 +54,9 @@ class Program_bantuan_model extends MY_Model
         // Jika parameter yg digunakan sama
         $tabel = 'program_peserta';
         $where = "program_id = {$id}";
+        $joins = [
+            ['penduduk_hidup', "{$tabel}.kartu_id_pend = penduduk_hidup.id", 'right'],
+        ];
 
         $list_kode = [
             ['peserta', $tabel, $where, $cari],
@@ -61,7 +64,7 @@ class Program_bantuan_model extends MY_Model
             ['kartu_nama', $tabel, $where, $cari],
         ];
 
-        $data = $this->union($list_kode);
+        $data = $this->union($list_kode, $joins);
 
         return autocomplete_data_ke_str($data);
     }
@@ -211,7 +214,7 @@ class Program_bantuan_model extends MY_Model
                     $select_sql = 'p.*, o.nama, x.nama AS sex, w.rt, w.rw, w.dusun, k.no_kk';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
-					LEFT JOIN tweb_penduduk o ON p.peserta = o.nik
+					RIGHT JOIN penduduk_hidup o ON p.peserta = o.nik
 					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
@@ -226,8 +229,8 @@ class Program_bantuan_model extends MY_Model
                 $strSQL = 'SELECT ' . $select_sql . '
 					FROM program_peserta p
 					JOIN tweb_keluarga k ON p.peserta = k.no_kk
-					LEFT JOIN tweb_penduduk o ON k.nik_kepala = o.id
-					LEFT JOIN tweb_penduduk kartu on p.kartu_id_pend = kartu.id
+					RIGHT JOIN penduduk_hidup o ON k.nik_kepala = o.id
+					RIGHT JOIN penduduk_hidup kartu on p.kartu_id_pend = kartu.id
 					LEFT JOIN tweb_penduduk_sex x ON x.id = kartu.sex
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id =' . $slug;
@@ -240,7 +243,7 @@ class Program_bantuan_model extends MY_Model
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
 					LEFT JOIN tweb_rtm r ON r.no_kk = p.peserta
-					LEFT JOIN tweb_penduduk o ON o.id = r.nik_kepala
+					RIGHT JOIN penduduk_hidup o ON o.id = r.nik_kepala
 					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id=' . $slug;
@@ -253,7 +256,7 @@ class Program_bantuan_model extends MY_Model
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
 					LEFT JOIN kelompok r ON r.id = p.peserta
-					LEFT JOIN tweb_penduduk o ON o.id = r.id_ketua
+					RIGHT JOIN penduduk_hidup o ON o.id = r.id_ketua
 					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_keluarga k on k.id = o.id_kk
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
@@ -629,24 +632,24 @@ class Program_bantuan_model extends MY_Model
         $filter = array_column($hasil1, 'peserta');
 
         switch ($hasil0['sasaran']) {
-                case 1:
-                    $hasil2 = $this->get_pilihan_penduduk($filter);
-                    break;
+            case 1:
+                $hasil2 = $this->get_pilihan_penduduk($filter);
+                break;
 
-                case 2:
-                    $hasil2 = $this->get_pilihan_kk($filter);
-                    break;
+            case 2:
+                $hasil2 = $this->get_pilihan_kk($filter);
+                break;
 
-                case 3:
-                    $hasil2 = $this->get_pilihan_rumah_tangga($filter);
-                    break;
+            case 3:
+                $hasil2 = $this->get_pilihan_rumah_tangga($filter);
+                break;
 
-                case 4:
-                    $hasil2 = $this->get_pilihan_kelompok($filter);
-                    break;
+            case 4:
+                $hasil2 = $this->get_pilihan_kelompok($filter);
+                break;
 
-                default:
-            }
+            default:
+        }
 
         return [$hasil0, $hasil1, $hasil2];
     }
@@ -752,7 +755,6 @@ class Program_bantuan_model extends MY_Model
                 break;
 
             default:
-
         }
         if (! $data_program == false) {
             return ['programkerja' => $data_program, 'profil' => $data_profil];
@@ -852,7 +854,7 @@ class Program_bantuan_model extends MY_Model
             return null;
         }
         $nama_file = $_FILES['satuan']['name'];
-        $nama_file = time() . '-' . urlencode($nama_file); 	 // normalkan nama file
+        $nama_file = time() . '-' . urlencode($nama_file);      // normalkan nama file
         UploadDocument($nama_file, $old_document);
 
         return $nama_file;
@@ -949,11 +951,7 @@ class Program_bantuan_model extends MY_Model
     public function jml_peserta_program($id = null)
     {
         if ($id) {
-            $jml_peserta = $this->db->select('count(v.program_id) as jml')->
-                from('program p')->
-                join('program_peserta v', 'p.id = v.program_id', 'left')->
-                where('p.id', $id)->
-                get()->row()->jml;
+            $jml_peserta = $this->db->select('count(v.program_id) as jml')->from('program p')->join('program_peserta v', 'p.id = v.program_id', 'left')->where('p.id', $id)->get()->row()->jml;
         } else {
             $jml_peserta = $this->db->get('program_peserta')->num_rows();
         }
@@ -1011,8 +1009,6 @@ class Program_bantuan_model extends MY_Model
         else {
             $this->db->where('p.sasaran', '1');
         }
-
-        $this->db->where('p.status', '1');
     }
 
     private function cari_query()
@@ -1053,8 +1049,12 @@ class Program_bantuan_model extends MY_Model
         }
     }
 
-    public function get_peserta_bantuan()
+    public function get_peserta_bantuan($status = '')
     {
+        if ($status != '') {
+            $this->db->where('p.status', $status);
+        }
+
         $this->get_peserta_bantuan_query();
         if ($_POST['length'] != -1) {
             $this->db->limit($_POST['length'], $_POST['start']);

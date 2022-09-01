@@ -10,15 +10,15 @@
 					<div class="col-sm-12">
 						<ul class="list-group">
 							<?php
-                                foreach ($kd_reg as $reg) {
-                                    if (strlen($reg->register) == 21) {
-                                        echo '<li class="list-group-item" data-position-id="123">
+                            foreach ($kd_reg as $reg) {
+                                if (strlen($reg->register) == 21) {
+                                    echo '<li class="list-group-item" data-position-id="123">
 												<div class="companyPosItem">
 													<span class="companyPosLabel">' . substr($reg->register, -6) . '</span>
 												</div>
 											</li>';
-                                    }
                                 }
+                            }
                             ?>
 						</ul>
 					</div>
@@ -31,7 +31,7 @@
 	<section class="content-header">
 		<h1>Ubah Data Inventaris Jalan, Irigasi dan Jaringan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url() ?>inventaris_peralatan"><i class="fa fa-dashboard"></i>Daftar Inventaris Jalan, Irigasi dan Jaringan</a></li>
 			<li class="active">Ubah Data</li>
 		</ol>
@@ -40,12 +40,12 @@
 		<form class="form-horizontal" id="validasi" name="form_jalan" method="post" action="<?= site_url("api_inventaris_jalan/update/{$main->id}"); ?>">
 			<div class="row">
 				<div class="col-md-3">
-					<?php $this->load->view('inventaris/menu_kiri.php')?>
+					<?php $this->load->view('inventaris/menu_kiri.php') ?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-						<a href="<?= site_url() ?>inventaris_jalan" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Jalan, Irigasi dan Jaringan</a>
+							<a href="<?= site_url() ?>inventaris_jalan" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Jalan, Irigasi dan Jaringan</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -55,12 +55,12 @@
 										<div class="col-sm-8">
 											<input type="hidden" id="id" name="id" value="<?= $main->id; ?>">
 											<input type="hidden" name="nama_barang_save" id="nama_barang_save" value="<?= $main->nama_barang; ?>">
-											<input type="hidden" name="kode_desa" id="kode_desa" value="<?=kode_wilayah($get_kode['kode_desa'])?>">
+											<input type="hidden" name="kode_desa" id="kode_desa" value="<?= kode_wilayah($get_kode['kode_desa']) ?>">
 											<!-- <input maxlength="50" value="<?= $main->nama_barang; ?>" class="form-control input-sm required" name="nama_barang" id="nama_barang" type="text" /> -->
 											<select class="form-control input-sm select2" id="nama_barang" name="nama_barang" onchange="formAction('main')">
-												<option value="<?= $main->nama_barang; ?>"><?= $main->nama_barang; ?></option>
-												<?php foreach ($aset as $data): ?>
-													<option value="<?=  $data['nama'] . '_' . $data['golongan'] . '.' . $data['bidang'] . '.' . $data['kelompok'] . '.' . $data['sub_kelompok'] . '.' . $data['sub_sub_kelompok'] . '.' . $hasil?>">Kode Reg : <?= $data['golongan'] . '.' . $data['bidang'] . '.' . $data['kelompok'] . '.' . $data['sub_kelompok'] . '.' . $data['sub_sub_kelompok'] . ' - ' . $data['nama']?></option>
+												<option value="<?= $main->nama_barang; ?>" disabled><?= $main->nama_barang; ?></option>
+												<?php foreach ($aset as $data) : ?>
+													<option value="<?= $data['nama'] . '_' . $data['golongan'] . '.' . $data['bidang'] . '.' . $data['kelompok'] . '.' . $data['sub_kelompok'] . '.' . $data['sub_sub_kelompok'] . '.' . $hasil ?>">Kode Reg : <?= $data['golongan'] . '.' . $data['bidang'] . '.' . $data['kelompok'] . '.' . $data['sub_kelompok'] . '.' . $data['sub_sub_kelompok'] . ' - ' . $data['nama'] ?></option>
 												<?php endforeach; ?>
 											</select>
 										</div>
@@ -74,16 +74,16 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="nomor_register">Nomor Register</label>
 										<div class="col-sm-5">
-											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="register" id="register" type="text" placeholder="Nomor Register"/>
+											<input maxlength="50" value="<?= $main->register; ?>" class="form-control input-sm required" name="register" id="register" type="text" placeholder="Nomor Register" />
 										</div>
 										<div class="col-sm-3">
-											<a style="cursor: pointer;" id="view_modal" name="view_modal" >Lihat Kode yang terdaftar</a>
+											<a style="cursor: pointer;" id="view_modal" name="view_modal">Lihat Kode yang terdaftar</a>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kondisi">Kondisi Bangunan</label>
 										<div class="col-sm-4">
-											<select name="kondisi" id="kondisi" class="form-control input-sm required" >
+											<select name="kondisi" id="kondisi" class="form-control input-sm required">
 												<option value="<?= $main->kondisi; ?>"> <?= $main->kondisi; ?> </option>
 												<option value="Baik">Baik</option>
 												<option value="Rusak Ringan">Rusak Ringan</option>
@@ -95,14 +95,14 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kontruksi">Konstruksi</label>
 										<div class="col-sm-8">
-											<textarea class="form-control input-sm required" name="kontruksi" id="kontruksi" ><?= $main->kontruksi; ?></textarea>
+											<textarea class="form-control input-sm required" name="kontruksi" id="kontruksi"><?= $main->kontruksi; ?></textarea>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="panjang">Panjang</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input value="<?= (! empty($main->panjang) ? $main->panjang : '0'); ?>" class="form-control input-sm number required" id="panjang" name="panjang" type="text"/>
+												<input value="<?= (! empty($main->panjang) ? $main->panjang : '0'); ?>" class="form-control input-sm number required" id="panjang" name="panjang" type="text" />
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
 											</div>
 										</div>
@@ -110,17 +110,17 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="lebar">Lebar</label>
 										<div class="col-sm-4">
-										<div class="input-group">
-											<input value="<?= (! empty($main->lebar) ? $main->lebar : '0'); ?>"  class="form-control input-sm number required" id="lebar" name="lebar" type="text"/>
-											<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
-										</div>
+											<div class="input-group">
+												<input value="<?= (! empty($main->lebar) ? $main->lebar : '0'); ?>" class="form-control input-sm number required" id="lebar" name="lebar" type="text" />
+												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
+											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="luas">Luas</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input value="<?= (! empty($main->luas) ? $main->luas : '0'); ?>"  class="form-control input-sm number required" id="luas" name="luas" type="text"/>
+												<input value="<?= (! empty($main->luas) ? $main->luas : '0'); ?>" class="form-control input-sm number required" id="luas" name="luas" type="text" />
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 											</div>
 										</div>
@@ -128,7 +128,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="alamat">Letak / Lokasi </label>
 										<div class="col-sm-8">
-											<textarea class="form-control input-sm required" name="alamat" id="alamat" ><?= $main->letak; ?></textarea>
+											<textarea class="form-control input-sm required" name="alamat" id="alamat"><?= $main->letak; ?></textarea>
 										</div>
 									</div>
 									<div class="form-group">
@@ -136,7 +136,7 @@
 										<div class="col-sm-4">
 											<select name="tahun_pengadaan" id="tahun_pengadaan" class="form-control input-sm required">
 												<option value="<?= date('Y', strtotime($main->tanggal_dokument)); ?>"><?= date('Y', strtotime($main->tanggal_dokument)); ?></option>
-												<?php for ($i = date('Y'); $i >= 1900; $i--): ?>
+												<?php for ($i = date('Y'); $i >= 1900; $i--) : ?>
 													<option value="<?= $i ?>"><?= $i ?></option>
 												<?php endfor; ?>
 											</select>
@@ -145,7 +145,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="no_bangunan">Nomor Kepemilikan</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (! empty($main->no_dokument) ? $main->no_dokument : '-'); ?>" class="form-control input-sm required" name="no_bangunan" id="no_bangunan" type="text"/>
+											<input maxlength="50" value="<?= (! empty($main->no_dokument) ? $main->no_dokument : '-'); ?>" class="form-control input-sm required" name="no_bangunan" id="no_bangunan" type="text" />
 										</div>
 									</div>
 									<div class="form-group">
@@ -169,14 +169,14 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="kode_tanah">Nomor Kode Tanah</label>
 										<div class="col-sm-8">
-											<input maxlength="50"value="<?= (! empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>"  class="form-control input-sm required" name="kode_tanah" id="kode_tanah" type="text"/>
+											<input maxlength="50" value="<?= (! empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>" class="form-control input-sm required" name="kode_tanah" id="kode_tanah" type="text" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label required" style="text-align:left;" for="hak_tanah">Penggunaan Barang </label>
 										<div class="col-sm-4">
 											<select name="penggunaan_barang" id="penggunaan_barang" class="form-control input-sm required" placeholder="Hak Tanah" required>
-											<?php
+												<?php
                                                 $value = '';
                                                 if (substr($main->kode_barang, -7, 2) == 01) {
                                                     $value = 'Pemerintah Desa';
@@ -191,8 +191,8 @@
                                                 } elseif (substr($main->kode_barang, -7, 2) == 07) {
                                                     $value = 'RW';
                                                 }
-                                            ?>
-												<option value="<?=substr($main->kode_barang, 14, 2); ?>"><?=$value; ?></option>
+                                                ?>
+												<option value="<?= substr($main->kode_barang, 14, 2); ?>"><?= $value; ?></option>
 												<option value="01">Pemerintah Desa</option>
 												<option value="02">Badan Permusyawaratan Daerah</option>
 												<option value="03">PKK</option>
@@ -205,7 +205,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="asal">Asal Usul </label>
 										<div class="col-sm-8">
-											<select name="asal" id="asal" class="form-control input-sm required" >
+											<select name="asal" id="asal" class="form-control input-sm required">
 												<option value="<?= $main->asal; ?>"> <?= $main->asal; ?> </option>
 												<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
 												<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>
@@ -220,19 +220,19 @@
 										<div class="col-sm-4">
 											<div class="input-group">
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Rp</span>
-												<input onkeyup="price()"  class="form-control input-sm number required" id="harga" name="harga" value="<?= $main->harga; ?>" />
+												<input onkeyup="price()" class="form-control input-sm number required" id="harga" name="harga" value="<?= $main->harga; ?>" />
 											</div>
 										</div>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input type="text" class="form-control input-sm required" id="output" name="output" placeholder="" disabled/>
+												<input type="text" class="form-control input-sm required" id="output" name="output" placeholder="" disabled />
 											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
 										<div class="col-sm-8">
-											<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" ><?= $main->keterangan; ?></textarea>
+											<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan"><?= $main->keterangan; ?></textarea>
 										</div>
 									</div>
 								</div>
@@ -252,25 +252,25 @@
 </div>
 
 <script>
-	$( document ).ready(function() {
-		$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
+	$(document).ready(function() {
+		$('#kode_barang').val($('#kode_desa').val() + "." + $('#penggunaan_barang').val() + "." + $('#tahun_pengadaan').val());
 
 		$("#tahun_pengadaan").change(function() {
-			$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
+			$('#kode_barang').val($('#kode_desa').val() + "." + $('#penggunaan_barang').val() + "." + $('#tahun_pengadaan').val());
 		});
 
 		$("#penggunaan_barang").change(function() {
-			$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
+			$('#kode_barang').val($('#kode_desa').val() + "." + $('#penggunaan_barang').val() + "." + $('#tahun_pengadaan').val());
 		});
 		$('#output').val(numeral($('#harga').val()).format('Rp0,0'));
 
 		$("#nama_barang").change(function() {
-			if($('#register').val().length != 21){
+			if ($('#register').val().length != 21) {
 				$('#register').val($('#nama_barang').val().split('_').pop());
-				$('#nama_barang_save').val($('#nama_barang').val().slice(0,-16));
+				$('#nama_barang_save').val($('#nama_barang').val().slice(0, -16));
 			} else {
 				$('#register').val($('#nama_barang').val().split('_').pop() + $('#register').val().slice(-6));
-				$('#nama_barang_save').val($('#nama_barang').val().slice(0,-16));
+				$('#nama_barang_save').val($('#nama_barang').val().slice(0, -16));
 			}
 		});
 	});
@@ -283,7 +283,7 @@
 		$('.select2').select2();
 	})
 
-	$("#view_modal").click(function(event){
+	$("#view_modal").click(function(event) {
 		$('#modal').modal("show");
 	});
 </script>

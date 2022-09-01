@@ -187,10 +187,6 @@ class Migrasi_fitur_premium_2102 extends MY_model
             'parent'     => 220,
         ]);
 
-        // Hapus cache menu navigasi
-        $this->load->driver('cache');
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
-
         //tambah kolom Foto utama di tabel pembangunan
         if (! $this->db->field_exists('foto', 'pembangunan')) {
             $hasil = $this->dbforge->add_column('pembangunan', [
@@ -263,19 +259,7 @@ class Migrasi_fitur_premium_2102 extends MY_model
         ];
 
         foreach ($data as $modul) {
-            $sql = $this->db->insert_string('setting_modul', $modul);
-            $sql .= ' ON DUPLICATE KEY UPDATE
-                    id = VALUES(id),
-                    modul = VALUES(modul),
-                    url = VALUES(url),
-                    aktif = VALUES(aktif),
-                    ikon = VALUES(ikon),
-                    urut = VALUES(urut),
-                    level = VALUES(level),
-                    hidden = VALUES(hidden),
-                    ikon_kecil = VALUES(ikon_kecil),
-                    parent = VALUES(parent)';
-            $hasil = $hasil && $this->db->query($sql);
+            $hasil = $hasil && $this->tambah_modul($modul);
         }
 
         return $hasil;
@@ -314,23 +298,18 @@ class Migrasi_fitur_premium_2102 extends MY_model
             ]);
         }
 
-        // Menambahkan data ke ref_penduduk_bahasa
-        $data = [
-            ['id' => 1, 'nama' => 'Latin', 'inisial' => 'L'],
-            ['id' => 2, 'nama' => 'Daerah', 'inisial' => 'D'],
-            ['id' => 3, 'nama' => 'Arab', 'inisial' => 'A'],
-            ['id' => 4, 'nama' => 'Arab dan Latin', 'inisial' => 'AL'],
-            ['id' => 5, 'nama' => 'Arab dan Daerah', 'inisial' => 'AD'],
-            ['id' => 6, 'nama' => 'Arab, Latin dan Daerah', 'inisial' => 'ALD'],
-        ];
+        // Tambah data awal tabel ref_penduduk_bahasa
+        if ($hasil && $this->db->truncate('ref_penduduk_bahasa')) {
+            $ref_penduduk_bahasa = [
+                ['id' => 1, 'nama' => 'Latin', 'inisial' => 'L'],
+                ['id' => 2, 'nama' => 'Daerah', 'inisial' => 'D'],
+                ['id' => 3, 'nama' => 'Arab', 'inisial' => 'A'],
+                ['id' => 4, 'nama' => 'Arab dan Latin', 'inisial' => 'AL'],
+                ['id' => 5, 'nama' => 'Arab dan Daerah', 'inisial' => 'AD'],
+                ['id' => 6, 'nama' => 'Arab, Latin dan Daerah', 'inisial' => 'ALD'],
+            ];
 
-        foreach ($data as $bahasa) {
-            $sql = $this->db->insert_string('ref_penduduk_bahasa', $bahasa);
-            $sql .= ' ON DUPLICATE KEY UPDATE
-                    id = VALUES(id),
-                    nama = VALUES(nama),
-                    inisial = VALUES(inisial)';
-            $hasil = $hasil && $this->db->query($sql);
+            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_bahasa', $ref_penduduk_bahasa);
         }
 
         return $hasil;

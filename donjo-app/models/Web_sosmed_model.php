@@ -156,8 +156,8 @@ class Web_sosmed_model extends CI_Model
                 break;
 
             default:
+        }
 
         return $link;
-        }
     }
 }

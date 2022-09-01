@@ -54,7 +54,7 @@ class Grup extends Admin_Controller
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->per_page = $this->set_page[0];
-        redirect('grup');
+        redirect($this->controller);
     }
 
     public function index($p = 1, $o = 0)
@@ -86,11 +86,16 @@ class Grup extends Admin_Controller
     public function filter($filter)
     {
         $this->session->{$filter} = $this->input->post($filter) ?: null;
-        redirect('grup');
+        redirect($this->controller);
     }
 
     public function form($p = 1, $o = 0, $id = '', $view = false)
     {
+        if (! $view && in_array($id, $this->grup_model::KECUALI)) {
+            session_error('Grup Pengguna Tidak Dapat Diubah');
+            redirect($this->controller);
+        }
+
         if (! $view) {
             $this->redirect_hak_akses('u');
         }
@@ -109,10 +114,10 @@ class Grup extends Admin_Controller
         }
         if ($id) {
             $data['grup']        = $this->grup_model->get_grup($id);
-            $data['form_action'] = site_url("grup/update/{$p}/{$o}/{$id}");
+            $data['form_action'] = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
         } else {
             $data['grup']        = null;
-            $data['form_action'] = site_url('grup/insert');
+            $data['form_action'] = site_url("{$this->controller}/insert");
         }
 
         $this->render('grup/form', $data);
@@ -121,7 +126,7 @@ class Grup extends Admin_Controller
     public function search()
     {
         $this->session->cari = $this->input->post('cari') ?: null;
-        redirect('grup');
+        redirect($this->controller);
     }
 
     public function insert()
@@ -131,10 +136,10 @@ class Grup extends Admin_Controller
         if ($this->form_validation->run() !== true) {
             $this->session->success   = -1;
             $this->session->error_msg = trim(validation_errors());
-            redirect("grup/form/{$p}/{$o}");
+            redirect("{$this->controller}/form");
         } else {
             $this->grup_model->insert();
-            redirect('grup');
+            redirect($this->controller);
         }
     }
 
@@ -145,6 +150,7 @@ class Grup extends Admin_Controller
         $this->form_validation->set_error_delimiters('', '');
         $this->form_validation->set_rules('nama', 'Nama Grup', 'required|callback_syarat_nama');
         $this->form_validation->set_message('nama', 'Hanya boleh berisi karakter alfanumerik, spasi dan strip');
+        $this->form_validation->set_rules('modul[]', 'Akses Modul', 'required');
     }
 
     public function syarat_nama($str)

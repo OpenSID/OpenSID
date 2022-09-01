@@ -1,18 +1,5 @@
-<?php
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-/*
- * File ini:
- *
- * View di Modul Pemetaan
- *
- * /donjo-app/views/pembangunan/fadmin/lokasi_maps.php
- */
-
-?>
-
-<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Lokasi <?= $data->judul ?></h1>
@@ -24,7 +11,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</section>
 	<section class="content">
 		<div class="box box-info">
-			<form id="validasi1" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<form id="validasi" action="<?= $form_action ?>" method="POST" class="form-horizontal">
 				<div class="box-body">
 					<div id="tampil-map">
 						<input type="hidden" name="id" id="id" value="<?= $data->id ?>" />
@@ -34,20 +21,20 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="lat">Lat</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control input-sm number" name="lat" id="lat" value="<?= $data->lat ?>" />
+							<input type="text" class="form-control input-sm lat" name="lat" id="lat" value="<?= $data->lat ?>" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-3 control-label" for="lat">Lng</label>
+						<label class="col-sm-3 control-label" for="lng">Lng</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control input-sm number" name="lng" id="lng" value="<?= $data->lng ?>" />
+							<input type="text" class="form-control input-sm lng" name="lng" id="lng" value="<?= $data->lng ?>" />
 						</div>
 					</div>
 					<a href="<?= site_url($this->controller) ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
 					<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 					<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
 					<?php if ($this->CI->cek_hak_akses('u')): ?>
-						<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
+						<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 					<?php endif; ?>
 				</div>
 			</form>
@@ -73,6 +60,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		var marker_rw = [];
 		var marker_rt = [];
 		var marker_persil = [];
+
 		//WILAYAH DESA
 		<?php if (! empty($desa['path'])) : ?>
 			set_marker_desa(marker_desa, <?= json_encode($desa) ?>, "<?= ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa'] ?>", "<?= favico_desa() ?>");
@@ -130,47 +118,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		}).addTo(peta_lokasi);
 
 	}; //EOF window.onload
-
-	$(document).ready(function() {
-		$('#simpan_kantor').click(function() {
-
-			$("#validasi1").validate({
-				errorElement: "label",
-				errorClass: "error",
-				highlight: function(element) {
-					$(element).closest(".form-group").addClass("has-error");
-				},
-				unhighlight: function(element) {
-					$(element).closest(".form-group").removeClass("has-error");
-				},
-				errorPlacement: function(error, element) {
-					if (element.parent('.input-group').length) {
-						error.insertAfter(element.parent());
-					} else {
-						error.insertAfter(element);
-					}
-				}
-			});
-
-			if (!$('#validasi1').valid()) return;
-
-			window.location.reload(false);
-
-			var id = $('#id').val();
-			var lat = $('#lat').val();
-			var lng = $('#lng').val();
-
-			$.ajax({
-				type: "POST",
-				url:`<?= site_url('pembangunan/lokasi_maps') ?>/${id}`,
-				dataType: 'json',
-				data: {
-					lat: lat,
-					lng: lng
-				},
-			});
-		});
-	});
 </script>
 <script src="<?= base_url() ?>assets/js/leaflet.filelayer.js"></script>
 <script src="<?= base_url() ?>assets/js/togeojson.js"></script>

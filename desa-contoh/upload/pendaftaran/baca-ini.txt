@@ -1,0 +1,5 @@
+*******************************
+Folder: desa/upload/pendaftaran
+*******************************
+
+Folder ini tempat menyimpan semua gambar yang diunggah sebagai pendaftaran layanan mandiri.

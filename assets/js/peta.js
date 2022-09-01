@@ -999,9 +999,9 @@ function showCurrentMultiPolygon(wilayah, layerpeta, warna) {
 	return showCurrentPolygon;	
 }
 
-function showCurrentPoint(posisi1, layerpeta)
+function showCurrentPoint(posisi1, layerpeta, mode = true)
 {
-	var lokasi_kantor = L.marker(posisi1, { draggable: true }).addTo(layerpeta);
+	var lokasi_kantor = L.marker(posisi1, { draggable: mode }).addTo(layerpeta);
 	lokasi_kantor.on('dragend', function (e) {
 		$('#lat').val(e.target._latlng.lat);
 		$('#lng').val(e.target._latlng.lng);
@@ -1011,28 +1011,6 @@ function showCurrentPoint(posisi1, layerpeta)
 
 	layerpeta.on('zoomstart zoomend', function (e) {
 		$('#zoom').val(layerpeta.getZoom());
-	})
-
-	$('#lat').on("input", function (e) {
-		if (!$('#validasi1').valid())
-		{
-			$("#simpan_kantor").attr('disabled', true);
-			return;
-		} else {
-			$("#simpan_kantor").attr('disabled', false);
-		}
-	})
-
-	$('#lng').on("input", function (e) {
-		if (!$('#validasi1').valid())
-		{
-			$("#simpan_kantor").attr('disabled', true);
-			return;
-		}
-		else
-		{
-			$("#simpan_kantor").attr('disabled', false);
-		}
 	})
 
 	var geojson = lokasi_kantor.toGeoJSON();

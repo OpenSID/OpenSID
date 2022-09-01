@@ -18,12 +18,13 @@
 			<option value='' selected="selected">-- Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?>--</option>
 			<?php foreach ($pamong as $data): ?>
 				<?php $tmp_nip                                                                                                                           = trim($data['pamong_nip'], '-'); ?>
-				<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?php if ($data['pamong_ttd'] == 1): $pamong_nip = $data['pamong_nip']; ?>selected <?php endif; ?> data-nip="<?= $data['pamong_nip']?>" data-pamong-id="<?= $data['pamong_id']?>" data-ttd="<?= $data['pamong_ttd']?>" data-ub="<?= $data['pamong_ub']?>">
+				<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?php if ($data['pamong_ttd'] == 1): $pamong_nip = $data['pamong_nip']; $pamong_niap = $data['pamong_niap']; ?>selected <?php endif; ?> data-nip="<?= $data['pamong_nip']?>" data-niap="<?= $data['pamong_niap']?>" data-pamong-id="<?= $data['pamong_id']?>" data-ttd="<?= $data['pamong_ttd']?>" data-ub="<?= $data['pamong_ub']?>">
 					<?= $data['pamong_nama']?> (<?= $data['jabatan']?>) <?php if (! empty($tmp_nip)): ?>NIP: <?= $data['pamong_nip']; ?><?php endif; ?>
 				</option>
 			<?php endforeach; ?>
 		</select>
 		<input name="pamong_nip" id="pamong_nip" type="hidden" value="<?= $pamong_nip; ?>"/>
+		<input name="pamong_niap" id="pamong_niap" type="hidden" value="<?= $pamong_niap; ?>"/>
 		<input name="pamong_id" id="pamong_id" type="hidden" value="<?= $pamong_id; ?>"/>
 	</div>
 </div>
@@ -75,8 +76,12 @@
 
 	function ambil_pamong(elem)
 	{
+		var niap = elem.data('niap');
+		$('#pamong_niap').val(niap);
+
 		var nip = elem.data('nip');
 		$('#pamong_nip').val(nip);
+
 		elem.closest('.box-body').find('select[name=jabatan]').val(elem.data('jabatan'));
 		$('#pamong_id').val(elem.data('pamong-id'));
 	}

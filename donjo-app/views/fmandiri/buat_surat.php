@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 ?>
 
-<form id="validasi" action="<?= site_url("layanan-mandiri/surat/form/{$permohonan['id']}"); ?>" method="POST" enctype="multipart/form-data">
+<form id="validasi" action="<?= $form_action ?>" method="POST">
 	<div class="box box-solid">
 		<div class="box-header with-border bg-green">
 			<h4 class="box-title">Surat</h4>
@@ -167,7 +167,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<div class="form-group">
 						<label for="nama_dokumen">Nama Dokumen</label>
 						<input id="nama_dokumen" name="nama" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen"/>
-						<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
+						<input type="text" class="hidden" name="id" id="id_dokumen"/>
 					</div>
 					<div class="form-group">
 						<label for="nama_dokumen">Jenis Dokumen</label>
@@ -179,7 +179,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="file" >Pilih File:</label>
+						<label for="file">Pilih File:</label>
 						<div class="input-group input-group-sm">
 							<input type="text" class="form-control" id="file_path" name="satuan">
 							<input type="file" class="hidden" id="file" name="satuan">

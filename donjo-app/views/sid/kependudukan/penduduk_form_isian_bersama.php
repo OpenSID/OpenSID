@@ -127,10 +127,10 @@
 				<input type="hidden" name="kk_level_lama" value="<?= $penduduk['kk_level'] ?>">
 			<?php endif; ?>
 			<label for="kk_level">Hubungan Dalam Keluarga</label>
-			<select class="form-control input-sm required" name="kk_level">
+			<select class="form-control input-sm select2 required" name="kk_level">
 				<option value="">Pilih Hubungan Keluarga</option>
 				<?php foreach ($hubungan as $data) : ?>
-					<option value="<?= $data['id'] ?>" <?php selected($penduduk['kk_level'], $data['id']); ?>><?= strtoupper($data['nama']) ?></option>
+					<option value="<?= $data['id'] ?>" <?php selected($penduduk['kk_level'], $data['id']); ?> <?= ($data['id'] == 1 && $keluarga['status_dasar'] == '2') ? 'disabled' : ''; ?>><?= strtoupper($data['nama']) ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -204,7 +204,7 @@
 				<div class="input-group-addon">
 					<i class="fa fa-calendar"></i>
 				</div>
-				<input class="form-control input-sm pull-right required" id="tgl_1" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir'] ?>">
+				<input class="form-control input-sm pull-right required" id="tgl_lahir" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir'] ?>" onchange="myFunction()">
 			</div>
 		</div>
 	</div>
@@ -603,8 +603,9 @@
 			<label for="hamil">Status Kehamilan </label>
 			<select class="form-control input-sm" name="hamil">
 				<option value="">Pilih Status Kehamilan</option>
-				<option value="0" <?php selected($penduduk['hamil'], '0'); ?>>Tidak Hamil</option>
-				<option value="1" <?php selected($penduduk['hamil'], '1'); ?>>Hamil</option>
+				<?php foreach ($kehamilan as $data) : ?>
+					<option value="<?= $data['id'] ?>" <?php selected($penduduk['hamil'], $data['id']); ?>><?= strtoupper($data['nama']) ?></option>
+				<?php endforeach; ?>
 			</select>
 		</div>
 	</div>
@@ -665,9 +666,15 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
+		$('#tgl_lahir').datetimepicker({
+			format: 'DD-MM-YYYY',
+			locale: 'id',
+			maxDate: 'now',
+		});
+
 		var addOrRemoveRequiredAttribute = function() {
 			var tglsekarang = new Date();
-			var tgllahir = parseInt($('#tgl_1').val().substring(6, 10));
+			var tgllahir = parseInt($('#tgl_lahir').val().substring(6, 10));
 			var selisih = tglsekarang.getFullYear() - tgllahir;
 			var wajib_identitas = $('.wajib_identitas');
 			var status_perkawinan = document.getElementById("status_perkawinan").value;
@@ -678,7 +685,7 @@
 			}
 		};
 
-		$("#tgl_1").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
+		$("#tgl_lahir").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
 		$("#status_perkawinan").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
 		$(".form-control").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
 

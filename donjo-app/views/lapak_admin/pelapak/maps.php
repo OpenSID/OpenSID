@@ -57,23 +57,23 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</section>
 	<section class="content">
 		<div class="box box-info">
-			<form id="validasi1" action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<form id="validasi" action="<?= $form_action; ?>" method="POST" class="form-horizontal">
 				<div class="box-body">
 					<div id="tampil-map"></div>
 				</div>
 				<div class='box-footer'>
-					<input type="hidden" name="zoom" id="zoom"  value="<?= $lokasi['zoom']; ?>"/>
+					<input type="hidden" name="zoom" id="zoom" value="<?= $lokasi['zoom']; ?>"/>
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="lat">Latitude</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control input-sm number" name="lat" id="lat" value="<?= $lokasi['lat']; ?>"/>
+							<input type="text" class="form-control input-sm lat" name="lat" id="lat" value="<?= $lokasi['lat']; ?>"/>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="lng">Longitude</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control input-sm number" name="lng" id="lng" value="<?= $lokasi['lng']; ?>"/>
+							<input type="text" class="form-control input-sm lng" name="lng" id="lng" value="<?= $lokasi['lng']; ?>"/>
 						</div>
 					</div>
 
