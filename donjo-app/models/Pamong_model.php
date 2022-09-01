@@ -180,6 +180,15 @@ class Pamong_model extends CI_Model
             ->row_array();
 
         $data['pamong_niap_nip'] = (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
+        if (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') {
+            $data['sebutan_pamong_niap_nip'] = 'NIP: ';
+        } else {
+            if (! empty($data['pamong_niap']) && $data['pamong_niap'] != '-') {
+                $data['sebutan_pamong_niap_nip'] = $this->setting->sebutan_nip_desa . ': ';
+            } else {
+                $data['sebutan_pamong_niap_nip'] = '';
+            }
+        }
 
         return $data;
     }
@@ -221,19 +230,17 @@ class Pamong_model extends CI_Model
         if ($post['id_pend']) {
             // Penduduk Dalam Desa
             $id    = $post['id_pend'];
-            $nik   = $post['nik'];
             $field = 'id';
             $tabel = 'tweb_penduduk';
         } else {
             // Penduduk Luar Desa
             $id    = $post['id'];
-            $nik   = 'pamong-' . $post['pamong_nik'];
             $field = 'pamong_id';
             $tabel = 'tweb_desa_pamong';
         }
 
         // Upload foto dilakukan setelah ada id, karena nama foto berisi nik
-        if ($foto = upload_foto_penduduk($id, $nik)) {
+        if ($foto = upload_foto_penduduk()) {
             $this->db->where($field, $id)->update($tabel, ['foto' => $foto]);
         }
     }

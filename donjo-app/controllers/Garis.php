@@ -155,6 +155,13 @@ class Garis extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
+    public function kosongkan($id = '')
+    {
+        $this->redirect_hak_akses('u');
+        $this->plan_garis_model->kosongkan_path($id);
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
     public function search()
     {
         $cari = $this->input->post('cari');

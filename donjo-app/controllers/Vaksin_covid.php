@@ -167,7 +167,7 @@ class Vaksin_covid extends Admin_Controller
         $sekdes             = (int) ($this->input->post('sekdes'));
         $data['pamong_ttd'] = $this->pamong_model->get_data($sekdes);
         $data['aksi']       = $aksi;
-        $data['header']     = $this->header['desa'];
+        $data['config']     = $this->header['desa'];
         $data['file']       = 'Laporan Hasil Rekap Vaksin Covid 19';
         $data['isi']        = 'covid19/vaksin/laporan_penduduk_print';
         $data['letak_ttd']  = ['2', '2', '1'];
@@ -210,7 +210,7 @@ class Vaksin_covid extends Admin_Controller
         $rekap_sasaran        = $this->rekap($sasaran);
         $data['pamong_ttd']   = $this->pamong_model->get_data($sekdes);
         $data['aksi']         = $aksi;
-        $data['header']       = $this->header['desa'];
+        $data['config']       = $this->header['desa'];
         $data['file']         = 'Laporan Hasil Rekap Vaksin Covid 19';
         $data['isi']          = 'covid19/vaksin/laporan_rekap_print';
         $data['letak_ttd']    = ['2', '2', '1'];

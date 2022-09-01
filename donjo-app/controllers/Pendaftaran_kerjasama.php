@@ -134,10 +134,27 @@ class Pendaftaran_kerjasama extends Admin_Controller
 
             return redirect('pendaftaran_kerjasama/form');
         } catch (Exception $e) {
-            log_message('error', $e);
-            session_error();
+            try {
+                $response = $this->client->post("{$this->server}/api/v1/pelanggan/register", [
+                    'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
+                    'multipart' => [
+                        ['name' => 'user_id', 'contents' => (int) $this->input->post('user_id')],
+                        ['name' => 'email', 'contents' => email($this->input->post('email'))],
+                        ['name' => 'desa', 'contents' => bilangan_titik($this->input->post('desa'))],
+                        ['name' => 'domain', 'contents' => alamat_web($this->input->post('domain'))],
+                        ['name' => 'kontak_no_hp', 'contents' => bilangan($this->input->post('kontak_no_hp'))],
+                        ['name' => 'kontak_nama', 'contents' => nama($this->input->post('kontak_nama'))],
+                        ['name' => 'status_langganan', 'contents' => (int) $this->input->post('status_langganan_id')],
+                        ['name' => 'permohonan', 'contents' => 0],
+                    ],
+                ])
+                    ->getBody();
+            } catch (Exception $e) {
+                log_message('error', $e);
+                session_error();
 
-            return redirect('pendaftaran_kerjasama/form');
+                return redirect('pendaftaran_kerjasama/form');
+            }
         }
 
         $this->setting_model->update_setting([

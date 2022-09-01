@@ -51,19 +51,17 @@ class First_artikel_m extends CI_Model
 
     public function get_headline()
     {
-        $sql = 'SELECT a.*, u.nama AS owner, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			WHERE headline = 1 AND a.tgl_upload < NOW()
-			ORDER BY tgl_upload DESC LIMIT 1 ';
-        $query = $this->db->query($sql);
-        $data  = $query->row_array();
+        $data = $this->db
+            ->select('a.*, u.nama AS owner, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+            ->from('artikel a')
+            ->join('user u', 'a.id_user = u.id', 'LEFT')
+            ->where('headline = 1')
+            ->where('a.tgl_upload <', date('Y-m-d H:i:s'))
+            ->order_by('tgl_upload DESC')
+            ->get()
+            ->row_array();
         if (empty($data)) {
             $data = null;
-        } else {
-            $id = $data['id'];
-            //$panjang=str_split($data['isi'],800);
-            //$data['isi'] = "<label>".strip_tags($panjang[0])."...</label><a href='".site_url("artikel/$id")."'>Baca Selengkapnya</a>";
         }
 
         return $data;
@@ -120,7 +118,7 @@ class First_artikel_m extends CI_Model
             ->where('a.enabled', 1)
             ->where('a.headline <>', 1)
             ->where('a.id_kategori NOT IN (1000)')
-            ->where('a.tgl_upload < NOW()');
+            ->where('a.tgl_upload <', date('Y-m-d H:i:s'));
 
         $cari = trim($this->input->get('cari'));
         if (! empty($cari)) {
@@ -173,7 +171,7 @@ class First_artikel_m extends CI_Model
             ->select('a.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
             ->where('a.enabled', 1)
             ->where('a.id_kategori NOT IN (1000)')
-            ->where('a.tgl_upload < NOW()');
+            ->where('a.tgl_upload <', date('Y-m-d H:i:s'));
 
         switch ($type) {
             case 'acak':
@@ -201,9 +199,16 @@ class First_artikel_m extends CI_Model
 
     public function paging_arsip($p = 1)
     {
-        $sql      = 'SELECT COUNT(a.id) AS id FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=1 AND a.tgl_upload < NOW()';
-        $query    = $this->db->query($sql);
-        $row      = $query->row_array();
+        $row = $this->db
+            ->select('COUNT(a.id) AS id')
+            ->from('artikel a')
+            ->join('user u', 'a.id_user = u.id', 'LEFT')
+            ->join('kategori k', 'a.id_kategori = k.id', 'left')
+            ->where('a.enabled=1')
+            ->where('a.tgl_upload <', date('Y-m-d H:i:s'))
+            ->order_by('tgl_upload DESC')
+            ->get()
+            ->row_array();
         $jml_data = $row['id'];
 
         $this->load->library('paging');
@@ -217,15 +222,17 @@ class First_artikel_m extends CI_Model
 
     public function full_arsip($offset = 0, $limit = 50)
     {
-        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
-        $sql        = 'SELECT a.*,u.nama AS owner,k.kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri FROM artikel a LEFT JOIN user u ON a.id_user = u.id LEFT JOIN kategori k ON a.id_kategori = k.id WHERE a.enabled=?
-			AND a.tgl_upload < NOW()
-		ORDER BY a.tgl_upload DESC';
-
-        $sql .= $paging_sql;
-
-        $query = $this->db->query($sql, 1);
-        $data  = $query->result_array();
+        $query = $this->db
+            ->select('a.*,u.nama AS owner,k.kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+            ->from('artikel a')
+            ->join('user u', 'a.id_user = u.id', 'LEFT')
+            ->join('kategori k', 'a.id_kategori = k.id', 'left')
+            ->where('a.enabled=1')
+            ->where('a.tgl_upload <', date('Y-m-d H:i:s'))
+            ->order_by('a.tgl_upload', 'DESC')
+            ->limit($limit, $offset)
+            ->get();
+        $data = $query->result_array();
         if ($query->num_rows() > 0) {
             for ($i = 0; $i < count($data); $i++) {
                 $nomer           = $offset + $i + 1;
@@ -250,7 +257,7 @@ class First_artikel_m extends CI_Model
             ->where('enabled', 1)
             ->where('headline', 3)
             ->where($gambar . ' !=', '')
-            ->where('tgl_upload < NOW()');
+            ->where('tgl_upload <', date('Y-m-d H:i:s'));
 
         return $this->db->get_compiled_select();
     }
@@ -288,7 +295,7 @@ class First_artikel_m extends CI_Model
                     ->select('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
                     ->where('enabled', 1)
                     ->where('gambar !=', '')
-                    ->where('tgl_upload < NOW()')
+                    ->where('tgl_upload <', date('Y-m-d H:i:s'))
                     ->order_by('tgl_upload DESC')
                     ->limit(10)->get('artikel')->result_array();
                 $slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
@@ -397,7 +404,7 @@ class First_artikel_m extends CI_Model
             ->join('user u', 'a.id_user = u.id', 'left')
             ->join('kategori k', 'a.id_kategori = k.id', 'left')
             ->where('a.enabled', 1)
-            ->where('a.tgl_upload < NOW()')
+            ->where('a.tgl_upload <', date('Y-m-d H:i:s'))
             ->group_start()
             ->where('a.slug', $url)
             ->or_where('a.id', $url)
@@ -452,7 +459,7 @@ class First_artikel_m extends CI_Model
             ->join('user u', 'a.id_user = u.id', 'left')
             ->join('kategori k', 'a.id_kategori = k.id', 'left')
             ->where('a.enabled', 1)
-            ->where('tgl_upload < NOW()');
+            ->where('a.tgl_upload <', date('Y-m-d H:i:s'));
 
         if (! empty($id)) {
             $this->db

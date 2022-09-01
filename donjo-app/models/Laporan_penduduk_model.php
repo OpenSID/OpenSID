@@ -425,6 +425,12 @@ class Laporan_penduduk_model extends MY_Model
                 break;
 
             // PENDUDUK
+            case 'hamil':
+                // Kehamilan
+                $this->db->where('p.sex', 2);
+                $this->select_jml_penduduk_per_kategori('hamil', 'ref_penduduk_hamil');
+                break;
+
             case 'covid':
                 // Covid
                 $this->db
@@ -531,6 +537,9 @@ class Laporan_penduduk_model extends MY_Model
         } elseif (in_array($lap, ['bdt'])) {
             $semua = $this->data_jml_semua_rtm();
         } else {
+            if ($lap == 'hamil') {
+                $this->db->where('b.sex', 2);
+            }
             $semua = $this->data_jml_semua_penduduk();
         }
 

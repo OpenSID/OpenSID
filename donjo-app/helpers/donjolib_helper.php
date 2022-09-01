@@ -260,13 +260,17 @@ function getBulan(int $bln)
     return $bulan[(int) $bln];
 }
 
-function tahun(int $awal = 2018)
+function tahun(int $awal = 2018, $asc = false)
 {
     $akhir = date('Y');
     $tahun = [];
 
-    for ($i = $awal; $i <= $akhir; $i++) {
+    for ($i = $akhir; $i >= $awal; $i--) {
         $tahun[] = $i;
+    }
+
+    if ($asc) {
+        sort($tahun);
     }
 
     return $tahun;

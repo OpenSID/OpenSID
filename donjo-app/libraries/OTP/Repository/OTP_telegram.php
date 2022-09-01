@@ -38,8 +38,6 @@
 require_once 'donjo-app/libraries/OTP/Interface/OTP_interface.php';
 require_once 'donjo-app/libraries/Telegram/Telegram.php';
 
-use Telegram;
-
 class OTP_telegram implements OTP_interface
 {
     /**
@@ -139,13 +137,15 @@ class OTP_telegram implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function verifikasi_berhasil($user)
+    public function verifikasi_berhasil($user, $nama)
     {
         try {
             $this->telegram->sendMessage([
                 'chat_id' => $user,
-                'text'    => <<<'EOD'
-                    SELAMAT AKUN ANDA BERHASIL DIVERIFIKASI
+                'text'    => <<<EOD
+                    HALO {$nama},
+
+                    SELAMAT AKUN TELEGRAM ANDA BERHASIL DIVERIFIKASI
 
                     Terima kasih.
                     EOD,
@@ -159,12 +159,14 @@ class OTP_telegram implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function kirim_pin_baru($user, $pin)
+    public function kirim_pin_baru($user, $pin, $nama)
     {
         try {
             $this->telegram->sendMessage([
                 'chat_id' => $user,
                 'text'    => <<<EOD
+                    HALO {$nama},
+
                     BERIKUT ADALAH KODE PIN YANG BARU SAJA DIHASILKAN,
                     KODE PIN INI SANGAT RAHASIA
                     JANGAN BERIKAN KODE PIN KEPADA SIAPA PUN,

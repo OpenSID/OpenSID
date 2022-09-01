@@ -104,7 +104,8 @@ class Database_model extends MY_Model
         '22.05'   => ['migrate' => 'migrasi_2205_ke_2206', 'nextVersion' => '22.06'],
         '22.06'   => ['migrate' => 'migrasi_2206_ke_2207', 'nextVersion' => '22.07'],
         '22.07'   => ['migrate' => 'migrasi_2207_ke_2208', 'nextVersion' => '22.08'],
-        '22.08'   => ['migrate' => 'migrasi_2208_ke_2209', 'nextVersion' => null],
+        '22.08'   => ['migrate' => 'migrasi_2208_ke_2209', 'nextVersion' => '22.09'],
+        '22.09'   => ['migrate' => 'migrasi_2209_ke_2210', 'nextVersion' => null],
     ];
 
     public function __construct()
@@ -169,6 +170,8 @@ class Database_model extends MY_Model
             return;
         }
 
+        $_SESSION['daftar_migrasi'] = []; // Catat migrasi yg sdh dijalankan, supaya tidak diulang
+
         $_SESSION['success'] = 1;
         $versi               = $this->getCurrentVersion();
         $nextVersion         = $versi;
@@ -190,7 +193,6 @@ class Database_model extends MY_Model
 
         // Jalankan migrasi layanan
         $this->jalankan_migrasi('migrasi_layanan');
-
         $this->folder_desa_model->amankan_folder_desa();
         $this->db->where('id', 13)->update('setting_aplikasi', ['value' => true]);
         /*
@@ -203,9 +205,9 @@ class Database_model extends MY_Model
             'value' => $versi,
         ];
         $this->db->where(['key' => 'current_version'])->update('setting_aplikasi', $newVersion);
+        $this->catat_versi_database();
         $this->load->model('track_model');
         $this->track_model->kirim_data();
-        $this->catat_versi_database();
     }
 
     private function catat_versi_database()
@@ -3530,21 +3532,30 @@ class Database_model extends MY_Model
             'config', //Karena terkait validasi pengguna premium
             'gis_simbol',
             'klasifikasi_surat',
+            'keuangan_manual_ref_bidang',
+            'keuangan_manual_ref_kegiatan',
             'keuangan_manual_ref_rek1',
             'keuangan_manual_ref_rek2',
             'keuangan_manual_ref_rek3',
-            'keuangan_manual_ref_bidang',
-            'keuangan_manual_ref_kegiatan',
             'keuangan_manual_rinci_tpl',
             'media_sosial',
+            'ref_asal_tanah_kas',
             'ref_dokumen',
+            'ref_penduduk_hamil',
+            'ref_peristiwa',
+            'ref_persil_kelas', // Migrasi tambah data ref_peristiwa perlu dilakukan ulang (Migrasi_2007_ke_2008)
+            'ref_persil_mutasi', // Migrasi tambah data ref_persil_kelas perlu dilakukan ulang (Migrasi_2007_ke_2008)
+            'ref_peruntukan_tanah_kas', // Migrasi tambah data ref_peruntukan_tanah_kas perlu dilakukan ulang (Migrasi_2007_ke_2008)
             'ref_pindah',
+            'ref_penduduk_bahasa',
+            'ref_penduduk_bidang',
+            'ref_penduduk_kursus',
+            'ref_penduduk_suku',
             'ref_syarat_surat',
             'ref_status_covid',
             'setting_modul',
             'setting_aplikasi',
             'setting_aplikasi_options',
-            'skin_sid',
             'syarat_surat',
             'tweb_aset',
             'tweb_cacat',
@@ -3596,7 +3607,7 @@ class Database_model extends MY_Model
         $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
         // Tambahkan kembali Analisis DDK Profil Desa dan Analisis DAK Profil Desa
         $file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xlsx';
-        $this->analisis_import_model->impor_analisis($file_analisis, 'DDK02', $jenis = 1);
+        $this->analisis_import_model->impor_analisis($file_analisis, 'DDK02', 1);
         $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
         $this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', $jenis = 1);
 

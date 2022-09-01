@@ -105,6 +105,7 @@ define('STAT_PENDUDUK', serialize([
     'covid'            => 'Status Covid',
     'suku'             => 'Suku / Etnis',
     'bpjs-tenagakerja' => 'BPJS Ketenagakerjaan',
+    'hamil'            => 'Status Kehamilan',
 ]));
 
 // Statistik Keluarga
@@ -180,12 +181,7 @@ define('STATUS_PEMBANGUNAN', serialize([
     4 => '100%',
 ]));
 
-define('HAMIL', serialize([
-    0 => 'Tidak Hamil',
-    1 => 'Hamil',
-]));
-
-// SUmber : https://news.detik.com/berita/d-5825409/jenis-vaksin-di-indonesia-berikut-daftar-hingga-efek-sampingnya
+// Sumber : https://news.detik.com/berita/d-5825409/jenis-vaksin-di-indonesia-berikut-daftar-hingga-efek-sampingnya
 define('JENIS_VAKSIN', serialize([
     'Covovax',
     'Zififax',
@@ -197,6 +193,11 @@ define('JENIS_VAKSIN', serialize([
     'Novavax',
     'Johnson&Johnson',
     'Biofarma',
+]));
+
+define('STATUS', serialize([
+    1 => 'Ya',
+    2 => 'Tidak',
 ]));
 
 class Referensi_model extends CI_Model

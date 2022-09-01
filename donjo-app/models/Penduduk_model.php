@@ -150,9 +150,40 @@ class Penduduk_model extends MY_Model
     // Filter belum digunakan
     protected function hamil_sql()
     {
-        if (isset($this->session->hamil)) {
-            $kf = $this->session->hamil;
-            $this->db->where('u.hamil', $kf);
+        $kf = $this->session->hamil;
+
+        if ($kf) {
+            switch (true) {
+                case $kf == BELUM_MENGISI:
+                    $this->db->where('(u.hamil IS NULL)');
+                    break;
+
+                case $kf == JUMLAH:
+                    $this->db->where('u.hamil IS NOT NULL');
+                    break;
+
+                case $kf == TOTAL:
+                    break;
+
+                default:
+                    $this->db->where('u.hamil', $kf);
+                    break;
+            }
+
+            $this->db->where('u.sex', '2');
+        }
+    }
+
+    // Filter belum digunakan
+    protected function tag_id_card_sql()
+    {
+        $kf = $this->session->tag_id_card;
+        if (isset($kf)) {
+            if ($kf === '1') {
+                $this->db->where('u.tag_id_card !=', null);
+            } elseif ($kf === '2') {
+                $this->db->where('u.tag_id_card', null);
+            }
         }
     }
 
@@ -395,6 +426,7 @@ class Penduduk_model extends MY_Model
         $this->umur_sql(); // Kode 13, 15
         $this->akta_kelahiran_sql(); // Kode 17
         $this->hamil_sql(); // Filter blum digunakan
+        $this->tag_id_card_sql(); // Filter blum digunakan
         $this->nik_sementara_sql(); // NIK Sementara
     }
 
@@ -690,6 +722,7 @@ class Penduduk_model extends MY_Model
         $this->umur_sql(); // Kode 13, 15
         $this->akta_kelahiran_sql(); // Kode 17
         $this->hamil_sql(); // Filter blum digunakan
+        $this->tag_id_card_sql(); // Filter blum digunakan
 
         return $this->db->get()->result_array();
     }
@@ -720,7 +753,7 @@ class Penduduk_model extends MY_Model
         $data['cacat_id']           = $data['cacat_id'] ?: null;
         $data['sakit_menahun_id']   = $data['sakit_menahun_id'] ?: null;
         $data['kk_level']           = $data['kk_level'];
-        $data['email']              = strip_tags($data['email']);
+        $data['email']              = empty($data['email']) ? null : strip_tags($data['email']);
         $data['telegram']           = empty($data['telegram']) ? null : strip_tags($data['telegram']);
         if (empty($data['id_asuransi']) || $data['id_asuransi'] == 1) {
             $data['no_asuransi'] = null;
@@ -735,7 +768,7 @@ class Penduduk_model extends MY_Model
         }
         // Status hamil tidak berlaku bagi laki-laki
         if ($data['sex'] == 1) {
-            $data['hamil'] = 0;
+            $data['hamil'] = null;
         }
         if (empty($data['kelahiran_anak_ke'])) {
             $data['kelahiran_anak_ke'] = null;
@@ -812,8 +845,41 @@ class Penduduk_model extends MY_Model
         if ($error_nik = $this->nik_error($data['ibu_nik'], 'NIK Ibu')) {
             $valid[] = $error_nik;
         }
+
+        //cek email duplikat
+        if (isset($data['email'])) {
+            $existing_data = $this->db
+                ->select('email')
+                ->from('tweb_penduduk')
+                ->where('email', $data['email'])
+                ->where_not_in('id', $id)
+                ->limit(1)->get()->row();
+
+            if ($existing_data) {
+                $valid[] = "Email {$data['email']} sudah digunakan";
+            }
+        }
+
+        //cek telegram duplikat
+        if (isset($data['telegram'])) {
+            $existing_data = $this->db
+                ->select('telegram')
+                ->from('tweb_penduduk')
+                ->where('telegram', $data['telegram'])
+                ->where_not_in('id', $id)
+                ->limit(1)->get()->row();
+
+            if ($existing_data) {
+                $valid[] = "Telegram {$data['telegram']} sudah digunakan";
+            }
+        }
         if (! empty($valid)) {
             $_SESSION['validation_error'] = true;
+        }
+
+        // Cek duplikasi Tag ID Card
+        if ($this->penduduk_model->cekTagIdCard($data['tag_id_card'], $id)) {
+            $valid[] = 'Tag ID Card sudah digunakan';
         }
 
         return $valid;
@@ -887,7 +953,7 @@ class Penduduk_model extends MY_Model
         $idku = $this->db->insert_id();
 
         // Upload foto dilakukan setelah ada id, karena nama foto berisi id pend
-        if ($foto = upload_foto_penduduk($idku, $this->input->post('nik'))) {
+        if ($foto = upload_foto_penduduk()) {
             $this->db->where('id', $idku)->update('tweb_penduduk', ['foto' => $foto]);
         }
 
@@ -958,7 +1024,7 @@ class Penduduk_model extends MY_Model
             unset($data['alamat']);
         }
 
-        if ($foto = upload_foto_penduduk($id, $this->input->post('nik'))) {
+        if ($foto = upload_foto_penduduk()) {
             $data['foto'] = $foto;
         } else {
             unset($data['foto']);
@@ -1588,6 +1654,10 @@ class Penduduk_model extends MY_Model
                 case 'suku':
                     $table = 'tweb_penduduk';
                     break;
+
+                case 'hamil':
+                    $table = 'ref_penduduk_hamil';
+                    break;
             }
 
             if ($tipe == 13 || $tipe == 17) {
@@ -1733,5 +1803,17 @@ class Penduduk_model extends MY_Model
         $desa = $this->config_model->get_data();
 
         return '0' . $desa['kode_desa'] . sprintf('%05d', $digit + 1);
+    }
+
+    public function cekTagIdCard($cek = null, $kecuali = null)
+    {
+        // Cek duplikasi Tag ID Card
+        if ($kecuali) {
+            $this->db->where('id !=', $kecuali);
+        }
+
+        $tag_id_card = $this->db->select('tag_id_card')->get_where('tweb_penduduk', ['tag_id_card !=' => null])->result_array();
+
+        return (bool) (in_array($cek, array_column($tag_id_card, 'tag_id_card')));
     }
 }

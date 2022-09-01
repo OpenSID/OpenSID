@@ -101,7 +101,8 @@ class Permohonan_surat_model extends CI_Model
 
     private function filter_sql()
     {
-        if ($filter = $this->session->filter) {
+        $filter = $this->session->filter;
+        if ($filter != '') {
             $this->db->where('u.status', $filter);
         }
     }
@@ -186,6 +187,8 @@ class Permohonan_surat_model extends CI_Model
             ->order_by('updated_at', 'DESC')
             ->get()
             ->result_array();
+
+        $j = 0;
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']     = $j + 1;

@@ -1,108 +1,145 @@
-Di rilis ini, versi 22.08 menyediakan Layanan lapor/keluhan/pengaduan bagi warga/umum. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.09 menyediakan fitur Pendaftaran pada Layanan Mandiri. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada @andifahruddinakas, @agungsugiarto, @FirlianiF, @scqolbu24, @FaisyalRachman dan @apidong yang terus berkontribusi. Terima kasih pula pada @totoprayogo1916 dan @raamaj yang baru mulai berkontribusi.
+Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan1609 dan @nurudin-fst yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
 
-1. [#4556](https://github.com/OpenSID/OpenSID/issues/4556) Tambahkan akun telegram ke data penduduk.
-2. [#4518](https://github.com/OpenSID/OpenSID/issues/4518) Tambahkan lampiran surat keterangan pindah datang penduduk F-1.27, F-1.31, F-1.39.
-3. [#4226](https://github.com/OpenSID/OpenSID/issues/4226) Perbaharui versi terbaru blanko pindah datang F.1.03.
-4. [#4553](https://github.com/OpenSID/OpenSID/issues/4553) Tampilkan lapak di layanan mandiri/anjungan.
-5. [#4506](https://github.com/OpenSID/OpenSID/issues/4506) Tambah tampilan slide gambar/video di anjungan pada saat tidak digunakan.
-6. [#3947](https://github.com/OpenSID/OpenSID/issues/3947) Saat masuk layanan mandiri diarahkan ke halaman buat surat (standar) atau ke halaman daftar pesan masuk jika terdapat pesan masuk yg belum dibaca.
-7. [#4507](https://github.com/OpenSID/OpenSID/issues/4507) Bisa atur jenis garis dan ketebalan tipe garis di pengaturan peta.
-8. [#4558](https://github.com/OpenSID/OpenSID/issues/4558) Verifikasi akun Telegram di layanan mandiri.
-9. [#4561](https://github.com/OpenSID/OpenSID/issues/4561) Notifikasi Sesuaikan pemberitahuan adanya rilis baru.
-10. [#3876](https://github.com/OpenSID/OpenSID/issues/3876) Tambahkan "pintasan" pengaturan / informasi untuk surat layanan mandiri dan syarat surat.
-11. [#4584](https://github.com/OpenSID/OpenSID/issues/4584) Laporkan jika exec tidak tersedia pada waktu mencetak PDF.
-12. [#3663](https://github.com/OpenSID/OpenSID/issues/3663) Penambahan Fitur kirim PIN baru melalui telegram ke warga.
-13. [#4411](https://github.com/OpenSID/OpenSID/issues/4411) Tambah aksi lihat dokumen pada Buku Administrasi Umum (Peraturan Desa, Keputusan Kepala Desa, Surat Masuk).
-14. [#4622](https://github.com/OpenSID/OpenSID/issues/4622) Tidak boleh hapus data penduduk kalau sudah menggantikan data contoh awal atau data penduduk sudah dinyatakan lengkap.
-15. [#512](https://github.com/OpenSID/OpenSID/issues/512) Layanan lapor/keluhan/pengaduan bagi warga/umum.
-16. [#4180](https://github.com/OpenSID/OpenSID/issues/4180) Buku inventaris hasil-hasil pembangunan di Buku Administrasi Pembangunan.
-17. [#4610](https://github.com/OpenSID/OpenSID/issues/4610) Pendataan warga penerima vaksin.
-18. [#4497](https://github.com/OpenSID/OpenSID/issues/4497) Surat keterangan nikah & form F2.12 untuk warga bukan muslim.
-19. [#4557](https://github.com/OpenSID/OpenSID/issues/4557) Lupa/reset PIN dengan telegram.
+1. [#1759](https://github.com/OpenSID/OpenSID/issues/1759) Laporan statistik kehamilan.
+2. [#4635](https://github.com/OpenSID/OpenSID/issues/4635) Permintaan Penyediaan Tombol Hapus Dan Tanda Conteng Pilihan Hapus Data Pada Fitur Suplemen.
+3. [#1760](https://github.com/OpenSID/OpenSID/issues/1760) Pendaftaran layanan mandiri.
+4. [#4521](https://github.com/OpenSID/OpenSID/issues/4521) Penulisan kalimat NIP/NIPD pada tangan tangan surat secara dinamis.
+5. [#4353](https://github.com/OpenSID/OpenSID/issues/4353) Tambah fitur tag ktp di format impor data penduduk excel.
+6. [#4350](https://github.com/OpenSID/OpenSID/issues/4350) Pencarian spesifik pada data penduduk.
+7. [#4612](https://github.com/OpenSID/OpenSID/issues/4612) Tambah fitur verifikasi akun email.
+8. [#4430](https://github.com/OpenSID/OpenSID/issues/4430) Penambahan Fitur Import Asuransi Kesehatan pada file FormatImporExcel.
+9. [#4665](https://github.com/OpenSID/OpenSID/issues/4665) Sediakan Filter Bantuan aktif dan tidak aktif Pada Statistik Bantuan Keluarga.
+10. [#4606](https://github.com/OpenSID/OpenSID/issues/4606) Tambah saring data rincian suplemen.
+11. [#4710](https://github.com/OpenSID/OpenSID/issues/4710) Notifikasi kirim pin baru melalui email.
+12. [#4670](https://github.com/OpenSID/OpenSID/issues/4670) Reset password untuk pengguna administrator.
+13. [#4669](https://github.com/OpenSID/OpenSID/issues/4669) Verifikasi akun email untuk pengguna administrator.
+14. [#4711](https://github.com/OpenSID/OpenSID/issues/4711) Kirim verifikasi melalui email pada pendaftaran layanan mandiri.
+15. [#4637](https://github.com/OpenSID/OpenSID/issues/4637) Modul bumindes arsip desa.
 
 #### Perbaikan BUG
 
-1. [#4560](https://github.com/OpenSID/OpenSID/issues/4560) Perbaiki migrasi untuk nik dan no_kk sementara kadang gagal untuk kasus tertentu.
-2. [#463](https://github.com/OpenSID/premium/issues/463) Perbaiki devtoolbar agar tidak menggangu proses compress saat cetak surat.
-3. [#4565](https://github.com/OpenSID/OpenSID/issues/4565) Perbaiki foto pembangunan terlihat besar.
-4. [#4567](https://github.com/OpenSID/OpenSID/issues/4567) Perbaiki migrasi slug pembangunan tidak berjalan keseluruhan.
-5. [#4566](https://github.com/OpenSID/OpenSID/issues/4566) Perbaiki login ektp dan persuratan di layanan mandiri.
-6. [#4554](https://github.com/OpenSID/OpenSID/issues/4554) Sesuaikan view verifikasi surat berdasarkan tema yang digunakan.
-7. [#4568](https://github.com/OpenSID/OpenSID/issues/4568) Perbaiki gagal saat mengakses modul rekapitulasi jumlah penduduk.
-8. [#4549](https://github.com/OpenSID/OpenSID/issues/4549) Perbaiki gagal di penduduk penerima bantuan, tidak kompatibel.
-9. [#4570](https://github.com/OpenSID/OpenSID/issues/4570) Perbaiki gagal tambah / ubah kader dengan menggunakan .htaccess.
-10. [#4378](https://github.com/OpenSID/OpenSID/issues/4378) Penyesuaian daftar surat ubahan desa secara otomatis.
-11. [#4392](https://github.com/OpenSID/OpenSID/issues/4392) Perbaiki status perkwinan modul penduduk dan keluarga.
-12. [#4564](https://github.com/OpenSID/OpenSID/issues/4564) Perbaiki pengaturan peta yang tidak dapat menyimpan warna.
-13. [#4585](https://github.com/OpenSID/OpenSID/issues/4585) Perbaiki tampilkan notifikasi gagal, jika widget gagal disimpan beserta penyebabnya.
-14. [#4598](https://github.com/OpenSID/OpenSID/issues/4598) Perbaiki gagal impor SIAK.
-15. [#4542](https://github.com/OpenSID/OpenSID/issues/4542) Perbaiki cetak surat kelahiran.
-16. [#4576](https://github.com/OpenSID/OpenSID/issues/4576) Perbaiki grup pengguna.
-17. [#2767](https://github.com/OpenSID/OpenSID/issues/2767) Perbaiki menu sidebar,collapse ketika kita pilih menu.
-18. [#4596](https://github.com/OpenSID/OpenSID/issues/4596) Perbaiki suplemen tidak dapat impor data suplemen sasaran keluarga
-19. [#4595](https://github.com/OpenSID/OpenSID/issues/4595) Perbaiki ubah panjang value pada kolom tag_id_card.
-20. [#4593](https://github.com/OpenSID/OpenSID/issues/4593) Perbaiki gagal saat menyimpan peta, dengan data yg tidak lengkap.
-21. [#4574](https://github.com/OpenSID/OpenSID/issues/4574) Tampilkan data artikel sesuai dengan pengaturan Grup dan Pengguna.
-22. [#4600](https://github.com/OpenSID/OpenSID/issues/4600) Perbaiki import data penduduk berulang.
-23. [#4602](https://github.com/OpenSID/OpenSID/issues/4602) Tampilkan status desa terdaftar pada layanan pelanggan.
-24. [#4611](https://github.com/OpenSID/OpenSID/issues/4611) Perbaiki nilai satuan laporan hasil analisis.
-25. [#4623](https://github.com/OpenSID/OpenSID/issues/4623) Perbaiki jumlah data suplemen yang tampil di halaman web tidak sesuai.
-26. [#4642](https://github.com/OpenSID/OpenSID/issues/4642) Perbaiki ketika edit data penduduk terjadi error.
-27. [#4663](https://github.com/OpenSID/OpenSID/issues/4663) Perbaiki ketika edit data penduduk terjadi error telegram.
-28. [#4673](https://github.com/OpenSID/OpenSID/issues/4673) Perbaiki sesi grup hanya beberapa menu yang tampil.
-29. [#4645](https://github.com/OpenSID/OpenSID/issues/4645) Menampilkan Pembangunan tahun terbaru pada bagian atas.
-30. [#4668](https://github.com/OpenSID/OpenSID/issues/4668) Perbaiki pada saat verifikasi telegram dengan akun yang sama (Duplicate entry).
-31. [#4674](https://github.com/OpenSID/OpenSID/issues/4674) Perbaiki jangan tampilkan pesan NIK jika tidak ditemukan.
-32. [#4641](https://github.com/OpenSID/OpenSID/issues/4641) Perbaikan modul vaksinasi.
-33. [#4636](https://github.com/OpenSID/OpenSID/issues/4636) Perbaiki data tidak muncul di hasil unduhan surat keterangan nikah untuk warga non muslim (PDF & RTF).
-34. [#4676](https://github.com/OpenSID/OpenSID/issues/4676) Perbaiki penduduk mati masih muncul pada data rumah tangga.
-35. [#4690](https://github.com/OpenSID/OpenSID/issues/4690) Perbaiki izinkan penggunaan huruf dalam klasifikasi surat.
-36. [#4700](https://github.com/OpenSID/OpenSID/issues/4700) Perbaiki pencarian dan pengurutan di modul buku kader tidak berjalan.
-37. [#4675](https://github.com/OpenSID/OpenSID/issues/4675) Perbaiki list pamong tidak muncul saat cetak laporan hasil klasifikasi analisis.
-38. [#4631](https://github.com/OpenSID/OpenSID/issues/4631) Perbaiki impor siskuedes kolom tidak ditemukan.
-39. [#4704](https://github.com/OpenSID/OpenSID/issues/4704) Perbaiki error impor struktur database awal.
-40. [#4646](https://github.com/OpenSID/OpenSID/issues/4646) Perbaiki duplikat pendataan tidak berfungsi.
-41. [#4702](https://github.com/OpenSID/OpenSID/issues/4702) Perbaiki dan sediakan pengaturan suara video login mandiri.
-42. [#4714](https://github.com/OpenSID/OpenSID/issues/4714) Perbaiki tidak bisa menghapus artikel.
-43. [#4731](https://github.com/OpenSID/OpenSID/issues/4731) Perbaiki Latar Website pada tema tidak berganti.
-44. [#4745](https://github.com/OpenSID/OpenSID/issues/4745) Perbaiki Salah penyebutan "Dusun" pada laporan rekap vaksin.
-46. [#4746](https://github.com/OpenSID/OpenSID/issues/4746) Perbaiki Nomor dan Tanggal Akta Nikah aktif ketika status perkawinan belum kawin.
-47. [#4744](https://github.com/OpenSID/OpenSID/issues/4744) Perbaiki Sesuaikan Sebutan Desa pada Notifikasi Layanan Mandiri.
-48. [#4764](https://github.com/OpenSID/OpenSID/issues/4764) Perbaiki Paginasi pada menu Buku Rekapitulasi Jumlah Penduduk tidak bekerja normal.
-49. [#4760](https://github.com/OpenSID/OpenSID/issues/4760) Perbaiki Link/Url "Home" pada breadcrumb salah.
-50. [#4768](https://github.com/OpenSID/OpenSID/issues/4768) Perbaiki Nama desa tidak tampil dalam hasil cetak/unduh di bagian tanda tangan Wilayah Administratif.
-51. [#4718](https://github.com/OpenSID/OpenSID/issues/4718) Perbaiki paginasi artikel kategori artikel.
-52. [#4769](https://github.com/OpenSID/OpenSID/issues/4769) Perbaiki validasi form dan modal input agar tidak duplikasi.
-53. [#4629](https://github.com/OpenSID/OpenSID/issues/4629) Perbaiki link sembarang bisa diinputkan di sosmed.
-54. [#4725](https://github.com/OpenSID/OpenSID/issues/4725) Perbaiki form f1.08 (pindah pergi) surat keterangan pindah penduduk.
-55. [#4765](https://github.com/OpenSID/OpenSID/issues/4765) Perbaiki pendidikan di buku kader pemberdayaan tidak sesuai dengan pendidikan di data penduduk.
-56. [#4748](https://github.com/OpenSID/OpenSID/issues/4748) Perbaiki gagal simpan penduduk baru untuk usia 17+.
-57. [#4735](https://github.com/OpenSID/OpenSID/issues/4735) Perbaiki rincian anggaran pembangunan melebihi total anggaran.
-58. [#4771](https://github.com/OpenSID/OpenSID/issues/4771) Perbaiki paginasi halaman website pembangunan terjadi error/kosong apabila list view yang ditampilkan lebih dari 10 item.
-59. [#4759](https://github.com/OpenSID/OpenSID/issues/4759) Perbaiki kolom "ditandatangani oleh" dalam hasil cetak dan unduh arsip surat kosong.
-60. [#4751](https://github.com/OpenSID/OpenSID/issues/4751) Perbaiki lampiran F.2.01 memunculkan camat.
-61. [#4723](https://github.com/OpenSID/OpenSID/issues/4723) Perbaiki kode warna bermasalah.
-62. [#4754](https://github.com/OpenSID/OpenSID/issues/4754) Perbaiki tidak bisa menggunakan login ektp.
-63. [#4772](https://github.com/OpenSID/OpenSID/issues/4772) Perbaiki status kepala rumah tangga jika sudah meninggal.
-64. [#4775](https://github.com/OpenSID/OpenSID/issues/4775) Perbaiki pengelompokan rumah tangga tersimpan record data kosong yang ikut dihitung sebagai rekap jumlah data rumah tangga.
-65. [#4774](https://github.com/OpenSID/OpenSID/issues/4774) Perbaiki nilai kosong pada saat kosongkan database (impor analisis).
-66. [#4664](https://github.com/OpenSID/OpenSID/issues/4664) Perbaiki wajib identitas menyesuaikan umur dan status perkawinan.
-
+1. [#4642](https://github.com/OpenSID/OpenSID/issues/4642) Perbaikan ketika edit data penduduk terjadi error.
+2. [#4663](https://github.com/OpenSID/OpenSID/issues/4663) Perbaikan ketika edit data penduduk terjadi error telegram.
+3. [#4673](https://github.com/OpenSID/OpenSID/issues/4673) Perbaikan sesi grup hanya beberapa menu yang tampil.
+4. [#4645](https://github.com/OpenSID/OpenSID/issues/4645) Menampilkan Pembangunan tahun terbaru pada bagian atas.
+5. [#4668](https://github.com/OpenSID/OpenSID/issues/4668) Perbaikan pada saat verifikasi telegram dengan akun yang sama (Duplicate entry).
+6. [#4674](https://github.com/OpenSID/OpenSID/issues/4674) Perbaikan jangan tampilkan pesan NIK jika tidak ditemukan.
+7. [#4641](https://github.com/OpenSID/OpenSID/issues/4641) Perbaikan modul vaksinasi.
+8. [#4636](https://github.com/OpenSID/OpenSID/issues/4636) Perbaikan data tidak muncul di hasil unduhan surat keterangan nikah untuk warga non muslim (PDF & RTF).
+9. [#4676](https://github.com/OpenSID/OpenSID/issues/4676) Perbaikan penduduk mati masih muncul pada data rumah tangga.
+10. [#4690](https://github.com/OpenSID/OpenSID/issues/4690) Perbaikan izinkan penggunaan huruf dalam klasifikasi surat.
+11. [#4700](https://github.com/OpenSID/OpenSID/issues/4700) Perbaikan pencarian dan pengurutan di modul buku kader tidak berjalan.
+12. [#4675](https://github.com/OpenSID/OpenSID/issues/4675) Perbaikan list pamong tidak muncul saat cetak laporan hasil klasifikasi analisis.
+13. [#4631](https://github.com/OpenSID/OpenSID/issues/4631) Perbaikan impor siskuedes kolom tidak ditemukan.
+14. [#4704](https://github.com/OpenSID/OpenSID/issues/4704) Perbaikan error impor struktur database awal.
+15. [#4646](https://github.com/OpenSID/OpenSID/issues/4646) Perbaikan duplikat pendataan tidak berfungsi.
+16. [#4664](https://github.com/OpenSID/OpenSID/issues/4664) Perbaikan wajib identitas menyesuaikan umur dan status perkawinan.
+17. [#4702](https://github.com/OpenSID/OpenSID/issues/4702) Perbaikan dan sediakan pengaturan suara video login mandiri.
+18. [#4714](https://github.com/OpenSID/OpenSID/issues/4714) Perbaikan tidak bisa menghapus artikel.
+19. [#4731](https://github.com/OpenSID/OpenSID/issues/4731) Perbaikan Latar Website pada tema tidak berganti.
+20. [#4745](https://github.com/OpenSID/OpenSID/issues/4745) Perbaikan Salah penyebutan "Dusun" pada laporan rekap vaksin.
+21. [#4746](https://github.com/OpenSID/OpenSID/issues/4746) Perbaikan Nomor dan Tanggal Akta Nikah aktif ketika status perkawinan belum kawin.
+22. [#4744](https://github.com/OpenSID/OpenSID/issues/4744) Perbaikan Sesuaikan Sebutan Desa pada Notifikasi Layanan Mandiri.
+23. [#4764](https://github.com/OpenSID/OpenSID/issues/4764) Perbaikan Paginasi pada menu Buku Rekapitulasi Jumlah Penduduk tidak bekerja normal.
+24. [#4760](https://github.com/OpenSID/OpenSID/issues/4760) Perbaikan Link/Url "Home" pada breadcrumb salah.
+25. [#4768](https://github.com/OpenSID/OpenSID/issues/4768) Perbaikan Nama desa tidak tampil dalam hasil cetak/unduh di bagian tanda tangan Wilayah Administratif.
+26. [#4718](https://github.com/OpenSID/OpenSID/issues/4718) Perbaikan paginasi artikel kategori artikel.
+27. [#4769](https://github.com/OpenSID/OpenSID/issues/4769) Perbaikan validasi form dan modal input agar tidak duplikasi.
+28. [#4629](https://github.com/OpenSID/OpenSID/issues/4629) Perbaikan link sembarang bisa diinputkan di sosmed.
+29. [#4725](https://github.com/OpenSID/OpenSID/issues/4725) Perbaikan form f1.08 (pindah pergi) surat keterangan pindah penduduk.
+30. [#4765](https://github.com/OpenSID/OpenSID/issues/4765) Perbaikan pendidikan di buku kader pemberdayaan tidak sesuai dengan pendidikan di data penduduk.
+31. [#4748](https://github.com/OpenSID/OpenSID/issues/4748) Perbaikan gagal simpan penduduk baru untuk usia 17+.
+32. [#4735](https://github.com/OpenSID/OpenSID/issues/4735) Perbaikan rincian anggaran pembangunan melebihi total anggaran.
+33. [#4771](https://github.com/OpenSID/OpenSID/issues/4771) Perbaikan paginasi halaman website pembangunan terjadi error/kosong apabila list view yang ditampilkan lebih dari 10 item.
+34. [#4759](https://github.com/OpenSID/OpenSID/issues/4759) Perbaikan kolom "ditandatangani oleh" dalam hasil cetak dan unduh arsip surat kosong.
+35. [#4751](https://github.com/OpenSID/OpenSID/issues/4751) Perbaikan lampiran F.2.01 memunculkan camat.
+36. [#4723](https://github.com/OpenSID/OpenSID/issues/4723) Perbaikan kode warna bermasalah.
+37. [#4754](https://github.com/OpenSID/OpenSID/issues/4754) Perbaikan tidak bisa menggunakan login ektp.
+38. [#4772](https://github.com/OpenSID/OpenSID/issues/4772) Perbaikan status kepala rumah tangga jika sudah meninggal.
+39. [#4775](https://github.com/OpenSID/OpenSID/issues/4775) Perbaikan pengelompokan rumah tangga tersimpan record data kosong yang ikut dihitung sebagai rekap jumlah data rumah tangga.
+40. [#4774](https://github.com/OpenSID/OpenSID/issues/4774) Perbaikan nilai kosong pada saat kosongkan database (impor analisis).
+41. [#4783](https://github.com/OpenSID/OpenSID/issues/4783) Perbaikan field nama tidak tampil ketika edit di modul lembaga dan kelompok.
+42. [#4786](https://github.com/OpenSID/OpenSID/issues/4786) Perbaikan dapat memasukkan data ganda melalui impor data suplemen.
+43. [#4782](https://github.com/OpenSID/OpenSID/issues/4782) Perbaikan hapus duplikasi kabupaten, kecamatan, desa pada cetak wilayah administratif.
+44. [#4780](https://github.com/OpenSID/OpenSID/issues/4780) Perbaikan nama desa tidak tampil pada cetak laporan vaksin.
+45. [#4796](https://github.com/OpenSID/OpenSID/issues/4796) Perbaikan tambah produk pada modul lapak.
+46. [#4794](https://github.com/OpenSID/OpenSID/issues/4794) Perbaikan hak akses modul pembangunan.
+47. [#4778](https://github.com/OpenSID/OpenSID/issues/4778) Perbaikan import rumah tangga selalu tertimpa.
+48. [#4781](https://github.com/OpenSID/OpenSID/issues/4781) Perbaikan penyesuaian tempat tanda tangan sesuai dengan pilihan pada pengaturan aplikasi print buku inventaris dan kekayaan desa.
+49. [#4779](https://github.com/OpenSID/OpenSID/issues/4779) Perbaikan uji coba lapak desa setelah input data produk terjadi error 500.
+50. [#4776](https://github.com/OpenSID/OpenSID/issues/4776) Perbaikan layanan mandiri belum dapat mengirim pengajuan permohonan surat.
+51. [#4801](https://github.com/OpenSID/OpenSID/issues/4801) Perbaikan salah penyebutan tanggal pada form mutasi inventaris.
+52. [#4804](https://github.com/OpenSID/OpenSID/issues/4804) Hapus nama kecamatan yang ikut tampil dalam tempat dan tanggal laporan inventaris.
+53. [#4797](https://github.com/OpenSID/OpenSID/issues/4797) Perbaikan validasi lat/lng pada peta lokasi.
+54. [#4825](https://github.com/OpenSID/OpenSID/issues/4825) Perbaiki info media sosial tidak muncul di halaman utama.
+55. [#4793](https://github.com/OpenSID/OpenSID/issues/4793) Perbaiki input data pembangunan alokasi anggaran 10 digit atau ada sebab lain.
+56. [#4824](https://github.com/OpenSID/OpenSID/issues/4824) Perbaiki duplikat email ketika migrasi database.
+57. [#4826](https://github.com/OpenSID/OpenSID/issues/4826) Perbaiki kolom asuransi dan no asuransi tidak terdowload di unduh export database xlsx dan import database.
+58. [#4846](https://github.com/OpenSID/OpenSID/issues/4846) Perbaiki data pengguna dan penduduk.
+59. [#4832](https://github.com/OpenSID/OpenSID/issues/4832) Perbaiki tambah grup pengguna baru.
+60. [#4817](https://github.com/OpenSID/OpenSID/issues/4817) Perbaiki tidak dapat menyimpan data form master analisis.
+61. [#4845](https://github.com/OpenSID/OpenSID/issues/4845) Perbaiki error ketika menambah anggota yang sudah terdaftar pada anggota kelompok.
+62. [#4842](https://github.com/OpenSID/OpenSID/issues/4842) Perbaiki sukses input tanggal lahir mendatang.
+63. [#4836](https://github.com/OpenSID/OpenSID/issues/4836) Perbaiki status perkawinan kawin tercatat semua.
+64. [#4863](https://github.com/OpenSID/OpenSID/issues/4863) Perbaiki migrasi dari v20.12 umum ke v22.08-pasca-beta01.
+65. [#4799](https://github.com/OpenSID/OpenSID/issues/4799) Perbaiki agar tidak bisa ubah status hubungan dalam keluarga menjadi kepala keluarga jika kepala keluarga sudah meninggal.
+66. [#4844](https://github.com/OpenSID/OpenSID/issues/4844) Perbaiki fields keterangan, nilai dan nilai pak pada database siskeudes.
+67. [#4821](https://github.com/OpenSID/OpenSID/issues/4821) Perbaiki data penduduk/kepala keluarga yang berubah status dasar masih muncul di program bantuan.
+68. [#4841](https://github.com/OpenSID/OpenSID/issues/4841) Perbaiki impor peta area persil dari KML/GPX dan buat area persil error 500.
+69. [#4848](https://github.com/OpenSID/OpenSID/issues/4848) Perbaiki penambahan persil pada batasan digit nomor urut bidang.
+70. [#4850](https://github.com/OpenSID/OpenSID/issues/4850) Perbaiki nama dan jenis kelamin pada surat keterangan lahir.
+71. [#4828](https://github.com/OpenSID/OpenSID/issues/4828) Perbaiki layanan mandiri belum dapat masuk dengan e-ktp dan agak kesulitan pengoperasian di android.
+72. [#4837](https://github.com/OpenSID/OpenSID/issues/4837) Perbaiki status kehamilan.
+73. [#4869](https://github.com/OpenSID/OpenSID/issues/4869) Perbaiki upload dokumen laporan penduduk error.
+74. [#4865](https://github.com/OpenSID/OpenSID/issues/4865) Perbaiki error migrasi (ref_penduduk_hamil).
+75. [#4870](https://github.com/OpenSID/OpenSID/issues/4870) Perbaiki error notifikasi login layanan mandiri, ketika pengguna belum aktif melakukan login di layanan mandiri.
+76. [#4820](https://github.com/OpenSID/OpenSID/issues/4820) Perbaiki keluarga/kepala keluarga berubah status dasar pindah seluruh keluarga terdapat dalam laporan Perbaiki hasil klasifikasi analisis keluarga.
+77. [#4862](https://github.com/OpenSID/OpenSID/issues/4862) Perbaiki mode production, tidak menampilkan pesan errornya.
+78. [#4813](https://github.com/OpenSID/OpenSID/issues/4813) Perbaiki tanggal artikel mengikuti pengaturan aplikasi.
+79. [#4882](https://github.com/OpenSID/OpenSID/issues/4882) Perbaiki input tanggal lahir menggunakan datetime picker.
+80. [#4887](https://github.com/OpenSID/OpenSID/issues/4887) Perbaiki tidak sembunyikan tabel refrensi tidak ada.
+81. [#4873](https://github.com/OpenSID/OpenSID/issues/4873) Perbaiki error isi data bantuan secara manual dan impor.
+82. [#4893](https://github.com/OpenSID/OpenSID/issues/4893) Perbaiki total inventaris tanah.
+83. [#4898](https://github.com/OpenSID/OpenSID/issues/4898) Sekarang pada statistik program bantuan sasaran Rumah Tangga jumlah total hanya menghitung yg aktif.
+84. [#4888](https://github.com/OpenSID/OpenSID/issues/4888) Perbaiki gagal impor data penduduk pada kolom asuransi.
+85. [#4892](https://github.com/OpenSID/OpenSID/issues/4892) Perbaiki nomor register berubah dari aturan baku saat edit data inventaris.
+86. [#4896](https://github.com/OpenSID/OpenSID/issues/4896) Perbaiki filter laporan vaksin belum berfungsi dengan baik.
+87. [#4904](https://github.com/OpenSID/OpenSID/issues/4904) Perbaiki export data penduduk pada kolom asuransi menghasilkan nilai yang salah.
+88. [#4905](https://github.com/OpenSID/OpenSID/issues/4905) Perbaiki akses url reset kata sandi error 500.
+89. [#4876](https://github.com/OpenSID/OpenSID/issues/4876) Perbaiki peta garis setelah dihapus atau di reset semua menu atau tombol ikut hilang di layar.
+90. [#4875](https://github.com/OpenSID/OpenSID/issues/4875) Perbaiki tampilan halaman paging pada website atau filter data suplemen hanya menampilkan 10 data.
+91. [#4902](https://github.com/OpenSID/OpenSID/issues/4902) Perbaiki filter kategori pada menu pemetaan tidak bekerja semestinya.
+92. [#4920](https://github.com/OpenSID/OpenSID/issues/4920) Perbaiki peta area setelah dihapus atau di reset semua menu atau tombol ikut hilang di layar.
+93. [#4886](https://github.com/OpenSID/OpenSID/issues/4886) Perbaiki migrasi supaya tidak menyembunyikan masalah fatal.
+94. [#4834](https://github.com/OpenSID/OpenSID/issues/4834) Sediakan pemeriksaan keabsahan data pada waktu update (seperti NIK duplikat, No KK > 16, tgl 9, email duplikat, dsbnya).
+95. [#4922](https://github.com/OpenSID/OpenSID/issues/4922) Perbaiki fitur edit dan simpan data lapak desa tidak berfungsi.
+96. [#4911](https://github.com/OpenSID/OpenSID/issues/4911) Perbaiki virtual keyboard saat verifikasi email layanan mandiri hanya berupa numerik (angka).
+97. [#4927](https://github.com/OpenSID/OpenSID/issues/4927) Perbaiki data tahun yang ditampilkan sesuai dengan data yang akan diubah pada modul ubah data pembangunan.
 
 #### Perubahan Teknis
 
-1. [#4583](https://github.com/OpenSID/OpenSID/issues/4583) Perbaiki .htaccess untuk file .zip dan .rar / Backup folder desa lewat hosting.
-2. [#4588](https://github.com/OpenSID/OpenSID/issues/4588) Loloskan pemeriksaan token di setting demo.
-3. Pindahkan style css kedalam HEAD di login Admin.
-4. Pisahkan Konfigurasi DevToolBar.
-5. [#4571](https://github.com/OpenSID/OpenSID/issues/4571) Pulihkan website demo menggunakan penjadwalan (mis. Cron Job, Cron Tab, atau lainnya).
-6. [#4661](https://github.com/OpenSID/OpenSID/issues/4661) Perbaiki jQuery di panggil 2 kali.
-7. [#4639](https://github.com/OpenSID/OpenSID/pull/4639) Penambahan single quote ( ' ) pada opsi order_by.
-8. Hapus folder/file logs setiap kali menjalankan job.
-9. Perbaikan link assets menggunakan helper asset().
-10. Tambahkan browser Edge yang berbasis Chromium.
-11. Jangan kirim notifikasi jika token bot telegram kosong.
+1. [#4661](https://github.com/OpenSID/OpenSID/issues/4661) Perbaikan jQuery di panggil 2 kali.
+2. [#4639](https://github.com/OpenSID/OpenSID/pull/4639) Penambahan single quote ( ' ) pada opsi order_by.
+3. Hapus folder/file logs setiap kali menjalankan job.
+4. Perbaikan link assets menggunakan helper asset().
+5. Tambahkan browser Edge yang berbasis Chromium.
+6. Jangan kirim notifikasi jika token bot telegram kosong.
+7. Penulisan hallo menjadi halo.
+8. Hapus use statement telegram dan email.
+9. Tambahkan unique pada kolom, username dan email tabel user.
+10. Perbaikan migrasi berulang dengan kondisi jika kosongkan database.
+11. Kosongkan database beserta data folder desa.
+12. Tambahkan hak akses group operator setiap kali tambah modul baru.
+13. Perbaikan saat menampilkan group pengguna.
+14. Catat dan laporkan penggunaan token premium di domain tidak terdaftar.
+15. Perbaiki return migrasi, tidak sesuai.
+16. Perbaiki migrasi supaya tidak diulang-ulang dan laporkan yang gagal.
+17. Hapus duplikasi menu_atas.
+18. Perbaiki library paging.
+19. Perbaiki penulisan pada view keuangan dan penduduk yang tidak sesuai penulisan.
+20. Perbaiki duplikasi pemanggilan web_dokumen_model pada controller first.php.
+21. Hapus session per_page yang tidak digunakan pada statistik web.

@@ -130,11 +130,13 @@ class Man_user extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->set_form_validation();
+        $this->form_validation->set_rules('username', 'Username', 'is_unique[user.username]');
+        $this->form_validation->set_rules('email', 'Email', 'is_unique[user.email]');
 
         if ($this->form_validation->run() !== true) {
             $this->session->success   = -1;
             $this->session->error_msg = trim(validation_errors());
-            redirect("man_user/form/{$p}/{$o}");
+            redirect('man_user/form');
         } else {
             $this->user_model->insert();
             redirect('man_user');
@@ -162,7 +164,37 @@ class Man_user extends Admin_Controller
         $this->redirect_hak_akses('u');
         $this->set_form_validation();
 
-        if ($this->form_validation->run() !== true) {
+        // Validasi Email
+        $email = $this->input->post('email');
+        if (isset($email)) {
+            $validation_email = $this->db
+                ->select('email')
+                ->from('user')
+                ->where('email', $email)
+                ->where_not_in('id', $id)
+                ->limit(1)->get()->row();
+        }
+
+        // Validasi Username
+        $username = $this->input->post('username');
+        if (isset($username)) {
+            $validation_username = $this->db
+                ->select('username')
+                ->from('user')
+                ->where('username', $username)
+                ->where_not_in('id', $id)
+                ->limit(1)->get()->row();
+        }
+
+        if ($validation_email->email == $email) {
+            $this->session->success   = -1;
+            $this->session->error_msg = 'Email Sudah digunakan';
+            redirect("man_user/form/{$p}/{$o}/{$id}");
+        } elseif ($validation_username->username == $username) {
+            $this->session->success   = -1;
+            $this->session->error_msg = 'Username Sudah digunakan';
+            redirect("man_user/form/{$p}/{$o}/{$id}");
+        } elseif ($this->form_validation->run() !== true) {
             $this->session->success   = -1;
             $this->session->error_msg = trim(validation_errors());
             redirect("man_user/form/{$p}/{$o}/{$id}");

@@ -264,10 +264,11 @@ class Gis extends Admin_Controller
     {
         $list_session = ['umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk'];
 
-        foreach ($list_session as $session) {
-            $data[$session] = $this->session->userdata($session) ?: '';
+        foreach ($list_session as $list) {
+            $data[$list] = $this->session->{$list} ?: '';
         }
 
+        $data['input_umur']           = true;
         $data['list_agama']           = $this->referensi_model->list_data('tweb_penduduk_agama');
         $data['list_pendidikan']      = $this->referensi_model->list_data('tweb_penduduk_pendidikan');
         $data['list_pendidikan_kk']   = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');

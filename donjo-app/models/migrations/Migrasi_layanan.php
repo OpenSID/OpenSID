@@ -130,7 +130,7 @@ class Migrasi_layanan extends MY_model
     // Dari migrasi premium 2111
     protected function tambah_modul_pendaftaran_kerjasama($hasil)
     {
-        $hasil = $hasil && $this->tambah_modul([
+        return $hasil && $this->tambah_modul([
             'id'         => 331,
             'modul'      => 'Pendaftaran Kerjasama',
             'url'        => 'pendaftaran_kerjasama',
@@ -142,11 +142,5 @@ class Migrasi_layanan extends MY_model
             'ikon_kecil' => 'fa-list',
             'parent'     => 200,
         ]);
-
-        // Hapus cache menu navigasi
-        $this->load->driver('cache');
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
-
-        return $hasil;
     }
 }

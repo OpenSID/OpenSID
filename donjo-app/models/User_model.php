@@ -90,9 +90,9 @@ class User_model extends CI_Model
         // Cek hasil query ke db, ada atau tidak data user ybs.
         $userAda    = is_object($row);
         $pwMasihMD5 = $userAda ?
-        (
-            (strlen($row->password) == 32) && (stripos($row->password, '$') === false)
-        ) : false;
+            (
+                (strlen($row->password) == 32) && (stripos($row->password, '$') === false)
+            ) : false;
 
         $authLolos = $pwMasihMD5
             ? (md5($password) == $row->password)
@@ -280,7 +280,7 @@ class User_model extends CI_Model
     {
         // Ordering sql
         switch ($order) {
-            case 1 :
+            case 1:
                 $order_sql = ' ORDER BY u.username';
                 break;
 
@@ -368,7 +368,7 @@ class User_model extends CI_Model
     {
         $data             = [];
         $data['password'] = $post['password'];
-        if (isset($post['username'])) {
+        if (isset($post['username']) && ! empty($post['username'])) {
             $data['username'] = alfanumerik($post['username']);
         }
         if (isset($post['nama'])) {
@@ -377,7 +377,7 @@ class User_model extends CI_Model
         if (isset($post['email'])) {
             $data['phone'] = htmlentities($post['phone']);
         }
-        if (isset($post['username'])) {
+        if (isset($post['email']) && ! empty($post['email'])) {
             $data['email'] = htmlentities($post['email']);
         }
         if (isset($post['id_grup'])) {
@@ -409,8 +409,10 @@ class User_model extends CI_Model
             redirect('man_user');
         }
 
-        if (empty($data['username']) || empty($data['password'])
-        || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())) {
+        if (
+            empty($data['username']) || empty($data['password'])
+            || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())
+        ) {
             $this->session->error_msg = ' -> Nama, Username dan Kata Sandi harus diisi';
             $this->session->success   = -1;
             redirect('man_user');
@@ -533,8 +535,10 @@ class User_model extends CI_Model
         }
 
         // Ganti password
-        if ($this->input->post('pass_lama') != ''
-        || $pass_baru != '' || $pass_baru1 != '') {
+        if (
+            $this->input->post('pass_lama') != ''
+            || $pass_baru != '' || $pass_baru1 != ''
+        ) {
             $sql   = 'SELECT password,username,id_grup,session FROM user WHERE id = ?';
             $query = $this->db->query($sql, [$id]);
             $row   = $query->row();

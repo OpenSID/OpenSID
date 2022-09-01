@@ -14,7 +14,7 @@
 					<div class="box-header with-border">
 						<a href="<?= site_url('keluar')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Arsip Layanan Surat
-           	</a>
+						</a>
 					</div>
 					<div class="box-header with-border">
 						<div class="table-responsive">
@@ -25,14 +25,14 @@
 											<td style="padding-top : 10px;padding-bottom : 10px;width:15%;" >Nama Penduduk </td>
 											<td>
 												<div class="form-group">
-              						<div class="col-sm-6 col-lg-6">
-              							<select class="form-control required input-sm select2-nik-ajax" id="nik" name="nik" data-url="<?= site_url('surat/list_penduduk_bersurat_ajax')?>" onchange="formAction('main')">
+													<div class="col-sm-6 col-lg-6">
+														<select class="form-control required input-sm select2-nik-ajax" id="nik" name="nik" data-url="<?= site_url('surat/list_penduduk_bersurat_ajax')?>" onchange="formAction('main')">
 															<?php if ($individu): ?>
 																<option value="<?= $individu['id']?>" selected><?= $individu['nik'] . ' - ' . $individu['nama']?></option>
 															<?php endif; ?>
-                						</select>
-      	    							</div>
-           	 						</div>
+														</select>
+													</div>
+												</div>
 											</td>
 										</tr>
 									</form>
@@ -73,28 +73,28 @@
 																<th>Aksi</th>
 																<th>Kode Surat</th>
 																<?php if ($o == 2): ?>
-																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/{$p}/1")?>">No Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("keluar/perorangan/{$individu['nik']}/{$p}/1")?>">No Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																<?php elseif ($o == 1): ?>
-																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/{$p}/2")?>">No Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("keluar/perorangan/{$individu['nik']}/{$p}/2")?>">No Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/{$p}/1")?>">No Urut <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("keluar/perorangan/{$individu['nik']}/{$p}/1")?>">No Urut <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>Jenis Surat</th>
 																<?php if ($o == 4): ?>
-																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/{$p}/3")?>">Nama Penduduk <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("keluar/perorangan/{$individu['nik']}/{$p}/3")?>">Nama Penduduk <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																<?php elseif ($o == 3): ?>
-																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/{$p}/4")?>">Nama Penduduk <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("keluar/perorangan/{$individu['nik']}/{$p}/4")?>">Nama Penduduk <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th><a href="<?= site_url("keluar/perorangan/{$nik['no']}/{$p}/3")?>">Nama Penduduk <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("keluar/perorangan/{$individu['nik']}/{$p}/3")?>">Nama Penduduk <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>Keterangan</th>
 																<th>Ditandatangani Oleh</th>
 																<?php if ($o == 6): ?>
-																	<th nowrap><a href="<?= site_url("keluar/perorangan/{$nik['no']}/{$p}/5")?>">Tanggal <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("keluar/perorangan/{$individu['nik']}/{$p}/5")?>">Tanggal <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																<?php elseif ($o == 5): ?>
-																	<th nowrap><a href="<?= site_url("keluar/perorangan/{$nik['no']}/{$p}/6")?>">Tanggal <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("keluar/perorangan/{$individu['nik']}/{$p}/6")?>">Tanggal <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th nowrap><a href="<?= site_url("keluar/perorangan/{$nik['no']}/{$p}/5")?>">Tanggal <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("keluar/perorangan/{$individu['nik']}/{$p}/5")?>">Tanggal <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>User</th>
 															</tr>
@@ -143,7 +143,7 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="dataTables_length">
-												<form id="paging" action="<?= site_url("keluar/perorangan/{$nik['no']}")?>" method="post" class="form-horizontal">
+												<form id="paging" action="<?= site_url("keluar/perorangan/{$individu['nik']}")?>" method="post" class="form-horizontal">
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
@@ -162,19 +162,19 @@
                       <div class="dataTables_paginate paging_simple_numbers">
                         <ul class="pagination">
                           <?php if ($paging->start_link): ?>
-                            <li><a href="<?=site_url("keluar/perorangan/{$nik['no']}/{$paging->start_link}/{$o}")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+                            <li><a href="<?=site_url("keluar/perorangan/{$individu['nik']}/{$paging->start_link}/{$o}")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
                           <?php endif; ?>
                           <?php if ($paging->prev): ?>
-                            <li><a href="<?=site_url("keluar/perorangan/{$nik['no']}/{$paging->prev}/{$o}")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li><a href="<?=site_url("keluar/perorangan/{$individu['nik']}/{$paging->prev}/{$o}")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
                           <?php endif; ?>
                           <?php for ($i = $paging->start_link; $i <= $paging->end_link; $i++): ?>
-               	            <li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("keluar/perorangan/{$nik['no']}/{$i}/{$o}")?>"><?= $i?></a></li>
+														<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("keluar/perorangan/{$individu['nik']}/{$i}/{$o}")?>"><?= $i?></a></li>
                           <?php endfor; ?>
                           <?php if ($paging->next): ?>
-                            <li><a href="<?=site_url("keluar/perorangan/{$nik['no']}/{$paging->next}/{$o}")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                            <li><a href="<?=site_url("keluar/perorangan/{$individu['nik']}/{$paging->next}/{$o}")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                           <?php endif; ?>
                           <?php if ($paging->end_link): ?>
-                            <li><a href="<?=site_url("keluar/perorangan/{$nik['no']}/{$paging->end_link}/{$o}")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+                            <li><a href="<?=site_url("keluar/perorangan/{$individu['nik']}/{$paging->end_link}/{$o}")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
                           <?php endif; ?>
                         </ul>
                       </div>
