@@ -328,7 +328,7 @@ class Keuangan_grafik_manual_model extends CI_model
         $raw_data = $this->data_keuangan_tema($tahun);
 
         foreach ($raw_data as $keys => $raws) {
-            foreach ($raws as $key  => $raw) {
+            foreach ($raws as $key => $raw) {
                 if ($key == 'laporan') {
                     $result['data_widget'][$keys]['laporan'] = $raw;
 
