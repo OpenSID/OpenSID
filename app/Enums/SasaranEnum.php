@@ -35,36 +35,18 @@
  *
  */
 
-use App\Enums\SasaranEnum;
-use App\Models\Suplemen as SuplemenModel;
+namespace App\Enums;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class Suplemen extends Web_Controller
+class SasaranEnum
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('suplemen_model');
-
-        $this->session->unset_userdata('per_page');
-    }
-
-    public function detail($slug = null)
-    {
-        $id = SuplemenModel::where('slug', $slug)->first()->id;
-
-        if (! $this->web_menu_model->menu_aktif('data-suplemen/' . $id)) {
-            show_404();
-        }
-
-        $data            = $this->includes;
-        $data['main']    = $this->suplemen_model->get_rincian(0, $id);
-        $data['title']   = 'Data Suplemen ' . $data['main']['suplemen']['nama'];
-        $data['sasaran'] = SasaranEnum::DAFTAR;
-
-        $this->_get_common_data($data);
-        $this->set_template('layouts/suplemen.tpl.php');
-        $this->load->view($this->template, $data);
-    }
+    public const PENDUDUK     = 1;
+    public const KELUARGA     = 2;
+    public const RUMAH_TANGGA = 3;
+    public const KELOMPOK     = 4;
+    public const DAFTAR       = [
+        self::PENDUDUK     => 'Penduduk',
+        self::KELUARGA     => 'Keluarga / KK',
+        self::RUMAH_TANGGA => 'Rumah Tangga',
+        self::KELOMPOK     => 'Kelompok/Organisasi Kemasyarakatan',
+    ];
 }

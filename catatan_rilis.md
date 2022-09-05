@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 4. [#5562](https://github.com/OpenSID/OpenSID/issues/5562) Perbaikan nama pendidikan pada menu edit aparatur desa yang tidak muncul.
 5. [#5532](https://github.com/OpenSID/OpenSID/issues/5532) Perbaikan tombol simpan menjadi lanjut tab berikutnya pada pembuatan surat TinyMCE.
 6. [#5575](https://github.com/OpenSID/OpenSID/issues/5575) Perbaikan daftar surat yang tampil tidak berdasarkan pengaturan surat.
+7. [#5559](https://github.com/OpenSID/OpenSID/issues/5559) Perbaikan akses halaman data suplemen yang tidak tampil.
 
 
 #### Perubahan Teknis
