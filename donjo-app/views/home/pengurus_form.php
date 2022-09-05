@@ -127,8 +127,8 @@
 									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Pendidikan" value="<?= $individu['pendidikan_kk']?>" disabled="disabled"></input>
 									<select class="form-control input-sm pengurus-luar-desa" name="pamong_pendidikan" style="display: none;">
 										<option value="">Pilih Pendidikan (Dalam KK) </option>
-										<?php foreach ($pendidikan_kk as $data): ?>
-											<option value="<?= $data['id']?>" <?= selected($pamong['pamong_pendidikan'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
+										<?php foreach ($pendidikan_kk as $key => $value): ?>
+											<option value="<?= $key ?>" <?= selected($pamong['pamong_pendidikan'], $key); ?>><?= strtoupper($value)?></option>
 										<?php endforeach?>
 									</select>
 								</div>
@@ -139,8 +139,8 @@
 									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Agama" value="<?= $individu['agama']?>" disabled="disabled"></input>
 									<select class="form-control input-sm pengurus-luar-desa" name="pamong_agama" style="display: none;">
 										<option value="">Pilih Agama</option>
-										<?php foreach ($agama as $data): ?>
-											<option value="<?= $data['id']?>" <?= selected($pamong['pamong_agama'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
+										<?php foreach ($agama as $key => $value): ?>
+											<option value="<?= $key ?>" <?= selected($pamong['pamong_agama'], $key); ?>><?= strtoupper($value)?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
