@@ -451,6 +451,8 @@ class Admin_Controller extends Premium
             $this->header['notif_permohonan'] = LogSurat::when($isAdmin->jabatan_id == '1', static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
+                })->when(setting('tte') == 0, static function ($tte) {
+                    return $tte->where('verifikasi_kades', '=', 0);
                 });
             })
                 ->when($isAdmin->jabatan_id == '2', static function ($q) {

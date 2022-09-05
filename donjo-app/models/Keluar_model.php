@@ -150,11 +150,6 @@ class Keluar_model extends CI_Model
         }
     }
 
-    public function mandiri()
-    {
-        // code...
-    }
-
     public function navigasi()
     {
         $isAdmin = $this->session->isAdmin->pamong;
@@ -175,9 +170,13 @@ class Keluar_model extends CI_Model
         } else {
             $isAdmin = $this->session->isAdmin->pamong;
             if ($isAdmin->jabatan_id == 1) {
-                $this->db->where('verifikasi_kades', '1');
+                $this->db->where('verifikasi_kades', '1')
+                    ->or_group_start()
+                    ->where('verifikasi_operator')
+                    ->where('verifikasi_sekdes')
+                    ->group_end();
             } elseif ($isAdmin->jabatan_id == 2) {
-                $this->db->where('verifikasi_sekdes', '1');
+                $this->db->where('verifikasi_sekdes', '1')->or_where('verifikasi_operator');
             } else {
                 $this->db->where('verifikasi_operator', '1')->or_where('verifikasi_operator');
             }
@@ -189,20 +188,22 @@ class Keluar_model extends CI_Model
         // jika kepdesa
         $isAdmin = $this->session->isAdmin->pamong;
         if ($isAdmin->jabatan_id == 1) {
-            $this->db->where_in('verifikasi_kades', ['1', '0']);
-            // $this->db->select('verifikasi_kades as cetak_surat');
+            $this->db->group_start()
+                ->where_in('verifikasi_kades', ['1', '0'])
+                ->group_end();
             $this->db->select('verifikasi_kades as verifikasi');
             $raw_status_periksa = 'CASE when verifikasi_kades = 1 THEN IF(tte is null,verifikasi_kades,2) ELSE 0 end AS status_periksa';
             $this->db->select($raw_status_periksa);
         } elseif ($isAdmin->jabatan_id == 2) {
-            $this->db->where_in('verifikasi_sekdes', ['1', '0']);
-            // $this->db->select('if(verifikasi_kades is null, 1, verifikasi_kades),verifikasi_kades) as cetak_surat');
+            $this->db->group_start()
+                ->where_in('verifikasi_sekdes', ['1', '0'])
+                ->or_where('verifikasi_operator')
+                ->group_end();
             $this->db->select('verifikasi_sekdes as verifikasi');
             $raw_status_periksa = 'CASE WHEN verifikasi_sekdes = 1 THEN IF(tte is null,IF(verifikasi_kades is null,1 , verifikasi_kades), tte)
             ELSE 0 end AS status_periksa';
             $this->db->select($raw_status_periksa);
         } else {
-            // $raw_status_cetak = 'IF(tte is null, IF(verifikasi_kades is null, if(verifikasi_sekdes is null, verifikasi_operator, verifikasi_sekdes), verifikasi_kades), tte) as verifikasi';
             $this->db->select('verifikasi_operator as verifikasi');
             $raw_status_periksa = 'CASE when verifikasi_operator = 1 THEN IF(tte is null,IF(verifikasi_kades is null,IF(verifikasi_sekdes is null, 1, verifikasi_sekdes),verifikasi_kades),tte) ELSE 0 end AS status_periksa';
             $this->db->select($raw_status_periksa);
@@ -287,7 +288,6 @@ class Keluar_model extends CI_Model
             ->limit($limit, $offset);
 
         $data = $this->list_data_sql()->result_array();
-
         //Formating Output
         $j = $offset;
 

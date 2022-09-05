@@ -8,7 +8,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Perbaikan BUG
 
-1. [#5557](https://github.com/OpenSID/OpenSID/issues/5557) Memperbaiki ejaan pada pengaturan TTE.
+1. [#5557](https://github.com/OpenSID/OpenSID/issues/5557) Perbaikan ejaan pada pengaturan TTE.
+2. [#5560](https://github.com/OpenSID/OpenSID/issues/5560) Perbaikan surat lama tidak tampil di arsip surat pada akun sekdes dan kades.
 
 
 #### Perubahan Teknis
