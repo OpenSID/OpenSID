@@ -46,6 +46,8 @@ class FormatSurat extends Model
     public const MANDIRI_DISABLE       = 0;
     public const KUNCI                 = 1;
     public const KUNCI_DISABLE         = 0;
+    public const FAVORIT               = 1;
+    public const FAVORIT_DISABLE       = 0;
     public const RTF_SISTEM            = 1;
     public const RTF_DESA              = 2;
     public const TINYMCE_SISTEM        = 3;
@@ -394,7 +396,7 @@ class FormatSurat extends Model
      *
      * @return Builder
      */
-    public function scopeKunci($query, $value = 1)
+    public function scopeKunci($query, $value = self::KUNCI)
     {
         return $query->where('kunci', $value);
     }
@@ -407,7 +409,7 @@ class FormatSurat extends Model
      *
      * @return Builder
      */
-    public function scopeFavorit($query, $value = 1)
+    public function scopeFavorit($query, $value = self::FAVORIT)
     {
         return $query->where('favorit', $value);
     }

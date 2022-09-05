@@ -63,7 +63,7 @@ class Surat extends Admin_Controller
 
     public function index()
     {
-        $data['cetak_surat'] = FormatSurat::orderBy('favorit')->pluck('nama', 'url_surat');
+        $data['cetak_surat'] = FormatSurat::kunci(FormatSurat::KUNCI_DISABLE)->orderBy('favorit')->pluck('nama', 'url_surat');
 
         return view('admin.surat.index', $data);
     }
@@ -71,7 +71,7 @@ class Surat extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(FormatSurat::favorit(0))
+            return datatables()->of(FormatSurat::kunci(FormatSurat::KUNCI_DISABLE)->favorit(FormatSurat::FAVORIT_DISABLE))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     $aksi = '';
@@ -101,7 +101,7 @@ class Surat extends Admin_Controller
     public function datatablesFavorit()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(FormatSurat::favorit())
+            return datatables()->of(FormatSurat::kunci(FormatSurat::KUNCI_DISABLE)->favorit())
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     $aksi = '';
