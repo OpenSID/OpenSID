@@ -305,45 +305,6 @@ class First extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function peraturan_desa()
-    {
-        if (! $this->web_menu_model->menu_aktif('peraturan_desa')) {
-            show_404();
-        }
-
-        $data = $this->includes;
-
-        $data['kategori']       = $this->referensi_model->list_data('ref_dokumen', 1);
-        $data['tahun']          = $this->web_dokumen_model->tahun_dokumen();
-        $data['heading']        = 'Produk Hukum';
-        $data['title']          = $data['heading'];
-        $data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
-        $this->_get_common_data($data);
-
-        $this->set_template('layouts/halaman_statis.tpl.php');
-        $this->load->view($this->template, $data);
-    }
-
-    public function ajax_table_peraturan()
-    {
-        $kategori_dokumen = '';
-        $tahun_dokumen    = '';
-        $tentang_dokumen  = '';
-        $data             = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
-        echo json_encode($data);
-    }
-
-    // function filter peraturan
-    public function filter_peraturan()
-    {
-        $kategori_dokumen = $this->input->post('kategori');
-        $tahun_dokumen    = $this->input->post('tahun');
-        $tentang_dokumen  = $this->input->post('tentang');
-
-        $data = $this->web_dokumen_model->all_peraturan($kategori_dokumen, $tahun_dokumen, $tentang_dokumen);
-        echo json_encode($data);
-    }
-
     public function informasi_publik()
     {
         if (! $this->web_menu_model->menu_aktif('informasi_publik')) {

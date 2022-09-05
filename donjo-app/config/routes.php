@@ -98,7 +98,6 @@ $route['auth']               = 'first/auth';
 $route['data-wilayah']               = 'first/wilayah';
 $route['data-kelompok/(:num)']       = 'first/kelompok/$1';
 $route['informasi_publik']           = 'first/informasi_publik';
-$route['peraturan_desa']             = 'first/peraturan_desa';
 $route['data_analisis']              = 'first/data_analisis';
 $route['data_analisis/(.+)']         = 'first/data_analisis/$1';
 $route['jawaban_analisis/(.+)']      = 'first/jawaban_analisis/$1';

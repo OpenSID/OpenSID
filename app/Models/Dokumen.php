@@ -39,8 +39,6 @@ namespace App\Models;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class Dokumen extends Model
 {
@@ -78,6 +76,13 @@ class Dokumen extends Model
         'kategori',
         'id_syarat',
         'dok_warga',
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $with = [
+        'kategoriDokumen',
     ];
 
     /**
@@ -145,5 +150,34 @@ class Dokumen extends Model
     public function scopeHidup($query)
     {
         return $query->where('deleted', '!=', 1);
+    }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function kategoriDokumen()
+    {
+        return $this->hasOne(RefDokumen::class, 'id', 'kategori');
+    }
+
+    /**
+     * Scope query untuk menyaring data dokumen berdasarkan parameter yang ditentukan
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopeFilters($query, array $filters = [])
+    {
+        foreach ($filters as $key => $value) {
+            $query->when($value ?? false, static function ($query) use ($value, $key) {
+                $query->where($key, $value);
+            });
+        }
+
+        return $query;
     }
 }

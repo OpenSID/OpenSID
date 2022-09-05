@@ -35,15 +35,25 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace App\Models;
 
-$route['data-kelompok/(:any)'] = WEB . '/kelompok/detail/$1';
-$route['data-lembaga/(:any)']  = WEB . '/lembaga/detail/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['pemerintah']           = WEB . '/pemerintah';
+use Illuminate\Database\Eloquent\Model;
 
-// SDGS
-$route['status-sdgs']    = WEB . '/sdgs/index';
-$route['peta']           = WEB . '/peta/index';
-$route['peraturan-desa'] = WEB . '/peraturan/index';
+class RefDokumen extends Model
+{
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'ref_dokumen';
+
+    /**
+     * The fillable with the model.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nama',
+    ];
+}

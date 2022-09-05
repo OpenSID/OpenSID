@@ -106,8 +106,11 @@ class MY_Model extends CI_Model
                  * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
                  */
 
-            case 'arsip':
             case 'peraturan_desa':
+                $url = 'peraturan-desa';
+                break;
+
+            case 'arsip':
             case 'data_analisis':
             case 'ambil_data_covid':
             case 'informasi_publik':

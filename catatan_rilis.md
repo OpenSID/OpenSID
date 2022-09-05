@@ -3,7 +3,7 @@ Di rilis ini, versi 22.09-premium-beta01 [untuk diisi]. Rilis ini juga berisi pe
 Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
-
+1. [#5544](https://github.com/OpenSID/OpenSID/issues/5544) Menambahkan paginasi di halaman peraturan_desa pada halaman depan.
 
 
 #### Perbaikan BUG

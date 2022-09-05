@@ -35,15 +35,47 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use App\Models\Dokumen;
+use App\Models\RefDokumen;
 
-$route['data-kelompok/(:any)'] = WEB . '/kelompok/detail/$1';
-$route['data-lembaga/(:any)']  = WEB . '/lembaga/detail/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['pemerintah']           = WEB . '/pemerintah';
+class Peraturan extends Web_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-// SDGS
-$route['status-sdgs']    = WEB . '/sdgs/index';
-$route['peta']           = WEB . '/peta/index';
-$route['peraturan-desa'] = WEB . '/peraturan/index';
+    public function index()
+    {
+        if (! $this->web_menu_model->menu_aktif('peraturan_desa')) {
+            show_404();
+        }
+
+        $data = $this->includes;
+
+        $data['pilihan_kategori'] = RefDokumen::where('id', '!=', 1)->pluck('nama', 'id');
+        $data['pilihan_tahun']    = Dokumen::distinct('tahun')->hidup()->where('kategori', '!=', 1)->pluck('tahun');
+        $data['halaman_statis']   = 'peraturan/index';
+
+        $this->_get_common_data($data);
+        $this->set_template('layouts/halaman_statis.tpl.php');
+        $this->load->view($this->template, $data);
+    }
+
+    public function datatables()
+    {
+        if ($this->input->is_ajax_request()) {
+            $filters = [
+                'tahun'    => $this->input->get('tahun'),
+                'kategori' => $this->input->get('kategori'),
+            ];
+
+            return datatables()
+                ->of(Dokumen::select(['id', 'nama', 'tahun', 'satuan', 'kategori'])->hidup()->where('kategori', '!=', 1)->filters($filters))
+                ->addIndexColumn()
+                ->make();
+        }
+
+        return show_404();
+    }
+}

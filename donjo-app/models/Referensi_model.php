@@ -122,7 +122,7 @@ define('STAT_BANTUAN', serialize([
 define('STAT_LAINNYA', serialize([
     'dpt'              => 'Calon Pemilih',
     'data-wilayah'     => 'Wilayah Administratif',
-    'peraturan_desa'   => 'Produk Hukum',
+    'peraturan-desa'   => 'Produk Hukum',
     'informasi_publik' => 'Informasi Publik',
     'peta'             => 'Peta',
     'data_analisis'    => 'Data Analisis',
