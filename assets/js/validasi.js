@@ -88,12 +88,13 @@ $(document).ready(function() {
 				remote: "Nomor urut itu sudah digunakan",
 			},
 		},
-    success: function() {
-	    csrf_semua_form();
-    }
+		success: function() {
+			csrf_semua_form();
+		}
 	});
 
 	$("#validasi").validate({
+		ignore: ".ignore",
 		errorElement: "label",
 		errorClass: "error",
 		highlight:function (element){
@@ -105,10 +106,18 @@ $(document).ready(function() {
 		errorPlacement: function (error, element) {
 			if (element.parent('.input-group').length) {
 				error.insertAfter(element.parent());
+				element.parent().focus();
 			} else if (element.hasClass('select2')) {
 				error.insertAfter(element.next('span'));
+				element.next('span').focus();
 			} else {
 				error.insertAfter(element);
+				element.focus();
+			}
+		},
+		invalidHandler: function(e, validator){
+			if(validator.errorList.length) {
+				$('#tabs a[href="#' + $(validator.errorList[0].element).closest(".tab-pane").attr('id') + '"]').tab('show');
 			}
 		}
 	});

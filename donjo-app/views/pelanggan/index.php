@@ -277,7 +277,7 @@
 
             <div id="layanan">
                 <?php foreach ($response->body->pemesanan as $num1 => $pemesanan) : ?>
-                    <?php foreach ($pemesanan->layanan as $num2    => $layanan) : ?>
+                    <?php foreach ($pemesanan->layanan as $num2 => $layanan) : ?>
                         <div id="<?= url_title($layanan->nama, 'dash', true) ?>" class="collapse">
                             <div class="box box-success">
                                 <div class="box-header with-border">

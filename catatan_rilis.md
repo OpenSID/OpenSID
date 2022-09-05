@@ -12,7 +12,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 2. [#5560](https://github.com/OpenSID/OpenSID/issues/5560) Perbaikan surat lama tidak tampil di arsip surat pada akun sekdes dan kades.
 3. [#5561](https://github.com/OpenSID/OpenSID/issues/5561) Perbaikan variabel [jabatan] tidak berfungsi untuk penandatangan sekdes & kades.
 4. [#5562](https://github.com/OpenSID/OpenSID/issues/5562) Perbaikan nama pendidikan pada menu edit aparatur desa yang tidak muncul.
-
+5. [#5532](https://github.com/OpenSID/OpenSID/issues/5532) Perbaikan tombol simpan menjadi lanjut tab berikutnya pada pembuatan surat TinyMCE.
 
 
 
