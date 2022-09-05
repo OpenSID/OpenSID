@@ -10,6 +10,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 1. [#5557](https://github.com/OpenSID/OpenSID/issues/5557) Perbaikan ejaan pada pengaturan TTE.
 2. [#5560](https://github.com/OpenSID/OpenSID/issues/5560) Perbaikan surat lama tidak tampil di arsip surat pada akun sekdes dan kades.
+3. [#5561](https://github.com/OpenSID/OpenSID/issues/5561) Perbaikan variabel [jabatan] tidak berfungsi untuk penandatangan sekdes & kades.
+
 
 
 #### Perubahan Teknis

@@ -290,11 +290,6 @@ class TinyMCE
                 'data'  => $sebutan_kepala_desa,
             ],
             [
-                'judul' => 'Sebutan Kepala Desa',
-                'isian' => '[jabatan]',
-                'data'  => $sebutan_kepala_desa,
-            ],
-            [
                 'judul' => 'Nama Kepala Desa',
                 'isian' => '[nama_kepala_desa]',
                 'data'  => $config->pamong_nama,
@@ -696,9 +691,9 @@ class TinyMCE
         //Data penandatangan
         $kades = Pamong::kepalaDesa()->first();
 
-        $ttd       = $input['pilih_atas_nama'];
-        $atas_nama = $kades->pamong_jabatan . ' ' . $nama_desa;
-
+        $ttd         = $input['pilih_atas_nama'];
+        $atas_nama   = $kades->pamong_jabatan . ' ' . $nama_desa;
+        $jabatan     = $kades->pamong_jabatan;
         $nama_pamong = $kades->pamong_nama;
         $nip_pamong  = $kades->pamong_nip;
         $niap_pamong = $kades->pamong_niap;
@@ -706,6 +701,7 @@ class TinyMCE
         $sekdes = Pamong::ttd('a.n')->first();
         if (preg_match('/a.n/i', $ttd)) {
             $atas_nama   = 'a.n ' . $atas_nama . ' <br> ' . $sekdes->pamong_jabatan;
+            $jabatan     = $sekdes->pamong_jabatan;
             $nama_pamong = $sekdes->pamong_nama;
             $nip_pamong  = $sekdes->pamong_nip;
             $niap_pamong = $sekdes->pamong_niap;
@@ -714,6 +710,7 @@ class TinyMCE
         if (preg_match('/u.b/i', $ttd)) {
             $pamong      = Pamong::ttd('u.b')->find($input['pamong_id']);
             $atas_nama   = 'a.n ' . $atas_nama . ' <br> ' . $sekdes->pamong_jabatan . '<br> u.b <br>' . $pamong->jabatan->nama;
+            $jabatan     = $pamong->pamong_jabatan;
             $nama_pamong = $pamong->pamong_nama;
             $nip_pamong  = $pamong->pamong_nip;
             $niap_pamong = $pamong->pamong_niap;
@@ -739,6 +736,11 @@ class TinyMCE
                 'judul' => 'Nama Pamong',
                 'isian' => '[nama_pamong]',
                 'data'  => $nama_pamong,
+            ],
+            [
+                'judul' => 'Jabatan Pamong',
+                'isian' => '[jabatan]',
+                'data'  => $jabatan,
             ],
             [
                 'judul' => 'NIP / NIAP Pamong',
