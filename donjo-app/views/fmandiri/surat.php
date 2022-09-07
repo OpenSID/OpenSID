@@ -63,7 +63,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<tr>
 							<th>No</th>
 							<th>Aksi</th>
-							<th>No Antrian</th>
+							<th>No Antrean</th>
 							<th>Jenis Surat</th>
 							<th>Tanggal Kirim</th>
 						</tr>
@@ -93,7 +93,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 											<a href="<?= site_url(MANDIRI . "/surat/proses/{$data['id']}"); ?>" title="Batalkan Surat" class="btn bg-maroon btn-sm"><i class="fa fa-times"></i></a>
 										<?php endif; ?>
 										<?php if ($data['no_antrian'] && $this->cek_anjungan && $printer) : ?>
-											<a href="<?= site_url(MANDIRI . "/surat/cetak_no_antrian/{$data['no_antrian']}"); ?>" class="btn btn-social btn-sm bg-navy" title="Cetak No Antrian"><i class="fa fa-print"></i>No Antrian</a>
+											<a href="<?= site_url(MANDIRI . "/surat/cetak_no_antrian/{$data['no_antrian']}"); ?>" class="btn btn-social btn-sm bg-navy" title="Cetak No. Antrean"><i class="fa fa-print"></i>No. Antrean</a>
 										<?php endif ?>
 									</td>
 									<td class="padat"><?= get_antrian($data['no_antrian']) ?? '-'; ?></td>

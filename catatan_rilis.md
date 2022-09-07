@@ -18,6 +18,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 8. [#5576](https://github.com/OpenSID/OpenSID/issues/5576) Perbaikan halaman lembaga & kelompok pada halaman webiste.
 9. [#5574](https://github.com/OpenSID/OpenSID/issues/5574) Perbaikan kolom penandatangan pada layanan surat yang tidak muncul.
 10. [#5568](https://github.com/OpenSID/OpenSID/issues/5568) Perbaikan variabel header pada my_controller.
+11. [#5602](https://github.com/OpenSID/OpenSID/issues/5602) Perbaikan pernulisan kata antrian/antiran menjadi antrean.
 
 
 #### Perubahan Teknis

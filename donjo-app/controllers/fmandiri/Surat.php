@@ -271,7 +271,7 @@ class Surat extends Mandiri_Controller
 
             $printer->setTextSize(1, 1);
             $printer->text("SELAMAT DATANG \n");
-            $printer->text('NOMOR ANTRIAN ANDA');
+            $printer->text('NOMOR ANTREAN ANDA');
             $printer->feed();
 
             $printer->setTextSize(4, 4);
