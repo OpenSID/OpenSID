@@ -19,7 +19,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 9. [#5574](https://github.com/OpenSID/OpenSID/issues/5574) Perbaikan kolom penandatangan pada layanan surat yang tidak muncul.
 10. [#5568](https://github.com/OpenSID/OpenSID/issues/5568) Perbaikan variabel header pada my_controller.
 11. [#5602](https://github.com/OpenSID/OpenSID/issues/5602) Perbaikan pernulisan kata antrian/antiran menjadi antrean.
-12. [#5559](https://github.com/OpenSID/OpenSID/issues/5559) Perbaiki tanggal periksa ibu hamil sesuai inputan.
+12. [#5559](https://github.com/OpenSID/OpenSID/issues/5559) Perbaikan tanggal periksa ibu hamil sesuai inputan.
+13. [#5599](https://github.com/OpenSID/OpenSID/issues/5599) Perbaikan tombol upload dan camera tertutup agar responsive.
 
 
 #### Perubahan Teknis
