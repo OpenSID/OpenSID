@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 6. [#5575](https://github.com/OpenSID/OpenSID/issues/5575) Perbaikan daftar surat yang tampil tidak berdasarkan pengaturan surat.
 7. [#5559](https://github.com/OpenSID/OpenSID/issues/5559) Perbaikan akses halaman data suplemen yang tidak tampil.
 8. [#5576](https://github.com/OpenSID/OpenSID/issues/5576) Perbaikan halaman lembaga & kelompok pada halaman webiste.
+9. [#5574](https://github.com/OpenSID/OpenSID/issues/5574) Perbaikan kolom penandatangan pada layanan surat yang tidak muncul.
 
 
 #### Perubahan Teknis
