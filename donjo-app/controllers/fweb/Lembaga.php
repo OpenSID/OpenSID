@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Kelompok as LembagaModel;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Lembaga extends Web_Controller
@@ -50,7 +52,7 @@ class Lembaga extends Web_Controller
 
     public function detail($slug = null)
     {
-        $id = $this->kelompok_model->slug($slug);
+        $id = LembagaModel::tipe($this->tipe)->where('slug', $slug)->first()->id;
 
         if (! $this->web_menu_model->menu_aktif("data-lembaga/{$id}")) {
             show_404();

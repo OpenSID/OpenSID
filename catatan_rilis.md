@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.09-premium-rev01 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.09-premium-rev02 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 5. [#5532](https://github.com/OpenSID/OpenSID/issues/5532) Perbaikan tombol simpan menjadi lanjut tab berikutnya pada pembuatan surat TinyMCE.
 6. [#5575](https://github.com/OpenSID/OpenSID/issues/5575) Perbaikan daftar surat yang tampil tidak berdasarkan pengaturan surat.
 7. [#5559](https://github.com/OpenSID/OpenSID/issues/5559) Perbaikan akses halaman data suplemen yang tidak tampil.
+8. [#5576](https://github.com/OpenSID/OpenSID/issues/5576) Perbaikan halaman lembaga & kelompok pada halaman webiste.
 
 
 #### Perubahan Teknis
