@@ -21,6 +21,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 11. [#5602](https://github.com/OpenSID/OpenSID/issues/5602) Perbaikan pernulisan kata antrian/antiran menjadi antrean.
 12. [#5559](https://github.com/OpenSID/OpenSID/issues/5559) Perbaikan tanggal periksa ibu hamil sesuai inputan.
 13. [#5599](https://github.com/OpenSID/OpenSID/issues/5599) Perbaikan tombol upload dan camera tertutup agar responsive.
-
+14. [#5591](https://github.com/OpenSID/OpenSID/issues/5591) Perbaikan tampilan data pemohon surat untuk rtf dan tinymce.
 
 #### Perubahan Teknis

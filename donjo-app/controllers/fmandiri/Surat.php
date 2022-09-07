@@ -169,7 +169,7 @@ class Surat extends Mandiri_Controller
         $url   = $surat['url_surat'];
 
         $data['url']      = $url;
-        $data['individu'] = Penduduk::find($id_pend) ?? show_404();
+        $data['individu'] = $this->surat_model->get_penduduk($id_pend);
         $data['anggota']  = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
         $this->get_data_untuk_form($url, $data);
         $data['surat_url']    = rtrim($_SERVER['REQUEST_URI'], '/clear');

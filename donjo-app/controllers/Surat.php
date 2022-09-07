@@ -141,13 +141,12 @@ class Surat extends Admin_Controller
 
             // NIK => id
             if (! empty($_POST['nik'])) {
-                $data['individu'] = Penduduk::find($_POST['nik']) ?? show_404();
-
                 if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
-                    $data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => true], true);
+                    $data['individu'] = $this->surat_model->get_penduduk($_POST['nik']);
+                    $data['anggota']  = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => true], true);
                 } else {
-                    // tinymce belum tersdia daftar anggota
-                    $data['anggota'] = null;
+                    $data['individu'] = Penduduk::find($_POST['nik']) ?? show_404();
+                    $data['anggota']  = null;
                 }
             } else {
                 $data['individu'] = null;
