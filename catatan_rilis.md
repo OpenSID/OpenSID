@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 7. [#5559](https://github.com/OpenSID/OpenSID/issues/5559) Perbaikan akses halaman data suplemen yang tidak tampil.
 8. [#5576](https://github.com/OpenSID/OpenSID/issues/5576) Perbaikan halaman lembaga & kelompok pada halaman webiste.
 9. [#5574](https://github.com/OpenSID/OpenSID/issues/5574) Perbaikan kolom penandatangan pada layanan surat yang tidak muncul.
+10. [#5568](https://github.com/OpenSID/OpenSID/issues/5568) Perbaikan variabel header pada my_controller.
 
 
 #### Perubahan Teknis
