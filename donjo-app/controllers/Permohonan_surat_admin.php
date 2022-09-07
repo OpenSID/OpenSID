@@ -113,7 +113,7 @@ class Permohonan_surat_admin extends Admin_Controller
         $data['surat']        = $periksa->surat;
         $data['url']          = $url;
         $data['list_dokumen'] = $this->penduduk_model->list_dokumen($periksa->id_pemohon);
-        $data['individu']     = $periksa->penduduk;
+        $data['individu']     = $this->surat_model->get_penduduk($periksa->id_pemohon);
 
         $this->get_data_untuk_form($url, $data);
         $data['isian_form']        = json_encode($this->ambil_isi_form($data['periksa']['isian_form']));

@@ -35,7 +35,7 @@
                         <tr>
                             <th class="padat">NO</th>
                             <th class="aksi">AKSI</th>
-                            <th>NO ANTIRAN</th>
+                            <th>NO ANTREAN</th>
                             <th>NIK</th>
                             <th>NAMA PENDUDUK</th>
                             <th>NO HP AKTIF</th>
