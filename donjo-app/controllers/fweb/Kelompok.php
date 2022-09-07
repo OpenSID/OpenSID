@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Kelompok as KelompokModel;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kelompok extends Web_Controller
@@ -50,7 +52,7 @@ class Kelompok extends Web_Controller
 
     public function detail($slug = null)
     {
-        $id = $this->kelompok_model->slug($slug);
+        $id = KelompokModel::tipe()->where('slug', $slug)->first()->id;
 
         if (! $this->web_menu_model->menu_aktif("data-kelompok/{$id}")) {
             show_404();

@@ -86,7 +86,6 @@ class MY_Controller extends CI_Controller
         $this->load->model(['setting_model']);
         $this->controller = strtolower($this->router->fetch_class());
         $this->setting_model->init();
-        $this->header  = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
         $this->request = $this->input->post();
     }
 
@@ -107,6 +106,8 @@ class Web_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->header = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
+
         if ($this->setting->offline_mode == 2) {
             $this->view_maintenance();
         } elseif ($this->setting->offline_mode == 1) {
@@ -217,6 +218,7 @@ class Mandiri_Controller extends MY_Controller
         $this->load->model('anjungan_model');
         $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
         $this->is_login     = $this->session->is_login;
+        $this->header       = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
 
         if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) {
             show_404();
@@ -278,7 +280,7 @@ class Premium extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['header_model']);
+        $this->load->model('header_model');
         $this->header = $this->header_model->get_data();
     }
 
@@ -438,7 +440,6 @@ class Admin_Controller extends Premium
             }
         }
         $cek_kotak_pesan                        = $this->db->table_exists('pesan') && $this->db->table_exists('pesan_detail');
-        $this->header                           = $this->header_model->get_data();
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
         $this->header['notif_inbox']            = $this->notif_model->inbox_baru();
         $this->header['notif_komentar']         = $this->notif_model->komentar_baru();

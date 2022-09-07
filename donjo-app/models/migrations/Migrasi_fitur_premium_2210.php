@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\LogSurat;
+use App\Models\Pamong;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2210 extends MY_model
@@ -44,6 +47,20 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2209');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2209');
+
+        return $hasil && $this->migrasi_2022090751($hasil);
+    }
+
+    protected function migrasi_2022090751($hasil)
+    {
+        // Cek apakah pamong dengan pamong_id = 1 ada
+        if (! Pamong::find(1)) {
+            // Jika tidak ada, ganti id_pamong = 1 pada log_surat dengan kepala desa yang aktif
+            $pamongId = Pamong::kepalaDesa()->first()->pamong_id;
+            LogSurat::where('id_pamong', 1)->update(['id_pamong' => $pamongId]);
+        }
+
+        return $hasil;
     }
 }
