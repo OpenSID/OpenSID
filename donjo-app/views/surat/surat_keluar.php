@@ -189,7 +189,7 @@
 
                                                                             <?php endif ?>
                                                                         <?php else: ?>
-                                                                            <span class="label label-danger">Draf</span>
+                                                                            <span class="label label-danger">Konsep</span>
                                                                         <?php endif ?>
 
 

@@ -602,7 +602,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 'type'    => 'TINYINT',
                 'null'    => false,
                 'default' => 0,
-                'comment' => '0. Konsep/Draf, 1. Cetak',
+                'comment' => '0. Konsep, 1. Cetak',
             ];
         }
 
@@ -610,7 +610,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column($table, $fields);
         }
 
-        // Update status untuk surat format rtf menjadi cetak karena tidak menggunakan konsep draf
+        // Update status untuk surat format rtf menjadi cetak karena tidak menggunakan konsep
         if ($this->db->field_exists('status', $table)) {
             LogSurat::whereIn('id_format_surat', static function ($query) {
                 $query->select('id')
