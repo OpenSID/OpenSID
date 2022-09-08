@@ -23,5 +23,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 13. [#5599](https://github.com/OpenSID/OpenSID/issues/5599) Perbaikan tombol upload dan camera tertutup agar responsive.
 14. [#5591](https://github.com/OpenSID/OpenSID/issues/5591) Perbaikan tampilan data pemohon surat untuk rtf dan tinymce.
 15. [#5609](https://github.com/OpenSID/OpenSID/issues/5609) Perbaikan migrasi log surat draft untuk dikembalikan kepermohonan surat.
+16. [#5605](https://github.com/OpenSID/OpenSID/issues/5605) Perbaikan saring data arsip pada layanan surat.
 
 #### Perubahan Teknis
