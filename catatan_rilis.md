@@ -28,5 +28,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 18. [#5598](https://github.com/OpenSID/OpenSID/issues/5598) Perbaikan kode isian [form_pamong_nip] surat rtf lama.
 19. [#5601](https://github.com/OpenSID/OpenSID/issues/5601) Perbaikan migrasi ref jabatan.
 20. [#5600](https://github.com/OpenSID/OpenSID/issues/5600) Menggabungkan tabel favorit ke tabel semua surat.
+21. [#5617](https://github.com/OpenSID/OpenSID/issues/5617) Perbaikan validasi pada inputan RW hanya nomor saja.
 
 #### Perubahan Teknis
