@@ -842,7 +842,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <tr>
                 <td style="width: 40%; text-align: center;">&nbsp;</td>
                 <td style="width: 20%; text-align: center;">&nbsp;</td>
-                <td style="width: 40%; text-align: center;">[Nip_pamong]</td>
+                <td style="width: 40%; text-align: center;">[Subutan_nip_desa] : [Nip_pamong]</td>
                 </tr>
                 </tbody>
                 </table>

@@ -717,10 +717,14 @@ class TinyMCE
         }
 
         if (strlen($nip_pamong) > 10) {
-            $pamong_nip = 'NIP: ' . $nip_pamong;
+            $sebutan_nip_desa = 'NIP';
+            $nip              = $nip_pamong;
+            $pamong_nip       = $sebutan_nip_desa . ' : ' . $nip;
         } else {
+            $sebutan_nip_desa = setting('sebutan_nip_desa');
             if (! empty($niap_pamong)) {
-                $pamong_nip = setting('sebutan_nip_desa') . ': ' . $niap_pamong;
+                $nip        = $niap_pamong;
+                $pamong_nip = $sebutan_nip_desa . ' : ' . $niap_pamong;
             } else {
                 $pamong_nip = '';
             }
@@ -743,8 +747,18 @@ class TinyMCE
                 'data'  => $jabatan,
             ],
             [
-                'judul' => 'NIP / NIAP Pamong',
+                'judul' => 'Sebutan NIP ' . ucwords(setting('sebutan desa')),
+                'isian' => '[subutan_nip_desa]',
+                'data'  => $sebutan_nip_desa,
+            ],
+            [
+                'judul' => 'NIP Pamong',
                 'isian' => '[nip_pamong]',
+                'data'  => $nip,
+            ],
+            [
+                'judul' => 'Sebutan NIP ' . ucwords(setting('sebutan desa')) . ' & NIP Pamong',
+                'isian' => '[form_nip_pamong]',
                 'data'  => $pamong_nip,
             ],
         ];

@@ -25,5 +25,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 15. [#5609](https://github.com/OpenSID/OpenSID/issues/5609) Perbaikan migrasi log surat draft untuk dikembalikan kepermohonan surat.
 16. [#5605](https://github.com/OpenSID/OpenSID/issues/5605) Perbaikan saring data arsip pada layanan surat.
 17. [#5608](https://github.com/OpenSID/OpenSID/issues/5608) Perbaikan pengaturan footer agar bisa diperbarui.
+18. [#5598](https://github.com/OpenSID/OpenSID/issues/5598) Perbaikan kode isian [form_pamong_nip] surat rtf lama.
 
 #### Perubahan Teknis
