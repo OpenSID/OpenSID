@@ -374,22 +374,22 @@ class Surat_master extends Admin_Controller
 
     public function pengaturan()
     {
-        $pengaturanSurat = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
-        $alur            = SettingAplikasi::whereKategori('alur_surat')->pluck('value', 'key')->toArray();
-        $tte             = SettingAplikasi::whereKategori('tte')->pluck('value', 'key')->toArray();
-        $kades           = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
+        $data['pengaturanSurat'] = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
+        $data['alur']            = SettingAplikasi::whereKategori('alur_surat')->pluck('value', 'key')->toArray();
+        $data['tte']             = SettingAplikasi::whereKategori('tte')->pluck('value', 'key')->toArray();
+        $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
             return $query->where('jabatan_id', '=', '1');
         })->exists();
-        $sekdes = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
+        $data['sekdes'] = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
             return $query->where('jabatan_id', '=', '2');
         })->exists();
-        $ref_jabatan = RefJabatan::all();
 
-        $aksi     = route('surat_master.update');
-        $formAksi = route('surat_master.edit_pengaturan');
-        $fonts    = RefFontSurat::all();
+        $data['ref_jabatan'] = RefJabatan::all();
+        $data['aksi']        = route('surat_master.update');
+        $data['formAksi']    = route('surat_master.edit_pengaturan');
+        $data['fonts']       = RefFontSurat::all();
 
-        return view('admin.pengaturan_surat.pengaturan', compact('pengaturanSurat', 'aksi', 'formAksi', 'fonts', 'alur', 'tte', 'kades', 'sekdes', 'ref_jabatan'));
+        return view('admin.pengaturan_surat.pengaturan', $data);
     }
 
     public function edit_pengaturan()
@@ -406,19 +406,26 @@ class Surat_master extends Admin_Controller
 
     protected static function validasi_pengaturan($request)
     {
-        return [
+        $validasi = [
             'tinggi_header'     => (float) $request['tinggi_header'],
             'header_surat'      => $request['header_surat'],
             'tinggi_footer'     => (float) $request['tinggi_footer'],
-            'footer_surat_tte'  => $request['footer_surat_tte'],
             'verifikasi_sekdes' => (int) $request['verifikasi_sekdes'],
             'verifikasi_kades'  => ((int) $request['tte'] == 1) ? 1 : (int) $request['verifikasi_kades'],
             'tte'               => (int) $request['tte'],
-            'tte_api'           => alamat_web($request['tte_api']),
-            'tte_username'      => $request['tte_username'],
-            'tte_password'      => $request['tte_password'],
-            'font_surat'        => alfanumerik_spasi($request['font_surat']),
         ];
+
+        if ($validasi['tte'] == 1) {
+            $validasi['footer_surat_tte'] = $request['footer_surat_tte'];
+            $validasi['tte_api']          = alamat_web($request['tte_api']);
+            $validasi['tte_username']     = $request['tte_username'];
+            $validasi['tte_password']     = $request['tte_password'];
+            $validasi['font_surat']       = alfanumerik_spasi($request['font_surat']);
+        } else {
+            $validasi['footer_surat'] = $request['footer_surat'];
+        }
+
+        return $validasi;
     }
 
     public function kode_isian($id = null)
