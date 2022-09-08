@@ -22,5 +22,11 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 12. [#5559](https://github.com/OpenSID/OpenSID/issues/5559) Perbaikan tanggal periksa ibu hamil sesuai inputan.
 13. [#5599](https://github.com/OpenSID/OpenSID/issues/5599) Perbaikan tombol upload dan camera tertutup agar responsive.
 14. [#5591](https://github.com/OpenSID/OpenSID/issues/5591) Perbaikan tampilan data pemohon surat untuk rtf dan tinymce.
+15. [#5609](https://github.com/OpenSID/OpenSID/issues/5609) Perbaikan migrasi log surat draft untuk dikembalikan kepermohonan surat.
+16. [#5605](https://github.com/OpenSID/OpenSID/issues/5605) Perbaikan saring data arsip pada layanan surat.
+17. [#5608](https://github.com/OpenSID/OpenSID/issues/5608) Perbaikan pengaturan footer agar bisa diperbarui.
+18. [#5598](https://github.com/OpenSID/OpenSID/issues/5598) Perbaikan kode isian [form_pamong_nip] surat rtf lama.
+19. [#5601](https://github.com/OpenSID/OpenSID/issues/5601) Perbaikan migrasi ref jabatan.
+20. [#5600](https://github.com/OpenSID/OpenSID/issues/5600) Menggabungkan tabel favorit ke tabel semua surat.
 
 #### Perubahan Teknis

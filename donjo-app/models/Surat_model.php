@@ -808,16 +808,23 @@ class Surat_model extends CI_Model
         $buffer = str_replace('[nama_pamong]', $nama_pamong, $buffer);
 
         if (strlen($nip_pamong) > 10) {
-            $pamong_nip = 'NIP: ' . $nip_pamong;
+            $sebutan_nip_desa = 'NIP';
+            $nip              = $nip_pamong;
+            $pamong_nip       = $sebutan_nip_desa . ' : ' . $nip;
         } else {
+            $sebutan_nip_desa = setting('sebutan_nip_desa');
             if (! empty($niap_pamong)) {
-                $pamong_nip = setting('sebutan_nip_desa') . ': ' . $niap_pamong;
+                $nip        = $niap_pamong;
+                $pamong_nip = $sebutan_nip_desa . ' : ' . $niap_pamong;
             } else {
                 $pamong_nip = '';
             }
         }
 
-        return str_replace('NIP: [pamong_nip]', $pamong_nip, $buffer);
+        $buffer = str_replace('[sebutan_nip_desa]', $sebutan_nip_desa, $buffer);
+        $buffer = str_replace('[pamong_nip]', $nip, $buffer);
+
+        return str_replace('[form_pamong_nip]', $pamong_nip, $buffer);
     }
 
     // Fuction ini di include ke lampiran
@@ -1012,21 +1019,6 @@ class Surat_model extends CI_Model
             } else {
                 $buffer = str_replace('[mulai_berlaku] s/d [tgl_akhir]', '-', $buffer);
             }
-            $buffer = str_replace('[jabatan]', "{$input['jabatan']}", $buffer);
-            $buffer = str_replace('[nama_pamong]', "{$input['pamong']}", $buffer);
-            $nip    = "{$input['pamong_nip']}";
-            if (strlen($nip) > 10) {
-                $pamong_nip = 'NIP: ' . $nip;
-            } else {
-                $sebutan_nip_desa = $this->setting->sebutan_nip_desa;
-                $pamong_niap      = "{$input['pamong_niap']}";
-                if (! empty($pamong_niap)) {
-                    $pamong_nip = $sebutan_nip_desa . ': ' . $pamong_niap;
-                } else {
-                    $pamong_nip = '';
-                }
-            }
-            $buffer = str_replace('NIP: [pamong_nip]', $pamong_nip, $buffer);
             $buffer = str_replace('[keterangan]', "{$input['keterangan']}", $buffer);
             if (isset($input['keperluan'])) {
                 $buffer = str_replace('[keperluan]', "{$input['keperluan']}", $buffer);

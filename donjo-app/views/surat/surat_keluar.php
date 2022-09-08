@@ -29,8 +29,8 @@
                                         <div class="row">
                                             <div class="col-sm-9">
                                                 <div class="form-group">
-                                                    <select class="form-control input-sm " name="tahun" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/tahun')?>')">
-                                                        <option value="">Tahun</option>
+                                                    <select class="form-control input-sm select2" name="tahun" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/tahun')?>')">
+                                                        <option value="">Pilih Tahun</option>
                                                         <?php foreach ($tahun_surat as $thn): ?>
                                                             <option value="<?= $thn['tahun']?>" <?php selected($tahun, $thn['tahun']) ?>><?= $thn['tahun']?></option>
                                                         <?php endforeach; ?>
@@ -38,8 +38,8 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <select class="form-control input-sm " name="bulan" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/bulan')?>')" <?= ($tahun != 0) ? '' : 'disabled'; ?> >
-                                                        <option value="">Bulan</option>
+                                                    <select class="form-control input-sm select2" name="bulan" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/bulan')?>')" <?= ($tahun != 0) ? '' : 'disabled'; ?> >
+                                                        <option value="">Pilih Bulan</option>
                                                         <?php foreach ($bulan_surat as $bln): ?>
                                                             <option value="<?= $bln['bulan']?>" <?php selected($bulan, $bln['bulan']) ?>><?= getBulan($bln['bulan'])?></option>
                                                         <?php endforeach; ?>
@@ -50,7 +50,7 @@
                                                     <select class="form-control input-sm select2" name="jenis" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/jenis')?>')" style="width: 100%;">
                                                         <option value="">Pilih Jenis Surat</option>
                                                         <?php foreach ($jenis_surat as $data): ?>
-                                                            <option value="<?= $data['nama_surat']?>" <?php selected($jenis, $data['nama_surat']) ?>><?= $data['nama_surat']?></option>
+                                                            <option value="<?= $data['id']?>" <?php selected($jenis, $data['id']) ?>><?= $data['nama_surat']?></option>
                                                         <?php endforeach; ?>
                                                     </select>
                                                 </div>
@@ -189,7 +189,7 @@
 
                                                                             <?php endif ?>
                                                                         <?php else: ?>
-                                                                            <span class="label label-danger">Draf</span>
+                                                                            <span class="label label-danger">Konsep</span>
                                                                         <?php endif ?>
 
 

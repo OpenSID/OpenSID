@@ -42,6 +42,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class LogSurat extends Model
 {
+    public const KONSEP = 0;
+    public const CETAK  = 1;
+
     /**
      * The table associated with the model.
      *

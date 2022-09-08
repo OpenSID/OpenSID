@@ -59,7 +59,6 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022080571($hasil);
         $hasil = $hasil && $this->migrasi_2022080451($hasil);
         $hasil = $hasil && $this->migrasi_2022080971($hasil);
-        $hasil = $hasil && $this->migrasi_2022081071($hasil);
         $hasil = $hasil && $this->migrasi_2022081171($hasil);
         $hasil = $hasil && $this->migrasi_2022081271($hasil);
         $hasil = $hasil && $this->migrasi_2022081571($hasil);
@@ -226,6 +225,9 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
     protected function migrasi_2022080471($hasil)
     {
+        // Update kolom pamong_ttd jika null menjadi 0
+        Pamong::whereNull('pamong_ttd')->update(['pamong_ttd' => 0]);
+
         if (! $this->db->table_exists('ref_jabatan')) {
             // Tambah tabel ref_jabatan
             $ref_jabatan = [
@@ -267,15 +269,34 @@ class Migrasi_fitur_premium_2209 extends MY_model
                 $hasil = $hasil && $this->dbforge->add_column('tweb_desa_pamong', $tweb_desa_pamong);
             }
 
-            $jabatan = DB::table('tweb_desa_pamong')->select(['pamong_id', 'jabatan', 'pamong_ttd', 'pamong_ub'])->orderBy('pamong_ttd', 'desc')->orderBy('pamong_ub', 'desc')->get();
+            $jabatan = DB::table('tweb_desa_pamong')
+                ->select(['pamong_id', 'jabatan', 'pamong_ttd', 'pamong_ub'])
+                ->where('pamong_ttd', 0)
+                ->Where('pamong_ub', 0)
+                ->get();
+
+            RefJabatan::insert([
+                [
+                    'id'    => 1,
+                    'nama'  => 'Kepala Desa',
+                    'jenis' => 1,
+                ],
+                [
+                    'id'    => 2,
+                    'nama'  => 'Sekretaris Desa',
+                    'jenis' => 1,
+                ],
+            ]);
+
             if ($jabatan) {
                 $simpan = collect($jabatan)->unique('jabatan')->map(static function ($item, $key) {
-                    Pamong::where('jabatan', $item->jabatan)->update(['jabatan_id' => $key + 1]);
+                    $id = $key + 3;
+                    Pamong::where('jabatan', $item->jabatan)->update(['jabatan_id' => $id]);
 
                     return [
-                        'id'    => $key + 1,
+                        'id'    => $id,
                         'nama'  => $item->jabatan,
-                        'jenis' => ($item->pamong_ttd == 1 || $item->pamong_ub == 1) ? 1 : 0,
+                        'jenis' => 0,
                     ];
                 })
                     ->values()
@@ -304,7 +325,33 @@ class Migrasi_fitur_premium_2209 extends MY_model
             if ($this->db->field_exists('jabatan', 'tweb_desa_pamong')) {
                 $hasil = $hasil && $this->dbforge->drop_column('tweb_desa_pamong', 'jabatan');
             }
+
+            $hasil = $hasil && $this->tentukan_kades_sekdes($hasil);
         }
+
+        return $hasil;
+    }
+
+    protected function tentukan_kades_sekdes($hasil)
+    {
+        // Jalankan hanya jika terdeksi cara lama (kades = a.n)
+        if (Pamong::where('pamong_ttd', 1)->exists()) {
+            // Sesuaikan Penanda tangan kepala desa
+            $hasil = $hasil && Pamong::where('pamong_ttd', 1)->update(['jabatan_id' => 1, 'pamong_ttd' => 0, 'pamong_ub' => 0]);
+        } else {
+            log_message('error', 'Kepala Desa tidak ditemukan');
+        }
+
+        // Jalankan hanya jika terdeksi cara lama (sekdes = u.b)
+        if (Pamong::where('pamong_ub', 1)->exists()) {
+            // Sesuaikan Penanda tangan sekdes (a.n)
+            $hasil = $hasil && Pamong::where('pamong_ub', 1)->update(['jabatan_id' => 2, 'pamong_ttd' => 1, 'pamong_ub' => 0]);
+        } else {
+            log_message('error', 'Sekretaris Desa tidak ditemukan');
+        }
+
+        // Bagian ini di lewati, default tidak ada terpilih
+        // Untuk penanda tangan u.b perlu disesuaikan ulang agar menyesuaikan
 
         return $hasil;
     }
@@ -334,26 +381,6 @@ class Migrasi_fitur_premium_2209 extends MY_model
             'keterangan' => 'Tampilkan Luas Wilayah Pada Peta',
             'jenis'      => 'boolean',
         ]);
-    }
-
-    protected function migrasi_2022081071($hasil)
-    {
-        // Jalankan hanya jika terdeksi cara lama (kades = a.n)
-        if (Pamong::where('jabatan_id', 1)->where('pamong_ttd', 1)->exists()) {
-            // Sesuaikan Penanda tangan kepala desa
-            $hasil = $hasil && Pamong::where('pamong_ttd', 1)->update(['pamong_ttd' => 0, 'pamong_ub' => 0]);
-        }
-
-        // Jalankan hanya jika terdeksi cara lama (sekdes = u.b)
-        if (Pamong::where('jabatan_id', 2)->where('pamong_ub', 1)->exists()) {
-            // Sesuaikan Penanda tangan sekdes (a.n)
-            $hasil = $hasil && Pamong::where('pamong_ub', 1)->update(['pamong_ttd' => 1, 'pamong_ub' => 0]);
-        }
-
-        // Bagian ini di lewati, default tidak ada terpilih
-        // Untuk penanda tangan u.b perlu disesuaikan ulang agar menyesuaikan
-
-        return $hasil;
     }
 
     protected function migrasi_2022081171($hasil)
@@ -679,13 +706,13 @@ class Migrasi_fitur_premium_2209 extends MY_model
         return $hasil;
     }
 
-      protected function migrasi_2022090171($hasil)
-      {
-          return $hasil && $this->tambah_setting([
-              'key'        => 'kode_desa_bps',
-              'value'      => null,
-              'keterangan' => 'Kode Desa BPS (Dapat di cek di <a href="https://sig.bps.go.id/bridging-kode" target="_blank">https://sig.bps.go.id/bridging-kode</a>)',
-              'kategori'   => 'status sdgs',
-          ]);
-      }
+    protected function migrasi_2022090171($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'kode_desa_bps',
+            'value'      => null,
+            'keterangan' => 'Kode Desa BPS (Dapat di cek di <a href="https://sig.bps.go.id/bridging-kode" target="_blank">https://sig.bps.go.id/bridging-kode</a>)',
+            'kategori'   => 'status sdgs',
+        ]);
+    }
 }

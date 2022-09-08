@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\FormatSurat;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 
@@ -48,8 +49,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2209');
+        $hasil = $hasil && $this->migrasi_2022090751($hasil);
 
-        return $hasil && $this->migrasi_2022090751($hasil);
+        return $hasil && $this->migrasi_2022090851($hasil);
     }
 
     protected function migrasi_2022090751($hasil)
@@ -59,6 +61,20 @@ class Migrasi_fitur_premium_2210 extends MY_model
             // Jika tidak ada, ganti id_pamong = 1 pada log_surat dengan kepala desa yang aktif
             $pamongId = Pamong::kepalaDesa()->first()->pamong_id;
             LogSurat::where('id_pamong', 1)->update(['id_pamong' => $pamongId]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022090851($hasil)
+    {
+        // Sesuaikan surat status surat rtf dan tinymce mengikuti alur baru
+        LogSurat::status(LogSurat::CETAK)->whereNull('verifikasi_operator')->update(['verifikasi_operator' => 1]);
+
+        // Sesuaikan surat status konsep tapi masuk ke arsip
+        $surat_tiny_mce = FormatSurat::jenis(FormatSurat::TINYMCE)->pluck('id');
+        if ($surat_tiny_mce) {
+            LogSurat::whereIn('id_format_surat', $surat_tiny_mce)->status(LogSurat::KONSEP)->update(['verifikasi_operator' => 0]);
         }
 
         return $hasil;
