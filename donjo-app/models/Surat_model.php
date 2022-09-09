@@ -800,7 +800,13 @@ class Surat_model extends CI_Model
 
         // Untuk lampiran
         if (null === $buffer) {
-            return $atas_nama;
+            return [
+                'atas_nama' => $atas_nama,
+                'jabatan'   => $jabatan,
+                'nama'      => $nama_pamong,
+                'nip'       => $nip_pamong,
+                'niap'      => $niap_pamong,
+            ];
         }
 
         $buffer = str_replace('[penandatangan]', $atas_nama, $buffer);
@@ -830,7 +836,7 @@ class Surat_model extends CI_Model
     // Fuction ini di include ke lampiran
     private function penandatangan_lampiran($data)
     {
-        $akas = str_replace('\par', '<br>', $this->atas_nama($data));
+        return str_replace('\par', '<br>', $this->atas_nama($data)['atas_nama']);
     }
 
     public function surat_rtf($data)
@@ -1096,10 +1102,11 @@ class Surat_model extends CI_Model
 
     public function lampiran($data, $nama_surat, &$lampiran)
     {
-        $surat    = $data['surat'];
-        $config   = $data['config'];
-        $individu = $data['individu'];
-        $input    = $data['input'];
+        $surat           = $data['surat'];
+        $config          = $data['config'];
+        $individu        = $data['individu'];
+        $input           = $data['input'];
+        $input['pamong'] = $this->atas_nama($data)['nama'];
 
         if (! $surat['lampiran']) {
             return;

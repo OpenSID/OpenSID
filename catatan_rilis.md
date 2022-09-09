@@ -29,5 +29,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 18. [#5598](https://github.com/OpenSID/OpenSID/issues/5598) Perbaikan kode isian [form_pamong_nip] surat rtf lama.
 19. [#5601](https://github.com/OpenSID/OpenSID/issues/5601) Perbaikan migrasi ref jabatan.
 20. [#5600](https://github.com/OpenSID/OpenSID/issues/5600) Menggabungkan tabel favorit ke tabel semua surat.
+21. [#5617](https://github.com/OpenSID/OpenSID/issues/5617) Perbaikan validasi pada inputan RW hanya nomor saja.
+22. [#5618](https://github.com/OpenSID/OpenSID/issues/5618) Perbaikan validasi di tambah / edit data dusun wilayah administratif.
+23. [#5621](https://github.com/OpenSID/OpenSID/issues/5621) Perbaikan ttd mengetahui kosong pada lampiran unduh RTF surat keterangan lahir.
 
 #### Perubahan Teknis
