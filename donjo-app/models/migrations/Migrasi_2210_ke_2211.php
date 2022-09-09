@@ -17,7 +17,7 @@ class Migrasi_2210_ke_2211 extends MY_model
         $hasil = $hasil && $this->modifyRTMTable($hasil);
         $hasil = $hasil && $this->tambahTabelDTKSAnggota($hasil);
         $hasil = $hasil && $this->tambahTabelDTKSAnakDalamTanggunganLuarRuta($hasil);
-        $hasil = $hasil && $this->tambahTabelDTKSARTUsaha($hasil);
+        $hasil = $hasil && $this->tambahTabelDTKSAnggotaUsaha($hasil);
        
         return $hasil;
     }
@@ -268,7 +268,7 @@ class Migrasi_2210_ke_2211 extends MY_model
                 'detail' => 'INT(2) NULL DEFAULT NULL'
             ],
             [
-                'nama'   => 'ada_art_usaha_sendiri_bersama', 
+                'nama'   => 'ada_anggota_usaha_sendiri_bersama', 
                 'detail' => 'INT(2) NULL DEFAULT NULL'
             ],
             [
@@ -325,7 +325,7 @@ class Migrasi_2210_ke_2211 extends MY_model
     protected function tambahTabelDTKSAnggota($hasil)
     {
         $hasil = $hasil && $this->db->query("CREATE TABLE 
-        IF NOT EXISTS tweb_dtks_art (
+        IF NOT EXISTS tweb_dtks_anggota (
             `id`              INT(11) NOT NULL AUTO_INCREMENT,
             `id_penduduk`     INT(11) NOT NULL,
             `id_rtm`          INT(11) NOT NULL,
@@ -347,7 +347,7 @@ class Migrasi_2210_ke_2211 extends MY_model
             `jumlah_jam_kerja_seminggu_lalu`   INT(2) NULL DEFAULT NULL,
             `kd_lapangan_usaha_pekerjaan`      INT(2) NULL DEFAULT NULL,
             `kd_kedudukan_di_pekerjaan`        INT(2) NULL DEFAULT NULL,
-            `kd_ket_keberadaan_art`            INT(2) NULL DEFAULT NULL,
+            `kd_ket_keberadaan_anggota`            INT(2) NULL DEFAULT NULL,
             `ada_kps_kks`                      INT(2) NULL DEFAULT NULL,
             `ada_kis_pbijkn`                   INT(2) NULL DEFAULT NULL,
             `ada_kip_bsm`                      INT(2) NULL DEFAULT NULL,
@@ -358,9 +358,9 @@ class Migrasi_2210_ke_2211 extends MY_model
             PRIMARY KEY (id),
             UNIQUE INDEX `id_penduduk` (`id_penduduk`) USING BTREE,
 
-            CONSTRAINT FK_dtksk_art_id_penduduk FOREIGN KEY (id_penduduk) REFERENCES tweb_penduduk(id) 
+            CONSTRAINT FK_dtksk_anggota_id_penduduk FOREIGN KEY (id_penduduk) REFERENCES tweb_penduduk(id) 
                 ON UPDATE CASCADE ON DELETE RESTRICT,
-            CONSTRAINT FK_dtksk_art_id_rtm FOREIGN KEY (id_rtm) REFERENCES tweb_rtm(id) 
+            CONSTRAINT FK_dtksk_anggota_id_rtm FOREIGN KEY (id_rtm) REFERENCES tweb_rtm(id) 
                 ON UPDATE CASCADE ON DELETE RESTRICT
 
         ) ENGINE={$this->engine} AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
@@ -393,20 +393,20 @@ class Migrasi_2210_ke_2211 extends MY_model
         return $hasil;
     }
 
-    protected function tambahTabelDTKSARTUsaha($hasil)
+    protected function tambahTabelDTKSAnggotaUsaha($hasil)
     {
         $hasil = $hasil && $this->db->query("CREATE TABLE 
-        IF NOT EXISTS tweb_dtks_art_usaha (
+        IF NOT EXISTS tweb_dtks_anggota_usaha (
             `id`            INT(11) NOT NULL AUTO_INCREMENT,
-            `id_dtks_art`       INT(11) NOT NULL,
+            `id_dtks_anggota`       INT(11) NOT NULL,
             `nama_lapangan_usaha_lainnya`   VARCHAR(50) NULL DEFAULT NULL,
             `jumlah_pekerja`                INT(2) NULL DEFAULT NULL,
             `ada_tempat_usaha`              INT(2) NULL DEFAULT NULL,
             `kd_omset_usaha_perbulan`       INT(2) NULL DEFAULT NULL,
             PRIMARY KEY (id),
-            UNIQUE INDEX `id_dtks_art` (`id_dtks_art`) USING BTREE,
+            UNIQUE INDEX `id_dtks_anggota` (`id_dtks_anggota`) USING BTREE,
             
-            CONSTRAINT FK_dtksk_art_usaha_art FOREIGN KEY (id_dtks_art) REFERENCES tweb_dtks_art(id) 
+            CONSTRAINT FK_dtksk_anggota_usaha_a FOREIGN KEY (id_dtks_anggota) REFERENCES tweb_dtks_anggota(id) 
                 ON UPDATE CASCADE ON DELETE RESTRICT
 
         ) ENGINE={$this->engine} AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
