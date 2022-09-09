@@ -474,7 +474,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             foreach ($daftar_penduduk as $data) {
                 // Ganti nama file jika nama file sama dengan nik penduduk
                 if (preg_match("/{$data->nik}/i", $data->foto) && (file_exists(FCPATH . LOKASI_USER_PICT . $data->foto) || file_exists(FCPATH . LOKASI_USER_PICT . 'kecil_' . $data->foto))) {
-                    $nama_baru = time() . mt_rand(10000, 999999) . get_extension($data->foto);
+                    $nama_baru = time() . '-' . $data->id . '-' . mt_rand(10000, 999999) . get_extension($data->foto);
 
                     if (DB::table('tweb_penduduk')->where('id', $data->id)->update(['foto' => $nama_baru])) {
                         rename(FCPATH . LOKASI_USER_PICT . $data->foto, FCPATH . LOKASI_USER_PICT . $nama_baru);
@@ -491,7 +491,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             foreach ($daftar_pamong as $data) {
                 // Ganti nama file jika nama file sama dengan nik penduduk
                 if (null === $data->id_pend && preg_match("/{$data->pamong_nik}/i", $data->foto) && (file_exists(FCPATH . LOKASI_USER_PICT . $data->foto) || file_exists(FCPATH . LOKASI_USER_PICT . 'kecil_' . $data->foto))) {
-                    $nama_baru = 'pamong_' . time() . mt_rand(10000, 999999) . get_extension($data->foto);
+                    $nama_baru = 'pamong_' . time() . '-' . $data->pamong_id . '-' . mt_rand(10000, 999999) . get_extension($data->foto);
 
                     if (DB::table('tweb_desa_pamong')->where('pamong_id', $data->pamong_id)->update(['foto' => $nama_baru])) {
                         rename(FCPATH . LOKASI_USER_PICT . $data->foto, FCPATH . LOKASI_USER_PICT . $nama_baru);

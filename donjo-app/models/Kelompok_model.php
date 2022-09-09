@@ -310,11 +310,12 @@ class Kelompok_model extends MY_Model
         }
 
         $outp    = $this->db->insert('kelompok_anggota', $data);
+        $id      = $this->db->insert_id();
         $id_pend = $data['id_penduduk'];
         $nik     = $this->get_anggota($id, $id_pend);
 
         // Upload foto dilakukan setelah ada id, karena nama foto berisi nik
-        if ($foto = upload_foto_penduduk()) {
+        if ($foto = upload_foto_penduduk(time() . '-' . $id . '-' . mt_rand(10000, 999999))) {
             $this->db->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
         }
 
@@ -349,8 +350,7 @@ class Kelompok_model extends MY_Model
 
         $nik = $this->get_anggota($id, $id_a);
 
-        // Upload foto dilakukan setelah ada id, karena nama foto berisi nik
-        if ($foto = upload_foto_penduduk()) {
+        if ($foto = upload_foto_penduduk(time() . '-' . $id_a . '-' . mt_rand(10000, 999999))) {
             $this->db->where('id', $id_a)->update('tweb_penduduk', ['foto' => $foto]);
         }
 
