@@ -259,15 +259,16 @@ class Pamong_model extends CI_Model
             $id    = $post['id_pend'];
             $field = 'id';
             $tabel = 'tweb_penduduk';
+            $foto  = time() . '-' . $id . '-' . mt_rand(10000, 999999);
         } else {
             // Penduduk Luar Desa
             $id    = $post['id'];
             $field = 'pamong_id';
             $tabel = 'tweb_desa_pamong';
+            $foto  = 'pamong_' . time() . '-' . $id . '-' . mt_rand(10000, 999999);
         }
 
-        // Upload foto dilakukan setelah ada id, karena nama foto berisi nik
-        if ($foto = upload_foto_penduduk()) {
+        if ($foto = upload_foto_penduduk($foto)) {
             $this->db->where($field, $id)->update($tabel, ['foto' => $foto]);
         }
     }
