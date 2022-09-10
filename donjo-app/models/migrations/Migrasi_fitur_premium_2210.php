@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\SistemEnum;
 use App\Models\FormatSurat;
 use App\Models\LogSurat;
 use App\Models\Pamong;
@@ -50,8 +51,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2209');
         $hasil = $hasil && $this->migrasi_2022090751($hasil);
+        $hasil = $hasil && $this->migrasi_2022090851($hasil);
 
-        return $hasil && $this->migrasi_2022090851($hasil);
+        return $hasil && $this->migrasi_2022091171($hasil);
     }
 
     protected function migrasi_2022090751($hasil)
@@ -75,6 +77,24 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $surat_tiny_mce = FormatSurat::jenis(FormatSurat::TINYMCE)->pluck('id');
         if ($surat_tiny_mce) {
             LogSurat::whereIn('id_format_surat', $surat_tiny_mce)->status(LogSurat::KONSEP)->update(['verifikasi_operator' => 0]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022091171($hasil)
+    {
+        if (! $this->db->field_exists('tipe', 'teks_berjalan')) {
+            $fields = [
+                'tipe' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 2,
+                    'null'       => true,
+                    'default'    => SistemEnum::WEBSITE,
+                    'after'      => 'status',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('teks_berjalan', $fields);
         }
 
         return $hasil;

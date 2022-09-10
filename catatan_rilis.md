@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 #### Penambahan Fitur
 1. [#5544](https://github.com/OpenSID/OpenSID/issues/5544) Menambahkan paginasi di halaman peraturan_desa pada halaman depan.
 2. [#5001](https://github.com/OpenSID/OpenSID/issues/5001) Menambahkan robots.txt.
+3. [#5595](https://github.com/OpenSID/OpenSID/issues/5595) Menambahkan pengaturan untuk menampilkan text berjalan pada anjungan/layanan mandiri.
 
 
 #### Perbaikan BUG

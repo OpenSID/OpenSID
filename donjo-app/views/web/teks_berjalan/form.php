@@ -26,7 +26,7 @@
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label class="control-label">Tautan ke artikel</label>
-									<select class="form-control select2 " id="tautan" name="tautan" style="width: 100%;">
+									<select class="form-control select2 " id="tautan" name="tautan">
 										<option value="">-- Cari Judul Artikel --</option>
 										<?php foreach ($list_artikel as $artikel): ?>
 											<option value="<?= $artikel['id']?>" <?php selected($artikel['id'], $teks['tautan']); ?>><?=tgl_indo($artikel['tgl_upload']) . ' | ' . $artikel['judul']?></option>
@@ -38,6 +38,16 @@
 								<div class="form-group">
 									<label class="control-label">Judul tautan</label>
 									<input class="form-control input-sm required" placeholder="Judul tautan ke artikel atau url" name="judul_tautan" value="<?= $teks['judul_tautan'] ?: '-- selengkapnya...' ?>" maxlength="150"></input>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="control-label">Tampilkan Di-</label>
+									<select class="form-control select2" id="tipe" name="tipe">
+										<?php foreach ($daftar_tampil as $key => $data): ?>
+											<option value="<?= $key ?>" <?= selected($key, $teks['tipe']); ?>><?= $data ?></option>
+										<?php endforeach; ?>
+									</select>
 								</div>
 							</div>
 						</div>

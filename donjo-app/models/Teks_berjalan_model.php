@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\SistemEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Teks_berjalan_model extends MY_Model
@@ -57,11 +59,16 @@ class Teks_berjalan_model extends MY_Model
 
     /**
      * @param Nilai TRUE untuk Data Ditampilkan Ke Halaman Website/Depan
-     * @param mixed $web
+     * @param mixed      $web
+     * @param mixed|null $tipe
      */
-    public function list_data($web = false)
+    public function list_data($web = false, $tipe = null)
     {
         $this->sql();
+
+        if ($tipe) {
+            $this->db->where('tipe', $tipe);
+        }
 
         if ($web === true) {
             $this->db->where('status', 1);
@@ -70,8 +77,9 @@ class Teks_berjalan_model extends MY_Model
         $data = $this->db->get()->result_array();
 
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['no']     = $i + 1;
-            $data[$i]['tautan'] = $this->menu_slug('artikel/' . $data[$i]['tautan']);
+            $data[$i]['no']        = $i + 1;
+            $data[$i]['tautan']    = $this->menu_slug('artikel/' . $data[$i]['tautan']);
+            $data[$i]['tampilkan'] = SistemEnum::DAFTAR[$data[$i]['tipe']];
         }
 
         return $data;
@@ -127,6 +135,7 @@ class Teks_berjalan_model extends MY_Model
     {
         $data['teks']         = htmlentities($data['teks']);
         $data['judul_tautan'] = $data['tautan'] ? htmlentities($data['judul_tautan']) : '';
+        $data['tipe']         = bilangan($data['tipe']);
 
         return $data;
     }
