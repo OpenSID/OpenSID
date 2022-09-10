@@ -33,5 +33,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 23. [#5621](https://github.com/OpenSID/OpenSID/issues/5621) Perbaikan ttd mengetahui kosong pada lampiran unduh RTF surat keterangan lahir.
 24. [#5614](https://github.com/OpenSID/OpenSID/issues/5614) Menambahkan paramater pengenal lain pada penamaan file foto.
 25. [#5619](https://github.com/OpenSID/OpenSID/issues/5619) Perbaikan impor sikuedes.
+26. [#5613](https://github.com/OpenSID/OpenSID/issues/5613) Perbaikan pemetaan penduduk pada peta.
 
 #### Perubahan Teknis
