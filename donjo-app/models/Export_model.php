@@ -269,6 +269,10 @@ class Export_model extends CI_Model
             'keuangan_ta_triwulan_rinci',
             'cdesa_penduduk',
             'mutasi_cdesa',
+            'tweb_dtks_anggota_usaha',
+            'tweb_dtks_anggota',
+            'tweb_dtks_adt_luar_ruta',
+            'tweb_rtm',
         ];
 
         $prefs = [
