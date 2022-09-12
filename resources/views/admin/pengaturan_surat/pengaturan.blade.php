@@ -184,8 +184,8 @@
                             <div class="col-lg-4 col-md-7 col-sm-12">
                                 <select class="select2 form-control" name="font_surat">
                                     @foreach ($fonts as $font)
-                                        <option value="{{ $font->font_family }}" @selected($font->font_family === $pengaturanSurat['font_surat'])>
-                                            {{ $font->font_family }}</option>
+                                        <option value="{{ $font }}" @selected($font === $pengaturanSurat['font_surat'])>
+                                            {{ $font }}</option>
                                     @endforeach
                                 </select>
                             </div>

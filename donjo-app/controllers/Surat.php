@@ -282,21 +282,21 @@ class Surat extends Admin_Controller
             // convert in PDF
             try {
                 $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $cetak['surat']['margin_cm_to_mm']);
-                $html2pdf->setTestTdInOnePage(false);
-                $html2pdf->setDefaultFont('Arial');
+                $html2pdf->setTestTdInOnePage(true);
+                $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
                 $html2pdf->writeHTML($logo_qrcode);
                 // $html2pdf->output($nama_surat, 'D');
                 $html2pdf->output(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
 
                 // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
                 $surat->isi_surat = $isi_cetak;
-                $surat->status    = 1;
+                $surat->status    = 0;
                 /* verifikasi
-                   value 0 : diperiksa
-                   value 1 : sudah disetujui
-                   value 1 : sudah disetujui
-                   value null : lewati
-                */
+                 * value 0 : diperiksa
+                 * value 1 : sudah disetujui
+                 * value 1 : sudah disetujui
+                 * value null : lewati
+                 */
                 $surat->verifikasi_operator = ($surat->verifikasi_operator == '-1') ? '-1' : 0;
             } catch (Html2PdfException $e) {
                 $html2pdf->clean();
@@ -400,7 +400,7 @@ class Surat extends Admin_Controller
             try {
                 $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $cetak['surat']['margin_cm_to_mm']);
                 $html2pdf->setTestTdInOnePage(false);
-                $html2pdf->setDefaultFont('Arial');
+                $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
                 $html2pdf->writeHTML($isi_cetak);
                 // $html2pdf->output($nama_surat, 'D');
                 $html2pdf->output(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
