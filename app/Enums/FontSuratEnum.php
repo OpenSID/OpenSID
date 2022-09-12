@@ -35,30 +35,22 @@
  *
  */
 
-namespace App\Models;
+namespace App\Enums;
 
-use Illuminate\Database\Eloquent\Model;
-
-class RefFontSurat extends Model
+class FontSuratEnum
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'ref_font_surat';
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
+    public const DAFTAR = [
+        'Andale Mono',
+        'Arial',
+        'Arial Black',
+        'Comic Sans MS',
+        'Courier New',
+        'Georgia',
+        'Helvetica',
+        'Impact',
+        'Tahoma',
+        'Times New Roman',
+        'Trebuchet MS',
+        'Verdana',
+    ];
 }

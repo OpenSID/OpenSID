@@ -50,8 +50,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2209');
         $hasil = $hasil && $this->migrasi_2022090751($hasil);
+        $hasil = $hasil && $this->migrasi_2022090851($hasil);
 
-        return $hasil && $this->migrasi_2022090851($hasil);
+        return $hasil && $this->migrasi_2022091251($hasil);
     }
 
     protected function migrasi_2022090751($hasil)
@@ -75,6 +76,16 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $surat_tiny_mce = FormatSurat::jenis(FormatSurat::TINYMCE)->pluck('id');
         if ($surat_tiny_mce) {
             LogSurat::whereIn('id_format_surat', $surat_tiny_mce)->status(LogSurat::KONSEP)->update(['verifikasi_operator' => 0]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022091251($hasil)
+    {
+        // Hapus tabel ref_font_surat
+        if ($this->db->table_exists('ref_font_surat')) {
+            $hasil = $hasil && $this->dbforge->drop_table('ref_font_surat');
         }
 
         return $hasil;

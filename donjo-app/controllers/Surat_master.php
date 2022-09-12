@@ -35,10 +35,10 @@
  *
  */
 
+use App\Enums\FontSuratEnum;
 use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
-use App\Models\RefFontSurat;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\Sex;
@@ -387,7 +387,7 @@ class Surat_master extends Admin_Controller
         $data['ref_jabatan'] = RefJabatan::all();
         $data['aksi']        = route('surat_master.update');
         $data['formAksi']    = route('surat_master.edit_pengaturan');
-        $data['fonts']       = RefFontSurat::all();
+        $data['fonts']       = FontSuratEnum::DAFTAR;
 
         return view('admin.pengaturan_surat.pengaturan', $data);
     }
@@ -413,6 +413,7 @@ class Surat_master extends Admin_Controller
             'verifikasi_sekdes' => (int) $request['verifikasi_sekdes'],
             'verifikasi_kades'  => ((int) $request['tte'] == 1) ? 1 : (int) $request['verifikasi_kades'],
             'tte'               => (int) $request['tte'],
+            'font_surat'        => alfanumerik_spasi($request['font_surat']),
         ];
 
         if ($validasi['tte'] == 1) {
@@ -420,7 +421,6 @@ class Surat_master extends Admin_Controller
             $validasi['tte_api']          = alamat_web($request['tte_api']);
             $validasi['tte_username']     = $request['tte_username'];
             $validasi['tte_password']     = $request['tte_password'];
-            $validasi['font_surat']       = alfanumerik_spasi($request['font_surat']);
         } else {
             $validasi['footer_surat'] = $request['footer_surat'];
         }
