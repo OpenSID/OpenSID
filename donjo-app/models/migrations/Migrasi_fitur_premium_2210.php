@@ -39,6 +39,7 @@ use App\Enums\SistemEnum;
 use App\Models\FormatSurat;
 use App\Models\LogSurat;
 use App\Models\Pamong;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,8 +53,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2209');
         $hasil = $hasil && $this->migrasi_2022090751($hasil);
         $hasil = $hasil && $this->migrasi_2022090851($hasil);
+        $hasil = $hasil && $this->migrasi_2022091171($hasil);
 
-        return $hasil && $this->migrasi_2022091171($hasil);
+        return $hasil && $this->migrasi_2022091271($hasil);
     }
 
     protected function migrasi_2022090751($hasil)
@@ -96,6 +98,14 @@ class Migrasi_fitur_premium_2210 extends MY_model
             ];
             $hasil = $hasil && $this->dbforge->add_column('teks_berjalan', $fields);
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022091271($hasil)
+    {
+        // Ganti url 'peraturan_desa' jadi 'peraturan-desa
+        DB::table('menu')->where('link', 'peraturan_desa')->update(['link' => 'peraturan-desa']);
 
         return $hasil;
     }

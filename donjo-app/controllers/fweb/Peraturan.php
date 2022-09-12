@@ -40,14 +40,9 @@ use App\Models\RefDokumen;
 
 class Peraturan extends Web_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function index()
     {
-        if (! $this->web_menu_model->menu_aktif('peraturan_desa')) {
+        if (! $this->web_menu_model->menu_aktif('peraturan-desa')) {
             show_404();
         }
 
@@ -73,6 +68,9 @@ class Peraturan extends Web_Controller
             return datatables()
                 ->of(Dokumen::select(['id', 'nama', 'tahun', 'satuan', 'kategori'])->hidup()->where('kategori', '!=', 1)->filters($filters))
                 ->addIndexColumn()
+                ->addColumn('kategori_dokumen', static function ($row) {
+                    return $row->kategoriDokumen->nama;
+                })
                 ->make();
         }
 

@@ -105,11 +105,6 @@ class MY_Model extends CI_Model
                  * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
                  * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
                  */
-
-            case 'peraturan_desa':
-                $url = 'peraturan-desa';
-                break;
-
             case 'arsip':
             case 'data_analisis':
             case 'ambil_data_covid':
@@ -126,6 +121,7 @@ class MY_Model extends CI_Model
             case 'galeri':
             case 'pengaduan':
             case 'data-vaksinasi':
+            case 'peraturan-desa':
             case 'pemerintah':
                 break;
 

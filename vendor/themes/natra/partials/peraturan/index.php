@@ -66,8 +66,8 @@
                     width: '50%',
                 },
                 {
-                    data: 'kategori_dokumen.nama',
-                    name: 'kategori_dokumen.nama',
+                    data: 'kategori_dokumen',
+                    name: 'kategori_dokumen',
                     width: '10%',
                 },
                 {
@@ -80,8 +80,8 @@
                         return '<a href="<?= site_url('dokumen_web/unduh_berkas/') ?>' + data.id + '" class="btn btn-primary btn-block" target="_blank" rel="noopener noreferrer">Unduh</a>';
                     },
                     name: 'aksi',
-                    searchable: true,
-                    orderable: true,
+                    searchable: false,
+                    orderable: false,
                     width: '10%',
                 },
             ],
