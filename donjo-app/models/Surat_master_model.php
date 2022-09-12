@@ -425,12 +425,6 @@ class Surat_master_model extends MY_Model
                 ->where_not_in('url_surat', $daftar_surat)
                 ->delete($this->table);
         }
-
-        // Hapus surat ubahan desa yg sudah tidak ada
-        $this->db
-            ->where('jenis', 2)
-            ->where_not_in('url_surat', $daftar_surat)
-            ->delete($this->table);
     }
 
     /**
