@@ -27,10 +27,12 @@
                     class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                         class='fa fa-trash-o'></i> Hapus</a>
             @endif
-            @if (can('u'))
+            @if (can('u', '', true))
                 <a href="{{ route('surat_master.perbarui') }}" title="{{ SebutanDesa('Perbarui Surat [Desa]') }}"
                     class="btn btn-social bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
                         class="fa fa-recycle"></i> Perbarui</a>
+            @endif
+            @if (can('u'))
                 <a href="{{ route('surat_master.pengaturan') }}" title="Pengaturan"
                     class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
                         class="fa fa-gear"></i> Pengaturan</a>

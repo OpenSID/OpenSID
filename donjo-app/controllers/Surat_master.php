@@ -329,7 +329,7 @@ class Surat_master extends Admin_Controller
     // Tambahkan surat desa jika folder surat tidak ada di surat master
     public function perbarui()
     {
-        $this->redirect_hak_akses('u');
+        $this->redirect_hak_akses('u', null, null, true);
 
         $folderSuratDesa = glob(LOKASI_SURAT_DESA . '*', GLOB_ONLYDIR);
         $daftarSurat     = [];

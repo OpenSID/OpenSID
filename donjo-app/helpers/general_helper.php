@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Config;
+use App\Models\GrupAkses;
 use Carbon\Carbon;
 
 if (! function_exists('asset')) {
@@ -96,7 +98,7 @@ if (! function_exists('view')) {
             $factory->share([
                 'auth'         => $CI->session->isAdmin,
                 'controller'   => $CI->controller,
-                'desa'         => \App\Models\Config::first(),
+                'desa'         => Config::first(),
                 'list_setting' => $CI->list_setting,
                 'modul'        => $CI->header['modul'],
                 'modul_ini'    => $CI->modul_ini,
@@ -136,13 +138,17 @@ if (! function_exists('session')) {
 }
 
 if (! function_exists('can')) {
-    function can($akses, $controller = '')
+    function can($akses, $controller = '', $admin_only = false)
     {
         $CI = &get_instance();
         $CI->load->model('user_model');
 
         if (empty($controller)) {
             $controller = $CI->controller;
+        }
+
+        if ($admin_only && $CI->grup != GrupAkses::ADMINISTRATOR) {
+            return false;
         }
 
         return $CI->user_model->hak_akses($CI->grup, $controller, $akses);

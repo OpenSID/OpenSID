@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use App\Models\GrupAkses;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Pesan;
@@ -502,13 +503,15 @@ class Admin_Controller extends Premium
         }
     }
 
-    protected function redirect_hak_akses($akses, $redirect = '', $controller = '')
+    protected function redirect_hak_akses($akses, $redirect = '', $controller = '', $admin_only = false)
     {
         if (empty($controller)) {
             $controller = $this->controller;
         }
-        if (! $this->user_model->hak_akses($this->grup, $controller, $akses)) {
+
+        if (($admin_only && $this->grup != GrupAkses::ADMINISTRATOR) || ! $this->user_model->hak_akses($this->grup, $controller, $akses)) {
             session_error('Anda tidak mempunyai akses pada fitur ini');
+
             if (empty($this->grup)) {
                 redirect('siteman');
             }
