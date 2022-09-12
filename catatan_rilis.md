@@ -36,5 +36,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 26. [#5613](https://github.com/OpenSID/OpenSID/issues/5613) Perbaikan pemetaan penduduk pada peta.
 27. [#5606](https://github.com/OpenSID/OpenSID/issues/5606) Perbaikan input data kia ibu selain istri (menantu, dll).
 28. [#5634](https://github.com/OpenSID/OpenSID/issues/5634) Perbaikan validasi nik pada surat keterangan kelahiran.
+29. [#5616](https://github.com/OpenSID/OpenSID/issues/5616) Perbaikan scrollIntoView pada navigasi menu
 
 #### Perubahan Teknis

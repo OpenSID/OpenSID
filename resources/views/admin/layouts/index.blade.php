@@ -90,13 +90,25 @@
     <!-- AdminLTE -->
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
     <!-- jquery validasi -->
+    <script src="{{ asset('js/script.js') }}"></script>
     <!-- Modifikasi -->
-    <script src="{{ asset('js/admin.js') }}"></script>
     @if (config_item('demo_mode'))
         <!-- Website Demo -->
         <script src="{{ asset('js/demo.js') }}"></script>
     @endif
     @stack('scripts')
+    <script>
+        $(document).ready(function() {
+            // Scroll ke menu aktif perlu dilakukan di onload sesudah semua loading halaman selesai
+            // Tidak bisa di document.ready
+            // preparing var for scroll via query selector
+            var activated_menu = $('li.treeview.active.menu-open')[0];
+            // autscroll to activated menu/sub menu
+            if (activated_menu){
+                activated_menu.scrollIntoView({behavior: 'smooth'});
+            }
+        });
+    </script>
 </body>
 
 </html>
