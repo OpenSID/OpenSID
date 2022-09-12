@@ -10,7 +10,13 @@
     </a>
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
-
+        @if ($ci->agent->is_mobile())
+        <li class="dropdown notifications-menu">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Selengkapnya...</a>
+          <ul class="dropdown-menu">
+            <li>
+              <ul class="menu">
+        @endif
         @if ($notif['langganan'])
           <li>
             <a href="{{ route('pelanggan') }}">
@@ -75,6 +81,12 @@
               @endif
             </a>
           </li>
+        @endif
+        @if ($ci->agent->is_mobile())
+              </ul>
+            </li>
+          </ul>
+        </li>
         @endif
         
         <li class="dropdown user user-menu">

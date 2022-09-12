@@ -96,6 +96,7 @@ if (! function_exists('view')) {
             $CI->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception', 'sudah_mulai']);
         } else {
             $factory->share([
+                'ci'           => get_instance(),
                 'auth'         => $CI->session->isAdmin,
                 'controller'   => $CI->controller,
                 'desa'         => Config::first(),
