@@ -80,6 +80,13 @@ class Rtm_model extends MY_Model
         $this->db->where('id', $nik);
         $this->db->update('tweb_penduduk', $default);
 
+        // anggota
+        $default['rtm_level']  = 2;
+        foreach($post['anggota_kk'] ?? [] as $anggota_id){
+            $this->db->where('id', $anggota_id);
+            $this->db->update('tweb_penduduk', $default);
+        }
+        
         status_sukses($outp); //Tampilkan Pesan
     }
 
@@ -214,7 +221,7 @@ class Rtm_model extends MY_Model
 
     public function list_penduduk_lepas()
     {
-        $sql = 'SELECT p.id, p.nik, p.nama, h.nama as kk_level
+        $sql = 'SELECT p.id, p.nik, p.nama, h.nama as kk_level, id_kk
 			FROM penduduk_hidup p
 			LEFT JOIN tweb_penduduk_hubungan h ON p.kk_level = h.id
 			WHERE (status = 1 OR status = 3) AND status_dasar = 1 AND (id_rtm = 0 OR id_rtm IS NULL)';
