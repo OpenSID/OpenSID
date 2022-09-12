@@ -189,7 +189,7 @@
 											<input name="nama_pria" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_pria']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input name="no_ktp_pria" class="form-control input-sm" type="text" placeholder="Nomor KTP" value="<?= $_SESSION['post']['no_ktp_pria']?>">
+											<input name="no_ktp_pria" class="form-control input-sm nik" type="text" placeholder="Nomor KTP" value="<?= $_SESSION['post']['no_ktp_pria']?>">
 										</div>
 									</div>
 									<div class="form-group pria_luar_desa">
@@ -406,7 +406,7 @@
 											<input name="bin_ayah_pria" class="form-control input-sm" type="text" placeholder="Bin Ayah Pria" value="<?= $_SESSION['post']['bin_ayah_pria']?>"v>
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input name="noktp_ayah_pria" class="form-control input-sm" type="text" placeholder="Nomor KTP Ayah Pria" value="<?= $_SESSION['post']['noktp_ayah_pria'] ?: $ayah_pria['nik']?>">
+											<input name="noktp_ayah_pria" class="form-control input-sm nik" type="text" placeholder="Nomor KTP Ayah Pria" value="<?= $_SESSION['post']['noktp_ayah_pria'] ?: $ayah_pria['nik']?>">
 										</div>
 									</div>
 									<div class="form-group ayah_pria">
@@ -516,7 +516,7 @@
 											<input name="binti_ibu_pria" class="form-control input-sm" type="text" placeholder="Binti Ibu Pria" value="<?= $_SESSION['post']['binti_ibu_pria']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input name="noktp_ibu_pria" class="form-control input-sm" type="text" placeholder="Nomor KTP Ibu Pria" value="<?= $_SESSION['post']['noktp_ibu_pria'] ?: $ibu_pria['nik']?>">
+											<input name="noktp_ibu_pria" class="form-control input-sm nik" type="text" placeholder="Nomor KTP Ibu Pria" value="<?= $_SESSION['post']['noktp_ibu_pria'] ?: $ibu_pria['nik']?>">
 										</div>
 									</div>
 									<div class="form-group ibu_pria">
@@ -593,7 +593,7 @@
 											<input name="binti" class="form-control input-sm istri_dulu" type="text" placeholder="Binti" value="<?= $_SESSION['post']['binti']?>">
 										</div>
 										<div class="col-sm-2">
-											<input name="noktp_istri_dulu" class="form-control input-sm istri_dulu" type="text" placeholder="No KTP Istri Dulu" value="<?= $_SESSION['post']['noktp_istri_dulu']?>">
+											<input name="noktp_istri_dulu" class="form-control input-sm istri_dulu nik" type="text" placeholder="No KTP Istri Dulu" value="<?= $_SESSION['post']['noktp_istri_dulu']?>">
 										</div>
 									</div>
 									<div class="form-group istri_dulu">
@@ -714,7 +714,7 @@
 											<input name="nama_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_wanita']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input name="no_ktp_wanita" class="form-control input-sm" type="text" placeholder="Nomor KTP Wanita" value="<?= $_SESSION['post']['no_ktp_wanita']?>">
+											<input name="no_ktp_wanita" class="form-control input-sm nik" type="text" placeholder="Nomor KTP Wanita" value="<?= $_SESSION['post']['no_ktp_wanita']?>">
 										</div>
 									</div>
 									<div class="form-group wanita_luar_desa">
@@ -861,7 +861,7 @@
 											<input name="bin_ayah_wanita" class="form-control input-sm" type="text" placeholder="Bin Ayah Wanita" value="<?= $_SESSION['post']['bin_ayah_wanita']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input name="noktp_ayah_wanita" class="form-control input-sm" type="text" placeholder="Nomor KTP Ayah Wanita" value="<?= $_SESSION['post']['noktp_ayah_wanita'] ?: $ayah_wanita['nik'];?>">
+											<input name="noktp_ayah_wanita" class="form-control input-sm nik" type="text" placeholder="Nomor KTP Ayah Wanita" value="<?= $_SESSION['post']['noktp_ayah_wanita'] ?: $ayah_wanita['nik'];?>">
 										</div>
 									</div>
 									<div class="form-group ayah_wanita">
@@ -936,7 +936,7 @@
 											<input name="bin_ayah_wanita" class="form-control input-sm" type="text" placeholder="Bin Ayah Wanita" value="<?= $_SESSION['post']['bin_ayah_wanita']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input name="noktp_ayah_wanita" class="form-control input-sm" type="text" placeholder="Nomor KTP Ayah Wanita" value="<?= $_SESSION['post']['noktp_ayah_wanita'] ?: $ayah_wanita['nik'];?>">
+											<input name="noktp_ayah_wanita" class="form-control input-sm nik" type="text" placeholder="Nomor KTP Ayah Wanita" value="<?= $_SESSION['post']['noktp_ayah_wanita'] ?: $ayah_wanita['nik'];?>">
 										</div>
 									</div>
 									<div class="form-group ayah_wanita">
@@ -1118,7 +1118,7 @@
 											<input name="binti_ibu_wanita" class="form-control input-sm" type="text" placeholder="Binti Ibu Wanita" value="<?= $_SESSION['post']['binti_ibu_wanita']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input name="noktp_ibu_wanita" class="form-control input-sm" type="text" placeholder="Nomor KTP Ibu Wanita" value="<?= $_SESSION['post']['noktp_ibu_wanita'] ?: $ibu_wanita['nik']?>">
+											<input name="noktp_ibu_wanita" class="form-control input-sm nik" type="text" placeholder="Nomor KTP Ibu Wanita" value="<?= $_SESSION['post']['noktp_ibu_wanita'] ?: $ibu_wanita['nik']?>">
 										</div>
 									</div>
 									<div class="form-group ibu_wanita">
@@ -1195,7 +1195,7 @@
 											<input name="bin_suami_dulu" class="form-control input-sm suami_dulu" type="text" placeholder="Bin" value="<?= $_SESSION['post']['binti_suami_dulu']?>">
 										</div>
 										<div class="col-sm-2">
-											<input name="noktp_suami_dulu" class="form-control input-sm suami_dulu" type="text" placeholder="No KTP Suami Dulu" value="<?= $_SESSION['post']['noktp_suami_dulu']?>">
+											<input name="noktp_suami_dulu" class="form-control input-sm suami_dulu nik" type="text" placeholder="No KTP Suami Dulu" value="<?= $_SESSION['post']['noktp_suami_dulu']?>">
 										</div>
 									</div>
 									<div class="form-group cerai_mati">
@@ -1297,7 +1297,7 @@
 											<input name="nama_saksi1" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_saksi1']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input name="no_ktp_saksi1" class="form-control input-sm" type="text" placeholder="Nomor KTP" value="<?= $_SESSION['post']['no_ktp_saksi1']?>">
+											<input name="no_ktp_saksi1" class="form-control input-sm nik" type="text" placeholder="Nomor KTP" value="<?= $_SESSION['post']['no_ktp_saksi1']?>">
 										</div>
 									</div>
 									<div class="form-group saksi1_luar_desa">
@@ -1412,7 +1412,7 @@
 											<input name="nama_saksi2" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_saksi2']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input name="no_ktp_saksi2" class="form-control input-sm" type="text" placeholder="Nomor KTP" value="<?= $_SESSION['post']['no_ktp_saksi2']?>">
+											<input name="no_ktp_saksi2" class="form-control input-sm nik" type="text" placeholder="Nomor KTP" value="<?= $_SESSION['post']['no_ktp_saksi2']?>">
 										</div>
 									</div>
 									<div class="form-group saksi2_luar_desa">

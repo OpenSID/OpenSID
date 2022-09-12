@@ -133,7 +133,7 @@
 									<div class="form-group pemohon_luar_desa">
 										<label for="nik_non_warga"  class="col-sm-3 control-label">Nomor KTP</label>
 										<div class="col-sm-4">
-											<input name="nik_non_warga" class="form-control input-sm required" type="text" placeholder="Nomor KTP" value="<?= $_SESSION['post']['nik_non_warga']?>">
+											<input name="nik_non_warga" class="form-control input-sm nik required" type="text" placeholder="Nomor KTP" value="<?= $_SESSION['post']['nik_non_warga']?>">
 										</div>
 									</div>
 									<div class="form-group pemohon_luar_desa">
