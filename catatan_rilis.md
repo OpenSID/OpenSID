@@ -34,5 +34,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 24. [#5614](https://github.com/OpenSID/OpenSID/issues/5614) Menambahkan paramater pengenal lain pada penamaan file foto.
 25. [#5619](https://github.com/OpenSID/OpenSID/issues/5619) Perbaikan impor sikuedes.
 26. [#5613](https://github.com/OpenSID/OpenSID/issues/5613) Perbaikan pemetaan penduduk pada peta.
+27. [#5606](https://github.com/OpenSID/OpenSID/issues/5606) Perbaikan input data kia ibu selain istri (menantu, dll).
 
 #### Perubahan Teknis
