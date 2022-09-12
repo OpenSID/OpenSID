@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 3. [#5595](https://github.com/OpenSID/OpenSID/issues/5595) Menambahkan pengaturan untuk menampilkan text berjalan pada anjungan/layanan mandiri.
 4. [#5345](https://github.com/OpenSID/OpenSID/issues/5345) Membatasi akses tombol perbarui surat hanya pada group administrator saja.
 5. [#5549](https://github.com/OpenSID/OpenSID/issues/5549) Mengubah responsive navbar OpenSID.
+6. [#2565](https://github.com/OpenSID/OpenSID/issues/2565) Menambahkan inputan link dokumen pada menu sekretariat di sub menu informasi publik.
 
 
 #### Perbaikan BUG

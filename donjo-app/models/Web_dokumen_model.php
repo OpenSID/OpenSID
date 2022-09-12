@@ -419,6 +419,7 @@ class Web_dokumen_model extends MY_Model
         $data['kategori_info_publik'] = $post['kategori_info_publik'] ?: null;
         $data['id_syarat']            = $post['id_syarat'] ?: null;
         $data['id_pend']              = $post['id_pend'] ?: 0;
+        $data['url']                  = $post['url'] ?: null;
 
         switch ($data['kategori']) {
             case 1: //Informsi Publik

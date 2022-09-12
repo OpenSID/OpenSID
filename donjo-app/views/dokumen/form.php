@@ -56,6 +56,12 @@
 							<?php endif; ?>
 						</div>
 					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-4" for="nama">Link/URL Dokumen</label>
+						<div class="col-sm-6">
+							<input name="url" class="form-control input-sm" type="text" value="<?= $dokumen['url'] ?>"></input>
+						</div>
+					</div>
 					<input name="kategori" type="hidden" value="<?= $dokumen['kategori'] ?: $kat; ?>">
 					<?php
                     if ($kat == 2 || $dokumen['kategori'] == 2) {

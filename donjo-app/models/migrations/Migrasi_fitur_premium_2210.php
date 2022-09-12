@@ -55,8 +55,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022090851($hasil);
         $hasil = $hasil && $this->migrasi_2022091171($hasil);
         $hasil = $hasil && $this->migrasi_2022091251($hasil);
+        $hasil = $hasil && $this->migrasi_2022091271($hasil);
 
-        return $hasil && $this->migrasi_2022091271($hasil);
+        return $hasil && $this->migrasi_2022091371($hasil);
 
     }
 
@@ -113,8 +114,36 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
     protected function migrasi_2022091271($hasil)
     {
-        // Ganti url 'peraturan_desa' jadi 'peraturan-desa
-        DB::table('menu')->where('link', 'peraturan_desa')->update(['link' => 'peraturan-desa']);
+      // Ganti url 'peraturan_desa' jadi 'peraturan-desa
+      DB::table('menu')->where('link', 'peraturan_desa')->update(['link' => 'peraturan-desa']);
+
+        return $hasil;
+    }
+    protected function migrasi_2022091371($hasil)
+    {
+        if (! $this->db->field_exists('url', 'dokumen')) {
+            $fields = [
+                'url' => [
+                    'type'    => 'TEXT',
+                    'null'    => true,
+                    'default' => null,
+                    'after'   => 'attr',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('dokumen', $fields);
+        }
+
+        if (! $this->db->field_exists('url', 'dokumen_hidup')) {
+            $fields = [
+                'url' => [
+                    'type'    => 'TEXT',
+                    'null'    => true,
+                    'default' => null,
+                    'after'   => 'attr',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('dokumen_hidup', $fields);
+        }
 
         return $hasil;
     }

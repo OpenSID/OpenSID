@@ -14,6 +14,7 @@
 					<tr>
       		  <th>No</th>
 						<th>Judul Informasi</th>
+      		  <th>Link/URL</th>
       		  <th>Tahun</th>
       		  <th>Kategori</th>
       		  <th>Tanggal Upload</th>
