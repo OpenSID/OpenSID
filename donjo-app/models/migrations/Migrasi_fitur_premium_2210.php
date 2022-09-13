@@ -147,4 +147,17 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
         return $hasil;
     }
+
+    protected function migrasi_2022091271($hasil)
+    {
+        // Ganti tipe text jadi textarea
+        $daftar_surat = FormatSurat::jenis(FormatSurat::TINYMCE)->pluck('kode_isian', 'id');
+
+        foreach ($daftar_surat as $id => $kode_isian) {
+            $kode_isian = str_replace('"tipe":"text"', '"tipe":"textarea"', json_encode($kode_isian));
+            FormatSurat::find($id)->update(['kode_isian' => json_decode($kode_isian)]);
+        }
+
+        return $hasil;
+    }
 }

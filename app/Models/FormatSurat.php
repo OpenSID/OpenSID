@@ -121,6 +121,21 @@ class FormatSurat extends Model
     ];
 
     /**
+     * Static data atribut surat.
+     *
+     * @var array
+     */
+    public const ATTRIBUTES = [
+        'text'     => 'Input Teks',
+        'number'   => 'Input Angka',
+        'email'    => 'Input Email',
+        'url'      => 'Input Url',
+        'date'     => 'Input Tanggal',
+        'time'     => 'Input Jam',
+        'textarea' => 'Text Area',
+    ];
+
+    /**
      * {@inheritDoc}
      */
     protected $table = 'tweb_surat_format';

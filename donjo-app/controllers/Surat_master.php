@@ -146,6 +146,7 @@ class Surat_master extends Admin_Controller
 
         $data['form_isian']       = $this->form_isian();
         $data['masaBerlaku']      = FormatSurat::MASA_BERLAKU;
+        $data['attributes']       = FormatSurat::ATTRIBUTES;
         $data['klasifikasiSurat'] = KlasifikasiSurat::orderBy('kode')->enabled()->get(['kode', 'nama']);
         $data['pengaturanSurat']  = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
 
@@ -223,17 +224,20 @@ class Surat_master extends Admin_Controller
 
     private function validate($request = [], $jenis = 4)
     {
-        $isian = array_combine(array_filter($request['nama_kode'], 'strlen'), array_filter($request['deskripsi_kode'], 'strlen'));
+        $kodeIsian = [];
 
-        foreach ($isian as $nama => $deskripsi) {
-            if (! empty($nama) || ! empty($deskripsi)) {
-                $kodeIsian[] = [
-                    'kode'      => '[' . str_replace(' ', '_', strtolower($nama)) . ']',
-                    'nama'      => $nama,
-                    'tipe'      => 'text',
-                    'deskripsi' => $deskripsi,
-                ];
+        for ($i = 0; $i < count($request['tipe_kode']); $i++) {
+            if (empty($request['tipe_kode'][$i]) || empty($request['nama_kode'][$i]) || empty($request['deskripsi_kode'][$i])) {
+                continue;
             }
+
+            $kodeIsian[] = [
+                'tipe'      => $request['tipe_kode'][$i],
+                'kode'      => '[' . str_replace(' ', '_', strtolower($request['nama_kode'][$i])) . ']',
+                'nama'      => $request['nama_kode'][$i],
+                'deskripsi' => $request['deskripsi_kode'][$i],
+                'atribut'   => $request['atribut_kode'][$i],
+            ];
         }
 
         $formIsian = [

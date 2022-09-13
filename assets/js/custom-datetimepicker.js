@@ -115,6 +115,11 @@ $(document).ready(function()
 		locale:'id',
 		maxDate: moment(new Date())
 	});
+	$('.jam').datetimepicker(
+	{
+		format: 'HH:mm:ss',
+		locale:'id'
+	});
 	$('#jam_1').datetimepicker(
 	{
 		format: 'HH:mm:ss',

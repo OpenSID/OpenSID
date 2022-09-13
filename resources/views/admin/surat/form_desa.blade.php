@@ -57,12 +57,45 @@
             @include('admin.surat.nomor_surat')
 
             @foreach ($surat['kode_isian'] as $item)
+                @php $nama = underscore($item->nama, true, true) @endphp
                 <div class="form-group">
                     <label for="{{ $item->nama }}" class="col-sm-3 control-label">{{ $item->nama }}</label>
-                    <div class="col-sm-8">
-                        <textarea name="{{ underscore($item->nama, true, true) }}" class="form-control input-sm required"
-                            placeholder="{{ $item->deskripsi }}"></textarea>
-                    </div>
+                    @if ($item->tipe == 'textarea')
+                        <div class="col-sm-8">
+                            <textarea name="{{ $nama }}" class="form-control input-sm" placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!}></textarea>
+                        </div>
+                    @elseif ($item->tipe == 'date')
+                        <div class="col-sm-3 col-lg-2">
+                            <div class="input-group input-group-sm date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control input-sm tgl" name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!}/> 
+                            </div>
+                        </div>
+                    @elseif ($item->tipe == 'time')
+                        <div class="col-sm-3 col-lg-2">
+                            <div class="input-group input-group-sm date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                </div>
+                                <input type="text" class="form-control input-sm jam" name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!}/> 
+                            </div>
+                        </div>
+                    @elseif ($item->tipe == 'datetime')
+                        <div class="col-sm-3 col-lg-2">
+                            <div class="input-group input-group-sm date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control input-sm tgl_jam" name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!}/> 
+                            </div>
+                        </div>
+                    @else
+                        <div class="col-sm-8">
+                            <input type="{{ $item->tipe }}" class="form-control input-sm {{ $class }}" name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!}/> 
+                        </div>
+                    @endif
                 </div>
             @endforeach
 
