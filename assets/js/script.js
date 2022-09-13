@@ -341,7 +341,7 @@ function aksiBorongan(idForm, action) {
 
 function modalBox()
 {
-	$('#modalBox').on('show.bs.modal', function(e)
+	$('#modalBox').one('show.bs.modal', function(e)
 	{
 		var link = $(e.relatedTarget);
 		var title = link.data('title');
@@ -380,7 +380,7 @@ function cetakBox()
 
 function mapBox()
 {
-	$('#mapBox').on('show.bs.modal', function(e){
+	$('#mapBox').one('show.bs.modal', function(e){
 		var link = $(e.relatedTarget);
 		$('.modal-header #myModalLabel').html(link.attr('data-title'));
 		$(this).find('.fetched-data').load(link.attr('href'));
