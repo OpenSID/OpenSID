@@ -118,7 +118,13 @@
 				iconUrl: "<?= base_url('assets/images/gis/point/construction.png'); ?>",
 			});
 
-			pembangunan = L.map('map').setView(posisi, zoom);
+			
+			var options = {
+				maxZoom: <?= setting('max_zoom_peta') ?>,
+				minZoom: <?= setting('min_zoom_peta') ?>,
+			};
+
+			pembangunan = L.map('map', options).setView(posisi, zoom);
 			getBaseLayers(pembangunan, "<?= setting('mapbox_key') ?>", "<?= setting('jenis_peta') ?>");
 			pembangunan.addLayer(new L.Marker(posisi, {icon:logo}));
 		});

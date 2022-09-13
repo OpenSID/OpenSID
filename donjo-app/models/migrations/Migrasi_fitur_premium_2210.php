@@ -56,9 +56,10 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022091171($hasil);
         $hasil = $hasil && $this->migrasi_2022091251($hasil);
         $hasil = $hasil && $this->migrasi_2022091271($hasil);
+        $hasil = $hasil && $this->migrasi_2022091371($hasil);
+        $hasil = $hasil && $this->migrasi_2022091372($hasil);
 
-        return $hasil && $this->migrasi_2022091371($hasil);
-
+        return $hasil && $this->migrasi_2022091373($hasil);
     }
 
     protected function migrasi_2022090751($hasil)
@@ -86,6 +87,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
         return $hasil;
     }
+
     protected function migrasi_2022091171($hasil)
     {
         if (! $this->db->field_exists('tipe', 'teks_berjalan')) {
@@ -99,9 +101,11 @@ class Migrasi_fitur_premium_2210 extends MY_model
                 ],
             ];
             $hasil = $hasil && $this->dbforge->add_column('teks_berjalan', $fields);
-      }
-      return $hasil;
+        }
+
+        return $hasil;
     }
+
     protected function migrasi_2022091251($hasil)
     {
         // Hapus tabel ref_font_surat
@@ -114,11 +118,12 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
     protected function migrasi_2022091271($hasil)
     {
-      // Ganti url 'peraturan_desa' jadi 'peraturan-desa
-      DB::table('menu')->where('link', 'peraturan_desa')->update(['link' => 'peraturan-desa']);
+        // Ganti url 'peraturan_desa' jadi 'peraturan-desa
+        DB::table('menu')->where('link', 'peraturan_desa')->update(['link' => 'peraturan-desa']);
 
         return $hasil;
     }
+
     protected function migrasi_2022091371($hasil)
     {
         if (! $this->db->field_exists('url', 'dokumen')) {
@@ -148,7 +153,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022091271($hasil)
+    protected function migrasi_2022091372($hasil)
     {
         // Ganti tipe text jadi textarea
         $daftar_surat = FormatSurat::jenis(FormatSurat::TINYMCE)->pluck('kode_isian', 'id');
@@ -159,5 +164,22 @@ class Migrasi_fitur_premium_2210 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022091373($hasil)
+    {
+        $hasil = $hasil && $this->tambah_setting([
+            'key'        => 'min_zoom_peta',
+            'value'      => 1,
+            'keterangan' => 'Minimal pembesaran wilayah pada peta',
+            'jenis'      => 'int',
+        ]);
+
+        return $hasil && $this->tambah_setting([
+            'key'        => 'max_zoom_peta',
+            'value'      => 30,
+            'keterangan' => 'Maksimal pembesaran wilayah pada peta',
+            'jenis'      => 'int',
+        ]);
     }
 }

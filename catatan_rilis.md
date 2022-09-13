@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 6. [#2565](https://github.com/OpenSID/OpenSID/issues/2565) Menambahkan inputan link dokumen pada menu sekretariat di sub menu informasi publik.
 7. [#5076](https://github.com/OpenSID/OpenSID/issues/5076) Menambahkan perhitungan otomatis umur tahun dan bulan di form pemantauan bulanan anak 0 - 2 tahun.
 8. [#5309](https://github.com/OpenSID/OpenSID/issues/5309) Menambahkan kode isian dinamis pada surat TinyMCE.
+9. [#5515](https://github.com/OpenSID/OpenSID/issues/5515) Menambahkan pengaturan min dan max zoom pada peta.
 
 
 #### Perbaikan BUG

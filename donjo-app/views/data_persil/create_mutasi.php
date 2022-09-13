@@ -387,7 +387,12 @@
                 var posisi = [-1.0546279422758742,116.71875000000001];
                 var zoom = 4;
             <?php endif; ?>
-            var peta_area = L.map('map').setView(posisi, zoom);
+
+            var options = {
+                maxZoom: <?= setting('max_zoom_peta') ?>,
+                minZoom: <?= setting('min_zoom_peta') ?>,
+            };
+            var peta_area = L.map('map', options).setView(posisi, zoom);
 
             //1. Menampilkan overlayLayers Peta Semua Wilayah
             var marker_desa = [];
