@@ -51,6 +51,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2209');
+        $hasil = $hasil && $this->migrasi_2022090671($hasil);
         $hasil = $hasil && $this->migrasi_2022090751($hasil);
         $hasil = $hasil && $this->migrasi_2022090851($hasil);
         $hasil = $hasil && $this->migrasi_2022091171($hasil);
@@ -60,6 +61,25 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022091372($hasil);
 
         return $hasil && $this->migrasi_2022091373($hasil);
+    }
+
+    protected function migrasi_2022090671($hasil)
+    {
+        // tambahkan kolom id_browser
+        if (! $this->db->field_exists('id_pengunjung', 'anjungan')) {
+            $fields = [
+                'id_pengunjung' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                    'default'    => null,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('anjungan', $fields);
+        }
+
+        return $hasil;
     }
 
     protected function migrasi_2022090751($hasil)

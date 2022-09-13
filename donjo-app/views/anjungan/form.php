@@ -84,6 +84,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="col-sm-3 control-label" for="id_pengunjung">ID Pengunjung</label>
+						<div class="col-sm-7">
+							<input class="form-control input-sm alfanumerik" type="text" placeholder="ad02c373c2a8745d108aff863712fe92" name="id_pengunjung" value="<?= $anjungan['id_pengunjung']?>">
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 						<div class="col-sm-7">
 							 <textarea name="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="3" style="resize:none;"><?= $anjungan['keterangan']?></textarea>

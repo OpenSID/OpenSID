@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 7. [#5076](https://github.com/OpenSID/OpenSID/issues/5076) Menambahkan perhitungan otomatis umur tahun dan bulan di form pemantauan bulanan anak 0 - 2 tahun.
 8. [#5309](https://github.com/OpenSID/OpenSID/issues/5309) Menambahkan kode isian dinamis pada surat TinyMCE.
 9. [#5515](https://github.com/OpenSID/OpenSID/issues/5515) Menambahkan pengaturan min dan max zoom pada peta.
+10. [#5508](https://github.com/OpenSID/OpenSID/issues/5508) Menambahkan cara membaca perangkat anjungan dengan menggunakan ID Browser.
 
 
 #### Perbaikan BUG

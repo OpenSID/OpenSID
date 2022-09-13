@@ -59,7 +59,8 @@ class Anjungan_model extends CI_Model
 
         $this->db
             ->group_start()
-            ->where('ip_address', $ip);
+            ->where('ip_address', $ip)
+            ->or_where('id_pengunjung', $_COOKIE['pengunjung']);
         if ($mac_address) {
             $this->db->or_where('mac_address', $mac_address);
         }
@@ -90,14 +91,15 @@ class Anjungan_model extends CI_Model
 
     private function validasi($post)
     {
-        $data['ip_address']   = bilangan_titik($post['ip_address']);
-        $data['printer_ip']   = bilangan_titik($post['printer_ip']);
-        $data['printer_port'] = bilangan($post['printer_port']);
-        $data['mac_address']  = alfanumerik_kolon($post['mac_address']);
-        $data['keterangan']   = htmlentities($post['keterangan']);
-        $data['keyboard']     = bilangan($post['keyboard']);
-        $data['status']       = bilangan($post['status']);
-        $data['updated_by']   = $this->session->user;
+        $data['ip_address']    = bilangan_titik($post['ip_address']);
+        $data['printer_ip']    = bilangan_titik($post['printer_ip']);
+        $data['printer_port']  = bilangan($post['printer_port']);
+        $data['mac_address']   = alfanumerik_kolon($post['mac_address']);
+        $data['id_pengunjung'] = alfanumerik($post['id_pengunjung']);
+        $data['keterangan']    = htmlentities($post['keterangan']);
+        $data['keyboard']      = bilangan($post['keyboard']);
+        $data['status']        = bilangan($post['status']);
+        $data['updated_by']    = $this->session->user;
 
         return $data;
     }
