@@ -290,13 +290,13 @@ class Surat extends Admin_Controller
 
                 // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
                 $surat->isi_surat = $isi_cetak;
-                $surat->status    = 0;
-                /* verifikasi
-                 * value 0 : diperiksa
-                 * value 1 : sudah disetujui
-                 * value 1 : sudah disetujui
-                 * value null : lewati
+                /**
+                 * Verifikasi
+                 * 0    => diperiksa
+                 * 1    => sudah disetujui
+                 * null => lewati
                  */
+                $surat->status    = LogSurat::CETAK;
                 $surat->verifikasi_operator = ($surat->verifikasi_operator == '-1') ? '-1' : 0;
             } catch (Html2PdfException $e) {
                 $html2pdf->clean();
@@ -305,7 +305,7 @@ class Surat extends Admin_Controller
 
                 // Untuk surat yang sudah tersimpan sebagai draf, simpan isian suratnya yang belum jadi (hanya isian surat dari konversi template surat)
                 $surat->isi_surat = $isi[1];
-                $surat->status    = 0;
+                $surat->status    = LogSurat::KONSEP;
             }
 
             $surat->save();
