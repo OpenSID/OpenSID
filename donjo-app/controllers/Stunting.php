@@ -608,7 +608,20 @@ class Stunting extends Admin_Controller
         $data['status_tikar_anak']       = collect(Anak::STATUS_TIKAR_ANAK)->pluck('nama', 'id');
         $data['status_imunisasi_campak'] = Anak::STATUS_IMUNISASI_CAMPAK;
 
+        if ($this->input->is_ajax_request()) {
+            $kia     = KIA::find($this->input->get('kia'));
+            $data    = Penduduk::find($kia->anak_id);
+            $tanggal = Carbon::create($data->tanggallahir);
+
+            return json($tanggal->diff(Carbon::now()));
+        }
+
         if ($id) {
+            $kia          = KIA::find($id);
+            $anak         = Penduduk::find($kia->anak_id);
+            $tanggal      = Carbon::create($anak->tanggallahir);
+            $data['umur'] = $tanggal->diff(Carbon::now());
+
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updateAnak', $id);
             $data['anak']       = Anak::find($id) ?? show_404();
