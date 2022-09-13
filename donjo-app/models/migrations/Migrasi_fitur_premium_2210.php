@@ -158,19 +158,10 @@ class Migrasi_fitur_premium_2210 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('dokumen', $fields);
         }
 
-        if (! $this->db->field_exists('url', 'dokumen_hidup')) {
-            $fields = [
-                'url' => [
-                    'type'    => 'TEXT',
-                    'null'    => true,
-                    'default' => null,
-                    'after'   => 'attr',
-                ],
-            ];
-            $hasil = $hasil && $this->dbforge->add_column('dokumen_hidup', $fields);
-        }
+        // Perbaharui view dokumen_hidup
+        $hasil = $hasil && $this->db->query('DROP VIEW dokumen_hidup');
 
-        return $hasil;
+        return $hasil && $this->db->query('CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1');
     }
 
     protected function migrasi_2022091372($hasil)
