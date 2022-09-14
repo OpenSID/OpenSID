@@ -37,10 +37,9 @@
             @endif
 
             <div class="box-footer">
-                <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i
-                        class="fa fa-times"></i> Batal</button>
-                <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
-                    Simpan</button>
+                <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
+                <button type="submit" name="action" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>Simpan</button>
+                <button name="action" value="preview" class="btn btn-social btn-info btn-sm pull-right" style="margin: 0 8px"><i class="fa fa-download"></i>Lihat hasil surat</button>
             </div>
         </div>
     </div>

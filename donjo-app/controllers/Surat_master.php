@@ -45,6 +45,9 @@ use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -184,6 +187,10 @@ class Surat_master extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
+        if ($this->request['action'] == 'preview') {
+            $this->preview();
+        }
+
         if (FormatSurat::insert(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
@@ -194,6 +201,10 @@ class Surat_master extends Admin_Controller
     public function update_baru($id = null)
     {
         $this->redirect_hak_akses('u');
+
+        if ($this->request['action'] == 'preview') {
+            $this->preview();
+        }
 
         $data = FormatSurat::find($id) ?? show_404();
 
@@ -442,5 +453,46 @@ class Surat_master extends Admin_Controller
     public function salin_template()
     {
         return json($this->tinymce->getTemplate()->merge($this->tinymce->getTemplateSurat()));
+    }
+
+    public function preview()
+    {
+        $setting_footer = setting('footer_surat');
+        $setting_header = setting('header_surat');
+        $footer         = setting('tte') == 1 ? setting('footer_surat_tte') : $setting_footer;
+        $isi_surat      = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $footer);
+
+        // Pisahkan isian surat
+        $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);
+        $isi        = explode('<!-- pagebreak -->', $isi_surat);
+        $backtop    = (((float) setting('tinggi_header')) * 10) . 'mm';
+        $backbottom = (((float) setting('tinggi_footer')) * 10) . 'mm';
+
+        $isi_cetak = '
+            <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">
+                <page_header>
+                ' . $isi[0] . '
+                </page_header>
+                <page_footer>
+                ' . $isi[2] . '
+                </page_footer>
+
+                ' . $isi[1] . '
+            </page>
+        ';
+
+        try {
+            $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', [$this->request['kiri'] * 10, $this->request['atas'] * 10, $this->request['kanan'] * 10, $this->request['bawah'] * 10]);
+            $html2pdf->setTestTdInOnePage(false);
+            $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
+            $html2pdf->writeHTML($isi_cetak);
+            $html2pdf->output('preview.pdf', 'D');
+        } catch (Html2PdfException $e) {
+            $html2pdf->clean();
+            $formatter = new ExceptionFormatter($e);
+            log_message('error', $formatter->getHtmlMessage());
+        }
+
+        exit();
     }
 }
