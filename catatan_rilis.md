@@ -41,6 +41,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 31. [#5467](https://github.com/OpenSID/OpenSID/issues/5467) Perbaikan validasi bukti bayar untuk mitra.
 33. [#5639](https://github.com/OpenSID/OpenSID/issues/5639) Perbaikan pemeriksaan kebutuhan sistem untuk php dan database.
 34. [#5638](https://github.com/OpenSID/OpenSID/issues/5638) Perbaikan pemberitahuan pengaturan kehadiran.
+35. [#5640](https://github.com/OpenSID/OpenSID/issues/5640) Perbaikan simpan perubahan data buku tanah kas desa.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
