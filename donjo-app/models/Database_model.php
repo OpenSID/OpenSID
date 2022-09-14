@@ -186,14 +186,6 @@ class Database_model extends MY_Model
                     $this->jalankan_migrasi($migrate);
                 }
             }
-            $this->load->helper('directory');
-            if ($this->db->affected_rows() > 0) { // jika ada perubahan data, hapus chace view blade
-                foreach (directory_map(config_item('cache_blade')) as $file) {
-                    if ($file !== 'index.html') {
-                        unlink(config_item('cache_blade') . DIRECTORY_SEPARATOR . $file);
-                    }
-                }
-            }
         } else {
             $this->_migrasi_db_cri();
         }
@@ -203,6 +195,17 @@ class Database_model extends MY_Model
         $this->db->where('id', 13)->update('setting_aplikasi', ['value' => true]);
         // Lengkapi folder desa
         folder_desa();
+
+        // Hapus cache blade
+        $this->load->helper('directory');
+        $dir = config_item('cache_blade');
+
+        foreach (directory_map($dir) as $file) {
+            if ($file !== 'index.html') {
+                unlink($dir . DIRECTORY_SEPARATOR . $file);
+            }
+        }
+
         /*
          * Update current_version di db.
          * 'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
