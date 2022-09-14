@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.09-premium-rev02 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.09-premium-rev03 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
@@ -41,3 +41,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 31. [#5467](https://github.com/OpenSID/OpenSID/issues/5467) Perbaikan validasi bukti bayar untuk mitra.
 
 #### Perubahan Teknis
+1. Perbaikan teks pemberitahuan kerja sama.
