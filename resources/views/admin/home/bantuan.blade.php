@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Pengaturan Program Bantuan</h4>
       </div>
-      {!! form_open(route('setting.update'), 'id="main_bantuan"') !!}
+      {!! form_open(route('setting.new_update'), 'id="main_bantuan"') !!}
         <div class="modal-body">
           <div class="form-group">
             <label>Program Bantuan Untuk Ditampilkan</label>

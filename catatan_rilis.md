@@ -40,6 +40,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 30. [#5624](https://github.com/OpenSID/OpenSID/issues/5624) Perbaikan pengaturan font bawaan pada surat TinyMCE.
 31. [#5467](https://github.com/OpenSID/OpenSID/issues/5467) Perbaikan validasi bukti bayar untuk mitra.
 33. [#5639](https://github.com/OpenSID/OpenSID/issues/5639) Perbaikan pemeriksaan kebutuhan sistem untuk php dan database.
+34. [#5638](https://github.com/OpenSID/OpenSID/issues/5638) Perbaikan pemberitahuan pengaturan kehadiran.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
