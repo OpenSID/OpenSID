@@ -51,15 +51,24 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<label for="nama">Umur</label>
 			</div>
 			<?php if ($input_umur) : ?>
-				<div class="col-sm-6">
+				<div class="col-sm-5">
 					<div class="form-group">
 						<input class="form-control input-sm bilangan" maxlength="3" type="text" placeholder="Dari" id="umur_min" name="umur_min" value="<?= $umur_min ?>"></input>
 					</div>
 				</div>
 
-				<div class="col-sm-6">
+				<div class="col-sm-5">
 					<div class="form-group">
 						<input id="umur_max" class="form-control input-sm bilangan" maxlength="3" type="text" placeholder="Sampai" name="umur_max" value="<?= $umur_max ?>"></input>
+					</div>
+				</div>
+
+				<div class="col-sm-2">
+					<div class="form-group">
+					<select class="form-control input-sm select2" id="umur" name="umur">
+						<option value="tahun" <?= selected($umur, 'tahun') ?>>Tahun</option>
+						<option value="bulan" <?= selected($umur, 'bulan') ?>>Bulan</option>
+					</select>
 					</div>
 				</div>
 			<?php endif ?>

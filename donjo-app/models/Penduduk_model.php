@@ -190,16 +190,24 @@ class Penduduk_model extends MY_Model
     protected function umur_max_sql()
     {
         $kf = $this->session->umur_max;
-        if (isset($kf)) {
+        if (isset($kf) && $this->session->umur == 'tahun') {
             $this->db->where(" DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  <= {$kf}");
+        } 
+
+        if (isset($kf) && $this->session->umur == 'bulan') {
+            $this->db->where(" TIMESTAMPDIFF(MONTH, tanggallahir, now())  <= {$kf}");
         }
     }
 
     protected function umur_min_sql()
     {
         $kf = $this->session->umur_min;
-        if (isset($kf)) {
+        if (isset($kf) && $this->session->umur == 'tahun') {
             $this->db->where(" DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= {$kf}");
+        }
+
+        if (isset($kf) && $this->session->umur == 'bulan') {
+            $this->db->where(" TIMESTAMPDIFF(MONTH, tanggallahir, now()) >= {$kf}");
         }
     }
 
