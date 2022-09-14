@@ -59,8 +59,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022091271($hasil);
         $hasil = $hasil && $this->migrasi_2022091371($hasil);
         $hasil = $hasil && $this->migrasi_2022091372($hasil);
+        $hasil = $hasil && $this->migrasi_2022091373($hasil);
 
-        return $hasil && $this->migrasi_2022091373($hasil);
+        return $hasil && $this->migrasi_2022091374($hasil);
     }
 
     protected function migrasi_2022090671($hasil)
@@ -192,5 +193,24 @@ class Migrasi_fitur_premium_2210 extends MY_model
             'keterangan' => 'Maksimal pembesaran wilayah pada peta',
             'jenis'      => 'int',
         ]);
+    }
+
+    protected function migrasi_2022091374($hasil)
+    {
+        $result = $this->db
+            ->where('key', 'footer_surat_tte')
+            ->like('value', 'UU ITE No. 11 Tahun 2008')
+            ->get('setting_aplikasi')
+            ->result();
+
+        if (! $result) {
+            $hasil = $hasil && $this->db
+                ->where('key', 'footer_surat_tte')
+                ->update('setting_aplikasi', [
+                    'value' => \App\Libraries\TinyMCE::FOOTER_TTE,
+                ]);
+        }
+
+        return $hasil;
     }
 }
