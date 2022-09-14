@@ -92,6 +92,7 @@
     <!-- jquery validasi -->
     <script src="{{ asset('js/script.js') }}"></script>
     <!-- Modifikasi -->
+    <script src="{{ asset('js/admin.js') }}"></script>
     @if (config_item('demo_mode'))
         <!-- Website Demo -->
         <script src="{{ asset('js/demo.js') }}"></script>
