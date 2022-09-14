@@ -296,7 +296,7 @@ class Surat extends Admin_Controller
                  * 1    => sudah disetujui
                  * null => lewati
                  */
-                $surat->status    = LogSurat::CETAK;
+                $surat->status              = LogSurat::CETAK;
                 $surat->verifikasi_operator = ($surat->verifikasi_operator == '-1') ? '-1' : 0;
             } catch (Html2PdfException $e) {
                 $html2pdf->clean();
