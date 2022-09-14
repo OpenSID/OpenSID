@@ -49,5 +49,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 28. [#5634](https://github.com/OpenSID/OpenSID/issues/5634) Perbaikan validasi nik pada surat keterangan kelahiran.
 29. [#5616](https://github.com/OpenSID/OpenSID/issues/5616) Perbaikan scrollIntoView pada navigasi menu.
 30. [#5624](https://github.com/OpenSID/OpenSID/issues/5624) Perbaikan pengaturan font bawaan pada surat TinyMCE.
+31. [#5467](https://github.com/OpenSID/OpenSID/issues/5467) Perbaikan validasi bukti bayar untuk mitra.
 
 #### Perubahan Teknis
+1. Perbaikan teks pemberitahuan kerja sama.
+2. Jalankan bersihkan cache setiap kali lakukan migrasi
