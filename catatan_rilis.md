@@ -47,6 +47,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 38. [#5644](https://github.com/OpenSID/OpenSID/issues/5644) Perbaikan penandatanganan halaman kerja sama tidak sesuai.
 39. [#5645](https://github.com/OpenSID/OpenSID/issues/5645) Perbaikan tampilan lebar datatables menjadi konsisten.
 40. [#5646](https://github.com/OpenSID/OpenSID/issues/5646) Perbaikan kolom isian yang diwajibkan pada saat mendaftarkan anjungan.
+41. [#5643](https://github.com/OpenSID/OpenSID/issues/5643) Perbaikan periksaan database dengan tabel ref_penduduk_hamil yang tidak tersedia.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.

@@ -206,6 +206,13 @@ class Periksa_model extends MY_Model
             $this->periksa['tabel_invalid_date'] = $tabel_invalid_date;
         }
 
+        // Error table doesn't exist
+        if ($db_error_code === 1146) {
+            $calon_ini                  = $this->deteksi_table_doesnt_exist($db_error_message);
+            $this->periksa['masalah'][] = 'table_not_exist';
+            $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
         return $calon;
     }
 
@@ -394,6 +401,20 @@ class Periksa_model extends MY_Model
         }
 
         return $tabel;
+    }
+
+    private function deteksi_table_doesnt_exist($table = null)
+    {
+        $database = $this->db->database;
+        $table    = str_replace(["Table '", $database, '.', "' doesn't exist"], '', $table);
+
+        switch ($table) {
+            case 'ref_penduduk_hamil':
+                return '22.02';
+
+            default:
+                return null;
+        }
     }
 
     public function perbaiki()
