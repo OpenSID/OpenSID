@@ -44,6 +44,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 35. [#5640](https://github.com/OpenSID/OpenSID/issues/5640) Perbaikan simpan perubahan data buku tanah kas desa.
 36. [#5641](https://github.com/OpenSID/OpenSID/issues/5641) Perbaikan cetak dan unduh buku mutasi penduduk desa.
 37. [#5642](https://github.com/OpenSID/OpenSID/issues/5642) Perbaikan template TinyMCE.
+38. [#5644](https://github.com/OpenSID/OpenSID/issues/5644) Perbaikan penandatanganan halaman kerja sama tidak sesuai.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
