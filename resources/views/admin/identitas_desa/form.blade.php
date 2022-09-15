@@ -27,6 +27,13 @@
                     <p class="text-center text-bold">Lambang {{ ucwords($setting->sebutan_desa) }}</p>
                     <p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
                     <br />
+                    <div class="form-group">
+                        <label class="col-sm-12 control-label" for="ukuran">Dimensi logo (persegi)</label>
+                        <div class="col-sm-12">
+                            <input id="ukuran" name="ukuran" class="form-control input-sm number" min="100"
+                                max="400" type="text" placeholder="Kosongkan jika ingin dimensi bawaan" />
+                        </div>
+                    </div>
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" id="file_path">
                         <input type="file" class="hidden" id="file" name="logo">
