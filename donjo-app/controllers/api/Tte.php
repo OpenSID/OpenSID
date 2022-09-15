@@ -153,13 +153,13 @@ class Tte extends CI_Controller
         ];
     }
 
-    public function response($value = '')
+    public function response($notif = '')
     {
         LogTte::create([
             'message'     => $notif['pesan'],
             'jenis_error' => $notif['jenis_error'],
         ]);
 
-        return json($value);
+        return json($notif);
     }
 }
