@@ -174,7 +174,7 @@
 						<?php else : ?>
 							<div class="alert alert-danger" role="alert">
 								<p>Versi Database terpasang <?= $mysql['versi'] ?> tidak memenuhi syarat.</p>
-								<p>Update versi Database supaya minimal <?= minMySqlVersion ?>dan maksimal <?= maxMySqlVersion ?>, atau MariaDB supaya minimal <?= minMariaDBVersion ?>.</p>
+								<p>Update versi Database supaya minimal <?= minMySqlVersion ?> dan maksimal <?= maxMySqlVersion ?>, atau MariaDB supaya minimal <?= minMariaDBVersion ?>.</p>
 							</div>
 						<?php endif; ?>
 						<?php if ($php['cek']) : ?>

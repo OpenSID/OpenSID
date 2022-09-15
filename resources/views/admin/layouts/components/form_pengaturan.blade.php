@@ -1,4 +1,4 @@
-{!! form_open_multipart(route('setting.update'), 'class="form-group" id="main_setting"') !!}
+{!! form_open_multipart(route('setting.new_update'), 'class="form-group" id="main_setting"') !!}
   
   <div class="modal-body">
 

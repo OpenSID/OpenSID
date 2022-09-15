@@ -65,14 +65,22 @@ class Setting extends Admin_Controller
         $this->render('setting/setting_form', $data);
     }
 
+    // Untuk view lama
     public function update()
     {
         $this->redirect_hak_akses_url('u');
         $this->setting_model->update_setting($this->input->post());
-        // Untuk notif blade
-        set_session('success', 'Berhasil Ubah Data');
-        //untuk notif view
         status_sukses(true, false, 'Berhasil Ubah Data');
+
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // Untuk view menggunakan blade
+    public function new_update()
+    {
+        $this->redirect_hak_akses_url('u');
+        $this->setting_model->update_setting($this->input->post());
+        set_session('success', 'Berhasil Ubah Data');
 
         redirect($_SERVER['HTTP_REFERER']);
     }

@@ -100,7 +100,7 @@ class TinyMCE
         </tbody>
         </table>
     ';
-    public const TOP    = 4; // cm
+    public const TOP    = 3.5; // cm
     public const BOTTOM = 2; // cm
 
     public function getTemplate()
@@ -752,7 +752,7 @@ class TinyMCE
             ],
             [
                 'judul' => 'Sebutan NIP ' . ucwords(setting('sebutan desa')),
-                'isian' => '[subutan_nip_desa]',
+                'isian' => '[sebutan_nip_desa]',
                 'data'  => $sebutan_nip_desa,
             ],
             [

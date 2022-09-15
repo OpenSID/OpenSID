@@ -5,6 +5,7 @@
             var default_font = "{{ setting('font_surat') }}"
             tinymce.init({
                 selector: '.editor',
+                table_sizing_mode: 'relative',
                 height: "{{ $height ?? 700 }}",
                 theme: 'silver',
                 plugins: [

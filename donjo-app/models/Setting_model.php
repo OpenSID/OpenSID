@@ -328,7 +328,7 @@ class Setting_model extends MY_Model
     {
         return [
             'versi' => PHP_VERSION,
-            'cek'   => (version_compare(PHP_VERSION, minPhpVersion) > 0 && version_compare(PHP_VERSION, maxPhpVersion) < 0),
+            'cek'   => (version_compare(PHP_VERSION, minPhpVersion, '>=') && version_compare(PHP_VERSION, maxPhpVersion, '<')),
         ];
     }
 
@@ -338,7 +338,7 @@ class Setting_model extends MY_Model
 
         return [
             'versi' => $versi,
-            'cek'   => (version_compare($versi, minMySqlVersion) > 0 && version_compare($versi, minMySqlVersion) > 0) || (version_compare($versi, minMariaDBVersion) > 0),
+            'cek'   => (version_compare($versi, minMySqlVersion, '>=') && version_compare($versi, maxMySqlVersion, '<')) || (version_compare($versi, minMariaDBVersion, '>=')),
         ];
     }
 }
