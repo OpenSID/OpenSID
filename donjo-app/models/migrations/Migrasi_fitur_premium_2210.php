@@ -51,8 +51,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2209');
         $hasil = $hasil && $this->migrasi_2022090751($hasil);
         $hasil = $hasil && $this->migrasi_2022090851($hasil);
+        $hasil = $hasil && $this->migrasi_2022091251($hasil);
 
-        return $hasil && $this->migrasi_2022091251($hasil);
+        return $hasil && $this->migrasi_2022091551($hasil);
     }
 
     protected function migrasi_2022090751($hasil)
@@ -89,5 +90,23 @@ class Migrasi_fitur_premium_2210 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022091551($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('anjungan', [
+            'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP',
+            'created_by' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'       => true,
+            ],
+            'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            'updated_by' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'       => true,
+            ],
+        ]);
     }
 }

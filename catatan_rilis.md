@@ -46,6 +46,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 37. [#5642](https://github.com/OpenSID/OpenSID/issues/5642) Perbaikan template TinyMCE.
 38. [#5644](https://github.com/OpenSID/OpenSID/issues/5644) Perbaikan penandatanganan halaman kerja sama tidak sesuai.
 39. [#5645](https://github.com/OpenSID/OpenSID/issues/5645) Perbaikan tampilan lebar datatables menjadi konsisten.
+40. [#5646](https://github.com/OpenSID/OpenSID/issues/5646) Perbaikan kolom isian yang diwajibkan pada saat mendaftarkan anjungan.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
