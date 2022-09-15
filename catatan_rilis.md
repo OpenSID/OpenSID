@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 11. [#5563](https://github.com/OpenSID/OpenSID/issues/5563) Menambahkan tombol peninjauan surat pada pengaturan surat TinyMCE.
 12. [#1325](https://github.com/OpenSID/premium/issues/1325) Penyesuaian footer TTE bawaan sistem pada surat TinyMCE.
 13. [#5296](https://github.com/OpenSID/OpenSID/issues/5296) Menambahkan pencarian spesifik penduduk berdasarkan umur.
+14. [#5555](https://github.com/OpenSID/OpenSID/issues/5555) Menambahkan font bookman old style ke pengaturan surat TinyMCE.
 
 
 #### Perbaikan BUG

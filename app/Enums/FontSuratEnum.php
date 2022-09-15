@@ -43,6 +43,7 @@ class FontSuratEnum
         'Andale Mono',
         'Arial',
         'Arial Black',
+        'Bookman Old Style',
         'Comic Sans MS',
         'Courier New',
         'Georgia',
