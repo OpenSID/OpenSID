@@ -49,6 +49,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 40. [#5646](https://github.com/OpenSID/OpenSID/issues/5646) Perbaikan kolom isian yang diwajibkan pada saat mendaftarkan anjungan.
 41. [#5643](https://github.com/OpenSID/OpenSID/issues/5643) Perbaikan periksaan database dengan tabel ref_penduduk_hamil yang tidak tersedia.
 42. [#5648](https://github.com/OpenSID/OpenSID/issues/5648) Perbaikan urutan jabatan tidak sesuai.
+43. [#5647](https://github.com/OpenSID/OpenSID/issues/5647) Perbaikan validasi pengaturan gawai pada saat sesudah login.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
