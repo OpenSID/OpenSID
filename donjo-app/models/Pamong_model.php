@@ -57,10 +57,13 @@ class Pamong_model extends CI_Model
 
     public function list_data($offset = 0, $limit = 500)
     {
-        $this->db->select('u.*, rj.nama AS jabatan, rj.id AS ref_jabatan_id, p.nama, p.nik, p.tag_id_card, p.tempatlahir, p.tanggallahir,
-			(case when p.sex is not null then p.sex else u.pamong_sex end) as id_sex,
-			(case when p.foto is not null then p.foto else u.foto end) as foto,
-			x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama');
+        $this->db->select(
+            'u.*, rj.nama AS jabatan, rj.id AS ref_jabatan_id, p.nama, p.nik, p.tag_id_card, p.tempatlahir, p.tanggallahir,
+            (case when p.sex is not null then p.sex else u.pamong_sex end) as id_sex,
+            (case when p.foto is not null then p.foto else u.foto end) as foto,
+            (case when p.nama is not null then p.nama else u.pamong_nama end) as nama,
+            x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama'
+        );
 
         $this->list_data_sql();
         $this->db
@@ -74,7 +77,6 @@ class Pamong_model extends CI_Model
         for ($i = 0; $i < count($data); $i++) {
             if (empty($data[$i]['id_pend'])) {
                 // Dari luar desa
-                $data[$i]['nama']          = $data[$i]['pamong_nama'];
                 $data[$i]['nik']           = $data[$i]['pamong_nik'];
                 $data[$i]['tag_id_card']   = $data[$i]['pamong_tag_id_card'];
                 $data[$i]['tempatlahir']   = ! empty($data[$i]['pamong_tempatlahir']) ? $data[$i]['pamong_tempatlahir'] : '-';
@@ -93,7 +95,8 @@ class Pamong_model extends CI_Model
                     $data[$i]['tempatlahir'] = '-';
                 }
             }
-            $data[$i]['no'] = $j + 1;
+            $data[$i]['nama'] = $data[$i]['gelar_depan'] . '' . $data[$i]['nama'] . '' . $data[$i]['gelar_belakang'];
+            $data[$i]['no']   = $j + 1;
             $j++;
         }
 
@@ -328,6 +331,8 @@ class Pamong_model extends CI_Model
         $data['bagan_offset']       = (int) $post['bagan_offset'] ?: null;
         $data['bagan_layout']       = htmlentities($post['bagan_layout']);
         $data['bagan_warna']        = warna($post['bagan_warna']);
+        $data['gelar_depan']        = strip_tags($post['gelar_depan']);
+        $data['gelar_belakang']     = strip_tags($post['gelar_belakang']);
 
         if ($data['jabatan_id'] == 1) {
             $data['urut'] = 1;

@@ -61,6 +61,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022091372($hasil);
         $hasil = $hasil && $this->migrasi_2022091373($hasil);
         $hasil = $hasil && $this->migrasi_2022091374($hasil);
+        $hasil = $hasil && $this->migrasi_2022091470($hasil);
         $hasil = $hasil && $this->migrasi_2022091471($hasil);
 
         $hasil = $hasil && $this->migrasi_2022091551($hasil);
@@ -218,6 +219,30 @@ class Migrasi_fitur_premium_2210 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2022091470($hasil)
+    {
+        if (! $this->db->field_exists('gelar_depan', 'tweb_desa_pamong')) {
+            $hasil = $hasil && $this->dbforge->add_column('tweb_desa_pamong', [
+                'gelar_depan' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                    'default'    => null,
+                    'after'      => 'pamong_nama',
+                ],
+                'gelar_belakang' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                    'default'    => null,
+                    'after'      => 'gelar_depan',
+                ],
+            ]);
+        }
+
+        return $hasil;
+    }
+
         protected function migrasi_2022091471($hasil)
         {
             return $hasil && $this->tambah_setting([
@@ -231,6 +256,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
                 'jenis'      => 'textarea',
             ]);
         }
+
     protected function migrasi_2022091551($hasil)
     {
         return $hasil && $this->dbforge->modify_column('anjungan', [
@@ -262,5 +288,5 @@ class Migrasi_fitur_premium_2210 extends MY_model
                 'null'       => false,
             ],
         ]);
-      }
+    }
 }

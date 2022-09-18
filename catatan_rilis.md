@@ -1,6 +1,6 @@
 Di rilis ini, versi 22.09-premium-beta03 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi.
+Terima kasih pada Irvan1609 yang terus berkontribusi.
 
 #### Penambahan Fitur
 1. [#5544](https://github.com/OpenSID/OpenSID/issues/5544) Menambahkan paginasi di halaman peraturan_desa pada halaman depan.
@@ -19,6 +19,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 14. [#5555](https://github.com/OpenSID/OpenSID/issues/5555) Menambahkan font bookman old style ke pengaturan surat TinyMCE.
 15. [#5297](https://github.com/OpenSID/OpenSID/issues/5297) Menambahkan pengaturan dimensi logo.
 16. [#5538](https://github.com/OpenSID/OpenSID/issues/5538) Menambahkan pengaturan pesan telegram untuk informasi pengajuan surat.
+17. [#3255](https://github.com/OpenSID/OpenSID/issues/3255) Menambahkan gelar depan & belakang untuk pemerintah desa yg diambil dari data penduduk.
 
 
 #### Perbaikan BUG
