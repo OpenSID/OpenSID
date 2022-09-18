@@ -51,6 +51,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 42. [#5648](https://github.com/OpenSID/OpenSID/issues/5648) Perbaikan urutan jabatan tidak sesuai.
 43. [#5647](https://github.com/OpenSID/OpenSID/issues/5647) Perbaikan validasi pengaturan gawai pada saat sesudah login.
 44. [#5650](https://github.com/OpenSID/OpenSID/issues/5650) Perbaikan surat non warga yang tidak tampil di arsip surat.
+45. [#5652](https://github.com/OpenSID/OpenSID/issues/5652) Perbaikan tabel sys_traffic untuk menerima data lebih besar.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.

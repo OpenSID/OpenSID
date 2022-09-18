@@ -52,8 +52,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022090751($hasil);
         $hasil = $hasil && $this->migrasi_2022090851($hasil);
         $hasil = $hasil && $this->migrasi_2022091251($hasil);
+        $hasil = $hasil && $this->migrasi_2022091551($hasil);
 
-        return $hasil && $this->migrasi_2022091551($hasil);
+        return $hasil && $this->migrasi_2022091651($hasil);
     }
 
     protected function migrasi_2022090751($hasil)
@@ -106,6 +107,21 @@ class Migrasi_fitur_premium_2210 extends MY_model
                 'type'       => 'INT',
                 'constraint' => 11,
                 'null'       => true,
+            ],
+        ]);
+    }
+
+    protected function migrasi_2022091651($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('sys_traffic', [
+            'ipAddress' => [
+                'type' => 'LONGTEXT',
+                'null' => false,
+            ],
+            'Jumlah' => [
+                'type'       => 'BIGINT',
+                'constraint' => 20,
+                'null'       => false,
             ],
         ]);
     }
