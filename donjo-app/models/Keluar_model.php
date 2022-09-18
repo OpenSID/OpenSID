@@ -75,7 +75,7 @@ class Keluar_model extends CI_Model
     {
         $cari = $this->session->cari;
         if (empty($cari)) {
-            $this->db->where('n.nama !=', '');
+            $this->db->where('u.id !=', null);
         } else {
             $this->db
                 ->group_start()

@@ -35,6 +35,9 @@
  *
  */
 
+use App\Enums\StatusEnum;
+use App\Models\Anjungan as AnjunganModel;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Anjungan extends Admin_Controller
@@ -42,61 +45,136 @@ class Anjungan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('anjungan_model');
-
         $this->modul_ini     = 14;
         $this->sub_modul_ini = 312;
     }
 
     public function index()
     {
-        $data['main'] = $this->anjungan_model->list_data();
-        $this->render('anjungan/table', $data);
+        return view('admin.anjungan.index');
     }
 
-    public function form($id = '')
+    public function datatables()
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(AnjunganModel::query())
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    $aksi = '';
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('anjungan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+
+                        if ($row->status) {
+                            $aksi .= '<a href="' . site_url("anjungan/kunci/{$row->id}/1") . '" class="btn bg-navy btn-sm" title="Aktifkan Anjungan"><i class="fa fa-lock"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . site_url("anjungan/kunci/{$row->id}/0") . '" class="btn bg-navy btn-sm" title="Nonaktifkan Anjungan"><i class="fa fa-unlock"></i></a> ';
+                        }
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . route('anjungan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('ip_address_port_printer', static function ($row) {
+                    return $row->printer_ip . ':' . $row->printer_port;
+                })
+                ->editColumn('keyboard', static function ($row) {
+                    return '<span class="label label-' . ($row->keyboard ? 'success' : 'danger') . '">' . StatusEnum::DAFTAR[$row->keyboard] . '</span>';
+                })
+                ->rawColumns(['ceklist', 'aksi', 'keyboard'])
+                ->make();
+        }
+
+        return show_404();
+    }
+
+    public function form($id = null)
+    {
+        $this->redirect_hak_akses('u');
 
         if ($id) {
-            $data['anjungan'] = $this->anjungan_model->get_anjungan($id);
-            if (empty($data['anjungan'])) {
-                status_sukses(false, false, '--> Data itu tidak ditemukan');
-                redirect('anjungan');
-            }
-            $data['form_action'] = site_url("anjungan/update/{$id}");
+            $data['action']      = 'Ubah';
+            $data['form_action'] = route('anjungan.update', $id);
+            $data['anjungan']    = AnjunganModel::find($id) ?? show_404();
         } else {
-            $data['suplemen']    = null;
-            $data['form_action'] = site_url('anjungan/insert');
+            $data['action']      = 'Tambah';
+            $data['form_action'] = route('anjungan.insert');
+            $data['anjungan']    = null;
         }
-        $this->render('anjungan/form', $data);
+
+        return view('admin.anjungan.form', $data);
     }
 
     public function insert()
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->anjungan_model->insert();
-        redirect('anjungan');
+        $this->redirect_hak_akses('u');
+
+        if (AnjunganModel::insert(static::validated($this->request))) {
+            redirect_with('success', 'Berhasil Tambah Data');
+        }
+        redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id)
+    public function update($id = null)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->anjungan_model->update($id);
-        redirect('anjungan');
+        $this->redirect_hak_akses('u');
+
+        $data = AnjunganModel::find($id) ?? show_404();
+
+        if ($data->update(static::validated($this->request, $id))) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+        redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = '')
+    public function delete($id = null)
     {
-        $this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
-        $this->anjungan_model->delete($id);
-        redirect('anjungan');
+        $this->redirect_hak_akses('h');
+
+        if (AnjunganModel::destroy($id ?? $this->request['id_cb'])) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+        redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function lock($id = 0, $val = 1)
+    public function kunci($id = null, $val = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->anjungan_model->lock($id, $val);
-        redirect('anjungan');
+        $this->redirect_hak_akses('u');
+
+        $favorit = AnjunganModel::find($id) ?? show_404();
+        $favorit->update(['status' => ($val == 1) ? StatusEnum::TIDAK : StatusEnum::YA]);
+
+        redirect_with('success', 'Berhasil Ubah Data');
+    }
+
+    // Hanya filter inputan
+    protected static function validated($request = [], $id = null)
+    {
+        $validated = [
+            'ip_address'    => bilangan_titik($request['ip_address']),
+            'mac_address'   => alfanumerik_kolon($request['mac_address']),
+            'id_pengunjung' => alfanumerik($request['id_pengunjung']),
+            'printer_ip'    => bilangan_titik($request['printer_ip']),
+            'printer_port'  => bilangan($request['printer_port']),
+            'keyboard'      => bilangan($request['keyboard']),
+            'status'        => bilangan($request['status']),
+            'keterangan'    => htmlentities($request['keterangan']),
+        ];
+
+        if ($id) {
+            $validated['created_by'] = $validated['updated_by'] = auth()->id;
+        } else {
+            $validated['created_by'] = auth()->id;
+        }
+
+        return $validated;
     }
 }

@@ -298,7 +298,7 @@ class Pengurus extends Admin_Controller
     public function jabatandatatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(RefJabatan::query()->orderBy('jenis', 'desc')->orderBy('id'))
+            return datatables()->of(RefJabatan::query()->orderBy('id')->orderBy('jenis', 'desc'))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h') && ! in_array($row->id, RefJabatan::EXCLUDE_DELETE)) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';

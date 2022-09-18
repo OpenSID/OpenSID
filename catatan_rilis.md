@@ -59,7 +59,15 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 36. [#5641](https://github.com/OpenSID/OpenSID/issues/5641) Perbaikan cetak dan unduh buku mutasi penduduk desa.
 37. [#5642](https://github.com/OpenSID/OpenSID/issues/5642) Perbaikan template TinyMCE.
 38. [#5644](https://github.com/OpenSID/OpenSID/issues/5644) Perbaikan penandatanganan halaman kerja sama tidak sesuai.
+39. [#5645](https://github.com/OpenSID/OpenSID/issues/5645) Perbaikan tampilan lebar datatables menjadi konsisten.
+40. [#5646](https://github.com/OpenSID/OpenSID/issues/5646) Perbaikan kolom isian yang diwajibkan pada saat mendaftarkan anjungan.
+41. [#5643](https://github.com/OpenSID/OpenSID/issues/5643) Perbaikan periksaan database dengan tabel ref_penduduk_hamil yang tidak tersedia.
+42. [#5648](https://github.com/OpenSID/OpenSID/issues/5648) Perbaikan urutan jabatan tidak sesuai.
+43. [#5647](https://github.com/OpenSID/OpenSID/issues/5647) Perbaikan validasi pengaturan gawai pada saat sesudah login.
+44. [#5650](https://github.com/OpenSID/OpenSID/issues/5650) Perbaikan surat non warga yang tidak tampil di arsip surat.
+45. [#5652](https://github.com/OpenSID/OpenSID/issues/5652) Perbaikan tabel sys_traffic untuk menerima data lebih besar.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
 2. Jalankan bersihkan cache setiap kali lakukan migrasi
+3. Hapus var_dump pada menu lihat profil.

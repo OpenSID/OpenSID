@@ -450,6 +450,19 @@ class FormatSurat extends Model
         return $query->where('jenis', $value);
     }
 
+    /**
+     * Scope query untuk layanan mandiri.
+     *
+     * @param Builder    $query
+     * @param mixed|null $url
+     *
+     * @return Builder
+     */
+    public function scopeCetak($query, $url = null)
+    {
+        return $this->scopeKunci($query, self::KUNCI_DISABLE)->where('url_surat', $url);
+    }
+
     public static function boot()
     {
         parent::boot();

@@ -49,13 +49,6 @@ class Anjungan extends Model
     protected $table = 'anjungan';
 
     /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -63,9 +56,15 @@ class Anjungan extends Model
     protected $fillable = [
         'ip_address',
         'mac_address',
+        'id_pengunjung',
         'keterangan',
         'status',
         'tipe',
+        'printer_ip',
+        'printer_port',
+        'keyboard',
+        'created_by',
+        'updated_by',
     ];
 
     /**
@@ -74,6 +73,37 @@ class Anjungan extends Model
      * @var array
      */
     protected $casts = [
-        'status' => 'boolean',
+        'status'   => 'boolean',
+        'keyboard' => 'boolean',
     ];
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = [
+        // 'createdBy',
+        // 'updatedBy',
+    ];
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function createdBy()
+    {
+        return $this->hasOne(User::class, 'id', 'created_by');
+    }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function updatedBy()
+    {
+        return $this->hasOne(User::class, 'id', 'updated_by');
+    }
 }

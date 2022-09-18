@@ -53,9 +53,6 @@
             });
 
             var TableData = $('#tabeldata').DataTable({
-                responsive: true,
-                processing: true,
-                serverSide: true,
                 ajax: {
                     url: "{{ route('surat.datatables') }}",
                 },

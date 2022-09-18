@@ -60,8 +60,11 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022091371($hasil);
         $hasil = $hasil && $this->migrasi_2022091372($hasil);
         $hasil = $hasil && $this->migrasi_2022091373($hasil);
+        $hasil = $hasil && $this->migrasi_2022091374($hasil);
 
-        return $hasil && $this->migrasi_2022091374($hasil);
+        $hasil = $hasil && $this->migrasi_2022091551($hasil);
+
+        return $hasil && $this->migrasi_2022091651($hasil);
     }
 
     protected function migrasi_2022090671($hasil)
@@ -213,4 +216,36 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
         return $hasil;
     }
+    protected function migrasi_2022091551($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('anjungan', [
+            'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP',
+            'created_by' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'       => true,
+            ],
+            'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            'updated_by' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'       => true,
+            ],
+        ]);
+    }
+
+    protected function migrasi_2022091651($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('sys_traffic', [
+            'ipAddress' => [
+                'type' => 'LONGTEXT',
+                'null' => false,
+            ],
+            'Jumlah' => [
+                'type'       => 'BIGINT',
+                'constraint' => 20,
+                'null'       => false,
+            ],
+        ]);
+      }
 }
