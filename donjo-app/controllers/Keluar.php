@@ -37,6 +37,7 @@
 
 use App\Models\LogSurat;
 use App\Models\LogTolak;
+use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\RefJabatan;
 use App\Models\User;
@@ -199,30 +200,36 @@ class Keluar extends Admin_Controller
         $mandiri            = PermohonanSurat::where('id_surat', $surat->id_format_surat)->where('isian_form->nomor', $surat->no_surat)->first();
         $ref_jabatan_kades  = RefJabatan::where('id', '=', 1)->first()->nama;
         $ref_jabatan_sekdes = RefJabatan::where('id', '=', 2)->first()->nama;
-        //update verifikasi
-        //cek setting
-        $array_verifikasi = ['foot', 'bike', 'car', 'plane'];
 
-        if ($this->isAdmin->jabatan_id == 1) {
-            $current = 'verifikasi_kades';
-            $next    = (setting('tte') && ! in_array($surat->formatSurat->jenis, ['1', '2'])) ? 'tte' : null;
-            $log     = (setting('tte')) ? 'TTE' : null;
-        } elseif ($this->isAdmin->jabatan_id == 2) {
-            $current = 'verifikasi_sekdes';
-            $next    = setting('verifikasi_kades') ? 'verifikasi_kades' : null;
-            $log     = 'Verifikasi ' . $ref_jabatan_kades;
-        } else {
-            $current = 'verifikasi_operator';
-            if (setting('verifikasi_sekdes')) {
-                $next = 'verifikasi_sekdes';
-                $log  = 'Verifikasi ' . $ref_jabatan_sekdes;
-            } elseif (setting('verifikasi_kades')) {
-                $next = 'verifikasi_kades';
-                $log  = 'Verifikasi ' . $ref_jabatan_kades;
-            } else {
-                $next = null;
-                $log  = null;
-            }
+        switch ($this->isAdmin->jabatan_id) {
+            // verifikasi kades
+            case 1:
+                $current = 'verifikasi_kades';
+                $next    = (setting('tte') && ! in_array($surat->formatSurat->jenis, ['1', '2'])) ? 'tte' : null;
+                $log     = (setting('tte')) ? 'TTE' : null;
+                break;
+
+                // verifikasi sekdes
+            case 2:
+                $current = 'verifikasi_sekdes';
+                $next    = setting('verifikasi_kades') ? 'verifikasi_kades' : null;
+                $log     = 'Verifikasi ' . $ref_jabatan_kades;
+                break;
+
+                // verifikasi operator
+            default:
+                $current = 'verifikasi_operator';
+                if (setting('verifikasi_sekdes')) {
+                    $next = 'verifikasi_sekdes';
+                    $log  = 'Verifikasi ' . $ref_jabatan_sekdes;
+                } elseif (setting('verifikasi_kades')) {
+                    $next = 'verifikasi_kades';
+                    $log  = 'Verifikasi ' . $ref_jabatan_kades;
+                } else {
+                    $next = null;
+                    $log  = null;
+                }
+                break;
         }
 
         if ($next == null) {
@@ -242,39 +249,35 @@ class Keluar extends Admin_Controller
                 if ($next == 'verifikasi_kades') {
                     return $query->where('pamong_ttd', '=', '1');
                 }
-            })
-                ->where('notif_telegram', '=', '1')
-                ->first();
+            })->where('notif_telegram', '=', '1')->first();
 
-            if ($kirim_telegram != null) {
-                $jenis_surat = $log_surat->formatSurat->nama;
-                $telegram    = new Telegram();
-                $pesan       = <<<EOD
-                    Permohonan Surat Baru,
+            if ($kirim_telegram != null && cek_koneksi_internet()) {
+                try {
+                    $telegram = new Telegram();
+                    // Data pesan telegram yang akan digantikan
+                    $pesanTelegram = [
+                        '[nama_penduduk]' => Penduduk::find($log_surat->id_pend)->nama,
+                        '[judul_surat]'   => $log_surat->formatSurat->nama,
+                        '[tanggal]'       => tgl_indo2(date('Y-m-d H:i:s')),
+                        '[melalui]'       => 'Halaman Admin',
+                    ];
 
-                    Jenis Surat : {$jenis_surat}
+                    $kirimPesan = setting('notifikasi_pengajuan_surat');
+                    $kirimPesan = str_replace(array_keys($pesanTelegram), array_values($pesanTelegram), $kirimPesan);
 
-                    TERIMA KASIH.
-                    EOD;
-                if ($next == 'tte') {
-                    $pesan = <<<EOD
-                        Surat siap untuk di tandatangani secara elektronik,
-
-                        Jenis Surat : {$jenis_surat}
-
-                        TERIMA KASIH.
-                        EOD;
+                    $telegram->sendMessage([
+                        'chat_id'      => $kirim_telegram->id_telegram,
+                        'text'         => $kirimPesan,
+                        'parse_mode'   => 'Markdown',
+                        'reply_markup' => json_encode([
+                            'inline_keyboard' => [[
+                                ['text' => 'Lihat detail', 'url' => site_url('keluar/clear/masuk')],
+                            ]],
+                        ]),
+                    ]);
+                } catch (\Exception $e) {
+                    log_message('error', $e->getMessage());
                 }
-                $telegram->sendMessage([
-                    'chat_id'      => $kirim_telegram->id_telegram,
-                    'text'         => $pesan,
-                    'parse_mode'   => 'Markdown',
-                    'reply_markup' => json_encode([
-                        'inline_keyboard' => [[
-                            ['text' => 'Lihat detail', 'url' => site_url('keluar/clear/masuk')],
-                        ]],
-                    ]),
-                ]);
             }
         }
     }

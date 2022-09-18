@@ -18,6 +18,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 13. [#5296](https://github.com/OpenSID/OpenSID/issues/5296) Menambahkan pencarian spesifik penduduk berdasarkan umur.
 14. [#5555](https://github.com/OpenSID/OpenSID/issues/5555) Menambahkan font bookman old style ke pengaturan surat TinyMCE.
 15. [#5297](https://github.com/OpenSID/OpenSID/issues/5297) Menambahkan pengaturan dimensi logo.
+16. [#5538](https://github.com/OpenSID/OpenSID/issues/5538) Menambahkan pengaturan pesan telegram untuk informasi pengajuan surat.
 
 
 #### Perbaikan BUG

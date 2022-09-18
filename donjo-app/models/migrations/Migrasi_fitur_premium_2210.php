@@ -61,6 +61,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022091372($hasil);
         $hasil = $hasil && $this->migrasi_2022091373($hasil);
         $hasil = $hasil && $this->migrasi_2022091374($hasil);
+        $hasil = $hasil && $this->migrasi_2022091471($hasil);
 
         $hasil = $hasil && $this->migrasi_2022091551($hasil);
 
@@ -216,6 +217,20 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
         return $hasil;
     }
+
+        protected function migrasi_2022091471($hasil)
+        {
+            return $hasil && $this->tambah_setting([
+                'key'   => 'notifikasi_pengajuan_surat',
+                'value' => <<<'EOD'
+                    Segera cek Halaman Admin, penduduk atas nama [nama_penduduk] telah mengajukan [judul_surat] melalui [melalui] pada tanggal [tanggal]
+
+                    TERIMA KASIH.
+                    EOD,
+                'keterangan' => 'Pesan notifikasi pengajuan surat',
+                'jenis'      => 'textarea',
+            ]);
+        }
     protected function migrasi_2022091551($hasil)
     {
         return $hasil && $this->dbforge->modify_column('anjungan', [

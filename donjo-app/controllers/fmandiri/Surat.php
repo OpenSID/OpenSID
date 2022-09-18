@@ -209,8 +209,18 @@ class Surat extends Mandiri_Controller
 
             if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
                 try {
+                    // Data pesan telegram yang akan digantikan
+                    $pesanTelegram = [
+                        '[nama_penduduk]' => $this->is_login->nama,
+                        '[judul_surat]'   => FormatSurat::find($post['id_surat'])->nama,
+                        '[tanggal]'       => tgl_indo2(date('Y-m-d H:i:s')),
+                        '[melalui]'       => 'Layanan Mandiri',
+                    ];
+
+                    $kirimPesan = setting('notifikasi_pengajuan_surat');
+                    $kirimPesan = str_replace(array_keys($pesanTelegram), array_values($pesanTelegram), $kirimPesan);
                     $this->telegram->sendMessage([
-                        'text'       => sprintf('Segera cek Halaman Admin, penduduk atas nama %s telah mengajukan %s melalui Layanan Mandiri pada tanggal %s', $this->is_login->nama, str_replace('_', ' ', mb_convert_case($post['url_surat'], MB_CASE_TITLE)), tgl_indo2(date('Y-m-d H:i:s'))),
+                        'text'       => $kirimPesan,
                         'parse_mode' => 'Markdown',
                         'chat_id'    => $this->setting->telegram_user_id,
                     ]);
