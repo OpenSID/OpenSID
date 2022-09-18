@@ -20,6 +20,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 15. [#5297](https://github.com/OpenSID/OpenSID/issues/5297) Menambahkan pengaturan dimensi logo.
 16. [#5538](https://github.com/OpenSID/OpenSID/issues/5538) Menambahkan pengaturan pesan telegram untuk informasi pengajuan surat.
 17. [#3255](https://github.com/OpenSID/OpenSID/issues/3255) Menambahkan gelar depan & belakang untuk pemerintah desa yg diambil dari data penduduk.
+18. [#5274](https://github.com/OpenSID/OpenSID/issues/5274) Menambahkan daftar anggota dari kartu anggota keluarga dalam penambahan anggota rumah tangga.
 
 
 #### Perbaikan BUG

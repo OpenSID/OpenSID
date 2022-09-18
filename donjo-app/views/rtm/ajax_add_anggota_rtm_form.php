@@ -11,6 +11,33 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="box-body">
+					<h3>Anggota keluarga dari kepala rumah tangga</h3>
+					<div class="table-responsive">
+							<table id="tabel2" class="table table-bordered dataTable table-hover nowrap">
+								<thead class="bg-gray disabled color-palette">
+									<tr>
+										<th>No</th>
+										<th>NIK</th>
+										<th>Nama</th>
+										<th>Hubungan</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php $no = 1;
+
+									foreach ($keluarga->anggota as $data): ?>
+										<tr>
+											<td><?= $no;
+											$no++; ?></td>
+											<td><?= $data->nik?></td>
+											<td><?= $data->nama?></td>
+											<td><?= $data->pendudukHubungan->nama?></td>
+										</tr>
+									<?php endforeach; ?>
+								</tbody>
+							</table>
+						</div>
+						<h3>Anggota rumah tangga</h3>
 						<div class="table-responsive">
 							<table id="tabel2" class="table table-bordered dataTable table-hover nowrap">
 								<thead class="bg-gray disabled color-palette">
@@ -24,17 +51,17 @@
 								<tbody>
 									<?php $no = 1;
 
-    foreach ($main as $data): ?>
+									foreach ($main as $data): ?>
 										<tr>
 											<td><?= $no;
-        $no++; ?></td>
+											$no++; ?></td>
 											<td><?= $data['nik']?></td>
 											<td><?= $data['nama']?></td>
 										<td><?= $data['hubungan']?></td>
 										</tr>
 									<?php endforeach; ?>
-							</tbody>
-						</table>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>

@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\Keluarga;
+use App\Models\Penduduk;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Rtm extends Admin_Controller
@@ -268,10 +271,13 @@ class Rtm extends Admin_Controller
     public function ajax_add_anggota($id = 0)
     {
         $this->redirect_hak_akses('u');
+
         $data['main'] = $this->rtm_model->list_anggota($id);
         $kk           = $this->rtm_model->get_kepala_rtm($id);
         if ($kk) {
             $data['kepala_kk'] = $kk;
+            $penduduk          = Penduduk::where('nik', $data['kepala_kk']['nik'])->first();
+            $data['keluarga']  = Keluarga::where('id', $penduduk->id_kk)->with(['anggota'])->first();
         } else {
             $data['kepala_kk'] = null;
         }
