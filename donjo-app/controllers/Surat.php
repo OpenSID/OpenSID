@@ -102,7 +102,7 @@ class Surat extends Admin_Controller
     {
         $this->session->unset_userdata('log_surat');
 
-        $data['surat'] = FormatSurat::where('url_surat', $url)->first();
+        $data['surat'] = FormatSurat::cetak($url)->first();
 
         if ($data['surat']) {
             $data['url']       = $url;
@@ -151,7 +151,7 @@ class Surat extends Admin_Controller
             $this->permohonan_surat_model->proses($id, 2);
         }
 
-        $surat = FormatSurat::where('url_surat', $url)->first();
+        $surat = FormatSurat::cetak($url)->first();
 
         if ($surat && $this->request) {
             // Simpan data ke log_surat sebagai draf
