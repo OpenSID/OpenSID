@@ -127,7 +127,7 @@
 				</a>
 				<div class="navbar-custom-menu">
 					<ul class="nav navbar-nav">
-						<?php if ($this->agent->is_mobile()) : ?>
+						<?php if ($is_mobile = $this->agent->is_mobile()) : ?>
 							<li class="dropdown notifications-menu">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Selengkapnya...</a>
 								<ul class="dropdown-menu">
@@ -137,9 +137,12 @@
 										<?php if ($notif_langganan) : ?>
 											<li>
 												<a href="<?= site_url('pelanggan') ?>">
-													<span><i class="fa <?= $notif_langganan['ikon'] ?> fa-lg" title="Status Langganan <?= $notif_langganan['masa'] ?> hari" style="color: <?= $notif_langganan['warna'] ?>;"></i>&nbsp;</span>
+													<i class="fa <?= $notif_langganan['ikon'] ?> fa-lg" title="Status Langganan <?= $notif_langganan['masa'] ?> hari" style="color: <?= $notif_langganan['warna'] ?>;"> </i>&nbsp;
 													<?php if ($notif_langganan['status'] > 2) : ?>
 														<span class="badge" id="b_langganan">!</span>
+													<?php endif ?>
+													<?php if ($is_mobile) : ?>
+														<span>Token Premium</span>
 													<?php endif ?>
 												</a>
 											</li>
@@ -147,9 +150,12 @@
 										<?php if (in_array('343', array_column($modul, 'id')) && can('b', 'opendk_pesan')) : ?>
 											<li class="komunikasi-opendk">
 												<a href="<?= route('opendk_pesan.clear') ?>">
-													<span><i class="fa fa-university fa-lg" title="Komunikasi OpenDk"></i>&nbsp;</span>
+													<i class="fa fa-university fa-lg" title="Komunikasi OpenDK"></i>&nbsp;
 													<?php if ($notif_pesan_opendk) : ?>
 														<span class="badge" id="b_opendkpesan"><?= $notif_pesan_opendk ?></span>
+													<?php endif ?>
+													<?php if ($is_mobile) : ?>
+														<span>Komunikasi OpenDK</span>
 													<?php endif ?>
 												</a>
 											</li>
@@ -157,9 +163,12 @@
 										<?php if (can('b', 'permohonan_surat_admin')) : ?>
 											<li>
 												<a href="<?= site_url('permohonan_surat_admin') ?>">
-													<span><i class="fa fa-print fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
+													<i class="fa fa-print fa-lg" title="Cetak Surat"></i>&nbsp;
 													<?php if ($notif_permohonan_surat) : ?>
 														<span class="badge" id="b_permohonan_surat"><?= $notif_permohonan_surat ?></span>
+													<?php endif ?>
+													<?php if ($is_mobile) : ?>
+														<span>Cetak Surat</span>
 													<?php endif ?>
 												</a>
 											</li>
@@ -167,9 +176,12 @@
 										<?php if (can('b', 'komentar')) : ?>
 											<li>
 												<a href="<?= site_url('komentar') ?>">
-													<span><i class="fa fa-commenting-o fa-lg" title="Komentar"></i>&nbsp;</span>
+													<i class="fa fa-commenting-o fa-lg" title="Komentar"></i>&nbsp;
 													<?php if ($notif_komentar) : ?>
 														<span class="badge" id="b_komentar"><?= $notif_komentar ?></span>
+													<?php endif ?>
+													<?php if ($is_mobile) : ?>
+														<span>Komentar</span>
 													<?php endif ?>
 												</a>
 											</li>
@@ -177,9 +189,12 @@
 										<?php if (can('b', 'mailbox')) : ?>
 											<li>
 												<a href="<?= site_url('mailbox') ?>">
-													<span><i class="fa fa-envelope-o fa-lg" title="Pesan Masuk"></i>&nbsp;</span>
+													<i class="fa fa-envelope-o fa-lg" title="Pesan Masuk"></i>&nbsp;
 													<?php if ($notif_inbox) : ?>
 														<span class="badge" id="b_inbox"><?= $notif_inbox ?></span>
+													<?php endif ?>
+													<?php if ($is_mobile) : ?>
+														<span>Pesan Masuk</span>
 													<?php endif ?>
 												</a>
 											</li>
@@ -188,9 +203,12 @@
 										<?php if (can('b', 'keluar')) : ?>
 											<li>
 												<a href="<?= site_url('keluar/clear/masuk') ?>">
-													<span><i class="fa fa-key fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
+													<i class="fa fa-key fa-lg" title="Permohonan Surat"></i>&nbsp;
 													<?php if ($notif_permohonan) : ?>
 														<span class="badge" id="b_inbox"><?= $notif_permohonan ?></span>
+													<?php endif ?>
+													<?php if ($is_mobile) : ?>
+														<span>Permohonan Surat</span>
 													<?php endif ?>
 												</a>
 											</li>

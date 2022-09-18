@@ -25,10 +25,10 @@
 								<tbody>
 									<?php $no = 1;
 
-									foreach ($keluarga->anggota as $data): ?>
+    foreach ($keluarga->anggota as $data): ?>
 										<tr>
 											<td><?= $no;
-											$no++; ?></td>
+        $no++; ?></td>
 											<td><?= $data->nik?></td>
 											<td><?= $data->nama?></td>
 											<td><?= $data->pendudukHubungan->nama?></td>
@@ -51,10 +51,10 @@
 								<tbody>
 									<?php $no = 1;
 
-									foreach ($main as $data): ?>
+    foreach ($main as $data): ?>
 										<tr>
 											<td><?= $no;
-											$no++; ?></td>
+        $no++; ?></td>
 											<td><?= $data['nik']?></td>
 											<td><?= $data['nama']?></td>
 										<td><?= $data['hubungan']?></td>
