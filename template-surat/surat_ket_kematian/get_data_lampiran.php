@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit ('No direct script access allowed');
+<?php defined('BASEPATH') || exit('No direct script access allowed');
 
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');
@@ -125,4 +125,5 @@
 
 	$id = $this->input->post('pamong_id');
 	$kepala_desa = $this->pamong_model->get_pamong($id);
+	
 ?>

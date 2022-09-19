@@ -242,7 +242,7 @@ class Html2Pdf
         return array(
             'major'     => 5,
             'minor'     => 2,
-            'revision'  => 3
+            'revision'  => 4
         );
     }
 
@@ -1036,7 +1036,7 @@ class Html2Pdf
         if ($curr !== null && $sub->parsingHtml->code[$this->_parsePos]->getName() === 'write') {
             $txt = $sub->parsingHtml->code[$this->_parsePos]->getParam('txt');
             $txt = str_replace('[[page_cu]]', $sub->pdf->getMyNumPage($this->_page), $txt);
-            $sub->parsingHtml->code[$this->_parsePos]->setParam('txt', mb_substr($txt, $curr + 1, null, $this->_encoding));
+            $sub->parsingHtml->code[$this->_parsePos]->setParam('txt', substr($txt, $curr + 1));
         } else {
             $sub->_parsePos++;
         }
@@ -1505,11 +1505,13 @@ class Html2Pdf
     {
         // get the size of the image
         // WARNING : if URL, "allow_url_fopen" must turned to "on" in php.ini
-        if( strpos($src,'data:') === 0 ) {
+
+        if (strpos($src,'data:') === 0) {
             $src = base64_decode( preg_replace('#^data:image/[^;]+;base64,#', '', $src) );
             $infos = @getimagesizefromstring($src);
             $src = "@{$src}";
         } else {
+            $this->parsingCss->checkValidPath($src);
             $infos = @getimagesize($src);
         }
 

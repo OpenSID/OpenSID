@@ -96,15 +96,18 @@ class Migrasi_2005_ke_2006 extends CI_model
     {
         // Menambahkan menu 'Group / Hak Akses' covid19 table 'user_grup'
         $data[] = [
-            'id'   => '5',
-            'nama' => 'Satgas Covid-19',
+            'id'         => '5',
+            'nama'       => 'Satgas Covid-19',
+            'updated_by' => $this->session->user,
         ];
 
+        // karena di versi ini belum ada updated_by, tp dilakukan migrasi mundur jadi updated_by perlu diisi
         foreach ($data as $grup) {
             $sql = $this->db->insert_string('user_grup', $grup);
             $sql .= ' ON DUPLICATE KEY UPDATE
 			id = VALUES(id),
-			nama = VALUES(nama)';
+			nama = VALUES(nama),
+            updated_by = VALUES(updated_by)';
             $this->db->query($sql);
         }
     }

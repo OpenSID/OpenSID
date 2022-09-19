@@ -231,16 +231,18 @@ class Modul_model extends CI_Model
     */
     public function default_server()
     {
+        $outp = true;
+
         switch ($this->setting->penggunaan_server) {
             case '1':
             case '5':
-                $this->db->update('setting_modul', ['aktif' => 1]);
+                $outp = $outp && $this->db->update('setting_modul', ['aktif' => 1]);
                 // Kalau web tidak diaktifkan sama sekali, non-aktifkan modul Admin Web
                 if ($this->setting->offline_mode == 2) {
                     $modul_web = 13;
-                    $this->db->where('id', $modul_web)
+                    $outp      = $outp && $this->db->where('id', $modul_web)
                         ->update('setting_modul', ['aktif' => 0]);
-                    $this->set_aktif_submodul($modul_web, 0);
+                    $outp = $outp && $this->set_aktif_submodul($modul_web, 0);
                 }
                 break;
 
@@ -249,21 +251,23 @@ class Modul_model extends CI_Model
                 // dilakukan offline di kantor desa. Yaitu, hanya modul Admin Web yang aktif
                 // Kecuali Pengaturan selalu aktif
                     $modul_pengaturan = 11;
-                    $this->db->where('id <>', $modul_pengaturan)
+                    $outp             = $outp && $this->db->where('id <>', $modul_pengaturan)
                         ->where('parent <>', $modul_pengaturan)
                         ->update('setting_modul', ['aktif' => 0]);
                     $modul_web = 13;
-                    $this->db->where('id', $modul_web)
+                    $outp      = $outp && $this->db->where('id', $modul_web)
                         ->update('setting_modul', ['aktif' => 1]);
-                    $this->set_aktif_submodul($modul_web, 1);
+                    $outp = $outp && $this->set_aktif_submodul($modul_web, 1);
                 break;
 
             default:
                 // semua modul aktif
-                $this->db->update('setting_modul', ['aktif' => 1]);
+                $outp = $outp && $this->db->update('setting_modul', ['aktif' => 1]);
                 break;
         }
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        status_sukses($outp);
     }
 
     public function modul_aktif($controller)
@@ -293,11 +297,13 @@ class Modul_model extends CI_Model
      */
     public function lock($id, $val)
     {
-        $this->db
+        $outp = $this->db
             ->where('id', $id)
             ->or_where('parent', $id)
             ->update('setting_modul', ['aktif' => $val]);
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        status_sukses($outp);
     }
 
     public function list_icon()

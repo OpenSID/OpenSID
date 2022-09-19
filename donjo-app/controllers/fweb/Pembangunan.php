@@ -58,7 +58,7 @@ class Pembangunan extends Web_Controller
         $data['start_paging']   = max($data['paging']->start_link, $p - $data['paging_range']);
         $data['end_paging']     = min($data['paging']->end_link, $p + $data['paging_range']);
         $data['pages']          = range($data['start_paging'], $data['end_paging']);
-        $data['pembangunan']    = $this->pembangunan_model->get_data('', 'semua')->limit($data['paging']->per_page, $data['paging']->offset)->order_by('p.tahun_anggaran', 'desc')->get()->result();
+        $data['pembangunan']    = $this->pembangunan_model->get_data('', 'semua')->where('p.status', '1')->limit($data['paging']->per_page, $data['paging']->offset)->order_by('p.tahun_anggaran', 'desc')->get()->result();
         $data['halaman_statis'] = $this->controller . '/index';
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');

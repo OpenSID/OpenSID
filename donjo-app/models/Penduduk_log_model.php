@@ -55,7 +55,7 @@ class Penduduk_log_model extends MY_Model
     public function get_log($id_log)
     {
         $log = $this->db
-            ->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya")
+            ->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya, p.kelahiran_anak_ke AS anak_ke, l.jam_mati, l.sebab, l.penolong_mati, l.akta_mati")
             ->where('l.id', $id_log)
             ->join('tweb_penduduk p', 'l.id_pend = p.id', 'left')
             ->join('ref_peristiwa s', 's.id = l.kode_peristiwa', 'left')
@@ -81,23 +81,47 @@ class Penduduk_log_model extends MY_Model
         if ($this->input->post('alamat_tujuan')) {
             $data['alamat_tujuan'] = htmlentities($this->input->post('alamat_tujuan'));
         }
+
         if ($this->input->post('meninggal_di')) {
             $data['meninggal_di'] = htmlentities($this->input->post('meninggal_di'));
         }
+
+        if ($this->input->post('jam_mati')) {
+            $data['jam_mati'] = htmlentities($this->input->post('jam_mati'));
+        }
+
+        if ($this->input->post('sebab')) {
+            $data['sebab'] = (int) $this->input->post('sebab');
+        }
+
+        if ($this->input->post('penolong_mati')) {
+            $data['penolong_mati'] = (int) $this->input->post('penolong_mati');
+        }
+
+        if ($this->input->post('akta_mati')) {
+            $data['akta_mati'] = $this->input->post('akta_mati');
+        }
+
+        $penduduk = [];
+        if ($this->input->post('anak_ke')) {
+            $penduduk['kelahiran_anak_ke'] = (int) $this->input->post('anak_ke');
+        }
+
         if ($this->input->post('alamat_sebelumnya')) {
             $penduduk['alamat_sebelumnya'] = htmlentities($this->input->post('alamat_sebelumnya'));
-            $get_pendudukId                = $this->db->where('id', $id_log)->get('log_penduduk')->row()->id_pend;
+        }
+
+        if ($penduduk) {
+            $get_pendudukId = $this->db->where('id', $id_log)->get('log_penduduk')->row()->id_pend;
             $this->db->where('id', $get_pendudukId)->update('tweb_penduduk', $penduduk);
         }
         $data['tgl_peristiwa'] = rev_tgl($this->input->post('tgl_peristiwa'));
         $data['tgl_lapor']     = rev_tgl($this->input->post('tgl_lapor'), null);
         $data['updated_at']    = date('Y-m-d H:i:s');
         $data['updated_by']    = $this->session->user;
-        if (! $this->db->where('id', $id_log)->update('log_penduduk', $data)) {
-            $_SESSION['success'] = -1;
-        } else {
-            $_SESSION['success'] = 1;
-        }
+
+        $outp = $this->db->where('id', $id_log)->update('log_penduduk', $data);
+        status_sukses($outp);
     }
 
     /**
@@ -421,5 +445,21 @@ class Penduduk_log_model extends MY_Model
             ->from('log_penduduk')
             ->where('DAYNAME(tgl_lapor) IS NOT NULL')
             ->get()->row()->thn;
+    }
+
+    public function get_log_penduduk($id_penduduk, $status_dasar = null)
+    {
+        $this->db
+            ->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya, p.kelahiran_anak_ke AS anak_ke, l.jam_mati, l.sebab, l.penolong_mati, l.akta_mati")
+            ->where('p.id', $id_penduduk)
+            ->join('tweb_penduduk p', 'l.id_pend = p.id', 'left')
+            ->join('ref_peristiwa s', 's.id = l.kode_peristiwa', 'left');
+        $this->db->order_by('l.id', 'desc');
+
+        if ($status_dasar !== null) {
+            $this->db->where('kode_peristiwa', $status_dasar);
+        }
+
+        return $this->db->get('log_penduduk l')->row_array();
     }
 }

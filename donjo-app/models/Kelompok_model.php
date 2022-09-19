@@ -45,7 +45,7 @@ class Kelompok_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['wilayah_model', 'referensi_model']);
+        $this->load->model(['wilayah_model', 'referensi_model', 'program_bantuan_model']);
     }
 
     public function set_tipe(string $tipe)
@@ -81,6 +81,16 @@ class Kelompok_model extends MY_Model
         }
 
         return $this->db;
+    }
+
+    protected function status_dasar_sql()
+    {
+        $status_dasar = $this->session->status_dasar;
+        if ($status_dasar == 1) {
+            $this->db->where('c.status_dasar', 1);
+        } elseif ($status_dasar == 2) {
+            $this->db->where('c.status_dasar', null);
+        }
     }
 
     private function penerima_bantuan_sql()
@@ -123,7 +133,7 @@ class Kelompok_model extends MY_Model
     {
         $this->db->from("{$this->table} u")
             ->join('kelompok_master s', 'u.id_master = s.id', 'left')
-            ->join('tweb_penduduk c', 'u.id_ketua = c.id', 'left')
+            ->join('penduduk_hidup c', 'u.id_ketua = c.id', 'left')
             ->where('u.tipe', $this->tipe);
 
         if ($this->session->penerima_bantuan) {
@@ -132,6 +142,7 @@ class Kelompok_model extends MY_Model
 
         $this->search_sql();
         $this->filter_sql();
+        $this->status_dasar_sql();
 
         $kolom_kode = [
             ['sex', 'c.sex'],
@@ -463,8 +474,12 @@ class Kelompok_model extends MY_Model
             ->result_array();
     }
 
-    private function in_list_anggota($kelompok)
+    private function in_list_anggota($kelompok, $id_pend)
     {
+        if ($id_pend) {
+            $this->db->where_not_in('p.id', $id_pend);
+        }
+
         $anggota = $this->db
             ->select('p.id')
             ->from('kelompok_anggota k')
@@ -477,10 +492,10 @@ class Kelompok_model extends MY_Model
         return sql_in_list(array_column($anggota, 'id'));
     }
 
-    public function list_penduduk($ex_kelompok = '')
+    public function list_penduduk($ex_kelompok = 0, $id_pend = 0)
     {
         if ($ex_kelompok) {
-            $anggota = $this->in_list_anggota($ex_kelompok);
+            $anggota = $this->in_list_anggota($ex_kelompok, $id_pend);
             if ($anggota) {
                 $this->db->where("p.id not in ({$anggota})");
             }
@@ -513,11 +528,15 @@ class Kelompok_model extends MY_Model
     {
         $this->db->where('jabatan <>', 90);
 
-        return $this->list_anggota($id_kelompok);
+        return $this->list_anggota(0, 0, 0, $id_kelompok, '');
     }
 
-    public function list_anggota($id_kelompok = 0, $sub = '')
+    public function list_anggota($o = 0, $offset = 0, $limit = 500, $id_kelompok = 0, $sub = '')
     {
+        if ($limit) {
+            $this->db->limit($limit, $offset);
+        }
+
         $dusun = ucwords($this->setting->sebutan_dusun);
         if ($sub == 'anggota') {
             $this->db->where('jabatan', 90); // Hanya anggota saja, tidak termasuk pengurus
@@ -549,6 +568,13 @@ class Kelompok_model extends MY_Model
         }
 
         return $data;
+    }
+
+    public function paging($p = 1, $id_kelompok = '')
+    {
+        $jml_data = count($this->list_anggota(0, 0, 0, $id_kelompok, ''));
+
+        return $this->paginasi($p, $jml_data);
     }
 
     public function ubah_jabatan($id_kelompok, $id_penduduk, $jabatan, $jabatan_lama)

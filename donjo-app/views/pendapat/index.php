@@ -118,7 +118,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 											<?php endforeach; ?>
 											<?php else: ?>
 												<tr>
-													<td class="text-center" colspan="3">Data Tidak Tersedia</td>
+													<td class="text-center" colspan="4">Data Tidak Tersedia</td>
 												</tr>
 											<?php endif; ?>
 										</tbody>

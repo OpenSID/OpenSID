@@ -14,11 +14,8 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-body">
-						<figure class="highcharts-figure">
-					    <div id="container"></div>
-					    <p class="highcharts-description">
-					    </p>
-						</figure>
+						<div id="container"></div>
+						<p class="highcharts-description"></p>
 					</div>
 				</div>
 			</div>
@@ -26,4 +23,4 @@
 	</section>
 </div>
 
-<?php include 'donjo-app/views/home/chart_bagan.php'; ?>
+<?php $this->load->view('home/chart_bagan') ?>

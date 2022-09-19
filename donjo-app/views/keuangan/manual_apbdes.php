@@ -211,7 +211,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="myModalLabel">Ubah Anggaran / Realisasi</h4>
 			</div>
-
 			<form id="form-edit">
 				<div class="modal-body">
 
@@ -331,5 +330,25 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 		//MISC
 		tools();
+
+		//ENTER KEY UP
+		//ADD
+		$('#form-tambah').bind("enterKey",function(e){
+			$('#btn_simpan').click();
+		});
+		$('#form-tambah').keyup(function(e){
+			if(e.keyCode == 13){
+				$(this).trigger("enterKey");
+			}
+		});
+		//UPDATE
+		$('#form-edit').bind("enterKey",function(e){
+			$('#btn_update').click();
+		});
+		$('#form-edit').keyup(function(e){
+			if(e.keyCode == 13){
+				$(this).trigger("enterKey");
+			}
+		});
 	});
 </script>

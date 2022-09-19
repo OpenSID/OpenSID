@@ -356,7 +356,7 @@ class Suplemen_model extends MY_Model
     {
         $hasil = [];
         // Paging
-        if (! empty($this->session->per_page) && $this->session->per_page > 0) {
+        if ((! empty($this->session->per_page) && $this->session->per_page > 0) || $p > 0) {
             $this->get_kk_terdata_sql($suplemen_id);
             $hasil['paging'] = $this->paging($p);
             $this->db->limit($hasil['paging']->per_page, $hasil['paging']->offset);
@@ -616,6 +616,7 @@ class Suplemen_model extends MY_Model
                         ->like('o.nama', $cari)
                         ->or_like('o.nik', $cari)
                         ->or_like('k.no_kk', $cari)
+                        ->or_like('o.tag_id_card', $cari)
                         ->group_end();
                     break;
 
@@ -627,6 +628,7 @@ class Suplemen_model extends MY_Model
                         ->or_like('o.nik_kepala', $cari)
                         ->or_like('q.nik', $cari)
                         ->or_like('q.nama ', $cari)
+                        ->or_like('q.tag_id_card', $cari)
                         ->group_end();
                     break;
             }
@@ -671,10 +673,9 @@ class Suplemen_model extends MY_Model
     public function ekspor($id = 0)
     {
         $data_suplemen = $this->get_rincian(0, $id);
-        // print_r($data_anggota);
+
         $writer    = WriterEntityFactory::createXLSXWriter();
         $file_name = namafile($data_suplemen[$this->table]['nama']) . '.xlsx';
-        // $writer->openToFile($filePath);
         $writer->openToBrowser($file_name);
 
         // Ubah Nama Sheet

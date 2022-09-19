@@ -1,17 +1,21 @@
 <?php
+
 define('ENVIRONMENT', 'production');
 
 $ds = DIRECTORY_SEPARATOR;
-define('BASEPATH', dirname(dirname(dirname(__FILE__))));
-define('FCPATH', BASEPATH . $ds);
-define('DESAPATH', BASEPATH . $ds . 'desa' . $ds);
-define('APPPATH', BASEPATH . $ds . 'donjo-app' . $ds);
-define('LIBPATH', BASEPATH . "{$ds}vendor{$ds}codeigniter{$ds}framework{$ds}system{$ds}libraries{$ds}Session{$ds}");
-define('APP_URL', ($_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . "://{$_SERVER['HTTP_HOST']}".str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']));
+define('FMPATH', dirname(dirname(dirname(__FILE__))) . $ds);
+define('FCPATH', FMPATH . $ds);
+define('APPPATH', FMPATH . "donjo-app{$ds}");
+define('DESAPATH', FMPATH . "desa{$ds}");
+define('RESOURCES', FMPATH . "resources{$ds}");
+define('STORAGE', FMPATH . "storage{$ds}");
+define('BASEPATH', FMPATH . "vendor{$ds}codeigniter{$ds}framework{$ds}system{$ds}");
+define('APP_URL', ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}" . str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']));
 
-require_once LIBPATH . 'Session_driver.php';
-require_once LIBPATH . "drivers{$ds}Session_files_driver.php";
-require_once BASEPATH . "{$ds}vendor{$ds}codeigniter{$ds}framework{$ds}system{$ds}core{$ds}Common.php";
+require_once BASEPATH . "libraries{$ds}Session{$ds}Session_driver.php";
+require_once BASEPATH . "libraries{$ds}Session{$ds}CI_Session_driver_interface.php";
+require_once BASEPATH . "libraries{$ds}Session{$ds}drivers{$ds}Session_files_driver.php";
+require_once BASEPATH . "core{$ds}Common.php";
 
 $config = get_config();
 
@@ -31,21 +35,16 @@ $config = array(
     '_sid_regexp'       => '[0-9a-v]{32}',
 );
 
-
 $class = new CI_Session_files_driver($config);
 
-if (is_php('5.4')) {
-    session_set_save_handler($class, true);
-} else {
-    session_set_save_handler(
-        array($class, 'open'),
-        array($class, 'close'),
-        array($class, 'read'),
-        array($class, 'write'),
-        array($class, 'destroy'),
-        array($class, 'gc')
-    );
-    register_shutdown_function('session_write_close');
-}
+session_set_save_handler(
+    array($class, 'open'),
+    array($class, 'close'),
+    array($class, 'read'),
+    array($class, 'write'),
+    array($class, 'destroy'),
+    array($class, 'gc')
+);
+register_shutdown_function('session_write_close');
 
 session_name($config['cookie_name']);

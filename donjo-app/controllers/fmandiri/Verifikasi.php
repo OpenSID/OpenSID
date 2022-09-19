@@ -107,7 +107,7 @@ class Verifikasi extends Mandiri_Controller
     {
         $post    = $this->input->post();
         $userID  = $post['telegram_userID'];
-        $token   = hash('sha256', $raw_token = mt_rand(100000, 999999));
+        $token   = hash('sha256', $raw_token   = mt_rand(100000, 999999));
         $id_pend = $this->session->is_login->id_pend;
 
         $this->db->trans_begin();
@@ -220,7 +220,7 @@ class Verifikasi extends Mandiri_Controller
     {
         $post    = $this->input->post();
         $email   = $post['alamat_email'];
-        $token   = hash('sha256', $raw_token = mt_rand(100000, 999999));
+        $token   = hash('sha256', $raw_token   = mt_rand(100000, 999999));
         $id_pend = $this->session->is_login->id_pend;
 
         $this->db->trans_begin();

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <style type="text/css">
 	<?php include(FCPATH . "/assets/css/lampiran-surat.css"); ?>
@@ -299,7 +299,7 @@
 				<?= $input['anakke']; ?>
 			</td>
 			<td>&nbsp;</td>
-			<td colspan=6>1,  2,  3,  4,  </td>
+			<td colspan=6>1,  2,  3,  4,   ........</td>
 			<td colspan=29>&nbsp;</td>
 		</tr>
 		<tr>
