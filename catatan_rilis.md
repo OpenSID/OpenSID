@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.09-premium-rev03 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.09-premium-rev04 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
@@ -52,6 +52,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 43. [#5647](https://github.com/OpenSID/OpenSID/issues/5647) Perbaikan validasi pengaturan gawai pada saat sesudah login.
 44. [#5650](https://github.com/OpenSID/OpenSID/issues/5650) Perbaikan surat non warga yang tidak tampil di arsip surat.
 45. [#5652](https://github.com/OpenSID/OpenSID/issues/5652) Perbaikan tabel sys_traffic untuk menerima data lebih besar.
+46. [#5653](https://github.com/OpenSID/OpenSID/issues/5653) Perbaikan notifikasi kesalahan saat ambil Foto dengan Kamera jika tidak mendukung https/ssl.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
