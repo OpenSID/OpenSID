@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.03-premium menyediakan tema esensi sebagai pengganti tema klasik. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.10-pasca menyediakan tema esensi sebagai pengganti tema klasik. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @Irvan1609 dan @totoprayogo1916 yang terus berkontribusi.
 
