@@ -199,11 +199,6 @@
 												</a>
 											</li>
 										<?php endif ?>
-
-									</a>
-								</li>
-							<?php endif ?>
-							
 										<?php if (can('b', 'keluar')) : ?>
 											<li>
 												<a href="<?= site_url('keluar/clear/masuk') ?>">
