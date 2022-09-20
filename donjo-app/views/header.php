@@ -179,7 +179,7 @@
 							<?php if (can('b', 'keluar')): ?>
 								<li>
 									<a href="<?= site_url('keluar/clear/masuk') ?>">
-										<span><i class="fa fa-key fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
+										<span><i class="fa fa-bell-o fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
 										<?php if ($notif_permohonan) : ?>
 											<span class="badge" id="b_inbox"><?= $notif_permohonan ?></span>
 										<?php endif ?>

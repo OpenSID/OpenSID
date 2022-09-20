@@ -53,6 +53,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 44. [#5650](https://github.com/OpenSID/OpenSID/issues/5650) Perbaikan surat non warga yang tidak tampil di arsip surat.
 45. [#5652](https://github.com/OpenSID/OpenSID/issues/5652) Perbaikan tabel sys_traffic untuk menerima data lebih besar.
 46. [#5653](https://github.com/OpenSID/OpenSID/issues/5653) Perbaikan notifikasi kesalahan saat ambil Foto dengan Kamera jika tidak mendukung https/ssl.
+47. [#5665](https://github.com/OpenSID/OpenSID/issues/5665) Perbaikan icon kunci yang diubah menjadi lonceng pada navbar.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
