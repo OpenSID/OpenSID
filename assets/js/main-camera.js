@@ -11,7 +11,9 @@ function konfigurasi() {
 		height: 480,
 
 		image_format: 'jpeg',
-		jpeg_quality: 100
+		jpeg_quality: 100,
+
+		noInterfaceFoundText: 'Kamera tidak terditeksi / tidak didukung mohon periksa kembali dan pastikan website anda menggunakan ssl/https.',
 	});
 
 	Webcam.attach('#kamera');
@@ -31,6 +33,16 @@ function ambil() {
 }
 
 function kamera() {
+	Webcam.on('error', function(err) {
+		if (err == 'NotAllowedError: Permission denied') {
+			err = 'Anda tidak memberikan izin untuk menggunakan kamera, mohon periksa kembali dan pastikan website anda menggunakan ssl/https.';
+		}
+
+		alert(err);
+		$("#ambil_kamera").prop('disabled', true);
+		$("#modal-camera").fadeOut('slow').modal('hide');
+	});
+
 	$("#modal-camera").modal('show');
 	$("#modal-camera").modal({backdrop: "static", keyboard: false});
 	$("#modal-crop").modal('hide');

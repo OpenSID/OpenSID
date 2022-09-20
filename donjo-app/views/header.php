@@ -200,10 +200,14 @@
 											</li>
 										<?php endif ?>
 
+									</a>
+								</li>
+							<?php endif ?>
+							
 										<?php if (can('b', 'keluar')) : ?>
 											<li>
 												<a href="<?= site_url('keluar/clear/masuk') ?>">
-													<i class="fa fa-key fa-lg" title="Permohonan Surat"></i>&nbsp;
+													<i class="fa fa-bell-o fa-lg" title="Permohonan Surat"></i>&nbsp;
 													<?php if ($notif_permohonan) : ?>
 														<span class="badge" id="b_inbox"><?= $notif_permohonan ?></span>
 													<?php endif ?>

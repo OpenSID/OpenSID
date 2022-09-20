@@ -65,8 +65,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022091471($hasil);
 
         $hasil = $hasil && $this->migrasi_2022091551($hasil);
+        $hasil = $hasil && $this->migrasi_2022091651($hasil);
 
-        return $hasil && $this->migrasi_2022091651($hasil);
+        return $hasil && $this->migrasi_2022091951($hasil);
     }
 
     protected function migrasi_2022090671($hasil)
@@ -288,5 +289,17 @@ class Migrasi_fitur_premium_2210 extends MY_model
                 'null'       => false,
             ],
         ]);
+    }
+
+    protected function migrasi_2022091951($hasil)
+    {
+        // Tambahkan kode kelompok / lembaga jika masih kosong
+        $daftar_data = DB::table('kelompok')->where('kode', '')->pluck('tipe', 'id');
+
+        foreach ($daftar_data as $key => $value) {
+            DB::table('kelompok')->where('id', $key)->update(['kode' => $value . '-' . $key]);
+        }
+
+        return $hasil;
     }
 }
