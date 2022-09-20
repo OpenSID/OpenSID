@@ -55,6 +55,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 46. [#5653](https://github.com/OpenSID/OpenSID/issues/5653) Perbaikan notifikasi kesalahan saat ambil Foto dengan Kamera jika tidak mendukung https/ssl.
 47. [#5665](https://github.com/OpenSID/OpenSID/issues/5665) Perbaikan icon kunci yang diubah menjadi lonceng pada navbar.
 48. [#5660](https://github.com/OpenSID/OpenSID/issues/5660) Perbaikan wajib isi pada kode lembaga & merubah url menjadi konsisten.
+49. [#5670](https://github.com/OpenSID/OpenSID/issues/5670) Perbaikan gembok anjungan berfungsi terbalik.
+50. [#5649](https://github.com/OpenSID/OpenSID/issues/5649) Perbaikan cara deteksi anjungan OpenSID.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.

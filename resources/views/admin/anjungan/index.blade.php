@@ -42,6 +42,7 @@
                             <th>ID PENGUNJUNG</th>
                             <th>IP ADDRESS PRINTER & PORT</th>
                             <th>VIRTUAL KEYBOARD</th>
+                            <th>STATUS</th>
                             <th>KETERANGAN</th>
                         </tr>
                     </thead>
@@ -104,6 +105,12 @@
                     },
                     {
                         data: 'keyboard',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'status',
                         class: 'padat',
                         searchable: false,
                         orderable: false

@@ -1286,3 +1286,13 @@ function sdgs()
 
     return $sdgs;
 }
+
+function cek_anjungan()
+{
+    $CI = &get_instance();
+    $CI->load->model('notif_model');
+
+    $status = $CI->notif_model->api_pelanggan_pemesanan();
+
+    return $status->body->tanggal_berlangganan->anjungan != 'aktif' ? false : true;
+}

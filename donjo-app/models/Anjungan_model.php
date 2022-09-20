@@ -47,10 +47,7 @@ class Anjungan_model extends CI_Model
 
     public function cek_anjungan($mac_address = null)
     {
-        // Cek status anjungan dari layanan
-        $status = $this->notif_model->api_pelanggan_pemesanan();
-
-        if ($status->body->tanggal_berlangganan->anjungan != 'aktif') {
+        if (! cek_anjungan()) {
             return null;
         }
 
