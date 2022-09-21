@@ -35,7 +35,9 @@
  *
  */
 
+use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
+use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -165,26 +167,41 @@ class Penduduk_log_model extends MY_Model
     public function kembalikan_status_pergi($id_log)
     {
         $log = $this->db->where('id', $id_log)->get('log_penduduk')->row();
-        // Kembalikan status selain masuk dan lahir
-        if ($log->kode_peristiwa != 5 && $log->kode_peristiwa != 1) {
+        // Kembalikan status_dasar hanya jika penduduk pindah keluar (3) atau tidak tetap pergi (6)
+        if (in_array($log->kode_peristiwa, [LogPenduduk::PINDAH_KELUAR, LogPenduduk::TIDAK_TETAP_PERGI])) {
             $data['status_dasar'] = 1; // status dasar hidup
             $data['updated_at']   = date('Y-m-d H:i:s');
-            $data['updated_by']   = $this->session->user;
+            $data['updated_by']   = auth()->id;
             if (! $this->db->where('id', $log->id_pend)->update('tweb_penduduk', $data)) {
-                $_SESSION['success'] = -1;
+                $this->session->success = -1;
             }
 
-            $log = [
+            // Log Penduduk
+            $logPenduduk = [
                 'tgl_peristiwa'            => rev_tgl($this->input->post('tgl_peristiwa')),
-                'kode_peristiwa'           => 5,
+                'kode_peristiwa'           => LogPenduduk::BARU_PINDAH_MASUK,
                 'tgl_lapor'                => rev_tgl($this->input->post('tgl_lapor'), null),
                 'id_pend'                  => $log->id_pend,
-                'created_by'               => $this->session->user,
+                'created_by'               => auth()->id,
                 'maksud_tujuan_kedatangan' => $this->input->post('maksud_tujuan'),
             ];
 
-            $sql = $this->db->insert_string('log_penduduk', $log) . duplicate_key_update_str($log);
+            $sql = $this->db->insert_string('log_penduduk', $logPenduduk) . duplicate_key_update_str($logPenduduk);
             $this->db->query($sql);
+
+            // Log Keluarga jika kepala keluarga
+            $penduduk = Penduduk::select(['id', 'id_kk', 'kk_level'])->find($log->id_pend);
+            if ($penduduk->kk_level == 1) {
+                $logKeluarga = [
+                    'id_kk'         => $penduduk->id_kk,
+                    'id_peristiwa'  => LogKeluarga::KELUARGA_BARU_DATANG,
+                    'tgl_peristiwa' => rev_tgl($this->input->post('tgl_lapor'), null),
+                    'updated_by'    => auth()->id,
+                ];
+
+                $sql = $this->db->insert_string('log_keluarga', $logKeluarga) . duplicate_key_update_str($logKeluarga);
+                $this->db->query($sql);
+            }
         }
     }
 
@@ -440,13 +457,14 @@ class Penduduk_log_model extends MY_Model
             }
 
             // Ambil Log Pergi Terakhir Penduduk
-            $this->db
+            $log_pergi_terakhir = $this->db
                 ->select('lp.id')
                 ->from('log_penduduk lp')
                 ->where('lp.id_pend', $data[$i]['id'])
-                ->where('lp.kode_peristiwa', '6')
-                ->order_by('lp.id', 'DESC');
-            $log_pergi_terakhir = $this->db->get()->row();
+                ->where_in('lp.kode_peristiwa', [3, 6])
+                ->order_by('lp.id', 'DESC')
+                ->get()
+                ->row();
 
             $data[$i]['is_log_pergi_terakhir'] = ($log_pergi_terakhir->id == $data[$i]['id_log']);
             $data[$i]['no']                    = $j + 1;
