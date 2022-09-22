@@ -73,8 +73,11 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 46. [#5653](https://github.com/OpenSID/OpenSID/issues/5653) Perbaikan notifikasi kesalahan saat ambil Foto dengan Kamera jika tidak mendukung https/ssl.
 47. [#5665](https://github.com/OpenSID/OpenSID/issues/5665) Perbaikan icon kunci yang diubah menjadi lonceng pada navbar.
 48. [#5660](https://github.com/OpenSID/OpenSID/issues/5660) Perbaikan wajib isi pada kode lembaga & merubah url menjadi konsisten.
+49. [#5670](https://github.com/OpenSID/OpenSID/issues/5670) Perbaikan gembok anjungan berfungsi terbalik.
+50. [#5649](https://github.com/OpenSID/OpenSID/issues/5649) Perbaikan cara deteksi anjungan OpenSID.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
-2. Jalankan bersihkan cache setiap kali lakukan migrasi
+2. Jalankan bersihkan cache setiap kali lakukan migrasi.
 3. Hapus var_dump pada menu lihat profil.
+4. Ganti package box/spout menjadi openspout/openspout.

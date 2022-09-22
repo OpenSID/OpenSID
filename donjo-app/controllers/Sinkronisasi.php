@@ -42,8 +42,8 @@ use App\Models\BantuanPeserta;
 use App\Models\LogSinkronisasi;
 use App\Models\Pembangunan;
 use App\Models\PembangunanDokumentasi;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use GuzzleHttp\Psr7;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Sinkronisasi extends Admin_Controller
 {
