@@ -127,6 +127,8 @@ class Track_model extends CI_Model
             'jml_unsur_peta'      => $this->jml_unsur_peta(),
             'jml_persil'          => Persil::count(),
             'jml_dokumen'         => Dokumen::hidup()->count(),
+            'jml_surat_tte'       => LogSurat::where('tte', '=', 1)->count(), // jumlah surat terverifikasi secara tte
+            'modul_tte'           => (LogSurat::where('tte', '=', 1)->count() > 0 && setting('tte') == 1) ? 1 : 0, // cek modul tte
         ];
 
         if ($this->abaikan($desa)) {
