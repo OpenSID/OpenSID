@@ -75,6 +75,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 48. [#5660](https://github.com/OpenSID/OpenSID/issues/5660) Perbaikan wajib isi pada kode lembaga & merubah url menjadi konsisten.
 49. [#5670](https://github.com/OpenSID/OpenSID/issues/5670) Perbaikan gembok anjungan berfungsi terbalik.
 50. [#5649](https://github.com/OpenSID/OpenSID/issues/5649) Perbaikan cara deteksi anjungan OpenSID.
+51. [#5633](https://github.com/OpenSID/OpenSID/issues/5633) Perbaikan no KK sementara tidak berfungsi jika pecah KK apabila no KK sementara.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
