@@ -22,6 +22,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 17. [#3255](https://github.com/OpenSID/OpenSID/issues/3255) Menambahkan gelar depan & belakang untuk pemerintah desa yg diambil dari data penduduk.
 18. [#5274](https://github.com/OpenSID/OpenSID/issues/5274) Menambahkan daftar anggota dari kartu anggota keluarga dalam penambahan anggota rumah tangga.
 19. [#4719](https://github.com/OpenSID/OpenSID/issues/4719) Menambahkan tombol penduduk dan keluarga datang lagi pada log penduduk.
+20. [#4943](https://github.com/OpenSID/OpenSID/issues/4943) Penyesuaian template format F-1.01 dengan model terbaru.
 
 
 #### Perbaikan BUG

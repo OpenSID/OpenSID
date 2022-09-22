@@ -311,6 +311,7 @@ class Surat_model extends CI_Model
         return $data;
     }
 
+    // TODO: Ganti cara mengambil data kk, psaihkan dalam variabel lain
     public function get_data_surat($id = 0)
     {
         $sql = "SELECT u.*,
@@ -321,6 +322,7 @@ class Surat_model extends CI_Model
 			w.nama AS status_kawin, u.status_kawin as status_kawin_id, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.alamat, m.nama as cacat,
 			(select tweb_penduduk.nik from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS nik_kk,
 			(select tweb_penduduk.telepon from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS telepon_kk,
+            (select tweb_penduduk.email from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS email_kk,
 			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk,
 			r.bdt
 			from tweb_penduduk u
