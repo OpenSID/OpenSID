@@ -94,6 +94,14 @@ $(document).ready(function()
 	$('#file1').change(function()
 	{
 		$('#file_path1').val($(this).val());
+		if ($(this).val() == '')
+		{
+			$('#'+$(this).data('submit')).attr('disabled','disabled');
+		}
+		else
+		{
+			$('#'+$(this).data('submit')).removeAttr('disabled');
+		}
 	});
 	$('#file_path1').click(function()
 	{

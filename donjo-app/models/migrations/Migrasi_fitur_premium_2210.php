@@ -51,6 +51,8 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2209');
+        $hasil = $hasil && $this->migrasi_2022090751($hasil);
+        $hasil = $hasil && $this->migrasi_2022082472($hasil);
         $hasil = $hasil && $this->migrasi_2022090671($hasil);
         $hasil = $hasil && $this->migrasi_2022090751($hasil);
         $hasil = $hasil && $this->migrasi_2022090851($hasil);
@@ -96,6 +98,54 @@ class Migrasi_fitur_premium_2210 extends MY_model
             // Jika tidak ada, ganti id_pamong = 1 pada log_surat dengan kepala desa yang aktif
             $pamongId = Pamong::kepalaDesa()->first()->pamong_id;
             LogSurat::where('id_pamong', 1)->update(['id_pamong' => $pamongId]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022082472($hasil)
+    {
+        // buat tabel log restore folder desa
+        if (! $this->db->table_exists('log_restore_desa')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                    'unsigned'       => true,
+                ],
+                'ukuran' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 50,
+                    'null'       => true,
+                ],
+                'path' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 150,
+                    'null'       => true,
+                ],
+                'restore_at' => [
+                    'type' => 'TIMESTAMP',
+                    'null' => true,
+                ],
+                'status' => [
+                    'type'    => 'int',
+                    'null'    => false,
+                    'default' => 0,
+                ],
+                'pid_process' => [
+                    'type'       => 'int',
+                    'constraint' => 11,
+                    'null'       => true,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('log_restore_desa', true);
+
+            $hasil = $hasil && $this->timestamps('log_restore_desa', true);
         }
 
         return $hasil;

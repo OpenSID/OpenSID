@@ -37,6 +37,7 @@
 
 use App\Libraries\FlxZipArchive;
 use App\Models\LogBackup;
+use App\Models\LogRestoreDesa;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -130,6 +131,42 @@ class Job extends CI_Controller
             $backup->update(['status' => 1, 'ukuran' => byte_format($file_backup['size']), 'path' => $path]); // update backup sudah selesai
         } catch (Exception $e) {
             $backup->update(['status' => -1]); // update backup gagal
+            printf($e);
+        }
+    }
+
+    public function restore_desa($id)
+    {
+        if (! is_cli()) {
+            return;
+        }
+
+        /*
+        variable status
+        0 = sedang dalam prosess
+        1 = selesai diproses
+        2 = selesai di download
+        3 = dibatalkan
+        -1 = gagal restore
+        */
+
+        $restore = LogRestoreDesa::where('id', '=', $id)->first();
+        $restore->update(['pid_process' => getmypid()]);
+
+        try {
+            $zip = new ZipArchive();
+            $res = $zip->open($restore->path);
+            if ($res === true) {
+                // Unzip path
+                $extractpath = DESAPATH . '..';
+
+                // Extract file
+                $zip->extractTo($extractpath);
+                $zip->close();
+                $restore->update(['status' => 1]);
+            }
+        } catch (Exception $e) {
+            $restore->update(['status' => -1]); // update backup gagal
             printf($e);
         }
     }
