@@ -65,11 +65,13 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022091374($hasil);
         $hasil = $hasil && $this->migrasi_2022091470($hasil);
         $hasil = $hasil && $this->migrasi_2022091471($hasil);
-
         $hasil = $hasil && $this->migrasi_2022091551($hasil);
         $hasil = $hasil && $this->migrasi_2022091651($hasil);
+        $hasil = $hasil && $this->tambah_modul_anjungan($hasil);
+        $hasil = $hasil && $this->migrasi_2022091951($hasil);
+        $hasil = $hasil && $this->tambahTabelAnjunganMenu($hasil);
 
-        return $hasil && $this->migrasi_2022091951($hasil);
+        return $hasil && $this->tambahSetingPengaturanAnjungan($hasil);
     }
 
     protected function migrasi_2022090671($hasil)
@@ -341,6 +343,50 @@ class Migrasi_fitur_premium_2210 extends MY_model
         ]);
     }
 
+    protected function tambah_modul_anjungan($hasil)
+    {
+        $hasil = $hasil && $this->ubah_modul(312, ['urut' => 180, 'url' => '', 'parent' => 0]);
+
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 347,
+            'modul'      => 'Daftar Anjungan',
+            'url'        => 'anjungan',
+            'aktif'      => 1,
+            'ikon'       => 'fa-list',
+            'urut'       => 1,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-list',
+            'parent'     => 312,
+        ]);
+
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 348,
+            'modul'      => 'Menu',
+            'url'        => 'anjungan_menu',
+            'aktif'      => 1,
+            'ikon'       => 'fa-bars',
+            'urut'       => 2,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-bars',
+            'parent'     => 312,
+        ]);
+
+        return $hasil && $this->tambah_modul([
+            'id'         => 349,
+            'modul'      => 'Pengaturan',
+            'url'        => 'anjungan_pengaturan',
+            'aktif'      => 1,
+            'ikon'       => 'fa-gear',
+            'urut'       => 3,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-gear',
+            'parent'     => 312,
+        ]);
+    }
+
     protected function migrasi_2022091951($hasil)
     {
         // Tambahkan kode kelompok / lembaga jika masih kosong
@@ -349,6 +395,63 @@ class Migrasi_fitur_premium_2210 extends MY_model
         foreach ($daftar_data as $key => $value) {
             DB::table('kelompok')->where('id', $key)->update(['kode' => $value . '-' . $key]);
         }
+
+        return $hasil;
+    }
+
+    protected function tambahTabelAnjunganMenu($hasil)
+    {
+        if (! $this->db->table_exists('anjungan_menu')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                    'unsigned'       => true,
+                ],
+                'nama' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 255,
+                ],
+                'icon' => [
+                    'type'    => 'TEXT',
+                    'null'    => true,
+                    'default' => null,
+                ],
+                'link' => [
+                    'type' => 'TEXT',
+                ],
+                'link_tipe' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 4,
+                ],
+                'urut' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 4,
+                ],
+                'status' => [
+                    'type'       => 'INT',
+                    'constraint' => 4,
+                    'default'    => 1,
+                ],
+            ];
+            $this->dbforge->add_key('id', true);
+            $this->dbforge->add_field($fields);
+            $hasil = $hasil && $this->dbforge->create_table('anjungan_menu', true);
+            $hasil = $hasil && $this->timestamps('anjungan_menu', true);
+        }
+
+        return $hasil;
+    }
+
+    protected function tambahSetingPengaturanAnjungan($hasil)
+    {
+        $hasil && $this->tambah_setting([
+            'key'        => 'anjungan_artikel',
+            'value'      => '',
+            'keterangan' => 'Pengaturan artikel untuk anjungan',
+            'kategori'   => 'anjungan',
+        ]);
 
         return $hasil;
     }

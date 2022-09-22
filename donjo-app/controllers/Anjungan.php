@@ -45,8 +45,8 @@ class Anjungan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 14;
-        $this->sub_modul_ini = 312;
+        $this->modul_ini     = 312;
+        $this->sub_modul_ini = 347;
     }
 
     public function index()

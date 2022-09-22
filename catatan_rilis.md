@@ -25,6 +25,9 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 20. [#4943](https://github.com/OpenSID/OpenSID/issues/4943) Penyesuaian template format F-1.01 dengan model terbaru.
 21. [#5247](https://github.com/OpenSID/OpenSID/issues/5247) Menambahkan restore folder desa melalui OpenSID.
 22. [#5675](https://github.com/OpenSID/OpenSID/issues/5675) Menambahkan status penggunaan TTE dari OpenSID.
+23. [#5596](https://github.com/OpenSID/OpenSID/issues/5596) Menambahkan pengaturan untuk artikel anjungan.
+24. [#5594](https://github.com/OpenSID/OpenSID/issues/5594) Menambahkan pengaturan untuk menampilkan menu-menu anjungan.
+25. [#5662](https://github.com/OpenSID/OpenSID/issues/5662) Menambahkan menu anjungan tersendiri dan menghapus menu anjungan dari layanan mandiri.
 
 #### Perbaikan BUG
 

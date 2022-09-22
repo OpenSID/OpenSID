@@ -83,6 +83,7 @@ define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
 define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
 define('LATAR_KEHADIRAN', 'desa/pengaturan/siteman/images/');
 define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
+define('LOKASI_ICON_MENU_ANJUNGAN', 'desa/anjungan/menu/');
 
 // Sistem
 define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
