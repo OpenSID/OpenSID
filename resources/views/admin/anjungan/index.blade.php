@@ -39,7 +39,6 @@
                             <th class="padat">AKSI</th>
                             <th>IP ADDRESS</th>
                             <th>MAC ADDRESS</th>
-                            <th>ID PENGUNJUNG</th>
                             <th>IP ADDRESS PRINTER & PORT</th>
                             <th>VIRTUAL KEYBOARD</th>
                             <th>STATUS</th>
@@ -89,12 +88,6 @@
                     {
                         data: 'mac_address',
                         name: 'mac_address',
-                        searchable: true,
-                        orderable: true
-                    },
-                    {
-                        data: 'id_pengunjung',
-                        name: 'id_pengunjung',
                         searchable: true,
                         orderable: true
                     },

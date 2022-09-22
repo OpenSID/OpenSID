@@ -58,6 +58,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 49. [#5670](https://github.com/OpenSID/OpenSID/issues/5670) Perbaikan gembok anjungan berfungsi terbalik.
 50. [#5649](https://github.com/OpenSID/OpenSID/issues/5649) Perbaikan cara deteksi anjungan OpenSID.
 51. [#5633](https://github.com/OpenSID/OpenSID/issues/5633) Perbaikan no KK sementara tidak berfungsi jika pecah KK apabila no KK sementara.
+52. [#5671](https://github.com/OpenSID/OpenSID/issues/5671) Perbaikan hapus id pengunjung ketika tambah perangkat anjungan.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
