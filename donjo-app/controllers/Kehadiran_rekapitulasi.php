@@ -37,7 +37,7 @@
 
 use App\Models\Kehadiran;
 use App\Models\Pamong;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

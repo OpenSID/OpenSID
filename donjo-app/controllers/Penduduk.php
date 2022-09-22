@@ -38,7 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\StatusEnum;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Penduduk extends Admin_Controller
 {

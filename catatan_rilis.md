@@ -60,5 +60,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
-2. Jalankan bersihkan cache setiap kali lakukan migrasi
+2. Jalankan bersihkan cache setiap kali lakukan migrasi.
 3. Hapus var_dump pada menu lihat profil.
+4. Ganti package box/spout menjadi openspout/openspout.
