@@ -56,6 +56,7 @@ class Anjungan extends Model
     protected $fillable = [
         'ip_address',
         'mac_address',
+        'id_pengunjung',
         'keterangan',
         'status',
         'tipe',

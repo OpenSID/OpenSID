@@ -176,12 +176,13 @@ class Anjungan extends Admin_Controller
     protected static function validated($request = [], $id = null)
     {
         $validated = [
-            'ip_address'   => bilangan_titik($request['ip_address']),
-            'mac_address'  => alfanumerik_kolon($request['mac_address']),
-            'printer_ip'   => bilangan_titik($request['printer_ip']),
-            'printer_port' => bilangan($request['printer_port']),
-            'keyboard'     => bilangan($request['keyboard']),
-            'keterangan'   => htmlentities($request['keterangan']),
+            'ip_address'    => bilangan_titik($request['ip_address']),
+            'mac_address'   => alfanumerik_kolon($request['mac_address']),
+            'id_pengunjung' => alfanumerik($request['id_pengunjung']),
+            'printer_ip'    => bilangan_titik($request['printer_ip']),
+            'printer_port'  => bilangan($request['printer_port']),
+            'keyboard'      => bilangan($request['keyboard']),
+            'keterangan'    => htmlentities($request['keterangan']),
         ];
 
         if ($id) {

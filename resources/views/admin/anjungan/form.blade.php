@@ -43,6 +43,14 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-3 control-label" for="id_pengunjung">ID Pengunjung</label>
+                    <div class="col-sm-7">
+                        <input id="id_pengunjung" class="form-control input-sm alfanumerik" type="text" onkeyup="wajib()"
+                            placeholder="ad02c373c2a8745d108aff863712fe92" name="id_pengunjung"
+                            value="{{ $anjungan->id_pengunjung ?? null }}">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-3 control-label" for="ip_address">IP Address Printer</label>
                     <div class="col-sm-7">
                         <input class="form-control input-sm ip_address" type="text"
@@ -122,10 +130,15 @@
             if ($("#ip_address").val().length > 0) {
                 // $("#ip_address").addClass('required');
                 $("#mac_address").removeClass('required');
-                console.log('ip_address');
+                $("#id_pengunjung").removeClass('required');
             } else if ($("#mac_address").val().length > 0) {
                 // $("#mac_address").addClass('required');
                 $("#ip_address").removeClass('required');
+                $("#id_pengunjung").removeClass('required');
+            } else if ($("#id_pengunjung").val().length > 0) {
+                // $("#id_pengunjung").addClass('required');
+                $("#ip_address").removeClass('required');
+                $("#mac_address").removeClass('required');
             } else {
                 $("#ip_address").addClass('required');
             }
