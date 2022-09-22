@@ -24,7 +24,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 19. [#4719](https://github.com/OpenSID/OpenSID/issues/4719) Menambahkan tombol penduduk dan keluarga datang lagi pada log penduduk.
 20. [#4943](https://github.com/OpenSID/OpenSID/issues/4943) Penyesuaian template format F-1.01 dengan model terbaru.
 21. [#5247](https://github.com/OpenSID/OpenSID/issues/5247) Menambahkan restore folder desa melalui OpenSID.
-
+22. [#5675](https://github.com/OpenSID/OpenSID/issues/5675) Menambahkan status penggunaan TTE dari OpenSID.
 
 #### Perbaikan BUG
 
