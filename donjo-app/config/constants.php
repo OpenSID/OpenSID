@@ -129,3 +129,16 @@ defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125); // highest auto
  */
 define('APP_URL', ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? '') . str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']));
 
+/**
+ * Custom path folder
+ */
+define('WEB', 'fweb');
+define('MANDIRI', 'fmandiri');
+define('ADMIN', 'fadmin');
+
+/**
+ * Custom path directory
+ */
+define('DESAPATH', 'desa' . DIRECTORY_SEPARATOR);
+define('RESOURCESPATH', 'resources' . DIRECTORY_SEPARATOR);
+define('STORAGEPATH', 'storage' . DIRECTORY_SEPARATOR);
