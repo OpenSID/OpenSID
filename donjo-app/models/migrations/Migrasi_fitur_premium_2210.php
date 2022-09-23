@@ -55,8 +55,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022091251($hasil);
         $hasil = $hasil && $this->migrasi_2022091551($hasil);
         $hasil = $hasil && $this->migrasi_2022091651($hasil);
+        $hasil = $hasil && $this->migrasi_2022091951($hasil);
 
-        return $hasil && $this->migrasi_2022091951($hasil);
+        return $hasil && $this->migrasi_2022092351($hasil);
     }
 
     protected function migrasi_2022090751($hasil)
@@ -138,5 +139,10 @@ class Migrasi_fitur_premium_2210 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022092351($hasil)
+    {
+        return DB::table('tweb_wil_clusterdesa')->where('rt', '=', '0')->where('rw', '=', '')->update(['rw' => '0']);
     }
 }
