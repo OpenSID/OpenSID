@@ -67,10 +67,11 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022091471($hasil);
         $hasil = $hasil && $this->migrasi_2022091551($hasil);
         $hasil = $hasil && $this->migrasi_2022091651($hasil);
-        $hasil = $hasil && $this->tambah_modul_anjungan($hasil);
+        $hasil = $hasil && $this->migrasi_2022091770($hasil);
         $hasil = $hasil && $this->migrasi_2022091951($hasil);
-        $hasil = $hasil && $this->tambahTabelAnjunganMenu($hasil);
-        $hasil = $hasil && $this->tambahSetingPengaturanAnjungan($hasil);
+        $hasil = $hasil && $this->migrasi_2022092070($hasil);
+        $hasil = $hasil && $this->migrasi_2022092170($hasil);
+        $hasil = $hasil && $this->migrasi_2022092271($hasil);
 
         return $hasil && $this->tambahTabelAlasanKeluar($hasil);
     }
@@ -344,7 +345,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
         ]);
     }
 
-    protected function tambah_modul_anjungan($hasil)
+    protected function migrasi_2022091770($hasil)
     {
         $hasil = $hasil && $this->ubah_modul(312, ['urut' => 180, 'url' => '', 'parent' => 0]);
 
@@ -400,7 +401,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
         return $hasil;
     }
 
-    protected function tambahTabelAnjunganMenu($hasil)
+    protected function migrasi_2022092070($hasil)
     {
         if (! $this->db->table_exists('anjungan_menu')) {
             $fields = [
@@ -445,7 +446,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
         return $hasil;
     }
 
-    protected function tambahSetingPengaturanAnjungan($hasil)
+    protected function migrasi_2022092170($hasil)
     {
         $hasil && $this->tambah_setting([
             'key'        => 'anjungan_artikel',
@@ -457,6 +458,15 @@ class Migrasi_fitur_premium_2210 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2022092271($hasil)
+    {
+        // Tambahkan lampiran F-1.02
+        FormatSurat::where('url_surat', 'surat_bio_penduduk')->update(['lampiran' => 'f-1.01.php,f-1.02.php']);
+        FormatSurat::where('url_surat', 'surat_permohonan_perubahan_kartu_keluarga')->update(['lampiran' => 'f-1.16.php,f-1.01.php,f-1.02.php']);
+        FormatSurat::where('url_surat', 'surat_permohonan_kartu_keluarga')->update(['lampiran' => 'f-1.15.php,f-1.01.php,f-1.02.php']);
+
+        return $hasil;
+    }
     protected function tambahTabelAlasanKeluar($hasil)
     {
         if (! $this->db->table_exists('kehadiran_alasan_keluar')) {

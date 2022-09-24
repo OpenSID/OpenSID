@@ -46,6 +46,9 @@ table.disdukcapil td.pakai-padding {
     padding-left: 20px;
     padding-right: 2px;
 }
+table.disdukcapil td.atas {
+    text-align: top;
+}
 table.disdukcapil td.kanan {
     text-align: right;
 }

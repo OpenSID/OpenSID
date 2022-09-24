@@ -30,6 +30,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 25. [#5662](https://github.com/OpenSID/OpenSID/issues/5662) Menambahkan menu anjungan tersendiri dan menghapus menu anjungan dari layanan mandiri.
 26. [#1332](https://github.com/OpenSID/premium/issues/1332) Menambahkan Integrasi OpenSID dengan API TTE.
 27. [#5178](https://github.com/OpenSID/OpenSID/issues/5178) Menambahkan jenis pilihan pada tombol keluar di fitur kehadiran dan rekapitulasi.
+28. [#4944](https://github.com/OpenSID/OpenSID/issues/4944) Penyesuaian format surat model F-1.02 dengan model terbaru.
 
 #### Perbaikan BUG
 
