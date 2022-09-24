@@ -29,6 +29,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 24. [#5594](https://github.com/OpenSID/OpenSID/issues/5594) Menambahkan pengaturan untuk menampilkan menu-menu anjungan.
 25. [#5662](https://github.com/OpenSID/OpenSID/issues/5662) Menambahkan menu anjungan tersendiri dan menghapus menu anjungan dari layanan mandiri.
 26. [#1332](https://github.com/OpenSID/premium/issues/1332) Menambahkan Integrasi OpenSID dengan API TTE.
+27. [#5178](https://github.com/OpenSID/OpenSID/issues/5178) Menambahkan jenis pilihan pada tombol keluar di fitur kehadiran dan rekapitulasi.
 
 #### Perbaikan BUG
 

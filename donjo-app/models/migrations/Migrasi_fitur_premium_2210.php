@@ -70,8 +70,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->tambah_modul_anjungan($hasil);
         $hasil = $hasil && $this->migrasi_2022091951($hasil);
         $hasil = $hasil && $this->tambahTabelAnjunganMenu($hasil);
+        $hasil = $hasil && $this->tambahSetingPengaturanAnjungan($hasil);
 
-        return $hasil && $this->tambahSetingPengaturanAnjungan($hasil);
+        return $hasil && $this->tambahTabelAlasanKeluar($hasil);
     }
 
     protected function migrasi_2022090671($hasil)
@@ -454,5 +455,45 @@ class Migrasi_fitur_premium_2210 extends MY_model
         ]);
 
         return $hasil;
+    }
+
+    protected function tambahTabelAlasanKeluar($hasil)
+    {
+        if (! $this->db->table_exists('kehadiran_alasan_keluar')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                    'unsigned'       => true,
+                ],
+                'alasan' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 255,
+                ],
+                'keterangan' => [
+                    'type'    => 'TEXT',
+                    'null'    => true,
+                    'default' => null,
+                ],
+            ];
+            $this->dbforge->add_key('id', true);
+            $this->dbforge->add_field($fields);
+            $hasil = $hasil && $this->dbforge->create_table('kehadiran_alasan_keluar', true);
+            $hasil = $hasil && $this->timestamps('kehadiran_alasan_keluar', true);
+        }
+
+        return $hasil && $this->tambah_modul([
+            'id'         => 350,
+            'modul'      => 'Alasan Keluar',
+            'url'        => 'kehadiran_keluar',
+            'aktif'      => 1,
+            'ikon'       => 'fa-sign-out',
+            'urut'       => 5,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-sign-out',
+            'parent'     => 337,
+        ]);
     }
 }

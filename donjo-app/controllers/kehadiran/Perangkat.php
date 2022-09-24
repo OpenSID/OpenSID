@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\AlasanKeluar;
 use App\Models\HariLibur;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
@@ -83,6 +84,7 @@ class Perangkat extends Web_Controller
             'mac_address'   => $this->mac,
             'id_pengunjung' => $this->pengunjung,
             'kehadiran'     => Kehadiran::where('tanggal', '=', $this->tgl)->where('pamong_id', '=', $this->session->masuk['pamong_id'])->where('status_kehadiran', '=', 'hadir')->first(),
+            'alasan'        => AlasanKeluar::get(),
         ];
 
         return view('kehadiran.index', $data);
