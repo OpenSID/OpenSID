@@ -28,6 +28,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 23. [#5596](https://github.com/OpenSID/OpenSID/issues/5596) Menambahkan pengaturan untuk artikel anjungan.
 24. [#5594](https://github.com/OpenSID/OpenSID/issues/5594) Menambahkan pengaturan untuk menampilkan menu-menu anjungan.
 25. [#5662](https://github.com/OpenSID/OpenSID/issues/5662) Menambahkan menu anjungan tersendiri dan menghapus menu anjungan dari layanan mandiri.
+26. [#1332](https://github.com/OpenSID/premium/issues/1332) Menambahkan Integrasi OpenSID dengan API TTE.
 
 #### Perbaikan BUG
 

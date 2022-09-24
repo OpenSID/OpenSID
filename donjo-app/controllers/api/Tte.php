@@ -40,120 +40,179 @@
 
 use App\Models\LogSurat;
 use App\Models\LogTte;
+use App\Models\Pamong;
 use App\Models\PermohonanSurat;
 use GuzzleHttp\Psr7;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Tte extends CI_Controller
+class Tte extends Premium
 {
-    private $server;
-    public $client;
+    /**
+     * @var \GuzzleHttp\Client
+     */
+    protected $client;
+
+    /**
+     * @var string
+     */
+    protected $nik;
 
     public function __construct()
     {
         parent::__construct();
-        $this->server = site_url();
-        $this->client = new \GuzzleHttp\Client();
+
+        $this->client = new \GuzzleHttp\Client([
+            'base_uri' => $this->setting->tte_api,
+            'auth'     => [
+                $this->setting->tte_username,
+                $this->setting->tte_password,
+            ],
+        ]);
+
+        $this->nik = Pamong::kepalaDesa()->first()->pamong_nik;
     }
 
-    public function index()
+    /**
+     * Periksa status nik.
+     *
+     * @param string $nik
+     *
+     * @return object
+     */
+    public function periksa_status(?string $nik = '')
     {
-        $jsonFile = json_decode(file_get_contents(FCPATH . 'tte.json'), true);
+        try {
+            $response = $this->client
+                ->get("api/user/status/{$nik}")
+                ->getBody()
+                ->getContents();
 
-        return json($jsonFile);
+            return json(json_decode($response));
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            return json(json_decode($e->getResponse()->getBody()));
+        }
     }
 
-    public function kirim()
+    public function sign_invisible()
     {
-        $request = $this->validation($this->input->post());
+        $request = $this->input->post();
+
+        DB::beginTransaction();
 
         try {
             $data    = LogSurat::where('id', '=', $request['id'])->first();
             $mandiri = PermohonanSurat::where('id_surat', $data->id_format_surat)->where('isian_form->nomor', $data->no_surat)->first();
 
-            $response = $this->client->post("{$this->server}api/tte", [
+            $response = $this->client->post('api/sign/pdf', [
                 'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
                 'multipart' => [
                     ['name' => 'file', 'contents' => Psr7\Utils::tryFopen(FCPATH . LOKASI_ARSIP . $data->nama_surat, 'r')],
-                    // ['name' => 'imageTTD', 'contents' => Psr7\Utils::tryFopen(DESAPATH . 'config/ttd.png', 'r')],
-                    ['name' => 'nik', 'contents' => '1234567890'],
-                    ['name' => 'passphrase', 'contents' => ''],
-                    ['name' => 'tampilan', 'contents' => ''],
-                    ['name' => 'halaman', 'contents' => ''],
-                    ['name' => 'page', 'contents' => ''],
-                    ['name' => 'linkQR', 'contents' => ''],
-                    ['name' => 'xAxis', 'contents' => ''],
-                    ['name' => 'yAxis', 'contents' => ''],
-                    ['name' => 'width', 'contents' => ''],
-                    ['name' => 'height', 'contents' => ''],
-                    ['name' => 'tag_koordinat', 'contents' => ''],
-                    ['name' => 'reason', 'contents' => ''],
-                    ['name' => 'text', 'contents' => ''],
+                    ['name' => 'nik', 'contents' => $this->nik],
+                    ['name' => 'passphrase', 'contents' => $request['passphrase']],
+                    ['name' => 'tampilan', 'contents' => 'invisible'],
                 ],
-            ])->getBody()->getContents();
+            ]);
 
-            $data_respon = json_decode($response);
             $data->update(['tte' => 1, 'log_verifikasi' => null]); // update log surat
 
             if ($mandiri != null) {
                 $mandiri->update(['status' => 3]); // update status surat
             }
 
-            return json(['status' => true, 'data' => $data_respon]);
-        } catch (GuzzleHttp\Exception\ConnectException $e) { // error karena masalah koneksi
-            $message = $e->getHandlerContext()['error'];
-            $notif   = [
-                'status'      => false,
-                'pesan'       => $message,
-                'jenis_error' => 'ConnectException',
-            ];
+            DB::commit();
+
+            // overwrite dokumen lama dengan response dari bsre
+            if ($response->getStatusCode() == 200) {
+                $file = fopen(FCPATH . LOKASI_ARSIP . $data->nama_surat, 'wb');
+                fwrite($file, $response->getBody()->getContents());
+                fclose($file);
+            }
+
+            return $this->response([
+                'status'      => true,
+                'pesan'       => 'success',
+                'jenis_error' => null,
+            ]);
         } catch (GuzzleHttp\Exception\ClientException $e) {
-            $message = $e->getResponse()->getBody()->getContents();
-            $notif   = [
+            log_message('error', $e);
+
+            DB::rollback();
+
+            return $this->response([
                 'status'      => false,
-                'pesan'       => $message,
+                'pesan'       => $e->getResponse()->getBody()->getContents(),
                 'jenis_error' => 'ClientException',
-            ];
-        } catch (GuzzleHttp\Exception\BadResponseException $e) { //Exception when an HTTP error occurs (4xx or 5xx error)
-            $message = $e->getResponse()->getBody()->getContents();
-            $notif   = [
-                'status'      => false,
-                'pesan'       => 'BadResponseException : ' . $message,
-                'jenis_error' => 'BadResponseException',
-            ];
-        } catch (RuntimeException $e) { // tangkap error karena RuntimeException
-            $message = $e->getMessage();
-            $notif   = [
-                'status'      => false,
-                'pesan'       => $message,
-                'jenis_error' => 'RuntimeException',
-            ];
+            ]);
         }
-
-        $this->response($notif);
     }
 
-    public function validation($request = [])
+    public function sign_visible()
     {
-        $passphrase = '123456';
+        $request = $this->input->post();
 
-        if ($request['passphrase'] != $passphrase || $request['passphrase'] == '') {
-            $notif = [
+        DB::beginTransaction();
+
+        try {
+            $data    = LogSurat::where('id', '=', $request['id'])->first();
+            $mandiri = PermohonanSurat::where('id_surat', $data->id_format_surat)->where('isian_form->nomor', $data->no_surat)->first();
+
+            $response = $this->client->post('api/sign/pdf', [
+                'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
+                'multipart' => [
+                    ['name' => 'file', 'contents' => Psr7\Utils::tryFopen(FCPATH . LOKASI_ARSIP . $data->nama_surat, 'r')],
+                    ['name' => 'nik', 'contents' => $this->nik],
+                    ['name' => 'passphrase', 'contents' => $request['passphrase']],
+                    ['name' => 'tampilan', 'contents' => 'visible'],
+                    ['name' => 'linkQR', 'contents' => 'https://tte.kominfo.go.id/verifyPDF'],
+                    ['name' => 'width', 'contents' => 90],
+                    ['name' => 'height', 'contents' => 90],
+                    ['name' => 'tag_koordinat', 'contents' => '[qr_bsre]'],
+                ],
+            ]);
+
+            $data->update(['tte' => 1, 'log_verifikasi' => null]); // update log surat
+
+            if ($mandiri != null) {
+                $mandiri->update(['status' => 3]); // update status surat
+            }
+
+            DB::commit();
+
+            // overwrite dokumen lama dengan response dari bsre
+            if ($response->getStatusCode() == 200) {
+                $file = fopen(FCPATH . LOKASI_ARSIP . $data->nama_surat, 'wb');
+                fwrite($file, $response->getBody()->getContents());
+                fclose($file);
+            }
+
+            return $this->response([
+                'status'      => true,
+                'pesan'       => 'success',
+                'jenis_error' => null,
+            ]);
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            log_message('error', $e);
+
+            DB::rollback();
+
+            return $this->response([
                 'status'      => false,
-                'pesan'       => 'passphrase salah',
-                'jenis_error' => 'Validation',
-            ];
-            $this->response($notif);
+                'pesan'       => $e->getResponse()->getBody()->getContents(),
+                'jenis_error' => 'ClientException',
+            ]);
         }
-
-        return [
-            'passphrase' => bilangan($request['nama']),
-            'id'         => (int) $request['id'],
-        ];
     }
 
-    public function response($notif = '')
+    /**
+     * Generate response dan log.
+     *
+     * @param array $notif
+     *
+     * @return object
+     */
+    protected function response($notif = [])
     {
         LogTte::create([
             'message'     => $notif['pesan'],

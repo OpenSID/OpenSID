@@ -86,8 +86,7 @@ class TinyMCE
         <table style="border-collapse: collapse; width: 100%; height: 10px;" border="0">
         <tbody>
         <tr>
-        <td style="width: 5%;">&nbsp;</td>
-        <td style="width: 20%;">[logo_bsre]</td>
+        <td style="width: 15%;">[logo_bsre]</td>
         <td style="width: 60%; text-align: left; vertical-align: top;">
         <ul>
         <li>UU ITE No. 11 Tahun 2008 Pasal 5 ayat 1 "Informasi Elektronik dan/atau hasil cetaknya merupakan alat bukti hukum yang sah".</li>
@@ -95,7 +94,7 @@ class TinyMCE
         <li>Surat ini dapat dibuktikan keasliannya dengan menggunakan qr code yang telah tersedia.</li>
         </ul>
         </td>
-        <td style="width: 15%;">&nbsp;</td>
+        <td style="width: 25%; text-align: center;">[qr_bsre]</td>
         </tr>
         </tbody>
         </table>
@@ -220,6 +219,11 @@ class TinyMCE
                 'judul' => 'QRCode',
                 'isian' => '[qr_code]',
                 'data'  => '[qr_code]',
+            ],
+            [
+                'judul' => 'QRCode BSrE',
+                'isian' => '[qr_bsre]',
+                'data'  => '[qr_bsre]',
             ],
             [
                 'judul' => 'Logo BSrE',
