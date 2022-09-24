@@ -72,8 +72,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022092070($hasil);
         $hasil = $hasil && $this->migrasi_2022092170($hasil);
         $hasil = $hasil && $this->migrasi_2022092271($hasil);
+        $hasil = $hasil && $this->migrasi_2022092272($hasil);
 
-        return $hasil && $this->tambahTabelAlasanKeluar($hasil);
+        return $hasil && $this->migrasi_2022092351($hasil);
     }
 
     protected function migrasi_2022090671($hasil)
@@ -467,7 +468,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
         return $hasil;
     }
-    protected function tambahTabelAlasanKeluar($hasil)
+    protected function migrasi_2022092272($hasil)
     {
         if (! $this->db->table_exists('kehadiran_alasan_keluar')) {
             $fields = [
@@ -505,5 +506,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
             'ikon_kecil' => 'fa-sign-out',
             'parent'     => 337,
         ]);
+    }
+    protected function migrasi_2022092351($hasil)
+    {
+        return DB::table('tweb_wil_clusterdesa')->where('rt', '=', '0')->where('rw', '=', '')->update(['rw' => '0']);
     }
 }
