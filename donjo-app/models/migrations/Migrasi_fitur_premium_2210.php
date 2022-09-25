@@ -299,19 +299,19 @@ class Migrasi_fitur_premium_2210 extends MY_model
         return $hasil;
     }
 
-        protected function migrasi_2022091471($hasil)
-        {
-            return $hasil && $this->tambah_setting([
-                'key'   => 'notifikasi_pengajuan_surat',
-                'value' => <<<'EOD'
-                    Segera cek Halaman Admin, penduduk atas nama [nama_penduduk] telah mengajukan [judul_surat] melalui [melalui] pada tanggal [tanggal]
+    protected function migrasi_2022091471($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'   => 'notifikasi_pengajuan_surat',
+            'value' => <<<'EOD'
+                Segera cek Halaman Admin, penduduk atas nama [nama_penduduk] telah mengajukan [judul_surat] melalui [melalui] pada tanggal [tanggal]
 
-                    TERIMA KASIH.
-                    EOD,
-                'keterangan' => 'Pesan notifikasi pengajuan surat',
-                'jenis'      => 'textarea',
-            ]);
-        }
+                TERIMA KASIH.
+                EOD,
+            'keterangan' => 'Pesan notifikasi pengajuan surat',
+            'jenis'      => 'textarea',
+        ]);
+    }
 
     protected function migrasi_2022091551($hasil)
     {
@@ -468,6 +468,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
         return $hasil;
     }
+
     protected function migrasi_2022092272($hasil)
     {
         if (! $this->db->table_exists('kehadiran_alasan_keluar')) {
@@ -507,6 +508,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
             'parent'     => 337,
         ]);
     }
+
     protected function migrasi_2022092351($hasil)
     {
         DB::table('tweb_wil_clusterdesa')->where('rt', '=', '0')->where('rw', '=', '')->update(['rw' => '0']);
