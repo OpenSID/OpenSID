@@ -33,6 +33,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 28. [#4944](https://github.com/OpenSID/OpenSID/issues/4944) Penyesuaian format surat model F-1.02 dengan model terbaru.
 29. [#5303](https://github.com/OpenSID/OpenSID/issues/5303) Menambahkan lampiran pada surat TinyMCE.
 30. [#5593](https://github.com/OpenSID/OpenSID/issues/5593) Menambahkan panggilan view anjungan ke domain utama jika status langganan.
+31. [#5240](https://github.com/OpenSID/OpenSID/issues/5240) Menambahkan pilihan dari input dinamis jenis peraturan desa.
 
 #### Perbaikan BUG
 

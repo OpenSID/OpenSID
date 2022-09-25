@@ -279,4 +279,12 @@ class Referensi_model extends CI_Model
 
         return array_change_key_case(array_merge($data, $tambahan));
     }
+
+    public function jenis_peraturan_desa()
+    {
+        $dafault  = $this->list_ref(JENIS_PERATURAN_DESA);
+        $tambahan = collect(\App\Models\Dokumen::kategori(3)->pluck('attr'))->pluck('jenis_peraturan');
+
+        return collect($dafault)->merge($tambahan)->unique()->values();
+    }
 }

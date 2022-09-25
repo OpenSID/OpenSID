@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 class Dokumen extends Model
@@ -60,6 +59,15 @@ class Dokumen extends Model
      */
     protected $attributes = [
         'attr' => '[]',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'attr' => 'json',
     ];
 
     /**
@@ -143,7 +151,6 @@ class Dokumen extends Model
      * Scope query untuk status dokumen
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
@@ -179,5 +186,18 @@ class Dokumen extends Model
         }
 
         return $query;
+    }
+
+    /**
+     * Scope query untuk kategori dokumen
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopeKategori($query, $value = 1)
+    {
+        return $query->where('kategori', $value);
     }
 }

@@ -71,7 +71,7 @@ class Lembaran_desa extends Admin_Controller
         $data['main']              = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
         $data['keyword']           = $this->web_dokumen_model->autocomplete();
         $data['submenu']           = $this->referensi_model->list_data('ref_dokumen');
-        $data['jenis_peraturan']   = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
+        $data['jenis_peraturan']   = $this->referensi_model->jenis_peraturan_desa();
         $data['sub_kategori']      = $_SESSION['sub_kategori'];
         $_SESSION['menu_kategori'] = true;
 
@@ -102,17 +102,14 @@ class Lembaran_desa extends Admin_Controller
         $this->redirect_hak_akses('u');
         $data['kat']             = 3;
         $data['list_kategori']   = $this->web_dokumen_model->list_kategori();
-        $data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
+        $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
+        $data['kat_nama']        = 'Lembaran Desa';
+        $data['kembali_ke']      = site_url("lembaran_desa/index/{$p}/{$o}");
 
         if ($id) {
             $data['dokumen']     = $this->web_dokumen_model->get_dokumen($id);
             $data['form_action'] = site_url("lembaran_desa/update/{$id}/{$p}/{$o}");
-            if ($jenis_peraturan = $data['dokumen']['attr']['jenis_peraturan'] && ! in_array($jenis_peraturan, $data['jenis_peraturan'])) {
-                $data['jenis_peraturan'][] = $jenis_peraturan;
-            }
         }
-        $data['kat_nama']   = 'Lembaran Desa';
-        $data['kembali_ke'] = site_url("lembaran_desa/index/{$p}/{$o}");
 
         $this->render('dokumen/form', $data);
     }
@@ -151,7 +148,7 @@ class Lembaran_desa extends Admin_Controller
         $data                    = $this->modal_penandatangan();
         $data['aksi']            = $aksi;
         $data['form_action']     = site_url("lembaran_desa/daftar/{$aksi}/{$o}");
-        $data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
+        $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
         $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat = 3);
 
         $this->load->view('dokumen/dialog_cetak', $data);

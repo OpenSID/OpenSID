@@ -103,6 +103,7 @@ class Dokumen extends Admin_Controller
         }
         $data['kat_nama']             = $this->web_dokumen_model->kat_nama($kat);
         $data['list_kategori_publik'] = $this->referensi_model->list_ref_flip(KATEGORI_PUBLIK);
+        $data['jenis_peraturan']      = $this->referensi_model->jenis_peraturan_desa();
 
         $this->render('dokumen/form', $data);
     }
@@ -187,7 +188,7 @@ class Dokumen extends Admin_Controller
         $data                    = $this->modal_penandatangan();
         $data['form_action']     = site_url("dokumen/cetak/{$kat}");
         $data['kat']             = $kat;
-        $data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
+        $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
         $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat);
         $this->load->view('dokumen/dialog_cetak', $data);
     }
@@ -232,7 +233,7 @@ class Dokumen extends Admin_Controller
         $data                    = $this->modal_penandatangan();
         $data['form_action']     = site_url("dokumen/excel/{$kat}");
         $data['kat']             = $kat;
-        $data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
+        $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
         $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat);
         $this->load->view('dokumen/dialog_cetak', $data);
     }
