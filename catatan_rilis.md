@@ -35,6 +35,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 30. [#5593](https://github.com/OpenSID/OpenSID/issues/5593) Menambahkan panggilan view anjungan ke domain utama jika status langganan.
 31. [#5240](https://github.com/OpenSID/OpenSID/issues/5240) Menambahkan pilihan dari input dinamis jenis peraturan desa.
 32. [#1256](https://github.com/OpenSID/premium/issues/1256) Menambahkan tampilan layout tema anjungan.
+33. [#5689](https://github.com/OpenSID/OpenSID/issues/5689) Tambahkan tombol copy id pengunjung di halaman masuk layanan mandiri.
 
 #### Perbaikan BUG
 

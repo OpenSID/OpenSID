@@ -91,11 +91,11 @@
 									<br /><br />Silakan hubungi operator desa untuk mendapatkan kode PIN anda.
 									<?php if (! $cek_anjungan) : ?>
 										<br /><br /><br />IP Address: <?= $this->input->ip_address() ?>
-										<br />ID Pengunjung: <?= $_COOKIE['pengunjung'] ?>
+										<br />ID Pengunjung: <span class="pengunjung"><?= $_COOKIE['pengunjung'] ?></span> <span><a  href="#" class="copy" title="Copy" style="color: white"><i class="fa fa-copy"></i></a></span>
 									<?php else : ?>
 										<br /><br /><br />IP Address : <?= $cek_anjungan['ip_address'] ?>
 										<br />Mac Address : <?= $cek_anjungan['mac_address'] ?>
-										<br />ID Pengunjung: <?= $_COOKIE['pengunjung'] ?>
+										<br />ID Pengunjung: <span class="pengunjung"><?= $_COOKIE['pengunjung'] ?></span> <span><a  href="#" class="copy" title="Copy" style="color: white"><i class="fa fa-copy"></i></a></span>
 										<br />Anjungan Mandiri
 										<?= jecho($cek_anjungan['keyboard'] == 1, true, ' | Virtual Keyboard : Aktif') ?>
 									<?php endif; ?>
@@ -404,7 +404,18 @@
 			document.cookie = escape(name) + "=" +
 			escape(value) + expires + "; path=/";
 		}
+
+		$('.copy').on('click', function() {
+			var text = $(".pengunjung").get(0)
+			var selection = window.getSelection();
+			var range = document.createRange();
+			range.selectNodeContents(text);
+			selection.removeAllRanges();
+			selection.addRange(range);
+			document.execCommand('copy');
+		});
 	</script>
+</script>
 </body>
 
 </html>
