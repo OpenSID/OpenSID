@@ -74,6 +74,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022092170($hasil);
         $hasil = $hasil && $this->migrasi_2022092272($hasil);
         $hasil = $hasil && $this->migrasi_2022092351($hasil);
+        $hasil = $hasil && $this->migrasi_2022092451($hasil);
 
         return $hasil && $this->migrasi_2022092571($hasil);
     }
@@ -527,7 +528,12 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
         return $hasil;
     }
-
+    protected function migrasi_2022092451($hasil)
+    {
+        // Hapus pengaturan sebutan_kepala_desa
+        $this->db->delete('setting_aplikasi', ['key' => 'sebutan_kepala_desa']);
+        return $hasil;
+    }
     protected function migrasi_2022092571($hasil)
     {
         // Tambahkan lampiran F-1.02

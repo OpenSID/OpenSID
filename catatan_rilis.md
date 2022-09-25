@@ -90,6 +90,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 50. [#5649](https://github.com/OpenSID/OpenSID/issues/5649) Perbaikan cara deteksi anjungan OpenSID.
 51. [#5633](https://github.com/OpenSID/OpenSID/issues/5633) Perbaikan no KK sementara tidak berfungsi jika pecah KK apabila no KK sementara.
 52. [#5671](https://github.com/OpenSID/OpenSID/issues/5671) Perbaikan hapus id pengunjung ketika tambah perangkat anjungan.
+53. [#5682](https://github.com/OpenSID/OpenSID/issues/5682) Perbaikan sebutan kepala desa yang diambil dari jabatan tidak dari pengaturan.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.

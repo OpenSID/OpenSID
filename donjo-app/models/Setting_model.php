@@ -115,6 +115,11 @@ class Setting_model extends MY_Model
                 $this->setting->web_theme = 'esensi';
             }
         }
+
+        // Sebutan kepala desa diambil dari tabel ref_jabatan dengan id = 1
+        // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
+        $this->setting->sebutan_kepala_desa = RefJabatan::find(1)->nama;
+
         $this->load->model('database_model');
         $this->database_model->cek_migrasi();
     }
@@ -136,11 +141,6 @@ class Setting_model extends MY_Model
 
                 if ($key == 'id_pengunjung_kehadiran') {
                     $value = alfanumerik(trim($value));
-                }
-
-                if ($key == 'sebutan_kepala_desa') {
-                    // Update refjabatan
-                    RefJabatan::find(1)->update(['nama' => $value]);
                 }
 
                 $this->update($key, $value);
