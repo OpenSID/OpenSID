@@ -103,6 +103,8 @@ class MY_Controller extends CI_Controller
 
 class Web_Controller extends MY_Controller
 {
+    public $cek_anjungan;
+
     // Constructor
     public function __construct()
     {
@@ -127,6 +129,10 @@ class Web_Controller extends MY_Controller
         $this->set_template();
         $this->includes['folder_themes'] = "../../{$this->theme_folder}/{$this->theme}";
 
+        // Untuk anjungan
+        $this->load->model('anjungan_model');
+        $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+
         $this->load->model('web_menu_model');
     }
 
@@ -150,7 +156,6 @@ class Web_Controller extends MY_Controller
         $this->load->model('teks_berjalan_model');
         $this->load->model('first_artikel_m');
         $this->load->model('web_widget_model');
-        $this->load->model('anjungan_model');
         $this->load->model('keuangan_grafik_manual_model');
         $this->load->model('keuangan_grafik_model');
         $this->load->model('pengaduan_model');
@@ -169,7 +174,7 @@ class Web_Controller extends MY_Controller
         $data['slide_artikel'] = $this->first_artikel_m->slide_show();
         $data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
         $data['w_cos']         = $this->web_widget_model->get_widget_aktif();
-        $data['cek_anjungan']  = $this->anjungan_model->cek_anjungan();
+        $data['cek_anjungan']  = $this->cek_anjungan;
 
         $this->web_widget_model->get_widget_data($data);
         $data['data_config'] = $this->header;
@@ -210,16 +215,13 @@ class Web_Controller extends MY_Controller
 
 class Mandiri_Controller extends MY_Controller
 {
-    public $cek_anjungan;
     public $is_login;
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('anjungan_model');
-        $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-        $this->is_login     = $this->session->is_login;
-        $this->header       = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
+        $this->is_login = $this->session->is_login;
+        $this->header   = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
 
         if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) {
             show_404();

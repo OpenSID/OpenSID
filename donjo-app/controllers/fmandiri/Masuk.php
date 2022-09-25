@@ -39,8 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Masuk extends Web_Controller
 {
-    private $cek_anjungan;
-
     public function __construct()
     {
         parent::__construct();
@@ -48,7 +46,7 @@ class Masuk extends Web_Controller
         $this->session->login_ektp        = false;
         $this->session->daftar            = false;
         $this->session->daftar_verifikasi = false;
-        $this->load->model(['anjungan_model', 'mandiri_model', 'theme_model']);
+        $this->load->model(['mandiri_model', 'theme_model']);
         if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) {
             show_404();
         }
@@ -81,7 +79,7 @@ class Masuk extends Web_Controller
         $data = [
             'header'              => $this->header,
             'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
-            'cek_anjungan'        => $this->anjungan_model->cek_anjungan($this->session->mac_address),
+            'cek_anjungan'        => $this->cek_anjungan,
             'form_action'         => site_url('layanan-mandiri/cek'),
         ];
 
@@ -105,7 +103,7 @@ class Masuk extends Web_Controller
         $data = [
             'header'              => $this->header,
             'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
-            'cek_anjungan'        => $this->anjungan_model->cek_anjungan($this->session->mac_address),
+            'cek_anjungan'        => $this->anjungan_model->cek_anjungan(),
             'form_action'         => site_url('layanan-mandiri/cek-pin'),
         ];
 

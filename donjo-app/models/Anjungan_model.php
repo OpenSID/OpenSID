@@ -45,12 +45,8 @@ class Anjungan_model extends CI_Model
         $this->load->model('notif_model');
     }
 
-    public function cek_anjungan($mac_address = null)
+    public function cek_anjungan()
     {
-        if (! cek_anjungan()) {
-            return null;
-        }
-
         $ip          = $this->input->ip_address();
         $mac_address = $mac_address ?: $this->session->mac_address;
 
@@ -66,6 +62,6 @@ class Anjungan_model extends CI_Model
             ->where('status', 1)
             ->get('anjungan');
 
-        return ($data->num_rows() > 0) ? $data->row_array() : null;
+        return ($data->num_rows() > 0 && cek_anjungan()) ? $data->row_array() : null;
     }
 }
