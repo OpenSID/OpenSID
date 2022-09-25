@@ -29,10 +29,10 @@
             </div>
         </div>
         <div class="flex center">
-            <a href="{{ site_url('kehadiran') }}" title="Kehadiran Perangkat Desa" target="_blank"><img src="{{ asset('images/anjungan/kehadiran.svg') }}" class="menu-header" alt="Icon Menu"></a>
-            <a href="#" title="Buku Tamu" target="_blank"><img src="{{ asset('images/anjungan/tamu.svg') }}" class="menu-header" alt="Icon Menu"></a>
-            <a href="#" title="Daftar Perangkat Desa" target="_blank"><img src="{{ asset('images/anjungan/perangkat.svg') }}" class="menu-header" alt="Icon Menu"></a>
-            <a href="#" title="Mode Gelap" target="_blank"><img src="{{ asset('images/anjungan/mode.svg') }}" class="menu-header" alt="Icon Menu"></a>
+            <a data-value="{{ site_url('kehadiran') }}" class="popup" title="Kehadiran Perangkat Desa"><img src="{{ asset('images/anjungan/kehadiran.svg') }}" class="menu-header" alt="Icon Menu"></a>
+            <a href="#" title="Buku Tamu"><img src="{{ asset('images/anjungan/tamu.svg') }}" class="menu-header" alt="Icon Menu"></a>
+            <a href="#" title="Daftar Perangkat Desa"><img src="{{ asset('images/anjungan/perangkat.svg') }}" class="menu-header" alt="Icon Menu"></a>
+            <a href="#" title="Mode Gelap"><img src="{{ asset('images/anjungan/mode.svg') }}" class="menu-header" alt="Icon Menu"></a>
         </div>
     </header>
     <section class="flex center content">
@@ -50,7 +50,7 @@
                     <div id="terkini" class="tab-pane fade in active" role="tabpanel">
                         @foreach ($arsip_terkini as $arsip)
                             <div class="box-berita">
-                                <a href="{{ site_url('artikel/'.buat_slug($arsip)) }}" target="_blank">
+                                <a data-value="{{ site_url('artikel/'.buat_slug($arsip)) }}" class="popup">
                                     @if (is_file(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip['gambar']))
                                         <img width="25%" style="float:left; margin:0 8px 4px 0;" class="img-berita" src="{{ base_url(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip[gambar]) }}"/>
                                     @else
@@ -67,7 +67,7 @@
                     <div id="populer" class="tab-pane fade in" role="tabpanel">
                         @foreach ($arsip_populer as $arsip)
                             <div class="box-berita">
-                                <a href="{{ site_url('artikel/'.buat_slug($arsip)) }}" target="_blank">
+                                <a data-value="{{ site_url('artikel/'.buat_slug($arsip)) }}" class="popup">
                                     @if (is_file(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip['gambar']))
                                         <img width="25%" style="float:left; margin:0 8px 4px 0;" class="img-berita" src="{{ base_url(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip[gambar]) }}"/>
                                     @else
@@ -92,7 +92,7 @@
             <div class="swiper-wrapper">
                 @foreach ($menu as $item)
                     <div class="swiper-slide">
-                        <a href="{{ $item->link }}" target="_blank">
+                        <a data-value="{{ $item->link }}" class="popup">
                             <img src="{{ icon_menu_anjungan($item->icon) }}" class="menu-statis" alt="Icon Menu">
                             <p class="keterangan-menu-statis">{{ $item->nama }}</p>
                         </a>
@@ -149,7 +149,7 @@
         let s = today.seconds();
         m = checkTime(m);
         s = checkTime(s);
-        $('#jam').html(h + ":" + m);
+        $('#jam').html(h + ":" + m + ":" + s);
         setTimeout(startTime, 1000);
     }
 
@@ -158,6 +158,10 @@
         return i;
     }
     startTime();
+    });
+
+    $('.popup').on('click', function (e) {
+        window.open($(this).data("value"), "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=500,width=400,height=400");
     });
 
 	$(document).ready(function () {

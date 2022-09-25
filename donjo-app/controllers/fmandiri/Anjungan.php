@@ -65,7 +65,7 @@ class Anjungan extends Web_Controller
             'cek_anjungan'  => $this->cek_anjungan,
             'arsip_terkini' => Artikel::arsip()->orderBy('tgl_upload', 'DESC')->take(4)->get(),
             'arsip_populer' => Artikel::arsip()->orderBy('hit', 'DESC')->take(4)->get(),
-            'tanggal'       => Carbon::now()->dayName . ', ' . tgl_indo(date('Y-m-d')),
+            'tanggal'       => Carbon::now()->dayName . ', ' . date('d/m/Y'),
             'menu'          => $menu,
         ];
 
