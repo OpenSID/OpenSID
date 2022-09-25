@@ -143,6 +143,8 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
     protected function migrasi_2022092351($hasil)
     {
-        return DB::table('tweb_wil_clusterdesa')->where('rt', '=', '0')->where('rw', '=', '')->update(['rw' => '0']);
+        DB::table('tweb_wil_clusterdesa')->where('rt', '=', '0')->where('rw', '=', '')->update(['rw' => '0']);
+
+        return $hasil;
     }
 }
