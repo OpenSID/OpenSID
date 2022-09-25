@@ -56,8 +56,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022091551($hasil);
         $hasil = $hasil && $this->migrasi_2022091651($hasil);
         $hasil = $hasil && $this->migrasi_2022091951($hasil);
+        $hasil = $hasil && $this->migrasi_2022092351($hasil);
 
-        return $hasil && $this->migrasi_2022092351($hasil);
+        return $hasil && $this->migrasi_2022092451($hasil);
     }
 
     protected function migrasi_2022090751($hasil)
@@ -144,6 +145,14 @@ class Migrasi_fitur_premium_2210 extends MY_model
     protected function migrasi_2022092351($hasil)
     {
         DB::table('tweb_wil_clusterdesa')->where('rt', '=', '0')->where('rw', '=', '')->update(['rw' => '0']);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022092451($hasil)
+    {
+        // Hapus pengaturan sebutan_kepala_desa
+        $this->db->delete('setting_aplikasi', ['key' => 'sebutan_kepala_desa']);
 
         return $hasil;
     }
