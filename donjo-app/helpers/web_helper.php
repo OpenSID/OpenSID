@@ -46,14 +46,14 @@ if (! function_exists('teks_berjalan')) {
      */
     function teks_berjalan($tipe = null, $limit = null)
     {
-        $teks = TeksBerjalan::status();
+        $teks = TeksBerjalan::status(1);
 
         if ($tipe) {
-            $teks->tipe($tipe);
+            $teks = $teks->tipe(3);
         }
 
         if ($limit) {
-            $teks->limit($limit);
+            $teks = $teks->limit($limit);
         }
 
         return $teks->get();

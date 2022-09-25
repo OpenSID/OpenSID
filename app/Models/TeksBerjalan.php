@@ -79,6 +79,7 @@ class TeksBerjalan extends Model
      *
      * @return Builder
      */
+    // TODO :: ganti jadi YA (1) dan TIDAK (0)
     public function scopeStatus($query, $value = 1)
     {
         return $query->where('status', $value);
