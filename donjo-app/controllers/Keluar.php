@@ -511,7 +511,7 @@ class Keluar extends Admin_Controller
     public function unduh($tipe, $id, $preview = false)
     {
         $berkas = $this->keluar_model->get_surat($id);
-        if ($tipe == 'tinymce' && $berkas->nama_surat == null) {
+        if ($tipe == 'tinymce') {
             redirect("surat/cetak/{$id}");
         } else {
             if ($tipe == 'pdf') {

@@ -311,7 +311,7 @@ class Surat_model extends CI_Model
         return $data;
     }
 
-    // TODO: Ganti cara mengambil data kk, psaihkan dalam variabel lain
+    // TODO: Ganti cara mengambil data kk, pisahkan dalam variabel lain
     public function get_data_surat($id = 0)
     {
         $sql = "SELECT u.*,

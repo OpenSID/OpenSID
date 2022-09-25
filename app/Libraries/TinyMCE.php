@@ -828,4 +828,18 @@ class TinyMCE
         session_error(', ' . setting('sebutan_kepala_desa') . ' belum ditentukan.');
         redirect('pengurus');
     }
+
+    public function getDaftarLampiran()
+    {
+        $lampiran        = [];
+        $daftar_lampiran = glob('template-surat/lampiran/*', GLOB_ONLYDIR);
+
+        foreach ($daftar_lampiran as $value) {
+            if (file_exists(FCPATH . $value . '/view.php')) {
+                $lampiran[] = kode_format(str_replace('template-surat/lampiran/', '', $value));
+            }
+        }
+
+        return $lampiran;
+    }
 }

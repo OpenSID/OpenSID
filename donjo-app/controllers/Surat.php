@@ -257,6 +257,7 @@ class Surat extends Admin_Controller
             unset($log_surat['surat'], $log_surat['input']);
             $id    = LogSurat::updateOrCreate(['id' => $cetak['id']], $log_surat)->id;
             $surat = LogSurat::find($id) ?? show_404();
+
             // Logo Surat
             $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(Config::select('logo')->first()->logo, false, true));
 
@@ -279,13 +280,15 @@ class Surat extends Admin_Controller
                 $logo_qrcode = str_replace('[qr_code]', '', $logo_qrcode);
             }
 
+            // Lampiran
+            $logo_qrcode = $this->buatLampiran($id, $cetak, $logo_qrcode);
+
             // convert in PDF
             try {
                 $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $cetak['surat']['margin_cm_to_mm']);
                 $html2pdf->setTestTdInOnePage(true);
                 $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
                 $html2pdf->writeHTML($logo_qrcode);
-                // $html2pdf->output($nama_surat, 'D');
                 $html2pdf->output(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
 
                 // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
@@ -373,8 +376,8 @@ class Surat extends Admin_Controller
 
         if ($surat->status && $surat->verifikasi_operator != '-1') {
             // Cek ada file
-            if (file_exists($file = FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
-                return ambilBerkas($surat->nama_surat, $this->controller);
+            if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
+                return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
             }
 
             $isi_cetak      = $surat->isi_surat;
@@ -395,6 +398,9 @@ class Surat extends Admin_Controller
             } else {
                 $isi_cetak = str_replace('[qr_code]', '', $isi_cetak);
             }
+
+            // Lampiran
+            $isi_cetak = $this->buatLampiran($surat->id_pend, $cetak, $isi_cetak);
 
             // convert in PDF
             try {
@@ -732,5 +738,30 @@ class Surat extends Admin_Controller
         $page     = $this->input->get('page');
         $penduduk = $this->surat_model->list_penduduk_bersurat_ajax($cari, $page);
         echo json_encode($penduduk);
+    }
+
+    private function buatLampiran($id = null, $data = [], $view_surat = null)
+    {
+        // Catatan : untuk sekarang hanya bisa menggunakan 1 lampiran saja untuk surat TinyMCE
+        if (empty($data['surat']['lampiran'])) {
+            return null;
+        }
+
+        $surat    = $data['surat'];
+        $config   = $this->header['desa'];
+        $individu = $this->surat_model->get_data_surat($id);
+        $lampiran = strtolower($surat['lampiran']);
+
+        // Data lampiran
+        include FCPATH . 'template-surat/lampiran/' . $lampiran . '/data.php';
+
+        ob_start();
+
+        // View Lampiran
+        include FCPATH . 'template-surat/lampiran/' . $lampiran . '/view.php';
+
+        $content = ob_get_clean();
+
+        return $view_surat . $content;
     }
 }

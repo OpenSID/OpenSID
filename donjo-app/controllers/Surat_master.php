@@ -145,6 +145,7 @@ class Surat_master extends Admin_Controller
             $data['qrCode']               = true;
             $data['header']               = $suratMaster->header ?? 1;
             $data['footer']               = $suratMaster->footer ?? 1;
+            $data['daftar_lampiran']      = $this->tinymce->getDaftarLampiran();
         }
 
         $data['form_isian']       = $this->form_isian();
@@ -276,6 +277,7 @@ class Surat_master extends Admin_Controller
             'kode_isian'          => json_encode($kodeIsian),
             'orientasi'           => $request['orientasi'],
             'ukuran'              => $request['ukuran'],
+            'lampiran'            => $request['lampiran'],
             'header'              => (int) $request['header'],
             'footer'              => (int) $request['footer'],
         ];

@@ -91,6 +91,7 @@
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
     <!-- jquery validasi -->
     <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('js/admin.js') }}"></script>
     <!-- Modifikasi -->
     @if (config_item('demo_mode'))
         <!-- Website Demo -->

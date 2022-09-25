@@ -71,10 +71,10 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022091951($hasil);
         $hasil = $hasil && $this->migrasi_2022092070($hasil);
         $hasil = $hasil && $this->migrasi_2022092170($hasil);
-        $hasil = $hasil && $this->migrasi_2022092271($hasil);
         $hasil = $hasil && $this->migrasi_2022092272($hasil);
+        $hasil = $hasil && $this->migrasi_2022092351($hasil);
 
-        return $hasil && $this->migrasi_2022092351($hasil);
+        return $hasil && $this->migrasi_2022092571($hasil);
     }
 
     protected function migrasi_2022090671($hasil)
@@ -459,16 +459,6 @@ class Migrasi_fitur_premium_2210 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022092271($hasil)
-    {
-        // Tambahkan lampiran F-1.02
-        FormatSurat::where('url_surat', 'surat_bio_penduduk')->update(['lampiran' => 'f-1.01.php,f-1.02.php']);
-        FormatSurat::where('url_surat', 'surat_permohonan_perubahan_kartu_keluarga')->update(['lampiran' => 'f-1.16.php,f-1.01.php,f-1.02.php']);
-        FormatSurat::where('url_surat', 'surat_permohonan_kartu_keluarga')->update(['lampiran' => 'f-1.15.php,f-1.01.php,f-1.02.php']);
-
-        return $hasil;
-    }
-
     protected function migrasi_2022092272($hasil)
     {
         if (! $this->db->table_exists('kehadiran_alasan_keluar')) {
@@ -512,6 +502,16 @@ class Migrasi_fitur_premium_2210 extends MY_model
     protected function migrasi_2022092351($hasil)
     {
         DB::table('tweb_wil_clusterdesa')->where('rt', '=', '0')->where('rw', '=', '')->update(['rw' => '0']);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022092571($hasil)
+    {
+        // Tambahkan lampiran F-1.02
+        FormatSurat::where('url_surat', 'surat_bio_penduduk')->update(['lampiran' => 'f-1.01.php,f-1.02.php']);
+        FormatSurat::where('url_surat', 'surat_permohonan_perubahan_kartu_keluarga')->update(['lampiran' => 'f-1.16.php,f-1.01.php,f-1.02.php']);
+        FormatSurat::where('url_surat', 'surat_permohonan_kartu_keluarga')->update(['lampiran' => 'f-1.15.php,f-1.01.php,f-1.02.php']);
 
         return $hasil;
     }
