@@ -195,7 +195,7 @@ class Pamong_model extends CI_Model
 
     public function get_pamong($id = null)
     {
-        return $this->db->where('pamong_id', $id)->limit(1)->get('tweb_desa_pamong')->row_array();
+        return $this->get_data($id);
     }
 
     public function insert()
@@ -470,5 +470,12 @@ class Pamong_model extends CI_Model
         $this->db
             ->where("pamong_id in ({$list_id})")
             ->update('tweb_desa_pamong', $data);
+    }
+
+    public function status_aktif()
+    {
+        $this->db->where('u.pamong_status', 1);
+
+        return $this;
     }
 }

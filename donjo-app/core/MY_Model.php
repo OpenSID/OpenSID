@@ -37,6 +37,22 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property CI_Benchmark        $benchmark
+ * @property CI_Config           $config
+ * @property CI_DB_query_builder $db
+ * @property CI_DB_forge         $dbforge
+ * @property CI_Input            $input
+ * @property CI_Lang             $lang
+ * @property CI_Loader           $load
+ * @property CI_Loader           $loader
+ * @property CI_log              $log
+ * @property CI_Output           $output
+ * @property CI_Router           $router
+ * @property CI_Security         $security
+ * @property CI_URI              $uri
+ * @property CI_Utf8             $utf8
+ */
 class MY_Model extends CI_Model
 {
     /**
@@ -46,6 +62,7 @@ class MY_Model extends CI_Model
     {
         parent::__construct();
         $this->load->driver('cache');
+        $this->load->dbforge();
     }
 
     // Konversi url menu menjadi slug tanpa mengubah data
@@ -100,6 +117,7 @@ class MY_Model extends CI_Model
             case 'pembangunan':
             case 'galeri':
             case 'pengaduan':
+            case 'data-vaksinasi':
                 break;
 
             default:
@@ -189,8 +207,6 @@ class MY_Model extends CI_Model
             if ($duplikat > 0) {
                 session_error('--> Silahkan Cek <a href="' . site_url('info_sistem') . '">Info Sistem > Log</a>.');
                 log_message('error', "Data kolom {$kolom} pada tabel {$tabel} ada yang duplikat dan perlu diperbaiki sebelum migrasi dilanjutkan.");
-
-                return false;
             }
         }
 
@@ -310,5 +326,20 @@ class MY_Model extends CI_Model
         log_message('error', 'Gagal Jalankan ' . $migrasi);
 
         return false;
+    }
+
+    public function timestamps($tabel = '')
+    {
+        // Kolom created_at
+        if (! $this->db->field_exists('created_at', $tabel)) {
+            $hasil = $this->dbforge->add_column($tabel, 'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP');
+        }
+
+        // Kolom updated_at
+        if (! $this->db->field_exists('updated_at', $tabel)) {
+            $hasil = $this->dbforge->add_column($tabel, 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+        }
+
+        return $hasil;
     }
 }

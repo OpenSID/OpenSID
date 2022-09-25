@@ -137,6 +137,7 @@ define('STAT_LAINNYA', serialize([
     'pembangunan'      => 'Pembangunan',
     'galeri'           => 'Galeri',
     'pengaduan'        => 'Pengaduan',
+    'data-vaksinasi'   => 'Vaksin',
 ]));
 
 // Jabatan Kelompok
@@ -198,6 +199,23 @@ define('JENIS_VAKSIN', serialize([
 define('STATUS', serialize([
     1 => 'Ya',
     2 => 'Tidak',
+]));
+
+// Sebab Kematian
+define('SEBAB', serialize([
+    1 => 'Sakit biasa / tua',
+    2 => 'Wabah Penyakit',
+    3 => 'Kecelakaan',
+    4 => 'Kriminalitas',
+    5 => 'Bunuh Diri',
+    6 => 'Lainnya',
+]));
+
+define('PENOLONG_MATI', serialize([
+    '1' => 'Dokter',
+    '2' => 'Tenaga Kesehatan',
+    '3' => 'Kepolisian',
+    '4' => 'Lainnya',
 ]));
 
 class Referensi_model extends CI_Model

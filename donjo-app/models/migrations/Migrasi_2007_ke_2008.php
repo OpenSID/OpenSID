@@ -206,7 +206,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         }
     }
 
-    private function buat_ref_persil_kelas()
+    public function buat_ref_persil_kelas()
     {
         // Buat tabel jenis Kelas Persil
         if (! $this->db->table_exists('ref_persil_kelas')) {
@@ -250,7 +250,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         $this->db->insert_batch('ref_persil_kelas', $data);
     }
 
-    private function buat_ref_persil_mutasi()
+    public function buat_ref_persil_mutasi()
     {
         // Buat tabel ref Mutasi Persil
         if (! $this->db->table_exists('ref_persil_mutasi')) {

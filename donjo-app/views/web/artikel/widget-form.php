@@ -51,10 +51,10 @@
 								<label class="col-sm-4 control-label" for="isi-statis">Nama File Widget (.php)</label>
 								<div class="col-sm-6">
 									<?php if ($list_widget):?>
-										<select id="isi-statis" name="isi-statis" class="form-control input-sm">
+										<select id="isi-statis" name="isi-statis" class="form-control input-sm select2">
 											<option value="">-- Pilih Widget --</option>
 											<?php foreach ($list_widget as $list):?>
-												<option value="<?=$list?>" <?php selected($list, $widget['isi']); ?>><?=$list?></option>
+												<option value="<?= $list ?>" <?= selected($list, $widget['isi']); ?>><?= $list ?></option>
 											<?php endforeach; ?>
 										</select>
 									<?php else:?>
@@ -78,8 +78,7 @@
 </div>
 <script>
 	var elem = document.getElementById("jenis_widget");
-	elem.onchange = function()
-	{
+	elem.onchange = function() {
 		var dinamis = document.getElementById("dinamis");
 		var statis = document.getElementById("statis");
 		dinamis.style.display = (this.value == "3") ? "block":"none";

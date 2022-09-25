@@ -50,14 +50,12 @@ class Periksa extends CI_Controller
         if ($this->session->periksa_data != 1) {
             redirect('periksa/login');
         }
-        $data = [
-            'db_error'            => $this->session->db_error,
-            'kode_panjang'        => $this->periksa_model->kode_panjang,
-            'tag_id_ganda'        => $this->periksa_model->tag_id_ganda,
-            'email_ganda'         => $this->periksa_model->email_ganda,
-            'migrasi_utk_diulang' => $this->periksa_model->migrasi_utk_diulang,
-            'masalah'             => $this->periksa_model->masalah,
-        ];
+
+        if ($this->session->message_query || $this->session->message_exception) {
+            log_message('error', $this->session->message_query);
+            log_message('error', $this->session->message_exception);
+        }
+        $data = $this->periksa_model->periksa;
 
         $this->load->view('periksa/index', $data);
     }
@@ -76,6 +74,7 @@ class Periksa extends CI_Controller
     // Login khusus untuk periksa
     public function login()
     {
+        $this->session->siteman_wait = 0;
         $this->user_model->login();
         $header = $this->db
             ->get('config')

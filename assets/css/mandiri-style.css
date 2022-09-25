@@ -436,13 +436,16 @@ a.btn {
 
 .modal-dialog {
   background: rgb(0 0 0 / 0%);
-  top: 30%;
   padding: 5px;
+}
+
+.notifikasi {
+  top: 30%;
 }
 
 .modal-content {
   border-radius: 5px;
-  background: #00c0ef;
+  background: #ffffff;
   border: 2px solid black;
 }
 

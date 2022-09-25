@@ -41,7 +41,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 | -------------------------------------------------------------------
 | MIME TYPES
 | -------------------------------------------------------------------
-| This file contains an array of mime types.  It is used by the
+| This file contains an array of mime types. It is used by the
 | Upload class to help identify allowed file types.
 |
 */
@@ -121,9 +121,11 @@ return [
     'jpm'   => ['image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'],
     'mj2'   => ['image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'],
     'mjp2'  => ['image/jp2', 'video/mj2', 'image/jpx', 'image/jpm'],
-    'png'   => ['image/png',  'image/x-png'],
+    'png'   => ['image/png', 'image/x-png'],
     'tiff'  => 'image/tiff',
     'tif'   => 'image/tiff',
+    'heic'  => 'image/heic',
+    'heif'  => 'image/heif',
     'css'   => ['text/css', 'text/plain'],
     'html'  => ['text/html', 'text/plain'],
     'htm'   => ['text/html', 'text/plain'],
@@ -196,7 +198,7 @@ return [
     'cdr'   => ['application/cdr', 'application/coreldraw', 'application/x-cdr', 'application/x-coreldraw', 'image/cdr', 'image/x-cdr', 'zz-application/zz-winassoc-cdr'],
     'wma'   => ['audio/x-ms-wma', 'video/x-ms-asf'],
     'jar'   => ['application/java-archive', 'application/x-java-application', 'application/x-jar', 'application/x-compressed'],
-    'svg'   => ['image/svg+xml', 'application/xml', 'text/xml'],
+    'svg'   => ['image/svg+xml', 'image/svg', 'application/xml', 'text/xml'],
     'vcf'   => 'text/x-vcard',
     'srt'   => ['text/srt', 'text/plain'],
     'vtt'   => ['text/vtt', 'text/plain'],
@@ -217,5 +219,4 @@ return [
     'odm'   => 'application/vnd.oasis.opendocument.text-master',
     'ott'   => 'application/vnd.oasis.opendocument.text-template',
     'oth'   => 'application/vnd.oasis.opendocument.text-web',
-    'sql'   => 'text/plain',
 ];

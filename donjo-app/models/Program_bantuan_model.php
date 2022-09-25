@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Program_bantuan_model extends MY_Model
 {
-    // Untuk datatables peserta bantuan di themes/klasik/partials/statistik.php (web)
+    // Untuk datatables peserta bantuan di themes/nama_tema/partials/statistik.php (web)
     public $column_order  = [null, 'program', 'peserta', null]; //set column field database for datatable orderable
     public $column_search = []; // Daftar kolom yg bisa dicari
     public $order         = ['peserta' => 'asc']; // default order
@@ -163,7 +163,7 @@ class Program_bantuan_model extends MY_Model
 
             case 3:
                 // Data Penduduk; $peserta_id adalah No RTM (kolom no_kk)
-                $data                    = $this->rtm_model->get_kepala_rtm($peserta_id, $is_no_kk = true);
+                $data                    = $this->rtm_model->get_kepala_rtm($peserta_id, $is_no_kk                    = true);
                 $data['id_peserta']      = $data['no_kk']; // No RTM digunakan sebagai peserta
                 $data['nama_kepala_rtm'] = $data['nama'];
                 $data['kartu_nik']       = $data['nik'];
@@ -195,7 +195,7 @@ class Program_bantuan_model extends MY_Model
             $kw = $this->db->escape_like_str($value);
             $kw = '%' . $kw . '%';
 
-            return " AND (o.nama LIKE '{$kw}' OR peserta LIKE '{$kw}' OR p.kartu_nik LIKE '{$kw}' OR p.kartu_nama LIKE '{$kw}')";
+            return " AND (o.nama LIKE '{$kw}' OR peserta LIKE '{$kw}' OR p.kartu_nik LIKE '{$kw}' OR p.kartu_nama LIKE '{$kw}' OR o.tag_id_card LIKE '{$kw}')";
         }
     }
 
@@ -211,10 +211,11 @@ class Program_bantuan_model extends MY_Model
             case 1:
                 // Data penduduk
                 if (! $jumlah) {
-                    $select_sql = 'p.*, o.nama, x.nama AS sex, w.rt, w.rw, w.dusun, k.no_kk';
+                    $select_sql = 'p.*, o.nama, s.nama as status_dasar, x.nama AS sex, w.rt, w.rw, w.dusun, k.no_kk';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
-					RIGHT JOIN penduduk_hidup o ON p.peserta = o.nik
+					RIGHT JOIN tweb_penduduk o ON p.peserta = o.nik
+                    LEFT JOIN tweb_status_dasar s ON o.status_dasar = s.id
 					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
@@ -224,13 +225,14 @@ class Program_bantuan_model extends MY_Model
             case 2:
                 // Data KK
                 if (! $jumlah) {
-                    $select_sql = 'p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik as nik_kk, o.nama as nama_kk, x.nama AS sex, w.rt, w.rw, w.dusun';
+                    $select_sql = 'p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik as nik_kk, o.nama as nama_kk, x.nama AS sex, w.rt, w.rw, w.dusun, s.nama as status_dasar';
                 }
                 $strSQL = 'SELECT ' . $select_sql . '
 					FROM program_peserta p
 					JOIN tweb_keluarga k ON p.peserta = k.no_kk
-					RIGHT JOIN penduduk_hidup o ON k.nik_kepala = o.id
-					RIGHT JOIN penduduk_hidup kartu on p.kartu_id_pend = kartu.id
+					RIGHT JOIN tweb_penduduk o ON k.nik_kepala = o.id
+                    LEFT JOIN tweb_status_dasar s ON o.status_dasar = s.id
+					RIGHT JOIN tweb_penduduk kartu on p.kartu_id_pend = kartu.id
 					LEFT JOIN tweb_penduduk_sex x ON x.id = kartu.sex
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id =' . $slug;
@@ -239,11 +241,12 @@ class Program_bantuan_model extends MY_Model
             case 3:
                 // Data RTM
                 if (! $jumlah) {
-                    $select_sql = 'p.*, o.nama, o.nik, r.no_kk, x.nama AS sex, w.rt, w.rw, w.dusun';
+                    $select_sql = 'p.*, o.nama, o.nik, r.no_kk, x.nama AS sex, w.rt, w.rw, w.dusun, s.nama as status_dasar';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
 					LEFT JOIN tweb_rtm r ON r.no_kk = p.peserta
-					RIGHT JOIN penduduk_hidup o ON o.id = r.nik_kepala
+					RIGHT JOIN tweb_penduduk o ON o.id = r.nik_kepala
+                    LEFT JOIN tweb_status_dasar s ON o.status_dasar = s.id
 					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id=' . $slug;
@@ -252,11 +255,12 @@ class Program_bantuan_model extends MY_Model
             case 4:
                 // Data Kelompok
                 if (! $jumlah) {
-                    $select_sql = 'p.*, o.nama, o.nik, x.nama AS sex, k.no_kk, r.nama as nama_kelompok, w.rt, w.rw, w.dusun';
+                    $select_sql = 'p.*, o.nama, o.nik, x.nama AS sex, k.no_kk, r.nama as nama_kelompok, w.rt, w.rw, w.dusun, s.nama as status_dasar';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
 					LEFT JOIN kelompok r ON r.id = p.peserta
-					RIGHT JOIN penduduk_hidup o ON o.id = r.id_ketua
+					RIGHT JOIN tweb_penduduk o ON o.id = r.id_ketua
+                    LEFT JOIN tweb_status_dasar s ON o.status_dasar = s.id
 					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_keluarga k on k.id = o.id_kk
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
@@ -991,7 +995,7 @@ class Program_bantuan_model extends MY_Model
     }
 
     /* ====================================
-     * Untuk datatable #peserta_program di themes/klasik/partials/statistik.php
+     * Untuk datatable #peserta_program di themes/nama_tema/partials/statistik.php
      * ==================================== */
 
     private function get_all_peserta_bantuan_query()
@@ -1049,10 +1053,18 @@ class Program_bantuan_model extends MY_Model
         }
     }
 
-    public function get_peserta_bantuan($status = '')
+    public function get_peserta_bantuan($filter = [])
     {
-        if ($status != '') {
-            $this->db->where('p.status', $status);
+        if ($filter) {
+            if ($status = $filter['status'] != '') {
+                $this->db->where('p.status', $status);
+            }
+
+            $tahun = $this->session->tahun;
+            if (isset($tahun)) {
+                $this->db->where('YEAR(p.sdate)', $tahun);
+                $this->db->or_where('YEAR(p.edate)', $tahun);
+            }
         }
 
         $this->get_peserta_bantuan_query();
@@ -1062,6 +1074,25 @@ class Program_bantuan_model extends MY_Model
         $data = $this->db->get()->result_array();
 
         return $data;
+    }
+
+    public function tahun_bantuan_pertama($sasaran = '')
+    {
+        if ($status = $this->session->status) {
+            $this->db->where('status', $status);
+        }
+
+        if ($sasaran != '') {
+            $this->db->where('sasaran', $sasaran);
+        }
+
+        return $this->db
+            ->select('min(date_format(sdate, "%Y")) as thn')
+            ->from('program')
+            ->where('DAYNAME(sdate) IS NOT NULL')
+            ->get()
+            ->row()
+            ->thn;
     }
 
     public function count_peserta_bantuan_filtered()

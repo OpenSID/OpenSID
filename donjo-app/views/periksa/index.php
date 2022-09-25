@@ -61,9 +61,9 @@
 
                 <!-- Main content -->
                 <section class="content">
-                    <?php if ($this->session->db_error) : ?>
+                    <?php if ($this->session->db_error || $masalah) : ?>
                         <div class="callout callout-warning">
-                            <h4><?= $this->session->heading ?></h4>
+                            <h4><?= $this->session->heading ?: 'Ditemukan masalah pada database'?></h4>
                             <p><?= $this->session->message ?></p>
                             <?php if (ENVIRONMENT == 'development') : ?>
                                 <pre><?= $this->session->message_query ?></pre>
@@ -108,10 +108,138 @@
                                         </div>
                                     </div>
                                 <?php endif; ?>
+                                <?php if (in_array('ref_inventaris_kosong', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi referensi pertanahan dan inventaris kosong</strong>
+                                            <p>Klik tombol Perbaiki untuk mengembalikan isi tabel referensi tersebut.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (in_array('id_cluster_null', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi lokasi keluarga kosong</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>No KK</th>
+                                                    <th>Nama Kepala Keluarga</th>
+                                                </tr>
+                                                <?php foreach ($id_cluster_null as $kel) : ?>
+                                                    <tr>
+                                                        <td><?= $kel['no_kk']; ?></td>
+                                                        <td><?= $kel['nama']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk mengubah lokasi keluarga kosong menjadi <strong><?= $wilayah_pertama['wil'] ?></strong>. Untuk melihat keluarga yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (in_array('nik_ganda', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi NIK ganda</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>NIK</th>
+                                                    <th>Ganda</th>
+                                                </tr>
+                                                <?php foreach ($nik_ganda as $nik) : ?>
+                                                    <tr>
+                                                        <td><?= $nik['nik']; ?></td>
+                                                        <td><?= $nik['jml']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki NIK ganda dengan (1) mengubah semua NIK yang bukan numerik menjadi NIK sementara, dan (2) mengubah NIK ganda selain yang pertama menjadi NIK sementara. Untuk melihat NIK yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (in_array('kk_panjang', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi nomor KK melebihi 16 karakter</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>No KK</th>
+                                                    <th>Panjang</th>
+                                                </tr>
+                                                <?php foreach ($kk_panjang as $kk) : ?>
+                                                    <tr>
+                                                        <td><?= $kk['no_kk']; ?></td>
+                                                        <td><?= $kk['panjang']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki dengan mengubah semua nomor KK panjang menjadi KK sementara. Untuk melihat nomor KK yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (in_array('no_kk_ganda', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi no_kk ganda</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>No KK</th>
+                                                    <th>Ganda</th>
+                                                </tr>
+                                                <?php foreach ($no_kk_ganda as $no_kk) : ?>
+                                                    <tr>
+                                                        <td><?= $no_kk['no_kk']; ?></td>
+                                                        <td><?= $no_kk['jml']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki no_kk ganda dengan (1) menambah id ke masing-masing no_kk. Untuk melihat no_kk yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (in_array('username_user_ganda', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi username user ganda</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Username</th>
+                                                    <th>Ganda</th>
+                                                </tr>
+                                                <?php foreach ($username_user_ganda as $username) : ?>
+                                                    <tr>
+                                                        <td><?= $username['username']; ?></td>
+                                                        <td><?= $username['jml']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki username ganda dengan (1) mengubah username kosong menjadi null, dan (2) menambah id ke masing-masing username. Untuk melihat username yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (in_array('email_user_ganda', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi email user ganda</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Email</th>
+                                                    <th>Ganda</th>
+                                                </tr>
+                                                <?php foreach ($email_user_ganda as $email) : ?>
+                                                    <tr>
+                                                        <td><?= $email['email']; ?></td>
+                                                        <td><?= $email['jml']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki email ganda dengan (1) mengubah email kosong menjadi null, dan (2) menambah id ke masing-masing email. Untuk melihat email yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <?php if (in_array('email_ganda', $masalah)) : ?>
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <strong>Terdeteksi email ganda</strong>
+                                            <strong>Terdeteksi email penduduk ganda</strong>
                                             <table class="table">
                                                 <tr>
                                                     <th>Email</th>
@@ -153,6 +281,34 @@
                                         <div class="panel-body">
                                             <strong>Terdeteksi ada kartu_tempat_lahir atau kartu_alamat berisi null, seharusnya ''</strong>
                                             <p>Klik tombol Perbaiki untuk mengubah nilai null menjadi ''</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (in_array('autoincrement', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi ada tabel yang kehilangan autoincrement</strong>
+                                            <p>Klik tombol Perbaiki untuk mengembalikan autoincrement pada semua tabel yang memerlukan</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (in_array('collation', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi collation table bukan <code>utf8_general_ci</code></strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Tabel</th>
+                                                    <th>Collation</th>
+                                                </tr>
+                                                <?php foreach ($collation_table as $value) : ?>
+                                                    <tr>
+                                                        <td><?= $value['TABLE_NAME']; ?></td>
+                                                        <td><?= $value['TABLE_COLLATION']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki semua collation table yang tidak sesuai menjadi collation <code>utf8_general_ci</code></p>
                                         </div>
                                     </div>
                                 <?php endif; ?>

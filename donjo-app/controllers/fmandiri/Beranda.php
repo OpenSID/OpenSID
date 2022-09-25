@@ -61,7 +61,6 @@ class Beranda extends Mandiri_Controller
         $data = [
             'penduduk' => $this->penduduk_model->get_penduduk($this->is_login->id_pend),
             'kelompok' => $this->penduduk_model->list_kelompok($this->is_login->id_pend),
-            'dokumen'  => $this->penduduk_model->list_dokumen($this->is_login->id_pend),
         ];
 
         $this->render('profil', $data);
@@ -117,20 +116,6 @@ class Beranda extends Mandiri_Controller
     {
         $this->mandiri_model->logout();
         redirect('layanan-mandiri');
-    }
-
-    /**
-     * Unduh berkas berdasarkan kolom dokumen.id
-     *
-     * @param int $id_dokumen Id berkas pada koloam dokumen.id
-     *
-     * @return void
-     */
-    public function unduh_berkas($id_dokumen = '')
-    {
-        // Ambil nama berkas dari database
-        $berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $this->is_login->id_pend);
-        ambilBerkas($berkas, null, null, LOKASI_DOKUMEN);
     }
 
     public function pendapat(int $pilihan = 1)

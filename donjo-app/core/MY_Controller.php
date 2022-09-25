@@ -37,6 +37,20 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property CI_Benchmark        $benchmark
+ * @property CI_Config           $config
+ * @property CI_DB_query_builder $db
+ * @property CI_Input            $input
+ * @property CI_Lang             $lang
+ * @property CI_Loader           $loader
+ * @property CI_log              $log
+ * @property CI_Output           $output
+ * @property CI_Router           $router
+ * @property CI_Security         $security
+ * @property CI_URI              $uri
+ * @property CI_Utf8             $utf8
+ */
 class MY_Controller extends CI_Controller
 {
     // Common data
@@ -55,7 +69,8 @@ class MY_Controller extends CI_Controller
         parent::__construct();
         $this->controller = strtolower($this->router->fetch_class());
         $this->setting_model->init();
-        $this->header = $this->config_model->get_data();
+        $this->header  = $this->config_model->get_data();
+        $this->request = $this->input->post();
     }
 
     // Bersihkan session cluster wilayah
@@ -86,39 +101,15 @@ class Web_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        // Gunakan tema klasik kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada
-        // if (empty($this->setting->web_theme) OR !is_dir(FCPATH.'desa/themes/'.$this->setting->web_theme))
-        $theme        = preg_replace('/desa\\//', '', strtolower($this->setting->web_theme));
-        $theme_folder = preg_match('/desa\\//', strtolower($this->setting->web_theme)) ? 'desa/themes' : 'themes';
-        if (empty($this->setting->web_theme) || !is_dir(FCPATH . $theme_folder . '/' . $theme)) {
-            $this->theme        = 'klasik';
-            $this->theme_folder = 'themes';
-        } else {
-            $this->theme        = $theme;
-            $this->theme_folder = $theme_folder;
-        }
+        $this->load->model('theme_model');
+        $this->theme        = $this->theme_model->tema;
+        $this->theme_folder = $this->theme_model->folder;
+
         // Variabel untuk tema
         $this->template                  = "../../{$this->theme_folder}/{$this->theme}/template.php";
         $this->includes['folder_themes'] = '../../' . $this->theme_folder . '/' . $this->theme;
 
         $this->load->model('web_menu_model');
-    }
-
-    /*
-     * Jika file theme/view tidak ada, gunakan file klasik/view
-     * Supaya tidak semua layout atau partials harus diulangi untuk setiap tema
-     */
-    public static function fallback_default($theme, $view)
-    {
-        $view         = trim($view, '/');
-        $theme_folder = self::get_instance()->theme_folder;
-        $theme_view   = "../../{$theme_folder}/{$theme}/{$view}";
-
-        if (!is_file(APPPATH . 'views/' . $theme_view)) {
-            $theme_view = "../../themes/klasik/{$view}";
-        }
-
-        return $theme_view;
     }
 
     /**
@@ -144,7 +135,7 @@ class Web_Controller extends MY_Controller
         if (is_file($template_file_path)) {
             $this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
         } else {
-            $this->template = '../../themes/klasik/' . $template_file;
+            $this->template = '../../vendor/themes/esensi/' . $template_file;
         }
     }
 
@@ -152,7 +143,6 @@ class Web_Controller extends MY_Controller
     {
         $this->load->library('statistik_pengunjung');
 
-        $this->load->model('theme_model');
         $this->load->model('first_menu_m');
         $this->load->model('teks_berjalan_model');
         $this->load->model('first_artikel_m');

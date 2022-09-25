@@ -62,7 +62,7 @@ class Info_sistem extends Admin_Controller
 
     public function remove_log()
     {
-        $path = $this->config->item('log_path');
+        $path = config_item('log_path');
         $file = base64_decode($this->input->get('f'), true);
 
         if ($this->input->post()) {
