@@ -91,3 +91,4 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 2. Jalankan bersihkan cache setiap kali lakukan migrasi.
 3. Hapus var_dump pada menu lihat profil.
 4. Ganti package box/spout menjadi openspout/openspout.
+5. Sesuaikan asset pada halaman admin.
