@@ -89,6 +89,7 @@ define('LOKASI_ICON_MENU_ANJUNGAN', 'desa/anjungan/menu/');
 define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
 define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
 define('PENDAPAT', 'assets/images/layanan_mandiri/');
+define('LOKASI_ICON_MENU_ANJUNGAN_DEFAULT', 'assets/images/anjungan/');
 
 // Kode laporan statistik
 define('JUMLAH', 666);

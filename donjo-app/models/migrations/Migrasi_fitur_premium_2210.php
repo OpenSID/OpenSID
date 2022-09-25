@@ -36,6 +36,7 @@
  */
 
 use App\Enums\SistemEnum;
+use App\Models\AnjunganMenu;
 use App\Models\FormatSurat;
 use App\Models\LogSurat;
 use App\Models\Pamong;
@@ -442,6 +443,27 @@ class Migrasi_fitur_premium_2210 extends MY_model
             $this->dbforge->add_field($fields);
             $hasil = $hasil && $this->dbforge->create_table('anjungan_menu', true);
             $hasil = $hasil && $this->timestamps('anjungan_menu', true);
+
+            $menu = [
+                ['nama' => 'Peta Desa', 'icon' => 'peta.svg', 'link' => 'peta', 'link_tipe' => 5, 'urut' => 1, 'status' => 1],
+                ['nama' => 'Informasi Pubik', 'icon' => 'public.svg', 'link' => 'informasi_publik', 'link_tipe' => 5, 'urut' => 2, 'status' => 1],
+                ['nama' => 'Data Pekerjaan', 'icon' => 'statistik.svg', 'link' => 'statistik/1', 'link_tipe' => 2, 'urut' => 3, 'status' => 1],
+                ['nama' => 'Layanan Mandiri', 'icon' => 'mandiri.svg', 'link' => 'layanan-mandiri/beranda', 'link_tipe' => 5, 'urut' => 4, 'status' => 1],
+                ['nama' => 'Lapak', 'icon' => 'lapak.svg', 'link' => 'lapak', 'link_tipe' => 5, 'urut' => 5, 'status' => 1],
+                ['nama' => 'Keuangan', 'icon' => 'keuangan.svg', 'link' => 'artikel/100', 'link_tipe' => 6, 'urut' => 6, 'status' => 1],
+                ['nama' => 'IDM 2020', 'icon' => 'idm.svg', 'link' => 'status-idm/2022', 'link_tipe' => 10, 'urut' => 7, 'status' => 1],
+            ];
+
+            $hasil = $hasil && AnjunganMenu::insert($menu);
+
+            folder(LOKASI_ICON_MENU_ANJUNGAN);
+            $from  = FCPATH . LOKASI_ICON_MENU_ANJUNGAN_DEFAULT . 'contoh/';
+            $to    = FCPATH . LOKASI_ICON_MENU_ANJUNGAN;
+            $files = array_filter(glob("{$from}*"), 'is_file');
+
+            foreach ($files as $file) {
+                copy($file, $to . basename($file));
+            }
         }
 
         return $hasil;

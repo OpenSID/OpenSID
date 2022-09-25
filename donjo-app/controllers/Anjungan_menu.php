@@ -77,7 +77,7 @@ class Anjungan_menu extends Admin_Controller
                         $aksi .= '<a href="' . site_url('anjungan_menu/urut/' . $row->id . '/-1') . '" class="btn bg-olive btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a> ';
                         $aksi .= '<a href="' . route('anjungan_menu.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
 
-                        if ($row->status) {
+                        if (! $row->status) {
                             $aksi .= '<a href="' . site_url("anjungan_menu/kunci/{$row->id}/1") . '" class="btn bg-navy btn-sm" title="Aktifkan Anjungan"><i class="fa fa-lock"></i></a> ';
                         } else {
                             $aksi .= '<a href="' . site_url("anjungan_menu/kunci/{$row->id}/0") . '" class="btn bg-navy btn-sm" title="Nonaktifkan Anjungan"><i class="fa fa-unlock"></i></a> ';
