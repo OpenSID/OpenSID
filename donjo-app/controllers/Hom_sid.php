@@ -75,14 +75,11 @@ class Hom_sid extends Admin_Controller
     private function getUpdate()
     {
         if (cek_koneksi_internet() && ! config_item('demo_mode')) {
-            $this->load->library('release');
-
             $url_rilis = config_item('rilis_umum');
 
             $release = new Release();
             $release->set_api_url($url_rilis)
-                ->set_interval(0)
-                ->set_current_version($this->versi_setara)
+                ->set_interval(7)
                 ->set_cache_folder(config_item('cache_path'));
 
             $info['update_available'] = $release->is_available();
@@ -91,10 +88,6 @@ class Hom_sid extends Admin_Controller
             $info['release_name']     = $release->get_release_name();
             $info['release_body']     = $release->get_release_body();
             $info['url_download']     = $release->get_release_download();
-
-            if ($this->versi_setara) {
-                $info['current_version'] .= '(' . $release->get_current_version() . ')';
-            }
         }
 
         return $info;
