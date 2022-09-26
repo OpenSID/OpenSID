@@ -528,12 +528,15 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
         return $hasil;
     }
+
     protected function migrasi_2022092451($hasil)
     {
         // Hapus pengaturan sebutan_kepala_desa
         $this->db->delete('setting_aplikasi', ['key' => 'sebutan_kepala_desa']);
+
         return $hasil;
     }
+
     protected function migrasi_2022092571($hasil)
     {
         // Tambahkan lampiran F-1.02
