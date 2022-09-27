@@ -178,7 +178,7 @@ class Pamong_model extends CI_Model
     public function get_data($id = 0)
     {
         $data = $this->db
-            ->select('u.*, rj.nama AS jabatan, rj.id AS ref_jabatan_id,
+            ->select('u.*, rj.nama AS jabatan, rj.nama AS pamong_jabatan, rj.id AS ref_jabatan_id,
 				(case when p.nama is not null then p.nama else u.pamong_nama end) as nama,
 				(case when p.foto is not null then p.foto else u.foto end) as foto,
 				(case when p.sex is not null then p.sex else u.pamong_sex end) as id_sex')
