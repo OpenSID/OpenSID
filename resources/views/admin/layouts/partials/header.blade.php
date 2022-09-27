@@ -87,7 +87,7 @@
           </li>
         @endif
 
-        @if (can('b', 'keluar'))
+        @if (can('b', 'keluar') && (setting('verifikasi_kades') || setting('verifikasi_sekdes')))
           <li>
             <a href="{{ route('keluar.clear.masuk') }}">
               <span><i class="fa fa-bell-o fa-lg" title="Permohonan Surat"></i>&nbsp;</span>

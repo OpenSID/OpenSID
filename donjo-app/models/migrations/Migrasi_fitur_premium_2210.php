@@ -40,6 +40,7 @@ use App\Models\AnjunganMenu;
 use App\Models\FormatSurat;
 use App\Models\LogSurat;
 use App\Models\Pamong;
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -75,8 +76,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022092272($hasil);
         $hasil = $hasil && $this->migrasi_2022092351($hasil);
         $hasil = $hasil && $this->migrasi_2022092451($hasil);
+        $hasil = $hasil && $this->migrasi_2022092571($hasil);
 
-        return $hasil && $this->migrasi_2022092571($hasil);
+        return $hasil && $this->migrasi_2022092751($hasil);
     }
 
     protected function migrasi_2022090671($hasil)
@@ -543,6 +545,20 @@ class Migrasi_fitur_premium_2210 extends MY_model
         FormatSurat::where('url_surat', 'surat_bio_penduduk')->update(['lampiran' => 'f-1.01.php,f-1.02.php']);
         FormatSurat::where('url_surat', 'surat_permohonan_perubahan_kartu_keluarga')->update(['lampiran' => 'f-1.16.php,f-1.01.php,f-1.02.php']);
         FormatSurat::where('url_surat', 'surat_permohonan_kartu_keluarga')->update(['lampiran' => 'f-1.15.php,f-1.01.php,f-1.02.php']);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022092751($hasil)
+    {
+        // Hapus setting verifikasi_operator yang tidak digunakan
+        SettingAplikasi::whereKey('verifikasi_operator')->delete();
+
+        // Sesuaikan log surat berdasarkan pengaturan alur surat saat ini
+        // Jika verifikasi kades / sekdes tidak diaktifkan
+        if (! setting('verifikasi_kades') || ! setting('verifikasi_sekdes')) {
+            LogSurat::status(LogSurat::CETAK)->where('verifikasi_operator', LogSurat::PERIKSA)->update(['verifikasi_operator' => LogSurat::TERIMA]);
+        }
 
         return $hasil;
     }

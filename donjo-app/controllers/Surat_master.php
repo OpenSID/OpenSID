@@ -39,6 +39,7 @@ use App\Enums\FontSuratEnum;
 use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
+use App\Models\LogSurat;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\Sex;
@@ -416,6 +417,13 @@ class Surat_master extends Admin_Controller
 
         foreach ($data as $key => $value) {
             SettingAplikasi::whereKey($key)->update(['value' => $value]);
+        }
+
+        // Perbarui log_surat jika ada perubahan pengaturan verifikasi kades / sekdes
+        if (! setting('verifikasi_kades') || ! setting('verifikasi_sekdes')) {
+            LogSurat::where('verifikasi_operator', LogSurat::PERIKSA)->update(['verifikasi_operator' => LogSurat::TERIMA]);
+
+            redirect_with('success', 'Berhasil Ubah Data dan Perbaharui Log Surat');
         }
 
         redirect_with('success', 'Berhasil Ubah Data');

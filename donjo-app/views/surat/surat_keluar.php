@@ -7,7 +7,9 @@
         </ol>
     </section>
     <section class="content" id="maincontent">
-        <?php $this->load->view('surat_keluar/surat_widgets'); ?>
+        <?php if ($widgets): ?>
+            <?php $this->load->view('surat_keluar/surat_widgets'); ?>
+        <?php endif ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-info">
@@ -109,13 +111,26 @@
                                                                 <tr <?= jecho($data['status'], 0, 'class="select-row"'); ?>>
                                                                     <td class="padat"><?= $data['no'] ?></td>
                                                                     <td class="aksi">
+
+                                                                        <?php if ($this->tab_ini == 10): ?>
+                                                                            <?php if (can('u')): ?>
+                                                                                <?php if (in_array($data['jenis'], [1, 2])): ?>
+                                                                                    <a href="<?= site_url("keluar/edit_keterangan/{$data['id']}")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+                                                                                <?php else: ?>
+                                                                                    <?php if ($data['status'] == 0): ?>
+                                                                                        <a href="<?= site_url("surat/cetak/{$data['id']}"); ?>" class="btn btn-flat bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a>
+                                                                                    <?php endif; ?>
+                                                                                <?php endif; ?>
+                                                                            <?php endif; ?>
+                                                                        <?php endif; ?>
+
                                                                         <!-- hanya untuk surat permohonan -->
-                                                                        <?php if ($this->tab_ini == 11 || $this->tab_ini == 12) : ?>
-                                                                            <?php if (can('u')) : ?>
-                                                                                <?php if (in_array($data['jenis'], [1, 2]) && $operator) : ?>
-                                                                                    <a href="<?= site_url("keluar/edit_keterangan/{$data['id']}") ?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
-                                                                                <?php else : ?>
-                                                                                    <?php if ($data['status'] == 0 || $data['verifikasi'] == '-1') : ?>
+                                                                        <?php if (in_array($this->tab_ini, [11, 12])): ?>
+                                                                            <?php if (can('u')): ?>
+                                                                                <?php if (in_array($data['jenis'], [1, 2]) && $operator): ?>
+                                                                                    <a href="<?= site_url("keluar/edit_keterangan/{$data['id']}")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+                                                                                <?php else: ?>
+                                                                                    <?php if ($data['status'] == 0 || $data['verifikasi'] == '-1'): ?>
                                                                                         <a href="<?= site_url("surat/cetak/{$data['id']}"); ?>" class="btn btn-flat bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a>
                                                                                     <?php endif; ?>
                                                                                 <?php endif; ?>
@@ -124,8 +139,7 @@
                                                                                     <button data-id="<?= $data['id'] ?>" type="button" class="btn btn-flat bg-blue btn-sm kembalikan" title="Kembalikan"> <i class="fa fa-undo"></i></button>
                                                                                 <?php endif; ?>
 
-                                                                                <?php if ($data['status_periksa'] == 0 && $data['status'] != 0) : ?>
-                                                                                    <!-- <button data-id="<?= $data['id'] ?>" type="button" class="btn btn-flat bg-olive btn-sm verifikasi" title="verifikasi">  <i class="fa fa-check-square-o"></i></button> -->
+                                                                                <?php if ($data['status_periksa'] == 0 && $data['status'] != 0): ?>
                                                                                     <a href="<?= site_url("keluar/periksa/{$data['id']}"); ?>" class="btn bg-olive btn-sm" title="verifikasi"><i class="fa fa-check-square-o"></i></a>
                                                                                 <?php endif; ?>
 
@@ -136,28 +150,29 @@
                                                                             <?php if (can('h') && $operator) : ?>
                                                                                 <a href="#" data-href="<?= site_url("keluar/delete/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                                                             <?php endif; ?>
-
                                                                         <?php endif; ?>
 
                                                                         <!-- hanya untuk arsip surat -->
-
-                                                                        <?php if ($data['status'] == '1') : ?>
-                                                                            <?php if (is_file($data['file_rtf'])) : ?>
+                                                                        <?php if ($data['status'] == '1') :?>
+                                                                            <?php if (is_file($data['file_rtf'])): ?>
                                                                                 <a href="<?= site_url("{$this->controller}/unduh/rtf/{$data['id']}"); ?>" class="btn btn-flat bg-purple btn-sm" title="Unduh Surat RTF" target="_blank"><i class="fa fa-file-word-o"></i></a>
                                                                             <?php endif; ?>
-                                                                            <?php if (is_file($data['file_pdf'])) : ?>
+                                                                            <?php if (is_file($data['file_pdf'])): ?>
                                                                                 <a href="<?= site_url("{$this->controller}/unduh/pdf/{$data['id']}"); ?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
-                                                                            <?php endif; ?>
-                                                                            <?php if (is_file($data['file_lampiran'])) : ?>
+                                                                            <?php   endif; ?>
+                                                                            <?php if (is_file($data['file_lampiran'])): ?>
                                                                                 <a href="<?= site_url("{$this->controller}/unduh/lampiran/{$data['id']}"); ?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
-                                                                            <?php endif; ?>
-                                                                            <?php if ($data['urls_id']) : ?>
+                                                                            <?php   endif; ?>
+                                                                            <?php if ($data['urls_id']): ?>
                                                                                 <a href="<?= site_url("{$this->controller}/qrcode/{$data['urls_id']}"); ?>" title="QR Code" data-size="modal-sm" class="viewQR btn btn-flat bg-aqua btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="QR Code"><i class="fa fa-qrcode"></i></a>
-                                                                            <?php endif; ?>
-                                                                            <?php if ($data['isi_surat'] && $data['verifikasi_operator'] != '-1') : ?>
+                                                                            <?php   endif; ?>
+                                                                            <?php if ($data['isi_surat'] && $data['verifikasi_operator'] != '-1'): ?>
                                                                                 <a href="<?= site_url("{$this->controller}/unduh/tinymce/{$data['id']}"); ?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
                                                                             <?php endif; ?>
                                                                         <?php endif; ?>
+
+
+
 
                                                                     </td>
                                                                     <td><?= $data['kode_surat'] ?? '-' ?></td>

@@ -293,14 +293,7 @@ class Surat extends Admin_Controller
 
                 // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
                 $surat->isi_surat = $isi_cetak;
-                /**
-                 * Verifikasi
-                 * 0    => diperiksa
-                 * 1    => sudah disetujui
-                 * null => lewati
-                 */
-                $surat->status              = LogSurat::CETAK;
-                $surat->verifikasi_operator = ($surat->verifikasi_operator == '-1') ? '-1' : 0;
+                $surat->status    = LogSurat::CETAK;
             } catch (Html2PdfException $e) {
                 $html2pdf->clean();
                 $formatter = new ExceptionFormatter($e);
@@ -310,6 +303,9 @@ class Surat extends Admin_Controller
                 $surat->isi_surat = $isi[1];
                 $surat->status    = LogSurat::KONSEP;
             }
+
+            // Jika verifikasi sekdes atau verifikasi kades di non-aktifkan
+            $surat->verifikasi_operator = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSurat::PERIKSA : LogSurat::TERIMA;
 
             $surat->save();
 
@@ -360,8 +356,11 @@ class Surat extends Admin_Controller
             // Hanya simpan isian surat
             $isi_surat = explode('<!-- pagebreak -->', $isi_surat)[1];
 
-            $log_surat['isi_surat']           = $isi_surat;
-            $log_surat['verifikasi_operator'] = 0;
+            $log_surat['isi_surat'] = $isi_surat;
+
+            // Jika verifikasi sekdes atau verifikasi kades di non-aktifkan
+            $log_surat['verifikasi_operator'] = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSurat::PERIKSA : LogSurat::TERIMA;
+
             if (LogSurat::updateOrCreate(['id' => $cetak['id']], $log_surat)) {
                 redirect_with('success', 'Berhasil Simpan Konsep');
             }
@@ -627,7 +626,7 @@ class Surat extends Admin_Controller
             $lampiran              = pathinfo($nama_surat, PATHINFO_FILENAME) . '_lampiran.pdf';
             $log_surat['lampiran'] = $lampiran;
         }
-        $log_surat['verifikasi_operator'] = 0;
+        $log_surat['verifikasi_operator'] = LogSurat::TERIMA;
         $this->keluar_model->log_surat($log_surat);
 
         $surat      = $this->surat_model->buat_surat($url, $nama_surat, $lampiran);
