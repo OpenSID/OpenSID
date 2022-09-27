@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => 'dev-bug-fix',
-        'version' => 'dev-bug-fix',
-        'reference' => '253c58bc92a00d00891e371f52bd9f3d40007abc',
+        'pretty_version' => 'dev-rilis-dev',
+        'version' => 'dev-rilis-dev',
+        'reference' => 'eb552c76e903e22268ae3391d706f2dd27753421',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -254,9 +254,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-bug-fix',
-            'version' => 'dev-bug-fix',
-            'reference' => '253c58bc92a00d00891e371f52bd9f3d40007abc',
+            'pretty_version' => 'dev-rilis-dev',
+            'version' => 'dev-rilis-dev',
+            'reference' => 'eb552c76e903e22268ae3391d706f2dd27753421',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
