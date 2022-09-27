@@ -91,6 +91,8 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 51. [#5633](https://github.com/OpenSID/OpenSID/issues/5633) Perbaikan no KK sementara tidak berfungsi jika pecah KK apabila no KK sementara.
 52. [#5671](https://github.com/OpenSID/OpenSID/issues/5671) Perbaikan hapus id pengunjung ketika tambah perangkat anjungan.
 53. [#5682](https://github.com/OpenSID/OpenSID/issues/5682) Perbaikan sebutan kepala desa yang diambil dari jabatan tidak dari pengaturan.
+54. [#5692](https://github.com/OpenSID/OpenSID/issues/5692) Perbaikan nama file unduh jalan, irigasi dan jaringan tidak sama.
+55. [#5672](https://github.com/OpenSID/OpenSID/issues/5672) Perbaikan halaman kerjasama.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
