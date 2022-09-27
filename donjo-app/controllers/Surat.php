@@ -744,7 +744,7 @@ class Surat extends Admin_Controller
     {
         // Catatan : untuk sekarang hanya bisa menggunakan 1 lampiran saja untuk surat TinyMCE
         if (empty($data['surat']['lampiran'])) {
-            return null;
+            return $view_surat;
         }
 
         $surat    = $data['surat'];
