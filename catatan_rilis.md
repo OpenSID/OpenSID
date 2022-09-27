@@ -62,6 +62,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 53. [#5682](https://github.com/OpenSID/OpenSID/issues/5682) Perbaikan sebutan kepala desa yang diambil dari jabatan tidak dari pengaturan.
 54. [#5692](https://github.com/OpenSID/OpenSID/issues/5692) Perbaikan nama file unduh jalan, irigasi dan jaringan tidak sama.
 55. [#5672](https://github.com/OpenSID/OpenSID/issues/5672) Perbaikan halaman kerjasama.
+56. [#5518](https://github.com/OpenSID/OpenSID/issues/5518) Perbaikan alur surat jika tidak ada verifikasi sekdes/kades.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.

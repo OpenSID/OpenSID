@@ -176,7 +176,7 @@
 								</li>
 							<?php endif ?>
 
-							<?php if (can('b', 'keluar')): ?>
+							<?php if (can('b', 'keluar') && (setting('verifikasi_kades') || setting('verifikasi_sekdes'))): ?>
 								<li>
 									<a href="<?= site_url('keluar/clear/masuk') ?>">
 										<span><i class="fa fa-bell-o fa-lg" title="Permohonan Surat"></i>&nbsp;</span>

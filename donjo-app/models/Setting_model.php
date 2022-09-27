@@ -106,6 +106,9 @@ class Setting_model extends MY_Model
             $this->setting->layanan_opendesa_token = config_item('token_layanan');
         }
 
+        // Pengaturan sebutan sekdes
+        $this->setting->sebutan_sekretaris_desa = RefJabatan::find(2)->nama;
+
         $this->setting->user_admin = config_item('user_admin');
         // Kalau folder tema ubahan tidak ditemukan, ganti dengan tema default
         $pos = strpos($this->setting->web_theme, 'desa/');

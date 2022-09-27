@@ -73,6 +73,11 @@
                 @include('admin.pengaturan_surat.kembali')
 
                 <div class="box-body">
+                    <div class="alert alert-warning alert-dismissible">
+                        <h4><i class="icon fa fa-warning"></i> Info Penting!</h4>
+                        Menonaktifkan verifikasi akan mempengaruhi log surat maka pastikan bahwa benar surat ingin diarsipkan semua.
+                    </div>
+                    
                     <div class="form-group">
                         <label>Verifikasi {{ $ref_jabatan->where('id', '=', 2)->first()->nama }}</label>
                         <div class="input-group col-xs-12 col-sm-8">
