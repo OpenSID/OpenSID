@@ -89,13 +89,12 @@
 									<br /><?= $header['alamat_kantor'] ?>
 									<br />Kodepos <?= $header['kode_pos'] ?>
 									<br /><br />Silakan hubungi operator desa untuk mendapatkan kode PIN anda.
-									<?php if (! $cek_anjungan) : ?>
-										<br /><br /><br />IP Address: <?= $this->input->ip_address() ?>
-										<br />ID Pengunjung: <span class="pengunjung"><?= $_COOKIE['pengunjung'] ?></span> <span><a  href="#" class="copy" title="Copy" style="color: white"><i class="fa fa-copy"></i></a></span>
-									<?php else : ?>
-										<br /><br /><br />IP Address : <?= $cek_anjungan['ip_address'] ?>
-										<br />Mac Address : <?= $cek_anjungan['mac_address'] ?>
-										<br />ID Pengunjung: <span class="pengunjung"><?= $_COOKIE['pengunjung'] ?></span> <span><a  href="#" class="copy" title="Copy" style="color: white"><i class="fa fa-copy"></i></a></span>
+									<br /><br /><br />IP Address: <?= $this->input->ip_address() ?>
+									<br />ID Pengunjung: <span class="pengunjung"><?= $_COOKIE['pengunjung'] ?></span> <span><a  href="#" class="copy" title="Copy" style="color: white"><i class="fa fa-copy"></i></a></span>
+									<?php if ($cek_anjungan) : ?>
+										<?php if ($cek_anjungan['mac_address']): ?>
+											<br />Mac Address : <?= $cek_anjungan['mac_address'] ?>
+										<?php endif; ?>
 										<br />Anjungan Mandiri
 										<?= jecho($cek_anjungan['keyboard'] == 1, true, ' | Virtual Keyboard : Aktif') ?>
 									<?php endif; ?>
