@@ -214,13 +214,12 @@ class Stunting extends Admin_Controller
 
         $data             = $this->widget();
         $data['navigasi'] = 'kia';
-        $data['ibu']      = Penduduk::select(['id', 'nik', 'nama'])
-            ->where(static function ($query) {
-                $query->where('kk_level', 1) // kepala keluarga
-                    ->orWhere('kk_level', 3) // istri
-                    ->orWhere('kk_level', 4) // anak
-                    ->orWhere('kk_level', 5); // menantu
-            })
+        $data['ibu']      = Penduduk::where(static function ($query) {
+            $query->where('kk_level', 1) // kepala keluarga
+                ->orWhere('kk_level', 3) // istri
+                ->orWhere('kk_level', 4) // anak
+                ->orWhere('kk_level', 5); // menantu
+        })
             ->where('sex', 2)
             ->get();
 
