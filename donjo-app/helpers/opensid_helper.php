@@ -1298,3 +1298,67 @@ function cek_anjungan()
 
     return $status->body->tanggal_berlangganan->anjungan != 'aktif' ? false : true;
 }
+
+function menu_slug($url)
+{
+    $CI = &get_instance();
+    $CI->load->model('first_artikel_m');
+
+    $cut = explode('/', $url);
+
+    switch ($cut[0]) {
+        case 'artikel':
+            $data = $CI->first_artikel_m->get_artikel($cut[1]);
+            $url  = ($data) ? ($cut[0] . '/' . buat_slug($data)) : ($url);
+            break;
+
+        case 'kategori':
+            $data = $CI->first_artikel_m->get_kategori($cut[1]);
+            $url  = ($data) ? ('artikel/' . $cut[0] . '/' . $data['slug']) : ($url);
+            break;
+
+        case 'data-suplemen':
+            $CI->load->model('suplemen_model');
+            $data = $CI->suplemen_model->get_suplemen($cut[1]);
+            $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
+            break;
+
+        case 'data-kelompok':
+        case 'data-lembaga':
+            $CI->load->model('kelompok_model');
+            $data = $CI->kelompok_model->get_kelompok($cut[1]);
+            $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
+            break;
+
+            /*
+                * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
+                * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
+                */
+        case 'arsip':
+        case 'data_analisis':
+        case 'ambil_data_covid':
+        case 'informasi_publik':
+        case 'load_aparatur_desa':
+        case 'load_apbdes':
+        case 'load_aparatur_wilayah':
+        case 'peta':
+        case 'data-wilayah':
+        case 'status-idm':
+        case 'status-sdgs':
+        case 'lapak':
+        case 'pembangunan':
+        case 'galeri':
+        case 'pengaduan':
+        case 'data-vaksinasi':
+        case 'peraturan-desa':
+        case 'pemerintah':
+        case 'layanan-mandiri':
+            break;
+
+        default:
+            $url = 'first/' . $url;
+            break;
+    }
+
+    return site_url($url);
+}

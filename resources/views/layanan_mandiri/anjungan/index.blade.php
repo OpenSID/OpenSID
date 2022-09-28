@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Anjungan Desa Mandiri</title>
+    {{-- Font --}}
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
     <!-- Font Awesome -->
@@ -23,12 +26,13 @@
     <header>
         <div class="flex center">
             <img src="{{ gambar_desa($desa['logo']) }}" class="logo" alt="Logo">
-            <div class="flex flex-column center">
+            <div class="box-anjungan">
                 <h4 class="tulisan-anjungan">Anjungan Desa Mandiri</h4>
                 <p class="tulisan-desa">{{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}</p>
             </div>
         </div>
         <div class="flex center">
+            <a href="{{ site_url('/') }}" title="Home"><img src="{{ asset('images/anjungan/home.svg') }}" class="menu-header" alt="Icon Menu"></a>
             <a data-value="{{ site_url('kehadiran') }}" class="popup" title="Kehadiran Perangkat Desa"><img src="{{ asset('images/anjungan/kehadiran.svg') }}" class="menu-header" alt="Icon Menu"></a>
             <a href="#" title="Buku Tamu"><img src="{{ asset('images/anjungan/tamu.svg') }}" class="menu-header" alt="Icon Menu"></a>
             <a href="#" title="Daftar Perangkat Desa"><img src="{{ asset('images/anjungan/perangkat.svg') }}" class="menu-header" alt="Icon Menu"></a>
@@ -57,7 +61,7 @@
                                         <img width="25%" style="float:left; margin:0 8px 4px 0;" class="img-berita" src="{{ base_url('assets/images/404-image-not-found.jpg') }}"/>
                                     @endif
                                     <div class="content-berita">
-                                        <h4 class="judul-berita">{{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 20, $end = '...') }}</h4>
+                                        <h4 class="judul-berita">{{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 25, $end = '...') }}</h4>
                                         <p class="keterangan-berita">{{ tgl_indo($arsip['tgl_upload']) }} | {{ hit($arsip['hit']) }} Dilihat</p>
                                     </div>
                                 </a>
@@ -88,21 +92,23 @@
     
     <section class="box-menu-statis">
         <!-- Swiper -->
-        <div class="swiper">
-            <div class="swiper-wrapper">
-                @foreach ($menu as $item)
-                    <div class="swiper-slide">
-                        <a data-value="{{ $item->link }}" class="popup">
-                            <img src="{{ icon_menu_anjungan($item->icon) }}" class="menu-statis" alt="Icon Menu">
-                            <p class="keterangan-menu-statis">{{ $item->nama }}</p>
-                        </a>
-                    </div>
-                @endforeach
+        @if ($slides > 0)
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    @foreach ($menu as $item)
+                        <div class="swiper-slide">
+                            <a data-value="{{ $item->link }}" class="popup">
+                                <img src="{{ icon_menu_anjungan($item->icon) }}" class="menu-statis" alt="Icon Menu">
+                                <p class="keterangan-menu-statis">{{ $item->nama }}</p>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
-            <!-- Add Arrows -->
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-        </div>
+        @endif
     </section>
     <footer>
         <div class="waktu">
@@ -161,12 +167,12 @@
     });
 
     $('.popup').on('click', function (e) {
-        window.open($(this).data("value"), "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=500,width=400,height=400");
+        window.open($(this).data("value"), "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=400,width=600,height=600");
     });
 
 	$(document).ready(function () {
         var swiper = new Swiper(".swiper", {
-            slidesPerView: 5,
+            slidesPerView: '{{ $slides }}',
             spaceBetween: 30,
             slidesPerGroup: 1,
             loop: true,

@@ -21,11 +21,13 @@
             {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
             <div class="box-body">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" for="ip_address">Kategori Artikel</label>
+                    <label class="col-sm-3 control-label" for="kategori_id">Kategori Artikel</label>
                     <div class="col-sm-9">
-                        <select class="form-control input-sm required artikel-multiple" name="artikel[]" multiple="multiple">
-                            @foreach ($kategori as $item)
-                                <option value="{{ $item->id }}" {{ in_array($item->id, $anjungan_artikel) ? 'selected' : '' }}>{{ $item->kategori }}</option>    
+                        <select class="form-control input-sm artikel-multiple" name="artikel[]" multiple="multiple">
+                            @foreach ($daftar_kategori as $item)
+                                <option value="{{ $item->id }}"
+                                    {{ in_array($item->id, $anjungan_artikel) ? 'selected' : '' }}>{{ $item->kategori }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -43,9 +45,9 @@
 @endsection
 
 @push('scripts')
-<script>
-  $(document).ready(function() {
-    $('.artikel-multiple').select2();
-  })
-</script>
+    <script>
+        $(document).ready(function() {
+            $('.artikel-multiple').select2();
+        })
+    </script>
 @endpush

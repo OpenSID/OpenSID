@@ -47,21 +47,18 @@ class Masuk extends Web_Controller
         $this->session->daftar            = false;
         $this->session->daftar_verifikasi = false;
         $this->load->model(['mandiri_model', 'theme_model']);
-        if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) {
+        if ($this->setting->layanan_mandiri == 0) {
             show_404();
         }
     }
 
     public function index()
     {
-        if ($this->session->mandiri == 1) {
-            redirect('layanan-mandiri');
-        }
         $mac_address = $this->input->get('mac_address', true);
         $token       = $this->input->get('token_layanan', true);
-        if ($mac_address && $token == $this->setting->layanan_opendesa_token) {
+        if (($mac_address && $token == $this->setting->layanan_opendesa_token) || $this->session->mandiri == 1) {
             $this->session->mac_address = $mac_address;
-            redirect('layanan-mandiri');
+            redirect('layanan-mandiri/beranda');
         }
 
         //Initialize Session ------------
@@ -95,7 +92,7 @@ class Masuk extends Web_Controller
     public function cek()
     {
         $this->mandiri_model->siteman();
-        redirect('layanan-mandiri');
+        redirect('layanan-mandiri/beranda');
     }
 
     public function lupa_pin()

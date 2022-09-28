@@ -54,8 +54,8 @@ class Anjungan extends Web_Controller
 
     public function index()
     {
-        $menu = AnjunganMenu::where('status', 1)->get()->map(function ($item) {
-            $item->link = $this->menu_slug($item->link);
+        $menu = AnjunganMenu::where('status', 1)->get()->map(static function ($item) {
+            $item->link = menu_slug($item->link);
 
             return $item;
         });
@@ -63,76 +63,13 @@ class Anjungan extends Web_Controller
         $data = [
             'header'        => $this->header,
             'cek_anjungan'  => $this->cek_anjungan,
-            'arsip_terkini' => Artikel::arsip()->orderBy('tgl_upload', 'DESC')->take(4)->get(),
-            'arsip_populer' => Artikel::arsip()->orderBy('hit', 'DESC')->take(4)->get(),
+            'arsip_terkini' => Artikel::arsip()->orderBy('tgl_upload', 'DESC')->limit(4)->get(),
+            'arsip_populer' => Artikel::arsip()->orderBy('hit', 'DESC')->limit(4)->get(),
             'tanggal'       => Carbon::now()->dayName . ', ' . date('d/m/Y'),
             'menu'          => $menu,
+            'slides'        => count($menu) > 5 ? 5 : count($menu),
         ];
 
         return view('layanan_mandiri.anjungan.index', $data);
-    }
-
-    // Konversi url menu menjadi slug tanpa mengubah data
-    protected function menu_slug($url)
-    {
-        $this->load->model('first_artikel_m');
-
-        $cut = explode('/', $url);
-
-        switch ($cut[0]) {
-            case 'artikel':
-                $data = $this->first_artikel_m->get_artikel($cut[1]);
-                $url  = ($data) ? ($cut[0] . '/' . buat_slug($data)) : ($url);
-                break;
-
-            case 'kategori':
-                $data = $this->first_artikel_m->get_kategori($cut[1]);
-                $url  = ($data) ? ('artikel/' . $cut[0] . '/' . $data['slug']) : ($url);
-                break;
-
-            case 'data-suplemen':
-                $this->load->model('suplemen_model');
-                $data = $this->suplemen_model->get_suplemen($cut[1]);
-                $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
-                break;
-
-            case 'data-kelompok':
-            case 'data-lembaga':
-                $this->load->model('kelompok_model');
-                $data = $this->kelompok_model->get_kelompok($cut[1]);
-                $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
-                break;
-
-                /*
-                 * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
-                 * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
-                 */
-            case 'arsip':
-            case 'data_analisis':
-            case 'ambil_data_covid':
-            case 'informasi_publik':
-            case 'load_aparatur_desa':
-            case 'load_apbdes':
-            case 'load_aparatur_wilayah':
-            case 'peta':
-            case 'data-wilayah':
-            case 'status-idm':
-            case 'status-sdgs':
-            case 'lapak':
-            case 'pembangunan':
-            case 'galeri':
-            case 'pengaduan':
-            case 'data-vaksinasi':
-            case 'peraturan-desa':
-            case 'pemerintah':
-            case 'layanan-mandiri':
-                break;
-
-            default:
-                $url = 'first/' . $url;
-                break;
-        }
-
-        return site_url($url);
     }
 }

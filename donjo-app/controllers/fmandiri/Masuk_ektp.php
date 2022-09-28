@@ -52,14 +52,11 @@ class Masuk_ektp extends Web_Controller
 
     public function index()
     {
-        if ($this->session->mandiri == 1) {
-            redirect('layanan-mandiri');
-        }
         $mac_address = $this->input->get('mac_address', true);
         $token       = $this->input->get('token_layanan', true);
-        if ($mac_address && $token == $this->setting->layanan_opendesa_token) {
+        if (($mac_address && $token == $this->setting->layanan_opendesa_token) || $this->session->mandiri == 1) {
             $this->session->mac_address = $mac_address;
-            redirect('layanan-mandiri');
+            redirect('layanan-mandiri/beranda');
         }
 
         //Initialize Session ------------
@@ -91,6 +88,6 @@ class Masuk_ektp extends Web_Controller
     public function cek_ektp()
     {
         $this->mandiri_model->siteman_ektp();
-        redirect('layanan-mandiri');
+        redirect('layanan-mandiri/beranda');
     }
 }

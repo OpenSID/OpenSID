@@ -204,6 +204,13 @@
 													<button type="button" class="btn btn-block bg-green"><b>LUPA PIN</b></button>
 												</a>
 											</div>
+											<?php if ($cek_anjungan): ?>
+												<div class="form-group">
+													<a href="<?= site_url('layanan-mandiri') ?>">
+														<button type="button" class="btn btn-block bg-green"><b>ANJUNGAN</b></button>
+													</a>
+												</div>
+											<?php endif ?>
 										</form>
 									<?php endif; ?>
 								<?php endif; ?>

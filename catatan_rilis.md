@@ -5,7 +5,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 #### Penambahan Fitur
 1. [#5544](https://github.com/OpenSID/OpenSID/issues/5544) Menambahkan paginasi di halaman peraturan_desa pada halaman depan.
 2. [#5001](https://github.com/OpenSID/OpenSID/issues/5001) Menambahkan robots.txt.
-3. [#5595](https://github.com/OpenSID/OpenSID/issues/5595) Menambahkan pengaturan untuk menampilkan text berjalan pada anjungan/layanan mandiri.
+3. [#5595](https://github.com/OpenSID/OpenSID/issues/5595) Menambahkan pengaturan untuk menampilkan teks berjalan pada anjungan/layanan mandiri.
 4. [#5345](https://github.com/OpenSID/OpenSID/issues/5345) Membatasi akses tombol perbarui surat hanya pada group administrator saja.
 5. [#5549](https://github.com/OpenSID/OpenSID/issues/5549) Mengubah responsive navbar OpenSID.
 6. [#2565](https://github.com/OpenSID/OpenSID/issues/2565) Menambahkan inputan link dokumen pada menu sekretariat di sub menu informasi publik.

@@ -46,7 +46,7 @@ class SistemEnum
     public const DAFTAR          = [
         self::WEBSITE         => 'Website',
         self::ADMINISTRATOR   => 'Administrator',
-        self::LAYANAN_MANDIRI => 'Layan Mandiri',
+        self::LAYANAN_MANDIRI => 'Layanan Mandiri',
         self::KEHADIRAN       => 'Kehadiran',
     ];
 }

@@ -127,7 +127,7 @@ class Web_menu_model extends MY_Model
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no'] = $j + 1;
             if ($data[$i]['link_tipe'] != 99) {
-                $data[$i]['link'] = $this->menu_slug($data[$i]['link']);
+                $data[$i]['link'] = menu_slug($data[$i]['link']);
             }
 
             $j++;
@@ -198,7 +198,7 @@ class Web_menu_model extends MY_Model
             ->get_where($this->table, ['id' => $id])
             ->row_array();
 
-        $data['url'] = $this->menu_slug($data['link']);
+        $data['url'] = menu_slug($data['link']);
 
         return $data;
     }

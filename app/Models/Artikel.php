@@ -114,9 +114,14 @@ class Artikel extends Model
     {
         $kategori = json_decode(preg_replace('/\\\\/', '', setting('anjungan_artikel')));
 
-        return $query->select(Artikel::raw('*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri'))
-            ->where([['enabled', 1], ['tgl_upload', '<', date('Y-m-d H:i:s')]])
-            ->whereIn('id_kategori', $kategori);
+        $artikel = $query->select(Artikel::raw('*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri'))
+            ->where([['enabled', 1], ['tgl_upload', '<', date('Y-m-d H:i:s')]]);
+
+        if (null !== $kategori) {
+            return $artikel->whereIn('id_kategori', $kategori);
+        }
+
+        return $artikel;
     }
 
     /**
