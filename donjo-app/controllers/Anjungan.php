@@ -175,6 +175,23 @@ class Anjungan extends Admin_Controller
     // Hanya filter inputan
     protected static function validated($request = [], $id = null)
     {
+        $anjungan      = AnjunganModel::find($id);
+        $ip_address    = AnjunganModel::where('ip_address', $request['ip_address'])->first();
+        $mac_address   = AnjunganModel::where('mac_address', $request['mac_address'])->first();
+        $id_pengunjung = AnjunganModel::where('id_pengunjung', $request['id_pengunjung'])->first();
+
+        if ($ip_address && $anjungan->ip_address != $request['ip_address']) {
+            redirect_with('error', 'IP Address telah digunakan');
+        }
+
+        if ($mac_address && $anjungan->mac_address != $request['mac_address']) {
+            redirect_with('error', 'Mac Address telah digunakan');
+        }
+
+        if ($id_pengunjung && $anjungan->id_pengunjung != $request['id_pengunjung']) {
+            redirect_with('error', 'ID Pengunjung telah digunakan');
+        }
+
         $validated = [
             'ip_address'    => bilangan_titik($request['ip_address']),
             'mac_address'   => alfanumerik_kolon($request['mac_address']),
@@ -188,8 +205,6 @@ class Anjungan extends Admin_Controller
         if ($id) {
             $validated['created_by'] = $validated['updated_by'] = auth()->id;
         } else {
-            // status selalu tidak aktif (0) saat tambah data
-            $validated['status']     = StatusEnum::TIDAK;
             $validated['created_by'] = auth()->id;
         }
 
