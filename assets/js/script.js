@@ -347,25 +347,23 @@ function aksiBorongan(idForm, action) {
 	return false;
 }
 
-function modalBox()
-{
-	$('#modalBox').on('show.bs.modal', function(e)
-	{
-		var link = $(e.relatedTarget);
-		var title = link.data('title');
-		var size = link.data('size') ?? '';
-		var modal = $(this)
-		modal.find('.modal-title').text(title)
-		modal.find('.modal-dialog').addClass(size);
-		$(this).find('.fetched-data').load(link.attr('href'));
-		// tambahkan csrf token kalau ada form
-		if (modal.find("form")[0]) {
-			setTimeout(function() {
-				addCsrfField(modal.find("form")[0]);
-			}, 500);
-		}
-	});
-	return false;
+function modalBox() {
+    $('#modalBox').one('show.bs.modal', function(e) {
+        var link = $(e.relatedTarget);
+        var title = link.data('title');
+        var size = link.data('size') ?? '';
+        var modal = $(this)
+        modal.find('.modal-title').text(title)
+        modal.find('.modal-dialog').addClass(size);
+        $(this).find('.fetched-data').load(link.attr('href'));
+        // tambahkan csrf token kalau ada form
+        if (modal.find("form")[0]) {
+            setTimeout(function() {
+                addCsrfField(modal.find("form")[0]);
+            }, 500);
+        }
+    });
+    return false;
 }
 
 function cetakBox()
