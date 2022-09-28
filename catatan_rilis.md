@@ -65,6 +65,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 56. [#5518](https://github.com/OpenSID/OpenSID/issues/5518) Perbaikan alur surat jika tidak ada verifikasi sekdes/kades.
 57. [#5676](https://github.com/OpenSID/OpenSID/issues/5676) Perbaikan load modal di menu tambah anggota keluarga.
 58. [#5674](https://github.com/OpenSID/OpenSID/issues/5674) Perbaikan load modal di menu anggot Rumah tangga.
+59. [#5696](https://github.com/OpenSID/OpenSID/issues/5696) Perbaikan auto logout halaman admin setelah  buka link kehadiran.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.

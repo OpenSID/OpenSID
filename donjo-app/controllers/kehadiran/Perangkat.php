@@ -200,7 +200,8 @@ class Perangkat extends Web_Controller
 
     public function logout()
     {
-        $this->session->sess_destroy();
+        $this->session->unset_userdata(['masuk', 'kehadiran', 'mac_address']);
+
         redirect('kehadiran/masuk');
     }
 
