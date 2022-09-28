@@ -63,6 +63,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 54. [#5692](https://github.com/OpenSID/OpenSID/issues/5692) Perbaikan nama file unduh jalan, irigasi dan jaringan tidak sama.
 55. [#5672](https://github.com/OpenSID/OpenSID/issues/5672) Perbaikan halaman kerjasama.
 56. [#5518](https://github.com/OpenSID/OpenSID/issues/5518) Perbaikan alur surat jika tidak ada verifikasi sekdes/kades.
+57. [#5676](https://github.com/OpenSID/OpenSID/issues/5676) Perbaikan load modal di menu tambah anggota keluarga.
+58. [#5674](https://github.com/OpenSID/OpenSID/issues/5674) Perbaikan load modal di menu anggot Rumah tangga.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
