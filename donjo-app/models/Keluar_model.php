@@ -226,6 +226,7 @@ class Keluar_model extends CI_Model
         return $this->db->get('log_surat u');
     }
 
+    // TODO:: Ganti cara ini, gunakan App/Models/Pamong.php
     // $limit = 0 mengambil semua
     public function list_data($o = 0, $offset = 0, $limit = null)
     {
@@ -254,7 +255,7 @@ class Keluar_model extends CI_Model
 
         // TODO : Sederhanakan, ini berulang
         $this->db
-            ->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend')
+            ->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.gelar_depan, s.gelar_belakang')
             ->select('(case when p.nama is not null then p.nama else s.pamong_nama end) as pamong_nama')
             ->select('k.url_surat, k.jenis')
             ->where('u.status !=', null)
@@ -276,6 +277,16 @@ class Keluar_model extends CI_Model
                 if (in_array($data[$i]['jenis'], FormatSurat::RTF)) {
                     $this->rincian_file($data, $i);
                 }
+            }
+
+            // Gelar depan
+            if ($data[$i]['gelar_depan']) {
+                $data[$i]['pamong_nama'] = $data[$i]['gelar_depan'] . ' ' . $data[$i]['pamong_nama'];
+            }
+
+            // Gelar belakang
+            if ($data[$i]['gelar_belakang']) {
+                $data[$i]['pamong_nama'] = $data[$i]['pamong_nama'] . ', ' . $data[$i]['gelar_belakang'];
             }
 
             $j++;

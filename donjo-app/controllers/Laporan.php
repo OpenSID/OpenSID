@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -98,7 +99,6 @@ class Laporan extends Admin_Controller
         $this->session->tgl_lengkap = rev_tgl($this->setting->tgl_data_lengkap);
         $data['tahun_lengkap']      = (new DateTime($this->setting->tgl_data_lengkap))->format('Y');
         $data['config']             = Config::first();
-        $data['pamong']             = $this->pamong_model->list_data();
         $data['kelahiran']          = $this->laporan_bulanan_model->kelahiran();
         $data['kematian']           = $this->laporan_bulanan_model->kematian();
         $data['pendatang']          = $this->laporan_bulanan_model->pendatang();
@@ -110,28 +110,33 @@ class Laporan extends Admin_Controller
         $this->render('laporan/bulanan', $data);
     }
 
+    // TODO: Gunakan view global ttd
+    // TODO: Satukan dialog cetak dan unduh
     public function dialog_cetak()
     {
         $data['aksi']        = 'Cetak';
-        $data['pamong']      = $this->pamong_model->list_data();
+        $data['pamong']      = Pamong::penandaTangan()->get();
         $data['form_action'] = site_url('laporan/cetak');
         $this->load->view('laporan/ajax_cetak', $data);
     }
 
+    // TODO: Satukan dialog cetak dan unduh
     public function dialog_unduh()
     {
         $data['aksi']        = 'Unduh';
-        $data['pamong']      = $this->pamong_model->list_data();
+        $data['pamong']      = Pamong::penandaTangan()->get();
         $data['form_action'] = site_url('laporan/unduh');
         $this->load->view('laporan/ajax_cetak', $data);
     }
 
+    // TODO: Satukan aksi cetak dan unduh
     public function cetak()
     {
         $data = $this->data_cetak();
         $this->load->view('laporan/bulanan_print', $data);
     }
 
+    // TODO: Satukan aksi cetak dan unduh
     public function unduh()
     {
         $data = $this->data_cetak();

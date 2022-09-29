@@ -563,7 +563,7 @@ class Admin_Controller extends Premium
         $this->load->model('pamong_model');
 
         return [
-            'pamong'         => $this->pamong_model->list_data(),
+            'pamong'         => Pamong::penandaTangan()->get(),
             'pamong_ttd'     => Pamong::ttd('a.n')->first(),
             'pamong_ketahui' => Pamong::kepalaDesa()->first(),
         ];

@@ -203,6 +203,16 @@ class Pamong_model extends CI_Model
             }
         }
 
+        // Gelar depan
+        if ($data['gelar_depan']) {
+            $data['nama'] = $data['gelar_depan'] . ' ' . $data['nama'];
+        }
+
+        // Gelar belakang
+        if ($data['gelar_belakang']) {
+            $data['nama'] = $data['nama'] . ', ' . $data['gelar_belakang'];
+        }
+
         return $data;
     }
 
@@ -331,8 +341,8 @@ class Pamong_model extends CI_Model
         $data['bagan_offset']       = (int) $post['bagan_offset'] ?: null;
         $data['bagan_layout']       = htmlentities($post['bagan_layout']);
         $data['bagan_warna']        = warna($post['bagan_warna']);
-        $data['gelar_depan']        = strip_tags($post['gelar_depan']);
-        $data['gelar_belakang']     = strip_tags($post['gelar_belakang']);
+        $data['gelar_depan']        = strip_tags($post['gelar_depan']) ?: null;
+        $data['gelar_belakang']     = strip_tags($post['gelar_belakang']) ?: null;
 
         if ($data['jabatan_id'] == 1) {
             $data['urut'] = 1;
