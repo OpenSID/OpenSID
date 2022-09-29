@@ -324,9 +324,7 @@ class Keluarga_model extends MY_Model
             return;
         }
 
-        $pend = $this->db->select('alamat_sekarang, id_cluster')->
-            where('id', $data['nik_kepala'])->
-            get('tweb_penduduk')->row_array();
+        $pend = $this->db->select('alamat_sekarang, id_cluster')->where('id', $data['nik_kepala'])->get('tweb_penduduk')->row_array();
         // Gunakan alamat penduduk sebagai alamat keluarga
         $data['alamat']     = $pend['alamat_sekarang'];
         $data['id_cluster'] = $pend['id_cluster'];
@@ -419,7 +417,7 @@ class Keluarga_model extends MY_Model
         $lokasi_file = $_FILES['foto']['tmp_name'];
         $tipe_file   = $_FILES['foto']['type'];
         $nama_file   = $_FILES['foto']['name'];
-        $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+        $nama_file   = str_replace(' ', '-', $nama_file);      // normalkan nama file
         $old_foto    = '';
         if (! empty($lokasi_file)) {
             if ($tipe_file != 'image/jpeg' && $tipe_file != 'image/pjpeg' && $tipe_file != 'image/png') {
@@ -770,6 +768,7 @@ class Keluarga_model extends MY_Model
             ->from('penduduk_hidup u')
             ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
             ->where('id_kk', 0)
+            ->where('status', 1)
             ->get()->result_array();
     }
 
@@ -806,7 +805,7 @@ class Keluarga_model extends MY_Model
             ->join('tweb_penduduk_hubungan h', 'u.kk_level = h.id', 'left')
             ->join('tweb_wil_clusterdesa b', 'u.id_cluster = b.id', 'left')
             ->join('tweb_keluarga k', 'u.id_kk = k.id', 'left')
-            ->where(['status' => 1, 'status_dasar' => 1, 'id_kk' => $id]);
+            ->where(['status_dasar' => 1, 'id_kk' => $id]);
 
         if ($options['dengan_kk'] !== null && ! $options['dengan_kk']) {
             $this->db->where('kk_level <> 1');
@@ -920,7 +919,7 @@ class Keluarga_model extends MY_Model
         $lokasi_file = $_FILES['foto']['tmp_name'];
         $tipe_file   = $_FILES['foto']['type'];
         $nama_file   = $_FILES['foto']['name'];
-        $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+        $nama_file   = str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($lokasi_file)) {
             if ($tipe_file != 'image/jpeg' && $tipe_file != 'image/pjpeg' && $tipe_file != 'image/png') {
                 unset($data['foto']);
@@ -1054,8 +1053,7 @@ class Keluarga_model extends MY_Model
 
     public function pindah_keluarga($id_kk, $id_cluster)
     {
-        $this->db->where('id', $id_kk)->
-            update('tweb_keluarga', ['id_cluster' => $id_cluster, 'updated_by' => $this->session->user]);
+        $this->db->where('id', $id_kk)->update('tweb_keluarga', ['id_cluster' => $id_cluster, 'updated_by' => $this->session->user]);
         $this->pindah_anggota_keluarga($id_kk, $id_cluster);
     }
 
