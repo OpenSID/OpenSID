@@ -303,3 +303,29 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>
+
+<script>
+	$('#umur_min').on('input',function(e){
+		var min = $(this).val();
+		var max = $('#umur_max').val();
+
+		if (min) {
+			$('#umur_max').prop('class', 'required')
+		} else {
+			$('#umur_max').removeClass('required')
+		}
+		$(this).prop('max', max)
+	});
+
+	$('#umur_max').on('input',function(e){
+		var max = $(this).val();
+		var min = $('#umur_min').val();
+
+		if (max) {
+			$('#umur_min').prop('class', 'required')
+		} else {
+			$('#umur_min').removeClass('required')
+		}
+		$(this).prop('min', min)
+	});
+</script>
