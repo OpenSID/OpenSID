@@ -377,11 +377,11 @@ class Web_widget_model extends MY_Model
         $list_widget = array_merge($list_widget, $widget_desa);
 
         foreach ($tema_desa as $tema) {
-            if (in_array($tema, ['esensi', 'natra'])) {
-                $tema = 'vendor/themes/' . $tema;
-            } else {
+            if (preg_match('/desa/i', $tema)) {
                 $tema = str_replace('desa/', '', $tema);
                 $tema = 'desa/themes/' . $tema;
+            } else {
+                $tema = 'vendor/themes/' . $tema;
             }
 
             $list = $this->widget($tema . '/widgets/*.php');

@@ -97,6 +97,11 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 57. [#5676](https://github.com/OpenSID/OpenSID/issues/5676) Perbaikan load modal di menu tambah anggota keluarga.
 58. [#5674](https://github.com/OpenSID/OpenSID/issues/5674) Perbaikan load modal di menu anggot Rumah tangga.
 59. [#5696](https://github.com/OpenSID/OpenSID/issues/5696) Perbaikan auto logout halaman admin setelah  buka link kehadiran.
+60. [#5694](https://github.com/OpenSID/OpenSID/issues/5694) Perbaikan pada nomor RT/RW dan alamat pada stunting tidak muncul.
+61. [#5702](https://github.com/OpenSID/OpenSID/issues/5702) Perbaikan ketika cetak buku pembangunan sesuai tahun yang dipilih.
+62. [#5699](https://github.com/OpenSID/OpenSID/issues/5699) Perbaikan penanda tangan terbalik saat cetak laporan.
+63. [#5701](https://github.com/OpenSID/OpenSID/issues/5701) Perbaikan penyesuaian daftar widget dari tema yang terapkan.
+64. [#5684](https://github.com/OpenSID/OpenSID/issues/5684) Perbaikan menambah validasi data import pada program bantuan.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
