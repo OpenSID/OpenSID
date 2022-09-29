@@ -204,7 +204,6 @@ class Dokumen extends Admin_Controller
         $post                   = $this->input->post();
         $data['main']           = $this->web_dokumen_model->data_cetak($kat, $post['tahun'], $post['jenis_peraturan']);
         $data['input']          = $post;
-        $data['pamong']         = $this->pamong_model->list_data();
         $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
         $data['kat']            = $kat;

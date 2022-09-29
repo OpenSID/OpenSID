@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Pamong;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Vaksin_covid extends Admin_Controller
@@ -154,7 +156,7 @@ class Vaksin_covid extends Admin_Controller
 
     public function laporan_penduduk()
     {
-        $pamong = $this->pamong_model->list_data();
+        $pamong = Pamong::penandaTangan()->get();
 
         $data = [
             'selected_nav' => 'laporan',
@@ -195,7 +197,7 @@ class Vaksin_covid extends Admin_Controller
         $rekap         = $this->rekap($penduduk);
         $sasaran       = $this->vaksin_covid_model->rekap($umur);
         $rekap_sasaran = $this->rekap($sasaran);
-        $pamong        = $this->pamong_model->list_data();
+        $pamong        = Pamong::penandaTangan()->get();
         $data          = [
             'selected_nav' => 'rekap',
             'main'         => $rekap,

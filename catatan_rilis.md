@@ -72,6 +72,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 63. [#5701](https://github.com/OpenSID/OpenSID/issues/5701) Perbaikan penyesuaian daftar widget dari tema yang terapkan.
 64. [#5684](https://github.com/OpenSID/OpenSID/issues/5684) Perbaikan menambah validasi data import pada program bantuan.
 65. [#5510](https://github.com/OpenSID/OpenSID/issues/5510) Perbaikan status penduduk hanya ada pilihan tetap.
+66. [#5704](https://github.com/OpenSID/OpenSID/issues/5704) Perbaikan penandatangan cetak pada semua laporan munculkan hanya pamong aktif saja.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
