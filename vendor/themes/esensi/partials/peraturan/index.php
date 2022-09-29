@@ -11,7 +11,7 @@
     <div class="space-y-2">
         <label for="owner" class="text-xs lg:text-sm">Tahun</label>
         <select class="form-control input-sm" id="tahun" name="tahun">
-            <option selected value="">Semua Tahun</option>
+            <option selected value="">Semua</option>
             <?php foreach ($pilihan_tahun as $tahun) : ?>
                 <option value="<?= $tahun ?>"><?= $tahun ?></option>
             <?php endforeach; ?>
@@ -20,7 +20,7 @@
     <div class="space-y-2">
         <label for="email" class="text-xs lg:text-sm">Kategori</label>
         <select class="form-control input-sm" id="kategori" name="kategori">
-            <option selected value="">Semua Kategori</option>
+            <option selected value="">Semua</option>
             <?php foreach ($pilihan_kategori as $id => $kategori) : ?>
                 <option value="<?= $id ?>"><?= $kategori ?></option>
             <?php endforeach; ?>

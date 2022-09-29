@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => 'dev-rilis-dev',
         'version' => 'dev-rilis-dev',
-        'reference' => 'eb552c76e903e22268ae3391d706f2dd27753421',
+        'reference' => '212aef4d3bc6175b88919a7d00021a58a4a886c6',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -65,9 +65,9 @@
             'dev_requirement' => false,
         ),
         'google/auth' => array(
-            'pretty_version' => 'v1.22.0',
-            'version' => '1.22.0.0',
-            'reference' => 'da4037df770027c8f7163595a29ec434f705f8b1',
+            'pretty_version' => 'v1.23.0',
+            'version' => '1.23.0.0',
+            'reference' => '8da16102d2cd1bdc128d97f323553df465ee7701',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/auth',
             'aliases' => array(),
@@ -256,7 +256,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => 'dev-rilis-dev',
             'version' => 'dev-rilis-dev',
-            'reference' => 'eb552c76e903e22268ae3391d706f2dd27753421',
+            'reference' => '212aef4d3bc6175b88919a7d00021a58a4a886c6',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -572,7 +572,7 @@
         'themes/esensi' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '4d1352dee0355a5a40b7a3ab429f7d96257e7b54',
+            'reference' => '229bdafa34e3ee9cf4d30046e8e23f507091c441',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/esensi',
             'aliases' => array(
@@ -583,7 +583,7 @@
         'themes/natra' => array(
             'pretty_version' => 'dev-premium',
             'version' => 'dev-premium',
-            'reference' => '37a8ce36e4215a22e935aadb23dfb3881ee5585f',
+            'reference' => '64fe69b9895c3cc9e2acc5e4d8d867484ead520a',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
