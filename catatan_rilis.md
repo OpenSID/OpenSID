@@ -70,6 +70,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 61. [#5702](https://github.com/OpenSID/OpenSID/issues/5702) Perbaikan ketika cetak buku pembangunan sesuai tahun yang dipilih.
 62. [#5699](https://github.com/OpenSID/OpenSID/issues/5699) Perbaikan penanda tangan terbalik saat cetak laporan.
 63. [#5701](https://github.com/OpenSID/OpenSID/issues/5701) Perbaikan penyesuaian daftar widget dari tema yang terapkan.
+64. [#5684](https://github.com/OpenSID/OpenSID/issues/5684) Perbaikan menambah validasi data import pada program bantuan.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
