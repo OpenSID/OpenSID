@@ -1308,7 +1308,7 @@ function menu_slug($url)
 
     switch ($cut[0]) {
         case 'artikel':
-            $data = $CI->first_artikel_m->get_artikel($cut[1]);
+            $data = $CI->first_artikel_m->get_artikel_by_id($cut[1]);
             $url  = ($data) ? ($cut[0] . '/' . buat_slug($data)) : ($url);
             break;
 
