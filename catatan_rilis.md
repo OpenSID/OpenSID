@@ -105,6 +105,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 65. [#5510](https://github.com/OpenSID/OpenSID/issues/5510) Perbaikan status penduduk hanya ada pilihan tetap.
 66. [#5704](https://github.com/OpenSID/OpenSID/issues/5704) Perbaikan penandatangan cetak pada semua laporan munculkan hanya pamong aktif saja.
 67. [#5720](https://github.com/OpenSID/OpenSID/issues/5720) Perbaikan pada saat tambah disposisi surat masuk.
+68. [#5690](https://github.com/OpenSID/OpenSID/issues/5690) Perbaikan layanan mandiri siap di ambil tanpa di buatkan surat.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
