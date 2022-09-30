@@ -92,7 +92,6 @@
                                   <?php endif; ?>
 																	<?php if ($kat == 1): ?>
 																		<th>Kategori Info Publik</th>
-																		<th>Link/URL</th>
 																		<th>Tahun</th>
 																	<?php elseif ($kat == 2): ?>
 																		<th nowrap>Nomor Dan Tanggal Keputusan</th>
@@ -131,7 +130,11 @@
 																					<a href="<?= site_url($this->controller . '/dokumen_unlock/' . $kat . '/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 	                                      <?php endif ?>
 	                                    <?php endif; ?>
-																			<a href='<?= site_url("dokumen/unduh_berkas/{$data[id]}") ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
+																		    <?php if ($data['tipe'] == 1): ?>
+																				<a href='<?= site_url("dokumen/unduh_berkas/{$data[id]}") ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
+																			<?php else: ?>
+																				<a href='<?= $data['url'] ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh" target="_blank"><i class="fa fa-download"></i></a>
+																			<?php endif ?>
 																			<?php if ($this->CI->cek_hak_akses('h')): ?>
 																				<a href="#" data-href="<?= site_url("{$this->controller}/delete/{$kat}/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																			<?php endif; ?>
@@ -139,7 +142,6 @@
 																		<td width="30%"><?= $data['nama']?></td>
 																		<?php if ($kat == 1): ?>
 																			<td><?= $data['kategori_info_publik']?></td>
-																			<td><?= $data['url']?></td>
 																			<td><?= $data['tahun']?></td>
 																		<?php elseif ($kat == 2): ?>
 																			<td><?= $data['attr']['no_kep_kades'] . ' / ' . $data['attr']['tgl_kep_kades']?></td>

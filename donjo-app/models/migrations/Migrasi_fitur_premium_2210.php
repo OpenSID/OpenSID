@@ -77,8 +77,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022092351($hasil);
         $hasil = $hasil && $this->migrasi_2022092451($hasil);
         $hasil = $hasil && $this->migrasi_2022092571($hasil);
+        $hasil = $hasil && $this->migrasi_2022092751($hasil);
 
-        return $hasil && $this->migrasi_2022092751($hasil);
+        return $hasil && $this->migrasi_2022093071($hasil);
     }
 
     protected function migrasi_2022090671($hasil)
@@ -561,5 +562,25 @@ class Migrasi_fitur_premium_2210 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022093071($hasil)
+    {
+        if (! $this->db->field_exists('tipe', 'dokumen')) {
+            $fields = [
+                'tipe' => [
+                    'type'       => 'TINYINT',
+                    'default'    => 1, // 1 => file, 2 => url
+                    'after'      => 'attr',
+                    'constraint' => 3,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('dokumen', $fields);
+        }
+
+        // Perbaharui view dokumen_hidup
+        $hasil = $hasil && $this->db->query('DROP VIEW dokumen_hidup');
+
+        return $hasil && $this->db->query('CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1');
     }
 }

@@ -386,7 +386,7 @@ class Web_dokumen_model extends MY_Model
             $data['satuan'] = $result = $this->upload_dokumen($post);
         }
 
-        if ($result === null) {
+        if ($result === null && $data['tipe'] == 1) {
             return false;
         }
 
@@ -411,7 +411,7 @@ class Web_dokumen_model extends MY_Model
         return $retval;
     }
 
-    private function validasi($post)
+    private function validasi($post, $id = null)
     {
         $data                         = [];
         $data['nama']                 = nomor_surat_keputusan($post['nama']);
@@ -419,7 +419,20 @@ class Web_dokumen_model extends MY_Model
         $data['kategori_info_publik'] = $post['kategori_info_publik'] ?: null;
         $data['id_syarat']            = $post['id_syarat'] ?: null;
         $data['id_pend']              = $post['id_pend'] ?: 0;
+        $data['tipe']                 = $post['tipe'];
         $data['url']                  = $post['url'] ?: null;
+
+        if ($data['tipe'] == 1) {
+            $data['url'] = null;
+        } else {
+            if ($id) {
+                $file = $this->db->select('satuan')->where('id', $id)->get('dokumen')->row()->satuan;
+                if ($file) {
+                    unlink(LOKASI_DOKUMEN . $file);
+                }
+            }
+            $data['satuan'] = null;
+        }
 
         switch ($data['kategori']) {
             case 1: //Informsi Publik
@@ -468,7 +481,7 @@ class Web_dokumen_model extends MY_Model
         $retval = true;
 
         $post = $this->input->post();
-        $data = $this->validasi($post);
+        $data = $this->validasi($post, $id);
         // Jangan simpan dok_warga kalau dari Layanan Mandiri
         if (! $mandiri) {
             ! $data['dok_warga'] = isset($post['dok_warga']);
@@ -483,6 +496,9 @@ class Web_dokumen_model extends MY_Model
             if (! $retval) {
                 return $retval;
             }
+        }
+        if ($data['tipe'] != 1) {
+            $data['satuan'] = null;
         }
         $data['attr']       = json_encode($data['attr']);
         $data['updated_at'] = date('Y-m-d H:i:s');

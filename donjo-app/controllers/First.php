@@ -334,7 +334,11 @@ class First extends Web_Controller
             $no++;
             $row   = [];
             $row[] = $no;
-            $row[] = "<a href='" . site_url('dokumen_web/unduh_berkas/') . $baris['id'] . "' target='_blank'>" . $baris['nama'] . '</a>';
+            if ($baris['tipe'] == 1) {
+                $row[] = "<a href='" . site_url('dokumen_web/unduh_berkas/') . $baris['id'] . "' target='_blank'>" . $baris['nama'] . '</a>';
+            } else {
+                $row[] = "<a href='" . $baris['url'] . "' target='_blank'>" . $baris['nama'] . '</a>';
+            }
             $row[] = $baris['url'];
             $row[] = $baris['tahun'];
             // Ambil judul kategori
