@@ -40,7 +40,7 @@
         </div>
     </header>
     <section class="flex center content">
-        <iframe class="background" width="100%" height="100%" src="https://www.youtube.com/embed/PuxiuH-YUF4?controls=0&autoplay=1&loop=1&rel=0&showinfo=0&color=white&iv_load_policy=3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe class="background" width="100%" height="100%" src="https://www.youtube.com/embed/PuxiuH-YUF4?autoplay=1&loop=1&rel=0&showinfo=0&color=white&iv_load_policy=3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <div class="berita">
             <h4 class="tulisan-berita">Berita Desa</h4>
             <div class="menu-berita">
