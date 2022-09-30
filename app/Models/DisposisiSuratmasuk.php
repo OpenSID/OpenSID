@@ -39,57 +39,37 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RefJabatan extends Model
+class DisposisiSuratmasuk extends Model
 {
-    public const KADES          = 1;
-    public const SEKDES         = 2;
-    public const EXCLUDE_DELETE = [
-        self::KADES,
-        self::SEKDES,
-    ];
-
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'ref_jabatan';
+    protected $table = 'disposisi_surat_masuk';
 
     /**
-     * The fillable with the model.
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id_disposisi';
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'nama',
-        'jenis',
-        'tupoksi',
-        'created_by',
-        'updated_by',
+        'id_surat_masuk',
+        'id_desa_pamong',
+        'disposisi_ke',
     ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'jenis' => 'boolean',
-    ];
-
-    public static function boot()
-    {
-        parent::boot();
-
-        $user_id = auth()->id ?? null;
-
-        static::creating(static function ($model) use ($user_id) {
-            $model->created_by = $user_id;
-            $model->updated_by = $user_id;
-        });
-
-        static::updating(static function ($model) use ($user_id) {
-            $model->updated_by = $user_id;
-        });
-    }
 }

@@ -73,6 +73,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 64. [#5684](https://github.com/OpenSID/OpenSID/issues/5684) Perbaikan menambah validasi data import pada program bantuan.
 65. [#5510](https://github.com/OpenSID/OpenSID/issues/5510) Perbaikan status penduduk hanya ada pilihan tetap.
 66. [#5704](https://github.com/OpenSID/OpenSID/issues/5704) Perbaikan penandatangan cetak pada semua laporan munculkan hanya pamong aktif saja.
+67. [#5720](https://github.com/OpenSID/OpenSID/issues/5720) Perbaikan pada saat tambah disposisi surat masuk.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
