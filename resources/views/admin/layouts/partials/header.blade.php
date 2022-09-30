@@ -25,7 +25,7 @@
                 <span class="badge" id="b_langganan"></span>
               @endif
               @if ($is_mobile)
-                <span>Token Premium</span>
+                <span>Status Langganan</span>
               @endif
             </a>
           </li>

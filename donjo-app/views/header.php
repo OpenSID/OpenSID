@@ -142,7 +142,7 @@
 														<span class="badge" id="b_langganan">!</span>
 													<?php endif ?>
 													<?php if ($is_mobile) : ?>
-														<span>Token Premium</span>
+														<span>Status Langganan</span>
 													<?php endif ?>
 												</a>
 											</li>
