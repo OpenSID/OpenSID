@@ -103,15 +103,10 @@
                         <label class="col-sm-3 control-label" for="disposisi_kepada">Disposisi Kepada</label>
                         <div class="col-sm-8 col-lg-8">
                             <div id="op_item">
-                                <?php foreach ($ref_disposisi as $data): ?>
+                                <?php foreach ($ref_disposisi as $id => $nama): ?>
                                     <div class="col-sm-12 col-lg-6 checkbox">
-                                        <label>
-                                            <input name="disposisi_kepada[]" value="<?= $data?>" type="checkbox"
-                                            <?php foreach ($disposisi_surat_masuk as $value): ?>
-                                                <?= selected($value['disposisi_ke'], $data, 1) ?>
-                                            <?php endforeach; ?>
-                                            >
-                                            <?= strtoupper($data); ?>
+                                        <label style="padding: 5px;">
+                                            <input name="disposisi_kepada[]" value="<?= $id ?>" type="checkbox" <?= selected(in_array($id, $disposisi_surat_masuk), true, true) ?>><?= strtoupper($nama); ?>
                                         </label>
                                     </div>
                                 <?php endforeach; ?>

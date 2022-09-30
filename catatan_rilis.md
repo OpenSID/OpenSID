@@ -49,7 +49,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 8. [#5576](https://github.com/OpenSID/OpenSID/issues/5576) Perbaikan halaman lembaga & kelompok pada halaman webiste.
 9. [#5574](https://github.com/OpenSID/OpenSID/issues/5574) Perbaikan kolom penandatangan pada layanan surat yang tidak muncul.
 10. [#5568](https://github.com/OpenSID/OpenSID/issues/5568) Perbaikan variabel header pada my_controller.
-11. [#5602](https://github.com/OpenSID/OpenSID/issues/5602) Perbaikan pernulisan kata antrian/antiran menjadi antrean.
+11. [#5602](https://github.com/OpenSID/OpenSID/issues/5602) Perbaikan penulisan kata antrian/antiran menjadi antrean.
 12. [#5559](https://github.com/OpenSID/OpenSID/issues/5559) Perbaikan tanggal periksa ibu hamil sesuai inputan.
 13. [#5599](https://github.com/OpenSID/OpenSID/issues/5599) Perbaikan tombol upload dan camera tertutup agar responsive.
 14. [#5591](https://github.com/OpenSID/OpenSID/issues/5591) Perbaikan tampilan data pemohon surat untuk rtf dan tinymce.
@@ -78,7 +78,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 38. [#5644](https://github.com/OpenSID/OpenSID/issues/5644) Perbaikan penandatanganan halaman kerja sama tidak sesuai.
 39. [#5645](https://github.com/OpenSID/OpenSID/issues/5645) Perbaikan tampilan lebar datatables menjadi konsisten.
 40. [#5646](https://github.com/OpenSID/OpenSID/issues/5646) Perbaikan kolom isian yang diwajibkan pada saat mendaftarkan anjungan.
-41. [#5643](https://github.com/OpenSID/OpenSID/issues/5643) Perbaikan periksaan database dengan tabel ref_penduduk_hamil yang tidak tersedia.
+41. [#5643](https://github.com/OpenSID/OpenSID/issues/5643) Perbaikan periksa database dengan tabel ref_penduduk_hamil yang tidak tersedia.
 42. [#5648](https://github.com/OpenSID/OpenSID/issues/5648) Perbaikan urutan jabatan tidak sesuai.
 43. [#5647](https://github.com/OpenSID/OpenSID/issues/5647) Perbaikan validasi pengaturan gawai pada saat sesudah login.
 44. [#5650](https://github.com/OpenSID/OpenSID/issues/5650) Perbaikan surat non warga yang tidak tampil di arsip surat.
@@ -104,6 +104,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 64. [#5684](https://github.com/OpenSID/OpenSID/issues/5684) Perbaikan menambah validasi data import pada program bantuan.
 65. [#5510](https://github.com/OpenSID/OpenSID/issues/5510) Perbaikan status penduduk hanya ada pilihan tetap.
 66. [#5704](https://github.com/OpenSID/OpenSID/issues/5704) Perbaikan penandatangan cetak pada semua laporan munculkan hanya pamong aktif saja.
+67. [#5720](https://github.com/OpenSID/OpenSID/issues/5720) Perbaikan pada saat tambah disposisi surat masuk.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
