@@ -36,6 +36,7 @@
  */
 
 use App\Models\RefJabatan;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -87,6 +88,7 @@ class Setting_model extends MY_Model
         }
         $CI->setting      = (object) $pre;
         $CI->list_setting = $pr; // Untuk tampilan daftar setting
+
         $this->apply_setting();
     }
 
@@ -107,7 +109,7 @@ class Setting_model extends MY_Model
         }
 
         // Pengaturan sebutan sekdes
-        $this->setting->sebutan_sekretaris_desa = RefJabatan::find(2)->nama;
+        $this->setting->sebutan_sekretaris_desa = (Schema::hasTable('ref_jabatan')) ? RefJabatan::find(2)->nama : '';
 
         $this->setting->user_admin = config_item('user_admin');
         // Kalau folder tema ubahan tidak ditemukan, ganti dengan tema default
@@ -121,7 +123,7 @@ class Setting_model extends MY_Model
 
         // Sebutan kepala desa diambil dari tabel ref_jabatan dengan id = 1
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
-        $this->setting->sebutan_kepala_desa = RefJabatan::find(1)->nama;
+        $this->setting->sebutan_kepala_desa = (Schema::hasTable('ref_jabatan')) ? RefJabatan::find(1)->nama : '';
 
         $this->load->model('database_model');
         $this->database_model->cek_migrasi();
