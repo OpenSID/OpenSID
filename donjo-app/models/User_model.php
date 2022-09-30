@@ -249,7 +249,7 @@ class User_model extends CI_Model
 
     private function list_data_sql()
     {
-        $sql = ' FROM user u, user_grup g WHERE u.id_grup = g.id ';
+        $sql = ' FROM user u LEFT JOIN tweb_desa_pamong p ON u.pamong_id = p.pamong_id, user_grup g WHERE u.id_grup = g.id ';
         $sql .= $this->search_sql();
         $sql .= $this->filter_sql();
 
@@ -290,7 +290,7 @@ class User_model extends CI_Model
         // Paging sql
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
         // Query utama
-        $sql = 'SELECT u.*, g.nama as grup ' . $this->list_data_sql();
+        $sql = 'SELECT u.*, p.pamong_status, g.nama as grup ' . $this->list_data_sql();
         $sql .= $order_sql;
         $sql .= $paging_sql;
 

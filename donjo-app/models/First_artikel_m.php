@@ -397,14 +397,17 @@ class First_artikel_m extends CI_Model
         return $data;
     }
 
-    public function get_artikel($url)
+    public function get_artikel($thn, $bln, $hr, $url)
     {
         $this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
             ->from('artikel a')
             ->join('user u', 'a.id_user = u.id', 'left')
             ->join('kategori k', 'a.id_kategori = k.id', 'left')
             ->where('a.enabled', 1)
-            ->where('a.tgl_upload <', date('Y-m-d H:i:s'));
+            ->where('a.tgl_upload <', date('Y-m-d H:i:s'))
+            ->where('YEAR(a.tgl_upload)', $thn)
+            ->where('MONTH(a.tgl_upload)', $bln)
+            ->where('DAY(a.tgl_upload)', $hr);
 
         if (is_numeric($url)) {
             $this->db->where('a.id', $url);
@@ -552,6 +555,10 @@ class First_artikel_m extends CI_Model
 
     public function get_artikel_by_id($id)
     {
-        return $this->db->select('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')->where(['id' => $id])->get('artikel')->row_array();
+        return $this->db
+            ->select('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+            ->where(['id' => $id])
+            ->get('artikel')
+            ->row_array();
     }
 }

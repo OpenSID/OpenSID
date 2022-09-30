@@ -106,6 +106,10 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 66. [#5704](https://github.com/OpenSID/OpenSID/issues/5704) Perbaikan penandatangan cetak pada semua laporan munculkan hanya pamong aktif saja.
 67. [#5720](https://github.com/OpenSID/OpenSID/issues/5720) Perbaikan pada saat tambah disposisi surat masuk.
 68. [#5690](https://github.com/OpenSID/OpenSID/issues/5690) Perbaikan layanan mandiri siap di ambil tanpa di buatkan surat.
+69. [#5727](https://github.com/OpenSID/OpenSID/issues/5727) Perbaikan status staf & bukan staf pada menu pengguna.
+70. [#5723](https://github.com/OpenSID/OpenSID/issues/5723) Perbaikan migrasi umum ke premium.
+71. [#5730](https://github.com/OpenSID/OpenSID/issues/5730) Perbaikan paramater permalink artikel menjadi 404 jika tidak tersedia.
+72. [#5724](https://github.com/OpenSID/OpenSID/issues/5724) Perbaikan upload gambar pada TinyMCE.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.

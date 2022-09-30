@@ -114,7 +114,7 @@ class First extends Web_Controller
     | Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. url artikel/:id
     | Kalau menggunakan slug, dipanggil menggunakan url artikel/:thn/:bln/:hri/:slug
     */
-    public function artikel($url)
+    public function artikel($thn, $bln, $hr, $url)
     {
         if (is_numeric($url)) {
             $data_artikel = $this->first_artikel_m->get_artikel_by_id($url);
@@ -126,7 +126,7 @@ class First extends Web_Controller
         $this->load->model('shortcode_model');
         $data = $this->includes;
         $this->first_artikel_m->hit($url); // catat artikel diakses
-        $data['single_artikel'] = $this->first_artikel_m->get_artikel($url);
+        $data['single_artikel'] = $this->first_artikel_m->get_artikel($thn, $bln, $hr, $url);
         $id                     = $data['single_artikel']['id'];
 
         // replace isi artikel dengan shortcodify
