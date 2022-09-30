@@ -78,6 +78,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 69. [#5727](https://github.com/OpenSID/OpenSID/issues/5727) Perbaikan status staf & bukan staf pada menu pengguna.
 70. [#5723](https://github.com/OpenSID/OpenSID/issues/5723) Perbaikan migrasi umum ke premium.
 71. [#5730](https://github.com/OpenSID/OpenSID/issues/5730) Perbaikan paramater permalink artikel menjadi 404 jika tidak tersedia.
+72. [#5724](https://github.com/OpenSID/OpenSID/issues/5724) Perbaikan upload gambar pada TinyMCE.
 
 #### Perubahan Teknis
 1. Perbaikan teks pemberitahuan kerja sama.
