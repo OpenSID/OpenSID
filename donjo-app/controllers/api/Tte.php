@@ -40,7 +40,6 @@
 
 use App\Models\LogSurat;
 use App\Models\LogTte;
-use App\Models\PermohonanSurat;
 use GuzzleHttp\Psr7;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -69,8 +68,7 @@ class Tte extends CI_Controller
         $request = $this->validation($this->input->post());
 
         try {
-            $data    = LogSurat::where('id', '=', $request['id'])->first();
-            $mandiri = PermohonanSurat::where('id_surat', $data->id_format_surat)->where('isian_form->nomor', $data->no_surat)->first();
+            $data = LogSurat::where('id', '=', $request['id'])->first();
 
             $response = $this->client->post("{$this->server}api/tte", [
                 'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
@@ -95,10 +93,6 @@ class Tte extends CI_Controller
 
             $data_respon = json_decode($response);
             $data->update(['tte' => 1, 'log_verifikasi' => null]); // update log surat
-
-            if ($mandiri != null) {
-                $mandiri->update(['status' => 3]); // update status surat
-            }
 
             return json(['status' => true, 'data' => $data_respon]);
         } catch (GuzzleHttp\Exception\ConnectException $e) { // error karena masalah koneksi
