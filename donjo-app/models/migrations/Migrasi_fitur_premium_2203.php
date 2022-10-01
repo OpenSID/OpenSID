@@ -266,8 +266,6 @@ class Migrasi_fitur_premium_2203 extends MY_model
             $hasil = $hasil && $this->dbforge->modify_column('persil', $fields);
         }
 
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2204');
-
         return $hasil;
     }
 }
