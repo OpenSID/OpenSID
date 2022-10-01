@@ -105,6 +105,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<form id="mainform" name="mainform" method="post">
 									<div class="row">
 										<div class="col-sm-9">
+                                            <select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url("{$this->controller}/filter/status_dasar"); ?>')">
+                                                <option value="">Pilih Status</option>
+                                                <option value="1" <?= selected(1, $status_dasar); ?>>Aktif</option>
+                                                <option value="2" <?= selected(2, $status_dasar); ?>>Tidak Aktif</option>
+                                            </select>
 											<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?= site_url("{$this->controller}/filter/filter"); ?>')">
 												<option value="">Pilih Kategori <?= $tipe; ?></option>
 												<?php foreach ($list_master as $data): ?>

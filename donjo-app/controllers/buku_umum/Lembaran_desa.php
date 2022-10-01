@@ -154,7 +154,7 @@ class Lembaran_desa extends Admin_Controller
         $data['pamong']          = $this->pamong_model->list_data();
         $data['pamong_ttd']      = $this->pamong_model->get_ub();
         $data['pamong_ketahui']  = $this->pamong_model->get_ttd();
-        $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat = 3);
+        $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat   = 3);
         $this->load->view('dokumen/dialog_cetak', $data);
     }
 
@@ -168,7 +168,7 @@ class Lembaran_desa extends Admin_Controller
     private function data_cetak($aksi)
     {
         $post                   = $this->input->post();
-        $data['main']           = $this->web_dokumen_model->data_cetak($kat = 3, $post['tahun'], $post['jenis_peraturan']);
+        $data['main']           = $this->web_dokumen_model->data_cetak($kat           = 3, $post['tahun'], $post['jenis_peraturan']);
         $data['input']          = $post;
         $data['pamong_ttd']     = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
         $data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));

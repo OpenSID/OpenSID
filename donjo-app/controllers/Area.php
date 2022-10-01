@@ -200,15 +200,26 @@ class Area extends Admin_Controller
     public function insert($tip = 1)
     {
         $this->redirect_hak_akses('u');
-        $this->plan_area_model->insert($tip);
-        redirect("area/index/{$tip}");
+        if ($this->validation()) {
+            $this->plan_area_model->insert($tip);
+            redirect("area/index/{$tip}");
+        }
+
+        session_error(trim(validation_errors()));
+        redirect('area/form');
     }
 
     public function update($id = '', $p = 1, $o = 0)
     {
         $this->redirect_hak_akses('u');
-        $this->plan_area_model->update($id);
-        redirect("area/index/{$p}/{$o}");
+
+        if ($this->validation()) {
+            $this->plan_area_model->update($id);
+            redirect("area/index/{$p}/{$o}");
+        }
+
+        session_error(trim(validation_errors()));
+        redirect("area/form/{$id}/{$p}/{$o}");
     }
 
     public function delete($p = 1, $o = 0, $id = '')
@@ -237,5 +248,16 @@ class Area extends Admin_Controller
         $this->redirect_hak_akses('u');
         $this->plan_area_model->area_lock($id, 2);
         redirect("area/index/{$p}/{$o}");
+    }
+
+    private function validation()
+    {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('ref_polygon', 'Kategori', 'required');
+        $this->form_validation->set_rules('desk', 'Keterangan', 'required|trim');
+        $this->form_validation->set_rules('enabled', 'Status', 'required');
+
+        return $this->form_validation->run();
     }
 }

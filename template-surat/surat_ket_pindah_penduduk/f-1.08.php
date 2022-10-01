@@ -435,7 +435,7 @@
 		<tr>
 			<td>(.........................................................)</td>
 			<td><strong>(<?= padded_string_center(strtoupper($individu['kepala_kk']), 30) ?>)</strong></td>
-			<td><strong>(<?= padded_string_center(strtoupper($kepala_desa['pamong_nama']), 30) ?>)</strong></td>
+			<td><strong>(<?= padded_string_center(strtoupper($kepala_desa['nama']), 30) ?>)</strong></td>
 		</tr>
 		<tr>
 			<td>NIP.</td>

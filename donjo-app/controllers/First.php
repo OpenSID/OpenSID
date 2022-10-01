@@ -426,16 +426,17 @@ class First extends Web_Controller
     {
         $this->load->library('form_validation');
         $this->form_validation->set_rules('komentar', 'Komentar', 'required');
-        $this->form_validation->set_rules('owner', 'Nama', 'required');
-        $this->form_validation->set_rules('no_hp', 'No HP', 'numeric|required');
-        $this->form_validation->set_rules('email', 'Email', 'valid_email');
+        $this->form_validation->set_rules('owner', 'Nama', 'required|max_length[50]');
+        $this->form_validation->set_rules('no_hp', 'No HP', 'numeric|required|max_length[15]');
+        $this->form_validation->set_rules('email', 'Email', 'valid_email|max_length[50]');
+
+        $post = $this->input->post();
 
         if ($this->form_validation->run() == true) {
             // Periksa isian captcha
             include FCPATH . 'securimage/securimage.php';
             $securimage = new Securimage();
 
-            $post = $this->input->post();
             if ($securimage->check($_POST['captcha_code']) == false) {
                 $respon = [
                     'status' => -1, // Notif gagal
@@ -557,7 +558,15 @@ class First extends Web_Controller
     {
         if ($content = getUrlContent($this->input->post('endpoint'))) {
             echo $content;
+
+            return;
         }
+
+        // Apabila API yang digunakan masih belum ditemukan maka fitur di non aktifkan (data tidak ditemukan).
+        $this->db
+            ->where('key', 'covid_data')
+            ->set('value', false)
+            ->update('setting_aplikasi');
     }
 
     public function status_idm(int $tahun)

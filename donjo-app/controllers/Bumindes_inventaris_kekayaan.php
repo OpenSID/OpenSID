@@ -51,8 +51,10 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
 
     public function index()
     {
-        $tahun  = $this->session->tahun ?: date('Y');
+        $tahun  = (empty($this->session->tahun) || $this->session->tahun == 'semua') ? date('Y') : $this->session->tahun;
         $pamong = $this->pamong_model->list_data();
+
+        // $this->json_output($tahun);
 
         $data = [
             'subtitle'     => 'Buku Inventaris dan Kekayaan Desa',
@@ -62,7 +64,7 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
             'data'         => $this->inventaris_laporan_model->permen_47($tahun, null),
             'kades'        => $data['sekdes'] = $pamong,
             'sekdes'       => $data['sekdes'] = $pamong,
-            'tahun'        => $tahun,
+            'tahun'        => $this->session->tahun,
         ];
 
         $this->render('bumindes/umum/main', $data);

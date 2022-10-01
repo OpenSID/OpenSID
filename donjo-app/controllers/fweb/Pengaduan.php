@@ -74,22 +74,45 @@ class Pengaduan extends Web_Controller
 
     public function kirim()
     {
-        $result = $this->pengaduan_model->insert();
+        $this->load->library('Telegram/telegram');
 
-        if ($result) {
-            $data = [
-                'status' => 'success',
-                'pesan'  => 'Pengaduan berhasil dikirim.',
+        // Periksa isian captcha
+        include FCPATH . 'securimage/securimage.php';
+        $securimage = new Securimage();
+
+        $post = $this->input->post();
+        if ($securimage->check($post['captcha_code']) == false) {
+            $notif = [
+                'status' => 'danger',
+                'pesan'  => 'Kode captcha anda salah. Silakan ulangi lagi.',
+                'data'   => $post,
             ];
         } else {
-            $data = [
-                'status' => 'error',
-                'pesan'  => 'Pengaduan gagal dikirim.',
-            ];
+            if ($this->pengaduan_model->insert()) {
+                if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
+                    try {
+                        $this->telegram->sendMessage([
+                            'text'       => 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.',
+                            'parse_mode' => 'Markdown',
+                            'chat_id'    => $this->setting->telegram_user_id,
+                        ]);
+                    } catch (Exception $e) {
+                        log_message('error', $e->getMessage());
+                    }
+                }
+                $notif = [
+                    'status' => 'success',
+                    'pesan'  => 'Pengaduan berhasil dikirim.',
+                ];
+            } else {
+                $notif = [
+                    'status' => 'danger',
+                    'pesan'  => 'Pengaduan gagal dikirim.',
+                    'data'   => $post,
+                ];
+            }
         }
 
-        $this->session->set_flashdata('notif', $data);
-
-        redirect($this->controller);
+        redirect_with('notif', $notif);
     }
 }

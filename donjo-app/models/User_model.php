@@ -35,6 +35,43 @@
  *
  */
 
+use App\Models\User;
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class User_model extends CI_Model
@@ -77,7 +114,7 @@ class User_model extends CI_Model
 
         $this->_username = $username = trim($this->input->post('username'));
         $this->_password = $password = trim($this->input->post('password'));
-        $sql             = 'SELECT id, password, id_grup, nama, session FROM user WHERE username = ?';
+        $sql             = 'SELECT * FROM user WHERE username = ?';
 
         // User 'admin' tidak bisa di-non-aktifkan
         if ($username !== 'admin') {
@@ -138,6 +175,7 @@ class User_model extends CI_Model
                 $this->session->siteman_wait = 0;
                 $this->session->siteman_try  = 4;
                 $this->session->fm_key       = $this->set_fm_key($row->id . $row->id_grup . $row->sesi);
+                $this->session->isAdmin      = $row;
                 $this->last_login($this->session->user);
 
                 if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
@@ -372,7 +410,7 @@ class User_model extends CI_Model
             $data['username'] = alfanumerik($post['username']);
         }
         if (isset($post['nama'])) {
-            $data['nama'] = alfanumerik_spasi($post['nama']);
+            $data['nama'] = nama($post['nama']);
         }
         if (isset($post['email'])) {
             $data['phone'] = htmlentities($post['phone']);
@@ -587,6 +625,10 @@ class User_model extends CI_Model
         $data['foto'] = $this->urusFoto($id);
         $hasil        = $this->db->where('id', $id)
             ->update('user', $data);
+
+        // Untuk Blade
+        $this->session->isAdmin = User::whereId($id)->first();
+
         status_sukses($hasil, $gagal_saja = true);
     }
 

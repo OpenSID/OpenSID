@@ -1,12 +1,3 @@
-<script>
-	$(function() {
-		var keyword = <?= $keyword != '' ? $keyword : '""' ?> ;
-		$("#cari").autocomplete( {
-			source: keyword,
-			maxShowItems: 10,
-		});
-	});
-</script>
 <?php $detail = $program[0]; ?>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -82,7 +73,7 @@
 															<th rowspan="2" nowrap class="text-center"><?= $detail['judul_peserta_plus']?></th>
 														<?php endif; ?>
 														<th rowspan="2" nowrap><?= $detail['judul_peserta_info']?></th>
-														<th colspan="7">Identitas di Kartu Peserta</th>
+														<th colspan="8">Identitas di Kartu Peserta</th>
 													</tr>
 													<tr>
 														<th rowspan="2" class="padat">No. Kartu Peserta</th>
@@ -92,6 +83,7 @@
 														<th>Tanggal Lahir</th>
 														<th>Jenis Kelamin</th>
 														<th>Alamat</th>
+														<th>Keterangan</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -125,6 +117,7 @@
 																<td nowrap><?= tgl_indo_out($item['kartu_tanggal_lahir']); ?></td>
 																<td nowrap><?= $item['sex']; ?></td>
 																<td nowrap><?= $item['kartu_alamat']; ?></td>
+																<td nowrap><?= $item['status_dasar']; ?></td>
 															</tr>
 														<?php endforeach; ?>
 													<?php else: ?>
@@ -189,7 +182,15 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		$(window).on('load', function() {
+		$(document).ready(function() {
+			$('#cari').focus();
+
+			var keyword = <?= $keyword ?> ;
+			$("#cari").autocomplete( {
+				source: keyword,
+				maxShowItems: 10,
+			});
+
 			$('#notif-box').modal('show');
 		});
 	</script>

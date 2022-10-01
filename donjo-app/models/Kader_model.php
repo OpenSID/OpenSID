@@ -215,9 +215,9 @@ class Kader_model extends MY_Model
 
         return [
             'penduduk_id' => bilangan($post['penduduk_id']),
-            'kursus'      => $post['kursus'],
-            'bidang'      => $post['bidang'],
-            'keterangan'  => $post['keterangan'],
+            'kursus'      => alfanumerik_spasi($post['kursus']),
+            'bidang'      => alfanumerik_spasi($post['bidang']),
+            'keterangan'  => alfanumerik_spasi($post['keterangan']),
         ];
     }
 }

@@ -66,6 +66,7 @@ class Vaksin_covid extends Admin_Controller
     public function search()
     {
         $cari = $this->input->post('cari');
+
         if ($cari != '') {
             $this->session->cari = $cari;
         } else {
@@ -95,6 +96,7 @@ class Vaksin_covid extends Admin_Controller
             'list_vaksin'  => $this->vaksin_covid_model->jenis_vaksin(),
             'paging'       => $this->vaksin_covid_model->paging($p),
             'per_page'     => $this->session->per_page,
+            'cari'         => $this->session->cari,
             'func'         => 'index',
             'p'            => $p,
             'selected_nav' => 'daftar',
@@ -121,11 +123,20 @@ class Vaksin_covid extends Admin_Controller
         $this->render('covid19/vaksin/form', $data);
     }
 
-    public function berkas($id_penduduk, $vaksin_ke, $form = false)
+    public function tampil_sertifikat($id_penduduk)
+    {
+        $data = [
+            'penduduk' => $this->vaksin_covid_model->data_penduduk($id_penduduk),
+        ];
+
+        $this->render('covid19/vaksin/sertifkat', $data);
+    }
+
+    public function berkas($id_penduduk, $vaksin_ke, $form = false, $tampil = false)
     {
         $data = $this->vaksin_covid_model->data_penduduk($id_penduduk);
         $url  = $this->controller . '/vaksin_covid/' . ($form) ?: "form?terdata={$id_penduduk}";
-        ambilBerkas($data->{$vaksin_ke}, $url, null, LOKASI_VAKSIN);
+        ambilBerkas($data->{$vaksin_ke}, $url, null, LOKASI_VAKSIN, $tampil);
     }
 
     public function update()
@@ -246,5 +257,19 @@ class Vaksin_covid extends Admin_Controller
         }
 
         return $rekap;
+    }
+
+    public function autocomplete()
+    {
+        $data = $this->vaksin_covid_model->autocomplete($this->input->post('cari'));
+        $this->json_output($data);
+    }
+
+    public function impor()
+    {
+        $this->redirect_hak_akses('u');
+        $this->vaksin_covid_model->impor();
+
+        redirect('vaksin_covid');
     }
 }

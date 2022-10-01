@@ -1,0 +1,57 @@
+{
+  "name": "agungsugiarto/codeigniter-datables",
+  "description": "jQuery DataTables API for codeigniter3",
+  "keywords": [
+    "codeigniter3",
+    "dataTables",
+    "jquery"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Arjay Angeles",
+      "email": "aqangeles@gmail.com"
+    },
+    {
+      "name": "Agung Sugiarto",
+      "email": "me.agungsugiarto@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1.3|^8",
+    "codeigniter/framework": "^3.1",
+    "illuminate/database": "5.8.*|^6|^7|^8|^9",
+    "illuminate/filesystem": "5.8.*|^6|^7|^8|^9",
+    "illuminate/support": "5.8.*|^6|^7|^8|^9",
+    "illuminate/view": "5.8.*|^6|^7|^8|^9"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^3.8|^4.0|^5.0|^6.0|^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Fluent\\DataTables\\": "src/"
+    },
+    "files": [
+      "src/helper.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Fluent\\DataTables\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.x-dev"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

@@ -46,7 +46,13 @@ class Keluar_model extends CI_Model
             ->from('log_surat')
             ->get_compiled_select()
                             . ')';
-        $sql[] = '(' . $this->db->select('n.nama')
+        $sql[] = '(' . $this->db->select(
+            '(
+                CASE WHEN n.nama IS NOT NULL
+                    THEN n.nama
+                    ELSE u.nama_non_warga
+                END) as nama'
+        )
             ->from('log_surat u')
             ->join('tweb_penduduk n', 'u.id_pend = n.id', 'left')
             ->get_compiled_select()
@@ -57,9 +63,7 @@ class Keluar_model extends CI_Model
             ->join('tweb_penduduk p', 's.id_pend = p.id', 'left')
             ->get_compiled_select()
                             . ')';
-        $sql = implode('
-		UNION
-		', $sql);
+        $sql  = implode('UNION', $sql);
         $data = $this->db->query($sql)->result_array();
 
         return autocomplete_data_ke_str($data);

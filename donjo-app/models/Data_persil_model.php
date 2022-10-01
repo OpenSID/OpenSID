@@ -35,6 +35,8 @@
  *
  */
 
+require_once APPPATH . '/libraries/MyException.php';
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Data_persil_model extends MY_Model
@@ -321,6 +323,9 @@ class Data_persil_model extends MY_Model
                 ->get('ref_persil_kelas')
                 ->result_array();
             $data = array_combine(array_column($data, 'id'), $data);
+        }
+        if (empty($data)) {
+            throw new Referensi_kosong('ref_persil_kelas');
         }
 
         return $data;

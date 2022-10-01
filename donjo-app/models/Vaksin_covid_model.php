@@ -37,6 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+
 class Vaksin_covid_model extends MY_Model
 {
     protected $tabel_penduduk = 'penduduk_hidup';
@@ -284,7 +286,7 @@ class Vaksin_covid_model extends MY_Model
     {
         $config['upload_path']   = LOKASI_VAKSIN;
         $config['file_name']     = 'vaksin';
-        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
         $config['max_size']      = 1024;
         $config['overwrite']     = true;
         $this->upload->initialize($config);
@@ -365,6 +367,222 @@ class Vaksin_covid_model extends MY_Model
             $this->umur_sql($umur);
         }
 
+        //ORDER BERDASARKAN DUSUN
+        $this->db->order_by('ck.dusun', 'asc');
+
         return $this->db->get("{$this->tabel_penduduk} as p")->result();
+    }
+
+    public function autocomplete($cari = '')
+    {
+        $sql_kolom  = [];
+        $list_kolom = [
+            'nama' => $this->tabel_penduduk,
+            'nik'  => $this->tabel_penduduk,
+        ];
+
+        foreach ($list_kolom as $kolom => $tabel) {
+            $this->db->select($kolom . ' as item')
+                ->distinct()->from($tabel)
+                ->order_by('item');
+            if ($cari) {
+                $this->db->like($kolom, $cari);
+            }
+            $sql_kolom[] = $this->db->get_compiled_select();
+        }
+
+        $sql   = '(' . implode(') UNION (', $sql_kolom) . ')';
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
+
+        return autocomplete_data_ke_str($data);
+    }
+
+    /**
+     * Impor Data Penerima Vaksin
+     * Alur :
+     * Cek apakah NIK ada atau tidak.
+     * 1. Jika Ya, update data penduduk (penerima vaksin) berdasarkan data impor.
+     * 2. Jika Tidak, tampilkan notifikasi baris data yang gagal.
+     *
+     * @param mixed $hapus
+     */
+    public function impor()
+    {
+        $this->load->library('upload');
+
+        $config['upload_path']   = sys_get_temp_dir();
+        $config['allowed_types'] = 'xlsx';
+
+        $this->upload->initialize($config);
+
+        if (! $this->upload->do_upload('userfile')) {
+            return session_error($this->upload->display_errors());
+        }
+
+        $upload = $this->upload->data();
+
+        $reader = ReaderEntityFactory::createXLSXReader();
+        $reader->open($_FILES['userfile']['tmp_name']);
+
+        $outp = true;
+
+        foreach ($reader->getSheetIterator() as $sheet) {
+            $baris_pertama = false;
+            $gagal         = 0;
+            $nomor_baris   = 0;
+            $pesan         = '';
+
+            if ($sheet->getName() == 'Vaksin') {
+                foreach ($sheet->getRowIterator() as $row) {
+
+                    // Abaikan baris pertama yg berisi nama kolom
+                    if (! $baris_pertama) {
+                        $baris_pertama = true;
+
+                        continue;
+                    }
+
+                    $nomor_baris++;
+                    $cells = $row->getCells();
+
+                    $nik = (string) $cells[0];
+
+                    if (empty($nik)) {
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Kolom NIK Tidak Boleh Kosong.</br>";
+                        $gagal++;
+                        $outp = false;
+
+                        continue;
+                    }
+
+                    if ($penduduk = $this->cekPenduduk($nik)) {
+                        $id_penduduk = $penduduk['id'];
+
+                        if (empty((string) $cells[7])) {
+                            $tunda      = 0;
+                            $keterangan = null;
+                            if (! empty($tgl_vaksin_1 = $this->cekTgl((string) $cells[1]))) {
+                                $vaksin_1       = 1;
+                                $jenis_vaksin_1 = $this->jenisVaksin($cells[2]);
+
+                                if (! empty($tgl_vaksin_2 = $this->cekTgl((string) $cells[3]))) {
+                                    $vaksin_2       = 1;
+                                    $jenis_vaksin_2 = $this->jenisVaksin($cells[4], $jenis_vaksin_1);
+
+                                    if (! empty($tgl_vaksin_3 = $this->cekTgl((string) $cells[5]))) {
+                                        $vaksin_3       = 1;
+                                        $jenis_vaksin_3 = $this->jenisVaksin($cells[6], $jenis_vaksin_2);
+                                    } else {
+                                        $pesan .= "Pesan Lainnya : Baris {$nomor_baris} kolom vaksin-3 tidak valid, hanya vaksin 1 dan 2 yang tersimpan.</br>";
+                                        $vaksin_3       = 0;
+                                        $tgl_vaksin_3   = null;
+                                        $jenis_vaksin_3 = null;
+                                    }
+                                } else {
+                                    $pesan .= "Pesan Lainnya : Baris {$nomor_baris} kolom vaksin-2 tidak valid, hanya vaksin 1 yang tersimpan.</br>";
+                                    $vaksin_2       = $vaksin_3       = 0;
+                                    $tgl_vaksin_2   = $tgl_vaksin_3   = null;
+                                    $jenis_vaksin_2 = $jenis_vaksin_3 = null;
+                                }
+                            } else {
+                                // Kolom vaksin 1 tidak boleh kosong jika tunda == 1
+                                $pesan .= "Pesan Gagal : Baris {$nomor_baris} kolom vaksin-1 tidak valid.</br>";
+                                $gagal++;
+                                $outp = false;
+
+                                continue;
+                            }
+                        } else {
+                            $tunda      = 1;
+                            $keterangan = $cells[7];
+                        }
+
+                        $dataVaksin = [
+                            'id_penduduk'    => $id_penduduk,
+                            'vaksin_1'       => $vaksin_1,
+                            'tgl_vaksin_1'   => $tgl_vaksin_1,
+                            'jenis_vaksin_1' => $jenis_vaksin_1,
+                            'vaksin_2'       => $vaksin_2,
+                            'tgl_vaksin_2'   => $tgl_vaksin_2,
+                            'jenis_vaksin_2' => $jenis_vaksin_2,
+                            'vaksin_3'       => $vaksin_3,
+                            'tgl_vaksin_3'   => $tgl_vaksin_3,
+                            'jenis_vaksin_3' => $jenis_vaksin_3,
+                            'tunda'          => $tunda,
+                            'keterangan'     => $keterangan,
+                        ];
+
+                        $sql = $this->db->insert_string('covid19_vaksin', $dataVaksin) . ' ON DUPLICATE KEY UPDATE
+                            id_penduduk = VALUES(id_penduduk),
+                            vaksin_1 = VALUES(vaksin_1),
+                            tgl_vaksin_1 = VALUES(tgl_vaksin_1),
+                            jenis_vaksin_1 = VALUES(jenis_vaksin_1),
+                            vaksin_2 = VALUES(vaksin_2),
+                            tgl_vaksin_2 = VALUES(tgl_vaksin_2),
+                            jenis_vaksin_2 = VALUES(jenis_vaksin_2),
+                            vaksin_3 = VALUES(vaksin_3),
+                            tgl_vaksin_3 = VALUES(tgl_vaksin_3),
+                            jenis_vaksin_3 = VALUES(jenis_vaksin_3),
+                            tunda = VALUES(tunda),
+                            keterangan = VALUES(keterangan)
+                            ';
+
+                        if (! $this->db->query($sql)) {
+                            $pesan .= "Pesan Gagal : Baris {$nomor_baris} Data penduduk dengan NIK : {$nik} gagal disimpan</br>";
+                            $gagal++;
+                            $outp = false;
+
+                            continue;
+                        }
+                    } else {
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Data penduduk dengan NIK : {$nik} tidak ditemukan</br>";
+                        $gagal++;
+                        $outp = false;
+                    }
+                }
+                $berhasil = ($nomor_baris - $gagal);
+                $pesan .= "Jumlah Berhasil : {$berhasil} </br>";
+                $pesan .= "Jumlah Gagal : {$gagal} </br>";
+                $pesan .= "Jumlah Data : {$nomor_baris} </br>";
+
+                break;
+            }
+
+            return session_error('-> File impor tidak sesuai');
+        }
+        $reader->close();
+        set_session('pesan_vaksin', $pesan);
+
+        return status_sukses($outp, false, 'Terjadi kesalahan impor data Penerima Vaksin');
+    }
+
+    private function cekPenduduk($nik = '')
+    {
+        return $this->db
+            ->select('id', 'nama')
+            ->where('nik', $nik)
+            ->get('tweb_penduduk')
+            ->row_array();
+    }
+
+    protected function cekTgl(string $value = '')
+    {
+        return (date('Y-m-d', strtotime($value)) === $value) ? $value : false;
+    }
+
+    protected function jenisVaksin(string $cells = '', $default = '')
+    {
+        if (empty($cells)) {
+            $this->load->model('referensi_model');
+
+            if (! $default) {
+                return $this->referensi_model->list_ref(JENIS_VAKSIN)[0];
+            }
+
+            return $default;
+        }
+
+        return $cells;
     }
 }

@@ -106,9 +106,14 @@ class Analisis_indikator extends Admin_Controller
         if ($id) {
             $data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($id);
             $data['form_action']        = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
+
+            // Cek apakah ada pilihan untuk id_tipe 1 dan 2
+            $data['ubah'] = ($this->analisis_indikator_model->list_indikator($id) && in_array($data['analisis_indikator']['id_tipe'], [1, 2])) ? false : true;
         } else {
             $data['analisis_indikator'] = null;
             $data['form_action']        = site_url("{$this->controller}/insert");
+
+            $data['ubah'] = true;
         }
 
         $data['list_kategori']   = $this->analisis_indikator_model->list_kategori();

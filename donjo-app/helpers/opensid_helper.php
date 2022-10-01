@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.09');
+define('VERSION', '22.10');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -51,7 +51,7 @@ define('VERSION', '22.09');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022090101');
+define('VERSI_DATABASE', '2022100101');
 
 // Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');
@@ -191,19 +191,33 @@ function currentVersion()
 }
 
 /**
+ * Mengembalikan nomor versi database
+ *
+ * @return string
+ */
+if (! function_exists('version')) {
+    function version()
+    {
+        return VERSI_DATABASE;
+    }
+}
+
+/**
  * favico_desa
  *
  * Mengembalikan path lengkap untuk file favico desa
  *
+ * @param mixed $favico
+ *
  * @return string
  */
-function favico_desa()
+function favico_desa($favico = 'favicon.ico')
 {
-    $favico = 'favicon.ico';
+    if (is_file(LOKASI_LOGO_DESA . $favico)) {
+        $favico = LOKASI_LOGO_DESA . $favico;
+    }
 
-    return (is_file(APPPATH . '../' . LOKASI_LOGO_DESA . $favico)) ?
-        base_url() . LOKASI_LOGO_DESA . $favico :
-        base_url() . $favico;
+    return base_url($favico) . '?v' . md5_file($favico);
 }
 
 /**

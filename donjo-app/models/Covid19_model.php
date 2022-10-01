@@ -240,12 +240,12 @@ class Covid19_model extends CI_Model
         return [
             'tanggal_datang'    => $post['tanggal_tiba'],
             'asal_mudik'        => alfanumerik_spasi($post['asal_pemudik']),
-            'durasi_mudik'      => $post['durasi_pemudik'],
+            'durasi_mudik'      => bilangan($post['durasi_pemudik']),
             'tujuan_mudik'      => $tujuan_mudik[$post['tujuan_pemudik']],
             'no_hp'             => bilangan_spasi($post['hp_pemudik']),
             'email'             => strip_tags($post['email_pemudik']),
-            'status_covid'      => $post['status_covid'],
-            'is_wajib_pantau'   => $post['wajib_pantau'],
+            'status_covid'      => (int) $post['status_covid'],
+            'is_wajib_pantau'   => (int) $post['wajib_pantau'],
             'keluhan_kesehatan' => alfanumerik_spasi($post['keluhan']),
             'keterangan'        => alfanumerik_spasi($post['keterangan']),
         ];

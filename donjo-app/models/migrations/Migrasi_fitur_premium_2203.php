@@ -46,9 +46,12 @@ class Migrasi_fitur_premium_2203 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2202');
         $hasil = $hasil && $this->migrasi_2022020151($hasil);
+        $hasil = $hasil && $this->migrasi_2022020271($hasil);
         $hasil = $hasil && $this->migrasi_2022020951($hasil);
+        $hasil = $hasil && $this->migrasi_2022021071($hasil);
+        $hasil = $hasil && $this->migrasi_2022021151($hasil);
 
-        return $hasil && $this->migrasi_2022021051($hasil);
+        return $hasil && $this->migrasi_2022021671($hasil);
     }
 
     protected function migrasi_2022020151($hasil)
@@ -122,6 +125,70 @@ class Migrasi_fitur_premium_2203 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2022020271($hasil)
+    {
+        $this->db
+            ->set('value', 'esensi')
+            ->where('key', 'web_theme')
+            ->where('value', 'klasik')
+            ->update('setting_aplikasi');
+
+        return $hasil && true;
+    }
+
+    protected function migrasi_2022021671($hasil)
+    {
+        if (! $this->db->field_exists('jam_mati', 'log_penduduk')) {
+            $fields = [
+                'jam_mati' => [
+                    'type'       => 'varchar',
+                    'constraint' => 10,
+                    'after'      => 'meninggal_di',
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('log_penduduk', $fields);
+        }
+
+        if (! $this->db->field_exists('sebab', 'log_penduduk')) {
+            $fields = [
+                'sebab' => [
+                    'type'       => 'varchar',
+                    'constraint' => 50,
+                    'after'      => 'jam_mati',
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('log_penduduk', $fields);
+        }
+
+        if (! $this->db->field_exists('penolong_mati', 'log_penduduk')) {
+            $fields = [
+                'penolong_mati' => [
+                    'type'       => 'varchar',
+                    'constraint' => 50,
+                    'after'      => 'sebab',
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('log_penduduk', $fields);
+        }
+
+        if (! $this->db->field_exists('akta_mati', 'log_penduduk')) {
+            $fields = [
+                'akta_mati' => [
+                    'type'       => 'varchar',
+                    'constraint' => 50,
+                    'after'      => 'penolong_mati',
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('log_penduduk', $fields);
+        }
+
+        return $hasil;
+    }
+
     protected function migrasi_2022020951($hasil)
     {
         $hasil = $hasil && $this->keuangan_ta_spj($hasil);
@@ -175,7 +242,18 @@ class Migrasi_fitur_premium_2203 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022021051($hasil)
+    protected function migrasi_2022021071($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'branding_desa',
+            'value'      => 'LAYANAN MANDIRI',
+            'keterangan' => 'Nama Branding Aplikasi Layanan Mandiri Android',
+            'jenis'      => null,
+            'kategori'   => 'mobile',
+        ]);
+    }
+
+    protected function migrasi_2022021151($hasil)
     {
         if ($this->db->field_exists('nomor_urut_bidang', 'persil')) {
             $fields = [

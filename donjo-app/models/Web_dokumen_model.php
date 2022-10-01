@@ -301,53 +301,72 @@ class Web_dokumen_model extends MY_Model
 
     private function upload_dokumen($data, $file_lama = '')
     {
-        $_SESSION['error_msg'] = '';
-        $_SESSION['success']   = 1;
-        unset($data['old_file']);
-        if (empty($_FILES['satuan']['tmp_name']) || (int) $_FILES['satuan']['size'] > convertToBytes(max_upload() . 'MB')) {
-            $_SESSION['success'] = -1;
-            $_SESSION['error_msg'] .= ' -> Error upload file. Periksa apakah melebihi ukuran maksimum';
+        $satuan     = $_POST['satuan'];
+        $old_satuan = $_POST['old_satuan'];
 
-            return null;
+        if ($_FILES['satuan']['tmp_name']) {
+            $_SESSION['error_msg'] = '';
+            $_SESSION['success']   = 1;
+            unset($data['old_file']);
+            if (empty($_FILES['satuan']['tmp_name']) || (int) $_FILES['satuan']['size'] > convertToBytes(max_upload() . 'MB')) {
+                session_error(' -> Error upload file. Periksa apakah melebihi ukuran maksimum');
+
+                return null;
+            }
+
+            $lokasi_file = $_FILES['satuan']['tmp_name'];
+            if (empty($lokasi_file)) {
+                $_SESSION['success'] = -1;
+
+                return null;
+            }
+            if (function_exists('finfo_open')) {
+                $finfo     = finfo_open(FILEINFO_MIME_TYPE);
+                $tipe_file = finfo_file($finfo, $lokasi_file);
+            } else {
+                $tipe_file = $_FILES['satuan']['type'];
+            }
+            $nama_file = $_FILES['satuan']['name'];
+            $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+            $ext       = get_extension($nama_file);
+
+            if (! in_array($tipe_file, $this->semua_mime_type()) || ! in_array($ext, $this->semua_ext())) {
+                session_error(' -> Jenis file salah: ' . $tipe_file . ' ' . $ext);
+
+                return null;
+            }
+            if (isPHP($lokasi_file, $nama_file)) {
+                session_error(' -> File berisi script');
+
+                return null;
+            }
+
+            $nama = $data['nama'];
+            if (! empty($data['id_pend'])) {
+                $nama_file = $data['id_pend'] . '_' . $nama . '_' . generator(6) . '_' . $nama_file;
+            } else {
+                $nama_file = $nama . '_' . generator(6) . '_' . $nama_file;
+            }
+            $nama_file = bersihkan_namafile($nama_file);
+            UploadDocument($nama_file, $file_lama);
+        } elseif ($satuan) {
+            if (! preg_match('/data:image\\/\\png/i', $satuan)) {
+                session_error(' -> File tidak diperbolehkan');
+
+                return null;
+            }
+
+            $nama_file = $nama_file = $data['id_pend'] . '_' . $data['nama'] . '_' . generator(6) . '.png';
+            $satuan    = str_replace('data:image/png;base64,', '', $satuan);
+            $satuan    = base64_decode($satuan, true);
+
+            file_put_contents(LOKASI_DOKUMEN . $nama_file, $satuan);
         }
 
-        $lokasi_file = $_FILES['satuan']['tmp_name'];
-        if (empty($lokasi_file)) {
-            $_SESSION['success'] = -1;
-
-            return null;
+        if ($old_satuan != '') {
+            // Hapus old_satuan
+            unlink(LOKASI_DOKUMEN . $old_satuan);
         }
-        if (function_exists('finfo_open')) {
-            $finfo     = finfo_open(FILEINFO_MIME_TYPE);
-            $tipe_file = finfo_file($finfo, $lokasi_file);
-        } else {
-            $tipe_file = $_FILES['satuan']['type'];
-        }
-        $nama_file = $_FILES['satuan']['name'];
-        $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-        $ext       = get_extension($nama_file);
-
-        if (! in_array($tipe_file, $this->semua_mime_type()) || ! in_array($ext, $this->semua_ext())) {
-            $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file . ' ' . $ext;
-            $_SESSION['success'] = -1;
-
-            return null;
-        }
-        if (isPHP($lokasi_file, $nama_file)) {
-            $_SESSION['error_msg'] .= ' -> File berisi script ';
-            $_SESSION['success'] = -1;
-
-            return null;
-        }
-
-        $nama = $data['nama'];
-        if (! empty($data['id_pend'])) {
-            $nama_file = $data['id_pend'] . '_' . $nama . '_' . generator(6) . '_' . $nama_file;
-        } else {
-            $nama_file = $nama . '_' . generator(6) . '_' . $nama_file;
-        }
-        $nama_file = bersihkan_namafile($nama_file);
-        UploadDocument($nama_file, $file_lama);
 
         return $nama_file;
     }
@@ -358,8 +377,13 @@ class Web_dokumen_model extends MY_Model
         $post   = $this->input->post();
         $data   = $this->validasi($post);
         if (! empty($post['satuan'])) {
-            $data['satuan'] = $this->upload_dokumen($post);
+            $data['satuan'] = $result = $this->upload_dokumen($post);
         }
+
+        if ($result === null) {
+            return false;
+        }
+
         $data['attr']      = json_encode($data['attr']);
         $data['dok_warga'] = isset($post['dok_warga']);
         // Dari layanan mandiri gunakan NIK penduduk
@@ -545,6 +569,8 @@ class Web_dokumen_model extends MY_Model
         foreach ($anggota_lain as $item) {
             $this->db->where('id', $item['id'])->update('dokumen', $data);
         }
+
+        return $outp;
     }
 
     public function hard_delete_dokumen_bersama($id_pend)

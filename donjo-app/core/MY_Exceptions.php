@@ -49,14 +49,38 @@ class MY_Exceptions extends CI_Exceptions
      *
      * @var array
      */
-    protected $db_error_codes = [1029, 1051, 1054, 1062, 1067, 1072, 1109, 1138, 1146, 1166, 1169, 1173, 1176, 1364, 1406, 1978];
+    protected $db_error_codes = [1029, 1051, 1054, 1062, 1067, 1072, 1109, 1138, 1146, 1166, 1169, 1173, 1176, 1265, 1271, 1364, 1406, 1978];
 
     public function __construct()
     {
         parent::__construct();
 
         $this->ci = get_instance();
-        $this->ci->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+    }
+
+    /**
+     * Untuk menangkap exception yg khusus untuk kasus2 tidak otomatis, misalnya bukan exception database
+     * Lihat contoh di list_persil_kelas() di donjo-app/models/Data_persil_model.php
+     *
+     * @param mixed $severity
+     * @param mixed $message
+     * @param mixed $filepath
+     * @param mixed $line
+     */
+    public function log_exception($severity, $message, $filepath, $line)
+    {
+        parent::log_exception($severity, $message, $filepath, $line);
+        if (preg_match('/\\[PERIKSA\\]/', $message)) {
+            $this->ci->session->db_error = [
+                'code'    => 99001,
+                'message' => '<p>' . $message . '</p>',
+            ];
+            $this->ci->session->heading           = 'Error ditemukan pada isi data';
+            $this->ci->session->message_query     = '<p>Error ditemukan di file' . $filepath . 'pada baris ' . $line . '</p>';
+            $this->ci->session->message_exception = strip_tags((new \Exception())->getTraceAsString());
+
+            return redirect('periksa');
+        }
     }
 
     /**
