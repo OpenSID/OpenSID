@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.09-premium-beta04 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.10-premium Menambahkan tampilan anjungan desain baru dan integrasi api TTE ke esign BSrE. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Irvan1609 yang terus berkontribusi.
 
