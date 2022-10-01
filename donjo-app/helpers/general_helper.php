@@ -402,3 +402,10 @@ if (! function_exists('auth')) {
         return $CI->session->isAdmin;
     }
 }
+
+if (! function_exists('ci_db')) {
+    function ci_db()
+    {
+        return get_instance()->db;
+    }
+}
