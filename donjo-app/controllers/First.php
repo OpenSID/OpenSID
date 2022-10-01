@@ -339,7 +339,6 @@ class First extends Web_Controller
             } else {
                 $row[] = "<a href='" . $baris['url'] . "' target='_blank'>" . $baris['nama'] . '</a>';
             }
-            $row[] = $baris['url'];
             $row[] = $baris['tahun'];
             // Ambil judul kategori
             $row[]  = $this->referensi_model->list_ref_flip(KATEGORI_PUBLIK)[$baris['kategori_info_publik']];
