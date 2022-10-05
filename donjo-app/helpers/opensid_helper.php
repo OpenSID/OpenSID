@@ -1362,3 +1362,18 @@ function menu_slug($url)
 
     return site_url($url);
 }
+
+function gelar($gelar_depan = null, $nama = null, $gelar_belakang = null)
+{
+    // Gelar depan
+    if ($gelar_depan) {
+        $nama = $gelar_depan . ' ' . $nama;
+    }
+
+    // Gelar belakang
+    if ($gelar_belakang) {
+        $nama = $nama . ', ' . $gelar_belakang;
+    }
+
+    return $nama;
+}

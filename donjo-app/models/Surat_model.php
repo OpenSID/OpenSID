@@ -305,7 +305,9 @@ class Surat_model extends CI_Model
                 // Dari database penduduk
                 $data[$i]['pamong_nama'] = $data[$i]['nama'];
             }
-            $data[$i]['no'] = $i + 1;
+
+            $data[$i]['nama'] = gelar($data[$i]['gelar_depan'], $data[$i]['nama'], $data[$i]['gelar_belakang']);
+            $data[$i]['no']   = $i + 1;
         }
 
         return $data;

@@ -279,15 +279,7 @@ class Keluar_model extends CI_Model
                 }
             }
 
-            // Gelar depan
-            if ($data[$i]['gelar_depan']) {
-                $data[$i]['pamong_nama'] = $data[$i]['gelar_depan'] . ' ' . $data[$i]['pamong_nama'];
-            }
-
-            // Gelar belakang
-            if ($data[$i]['gelar_belakang']) {
-                $data[$i]['pamong_nama'] = $data[$i]['pamong_nama'] . ', ' . $data[$i]['gelar_belakang'];
-            }
+            $data[$i]['nama'] = gelar($data[$i]['gelar_depan'], $data[$i]['nama'], $data[$i]['gelar_belakang']);
 
             $j++;
         }

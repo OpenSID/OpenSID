@@ -95,7 +95,8 @@ class Pamong_model extends CI_Model
                     $data[$i]['tempatlahir'] = '-';
                 }
             }
-            $data[$i]['nama'] = $data[$i]['gelar_depan'] . '' . $data[$i]['nama'] . '' . $data[$i]['gelar_belakang'];
+
+            $data[$i]['nama'] = gelar($data[$i]['gelar_depan'], $data[$i]['nama'], $data[$i]['gelar_belakang']);
             $data[$i]['no']   = $j + 1;
             $j++;
         }
@@ -203,15 +204,7 @@ class Pamong_model extends CI_Model
             }
         }
 
-        // Gelar depan
-        if ($data['gelar_depan']) {
-            $data['nama'] = $data['gelar_depan'] . ' ' . $data['nama'];
-        }
-
-        // Gelar belakang
-        if ($data['gelar_belakang']) {
-            $data['nama'] = $data['nama'] . ', ' . $data['gelar_belakang'];
-        }
+        $data['nama'] = gelar($data['gelar_depan'], $data['nama'], $data['gelar_belakang']);
 
         return $data;
     }
