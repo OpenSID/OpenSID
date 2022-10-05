@@ -86,12 +86,12 @@ class TinyMCE
         <table style="border-collapse: collapse; width: 100%; height: 10px;" border="0">
         <tbody>
         <tr>
-        <td style="width: 15%;">[logo_bsre]</td>
+        <td style="width: 15%;"><div style="max-height: 73px;">[logo_bsre]</div></td>
         <td style="width: 60%; text-align: left; vertical-align: top;">
-        <ul>
-        <li>UU ITE No. 11 Tahun 2008 Pasal 5 ayat 1 "Informasi Elektronik dan/atau hasil cetaknya merupakan alat bukti hukum yang sah".</li>
-        <li>Dokumen ini tertanda ditandatangani secara elektronik menggunakan sertifikat elektronik yang diterbitkan BSrE.</li>
-        <li>Surat ini dapat dibuktikan keasliannya dengan menggunakan qr code yang telah tersedia.</li>
+        <ul style="font-size: 6pt;">
+        <li style="font-size: 6pt;"><span style="font-size: 6pt;">UU ITE No. 11 Tahun 2008 Pasal 5 ayat 1 "Informasi Elektronik dan/atau hasil cetaknya merupakan alat bukti hukum yang sah".</span></li>
+        <li style="font-size: 6pt;"><span style="font-size: 6pt;">Dokumen ini tertanda ditandatangani secara elektronik menggunakan sertifikat elektronik yang diterbitkan BSrE.</span></li>
+        <li style="font-size: 6pt;"><span style="font-size: 6pt;">Surat ini dapat dibuktikan keasliannya dengan menggunakan qr code yang telah tersedia.</span></li>
         </ul>
         </td>
         <td style="width: 25%; text-align: center;">[qr_bsre]</td>
