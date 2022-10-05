@@ -527,7 +527,17 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
     protected function migrasi_2022092351($hasil)
     {
-        DB::table('tweb_wil_clusterdesa')->where('rt', '=', '0')->where('rw', '=', '')->update(['rw' => '0']);
+        $cluster = DB::table('tweb_wil_clusterdesa')->where('rt', '=', '0')->where('rw', '=', '')->get();
+
+        foreach ($cluster as $value) {
+            // cek duplikat
+            $cek = DB::table('tweb_wil_clusterdesa')->where('rt', '=', '0')->where('rw', '=', '0')->where('dusun', '=', $value->dusun)->exists();
+            if (! $cek) {
+                DB::table('tweb_wil_clusterdesa')->where('rt', '=', '0')->where('rw', '=', '')->where('dusun', '=', $value->dusun)->update(['rw' => '0']);
+            } else {
+                DB::table('tweb_wil_clusterdesa')->where('rt', '=', '0')->where('rw', '=', '')->where('dusun', '=', $value->dusun)->delete();
+            }
+        }
 
         return $hasil;
     }
