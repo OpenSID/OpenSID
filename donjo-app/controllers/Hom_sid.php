@@ -80,6 +80,7 @@ class Hom_sid extends Admin_Controller
             $release = new Release();
             $release->set_api_url($url_rilis)
                 ->set_interval(7)
+                ->set_current_version(null)
                 ->set_cache_folder(config_item('cache_path'));
 
             $info['update_available'] = $release->is_available();
