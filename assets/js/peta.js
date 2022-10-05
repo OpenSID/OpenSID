@@ -1542,8 +1542,7 @@ function set_marker_lokasi_pembangunan(
         "</tr>" +
         "</table>" +
         '<center><a href="' +
-        link_progress +
-        daftar[x].slug +
+        link_progress + '/' + daftar[x].slug +
         '" target="_blank" class="btn btn-flat bg-red btn-sm"><i class="fa fa-info"></i> Selengkapnya</a>' +
         "</div>";
 
