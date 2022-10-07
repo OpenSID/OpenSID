@@ -148,5 +148,6 @@ define('BACKUPPATH', 'backup_inkremental' . DIRECTORY_SEPARATOR);
 /**
  * Default file
  */
+define('GAMBAR_QRCODE', 'assets/images/opensid.png');
 define('LOGO_GARUDA', 'assets/images/garuda.png');
 define('LOGO_BSRE', 'assets/images/bsre.png');

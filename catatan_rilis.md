@@ -12,6 +12,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#5781](https://github.com/OpenSID/OpenSID/issues/5781) Perbaikan link pembangunan tidak tampil dengan benar pada peta.
 5. [#1251](https://github.com/OpenSID/premium/issues/1251) Perbaikan lampiran surat dari layanan mandiri tidak muncul di details arsip layanan.
 6. [#5735](https://github.com/OpenSID/OpenSID/issues/5735) Perbaikan gagal migrasi v22.10-premium.
+7. [#5563](https://github.com/OpenSID/OpenSID/issues/5563) Perbaikan preview surat pada pengaturan surat tinymce.
+
 
 
 #### Perubahan Teknis
