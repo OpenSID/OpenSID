@@ -13,8 +13,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 5. [#1251](https://github.com/OpenSID/premium/issues/1251) Perbaikan lampiran surat dari layanan mandiri tidak muncul di details arsip layanan.
 6. [#5735](https://github.com/OpenSID/OpenSID/issues/5735) Perbaikan gagal migrasi v22.10-premium.
 7. [#5563](https://github.com/OpenSID/OpenSID/issues/5563) Perbaikan preview surat pada pengaturan surat tinymce.
-8. [#5787](https://github.com/OpenSID/OpenSID/issues/5787) Perbaikan modal pupup edit peserta form di program bantuan & tombol rofil.
-
+8. [#5787](https://github.com/OpenSID/OpenSID/issues/5787) Perbaikan modal pupup edit peserta form di program bantuan & tombol profil.
+9. [#5792](https://github.com/OpenSID/OpenSID/issues/5792) Perbaikan nama desa dengan tanda petik diidentitasa desa.
 
 
 #### Perubahan Teknis

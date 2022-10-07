@@ -841,6 +841,11 @@ function nama($str)
     return preg_replace("/[^a-zA-Z '\\.,\\-]/", '', strip_tags($str));
 }
 
+function nama_desa($str)
+{
+    return preg_replace("/[^a-zA-Z '\\.,`\\-]/", '', strip_tags($str));
+}
+
 // Cek  nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip
 function cekNama($str)
 {
