@@ -15,6 +15,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 7. [#5563](https://github.com/OpenSID/OpenSID/issues/5563) Perbaikan preview surat pada pengaturan surat tinymce.
 8. [#5787](https://github.com/OpenSID/OpenSID/issues/5787) Perbaikan modal pupup edit peserta form di program bantuan & tombol profil.
 9. [#5792](https://github.com/OpenSID/OpenSID/issues/5792) Perbaikan nama desa dengan tanda petik diidentitasa desa.
+10. [#5801](https://github.com/OpenSID/OpenSID/issues/5801) Perbaikan pilih gambar pada edit logo identitas desa.
 
 
 #### Perubahan Teknis
