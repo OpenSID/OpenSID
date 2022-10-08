@@ -80,8 +80,6 @@ define('LOKASI_SINKRONISASI_ZIP', 'desa/upload/sinkronisasi/');
 define('LOKASI_PRODUK', 'desa/upload/produk/');
 define('LOKASI_PENGADUAN', 'desa/upload/pengaduan/');
 define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
-define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
-define('LATAR_KEHADIRAN', 'desa/pengaturan/siteman/images/');
 define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
 define('LOKASI_ICON_MENU_ANJUNGAN', 'desa/anjungan/menu/');
 
@@ -1381,4 +1379,9 @@ function gelar($gelar_depan = null, $nama = null, $gelar_belakang = null)
     }
 
     return $nama;
+}
+
+function default_file($new_file = null, $default = null)
+{
+    return file_exists(FCPATH . $new_file) ? asset($new_file, false) : asset(str_replace('assets/', '', $default));
 }

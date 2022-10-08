@@ -37,13 +37,11 @@
 	<?php endif; ?>
 
 	<?php $this->load->view('head_tags') ?>
-	<?php if ($latar_login_mandiri) : ?>
-		<style type="text/css">
-			body.login {
-				background: url('<?= base_url($latar_login_mandiri) ?>');
-			}
-		</style>
-	<?php endif; ?>
+	<style type="text/css">
+        body.login {
+            background-image: url('<?= default_file(LATAR_KEHADIRAN, DEFAULT_LATAR_KEHADIRAN) ?>');
+        }
+    </style>
 	<?php if (cek_koneksi_internet()): ?>
 	<!-- Form Wizard - smartWizard -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css">
@@ -66,7 +64,7 @@
 
 <?php if ($this->setting->tampilan_anjungan == 2 && ! empty($this->setting->tampilan_anjungan_video)) : ?>
 	<div class="video-internal" id="videov" style="display: none;">
-		<video loop <?= jecho($this->setting->tampilan_anjungan_audio, 0, 'muted') ?> poster="<?= base_url($latar_login_mandiri) ?>" class="video-internal-bg" id="videona">
+		<video loop <?= jecho($this->setting->tampilan_anjungan_audio, 0, 'muted') ?> poster="<?= base_url(default_file(LATAR_KEHADIRAN, DEFAULT_LATAR_KEHADIRAN)) ?>" class="video-internal-bg" id="videona">
 			<source src="<?= $this->setting->tampilan_anjungan_video; ?>" type="video/mp4">
 		</video>
 	</div>

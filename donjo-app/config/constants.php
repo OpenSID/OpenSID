@@ -151,3 +151,8 @@ define('BACKUPPATH', 'backup_inkremental' . DIRECTORY_SEPARATOR);
 define('GAMBAR_QRCODE', 'assets/images/opensid.png');
 define('LOGO_GARUDA', 'assets/images/garuda.png');
 define('LOGO_BSRE', 'assets/images/bsre.png');
+define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
+define('DEFAULT_LATAR_SITEMAN', 'assets/css/images/latar_login.jpg');
+define('LATAR_SITEMAN', 'desa/pengaturan/siteman/images/latar_login.jpg');
+define('DEFAULT_LATAR_KEHADIRAN', 'assets/css/images/latar_login_mandiri.jpg');
+define('LATAR_KEHADIRAN', 'desa/pengaturan/siteman/images/latar_login_mandiri.jpg');

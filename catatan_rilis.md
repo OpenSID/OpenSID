@@ -16,6 +16,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 8. [#5787](https://github.com/OpenSID/OpenSID/issues/5787) Perbaikan modal pupup edit peserta form di program bantuan & tombol profil.
 9. [#5792](https://github.com/OpenSID/OpenSID/issues/5792) Perbaikan nama desa dengan tanda petik diidentitasa desa.
 10. [#5801](https://github.com/OpenSID/OpenSID/issues/5801) Perbaikan pilih gambar pada edit logo identitas desa.
+11. [#5793](https://github.com/OpenSID/OpenSID/issues/5793) Perbaikan pemanggilan images latar belakang login admin & layanan mandiri.
 
 
 #### Perubahan Teknis

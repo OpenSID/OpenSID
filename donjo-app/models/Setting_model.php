@@ -215,7 +215,7 @@ class Setting_model extends MY_Model
     public function update($key = 'enable_track', $value = 1)
     {
         if (in_array($key, ['latar_kehadiran'])) {
-            $value = $this->upload_img('latar_kehadiran', LATAR_KEHADIRAN);
+            $value = $this->upload_img('latar_kehadiran', LATAR_LOGIN);
         }
 
         if ($key == 'tte' && $value == 1) {
