@@ -46,11 +46,36 @@ class Migrasi_fitur_premium_2211 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2210');
 
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2022100851($hasil);
     }
 
-    protected function migrasi_xxxxxxxxxx($hasil)
+    public function migrasi_2022100851($hasil)
     {
+        // ganti jenis data untuk realisasi dan rencana keuangan
+        if ($this->db->field_exists('Nilai_Anggaran', 'keuangan_manual_rinci')) {
+            $fields = [
+                'Nilai_Anggaran' => [
+                    'type'       => 'decimal',
+                    'constraint' => '65,2',
+                    'null'       => false,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('keuangan_manual_rinci', $fields);
+        }
+
+        if ($this->db->field_exists('Nilai_Realisasi', 'keuangan_manual_rinci')) {
+            $fields = [
+                'Nilai_Realisasi' => [
+                    'type'       => 'decimal',
+                    'constraint' => '65,2',
+                    'null'       => false,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('keuangan_manual_rinci', $fields);
+        }
+
         return $hasil;
     }
 }

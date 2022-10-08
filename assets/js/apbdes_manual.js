@@ -19,8 +19,8 @@ function generateTable(tabel, dataTable, ubah, hapus) {
 					((hapus) ? '<a href="#" data-href="delete_input/'+data[i].id+'" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>'+
 						'</td>' : '') + '</td>'+			
 				'<td>'+(($('#jenis').val() == '5.BELANJA') ? data[i].Kd_Keg : data[i].Kd_Rincian)+'</td>'+
-				'<td class="rupiah">'+formatRupiah(data[i].Nilai_Anggaran)+'</td>'+
-				'<td class="rupiah">'+formatRupiah(data[i].Nilai_Realisasi)+'</td>'+
+				'<td class="rupiah">'+numeral(+data[i].Nilai_Anggaran).format()+'</td>'+
+				'<td class="rupiah">'+numeral(+data[i].Nilai_Realisasi).format()+'</td>'+
 				'</tr>';
 			}
 			tabel.html(html);

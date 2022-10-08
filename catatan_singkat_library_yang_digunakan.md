@@ -20,6 +20,7 @@ Library Javascript yang digunakan:
 - http://jquery.malsup.com/cycle2/, untuk semua slideshow termasuk teks berjalan, widget aparatur desa
 - https://github.com/jhuckaby/webcamjs/, untuk mengambil gambar lewat kamera
 - https://fingerprintjs.com/, untuk identifikasi perangkat dengan akurasi tinggi untuk seluler dan web
+- http://numeraljs.com/, untuk pengolahan format angka
 
 Library PHP yang digunakan:
 
