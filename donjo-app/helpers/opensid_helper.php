@@ -1324,7 +1324,7 @@ function sdgs()
         }, $cache, 604800);
     }
 
-    return null;
+    return (object) ['error_msg' => 'Kode Desa BPS belum ditentukan. Periksa pengaturan <a href="#" style="text-decoration:none;" data-remote="false" data-toggle="modal" data-target="#pengaturan"><strong>Kode Desa BPS&nbsp;(<i class="fa fa-gear"></i>)</a>'];
 }
 
 function cek_anjungan()
