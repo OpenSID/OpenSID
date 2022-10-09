@@ -30,13 +30,11 @@
 	<?php endif; ?>
 
 	<?php $this->load->view('head_tags'); ?>
-	<?php if ($latar_login_mandiri) : ?>
-		<style type="text/css">
-			body.login {
-				background: url('<?= base_url($latar_login_mandiri); ?>');
-			}
-		</style>
-	<?php endif; ?>
+	<style type="text/css">
+        body.login {
+            background-image: url('<?= default_file(LATAR_KEHADIRAN, DEFAULT_LATAR_KEHADIRAN) ?>');
+        }
+    </style>
 </head>
 
 <body class="login">

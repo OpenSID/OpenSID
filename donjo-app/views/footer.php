@@ -50,6 +50,29 @@
 				<script src="<?= asset('js/custom-select2.js') ?>"></script>
 				<script src="<?= asset('js/custom-datetimepicker.js') ?>"></script>
 
+				<!-- numeral js -->
+				<script src="<?= asset('js/numeraljs/numeral.min.js') ?>"></script>
+				<script type="text/javascript">
+					numeral.register("locale", "id-id", {
+					   delimiters: {
+					      thousands: ".",
+					      decimal: ","
+					   },
+					   abbreviations: {
+				            thousand: 'k',
+				            million: 'm',
+				            billion: 'b',
+				            trillion: 't'
+				        },
+					   currency: {
+					      symbol: "Rp." //The currency for UAE is called the Dirham
+					   }
+					});
+					numeral.locale('id-id');
+					numeral.defaultFormat('0,0.00');
+					console.log(numeral.locale())
+				</script>
+
 				<!-- Token Field -->
 				<?php if ($this->controller == 'bumindes_kader') : ?>
 					<script src="<?= asset('bootstrap/js/bootstrap-tokenfield.min.js') ?>"></script>

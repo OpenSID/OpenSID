@@ -64,8 +64,7 @@ class Siteman extends MY_Controller
             redirect('main');
         }
         unset($_SESSION['balik_ke']);
-        $data['header']      = Config::first();
-        $data['latar_login'] = $this->theme_model->latar_login();
+        $data['header'] = Config::first();
 
         $data['form_action'] = site_url('siteman/auth');
         //Initialize Session ------------
@@ -126,8 +125,7 @@ class Siteman extends MY_Controller
 
     public function lupa_sandi()
     {
-        $data['header']      = Config::first();
-        $data['latar_login'] = $this->theme_model->latar_login();
+        $data['header'] = Config::first();
 
         $this->load->view('lupa_sandi', $data);
     }
@@ -167,10 +165,9 @@ class Siteman extends MY_Controller
             redirect('siteman');
         }
 
-        $data['header']      = Config::first();
-        $data['latar_login'] = $this->theme_model->latar_login();
-        $data['email']       = $this->input->get('email');
-        $data['token']       = $token;
+        $data['header'] = Config::first();
+        $data['email']  = $this->input->get('email');
+        $data['token']  = $token;
 
         $this->load->view('reset_kata_sandi', $data);
     }

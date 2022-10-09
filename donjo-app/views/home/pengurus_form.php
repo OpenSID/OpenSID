@@ -69,7 +69,7 @@
 								<label class="col-sm-4 control-label"></label>
 								<div class="col-sm-3"></div>
 								<div class="col-sm-7">
-									<input id="nama_dengan_gelar" class="form-control input-sm" type="text" placeholder="Nama dengan gelar" <?php $nama = empty($individu) ? $pamong['pamong_nama'] : $individu['nama'] ?> value="<?= "{$pamong['gelar_depan']} {$nama} {$pamong['gelar_belakang']}"; ?>" disabled></input>
+									<input id="nama_dengan_gelar" class="form-control input-sm" type="text" placeholder="Nama dengan gelar" disabled></input>
 								</div>
 							</div>
 							<div class="form-group gelar">
@@ -288,22 +288,36 @@
 
 <script>
 	$('document').ready(function() {
+		gelar();
+
 		$("input[name='pengurus']:checked").change();
 		if ($("#validasi input[name='id_pend']").val() != '') {
 			$('#pamong_nama').removeClass('required');
 		}
 
 		$(".input-gelar").keyup(function() {
-			var nama = $("input[name='id_pend']").val() != ''
-				? $("#nama_penduduk").val()
-				: $("#pamong_nama").val();
-
-			var depan = $("#gelar_depan").val();
-			var belakang = $("#gelar_belakang").val();
-
-			$("#nama_dengan_gelar").val(`${depan} ${nama} ${belakang}`);
+			gelar();
 		});
 	});
+
+	function gelar() {
+		var nama = $("input[name='id_pend']").val() != ''
+			? $("#nama_penduduk").val()
+			: $("#pamong_nama").val();
+
+		var depan = $("#gelar_depan").val();
+		var belakang = $("#gelar_belakang").val();
+
+		if (depan) {
+			nama = depan + ' ' + nama;
+		}
+
+		if (belakang) {
+			nama = nama + ', ' + belakang;
+		}
+
+		$("#nama_dengan_gelar").val(nama);
+	}
 
 	function reset_form() {
 		<?php if ($pamong['pamong_status'] == '1' || $pamong['pamong_status'] == null): ?>

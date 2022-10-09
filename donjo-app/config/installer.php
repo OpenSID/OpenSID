@@ -201,7 +201,6 @@ $config = [
         *
         */
         body.login{
-        background: url(images/latar_login.jpg) no-repeat center fixed; /*gambar background */
             background-size: cover;
             -webkit-background-size: cover;
             -moz-background-size: cover;
@@ -231,7 +230,6 @@ $config = [
         *
         */
         body.login{
-        background: url(images/latar_login.jpg) no-repeat center fixed; /*gambar background */
             background-size: cover;
             -webkit-background-size: cover;
             -moz-background-size: cover;

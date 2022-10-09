@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.10-premium');
+define('VERSION', '22.10-premium-rev01');
 
 /**
  * VERSI_DATABASE
@@ -80,8 +80,6 @@ define('LOKASI_SINKRONISASI_ZIP', 'desa/upload/sinkronisasi/');
 define('LOKASI_PRODUK', 'desa/upload/produk/');
 define('LOKASI_PENGADUAN', 'desa/upload/pengaduan/');
 define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
-define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
-define('LATAR_KEHADIRAN', 'desa/pengaturan/siteman/images/');
 define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
 define('LOKASI_ICON_MENU_ANJUNGAN', 'desa/anjungan/menu/');
 
@@ -841,6 +839,11 @@ function nama($str)
     return preg_replace("/[^a-zA-Z '\\.,\\-]/", '', strip_tags($str));
 }
 
+function nama_desa($str)
+{
+    return preg_replace("/[^a-zA-Z '\\.,`\\-]/", '', strip_tags($str));
+}
+
 // Cek  nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip
 function cekNama($str)
 {
@@ -1265,28 +1268,63 @@ function getSizeDB()
     return $CI->db->query($query)->row();
 }
 
+function idm($kode_desa, $tahun)
+{
+    $cache = 'idm_' . $tahun . '_' . $kode_desa . '.json';
+
+    return get_instance()->cache->pakai_cache(static function () use ($kode_desa, $tahun) {
+        if (! cek_koneksi_internet()) {
+            return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
+        }
+
+        try {
+            $client   = new \GuzzleHttp\Client();
+            $response = $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
+                'headers' => [
+                    'X-Requested-With' => 'XMLHttpRequest',
+                ],
+                'verify' => false,
+            ]);
+
+            return json_decode($response->getBody()->getContents())->mapData;
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+
+            return (object) ['error_msg' => 'Tidak dapat mengambil data IDM.'];
+        }
+    }, $cache, 604800);
+}
+
 function sdgs()
 {
-    $CI = &get_instance();
-    $CI->load->library('data_publik');
-
-    $sdgs      = null;
     $kode_desa = setting('kode_desa_bps');
+    $cache     = 'sdgs_' . $kode_desa . '.json';
 
-    if (null !== $kode_desa) {
-        $cache = 'sdgs_' . $kode_desa;
+    if (! empty($kode_desa)) {
+        return get_instance()->cache->pakai_cache(static function () use ($kode_desa) {
+            if (! cek_koneksi_internet()) {
+                return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
+            }
 
-        if (cek_koneksi_internet()) {
-            $CI->data_publik->set_api_url(config_item('api_sdgs') . "={$kode_desa}", $cache)
-                ->set_interval(7)
-                ->set_cache_folder(config_item('cache_path'));
+            try {
+                $client   = new \GuzzleHttp\Client();
+                $response = $client->get(config_item('api_sdgs') . "={$kode_desa}", [
+                    'headers' => [
+                        'X-Requested-With' => 'XMLHttpRequest',
+                    ],
+                    'verify' => false,
+                ]);
 
-            $sdgs = $CI->data_publik->get_url_content();
-            $sdgs = $sdgs->body->data;
-        }
+                return json_decode($response->getBody()->getContents())->data;
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+
+                return (object) ['error_msg' => 'Tidak dapat mengambil data SDGS.'];
+            }
+        }, $cache, 604800);
     }
 
-    return $sdgs;
+    return null;
 }
 
 function cek_anjungan()
@@ -1361,4 +1399,24 @@ function menu_slug($url)
     }
 
     return site_url($url);
+}
+
+function gelar($gelar_depan = null, $nama = null, $gelar_belakang = null)
+{
+    // Gelar depan
+    if ($gelar_depan) {
+        $nama = $gelar_depan . ' ' . $nama;
+    }
+
+    // Gelar belakang
+    if ($gelar_belakang) {
+        $nama = $nama . ', ' . $gelar_belakang;
+    }
+
+    return $nama;
+}
+
+function default_file($new_file = null, $default = null)
+{
+    return file_exists(FCPATH . $new_file) ? asset($new_file, false) : asset(str_replace('assets/', '', $default));
 }

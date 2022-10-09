@@ -15,11 +15,9 @@
     <link rel="shortcut icon" href="<?= favico_desa() ?>" />
 
     <style type="text/css">
-        <?php if ($latar_login) : ?>body.login {
-            background-image: url('<?= base_url($latar_login) ?>');
+        body.login {
+            background-image: url('<?= default_file(LATAR_SITEMAN, DEFAULT_LATAR_SITEMAN) ?>');
         }
-
-        <?php endif ?>
     </style>
     <script src="<?= asset('bootstrap/js/jquery.min.js') ?>"></script>
     <script src="<?= asset('js/jquery.validate.min.js') ?>"></script>

@@ -1,4 +1,3 @@
-
 // https://stackoverflow.com/questions/13261970/how-to-get-the-absolute-path-of-the-current-javascript-file-name/13262027#13262027
 // Untuk mendapatkan base_url, karena aplikasi bisa terinstall di subfolder
 var scripts = document.getElementsByTagName('script');
@@ -42,9 +41,33 @@ $(document).ready(function()
 	enableHapusTerpilih();
 
 	//Display dialog
-	modalBox();
 	mapBox();
 	cetakBox();
+
+	$('#modalBox').on('shown.bs.modal', function (e) {
+		var link = $(e.relatedTarget);
+	  var title = link.data('title');
+	  var size = link.data('size') ?? '';
+	  var modal = $(this);
+	  // tampilkan halaman loading
+	
+	  modal.find('.modal-title').text(title)
+	  modal.find('.modal-dialog').addClass(size);
+	  $(this).find('.fetched-data').load(link.attr('href'));
+	  // tambahkan csrf token kalau ada form
+	  if (modal.find("form")[0]) {
+	      setTimeout(function() {
+	          addCsrfField(modal.find("form")[0]);
+	      }, 500);
+	  }
+	})
+
+	$('#modalBox').on('hidden.bs.modal	', function (e) {
+		var modal = $(this);
+		$(this).find('.fetched-data').html(``);
+		modal.find('.modal-title').text('')
+	})
+
 
 	//Confirm Delete Modal
 	$('#confirm-delete').on('show.bs.modal', function(e) {
@@ -345,25 +368,6 @@ function aksiBorongan(idForm, action) {
     $('#' + idForm).submit();
 	});
 	return false;
-}
-
-function modalBox() {
-    $('#modalBox').one('show.bs.modal', function(e) {
-        var link = $(e.relatedTarget);
-        var title = link.data('title');
-        var size = link.data('size') ?? '';
-        var modal = $(this)
-        modal.find('.modal-title').text(title)
-        modal.find('.modal-dialog').addClass(size);
-        $(this).find('.fetched-data').load(link.attr('href'));
-        // tambahkan csrf token kalau ada form
-        if (modal.find("form")[0]) {
-            setTimeout(function() {
-                addCsrfField(modal.find("form")[0]);
-            }, 500);
-        }
-    });
-    return false;
 }
 
 function cetakBox()

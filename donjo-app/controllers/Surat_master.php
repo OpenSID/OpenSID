@@ -37,9 +37,11 @@
 
 use App\Enums\FontSuratEnum;
 use App\Libraries\TinyMCE;
+use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
+use App\Models\Penduduk;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\Sex;
@@ -467,10 +469,25 @@ class Surat_master extends Admin_Controller
 
     public function preview()
     {
-        $setting_footer = setting('footer_surat');
-        $setting_header = setting('header_surat');
-        $footer         = setting('tte') == 1 ? setting('footer_surat_tte') : $setting_footer;
-        $isi_surat      = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $footer);
+        $setting_footer    = setting('footer_surat');
+        $setting_header    = setting('header_surat');
+        $footer            = setting('tte') == 1 ? setting('footer_surat_tte') : $setting_footer;
+        $data['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $footer);
+
+        $sex             = $this->request['individu_sex'] ?: 1;
+        $status_dasar    = $this->request['individu_status_dasar'] ?: 1;
+        $data['id_pend'] = Penduduk::where('status_dasar', $status_dasar)->where('sex', $sex)->first('id')->id;
+
+        if (! $data['id_pend']) {
+            redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+        }
+
+        foreach ($this->request['nama_kode'] as $kode) {
+            $data = str_replace('[' . $kode . ']', 'Masukkan ' . $kode, $data);
+        }
+
+        $data      = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
+        $isi_surat = $this->replceKodeIsian($data);
 
         // Pisahkan isian surat
         $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);
@@ -491,11 +508,27 @@ class Surat_master extends Admin_Controller
             </page>
         ';
 
+        // Logo Surat
+        $file_logo = ($this->request['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(Config::select('logo')->first()->logo, false, true));
+
+        $logo      = (is_file($file_logo)) ? '<img src="' . $file_logo . '" width="90" height="90" alt="logo-surat" />' : '';
+        $logo_bsre = str_replace('[logo]', $logo, $isi_cetak);
+
+        // Logo BSrE
+        $file_logo_bsre = FCPATH . LOGO_BSRE;
+        $bsre           = (is_file($file_logo_bsre) && setting('tte') == 1) ? '<img src="' . $file_logo_bsre . '" height="90" alt="logo-bsre" />' : '';
+        $logo_qrcode    = str_replace('[logo_bsre]', $bsre, $logo_bsre);
+
+        // QrCode
+        $file_qrcode   = FCPATH . GAMBAR_QRCODE;
+        $qrcode        = (is_file($file_qrcode)) ? '<img src="' . $file_qrcode . '" width="90" height="90" alt="logo-surat" />' : '';
+        $gambar_qecode = str_replace('[qr_code]', $qrcode, $logo_qrcode);
+
         try {
             $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', [$this->request['kiri'] * 10, $this->request['atas'] * 10, $this->request['kanan'] * 10, $this->request['bawah'] * 10]);
             $html2pdf->setTestTdInOnePage(false);
             $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
-            $html2pdf->writeHTML($isi_cetak);
+            $html2pdf->writeHTML($gambar_qecode);
             $html2pdf->output(sys_get_temp_dir() . 'preview.pdf', 'FI');
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
@@ -504,5 +537,48 @@ class Surat_master extends Admin_Controller
         }
 
         exit();
+    }
+
+    private function replceKodeIsian($data = [], $kecuali = [])
+    {
+        $result = $data['isi_surat'];
+
+        $kodeIsian = $this->tinymce->getFormatedKodeIsian($data, true);
+
+        if ((int) $data['surat']['masa_berlaku'] == 0) {
+            $result = str_replace('[mulai_berlaku] s/d [berlaku_sampai]', '-', $result);
+        }
+
+        foreach ($kodeIsian as $key => $value) {
+            if (in_array($key, $kecuali)) {
+                $result = $result;
+            } elseif (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
+                $result = str_replace($key, $value, $result);
+            } else {
+                $result = $this->caseReplace($key, $value, $result);
+            }
+        }
+
+        return $result;
+    }
+
+    public function caseReplace($dari, $ke, $str)
+    {
+        $replacer = static function ($matches) use ($ke) {
+            $matches = array_map(static function ($match) {
+                return preg_replace('/[\\[\\]]/', '', $match);
+            }, $matches);
+            if (ctype_upper($matches[0][0]) && ctype_upper($matches[0][1])) {
+                return strtoupper($ke);
+            }
+            if (ctype_upper($matches[0][0])) {
+                return ucwords($ke);
+            }
+
+            return strtolower($ke);
+        };
+        $dari = str_replace('[', '\\[', $dari);
+
+        return preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
     }
 }

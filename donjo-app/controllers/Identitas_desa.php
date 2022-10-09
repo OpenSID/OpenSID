@@ -211,7 +211,7 @@ class Identitas_desa extends Admin_Controller
         return [
             'logo'              => static::unggah('logo', true, bilangan($request['ukuran'])) ?? $request['old_logo'],
             'kantor_desa'       => static::unggah('kantor_desa') ?? $request['old_kantor_desa'],
-            'nama_desa'         => nama_terbatas($request['nama_desa']),
+            'nama_desa'         => nama_desa($request['nama_desa']),
             'kode_desa'         => bilangan($request['kode_desa']),
             'kode_pos'          => bilangan($request['kode_pos']),
             'alamat_kantor'     => alamat($request['alamat_kantor']),

@@ -53,23 +53,8 @@ class Idm extends Web_Controller
 
         $data = $this->includes;
         $this->_get_common_data($data);
-        $kode_desa = $data['desa']['kode_desa'];
-        $cache     = 'idm_' . $tahun . '_' . $kode_desa;
 
-        if (cek_koneksi_internet()) {
-            $this->data_publik
-                ->set_api_url(config_item('api_idm') . "/{$kode_desa}/{$tahun}", $cache)
-                ->set_interval(7)
-                ->set_cache_folder(config_item('cache_path'));
-
-            $idm = $this->data_publik->get_url_content();
-            if (! $idm->body || $idm->body->error) {
-                $idm->body->mapData->error_msg = ($idm->body->message ? '<a href="' . $idm->header->url . ' ">' . $idm->header->url . '</a>' : 'Tidak dapat mengambil data IDM');
-            }
-
-            $data['idm'] = $idm->body->mapData;
-        }
-
+        $data['idm']            = idm($data['desa']['kode_desa'], $tahun);
         $data['halaman_statis'] = 'idm/index';
 
         $this->_get_common_data($data);

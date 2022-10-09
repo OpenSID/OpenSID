@@ -77,8 +77,7 @@
                 </div>
                 <div class="box-body">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="nama">Nama
-                            {{ ucwords($setting->sebutan_desa) }}</label>
+                        <label class="col-sm-3 control-label" for="nama">Nama {{ ucwords($setting->sebutan_desa) }}</label>
                         <div class="col-sm-8">
                             @if (cek_koneksi_internet())
                                 <select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa"
@@ -86,13 +85,12 @@
                                     data-token="{{ config_item('token_pantau') }}"
                                     data-tracker='{{ config_item('server_pantau') }}' style="display: none;"></select>
                             @endif
-                            <input type="hidden" id="nama_desa" class="form-control input-sm nama_terbatas required"
+                            <input type="hidden" id="nama_desa" class="form-control input-sm nama_desa required"
                                 minlength="3" maxlength="50" name="nama_desa" value="{{ $main->nama_desa }}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="kode_desa">Kode
-                            {{ ucwords($setting->sebutan_desa) }}</label>
+                        <label class="col-sm-3 control-label" for="kode_desa">Kode {{ ucwords($setting->sebutan_desa) }}</label>
                         <div class="col-sm-2">
                             <input readonly id="kode_desa" name="kode_desa"
                                 class="form-control input-sm {{ jecho(cek_koneksi_internet(), false, 'bilangan') }} required"
@@ -102,8 +100,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="kode_pos">Kode Pos
-                            {{ ucwords($setting->sebutan_desa) }}</label>
+                        <label class="col-sm-3 control-label" for="kode_pos">Kode Pos {{ ucwords($setting->sebutan_desa) }}</label>
                         <div class="col-sm-2">
                             <input id="kode_pos" name="kode_pos" class="form-control input-sm number" minlength="5"
                                 maxlength="5" type="text" placeholder="Kode Pos {{ ucwords($setting->sebutan_desa) }}"
