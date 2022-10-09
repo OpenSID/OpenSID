@@ -1268,28 +1268,63 @@ function getSizeDB()
     return $CI->db->query($query)->row();
 }
 
+function idm($kode_desa, $tahun)
+{
+    $cache = 'idm_' . $tahun . '_' . $kode_desa . '.json';
+
+    return get_instance()->cache->pakai_cache(static function () use ($kode_desa, $tahun) {
+        if (! cek_koneksi_internet()) {
+            return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
+        }
+
+        try {
+            $client   = new \GuzzleHttp\Client();
+            $response = $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
+                'headers' => [
+                    'X-Requested-With' => 'XMLHttpRequest',
+                ],
+                'verify' => false,
+            ]);
+
+            return json_decode($response->getBody()->getContents())->mapData;
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+
+            return (object) ['error_msg' => 'Tidak dapat mengambil data IDM.'];
+        }
+    }, $cache, 604800);
+}
+
 function sdgs()
 {
-    $CI = &get_instance();
-    $CI->load->library('data_publik');
-
-    $sdgs      = null;
     $kode_desa = setting('kode_desa_bps');
+    $cache     = 'sdgs_' . $kode_desa . '.json';
 
-    if (null !== $kode_desa) {
-        $cache = 'sdgs_' . $kode_desa;
+    if (! empty($kode_desa)) {
+        return get_instance()->cache->pakai_cache(static function () use ($kode_desa) {
+            if (! cek_koneksi_internet()) {
+                return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
+            }
 
-        if (cek_koneksi_internet()) {
-            $CI->data_publik->set_api_url(config_item('api_sdgs') . "={$kode_desa}", $cache)
-                ->set_interval(7)
-                ->set_cache_folder(config_item('cache_path'));
+            try {
+                $client   = new \GuzzleHttp\Client();
+                $response = $client->get(config_item('api_sdgs') . "={$kode_desa}", [
+                    'headers' => [
+                        'X-Requested-With' => 'XMLHttpRequest',
+                    ],
+                    'verify' => false,
+                ]);
 
-            $sdgs = $CI->data_publik->get_url_content();
-            $sdgs = $sdgs->body->data;
-        }
+                return json_decode($response->getBody()->getContents())->data;
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+
+                return (object) ['error_msg' => 'Tidak dapat mengambil data SDGS.'];
+            }
+        }, $cache, 604800);
     }
 
-    return $sdgs;
+    return null;
 }
 
 function cek_anjungan()

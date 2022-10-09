@@ -92,7 +92,11 @@
                     : 'href="' . route('status_desa.perbarui_sdgs') . '"' !!}><i class="fa fa-refresh"></i>Perbarui</a>
         </div>
         <div class="box-body">
-            @if ($sdgs)
+            @if ($error_msg = $sdgs->error_msg)
+                <div class="alert alert-danger">
+                    {!! $error_msg !!}
+                </div>
+            @else
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="info-box info-box-sdgs" style="display: flex;justify-content: center;">
@@ -128,8 +132,6 @@
                     @endforeach
                     @php $hasil = ($bagi > 0) ? round($total / $bagi, 2) : 'N/A' @endphp
                 </div>
-            @else
-                <b>Maaf. Halaman ini tidak dapat di akses.</b>
             @endif
         </div>
     </div>

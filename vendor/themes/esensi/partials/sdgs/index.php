@@ -8,12 +8,17 @@
 </nav>
 
 <h1 class="text-h2">SDGs <?= ucwords($this->setting->sebutan_desa) ?></h1>
-<div class="space-y-12 text-center">
-    <span class="text-h2" id="total"></span>
-    </br>
-    <span class="text-h6">Skor SDGs Desa</span>
-</div>
-<?php if ($evaluasi = sdgs()): ?>
+<?php $evaluasi = sdgs() ?>
+<?php if ($error_msg = $evaluasi->error_msg): ?>
+    <div class="alert alert-danger">
+        <p class="py-3"><?= $error_msg ?></p>
+    </div>
+<?php else: ?>
+    <div class="space-y-12 text-center">
+        <span class="text-h2" id="total"></span>
+        </br>
+        <span class="text-h6">Skor SDGs Desa</span>
+    </div>
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 py-5">
         
         <?php $bagi = 0;
@@ -36,8 +41,6 @@
         <?php endforeach ?>
         <?php $hasil = ($bagi > 0) ? round($total / $bagi, 2) : 'N/A' ?>
     </div>
-<?php else: ?>
-    <p class="py-3">SDGs <?= ucwords($this->setting->sebutan_desa) ?> tidak tersedia.</p>
 <?php endif ?>
 
 <script type="text/javascript">

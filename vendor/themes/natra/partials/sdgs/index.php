@@ -62,7 +62,11 @@
     <h2 class="post_titile">SDGs <?= ucwords($this->setting->sebutan_desa) ?></h2>
     <div class="box-body">
         <?php $evaluasi = sdgs() ?>
-        <?php if ($evaluasi): ?>
+        <?php if ($error_msg = $evaluasi->error_msg): ?>
+            <div class="alert alert-danger">
+                <b><?= $error_msg ?></b>
+            </div>
+        <?php else: ?>
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="info-box" style="display: flex;justify-content: center;">
@@ -96,8 +100,6 @@
                 <?php endforeach ?>
                 <?php $hasil = ($bagi > 0) ? round($total / $bagi, 2) : 'N/A' ?>
             </div>
-        <?php else: ?>
-            <b>Maaf. Halaman ini tidak dapat di akses.</b>
         <?php endif; ?>
     </div>
 </div>

@@ -22,3 +22,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 
 #### Perubahan Teknis
+1. Perbaikan cara simpan cache IDM dan SDGS.
