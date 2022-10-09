@@ -69,8 +69,6 @@ $(document).ready(function()
 	})
 
 
-		$(this).find('.fetched-data').html(``);
-
 	//Confirm Delete Modal
 	$('#confirm-delete').on('show.bs.modal', function(e) {
 		var string = document.getElementById("confirm-delete").innerHTML;
