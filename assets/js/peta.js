@@ -1799,18 +1799,6 @@ function cetakPeta(layerpeta) {
     }
   );
 
-  window.print = function () {
-    return domtoimage
-      .toPng(document.querySelector(".grid-print-container"))
-      .then(function (dataUrl) {
-        var link = document.createElement("a");
-        link.download =
-          layerpeta.printControl.options.documentTitle ||
-          "exportedMap" + ".png";
-        link.href = dataUrl;
-        link.click();
-      });
-  };
   return cetakPeta;
 }
 

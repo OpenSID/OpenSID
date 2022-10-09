@@ -18,6 +18,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 10. [#5801](https://github.com/OpenSID/OpenSID/issues/5801) Perbaikan pilih gambar pada edit logo identitas desa.
 11. [#5793](https://github.com/OpenSID/OpenSID/issues/5793) Perbaikan pemanggilan images latar belakang login admin & layanan mandiri.
 12. [#5738](https://github.com/OpenSID/OpenSID/issues/5738) Perbaikan desimal dua digit tidak dapat ditampilkan pada transparansi APBDesa.
+13. [#5803](https://github.com/OpenSID/OpenSID/issues/5803) Perbaikan print pada pemetaan.
 
 
 #### Perubahan Teknis
