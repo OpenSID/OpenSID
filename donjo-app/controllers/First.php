@@ -594,7 +594,7 @@ class First extends Web_Controller
             $data['idm'] = $idm->body->mapData;
         }
 
-        $data['halaman_statis'] = 'home/idm';
+        $data['halaman_statis'] = 'idm/index.php';
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
         $this->load->view($this->template, $data);
