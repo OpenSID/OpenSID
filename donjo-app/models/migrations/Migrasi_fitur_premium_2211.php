@@ -39,6 +39,9 @@ use App\Models\KeuanganManualRinci;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Libraries\TinyMCE;
+use App\Models\SettingAplikasi;
+
 class Migrasi_fitur_premium_2211 extends MY_model
 {
     public function up()
@@ -47,10 +50,27 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2210');
+        $hasil = $hasil && $this->migrasi_2022100671($hasil);
 
         return $hasil && $this->migrasi_2022100851($hasil);
     }
 
+    protected function migrasi_2022100671($hasil)
+    {
+        $setting = SettingAplikasi::where('id', '!=', 177)->where('key', 'footer_surat_tte')->first();
+        if ($setting) {
+            $setting->delete();
+            $hasil = $hasil && $this->tambah_setting([
+                'id'         => 177,
+                'key'        => 'footer_surat_tte',
+                'value'      => TinyMCE::FOOTER_TTE,
+                'keterangan' => 'Footer Surat TTE',
+                'kategori'   => 'format_surat',
+            ]);
+        }
+
+        return $hasil;
+    }
     public function migrasi_2022100851($hasil)
     {
         // ganti jenis data untuk realisasi dan rencana keuangan
