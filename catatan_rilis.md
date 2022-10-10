@@ -3,6 +3,7 @@ Di rilis ini, versi 22.10-premium-beta02 [isi disini]. Rilis ini juga berisi pen
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
 #### Penambahan Fitur
+1. [#5718](https://github.com/OpenSID/OpenSID/issues/5718) Penambahan fungsi jarak antra baris (tools tinymce linehight).
 
 #### Perbaikan BUG
 
