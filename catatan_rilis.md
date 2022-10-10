@@ -19,6 +19,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 11. [#5793](https://github.com/OpenSID/OpenSID/issues/5793) Perbaikan pemanggilan images latar belakang login admin & layanan mandiri.
 12. [#5738](https://github.com/OpenSID/OpenSID/issues/5738) Perbaikan desimal dua digit tidak dapat ditampilkan pada transparansi APBDesa.
 13. [#5803](https://github.com/OpenSID/OpenSID/issues/5803) Perbaikan print pada pemetaan.
+14. [#5814](https://github.com/OpenSID/OpenSID/issues/5814) Perbaikan migrasi decimal keuangan rinci.
 
 
 #### Perubahan Teknis

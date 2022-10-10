@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\KeuanganManualRinci;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2211 extends MY_model
@@ -53,6 +55,10 @@ class Migrasi_fitur_premium_2211 extends MY_model
     {
         // ganti jenis data untuk realisasi dan rencana keuangan
         if ($this->db->field_exists('Nilai_Anggaran', 'keuangan_manual_rinci')) {
+            foreach (KeuanganManualRinci::all() as $key => $value) {
+                $value->Nilai_Anggaran = (float) $value->Nilai_Anggaran;
+                $value->save();
+            }
             $fields = [
                 'Nilai_Anggaran' => [
                     'type'       => 'decimal',
@@ -65,6 +71,10 @@ class Migrasi_fitur_premium_2211 extends MY_model
         }
 
         if ($this->db->field_exists('Nilai_Realisasi', 'keuangan_manual_rinci')) {
+            foreach (KeuanganManualRinci::all() as $key => $value) {
+                $value->Nilai_Realisasi = (float) $value->Nilai_Realisasi;
+                $value->save();
+            }
             $fields = [
                 'Nilai_Realisasi' => [
                     'type'       => 'decimal',
