@@ -785,7 +785,6 @@ class Program_bantuan_model extends MY_Model
         $data['asaldana'] = $post['asaldana'];
         $data['sdate']    = date('Y-m-d', strtotime($post['sdate']));
         $data['edate']    = date('Y-m-d', strtotime($post['edate']));
-        $data['status']   = $post['status'];
 
         return $data;
     }
