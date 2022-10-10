@@ -529,7 +529,7 @@ class Surat_master extends Admin_Controller
             $html2pdf->setTestTdInOnePage(false);
             $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
             $html2pdf->writeHTML($gambar_qecode);
-            $html2pdf->output(sys_get_temp_dir() . 'preview.pdf', 'FI');
+            $html2pdf->output(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'preview.pdf', 'FI');
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
             $formatter = new ExceptionFormatter($e);

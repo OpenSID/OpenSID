@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.10-premium-beta01 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.10-premium-beta02 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
@@ -19,6 +19,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 11. [#5793](https://github.com/OpenSID/OpenSID/issues/5793) Perbaikan pemanggilan images latar belakang login admin & layanan mandiri.
 12. [#5738](https://github.com/OpenSID/OpenSID/issues/5738) Perbaikan desimal dua digit tidak dapat ditampilkan pada transparansi APBDesa.
 13. [#5803](https://github.com/OpenSID/OpenSID/issues/5803) Perbaikan print pada pemetaan.
+14. [#5814](https://github.com/OpenSID/OpenSID/issues/5814) Perbaikan migrasi decimal keuangan rinci.
+15. [#5812](https://github.com/OpenSID/OpenSID/issues/5812) Perbaikan ubah status aktif & tidak aktif berdasarkan range tanggal.
 
 
 #### Perubahan Teknis
