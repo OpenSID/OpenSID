@@ -4,6 +4,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 #### Penambahan Fitur
 1. [#5718](https://github.com/OpenSID/OpenSID/issues/5718) Penambahan fungsi jarak antra baris (tools tinymce linehight).
+2. [#5578](https://github.com/OpenSID/OpenSID/issues/5578) Penambahan Capitalize Each Word pada kode isian surat TinyMCE.
 
 #### Perbaikan BUG
 
