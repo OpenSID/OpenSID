@@ -11,6 +11,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 6. [#5371](https://github.com/OpenSID/OpenSID/issues/5371) Penambahan popup untuk melihat foto pada galeri.
 7. [#5763](https://github.com/OpenSID/OpenSID/issues/5763) Penambahan TinyMCE surat pengantar laporan kehilangan.
 8. [#5755](https://github.com/OpenSID/OpenSID/issues/5755) Penambahan TinyMCE surat keterangan kenduduk.
+9. [#2663](https://github.com/OpenSID/OpenSID/issues/2663) Penambahan shortcut surat keterangan kematian pada log penduduk.
 
 #### Perbaikan BUG
 

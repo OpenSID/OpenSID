@@ -98,8 +98,10 @@ class Surat extends Admin_Controller
         return show_404();
     }
 
-    public function form($url = '')
+    public function form($url = '', $id = '')
     {
+        $nik = $this->input->post('nik') ?? $id;
+
         $this->session->unset_userdata('log_surat');
 
         $data['surat'] = FormatSurat::cetak($url)->first();
@@ -110,12 +112,12 @@ class Surat extends Admin_Controller
             $data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], '/clear');
 
             // NIK => id
-            if (! empty($_POST['nik'])) {
+            if (! empty($nik)) {
                 if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
-                    $data['individu'] = $this->surat_model->get_penduduk($_POST['nik']);
+                    $data['individu'] = $this->surat_model->get_penduduk($nik);
                     $data['anggota']  = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => true], true);
                 } else {
-                    $data['individu'] = Penduduk::find($_POST['nik']) ?? show_404();
+                    $data['individu'] = Penduduk::find($nik) ?? show_404();
                     $data['anggota']  = null;
                 }
             } else {
@@ -135,7 +137,7 @@ class Surat extends Admin_Controller
                 return $this->render('surat/form_surat', $data);
             }
             // TODO:: Gunakan 1 list_dokumen untuk RTF dan TinyMCE
-            $data['list_dokumen'] = empty($_POST['nik']) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
+            $data['list_dokumen'] = empty($nik) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
             $data['form_action']  = route('surat.pratinjau', $url);
 
             return view('admin.surat.form_desa', $data);

@@ -161,6 +161,9 @@
                                                                 <a href="<?= site_url("penduduk_log/ajax_kembalikan_status_pergi/{$data['id_log']}")?>" class="btn bg-purple btn-flat btn-sm" title="Datang Kembali"  data-remote="false"  data-toggle="modal" data-target="#modalBox" data-title="Kembalikan Penduduk"><i class="fa fa-angle-double-left"></i></a>
                                                             <?php endif ?>
                                                         <?php endif ?>
+                                                        <?php if ($data['kode_peristiwa'] == 2) : ?>
+                                                            <a target="_blank" href="<?= site_url("surat/form/surat_ket_kematian/{$data['id']}") ?>" class="btn btn-social bg-purple btn-sm" title="Surat Keterangan Kematian"><i class="fa fa-file-word-o"></i>Surat Keterangan Kematian</a>
+                                                        <?php endif ?>
                                                     </td>
                                                     <td class="padat">
                                                         <img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
