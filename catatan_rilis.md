@@ -7,6 +7,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. [#5578](https://github.com/OpenSID/OpenSID/issues/5578) Penambahan Capitalize Each Word pada kode isian surat TinyMCE.
 3. [#5775](https://github.com/OpenSID/OpenSID/issues/5775) Penyesuaian ukuran font di bagian footer tte.
 4. [#5764](https://github.com/OpenSID/OpenSID/issues/5764) Konversi surat RTF - Keterangan Usaha TinyMCE.
+5. [#5754](https://github.com/OpenSID/OpenSID/issues/5754) Konversi surat RTF - Keterangan Pengantar.
 
 #### Perbaikan BUG
 
