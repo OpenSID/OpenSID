@@ -28,6 +28,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 13. [#5803](https://github.com/OpenSID/OpenSID/issues/5803) Perbaikan print pada pemetaan.
 14. [#5814](https://github.com/OpenSID/OpenSID/issues/5814) Perbaikan migrasi decimal keuangan rinci.
 15. [#5812](https://github.com/OpenSID/OpenSID/issues/5812) Perbaikan ubah status aktif & tidak aktif berdasarkan range tanggal.
+16. [#5820](https://github.com/OpenSID/OpenSID/issues/5820) Perbaikan kirim versi OpenSID ke layanan.
 
 
 #### Perubahan Teknis
