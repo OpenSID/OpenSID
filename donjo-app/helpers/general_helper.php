@@ -409,3 +409,34 @@ if (! function_exists('ci_db')) {
         return get_instance()->db;
     }
 }
+
+if (! function_exists('kirim_versi_opensid')) {
+    function kirim_versi_opensid()
+    {
+        $ci = get_instance();
+        if (empty($ci->header['desa']['kode_desa'])) {
+            return;
+        }
+
+        $ci->load->driver('cache');
+
+        $versi = AmbilVersi();
+
+        if ($versi != $ci->cache->file->get('versi_app_cache')) {
+            try {
+                $client = new \GuzzleHttp\Client();
+                $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
+                    'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
+                    'form_params' => [
+                        'kode_desa' => kode_wilayah($ci->header['desa']['kode_desa']),
+                        'versi'     => $versi,
+                    ],
+                ])
+                    ->getBody();
+                $ci->cache->file->save('versi_app_cache', $versi);
+            } catch (Exception $e) {
+                log_message('error', $e);
+            }
+        }
+    }
+}

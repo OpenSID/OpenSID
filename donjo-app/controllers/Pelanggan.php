@@ -64,6 +64,7 @@ class Pelanggan extends Admin_Controller
 
     public function index()
     {
+        kirim_versi_opensid();
         $response = $this->notif_model->api_pelanggan_pemesanan();
 
         // Ubah layanan_opendesa_token terbaru, jangan perbaharui jika token tersimpan di config (untuk developmen)
@@ -88,6 +89,7 @@ class Pelanggan extends Admin_Controller
 
     public function perbarui()
     {
+        kirim_versi_opensid();
         $this->cache->hapus_cache_untuk_semua('status_langganan');
         session_success();
         sleep(3);
