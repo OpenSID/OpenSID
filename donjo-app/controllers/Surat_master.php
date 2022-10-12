@@ -264,9 +264,15 @@ class Surat_master extends Admin_Controller
 
         $nama_surat = nama_terbatas($request['nama']);
 
+        if (in_array($jenis, FormatSurat::RTF)) {
+            $url_surat = 'surat_' . strtolower(str_replace([' ', '-'], '_', $nama_surat));
+        } else {
+            $url_surat = strtolower(str_replace([' ', '_'], '-', $nama_surat));
+        }
+
         $data = [
             'nama'                => $nama_surat,
-            'url_surat'           => 'surat_' . strtolower(str_replace([' ', '-'], '_', $nama_surat)),
+            'url_surat'           => $url_surat,
             'kode_surat'          => $request['kode_surat'],
             'masa_berlaku'        => $request['masa_berlaku'],
             'satuan_masa_berlaku' => $request['satuan_masa_berlaku'],

@@ -179,7 +179,7 @@ class Surat extends Admin_Controller
             $setting_footer         = $surat->footer == 0 ? '' : setting('footer_surat');
             $setting_header         = $surat->header == 0 ? '' : setting('header_surat');
             $footer                 = setting('tte') == 1 ? setting('footer_surat_tte') : $setting_footer;
-            $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?? $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $footer);
+            $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?: $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $footer);
 
             // Lewati ganti kode_isian
             $isi_surat = $this->replceKodeIsian($log_surat);

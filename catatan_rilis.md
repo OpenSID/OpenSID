@@ -6,6 +6,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 1. [#5718](https://github.com/OpenSID/OpenSID/issues/5718) Penambahan fungsi jarak antra baris (tools tinymce linehight).
 2. [#5578](https://github.com/OpenSID/OpenSID/issues/5578) Penambahan Capitalize Each Word pada kode isian surat TinyMCE.
 3. [#5775](https://github.com/OpenSID/OpenSID/issues/5775) Penyesuaian ukuran font di bagian footer tte.
+4. [#5764](https://github.com/OpenSID/OpenSID/issues/5764) Konversi surat RTF - Keterangan Usaha TinyMCE.
 
 #### Perbaikan BUG
 

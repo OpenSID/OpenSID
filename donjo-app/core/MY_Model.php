@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\FormatSurat;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -220,6 +221,20 @@ class MY_Model extends CI_Model
         $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
 
         return $hasil;
+    }
+
+    public function tambah_surat_tinymce($data = [])
+    {
+        // Tambah data baru dan update (hanya kolom template) jika ada sudah ada
+        $cek_surat = FormatSurat::where('url_surat', $data['url_surat'])->first();
+
+        if ($cek_surat) {
+            $cek_surat->update(['template' => $data['template']]);
+        } else {
+            FormatSurat::create($data);
+        }
+
+        return true;
     }
 
     // fungsi untuk format paginasi

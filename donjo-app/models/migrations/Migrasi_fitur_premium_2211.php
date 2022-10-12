@@ -35,12 +35,11 @@
  *
  */
 
+use App\Libraries\TinyMCE;
 use App\Models\KeuanganManualRinci;
+use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
-
-use App\Libraries\TinyMCE;
-use App\Models\SettingAplikasi;
 
 class Migrasi_fitur_premium_2211 extends MY_model
 {
@@ -50,6 +49,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2210');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_surat_tinymce');
         $hasil = $hasil && $this->migrasi_2022100671($hasil);
 
         return $hasil && $this->migrasi_2022100851($hasil);
@@ -71,6 +71,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
         return $hasil;
     }
+
     public function migrasi_2022100851($hasil)
     {
         // ganti jenis data untuk realisasi dan rencana keuangan
