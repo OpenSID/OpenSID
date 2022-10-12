@@ -6,10 +6,11 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 1. [#5718](https://github.com/OpenSID/OpenSID/issues/5718) Penambahan fungsi jarak antra baris (tools tinymce linehight).
 2. [#5578](https://github.com/OpenSID/OpenSID/issues/5578) Penambahan Capitalize Each Word pada kode isian surat TinyMCE.
 3. [#5775](https://github.com/OpenSID/OpenSID/issues/5775) Penyesuaian ukuran font di bagian footer tte.
-4. [#5764](https://github.com/OpenSID/OpenSID/issues/5764) Konversi surat RTF - keterangan usaha TinyMCE.
-5. [#5754](https://github.com/OpenSID/OpenSID/issues/5754) Konversi surat RTF - keterangan pengantar TinyMCE.
+4. [#5764](https://github.com/OpenSID/OpenSID/issues/5764) Penambahan TinyMCE surat keterangan usaha.
+5. [#5754](https://github.com/OpenSID/OpenSID/issues/5754) Penambahan TinyMCE surat keterangan pengantar.
 6. [#5371](https://github.com/OpenSID/OpenSID/issues/5371) Penambahan popup untuk melihat foto pada galeri.
-7. [#5763](https://github.com/OpenSID/OpenSID/issues/5763) Konversi surat RTF - pengantar laporan kehilangan TinyMCE.
+7. [#5763](https://github.com/OpenSID/OpenSID/issues/5763) Penambahan TinyMCE surat pengantar laporan kehilangan.
+8. [#5755](https://github.com/OpenSID/OpenSID/issues/5755) Penambahan TinyMCE surat keterangan kenduduk.
 
 #### Perbaikan BUG
 
