@@ -8,6 +8,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 3. [#5775](https://github.com/OpenSID/OpenSID/issues/5775) Penyesuaian ukuran font di bagian footer tte.
 4. [#5764](https://github.com/OpenSID/OpenSID/issues/5764) Konversi surat RTF - Keterangan Usaha TinyMCE.
 5. [#5754](https://github.com/OpenSID/OpenSID/issues/5754) Konversi surat RTF - Keterangan Pengantar.
+6. [#5371](https://github.com/OpenSID/OpenSID/issues/5371) Penambahan popup untuk melihat foto pada galeri. 
 
 #### Perbaikan BUG
 
