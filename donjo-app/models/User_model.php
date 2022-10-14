@@ -630,8 +630,6 @@ class User_model extends CI_Model
      * - fail: nama berkas lama, kalau ada
      *
      * @param mixed $idUser
-     *
-     * @return
      */
     private function urusFoto($idUser = '')
     {
@@ -680,8 +678,6 @@ class User_model extends CI_Model
      * @param mixed $upload_path
      * @param mixed $lokasi
      * @param mixed $redirect
-     *
-     * @return
      */
     private function uploadFoto($allowed_types, $upload_path, $lokasi, $redirect)
     {

@@ -208,8 +208,6 @@ class Penduduk_log_model extends MY_Model
     /**
      * Kembalikan status dasar sekumpulan penduduk ke hidup
      *
-     * @param
-     *
      * @return void
      */
     public function kembalikan_status_all()
