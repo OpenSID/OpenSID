@@ -203,11 +203,8 @@ class Periksa_model extends MY_Model
     {
         $wilayah_pertama = [];
         // Ambil sebutan dusun
-        $sebutan_dusun = $this->db
-            ->select('value')
-            ->where('key', 'sebutan_dusun')
-            ->get('setting_aplikasi')
-            ->row()->value;
+        $sebutan_dusun = setting('sebutan_dusun');
+
         // Ambil wilayah pada keluarga pertama yg tidak kosong
         $id_wil = $this->db
             ->select('id_cluster')
@@ -429,6 +426,7 @@ class Periksa_model extends MY_Model
             ->set('value', $this->periksa['migrasi_utk_diulang'])
             ->where('key', 'current_version')
             ->update('setting_aplikasi');
+        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
         $this->load->model('database_model');
         $this->database_model->migrasi_db_cri();
     }
@@ -764,9 +762,7 @@ class Periksa_model extends MY_Model
             'analisis_respon',
             'analisis_respon_hasil',
             'captcha_codes',
-            'detail_log_penduduk', // Tabel ini digunakan dimana?
             'password_resets',
-            'pertanyaan', // Tabel ini digunakan dimana?
             'sentitems', // Belum tau bentuk datanya bagamana
             'setting_sms',
             'sys_traffic',

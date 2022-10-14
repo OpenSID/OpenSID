@@ -33,7 +33,7 @@
 					data-cycle-caption-plugin=caption2
 					data-cycle-overlay-fx-out="slideUp"
 					data-cycle-overlay-fx-in="slideDown"
-					data-cycle-auto-height=<?= $aparatur_desa['foto_pertama'] ?>
+					data-cycle-auto-height=4:6
 				>
 
 				<?php if ($this->web_widget_model->get_setting('aparatur_desa', 'overlay') == true): ?>

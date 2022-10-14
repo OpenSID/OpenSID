@@ -407,11 +407,10 @@ class Statistik extends Admin_Controller
             $data[] = $row;
         }
 
-        $output = [
+        return json([
             'recordsTotal'    => $this->program_bantuan_model->count_peserta_bantuan_all(),
             'recordsFiltered' => $this->program_bantuan_model->count_peserta_bantuan_filtered(),
             'data'            => $data,
-        ];
-        $this->json_output($output);
+        ]);
     }
 }

@@ -10,7 +10,7 @@
 	<meta name="robots" content="noindex">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
+	<link rel="shortcut icon" href="<?= favico_desa() ?>" />
 	<link rel="stylesheet" href="<?= asset('css/login-style.css') ?>" media="screen">
 	<link rel="stylesheet" href="<?= asset('css/login-form-elements.css') ?>" media="screen">
 	<link rel="stylesheet" href="<?= asset('css/daftar-form-elements.css') ?>" media="screen">
@@ -246,6 +246,14 @@
 	<?php endif; ?>
 	<script type="text/javascript">
 		$('document').ready(function() {
+
+			var ektp = '<?= $this->session->login_ektp ?>';
+			var anjungan = '<?= $cek_anjungan ?>';
+			var tampil_anjungan = '<?= $this->setting->tampilan_anjungan ?>';
+			var tampil_anjungan_video = '<?= $this->setting->tampilan_anjungan_video ?>';
+			var tampil_anjungan_slider = '<?= $this->setting->tampilan_anjungan_slider ?>';
+			var IDLE_TIMEOUT = '<?= $this->setting->tampilan_anjungan_waktu ?>';
+
 			$('#daftar_tgl_lahir').datetimepicker({
 				format: 'DD-MM-YYYY',
 				locale: 'id',
@@ -255,9 +263,6 @@
 				var tgllahir = parseInt($('#daftar_tgl_lahir').val().substring(6, 10));
 			};
 			$("#daftar_tgl_lahir").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
-
-			var ektp = '<?= $this->session->login_ektp ?>';
-			var anjungan = '<?= $cek_anjungan ?>';
 
 			if (ektp) {
 				if (anjungan) {
@@ -288,7 +293,6 @@
 
 			var videona = document.getElementById("videona");
 			videona.pause();
-			var IDLE_TIMEOUT = <?= $this->setting->tampilan_anjungan_waktu; ?>; //seconds
 			var _idleSecondsCounter = 0;
 			document.onclick = function() {
 				_idleSecondsCounter = 0;
@@ -305,9 +309,7 @@
 				_idleSecondsCounter++;
 				var video = document.getElementById("videov");
 				var slider = document.getElementById("sliderv");
-				var tampil_anjungan = '<?= $this->setting->tampilan_anjungan; ?>';
-				var tampil_anjungan_video = '<?= $this->setting->tampilan_anjungan_video; ?>';
-				var tampil_anjungan_slider = '<?= $this->setting->tampilan_anjungan_slider; ?>';
+
 				if (_idleSecondsCounter >= IDLE_TIMEOUT) {
 					if (tampil_anjungan == 2 && tampil_anjungan_video) {
 						videona.play();
@@ -343,7 +345,7 @@
 				} else {
 					document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam " + menit + " MENIT " + detik + " DETIK </b>";
 				}
-			}, 500);
+			}, 1000);
 		}
 
 		function show(elem) {

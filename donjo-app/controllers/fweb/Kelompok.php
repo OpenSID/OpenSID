@@ -57,8 +57,8 @@ class Kelompok extends Web_Controller
 
         $data['detail']   = $this->kelompok_model->get_kelompok($id);
         $data['title']    = 'Data Kelompok ' . $data['detail']['nama'];
+        $data['anggota']  = $this->kelompok_model->list_anggota(0, 0, 500, $id, 'anggota');
         $data['pengurus'] = $this->kelompok_model->list_pengurus($id);
-        $data['anggota']  = $this->kelompok_model->list_anggota($id, $sub  = 'anggota');
 
         // Jika kelompok tdk tersedia / sudah terhapus pd modul kelompok
         if ($data['detail'] == null) {

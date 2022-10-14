@@ -47,7 +47,7 @@ class Theme_model extends CI_Model
         parent::__construct();
         $this->tema   = str_replace('desa/', '', $this->setting->web_theme);
         $this->folder = preg_match('/desa\\//', strtolower($this->setting->web_theme)) ? 'desa/themes' : 'vendor/themes';
-        if (empty($this->setting->web_theme) || ! is_dir(FCPATH . $this->folder . '/' . $this->tema)) {
+        if (empty($this->setting->web_theme) || ! file_exists(FCPATH . "{$this->folder}/{$this->tema}/template.php")) {
             $this->tema   = 'esensi';
             $this->folder = 'vendor/themes';
         }

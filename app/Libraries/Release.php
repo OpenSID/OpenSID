@@ -85,11 +85,11 @@ class Release
         }
 
         if (! $this->cache) {
-            $this->set_cache_folder(FCPATH);
+            $this->setCacheFolder(config_item('cache_path'));
         }
 
         if (! $this->interval) {
-            $this->set_interval(7);
+            $this->setInterval(7);
         }
     }
 
@@ -98,7 +98,7 @@ class Release
      *
      * @param string $url
      */
-    public function set_api_url($url)
+    public function setApiUrl($url)
     {
         $this->api = $url;
 
@@ -112,7 +112,7 @@ class Release
      *
      * @param int $interval
      */
-    public function set_interval($interval)
+    public function setInterval($interval)
     {
         $interval       = (int) $interval;
         $this->interval = $interval * 86400; // N * 86400 detik (1 hari)
@@ -129,7 +129,7 @@ class Release
      *
      * @param string $folder
      */
-    public function set_cache_folder($folder)
+    public function setCacheFolder($folder)
     {
         $folder = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $folder);
         $folder = str_replace(FCPATH, '', $folder);
@@ -152,10 +152,10 @@ class Release
      *
      * @return bool
      */
-    public function is_available()
+    public function isAvailable()
     {
-        $current = $this->fix_versioning($this->get_current_version());
-        $latest  = $this->fix_versioning($this->get_latest_version());
+        $current = $this->fixVersioning($this->getCurrentVersion());
+        $latest  = $this->fixVersioning($this->getLatestVersion());
 
         return $current < $latest;
     }
@@ -166,7 +166,7 @@ class Release
      *
      * @param string $version
      */
-    public function set_current_version($version)
+    public function setCurrentVersion($version)
     {
         $this->version = 'v' . ltrim($version ?? VERSION, 'v');
 
@@ -178,18 +178,18 @@ class Release
      *
      * @return string
      */
-    public function get_current_version()
+    public function getCurrentVersion()
     {
         return $this->version;
     }
 
     /**
      * Ambil tag versi dari rilis terbaru.
-     * Contoh return value: 'v20.07'
+     * Contoh return value: 'v20.07-premium'
      *
      * @return string
      */
-    public function get_latest_version()
+    public function getLatestVersion()
     {
         return $this->resync()->tag_name;
     }
@@ -201,7 +201,7 @@ class Release
      *
      * @return string
      */
-    public function get_release_name()
+    public function getReleaseName()
     {
         return $this->resync()->name;
     }
@@ -211,7 +211,7 @@ class Release
      *
      * @return string
      */
-    public function get_release_download()
+    public function getReleaseDownload()
     {
         // Bisa menggunakan zipball_url, tapi penamaan file dan foldernya tidak sesuai rilis.
         // Jadi digunakan html_url dengan penyesuaian.
@@ -227,9 +227,9 @@ class Release
      *
      * @return string
      */
-    public function get_release_body()
+    public function getReleaseBody()
     {
-        return $this->convert_markdown_link($this->resync()->body);
+        return $this->convertMarkdownLink($this->resync()->body);
     }
 
     /**
@@ -241,7 +241,7 @@ class Release
      *
      * @return string
      */
-    protected function convert_markdown_link(?string $body = null)
+    protected function convertMarkdownLink(?string $body = null)
     {
         return preg_replace_callback('/\[(.*?)\]\((.*?)\)/', static function ($matches) {
             return '<a href="' . $matches[2] . '">' . $matches[1] . '</a>';
@@ -259,7 +259,7 @@ class Release
             throw new Exception('Please specify the API endpoint URL.');
         }
 
-        if ($this->cache_is_outdated()) {
+        if ($this->cacheIsOutdated()) {
             \Esyede\Curly::$certificate = FCPATH . 'cacert.pem';
 
             $options  = [CURLOPT_HTTPHEADER => ['Accept' => 'application/vnd.github.v3+json']];
@@ -293,24 +293,27 @@ class Release
      *
      * @return bool
      */
-    public function cache_is_outdated()
+    public function cacheIsOutdated()
     {
         return ! is_file($this->cache) || (time() > (filemtime($this->cache) + $this->interval));
     }
 
     /**
      * Ubah versi rilis menjadi integer agar bisa dibandingkan
+     * versi rilis (tgl 1) > beta > rev
      *
      * @param string $version
      *
      * @return int
      */
-    public function fix_versioning($version)
+    public function fixVersioning($version)
     {
-        $version     = preg_replace('/[^0-9.]/', '', $version); // 'v20.07-pasca' -> '20.07'
-            $version = str_replace('.', '0', $version); // '20.07' -> '20007'
+        $version = preg_replace('/rev/', '05', $version); // 'v22.04-premium-rev01 -> 22.07.05.01
+        $version = preg_replace('/beta/', '07', $version); // 'v22.04-premium-beta01 -> 22.07.07.01
+        $version = preg_replace('/[^0-9.]/', '', $version); // 'v20.07-premium' -> '20.07'
+        $version = str_replace('.', '', $version); // '20.07' -> '2007' atau '20070501' atau '20070701'
 
-            return (int) $version; // 20007 (integer)
+        return (int) $version;
     }
 
     /**
@@ -325,7 +328,7 @@ class Release
         $file     = $this->cache;
         $interval = $this->interval;
 
-        if ($this->cache_is_outdated()) {
+        if ($this->cacheIsOutdated()) {
             if (is_file($file)) {
                 unlink($file);
             }

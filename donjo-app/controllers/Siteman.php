@@ -70,7 +70,7 @@ class Siteman extends MY_Controller
             $this->session->set_userdata('siteman_try', 4);
             $this->session->set_userdata('siteman_wait', 0);
         }
-        $_SESSION['success']    = 0;
+        session_error_clear();
         $_SESSION['per_page']   = 10;
         $_SESSION['cari']       = '';
         $_SESSION['pengumuman'] = 0;

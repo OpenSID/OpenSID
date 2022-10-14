@@ -48,6 +48,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @property CI_Output           $output
  * @property CI_Router           $router
  * @property CI_Security         $security
+ * @property CI_Session          $session
  * @property CI_URI              $uri
  * @property CI_Utf8             $utf8
  */
@@ -82,17 +83,6 @@ class MY_Controller extends CI_Controller
             $this->session->unset_userdata($session);
         }
     }
-
-    public function json_output($parm, $header = 200)
-    {
-        $this->output
-            ->set_status_header($header)
-            ->set_content_type('application/json', 'utf-8')
-            ->set_output(json_encode($parm))
-            ->_display();
-
-        exit();
-    }
 }
 
 class Web_Controller extends MY_Controller
@@ -101,42 +91,37 @@ class Web_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
+        if ($this->setting->offline_mode == 2) {
+            $this->view_maintenance();
+        } elseif ($this->setting->offline_mode == 1) {
+            $this->load->model('user_model');
+            $grup = $this->user_model->sesi_grup($this->session->sesi);
+            if (! $this->user_model->hak_akses($grup, 'web', 'b')) {
+                $this->view_maintenance();
+            }
+        }
+
         $this->load->model('theme_model');
         $this->theme        = $this->theme_model->tema;
         $this->theme_folder = $this->theme_model->folder;
 
         // Variabel untuk tema
-        $this->template                  = "../../{$this->theme_folder}/{$this->theme}/template.php";
-        $this->includes['folder_themes'] = '../../' . $this->theme_folder . '/' . $this->theme;
+        $this->set_template();
+        $this->includes['folder_themes'] = "../../{$this->theme_folder}/{$this->theme}";
 
         $this->load->model('web_menu_model');
     }
 
     /**
-     * Set Template
-     * sometime, we want to use different template for different page
-     * for example, 404 template, login template, full-width template, sidebar template, etc.
-     * so, use this function
-     * --------------------------------------
+     * set_template function
      *
-     * @since	Version 3.1.0
+     * @param string $template_file
      *
-     * @param	string, template file name
-     * @param mixed $template_file
-     *
-     * @return chained object
+     * @return void
      */
-    public function set_template($template_file = 'template.php')
+    public function set_template($template_file = 'template')
     {
-        // make sure that $template_file has .php extension
-        $template_file = substr($template_file, -4) == '.php' ? $template_file : ($template_file . '.php');
-
-        $template_file_path = FCPATH . $this->theme_folder . '/' . $this->theme . '/' . $template_file;
-        if (is_file($template_file_path)) {
-            $this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
-        } else {
-            $this->template = '../../vendor/themes/esensi/' . $template_file;
-        }
+        $this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
     }
 
     public function _get_common_data(&$data)
@@ -185,6 +170,22 @@ class Web_Controller extends MY_Controller
         foreach ($list_kolom as $kolom) {
             $data[$kolom] = $this->security->xss_clean($data[$kolom]);
         }
+    }
+
+    private function view_maintenance()
+    {
+        $this->load->model('pamong_model');
+
+        $data['main']         = $this->header;
+        $data['pamong_kades'] = $this->pamong_model->get_ttd();
+
+        if (file_exists(DESAPATH . 'offline_mode.php')) {
+            include DESAPATH . 'offline_mode.php';
+        } else {
+            include VIEWPATH . 'offline_mode.php';
+        }
+
+        exit();
     }
 }
 
@@ -261,7 +262,8 @@ class Admin_Controller extends MY_Controller
             session_error('Fitur ini tidak aktif');
             redirect($_SERVER['HTTP_REFERER']);
         }
-        if (!$this->user_model->hak_akses($this->grup, $this->controller, 'b')) {
+
+        if (! $this->user_model->hak_akses($this->grup, $this->controller, 'b')) {
             if (empty($this->grup)) {
                 $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
                 redirect('siteman');
@@ -271,12 +273,13 @@ class Admin_Controller extends MY_Controller
                 redirect('main');
             }
         }
-        $this->cek_pengumuman();
+
         $this->header                           = $this->header_model->get_data();
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
         $this->header['notif_inbox']            = $this->notif_model->inbox_baru();
         $this->header['notif_komentar']         = $this->notif_model->komentar_baru();
         $this->header['notif_langganan']        = $this->notif_model->status_langganan();
+        $this->header['notif_pengumuman']       = $this->cek_pengumuman();
     }
 
     private function cek_pengumuman()
@@ -289,10 +292,14 @@ class Admin_Controller extends MY_Controller
         if ($this->grup == 1) {
             $notifikasi = $this->notif_model->get_semua_notif();
             foreach ($notifikasi as $notif) {
-                $this->pengumuman = $this->notif_model->notifikasi($notif);
-                if ($notif['jenis'] == 'persetujuan') break;
+                $pengumuman = $this->notif_model->notifikasi($notif);
+                if ($notif['jenis'] == 'persetujuan') {
+                    break;
+                }
             }
         }
+
+        return $pengumuman;
     }
 
     // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah

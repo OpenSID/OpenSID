@@ -559,11 +559,6 @@ class Rtm_model extends MY_Model
 
         $outp = true;
 
-        // Hapus data RTM sebelum Impor
-        if ($hapus) {
-            $outp = $outp && $this->hapus_rtm_penduduk();
-        }
-
         foreach ($reader->getSheetIterator() as $sheet) {
             $baris_pertama = false;
             $gagal         = 0;

@@ -1,14 +1,14 @@
-										<div class="tab-pane <?php if ($act_tab == 5): ?>active<?php endif ?>">
+										<div class="tab-pane <?= jecho($act_tab, 2, 'active') ?>">
 											<div class="row">
 												<div class="col-md-12">
 													<div class="box-header with-border">
-														<h3 class="box-title"><strong>Migrasi Database Ke OpenSID <?=AmbilVersi()?></strong></h3>
+														<h3 class="box-title"><strong>Migrasi Database Ke OpenSID <?= AmbilVersi() ?></strong></h3>
 													</div>
 													<div class="box-body">
 														<div class="row">
 															<div class="col-sm-12">
 																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
-																	<p>Proses ini untuk mengubah database SID ke struktur database OpenSID <?=AmbilVersi()?>.</p>
+																	<p>Proses ini untuk mengubah database SID ke struktur database OpenSID <?= AmbilVersi() ?>.</p>
 																	<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
 																		<small>
 																			<strong><i class="fa fa-info-circle text-red"></i> Sebelum melakukan migrasi ini, pastikan database SID anda telah dibackup.</strong>
@@ -31,40 +31,6 @@
 																					<div class="ajax-content"></div>
 																				</td>
 																			</tr>
-																			<?php if (isset($_SESSION['gagal'])): ?>
-																				<tr>
-																					<td>
-																						<dl class="dl-horizontal">
-																							<dt>Jumlah Data Penduduk Gagal : </dt>
-																							<dd><?= $_SESSION['gagal']?></dd>
-																						</dl>
-																					</td>
-																				</tr>
-																				<tr>
-																					<td>
-																						<dl class="dl-horizontal">
-																							<dt>Letak Baris Data Gagal : </dt>
-																							<dd><?= $_SESSION['baris']?></dd>
-																						</dl>
-																					</td>
-																				</tr>
-																				<tr>
-																					<td>
-																						<dl class="dl-horizontal">
-																							<dt>Total Data Penduduk Berhasil :</dt>
-																							<dd><?= $_SESSION['total_penduduk']?></dd>
-																						</dl>
-																					</td>
-																				</tr>
-																				<tr>
-																					<td>
-																						<dl class="dl-horizontal">
-																							<dt>Total Data Keluarga Berhasil:</dt>
-																							<dd><?= $_SESSION['total_keluarga']?></dd>
-																						</dl>
-																					</td>
-																				</tr>
-																			<?php endif ?>
 																		</tbody>
 																	</table>
 																</form>
@@ -80,16 +46,13 @@
 																<div class='modal-body'>
 																	Harap tunggu sampai proses migrasi selesai. Proses ini biasa memakan waktu beberapa menit.
 																	<div class='text-center'>
-																		<img src='<?= base_url()?>assets/images/background/loading.gif'>
+																		<img src="<?= asset('images/background/loading.gif') ?>">
 																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-												<?php unset($_SESSION['sukses']); ?>
-												<?php unset($_SESSION['baris']); ?>
-												<?php unset($_SESSION['gagal']); ?>
 											</div>
 										</div>
 									</div>

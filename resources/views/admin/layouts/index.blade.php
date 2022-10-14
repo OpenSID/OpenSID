@@ -20,10 +20,10 @@
   <link rel="stylesheet" href="{{ asset('css/skins/_all-skins.min.css') }}"/>
   @stack('css')
   <!-- Modifikasi -->
-  <link rel="stylesheet" href="{{ asset('css/admin-style.css?v' . version()) }}"/>
+  <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}"/>
 </head>
 <body id="sidebar_collapse" class="{{ $setting->warna_tema_admin }} fixed sidebar-mini">
-  <div class="wrapper">
+    <div class="wrapper">
 
     @include('admin.layouts.partials.header')
 
@@ -36,13 +36,17 @@
         @include('admin.layouts.components.breadcrumb')
       </section>
 
-      <section class="content">
+      <section id="maincontent" class="content">
         @yield('content')
       </section>
     </div>
 
     @include('admin.layouts.components.pengaturan')
-    
+
+    @if ($notif['pengumuman'])
+      @include('admin.layouts.components.pengumuman', $notif['pengumuman'])
+		@endif
+
     @include('admin.profil.pengaturan_pengguna')
 
     @include('admin.layouts.partials.footer')
@@ -66,6 +70,8 @@
   <script src="{{ asset('bootstrap/js/select2.full.min.js') }}"></script>
   <!-- Slimscroll -->
   <script src="{{ asset('bootstrap/js/jquery.slimscroll.min.js') }}"></script>
+  <!-- jquery validasi -->
+  <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
   <!-- FastClick -->
   <script src="{{ asset('bootstrap/js/fastclick.js') }}"></script>
   <!-- AdminLTE -->
@@ -73,10 +79,10 @@
   <!-- jquery validasi -->
   <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
   <!-- Modifikasi -->
-  <script src="{{ asset('js/admin.js?v' . version()) }}"></script>
+  <script src="{{ asset('js/admin.js') }}"></script>
   @if (config_item('demo_mode'))
   <!-- Website Demo -->
-  <script src="{{ asset('js/demo.js?v' . version()) }}"></script>
+  <script src="{{ asset('js/demo.js') }}"></script>
   @endif
   @stack('scripts')
 </body>

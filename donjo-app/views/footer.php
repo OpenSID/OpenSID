@@ -70,36 +70,38 @@
 				<!-- NOTIFICATION-->
 				<script type="text/javascript">
 					$('document').ready(function() {
-						if ($('#success-code').val() == 1) {
+						var success = '<?= addslashes($this->session->success) ?>';
+						var message = '<?= addslashes($this->session->error_msg) ?>';
+
+						if (success == 1) {
 							notify = 'success';
 							notify_msg = 'Data berhasil disimpan';
-						} else if ($('#success-code').val() == -1) {
+						} else if (success == -1) {
 							notify = 'error';
-							notify_msg = `Data gagal disimpan <?= addslashes($this->session->error_msg) ?>`;
-						} else if ($('#success-code').val() == -2) {
-							notify = 'error';
-							notify_msg = 'Data gagal disimpan, nama id sudah ada!';
-						} else if ($('#success-code').val() == -3) {
+							notify_msg = 'Data gagal disimpan ' + message;
+						} else if (success == -2) {
 							notify = 'error';
 							notify_msg = 'Data gagal disimpan, nama id sudah ada!';
-						} else if ($('#success-code').val() == 4) {
+						} else if (success == -3) {
+							notify = 'error';
+							notify_msg = 'Data gagal disimpan, nama id sudah ada!';
+						} else if (success == 4) {
 							notify = 'success';
 							notify_msg = 'Data berhasil dihapus';
-						} else if ($('#success-code').val() == -4) {
+						} else if (success == -4) {
 							notify = 'error';
 							notify_msg = 'Data gagal dihapus';
-						} else if ($('#success-code').val() == 5) {
+						} else if (success == 5) {
 							notify = 'success';
 							notify_msg = 'Data berhasil diunggah';
-						} else if ($('#success-code').val() == 6) {
+						} else if (success == 6) {
 							notify = 'success';
 							notify_msg = 'Silahkan Cek Pesan di Email Anda';
 						} else {
-							notify = '<?= addslashes($this->session->success) ?>';
-							notify_msg = '<?= addslashes($this->session->error_msg) ?>';
+							notify = success;
+							notify_msg = message;
 						}
 						notification(notify, notify_msg);
-						$('#success-code').val('');
 
 						// Sidebar
 						if (typeof(Storage) !== 'undefined' && localStorage.getItem('sidebar') === 'false') {

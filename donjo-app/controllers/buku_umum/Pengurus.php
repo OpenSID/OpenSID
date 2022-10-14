@@ -130,15 +130,38 @@ class Pengurus extends Admin_Controller
     public function insert()
     {
         $this->redirect_hak_akses('u');
-        $this->pamong_model->insert();
-        redirect('pengurus');
+        $this->set_validasi();
+        $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', 'is_unique[tweb_desa_pamong.pamong_tag_id_card]]');
+
+        if ($this->form_validation->run() !== true) {
+            session_error(trim(validation_errors()));
+            redirect('pengurus/form');
+        } else {
+            $this->pamong_model->insert();
+            redirect('pengurus');
+        }
     }
 
     public function update($id = 0)
     {
         $this->redirect_hak_akses('u');
-        $this->pamong_model->update($id);
-        redirect('pengurus');
+        $this->set_validasi();
+
+        $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', "is_unique[tweb_desa_pamong.pamong_tag_id_card,pamong_id,{$id}]");
+
+        if ($this->form_validation->run() !== true) {
+            session_error(trim(validation_errors()));
+            redirect("pengurus/form/{$id}");
+        } else {
+            $this->pamong_model->update($id);
+            redirect('pengurus');
+        }
+    }
+
+    private function set_validasi()
+    {
+        $this->load->library('form_validation');
+        $this->form_validation->set_error_delimiters('', '');
     }
 
     public function delete($id = 0)
@@ -180,6 +203,13 @@ class Pengurus extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->pamong_model->lock($id, $val);
+        redirect('pengurus');
+    }
+
+    public function kehadiran($id = 0, $val = 1)
+    {
+        $this->redirect_hak_akses('u');
+        $this->pamong_model->kehadiran($id, $val);
         redirect('pengurus');
     }
 

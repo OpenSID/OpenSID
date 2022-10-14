@@ -59,7 +59,7 @@ class pengaduan extends Web_Controller
             'status2'       => $this->pengaduan_model->get_data('2')->count_all_results(),
             'status3'       => $this->pengaduan_model->get_data('3')->count_all_results(),
         ];
-        // $this->json_output($data);
+
         $this->load->view('pengaduan/index', $data);
     }
 

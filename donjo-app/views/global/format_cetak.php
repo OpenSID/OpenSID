@@ -45,12 +45,17 @@
 ?>
 
 <?php
+    if (empty($ekstensi)) {
+        $ekstensi = 'xls';
+    }
+
     if ($aksi == 'unduh') {
-        header('Content-type: application/xls');
-        header('Content-Disposition: attachment; filename=' . namafile($file) . '.xls');
+        header('Content-type: application/' . $ekstensi);
+        header('Content-Disposition: attachment; filename=' . namafile($file) . '.' . $ekstensi);
         header('Pragma: no-cache');
         header('Expires: 0');
     }
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -70,7 +75,7 @@
 				<?php $this->load->view($isi); ?>
 			</div>
 			<br />
-			<table width="100%">
+			<table width="10%">
 				<tr>
 					<td colspan="<?= $letak_ttd[0]; ?>" width=<?= $width ? '"' . (0.1 * $width) . 'mm;"' : '10%'?>>&nbsp;</td>
 					<?php if (! empty($pamong_ketahui)) :?>

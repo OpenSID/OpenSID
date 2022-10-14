@@ -186,7 +186,7 @@
 					</div>
 				</nav>
 			</header>
-			<input id="success-code" type="hidden" value="<?= $_SESSION['success']?>">
+
 			<!-- Untuk menampilkan modal bootstrap umum -->
 			<div class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
@@ -200,8 +200,8 @@
 				</div>
 			</div>
 
-			<!-- Untuk menampilkan pengaturan -->
 			<?php if ($this->controller == 'pelanggan' && $this->CI->cek_hak_akses('u', $this->controller)): ?>
+				<!-- Untuk menampilkan pengaturan -->
 				<div class="modal fade" id="pengaturan" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -215,5 +215,8 @@
 				</div>
 			<?php endif ?>
 
-			<!-- Untuk menampilkan dialog pengumuman -->
-			<?= $this->pengumuman ?>
+			<?php
+                if ($notif_pengumuman):
+                    $this->load->view('notif/pengumuman', $notif_pengumuman);
+                endif
+            ?>

@@ -208,5 +208,14 @@ $route[$mandiri . '/verifikasi/email/kirim-otp']       = MANDIRI . '/verifikasi/
 // Bantuan
 $route[$mandiri . '/bantuan'] = MANDIRI . '/bantuan';
 
+// Kehadiran Perangkat Desa
+$route[$mandiri . '/kehadiran']              = MANDIRI . '/kehadiran_perangkat';
+$route[$mandiri . '/kehadiran/lapor/(:num)'] = MANDIRI . '/kehadiran_perangkat/lapor/$1';
+
 // Peringatan
 $route['peringatan'] = 'pelanggan/peringatan';
+
+// GROUP ROUTES
+foreach (glob(APPPATH . '/config/routes/*.php') as $routes_file) {
+    require_once $routes_file;
+}

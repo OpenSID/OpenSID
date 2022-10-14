@@ -498,6 +498,18 @@ a.pendapat > p {
   background-repeat: no-repeat;
 }
 
+.card-img-top {
+  height: 24vw !important;
+  object-fit: cover;
+}
+
+@media only screen and (max-width: 768px) {
+  .card-img-top {
+    height: 72vw !important;
+    object-fit: cover;
+  }
+}
+
 .carousel-indicators li,
 .carousel-indicators .active {
   height: 10px;

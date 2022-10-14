@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <div class="single_page_area">
-    <h2 class="post_titile" >Data Kelompok - <?= $detail['nama']; ?></h2>
+    <h2 class="post_titile"><?= $title ?></h2>
     <?= $detail['keterangan']?>
     <h3 class="post_titile">Daftar Pengurus</h3>
     <div class="box-body">

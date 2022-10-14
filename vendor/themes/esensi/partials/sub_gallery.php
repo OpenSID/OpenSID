@@ -7,7 +7,7 @@
     <li aria-current="page"><?= $parent['nama'] ?></li>
   </ol>
 </nav>
-<h2 class="text-h2">Galeri Album <?= $parent['nama'] ?></h2>
+<h1 class="text-h2">Galeri Album <?= $parent['nama'] ?></h1>
 
 <?php if(count($gallery)) : ?>
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-5 py-4">

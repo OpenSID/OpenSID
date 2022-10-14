@@ -118,9 +118,6 @@ class Dokumen_sekretariat extends Admin_Controller
         if ($id) {
             $data['dokumen']     = $this->web_dokumen_model->get_dokumen($id);
             $data['form_action'] = site_url("dokumen_sekretariat/update/{$kat}/{$id}/{$p}/{$o}");
-            if ($jenis_peraturan = $data['dokumen']['attr']['jenis_peraturan'] && ! in_array($jenis_peraturan, $data['jenis_peraturan'])) {
-                $data['jenis_peraturan'][] = $jenis_peraturan;
-            }
         } else {
             $data['dokumen']     = null;
             $data['form_action'] = site_url('dokumen_sekretariat/insert');

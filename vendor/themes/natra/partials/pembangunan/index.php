@@ -9,12 +9,12 @@
 		<?php if ($pembangunan): ?>
 			<div class="row">
 				<?php foreach ($pembangunan as $data): ?>
-					<div class="col-md-4">
+					<div class="col-sm-4">
 						<div class="card">
 							<?php if (is_file(LOKASI_GALERI . $data->foto)): ?>
-								<img width="auto" class="img-fluid img-thumbnail" src="<?= base_url() . LOKASI_GALERI . $data->foto ?>" alt="Foto Pembangunan"/>
+								<img width="auto" class="img-fluid img-thumbnail card-img-top" src="<?= base_url() . LOKASI_GALERI . $data->foto ?>" alt="Foto Pembangunan"/>
 							<?php else: ?>
-								<img width="auto" class="img-fluid img-thumbnail" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Pembangunan"/>
+								<img width="auto" class="img-fluid img-thumbnail card-img-top" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Pembangunan"/>
 							<?php endif; ?>
 							<div class="card-body">
 								<table class="table">

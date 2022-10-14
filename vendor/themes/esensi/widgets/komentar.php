@@ -2,7 +2,7 @@
 
 <div class="box box-primary box-solid">
   <div class="box-header">
-    <h3 class="box-title"><i class="fa fa-comments mr-2"></i>&ensp;<?= $judul_widget ?></h3>
+    <h3 class="box-title"><i class="fa fa-comments mr-2 mr-1"></i><?= $judul_widget ?></h3>
   </div>
   <div class="box-body">
     <marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="2" direction="up" width="100%" height="150" align="center">

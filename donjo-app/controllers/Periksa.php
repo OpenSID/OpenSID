@@ -35,14 +35,19 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Periksa extends CI_Controller
 {
+    public $header;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['periksa_model', 'user_model']);
+        $this->header = Config::first();
     }
 
     public function index()
@@ -55,9 +60,8 @@ class Periksa extends CI_Controller
             log_message('error', $this->session->message_query);
             log_message('error', $this->session->message_exception);
         }
-        $data = $this->periksa_model->periksa;
 
-        $this->load->view('periksa/index', $data);
+        return view('periksa.index', array_merge($this->periksa_model->periksa, ['header' => $this->header]));
     }
 
     public function perbaiki()
@@ -76,19 +80,16 @@ class Periksa extends CI_Controller
     {
         $this->session->siteman_wait = 0;
         $this->user_model->login();
-        $header = $this->db
-            ->get('config')
-            ->row_array();
         $data = [
-            'header'      => $header,
+            'header'      => $this->header,
             'form_action' => site_url('periksa/auth'),
         ];
-        $this->setting->sebutan_desa      = $this->get_setting('sebutan_desa');
-        $this->setting->sebutan_kabupaten = $this->get_setting('sebutan_kabupaten');
+        $this->setting->sebutan_desa      = $this->getSetting('sebutan_desa');
+        $this->setting->sebutan_kabupaten = $this->getSetting('sebutan_kabupaten');
         $this->load->view('siteman', $data);
     }
 
-    private function get_setting($key)
+    private function getSetting($key)
     {
         return $this->db
             ->select('value')
