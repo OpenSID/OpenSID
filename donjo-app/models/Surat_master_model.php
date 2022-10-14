@@ -204,8 +204,6 @@ class Surat_master_model extends MY_Model
      * @param mixed $lokasi
      * @param mixed $redirect
      * @param mixed $nama_file
-     *
-     * @return
      */
     private function uploadBerkas($allowed_types, $upload_path, $lokasi, $redirect, $nama_file)
     {

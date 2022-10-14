@@ -193,7 +193,7 @@ class Anjungan extends Admin_Controller
         }
 
         $validated = [
-            'ip_address'    => bilangan_titik($request['ip_address']),
+            'ip_address'    => strip_tags($request['ip_address']),
             'mac_address'   => alfanumerik_kolon($request['mac_address']),
             'id_pengunjung' => alfanumerik($request['id_pengunjung']),
             'printer_ip'    => bilangan_titik($request['printer_ip']),

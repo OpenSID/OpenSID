@@ -77,8 +77,6 @@ class CouldNotSendNotification extends Exception
     /**
      * Thrown when we're unable to communicate with Telegram.
      *
-     * @param $message
-     *
      * @return static
      */
     public static function couldNotCommunicateWithTelegram($message): self
