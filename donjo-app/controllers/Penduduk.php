@@ -960,7 +960,7 @@ class Penduduk extends Admin_Controller
             redirect($this->controller);
         }
 
-        $this->redirect_hak_akses('u');
+        $this->redirect_hak_akses('u', '', '', true);
 
         $data = [
             'form_action'          => route('penduduk.proses_impor'),
@@ -976,7 +976,7 @@ class Penduduk extends Admin_Controller
             redirect($this->controller);
         }
 
-        $this->redirect_hak_akses('u');
+        $this->redirect_hak_akses('u', '', '', true);
         $hapus = isset($_POST['hapus_data']);
         $this->impor_model->impor_excel($hapus);
         redirect('penduduk/impor');
@@ -988,7 +988,7 @@ class Penduduk extends Admin_Controller
             redirect($this->controller);
         }
 
-        $this->redirect_hak_akses('u');
+        $this->redirect_hak_akses('u', '', '', true);
 
         $data = [
             'form_action'          => route('penduduk.proses_impor_bip'),
@@ -1004,7 +1004,7 @@ class Penduduk extends Admin_Controller
             redirect($this->controller);
         }
 
-        $this->redirect_hak_akses('u');
+        $this->redirect_hak_akses('u', '', '', true);
 
         if ($this->db->get('tweb_penduduk')->num_rows() > 0) {
             redirect_with('error', 'Tidak dapat mengimpor BIP ketika data penduduk telah ada', 'penduduk/impor_bip');

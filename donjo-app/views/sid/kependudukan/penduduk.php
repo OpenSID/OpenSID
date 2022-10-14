@@ -80,7 +80,7 @@
 						<div class="btn-group-vertical">
 							<a class="btn btn-social btn-flat bg-navy btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Impor / Ekspor</a>
 							<ul class="dropdown-menu" role="menu">
-								<?php if (! config_item('demo_mode')): ?>
+								<?php if (! config_item('demo_mode') && $this->session->grup == 1): ?>
 									<li>
 										<a href="<?= route('penduduk.impor') ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Impor Penduduk"><i class="fa fa-upload"></i> Impor Penduduk</a>
 									</li>
