@@ -109,7 +109,7 @@ CREATE TABLE `analisis_indikator` (
   KEY `id_master` (`id_master`,`id_tipe`),
   KEY `id_tipe` (`id_tipe`),
   KEY `id_kategori` (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=latin1;
 
 INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`, `referensi`) VALUES (1, 2, '1', 'kepemilikan rumah', 1, 1, 1, 1, 0, 0, NULL);
 INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`, `referensi`) VALUES (2, 2, '2', 'penghasilan perbulan', 1, 4, 1, 2, 0, 0, NULL);
@@ -236,7 +236,7 @@ CREATE TABLE `analisis_kategori_indikator` (
   `kategori_kode` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_master` (`id_master`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 INSERT INTO `analisis_kategori_indikator` (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES (1, 2, 'Aset', '');
 INSERT INTO `analisis_kategori_indikator` (`id`, `id_master`, `kategori`, `kategori_kode`) VALUES (2, 2, 'Penghasilan', '');
@@ -271,7 +271,7 @@ CREATE TABLE `analisis_klasifikasi` (
   `maxval` double(7,2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_master` (`id_master`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 INSERT INTO `analisis_klasifikasi` (`id`, `id_master`, `nama`, `minval`, `maxval`) VALUES (1, 2, 'Miskin', '5.00', '10.00');
 INSERT INTO `analisis_klasifikasi` (`id`, `id_master`, `nama`, `minval`, `maxval`) VALUES (2, 2, 'Sedang', '11.00', '20.00');
@@ -300,7 +300,7 @@ CREATE TABLE `analisis_master` (
   `gform_nik_item_id` text,
   `gform_last_sync` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 INSERT INTO `analisis_master` (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`, `gform_id`, `gform_nik_item_id`, `gform_last_sync`) VALUES (1, 'Analisis Keahlian Individu', 1, 1, '<p>survey</p>', '00000', 0, '1', 0, 0, 2, NULL, NULL, NULL);
 INSERT INTO `analisis_master` (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`, `gform_id`, `gform_nik_item_id`, `gform_last_sync`) VALUES (2, 'AKP Lombok Tengah', 2, 1, '<p>keterangan</p>', '00000', 0, '1', 0, 0, 2, NULL, NULL, NULL);
@@ -323,7 +323,7 @@ CREATE TABLE `analisis_parameter` (
   `asign` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `id_indikator` (`id_indikator`)
-) ENGINE=InnoDB AUTO_INCREMENT=1052 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1052 DEFAULT CHARSET=latin1;
 
 INSERT INTO `analisis_parameter` (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES (1, 1, 'milik sendiri', 5, 1, 0);
 INSERT INTO `analisis_parameter` (`id`, `id_indikator`, `jawaban`, `nilai`, `kode_jawaban`, `asign`) VALUES (2, 1, 'milik orang tua', 4, 2, 0);
@@ -1395,7 +1395,7 @@ CREATE TABLE `analisis_partisipasi` (
   KEY `id_master` (`id_master`),
   KEY `id_periode` (`id_periode`),
   KEY `id_klassifikasi` (`id_klassifikasi`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: analisis_periode
@@ -1414,7 +1414,7 @@ CREATE TABLE `analisis_periode` (
   PRIMARY KEY (`id`),
   KEY `id_master` (`id_master`),
   KEY `id_state` (`id_state`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 INSERT INTO `analisis_periode` (`id`, `id_master`, `nama`, `id_state`, `aktif`, `keterangan`, `tahun_pelaksanaan`) VALUES (1, 2, 'Pendataan 2014', 2, 2, 'ket', '2014');
 INSERT INTO `analisis_periode` (`id`, `id_master`, `nama`, `id_state`, `aktif`, `keterangan`, `tahun_pelaksanaan`) VALUES (2, 2, 'Pendataan 2015', 1, 1, 'nnn', '2015');
@@ -1475,7 +1475,7 @@ CREATE TABLE `analisis_respon` (
   KEY `id_parameter` (`id_parameter`,`id_subjek`),
   KEY `id_periode` (`id_periode`),
   KEY `id_indikator` (`id_indikator`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `analisis_respon` (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES (1, 1, 1, 2);
 INSERT INTO `analisis_respon` (`id_indikator`, `id_parameter`, `id_subjek`, `id_periode`) VALUES (2, 6, 1, 2);
@@ -1514,7 +1514,7 @@ CREATE TABLE `analisis_respon_hasil` (
   `akumulasi` double(8,3) NOT NULL,
   `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `id_master` (`id_master`,`id_periode`,`id_subjek`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 129, '25.000', '2018-08-20 05:13:33');
 INSERT INTO `analisis_respon_hasil` (`id_master`, `id_periode`, `id_subjek`, `akumulasi`, `tgl_update`) VALUES (2, 1, 254, '5.000', '2018-08-20 05:13:33');
@@ -1544,7 +1544,7 @@ CREATE TABLE `analisis_tipe_indikator` (
   `id` tinyint(4) NOT NULL AUTO_INCREMENT,
   `tipe` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 INSERT INTO `analisis_tipe_indikator` (`id`, `tipe`) VALUES (1, 'Pilihan (Tunggal)');
 INSERT INTO `analisis_tipe_indikator` (`id`, `tipe`) VALUES (2, 'Pilihan (Multivalue)');
@@ -1572,7 +1572,7 @@ CREATE TABLE `anjungan` (
   `printer_ip` varchar(100) DEFAULT NULL,
   `printer_port` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: area
@@ -1590,7 +1590,7 @@ CREATE TABLE `area` (
   `id_cluster` int(11) DEFAULT NULL,
   `desk` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 INSERT INTO `area` (`id`, `nama`, `path`, `enabled`, `ref_polygon`, `foto`, `id_cluster`, `desk`) VALUES (1, 'Area 1', '[[[-8.478525723657054,116.05240345001222],[-8.477591903247376,116.04287624359132],[-8.481412063305804,116.04055881500244],[-8.484553055345845,116.04768276214601]]]', 1, 3, '', 0, 'Area 1');
 INSERT INTO `area` (`id`, `nama`, `path`, `enabled`, `ref_polygon`, `foto`, `id_cluster`, `desk`) VALUES (2, 'Area 2', '[[[-8.494865867509324,116.05296134948732],[-8.501487264597221,116.0522747039795],[-8.501147708551757,116.04626655578615],[-8.491130670045568,116.0412883758545]]]', 1, 0, '', 0, 'Area 2');
@@ -1620,11 +1620,8 @@ CREATE TABLE `artikel` (
   `boleh_komentar` tinyint(1) NOT NULL DEFAULT '1',
   `slug` varchar(200) DEFAULT NULL,
   `hit` int(11) DEFAULT '0',
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
   `urut` int(5) DEFAULT NULL,
   `jenis_widget` tinyint(2) NOT NULL DEFAULT '3',
-========
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
@@ -1681,7 +1678,7 @@ CREATE TABLE `captcha_codes` (
   `audio_data` mediumblob,
   PRIMARY KEY (`id`,`namespace`),
   KEY `created` (`created`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `captcha_codes` (`id`, `namespace`, `code`, `code_display`, `created`, `audio_data`) VALUES ('10.0.2.2', 'default', '2ypo6p', '2yPo6P', 1527544062, NULL);
 INSERT INTO `captcha_codes` (`id`, `namespace`, `code`, `code_display`, `created`, `audio_data`) VALUES ('192.168.33.1', 'default', 'uzn728', 'uzN728', 1583017284, NULL);
@@ -1916,7 +1913,7 @@ CREATE TABLE `garis` (
   `desk` text,
   `id_cluster` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 INSERT INTO `garis` (`id`, `nama`, `path`, `enabled`, `ref_line`, `foto`, `desk`, `id_cluster`) VALUES (1, 'Jalan 1', '', 1, 1, '', '', 0);
 
@@ -2634,7 +2631,7 @@ CREATE TABLE `inventaris_asset` (
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: inventaris_gedung
@@ -2667,7 +2664,7 @@ CREATE TABLE `inventaris_gedung` (
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: inventaris_jalan
@@ -2700,7 +2697,7 @@ CREATE TABLE `inventaris_jalan` (
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: inventaris_kontruksi
@@ -2731,7 +2728,7 @@ CREATE TABLE `inventaris_kontruksi` (
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: inventaris_peralatan
@@ -2763,7 +2760,7 @@ CREATE TABLE `inventaris_peralatan` (
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: inventaris_tanah
@@ -2793,7 +2790,7 @@ CREATE TABLE `inventaris_tanah` (
   `status` int(1) NOT NULL DEFAULT '0',
   `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: kader_pemberdayaan_masyarakat
@@ -2837,77 +2834,6 @@ INSERT INTO `kategori` (`id`, `kategori`, `tipe`, `urut`, `enabled`, `parrent`, 
 INSERT INTO `kategori` (`id`, `kategori`, `tipe`, `urut`, `enabled`, `parrent`, `slug`) VALUES (20, 'Berita Lokal', 1, 0, 2, 1, 'berita-lokal');
 INSERT INTO `kategori` (`id`, `kategori`, `tipe`, `urut`, `enabled`, `parrent`, `slug`) VALUES (21, 'Berita Kriminal', 1, 0, 2, 1, 'berita-kriminal');
 
-
-#
-# TABLE STRUCTURE FOR: kehadiran_hari_libur
-#
-
-DROP TABLE IF EXISTS `kehadiran_hari_libur`;
-
-CREATE TABLE `kehadiran_hari_libur` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `tanggal` date NOT NULL,
-  `keterangan` text,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `tanggal` (`tanggal`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-#
-# TABLE STRUCTURE FOR: kehadiran_jam_kerja
-#
-
-DROP TABLE IF EXISTS `kehadiran_jam_kerja`;
-
-CREATE TABLE `kehadiran_jam_kerja` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `nama_hari` varchar(65) NOT NULL,
-  `jam_masuk` time NOT NULL,
-  `jam_keluar` time NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  `keterangan` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
-INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (1, 'Senin', '08:00:00', '16:00:00', 1, NULL);
-INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (2, 'Selasa', '08:00:00', '16:00:00', 1, NULL);
-INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (3, 'Rabu', '08:00:00', '16:00:00', 1, NULL);
-INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (4, 'Kamis', '08:00:00', '16:00:00', 1, NULL);
-INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (5, 'Jumat', '08:00:00', '16:00:00', 1, NULL);
-INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (6, 'Sabtu', '08:00:00', '16:00:00', 0, NULL);
-INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (7, 'Minggu', '08:00:00', '16:00:00', 0, NULL);
-
-
-#
-# TABLE STRUCTURE FOR: kehadiran_pengaduan
-#
-
-DROP TABLE IF EXISTS `kehadiran_pengaduan`;
-
-CREATE TABLE `kehadiran_pengaduan` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `waktu` datetime NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  `keterangan` text,
-  `id_penduduk` int(11) NOT NULL,
-  `id_pamong` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-#
-# TABLE STRUCTURE FOR: kehadiran_perangkat_desa
-#
-
-DROP TABLE IF EXISTS `kehadiran_perangkat_desa`;
-
-CREATE TABLE `kehadiran_perangkat_desa` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `tanggal` date DEFAULT NULL,
-  `pamong_id` int(11) DEFAULT NULL,
-  `jam_masuk` time DEFAULT NULL,
-  `jam_keluar` time DEFAULT NULL,
-  `status_kehadiran` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # TABLE STRUCTURE FOR: kelompok
@@ -2959,7 +2885,7 @@ CREATE TABLE `keuangan_manual_ref_bidang` (
   `Kd_Bid` varchar(50) NOT NULL,
   `Nama_Bidang` varchar(250) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 INSERT INTO `keuangan_manual_ref_bidang` (`id`, `Kd_Bid`, `Nama_Bidang`) VALUES (1, '00.0000.01', 'BIDANG PENYELENGGARAN PEMERINTAHAN DESA');
 INSERT INTO `keuangan_manual_ref_bidang` (`id`, `Kd_Bid`, `Nama_Bidang`) VALUES (2, '00.0000.02', 'BIDANG PELAKSANAAN PEMBANGUNAN DESA');
@@ -2979,7 +2905,7 @@ CREATE TABLE `keuangan_manual_ref_kegiatan` (
   `ID_Keg` varchar(100) NOT NULL,
   `Nama_Kegiatan` varchar(250) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=240 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=240 DEFAULT CHARSET=latin1;
 
 INSERT INTO `keuangan_manual_ref_kegiatan` (`id`, `ID_Keg`, `Nama_Kegiatan`) VALUES (1, '01.01.01.', 'Penyediaan Penghasilan Tetap dan Tunjangan Kepala Desa');
 INSERT INTO `keuangan_manual_ref_kegiatan` (`id`, `ID_Keg`, `Nama_Kegiatan`) VALUES (2, '01.01.02.', 'Penyediaan Penghasilan Tetap dan Tunjangan Perangkat Desa');
@@ -3233,7 +3159,7 @@ CREATE TABLE `keuangan_manual_ref_rek1` (
   `Akun` varchar(100) NOT NULL,
   `Nama_Akun` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 INSERT INTO `keuangan_manual_ref_rek1` (`id`, `Akun`, `Nama_Akun`) VALUES (1, '1.', 'ASET');
 INSERT INTO `keuangan_manual_ref_rek1` (`id`, `Akun`, `Nama_Akun`) VALUES (2, '2.', 'KEWAJIBAN');
@@ -3256,7 +3182,7 @@ CREATE TABLE `keuangan_manual_ref_rek2` (
   `Kelompok` varchar(100) NOT NULL,
   `Nama_Kelompok` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 INSERT INTO `keuangan_manual_ref_rek2` (`id`, `Akun`, `Kelompok`, `Nama_Kelompok`) VALUES (1, '1.', '1.1.', 'Aset Lancar');
 INSERT INTO `keuangan_manual_ref_rek2` (`id`, `Akun`, `Kelompok`, `Nama_Kelompok`) VALUES (2, '1.', '1.2.', 'Investasi');
@@ -3289,7 +3215,7 @@ CREATE TABLE `keuangan_manual_ref_rek3` (
   `Jenis` varchar(100) NOT NULL,
   `Nama_Jenis` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1;
 
 INSERT INTO `keuangan_manual_ref_rek3` (`id`, `Kelompok`, `Jenis`, `Nama_Jenis`) VALUES (1, '1.1.', '1.1.1.', 'Kas dan Bank');
 INSERT INTO `keuangan_manual_ref_rek3` (`id`, `Kelompok`, `Jenis`, `Nama_Jenis`) VALUES (2, '1.1.', '1.1.2.', 'Piutang');
@@ -3381,7 +3307,7 @@ CREATE TABLE `keuangan_manual_rinci` (
   `Nilai_Anggaran` varchar(100) NOT NULL,
   `Nilai_Realisasi` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_manual_rinci_tpl
@@ -3398,7 +3324,7 @@ CREATE TABLE `keuangan_manual_rinci_tpl` (
   `Nilai_Anggaran` varchar(100) NOT NULL,
   `Nilai_Realisasi` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 INSERT INTO `keuangan_manual_rinci_tpl` (`id`, `Tahun`, `Kd_Akun`, `Kd_Keg`, `Kd_Rincian`, `Nilai_Anggaran`, `Nilai_Realisasi`) VALUES (1, '2020', '4.PENDAPATAN', '', '4.1.1. Hasil Usaha Desa', '0', '0');
 INSERT INTO `keuangan_manual_rinci_tpl` (`id`, `Tahun`, `Kd_Akun`, `Kd_Keg`, `Kd_Rincian`, `Nilai_Anggaran`, `Nilai_Realisasi`) VALUES (2, '2020', '4.PENDAPATAN', '', '4.1.2. Hasil Aset Desa', '0', '0');
@@ -3443,7 +3369,7 @@ CREATE TABLE `keuangan_master` (
   `aktif` int(2) NOT NULL DEFAULT '1',
   `tanggal_impor` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: klasifikasi_analisis_keluarga
@@ -3456,7 +3382,7 @@ CREATE TABLE `klasifikasi_analisis_keluarga` (
   `nama` varchar(20) NOT NULL,
   `jenis` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: klasifikasi_surat
@@ -3471,7 +3397,7 @@ CREATE TABLE `klasifikasi_surat` (
   `uraian` mediumtext NOT NULL,
   `enabled` int(2) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2335 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2335 DEFAULT CHARSET=latin1;
 
 INSERT INTO `klasifikasi_surat` (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES (1, '000', 'UMUM', '-', 1);
 INSERT INTO `klasifikasi_surat` (`id`, `kode`, `nama`, `uraian`, `enabled`) VALUES (2, '001', 'Lambang', '-', 1);
@@ -5887,7 +5813,7 @@ CREATE TABLE `line` (
   `enabled` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `parrent` (`parrent`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 INSERT INTO `line` (`id`, `nama`, `simbol`, `color`, `tipe`, `tebal`, `jenis`, `parrent`, `enabled`) VALUES (1, 'Jalan', '', '#FFCD42', 0, 3, 'solid', 1, 1);
 INSERT INTO `line` (`id`, `nama`, `simbol`, `color`, `tipe`, `tebal`, `jenis`, `parrent`, `enabled`) VALUES (2, 'Jalan Raya', '', '#FFCD42', 2, 3, 'solid', 1, 1);
@@ -5913,7 +5839,7 @@ CREATE TABLE `log_ekspor` (
   `dari_tgl` date DEFAULT NULL,
   `total` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: log_hapus_penduduk
@@ -5929,7 +5855,7 @@ CREATE TABLE `log_hapus_penduduk` (
   `deleted_by` varchar(100) DEFAULT NULL,
   `deleted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: log_perubahan_penduduk
@@ -5991,7 +5917,7 @@ CREATE TABLE `lokasi` (
   `id_cluster` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `ref_point` (`ref_point`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 INSERT INTO `lokasi` (`id`, `desk`, `nama`, `enabled`, `lat`, `lng`, `ref_point`, `foto`, `id_cluster`) VALUES (1, 'Sekolah Menengah Pertama', 'SMP', 1, '-8.49563254042209', '116.04755401611328', 5, '', 0);
 INSERT INTO `lokasi` (`id`, `desk`, `nama`, `enabled`, `lat`, `lng`, `ref_point`, `foto`, `id_cluster`) VALUES (2, 'Sekolah Menengah Atas', 'SMA', 1, '-8.485106175017545', '116.04549407958986', 4, '', 0);
@@ -6037,7 +5963,7 @@ CREATE TABLE `menu` (
   `enabled` tinyint(1) DEFAULT '1',
   `urut` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8;
 
 INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (16, 'Profil Desa', 'artikel/32', 0, 1, 1, NULL);
 INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (17, 'Pemerintahan Desa', 'artikel/85', 0, 1, 1, NULL);
@@ -6068,9 +5994,6 @@ INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `ur
 INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (116, 'Peta', 'peta', 0, 5, 1, 2);
 INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (117, 'Produk Hukum', 'peraturan_desa', 115, 5, 1, 1);
 INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (118, 'Informasi Publik', 'informasi_publik', 115, 5, 1, 2);
-INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (119, 'Masuk', '#', 0, 99, 1, 8);
-INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (120, 'Administrator', 'https://berputar.opendesa.id/siteman', 119, 99, 1, 1);
-INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (121, 'Layanan Mandiri', 'https://berputar.opendesa.id/layanan-mandiri', 119, 99, 1, 2);
 
 
 #
@@ -6083,11 +6006,7 @@ CREATE TABLE `migrasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `versi_database` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
-========
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
 
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (1, '2020040102');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (2, '2020050101');
@@ -6102,7 +6021,6 @@ INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (10, '2020110101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (11, '2020110103');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (12, '2020120101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (13, '2021010101');
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (14, '2021020101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (15, '2021030101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (16, '2021050101');
@@ -6125,25 +6043,6 @@ INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (32, '2022070101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (33, '2022080101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (34, '2022090101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (35, '2022100101');
-========
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (14, '2021020151');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (15, '2021030151');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (16, '2021040151');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (17, '2021050151');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (18, '2021060101');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (19, '2021070171');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (20, '2021080171');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (21, '2021090171');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (23, '2021092171');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (24, '2021100171');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (25, '2021103171');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (26, '2021120171');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (27, '2022010171');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (28, '2022013071');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (29, '2022020171');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (30, '2022030171');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (31, '2022040171');
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
 
 
 #
@@ -6167,13 +6066,9 @@ CREATE TABLE `notifikasi` (
   `aktif` tinyint(2) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `kode` (`kode`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
 INSERT INTO `notifikasi` (`id`, `kode`, `judul`, `jenis`, `isi`, `server`, `tgl_berikutnya`, `updated_at`, `updated_by`, `frekuensi`, `aksi`, `aktif`) VALUES (1, 'persetujuan_penggunaan', '<i class=\"fa fa-file-text-o text-black\"></i> &nbsp;Persetujuan Penggunaan OpenSID', 'persetujuan', '<p><b>Untuk menggunakan OpenSID, anda dan desa anda perlu menyetujui ketentuan berikut:</b>\n					<ol>\n						<li>Pengguna telah membaca dan menyetujui <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\" target=\"_blank\">Lisensi GPL V3</a>.</li>\n						<li>OpenSID gratis dan disediakan \"SEBAGAIMANA ADANYA\", di mana segala tanggung jawab termasuk keamanan data desa ada pada pengguna.</li>\n						<li>Pengguna paham bahwa setiap ubahan OpenSID juga berlisensi GPL V3 yang tidak dapat dimusnahkan, dan aplikasi ubahan itu juga sumber terbuka yang bebas disebarkan oleh pihak yang menerima.</li>\n						<li>Pengguna mengetahui, paham dan menyetujui bahwa OpenSID akan mengirim data penggunaan ke server OpenDesa secara berkala untuk tujuan menyempurnakan OpenSID, dengan pengertian bahwa data yang dikirim sama sekali tidak berisi data identitas penduduk atau data sensitif desa lainnya.</li>\n					</ol></p>\n					<b>Apakah anda dan desa anda setuju dengan ketentuan di atas?</b>', 'client', '2022-08-30 08:50:48', '2022-06-01 08:50:48', 1, 90, 'notif/update_pengumuman,siteman', 1);
-========
-INSERT INTO `notifikasi` (`id`, `kode`, `judul`, `jenis`, `isi`, `server`, `tgl_berikutnya`, `updated_at`, `updated_by`, `frekuensi`, `aksi`, `aktif`) VALUES (1, 'persetujuan_penggunaan', '<i class=\"fa fa-file-text-o text-black\"></i> &nbsp;Persetujuan Penggunaan OpenSID', 'persetujuan', '<p><b>Untuk menggunakan OpenSID, anda dan desa anda perlu menyetujui ketentuan berikut:</b>\n					<ol>\n						<li>Pengguna telah membaca dan menyetujui <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\" target=\"_blank\">Lisensi GPL V3</a>.</li>\n						<li>OpenSID gratis dan disediakan \"SEBAGAIMANA ADANYA\", di mana segala tanggung jawab termasuk keamanan data desa ada pada pengguna.</li>\n						<li>Pengguna paham bahwa setiap ubahan OpenSID juga berlisensi GPL V3 yang tidak dapat dimusnahkan, dan aplikasi ubahan itu juga sumber terbuka yang bebas disebarkan oleh pihak yang menerima.</li>\n						<li>Pengguna mengetahui, paham dan menyetujui bahwa OpenSID akan mengirim data penggunaan ke server OpenDesa secara berkala untuk tujuan menyempurnakan OpenSID, dengan pengertian bahwa data yang dikirim sama sekali tidak berisi data identitas penduduk atau data sensitif desa lainnya.</li>\n					</ol></p>\n					<b>Apakah anda dan desa anda setuju dengan ketentuan di atas?</b>', 'client', '2022-06-30 00:19:29', '2022-04-01 00:19:29', 1, 90, 'notif/update_pengumuman,siteman', 1);
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
 INSERT INTO `notifikasi` (`id`, `kode`, `judul`, `jenis`, `isi`, `server`, `tgl_berikutnya`, `updated_at`, `updated_by`, `frekuensi`, `aksi`, `aktif`) VALUES (2, 'tracking_off', '<i class=\"fa fa-exclamation-triangle text-red\"></i> &nbsp;Peringatan Tracking Off', 'peringatan', '<p>Kami mendeteksi bahwa anda telah mematikan fitur tracking. Bila dimatikan, penggunaan website desa anda tidak akan tercatat di server OpenDesa dan tidak akan menerima informasi penting yang sesekali dikirim OpenDesa.</p>\n					<br><b>Hidupkan kembali tracking untuk mendapatkan informasi dari OpenDesa?</b>', 'client', '2020-07-30 03:37:42', '2020-07-30 10:37:03', 1, 90, 'setting/aktifkan_tracking,notif/update_pengumuman', 0);
 
 
@@ -6403,7 +6298,7 @@ CREATE TABLE `point` (
   `enabled` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `parrent` (`parrent`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 INSERT INTO `point` (`id`, `nama`, `simbol`, `tipe`, `parrent`, `enabled`) VALUES (1, 'Sarana Pendidikan', 'face-embarrassed.png', 0, 1, 1);
 INSERT INTO `point` (`id`, `nama`, `simbol`, `tipe`, `parrent`, `enabled`) VALUES (2, 'Sarana Transportasi', 'face-devilish.png', 0, 1, 1);
@@ -6432,7 +6327,7 @@ CREATE TABLE `polygon` (
   `enabled` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `parrent` (`parrent`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 INSERT INTO `polygon` (`id`, `nama`, `simbol`, `color`, `tipe`, `parrent`, `enabled`) VALUES (1, 'rawan topan', '', '#7C78FF', 0, 1, 1);
 INSERT INTO `polygon` (`id`, `nama`, `simbol`, `color`, `tipe`, `parrent`, `enabled`) VALUES (2, 'jalur selokan', '', '#F4FF59', 0, 1, 1);
@@ -6470,7 +6365,7 @@ CREATE TABLE `program` (
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `asaldana` char(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (1, 'BPNT', 2, 'Program KESOS memberi bantuan sosial pangan dalam bentuk non tunai dari pemerintah yang diberikan kepada KPM setiap bulannya melalui mekanisme akun elektronik yang digunakan hanya untuk membeli bahan pangan di pedagang bahan pangan/e-warong yang bekerjasama dengan bank.', '2015-12-13', '2021-12-13', 0, 1, 'Pusat');
 INSERT INTO `program` (`id`, `nama`, `sasaran`, `ndesc`, `sdate`, `edate`, `userid`, `status`, `asaldana`) VALUES (2, 'BLSM', 2, 'Bantuan Langsung Sementara Masyarakat atau BLSM (kadang disebut juga balsem) adalah bantuan yang diberikan Pemerintah Indonesia menyambut kenaikan harga BBM yang terjadi pada 22 Juni 2013 pada jam 00.00', '2015-12-13', '2017-12-13', 0, 0, 'Pusat');
@@ -6498,7 +6393,7 @@ CREATE TABLE `program_peserta` (
   `kartu_peserta` varchar(100) DEFAULT NULL,
   `kartu_id_pend` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (1, '5201140105136997', 1, '1', '5201143112797117', 'DAHRI', 'MASBAGIK', '1978-12-31', 'RT 003  RW - Dusun Loco', NULL, 12);
 INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (2, '5201140104126994', 1, '2', '5201142005716996', 'AHLUL', 'MANGSIT', '1970-05-20', 'RT 004  RW - Dusun Mangsit', NULL, 1);
@@ -6702,10 +6597,10 @@ INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (10, 'Asmat',
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (11, 'Bare’e', 'Bare’e di Kabupaten Tojo Una-Una Tojo dan Tojo Barat');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (12, 'Banten', 'Banten di Banten');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (13, 'Besemah', 'Besemah di Sumatera Selatan');
-INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (14, 'Bali', 'Bali di Bali terdiri dari: Suku Bali Majapahit di sebagian besar Pulau Bali; Suku Bali Aga di Karangasem dan Kintamani');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (14, 'Bali', 'Bali di Bali terdiri dari: Suku Bali Majapahit di sebagian besar Pulau Bali; Suku Bali Aga di Karangasem dan Kintamani');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (15, 'Balantak', 'Balantak di Sulawesi Tengah');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (16, 'Banggai', 'Banggai di Sulawesi Tengah (Kabupaten Banggai Kepulauan)');
-INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (17, 'Baduy', 'Baduy di Banten');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (17, 'Baduy', 'Baduy di Banten');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (18, 'Bajau', 'Bajau di Kalimantan Timur');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (19, 'Banjar', 'Banjar di Kalimantan Selatan');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (20, 'Batak', 'Sumatera Utara');
@@ -6723,7 +6618,7 @@ INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (31, 'Betawi'
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (32, 'Bima', 'Bima NTB (kota Bima)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (33, 'Boti', 'Boti di kabupaten Timor Tengah Selatan');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (34, 'Bolang Mongondow', 'Bolang Mongondow di Sulawesi Utara (Kabupaten Bolaang Mongondow)');
-INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (35, 'Bugis', 'Bugis di Sulawesi Selatan: Orang Bugis Pagatan di Kalimantan Selatan, Kusan Hilir, Tanah Bumbu');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (35, 'Bugis', 'Bugis di Sulawesi Selatan: Orang Bugis Pagatan di Kalimantan Selatan, Kusan Hilir, Tanah Bumbu');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (36, 'Bungku', 'Bungku di Sulawesi Tengah (Kabupaten Morowali)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (37, 'Buru', 'Buru di Maluku (Kabupaten Buru)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (38, 'Buol', 'Buol di Sulawesi Tengah (Kabupaten Buol)');
@@ -6737,7 +6632,7 @@ INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (45, 'Dampele
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (46, 'Dani ', 'Dani di Papua (Lembah Baliem)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (47, 'Dairi', 'Dairi di Sumatera Utara');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (48, 'Daya ', 'Daya di Sumatera Selatan');
-INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (49, 'Dayak', 'Dayak terdiri dari: Suku Dayak Ahe di Kalimantan Barat; Suku Dayak Bajare di Kalimantan Barat; Suku Dayak Damea di Kalimantan Barat; Suku Dayak Banyadu di Kalimantan Barat; Suku Bakati di Kalimantan Barat; Suku Punan di Kalimantan Tengah; Suku Kanayatn di Kalimantan Barat; Suku Dayak Krio di Kalimantan Barat (Ketapang); Suku Dayak Sungai Laur di Kalimantan Barat (Ketapang); Suku Dayak Simpangh di Kalimantan Barat (Ketapang); Suku Iban di Kalimantan Barat; Suku Mualang di Kalimantan Barat (Sekada');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (49, 'Dayak', 'Dayak terdiri dari: Suku Dayak Ahe di Kalimantan Barat; Suku Dayak Bajare di Kalimantan Barat; Suku Dayak Damea di Kalimantan Barat; Suku Dayak Banyadu di Kalimantan Barat; Suku Bakati di Kalimantan Barat; Suku Punan di Kalimantan Tengah; Suku Kanayatn di Kalimantan Barat; Suku Dayak Krio di Kalimantan Barat (Ketapang); Suku Dayak Sungai Laur di Kalimantan Barat (Ketapang); Suku Dayak Simpangh di Kalimantan Barat (Ketapang); Suku Iban di Kalimantan Barat; Suku Mualang di Kalimantan Barat (Sekada');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (50, 'Dompu', 'Dompu NTB (Kabupaten Dompu)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (51, 'Donggo', 'Donggo, Bima');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (52, 'Dongga', 'Donggala di Sulawesi Tengah');
@@ -6751,7 +6646,7 @@ INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (59, 'Goronta
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (60, 'Gumai ', 'Gumai di Sumatera Selatan (Lahat)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (61, 'India', 'India, terdiri dari: Suku Tamil di Aceh, Sumatera Utara, Sumatera Barat, dan DKI Jakarta; Suku Punjab di Sumatera Utara, DKI Jakarta, dan Jawa Timur; Suku Bengali di DKI Jakarta; Suku Gujarati di DKI Jakarta dan Jawa Tengah; Orang Sindhi di DKI Jakarta dan Jawa Timur; Orang Sikh di Sumatera Utara, DKI Jakarta, dan Jawa Timur');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (62, 'Jawa', 'Jawa di Jawa Tengah, Jawa Timur, DI Yogyakarta');
-INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (63, 'Tengger', 'Tengger di Jawa Timur (Probolinggo, Pasuruan, dan Malang)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (63, 'Tengger', 'Tengger di Jawa Timur (Probolinggo, Pasuruan, dan Malang)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (64, 'Osing ', 'Osing di Jawa Timur (Banyuwangi)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (65, 'Samin ', 'Samin di Jawa Tengah (Purwodadi)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (66, 'Bawean', 'Bawean di Jawa Timur (Pulau Bawean)');
@@ -6823,7 +6718,7 @@ INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (131, 'Saluan
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (132, 'Sambas', 'Sambas (Melayu Sambas) di Kalimantan Barat: Kabupaten Sambas');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (133, 'Samin', 'Samin di Jawa Tengah (Blora) dan Jawa Timur (Bojonegoro)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (134, 'Sangi', 'Sangir di Sulawesi Utara (Kepulauan Sangihe)');
-INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (135, 'Sasak', 'Sasak di NTB, Lombok');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (135, 'Sasak', 'Sasak di NTB, Lombok');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (136, 'Sekak Bangka', 'Sekak Bangka');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (137, 'Sekayu', 'Sekayu di Sumatera Selatan');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (138, 'Semendo ', 'Semendo di Bengkulu, Sumatera Selatan (Muara Enim)');
@@ -7065,11 +6960,7 @@ CREATE TABLE `setting_aplikasi` (
   `kategori` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`)
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
 ) ENGINE=InnoDB AUTO_INCREMENT=668 DEFAULT CHARSET=latin1;
-========
-) ENGINE=InnoDB AUTO_INCREMENT=971 DEFAULT CHARSET=utf8;
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
 
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (1, 'sebutan_kabupaten', 'kabupaten', 'Pengganti sebutan wilayah kabupaten', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (2, 'sebutan_kabupaten_singkat', 'kab.', 'Pengganti sebutan singkatan wilayah kabupaten', '', '');
@@ -7088,11 +6979,7 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (17, 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (18, 'sumber_gambar_slider', '2', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (19, 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '22.09', 'Versi sekarang untuk migrasi', NULL, 'readonly');
-========
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '22.04', 'Versi sekarang untuk migrasi', NULL, 'readonly');
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (21, 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (23, 'web_artikel_per_page', '8', 'Jumlah artikel dalam satu halaman', 'int', 'web_theme');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (24, 'penomoran_surat', '2', 'Penomoran surat mulai dari satu (1) setiap tahun', 'option', NULL);
@@ -7114,7 +7001,6 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (43, 'token_opensid', '', 'Token OpenSID', '', 'sistem');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (44, 'layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (45, 'ukuran_lebar_bagan', '800', 'Ukuran Lebar Bagan (800 / 1200 / 1400)', 'int', 'conf_bagan');
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (48, 'layanan_opendesa_token', '', 'Token pelanggan Layanan OpenDESA', 'textarea', 'pelanggan');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (55, 'api_opendk_server', '', 'Alamat Server OpenDK (contoh: https://demo.opendk.my.id)', NULL, 'opendk');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (56, 'api_opendk_key', '', 'OpenDK API Key untuk Sinkronisasi Data', NULL, 'opendk');
@@ -7139,35 +7025,6 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (522, 'tampilan_anjungan_audio', '0', 'Apakah audio diaktifkan atau tidak saat video diputar', 'boolean', 'setting_mandiri');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (576, 'tampilkan_pendaftaran', '0', 'Aktifkan / Non Aktifkan Pendaftaran Layanan Mandiri', 'boolean', 'setting_mandiri');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (634, 'branding_desa', 'LAYANAN MANDIRI', 'Nama Branding Aplikasi Layanan Mandiri Android', NULL, 'mobile');
-========
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (48, 'api_opendk_server', '', 'Alamat Server OpenDK (contoh: https://demodk.opendesa.id)', NULL, 'opendk');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (49, 'api_opendk_key', '', 'OpenDK API Key untuk Sinkronisasi Data', NULL, 'opendk');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (50, 'api_opendk_user', '', 'Email Login Pengguna OpenDK', NULL, 'opendk');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (51, 'api_opendk_password', '', 'Password Login Pengguna OpenDK', NULL, 'opendk');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (52, 'sebutan_kepala_desa', 'Kepala', 'Pengganti sebutan jabatan Kepala Desa', NULL, NULL);
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (53, 'tgl_data_lengkap', NULL, 'Atur data tanggal sudah lengkap', 'datetime', NULL);
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (54, 'tgl_data_lengkap_aktif', '0', 'Aktif / Non-aktif data tanggal sudah lengkap', 'boolean', NULL);
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (113, 'api_gform_id_script', '', 'Script ID untuk Google API', NULL, 'setting_analisis');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (114, 'api_gform_credential', '', 'Credential untuk Google API', 'textarea', 'setting_analisis');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (115, 'api_gform_redirect_uri', 'https://berputar.opensid.or.id/index.php/first/get_form_info', 'Redirecet URI untuk Google API', NULL, 'setting_analisis');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (170, 'tampilkan_lapak_web', '1', 'Aktif / Non-aktif Lapak di Halaman Website Url Terpisah', 'boolean', 'lapak');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (171, 'pesan_singkat_wa', 'Saya ingin membeli [nama_produk] yang anda tawarkan di Lapak Desa [link_web]', 'Pesan Singkat WhatsApp', 'textarea', 'lapak');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (172, 'banyak_foto_tiap_produk', '3', 'Banyaknya foto tiap produk yang bisa di unggah', 'int', 'lapak');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (173, 'jumlah_produk_perhalaman', '10', 'Jumlah produk yang ditampilkan dalam satu halaman', 'int', 'lapak');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (176, 'layanan_opendesa_token', '', 'Token pelanggan Layanan OpenDESA', 'textarea', 'pelanggan');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (465, 'telegram_token', '', 'Telgram token', NULL, 'sistem');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (466, 'telegram_user_id', '', 'Telgram user id untuk notifikasi ke pengguna', NULL, 'sistem');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (605, 'tampilan_anjungan', '0', 'Pilih tampilan di anjungan pada saat tidak ada aktifitas pada halaman login.', 'option-kode', 'setting_mandiri');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (606, 'tampilan_anjungan_waktu', '30', 'Atur waktu (detik) kapan tampilan di anjungan akan muncul pada saat tidak ada aktifitas di halaman login.', 'int', 'setting_mandiri');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (607, 'tampilan_anjungan_slider', NULL, 'Pilih album yang akan ditampilkan pada anjungan.', 'option', 'setting_mandiri');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (608, 'tampilan_anjungan_video', NULL, 'Masukan link video dengan format <code>.mp4</code> yang akan ditampilkan pada anjungan', NULL, 'setting_mandiri');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (787, 'tampilkan_pendaftaran', '0', 'Aktifkan / Non Aktifkan Pendaftaran Layanan Mandiri', 'boolean', 'setting_mandiri');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (788, 'tampilan_anjungan_audio', '0', 'Apakah audio diaktifkan atau tidak saat video diputar', 'boolean', 'setting_mandiri');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (873, 'branding_desa', 'LAYANAN MANDIRI', 'Nama Branding Aplikasi Layanan Mandiri Android', NULL, 'mobile');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (932, 'tampilkan_kehadiran', '1', 'Aktif / Non-aktifkan Halaman Websiten Kehadiran', 'boolean', 'kehadiran');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (933, 'ip_adress_kehadiran', '', 'IP Address Perangkat Kehadiran', NULL, 'kehadiran');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (934, 'mac_adress_kehadiran', '', 'MAC Address Perangkat Kehadiran', NULL, 'kehadiran');
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
 
 
 #
@@ -7188,7 +7045,7 @@ CREATE TABLE `setting_modul` (
   `ikon_kecil` varchar(50) DEFAULT '',
   `parent` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=343 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=337 DEFAULT CHARSET=utf8;
 
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (1, 'Home', 'hom_sid', 1, 'fa-home', 10, 2, 1, 'fa fa-home', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (2, 'Kependudukan', '', 1, 'fa-users', 30, 2, 0, 'fa fa-users', 0);
@@ -7328,11 +7185,6 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (334, 'Pengaduan', 'pengaduan_admin', 1, 'fa-info', 124, 2, 0, 'fa-info', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (335, 'Vaksin', 'vaksin_covid/clear', 1, 'fa fa-medkit', 2, 2, 0, '', 206);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (336, 'Arsip [Desa]', 'bumindes_arsip', 1, 'fa-archive', 5, 2, 0, 'fa fa-archive', 301);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (337, 'Kehadiran', '', 1, 'fa-calendar-check-o', 41, 0, 0, 'fa-calendar-check-o', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (339, 'Jam Kerja', 'kehadiran_jam_kerja', 1, 'fa-clock-o', 2, 0, 0, 'fa-credit-card', 337);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (340, 'Hari Libur', 'kehadiran_hari_libur', 1, 'fa-calendar', 2, 0, 0, 'fa-credit-card', 337);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (341, 'Rekapitulasi', 'kehadiran_rekapitulasi', 1, 'fa-list', 2, 0, 0, 'fa-list', 337);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (342, 'Pengaduan', 'kehadiran_pengaduan', 1, 'fa-exclamation', 2, 0, 0, 'fa-exclamation', 337);
 
 
 #
@@ -7376,7 +7228,7 @@ CREATE TABLE `suplemen` (
   `keterangan` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: surat_keluar
@@ -7404,7 +7256,7 @@ CREATE TABLE `surat_keluar` (
   `updated_by` int(11) NOT NULL,
   `lokasi_arsip` varchar(150) DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: surat_masuk
@@ -7425,7 +7277,7 @@ CREATE TABLE `surat_masuk` (
   `berkas_scan` varchar(100) DEFAULT NULL,
   `lokasi_arsip` varchar(150) DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: sys_traffic
@@ -7548,7 +7400,7 @@ CREATE TABLE `teks_berjalan` (
   `tautan` varchar(150) DEFAULT NULL,
   `judul_tautan` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 INSERT INTO `teks_berjalan` (`id`, `teks`, `urut`, `created_at`, `created_by`, `updated_at`, `updated_by`, `status`, `tautan`, `judul_tautan`) VALUES (1, 'Ini contoh teks berjalan. Isi dengan tulisan yang menampilkan suatu ciri atau kegiatan penting di desa anda.', NULL, '2019-05-28 22:45:28', 1, '2019-05-28 22:45:28', NULL, 1, NULL, NULL);
 
@@ -7568,7 +7420,7 @@ CREATE TABLE `tweb_aset` (
   `sub_sub_kelompok` varchar(11) NOT NULL,
   `nama` varchar(255) NOT NULL,
   PRIMARY KEY (`id_aset`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `tweb_aset` (`id_aset`, `golongan`, `bidang`, `kelompok`, `sub_kelompok`, `sub_sub_kelompok`, `nama`) VALUES (1, '2', '00', '00', '00', '000', 'TANAH');
 INSERT INTO `tweb_aset` (`id_aset`, `golongan`, `bidang`, `kelompok`, `sub_kelompok`, `sub_sub_kelompok`, `nama`) VALUES (2, '2', '01', '00', '00', '000', 'TANAH DESA');
@@ -11876,8 +11728,6 @@ CREATE TABLE `tweb_desa_pamong` (
   `pamong_id` int(5) NOT NULL AUTO_INCREMENT,
   `pamong_nama` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_nip` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `pamong_tag_id_card` varchar(17) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `pamong_pin` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_nik` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `jabatan` varchar(50) COLLATE utf8_unicode_ci DEFAULT '0',
   `pamong_status` tinyint(1) DEFAULT '1',
@@ -11904,18 +11754,16 @@ CREATE TABLE `tweb_desa_pamong` (
   `bagan_offset` int(3) DEFAULT NULL,
   `bagan_layout` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `bagan_warna` varchar(25) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `kehadiran` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`pamong_id`),
-  UNIQUE KEY `pamong_tag_id_card` (`pamong_tag_id_card`)
+  PRIMARY KEY (`pamong_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (14, 'Muhammad Ilham ', '', NULL, NULL, NULL, 'Kepala Desa', 1, '2014-04-20', 1, 'jhpgD6_kuser.png', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, '', '', NULL, NULL, 0, NULL, NULL, NULL, '', '', 1);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (20, 'Mustahiq S.Adm', '197905062010011007', NULL, NULL, '5201140506790001', 'Sekretaris Desa', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 1);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (21, 'Syafruddin ', '-', NULL, NULL, '5201140911720004', 'Kaur Pemerintahan ', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 1);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (22, 'Supardi Rustam ', '-', NULL, NULL, '5201140101710003', 'Kaur Umum ', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 1);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (23, 'Mardiana ', '-', NULL, NULL, '5201145203810001', 'Kaur Keuangan', 1, '2016-08-23', NULL, 'cNzva0_bendahara.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 1);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (24, 'Syafi-i. SE ', '-', NULL, NULL, '5201140506730002', 'Kaur Pembangunan ', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 1);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (25, 'Mahrup ', '', NULL, NULL, '', 'Kaur Keamanan dan Ketertiban', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (14, 'Muhammad Ilham ', '', NULL, 'Kepala Desa', 1, '2014-04-20', 1, 'jhpgD6_kuser.png', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, '', '', NULL, NULL, 0, NULL, NULL, NULL, '', '');
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (20, 'Mustahiq S.Adm', '197905062010011007', '5201140506790001', 'Sekretaris Desa', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (21, 'Syafruddin ', '-', '5201140911720004', 'Kaur Pemerintahan ', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (22, 'Supardi Rustam ', '-', '5201140101710003', 'Kaur Umum ', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (23, 'Mardiana ', '-', '5201145203810001', 'Kaur Keuangan', 1, '2016-08-23', NULL, 'cNzva0_bendahara.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (24, 'Syafi-i. SE ', '-', '5201140506730002', 'Kaur Pembangunan ', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (25, 'Mahrup ', '', '', 'Kaur Keamanan dan Ketertiban', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL);
 
 
 #
@@ -12016,7 +11864,7 @@ CREATE TABLE `tweb_keluarga_sejahtera` (
   `id` int(10) NOT NULL DEFAULT '0',
   `nama` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `tweb_keluarga_sejahtera` (`id`, `nama`) VALUES (1, 'Keluarga Pra Sejahtera');
 INSERT INTO `tweb_keluarga_sejahtera` (`id`, `nama`) VALUES (2, 'Keluarga Sejahtera I');
@@ -12112,7 +11960,7 @@ CREATE TABLE `tweb_penduduk` (
   UNIQUE KEY `email_token` (`email_token`),
   UNIQUE KEY `email` (`email`),
   KEY `id_rtm` (`id_rtm`)
-) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `email_token`, `email_tgl_kadaluarsa`, `email_tgl_verifikasi`, `telegram`, `telegram_token`, `telegram_tgl_kadaluarsa`, `telegram_tgl_verifikasi`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`, `bpjs_ketenagakerjaan`) VALUES (1, 'AHLUL', '5201142005716996', 1, 1, '011405000012', 1, 1, 'MANGSIT', '1970-05-20', 1, 3, 18, 26, 2, 1, '', '0', '', '', 'ARFAH', 'RAISAH', '', 13, 4, 1, '', '', 1, 2, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:30:21', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `email_token`, `email_tgl_kadaluarsa`, `email_tgl_verifikasi`, `telegram`, `telegram_token`, `telegram_tgl_kadaluarsa`, `telegram_tgl_verifikasi`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`, `bpjs_ketenagakerjaan`) VALUES (2, 'AHMAD ALLIF RIZKI', '5201140706966997', 1, 4, '0', 0, 1, 'MANGSIT', '1995-06-07', 1, 1, 18, 1, 1, 1, '', '0', '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, 2, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -12244,7 +12092,7 @@ CREATE TABLE `tweb_penduduk_asuransi` (
   `id` tinyint(5) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
 
 INSERT INTO `tweb_penduduk_asuransi` (`id`, `nama`) VALUES (1, 'Tidak/Belum Punya');
 INSERT INTO `tweb_penduduk_asuransi` (`id`, `nama`) VALUES (2, 'BPJS Penerima Bantuan Iuran');
@@ -12305,7 +12153,7 @@ CREATE TABLE `tweb_penduduk_map` (
   `id` int(11) NOT NULL,
   `lat` varchar(24) DEFAULT NULL,
   `lng` varchar(24) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `tweb_penduduk_map` (`id`, `lat`, `lng`) VALUES (7, '-8.495339739996284', '116.05516478419307');
 INSERT INTO `tweb_penduduk_map` (`id`, `lat`, `lng`) VALUES (3, '-8.496679059709217', '116.05342939496042');
@@ -12321,7 +12169,7 @@ CREATE TABLE `tweb_penduduk_pekerjaan` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nama` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 INSERT INTO `tweb_penduduk_pekerjaan` (`id`, `nama`) VALUES (1, 'BELUM/TIDAK BEKERJA');
 INSERT INTO `tweb_penduduk_pekerjaan` (`id`, `nama`) VALUES (2, 'MENGURUS RUMAH TANGGA');
@@ -12521,7 +12369,7 @@ INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALU
 INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (2, 'ANAK-ANAK', 6, 17, 0);
 INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (3, 'DEWASA', 18, 30, 0);
 INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (4, 'TUA', 31, 99999, 0);
-INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (6, '0 S/D 1 TAHUN', 0, 1, 1);
+INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (6, 'Di bawah 1 Tahun', 0, 1, 1);
 INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (9, '2 s/d 4 Tahun', 2, 4, 1);
 INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (12, '5 s/d 9 Tahun', 5, 9, 1);
 INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (13, '10 s/d 14 Tahun', 10, 14, 1);
@@ -12654,7 +12502,7 @@ CREATE TABLE `tweb_status_ktp` (
   `ktp_el` tinyint(4) NOT NULL,
   `status_rekam` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (1, 'BELUM REKAM', 1, '2');
 INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (2, 'SUDAH REKAM', 2, '3');
@@ -12663,7 +12511,6 @@ INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (4
 INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (5, 'CARD SHIPPED', 2, '6');
 INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (6, 'SENT FOR CARD PRINTING', 2, '7');
 INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (7, 'CARD ISSUED', 2, '8');
-INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (8, 'BELUM WAJIB', 1, '1');
 
 
 #
@@ -12680,7 +12527,7 @@ CREATE TABLE `tweb_surat_atribut` (
   `long` tinyint(4) NOT NULL,
   `kode` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: tweb_surat_format
@@ -12703,11 +12550,7 @@ CREATE TABLE `tweb_surat_format` (
   `qr_code` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
 ) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8;
-========
-) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8;
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
 
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (1, 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, 0, 0, 1, 1, 1, 'M', 0);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (2, 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, 0, 0, 1, 1, 1, 'M', 0);
@@ -12780,7 +12623,7 @@ CREATE TABLE `tweb_wil_clusterdesa` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `rt` (`rt`,`rw`,`dusun`),
   KEY `id_kepala` (`id_kepala`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`, `warna`, `urut`, `urut_cetak`) VALUES (1, '0', '0', 'MANGSIT', 0, '', '', 0, '', '', NULL, NULL, NULL);
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`, `warna`, `urut`, `urut_cetak`) VALUES (2, '0', '-', 'MANGSIT', 0, '', '', 0, '', '', NULL, NULL, NULL);
@@ -12841,7 +12684,6 @@ CREATE TABLE `user` (
   `username` varchar(100) DEFAULT NULL,
   `password` varchar(100) NOT NULL,
   `id_grup` int(5) NOT NULL,
-  `pamong_id` int(20) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
   `email_verified_at` datetime DEFAULT NULL,
@@ -12853,15 +12695,10 @@ CREATE TABLE `user` (
   `session` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `pamong_id` (`pamong_id`)
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
 INSERT INTO `user` (`id`, `username`, `password`, `id_grup`, `email`, `last_login`, `email_verified_at`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES (1, 'admin', '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.', 1, 'info@opendesa.id', '2022-06-30 20:06:34', NULL, 1, 'Administrator', 'ADMIN', '321', 'favicon.png', 'a8d4080245664ed2049c1b2ded7cac30');
-========
-INSERT INTO `user` (`id`, `username`, `password`, `id_grup`, `pamong_id`, `email`, `last_login`, `email_verified_at`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES (1, 'admin', '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.', 1, NULL, 'info@opendesa.id', '2022-02-28 19:55:01', NULL, 1, 'Administrator', 'ADMIN', '321', 'kuser.png', 'a8d4080245664ed2049c1b2ded7cac30');
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
 
 
 #
@@ -12904,7 +12741,7 @@ CREATE TABLE `widget` (
   `form_admin` varchar(100) DEFAULT NULL,
   `setting` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (1, '<p><iframe src=\"https://www.google.co.id/maps?f=q&source=s_q&hl=en&geocode=&q=Logandu,+Karanggayam&aq=0&oq=logan&sll=-2.550221,118.015568&sspn=52.267573,80.332031&t=h&ie=UTF8&hq=&hnear=Logandu,+Karanggayam,+Kebumen,+Central+Java&ll=-7.55854,109.634173&spn=0.052497,0.078449&z=14&output=embed\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\" width=\"100%\"></iframe></p> ', 2, 'Peta Desa', 3, 1, '', '');
 INSERT INTO `widget` (`id`, `isi`, `enabled`, `judul`, `jenis_widget`, `urut`, `form_admin`, `setting`) VALUES (3, 'agenda.php', 1, 'Agenda', 1, 6, 'web/tab/1000', '');
@@ -12937,7 +12774,7 @@ CREATE TABLE `suplemen_terdata` (
   PRIMARY KEY (`id`),
   KEY `id_suplemen` (`id_suplemen`),
   CONSTRAINT `suplemen_terdata_ibfk_1` FOREIGN KEY (`id_suplemen`) REFERENCES `suplemen` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: kontak
@@ -12994,7 +12831,7 @@ CREATE TABLE `mutasi_inventaris_asset` (
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_asset` (`id_inventaris_asset`),
   CONSTRAINT `FK_mutasi_inventaris_asset` FOREIGN KEY (`id_inventaris_asset`) REFERENCES `inventaris_asset` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: mutasi_inventaris_gedung
@@ -13019,7 +12856,7 @@ CREATE TABLE `mutasi_inventaris_gedung` (
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_gedung` (`id_inventaris_gedung`),
   CONSTRAINT `FK_mutasi_inventaris_gedung` FOREIGN KEY (`id_inventaris_gedung`) REFERENCES `inventaris_gedung` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: mutasi_inventaris_jalan
@@ -13044,7 +12881,7 @@ CREATE TABLE `mutasi_inventaris_jalan` (
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_jalan` (`id_inventaris_jalan`),
   CONSTRAINT `FK_mutasi_inventaris_jalan` FOREIGN KEY (`id_inventaris_jalan`) REFERENCES `inventaris_jalan` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: mutasi_inventaris_peralatan
@@ -13069,7 +12906,7 @@ CREATE TABLE `mutasi_inventaris_peralatan` (
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_peralatan` (`id_inventaris_peralatan`),
   CONSTRAINT `FK_mutasi_inventaris_peralatan` FOREIGN KEY (`id_inventaris_peralatan`) REFERENCES `inventaris_peralatan` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: mutasi_inventaris_tanah
@@ -13094,7 +12931,7 @@ CREATE TABLE `mutasi_inventaris_tanah` (
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_tanah` (`id_inventaris_tanah`),
   CONSTRAINT `FK_mutasi_inventaris_tanah` FOREIGN KEY (`id_inventaris_tanah`) REFERENCES `inventaris_tanah` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: disposisi_surat_masuk
@@ -13135,7 +12972,7 @@ CREATE TABLE `tweb_penduduk_mandiri` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_pend`),
   CONSTRAINT `id_pend_fk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `tweb_penduduk_mandiri` (`pin`, `last_login`, `tanggal_buat`, `id_pend`, `aktif`, `scan_ktp`, `scan_kk`, `foto_selfie`, `ganti_pin`, `email_verified_at`, `remember_token`, `updated_at`) VALUES ('3645e735f033e8482be0c7993fcba946', '2016-09-14 12:53:47', '2016-09-14 06:06:32', 2, 1, NULL, NULL, NULL, 0, NULL, NULL, '2022-06-30 20:06:23');
 INSERT INTO `tweb_penduduk_mandiri` (`pin`, `last_login`, `tanggal_buat`, `id_pend`, `aktif`, `scan_ktp`, `scan_kk`, `foto_selfie`, `ganti_pin`, `email_verified_at`, `remember_token`, `updated_at`) VALUES ('3645e735f033e8482be0c7993fcba946', '2020-11-29 09:01:17', '2020-11-29 08:59:46', 20, 1, NULL, NULL, NULL, 0, NULL, NULL, '2022-06-30 20:06:23');
@@ -13155,11 +12992,7 @@ CREATE TABLE `setting_aplikasi_options` (
   PRIMARY KEY (`id`),
   KEY `id_setting_fk` (`id_setting`),
   CONSTRAINT `id_setting_fk` FOREIGN KEY (`id_setting`) REFERENCES `setting_aplikasi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
-========
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
 
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (1, 24, 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan', NULL);
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (2, 24, 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama', NULL);
@@ -13179,15 +13012,9 @@ INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VAL
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (16, 12, 'Web bisa diakses publik', 0);
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (17, 12, 'Web hanya bisa diakses petugas web', 1);
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (18, 12, 'Web non-aktif sama sekali', 2);
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (37, 496, 'Tidak Aktif', 0);
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (38, 496, 'Slider', 1);
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (39, 496, 'Video', 2);
-========
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (58, 605, 'Tidak Aktif', 0);
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (59, 605, 'Slider', 1);
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (60, 605, 'Video', 2);
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
 
 
 #
@@ -13542,7 +13369,7 @@ CREATE TABLE `grup_akses` (
   KEY `id_modul` (`id_modul`),
   CONSTRAINT `fk_id_grup` FOREIGN KEY (`id_grup`) REFERENCES `user_grup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_id_modul` FOREIGN KEY (`id_modul`) REFERENCES `setting_modul` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8;
 
 INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (1, 5, 3, 0);
 INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (2, 5, 27, 3);
@@ -13703,13 +13530,8 @@ INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (158, 2, 
 INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (159, 2, 335, 3);
 INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (160, 2, 220, 3);
 INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (161, 2, 336, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (162, 2, 337, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (163, 2, 341, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (164, 2, 340, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (165, 2, 339, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (166, 2, 342, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (167, 2, 313, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (168, 2, 331, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (162, 2, 313, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (163, 2, 331, 3);
 
 
 #
@@ -13732,20 +13554,8 @@ CREATE TABLE `produk` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-========
-  PRIMARY KEY (`id`),
-  KEY `lapak_fk` (`id_pelapak`),
-  KEY `produk_kategori_fk` (`id_produk_kategori`),
-  CONSTRAINT `lapak_fk` FOREIGN KEY (`id_pelapak`) REFERENCES `pelapak` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `produk_kategori_fk` FOREIGN KEY (`id_produk_kategori`) REFERENCES `produk_kategori` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-INSERT INTO `produk` (`id`, `id_pelapak`, `id_produk_kategori`, `nama`, `harga`, `satuan`, `tipe_potongan`, `potongan`, `deskripsi`, `foto`, `status`, `created_at`, `updated_at`) VALUES (1, 1, 1, 'Lumpring', 8000, 'bungkus', 2, 2000, 'Si Camilan Cruncy LUMPRING atau Lumpia Kering ini diolah dari kulit lumpia yang kemudian dibubuhi dengan aneka varian rasa', '[\"lumpring__sid__WMZk6Fs.jpg\"]', 1, '2021-06-30 19:04:47', '2021-06-30 19:04:47');
-
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_bank_desa
@@ -13770,7 +13580,7 @@ CREATE TABLE `keuangan_ref_bank_desa` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_bank_desa_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_bank_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_bel_operasional
@@ -13785,7 +13595,7 @@ CREATE TABLE `keuangan_ref_bel_operasional` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_bel_operasional_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_bel_operasional_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_bidang
@@ -13801,7 +13611,7 @@ CREATE TABLE `keuangan_ref_bidang` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_bidang_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_bidang_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_bunga
@@ -13817,7 +13627,7 @@ CREATE TABLE `keuangan_ref_bunga` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_bunga_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_bunga_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_desa
@@ -13834,7 +13644,7 @@ CREATE TABLE `keuangan_ref_desa` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_desa_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_kecamatan
@@ -13850,7 +13660,7 @@ CREATE TABLE `keuangan_ref_kecamatan` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_kecamatan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_kecamatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_kegiatan
@@ -13869,7 +13679,7 @@ CREATE TABLE `keuangan_ref_kegiatan` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_kegiatan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_korolari
@@ -13887,7 +13697,7 @@ CREATE TABLE `keuangan_ref_korolari` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_korolari_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_korolari_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_neraca_close
@@ -13903,7 +13713,7 @@ CREATE TABLE `keuangan_ref_neraca_close` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_neraca_close_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_neraca_close_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_perangkat
@@ -13919,7 +13729,7 @@ CREATE TABLE `keuangan_ref_perangkat` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_perangkat_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_perangkat_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_potongan
@@ -13935,7 +13745,7 @@ CREATE TABLE `keuangan_ref_potongan` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_potongan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_potongan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_rek1
@@ -13952,7 +13762,7 @@ CREATE TABLE `keuangan_ref_rek1` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_rek1_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_rek1_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_rek2
@@ -13969,7 +13779,7 @@ CREATE TABLE `keuangan_ref_rek2` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_rek2_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_rek2_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_rek3
@@ -13987,7 +13797,7 @@ CREATE TABLE `keuangan_ref_rek3` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_rek3_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_rek3_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_rek4
@@ -14005,7 +13815,7 @@ CREATE TABLE `keuangan_ref_rek4` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_rek4_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_rek4_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_sbu
@@ -14025,7 +13835,7 @@ CREATE TABLE `keuangan_ref_sbu` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_sbu_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_sbu_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ref_sumber
@@ -14042,7 +13852,7 @@ CREATE TABLE `keuangan_ref_sumber` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ref_sumber_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ref_sumber_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_anggaran
@@ -14070,7 +13880,7 @@ CREATE TABLE `keuangan_ta_anggaran` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_anggaran_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_anggaran_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_anggaran_log
@@ -14094,7 +13904,7 @@ CREATE TABLE `keuangan_ta_anggaran_log` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_anggaran_log_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_anggaran_log_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_anggaran_rinci
@@ -14125,7 +13935,7 @@ CREATE TABLE `keuangan_ta_anggaran_rinci` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_anggaran_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_anggaran_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_bidang
@@ -14143,7 +13953,7 @@ CREATE TABLE `keuangan_ta_bidang` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_bidang_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_bidang_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_desa
@@ -14178,7 +13988,7 @@ CREATE TABLE `keuangan_ta_desa` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_desa_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_jurnal_umum
@@ -14204,7 +14014,7 @@ CREATE TABLE `keuangan_ta_jurnal_umum` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_jurnal_umum_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_jurnal_umum_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_jurnal_umum_rinci
@@ -14230,7 +14040,7 @@ CREATE TABLE `keuangan_ta_jurnal_umum_rinci` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_jurnal_umum_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_jurnal_umum_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_kegiatan
@@ -14263,7 +14073,7 @@ CREATE TABLE `keuangan_ta_kegiatan` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_kegiatan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_mutasi
@@ -14289,7 +14099,7 @@ CREATE TABLE `keuangan_ta_mutasi` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_mutasi_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_mutasi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_pajak
@@ -14319,7 +14129,7 @@ CREATE TABLE `keuangan_ta_pajak` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_pajak_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_pajak_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_pajak_rinci
@@ -14339,7 +14149,7 @@ CREATE TABLE `keuangan_ta_pajak_rinci` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_pajak_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_pajak_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_pemda
@@ -14366,7 +14176,7 @@ CREATE TABLE `keuangan_ta_pemda` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_pemda_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_pemda_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_pencairan
@@ -14394,7 +14204,7 @@ CREATE TABLE `keuangan_ta_pencairan` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_pencairan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_pencairan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_perangkat
@@ -14417,7 +14227,7 @@ CREATE TABLE `keuangan_ta_perangkat` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_perangkat_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_perangkat_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_rab
@@ -14439,7 +14249,7 @@ CREATE TABLE `keuangan_ta_rab` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rab_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rab_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_rab_rinci
@@ -14470,7 +14280,7 @@ CREATE TABLE `keuangan_ta_rab_rinci` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rab_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rab_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_rab_sub
@@ -14493,7 +14303,7 @@ CREATE TABLE `keuangan_ta_rab_sub` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rab_sub_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rab_sub_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_rpjm_bidang
@@ -14510,7 +14320,7 @@ CREATE TABLE `keuangan_ta_rpjm_bidang` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_bidang_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_bidang_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_rpjm_kegiatan
@@ -14544,7 +14354,7 @@ CREATE TABLE `keuangan_ta_rpjm_kegiatan` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_kegiatan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_rpjm_misi
@@ -14563,7 +14373,7 @@ CREATE TABLE `keuangan_ta_rpjm_misi` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_misi_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_misi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_rpjm_pagu_indikatif
@@ -14587,7 +14397,7 @@ CREATE TABLE `keuangan_ta_rpjm_pagu_indikatif` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_pagu_indikatif_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_pagu_indikatif_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_rpjm_pagu_tahunan
@@ -14618,7 +14428,7 @@ CREATE TABLE `keuangan_ta_rpjm_pagu_tahunan` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_pagu_tahunan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_pagu_tahunan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_rpjm_sasaran
@@ -14637,7 +14447,7 @@ CREATE TABLE `keuangan_ta_rpjm_sasaran` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_sasaran_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_sasaran_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_rpjm_tujuan
@@ -14656,7 +14466,7 @@ CREATE TABLE `keuangan_ta_rpjm_tujuan` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_tujuan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_tujuan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_rpjm_visi
@@ -14676,7 +14486,7 @@ CREATE TABLE `keuangan_ta_rpjm_visi` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_rpjm_visi_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_rpjm_visi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_saldo_awal
@@ -14698,7 +14508,7 @@ CREATE TABLE `keuangan_ta_saldo_awal` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_saldo_awal_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_saldo_awal_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_spj
@@ -14722,7 +14532,7 @@ CREATE TABLE `keuangan_ta_spj` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spj_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spj_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_spj_bukti
@@ -14756,7 +14566,7 @@ CREATE TABLE `keuangan_ta_spj_bukti` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spj_bukti_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spj_bukti_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_spj_rinci
@@ -14782,7 +14592,7 @@ CREATE TABLE `keuangan_ta_spj_rinci` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spj_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spj_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_spj_sisa
@@ -14807,7 +14617,7 @@ CREATE TABLE `keuangan_ta_spj_sisa` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spj_sisa_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spj_sisa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_spjpot
@@ -14829,7 +14639,7 @@ CREATE TABLE `keuangan_ta_spjpot` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spjpot_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spjpot_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_spp
@@ -14854,7 +14664,7 @@ CREATE TABLE `keuangan_ta_spp` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spp_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spp_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_spp_rinci
@@ -14876,7 +14686,7 @@ CREATE TABLE `keuangan_ta_spp_rinci` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spp_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spp_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_sppbukti
@@ -14910,7 +14720,7 @@ CREATE TABLE `keuangan_ta_sppbukti` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_sppbukti_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_sppbukti_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_spppot
@@ -14932,7 +14742,7 @@ CREATE TABLE `keuangan_ta_spppot` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_spppot_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_spppot_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_sts
@@ -14957,7 +14767,7 @@ CREATE TABLE `keuangan_ta_sts` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_sts_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_sts_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_sts_rinci
@@ -14977,7 +14787,7 @@ CREATE TABLE `keuangan_ta_sts_rinci` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_sts_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_sts_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_tbp
@@ -15008,7 +14818,7 @@ CREATE TABLE `keuangan_ta_tbp` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_tbp_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_tbp_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_tbp_rinci
@@ -15031,7 +14841,7 @@ CREATE TABLE `keuangan_ta_tbp_rinci` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_tbp_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_tbp_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_triwulan
@@ -15072,7 +14882,7 @@ CREATE TABLE `keuangan_ta_triwulan` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_triwulan_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_triwulan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: keuangan_ta_triwulan_rinci
@@ -15113,7 +14923,7 @@ CREATE TABLE `keuangan_ta_triwulan_rinci` (
   PRIMARY KEY (`id`),
   KEY `id_keuangan_ta_triwulan_rinci_master_fk` (`id_keuangan_master`),
   CONSTRAINT `id_keuangan_ta_triwulan_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: cdesa_penduduk
@@ -15159,7 +14969,6 @@ CREATE TABLE `mutasi_cdesa` (
 #
 
 CREATE VIEW `daftar_grup` AS select `a`.`id_grup` AS `id_grup`,`a`.`nama_grup` AS `nama_grup`,(select count(`anggota_grup_kontak`.`id_kontak`) from `anggota_grup_kontak` where (`a`.`id_grup` = `anggota_grup_kontak`.`id_grup`)) AS `jumlah_anggota` from `kontak_grup` `a`;
-<<<<<<<< HEAD:contoh_data_awal_20221001.sql
 
 
 
@@ -15168,8 +14977,6 @@ CREATE VIEW `daftar_grup` AS select `a`.`id_grup` AS `id_grup`,`a`.`nama_grup` A
 #
 
 CREATE VIEW `data_surat` AS select `u`.`id` AS `id`,`u`.`nama` AS `nama`,`x`.`nama` AS `sex`,`u`.`tempatlahir` AS `tempatlahir`,`u`.`tanggallahir` AS `tanggallahir`,(select (date_format(from_days((to_days(now()) - to_days(`tweb_penduduk`.`tanggallahir`))),'%Y') + 0) from `tweb_penduduk` where (`tweb_penduduk`.`id` = `u`.`id`)) AS `umur`,`w`.`nama` AS `status_kawin`,`f`.`nama` AS `warganegara`,`a`.`nama` AS `agama`,`d`.`nama` AS `pendidikan`,`j`.`nama` AS `pekerjaan`,`u`.`nik` AS `nik`,`c`.`rt` AS `rt`,`c`.`rw` AS `rw`,`c`.`dusun` AS `dusun`,`k`.`no_kk` AS `no_kk`,(select `tweb_penduduk`.`nama` from `tweb_penduduk` where (`tweb_penduduk`.`id` = `k`.`nik_kepala`)) AS `kepala_kk` from ((((((((`tweb_penduduk` `u` left join `tweb_penduduk_sex` `x` on((`u`.`sex` = `x`.`id`))) left join `tweb_penduduk_kawin` `w` on((`u`.`status_kawin` = `w`.`id`))) left join `tweb_penduduk_agama` `a` on((`u`.`agama_id` = `a`.`id`))) left join `tweb_penduduk_pendidikan_kk` `d` on((`u`.`pendidikan_kk_id` = `d`.`id`))) left join `tweb_penduduk_pekerjaan` `j` on((`u`.`pekerjaan_id` = `j`.`id`))) left join `tweb_wil_clusterdesa` `c` on((`u`.`id_cluster` = `c`.`id`))) left join `tweb_keluarga` `k` on((`u`.`id_kk` = `k`.`id`))) left join `tweb_penduduk_warganegara` `f` on((`u`.`warganegara_id` = `f`.`id`)));
-========
->>>>>>>> 9d5a58277 (v22.10-premium):contoh_data_awal_20220401.sql
 
 
 
@@ -15226,6 +15033,5 @@ CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pen
 #
 
 CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)));
-
 
 
