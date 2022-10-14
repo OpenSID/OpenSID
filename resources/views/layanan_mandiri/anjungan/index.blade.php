@@ -114,9 +114,7 @@
         </div>
         <div id="scroll-container">
             <div id="scroll-text">
-                @foreach (teks_berjalan(3, 1) as $teks_berjalan)
-                    {!! $teks_berjalan->teks !!}
-                @endforeach
+                {{ $teks_berjalan }}
             <div>
         </div>
     </footer>

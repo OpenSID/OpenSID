@@ -51,8 +51,9 @@ class Migrasi_fitur_premium_2211 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2210');
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_surat_tinymce');
         $hasil = $hasil && $this->migrasi_2022100671($hasil);
+        $hasil = $hasil && $this->migrasi_2022100851($hasil);
 
-        return $hasil && $this->migrasi_2022100851($hasil);
+        return $hasil && $this->migrasi_2022101371($hasil);
     }
 
     protected function migrasi_2022100671($hasil)
@@ -106,6 +107,18 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
             $hasil = $hasil && $this->dbforge->modify_column('keuangan_manual_rinci', $fields);
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022101371($hasil)
+    {
+        $hasil && $this->tambah_setting([
+            'key'        => 'anjungan_teks_berjalan',
+            'value'      => '',
+            'keterangan' => 'Pengaturan teks berjalan untuk anjungan',
+            'kategori'   => 'anjungan',
+        ]);
 
         return $hasil;
     }

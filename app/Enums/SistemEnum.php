@@ -39,14 +39,12 @@ namespace App\Enums;
 
 class SistemEnum
 {
-    public const WEBSITE         = 1;
-    public const ADMINISTRATOR   = 2;
-    public const LAYANAN_MANDIRI = 3;
-    public const KEHADIRAN       = 4;
-    public const DAFTAR          = [
-        self::WEBSITE         => 'Website',
-        self::ADMINISTRATOR   => 'Administrator',
-        self::LAYANAN_MANDIRI => 'Layanan Mandiri',
-        self::KEHADIRAN       => 'Kehadiran',
+    public const WEBSITE       = 1;
+    public const ADMINISTRATOR = 2;
+    public const KEHADIRAN     = 4;
+    public const DAFTAR        = [
+        self::WEBSITE       => 'Website',
+        self::ADMINISTRATOR => 'Administrator',
+        self::KEHADIRAN     => 'Kehadiran',
     ];
 }

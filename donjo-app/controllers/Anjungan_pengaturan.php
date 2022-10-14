@@ -75,7 +75,8 @@ class Anjungan_pengaturan extends Admin_Controller
     protected static function validated($request = [])
     {
         return [
-            'anjungan_artikel' => json_encode($request['artikel']),
+            'anjungan_artikel'       => json_encode($request['artikel']),
+            'anjungan_teks_berjalan' => strip_tags($request['teks_berjalan']),
         ];
     }
 }

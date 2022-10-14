@@ -32,6 +32,13 @@
                         </select>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="teks_berjalan">Teks Berjalan</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" type="text" placeholder="Masukkan teks berjalan" name="teks_berjalan"
+                                value="{{ $pengaturan['anjungan_teks_berjalan'] }}">
+                    </div>
+                </div>
             </div>
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i

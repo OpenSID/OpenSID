@@ -68,6 +68,7 @@ class Anjungan extends Web_Controller
             'tanggal'       => Carbon::now()->dayName . ', ' . date('d/m/Y'),
             'menu'          => $menu,
             'slides'        => count($menu) > 5 ? 5 : count($menu),
+            'teks_berjalan' => setting('anjungan_teks_berjalan'),
         ];
 
         return view('layanan_mandiri.anjungan.index', $data);
