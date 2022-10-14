@@ -63,7 +63,7 @@ class Surat extends Admin_Controller
 
     public function index()
     {
-        $data['cetak_surat'] = FormatSurat::kunci(FormatSurat::KUNCI_DISABLE)->latest('updated_at')->orderBy('favorit', 'desc')->pluck('nama', 'url_surat');
+        $data['cetak_surat'] = FormatSurat::select(['nama', 'jenis', 'url_surat'])->kunci(FormatSurat::KUNCI_DISABLE)->latest('updated_at')->orderBy('favorit', 'desc')->get();
 
         return view('admin.surat.index', $data);
     }
@@ -87,6 +87,9 @@ class Surat extends Admin_Controller
                     }
 
                     return $aksi;
+                })
+                ->addColumn('jenis', static function ($row) {
+                    return in_array($row->jenis, FormatSurat::RTF) ? 'RTF' : 'TinyMCE';
                 })
                 ->editColumn('lampiran', static function ($row) {
                     return kode_format($row->lampiran);

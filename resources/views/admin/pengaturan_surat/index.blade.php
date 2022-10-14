@@ -41,7 +41,7 @@
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
         <div class="box-header with-border form-inline">
             <div class="row">
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <select class="form-control input-sm select2" id="jenis" name="jenis">
                         <option value="">Semua Surat</option>
                         @foreach ($jenisSurat as $key => $value)
@@ -53,16 +53,16 @@
         </div>
         <div class="box-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-hover" id="tabeldata">
-                    <thead>
+                <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
+                    <thead class="bg-gray">
                         <tr>
                             <th class="padat"><input type="checkbox" id="checkall" /></th>
                             <th class="padat">NO</th>
                             <th class="aksi">AKSI</th>
                             <th>NAMA SURAT</th>
+                            <th class="padat">JENIS</th>
                             <th class="padat">KODE / KLASIFIKASI</th>
-                            <th>URL</th>
-                            <th class="aksi">LAMPIRAN</th>
+                            <th class="padat">LAMPIRAN</th>
                         </tr>
                     </thead>
                 </table>
@@ -111,6 +111,13 @@
                         orderable: true
                     },
                     {
+                        data: 'jenis',
+                        name: 'jenis',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
                         data: 'kode_surat',
                         name: 'kode_surat',
                         class: 'padat',
@@ -118,21 +125,15 @@
                         orderable: true
                     },
                     {
-                        data: 'url_surat',
-                        name: 'url_surat',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
                         data: 'lampiran',
                         name: 'lampiran',
-                        class: 'aksi',
+                        class: 'padat',
                         searchable: true,
                         orderable: true
                     },
                 ],
                 order: [
-                    [4, 'asc']
+                    [3, 'asc']
                 ],
                 pageLength: 25,
                 createdRow: function(row, data, dataIndex) {

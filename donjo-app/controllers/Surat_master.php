@@ -107,6 +107,9 @@ class Surat_master extends Admin_Controller
 
                     return $aksi;
                 })
+                ->addColumn('jenis', static function ($row) {
+                    return in_array($row->jenis, FormatSurat::RTF) ? 'RTF' : 'TinyMCE';
+                })
                 ->editColumn('lampiran', static function ($row) {
                     return kode_format($row->lampiran);
                 })
