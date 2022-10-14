@@ -1,12 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <?php $post = $single_artikel ?>
-<?php $alt_slug = IS_PREMIUM ? 'artikel' : 'first'; ?>
 
 <nav role="navigation" aria-label="navigation" class="breadcrumb">
   <ol>
     <li><a href="<?= site_url() ?>">Beranda</a></li>
-    <li><?= $post['kategori'] ? '<a href="'.site_url("{$alt_slug}/kategori/{$post['kat_slug']}").'">'.$post['kategori'].'</a>' : 'Artikel' ?></li>
+    <li><?= $post['kategori'] ? '<a href="'.site_url("artikel/kategori/{$post['kat_slug']}").'">'.$post['kategori'].'</a>' : 'Artikel' ?></li>
   </ol>
 </nav>
 

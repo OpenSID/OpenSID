@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<h1 class="text-h2"><?= IS_PREMIUM ? $indikator['pertanyaan'] : $indikator; ?></h1>
+<h1 class="text-h2"><?= $indikator['pertanyaan'] ?></h1>
 
 <div class="content space-y-5">
   <div class="ui-layout-center" id="chart" style="padding: 5px;"></div>
@@ -39,7 +39,7 @@
         defaultSeriesType: 'column'
       },
       title: {
-        text: '<?= IS_PREMIUM ? $indikator['pertanyaan'] : $indikator; ?>'
+        text: '<?= $indikator['pertanyaan'] ?>'
       },
       xAxis: {
         title: {
