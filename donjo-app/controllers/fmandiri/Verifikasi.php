@@ -117,7 +117,7 @@ class Verifikasi extends Mandiri_Controller
                 $this->db->where('id', $id_pend)->update('tweb_penduduk', [
                     'telegram'                => $userID,
                     'telegram_token'          => $token,
-                    'telegram_tgl_kadaluarsa' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +1 minutes')),
+                    'telegram_tgl_kadaluarsa' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +5 minutes')),
                 ]);
 
                 $this->otp_library->driver('telegram')->kirim_otp($userID, $raw_token);
@@ -230,7 +230,7 @@ class Verifikasi extends Mandiri_Controller
                 $this->db->where('id', $id_pend)->update('tweb_penduduk', [
                     'email'                => $email,
                     'email_token'          => $token,
-                    'email_tgl_kadaluarsa' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +1 minutes')),
+                    'email_tgl_kadaluarsa' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +5 minutes')),
                 ]);
 
                 $this->otp_library->driver('email')->kirim_otp($email, $raw_token);

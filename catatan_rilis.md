@@ -13,6 +13,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 8. [#5755](https://github.com/OpenSID/OpenSID/issues/5755) Penambahan TinyMCE surat keterangan kenduduk.
 9. [#2663](https://github.com/OpenSID/OpenSID/issues/2663) Penambahan shortcut surat keterangan kematian pada log penduduk.
 10. [#5796](https://github.com/OpenSID/OpenSID/issues/5796) Penambahan validasi support ipv6 ketika nambah ip di anjungan.
+11. [#5706](https://github.com/OpenSID/OpenSID/issues/5706) Pengaturan waktu kadaluarsa token OTP.
 
 #### Perbaikan BUG
 
