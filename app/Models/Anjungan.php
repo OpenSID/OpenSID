@@ -106,4 +106,9 @@ class Anjungan extends Model
     {
         return $this->hasOne(User::class, 'id', 'updated_by');
     }
+
+    public function scopeTipe($query, $tipe = 1)
+    {
+        return $query->where('tipe', $tipe);
+    }
 }

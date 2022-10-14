@@ -57,11 +57,12 @@ class Anjungan_model extends CI_Model
         if ($mac_address) {
             $this->db->or_where('mac_address', $mac_address);
         }
-        $data = $this->db
+
+        return $this->db
             ->group_end()
             ->where('status', 1)
-            ->get('anjungan');
-
-        return ($data->num_rows() > 0 && cek_anjungan()) ? $data->row_array() : null;
+            ->order_by('tipe', 'asc')
+            ->get('anjungan')
+            ->row_array();
     }
 }

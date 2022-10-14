@@ -17,6 +17,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 12. [#5349](https://github.com/OpenSID/OpenSID/issues/5349) Penambahan fitur batasi impor data penduduk pada pengguna admin.
 12. [#5829](https://github.com/OpenSID/OpenSID/issues/5829) Penambahan jenis surat RTF dan TinyMCE pada modul pengaturan dan cetak surat.
 13. [#5716](https://github.com/OpenSID/OpenSID/issues/5716) Penambahan pengaturan teks berjalan pada pengaturan anjungan.
+14. [#5721](https://github.com/OpenSID/OpenSID/issues/5721) Penambahan modul "Gawai Layanan" sebagai pengganti fitur anjungan.
 
 #### Perbaikan BUG
 

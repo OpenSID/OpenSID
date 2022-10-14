@@ -201,7 +201,7 @@
 													<button type="button" class="btn btn-block bg-green"><b>LUPA PIN</b></button>
 												</a>
 											</div>
-											<?php if ($cek_anjungan): ?>
+											<?php if ($cek_anjungan['tipe'] == 1): ?>
 												<div class="form-group">
 													<a href="<?= site_url('layanan-mandiri') ?>">
 														<button type="button" class="btn btn-block bg-green"><b>ANJUNGAN</b></button>

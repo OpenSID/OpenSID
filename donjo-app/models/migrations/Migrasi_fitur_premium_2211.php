@@ -52,6 +52,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_surat_tinymce');
         $hasil = $hasil && $this->migrasi_2022100671($hasil);
         $hasil = $hasil && $this->migrasi_2022100851($hasil);
+        $hasil =  $hasil && $this->tambah_modul_gawai_layanan($hasil);
 
         return $hasil && $this->migrasi_2022101371($hasil);
     }
@@ -111,6 +112,32 @@ class Migrasi_fitur_premium_2211 extends MY_model
         return $hasil;
     }
 
+    protected function tambah_modul_gawai_layanan($hasil)
+    {
+        if (!$this->db->field_exists('tipe', 'anjungan')) {
+            $fields = [
+                'tipe' => [
+                    'type'       => 'TINYINT',
+                    'default'    => 1, // 1 => anjungan, 2 => gawai layanan
+                    'constraint' => 3,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('anjungan', $fields);
+        }
+
+        return $hasil && $this->tambah_modul([
+            'id'         => 351,
+            'modul'      => 'Gawai Layanan',
+            'url'        => 'gawai_layanan',
+            'aktif'      => 1,
+            'ikon'       => 'fa-desktop',
+            'urut'       => 3,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-desktop',
+            'parent'     => 14,
+        ]);
+    }
     protected function migrasi_2022101371($hasil)
     {
         $hasil && $this->tambah_setting([

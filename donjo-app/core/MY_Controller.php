@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Anjungan;
 use App\Models\Config;
 use App\Models\GrupAkses;
 use App\Models\LogSurat;
@@ -130,6 +131,9 @@ class Web_Controller extends MY_Controller
         $this->includes['folder_themes'] = "../../{$this->theme_folder}/{$this->theme}";
 
         // Untuk anjungan
+        if (! cek_anjungan()) {
+            Anjungan::tipe(1)->update(['status' => 0]);
+        }
         $this->load->model('anjungan_model');
         $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 

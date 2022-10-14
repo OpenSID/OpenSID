@@ -40,51 +40,46 @@ use App\Models\Anjungan as AnjunganModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Anjungan extends Admin_Controller
+class Gawai_layanan extends Admin_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 312;
-        $this->sub_modul_ini = 347;
+        $this->modul_ini     = 14;
+        $this->sub_modul_ini = 351;
     }
 
     public function index()
     {
-        return view('admin.anjungan.index');
+        return view('admin.gawai_layanan.index');
     }
 
     public function datatables()
     {
-        $status = cek_anjungan();
-
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(AnjunganModel::where('tipe', 1))
+            return datatables()->of(AnjunganModel::where('tipe', 2))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use ($status) {
+                ->addColumn('aksi', static function ($row) {
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('anjungan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                        $url_kunci = site_url("anjungan/kunci/{$row->id}");
-                        $disabled  = $status ? '' : 'disabled';
+                        $aksi .= '<a href="' . route('gawai_layanan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $url_kunci = site_url("gawai_layanan/kunci/{$row->id}");
 
-                        if (! $status) {
-                            $aksi .= '<a href="#" class="btn bg-navy btn-sm" title="Aktifkan Anjungan" {$disabled}><i class="fa fa-lock"></i></a> ';
-                        } elseif ($row->status) {
-                            $aksi .= '<a href="' . $url_kunci . '/' . StatusEnum::YA . '" class="btn bg-navy btn-sm" title="Nonaktifkan Anjungan" ' . $disabled . '><i class="fa fa-unlock"></i></a> ';
+                        if ($row->status) {
+                            $aksi .= '<a href="' . $url_kunci . '/' . StatusEnum::YA . '" class="btn bg-navy btn-sm" title="Nonaktifkan Gawai Layanan"><i class="fa fa-unlock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . $url_kunci . '/' . StatusEnum::TIDAK . '" class="btn bg-navy btn-sm" title="Aktifkan Anjungan" ' . $disabled . '><i class="fa fa-lock"></i></a> ';
+                            $aksi .= '<a href="' . $url_kunci . '/' . StatusEnum::TIDAK . '" class="btn bg-navy btn-sm" title="Aktifkan Gawai Layanan"><i class="fa fa-lock"></i></a> ';
                         }
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('anjungan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . route('gawai_layanan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -95,11 +90,7 @@ class Anjungan extends Admin_Controller
                 ->editColumn('keyboard', static function ($row) {
                     return '<span class="label label-' . ($row->keyboard ? 'success' : 'danger') . '">' . StatusEnum::DAFTAR[$row->keyboard] . '</span>';
                 })
-                ->editColumn('status', static function ($row) use ($status) {
-                    if (! $status) {
-                        $row->status = StatusEnum::TIDAK;
-                    }
-
+                ->editColumn('status', static function ($row) {
                     return '<span class="label label-' . ($row->status ? 'success' : 'danger') . '">' . StatusEnum::DAFTAR[$row->status] . '</span>';
                 })
                 ->rawColumns(['ceklist', 'aksi', 'keyboard', 'status'])
@@ -114,16 +105,16 @@ class Anjungan extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         if ($id) {
-            $data['action']      = 'Ubah';
-            $data['form_action'] = route('anjungan.update', $id);
-            $data['anjungan']    = AnjunganModel::find($id) ?? show_404();
+            $data['action']        = 'Ubah';
+            $data['form_action']   = route('gawai_layanan.update', $id);
+            $data['gawai_layanan'] = AnjunganModel::find($id) ?? show_404();
         } else {
-            $data['action']      = 'Tambah';
-            $data['form_action'] = route('anjungan.insert');
-            $data['anjungan']    = null;
+            $data['action']        = 'Tambah';
+            $data['form_action']   = route('gawai_layanan.insert');
+            $data['gawai_layanan'] = null;
         }
 
-        return view('admin.anjungan.form', $data);
+        return view('admin.gawai_layanan.form', $data);
     }
 
     public function insert()
@@ -162,10 +153,6 @@ class Anjungan extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (! cek_anjungan()) {
-            redirect_with('warning', 'Untuk mengaktifkan harus memesan anjungan terlebih dahulu.');
-        }
-
         $kunci = AnjunganModel::find($id) ?? show_404();
         $kunci->update(['status' => ($val == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA]);
 
@@ -176,9 +163,9 @@ class Anjungan extends Admin_Controller
     protected static function validated($request = [], $id = null)
     {
         $anjungan      = AnjunganModel::find($id);
-        $ip_address    = AnjunganModel::tipe(1)->where('ip_address', $request['ip_address'])->first();
-        $mac_address   = AnjunganModel::tipe(1)->where('mac_address', $request['mac_address'])->first();
-        $id_pengunjung = AnjunganModel::tipe(1)->where('id_pengunjung', $request['id_pengunjung'])->first();
+        $ip_address    = AnjunganModel::tipe(2)->where('ip_address', $request['ip_address'])->first();
+        $mac_address   = AnjunganModel::tipe(2)->where('mac_address', $request['mac_address'])->first();
+        $id_pengunjung = AnjunganModel::tipe(2)->where('id_pengunjung', $request['id_pengunjung'])->first();
 
         if ($ip_address && $anjungan->ip_address != $request['ip_address']) {
             redirect_with('error', 'IP Address telah digunakan');
@@ -193,13 +180,14 @@ class Anjungan extends Admin_Controller
         }
 
         $validated = [
-            'ip_address'    => strip_tags($request['ip_address']),
+            'ip_address'    => bilangan_titik($request['ip_address']),
             'mac_address'   => alfanumerik_kolon($request['mac_address']),
             'id_pengunjung' => alfanumerik($request['id_pengunjung']),
             'printer_ip'    => bilangan_titik($request['printer_ip']),
             'printer_port'  => bilangan($request['printer_port']),
             'keyboard'      => bilangan($request['keyboard']),
             'keterangan'    => htmlentities($request['keterangan']),
+            'tipe'          => 2,
         ];
 
         if ($id) {
