@@ -20,6 +20,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 14. [#5721](https://github.com/OpenSID/OpenSID/issues/5721) Penambahan modul "Gawai Layanan" sebagai pengganti fitur anjungan.
 15. [#5826](https://github.com/OpenSID/OpenSID/issues/5826) Perubahan hapus wilayah RW atau Dusun hanya jika sudah berpenghuni.
 16. [#5717](https://github.com/OpenSID/OpenSID/issues/5717) Menampilkan keterangan hadir & tidak hadir pada menu perangkat desa.
+17. [#5762](https://github.com/OpenSID/OpenSID/issues/5762) Penambahan TinyMCE surat pengantar izin keramaian.
 
 #### Perbaikan BUG
 

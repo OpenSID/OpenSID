@@ -50,7 +50,7 @@ class CouldNotSendNotification extends Exception
      */
     public static function telegramRespondedWithAnError(ClientException $exception): self
     {
-        if (!$exception->hasResponse()) {
+        if (! $exception->hasResponse()) {
             return new static('Telegram responded with an error but no response body found');
         }
 

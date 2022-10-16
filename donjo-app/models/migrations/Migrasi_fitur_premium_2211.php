@@ -52,7 +52,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_surat_tinymce');
         $hasil = $hasil && $this->migrasi_2022100671($hasil);
         $hasil = $hasil && $this->migrasi_2022100851($hasil);
-        $hasil =  $hasil && $this->tambah_modul_gawai_layanan($hasil);
+        $hasil = $hasil && $this->tambah_modul_gawai_layanan($hasil);
 
         return $hasil && $this->migrasi_2022101371($hasil);
     }
@@ -114,7 +114,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     protected function tambah_modul_gawai_layanan($hasil)
     {
-        if (!$this->db->field_exists('tipe', 'anjungan')) {
+        if (! $this->db->field_exists('tipe', 'anjungan')) {
             $fields = [
                 'tipe' => [
                     'type'       => 'TINYINT',
@@ -138,6 +138,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
             'parent'     => 14,
         ]);
     }
+
     protected function migrasi_2022101371($hasil)
     {
         $hasil && $this->tambah_setting([

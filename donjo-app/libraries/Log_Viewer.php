@@ -100,7 +100,7 @@ class Log_Viewer
      */
     private function init()
     {
-        if (!function_exists('get_instance')) {
+        if (! function_exists('get_instance')) {
             throw new \Exception('This library works in a Code Igniter Project/Environment');
         }
 
@@ -154,7 +154,7 @@ class Log_Viewer
         //let's determine what the current log file is
         if (null !== $fileName) {
             $currentFile = $this->logFolderPath . '/' . basename(base64_decode($fileName, true));
-        } elseif (null === $fileName && !empty($files)) {
+        } elseif (null === $fileName && ! empty($files)) {
             $currentFile = $this->logFolderPath . '/' . $files[0];
         } else {
             $currentFile = null;
@@ -178,7 +178,7 @@ class Log_Viewer
         }
 
         $data['logs']        = $logs;
-        $data['files']       = !empty($files) ? $files : [];
+        $data['files']       = ! empty($files) ? $files : [];
         $data['currentFile'] = null !== $currentFile ? basename($currentFile) : '';
 
         return $data;
@@ -243,7 +243,7 @@ class Log_Viewer
 
         //convert response to json and respond
         header('Content-Type: application/json');
-        if (!$response['status']) {
+        if (! $response['status']) {
             //set a generic bad request code
             http_response_code(400);
         } else {
@@ -275,7 +275,7 @@ class Log_Viewer
             //get the logLine Start
             $logLineStart = $this->getLogLineStart($log);
 
-            if (!empty($logLineStart)) {
+            if (! empty($logLineStart)) {
                 //this is actually the start of a new log and not just another line from previous log
                 $level = $this->getLogLevel($logLineStart);
                 $data  = [
@@ -295,7 +295,7 @@ class Log_Viewer
                 }
 
                 $superLog[] = $data;
-            } elseif (!empty($superLog)) {
+            } elseif (! empty($superLog)) {
                 //this log line is a continuation of previous logline
                 //so let's add them as extra
                 $prevLog                        = $superLog[count($superLog) - 1];
@@ -378,7 +378,7 @@ class Log_Viewer
     private function getLogLineStart($logLine)
     {
         preg_match(self::LOG_LINE_START_PATTERN, $logLine, $matches);
-        if (!empty($matches)) {
+        if (! empty($matches)) {
             return $matches[0];
         }
 
@@ -399,7 +399,7 @@ class Log_Viewer
     private function getLogs($fileName)
     {
         $size = filesize($fileName);
-        if (!$size || $size > self::MAX_LOG_SIZE) {
+        if (! $size || $size > self::MAX_LOG_SIZE) {
             return null;
         }
 
@@ -424,11 +424,11 @@ class Log_Viewer
     private function getLogsForAPI($fileName, $singleLine = false)
     {
         $size = filesize($fileName);
-        if (!$size || $size > self::MAX_LOG_SIZE) {
+        if (! $size || $size > self::MAX_LOG_SIZE) {
             return 'File Size too Large. Please donwload it locally';
         }
 
-        return (!$singleLine) ? file($fileName, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) : file_get_contents($fileName);
+        return (! $singleLine) ? file($fileName, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) : file_get_contents($fileName);
     }
 
     /**
@@ -536,7 +536,7 @@ class Log_Viewer
     private function prepareRawFileName($fileNameInBase64)
     {
         //let's determine what the current log file is
-        if (null !== $fileNameInBase64 && !empty($fileNameInBase64)) {
+        if (null !== $fileNameInBase64 && ! empty($fileNameInBase64)) {
             $currentFile = $this->logFolderPath . '/' . basename(base64_decode($fileNameInBase64, true));
         } else {
             $currentFile = null;
