@@ -1123,7 +1123,7 @@ function isLocalIPAddress($IPAddress)
     return ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 }
 
-function unique_slug($tabel = null, $judul = null, $id = null)
+function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug')
 {
     if ($tabel && $judul) {
         $CI = &get_instance();
@@ -1137,7 +1137,7 @@ function unique_slug($tabel = null, $judul = null, $id = null)
             if ($id) {
                 $CI->db->where('id !=', $id);
             }
-            $cek_slug = $CI->db->get_where($tabel, ['slug' => $slug_unik])->num_rows();
+            $cek_slug = $CI->db->get_where($tabel, [$field => $slug_unik])->num_rows();
             if ($cek_slug) {
                 $slug_unik = $slug . '-' . $n++;
             }

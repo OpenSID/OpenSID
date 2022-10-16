@@ -226,7 +226,7 @@ class Surat_master extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (! empty($this->request['surat'])) {
+        if (!empty($this->request['surat'])) {
             $this->surat_master_model->upload($this->request['url_surat']);
         }
 
@@ -275,7 +275,7 @@ class Surat_master extends Admin_Controller
 
         $data = [
             'nama'                => $nama_surat,
-            'url_surat'           => $url_surat,
+            'url_surat'           => unique_slug('tweb_surat_format', "surat_{$nama_surat}", null, 'url_surat'),
             'kode_surat'          => $request['kode_surat'],
             'masa_berlaku'        => $request['masa_berlaku'],
             'satuan_masa_berlaku' => $request['satuan_masa_berlaku'],
@@ -381,7 +381,7 @@ class Surat_master extends Admin_Controller
                     rename($lokasi_baru . '/data_rtf_' . $url_surat . '.php', $lokasi_baru . '/data_rtf_' . $surat_baru . '.php');
                     rename($lokasi_baru . '/data_form_' . $url_surat . '.php', $lokasi_baru . '/data_form_' . $surat_baru . '.php');
 
-                    if (! FormatSurat::isExist($url_surat)) {
+                    if (!FormatSurat::isExist($url_surat)) {
                         $data              = [];
                         $data['jenis']     = 2;
                         $data['nama']      = ucwords(trim(str_replace(['surat_', '_'], ' ', $surat_baru)));
@@ -431,7 +431,7 @@ class Surat_master extends Admin_Controller
         }
 
         // Perbarui log_surat jika ada perubahan pengaturan verifikasi kades / sekdes
-        if (! setting('verifikasi_kades') || ! setting('verifikasi_sekdes')) {
+        if (!setting('verifikasi_kades') || !setting('verifikasi_sekdes')) {
             LogSurat::where('verifikasi_operator', LogSurat::PERIKSA)->update(['verifikasi_operator' => LogSurat::TERIMA]);
 
             redirect_with('success', 'Berhasil Ubah Data dan Perbaharui Log Surat');
@@ -487,7 +487,7 @@ class Surat_master extends Admin_Controller
         $status_dasar    = $this->request['individu_status_dasar'] ?: 1;
         $data['id_pend'] = Penduduk::where('status_dasar', $status_dasar)->where('sex', $sex)->first('id')->id;
 
-        if (! $data['id_pend']) {
+        if (!$data['id_pend']) {
             redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
         }
 

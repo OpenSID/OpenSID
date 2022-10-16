@@ -43,7 +43,11 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 14. [#5814](https://github.com/OpenSID/OpenSID/issues/5814) Perbaikan migrasi decimal keuangan rinci.
 15. [#5812](https://github.com/OpenSID/OpenSID/issues/5812) Perbaikan ubah status aktif & tidak aktif berdasarkan range tanggal.
 16. [#5820](https://github.com/OpenSID/OpenSID/issues/5820) Perbaikan kirim versi OpenSID ke layanan.
-
+17. [#5819](https://github.com/OpenSID/OpenSID/issues/5819) Perbaikan alert gagal pendaftaran kerjasama.
+18. [#5825](https://github.com/OpenSID/OpenSID/issues/5825) Perbaikan surat baru dengan nama yang sama.
+19. [#5837](https://github.com/OpenSID/OpenSID/issues/5837) Perbaikan daftar rekapitulasi kehadiran.
+20. [#5828](https://github.com/OpenSID/OpenSID/issues/5828) Memisahkan tabel pemesanan dan lainnya.
+21. [#5832](https://github.com/OpenSID/OpenSID/issues/5832) Perbaikan periksa surat tinymce permohonan warga yang tidak ada dokumen / persyaratan.
 
 #### Perubahan Teknis
 1. Perbaikan cara simpan cache IDM dan SDGS.
