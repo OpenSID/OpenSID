@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
@@ -701,23 +702,18 @@ class Migrasi_fitur_premium_2207 extends MY_model
 
     protected function suratRawTinyMCE($hasil)
     {
-        $nama_surat = 'Raw TinyMCE';
-        $url_surat  = 'surat_raw_tinymce';
-
         $data = [
-            'nama'                => $nama_surat,
-            'url_surat'           => $url_surat,
+            'nama'                => 'Raw TinyMCE',
             'kode_surat'          => '000',
-            'jenis'               => 3,
             'masa_berlaku'        => 1,
             'satuan_masa_berlaku' => 'M',
             'orientasi'           => 'Potrait',
-            'ukuran'              => 'A4',
+            'ukuran'              => 'F4',
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
-            'qrcode'              => 1,
+            'qrcode'              => StatusEnum::YA,
             'kode_isian'          => '[{"kode":"[keterangan]","nama":"Keterangan","tipe":"text","deskripsi":"Masukkan keterangan"}]',
-            'created_by'          => auth()->id,
-            'updated_by'          => auth()->id,
+            'mandiri'             => StatusEnum::YA,
+            'syarat_surat'        => ['13', '3'],
             'template'            => "
                 <h3 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]</span></h3>
                 <p style=\"margin: 0; text-align: center;\">Nomor : [format_nomor_surat]<br /><br /></p>
@@ -840,10 +836,11 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 </tr>
                 </tbody>
                 </table>
-                <div style=\"text-align: center;\"><br />[qr_code]</div>",
+                <div style=\"text-align: center;\"><br />[qr_code]</div>
+            ",
         ];
 
-        return $hasil && FormatSurat::updateOrCreate(['nama' => $nama_surat, 'url_surat' => $url_surat], $data);
+        return $hasil && $this->tambah_surat_tinymce($data);
     }
 
     protected function migrasi_2022062951($hasil)

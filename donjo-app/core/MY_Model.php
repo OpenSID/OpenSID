@@ -223,8 +223,14 @@ class MY_Model extends CI_Model
         return $hasil;
     }
 
-    public function tambah_surat_tinymce($data = [])
+    public function tambah_surat_tinymce($data)
     {
+        $data['url_surat']    = strtolower(str_replace([' ', '_'], '-', $data['nama']));
+        $data['jenis']        = FormatSurat::TINYMCE_SISTEM;
+        $data['syarat_surat'] = json_encode($data['syarat_surat']);
+        $data['created_by']   = auth()->id;
+        $data['updated_by']   = auth()->id;
+
         // Tambah data baru dan update (hanya kolom template) jika ada sudah ada
         $cek_surat = FormatSurat::where('url_surat', $data['url_surat'])->first();
 
