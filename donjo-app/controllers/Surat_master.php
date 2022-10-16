@@ -266,7 +266,7 @@ class Surat_master extends Admin_Controller
 
         $data = [
             'nama'                => $nama_surat,
-            'url_surat'           => 'surat_' . strtolower(str_replace([' ', '-'], '_', $nama_surat)),
+            'url_surat'           => unique_slug('tweb_surat_format', "surat_{$nama_surat}", null, 'url_surat'),
             'kode_surat'          => $request['kode_surat'],
             'masa_berlaku'        => $request['masa_berlaku'],
             'satuan_masa_berlaku' => $request['satuan_masa_berlaku'],

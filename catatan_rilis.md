@@ -23,6 +23,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 15. [#5812](https://github.com/OpenSID/OpenSID/issues/5812) Perbaikan ubah status aktif & tidak aktif berdasarkan range tanggal.
 16. [#5820](https://github.com/OpenSID/OpenSID/issues/5820) Perbaikan kirim versi OpenSID ke layanan.
 17. [#5819](https://github.com/OpenSID/OpenSID/issues/5819) Perbaikan alert gagal pendaftaran kerjasama.
+18. [#5825](https://github.com/OpenSID/OpenSID/issues/5825) Perbaikan surat baru dengan nama yang sama.
 
 #### Perubahan Teknis
 1. Perbaikan cara simpan cache IDM dan SDGS.
