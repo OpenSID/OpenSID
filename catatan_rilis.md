@@ -22,7 +22,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 16. [#5717](https://github.com/OpenSID/OpenSID/issues/5717) Menampilkan keterangan hadir & tidak hadir pada menu perangkat desa.
 17. [#5762](https://github.com/OpenSID/OpenSID/issues/5762) Penambahan TinyMCE surat pengantar izin keramaian.
 18. [#5758](https://github.com/OpenSID/OpenSID/issues/5758) Penambahan TinyMCE surat pengantar surat keterangan catatan kepolisian.
-19. [#5773](https://github.com/OpenSID/OpenSID/issues/5773) Penambahan TinyMCE surat keterangan Pergi Kawin.
+19. [#5773](https://github.com/OpenSID/OpenSID/issues/5773) Penambahan TinyMCE surat keterangan pergi kawin.
+20. [#5759](https://github.com/OpenSID/OpenSID/issues/5759) Penambahan TinyMCE surat keterangan KTP dalam proses.
 
 #### Perbaikan BUG
 
