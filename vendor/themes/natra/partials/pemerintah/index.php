@@ -44,6 +44,10 @@
                     <?= $data['jabatan'] ?><br>
                     <?php if ($this->setting->tampilkan_kehadiran && $data['status_kehadiran'] == 'hadir') : ?>
                     <span class='label label-success'>Hadir</span>
+                    <?php elseif ($this->setting->tampilkan_kehadiran && $data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir') : ?>
+                    <span class='label label-danger'><?= ucwords($data['status_kehadiran']) ?></span>
+                    <?php elseif ($this->setting->tampilkan_kehadiran && $data['tanggal'] != date('Y-m-d')) : ?>
+                    <span class='label label-danger'>Belum Rekam Kehadiran</span>
                     <?php else: ?>
                     <br>
                     <?php endif ?>
