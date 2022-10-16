@@ -26,6 +26,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 18. [#5825](https://github.com/OpenSID/OpenSID/issues/5825) Perbaikan surat baru dengan nama yang sama.
 19. [#5837](https://github.com/OpenSID/OpenSID/issues/5837) Perbaikan daftar rekapitulasi kehadiran.
 20. [#5828](https://github.com/OpenSID/OpenSID/issues/5828) Memisahkan tabel pemesanan dan lainnya.
+21. [#5832](https://github.com/OpenSID/OpenSID/issues/5832) Perbaikan periksa surat tinymce permohonan warga yang tidak ada dokumen / persyaratan.
 
 #### Perubahan Teknis
 1. Perbaikan cara simpan cache IDM dan SDGS.
