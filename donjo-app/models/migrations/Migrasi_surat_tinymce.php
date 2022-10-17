@@ -68,7 +68,7 @@ class Migrasi_surat_tinymce extends MY_model
     protected function suratKeteranganUsaha($hasil)
     {
         $nama_surat = 'Keterangan Usaha';
-        $data = [
+        $data       = [
             'nama'                => $nama_surat,
             'url_surat'           => strtolower(str_replace([' ', '_'], '-', $nama_surat)),
             'kode_surat'          => '500',
@@ -145,7 +145,7 @@ class Migrasi_surat_tinymce extends MY_model
     protected function suratKeteranganPenduduk($hasil)
     {
         $nama_surat = 'Keterangan Penduduk';
-        $data = [
+        $data       = [
             'nama'                => $nama_surat,
             'url_surat'           => strtolower(str_replace([' ', '_'], '-', $nama_surat)),
             'kode_surat'          => 'S-02',
