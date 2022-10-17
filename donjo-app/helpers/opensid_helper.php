@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.10-pasca');
+define('VERSION', '22.10-beta');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -187,7 +187,7 @@ function AmbilVersi()
  */
 function currentVersion()
 {
-    return preg_replace('/-premium.*|pasca-|-pasca/', '', AmbilVersi());
+    return preg_replace('/-premium.*|-beta/', '', AmbilVersi());
 }
 
 /**
