@@ -234,10 +234,10 @@
                                     <td>
                                         <?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
                                             <?php if($layanan->kategori_id == 4): ?>
-                                            <li>
-                                                <a href="#" data-parent="#layanan" data-target="<?= '#' . url_title($layanan->nama, 'dash', true) ?>" data-toggle="collapse"><?= $layanan->nama; ?><?= $layanan->number; ?></a>
+
+                                                <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?><?= $layanan->number; ?></a><br>
                                                 <?= '<style>#tbl-premium-' . $number . ' { display:table-row!important;}</style>'; ?>
-                                            </li>
+
                                             <?php else: ?>
                                                 <?= '<style>#tbl-premium-' . $number . ' { display:none;}</style>'; ?>
                                             <?php endif; ?>
@@ -331,12 +331,12 @@
                                     <td>
                                         <?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
                                             <?php if($layanan->kategori_id != 4): ?>
-                                            <li>
-                                                <a href="#" data-parent="#layanan" data-target="<?= '#' . url_title($layanan->nama, 'dash', true) ?>" data-toggle="collapse"><?= $layanan->nama; ?></a>
-                                                <?= '<style>#tbl-pemesanan-' . number . ' { display:table-row;}</style>'; ?>
-                                            </li>
+
+                                                <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?></a><br>
+                                                <?= '<style>#tbl-pemesanan-' . $number . ' { display:table-row;}</style>'; ?>
+
                                             <?php else: ?>
-                                                <?= '<style>#tbl-pemesanan-' . number . ' { display:none;}</style>'; ?>
+                                                <?= '<style>#tbl-pemesanan-' . $number . ' { display:none;}</style>'; ?>
                                             <?php endif; ?>
                                         <?php endforeach; ?>
                                     </td>
@@ -382,16 +382,28 @@
             <div id="layanan">
                 <?php foreach ($response->body->pemesanan as $num1 => $pemesanan) : ?>
                     <?php foreach ($pemesanan->layanan as $num2 => $layanan) : ?>
-                        <div id="<?= url_title($layanan->nama, 'dash', true) ?>" class="collapse">
-                            <div class="box box-success">
-                                <div class="box-header with-border">
-                                    <div class="text-center"><b>Ketentuan <?= $layanan->nama ?> ( <?= rupiah($layanan->harga) ?> )</b></div>
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        <div class="modal fade" id="layanan<?= $layanan->id ?>" style="">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                        <h4 class="modal-title">Ketentuan Layanan</h4>
                                     </div>
-                                </div>
-                                <div class="box-body">
-                                    <?= $layanan->ketentuan ?? 'Belum tersedia'; ?>
+                                    <div class="modal-body">
+                                        <div class="box box-success">
+                                            <div class="box-header with-border">
+                                                <div class="text-center"><b>Ketentuan <?= $layanan->nama ?> ( <?= rupiah($layanan->harga) ?> )</b></div>
+                                            </div>
+                                            <div class="box-body">
+                                                <?= $layanan->ketentuan ?? 'Belum tersedia'; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Tutup</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
