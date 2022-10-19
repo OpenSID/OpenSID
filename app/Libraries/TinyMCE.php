@@ -831,15 +831,17 @@ class TinyMCE
 
     public function getDaftarLampiran()
     {
-        $lampiran        = [];
-        $daftar_lampiran = glob('template-surat/lampiran/*', GLOB_ONLYDIR);
+        $lampiran               = [];
+        $daftar_lampiran_sistem = glob(DEFAULT_LOKASI_LAMPIRAN_SURAT . '*', GLOB_ONLYDIR);
+        $daftar_lampiran_desa   = glob(LOKASI_LAMPIRAN_SURAT_DESA . '*', GLOB_ONLYDIR);
+        $daftar_lampiran        = array_merge($daftar_lampiran_desa, $daftar_lampiran_sistem);
 
         foreach ($daftar_lampiran as $value) {
             if (file_exists(FCPATH . $value . '/view.php')) {
-                $lampiran[] = kode_format(str_replace('template-surat/lampiran/', '', $value));
+                $lampiran[] = kode_format(basename($value));
             }
         }
 
-        return $lampiran;
+        return collect($lampiran)->unique()->sort()->values();
     }
 }

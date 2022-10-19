@@ -716,13 +716,25 @@ class Surat extends Admin_Controller
         $individu = $this->surat_model->get_data_surat($id);
         $lampiran = strtolower($surat['lampiran']);
 
+        // Cek lampiran desa
+        $view_lampiran = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran . '/view.php';
+
+        if (! file_exists($view_lampiran)) {
+            $view_lampiran = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran . '/view.php';
+        }
+
+        $data_lampiran = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran . '/data.php';
+        if (! file_exists($data_lampiran)) {
+            $data_lampiran = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran . '/data.php';
+        }
+
         // Data lampiran
-        include FCPATH . 'template-surat/lampiran/' . $lampiran . '/data.php';
+        include $data_lampiran;
 
         ob_start();
 
         // View Lampiran
-        include FCPATH . 'template-surat/lampiran/' . $lampiran . '/view.php';
+        include $view_lampiran;
 
         $content = ob_get_clean();
 
