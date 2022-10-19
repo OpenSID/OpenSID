@@ -25,6 +25,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 19. [#5773](https://github.com/OpenSID/OpenSID/issues/5773) Penambahan TinyMCE surat keterangan pergi kawin.
 20. [#5759](https://github.com/OpenSID/OpenSID/issues/5759) Penambahan TinyMCE surat keterangan KTP dalam proses.
 21. [#5677](https://github.com/OpenSID/OpenSID/issues/5677) Penyesuaian mengeluarkan secara otomatis perangkat lupa absen.
+22. [#5782](https://github.com/OpenSID/OpenSID/issues/5782) Perubahan tombol lihat document menjadi popup pada menu informasi publik.
 
 #### Perbaikan BUG
 

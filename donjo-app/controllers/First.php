@@ -341,8 +341,13 @@ class First extends Web_Controller
             }
             $row[] = $baris['tahun'];
             // Ambil judul kategori
-            $row[]  = $this->referensi_model->list_ref_flip(KATEGORI_PUBLIK)[$baris['kategori_info_publik']];
-            $row[]  = $baris['tgl_upload'];
+            $row[] = $this->referensi_model->list_ref_flip(KATEGORI_PUBLIK)[$baris['kategori_info_publik']];
+            $row[] = $baris['tgl_upload'];
+            if ($baris['tipe'] == 1) {
+                $row[] = "<a href='" . site_url('first/tampilkan/') . $baris['id'] . "' class='btn btn-primary btn-block pdf'>Lihat Dokumen </a>";
+            } else {
+                $row[] = "<a href='" . $baris['url'] . "' class='btn btn-primary btn-block pdf'>Lihat Dokumen </a>";
+            }
             $data[] = $row;
         }
 
@@ -352,6 +357,23 @@ class First extends Web_Controller
             'data'            => $data,
         ];
         echo json_encode($output);
+    }
+
+    public function tampilkan($id_dokumen, $id_pend = 0)
+    {
+        $this->load->model('Web_dokumen_model');
+        $berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
+
+        if (! $id_dokumen || ! $berkas || ! file_exists(LOKASI_DOKUMEN . $berkas)) {
+            $data['link_berkas'] = null;
+        } else {
+            $data = [
+                'link_berkas' => site_url("dokumen/tampilkan_berkas/{$id_dokumen}/{$id_pend}"),
+                'tipe'        => get_extension($berkas),
+                'link_unduh'  => site_url("dokumen/unduh_berkas/{$id_dokumen}/{$id_pend}"),
+            ];
+        }
+        $this->load->view('global/tampilkan', $data);
     }
 
     public function kategori($id, $p = 1)
