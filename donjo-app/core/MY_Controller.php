@@ -80,6 +80,7 @@ class MY_Controller extends CI_Controller
         if ($error['code'] == 1049 && ! $this->db) {
             return;
         }
+        
         /*
         | Tambahkan model yg akan diautoload di sini.
         | donjo-app/config/autoload.php digunakan untuk autoload model untuk mengisi data awal
@@ -89,6 +90,9 @@ class MY_Controller extends CI_Controller
         $this->controller = strtolower($this->router->fetch_class());
         $this->setting_model->init();
         $this->request = $this->input->post();
+
+        // Cek perangkat lupa absen keluar
+        cek_kehadiran();
     }
 
     // Bersihkan session cluster wilayah
@@ -110,6 +114,7 @@ class Web_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
+
         $this->header = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
 
         if ($this->setting->offline_mode == 2) {

@@ -24,6 +24,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 18. [#5758](https://github.com/OpenSID/OpenSID/issues/5758) Penambahan TinyMCE surat pengantar surat keterangan catatan kepolisian.
 19. [#5773](https://github.com/OpenSID/OpenSID/issues/5773) Penambahan TinyMCE surat keterangan pergi kawin.
 20. [#5759](https://github.com/OpenSID/OpenSID/issues/5759) Penambahan TinyMCE surat keterangan KTP dalam proses.
+21. [#5677](https://github.com/OpenSID/OpenSID/issues/5677) Penyesuaian mengeluarkan secara otomatis perangkat lupa absen.
 
 #### Perbaikan BUG
 

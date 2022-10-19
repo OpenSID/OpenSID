@@ -37,9 +37,11 @@
 
 use App\Models\Config;
 use App\Models\GrupAkses;
+use App\Models\JamKerja;
+use App\Models\Kehadiran;
 use Carbon\Carbon;
 
-if (! function_exists('asset')) {
+if (!function_exists('asset')) {
     function asset($uri = '', $default = true)
     {
         if ($default) {
@@ -51,7 +53,7 @@ if (! function_exists('asset')) {
     }
 }
 
-if (! function_exists('view')) {
+if (!function_exists('view')) {
     /**
      * Get the evaluated view contents for the given view.
      *
@@ -124,21 +126,21 @@ if (! function_exists('view')) {
     }
 }
 
-if (! function_exists('set_session')) {
+if (!function_exists('set_session')) {
     function set_session($key = 'success', $value = '')
     {
         return get_instance()->session->set_flashdata($key, $value);
     }
 }
 
-if (! function_exists('session')) {
+if (!function_exists('session')) {
     function session($nama = '')
     {
         return get_instance()->session->flashdata($nama);
     }
 }
 
-if (! function_exists('can')) {
+if (!function_exists('can')) {
     function can($akses, $controller = '', $admin_only = false)
     {
         $CI = &get_instance();
@@ -157,7 +159,7 @@ if (! function_exists('can')) {
 }
 
 // response()->json(array_data);
-if (! function_exists('json')) {
+if (!function_exists('json')) {
     function json($content = [], $header = 200)
     {
         get_instance()->output
@@ -171,7 +173,7 @@ if (! function_exists('json')) {
 }
 
 // redirect()->route('example')->with('success', 'information');
-if (! function_exists('redirect_with')) {
+if (!function_exists('redirect_with')) {
     function redirect_with($key = 'success', $value = '', $to = '')
     {
         set_session($key, $value);
@@ -185,7 +187,7 @@ if (! function_exists('redirect_with')) {
 }
 
 // route('example');
-if (! function_exists('route')) {
+if (!function_exists('route')) {
     function route($to = null, $params = null)
     {
         if (in_array($to, [null, '', '/'])) {
@@ -203,7 +205,7 @@ if (! function_exists('route')) {
 }
 
 // setting('sebutan_desa');
-if (! function_exists('setting')) {
+if (!function_exists('setting')) {
     function setting($params = null)
     {
         $getSetting = get_instance()->setting;
@@ -220,7 +222,7 @@ if (! function_exists('setting')) {
     }
 }
 
-if (! function_exists('calculate_days')) {
+if (!function_exists('calculate_days')) {
     /**
      * Calculate minute between 2 date.
      *
@@ -232,7 +234,7 @@ if (! function_exists('calculate_days')) {
     }
 }
 
-if (! function_exists('calculate_date_intervals')) {
+if (!function_exists('calculate_date_intervals')) {
     /**
      * Calculate list dates interval to minutes.
      *
@@ -252,7 +254,7 @@ if (! function_exists('calculate_date_intervals')) {
 }
 
 // Parsedown
-if (! function_exists('parsedown')) {
+if (!function_exists('parsedown')) {
     function parsedown($params = null)
     {
         $parsedown = new \App\Libraries\Parsedown();
@@ -266,14 +268,14 @@ if (! function_exists('parsedown')) {
 }
 
 // SebutanDesa('Surat [Desa]');
-if (! function_exists('SebutanDesa')) {
+if (!function_exists('SebutanDesa')) {
     function SebutanDesa($params = null)
     {
         return str_replace(['[Desa]', '[desa]'], ucwords(setting('sebutan_desa')), $params);
     }
 }
 
-if (! function_exists('underscore')) {
+if (!function_exists('underscore')) {
     /**
      * Membuat spasi menjadi underscore atau sebaliknya
      *
@@ -306,7 +308,7 @@ if (! function_exists('underscore')) {
     }
 }
 
-if (! function_exists('akun_demo')) {
+if (!function_exists('akun_demo')) {
     /**
      * Membuat batasan agar akun demo tidak dapat dihapus pada demo_mode
      *
@@ -326,7 +328,7 @@ if (! function_exists('akun_demo')) {
     }
 }
 
-if (! function_exists('folder')) {
+if (!function_exists('folder')) {
     /**
      * Membuat folder jika tidak tersedia
      *
@@ -360,7 +362,7 @@ if (! function_exists('folder')) {
     }
 }
 
-if (! function_exists('folder_desa')) {
+if (!function_exists('folder_desa')) {
     /**
      * Membuat folder desa dan isinya
      */
@@ -385,7 +387,7 @@ if (! function_exists('folder_desa')) {
     }
 }
 
-if (! function_exists('auth')) {
+if (!function_exists('auth')) {
     /**
      * Ambil data user login
      *
@@ -403,10 +405,27 @@ if (! function_exists('auth')) {
     }
 }
 
-if (! function_exists('ci_db')) {
+if (!function_exists('ci_db')) {
     function ci_db()
     {
         return get_instance()->db;
+    }
+}
+
+if (!function_exists('cek_kehadiran')) {
+    /**
+     * Cek perangkat lupa absen
+     */
+    function cek_kehadiran()
+    {
+        $cek_libur = JamKerja::libur()->first();
+        $cek_jam   = JamKerja::jamKerja()->first();
+        $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
+        if ($kehadiran->count() > 0 && ($cek_jam != null || $cek_libur != null)) {
+            foreach ($kehadiran as $data) {
+                Kehadiran::lupaAbsen($data->tanggal);
+            }
+        }
     }
 }
 
@@ -421,7 +440,7 @@ if (! function_exists('ci_db')) {
  *
  * @return void
  */
-if (! function_exists('case_replace')) {
+if (!function_exists('case_replace')) {
     function case_replace($dari, $ke, $str)
     {
         $replacer = static function ($matches) use ($ke) {
@@ -461,7 +480,7 @@ if (! function_exists('case_replace')) {
     }
 }
 
-if (! function_exists('kirim_versi_opensid')) {
+if (!function_exists('kirim_versi_opensid')) {
     function kirim_versi_opensid()
     {
         $ci = get_instance();

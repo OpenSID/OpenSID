@@ -59,8 +59,6 @@ class Perangkat extends Web_Controller
             return show_404();
         }
 
-        $this->cekAbsenKeluar();
-
         $this->tgl        = date('Y-m-d');
         $this->jam        = date('H:i');
         $this->ip         = $this->input->ip_address();
@@ -265,16 +263,5 @@ class Perangkat extends Web_Controller
         }
 
         return $pesan;
-    }
-
-    private function cekAbsenKeluar()
-    {
-        if ($this->session->masuk) {
-            $kehadiran = Kehadiran::select('tanggal')->whereNull('jam_keluar')->where('tanggal', '<', date('Y-m-d'))->get();
-
-            foreach ($kehadiran as $data) {
-                Kehadiran::lupaAbsen($data->tanggal);
-            }
-        }
     }
 }
