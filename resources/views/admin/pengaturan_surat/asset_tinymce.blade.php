@@ -19,12 +19,19 @@
                 plugins: [
                     "advlist autolink lists charmap hr pagebreak",
                     "searchreplace wordcount visualblocks visualchars insertdatetime nonbreaking",
-                    "table contextmenu directionality emoticons paste textcolor code salintemplate kodeisian",
+                    "table contextmenu directionality emoticons paste textcolor code responsivefilemanager salintemplate kodeisian",
                 ],
                 content_style: `body { font-family: ${default_font}; }`,
                 toolbar1: "removeformat | bold italic underline subscript superscript | bullist numlist outdent indent lineheight | alignleft aligncenter alignright alignjustify | styleselect | fontselect fontsizeselect",
-                toolbar2: "salintemplate | kodeisian",
-                image_advtab: true,
+                toolbar2: "responsivefilemanager | salintemplate | kodeisian",
+                image_advtab: true ,
+                external_filemanager_path:"{{ base_url('assets/filemanager/') }}",
+                filemanager_title:"Responsive Filemanager" ,
+                filemanager_access_key:"{{ $session->fm_key }}",
+                external_plugins:
+                {
+                    "filemanager" : "{{ base_url('assets/filemanager/plugin.min.js') }}"
+                },
                 content_css: [
                     '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
                     '//www.tinymce.com/css/codepen.min.css'

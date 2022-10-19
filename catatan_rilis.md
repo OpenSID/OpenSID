@@ -26,6 +26,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 20. [#5759](https://github.com/OpenSID/OpenSID/issues/5759) Penambahan TinyMCE surat keterangan KTP dalam proses.
 21. [#5677](https://github.com/OpenSID/OpenSID/issues/5677) Penyesuaian mengeluarkan secara otomatis perangkat lupa absen.
 22. [#5782](https://github.com/OpenSID/OpenSID/issues/5782) Perubahan tombol lihat document menjadi popup pada menu informasi publik.
+23. [#5628](https://github.com/OpenSID/OpenSID/issues/5628) Penambahan tools RFM untuk menambah gambar pada surat TinyMCE.
 
 #### Perbaikan BUG
 
