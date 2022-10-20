@@ -1385,3 +1385,9 @@ function default_file($new_file = null, $default = null)
 {
     return file_exists(FCPATH . $new_file) ? asset($new_file, false) : asset(str_replace('assets/', '', $default));
 }
+
+// https://stackoverflow.com/questions/6824002/capitalize-last-letter-of-a-string
+function uclast($str)
+{
+    return strrev(ucfirst(strrev($str)));
+}

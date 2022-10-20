@@ -184,42 +184,42 @@ class TinyMCE
         return [
             [
                 'judul' => 'Format Nomor Surat',
-                'isian' => '[format_nomor_surat]',
+                'isian' => '[Format_nomor_suraT]',
                 'data'  => strtoupper($this->substitusiNomorSurat($data['no_surat'], setting('format_nomor_surat'))),
             ],
             [
                 'judul' => 'Kode',
-                'isian' => '[kode_surat]',
+                'isian' => '[Kode_suraT]',
                 'data'  => $data['surat']['kode_surat'],
             ],
             [
                 'judul' => 'Nomer',
-                'isian' => '[nomer_surat]',
+                'isian' => '[Nomer_suraT]',
                 'data'  => $data['no_surat'],
             ],
             [
                 'judul' => 'Judul',
-                'isian' => '[judul_surat]',
+                'isian' => '[Judul_suraT]',
                 'data'  => $data['surat']['judul_surat'],
             ],
             [
                 'judul' => 'Tgl',
-                'isian' => '[tgl_surat]',
+                'isian' => '[Tgl_suraT]',
                 'data'  => tgl_indo(date('Y m d')),
             ],
             [
                 'judul' => 'Tgl Hijri',
-                'isian' => '[tgl_surat_hijri]',
+                'isian' => '[Tgl_surat_hijrI]',
                 'data'  => $DateConv->HijriDateId('j F Y'),
             ],
             [
                 'judul' => 'Tahun',
-                'isian' => '[tahun]',
+                'isian' => '[TahuN]',
                 'data'  => $data['log_surat']['bulan'] ?? date('Y'),
             ],
             [
                 'judul' => 'Bulan Romawi',
-                'isian' => '[bulan_romawi]',
+                'isian' => '[Bulan_romawI]',
                 'data'  => bulan_romawi((int) ($data['log_surat']['bulan'] ?? date('m'))),
             ],
             [
@@ -286,142 +286,142 @@ class TinyMCE
         return [
             [
                 'judul' => 'Nama Desa',
-                'isian' => '[nama_desa]',
+                'isian' => '[Nama_desA]',
                 'data'  => $config->nama_desa,
             ],
             [
                 'judul' => 'Kode Desa',
-                'isian' => '[kode_desa]',
+                'isian' => '[Kode_desA]',
                 'data'  => $config->kode_desa,
             ],
             [
                 'judul' => 'Kode POS',
-                'isian' => '[kode_pos]',
+                'isian' => '[Kode_poS]',
                 'data'  => $config->kode_pos,
             ],
             [
                 'judul' => 'Sebutan Desa',
-                'isian' => '[sebutan_desa]',
+                'isian' => '[Sebutan_desA]',
                 'data'  => $sebutan_desa,
             ],
             [
                 'judul' => 'Sebutan Kepala Desa',
-                'isian' => '[sebutan_kepala_desa]',
+                'isian' => '[Sebutan_kepala_desA]',
                 'data'  => $sebutan_kepala_desa,
             ],
             [
                 'judul' => 'Nama Kepala Desa',
-                'isian' => '[nama_kepala_desa]',
+                'isian' => '[Nama_kepala_desA]',
                 'data'  => $config->pamong_nama,
             ],
             [
                 'judul' => 'Sebutan NIP Desa',
-                'isian' => '[sebutan_nip_desa]',
+                'isian' => '[Sebutan_nip_desA]',
                 'data'  => $sebutan_nip_desa,
             ],
             [
                 'judul' => 'NIP Kepala Desa',
-                'isian' => '[nip_kepala_desa]',
+                'isian' => '[Nip_kepala_desA]',
                 'data'  => $config->pamong_nip,
             ],
             [
                 'judul' => 'Nama Kecamatan',
-                'isian' => '[nama_kecamatan]',
+                'isian' => '[Nama_kecamataN]',
                 'data'  => $config->nama_kecamatan,
             ],
             [
                 'judul' => 'Kode Kecamatan',
-                'isian' => '[kode_kecamatan]',
+                'isian' => '[Kode_kecamataN]',
                 'data'  => $config->kode_kecamatan,
             ],
             [
                 'judul' => 'Sebutan Kecamatan',
-                'isian' => '[sebutan_kecamatan]',
+                'isian' => '[Sebutan_kecamataN]',
                 'data'  => $sebutan_kecamatan,
             ],
             [
                 'judul' => 'Sebutan Kecamatan (Singkat)',
-                'isian' => '[sebutan_kec]',
+                'isian' => '[Sebutan_keC]',
                 'data'  => $sebutan_kec,
             ],
             [
                 'judul' => 'Sebutan Camat',
-                'isian' => '[sebutan_camat]',
+                'isian' => '[Sebutan_camaT]',
                 'data'  => $sebutan_camat,
             ],
             [
                 'judul' => 'Nama Kepala Camat',
-                'isian' => '[nama_kepala_camat]',
+                'isian' => '[Nama_kepala_camaT]',
                 'data'  => $config->nama_kepala_camat,
             ],
             [
                 'judul' => 'NIP Kepala Camat',
-                'isian' => '[nip_kepala_camat]',
+                'isian' => '[Nip_kepala_camaT]',
                 'data'  => $config->nip_kepala_camat,
             ],
             [
                 'judul' => 'Nama Kabupaten',
-                'isian' => '[nama_kabupaten]',
+                'isian' => '[Nama_kabupateN]',
                 'data'  => $config->nama_kabupaten,
             ],
             [
                 'judul' => 'Kode Kabupaten',
-                'isian' => '[kode_kabupaten]',
+                'isian' => '[Kode_kabupateN]',
                 'data'  => $config->kode_kabupaten,
             ],
             [
                 'judul' => 'Sebutan Kabupaten',
-                'isian' => '[sebutan_kabupaten]',
+                'isian' => '[Sebutan_kabupateN]',
                 'data'  => $sebutan_kabupaten,
             ],
             [
                 'judul' => 'Sebutan Kabupaten (Singkat)',
-                'isian' => '[sebutan_kab]',
+                'isian' => '[Sebutan_kaB]',
                 'data'  => $sebutan_kab,
             ],
             [
                 'judul' => 'Nama Provinsi',
-                'isian' => '[nama_provinsi]',
+                'isian' => '[Nama_provinsI]',
                 'data'  => $config->nama_propinsi,
             ],
             [
                 'judul' => 'Kode Provinsi',
-                'isian' => '[kode_provinsi]',
+                'isian' => '[Kode_provinsI]',
                 'data'  => $config->kode_propinsi,
             ],
             [
                 'judul' => 'Alamat Desa',
-                'isian' => '[alamat_desa]',
+                'isian' => '[Alamat_desA]',
                 'data'  => $alamat_desa,
             ],
             [
                 'judul' => 'Alamat Surat Desa',
-                'isian' => '[alamat_surat]',
+                'isian' => '[Alamat_suraT]',
                 'data'  => $alamat_surat,
             ],
             [
                 'judul' => 'Alamat Kantor Desa',
-                'isian' => '[alamat_kantor]',
+                'isian' => '[Alamat_kantor]',
                 'data'  => $config->alamat_kantor,
             ],
             [
                 'judul' => 'Email Desa',
-                'isian' => '[email_desa]',
+                'isian' => '[Email_desA]',
                 'data'  => $config->email_desa,
             ],
             [
                 'judul' => 'Telepon Desa',
-                'isian' => '[telepon_desa]',
+                'isian' => '[Telepon_desA]',
                 'data'  => $config->telepon,
             ],
             [
                 'judul' => 'Website Desa',
-                'isian' => '[website_desa]',
+                'isian' => '[Website_desA]',
                 'data'  => $config->website,
             ],
             [
                 'judul' => 'Sebutan Dusun',
-                'isian' => '[sebutan_dusun]',
+                'isian' => '[Sebutan_dusuN]',
                 'data'  => $sebutan_dusun,
             ],
         ];
@@ -432,7 +432,7 @@ class TinyMCE
         // Data Umum
         if (! empty($prefix)) {
             $ortu   = ' ' . ucwords($prefix);
-            $prefix = '_' . $prefix;
+            $prefix = '_' . uclast($prefix);
         }
 
         if ($id_penduduk) {
@@ -447,57 +447,57 @@ class TinyMCE
             ],
             [
                 'judul' => 'Nama' . $ortu,
-                'isian' => '[nama' . $prefix . ']',
+                'isian' => '[Nama' . $prefix . ']',
                 'data'  => $penduduk->nama,
             ],
             [
                 'judul' => 'Tgl Lahir' . $ortu,
-                'isian' => '[tanggallahir' . $prefix . ']',
+                'isian' => '[Tanggallahir' . $prefix . ']',
                 'data'  => tgl_indo($penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Tempat Lahir' . $ortu,
-                'isian' => '[tempatlahir' . $prefix . ']',
+                'isian' => '[Tempatlahir' . $prefix . ']',
                 'data'  => $penduduk->tempatlahir,
             ],
             [
                 'judul' => 'Tempat Tgl Lahir' . $ortu,
-                'isian' => '[tempat_tgl_lahir' . $prefix . ']',
+                'isian' => '[Tempat_tgl_lahir' . $prefix . ']',
                 'data'  => $penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Tempat Tgl Lahit (TTL)' . $ortu,
-                'isian' => '[ttl' . $prefix . ']',
+                'isian' => '[Ttl' . $prefix . ']',
                 'data'  => $penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Usia' . $ortu,
-                'isian' => '[usia' . $prefix . ']',
+                'isian' => '[Usia' . $prefix . ']',
                 'data'  => $penduduk->usia,
             ],
             [
                 'judul' => 'Jenis Kelamin' . $ortu,
-                'isian' => '[jenis_kelamin' . $prefix . ']',
+                'isian' => '[Jenis_kelamin' . $prefix . ']',
                 'data'  => $penduduk->jenisKelamin->nama,
             ],
             [
                 'judul' => 'Agama' . $ortu,
-                'isian' => '[agama' . $prefix . ']',
+                'isian' => '[Agama' . $prefix . ']',
                 'data'  => $penduduk->agama->nama,
             ],
             [
                 'judul' => 'Pekerjaan' . $ortu,
-                'isian' => '[pekerjaan' . $prefix . ']',
+                'isian' => '[Pekerjaan' . $prefix . ']',
                 'data'  => $penduduk->pekerjaan->nama,
             ],
             [
                 'judul' => 'Warga Negara' . $ortu,
-                'isian' => '[warga_negara' . $prefix . ']',
+                'isian' => '[Warga_negara' . $prefix . ']',
                 'data'  => $penduduk->wargaNegara->nama,
             ],
             [
                 'judul' => 'Alamat' . $ortu,
-                'isian' => '[alamat' . $prefix . ']',
+                'isian' => '[Alamat' . $prefix . ']',
                 'data'  => $penduduk->alamat_wilayah,
             ],
         ];
@@ -506,116 +506,116 @@ class TinyMCE
             $lainnya = [
                 [
                     'judul' => 'Alamat Jalan',
-                    'isian' => '[alamat_jalan]',
+                    'isian' => '[Alamat_jalan]',
                     'data'  => $penduduk->keluarga->alamat, // alamat kk jika ada
                 ],
                 [
                     'judul' => 'Alamat Sebelumnya',
-                    'isian' => '[alamat_sebelumnya]',
+                    'isian' => '[Alamat_sebelumnya]',
                     'data'  => $penduduk->alamat_sebelumnya,
                 ],
                 [
                     'judul' => 'Dusun',
-                    'isian' => '[dusun]',
+                    'isian' => '[Nama_dusuN]',
                     'data'  => $penduduk->wilayah->dusun,
                 ],
                 [
                     'judul' => 'RW',
-                    'isian' => '[rw]',
+                    'isian' => '[Nama_rW]',
                     'data'  => $penduduk->wilayah->rw,
                 ],
                 [
                     'judul' => 'RT',
-                    'isian' => '[rt]',
+                    'isian' => '[Nama_rT]',
                     'data'  => $penduduk->wilayah->rt,
                 ],
                 [
                     'judul' => 'Akta Kelahiran',
-                    'isian' => '[akta_lahir]',
+                    'isian' => '[Akta_lahiR]',
                     'data'  => $penduduk->akta_lahir, // Cek ini
                 ],
                 [
                     'judul' => 'Akta Perceraian',
-                    'isian' => '[akta_perceraian]',
+                    'isian' => '[Akta_perceraiaN]',
                     'data'  => $penduduk->akta_perceraian, // Cek ini
                 ],
                 [
                     'judul' => 'Status Perkawinan',
-                    'isian' => '[status_kawin]',
+                    'isian' => '[Status_kawiN]',
                     'data'  => $penduduk->statusKawin->nama, // Cek ini
                 ],
                 [
                     'judul' => 'Akta Perkawinan',
-                    'isian' => '[akta_perkawinan]',
+                    'isian' => '[Akta_perkawinaN]',
                     'data'  => $penduduk->akta_perkawinan, // Cek ini
                 ],
                 [
                     'judul' => 'Tgl Perkawinan',
-                    'isian' => '[tanggalperkawinan]',
+                    'isian' => '[TanggalperkawinaN]',
                     'data'  => tgl_indo($penduduk->tanggalperkawinan),
                 ],
                 [
                     'judul' => 'Tgl Perceraian',
-                    'isian' => '[tanggalperceraian]',
+                    'isian' => '[TanggalperceraiaN]',
                     'data'  => tgl_indo($penduduk->tanggalperceraian),
                 ],
                 [
                     'judul' => 'Cacat',
-                    'isian' => '[cacat]',
+                    'isian' => '[CacaT]',
                     'data'  => $penduduk->cacat->nama,
                 ],
                 [
                     'judul' => 'Golongan Darah',
-                    'isian' => '[gol_darah]',
+                    'isian' => '[Gol_daraH]',
                     'data'  => $penduduk->golonganDarah->nama,
                 ],
                 [
                     'judul' => 'Pendidikan Sedang',
-                    'isian' => '[pendidikan_sedang]',
+                    'isian' => '[Pendidikan_sedanG]',
                     'data'  => $penduduk->pendidikan->nama,
                 ],
                 [
                     'judul' => 'Pendidikan Dalam KK',
-                    'isian' => '[pendidikan_kk]',
+                    'isian' => '[Pendidikan_kK]',
                     'data'  => $penduduk->pendidikanKK->nama,
                 ],
                 [
                     'judul' => 'Dokumen Pasport',
-                    'isian' => '[dokumen_pasport]',
+                    'isian' => '[Dokumen_pasporT]',
                     'data'  => $penduduk->dokumen_pasport,
                 ],
                 [
                     'judul' => 'Tgl Akhir Paspor',
-                    'isian' => '[tanggal_akhir_paspor]',
+                    'isian' => '[Tanggal_akhir_paspoR]',
                     'data'  => tgl_indo($penduduk->tanggal_akhir_paspor),
                 ],
 
                 // Data KK
                 [
                     'judul' => 'Hubungan Dalam KK',
-                    'isian' => '[hubungan_kk]',
+                    'isian' => '[Hubungan_kK]',
                     'data'  => $penduduk->pendudukHubungan->nama,
                 ],
                 [
                     'judul' => 'No KK',
-                    'isian' => '[no_kk]',
+                    'isian' => '[No_kK]',
                     'data'  => $penduduk->keluarga->no_kk,
                 ],
                 [
                     'judul' => 'Kepala KK',
-                    'isian' => '[kepala_kk]',
+                    'isian' => '[Kepala_kK]',
                     'data'  => $penduduk->keluarga->kepalaKeluarga->nama,
                 ],
                 [
                     'judul' => 'NIK KK',
-                    'isian' => '[nik_kepala_kk]',
+                    'isian' => '[Nik_kepala_kK]',
                     'data'  => $penduduk->keluarga->kepalaKeluarga->nik,
                 ],
 
                 // Data RTM
                 [
                     'judul' => 'ID BDT',
-                    'isian' => '[bdt]',
+                    'isian' => '[BdT]',
                     'data'  => $penduduk->rtm->bdt,
                 ],
 
@@ -637,22 +637,22 @@ class TinyMCE
                 $data_ortu = [
                     [
                         'judul' => 'NIK Ayah',
-                        'isian' => '[nik_ayah]',
+                        'isian' => '[Nik_ayaH]',
                         'data'  => $penduduk->ayah_nik,
                     ],
                     [
                         'judul' => 'Nama Ayah',
-                        'isian' => '[nama_ayah]',
+                        'isian' => '[Nama_ayaH]',
                         'data'  => $penduduk->nama_ayah,
                     ],
                     [
                         'judul' => 'NIK Ibu',
-                        'isian' => '[nik_ibu]',
+                        'isian' => '[Nik_ibU]',
                         'data'  => $penduduk->ibu_nik,
                     ],
                     [
                         'judul' => 'Nama Ibu',
-                        'isian' => '[nama_ibu]',
+                        'isian' => '[Nama_ibU]',
                         'data'  => $penduduk->nama_ibu,
                     ],
                 ];
@@ -692,7 +692,7 @@ class TinyMCE
                 ->map(static function ($item, $key) use ($input) {
                     return [
                         'judul' => $item['nama'],
-                        'isian' => $item['kode'],
+                        'isian' => ucfirst(uclast($item['kode'])),
                         'data'  => $input[underscore($item['nama'], true, true)],
                     ];
                 })
@@ -704,7 +704,7 @@ class TinyMCE
             ->map(static function ($item, $key) use ($input) {
                 return [
                     'judul' => $item->nama,
-                    'isian' => $item->kode,
+                    'isian' => ucfirst(uclast($item->kode)),
                     'data'  => $input[underscore($item->nama, true, true)],
                 ];
             })
@@ -762,32 +762,32 @@ class TinyMCE
         return [
             [
                 'judul' => 'Atas Nama',
-                'isian' => '[atas_nama]',
+                'isian' => '[Atas_namA]',
                 'data'  => $atas_nama,
             ],
             [
                 'judul' => 'Nama Pamong',
-                'isian' => '[nama_pamong]',
+                'isian' => '[Nama_pamonG]',
                 'data'  => $nama_pamong,
             ],
             [
                 'judul' => 'Jabatan Pamong',
-                'isian' => '[jabatan]',
+                'isian' => '[JabataN]',
                 'data'  => $jabatan,
             ],
             [
                 'judul' => 'Sebutan NIP ' . ucwords(setting('sebutan desa')),
-                'isian' => '[sebutan_nip_desa]',
+                'isian' => '[Sebutan_nip_desA]',
                 'data'  => $sebutan_nip_desa,
             ],
             [
                 'judul' => 'NIP Pamong',
-                'isian' => '[nip_pamong]',
+                'isian' => '[Nip_pamonG]',
                 'data'  => $nip,
             ],
             [
                 'judul' => 'Sebutan NIP ' . ucwords(setting('sebutan desa')) . ' & NIP Pamong',
-                'isian' => '[form_nip_pamong]',
+                'isian' => '[Form_nip_pamonG]',
                 'data'  => $pamong_nip,
             ],
         ];
