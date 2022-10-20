@@ -36,6 +36,7 @@
  */
 
 use App\Enums\FontSuratEnum;
+use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
 use App\Models\Config;
 use App\Models\FormatSurat;
@@ -242,7 +243,7 @@ class Surat_master extends Admin_Controller
 
     private function validate($request = [], $jenis = 4, $id = null)
     {
-        $kodeIsian = [];
+        $kodeIsian = null;
 
         for ($i = 0; $i < count($request['tipe_kode']); $i++) {
             if (empty($request['tipe_kode'][$i]) || empty($request['nama_kode'][$i]) || empty($request['deskripsi_kode'][$i])) {
@@ -588,5 +589,78 @@ class Surat_master extends Admin_Controller
         $dari = str_replace('[', '\\[', $dari);
 
         return preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
+    }
+
+    public function ekspor()
+    {
+        $this->redirect_hak_akses('u');
+
+        $ekspor    = FormatSurat::jenis(FormatSurat::TINYMCE)->get();
+        $file_name = namafile('Template Surat TInyMCE') . '.json';
+
+        $this->output
+            ->set_header("Content-Disposition: attachment; filename={$file_name}")
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output(json_encode($ekspor, JSON_PRETTY_PRINT));
+    }
+
+    public function impor()
+    {
+        $this->redirect_hak_akses('u');
+
+        $this->load->library('upload');
+
+        $config['upload_path']   = sys_get_temp_dir();
+        $config['allowed_types'] = 'json';
+        $config['overwrite']     = true;
+        $config['max_size']      = max_upload() * 1024;
+        $config['file_name']     = 'template_surat_tinymce.json';
+
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload('userfile')) {
+            $list_data = file_get_contents($this->upload->data()['full_path']);
+
+            $list_data = collect(json_decode($list_data, true))->map(static function ($item) {
+                return [
+                    'nama'                => $item['nama'],
+                    'url_surat'           => $item['url_surat'],
+                    'kode_surat'          => $item['kode_surat'],
+                    'lampiran'            => $item['lampiran'],
+                    'kunci'               => $item['kunci'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                    'favorit'             => $item['favorit'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                    'jenis'               => $item['jenis'],
+                    'mandiri'             => $item['mandiri'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                    'masa_berlaku'        => $item['masa_berlaku'],
+                    'satuan_masa_berlaku' => $item['satuan_masa_berlaku'],
+                    'qr_code'             => $item['qr_code'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                    'logo_garuda'         => $item['logo_garuda'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                    'syarat_surat'        => json_decode($item['syarat_surat'], true),
+                    'template'            => $item['template'],
+                    'template_desa'       => $item['template_desa'],
+                    'form_isian'          => json_encode($item['form_isian']),
+                    'kode_isian'          => json_encode($item['kode_isian']),
+                    'orientasi'           => $item['orientasi'],
+                    'ukuran'              => $item['ukuran'],
+                    'margin'              => $item['margin'],
+                    'footer'              => $item['footer'],
+                    'header'              => $item['header'],
+                    'created_at'          => date('Y-m-d H:i:s'),
+                    'creted_by'           => auth()->id,
+                    'updated_at'          => date('Y-m-d H:i:s'),
+                    'updated_by'          => auth()->id,
+                ];
+            })->toArray();
+
+            if ($list_data) {
+                foreach ($list_data as $value) {
+                    FormatSurat::updateOrCreate(['url_surat' => $value['url_surat']], $value);
+                }
+            }
+
+            redirect_with('success', 'Berhasil Impor Data');
+        }
+
+        redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
     }
 }

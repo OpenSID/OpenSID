@@ -80,7 +80,7 @@ class MY_Controller extends CI_Controller
         if ($error['code'] == 1049 && ! $this->db) {
             return;
         }
-        
+
         /*
         | Tambahkan model yg akan diautoload di sini.
         | donjo-app/config/autoload.php digunakan untuk autoload model untuk mengisi data awal

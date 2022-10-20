@@ -33,6 +33,22 @@
                         class="fa fa-recycle"></i> Perbarui</a>
             @endif
             @if (can('u'))
+                <div class="btn-group-vertical radius-3">
+                    <a class="btn btn-social btn-sm bg-navy" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>
+                        Impor / Ekspor</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="{{ route('surat_master.impor') }}" class="btn btn-social btn-block btn-sm"
+                                data-target="#impor-surat" data-remote="false" data-toggle="modal" data-backdrop="false"
+                                data-keyboard="false"><i class="fa fa-upload"></i> Impor Surat TinyMCE</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('surat_master.ekspor') }}" target="_blank"
+                                class="btn btn-social btn-block btn-sm" title="Ekspor Surat TinyMCE"><i
+                                    class="fa fa-download"></i> Ekspor Surat TinyMCE</a>
+                        </li>
+                    </ul>
+                </div>
                 <a href="{{ route('surat_master.pengaturan') }}" title="Pengaturan"
                     class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
                         class="fa fa-gear"></i> Pengaturan</a>
@@ -72,6 +88,7 @@
     </div>
 
     @include('admin.layouts.components.konfirmasi_hapus')
+    @include('admin.pengaturan_surat.impor')
 @endsection
 @push('scripts')
     <script>
