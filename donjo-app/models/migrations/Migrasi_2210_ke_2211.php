@@ -40,10 +40,27 @@ class Migrasi_2210_ke_2211 extends MY_model
         $hasil = true;
 
         // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2204');
+        // $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2204');
+        $hasil = $hasil && $this->migrasi_20221019($hasil);
 
         status_sukses($hasil);
 
         return $hasil;
+    }
+
+    protected function migrasi_20221019($hasil)
+    {
+        $this->db->insert_batch('tweb_penduduk_kawin', [
+            [
+                'id' => '5',
+                'nama' => 'KAWIN TERCATAT'
+            ],
+            [
+                'id' => '6',
+                'nama' => 'KAWIN BELUM TERCATAT'
+            ]
+        ]);
+
+        return $hasil && true;
     }
 }
