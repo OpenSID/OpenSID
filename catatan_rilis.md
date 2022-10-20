@@ -29,6 +29,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 23. [#5628](https://github.com/OpenSID/OpenSID/issues/5628) Penambahan tools RFM untuk menambah gambar pada surat TinyMCE.
 24. [#5683](https://github.com/OpenSID/OpenSID/issues/5683) Penyesuaian lampiran surat TinyMCE.
 25. [#5774](https://github.com/OpenSID/OpenSID/issues/5774) Penambahan surat TinyMCE keterangan wali hakim.
+26. [#5769](https://github.com/OpenSID/OpenSID/issues/5769) Penambahan surat pernyataan belum memiliki akta lahir.
 
 #### Perbaikan BUG
 

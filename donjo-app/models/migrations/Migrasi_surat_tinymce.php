@@ -55,6 +55,7 @@ class Migrasi_surat_tinymce extends MY_model
         $hasil = $hasil && $this->suratPengantarIzinKeramaian($hasil);
         $hasil = $hasil && $this->suratKeteranganPergiKawin($hasil);
         $hasil = $hasil && $this->suratKeteranganWaliHakim($hasil);
+        $hasil = $hasil && $this->suratPernyataanBelumMemilikiAktaLahir($hasil);
 
         return $hasil && $this->suratKeteranganKtpDalamProses($hasil);
     }
@@ -78,7 +79,7 @@ class Migrasi_surat_tinymce extends MY_model
             'orientasi'           => 'Potrait',
             'ukuran'              => 'F4',
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
-            'qrcode'              => StatusEnum::YA,
+            'qr_code'             => StatusEnum::YA,
             'kode_isian'          => '[{"tipe":"text","kode":"[nama_usaha]","nama":"Nama Usaha","deskripsi":"Masukkan Nama \/ Jenis usaha","atribut":"required"},{"tipe":"textarea","kode":"[keperluan]","nama":"Keperluan","deskripsi":"Masukkan Keperluan","atribut":"required"}]',
             'form_isian'          => '{"individu":{"sex":"","status_dasar":"1"}}',
             'mandiri'             => StatusEnum::YA,
@@ -104,7 +105,7 @@ class Migrasi_surat_tinymce extends MY_model
             'orientasi'           => 'Potrait',
             'ukuran'              => 'F4',
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
-            'qrcode'              => StatusEnum::YA,
+            'qr_code'             => StatusEnum::YA,
             'kode_isian'          => '[{"tipe":"text","kode":"[nama_barang]","nama":"Nama Barang","deskripsi":"Masukkan Nama Barang Yang Hilang","atribut":"required"},{"tipe":"textarea","kode":"[rincian]","nama":"Rincian","deskripsi":"Masukkan Rincian","atribut":"required"},{"tipe":"textarea","kode":"[keterangan]","nama":"Keterangan","deskripsi":"Masukkan Keterangan","atribut":"required"}]',
             'form_isian'          => '{"individu":{"sex":"","status_dasar":"1"}}',
             'mandiri'             => StatusEnum::YA,
@@ -130,7 +131,7 @@ class Migrasi_surat_tinymce extends MY_model
             'orientasi'           => 'Potrait',
             'ukuran'              => 'F4',
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
-            'qrcode'              => StatusEnum::YA,
+            'qr_code'             => StatusEnum::YA,
             'kode_isian'          => '[{"tipe":"textarea","kode":"[keperluan]","nama":"Keperluan","deskripsi":"Masukkan Keperluan","atribut":"required"},{"tipe":"textarea","kode":"[keterangan]","nama":"Keterangan","deskripsi":"Masukkan Keterangan","atribut":"required"}]',
             'form_isian'          => '{"individu":{"sex":"","status_dasar":"1"}}',
             'mandiri'             => StatusEnum::YA,
@@ -155,7 +156,7 @@ class Migrasi_surat_tinymce extends MY_model
             'orientasi'           => 'Potrait',
             'ukuran'              => 'F4',
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
-            'qrcode'              => StatusEnum::YA,
+            'qr_code'             => StatusEnum::YA,
             'kode_isian'          => '[{"tipe":"textarea","kode":"[keperluan]","nama":"Keperluan","deskripsi":"Masukkan Keperluan","atribut":"required"}]',
             'form_isian'          => '{"individu":{"sex":"","status_dasar":"1"}}',
             'mandiri'             => StatusEnum::YA,
@@ -178,7 +179,7 @@ class Migrasi_surat_tinymce extends MY_model
             'orientasi'           => 'Potrait',
             'ukuran'              => 'F4',
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
-            'qrcode'              => StatusEnum::YA,
+            'qr_code'             => StatusEnum::YA,
             'kode_isian'          => '[{"tipe":"textarea","kode":"[keterangan]","nama":"Keterangan","deskripsi":"Masukkan Keterangan","atribut":"required"}]',
             'form_isian'          => '{"individu":{"sex":"","status_dasar":"1"}}',
             'mandiri'             => StatusEnum::YA,
@@ -201,7 +202,7 @@ class Migrasi_surat_tinymce extends MY_model
             'orientasi'           => 'Potrait',
             'ukuran'              => 'F4',
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
-            'qrcode'              => StatusEnum::YA,
+            'qr_code'             => StatusEnum::YA,
             'kode_isian'          => '[{"tipe":"text","kode":"[jenis_acara]","nama":"Jenis Acara","deskripsi":"Masukkan Jenis Acara","atribut":"required"},{"tipe":"textarea","kode":"[keperluan]","nama":"Keperluan","deskripsi":"Masukkan Keperluan","atribut":"required"}]',
             'form_isian'          => '{"individu":{"sex":"","status_dasar":"1"}}',
             'mandiri'             => StatusEnum::YA,
@@ -224,7 +225,7 @@ class Migrasi_surat_tinymce extends MY_model
             'orientasi'           => 'Potrait',
             'ukuran'              => 'F4',
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
-            'qrcode'              => StatusEnum::YA,
+            'qr_code'             => StatusEnum::YA,
             'kode_isian'          => '[{"tipe":"text","kode":"[tujuan]","nama":"Tujuan","deskripsi":"Masukkan Tujuan","atribut":"required"},{"tipe":"textarea","kode":"[keperluan]","nama":"Keperluan","deskripsi":"Masukkan Keperluan","atribut":"required"}]',
             'form_isian'          => '{"individu":{"sex":"","status_dasar":"1"}}',
             'mandiri'             => StatusEnum::TIDAK,
@@ -260,6 +261,29 @@ class Migrasi_surat_tinymce extends MY_model
         return $hasil && $this->tambah_surat_tinymce($data);
     }
 
+    protected function suratPernyataanBelumMemilikiAktaLahir($hasil)
+    {
+        $data = [
+            'nama'                => 'Pernyataan Belum Memiliki Akta Lahir',
+            'kode_surat'          => 'S-19',
+            'masa_berlaku'        => 1,
+            'satuan_masa_berlaku' => 'M',
+            'orientasi'           => 'Potrait',
+            'ukuran'              => 'F4',
+            'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
+            'qr_code'             => StatusEnum::YA,
+            'kode_isian'          => null,
+            'form_isian'          => '{"individu":{"sex":"","status_dasar":"1"}}',
+            'mandiri'             => StatusEnum::TIDAK,
+            'syarat_surat'        => null,
+            'template'            => "
+                <h3 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]</span></h3>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [format_nomor_surat]<br /><br /></p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :</p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 82px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">1.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Nama Lengkap</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\"><strong>[NAma]</strong></td>\r\n</tr>\r\n<tr style=\"height: 36px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 36px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 36px; text-align: left;\">2.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 36px;\">Alamat / Tempat Tinggal</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 36px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 36px; text-align: justify;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">3.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Tempat / Tanggal Lahir</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[TtL]</td>\r\n</tr>\r\n<tr style=\"height: 10px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 10px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 10px; text-align: left;\">4.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 10px;\">Jenis Kelamin</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 10px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 10px; text-align: justify;\">[Jenis_kelamin]</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Dengan orang tua:</p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 64px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">5.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Nama Ayah</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[NaMa_ayah]</td>\r\n</tr>\r\n<tr style=\"height: 10px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 10px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 10px; text-align: left;\">6.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 10px;\">NIK / No. KTP Ayah</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 10px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 10px; text-align: justify;\">[Nik_ayah]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">7.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Nama Ibu</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[NaMa_ibu]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">8.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">NIK / No. KTP Ibu</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Nik_ibu]</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Adalah benar-benar warga [SeButan_desa] [NaMa_desa] dan belum pernah memiliki Akta Kelahiran.</p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.<br /><br /></p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> </td>\r\n<td style=\"width: 30%;\"> </td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> </td>\r\n<td style=\"width: 30%;\"> </td>\r\n<td style=\"width: 35%; text-align: center;\">[atas_nama]</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> </td>\r\n<td style=\"width: 30%;\"><br /><br /><br /><br /></td>\r\n<td style=\"width: 35%;\"> </td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> </td>\r\n<td style=\"width: 30%;\"> </td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamong]</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 35%;\"> </td>\r\n<td style=\"width: 30%;\"> </td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<div style=\"text-align: center;\"><br />[qr_code]</div>
+            ",
+        ];
+
+        return $hasil && $this->tambah_surat_tinymce($data);
+    }
+
     protected function suratKeteranganKtpDalamProses($hasil)
     {
         $data = [
@@ -270,7 +294,7 @@ class Migrasi_surat_tinymce extends MY_model
             'orientasi'           => 'Potrait',
             'ukuran'              => 'F4',
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
-            'qrcode'              => StatusEnum::YA,
+            'qr_code'             => StatusEnum::YA,
             'kode_isian'          => null,
             'form_isian'          => '{"individu":{"sex":"","status_dasar":"1"}}',
             'mandiri'             => StatusEnum::YA,
