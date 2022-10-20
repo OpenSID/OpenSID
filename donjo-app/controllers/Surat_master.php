@@ -215,7 +215,7 @@ class Surat_master extends Admin_Controller
 
         $data = FormatSurat::find($id) ?? show_404();
 
-        if ($data->update(static::validate($this->request, $data->jenis))) {
+        if ($data->update(static::validate($this->request, $data->jenis, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
 
@@ -240,7 +240,7 @@ class Surat_master extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    private function validate($request = [], $jenis = 4)
+    private function validate($request = [], $jenis = 4, $id = null)
     {
         $kodeIsian = [];
 
@@ -265,17 +265,8 @@ class Surat_master extends Admin_Controller
             ],
         ];
 
-        $nama_surat = nama_terbatas($request['nama']);
-
-        if (in_array($jenis, FormatSurat::RTF)) {
-            $url_surat = 'surat_' . strtolower(str_replace([' ', '-'], '_', $nama_surat));
-        } else {
-            $url_surat = strtolower(str_replace([' ', '_'], '-', $nama_surat));
-        }
-
         $data = [
-            'nama'                => $nama_surat,
-            'url_surat'           => unique_slug('tweb_surat_format', "surat_{$nama_surat}", null, 'url_surat'),
+            'nama'                => nama_terbatas($request['nama']),
             'kode_surat'          => $request['kode_surat'],
             'masa_berlaku'        => $request['masa_berlaku'],
             'satuan_masa_berlaku' => $request['satuan_masa_berlaku'],
@@ -293,6 +284,14 @@ class Surat_master extends Admin_Controller
             'header'              => (int) $request['header'],
             'footer'              => (int) $request['footer'],
         ];
+
+        if (null === $id) {
+            if (in_array($jenis, FormatSurat::RTF)) {
+                $data['url_surat'] = unique_slug('tweb_surat_format', "surat_{$data['nama_surat']}", null, 'url_surat', '_');
+            } else {
+                $data['url_surat'] = unique_slug('tweb_surat_format', "surat-{$data['nama_surat']}", null, 'url_surat', '-');
+            }
+        }
 
         // Margin
         $data['margin'] = json_encode([

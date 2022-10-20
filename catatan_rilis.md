@@ -6,11 +6,11 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 1. [#5718](https://github.com/OpenSID/OpenSID/issues/5718) Penambahan fungsi jarak antra baris (tools tinymce linehight).
 2. [#5578](https://github.com/OpenSID/OpenSID/issues/5578) Penambahan Capitalize Each Word pada kode isian surat TinyMCE.
 3. [#5775](https://github.com/OpenSID/OpenSID/issues/5775) Penyesuaian ukuran font di bagian footer tte.
-4. [#5764](https://github.com/OpenSID/OpenSID/issues/5764) Penambahan TinyMCE surat keterangan usaha.
-5. [#5754](https://github.com/OpenSID/OpenSID/issues/5754) Penambahan TinyMCE surat keterangan pengantar.
+4. [#5764](https://github.com/OpenSID/OpenSID/issues/5764) Penambahan surat TinyMCE keterangan usaha.
+5. [#5754](https://github.com/OpenSID/OpenSID/issues/5754) Penambahan surat TinyMCE keterangan pengantar.
 6. [#5371](https://github.com/OpenSID/OpenSID/issues/5371) Penambahan popup untuk melihat foto pada galeri.
-7. [#5763](https://github.com/OpenSID/OpenSID/issues/5763) Penambahan TinyMCE surat pengantar laporan kehilangan.
-8. [#5755](https://github.com/OpenSID/OpenSID/issues/5755) Penambahan TinyMCE surat keterangan kenduduk.
+7. [#5763](https://github.com/OpenSID/OpenSID/issues/5763) Penambahan surat TinyMCE pengantar laporan kehilangan.
+8. [#5755](https://github.com/OpenSID/OpenSID/issues/5755) Penambahan surat TinyMCE keterangan kenduduk.
 9. [#2663](https://github.com/OpenSID/OpenSID/issues/2663) Penambahan shortcut surat keterangan kematian pada log penduduk.
 10. [#5796](https://github.com/OpenSID/OpenSID/issues/5796) Penambahan validasi support ipv6 ketika nambah ip di anjungan.
 11. [#5706](https://github.com/OpenSID/OpenSID/issues/5706) Penambahan pengaturan waktu kadaluarsa token OTP.
@@ -20,13 +20,15 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 14. [#5721](https://github.com/OpenSID/OpenSID/issues/5721) Penambahan modul "Gawai Layanan" sebagai pengganti fitur anjungan.
 15. [#5826](https://github.com/OpenSID/OpenSID/issues/5826) Perubahan hapus wilayah RW atau Dusun hanya jika sudah berpenghuni.
 16. [#5717](https://github.com/OpenSID/OpenSID/issues/5717) Menampilkan keterangan hadir & tidak hadir pada menu perangkat desa.
-17. [#5762](https://github.com/OpenSID/OpenSID/issues/5762) Penambahan TinyMCE surat pengantar izin keramaian.
-18. [#5758](https://github.com/OpenSID/OpenSID/issues/5758) Penambahan TinyMCE surat pengantar surat keterangan catatan kepolisian.
-19. [#5773](https://github.com/OpenSID/OpenSID/issues/5773) Penambahan TinyMCE surat keterangan pergi kawin.
-20. [#5759](https://github.com/OpenSID/OpenSID/issues/5759) Penambahan TinyMCE surat keterangan KTP dalam proses.
+17. [#5762](https://github.com/OpenSID/OpenSID/issues/5762) Penambahan surat TinyMCE pengantar izin keramaian.
+18. [#5758](https://github.com/OpenSID/OpenSID/issues/5758) Penambahan surat TinyMCE pengantar surat keterangan catatan kepolisian.
+19. [#5773](https://github.com/OpenSID/OpenSID/issues/5773) Penambahan surat TinyMCE keterangan pergi kawin.
+20. [#5759](https://github.com/OpenSID/OpenSID/issues/5759) Penambahan surat TinyMCE keterangan KTP dalam proses.
 21. [#5677](https://github.com/OpenSID/OpenSID/issues/5677) Penyesuaian mengeluarkan secara otomatis perangkat lupa absen.
 22. [#5782](https://github.com/OpenSID/OpenSID/issues/5782) Perubahan tombol lihat document menjadi popup pada menu informasi publik.
 23. [#5628](https://github.com/OpenSID/OpenSID/issues/5628) Penambahan tools RFM untuk menambah gambar pada surat TinyMCE.
+24. [#5683](https://github.com/OpenSID/OpenSID/issues/5683) Penyesuaian lampiran surat TinyMCE.
+25. [#5774](https://github.com/OpenSID/OpenSID/issues/5774) Penambahan surat TinyMCE keterangan wali hakim.
 
 #### Perbaikan BUG
 
@@ -52,7 +54,6 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 20. [#5828](https://github.com/OpenSID/OpenSID/issues/5828) Memisahkan tabel pemesanan dan lainnya.
 21. [#5832](https://github.com/OpenSID/OpenSID/issues/5832) Perbaikan periksa surat tinymce permohonan warga yang tidak ada dokumen / persyaratan.
 22. [#5827](https://github.com/OpenSID/OpenSID/issues/5827) Menambahkan tombol informasi layanan selengkapnya pada menu layanan pelanggan.
-23. [#5683](https://github.com/OpenSID/OpenSID/issues/5683) Penyesuaian lampiran surat TinyMCE.
 
 #### Perubahan Teknis
 1. Perbaikan cara simpan cache IDM dan SDGS.

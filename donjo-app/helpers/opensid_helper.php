@@ -1088,12 +1088,12 @@ function isLocalIPAddress($IPAddress)
     return ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 }
 
-function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug')
+function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug', $separator = '-')
 {
     if ($tabel && $judul) {
         $CI = &get_instance();
 
-        $slug      = url_title($judul, 'dash', true);
+        $slug      = url_title($judul, $separator, true);
         $cek_slug  = true;
         $n         = 1;
         $slug_unik = $slug;

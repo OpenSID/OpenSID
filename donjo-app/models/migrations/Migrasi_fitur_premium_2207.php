@@ -724,37 +724,37 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <td style=\"width: 5%; text-align: center; height: 18px;\">1.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Nama</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Nama]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\"><strong>[NAma]</strong></td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">2.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Tempat/tanggal lahir</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Ttl]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[TtL]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">3.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Umur</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Usia]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[UsIa]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">4.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Warga negara</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Warga_negara]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[WArga_negara]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">5.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Agama</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Agama]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[AgAma]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">6.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Jenis Kelamin</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Jenis_kelamin]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[JeNis_kelamin]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">7.</td>
@@ -766,7 +766,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <td style=\"width: 5%; text-align: center; height: 36px;\">8.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 36px;\">Tempat tinggal</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 36px;\">[Alamat] [Sebutan_desa] [Nama_desa], Kecamatan [Nama_kecamatan], [Sebutan_kabupaten] [Nama_kabupaten]</td>
+                <td style=\"width: 60%; text-align: left; height: 36px;\">[AlamaT] [Sebutan_desa] [Nama_desa], Kecamatan [Nama_kecamatan], [Sebutan_kabupaten] [Nama_kabupaten]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">9.</td>
@@ -778,13 +778,13 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <td style=\"width: 5%; text-align: center; height: 18px;\">\u{a0}</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">KTK</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[nik]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[Nik]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">\u{a0}</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">KK</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[no_kk]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[No_kk]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">11.</td>
@@ -802,7 +802,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <td style=\"width: 5%; text-align: center; height: 18px;\">13.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Golongan Darah</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Gol_darah]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[GOl_darah]</td>
                 </tr>
                 </tbody>
                 </table>
@@ -832,7 +832,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <tr>
                 <td style=\"width: 35%;\">\u{a0}</td>
                 <td style=\"width: 30%;\">\u{a0}</td>
-                <td style=\"width: 35%; text-align: center;\">[Sebutan_nip_desa] : [nip_pamong]</td>
+                <td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]</td>
                 </tr>
                 </tbody>
                 </table>
