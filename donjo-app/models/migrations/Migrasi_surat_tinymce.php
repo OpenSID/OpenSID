@@ -94,11 +94,8 @@ class Migrasi_surat_tinymce extends MY_model
 
     protected function suratPengantarLaporanKehilangan($hasil)
     {
-        $nama_surat = 'Pengantar Laporan Kehilangan';
-
         $data = [
-            'nama'                => $nama_surat,
-            'url_surat'           => strtolower(str_replace([' ', '_'], '-', $nama_surat)),
+            'nama'                => 'Pengantar Laporan Kehilangan',
             'kode_surat'          => 'S-13',
             'masa_berlaku'        => 1,
             'satuan_masa_berlaku' => 'M',
@@ -120,11 +117,8 @@ class Migrasi_surat_tinymce extends MY_model
 
     protected function suratKeteranganPengantar($hasil)
     {
-        $nama_surat = 'Keterangan Pengantar';
-
         $data = [
-            'nama'                => $nama_surat,
-            'url_surat'           => strtolower(str_replace([' ', '_'], '-', $nama_surat)),
+            'nama'                => 'Keterangan Pengantar',
             'kode_surat'          => 'S-01',
             'masa_berlaku'        => 1,
             'satuan_masa_berlaku' => 'M',

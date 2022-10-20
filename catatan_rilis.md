@@ -30,6 +30,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 24. [#5683](https://github.com/OpenSID/OpenSID/issues/5683) Penyesuaian lampiran surat TinyMCE.
 25. [#5774](https://github.com/OpenSID/OpenSID/issues/5774) Penambahan surat TinyMCE keterangan wali hakim.
 26. [#5769](https://github.com/OpenSID/OpenSID/issues/5769) Penambahan surat pernyataan belum memiliki akta lahir.
+27. [#5524](https://github.com/OpenSID/OpenSID/issues/5524) Penambahan kode isian anggota keluarga sesuai ID kepala keluarga.
 
 #### Perbaikan BUG
 
