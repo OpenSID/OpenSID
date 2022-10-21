@@ -40,7 +40,25 @@
         </div>
     </header>
     <section class="flex center content">
-        <iframe class="background" width="100%" height="100%" src="https://www.youtube.com/embed/PuxiuH-YUF4?autoplay=1&loop=1&rel=0&showinfo=0&color=white&iv_load_policy=3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        @if (setting('anjungan_profil') == 1)
+            <div id="swiper-slide" class="swiper">
+                <div class="swiper-wrapper">
+                    @foreach ($gambar as $item)
+                        <div class="swiper-slide">
+                            <img src="{{ base_url() . LOKASI_GALERI . 'sedang_' . $item->gambar }}" class="background" alt="Icon Menu">
+                        </div>
+                    @endforeach
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        @elseif (setting('anjungan_profil') == 2)
+            <video class="background" width="100%" height="100%" autoplay loop controls>
+                <source src="{{ setting('anjungan_video') }}" type="video/mp4">
+            </video>
+        @else
+            <iframe class="background" width="100%" height="100%" src="{{ setting('anjungan_youtube') }}?autoplay=1&loop=1&rel=0&showinfo=0&color=white&iv_load_policy=3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        @endif
         <div class="berita">
             <h4 class="tulisan-berita">Berita Desa</h4>
             <div class="menu-berita">
@@ -91,7 +109,7 @@
     <section class="box-menu-statis">
         <!-- Swiper -->
         @if ($slides > 0)
-            <div class="swiper">
+            <div id="swiper-menu" class="swiper">
                 <div class="swiper-wrapper">
                     @foreach ($menu as $item)
                         <div class="swiper-slide">
@@ -167,12 +185,27 @@
     });
 
 	$(document).ready(function () {
-        var swiper = new Swiper(".swiper", {
+        var swiper = new Swiper("#swiper-menu", {
             slidesPerView: '{{ $slides }}',
             spaceBetween: 30,
             slidesPerGroup: 1,
             loop: true,
             loopFillGroupWithBlank: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+        var swiper1 = new Swiper("#swiper-slide", {
+            autoplay: {
+                delay: 3000,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            loop: true,
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',

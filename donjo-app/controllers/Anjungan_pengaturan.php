@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Galery;
 use App\Models\Kategori;
 use App\Models\SettingAplikasi;
 
@@ -55,6 +56,7 @@ class Anjungan_pengaturan extends Admin_Controller
         $data['daftar_kategori']  = Kategori::get();
         $data['pengaturan']       = SettingAplikasi::whereKategori('anjungan')->pluck('value', 'key')->toArray();
         $data['anjungan_artikel'] = json_decode($data['pengaturan']['anjungan_artikel']);
+        $data['slides']           = Galery::where('parrent', 0)->get();
 
         return view('admin.anjungan_pengaturan.index', $data);
     }
@@ -77,6 +79,10 @@ class Anjungan_pengaturan extends Admin_Controller
         return [
             'anjungan_artikel'       => json_encode($request['artikel']),
             'anjungan_teks_berjalan' => strip_tags($request['teks_berjalan']),
+            'anjungan_profil'        => bilangan($request['tampilan_profil']),
+            'anjungan_video'         => strip_tags($request['video']),
+            'anjungan_youtube'       => strip_tags($request['youtube']),
+            'anjungan_slide'         => bilangan($request['slide']),
         ];
     }
 }

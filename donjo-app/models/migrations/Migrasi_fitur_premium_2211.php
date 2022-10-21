@@ -53,8 +53,9 @@ class Migrasi_fitur_premium_2211 extends MY_model
         $hasil = $hasil && $this->migrasi_2022100671($hasil);
         $hasil = $hasil && $this->migrasi_2022100851($hasil);
         $hasil = $hasil && $this->tambah_modul_gawai_layanan($hasil);
+        $hasil = $hasil && $this->migrasi_2022101371($hasil);
 
-        return $hasil && $this->migrasi_2022101371($hasil);
+        return $hasil && $this->migrasi_2022101871($hasil);
     }
 
     protected function migrasi_2022100671($hasil)
@@ -145,6 +146,39 @@ class Migrasi_fitur_premium_2211 extends MY_model
             'key'        => 'anjungan_teks_berjalan',
             'value'      => '',
             'keterangan' => 'Pengaturan teks berjalan untuk anjungan',
+            'kategori'   => 'anjungan',
+        ]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022101871($hasil)
+    {
+        $hasil && $this->tambah_setting([
+            'key'        => 'anjungan_profil',
+            'value'      => 3,
+            'keterangan' => 'Pengaturan profil desa untuk anjungan', // 1 => slides; 2 => mp4; 3 => youtube
+            'kategori'   => 'anjungan',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'anjungan_slide',
+            'value'      => '',
+            'keterangan' => 'Pengaturan profil slide untuk anjungan',
+            'kategori'   => 'anjungan',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'anjungan_video',
+            'value'      => '',
+            'keterangan' => 'Pengaturan profil video untuk anjungan',
+            'kategori'   => 'anjungan',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'anjungan_youtube',
+            'value'      => 'https://www.youtube.com/embed/PuxiuH-YUF4',
+            'keterangan' => 'Pengaturan profil video youtube untuk anjungan',
             'kategori'   => 'anjungan',
         ]);
 

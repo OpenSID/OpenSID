@@ -37,6 +37,7 @@
 
 use App\Models\AnjunganMenu;
 use App\Models\Artikel;
+use App\Models\Galery;
 use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -60,6 +61,9 @@ class Anjungan extends Web_Controller
             return $item;
         });
 
+        $kategori = Galery::where('id', setting('anjungan_slide'))->get();
+        $gambar   = Galery::where('parrent', setting('anjungan_slide'))->get();
+
         $data = [
             'header'        => $this->header,
             'cek_anjungan'  => $this->cek_anjungan,
@@ -69,6 +73,7 @@ class Anjungan extends Web_Controller
             'menu'          => $menu,
             'slides'        => count($menu) > 5 ? 5 : count($menu),
             'teks_berjalan' => setting('anjungan_teks_berjalan'),
+            'gambar'        => $kategori->merge($gambar),
         ];
 
         return view('layanan_mandiri.anjungan.index', $data);

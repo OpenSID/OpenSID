@@ -34,6 +34,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 28. [#5766](https://github.com/OpenSID/OpenSID/issues/5766) Penambahan surat keterangan domisili usaha.
 29. [#5802](https://github.com/OpenSID/OpenSID/issues/5802) Penambahan fungsi export & import surat TinyMCE.
 30. [#5848](https://github.com/OpenSID/OpenSID/issues/5848) Penambahan kode isian khusus kata -kata yang harus berupa huruf besar.
+31. [#5784](https://github.com/OpenSID/OpenSID/issues/5784) Penambahan pengaturan slide , video & url untuk ditampilkan dianjungan.
 
 #### Perbaikan BUG
 

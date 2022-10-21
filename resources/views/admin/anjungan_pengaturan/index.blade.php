@@ -39,6 +39,40 @@
                                 value="{{ $pengaturan['anjungan_teks_berjalan'] }}">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="profil">Tampilan Profil</label>
+                    <div class="col-sm-9">
+                        <select class="form-control input-sm" name="tampilan_profil">
+                            @foreach ([1 => 'Slide', 2 => 'Video', 3 => 'Youtube'] as $key => $value)
+                                <option {{ selected(setting('anjungan_profil'), $key) }} value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="slide" style="display: {{ setting('anjungan_profil') == 1 ? '' : 'none' }}">
+                    <label class="col-sm-3 control-label" for="video">Galeri Gambar</label>
+                    <div class="col-sm-9">
+                        <select class="form-control input-sm" name="slide">
+                            @foreach ($slides as $item)
+                                <option {{ selected(setting('anjungan_slide'), $item->id) }} value="{{ $item->id }}">{{ $item->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="video" style="display: {{ setting('anjungan_profil') == 2 ? '' : 'none' }}">
+                    <label class="col-sm-3 control-label" for="video">URL Video (.mp4)</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm {{ setting('anjungan_profil') == 2 ? 'required' : '' }}" type="text" placeholder="Masukkan url video" name="video"
+                                value="{{ setting('anjungan_video') }}">
+                    </div>
+                </div>
+                <div class="form-group" id="youtube" style="display: {{ setting('anjungan_profil') == 3 ? '' : 'none' }}">
+                    <label class="col-sm-3 control-label" for="youtube">URL Youtube</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm {{ setting('anjungan_profil') == 3 ? 'required' : '' }}" type="text" placeholder="Masukkan url youtube" name="youtube"
+                                value="{{ setting('anjungan_youtube') }}">
+                    </div>
+                </div>
             </div>
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i
@@ -55,6 +89,29 @@
     <script>
         $(document).ready(function() {
             $('.artikel-multiple').select2();
-        })
+        });
+
+        $('select[name="tampilan_profil"]').on('change', function() {
+            var id = this.value;
+            if (id == 1) {
+                $("#slide").show();
+                $("#video").hide();
+                $('input[name="video"]').removeClass('required');
+                $("#youtube").hide();
+                $('input[name="youtube"]').removeClass('required');
+            } else if (id == 2) {
+                $("#slide").hide();
+                $("#video").show();
+                $('input[name="video"]').addClass('required');
+                $("#youtube").hide();
+                $('input[name="youtube"]').removeClass('required');
+            } else {
+                $("#slide").hide();
+                $("#video").hide();
+                $('input[name="video"]').removeClass('required');
+                $("#youtube").show();
+                $('input[name="youtube"]').addClass('required');
+            }
+        });
     </script>
 @endpush
