@@ -77,7 +77,7 @@
 																<td class="padat"><?= $item['asaldana']?></td>
 																<td class="padat"><?= $item['jml_peserta']?></td>
 																<td class="padat"><?= fTampilTgl($item['sdate'], $item['edate']); ?></td>
-																<td class="padat"><?= $sasaran[$item['sasaran']]?></td>
+																<td class="padat"><?= $list_sasaran[$item['sasaran']]?></td>
 																<td class="padat"><?= $item['status'] ?></td>
 															</tr>
 														<?php endforeach; ?>
