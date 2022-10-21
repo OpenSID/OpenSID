@@ -4,7 +4,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Webcam.reset();">
 					<span aria-hidden="true">&times;</span>
 				</button>
 				<h4 class="modal-title text-center">Ambil Gambar</h4>
@@ -18,9 +18,9 @@
 						<button type="button" class="btn btn-flat btn-danger btn-sm" onClick="ambil();"><i class="fa fa-camera"></i>&nbsp; Ambil Gambar</button>
 					</div>
 					<select class="input-sm" id="mode">
-							<option value="user" selected>Kamera Depan</option>
-							<option value="environment">Kamera Belakang</option>
-							<option value="computer">Webcam</option>
+						<option value="user" selected>Kamera Depan</option>
+						<option value="environment">Kamera Belakang</option>
+						<option value="computer">Webcam</option>
 					</select>
 				</div>
 			</div>
@@ -31,7 +31,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Webcam.reset();">
 					<span aria-hidden="true">&times;</span>
 				</button>
 				<h4 class="modal-title text-center">Ubah Gambar</h4>
