@@ -362,14 +362,11 @@ class Surat_model extends CI_Model
             }
         }
         if (isset($data['pendidikan'])) {
-            $namaPendidikan = ['Tk' => 'TK', 'Sd' => 'SD', 'Sltp' => 'SLTP', 'Slta' => 'SLTA', 'Slb' => 'SLB', 'Iii/s' => 'III/S', 'Iii' => 'III', 'Ii' => 'II', 'Iv' => 'IV'];
-
-            foreach ($namaPendidikan as $key => $value) {
-                $data['pendidikan'] = str_replace($key, $value, $data['pendidikan']);
-            }
+            $data['pendidikan'] = kasus_lain('pendidikan', $data['pendidikan']);
         }
+
         if (isset($data['pekerjaan'])) {
-            $data['pekerjaan'] = $this->penduduk_model->normalkanPekerjaan($data['pekerjaan']);
+            $data['pekerjaan'] = kasus_lain('pekerjaan', $data['pekerjaan']);
         }
     }
 

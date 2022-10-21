@@ -52,7 +52,7 @@ class TinyMCE
         <td style="width: 10%;">[logo]</td>
         <td style="text-align: center; width: 90%;">
         <p style="margin: 0; text-align: center;"><span style="font-size: 18pt;">PEMERINTAH [SEbutan_kabupaten] [NAma_kabupaten] <br />KECAMATAN [NAma_kecamatan]<strong><br />[SEbutan_desa] [NAma_desa] </strong></span></p>
-        <p style="margin: 0; text-align: center;"><em><span style="font-size: 10pt;">[Alamat_desa]</span></em></p>
+        <p style="margin: 0; text-align: center;"><em><span style="font-size: 10pt;">[Alamat_desA]</span></em></p>
         </td>
         </tr>
         </tbody>
@@ -67,7 +67,7 @@ class TinyMCE
         <td style="width: 78.3174%; height: 10px;">
         <p style="text-align: center;">&nbsp;</p>
         </td>
-        <td style="width: 10.3939%; height: 10px; text-align: right;">[kode_surat]</td>
+        <td style="width: 10.3939%; height: 10px; text-align: right;">[KOde_surat]</td>
         </tr>
         </tbody>
         </table>
@@ -80,7 +80,7 @@ class TinyMCE
         <td style="width: 78.3174%; height: 10px;">
         <p style="text-align: center;">&nbsp;</p>
         </td>
-        <td style="width: 10.3939%; height: 10px; text-align: right;">[kode_surat]</td>
+        <td style="width: 10.3939%; height: 10px; text-align: right;">[KOde_surat]</td>
         </tr>
         </tbody>
         </table>

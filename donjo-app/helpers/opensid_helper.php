@@ -1391,3 +1391,37 @@ function uclast($str)
 {
     return strrev(ucfirst(strrev($str)));
 }
+
+function kasus_lain($kategori = null, $str = null)
+{
+    $pendidikan = [
+        'Tk',
+        'Sd',
+        'Sltp',
+        'Slta',
+        'Slb',
+        'Iii/s',
+        'Iii',
+        'Ii',
+        'Iv',
+    ];
+
+    $pekerjaan = [
+        '(pns)',
+        '(tni)',
+        '(polri)',
+        ' Ri ',
+        'Dpr-ri',
+        'Dpd',
+        'Bpk',
+        'Dprd',
+    ];
+
+    $daftar_ganti = ${$kategori};
+
+    if (null === $kategori || count($daftar_ganti) <= 0) {
+        return $str;
+    }
+
+    return str_ireplace($daftar_ganti, array_map('strtoupper', $daftar_ganti), $str);
+}

@@ -476,7 +476,15 @@ if (! function_exists('case_replace')) {
 
         $dari = str_replace('[', '\\[', $dari);
 
-        return preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
+        $result = preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
+
+        if (preg_match('/pendidikan/i', strtolower($dari))) {
+            $result = kasus_lain('pendidikan', $result);
+        } elseif (preg_match('/pekerjaan/i', strtolower($dari))) {
+            $result = kasus_lain('pekerjaan', $result);
+        }
+
+        return $result;
     }
 }
 
