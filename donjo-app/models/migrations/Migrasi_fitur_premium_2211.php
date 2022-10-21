@@ -52,6 +52,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_surat_tinymce');
         $hasil = $hasil && $this->migrasi_2022100671($hasil);
         $hasil = $hasil && $this->migrasi_2022100851($hasil);
+        $hasil = $hasil && $this->migrasi_2022101571($hasil);
         $hasil = $hasil && $this->tambah_modul_gawai_layanan($hasil);
         $hasil = $hasil && $this->migrasi_2022101371($hasil);
 
@@ -115,7 +116,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     protected function tambah_modul_gawai_layanan($hasil)
     {
-        if (! $this->db->field_exists('tipe', 'anjungan')) {
+        if (!$this->db->field_exists('tipe', 'anjungan')) {
             $fields = [
                 'tipe' => [
                     'type'       => 'TINYINT',
@@ -152,6 +153,38 @@ class Migrasi_fitur_premium_2211 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2022101571($hasil)
+    {
+        $hasil && $this->tambah_setting([
+            'key'        => 'visual_tte',
+            'value'      => '0',
+            'keterangan' => 'Visual Tanda Tangan TTE',
+            'kategori'   => 'tte',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'visual_tte_gambar',
+            'value'      => '',
+            'keterangan' => 'Url Gambar Visual TTE',
+            'kategori'   => 'tte',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'visual_tte_weight',
+            'value'      => '100',
+            'keterangan' => 'Lebar Gambar Visual TTE',
+            'kategori'   => 'tte',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'visual_tte_height',
+            'value'      => '100',
+            'keterangan' => 'Tinggi Gambar Visual TTE',
+            'kategori'   => 'tte',
+        ]);
+
+        return $hasil;
+    }
     protected function migrasi_2022101871($hasil)
     {
         $hasil && $this->tambah_setting([

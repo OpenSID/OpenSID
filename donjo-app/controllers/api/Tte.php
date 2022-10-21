@@ -151,18 +151,37 @@ class Tte extends Premium
         try {
             $data = LogSurat::where('id', '=', $request['id'])->first();
 
+            if (setting('visual_tte') == 1) {
+                $width   = setting('visual_tte_weight') ?? 90;
+                $height  = setting('visual_tte_height') ?? 90;
+                $image   = setting('visual_tte_gambar') ? setting('visual_tte_gambar') : asset('assets/images/bsre.png?v', false);
+                $visible = [
+                    ['name' => 'tag_koordinat', 'contents' => '[ttd_bsre]'],
+                    ['name' => 'image', 'contents' => true],
+                    ['name' => 'imageTTD', 'contents' =>  Psr7\Utils::tryFopen(FCPATH . $image, 'r')],
+                ];
+            } else {
+                $tag     = '[qr_bsre]';
+                $width   = 90;
+                $height  = 90;
+                $visible = [
+                    ['name' => 'tag_koordinat', 'contents' => '[qr_bsre]'],
+                    ['name' => 'linkQR', 'contents' => 'https://tte.kominfo.go.id/verifyPDF'],
+                ];
+            }
+
+            $multipart = [
+                ['name' => 'file', 'contents' => Psr7\Utils::tryFopen(FCPATH . LOKASI_ARSIP . $data->nama_surat, 'r')],
+                ['name' => 'nik', 'contents' => $this->nik],
+                ['name' => 'passphrase', 'contents' => $request['passphrase']],
+                ['name' => 'tampilan', 'contents' => 'visible'],
+                ['name' => 'width', 'contents' => $width],
+                ['name' => 'height', 'contents' => $height],
+            ];
+
             $response = $this->client->post('api/sign/pdf', [
                 'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
-                'multipart' => [
-                    ['name' => 'file', 'contents' => Psr7\Utils::tryFopen(FCPATH . LOKASI_ARSIP . $data->nama_surat, 'r')],
-                    ['name' => 'nik', 'contents' => $this->nik],
-                    ['name' => 'passphrase', 'contents' => $request['passphrase']],
-                    ['name' => 'tampilan', 'contents' => 'visible'],
-                    ['name' => 'linkQR', 'contents' => 'https://tte.kominfo.go.id/verifyPDF'],
-                    ['name' => 'width', 'contents' => 90],
-                    ['name' => 'height', 'contents' => 90],
-                    ['name' => 'tag_koordinat', 'contents' => '[qr_bsre]'],
-                ],
+                'multipart' => [...$multipart, ...$visible],
             ]);
 
             $data->update(['tte' => 1, 'log_verifikasi' => null]); // update log surat

@@ -226,6 +226,7 @@ class Surat_master extends Admin_Controller
     public function update($id = null)
     {
         $this->redirect_hak_akses('u');
+        $this->load->model('setting_model');
 
         if (! empty($this->request['surat'])) {
             $this->surat_master_model->upload($this->request['url_surat']);
@@ -424,10 +425,18 @@ class Surat_master extends Admin_Controller
     public function edit_pengaturan()
     {
         $this->redirect_hak_akses('u');
+        $this->load->model('setting_model');
         $data = $this->validasi_pengaturan($this->request);
 
         foreach ($data as $key => $value) {
             SettingAplikasi::whereKey($key)->update(['value' => $value]);
+        }
+
+        // upload gambar visual tte
+
+        if ($_FILES['visual_tte_gambar']) {
+            $file = $this->setting_model->upload_img('visual_tte_gambar', LOKASI_MEDIA);
+            SettingAplikasi::whereKey('visual_tte_gambar')->update(['value' => $file]); //update setting
         }
 
         // Perbarui log_surat jika ada perubahan pengaturan verifikasi kades / sekdes
@@ -450,6 +459,10 @@ class Surat_master extends Admin_Controller
             'verifikasi_kades'  => ((int) $request['tte'] == 1) ? 1 : (int) $request['verifikasi_kades'],
             'tte'               => (int) $request['tte'],
             'font_surat'        => alfanumerik_spasi($request['font_surat']),
+            'visual_tte'        => (int) $request['visual_tte'],
+            'visual_tte_gambar' => $request['visual_tte_gambar'],
+            'visual_tte_weight' => (int) $request['visual_tte_weight'],
+            'visual_tte_height' => (int) $request['visual_tte_height'],
         ];
 
         if ($validasi['tte'] == 1) {

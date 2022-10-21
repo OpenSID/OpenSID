@@ -17,7 +17,7 @@
 @section('content')
     @include('admin.layouts.components.notifikasi')
 
-    {!! form_open($formAksi, 'id="validasi"') !!}
+    {!! form_open($formAksi, ['id' => "validasi", 'enctype' => 'multipart/form-data'] ) !!}
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#header" data-toggle="tab">Header</a></li>
@@ -78,6 +78,7 @@
                         Menonaktifkan verifikasi akan mempengaruhi log surat maka pastikan bahwa benar surat ingin diarsipkan semua.
                     </div>
                     
+                     
                     <div class="form-group">
                         <label>Verifikasi {{ $ref_jabatan->where('id', '=', 2)->first()->nama }}</label>
                         <div class="input-group col-xs-12 col-sm-8">
@@ -140,6 +141,12 @@
                             Modul TTE ini hanya sebuah simulasi untuk persiapan penerapan TTE di OpenSID dan hanya berlaku
                             untuk surat yang menggunakan TinyMCE
                         </div>
+
+                        <div class="alert alert-info alert-dismissible">
+                            <h4><i class="icon fa fa-info"></i> Info !</h4>
+                            Jika pilihan Visual TTE aktif, Letakan kode [ttd_bsre] pada tempat yang ingin ditempelkan gambar TTD.
+                        </div>
+
                         <label>Aktifkan Modul TTE</label>
 
                         <div class="input-group col-xs-12 col-sm-8">
@@ -173,6 +180,58 @@
                         <label>Password Login TTE</label>
                         <input type="password" name="tte_password" class="form-control input-sm"
                             value="{{ $tte['tte_password'] }}" @disabled(!$kades)>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Visual TTE</label>
+
+                        <div class="input-group col-xs-12 col-sm-8">
+                            <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
+                                <label
+                                    class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($tte['tte'] == 1) @disabled(!$kades)">
+                                    <input type="radio" name="visual_tte" class="form-check-input" value="1"
+                                        autocomplete="off" @checked($visual_tte['visual_tte'] == '1')
+                                        @disabled(!$tte['tte'])>Ya</label>
+                                <label
+                                    class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($tte['tte'] == 0) @disabled(!$kades)">
+                                    <input type="radio" name="visual_tte" class="form-check-input" value="0"
+                                        autocomplete="off" @checked($visual_tte['visual_tte'] == '0')
+                                        @disabled(!$tte['tte'])>Tidak
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Gambar Visual</label>
+                         <div class="input-group input-group-sm  col-md-2 col-sm-12">
+                             <img class="img-responsive" src="{{ setting('visual_tte_gambar') == null ?  asset('assets/images/bsre.png?v', false) :  base_url(setting('visual_tte_gambar')); }}" alt="Kantor Desa">
+                         </div>
+                        <div class="input-group input-group-sm  col-md-2 col-sm-12">
+                           
+                            <input type="text" class="form-control" id="file_path">
+                            <input type="file" id="file" class="hidden" name="visual_tte_gambar">
+                             <span class="input-group-btn">
+                                <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
+                                <span class="input-group-addon input-sm">Tinggi</span>
+                                <input type="number" class="form-control input-sm required" name="visual_tte_height" style="text-align:right;" value="100">
+                                <span class="input-group-addon input-sm">px</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
+                                <span class="input-group-addon input-sm">Lebar</span>
+                                <input type="number" class="form-control input-sm required" name="visual_tte_weight" style="text-align:right;" value="100">
+                                <span class="input-group-addon input-sm">px</span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -236,4 +295,5 @@
             }
         });
     </script>
+
 @endpush
