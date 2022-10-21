@@ -14,6 +14,22 @@
 
 @section('content')
     @include('admin.layouts.components.notifikasi')
+    @if (!cek_anjungan())
+    <div class="box box-danger">
+        <div class="box-header with-border">
+            <i class="icon fa fa-ban"></i>
+            <h3 class="box-title">Lisensi Anjungan Tidak Terdeteksi</h3>
+        </div>
+        <div class="box-body">
+            <div class="callout callout-danger">
+                <h5>Aktifkan lisensi anjungan untuk membuka modul ini dengan cara:</h5>
+                <li>Membeli box anjungan dari Open Desa.</li>
+                <li>Membeli box anjungan dari pihak yang telah bekerja sama dengan Open Desa.</li>
+                <li>Anjungan yang telah dibuat sendiri atau dibeli dari pihak lain tetap dapat digunakan dengan cara membeli lisensi anjungan dari Open Desa.</li>
+            </div>
+        </div>
+    </div>
+    @else
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
@@ -51,6 +67,7 @@
             </form>
         </div>
     </div>
+    @endif
 
     @include('admin.layouts.components.konfirmasi_hapus')
 @endsection

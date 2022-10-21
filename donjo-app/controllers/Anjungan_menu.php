@@ -52,6 +52,10 @@ class Anjungan_menu extends Admin_Controller
         parent::__construct();
         $this->modul_ini     = 312;
         $this->sub_modul_ini = 348;
+
+        if (! cek_anjungan()) {
+            redirect('anjungan');
+        }
     }
 
     public function index()
