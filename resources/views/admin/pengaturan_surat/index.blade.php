@@ -43,8 +43,8 @@
                                 data-keyboard="false"><i class="fa fa-upload"></i> Impor Surat TinyMCE</a>
                         </li>
                         <li>
-                            <a href="{{ route('surat_master.ekspor') }}" target="_blank"
-                                class="btn btn-social btn-block btn-sm" title="Ekspor Surat TinyMCE"><i
+                            <a target="_blank"
+                                class="btn btn-social btn-block btn-sm aksi-terpilih" title="Ekspor Surat TinyMCE" onclick="formAction('mainform', '{{ route('surat_master.ekspor') }}'); return false;"><i
                                     class="fa fa-download"></i> Ekspor Surat TinyMCE</a>
                         </li>
                     </ul>

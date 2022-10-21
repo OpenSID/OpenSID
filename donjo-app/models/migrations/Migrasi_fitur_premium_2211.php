@@ -116,7 +116,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     protected function tambah_modul_gawai_layanan($hasil)
     {
-        if (!$this->db->field_exists('tipe', 'anjungan')) {
+        if (! $this->db->field_exists('tipe', 'anjungan')) {
             $fields = [
                 'tipe' => [
                     'type'       => 'TINYINT',
@@ -185,6 +185,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
         return $hasil;
     }
+
     protected function migrasi_2022101871($hasil)
     {
         $hasil && $this->tambah_setting([

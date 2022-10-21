@@ -154,11 +154,11 @@ class Tte extends Premium
             if (setting('visual_tte') == 1) {
                 $width   = setting('visual_tte_weight') ?? 90;
                 $height  = setting('visual_tte_height') ?? 90;
-                $image   = setting('visual_tte_gambar') ? setting('visual_tte_gambar') : asset('assets/images/bsre.png?v', false);
+                $image   = setting('visual_tte_gambar') ?: asset('assets/images/bsre.png?v', false);
                 $visible = [
                     ['name' => 'tag_koordinat', 'contents' => '[ttd_bsre]'],
                     ['name' => 'image', 'contents' => true],
-                    ['name' => 'imageTTD', 'contents' =>  Psr7\Utils::tryFopen(FCPATH . $image, 'r')],
+                    ['name' => 'imageTTD', 'contents' => Psr7\Utils::tryFopen(FCPATH . $image, 'r')],
                 ];
             } else {
                 $tag     = '[qr_bsre]';

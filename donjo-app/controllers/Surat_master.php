@@ -608,7 +608,18 @@ class Surat_master extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $ekspor    = FormatSurat::jenis(FormatSurat::TINYMCE)->get();
+        $id = $this->request['id_cb'];
+
+        if (null === $id) {
+            redirect_with('error', 'Tidak ada surat yang dipilih.');
+        }
+
+        $ekspor = FormatSurat::jenis(FormatSurat::TINYMCE)->whereIn('id', $id)->get();
+
+        if ($ekspor->count() === 0) {
+            redirect_with('error', 'Tidak ada surat TinyMCE yang ditemukan dari pilihan anda.');
+        }
+
         $file_name = namafile('Template Surat TInyMCE') . '.json';
 
         $this->output
