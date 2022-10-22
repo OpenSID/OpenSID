@@ -349,14 +349,14 @@ class Web_dokumen_model extends MY_Model
 
             $nama = $data['nama'];
             if (! empty($data['id_pend'])) {
-                $nama_file =  $data['id_pend'] . '_' . $nama . '_' . generator(6) . '_' . $nama_file;
+                $nama_file = $data['id_pend'] . '_' . $nama . '_' . generator(6) . '_' . $nama_file;
             } else {
                 $nama_file = $nama . '_' . generator(6) . '_' . $nama_file;
             }
-            $pecah_nama =explode('.', $nama_file); 
+            $pecah_nama   = explode('.', $nama_file);
             $nama_akhiran = end($pecah_nama);
-            $nama_file = str_replace(".{$nama_akhiran}", '', $nama_file);
-            $nama_file = bersihkan_namafile(substr($nama_file,0,180).".{$nama_akhiran}");
+            $nama_file    = str_replace(".{$nama_akhiran}", '', $nama_file);
+            $nama_file    = bersihkan_namafile(substr($nama_file, 0, 180) . ".{$nama_akhiran}");
             UploadDocument($nama_file, $file_lama);
         } elseif ($satuan) {
             if (! preg_match('/data:image\\/\\png/i', $satuan)) {
@@ -365,7 +365,7 @@ class Web_dokumen_model extends MY_Model
                 return null;
             }
 
-            $nama_file = $nama_file = substr($data['id_pend'] . '_' . $data['nama'] . '_' . generator(6),0, 180) . '.png';
+            $nama_file = $nama_file = substr($data['id_pend'] . '_' . $data['nama'] . '_' . generator(6), 0, 180) . '.png';
             $satuan    = str_replace('data:image/png;base64,', '', $satuan);
             $satuan    = base64_decode($satuan, true);
 
