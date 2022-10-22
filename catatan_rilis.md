@@ -28,6 +28,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 20. [#5828](https://github.com/OpenSID/OpenSID/issues/5828) Memisahkan tabel pemesanan dan lainnya.
 21. [#5832](https://github.com/OpenSID/OpenSID/issues/5832) Perbaikan periksa surat tinymce permohonan warga yang tidak ada dokumen / persyaratan.
 22. [#5827](https://github.com/OpenSID/OpenSID/issues/5827) Menambahkan tombol informasi layanan selengkapnya pada menu layanan pelanggan.
+23. [#5847](https://github.com/OpenSID/OpenSID/issues/5847) Perbaikan gelar penandatangan surat tidak muncul pada permohonan dan arsip surat.
 
 #### Perubahan Teknis
 1. Perbaikan cara simpan cache IDM dan SDGS.
