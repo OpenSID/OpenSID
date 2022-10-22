@@ -88,4 +88,48 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
         return $hasil;
     }
+
+    public function migrasi_2022102151($hasil)
+    {
+        if (! $this->db->field_exists('FF12', 'keuangan_ta_spp')) {
+            $fields = [
+                'FF12' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 10,
+                    'null'       => true,
+                    'default'    => null,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
+        }
+
+        if (! $this->db->field_exists('FF13', 'keuangan_ta_spp')) {
+            $fields = [
+                'FF13' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 10,
+                    'null'       => true,
+                    'default'    => null,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
+        }
+
+        if (! $this->db->field_exists('FF14', 'keuangan_ta_spp')) {
+            $fields = [
+                'FF14' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 10,
+                    'null'       => true,
+                    'default'    => null,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
+        }
+
+        return $hasil;
+    }
 }
