@@ -39,6 +39,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 33. [#5776](https://github.com/OpenSID/OpenSID/issues/5776) Penambahan pengaturan visual tanda tangan TTE.
 34. [#5691](https://github.com/OpenSID/OpenSID/issues/5691) Penyesuaian status TTE demo jika menggunakan modul eSign demo / modul BSrE belum terpasang.
 35. [#5783](https://github.com/OpenSID/OpenSID/issues/5783) Penyesuaian pengaturan screenserver ke pengaturan anjungan.
+36. [#5788](https://github.com/OpenSID/OpenSID/issues/5788) Penyesuaian kode wilayah BPS yang diambil dari pantau.
 
 #### Perbaikan BUG
 

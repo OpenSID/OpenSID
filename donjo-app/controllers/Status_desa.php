@@ -96,9 +96,27 @@ class Status_desa extends Admin_Controller
     {
         set_session('navigasi', 'sdgs');
 
-        $sdgs = sdgs();
+        $sdgs      = sdgs();
+        $kode_desa = $this->header['desa']['kode_desa'];
 
-        return view('admin.status_desa.sdgs', compact('sdgs'));
+        return view('admin.status_desa.sdgs', compact('sdgs', 'kode_desa'));
+    }
+
+    public function perbarui_bps()
+    {
+        if ($this->input->is_ajax_request()) {
+            $kode_bps = $this->request['kode_bps'];
+            SettingAplikasi::where('key', 'kode_desa_bps')->update(['value' => $kode_bps]);
+
+            return json([
+                'status' => true,
+            ]);
+        }
+
+        return json([
+            'status'  => false,
+            'message' => 'Akses tidak di ijinkan',
+        ]);
     }
 
     public function perbarui_sdgs()
