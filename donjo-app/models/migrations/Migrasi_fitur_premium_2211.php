@@ -55,8 +55,9 @@ class Migrasi_fitur_premium_2211 extends MY_model
         $hasil = $hasil && $this->migrasi_2022101571($hasil);
         $hasil = $hasil && $this->tambah_modul_gawai_layanan($hasil);
         $hasil = $hasil && $this->migrasi_2022101371($hasil);
+        $hasil = $hasil && $this->migrasi_2022101871($hasil);
 
-        return $hasil && $this->migrasi_2022101871($hasil);
+        return $hasil && $this->migrasi_2022102151($hasil);
     }
 
     protected function migrasi_2022100671($hasil)
@@ -116,7 +117,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     protected function tambah_modul_gawai_layanan($hasil)
     {
-        if (! $this->db->field_exists('tipe', 'anjungan')) {
+        if (!$this->db->field_exists('tipe', 'anjungan')) {
             $fields = [
                 'tipe' => [
                     'type'       => 'TINYINT',
@@ -215,6 +216,49 @@ class Migrasi_fitur_premium_2211 extends MY_model
             'keterangan' => 'Pengaturan profil video youtube untuk anjungan',
             'kategori'   => 'anjungan',
         ]);
+
+        return $hasil;
+    }
+    public function migrasi_2022102151($hasil)
+    {
+        if (!$this->db->field_exists('FF12', 'keuangan_ta_spp')) {
+            $fields = [
+                'FF12' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 10,
+                    'null'       => true,
+                    'default'    => null,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
+        }
+
+        if (!$this->db->field_exists('FF13', 'keuangan_ta_spp')) {
+            $fields = [
+                'FF13' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 10,
+                    'null'       => true,
+                    'default'    => null,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
+        }
+
+        if (!$this->db->field_exists('FF14', 'keuangan_ta_spp')) {
+            $fields = [
+                'FF14' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 10,
+                    'null'       => true,
+                    'default'    => null,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
+        }
 
         return $hasil;
     }

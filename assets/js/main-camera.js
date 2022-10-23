@@ -45,6 +45,10 @@ function kamera() {
 
 	$("#modal-camera").modal('show');
 	$("#modal-camera").modal({backdrop: "static", keyboard: false});
+	$("#modal-camera").on('hidden.bs.modal', function(){
+		// close camera ketika modal di hidden
+		Webcam.reset();
+	});
 	$("#modal-crop").modal('hide');
 	$('#file_path').val('');
 	konfigurasi();

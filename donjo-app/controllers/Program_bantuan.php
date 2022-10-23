@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\SasaranEnum;
 use App\Models\BantuanPeserta;
 use App\Models\Config;
 use OpenSpout\Common\Entity\Style\Color;
@@ -88,7 +89,7 @@ class Program_bantuan extends Admin_Controller
 			<p>Fitur ini akan mancari sasaran (penduduk, keluarga, rumah tangga, kelompok) peserta yang sudah terhapus dari database.</p>
 			<p>Supaya konsisten, fitur ini akan menghapus peserta tersebut dari program bantuannya.</p>
 			<p>Fitur ini juga akan menghapus peserta duplikat dari program bantuannya.</p>';
-        $data['list_sasaran'] = unserialize(SASARAN);
+        $data['list_sasaran'] = SasaranEnum::DAFTAR;
         $data['func']         = 'index';
         $data['per_page']     = $this->session->per_page;
         $data['set_page']     = $this->_set_page;

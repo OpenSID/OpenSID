@@ -279,7 +279,7 @@ class Keluar_model extends CI_Model
                 }
             }
 
-            $data[$i]['nama'] = gelar($data[$i]['gelar_depan'], $data[$i]['nama'], $data[$i]['gelar_belakang']);
+            $data[$i]['pamong_nama'] = gelar($data[$i]['gelar_depan'], $data[$i]['pamong_nama'], $data[$i]['gelar_belakang']);
 
             $j++;
         }

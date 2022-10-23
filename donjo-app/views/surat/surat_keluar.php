@@ -170,10 +170,6 @@
                                                                                 <a href="<?= site_url("{$this->controller}/unduh/tinymce/{$data['id']}"); ?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
                                                                             <?php endif; ?>
                                                                         <?php endif; ?>
-
-
-
-
                                                                     </td>
                                                                     <td><?= $data['kode_surat'] ?? '-' ?></td>
                                                                     <td><?= $data['no_surat'] ?? '-' ?></td>

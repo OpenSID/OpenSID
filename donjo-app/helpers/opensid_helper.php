@@ -157,7 +157,7 @@ function AmbilVersi()
  */
 function currentVersion()
 {
-    return preg_replace('/-premium.*|pasca-|-pasca/', '', AmbilVersi());
+    return preg_replace('/-.*/', '', AmbilVersi());
 }
 
 /**

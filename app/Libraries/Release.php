@@ -84,7 +84,7 @@ class Release
         }
 
         if (! $this->interval) {
-            $this->setInterval(1);
+            $this->setInterval(7);
         }
     }
 
