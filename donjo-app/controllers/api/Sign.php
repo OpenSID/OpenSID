@@ -37,25 +37,19 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class MY_Security extends CI_Security
+class Sign extends Premium
 {
     /**
-     * {@inheritDoc}
+     * Mock api untuk demo TTE BSrE.
+     *
+     * @return mixed
      */
-    public function csrf_show_error()
+    public function pdf()
     {
-        // // ==== Uncomment berikut untuk debugging masalah CSRF
-        // print("<pre>".print_r(getallheaders(),true)."</pre>");
-        // print("<pre>".print_r($_POST, true)."</pre>");
-        // die();
-
-        show_error(
-            "Verifikasi CSRF Gagal. <br><br>
-            Kembali ke halaman sebelumnya di <a href='{$_SERVER['HTTP_REFERER']}'>sini</a>, dan ulangi.<br><br>
-            Kalau masih error, coba clear cache dan cookies di browser anda, dan login kembali.<br><br>
-            Kalau masih bermasalah, silakan laporkan.",
-            403,
-            'Bad Request'
-        );
+        return json([
+            'status'      => true,
+            'pesan'       => 'success',
+            'jenis_error' => null,
+        ]);
     }
 }

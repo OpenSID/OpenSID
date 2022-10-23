@@ -407,6 +407,7 @@ class Surat_master extends Admin_Controller
         $data['pengaturanSurat'] = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
         $data['alur']            = SettingAplikasi::whereKategori('alur_surat')->pluck('value', 'key')->toArray();
         $data['tte']             = SettingAplikasi::whereKategori('tte')->pluck('value', 'key')->toArray();
+        $data['tte_demo']        = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
         $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
             return $query->where('jabatan_id', '=', '1');
         })->exists();

@@ -35,9 +35,6 @@
  *
  */
 
-// End of file Tte.php
-// Location: .//D/kerjoan/web/opendesa/premium/donjo-app/controllers/api/Tte.php
-
 use App\Models\LogSurat;
 use App\Models\LogTte;
 use App\Models\Pamong;
@@ -54,6 +51,11 @@ class Tte extends Premium
     protected $client;
 
     /**
+     * @var bool
+     */
+    protected $demo;
+
+    /**
      * @var string
      */
     protected $nik;
@@ -63,14 +65,15 @@ class Tte extends Premium
         parent::__construct();
 
         $this->client = new \GuzzleHttp\Client([
-            'base_uri' => $this->setting->tte_api,
+            'base_uri' => empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL) ? site_url() : $this->setting->tte_api,
             'auth'     => [
                 $this->setting->tte_username,
                 $this->setting->tte_password,
             ],
         ]);
 
-        $this->nik = Pamong::kepalaDesa()->first()->pamong_nik;
+        $this->demo = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
+        $this->nik  = Pamong::kepalaDesa()->first()->pamong_nik;
     }
 
     /**
@@ -118,7 +121,7 @@ class Tte extends Premium
             DB::commit();
 
             // overwrite dokumen lama dengan response dari bsre
-            if ($response->getStatusCode() == 200) {
+            if ($response->getStatusCode() == 200 && ! $this->demo) {
                 $file = fopen(FCPATH . LOKASI_ARSIP . $data->nama_surat, 'wb');
                 fwrite($file, $response->getBody()->getContents());
                 fclose($file);
@@ -189,7 +192,7 @@ class Tte extends Premium
             DB::commit();
 
             // overwrite dokumen lama dengan response dari bsre
-            if ($response->getStatusCode() == 200) {
+            if ($response->getStatusCode() == 200 && ! $this->demo) {
                 $file = fopen(FCPATH . LOKASI_ARSIP . $data->nama_surat, 'wb');
                 fwrite($file, $response->getBody()->getContents());
                 fclose($file);
