@@ -38,6 +38,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 32. [#5795](https://github.com/OpenSID/OpenSID/issues/5795) Penyesuaian akses pada menu anjungan jika tidak membeli lisensi anjungan.
 33. [#5776](https://github.com/OpenSID/OpenSID/issues/5776) Penambahan pengaturan visual tanda tangan TTE.
 34. [#5691](https://github.com/OpenSID/OpenSID/issues/5691) Penyesuaian status TTE demo jika menggunakan modul eSign demo / modul BSrE belum terpasang.
+35. [#5783](https://github.com/OpenSID/OpenSID/issues/5783) Penyesuaian pengaturan screenserver ke pengaturan anjungan.
 
 #### Perbaikan BUG
 

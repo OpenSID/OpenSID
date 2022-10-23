@@ -217,7 +217,41 @@ class Migrasi_fitur_premium_2211 extends MY_model
             'kategori'   => 'anjungan',
         ]);
 
-        return $hasil;
+        if (SettingAplikasi::find('tampilan_anjungan')->exists()) {
+            $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan')
+                ->update('setting_aplikasi', [
+                    'kategori' => 'anjungan'
+                ]);
+        }
+
+        if (SettingAplikasi::find('tampilan_anjungan_waktu')->exists()) {
+            $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_waktu')
+                ->update('setting_aplikasi', [
+                    'kategori' => 'anjungan'
+                ]);
+        }
+
+        if (SettingAplikasi::find('tampilan_anjungan_slider')->exists()) {
+            $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_slider')
+                ->update('setting_aplikasi', [
+                    'kategori' => 'anjungan'
+                ]);
+        }
+
+        if (SettingAplikasi::find('tampilan_anjungan_video')->exists()) {
+            $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_video')
+                ->update('setting_aplikasi', [
+                    'kategori' => 'anjungan'
+                ]);
+        }
+
+        if (SettingAplikasi::find('tampilan_anjungan_audio')->exists()) {
+            $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_audio')
+                ->update('setting_aplikasi', [
+                    'kategori' => 'anjungan'
+                ]);
+            return $hasil;
+        }
     }
     public function migrasi_2022102151($hasil)
     {

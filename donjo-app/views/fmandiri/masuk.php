@@ -21,7 +21,6 @@
 	<?php if (is_file('desa/pengaturan/siteman/siteman_mandiri.css')) : ?>
 		<link rel='Stylesheet' href="<?= base_url('desa/pengaturan/siteman/siteman_mandiri.css') ?>">
 	<?php endif; ?>
-	<link rel="stylesheet" href="<?= asset('css/mandiri_video.css') ?>">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="<?= asset('bootstrap/css/font-awesome.min.css') ?>">
 	<!-- Google Font -->
@@ -47,28 +46,6 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css">
 	<?php endif ?>
 </head>
-
-<?php if ($this->setting->tampilan_anjungan == 1 && ! empty($this->setting->tampilan_anjungan_slider)) : ?>
-	<div id="sliderv" class="video-internal" style="display: none;">
-		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-			<div class="carousel-inner">
-				<?php foreach ($daftar_album as $key => $data) : ?>
-					<div class="item <?= jecho($key, 0, 'active') ?> ">
-						<img src="<?= AmbilGaleri($data['gambar'], 'sedang') ?>" alt="Los Angeles" style="width:100%;">
-					</div>
-				<?php endforeach; ?>
-			</div>
-		</div>
-	</div>
-<?php endif; ?>
-
-<?php if ($this->setting->tampilan_anjungan == 2 && ! empty($this->setting->tampilan_anjungan_video)) : ?>
-	<div class="video-internal" id="videov" style="display: none;">
-		<video loop <?= jecho($this->setting->tampilan_anjungan_audio, 0, 'muted') ?> poster="<?= base_url(default_file(LATAR_KEHADIRAN, DEFAULT_LATAR_KEHADIRAN)) ?>" class="video-internal-bg" id="videona">
-			<source src="<?= $this->setting->tampilan_anjungan_video; ?>" type="video/mp4">
-		</video>
-	</div>
-<?php endif; ?>
 
 <body class="login">
 	<div class="top-content">
@@ -260,10 +237,6 @@
 
 			var ektp = '<?= $this->session->login_ektp ?>';
 			var anjungan = '<?= $cek_anjungan ?>';
-			var tampil_anjungan = '<?= $this->setting->tampilan_anjungan ?>';
-			var tampil_anjungan_video = '<?= $this->setting->tampilan_anjungan_video ?>';
-			var tampil_anjungan_slider = '<?= $this->setting->tampilan_anjungan_slider ?>';
-			var IDLE_TIMEOUT = '<?= $this->setting->tampilan_anjungan_waktu ?>';
 
 			$('#daftar_tgl_lahir').datetimepicker({
 				format: 'DD-MM-YYYY',
@@ -301,42 +274,6 @@
 					$(this).remove();
 				});
 			}, 5000);
-
-			var videona = document.getElementById("videona");
-			videona.pause();
-			var _idleSecondsCounter = 0;
-			document.onclick = function() {
-				_idleSecondsCounter = 0;
-			};
-			document.onmousemove = function() {
-				_idleSecondsCounter = 0;
-			};
-			document.onkeypress = function() {
-				_idleSecondsCounter = 0;
-			};
-			window.setInterval(CheckIdleTime, 500);
-
-			function CheckIdleTime() {
-				_idleSecondsCounter++;
-				var video = document.getElementById("videov");
-				var slider = document.getElementById("sliderv");
-
-				if (_idleSecondsCounter >= IDLE_TIMEOUT) {
-					if (tampil_anjungan == 2 && tampil_anjungan_video) {
-						videona.play();
-						video.style.display = "block";
-					} else if (tampil_anjungan == 1 && tampil_anjungan_slider) {
-						slider.style.display = "block";
-					}
-				} else {
-					if (tampil_anjungan == 2 && tampil_anjungan_video) {
-						videona.pause();
-						video.style.display = "none";
-					} else if (tampil_anjungan == 1 && tampil_anjungan_slider) {
-						slider.style.display = "none";
-					}
-				}
-			}
 		});
 
 		function start_countdown() {
