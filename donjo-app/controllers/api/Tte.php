@@ -41,6 +41,7 @@
 use App\Models\LogSurat;
 use App\Models\LogTte;
 use App\Models\Pamong;
+use App\Models\PermohonanSurat;
 use GuzzleHttp\Psr7;
 use Illuminate\Support\Facades\DB;
 
@@ -101,7 +102,8 @@ class Tte extends Premium
         DB::beginTransaction();
 
         try {
-            $data = LogSurat::where('id', '=', $request['id'])->first();
+            $data    = LogSurat::where('id', '=', $request['id'])->first();
+            $mandiri = PermohonanSurat::where('id_surat', $data->id_format_surat)->where('isian_form->nomor', $data->no_surat)->first();
 
             $response = $this->client->post('api/sign/pdf', [
                 'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
@@ -114,6 +116,7 @@ class Tte extends Premium
             ]);
 
             $data->update(['tte' => 1, 'log_verifikasi' => null]); // update log surat
+            $mandiri->update(['status' => 3]); // update status surat dari layanan mandiri
 
             DB::commit();
 
@@ -150,6 +153,7 @@ class Tte extends Premium
 
         try {
             $data = LogSurat::where('id', '=', $request['id'])->first();
+            $mandiri = PermohonanSurat::where('id_surat', $data->id_format_surat)->where('isian_form->nomor', $data->no_surat)->first();
 
             $response = $this->client->post('api/sign/pdf', [
                 'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
@@ -166,6 +170,7 @@ class Tte extends Premium
             ]);
 
             $data->update(['tte' => 1, 'log_verifikasi' => null]); // update log surat
+            $mandiri->update(['status' => 3]); // update status surat dari layanan mandiri
 
             DB::commit();
 

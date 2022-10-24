@@ -32,6 +32,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 24. [#5850](https://github.com/OpenSID/OpenSID/issues/5850) Menambahkan kolom f12 -f14 di table keuangan_ta_spp.
 25. [#5845](https://github.com/OpenSID/OpenSID/issues/5845) Perbaikan nama file terlalu panjang di peraturan desa.
 26. [#5855](https://github.com/OpenSID/OpenSID/issues/5855) Perbaikan kamera masih hidup walau modal sudah ditutup.
+27. [#5861](https://github.com/OpenSID/OpenSID/issues/5861) Perbaikan status surat setelah di TTD kepala desa layanan mandiri tidak berubah.
 
 #### Perubahan Teknis
 1. Perbaikan cara simpan cache IDM dan SDGS.
