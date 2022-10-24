@@ -37,6 +37,7 @@
 
 use App\Models\Kehadiran;
 use App\Models\KehadiranPengaduan;
+use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\RefJabatan;
 use Illuminate\Support\Facades\Schema;
@@ -62,7 +63,8 @@ class Pamong_model extends CI_Model
             (case when p.sex is not null then p.sex else u.pamong_sex end) as id_sex,
             (case when p.foto is not null then p.foto else u.foto end) as foto,
             (case when p.nama is not null then p.nama else u.pamong_nama end) as nama,
-            x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama'
+            x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama,
+            !EXISTS (SELECT s.id_pamong FROM log_surat as s where s.id_pamong = u.pamong_id  ) as deletable'
         );
 
         $this->list_data_sql();
@@ -283,7 +285,7 @@ class Pamong_model extends CI_Model
     {
         // Cek boleh hapus
         if ($this->boleh_hapus($id)) {
-            return session_error("ID : {$id} tidak dapat dihapus, data sudah tersedia di kehadiran perangkat dan pengaduan kehadiran.");
+            return session_error("ID : {$id} tidak dapat dihapus, data sudah tersedia di kehadiran perangkatl, pengaduan kehadiran dan layanan Surat.");
         }
 
         if (! $semua) {
@@ -597,7 +599,8 @@ class Pamong_model extends CI_Model
     {
         $kehadiranPerangkat = Kehadiran::where('pamong_id', $id)->exists();
         $kehadiranPengaduan = KehadiranPengaduan::where('id_pamong', $id)->exists();
+        $kehadiranPengaduan = LogSurat::where('id_pamong', $id)->exists();
 
-        return $kehadiranPerangkat || $kehadiranPengaduan;
+        return $kehadiranPerangkat || $kehadiranPengaduan || $kehadiranPengaduan;
     }
 }
