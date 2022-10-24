@@ -73,7 +73,7 @@ class Anjungan extends Web_Controller
             'menu'          => $menu,
             'slides'        => count($menu) > 5 ? 5 : count($menu),
             'teks_berjalan' => setting('anjungan_teks_berjalan'),
-            'gambar'        => Galery::where('parrent', setting('anjungan_slide'))->get(),
+            'gambar'        => Galery::where('parrent', setting('anjungan_slide'))->where('enabled', 1)->get(),
         ];
 
         return view('layanan_mandiri.anjungan.index', $data);

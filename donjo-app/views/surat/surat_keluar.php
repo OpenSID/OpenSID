@@ -309,7 +309,7 @@
             var data = {
                 id: id
             };
-            swal2_question(ulr_ajax, redirect, pesan, data, <?= !$operator ?>);
+            swal2_question(ulr_ajax, redirect, pesan, data, <?= ! $operator ?>);
         });
 
         $('button.kembalikan').click(function(e) {

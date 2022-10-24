@@ -49,7 +49,7 @@ class Anjungan_pengaturan extends Admin_Controller
         $this->modul_ini     = 312;
         $this->sub_modul_ini = 349;
 
-        if (!cek_anjungan()) {
+        if (! cek_anjungan()) {
             redirect('anjungan');
         }
     }
@@ -60,7 +60,7 @@ class Anjungan_pengaturan extends Admin_Controller
         $data['daftar_kategori']  = Kategori::get();
         $data['pengaturan']       = SettingAplikasi::whereKategori('anjungan')->pluck('value', 'key')->toArray();
         $data['anjungan_artikel'] = json_decode($data['pengaturan']['anjungan_artikel']);
-        $data['slides']           = Galery::where('parrent', 0)->get();
+        $data['slides']           = Galery::where('parrent', 0)->where('enabled', 1)->get();
 
         return view('admin.anjungan_pengaturan.index', $data);
     }
@@ -81,16 +81,16 @@ class Anjungan_pengaturan extends Admin_Controller
     protected static function validated($request = [])
     {
         return [
-            'anjungan_artikel'        => json_encode($request['artikel']),
-            'anjungan_teks_berjalan'  => strip_tags($request['teks_berjalan']),
-            'anjungan_profil'         => bilangan($request['tampilan_profil']),
-            'anjungan_video'          => strip_tags($request['video']),
-            'anjungan_youtube'        => strip_tags($request['youtube']),
-            'anjungan_slide'          => bilangan($request['slide']),
-            'tampilan_anjungan'       => bilangan($request['screensaver']),
-            'tampilan_anjungan_waktu' => bilangan($request['screensaver_waktu']),
+            'anjungan_artikel'         => json_encode($request['artikel']),
+            'anjungan_teks_berjalan'   => strip_tags($request['teks_berjalan']),
+            'anjungan_profil'          => bilangan($request['tampilan_profil']),
+            'anjungan_video'           => strip_tags($request['video']),
+            'anjungan_youtube'         => strip_tags($request['youtube']),
+            'anjungan_slide'           => bilangan($request['slide']),
+            'tampilan_anjungan'        => bilangan($request['screensaver']),
+            'tampilan_anjungan_waktu'  => bilangan($request['screensaver_waktu']),
             'tampilan_anjungan_slider' => bilangan($request['screensaver_slide']),
-            'tampilan_anjungan_video' => strip_tags($request['screensaver_video']),
+            'tampilan_anjungan_video'  => strip_tags($request['screensaver_video']),
         ];
     }
 }

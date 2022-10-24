@@ -624,9 +624,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
                     ->update(['status' => 1]);
             }
         } catch (Exception $e) {
-            
         }
-        
 
         return $hasil;
     }

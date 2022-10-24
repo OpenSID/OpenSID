@@ -112,7 +112,7 @@ class Periksa_model extends MY_Model
         }
 
         $id_pengunjung = ($db_error_code == 1054 && strpos($db_error_message, 'id_pengunjung') !== false);
-        $tipe = ($db_error_code == 1054 && strpos($db_error_message, 'tipe') !== false);
+        $tipe          = ($db_error_code == 1054 && strpos($db_error_message, 'tipe') !== false);
 
         if ($id_pengunjung || $tipe) {
             $this->perbaiki_anjungan();
@@ -964,7 +964,7 @@ class Periksa_model extends MY_Model
                     'null'       => true,
                     'default'    => null,
                 ],
-            ]; 
+            ];
             $this->dbforge->add_column('anjungan', $fields_id_pengunjung);
         }
 
@@ -979,7 +979,7 @@ class Periksa_model extends MY_Model
             $this->dbforge->add_column('anjungan', $fields_tipe);
         }
 
-         if (! $this->db->field_exists('tipe', 'teks_berjalan')) {
+        if (! $this->db->field_exists('tipe', 'teks_berjalan')) {
             $fields = [
                 'tipe' => [
                     'type'       => 'TINYINT',
@@ -991,7 +991,5 @@ class Periksa_model extends MY_Model
             ];
             $this->dbforge->add_column('teks_berjalan', $fields);
         }
-
-        
     }
 }

@@ -118,7 +118,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     protected function tambah_modul_gawai_layanan($hasil)
     {
-        if (!$this->db->field_exists('tipe', 'anjungan')) {
+        if (! $this->db->field_exists('tipe', 'anjungan')) {
             $fields = [
                 'tipe' => [
                     'type'       => 'TINYINT',
@@ -236,42 +236,42 @@ class Migrasi_fitur_premium_2211 extends MY_model
         if (SettingAplikasi::find('tampilan_anjungan')->exists()) {
             $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan')
                 ->update('setting_aplikasi', [
-                    'kategori' => 'anjungan'
+                    'kategori' => 'anjungan',
                 ]);
         }
 
         if (SettingAplikasi::find('tampilan_anjungan_waktu')->exists()) {
             $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_waktu')
                 ->update('setting_aplikasi', [
-                    'kategori' => 'anjungan'
+                    'kategori' => 'anjungan',
                 ]);
         }
 
         if (SettingAplikasi::find('tampilan_anjungan_slider')->exists()) {
             $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_slider')
                 ->update('setting_aplikasi', [
-                    'kategori' => 'anjungan'
+                    'kategori' => 'anjungan',
                 ]);
         }
 
         if (SettingAplikasi::find('tampilan_anjungan_video')->exists()) {
             $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_video')
                 ->update('setting_aplikasi', [
-                    'kategori' => 'anjungan'
+                    'kategori' => 'anjungan',
                 ]);
         }
 
         if (SettingAplikasi::find('tampilan_anjungan_audio')->exists()) {
-            $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_audio')
+            return $hasil && $this->db->where('key', 'tampilan_anjungan_audio')
                 ->update('setting_aplikasi', [
-                    'kategori' => 'anjungan'
+                    'kategori' => 'anjungan',
                 ]);
-            return $hasil;
         }
     }
+
     public function migrasi_2022102151($hasil)
     {
-        if (!$this->db->field_exists('FF12', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('FF12', 'keuangan_ta_spp')) {
             $fields = [
                 'FF12' => [
                     'type'       => 'VARCHAR',
@@ -284,7 +284,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
         }
 
-        if (!$this->db->field_exists('FF13', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('FF13', 'keuangan_ta_spp')) {
             $fields = [
                 'FF13' => [
                     'type'       => 'VARCHAR',
@@ -297,7 +297,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
         }
 
-        if (!$this->db->field_exists('FF14', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('FF14', 'keuangan_ta_spp')) {
             $fields = [
                 'FF14' => [
                     'type'       => 'VARCHAR',

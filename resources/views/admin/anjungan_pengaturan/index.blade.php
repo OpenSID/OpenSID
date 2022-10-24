@@ -41,12 +41,9 @@
                 <label class="col-sm-3 control-label" for="profil">Tampilan Profil</label>
                 <div class="col-sm-9">
                     <select class="form-control input-sm" name="tampilan_profil">
-                        <<<<<<< HEAD @foreach ([1=> 'Slider', 2 => 'Video', 3 => 'Youtube'] as $key => $value)
-                            =======
-                            @foreach ([1 => 'Slide', 2 => 'Video', 3 => 'Youtube'] as $key => $value)
-                            >>>>>>> rilis-dev
+                        @foreach ([1=> 'Slider', 2 => 'Video', 3 => 'Youtube'] as $key => $value)
                             <option {{ selected(setting('anjungan_profil'), $key) }} value="{{ $key }}">{{ $value }}</option>
-                            @endforeach
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -72,7 +69,7 @@
                     <input class="form-control input-sm {{ setting('anjungan_profil') == 3 ? 'required' : '' }}" type="text" placeholder="Masukkan url youtube" name="youtube" value="{{ setting('anjungan_youtube') }}">
                 </div>
             </div>
-            <<<<<<< HEAD <div class="form-group">
+            <div class="form-group">
                 <label class="col-sm-3 control-label" for="profil">Screensaver</label>
                 <div class="col-sm-9">
                     <select class="form-control input-sm" name="screensaver">
@@ -104,8 +101,6 @@
                 <input class="form-control input-sm {{ setting('tampilan_anjungan') == 2 ? 'required' : '' }}" type="text" placeholder="Masukkan url video" name="screensaver_video" value="{{ setting('tampilan_anjungan_video') }}">
             </div>
         </div>
-        =======
-        >>>>>>> rilis-dev
     </div>
     <div class="box-footer">
         <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>

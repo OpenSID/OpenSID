@@ -139,8 +139,8 @@ class Web_Controller extends MY_Controller
         if (! cek_anjungan()) {
             try {
                 Anjungan::tipe(1)->update(['status' => 0]);
-            } catch (Exception $e) {}
-            
+            } catch (Exception $e) {
+            }
         }
 
         $this->load->model('anjungan_model');

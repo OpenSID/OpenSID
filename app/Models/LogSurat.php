@@ -42,7 +42,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class LogSurat extends Model
 {
-
     public const KONSEP  = 0;
     public const CETAK   = 1;
     public const TOLAK   = -1;

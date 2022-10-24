@@ -68,6 +68,5 @@ class Anjungan_model extends CI_Model
         } catch (MY_Exceptions $e) {
             return [];
         }
-        
     }
 }
