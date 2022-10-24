@@ -205,7 +205,7 @@ class Surat extends Admin_Controller
         redirect("surat/form/{$url}");
     }
 
-    public function pdf()
+    public function pdf($preview_file = false)
     {
         // Cetak Konsep
         $cetak = $this->session->log_surat;
@@ -294,6 +294,10 @@ class Surat extends Admin_Controller
                 $html2pdf->setTestTdInOnePage(true);
                 $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
                 $html2pdf->writeHTML($logo_qrcode);
+                if ($preview) { //perlihatkan preview
+                    return;
+                }
+
                 $html2pdf->output(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
 
                 // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)

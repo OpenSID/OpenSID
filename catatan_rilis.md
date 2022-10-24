@@ -40,7 +40,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 34. [#5691](https://github.com/OpenSID/OpenSID/issues/5691) Penyesuaian status TTE demo jika menggunakan modul eSign demo / modul BSrE belum terpasang.
 35. [#5783](https://github.com/OpenSID/OpenSID/issues/5783) Penyesuaian pengaturan screenserver ke pengaturan anjungan.
 36. [#5788](https://github.com/OpenSID/OpenSID/issues/5788) Penyesuaian kode wilayah BPS yang diambil dari pantau.
-37. [#5728](https://github.com/OpenSID/OpenSID/issues/5728) Perbaikan validasi hapus Aparat Desa.
+37. [#5728](https://github.com/OpenSID/OpenSID/issues/5728) Penyesuaian validasi hapus Aparat Desa.
+38. [#5580](https://github.com/OpenSID/OpenSID/issues/5580) Penyesuaian aturan penghapusan surat di halaman arsip.
 
 #### Perbaikan BUG
 

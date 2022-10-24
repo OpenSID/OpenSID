@@ -95,6 +95,7 @@ class Keluar extends Admin_Controller
             $data['widgets']  = $this->widget();
         }
 
+        $data['user_admin']  = (config_item('user_admin') == auth()->id) ? true : false;
         $data['title']       = 'Arsip Layanan Surat';
         $data['per_page']    = $this->session->per_pages;
         $data['paging']      = $this->keluar_model->paging($p, $o);
@@ -131,6 +132,7 @@ class Keluar extends Admin_Controller
         $data['per_page']   = $this->session->per_pages;
         $data['title']      = 'Permohonan Surat';
         $data['operator']   = (in_array($this->isAdmin->jabatan_id, ['1', '2'])) ? false : true;
+        $data['user_admin'] = (config_item('user_admin') == auth()->id) ? true : false;
         $ref_jabatan_kades  = setting('sebutan_kepala_desa');
         $ref_jabatan_sekdes = setting('sebutan_sekretaris_desa');
 
@@ -580,7 +582,7 @@ class Keluar extends Admin_Controller
         }
 
         return [
-            'suratMasuk' => LogSurat::when($this->isAdmin->jabatan_id == '1', static function ($q) {
+            'suratMasuk' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == '1', static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
                 })
@@ -594,7 +596,7 @@ class Keluar extends Admin_Controller
                 ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, ['1', '2']), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '0');
                 })->count(),
-            'arsip' => LogSurat::when($this->isAdmin->jabatan_id == '1', static function ($q) {
+            'arsip' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == '1', static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('tte', '=', 1);
                 })
@@ -611,7 +613,7 @@ class Keluar extends Admin_Controller
                 ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, ['1', '2']), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
                 })->count(),
-            'tolak' => LogSurat::where('verifikasi_operator', '=', '-1')->count(),
+            'tolak' => LogSurat::whereNull('deleted_at')->where('verifikasi_operator', '=', '-1')->count(),
         ];
     }
 

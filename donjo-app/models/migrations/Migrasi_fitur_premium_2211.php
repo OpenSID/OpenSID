@@ -54,6 +54,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
         $hasil = $hasil && $this->migrasi_2022100851($hasil);
         $hasil = $hasil && $this->migrasi_2022101571($hasil);
         $hasil = $hasil && $this->tambah_modul_gawai_layanan($hasil);
+        $hasil = $hasil && $this->migrasi_2022102271($hasil);
         $hasil = $hasil && $this->migrasi_2022101371($hasil);
         $hasil = $hasil && $this->migrasi_2022101871($hasil);
 
@@ -150,6 +151,21 @@ class Migrasi_fitur_premium_2211 extends MY_model
             'keterangan' => 'Pengaturan teks berjalan untuk anjungan',
             'kategori'   => 'anjungan',
         ]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022102271($hasil)
+    {
+        if (! $this->db->field_exists('deleted_at', 'log_surat')) {
+            $fields = [
+                'deleted_at' => [
+                    'type' => 'datetime',
+                    'null' => true,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
+        }
 
         return $hasil;
     }

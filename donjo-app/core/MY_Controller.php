@@ -137,8 +137,12 @@ class Web_Controller extends MY_Controller
 
         // Untuk anjungan
         if (! cek_anjungan()) {
-            Anjungan::tipe(1)->update(['status' => 0]);
+            try {
+                Anjungan::tipe(1)->update(['status' => 0]);
+            } catch (Exception $e) {}
+            
         }
+
         $this->load->model('anjungan_model');
         $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 
@@ -460,8 +464,8 @@ class Admin_Controller extends Premium
         $this->header['notif_pengumuman']       = $this->cek_pengumuman();
         $isAdmin                                = $this->session->isAdmin->pamong;
         $this->header['notif_permohonan']       = 0;
-        if ($this->db->field_exists('verifikasi_operator', 'log_surat')) {
-            $this->header['notif_permohonan'] = LogSurat::when($isAdmin->jabatan_id == '1', static function ($q) {
+        if ($this->db->field_exists('verifikasi_operator', 'log_surat') && $this->db->field_exists('deleted_at', 'log_surat')) {
+            $this->header['notif_permohonan'] = LogSurat::whereNull('deleted_at')->when($isAdmin->jabatan_id == '1', static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
                 })->when(setting('tte') == 0, static function ($tte) {
