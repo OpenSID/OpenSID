@@ -282,10 +282,19 @@ class Rtm extends Admin_Controller
             $data['kepala_kk'] = null;
         }
 
-        $data['penduduk']    = $this->rtm_model->list_penduduk_lepas();
+        $data['penduduk']    = $this->rtm_model->list_penduduk_lepas(null, $id);
         $data['form_action'] = site_url("{$this->controller}/add_anggota/{$id}");
 
         $this->load->view('rtm/ajax_add_anggota_rtm_form', $data);
+    }
+
+    public function datables_anggota($id_kk = null)
+    {
+        if ($this->input->is_ajax_request()) {
+            return json(['data' => $this->rtm_model->list_penduduk_lepas($id_kk)]);
+        }
+
+        show_404();
     }
 
     public function edit_anggota($id_rtm = 0, $id = 0)
