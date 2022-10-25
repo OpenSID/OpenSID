@@ -79,12 +79,13 @@ $route[$mandiri . '/pesan/kirim']              = MANDIRI . '/pesan/kirim';
 $route[$mandiri . '/pesan/baca/(:num)/(:num)'] = MANDIRI . '/pesan/baca/$1/$2';
 
 // Surat
-$route[$mandiri . '/arsip-surat']       = MANDIRI . '/surat/index/2';
-$route[$mandiri . '/permohonan-surat']  = MANDIRI . '/surat/index/1';
-$route[$mandiri . '/surat/buat']        = MANDIRI . '/surat/buat';
-$route[$mandiri . '/surat/buat/(:num)'] = MANDIRI . '/surat/buat/$1';
-$route[$mandiri . '/surat/form']        = MANDIRI . '/surat/form';
-$route[$mandiri . '/surat/form/(:num)'] = MANDIRI . '/surat/form/$1';
+$route[$mandiri . '/arsip-surat']        = MANDIRI . '/surat/index/2';
+$route[$mandiri . '/permohonan-surat']   = MANDIRI . '/surat/index/1';
+$route[$mandiri . '/surat/buat']         = MANDIRI . '/surat/buat';
+$route[$mandiri . '/surat/buat/(:num)']  = MANDIRI . '/surat/buat/$1';
+$route[$mandiri . '/surat/form']         = MANDIRI . '/surat/form';
+$route[$mandiri . '/surat/form/(:num)']  = MANDIRI . '/surat/form/$1';
+$route[$mandiri . '/surat/cetak/(:num)'] = MANDIRI . '/surat/cetak/$1';
 
 // Dokumen
 $route[$mandiri . '/dokumen']              = MANDIRI . '/dokumen';

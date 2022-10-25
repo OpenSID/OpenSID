@@ -44,6 +44,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 38. [#5580](https://github.com/OpenSID/OpenSID/issues/5580) Penyesuaian aturan penghapusan surat di halaman arsip.
 39. [#5715](https://github.com/OpenSID/OpenSID/issues/5715) Penambahan anggota rumah tangga bersumber dari daftar nama di kartu keluarga kepala rumah tangga.
 40. [#5358](https://github.com/OpenSID/OpenSID/issues/5358) Penambahan format nomor surat pada template surat.
+41. [#5025](https://github.com/OpenSID/OpenSID/issues/5025) Penambahan cetak surat di anjungan mandiri khusus surat TinyMCE.
 
 #### Perbaikan BUG
 

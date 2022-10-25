@@ -86,11 +86,16 @@ class MY_Controller extends CI_Controller
         | donjo-app/config/autoload.php digunakan untuk autoload model untuk mengisi data awal
         | pada waktu install, di mana database masih kosong
         */
-        $this->load->model(['setting_model']);
+        $this->load->model(['setting_model', 'anjungan_model']);
         $this->controller = strtolower($this->router->fetch_class());
         $this->setting_model->init();
         $this->request = $this->input->post();
 
+        // Untuk anjungan
+        if (! cek_anjungan()) {
+            Anjungan::tipe(1)->update(['status' => 0]);
+        }
+        $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
         // Cek perangkat lupa absen keluar
         cek_kehadiran();
     }
