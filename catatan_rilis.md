@@ -45,6 +45,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 39. [#5715](https://github.com/OpenSID/OpenSID/issues/5715) Penambahan anggota rumah tangga bersumber dari daftar nama di kartu keluarga kepala rumah tangga.
 40. [#5358](https://github.com/OpenSID/OpenSID/issues/5358) Penambahan format nomor surat pada template surat.
 41. [#5025](https://github.com/OpenSID/OpenSID/issues/5025) Penambahan cetak surat di anjungan mandiri khusus surat TinyMCE.
+42. [#5765](https://github.com/OpenSID/OpenSID/issues/5765) Penambahan surat TinyMCE keterangan JAMKESOS.
 
 #### Perbaikan BUG
 
