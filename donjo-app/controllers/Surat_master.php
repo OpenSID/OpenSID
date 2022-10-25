@@ -435,7 +435,7 @@ class Surat_master extends Admin_Controller
 
         // upload gambar visual tte
 
-        if ($_FILES['visual_tte_gambar']) {
+        if ($_FILES['visual_tte_gambar'] && $_FILES['visual_tte_gambar']['name'] != '') {
             $file = $this->setting_model->upload_img('visual_tte_gambar', LOKASI_MEDIA);
             SettingAplikasi::whereKey('visual_tte_gambar')->update(['value' => $file]); //update setting
         }
@@ -461,7 +461,6 @@ class Surat_master extends Admin_Controller
             'tte'               => (int) $request['tte'],
             'font_surat'        => alfanumerik_spasi($request['font_surat']),
             'visual_tte'        => (int) $request['visual_tte'],
-            'visual_tte_gambar' => $request['visual_tte_gambar'],
             'visual_tte_weight' => (int) $request['visual_tte_weight'],
             'visual_tte_height' => (int) $request['visual_tte_height'],
         ];
@@ -473,6 +472,10 @@ class Surat_master extends Admin_Controller
             $validasi['tte_password']     = $request['tte_password'];
         } else {
             $validasi['footer_surat'] = $request['footer_surat'];
+        }
+
+        if ($request['visual_tte_gambar'] != null) {
+            $validasi['visual_tte_gambar'] = $request['visual_tte_gambar'];
         }
 
         return $validasi;
