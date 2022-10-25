@@ -43,6 +43,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 37. [#5728](https://github.com/OpenSID/OpenSID/issues/5728) Penyesuaian validasi hapus Aparat Desa.
 38. [#5580](https://github.com/OpenSID/OpenSID/issues/5580) Penyesuaian aturan penghapusan surat di halaman arsip.
 39. [#5715](https://github.com/OpenSID/OpenSID/issues/5715) Penambahan anggota rumah tangga bersumber dari daftar nama di kartu keluarga kepala rumah tangga.
+40. [#5358](https://github.com/OpenSID/OpenSID/issues/5358) Penambahan format nomor surat pada template surat.
 
 #### Perbaikan BUG
 

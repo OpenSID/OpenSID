@@ -153,6 +153,7 @@ class Surat_master extends Admin_Controller
             $data['header']               = $suratMaster->header ?? 1;
             $data['footer']               = $suratMaster->footer ?? 1;
             $data['daftar_lampiran']      = $this->tinymce->getDaftarLampiran();
+            $data['format_nomor']         = $suratMaster->format_nomor;
         }
 
         $data['form_isian']       = $this->form_isian();
@@ -215,7 +216,6 @@ class Surat_master extends Admin_Controller
         }
 
         $data = FormatSurat::find($id) ?? show_404();
-
         if ($data->update(static::validate($this->request, $data->jenis, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
@@ -228,7 +228,7 @@ class Surat_master extends Admin_Controller
         $this->redirect_hak_akses('u');
         $this->load->model('setting_model');
 
-        if (! empty($this->request['surat'])) {
+        if (!empty($this->request['surat'])) {
             $this->surat_master_model->upload($this->request['url_surat']);
         }
 
@@ -285,6 +285,7 @@ class Surat_master extends Admin_Controller
             'lampiran'            => $request['lampiran'],
             'header'              => (int) $request['header'],
             'footer'              => (int) $request['footer'],
+            'format_nomor'        => $request['format_nomor'],
         ];
 
         if (null === $id) {
@@ -382,7 +383,7 @@ class Surat_master extends Admin_Controller
                     rename($lokasi_baru . '/data_rtf_' . $url_surat . '.php', $lokasi_baru . '/data_rtf_' . $surat_baru . '.php');
                     rename($lokasi_baru . '/data_form_' . $url_surat . '.php', $lokasi_baru . '/data_form_' . $surat_baru . '.php');
 
-                    if (! FormatSurat::isExist($url_surat)) {
+                    if (!FormatSurat::isExist($url_surat)) {
                         $data              = [];
                         $data['jenis']     = 2;
                         $data['nama']      = ucwords(trim(str_replace(['surat_', '_'], ' ', $surat_baru)));
@@ -441,7 +442,7 @@ class Surat_master extends Admin_Controller
         }
 
         // Perbarui log_surat jika ada perubahan pengaturan verifikasi kades / sekdes
-        if (! setting('verifikasi_kades') || ! setting('verifikasi_sekdes')) {
+        if (!setting('verifikasi_kades') || !setting('verifikasi_sekdes')) {
             LogSurat::where('verifikasi_operator', LogSurat::PERIKSA)->update(['verifikasi_operator' => LogSurat::TERIMA]);
 
             redirect_with('success', 'Berhasil Ubah Data dan Perbaharui Log Surat');
@@ -453,16 +454,18 @@ class Surat_master extends Admin_Controller
     protected static function validasi_pengaturan($request)
     {
         $validasi = [
-            'tinggi_header'     => (float) $request['tinggi_header'],
-            'header_surat'      => $request['header_surat'],
-            'tinggi_footer'     => (float) $request['tinggi_footer'],
-            'verifikasi_sekdes' => (int) $request['verifikasi_sekdes'],
-            'verifikasi_kades'  => ((int) $request['tte'] == 1) ? 1 : (int) $request['verifikasi_kades'],
-            'tte'               => (int) $request['tte'],
-            'font_surat'        => alfanumerik_spasi($request['font_surat']),
-            'visual_tte'        => (int) $request['visual_tte'],
-            'visual_tte_weight' => (int) $request['visual_tte_weight'],
-            'visual_tte_height' => (int) $request['visual_tte_height'],
+            'tinggi_header'      => (float) $request['tinggi_header'],
+            'header_surat'       => $request['header_surat'],
+            'tinggi_footer'      => (float) $request['tinggi_footer'],
+            'verifikasi_sekdes'  => (int) $request['verifikasi_sekdes'],
+            'verifikasi_kades'   => ((int) $request['tte'] == 1) ? 1 : (int) $request['verifikasi_kades'],
+            'tte'                => (int) $request['tte'],
+            'font_surat'         => alfanumerik_spasi($request['font_surat']),
+            'visual_tte'         => (int) $request['visual_tte'],
+            'visual_tte_gambar'  => $request['visual_tte_gambar'],
+            'visual_tte_weight'  => (int) $request['visual_tte_weight'],
+            'visual_tte_height'  => (int) $request['visual_tte_height'],
+            'format_nomor_surat' => $request['format_nomor_surat'],
         ];
 
         if ($validasi['tte'] == 1) {
@@ -504,7 +507,7 @@ class Surat_master extends Admin_Controller
         $status_dasar    = $this->request['individu_status_dasar'] ?: 1;
         $data['id_pend'] = Penduduk::where('status_dasar', $status_dasar)->where('sex', $sex)->first('id')->id;
 
-        if (! $data['id_pend']) {
+        if (!$data['id_pend']) {
             redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
         }
 

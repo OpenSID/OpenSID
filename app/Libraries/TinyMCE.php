@@ -185,7 +185,7 @@ class TinyMCE
             [
                 'judul' => 'Format Nomor Surat',
                 'isian' => '[Format_nomor_suraT]',
-                'data'  => strtoupper($this->substitusiNomorSurat($data['no_surat'], setting('format_nomor_surat'))),
+                'data'  => strtoupper($this->substitusiNomorSurat($data['no_surat'], ($data['surat']['format_nomor'] == '') ? setting('format_nomor_surat') : $data['surat']['format_nomor'])),
             ],
             [
                 'judul' => 'Kode',

@@ -134,7 +134,7 @@ class LogSurat extends Model
     {
         $thn                = $this->tahun ?? date('Y');
         $bln                = $this->bulan ?? date('m');
-        $format_nomor_surat = setting('format_nomor_surat');
+        $format_nomor_surat = ($this->formatSurat->format_nomor == '') ? setting('format_nomor_surat') : $this->formatSurat->format_nomor;
         $config             = Config::first();
 
         $format_nomor_surat = str_replace('[nomor_surat]', "{$this->no_surat}", $format_nomor_surat);

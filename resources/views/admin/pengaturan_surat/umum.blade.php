@@ -129,6 +129,15 @@
                 </div>
             @endif
 
+            @if (isset($format_nomor))
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Format Nomor Surat</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control input-sm" name="format_nomor" placeholder="Format Nomor Surat" value="{{ $format_nomor }}">
+                    </div>
+                </div>
+            @endif
+
             @if ($qrCode)
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="mandiri">Tampilkan QR Code</label>

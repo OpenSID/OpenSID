@@ -168,6 +168,7 @@ class FormatSurat extends Model
         'margin',
         'header',
         'footer',
+        'format_nomor',
         'created_by',
         'updated_by',
     ];

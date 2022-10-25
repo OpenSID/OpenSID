@@ -234,6 +234,13 @@
                     </div>
                 </div>
             </div>
+
+            <div class="box-body">
+                <div class="form-group">
+                    <label>Fomat penomoran surat </label>
+                     <input type="text" name="format_nomor_surat" class="form-control input-sm" value="{{ setting('format_nomor_surat') }}" @disabled(!$kades)>
+                </div>
+            </div>
         </div>
         <div class="box-footer">
             <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>

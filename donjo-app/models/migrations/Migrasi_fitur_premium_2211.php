@@ -57,6 +57,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
         $hasil = $hasil && $this->migrasi_2022102271($hasil);
         $hasil = $hasil && $this->migrasi_2022101371($hasil);
         $hasil = $hasil && $this->migrasi_2022101871($hasil);
+        $hasil = $hasil && $this->migrasi_2022102451($hasil);
 
         return $hasil && $this->migrasi_2022102151($hasil);
     }
@@ -308,6 +309,32 @@ class Migrasi_fitur_premium_2211 extends MY_model
             ];
 
             $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
+        }
+
+        return $hasil;
+    }
+
+    public function migrasi_2022102451($hasil)
+    {
+        if (SettingAplikasi::find('format_nomor_surat')->exists()) {
+            $hasil = $hasil && $this->db->where('key', 'format_nomor_surat')
+                ->update('setting_aplikasi', [
+                    'kategori' => 'format_surat',
+                ]);
+        }
+
+        // tambhakn nomorsurat di log surat
+        if (! $this->db->field_exists('format_nomor', 'tweb_surat_format')) {
+            $fields = [
+                'format_nomor' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => false,
+                    'default'    => '',
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
         }
 
         return $hasil;
