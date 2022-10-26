@@ -205,7 +205,7 @@ class Surat extends Admin_Controller
         redirect("surat/form/{$url}");
     }
 
-    public function pdf($preview_file = false)
+    public function pdf($preview = false)
     {
         // Cetak Konsep
         $cetak = $this->session->log_surat;
@@ -294,15 +294,15 @@ class Surat extends Admin_Controller
                 $html2pdf->setTestTdInOnePage(true);
                 $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
                 $html2pdf->writeHTML($logo_qrcode);
-                if ($preview) { //perlihatkan preview
-                    return;
+                if ($preview) {
+                    $html2pdf->output(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'preview.pdf', 'FI');
+                } else {
+                    $html2pdf->output(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
+
+                    // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
+                    $surat->isi_surat = $isi_cetak;
+                    $surat->status    = LogSurat::CETAK;
                 }
-
-                $html2pdf->output(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
-
-                // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
-                $surat->isi_surat = $isi_cetak;
-                $surat->status    = LogSurat::CETAK;
             } catch (Html2PdfException $e) {
                 $html2pdf->clean();
                 $formatter = new ExceptionFormatter($e);
@@ -313,10 +313,14 @@ class Surat extends Admin_Controller
                 $surat->status    = LogSurat::KONSEP;
             }
 
-            // Jika verifikasi sekdes atau verifikasi kades di non-aktifkan
-            $surat->verifikasi_operator = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSurat::PERIKSA : LogSurat::TERIMA;
+            if ($preview) {
+                LogSurat::destroy($id);
+            } else {
+                // Jika verifikasi sekdes atau verifikasi kades di non-aktifkan
+                $surat->verifikasi_operator = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSurat::PERIKSA : LogSurat::TERIMA;
 
-            $surat->save();
+                $surat->save();
+            }
 
             redirect('surat');
         } else {
