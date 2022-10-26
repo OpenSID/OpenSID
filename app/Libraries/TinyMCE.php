@@ -42,7 +42,6 @@ use App\Models\FormatSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
 use Carbon\Carbon;
-use CI_Controller;
 
 class TinyMCE
 {
@@ -258,7 +257,7 @@ class TinyMCE
             $sebutan_kepala_desa = setting('sebutan_kepala_desa');
             $sebutan_camat       = setting('sebutan_camat');
 
-            if (!empty($config->email_desa)) {
+            if (! empty($config->email_desa)) {
                 $alamat_desa  = "{$config->alamat_kantor} Email: {$config->email_desa} Kode Pos: {$config->kode_pos}";
                 $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos} <br> Website: {$config->website} Email: {$config->email_desa}";
             } else {
@@ -266,7 +265,7 @@ class TinyMCE
                 $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos}";
             }
 
-            if (null === $config->pamong()->pamong_nip && (!empty($config->pamong()->pamong_niap))) {
+            if (null === $config->pamong()->pamong_nip && (! empty($config->pamong()->pamong_niap))) {
                 $sebutan_nip_desa = setting('sebutan_nip_desa');
             } else {
                 $sebutan_nip_desa = 'NIP';
@@ -420,7 +419,7 @@ class TinyMCE
     private function getIsianPenduduk($id_penduduk = null, $prefix = '')
     {
         // Data Umum
-        if (!empty($prefix)) {
+        if (! empty($prefix)) {
             $ortu   = ' ' . ucwords($prefix);
             $prefix = '_' . uclast($prefix);
         }
@@ -734,7 +733,7 @@ class TinyMCE
             $pamong_nip       = $sebutan_nip_desa . ' : ' . $nip;
         } else {
             $sebutan_nip_desa = setting('sebutan_nip_desa');
-            if (!empty($niap_pamong)) {
+            if (! empty($niap_pamong)) {
                 $nip        = $niap_pamong;
                 $pamong_nip = $sebutan_nip_desa . ' : ' . $niap_pamong;
             } else {

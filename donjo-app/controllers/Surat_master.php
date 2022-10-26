@@ -290,9 +290,9 @@ class Surat_master extends Admin_Controller
 
         if (null === $id) {
             if (in_array($jenis, FormatSurat::RTF)) {
-                $data['url_surat'] = unique_slug('tweb_surat_format', "surat_{$data['nama_surat']}", null, 'url_surat', '_');
+                $data['url_surat'] = unique_slug('tweb_surat_format', "surat_{$data['nama']}", $id, 'url_surat', '_');
             } else {
-                $data['url_surat'] = unique_slug('tweb_surat_format', "surat-{$data['nama_surat']}", null, 'url_surat', '-');
+                $data['url_surat'] = unique_slug('tweb_surat_format', "surat-{$data['nama']}", $id, 'url_surat', '-');
             }
         }
 
