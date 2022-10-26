@@ -50,6 +50,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 44. [#5864](https://github.com/OpenSID/OpenSID/issues/5864) Penambahan pop up pada daftar perangkat desa di anjungan.
 45. [#5785](https://github.com/OpenSID/OpenSID/issues/5785) Penambahan pengaturan lanskap & potret terkait layout anjungan.
 46. [#5797](https://github.com/OpenSID/OpenSID/issues/5797) Penyesuaian hapus peserta duplikat.
+47. [#5673](https://github.com/OpenSID/OpenSID/issues/5673) Penambahan informasi kebutuhan sistem.
 
 #### Perbaikan BUG
 

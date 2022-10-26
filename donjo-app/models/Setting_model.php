@@ -290,6 +290,29 @@ class Setting_model extends MY_Model
             ->result();
     }
 
+    public function cekKebutuhanSistem()
+    {
+        $data = [];
+
+        $sistem = [
+            ['max_execution_time', '>=', '300'],
+            ['post_max_size', '>=', '10M'],
+            ['upload_max_filesize', '>=', '20M'],
+            ['memory_limit', '>=', '256M'],
+        ];
+
+        foreach ($sistem as $value) {
+            [$key, $kondisi, $val] = $value;
+
+            $data[$key] = [
+                $key     => ini_get($key),
+                'result' => version_compare(ini_get($key), $val, $kondisi),
+            ];
+        }
+
+        return $data;
+    }
+
     public function cekEkstensi()
     {
         $e = get_loaded_extensions();

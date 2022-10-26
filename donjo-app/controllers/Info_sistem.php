@@ -54,6 +54,7 @@ class Info_sistem extends Admin_Controller
 
         $data                      = $this->log_viewer->showLogs();
         $data['ekstensi']          = $this->setting_model->cekEkstensi();
+        $data['kebutuhan_sistem']  = $this->setting_model->cekKebutuhanSistem();
         $data['php']               = $this->setting_model->cekPhp();
         $data['mysql']             = $this->setting_model->cekDatabase();
         $data['disable_functions'] = $this->setting_model->disableFunctions();
