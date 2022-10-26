@@ -41,7 +41,6 @@ use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
-use CI_Controller;
 
 class TinyMCE
 {
@@ -102,17 +101,6 @@ class TinyMCE
     ';
     public const TOP    = 3.5; // cm
     public const BOTTOM = 2; // cm
-
-    /**
-     * @var CI_Controller
-     */
-    protected $ci;
-
-    public function __construct()
-    {
-        $this->ci = &get_instance();
-        $this->ci->load->model('keluarga_model');
-    }
 
     public function getTemplate()
     {
@@ -618,15 +606,6 @@ class TinyMCE
                     'isian' => '[BdT]',
                     'data'  => $penduduk->rtm->bdt,
                 ],
-
-                // Anggota Keluarga
-                [
-                    'judul' => 'Anggota Keluarga',
-                    'isian' => '[anggota_keluarga]',
-                    'data'  => $this->generateAnggotaKeluarga(
-                        $this->ci->keluarga_model->list_anggota($penduduk->id_kk, ['dengan_kk' => true], true)
-                    ),
-                ],
             ];
 
             // Data Umum
@@ -864,45 +843,5 @@ class TinyMCE
         }
 
         return collect($lampiran)->unique()->sort()->values();
-    }
-
-    protected function generateAnggotaKeluarga($keluarga)
-    {
-        $html = '
-            <table style="border-collapse: collapse; width: 100.012%;" border="1">
-                <tbody>
-                    <tr>
-                        <td style="width: 3.1401%; text-transform: uppercase; text-align: center; font-size: 9pt"><strong>NO</strong></td>
-                        <td style="width: 19.3854%; text-transform: uppercase; text-align: center; font-size: 9pt"><strong>NIK</strong></td>
-                        <td style="width: 27.4745%; text-transform: uppercase; text-align: center; font-size: 9pt"><strong>NAMA</strong></td>
-                        <td style="width: 16.6667%; text-transform: uppercase; text-align: center; font-size: 9pt"><strong>L/P</strong></td>
-                        <td style="width: 16.6667%; text-transform: uppercase; text-align: center; font-size: 9pt"><strong>TEMPAT TANGGAL LAHIR</strong></td>
-                        <td style="width: 16.6667%; text-transform: uppercase; text-align: center; font-size: 9pt"><strong>SHDK</strong></td>
-                    </tr>
-        ';
-
-        $no = 1;
-
-        foreach ($keluarga as $anggota) {
-            $no++;
-
-            $html .= "
-                <tr>
-                    <td style='width: 3.1401%; text-transform: uppercase; font-size: 9pt'>{$no}</td>
-                    <td style='width: 19.3854%; text-transform: uppercase; font-size: 9pt'>{$anggota['nik']}</td>
-                    <td style='width: 27.4745%; text-transform: uppercase; font-size: 9pt'>{$anggota['nama']}</td>
-                    <td style='width: 16.6667%; text-transform: uppercase; font-size: 9pt'>{$anggota['sex']}</td>
-                    <td style='width: 16.6667%; text-transform: uppercase; font-size: 9pt'>{$anggota['tempatlahir']}, {$anggota['tanggallahir']}</td>
-                    <td style='width: 16.6667%; text-transform: uppercase; font-size: 9pt'>{$anggota['hubungan']}</td>
-                </tr>
-            ";
-        }
-
-        $html .= '
-                </tbody>
-            </table>
-        ';
-
-        return $html;
     }
 }

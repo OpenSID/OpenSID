@@ -3,6 +3,7 @@ Di rilis ini, versi 22.10-premium-beta03 [isi disini]. Rilis ini juga berisi pen
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
 #### Penambahan Fitur
+
 1. [#5718](https://github.com/OpenSID/OpenSID/issues/5718) Penambahan fungsi jarak antra baris (tools tinymce linehight).
 2. [#5578](https://github.com/OpenSID/OpenSID/issues/5578) Penambahan Capitalize Each Word pada kode isian surat TinyMCE.
 3. [#5775](https://github.com/OpenSID/OpenSID/issues/5775) Penyesuaian ukuran font di bagian footer tte.
@@ -15,22 +16,21 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 10. [#5796](https://github.com/OpenSID/OpenSID/issues/5796) Penambahan validasi support ipv6 ketika nambah ip di anjungan.
 11. [#5706](https://github.com/OpenSID/OpenSID/issues/5706) Penambahan pengaturan waktu kadaluarsa token OTP.
 12. [#5349](https://github.com/OpenSID/OpenSID/issues/5349) Penambahan fitur batasi impor data penduduk pada pengguna admin.
-12. [#5829](https://github.com/OpenSID/OpenSID/issues/5829) Penambahan jenis surat RTF dan TinyMCE pada modul pengaturan dan cetak surat.
-13. [#5716](https://github.com/OpenSID/OpenSID/issues/5716) Penambahan pengaturan teks berjalan pada pengaturan anjungan.
-14. [#5721](https://github.com/OpenSID/OpenSID/issues/5721) Penambahan modul "Gawai Layanan" sebagai pengganti fitur anjungan.
-15. [#5826](https://github.com/OpenSID/OpenSID/issues/5826) Perubahan hapus wilayah RW atau Dusun hanya jika sudah berpenghuni.
-16. [#5717](https://github.com/OpenSID/OpenSID/issues/5717) Menampilkan keterangan hadir & tidak hadir pada menu perangkat desa.
-17. [#5762](https://github.com/OpenSID/OpenSID/issues/5762) Penambahan surat TinyMCE pengantar izin keramaian.
-18. [#5758](https://github.com/OpenSID/OpenSID/issues/5758) Penambahan surat TinyMCE pengantar surat keterangan catatan kepolisian.
-19. [#5773](https://github.com/OpenSID/OpenSID/issues/5773) Penambahan surat TinyMCE keterangan pergi kawin.
-20. [#5759](https://github.com/OpenSID/OpenSID/issues/5759) Penambahan surat TinyMCE keterangan KTP dalam proses.
-21. [#5677](https://github.com/OpenSID/OpenSID/issues/5677) Penyesuaian mengeluarkan secara otomatis perangkat lupa absen.
-22. [#5782](https://github.com/OpenSID/OpenSID/issues/5782) Perubahan tombol lihat document menjadi popup pada menu informasi publik.
-23. [#5628](https://github.com/OpenSID/OpenSID/issues/5628) Penambahan tools RFM untuk menambah gambar pada surat TinyMCE.
-24. [#5683](https://github.com/OpenSID/OpenSID/issues/5683) Penyesuaian lampiran surat TinyMCE.
-25. [#5774](https://github.com/OpenSID/OpenSID/issues/5774) Penambahan surat TinyMCE keterangan wali hakim.
-26. [#5769](https://github.com/OpenSID/OpenSID/issues/5769) Penambahan surat pernyataan belum memiliki akta lahir.
-27. [#5524](https://github.com/OpenSID/OpenSID/issues/5524) Penambahan kode isian anggota keluarga sesuai ID kepala keluarga.
+13. [#5829](https://github.com/OpenSID/OpenSID/issues/5829) Penambahan jenis surat RTF dan TinyMCE pada modul pengaturan dan cetak surat.
+14. [#5716](https://github.com/OpenSID/OpenSID/issues/5716) Penambahan pengaturan teks berjalan pada pengaturan anjungan.
+15. [#5721](https://github.com/OpenSID/OpenSID/issues/5721) Penambahan modul "Gawai Layanan" sebagai pengganti fitur anjungan.
+16. [#5826](https://github.com/OpenSID/OpenSID/issues/5826) Perubahan hapus wilayah RW atau Dusun hanya jika sudah berpenghuni.
+17. [#5717](https://github.com/OpenSID/OpenSID/issues/5717) Menampilkan keterangan hadir & tidak hadir pada menu perangkat desa.
+18. [#5762](https://github.com/OpenSID/OpenSID/issues/5762) Penambahan surat TinyMCE pengantar izin keramaian.
+19. [#5758](https://github.com/OpenSID/OpenSID/issues/5758) Penambahan surat TinyMCE pengantar surat keterangan catatan kepolisian.
+20. [#5773](https://github.com/OpenSID/OpenSID/issues/5773) Penambahan surat TinyMCE keterangan pergi kawin.
+21. [#5759](https://github.com/OpenSID/OpenSID/issues/5759) Penambahan surat TinyMCE keterangan KTP dalam proses.
+22. [#5677](https://github.com/OpenSID/OpenSID/issues/5677) Penyesuaian mengeluarkan secara otomatis perangkat lupa absen.
+23. [#5782](https://github.com/OpenSID/OpenSID/issues/5782) Perubahan tombol lihat document menjadi popup pada menu informasi publik.
+24. [#5628](https://github.com/OpenSID/OpenSID/issues/5628) Penambahan tools RFM untuk menambah gambar pada surat TinyMCE.
+25. [#5683](https://github.com/OpenSID/OpenSID/issues/5683) Penyesuaian lampiran surat TinyMCE.
+26. [#5774](https://github.com/OpenSID/OpenSID/issues/5774) Penambahan surat TinyMCE keterangan wali hakim.
+27. [#5769](https://github.com/OpenSID/OpenSID/issues/5769) Penambahan surat pernyataan belum memiliki akta lahir.
 28. [#5766](https://github.com/OpenSID/OpenSID/issues/5766) Penambahan surat keterangan domisili usaha.
 29. [#5802](https://github.com/OpenSID/OpenSID/issues/5802) Penambahan fungsi export & import surat TinyMCE.
 30. [#5848](https://github.com/OpenSID/OpenSID/issues/5848) Penambahan kode isian khusus kata -kata yang harus berupa huruf besar.
@@ -78,6 +78,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 27. [#5861](https://github.com/OpenSID/OpenSID/issues/5861) Perbaikan status surat setelah di TTD kepala desa layanan mandiri tidak berubah.
 
 #### Perubahan Teknis
+
 1. Perbaikan cara simpan cache IDM dan SDGS.
 2. Perbaikan perubahan version saat ini.
 3. Interval release.
