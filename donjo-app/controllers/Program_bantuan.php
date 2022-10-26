@@ -84,11 +84,7 @@ class Program_bantuan extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data                           = $this->program_bantuan_model->get_program($p, false);
-        $data['penjelasan_pembersihan'] = '
-			<p>Fitur ini akan mancari sasaran (penduduk, keluarga, rumah tangga, kelompok) peserta yang sudah terhapus dari database.</p>
-			<p>Supaya konsisten, fitur ini akan menghapus peserta tersebut dari program bantuannya.</p>
-			<p>Fitur ini juga akan menghapus peserta duplikat dari program bantuannya.</p>';
+        $data                 = $this->program_bantuan_model->get_program($p, false);
         $data['list_sasaran'] = SasaranEnum::DAFTAR;
         $data['func']         = 'index';
         $data['per_page']     = $this->session->per_page;
@@ -660,25 +656,18 @@ class Program_bantuan extends Admin_Controller
     // TODO: ubah peserta menggunakan id untuk semua sasaran dan gunakan relasi database delete cascade
     public function bersihkan_data()
     {
-        $this->session->success = 1;
-        $invalid                = [];
-        $list_sasaran           = array_keys($this->referensi_model->list_ref(SASARAN));
+        $invalid      = [];
+        $list_sasaran = array_keys($this->referensi_model->list_ref(SASARAN));
 
         foreach ($list_sasaran as $sasaran) {
-            $invalid = array_merge($invalid, $this->bersihkan_peserta($sasaran));
+            $invalid = array_merge($invalid, $this->program_bantuan_model->peserta_tidak_valid($sasaran));
         }
-        if ($this->session->success == -1) {
-            redirect('program_bantuan');
-        }
+
         $duplikat     = [];
         $list_program = $this->program_bantuan_model->list_program();
 
         foreach ($list_program as $program) {
-            $duplikat = array_merge($duplikat, $this->bersihkan_duplikat($program));
-        }
-
-        if ($this->session->success == -1) {
-            redirect('program_bantuan');
+            $duplikat = array_merge($duplikat, $this->program_bantuan_model->peserta_duplikat($program));
         }
 
         $data['ref_sasaran'] = $this->referensi_model->list_ref(SASARAN);
@@ -687,68 +676,15 @@ class Program_bantuan extends Admin_Controller
         $this->render('program_bantuan/hasil_pembersihan', $data);
     }
 
-    private function bersihkan_duplikat($program)
+    public function bersihkan_data_peserta()
     {
-        $duplikat = $this->db
-            ->select('pp.peserta, COUNT(peserta) as jumlah, MAX(pp.id) as id, MAX(p.nama) as nama, MAX(p.sasaran) as sasaran, MAX(pp.kartu_nama) as kartu_nama')
-            ->from('program_peserta pp')
-            ->join('program p', 'pp.program_id = p.id')
-            ->where('pp.program_id', $program['id'])
-            ->group_by('pp.peserta')
-            ->having('COUNT(peserta) > 1')
-            ->get()->result_array();
-        if (empty($duplikat)) {
-            return [];
-        }
-
-        $hasil = $this->db
-            ->where_in('peserta', array_column($duplikat, 'peserta'))
-            ->where_not_in('id', array_column($duplikat, 'id'))
+        $this->db
+            ->where_in('id', $this->input->post('id_cb'))
             ->delete('program_peserta');
-        status_sukses($hasil, $gagal_saja = true);
 
-        return $duplikat;
-    }
+        $this->session->success = 1;
 
-    private function bersihkan_peserta($sasaran)
-    {
-        switch ($sasaran) {
-            case '1':
-                $this->db->join('tweb_penduduk s', 's.nik = pp.peserta', 'left');
-                break;
-
-            case '2':
-                $this->db->join('tweb_keluarga s', 's.no_kk = pp.peserta', 'left');
-                break;
-
-            case '3':
-                $this->db->join('tweb_rtm s', 's.no_kk = pp.peserta', 'left');
-                break;
-
-            case '4':
-                $this->db->join('kelompok s', 's.kode = pp.peserta', 'left');
-                break;
-
-            default:
-                break;
-        }
-        $invalid = $this->db->select('pp.id, p.nama, p.sasaran, pp.peserta, pp.kartu_nama')
-            ->from('program_peserta pp')
-            ->join('program p', 'p.id = pp.program_id')
-            ->where('p.sasaran', $sasaran)
-            ->where('s.id is NULL')
-            ->order_by('p.sasaran', 'pp.peserta')
-            ->get()->result_array();
-        if (empty($id_invalid = array_column($invalid, 'id'))) {
-            return [];
-        }
-
-        $hasil = $this->db
-            ->where_in('id', $id_invalid)
-            ->delete('program_peserta');
-        status_sukses($hasil, true);
-
-        return $invalid;
+        redirect('program_bantuan/bersihkan_data');
     }
 
     protected function cek_is_date($cells)

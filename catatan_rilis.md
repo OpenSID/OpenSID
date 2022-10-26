@@ -49,6 +49,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 43. [#5757](https://github.com/OpenSID/OpenSID/issues/5757) Penambahan surat TinyMCE Keterangan Jual Beli
 44. [#5864](https://github.com/OpenSID/OpenSID/issues/5864) Penambahan pop up pada daftar perangkat desa di anjungan.
 45. [#5785](https://github.com/OpenSID/OpenSID/issues/5785) Penambahan pengaturan lanskap & potret terkait layout anjungan.
+46. [#5797](https://github.com/OpenSID/OpenSID/issues/5797) Penyesuaian hapus peserta duplikat.
 
 #### Perbaikan BUG
 

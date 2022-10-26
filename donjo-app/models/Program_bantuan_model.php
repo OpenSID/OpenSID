@@ -1289,4 +1289,49 @@ class Program_bantuan_model extends MY_Model
             ->where_in('id', $peserta_hapus)
             ->delete('program_peserta');
     }
+
+    public function peserta_duplikat($program)
+    {
+        return $this->db
+            ->select('pp.peserta, COUNT(peserta) as jumlah, MAX(pp.id) as id, MAX(p.nama) as nama, MAX(p.sasaran) as sasaran, MAX(pp.kartu_nama) as kartu_nama')
+            ->from('program_peserta pp')
+            ->join('program p', 'pp.program_id = p.id')
+            ->where('pp.program_id', $program['id'])
+            ->group_by('pp.peserta')
+            ->having('COUNT(peserta) > 1')
+            ->get()->result_array() ?? [];
+    }
+
+    public function peserta_tidak_valid($sasaran)
+    {
+        $query = $this->db->select('pp.id, p.nama, p.sasaran, pp.peserta, pp.kartu_nama')
+            ->from('program_peserta pp')
+            ->join('program p', 'p.id = pp.program_id')
+            ->where('p.sasaran', $sasaran)
+            ->where('s.id is NULL')
+            ->order_by('p.sasaran', 'pp.peserta');
+
+        switch ($sasaran) {
+            case '1':
+                $query->join('tweb_penduduk s', 's.nik = pp.peserta', 'left');
+                break;
+
+            case '2':
+                $query->join('tweb_keluarga s', 's.no_kk = pp.peserta', 'left');
+                break;
+
+            case '3':
+                $query->join('tweb_rtm s', 's.no_kk = pp.peserta', 'left');
+                break;
+
+            case '4':
+                $query->join('kelompok s', 's.kode = pp.peserta', 'left');
+                break;
+
+            default:
+                break;
+        }
+
+        return $query->get()->result_array() ?? [];
+    }
 }
