@@ -253,7 +253,7 @@ class Surat_master extends Admin_Controller
 
             $kodeIsian[] = [
                 'tipe'      => $request['tipe_kode'][$i],
-                'kode'      => '[' . str_replace(' ', '_', strtolower($request['nama_kode'][$i])) . ']',
+                'kode'      => '[form_' . str_replace(' ', '_', strtolower($request['nama_kode'][$i])) . ']',
                 'nama'      => $request['nama_kode'][$i],
                 'deskripsi' => $request['deskripsi_kode'][$i],
                 'atribut'   => $request['atribut_kode'][$i],

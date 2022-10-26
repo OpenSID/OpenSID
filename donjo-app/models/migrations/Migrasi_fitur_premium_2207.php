@@ -715,7 +715,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
             'ukuran'              => 'F4',
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
             'qrcode'              => StatusEnum::YA,
-            'kode_isian'          => '[{"kode":"[keterangan]","nama":"Keterangan","tipe":"text","deskripsi":"Masukkan keterangan"}]',
+            'kode_isian'          => '[{"kode":"[form_keterangan]","nama":"Keterangan","tipe":"text","deskripsi":"Masukkan keterangan"}]',
             'mandiri'             => StatusEnum::YA,
             'syarat_surat'        => ['13', '3'],
             'template'            => "
@@ -794,7 +794,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <td style=\"width: 5%; text-align: center; height: 18px;\">11.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Keterangan</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">Mohon keterangan yang akan dipergunakan untuk [Keterangan].</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">Mohon keterangan yang akan dipergunakan untuk [Form_keterangan].</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">12.</td>

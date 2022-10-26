@@ -46,6 +46,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 40. [#5358](https://github.com/OpenSID/OpenSID/issues/5358) Penambahan format nomor surat pada template surat.
 41. [#5025](https://github.com/OpenSID/OpenSID/issues/5025) Penambahan cetak surat di anjungan mandiri khusus surat TinyMCE.
 42. [#5765](https://github.com/OpenSID/OpenSID/issues/5765) Penambahan surat TinyMCE keterangan JAMKESOS.
+43. [#5757](https://github.com/OpenSID/OpenSID/issues/5757) Penambahan surat TinyMCE Keterangan Jual Beli
 
 #### Perbaikan BUG
 
