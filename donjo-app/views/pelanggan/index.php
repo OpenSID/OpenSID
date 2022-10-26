@@ -28,7 +28,7 @@
                         <h5>Fitur ini khusus untuk pelanggan Layanan OpenDesa (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
                         <li>Periksan koneksi anda, pastikan sudah terhubung dengan jaringan internet.</li>
                         <li>Periksa logs error terakhir di menu <strong><a href="<?= site_url('info_sistem#log_viewer'); ?>" style="text-decoration:none;">Pengaturan > Info Sistem > Logs</a></strong></li>
-                        <li>Token pelanggan tidak terontentikasi. Periksa [Layanan Opendesa Token] di <a href="#" style="text-decoration:none;" data-remote="false" data-toggle="modal" data-title="Pengaturan <?= ucwords($this->controller); ?>" data-target="#pengaturan"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
+                        <li>Token pelanggan tidak terontentikasi. Periksa [Layanan Opendesa Token] di <a href="#" style="text-decoration:none;" class="atur-token"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
                         <li>Jika masih mengalami masalah harap menghubungi pelaksana masing-masing.
                     </div>
                 </div>
@@ -135,7 +135,7 @@
             <?php endif ?>
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <b>Rincian Pelanggan <a href="<?= site_url('pelanggan/perbarui') ?>" title="Perbarui" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i> Perbarui</a></b>
+                    <b>Rincian Pelanggan <a href="javascript:;" title="Perbarui" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block perbarui"><i class="fa fa-refresh"></i> Perbarui</a></b>
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">
@@ -418,4 +418,125 @@
         $('#token').select();
         document.execCommand('copy');
     });
+</script>
+
+<script src="<?= asset('js/sweetalert2/sweetalert2.all.min.js') ?>"></script>
+<link rel="stylesheet" href="<?= asset('js/sweetalert2/sweetalert2.min.css') ?>">
+
+<script type="text/javascript">
+    $('.atur-token').click(function(event) {
+        Swal.fire({
+            title: 'Pengaturan Pelanggan',
+            text: 'Layanan Opendesa Token',
+            customClass: {
+                    popup: 'swal-lg',
+                },
+            input: 'textarea',
+            inputAttributes: {
+                inputPlaceholder: 'Token pelanggan Layanan OpenDESA'
+            },
+            showCancelButton: true,
+            cancelButtonText: 'Tutup',
+            confirmButtonText: 'Simpan',
+            showLoaderOnConfirm: true,
+            preConfirm: (token) => {
+                return fetch(`<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`, {
+                    headers: {
+                         "Authorization" : `Bearer ${token}`,
+                         "X-Requested-With" : `XMLHttpRequest`,
+                    },
+                    method: 'post',
+                })
+                  .then(response => {
+                    if (!response.ok) {
+                      throw new Error(response.statusText)
+                    }
+                    return response.json()
+                  })
+                  .catch(error => {
+                    Swal.showValidationMessage(
+                      `Request failed: ${error}`
+                    )
+                })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let response = result.value
+                let data = {
+                    body : response
+                }
+                if (response.desa_id == undefined) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Request failed',
+                        text: 'Verifikasi token Gagal',
+                    })
+                } else {
+                     $.ajax({
+                         url: `${SITE_URL}pelanggan/pemesanan`,
+                         type: 'Post',
+                         dataType: 'json',
+                         data: data,
+                     })
+                     .done(function() {
+                         Swal.fire({
+                             title: 'Berhasil Tersimpan',
+                        })
+                         window.location.replace(`${SITE_URL}pelanggan`);
+
+                     })
+                     .fail(function(e) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Request failed',
+                        })
+                     });
+                }
+            }
+        })
+    });
+
+    $('.perbarui').click(function(event) {
+         Swal.fire({title: 'Sedang Memproses', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
+         $.ajax({
+             url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+             headers: {
+                "Authorization" : `Bearer <?= setting('layanan_opendesa_token') ?>`,
+                "X-Requested-With" : `XMLHttpRequest`,
+             },
+             type: 'Post',
+         })
+         .done(function(response) {
+            let data = {
+                    body : response
+                }
+             $.ajax({
+                 url: `${SITE_URL}pelanggan/pemesanan`,
+                 type: 'Post',
+                 dataType: 'json',
+                 data: data,
+             })
+             .done(function() {
+                 Swal.fire({
+                     title: 'Berhasil Tersimpan',
+                })
+                 window.location.replace(`${SITE_URL}pelanggan`);
+
+             })
+             .fail(function(e) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Request failed',
+                })
+             });
+         })
+         .fail(function() {
+             console.log("error");
+         });
+
+
+
+    });
+
 </script>

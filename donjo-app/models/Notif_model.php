@@ -223,30 +223,8 @@ class Notif_model extends CI_Model
             return null;
         }
 
-        $host = config_item('server_layanan');
-
-        // simpan cache
-        $response = $this->cache->pakai_cache(function () use ($host, $token) {
-            // request ke api layanan.opendesa.id
-            return $this->client->get(
-                "{$host}/api/v1/pelanggan/pemesanan",
-                [],
-                [
-                    CURLOPT_HTTPHEADER => [
-                        'X-Requested-With: XMLHttpRequest',
-                        "Authorization: Bearer {$token}",
-                    ],
-                ]
-            );
-        }, 'status_langganan', 24 * 60 * 60);
-
-        if ($response->header->http_code != 200) {
-            $this->cache->hapus_cache_untuk_semua('status_langganan');
-            $this->session->set_userdata('error_status_langganan', "{$response->header->http_code} {$response->body->messages->error}");
-
-            return null;
+        if ($cache = $this->cache->file->get('status_langganan')) {
+            return $cache;
         }
-
-        return $response;
     }
 }

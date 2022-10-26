@@ -81,6 +81,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 25. [#5845](https://github.com/OpenSID/OpenSID/issues/5845) Perbaikan nama file terlalu panjang di peraturan desa.
 26. [#5855](https://github.com/OpenSID/OpenSID/issues/5855) Perbaikan kamera masih hidup walau modal sudah ditutup.
 27. [#5861](https://github.com/OpenSID/OpenSID/issues/5861) Perbaikan status surat setelah di TTD kepala desa layanan mandiri tidak berubah.
+28. [#5708](https://github.com/OpenSID/OpenSID/issues/5708) Perbaikan token tidak bisa update ke database & tidak respon ke kelayanan.
 
 #### Perubahan Teknis
 
