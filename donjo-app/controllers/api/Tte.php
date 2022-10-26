@@ -152,7 +152,7 @@ class Tte extends Premium
         DB::beginTransaction();
 
         try {
-            $data = LogSurat::where('id', '=', $request['id'])->first();
+            $data    = LogSurat::where('id', '=', $request['id'])->first();
             $mandiri = PermohonanSurat::where('id_surat', $data->id_format_surat)->where('isian_form->nomor', $data->no_surat)->first();
 
             $response = $this->client->post('api/sign/pdf', [

@@ -249,7 +249,7 @@
                         </li>
                         <?php if ($this->header['kategori'] && can('u', $this->controller)) : ?>
                             <li>
-                                <a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan <?= ucwords($this->controller) ?>" data-target="#pengaturan">
+                                <a href="#" class="atur-token">
                                     <span><i class="fa fa-gear"></i>&nbsp;</span>
                                 </a>
                             </li>
