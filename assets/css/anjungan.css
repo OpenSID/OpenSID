@@ -298,3 +298,24 @@ footer {
 a:hover {
     filter: brightness(85%);
 }
+
+.swal-perangkat {
+    width: 1000px !important;
+    height: 400px !important;
+}
+
+.swal2-actions {
+    align-content: flex-end;
+}
+
+.foto-perangkat {
+    width: 50%;
+}
+
+.line {
+    margin: 4px 0;
+}
+
+.card {
+    margin: 8px 0;
+}

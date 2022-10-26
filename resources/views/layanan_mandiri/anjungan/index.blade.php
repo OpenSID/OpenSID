@@ -22,6 +22,8 @@
     <!-- bootstrap datepicker -->
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-datepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/screensaver.css') }}">
+    {{-- Sweet Alert --}}
+    <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
     @stack('css')
 </head>
 
@@ -38,7 +40,7 @@
             <a href="{{ site_url('/') }}" title="Home"><img src="{{ asset('images/anjungan/home.svg') }}" class="menu-header" alt="Icon Menu"></a>
             <a data-value="{{ site_url('kehadiran') }}" class="popup" title="Kehadiran Perangkat Desa"><img src="{{ asset('images/anjungan/kehadiran.svg') }}" class="menu-header" alt="Icon Menu"></a>
             <a href="#" title="Buku Tamu"><img src="{{ asset('images/anjungan/tamu.svg') }}" class="menu-header" alt="Icon Menu"></a>
-            <a href="#" title="Daftar Perangkat Desa"><img src="{{ asset('images/anjungan/perangkat.svg') }}" class="menu-header" alt="Icon Menu"></a>
+            <a href="#" id="perangkat" title="Daftar Perangkat Desa"><img src="{{ asset('images/anjungan/perangkat.svg') }}" class="menu-header" alt="Icon Menu"></a>
             <a href="#" title="Mode Gelap"><img src="{{ asset('images/anjungan/mode.svg') }}" class="menu-header" alt="Icon Menu"></a>
         </div>
     </header>
@@ -140,6 +142,33 @@
                 </div>
     </footer>
 
+    <div id="daftar-perangkat">
+        <div class="row">
+            @if ($pamong)
+                @foreach ($pamong as $data)
+                <div class="col-sm-3">
+                    <div class="card text-center">
+                    <img class="foto-perangkat" src="{{ $data['foto'] }}" alt="Foto {{ $data['nama'] }}"/>
+                    <hr class="line">
+                    <b>
+                        {{ $data['nama'] }}<br>
+                        {{ $data['jabatan'] }}<br>
+                        @if (setting('tampilkan_kehadiran') && $data['status_kehadiran'] == 'hadir')
+                            <span class='label label-success'>Hadir</span>
+                        @elseif (setting('tampilkan_kehadiran') && $data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir')
+                            <span class='label label-danger'><?= ucwords($data['status_kehadiran']) ?></span>
+                        @else
+                            <span class='label label-danger'>Belum Rekam Kehadiran</span>
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            @else
+                <h5>Pemerintah {{ ucwords(setting('sebutan_desa') . ' ' . $nama_desa); }} tidak tersedia.</h5>
+            @endif
+        </div>
+    </div>
+
     @if (setting('tampilan_anjungan') == 1 && ! empty(setting('tampilan_anjungan_slider')))
     <div id="sliderv" class="video-internal" style="display: none;">
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -174,6 +203,8 @@
     <!-- bootstrap Date time picker -->
     <script src="{{ asset('bootstrap/js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/id.js') }}"></script>
+    {{-- Sweet Alert --}}
+    <script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
 </body>
 
 </html>
@@ -213,6 +244,16 @@
     });
 
     $(document).ready(function() {
+        $('#perangkat').click(function(){
+            Swal.fire({
+                html:$('#daftar-perangkat').html(),
+                confirmButtonText:'Tutup',
+                customClass:{
+                      popup: 'swal-perangkat',
+                }
+            })
+        });
+
         var swiper = new Swiper("#swiper-menu", {
             slidesPerView: '{{ $slides }}',
             spaceBetween: 30,

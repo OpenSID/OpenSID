@@ -37,6 +37,7 @@
 
 use App\Models\AnjunganMenu;
 use App\Models\Artikel;
+use App\Models\Config;
 use App\Models\Galery;
 use Carbon\Carbon;
 
@@ -48,6 +49,7 @@ class Anjungan extends Web_Controller
     {
         parent::__construct();
         $this->load->helper('web');
+        $this->load->model('pamong_model');
         if ($this->cek_anjungan['tipe'] != 1) {
             redirect('layanan-mandiri/beranda');
         }
@@ -61,9 +63,6 @@ class Anjungan extends Web_Controller
             return $item;
         });
 
-        $kategori = Galery::where('id', setting('anjungan_slide'))->get();
-        $gambar   = Galery::where('parrent', setting('anjungan_slide'))->get();
-
         $data = [
             'header'        => $this->header,
             'cek_anjungan'  => $this->cek_anjungan,
@@ -74,6 +73,8 @@ class Anjungan extends Web_Controller
             'slides'        => count($menu) > 5 ? 5 : count($menu),
             'teks_berjalan' => setting('anjungan_teks_berjalan'),
             'gambar'        => Galery::where('parrent', setting('anjungan_slide'))->where('enabled', 1)->get(),
+            'nama_desa'     => Config::first()->nama_desa,
+            'pamong'        => $this->pamong_model->list_aparatur_desa()['daftar_perangkat'],
         ];
 
         return view('layanan_mandiri.anjungan.index', $data);
