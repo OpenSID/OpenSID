@@ -63,11 +63,13 @@ class Anjungan extends Web_Controller
             return $item;
         });
 
+        $jumlah_artikel = setting('anjungan_layar') == 1 ? 4 : 6;
+
         $data = [
             'header'        => $this->header,
             'cek_anjungan'  => $this->cek_anjungan,
-            'arsip_terkini' => Artikel::arsip()->orderBy('tgl_upload', 'DESC')->limit(4)->get(),
-            'arsip_populer' => Artikel::arsip()->orderBy('hit', 'DESC')->limit(4)->get(),
+            'arsip_terkini' => Artikel::arsip()->orderBy('tgl_upload', 'DESC')->limit($jumlah_artikel)->get(),
+            'arsip_populer' => Artikel::arsip()->orderBy('hit', 'DESC')->limit($jumlah_artikel)->get(),
             'tanggal'       => Carbon::now()->dayName . ', ' . date('d/m/Y'),
             'menu'          => $menu,
             'slides'        => count($menu) > 5 ? 5 : count($menu),
@@ -77,6 +79,8 @@ class Anjungan extends Web_Controller
             'pamong'        => $this->pamong_model->list_aparatur_desa()['daftar_perangkat'],
         ];
 
-        return view('layanan_mandiri.anjungan.index', $data);
+        $layar = setting('anjungan_layar') == 1 ? 'index' : 'potrait';
+
+        return view('layanan_mandiri.anjungan.' . $layar, $data);
     }
 }

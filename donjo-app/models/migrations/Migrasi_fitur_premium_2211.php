@@ -58,8 +58,9 @@ class Migrasi_fitur_premium_2211 extends MY_model
         $hasil = $hasil && $this->migrasi_2022101371($hasil);
         $hasil = $hasil && $this->migrasi_2022101871($hasil);
         $hasil = $hasil && $this->migrasi_2022102451($hasil);
+        $hasil = $hasil && $this->migrasi_2022102151($hasil);
 
-        return $hasil && $this->migrasi_2022102151($hasil);
+        return $hasil && $this->migrasi_2022102671($hasil);
     }
 
     protected function migrasi_2022100671($hasil)
@@ -337,6 +338,18 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
             $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022102671($hasil)
+    {
+        $hasil && $this->tambah_setting([
+            'key'        => 'anjungan_layar',
+            'value'      => 1, //1: landscape; 2: potrait
+            'keterangan' => 'Pengaturan jenis layar anjungan',
+            'kategori'   => 'anjungan',
+        ]);
 
         return $hasil;
     }

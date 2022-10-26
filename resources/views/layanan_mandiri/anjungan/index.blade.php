@@ -142,7 +142,7 @@
                 </div>
     </footer>
 
-    <div id="daftar-perangkat">
+    <div id="daftar-perangkat" style="none;">
         <div class="row">
             @if ($pamong)
                 @foreach ($pamong as $data)
