@@ -46,7 +46,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2108');
 
-        $this->cache->hapus_cache_untuk_semua('status_langganan');
+        // $this->cache->hapus_cache_untuk_semua('status_langganan');
         $hasil = $hasil && $this->migrasi_2021080771($hasil);
         $hasil = $hasil && $this->migrasi_2021081851($hasil);
         $hasil = $hasil && $this->migrasi_2021082151($hasil);
