@@ -34,6 +34,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 26. [#5855](https://github.com/OpenSID/OpenSID/issues/5855) Perbaikan kamera masih hidup walau modal sudah ditutup.
 27. [#5861](https://github.com/OpenSID/OpenSID/issues/5861) Perbaikan status surat setelah di TTD kepala desa layanan mandiri tidak berubah.
 28. [#5708](https://github.com/OpenSID/OpenSID/issues/5708) Perbaikan token tidak bisa update ke database & tidak respon ke kelayanan.
+29. [#5880](https://github.com/OpenSID/OpenSID/issues/5880) Perbaiki tulisan nomor urut tanah desa yang double N.
 
 #### Perubahan Teknis
 1. Perbaikan cara simpan cache IDM dan SDGS.
