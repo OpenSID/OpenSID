@@ -427,14 +427,6 @@ class Web_dokumen_model extends MY_Model
 
         if ($data['tipe'] == 1) {
             $data['url'] = null;
-        } else {
-            if ($id) {
-                $file = $this->db->select('satuan')->where('id', $id)->get('dokumen')->row()->satuan;
-                if ($file) {
-                    unlink(LOKASI_DOKUMEN . $file);
-                }
-            }
-            $data['satuan'] = null;
         }
 
         switch ($data['kategori']) {
@@ -499,9 +491,6 @@ class Web_dokumen_model extends MY_Model
             if (! $retval) {
                 return $retval;
             }
-        }
-        if ($data['tipe'] != 1) {
-            $data['satuan'] = null;
         }
         $data['attr']       = json_encode($data['attr']);
         $data['updated_at'] = date('Y-m-d H:i:s');

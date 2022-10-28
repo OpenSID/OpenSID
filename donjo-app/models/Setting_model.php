@@ -225,7 +225,7 @@ class Setting_model extends MY_Model
         $outp = $this->db->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
 
         // Hapus Cache
-        $this->cache->hapus_cache_untuk_semua('status_langganan');
+        // $this->cache->hapus_cache_untuk_semua('status_langganan');
         $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
