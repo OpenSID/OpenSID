@@ -36,6 +36,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 28. [#5708](https://github.com/OpenSID/OpenSID/issues/5708) Perbaikan token tidak bisa update ke database & tidak respon ke kelayanan.
 29. [#5880](https://github.com/OpenSID/OpenSID/issues/5880) Perbaikan tulisan nomor urut tanah desa yang double N.
 30. [#5879](https://github.com/OpenSID/OpenSID/issues/5879) Perbaikan link api wa pada widget halaman depan.
+31. [#5868](https://github.com/OpenSID/OpenSID/issues/5868) Penyesuaian terkait pembaruan token di beberapa kondisi.
 
 #### Perubahan Teknis
 1. Perbaikan cara simpan cache IDM dan SDGS.

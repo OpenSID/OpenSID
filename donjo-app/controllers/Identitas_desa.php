@@ -118,10 +118,14 @@ class Identitas_desa extends Admin_Controller
         $data = Config::find($id) ?? show_404();
 
         if ($data->update(static::validate($this->request))) {
-            redirect_with('success', 'Berhasil Ubah Data');
+            return json([
+                'status' => true,
+            ]);
         }
 
-        redirect_with('error', 'Gagal Ubah Data');
+        return json([
+            'status' => false,
+        ]);
     }
 
     /**

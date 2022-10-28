@@ -238,7 +238,7 @@
                 <div class="box-footer">
                     <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
                         Batal</button>
-                    <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
+                    <button type="submit" class="btn btn-social btn-info btn-sm pull-righ simpan"><i class="fa fa-check"></i>
                         Simpan</button>
                 </div>
             </div>
@@ -298,6 +298,69 @@
                 var nip = $("#kades option:selected").attr("data-nip");
                 $("#nip_kepala_desa").val(nip);
             });
+
+            // simpan 
+           $(document).on("submit", "form#validasi", function(event){
+            event.preventDefault();
+             Swal.fire({title: 'Sedang Menyimpan', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
+                $.ajax({
+                    url: $(this).attr("action"),
+                    type: $(this).attr("method"),
+                    dataType: "JSON",
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                })
+                .done(function() {
+                    $.ajax({
+                         url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+                         headers: {
+                            "Authorization" : `Bearer <?= setting('layanan_opendesa_token') ?>`,
+                            "X-Requested-With" : `XMLHttpRequest`,
+                         },
+                         type: 'Post',
+                     })
+                     .done(function(response) {
+                        let data = {
+                                body : response
+                            }
+                         $.ajax({
+                             url: `${SITE_URL}pelanggan/pemesanan`,
+                             type: 'Post',
+                             dataType: 'json',
+                             data: data,
+                         })
+                         .done(function() {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'berhasil ubah data',
+                            })
+                            window.location.replace(`${SITE_URL}identitas_desa`);
+                         })
+                         .fail(function(e) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'berhasil ubah data',
+                            })
+                            window.location.replace(`${SITE_URL}identitas_desa`);
+                         });
+                     })
+                     .fail(function() {
+                         Swal.fire({
+                                icon: 'success',
+                                title: 'berhasil ubah data',
+                            })
+                            window.location.replace(`${SITE_URL}identitas_desa`);
+                     });
+                })
+                .fail(function() {
+                    Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal Ubah Data',
+                            })
+                });
+            });
+
         });
 
         function tampil_kode_desa() {
