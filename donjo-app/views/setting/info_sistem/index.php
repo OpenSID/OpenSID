@@ -227,9 +227,10 @@
 												<div class="table-responsive">
 													<table id="tabel-logs" class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 														<tbody>
-															<?php foreach ($kebutuhan_sistem as $key => $val) : ?>
+															<?php
+                                                            foreach ($kebutuhan_sistem as $key => $val) : ?>
 																<tr>
-																	<td class="text"><?= $key ?></td>
+																	<td class="text"><?= "{$key} ({$val['v']})" ?></td>
 																	<td class="text"><?= $val[$key] ?></td>
 																	<td>
 																		<i class="fa fa-<?= $val['result'] ? 'check-circle-o' : 'times-circle-o' ?> fa-lg" style="color:<?= $val['result'] ? 'green' : 'red' ?>"></i>

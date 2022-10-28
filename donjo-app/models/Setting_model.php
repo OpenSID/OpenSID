@@ -305,6 +305,7 @@ class Setting_model extends MY_Model
             [$key, $kondisi, $val] = $value;
 
             $data[$key] = [
+                'v'      => $val,
                 $key     => ini_get($key),
                 'result' => version_compare(ini_get($key), $val, $kondisi),
             ];
