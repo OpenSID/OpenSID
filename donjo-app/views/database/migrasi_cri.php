@@ -80,7 +80,7 @@
 			$.ajax({
 	             url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
 	             headers: {
-	                "Authorization" : `Bearer <?= setting('layanan_opendesa_token') ?>`,
+	                "Authorization" : `Bearer <?= $this->setting->layanan_opendesa_token ?>`,
 	                "X-Requested-With" : `XMLHttpRequest`,
 	             },
 	             type: 'Post',
@@ -96,7 +96,8 @@
 	                 data: data,
 	             })
 	             .done(function() {
-	                 document.getElementById('excell').submit();
+	             	addCsrfField($('form#excell')[0]);
+	                document.getElementById('excell').submit();
 	             })
 	             .fail(function(e) {
 	                Swal.fire({
