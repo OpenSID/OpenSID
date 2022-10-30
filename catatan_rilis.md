@@ -1,6 +1,6 @@
 Di rilis ini, versi 22.10-premium-rev03 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [isi disini] yang terus berkontribusi.
+Terima kasih pada syahransaputra yang terus berkontribusi.
 
 #### Penambahan Fitur
 
@@ -38,6 +38,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 30. [#5879](https://github.com/OpenSID/OpenSID/issues/5879) Perbaikan link api wa pada widget halaman depan.
 31. [#5868](https://github.com/OpenSID/OpenSID/issues/5868) Penyesuaian terkait pembaruan token di beberapa kondisi.
 32. [#5866](https://github.com/OpenSID/OpenSID/issues/5866) Perbaikan update dokumen penduduk.
+32. [#5886](https://github.com/OpenSID/OpenSID/issues/5886) Perbaikan dobel akta perceraian pada layanan mandiri & profile lengkap.
 
 #### Perubahan Teknis
 1. Perbaikan cara simpan cache IDM dan SDGS.
