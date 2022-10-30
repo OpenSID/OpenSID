@@ -613,7 +613,7 @@ $config['api_idm'] = 'https://idm.kemendesa.go.id/open/api/desa/rumusan';
 |--------------------------------------------------------------------------
 |
 */
-$config['api_sdgs'] = 'https://sdgsdev.kemendesa.go.id/SIDcutoff/goals?wilayah';
+$config['api_sdgs'] = 'https://sid.kemendesa.go.id/sdgs/searching/score-sdgs?';
 
 /*
 |--------------------------------------------------------------------------

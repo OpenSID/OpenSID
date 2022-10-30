@@ -9,6 +9,7 @@
     }
 
     .info-box-icon {
+        border-radius: 10px;
         width: 120px;
         height: 120px;
     }
@@ -29,6 +30,7 @@
     }
     
     .sdgs-logo {
+        border-radius: 10px;
         width: 120px;
         height: 120px;
     }
@@ -70,42 +72,27 @@
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="info-box" style="display: flex;justify-content: center;">
-                        <span class="info-box-number total-bumds" style="text-align: center;" id="total">
+                        <span class="info-box-number total-bumds" style="text-align: center;"><?= $evaluasi->average ?>
                                 <span class="info-box-text desc-bumds" style="text-align: center;">Skor SDGs <?= ucwords($this->setting->sebutan_desa) ?></span>
                             </span>
                         </div>
                 </div>
-                
-                <?php $bagi = 0;
-            foreach ($evaluasi as $key => $value): ?>
-                    <?php
-                    $total += $value->data->capaian;
 
-                if (is_numeric($value->data->capaian)) {
-                    $bagi++;
-                }
-                ?>
+                <?php foreach ($evaluasi->data as $key => $value): ?>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="info-box">
                             <span class="info-box-icon">
-                                <img class="sdgs-logo" src="https://sid.kemendesa.go.id/images/<?=$value->name?>.webp" alt="sdgs-logo">
+                                <img class="sdgs-logo" src="<?= asset("images/sdgs/{$value->image}") ?>" alt="<?= $value->image ?>">
                             </span>
                             <div class="info-box-content">
-                                <span class="info-box-number total-bumds"><?= $value->data->capaian ?>
+                                <span class="info-box-number total-bumds"><?= $value->score ?>
                                     <span class="info-box-text desc-bumds">Nilai</span>
                                 </span>
                             </div>
                         </div>
                     </div>
                 <?php endforeach ?>
-                <?php $hasil = ($bagi > 0) ? round($total / $bagi, 2) : 'N/A' ?>
             </div>
         <?php endif; ?>
     </div>
 </div>
-
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#total').prepend('<?= $hasil ?>')
-});
-</script>

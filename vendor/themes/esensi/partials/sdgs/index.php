@@ -15,31 +15,21 @@
     </div>
 <?php else: ?>
     <div class="space-y-12 text-center">
-        <span class="text-h2" id="total"></span>
+        <span class="text-h2"><?= $evaluasi->average ?></span>
         </br>
         <span class="text-h6">Skor SDGs Desa</span>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 py-5">
-        
-        <?php $bagi = 0;
-            foreach ($evaluasi as $key => $value): ?>
-                    <?php
-                    $total += $value->data->capaian;
-
-                if (is_numeric($value->data->capaian)) {
-                    $bagi++;
-                }
-                ?>
+        <?php foreach ($evaluasi->data as $key => $value): ?>
         <div class="space-y-3">
-            <img class="h-44 w-full object-cover object-center bg-gray-300 dark:bg-gray-600" src="https://sid.kemendesa.go.id/images/<?=$value->name?>.webp" alt="sdgs-logo" />
+            <img class="h-44 w-full object-cover object-center bg-gray-300 dark:bg-gray-600" src="<?= asset("images/sdgs/{$value->image}") ?>" alt="<?= $value->images ?>" />
 
             <div class="space-y-1 text-sm text-center z-10">
                 <span class="text-h6">NILAI</span>
-                <span class="block"><?= $value->data->capaian ?></span>
+                <span class="block"><?= $value->score ?></span>
             </div>
         </div>
         <?php endforeach ?>
-        <?php $hasil = ($bagi > 0) ? round($total / $bagi, 2) : 'N/A' ?>
     </div>
 <?php endif ?>
 

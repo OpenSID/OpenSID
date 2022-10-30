@@ -1297,25 +1297,40 @@ function idm($kode_desa, $tahun)
 
 function sdgs()
 {
-    $kode_desa = setting('kode_desa_bps');
-    $cache     = 'sdgs_' . $kode_desa . '.json';
+    $kode_desa      = setting('kode_desa_bps');
+    $kode_kecamatan = substr($kode_desa, 0, 6);
+    $kode_kabupaten = substr($kode_desa, 0, 4);
+    $kode_provinsi  = substr($kode_desa, 0, 2);
+    $cache          = 'sdgs_' . $kode_desa . '.json';
 
     if (! empty($kode_desa)) {
-        return get_instance()->cache->pakai_cache(static function () use ($kode_desa) {
+        return get_instance()->cache->pakai_cache(static function () use ($kode_provinsi, $kode_kabupaten, $kode_kecamatan, $kode_desa) {
             if (! cek_koneksi_internet()) {
                 return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
             }
 
             try {
                 $client   = new \GuzzleHttp\Client();
-                $response = $client->get(config_item('api_sdgs') . "={$kode_desa}", [
+                $response = $client->get(config_item('api_sdgs') . "province_code={$kode_provinsi}&city_code={$kode_kabupaten}&district_code={$kode_kecamatan}&village_code={$kode_desa}", [
                     'headers' => [
                         'X-Requested-With' => 'XMLHttpRequest',
                     ],
                     'verify' => false,
                 ]);
 
-                return json_decode($response->getBody()->getContents())->data;
+                return (object) collect(json_decode($response->getBody()->getContents()))
+                    ->map(static function ($item, $key) {
+                        if ($key === 'data') {
+                            return collect($item)->map(static function ($item) {
+                                $item->image = last(explode('/', $item->image));
+
+                                return (object) $item;
+                            });
+                        }
+
+                        return $item;
+                    })
+                    ->toArray();
             } catch (Exception $e) {
                 log_message('error', $e->getMessage());
 

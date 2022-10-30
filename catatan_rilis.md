@@ -39,6 +39,7 @@ Terima kasih pada syahransaputra yang terus berkontribusi.
 31. [#5868](https://github.com/OpenSID/OpenSID/issues/5868) Penyesuaian terkait pembaruan token di beberapa kondisi.
 32. [#5866](https://github.com/OpenSID/OpenSID/issues/5866) Perbaikan update dokumen penduduk.
 32. [#5886](https://github.com/OpenSID/OpenSID/issues/5886) Perbaikan dobel akta perceraian pada layanan mandiri & profile lengkap.
+33. [#5890](https://github.com/OpenSID/OpenSID/issues/5890) Penyesuaian API SDGS yang berubah lagi di website sumber.
 
 #### Perubahan Teknis
 1. Perbaikan cara simpan cache IDM dan SDGS.
