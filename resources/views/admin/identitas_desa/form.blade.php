@@ -299,7 +299,7 @@
                 $("#nip_kepala_desa").val(nip);
             });
 
-            // simpan 
+            // simpan
            $(document).on("submit", "form#validasi", function(event){
             event.preventDefault();
              Swal.fire({title: 'Sedang Menyimpan', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});

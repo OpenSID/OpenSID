@@ -488,6 +488,13 @@ class Admin_Controller extends Premium
                 })
                 ->count();
         }
+
+        // cek langganan premium
+        $info_langganan = $this->cache->file->get_metadata('status_langganan');
+
+        if ((strtotime('+1 day', $info_langganan['mtime']) < strtotime('now')) || ($this->cache->file->get_metadata('status_langganan') == false && $this->setting->layanan_opendesa_token != null)) {
+            $this->header['perbaharui_langganan'] = true;
+        }
     }
 
     private function cek_pengumuman()
