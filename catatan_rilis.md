@@ -45,3 +45,4 @@ Terima kasih pada syahransaputra yang terus berkontribusi.
 2. Perbaikan perubahan version saat ini.
 3. Interval release.
 4. Hapus duplikasi variabel.
+5. perbarui langganan

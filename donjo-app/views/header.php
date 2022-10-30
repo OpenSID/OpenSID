@@ -111,6 +111,33 @@
     <script src="<?= asset('js/highcharts/organization.js') ?>"></script>
     <script src="<?= asset('js/highcharts/accessibility.js') ?>"></script>
 
+    <?php if (isset($perbaharui_langganan)): ?>
+        <!-- cek status langganan -->
+        <script type="text/javascript">
+           $.ajax({
+                 url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+                 headers: {
+                    "Authorization" : `Bearer <?= $this->setting->layanan_opendesa_token ?>`,
+                    "X-Requested-With" : `XMLHttpRequest`,
+                 },
+                 type: 'Post',
+             })
+             .done(function(response) {
+                let data = {
+                        body : response
+                    }
+                 $.ajax({
+                     url: `${SITE_URL}pelanggan/pemesanan`,
+                     type: 'Post',
+                     dataType: 'json',
+                     data: data,
+                 })
+
+             })
+        </script>
+    <?php endif ?>
+
+
     <?php require __DIR__ . '/head_tags.php' ?>
 </head>
 
@@ -119,7 +146,7 @@
         <header class="main-header">
             <a href="<?= site_url() ?>" target="_blank" class="logo">
                 <span class="logo-mini"><b>SID</b></span>
-                <span class="logo-lg"><b>OpenSID</b></span>
+                <span class="logo-lg"><b>OpenSID dffds</b></span>
             </a>
             <nav class="navbar navbar-static-top">
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">

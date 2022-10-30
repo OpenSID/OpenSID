@@ -112,11 +112,12 @@ if (! function_exists('view')) {
                     'pengumuman'      => $CI->header['notif_pengumuman'],
                     'permohonansurat' => $CI->header['notif_permohonan'],
                 ],
-                'kategori'      => $CI->header['kategori'],
-                'sub_modul_ini' => $CI->sub_modul_ini,
-                'session'       => $CI->session,
-                'setting'       => $CI->setting,
-                'token'         => $CI->security->get_csrf_token_name(),
+                'kategori'             => $CI->header['kategori'],
+                'sub_modul_ini'        => $CI->sub_modul_ini,
+                'session'              => $CI->session,
+                'setting'              => $CI->setting,
+                'token'                => $CI->security->get_csrf_token_name(),
+                'perbaharui_langganan' => $CI->header['perbaharui_langganan'] ?? null,
             ]);
         }
 
