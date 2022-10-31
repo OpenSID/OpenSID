@@ -173,6 +173,20 @@ $(document).ready(function()
 		$('#file_browser4').click();
 	});
 
+	$('#file_browser5').click(function(e)
+	{
+		e.preventDefault();
+		$('#file5').click();
+	});
+	$('#file5').change(function()
+	{
+		$('#file_path5').val($(this).val());
+	});
+	$('#file_path5').click(function()
+	{
+		$('#file_browser5').click();
+	});
+
 	$('[data-rel="popover"]').popover(
 	{
 		html: true,

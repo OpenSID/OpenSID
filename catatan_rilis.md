@@ -41,6 +41,7 @@ Terima kasih pada syahransaputra yang terus berkontribusi.
 32. [#5886](https://github.com/OpenSID/OpenSID/issues/5886) Perbaikan dobel akta perceraian pada layanan mandiri & profile lengkap.
 33. [#5890](https://github.com/OpenSID/OpenSID/issues/5890) Penyesuaian API SDGS yang berubah lagi di website sumber.
 34. [#5894](https://github.com/OpenSID/OpenSID/issues/5894) Perbaikan panjang karakter pada kolom pada ID penerima bantuan.
+35. [#5895](https://github.com/OpenSID/OpenSID/issues/5895) Perbaikan maksimal foto produk pada menu lapak.
 
 #### Perubahan Teknis
 1. Perbaikan cara simpan cache IDM dan SDGS.
