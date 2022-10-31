@@ -372,7 +372,6 @@ class Pamong_model extends CI_Model
 
         if ($jenis == 'a.n') {
             if ($pamong->jabatan_id == '2') {
-                // return json($pamong->jabatan_id);
                 $output = Pamong::where('jabatan_id', 2)->find($id)->update(['pamong_ttd' => $val]);
 
                 // Hanya 1 yang bisa jadi a.n dan harus sekretaris
