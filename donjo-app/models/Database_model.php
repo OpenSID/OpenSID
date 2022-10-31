@@ -200,10 +200,8 @@ class Database_model extends MY_Model
          * Update current_version di db.
          * 'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
          */
-        $versi      = AmbilVersi();
-        $versi      = preg_replace('/-premium.*|pasca-|-pasca/', '', $versi);
         $newVersion = [
-            'value' => $versi,
+            'value' => currentVersion(),
         ];
         $this->db->where(['key' => 'current_version'])->update('setting_aplikasi', $newVersion);
         $this->catat_versi_database();
@@ -3529,9 +3527,10 @@ class Database_model extends MY_Model
             'analisis_ref_state',
             'analisis_ref_subjek',
             'analisis_tipe_indikator',
-            'artikel', //remove everything except widgets 1003
-            'config', //Karena terkait validasi pengguna premium
+            'artikel', // Remove everything except widgets 1003
+            'config', // Karena terkait validasi pengguna premium
             'gis_simbol',
+            'kehadiran_jam_kerja',
             'klasifikasi_surat',
             'keuangan_manual_ref_bidang',
             'keuangan_manual_ref_kegiatan',
@@ -3611,6 +3610,12 @@ class Database_model extends MY_Model
         $this->analisis_import_model->impor_analisis($file_analisis, 'DDK02', 1);
         $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
         $this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', $jenis = 1);
+
+        // Kecuali folder
+        $exclude = [
+            'desa/config',
+            'desa/themes',
+        ];
 
         // Kecuali folder
         $exclude = [

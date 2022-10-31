@@ -66,14 +66,12 @@ class Pengaduan_admin extends Admin_Controller
             $dir    = $this->input->post('order[0][dir]');
             $status = $this->input->post('status');
 
-            return $this->json_output(
-                [
-                    'draw'            => $this->input->post('draw'),
-                    'recordsTotal'    => $this->pengaduan_model->get_pengaduan_a('', $status)->count_all_results(),
-                    'recordsFiltered' => $this->pengaduan_model->get_pengaduan_a($search, $status)->count_all_results(),
-                    'data'            => $this->pengaduan_model->get_pengaduan_a($search, $status)->order_by($order, $dir)->limit($length, $start)->get()->result(),
-                ]
-            );
+            return json([
+                'draw'            => $this->input->post('draw'),
+                'recordsTotal'    => $this->pengaduan_model->get_pengaduan_a('', $status)->count_all_results(),
+                'recordsFiltered' => $this->pengaduan_model->get_pengaduan_a($search, $status)->count_all_results(),
+                'data'            => $this->pengaduan_model->get_pengaduan_a($search, $status)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+            ]);
         }
 
         $this->render('pengaduan_admin/index', $data);

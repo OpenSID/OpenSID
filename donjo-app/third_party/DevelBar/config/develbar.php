@@ -45,7 +45,7 @@ defined('BASEPATH') || exit('No direct script access.');
 | This option allows you to enable the developer's Toolbar
 |
 */
-$config['enable_develbar'] = DEV_TOOLS_BAR;
+$config['enable_develbar'] = true;
 
 /*
 |--------------------------------------------------------------------------

@@ -43,7 +43,7 @@ class Job extends CI_Controller
     {
         parent::__construct();
         $this->load->helper('file');
-        $this->load->model(['export_model', 'database_model']);
+        $this->load->model(['ekspor_model', 'database_model']);
     }
 
     public function restore($database = null)
@@ -77,7 +77,7 @@ class Job extends CI_Controller
         xcopy('desa-contoh', 'desa', ['config']);
 
         // Proses Restore Database
-        if ($this->export_model->proses_restore($this->cekDB($database))) {
+        if ($this->ekspor_model->proses_restore($this->cekDB($database))) {
             $this->database_model->migrasi_db_cri();
         } else {
             log_message('error', 'Proses Restore Database Gagal');

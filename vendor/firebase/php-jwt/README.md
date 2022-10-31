@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/firebase/php-jwt.png?branch=master)](https://travis-ci.org/firebase/php-jwt)
+![Build Status](https://github.com/firebase/php-jwt/actions/workflows/tests.yml/badge.svg)
 [![Latest Stable Version](https://poser.pugx.org/firebase/php-jwt/v/stable)](https://packagist.org/packages/firebase/php-jwt)
 [![Total Downloads](https://poser.pugx.org/firebase/php-jwt/downloads)](https://packagist.org/packages/firebase/php-jwt)
 [![License](https://poser.pugx.org/firebase/php-jwt/license)](https://packagist.org/packages/firebase/php-jwt)
@@ -198,14 +198,43 @@ use Firebase\JWT\JWT;
 // this endpoint: https://www.gstatic.com/iap/verify/public_key-jwk
 $jwks = ['keys' => []];
 
-// JWK::parseKeySet($jwks) returns an associative array of **kid** to private
-// key. Pass this as the second parameter to JWT::decode.
-// NOTE: The deprecated $supportedAlgorithm must be supplied when parsing from JWK.
-JWT::decode($payload, JWK::parseKeySet($jwks), $supportedAlgorithm);
+// JWK::parseKeySet($jwks) returns an associative array of **kid** to Firebase\JWT\Key
+// objects. Pass this as the second parameter to JWT::decode.
+JWT::decode($payload, JWK::parseKeySet($jwks));
+```
+
+Miscellaneous
+-------------
+
+#### Casting to array
+
+The return value of `JWT::decode` is the generic PHP object `stdClass`. If you'd like to handle with arrays
+instead, you can do the following:
+
+```php
+// return type is stdClass
+$decoded = JWT::decode($payload, $keys);
+
+// cast to array
+$decoded = json_decode(json_encode($decoded), true);
 ```
 
 Changelog
 ---------
+
+#### 6.1.0 / 2022-03-23
+
+ - Drop support for PHP 5.3, 5.4, 5.5, 5.6, and 7.0
+ - Add parameter typing and return types where possible
+
+#### 6.0.0 / 2022-01-24
+
+ - **Backwards-Compatibility Breaking Changes**: See the [Release Notes](https://github.com/firebase/php-jwt/releases/tag/v6.0.0) for more information.
+ - New Key object to prevent key/algorithm type confusion (#365)
+ - Add JWK support (#273)
+ - Add ES256 support (#256)
+ - Add ES384 support (#324)
+ - Add Ed25519 support (#343)
 
 #### 5.0.0 / 2017-06-26
 - Support RS384 and RS512.

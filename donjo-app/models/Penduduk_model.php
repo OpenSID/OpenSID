@@ -125,7 +125,7 @@ class Penduduk_model extends MY_Model
             $this->db
                 ->group_start()
                 ->where("{$kolom} IS NOT NULL")
-                ->or_where("{$kolom} <>", '')
+                ->where("{$kolom} !=", '')
                 ->group_end();
         } elseif ($kf == BELUM_MENGISI) {
             $this->db

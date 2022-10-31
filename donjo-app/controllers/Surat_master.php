@@ -86,7 +86,7 @@ class Surat_master extends Admin_Controller
 
     public function form($p = 1, $o = 0, $id = '')
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $data['p']               = $p;
         $data['o']               = $o;
         $data['klasifikasi']     = $this->klasifikasi_model->list_kode();
@@ -110,7 +110,7 @@ class Surat_master extends Admin_Controller
 
     public function form_upload($p = 1, $o = 0, $url = '')
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $data['form_action'] = site_url("surat_master/upload/{$p}/{$o}/{$url}");
         $this->load->view('surat_master/ajax-upload', $data);
     }
@@ -139,7 +139,7 @@ class Surat_master extends Admin_Controller
 
     public function insert()
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $syarat  = $this->input->post('syarat');
         $mandiri = $this->input->post('mandiri');
         unset($_POST['syarat']);
@@ -151,7 +151,7 @@ class Surat_master extends Admin_Controller
 
     public function update($p = 1, $o = 0, $id = '')
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $syarat  = $this->input->post('syarat');
         $mandiri = $this->input->post('mandiri');
         unset($_POST['syarat']);
@@ -162,7 +162,7 @@ class Surat_master extends Admin_Controller
 
     public function upload($p = 1, $o = 0, $url = '')
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->surat_master_model->upload($url);
         redirect("surat_master/index/{$p}/{$o}");
     }
@@ -195,15 +195,22 @@ class Surat_master extends Admin_Controller
 
     public function lock($id = 0, $k = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->surat_master_model->lock($id, $k);
         redirect('surat_master');
     }
 
     public function favorit($id = 0, $k = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->surat_master_model->favorit($id, $k);
+        redirect('surat_master');
+    }
+
+    public function perbaharui()
+    {
+        $this->redirect_hak_akses('u');
+        $this->surat_master_model->perbaharui_surat_desa();
         redirect('surat_master');
     }
 }

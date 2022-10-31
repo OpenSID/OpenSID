@@ -84,7 +84,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 											<?php if ($foto[$i]) : ?>
 												<div class="item <?= jecho($i, 0, 'active'); ?>">
 													<?php if (is_file(LOKASI_PRODUK . $foto[$i])) : ?>
-														<img class="image-produk" src="<?= base_url(LOKASI_PRODUK . $foto[$i]); ?>" alt="Produk <?= ($i + 1); ?>">
+														<img class="image-produk card-img-top" src="<?= base_url(LOKASI_PRODUK . $foto[$i]); ?>" alt="Produk <?= ($i + 1); ?>">
 														<!-- <?= jecho($pro->kategori, true, '<div class="textgambar hidden-xs">' . $pro->kategori . '</div>'); ?> -->
 													<?php else : ?>
 														<img class="card-img-top" style="width: auto; max-height: 170px;" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Produk" />

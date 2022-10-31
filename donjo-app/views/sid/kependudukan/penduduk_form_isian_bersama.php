@@ -7,7 +7,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-calendar"></i>
 					</div>
-					<input class="form-control input-sm pull-right" id="tgl_5" name="tgl_peristiwa" type="text" value="<?= $penduduk['tgl_peristiwa'] ? rev_tgl($penduduk['tgl_peristiwa']) : date('d-m-Y'); ?>">
+					<input class="form-control input-sm pull-right tgl_sekarang required" name="tgl_peristiwa" type="text" value="<?= $penduduk['tgl_peristiwa'] ? rev_tgl($penduduk['tgl_peristiwa']) : date('d-m-Y'); ?>">
 				</div>
 			</div>
 		</div>
@@ -20,7 +20,7 @@
 					<div class="input-group-addon">
 						<i class="fa fa-calendar"></i>
 					</div>
-					<input class="form-control input-sm pull-right" id="tgl_6" name="tgl_lapor" type="text" value="<?= $penduduk['tgl_lapor'] ? rev_tgl($penduduk['tgl_lapor']) : date('d-m-Y'); ?>">
+					<input class="form-control input-sm pull-right tgl_sekarang required" name="tgl_lapor" type="text" value="<?= $penduduk['tgl_lapor'] ? rev_tgl($penduduk['tgl_lapor']) : date('d-m-Y'); ?>">
 				</div>
 			</div>
 		</div>

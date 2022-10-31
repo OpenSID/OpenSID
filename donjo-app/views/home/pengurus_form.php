@@ -7,7 +7,7 @@
 			<li class="active">Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa); ?></li>
 		</ol>
 	</section>
-	<section class="content">
+	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<div class="box-header with-border">
 				<a href="<?= site_url('pengurus'); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Staf</a>
@@ -82,6 +82,13 @@
 								<label class="col-sm-4 control-label" for="pamong_nip">NIP</label>
 								<div class="col-sm-7">
 									<input id="pamong_nip" name="pamong_nip" class="form-control input-sm digits" type="text" maxlength="20" placeholder="NIP" value="<?=$pamong['pamong_nip']?>" ></input>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label" for="pamong_tag_id_card">Tag ID Card</label>
+								<div class="col-sm-7">
+									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Tag ID Card" value="<?=$individu['tag_id_card']?>" disabled="disabled"></input>
+									<input id="pamong_tag_id_card" name="pamong_tag_id_card" class="form-control input-sm pengurus-luar-desa tag_id_card" type="text" maxlength="17" placeholder="Tag ID Card" value="<?=$pamong['pamong_tag_id_card']?>" style="display: none;"></input>
 								</div>
 							</div>
 							<div class="form-group">

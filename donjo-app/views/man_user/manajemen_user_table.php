@@ -109,18 +109,18 @@
 															<?php if ($this->CI->cek_hak_akses('u')): ?>
 																<td class="aksi">
 																	<?php if ($this->CI->cek_hak_akses('u')): ?>
-																		<a href="<?=site_url("Man_user/form/{$p}/{$o}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+																		<a href="<?=site_url("man_user/form/{$p}/{$o}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 																	<?php endif; ?>
 																	<?php if ($data['id'] != 1): ?>
 																		<?php if ($this->CI->cek_hak_akses('u')): ?>
 																			<?php if ($data['active'] == '0'): ?>
-																				<a href="<?=site_url('Man_user/user_unlock/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Pengguna"><i class="fa fa-lock">&nbsp;</i></a>
+																				<a href="<?=site_url('man_user/user_unlock/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Pengguna"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['active'] == '1'): ?>
-																				<a href="<?=site_url('Man_user/user_lock/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Pengguna"><i class="fa fa-unlock"></i></a>
+																				<a href="<?=site_url('man_user/user_lock/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Pengguna"><i class="fa fa-unlock"></i></a>
 																			<?php endif; ?>
 																		<?php endif; ?>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
-																			<a href="#" data-href="<?=site_url("Man_user/delete/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?=site_url("man_user/delete/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	<?php endif; ?>
 																</td>

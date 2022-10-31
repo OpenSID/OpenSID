@@ -6,7 +6,7 @@
     <li>Data Vaksin</li>
   </ol>
 </div>
-<h2 class="text-h2"><?= $heading ?></h2>
+<h1 class="text-h2"><?= $heading ?></h1>
 <div class="table-responsive table content">
   <table class="table table-striped table-bordered" id="tabel-data">
     <thead>

@@ -35,12 +35,17 @@
  *
  */
 
-if (! function_exists('asset')) {
-    function asset($uri = '')
-    {
-        $path = FCPATH . 'assets/' . $uri;
+use Carbon\Carbon;
 
-        return base_url('assets/' . $uri . '?v' . md5_file($path));
+if (! function_exists('asset')) {
+    function asset($uri = '', $default = true)
+    {
+        if ($default) {
+            $uri = 'assets/' . $uri;
+        }
+        $path = FCPATH . $uri;
+
+        return base_url($uri . '?v' . md5_file($path));
     }
 }
 
@@ -67,17 +72,20 @@ if (! function_exists('view')) {
         $factory->share([
             'auth'         => $CI->session->isAdmin,
             'controller'   => $CI->controller,
-            'desa'         => $CI->header['desa'],
+            'desa'         => \App\Models\Config::first(),
             'list_setting' => $CI->list_setting,
             'modul'        => $CI->header['modul'],
             'modul_ini'    => $CI->modul_ini,
             'notif'        => [
-                'surat'     => $CI->header['notif_permohonan_surat'],
-                'inbox'     => $CI->header['notif_inbox'],
-                'komentar'  => $CI->header['notif_komentar'],
-                'langganan' => $CI->header['notif_langganan'],
+                'surat'      => $CI->header['notif_permohonan_surat'],
+                'inbox'      => $CI->header['notif_inbox'],
+                'komentar'   => $CI->header['notif_komentar'],
+                'langganan'  => $CI->header['notif_langganan'],
+                'pengumuman' => $CI->header['notif_pengumuman'],
             ],
+            'kategori'      => $CI->header['kategori'],
             'sub_modul_ini' => $CI->sub_modul_ini,
+            'session'       => $CI->session,
             'setting'       => $CI->setting,
             'token'         => $CI->security->get_csrf_token_name(),
         ]);
@@ -157,5 +165,58 @@ if (! function_exists('route')) {
         }
 
         return site_url($to);
+    }
+}
+
+// setting('sebutan_desa');
+if (! function_exists('setting')) {
+    function setting($params = null)
+    {
+        $getSetting = get_instance()->setting;
+
+        if ($params && $getSetting->{$params}) {
+            return $getSetting->{$params};
+        }
+
+        return $getSetting;
+    }
+}
+
+if (! function_exists('calculate_days')) {
+    /**
+     * Calculate minute between 2 date.
+     *
+     * @return int
+     */
+    function calculate_days(string $dateStart, string $format = 'Y-m-d')
+    {
+        return abs(Carbon::createFromFormat($format, $dateStart)->getTimestamp() - Carbon::now()->getTimestamp()) / (60 * 60 * 24);
+    }
+}
+
+if (! function_exists('calculate_date_intervals')) {
+    /**
+     * Calculate list dates interval to minutes.
+     *
+     * @return int
+     */
+    function calculate_date_intervals(array $date)
+    {
+        $reference = Carbon::now();
+        $endTime   = clone $reference;
+
+        foreach ($date as $dateInterval) {
+            $endTime = $endTime->add(DateInterval::createFromDateString(calculate_days($dateInterval) . 'days'));
+        }
+
+        return $reference->diff($endTime)->days;
+    }
+}
+
+// SebuatanDesa('Surat [Desa]');
+if (! function_exists('SebuatanDesa')) {
+    function SebuatanDesa($params = null)
+    {
+        return str_replace('[Desa]', ucwords(setting('sebutan_desa')), $params);
     }
 }

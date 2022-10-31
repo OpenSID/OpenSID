@@ -42,21 +42,7 @@ class Main extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['pamong_model', 'track_model', 'grup_model']);
-    }
-
-    public function maintenance_mode()
-    {
-        if (isset($_SESSION['siteman']) && $_SESSION['siteman'] == 1) {
-            redirect('main');
-        }
-        $data['main']         = $this->config_model->get_data();
-        $data['pamong_kades'] = $this->pamong_model->get_ttd();
-        if (file_exists(FCPATH . 'desa/offline_mode.php')) {
-            $this->load->view('../../desa/offline_mode', $data);
-        } else {
-            $this->load->view('offline_mode', $data);
-        }
+        $this->load->model(['track_model', 'grup_model']);
     }
 
     public function index()
@@ -89,7 +75,7 @@ class Main extends CI_Controller
             // Jika website hanya bisa diakses user, maka harus login dulu
             redirect('siteman');
         } else {
-            redirect();
+            redirect('/');
         }
     }
 }

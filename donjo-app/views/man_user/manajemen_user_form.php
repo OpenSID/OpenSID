@@ -1,6 +1,6 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Form Manajemen Pengguna</h1>
+		<h1>Form Manajemen Pengguna </h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('man_user') ?>"> Daftar Pengguna</a></li>
@@ -49,6 +49,18 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-3 control-label" for="nama">Data Staf </label>
+								<div class="col-sm-8">
+									<select class="form-control select2 input-sm" id="pamong_id" name="pamong_id">
+										<option value>-- Silakan Masukan Nama Staf --</option>
+										<?php foreach ($pamong as $item) : ?>
+											<?php $pamong_nama = $item->pamong_nama != null ? $item->pamong_nama : $item->penduduk->nama ?>
+											<option value="<?= $item->pamong_id ?>" data-nama="<?= $pamong_nama ?>" <?= selected($user['pamong_id'], $item->pamong_id); ?>><?= $item->jabatan . ' - ' . $pamong_nama ?></option>
+										<?php endforeach ?>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-3 control-label" for="username">Username</label>
 								<div class="col-sm-8">
 									<input id="username" name="username" class="form-control input-sm required username" type="text" placeholder="Username" value="<?= $user['username'] ?>"></input>
@@ -66,6 +78,7 @@
 									<input id="nama" name="nama" class="form-control input-sm required nama" minlength="3" maxlength="50" type="text" placeholder="Nama" value="<?= $user['nama'] ?>"></input>
 								</div>
 							</div>
+
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="phone">Nomor HP</label>
 								<div class="col-sm-8">
@@ -91,3 +104,12 @@
 		</div>
 	</section>
 </div>
+
+<script type="text/javascript">
+	$(function() {
+		$('#pamong_id').on('select2:select', function (e) {
+		    var data = $('#pamong_id :selected').data('nama')
+		    $('#nama').val(data);
+		});
+	});
+</script>

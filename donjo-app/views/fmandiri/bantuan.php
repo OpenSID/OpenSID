@@ -67,7 +67,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	}
 </script>
 <div class="box box-solid">
-	<div class="box-header with-border bg-red">
+	<div class="box-header with-border bg-aqua">
 		<h4 class="box-title">Bantuan</h4>
 	</div>
 	<div class="box-body box-line">

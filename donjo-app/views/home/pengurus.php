@@ -1,12 +1,3 @@
-<script>
-	$(function() {
-		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete({
-			source: keyword,
-			maxShowItems: 10,
-		});
-	});
-</script>
 <style type="text/css">
 	.table-responsive {
 		min-height: 350px;
@@ -20,7 +11,7 @@
 	<div class="box-header with-border">
 		<?php if ($this->CI->cek_hak_akses('u')): ?>
 			<a href="<?= site_url('pengurus/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Staf">
-			<i class="fa fa-plus"></i>Tambah Aparat Pemerintahan <?= ucwords($this->setting->sebutan_desa)?>
+			<i class="fa fa-plus"></i>Tambah Aparat Pemerintahan
 		</a>
 		<?php endif; ?>
 		<?php if ($this->CI->cek_hak_akses('u')): ?>
@@ -38,8 +29,21 @@
 				</ul>
 			</div>
 		<?php endif; ?>
-		<a href="<?= site_url('pengurus/dialog/cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data"><i class="fa fa-print "></i> Cetak</a>
-		<a href="<?= site_url('pengurus/dialog/unduh')?>" title="Unduh Data" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data"><i class="fa fa-download"></i> Unduh</a>
+		<?php if ($this->CI->cek_hak_akses('u')): ?>
+			<div class="btn-group btn-group-vertical">
+				<a class="btn btn-social btn-flat bg-purple btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
+				<ul class="dropdown-menu" role="menu">
+					<li>
+						<a href="<?= site_url('pengurus/dialog/cetak')?>" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print "></i> Cetak</a>
+					</li>
+					<?php if ($this->CI->cek_hak_akses('h')): ?>
+						<li>
+							<a href="<?= site_url('pengurus/dialog/unduh')?>" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-download"></i> Unduh</a>
+						</li>
+					<?php endif; ?>
+				</ul>
+			</div>
+		<?php endif; ?>
 		<div class="btn-group btn-group-vertical">
 			<a class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Bagan Organisasi</a>
 			<ul class="dropdown-menu" role="menu">
@@ -56,6 +60,33 @@
 				<?php endif; ?>
 			</ul>
 		</div>
+		<?php if (can('u', 'kehadiran_jam_kerja') || can('u', 'kehadiran_hari_libur') || can('u', 'kehadiran_rekapitulasi') || can('u', 'kehadiran_pengaduan')): ?>
+		<div class="btn-group btn-group-vertical">
+			<a class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Kehadiran</a>
+			<ul class="dropdown-menu" role="menu">
+				<?php if (can('u', 'kehadiran_jam_kerja')): ?>
+				<li>
+					<a href="<?= site_url('kehadiran_jam_kerja')?>" title="Jam Kerja" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-clock-o"></i> Jam Kerja</a>
+				</li>
+				<?php endif ?>
+				<?php if (can('u', 'kehadiran_hari_libur')): ?>
+				<li>
+					<a href="<?= site_url('kehadiran_hari_libur')?>" title="Hari Libur" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-calendar"></i> Hari Libur</a>
+				</li>
+				<?php endif ?>
+				<?php if (can('u', 'kehadiran_rekapitulasi')): ?>
+				<li>
+					<a href="<?= site_url('kehadiran_rekapitulasi')?>" title="Kehadiran" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-list"></i> Kehadiran</a>
+				</li>
+				<?php endif ?>
+				<?php if (can('u', 'kehadiran_pengaduan')): ?>
+				<li>
+					<a href="<?= site_url('kehadiran_pengaduan')?>" title="Pengaduan" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-exclamation"></i> Pengaduan</a>
+				</li>
+				<?php endif ?>
+			</ul>
+		</div>
+		<?php endif ?>
 	</div>
 	<div class="box-body">
 		<div class="row">
@@ -66,8 +97,8 @@
 							<div class="col-sm-6">
 								<select class="form-control input-sm" name="status" onchange="formAction('mainform','<?= site_url('pengurus/filter/status')?>')">
 									<option value="">Semua</option>
-									<option value="1" <?php selected($status, 1); ?>>Aktif</option>
-									<option value="2" <?php selected($status, 2); ?>>Tidak Aktif</option>
+									<option value="1" <?= selected($status, 1); ?>>Aktif</option>
+									<option value="2" <?= selected($status, 2); ?>>Tidak Aktif</option>
 								</select>
 							</div>
 							<div class="col-sm-6">
@@ -93,7 +124,7 @@
 													<th class="padat">Aksi</th>
 												<?php endif; ?>
 												<th class="text-center">Foto</th>
-												<th>Nama, NIP/<?= $this->setting->sebutan_nip_desa; ?>, NIK</th>
+												<th>Nama, NIP/<?= $this->setting->sebutan_nip_desa; ?>, NIK, Tag ID Card</th>
 												<th nowrap>Tempat, <p>Tanggal Lahir</p></th>
 												<th>Jenis Kelamin</th>
 												<th>Agama</th>
@@ -130,6 +161,11 @@
 																<?php else: ?>
 																	<a href="<?= site_url("pengurus/lock/{$data['pamong_id']}/1")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a>
 																<?php endif ?>
+																<?php if ($data['kehadiran'] == '1'): ?>
+																	<a href="<?= site_url("pengurus/kehadiran/{$data['pamong_id']}/0")?>" class="btn bg-aqua btn-flat btn-sm" title="Non Aktifkan Kehadiran Perangkat"><i class="fa fa-check"></i></a>
+																<?php else: ?>
+																	<a href="<?= site_url("pengurus/kehadiran/{$data['pamong_id']}/1")?>" class="btn bg-aqua btn-flat btn-sm" title="Aktifkan Kehadiran Perangkat"><i class="fa fa-ban"></i></a>
+																<?php endif ?>
 																<?php if ($data['pamong_ttd'] == '1'): ?>
 																	<a href="<?= site_url("pengurus/ttd/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD a.n">a.n</a>
 																<?php else: ?>
@@ -154,7 +190,8 @@
 															<?php else: ?>
 																<i><?= $this->setting->sebutan_nip_desa; ?> :<?=$data['pamong_niap']?></i></br>
 															<?php endif; ?>
-															<i>NIK :<?=$data['nik']?></i>
+															<i>NIK :<?=$data['nik']?></i></br>
+															<i>Tag ID Card :<?=$data['tag_id_card']?></i>
 														</p>
 													</td>
 													<td nowrap><?= $data['tempatlahir'] . ', <p>' . tgl_indo_out($data['tanggallahir'])?></p></td>
@@ -183,3 +220,12 @@
 	</div>
 </div>
 <?php $this->load->view('global/confirm_delete'); ?>
+<script>
+	$(function() {
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete({
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>

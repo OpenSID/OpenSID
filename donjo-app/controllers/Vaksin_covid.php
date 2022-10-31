@@ -261,8 +261,7 @@ class Vaksin_covid extends Admin_Controller
 
     public function autocomplete()
     {
-        $data = $this->vaksin_covid_model->autocomplete($this->input->post('cari'));
-        $this->json_output($data);
+        return json($this->vaksin_covid_model->autocomplete($this->input->post('cari')));
     }
 
     public function impor()
