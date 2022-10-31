@@ -59,8 +59,9 @@ class Migrasi_fitur_premium_2211 extends MY_model
         $hasil = $hasil && $this->migrasi_2022101871($hasil);
         $hasil = $hasil && $this->migrasi_2022102451($hasil);
         $hasil = $hasil && $this->migrasi_2022102151($hasil);
+        $hasil = $hasil && $this->migrasi_2022102671($hasil);
 
-        return $hasil && $this->migrasi_2022102671($hasil);
+        return $hasil && $this->migrasi_2022103151($hasil);
     }
 
     protected function migrasi_2022100671($hasil)
@@ -120,7 +121,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     protected function tambah_modul_gawai_layanan($hasil)
     {
-        if (! $this->db->field_exists('tipe', 'anjungan')) {
+        if (!$this->db->field_exists('tipe', 'anjungan')) {
             $fields = [
                 'tipe' => [
                     'type'       => 'TINYINT',
@@ -159,7 +160,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     protected function migrasi_2022102271($hasil)
     {
-        if (! $this->db->field_exists('deleted_at', 'log_surat')) {
+        if (!$this->db->field_exists('deleted_at', 'log_surat')) {
             $fields = [
                 'deleted_at' => [
                     'type' => 'datetime',
@@ -273,7 +274,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     public function migrasi_2022102151($hasil)
     {
-        if (! $this->db->field_exists('FF12', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('FF12', 'keuangan_ta_spp')) {
             $fields = [
                 'FF12' => [
                     'type'       => 'VARCHAR',
@@ -286,7 +287,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
         }
 
-        if (! $this->db->field_exists('FF13', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('FF13', 'keuangan_ta_spp')) {
             $fields = [
                 'FF13' => [
                     'type'       => 'VARCHAR',
@@ -299,7 +300,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
         }
 
-        if (! $this->db->field_exists('FF14', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('FF14', 'keuangan_ta_spp')) {
             $fields = [
                 'FF14' => [
                     'type'       => 'VARCHAR',
@@ -325,7 +326,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
         }
 
         // tambhakn nomorsurat di log surat
-        if (! $this->db->field_exists('format_nomor', 'tweb_surat_format')) {
+        if (!$this->db->field_exists('format_nomor', 'tweb_surat_format')) {
             $fields = [
                 'format_nomor' => [
                     'type'       => 'VARCHAR',
@@ -337,6 +338,20 @@ class Migrasi_fitur_premium_2211 extends MY_model
             ];
 
             $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
+        }
+        return $hasil;
+    }
+    protected function migrasi_2022103151($hasil)
+    {
+        if ($this->db->field_exists('no_id_kartu', 'program_peserta')) {
+            $fields = [
+                'no_id_kartu' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 60,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('program_peserta', $fields);
         }
 
         return $hasil;
