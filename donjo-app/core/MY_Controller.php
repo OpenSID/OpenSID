@@ -92,13 +92,16 @@ class MY_Controller extends CI_Controller
         $this->request = $this->input->post();
 
         // Untuk anjungan
-        if (! cek_anjungan()) {
-            try {
-                Anjungan::tipe(1)->update(['status' => 0]);
-            } catch (Exception $e) {
+        if (Schema::hasColumn('anjungan', 'tipe')) {
+            if (! cek_anjungan() && Anjungan::exists()) {
+                try {
+                    Anjungan::tipe(1)->update(['status' => 0]);
+                } catch (Exception $e) {
+                }
             }
+            $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
         }
-        $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+
         // Cek perangkat lupa absen keluar
         cek_kehadiran();
     }
@@ -142,17 +145,6 @@ class Web_Controller extends MY_Controller
         // Variabel untuk tema
         $this->set_template();
         $this->includes['folder_themes'] = "../../{$this->theme_folder}/{$this->theme}";
-
-        // Untuk anjungan
-        if (! cek_anjungan()) {
-            try {
-                Anjungan::tipe(1)->update(['status' => 0]);
-            } catch (Exception $e) {
-            }
-        }
-
-        $this->load->model('anjungan_model');
-        $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 
         $this->load->model('web_menu_model');
     }
