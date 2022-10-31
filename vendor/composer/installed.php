@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '18cfb27406f0a4ded880aa911a7544664f8fabc1',
+        'reference' => 'e3fa58e8a20270514ace8a4ae31afdcecfcff472',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -256,7 +256,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '18cfb27406f0a4ded880aa911a7544664f8fabc1',
+            'reference' => 'e3fa58e8a20270514ace8a4ae31afdcecfcff472',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -420,9 +420,9 @@
             'dev_requirement' => false,
         ),
         'symfony/console' => array(
-            'pretty_version' => 'v5.4.14',
-            'version' => '5.4.14.0',
-            'reference' => '984ea2c0f45f42dfed01d2f3987b187467c4b16d',
+            'pretty_version' => 'v5.4.15',
+            'version' => '5.4.15.0',
+            'reference' => 'ea59bb0edfaf9f28d18d8791410ee0355f317669',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/console',
             'aliases' => array(),
@@ -519,9 +519,9 @@
             'dev_requirement' => false,
         ),
         'symfony/string' => array(
-            'pretty_version' => 'v5.4.14',
-            'version' => '5.4.14.0',
-            'reference' => '089e7237497fae7a9c404d0c3aeb8db3254733e4',
+            'pretty_version' => 'v5.4.15',
+            'version' => '5.4.15.0',
+            'reference' => '571334ce9f687e3e6af72db4d3b2a9431e4fd9ed',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/string',
             'aliases' => array(),
@@ -572,7 +572,7 @@
         'themes/esensi' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '40a5829182576d60331a5fc1fb2c90facdde3f9d',
+            'reference' => '282422b7098f8f69dc8d824ab583fef1f6d25b20',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/esensi',
             'aliases' => array(
@@ -583,7 +583,7 @@
         'themes/natra' => array(
             'pretty_version' => 'dev-premium',
             'version' => 'dev-premium',
-            'reference' => '9f8ea8986d4162e6bf1982e5e972efea9a32a068',
+            'reference' => 'dd7147bce81e04872434e56945b14b805775f513',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
