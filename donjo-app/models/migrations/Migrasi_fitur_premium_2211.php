@@ -119,60 +119,6 @@ class Migrasi_fitur_premium_2211 extends MY_model
         return $hasil;
     }
 
-    protected function tambah_modul_gawai_layanan($hasil)
-    {
-        if (!$this->db->field_exists('tipe', 'anjungan')) {
-            $fields = [
-                'tipe' => [
-                    'type'       => 'TINYINT',
-                    'default'    => 1, // 1 => anjungan, 2 => gawai layanan
-                    'constraint' => 3,
-                ],
-            ];
-            $hasil = $hasil && $this->dbforge->add_column('anjungan', $fields);
-        }
-
-        return $hasil && $this->tambah_modul([
-            'id'         => 351,
-            'modul'      => 'Gawai Layanan',
-            'url'        => 'gawai_layanan',
-            'aktif'      => 1,
-            'ikon'       => 'fa-desktop',
-            'urut'       => 3,
-            'level'      => 2,
-            'hidden'     => 0,
-            'ikon_kecil' => 'fa-desktop',
-            'parent'     => 14,
-        ]);
-    }
-
-    protected function migrasi_2022101371($hasil)
-    {
-        $hasil && $this->tambah_setting([
-            'key'        => 'anjungan_teks_berjalan',
-            'value'      => '',
-            'keterangan' => 'Pengaturan teks berjalan untuk anjungan',
-            'kategori'   => 'anjungan',
-        ]);
-
-        return $hasil;
-    }
-
-    protected function migrasi_2022102271($hasil)
-    {
-        if (!$this->db->field_exists('deleted_at', 'log_surat')) {
-            $fields = [
-                'deleted_at' => [
-                    'type' => 'datetime',
-                    'null' => true,
-                ],
-            ];
-            $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
-        }
-
-        return $hasil;
-    }
-
     protected function migrasi_2022101571($hasil)
     {
         $hasil && $this->tambah_setting([
@@ -201,6 +147,60 @@ class Migrasi_fitur_premium_2211 extends MY_model
             'value'      => '100',
             'keterangan' => 'Tinggi Gambar Visual TTE',
             'kategori'   => 'tte',
+        ]);
+
+        return $hasil;
+    }
+
+    protected function tambah_modul_gawai_layanan($hasil)
+    {
+        if (!$this->db->field_exists('tipe', 'anjungan')) {
+            $fields = [
+                'tipe' => [
+                    'type'       => 'TINYINT',
+                    'default'    => 1, // 1 => anjungan, 2 => gawai layanan
+                    'constraint' => 3,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('anjungan', $fields);
+        }
+
+        return $hasil && $this->tambah_modul([
+            'id'         => 351,
+            'modul'      => 'Gawai Layanan',
+            'url'        => 'gawai_layanan',
+            'aktif'      => 1,
+            'ikon'       => 'fa-desktop',
+            'urut'       => 3,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-desktop',
+            'parent'     => 14,
+        ]);
+    }
+
+    protected function migrasi_2022102271($hasil)
+    {
+        if (!$this->db->field_exists('deleted_at', 'log_surat')) {
+            $fields = [
+                'deleted_at' => [
+                    'type' => 'datetime',
+                    'null' => true,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022101371($hasil)
+    {
+        $hasil && $this->tambah_setting([
+            'key'        => 'anjungan_teks_berjalan',
+            'value'      => '',
+            'keterangan' => 'Pengaturan teks berjalan untuk anjungan',
+            'kategori'   => 'anjungan',
         ]);
 
         return $hasil;
@@ -272,6 +272,32 @@ class Migrasi_fitur_premium_2211 extends MY_model
         }
     }
 
+    public function migrasi_2022102451($hasil)
+    {
+        if (SettingAplikasi::find('format_nomor_surat')->exists()) {
+            $hasil = $hasil && $this->db->where('key', 'format_nomor_surat')
+                ->update('setting_aplikasi', [
+                    'kategori' => 'format_surat',
+                ]);
+        }
+
+        // tambhakn nomorsurat di log surat
+        if (!$this->db->field_exists('format_nomor', 'tweb_surat_format')) {
+            $fields = [
+                'format_nomor' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'after'      => 'header',
+                    'null'       => true,
+                    'default'    => null,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
+        }
+        return $hasil;
+    }
+
     public function migrasi_2022102151($hasil)
     {
         if (!$this->db->field_exists('FF12', 'keuangan_ta_spp')) {
@@ -316,31 +342,18 @@ class Migrasi_fitur_premium_2211 extends MY_model
         return $hasil;
     }
 
-    public function migrasi_2022102451($hasil)
+    protected function migrasi_2022102671($hasil)
     {
-        if (SettingAplikasi::find('format_nomor_surat')->exists()) {
-            $hasil = $hasil && $this->db->where('key', 'format_nomor_surat')
-                ->update('setting_aplikasi', [
-                    'kategori' => 'format_surat',
-                ]);
-        }
+        $hasil && $this->tambah_setting([
+            'key'        => 'anjungan_layar',
+            'value'      => 1, //1: landscape; 2: potrait
+            'keterangan' => 'Pengaturan jenis layar anjungan',
+            'kategori'   => 'anjungan',
+        ]);
 
-        // tambhakn nomorsurat di log surat
-        if (!$this->db->field_exists('format_nomor', 'tweb_surat_format')) {
-            $fields = [
-                'format_nomor' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 100,
-                    'after'      => 'header',
-                    'null'       => true,
-                    'default'    => null,
-                ],
-            ];
-
-            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
-        }
         return $hasil;
     }
+
     protected function migrasi_2022103151($hasil)
     {
         if ($this->db->field_exists('no_id_kartu', 'program_peserta')) {
@@ -353,18 +366,6 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
             $hasil = $hasil && $this->dbforge->modify_column('program_peserta', $fields);
         }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2022102671($hasil)
-    {
-        $hasil && $this->tambah_setting([
-            'key'        => 'anjungan_layar',
-            'value'      => 1, //1: landscape; 2: potrait
-            'keterangan' => 'Pengaturan jenis layar anjungan',
-            'kategori'   => 'anjungan',
-        ]);
 
         return $hasil;
     }
