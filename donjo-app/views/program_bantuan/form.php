@@ -66,7 +66,7 @@
 												<div class="form-group">
 													<label for="no_id_kartu" class="col-sm-4 col-lg-4 control-label">Nomor Kartu Peserta</label>
 													<div class="col-sm-8">
-														<input id="no_id_kartu" class="form-control input-sm nama_terbatas required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" maxlength="30">
+														<input id="no_id_kartu" class="form-control input-sm nama_terbatas required" type="text" placeholder="Nomor Kartu Peserta" name="no_id_kartu" maxlength="36">
 													</div>
 												</div>
 												<div class="form-group">

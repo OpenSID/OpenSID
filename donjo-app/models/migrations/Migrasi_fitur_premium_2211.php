@@ -47,8 +47,9 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2210');
+        $hasil = $hasil && $this->migrasi_2022100851($hasil);
 
-        return $hasil && $this->migrasi_2022100851($hasil);
+        return $hasil && $this->migrasi_2022103151($hasil);
     }
 
     public function migrasi_2022100851($hasil)
@@ -128,6 +129,22 @@ class Migrasi_fitur_premium_2211 extends MY_model
             ];
 
             $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022103151($hasil)
+    {
+        if ($this->db->field_exists('no_id_kartu', 'program_peserta')) {
+            $fields = [
+                'no_id_kartu' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 60,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('program_peserta', $fields);
         }
 
         return $hasil;
