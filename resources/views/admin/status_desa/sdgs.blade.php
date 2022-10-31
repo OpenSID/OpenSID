@@ -127,10 +127,6 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-            var hasil = '{{ $hasil }}';
-
-            $('#total').prepend(hasil);
-
             var server_pantau = "{{ config_item('server_pantau') }}";
             var token_pantau = "{{ config_item('token_pantau') }}";
             var kode_desa = "{{ $kode_desa }}";
@@ -155,25 +151,25 @@
                             location.replace('{{ route('status_desa.perbarui_sdgs') }}')
                         } else {
                             Swal.fire({
-                              icon: 'error',
-                              text: value.message,
-                              showCloseButton: false
+                                icon: 'error',
+                                text: value.message,
+                                showCloseButton: false
                             })
                         }
                     })
                     .fail(function(e) {
                         Swal.fire({
-                          icon: 'error',
-                          text: e,
-                          showCloseButton: false
+                            icon: 'error',
+                            text: e,
+                            showCloseButton: false
                         })
                     });
                 })
                 .fail(function(e) {
                     Swal.fire({
-                      icon: 'error',
-                      text: e,
-                      showCloseButton: false
+                        icon: 'error',
+                        text: e,
+                        showCloseButton: false
                     })
                 });
             });

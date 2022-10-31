@@ -512,7 +512,7 @@ class Surat_master extends Admin_Controller
         }
 
         foreach ($this->request['nama_kode'] as $kode) {
-            $data = str_replace('[' . $kode . ']', 'Masukkan ' . $kode, $data);
+            $data = case_replace('[form_' . str_replace(' ', '_', strtolower($kode)) . ']', 'Masukkan ' . $kode, $data);
         }
 
         $data      = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
