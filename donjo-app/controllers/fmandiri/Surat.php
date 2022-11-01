@@ -122,13 +122,11 @@ class Surat extends Mandiri_Controller
             }
         }
 
-        $output = [
+        return json([
             'recordsTotal'    => 10,
             'recordsFiltered' => 10,
             'data'            => $data,
-        ];
-
-        $this->json_output($output);
+        ]);
     }
 
     // Proses permohonan surat

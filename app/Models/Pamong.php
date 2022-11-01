@@ -63,6 +63,13 @@ class Pamong extends Model
     public $timestamps = false;
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['penduduk'];
+
+    /**
      * The guarded with the model.
      *
      * @var array
@@ -72,6 +79,16 @@ class Pamong extends Model
     public function penduduk()
     {
         return $this->hasOne(Penduduk::class, 'id', 'id_pend');
+    }
+
+    /**
+     * Define a one-to-many relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function kehadiran()
+    {
+        return $this->hasMany(Kehadiran::class, 'pamong_id', 'pamong_id');
     }
 
     /**
@@ -85,5 +102,24 @@ class Pamong extends Model
     public function scopeStatus($query, $value = 1)
     {
         return $query->where('pamong_status', $value);
+    }
+
+    /**
+     * Scope query untuk daftar kehadiran pamong
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopeDaftar($query, $value = 1)
+    {
+        return $query->where('pamong_status', 1)->where('kehadiran', $value);
+    }
+
+    public function scopeKehadiranPamong($query)
+    {
+        return $query->leftJoin('kehadiran_perangkat_desa as k', 'tweb_desa_pamong.pamong_id', '=', 'k.pamong_id')
+            ->leftJoin('kehadiran_pengaduan as p', 'tweb_desa_pamong.pamong_id', '=', 'p.id_pamong');
     }
 }

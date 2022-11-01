@@ -6,10 +6,10 @@
 
 <div class="box box-primary">
 	<div class="box-body">
-		<form method="get" class="form-inline text-center">
+		<form method="get" class="form-inline text-center" id="filter">
 			<div class="row">
 				<div class="col-sm-12">
-					<select class="form-control select2" id="id_kategori" name="id_kategori">
+					<select class="form-control select2" id="id_kategori" name="id_kategori" onchange="$('#filter').submit();">
 						<option selected value="">Semua Kategori</option>
 						<?php foreach ($kategori as $kategori_item) : ?>
 							<option value="<?= $kategori_item->id ?>" <?= selected($id_kategori, $kategori_item->id) ?>><?= $kategori_item->kategori ?></option>

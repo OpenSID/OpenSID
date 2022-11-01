@@ -78,16 +78,14 @@ class Hom_sid extends Admin_Controller
             $url_rilis = config_item('rilis_umum');
 
             $release = new Release();
-            $release->set_api_url($url_rilis)
-                ->set_interval(7)
-                ->set_cache_folder(config_item('cache_path'));
+            $release->setApiUrl($url_rilis)->setCurrentVersion(null);
 
-            $info['update_available'] = $release->is_available();
+            $info['update_available'] = $release->isAvailable();
             $info['current_version']  = 'v' . VERSION;
-            $info['latest_version']   = $release->get_latest_version();
-            $info['release_name']     = $release->get_release_name();
-            $info['release_body']     = $release->get_release_body();
-            $info['url_download']     = $release->get_release_download();
+            $info['latest_version']   = $release->getLatestVersion();
+            $info['release_name']     = $release->getReleaseName();
+            $info['release_body']     = $release->getReleaseBody();
+            $info['url_download']     = $release->getReleaseDownload();
         }
 
         return $info;

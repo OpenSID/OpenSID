@@ -422,7 +422,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->db->where_in('id_modul', [220, 221])->delete('grup_akses');
 
         // Tambah group akses modul pembangunan untuk operator
-        $hasil = $hasil && $this->grup_akses(2, 220, 3);
+        $hasil = $hasil && $this->grupAkses(2, 220, 3);
 
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 

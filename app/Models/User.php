@@ -93,4 +93,14 @@ class User extends Model
     {
         return [];
     }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function pamong()
+    {
+        return $this->hasOne(Pamong::class, 'pamong_id', 'pamong_id');
+    }
 }

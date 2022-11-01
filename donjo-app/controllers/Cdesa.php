@@ -63,8 +63,7 @@ class Cdesa extends Admin_Controller
     // TODO: fix
     public function autocomplete()
     {
-        $data = $this->cdesa_model->autocomplete($this->input->post('cari'));
-        $this->json_output($data);
+        return json($this->cdesa_model->autocomplete($this->input->post('cari')));
     }
 
     public function search()

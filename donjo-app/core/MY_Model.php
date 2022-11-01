@@ -50,6 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @property CI_Output           $output
  * @property CI_Router           $router
  * @property CI_Security         $security
+ * @property CI_Session          $session
  * @property CI_URI              $uri
  * @property CI_Utf8             $utf8
  */
@@ -240,7 +241,7 @@ class MY_Model extends CI_Model
         // Hak Akses Default Operator
         // Hanya lakukan jika tabel grup_akses sudah ada. Tabel ini belum ada sebelum Migrasi_fitur_premium_2105.php
         if ($this->db->table_exists('grup_akses')) {
-            $hasil = $hasil && $this->grup_akses(2, $modul['id'], 3);
+            $hasil = $hasil && $this->grupAkses(2, $modul['id'], 3);
         }
 
         // Hapus cache menu navigasi
@@ -249,7 +250,7 @@ class MY_Model extends CI_Model
         return $hasil;
     }
 
-    public function grup_akses($id_grup, $id_modul, $akses)
+    public function grupAkses($id_grup, $id_modul, $akses)
     {
         return $this->db->insert('grup_akses', ['id_grup' => $id_grup, 'id_modul' => $id_modul, 'akses' => $akses]);
     }
@@ -273,9 +274,11 @@ class MY_Model extends CI_Model
 
     public function tambah_setting($setting)
     {
-        $sql = $this->db->insert_string('setting_aplikasi', $setting) . ' ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)';
+        $sql   = $this->db->insert_string('setting_aplikasi', $setting) . ' ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)';
+        $hasil = $this->db->query($sql);
+        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
 
-        return $this->db->query($sql);
+        return $hasil;
     }
 
     // fungsi untuk format paginasi

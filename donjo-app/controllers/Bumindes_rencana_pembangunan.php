@@ -61,7 +61,7 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
             $dir    = $this->input->post('order[0][dir]');
             $tahun  = $this->input->post('tahun');
 
-            return $this->json_output([
+            return json([
                 'draw'            => $this->input->post('draw'),
                 'recordsTotal'    => $this->model->get_data()->count_all_results(),
                 'recordsFiltered' => $this->model->get_data($search, $tahun)->count_all_results(),

@@ -6,7 +6,7 @@
     <li>Data Statistik</li>
   </ol>
 </div>
-<h2 class="text-h2">Daftar Calon Pemilih Berdasarkan Wilayah (pada tgl pemilihan <?= $tanggal_pemilihan ?>)</h2>
+<h1 class="text-h2">Daftar Calon Pemilih Berdasarkan Wilayah (pada tgl pemilihan <?= $tanggal_pemilihan ?>)</h1>
 
 <div class="content py-3 table-responsive">
   <table class="w-full text-sm">

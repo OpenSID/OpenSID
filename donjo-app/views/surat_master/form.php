@@ -36,7 +36,7 @@
 						<div class="col-sm-7">
 							<div class="input-group">
 								<span class="input-group-addon input-sm">Surat</span>
-								<input type="text" class="form-control input-sm required" id="nama" name="nama" placeholder="Nama Layanan" value="<?= $surat_master['nama']?>"/>
+								<input type="text" class="form-control input-sm alfanumerik_spasi required" id="nama" name="nama" placeholder="Nama Layanan" value="<?= $surat_master['nama']?>"/>
 							</div>
 						</div>
 					</div>

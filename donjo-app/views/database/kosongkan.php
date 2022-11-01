@@ -1,5 +1,5 @@
 										<?php if ($this->CI->cek_hak_akses('h')): ?>
-											<div class="tab-pane <?php if ($act_tab == 6): ?> active<?php endif ?>">
+											<div class="tab-pane <?= jecho($act_tab, 3, 'active') ?>">
 												<div class="row">
 													<div class="col-md-12">
 														<div class="box-header with-border">

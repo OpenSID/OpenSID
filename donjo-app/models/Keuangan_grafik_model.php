@@ -1326,14 +1326,29 @@ class Keuangan_grafik_model extends CI_model
         return $res_pelaksanaan;
     }
 
-    public function widget_keuangan()
+    public function widget_keuangan($tahun = null)
     {
-        $data = $this->keuangan_model->list_tahun_anggaran();
+        if (null === $tahun) {
+            $tahun = date('Y');
+        }
+        $thn = $this->keuangan_model->list_tahun_anggaran();
+        if (empty($thn)) {
+            return null;
+        }
 
-        foreach ($data as $tahun) {
-            $res[$tahun]['res_pendapatan']  = $this->data_widget_pendapatan($tahun, $opt  = true);
-            $res[$tahun]['res_belanja']     = $this->data_widget_belanja($tahun, $opt     = true);
-            $res[$tahun]['res_pelaksanaan'] = $this->data_widget_pelaksanaan($tahun, $opt = true);
+        if (! in_array($tahun, $thn)) {
+            $tahun = $thn[0];
+        }
+
+        $raw_data = $this->data_keuangan_tema($tahun);
+
+        foreach ($raw_data as $keys => $raws) {
+            foreach ($raws as $raw) {
+                $data         = $this->raw_perhitungan($raw);
+                $data['nama'] = $raw['nama'];
+
+                $res[$tahun][$keys][] = $data;
+            }
         }
 
         return [
@@ -1380,18 +1395,8 @@ class Keuangan_grafik_model extends CI_model
                     continue;
                 }
 
-                $data['judul']     = $raw['nama'];
-                $data['anggaran']  = $raw['anggaran'];
-                $data['realisasi'] = $raw['realisasi'] + $raw['realisasi_pendapatan'] + ($raw['realisasi_belanja'] - $raw['realisasi_belanja_um']) + $raw['realisasi_belanja_spj'] + $raw['realisasi_bunga'] + $raw['realisasi_jurnal'] + $raw['realisasi_biaya'];
-
-                if ($data['anggaran'] != 0 && $data['realisasi'] != 0) {
-                    $data['persen'] = $data['realisasi'] / $data['anggaran'] * 100;
-                } elseif ($data['realisasi'] != 0) {
-                    $data['persen'] = 100;
-                } else {
-                    $data['persen'] = 0;
-                }
-                $data['persen'] = round($data['persen'], 2);
+                $data          = $this->raw_perhitungan($raw);
+                $data['judul'] = $raw['nama'];
 
                 $result['data_widget'][$keys][] = $data;
             }
@@ -1399,5 +1404,30 @@ class Keuangan_grafik_model extends CI_model
         $result['tahun'] = $tahun;
 
         return $result;
+    }
+
+    public function raw_perhitungan($raw)
+    {
+        if ($raw['nama'] === 'PEMBIAYAAN') {
+            $penerimaan_pembiayaan   = $raw['realisasi'] + $raw['realisasi_pendapatan'] + ($raw['realisasi_belanja'] - $raw['realisasi_belanja_um']) + $raw['realisasi_belanja_spj'] + $raw['realisasi_bunga'] + $raw['realisasi_jurnal'] + $raw['realisasi_biaya'];
+            $pengeluaraan_pembiayaan = $raw['anggaran'] - $penerimaan_pembiayaan;
+
+            $data['anggaran']  = $penerimaan_pembiayaan - $pengeluaraan_pembiayaan;
+            $data['realisasi'] = $penerimaan_pembiayaan;
+        } else {
+            $data['anggaran']  = $raw['anggaran'];
+            $data['realisasi'] = $raw['realisasi'] + $raw['realisasi_pendapatan'] + ($raw['realisasi_belanja'] - $raw['realisasi_belanja_um']) + $raw['realisasi_belanja_spj'] + $raw['realisasi_bunga'] + $raw['realisasi_jurnal'] + $raw['realisasi_biaya'];
+        }
+
+        if ($data['anggaran'] != 0 && $data['realisasi'] != 0) {
+            $data['persen'] = $data['realisasi'] / $data['anggaran'] * 100;
+        } elseif ($data['realisasi'] != 0) {
+            $data['persen'] = 100;
+        } else {
+            $data['persen'] = 0;
+        }
+        $data['persen'] = round($data['persen'], 2);
+
+        return $data;
     }
 }

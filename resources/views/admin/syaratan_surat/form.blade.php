@@ -14,7 +14,9 @@
 @endsection
 
 @section('content')
+
 @include('admin.layouts.components.notifikasi')
+
 <div class="box box-info">
   <div class="box-header with-border">
     <a href="{{ route('surat_mohon') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
@@ -38,5 +40,6 @@
     </form>
   </div>
 </div>
+
 @endsection
 

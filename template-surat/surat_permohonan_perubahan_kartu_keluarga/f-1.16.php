@@ -457,7 +457,7 @@
 		<tr><td>&nbsp;</td></tr>
 		<tr>
 			<td colspan="46" style="text-align: right">
-				<?= str_pad(".",40,".",STR_PAD_LEFT);?>,<?= str_pad(".",60,".",STR_PAD_LEFT);?>
+				<?= $config['nama_desa'] ?>, <?= tgl_indo(date('Y-m-d')); ?>
 			</td>
 			<td colspan="2">&nbsp;</td>
 		</tr>

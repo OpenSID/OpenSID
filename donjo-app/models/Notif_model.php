@@ -57,11 +57,17 @@ class Notif_model extends CI_Model
             return null;
         }
 
-        if (is_array($response->body->tanggal_berlangganan)) {
-            $tgl_akhir    = strtotime($response->body->tanggal_berlangganan->tgl_akhir);
+        $tgl_akhir = $response->body->tanggal_berlangganan->akhir;
+
+        if (empty($tgl_akhir)) { // pemesanan bukan premium
+            foreach ($response->body->pemesanan as $pemesanan) {
+                $akhir[] = $pemesanan->tgl_akhir;
+            }
+
+            $masa_berlaku = calculate_date_intervals($akhir);
+        } else { // pemesanan premium
+            $tgl_akhir    = strtotime($tgl_akhir);
             $masa_berlaku = round(($tgl_akhir - time()) / (60 * 60 * 24));
-        } else {
-            return null;
         }
 
         switch (true) {

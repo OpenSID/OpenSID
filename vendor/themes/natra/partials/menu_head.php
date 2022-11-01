@@ -34,15 +34,6 @@
                     <?php endif; ?>
                 </li>
                 <?php endforeach; ?>
-                <li class="dropdown" style="margin-right: 5px; margin-top: 0px">
-                    <a class="dropdown-toggle" href="javascript:void(0);">Login <span class='caret'></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="<?= site_url('siteman'); ?>" rel="noopener noreferrer" target="_blank">Administrator</a>
-                            <a href="<?= site_url('layanan-mandiri'); ?>" rel="noopener noreferrer" target="_blank">Layanan Mandiri</a>
-                        </li>
-                    </ul>
-                </li>
             </ul>
 		</div>
     </div>

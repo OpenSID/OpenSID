@@ -14,7 +14,7 @@
         <figure>
           <img src="<?= gambar_desa($desa['logo']) ?>" alt="Logo <?= ucfirst($this->setting->sebutan_desa).' '.ucwords($desa['nama_desa']) ?>" class="h-16 mx-auto pb-2">
         </figure>
-        <h1 class="text-h2"><?= NAMA_DESA ?></h1>
+        <span class="text-h2 block"><?= NAMA_DESA ?></span>
         <p><?= ucfirst($this->setting->sebutan_kecamatan_singkat) ?>
           <?= ucwords($desa['nama_kecamatan']) ?>,
           <?= ucfirst($this->setting->sebutan_kabupaten_singkat) ?>

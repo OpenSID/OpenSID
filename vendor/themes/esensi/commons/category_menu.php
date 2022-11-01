@@ -1,7 +1,5 @@
 <?php  defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<?php $alt_slug = IS_PREMIUM ? 'artikel' : 'first'; ?>
-
 <section x-data="{catMenu: false}">
   <button 
     type="button"
@@ -28,14 +26,14 @@
       <ul class="w-full text-sm">
         <?php foreach($menu_kiri as $menu) : ?>
           <li class="lg:inline-block">
-            <a href="<?= site_url("{$alt_slug}/kategori/{$menu['slug']}") ?>" class="block lg:inline-block py-2 px-3 hover:text-link">
+            <a href="<?= site_url("artikel/kategori/{$menu['slug']}") ?>" class="block lg:inline-block py-2 px-3 hover:text-link">
               <?= $menu['kategori'] ?>
             </a>
           </li>
           <?php if(count($menu['submenu']) > 0) : ?>
             <?php foreach($menu['submenu'] as $submenu) : ?>
               <li class="lg:inline-block">
-                <a href="<?= site_url("{$alt_slug}/kategori/{$submenu['slug']}") ?>" class="block lg:inline-block py-2 px-3 hover:text-link">
+                <a href="<?= site_url("artikel/kategori/{$submenu['slug']}") ?>" class="block lg:inline-block py-2 px-3 hover:text-link">
                   <?= $submenu['kategori'] ?>
                 </a>
               </li>
@@ -45,7 +43,9 @@
       </ul>
 
       <div class="flex flex-col lg:flex-row gap-3 mt-5 lg:mt-0 flex-wrap lg:justify-end w-full px-3">
-        <a href="<?= site_url('layanan-mandiri') ?>" class="btn btn-primary text-sm w-full lg:w-auto text-center">Layanan Mandiri <i class="fas fa-external-link-alt ml-1"></i></a>
+        <?php if($this->setting->layanan_mandiri == 1) : ?>
+          <a href="<?= site_url('layanan-mandiri') ?>" class="btn btn-primary text-sm w-full lg:w-auto text-center">Layanan Mandiri <i class="fas fa-external-link-alt ml-1"></i></a>
+        <?php endif ?>
         <a href="<?= site_url('siteman') ?>" class="btn btn-accent text-sm w-full lg:w-auto text-center">Login Admin <i class="fas fa-external-link-alt ml-1"></i></a>
       </div>
     </div>

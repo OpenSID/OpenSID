@@ -35,12 +35,21 @@
  *
  */
 
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
+use Carbon\CarbonInterval;
+use Carbon\CarbonPeriod;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Pagination\Cursor;
 use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Facade;
+
+Carbon::setLocale('id');
+CarbonImmutable::setLocale('id');
+CarbonPeriod::setLocale('id');
+CarbonInterval::setLocale('id');
 
 $capsule = new Capsule();
 $capsule->addConnection([

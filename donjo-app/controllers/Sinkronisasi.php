@@ -47,7 +47,7 @@ class Sinkronisasi extends Admin_Controller
         $this->modul_ini     = 11;
         $this->sub_modul_ini = 326;
         $this->load->library('zip');
-        $this->load->model('export_model');
+        $this->load->model('ekspor_model');
         $this->sterilkan();
     }
 
@@ -176,7 +176,7 @@ class Sinkronisasi extends Admin_Controller
         $header = WriterEntityFactory::createRowFromArray($judul);
         $writer->addRow($header);
 
-        $get = $this->export_model->tambah_penduduk_sinkronasi_opendk();
+        $get = $this->ekspor_model->tambah_penduduk_sinkronasi_opendk();
 
         foreach ($get as $row) {
             $penduduk = [
@@ -286,7 +286,7 @@ class Sinkronisasi extends Admin_Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST  => 'POST',
-            CURLOPT_POSTFIELDS     => json_encode($this->export_model->hapus_penduduk_sinkronasi_opendk()),
+            CURLOPT_POSTFIELDS     => json_encode($this->ekspor_model->hapus_penduduk_sinkronasi_opendk()),
             CURLOPT_HTTPHEADER     => [
                 'Accept: application/json',
                 'Content-Type: application/json',

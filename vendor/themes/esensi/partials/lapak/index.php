@@ -6,7 +6,7 @@
     <li aria-current="page">Lapak</li>
   </ol>
 </nav>
-<h2 class="text-h2"><i class="fas fa-store mr-1"></i> Lapak</h2>
+<h1 class="text-h2"><i class="fas fa-store mr-1"></i> Lapak</h1>
 <form method="get" class="w-full block py-4">
   <div class="flex gap-3 lg:w-7/12 flex-col lg:flex-row">
     <select class="form-input inline-block select2" id="id_kategori" name="id_kategori" style="min-width: 25%">
