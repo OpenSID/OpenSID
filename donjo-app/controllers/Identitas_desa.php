@@ -98,10 +98,14 @@ class Identitas_desa extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         if (Config::insert($this->validate($this->request))) {
-            redirect_with('success', 'Berhasil Tambah Data');
+            return json([
+                'status' => true,
+            ]);
         }
 
-        redirect_with('error', 'Gagal Tambah Data');
+        return json([
+            'status' => false,
+        ]);
     }
 
     /**
