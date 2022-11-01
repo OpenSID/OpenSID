@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Models\Config;
 use App\Models\Pamong;
 use App\Models\Wilayah;
+use Illuminate\Support\Facades\Schema;
 
 class Identitas_desa extends Admin_Controller
 {
@@ -50,7 +51,10 @@ class Identitas_desa extends Admin_Controller
         parent::__construct();
         $this->modul_ini     = 200;
         $this->sub_modul_ini = 17;
-        $this->cek_kades     = Pamong::kepalaDesa()->exists();
+
+        if (Schema::hasTable('ref_jabatan')) {
+            $this->cek_kades = Pamong::kepalaDesa()->exists();
+        }
     }
 
     /**
@@ -60,8 +64,14 @@ class Identitas_desa extends Admin_Controller
      */
     public function index()
     {
+        $main = null;
+
+        if (Schema::hasTable('ref_jabatan')) {
+            $main = Config::first();
+        }
+
         return view('admin.identitas_desa.index', [
-            'main'      => Config::first(),
+            'main'      => $main,
             'cek_kades' => $this->cek_kades,
         ]);
     }
@@ -75,7 +85,11 @@ class Identitas_desa extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $main = Config::first();
+        $main = null;
+
+        if (Schema::hasTable('ref_jabatan')) {
+            $main = Config::first();
+        }
 
         if ($main) {
             $form_action = route('identitas_desa.update', $main->id);
