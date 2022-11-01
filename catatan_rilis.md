@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.10-premium-beta03 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.11-premium menyediakan pengaturan visual tanda tangan TTE. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada syahransaputra yang terus berkontribusi.
 
