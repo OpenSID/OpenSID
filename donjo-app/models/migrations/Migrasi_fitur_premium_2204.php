@@ -462,9 +462,6 @@ class Migrasi_fitur_premium_2204 extends MY_model
             ->set('nama', '0 S/D 1 TAHUN')
             ->update('tweb_penduduk_umur');
 
-        // TODO:: Hapus ini saat buat PR rilis
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2205');
-
         return $hasil && true;
     }
 }

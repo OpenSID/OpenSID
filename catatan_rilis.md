@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.10-beta menyediakan Penambahan fitur kehadiran perangkat desa. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.11 menyediakan Penambahan fitur kehadiran perangkat desa. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @totoprayogo1916 yang terus berkontribusi.
 

@@ -98,12 +98,12 @@ CREATE TABLE `analisis_indikator` (
   `id_master` int(11) NOT NULL,
   `nomor` varchar(10) DEFAULT NULL,
   `pertanyaan` varchar(400) NOT NULL,
-  `id_tipe` tinyint(4) NOT NULL DEFAULT '1',
-  `bobot` tinyint(4) NOT NULL DEFAULT '0',
-  `act_analisis` tinyint(1) NOT NULL DEFAULT '2',
+  `id_tipe` tinyint(4) NOT NULL DEFAULT 1,
+  `bobot` tinyint(4) NOT NULL DEFAULT 0,
+  `act_analisis` tinyint(1) NOT NULL DEFAULT 2,
   `id_kategori` int(4) NOT NULL,
-  `is_publik` tinyint(1) NOT NULL DEFAULT '0',
-  `is_teks` tinyint(1) NOT NULL DEFAULT '0',
+  `is_publik` tinyint(1) NOT NULL DEFAULT 0,
+  `is_teks` tinyint(1) NOT NULL DEFAULT 0,
   `referensi` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_master` (`id_master`,`id_tipe`),
@@ -288,16 +288,16 @@ CREATE TABLE `analisis_master` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(40) NOT NULL,
   `subjek_tipe` tinyint(4) NOT NULL,
-  `lock` tinyint(1) NOT NULL DEFAULT '1',
+  `lock` tinyint(1) NOT NULL DEFAULT 1,
   `deskripsi` text NOT NULL,
   `kode_analisis` varchar(5) NOT NULL DEFAULT '00000',
   `id_kelompok` int(11) DEFAULT NULL,
   `pembagi` varchar(10) NOT NULL DEFAULT '100',
   `id_child` smallint(4) DEFAULT NULL,
   `format_impor` tinyint(2) DEFAULT NULL,
-  `jenis` tinyint(2) NOT NULL DEFAULT '2',
-  `gform_id` text,
-  `gform_nik_item_id` text,
+  `jenis` tinyint(2) NOT NULL DEFAULT 2,
+  `gform_id` text DEFAULT NULL,
+  `gform_nik_item_id` text DEFAULT NULL,
   `gform_last_sync` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
@@ -318,9 +318,9 @@ CREATE TABLE `analisis_parameter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_indikator` int(11) NOT NULL,
   `jawaban` varchar(200) NOT NULL,
-  `nilai` int(3) NOT NULL DEFAULT '0',
-  `kode_jawaban` int(3) DEFAULT '0',
-  `asign` tinyint(1) NOT NULL DEFAULT '0',
+  `nilai` int(3) NOT NULL DEFAULT 0,
+  `kode_jawaban` int(3) DEFAULT 0,
+  `asign` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `id_indikator` (`id_indikator`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1052 DEFAULT CHARSET=latin1;
@@ -1389,7 +1389,7 @@ CREATE TABLE `analisis_partisipasi` (
   `id_subjek` int(11) NOT NULL,
   `id_master` int(11) NOT NULL,
   `id_periode` int(11) NOT NULL,
-  `id_klassifikasi` int(11) NOT NULL DEFAULT '1',
+  `id_klassifikasi` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `id_subjek` (`id_subjek`,`id_master`,`id_periode`,`id_klassifikasi`),
   KEY `id_master` (`id_master`),
@@ -1407,8 +1407,8 @@ CREATE TABLE `analisis_periode` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_master` int(11) NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `id_state` tinyint(4) NOT NULL DEFAULT '1',
-  `aktif` tinyint(1) NOT NULL DEFAULT '0',
+  `id_state` tinyint(4) NOT NULL DEFAULT 1,
+  `aktif` tinyint(1) NOT NULL DEFAULT 0,
   `keterangan` varchar(100) NOT NULL,
   `tahun_pelaksanaan` year(4) NOT NULL,
   PRIMARY KEY (`id`),
@@ -1498,7 +1498,7 @@ CREATE TABLE `analisis_respon_bukti` (
   `id_periode` tinyint(4) NOT NULL,
   `id_subjek` int(11) NOT NULL,
   `pengesahan` varchar(100) NOT NULL,
-  `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `tgl_update` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
@@ -1512,7 +1512,7 @@ CREATE TABLE `analisis_respon_hasil` (
   `id_periode` tinyint(4) NOT NULL,
   `id_subjek` int(11) NOT NULL,
   `akumulasi` double(8,3) NOT NULL,
-  `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_update` timestamp NOT NULL DEFAULT current_timestamp(),
   UNIQUE KEY `id_master` (`id_master`,`id_periode`,`id_subjek`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1562,12 +1562,12 @@ CREATE TABLE `anjungan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(100) NOT NULL,
   `keterangan` varchar(300) DEFAULT NULL,
-  `keyboard` tinyint(1) DEFAULT '1',
-  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `keyboard` tinyint(1) DEFAULT 1,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `mac_address` varchar(100) DEFAULT NULL,
   `printer_ip` varchar(100) DEFAULT NULL,
   `printer_port` varchar(100) DEFAULT NULL,
@@ -1583,8 +1583,8 @@ DROP TABLE IF EXISTS `area`;
 CREATE TABLE `area` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
-  `path` text,
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `path` text DEFAULT NULL,
+  `enabled` int(11) NOT NULL DEFAULT 1,
   `ref_polygon` int(9) NOT NULL,
   `foto` varchar(100) DEFAULT NULL,
   `id_cluster` int(11) DEFAULT NULL,
@@ -1606,22 +1606,22 @@ CREATE TABLE `artikel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gambar` varchar(200) DEFAULT NULL,
   `isi` text NOT NULL,
-  `enabled` int(2) NOT NULL DEFAULT '1',
-  `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `enabled` int(2) NOT NULL DEFAULT 1,
+  `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
   `id_kategori` int(4) NOT NULL,
   `id_user` int(4) NOT NULL,
   `judul` varchar(100) NOT NULL,
-  `headline` int(1) NOT NULL DEFAULT '0',
+  `headline` int(1) NOT NULL DEFAULT 0,
   `gambar1` varchar(200) DEFAULT NULL,
   `gambar2` varchar(200) DEFAULT NULL,
   `gambar3` varchar(200) DEFAULT NULL,
   `dokumen` varchar(400) DEFAULT NULL,
   `link_dokumen` varchar(200) DEFAULT NULL,
-  `boleh_komentar` tinyint(1) NOT NULL DEFAULT '1',
+  `boleh_komentar` tinyint(1) NOT NULL DEFAULT 1,
   `slug` varchar(200) DEFAULT NULL,
-  `hit` int(11) DEFAULT '0',
+  `hit` int(11) DEFAULT 0,
   `urut` int(5) DEFAULT NULL,
-  `jenis_widget` tinyint(2) NOT NULL DEFAULT '3',
+  `jenis_widget` tinyint(2) NOT NULL DEFAULT 3,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
@@ -1675,7 +1675,7 @@ CREATE TABLE `captcha_codes` (
   `code` varchar(32) NOT NULL,
   `code_display` varchar(32) NOT NULL,
   `created` int(11) NOT NULL,
-  `audio_data` mediumblob,
+  `audio_data` mediumblob DEFAULT NULL,
   PRIMARY KEY (`id`,`namespace`),
   KEY `created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1695,12 +1695,12 @@ CREATE TABLE `cdesa` (
   `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
   `nomor` varchar(20) NOT NULL,
   `nama_kepemilikan` varchar(100) NOT NULL,
-  `jenis_pemilik` tinyint(1) NOT NULL DEFAULT '0',
+  `jenis_pemilik` tinyint(1) NOT NULL DEFAULT 0,
   `nama_pemilik_luar` varchar(100) DEFAULT NULL,
   `alamat_pemilik_luar` varchar(200) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nomor` (`nomor`)
@@ -1730,7 +1730,7 @@ CREATE TABLE `config` (
   `lng` varchar(20) DEFAULT NULL,
   `zoom` tinyint(4) DEFAULT NULL,
   `map_tipe` varchar(20) DEFAULT NULL,
-  `path` text,
+  `path` text DEFAULT NULL,
   `alamat_kantor` varchar(200) DEFAULT NULL,
   `email_desa` varchar(50) DEFAULT NULL,
   `telepon` varchar(50) DEFAULT NULL,
@@ -1766,7 +1766,7 @@ CREATE TABLE `covid19_vaksin` (
   `dokumen_vaksin_3` varchar(255) DEFAULT NULL,
   `jenis_vaksin_3` varchar(100) DEFAULT NULL,
   `tunda` int(1) DEFAULT NULL,
-  `keterangan` tinytext,
+  `keterangan` tinytext DEFAULT NULL,
   `surat_dokter` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_penduduk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1789,8 +1789,8 @@ CREATE TABLE `data_persil` (
   `persil_peruntukan_id` tinyint(2) NOT NULL,
   `alamat_ext` varchar(100) DEFAULT NULL,
   `userID` mediumint(9) DEFAULT NULL,
-  `peta` text,
-  `rdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `peta` text DEFAULT NULL,
+  `rdate` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1821,17 +1821,6 @@ CREATE TABLE `data_persil_peruntukan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
-# TABLE STRUCTURE FOR: detail_log_penduduk
-#
-
-DROP TABLE IF EXISTS `detail_log_penduduk`;
-
-CREATE TABLE `detail_log_penduduk` (
-  `id` int(10) NOT NULL,
-  `nama` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-#
 # TABLE STRUCTURE FOR: dokumen
 #
 
@@ -1841,21 +1830,21 @@ CREATE TABLE `dokumen` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `satuan` varchar(200) DEFAULT NULL,
   `nama` varchar(200) NOT NULL,
-  `enabled` int(2) NOT NULL DEFAULT '1',
-  `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `id_pend` int(11) NOT NULL DEFAULT '0',
-  `kategori` tinyint(3) NOT NULL DEFAULT '1',
+  `enabled` int(2) NOT NULL DEFAULT 1,
+  `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id_pend` int(11) NOT NULL DEFAULT 0,
+  `kategori` tinyint(3) NOT NULL DEFAULT 1,
   `attr` text NOT NULL,
   `tahun` int(4) DEFAULT NULL,
   `kategori_info_publik` tinyint(4) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
   `id_syarat` int(11) DEFAULT NULL,
   `id_parent` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` varchar(16) DEFAULT NULL,
   `updated_by` varchar(16) DEFAULT NULL,
-  `dok_warga` tinyint(1) DEFAULT '0',
+  `dok_warga` tinyint(1) DEFAULT 0,
   `lokasi_arsip` varchar(150) DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
@@ -1875,12 +1864,12 @@ DROP TABLE IF EXISTS `gambar_gallery`;
 
 CREATE TABLE `gambar_gallery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parrent` int(4) DEFAULT '0',
+  `parrent` int(4) DEFAULT 0,
   `gambar` varchar(200) NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `enabled` int(2) NOT NULL DEFAULT '1',
-  `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `tipe` int(4) DEFAULT '0',
+  `enabled` int(2) NOT NULL DEFAULT 1,
+  `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tipe` int(4) DEFAULT 0,
   `slider` tinyint(1) DEFAULT NULL,
   `urut` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -1906,11 +1895,11 @@ DROP TABLE IF EXISTS `garis`;
 CREATE TABLE `garis` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
-  `path` text,
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `path` text DEFAULT NULL,
+  `enabled` int(11) NOT NULL DEFAULT 1,
   `ref_line` int(9) NOT NULL,
   `foto` varchar(100) DEFAULT NULL,
-  `desk` text,
+  `desk` text DEFAULT NULL,
   `id_cluster` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -2583,14 +2572,14 @@ INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (610, 'zoo_2.png');
 DROP TABLE IF EXISTS `inbox`;
 
 CREATE TABLE `inbox` (
-  `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `ReceivingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `ReceivingDateTime` timestamp NOT NULL DEFAULT current_timestamp(),
   `Text` text NOT NULL,
   `SenderNumber` varchar(20) NOT NULL DEFAULT '',
   `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
   `UDH` text NOT NULL,
   `SMSCNumber` varchar(20) NOT NULL DEFAULT '',
-  `Class` int(11) NOT NULL DEFAULT '-1',
+  `Class` int(11) NOT NULL DEFAULT -1,
   `TextDecoded` text NOT NULL,
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `RecipientID` text NOT NULL,
@@ -2624,12 +2613,12 @@ CREATE TABLE `inventaris_asset` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `status` int(1) NOT NULL DEFAULT 0,
+  `visible` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2646,7 +2635,7 @@ CREATE TABLE `inventaris_gedung` (
   `register` varchar(64) NOT NULL,
   `kondisi_bangunan` varchar(255) NOT NULL,
   `kontruksi_bertingkat` varchar(255) NOT NULL,
-  `kontruksi_beton` tinyint(1) DEFAULT '0',
+  `kontruksi_beton` tinyint(1) DEFAULT 0,
   `luas_bangunan` int(64) NOT NULL,
   `letak` varchar(255) NOT NULL,
   `tanggal_dokument` date DEFAULT NULL,
@@ -2657,12 +2646,12 @@ CREATE TABLE `inventaris_gedung` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `status` int(1) NOT NULL DEFAULT 0,
+  `visible` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2681,7 +2670,7 @@ CREATE TABLE `inventaris_jalan` (
   `panjang` int(64) NOT NULL,
   `lebar` int(64) NOT NULL,
   `luas` int(64) NOT NULL,
-  `letak` text,
+  `letak` text DEFAULT NULL,
   `tanggal_dokument` date NOT NULL,
   `no_dokument` varchar(255) DEFAULT NULL,
   `status_tanah` varchar(255) DEFAULT NULL,
@@ -2690,12 +2679,12 @@ CREATE TABLE `inventaris_jalan` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `status` int(1) NOT NULL DEFAULT 0,
+  `visible` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2710,7 +2699,7 @@ CREATE TABLE `inventaris_kontruksi` (
   `nama_barang` varchar(255) NOT NULL,
   `kondisi_bangunan` varchar(255) NOT NULL,
   `kontruksi_bertingkat` varchar(255) NOT NULL,
-  `kontruksi_beton` tinyint(1) DEFAULT '0',
+  `kontruksi_beton` tinyint(1) DEFAULT 0,
   `luas_bangunan` int(64) NOT NULL,
   `letak` varchar(255) NOT NULL,
   `tanggal_dokument` date DEFAULT NULL,
@@ -2721,12 +2710,12 @@ CREATE TABLE `inventaris_kontruksi` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `status` int(1) NOT NULL DEFAULT 0,
+  `visible` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2742,8 +2731,8 @@ CREATE TABLE `inventaris_peralatan` (
   `kode_barang` varchar(64) NOT NULL,
   `register` varchar(64) NOT NULL,
   `merk` varchar(255) DEFAULT NULL,
-  `ukuran` text,
-  `bahan` text,
+  `ukuran` text DEFAULT NULL,
+  `bahan` text DEFAULT NULL,
   `tahun_pengadaan` year(4) NOT NULL,
   `no_pabrik` varchar(255) DEFAULT NULL,
   `no_rangka` varchar(255) DEFAULT NULL,
@@ -2753,12 +2742,12 @@ CREATE TABLE `inventaris_peralatan` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `status` int(1) NOT NULL DEFAULT 0,
+  `visible` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2783,12 +2772,12 @@ CREATE TABLE `inventaris_tanah` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `status` int(1) NOT NULL DEFAULT 0,
+  `visible` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2801,9 +2790,9 @@ DROP TABLE IF EXISTS `kader_pemberdayaan_masyarakat`;
 CREATE TABLE `kader_pemberdayaan_masyarakat` (
   `id` int(12) unsigned NOT NULL AUTO_INCREMENT,
   `penduduk_id` int(12) NOT NULL,
-  `kursus` text,
-  `bidang` text,
-  `keterangan` text,
+  `kursus` text DEFAULT NULL,
+  `bidang` text DEFAULT NULL,
+  `keterangan` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2816,10 +2805,10 @@ DROP TABLE IF EXISTS `kategori`;
 CREATE TABLE `kategori` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `kategori` varchar(100) NOT NULL,
-  `tipe` int(4) NOT NULL DEFAULT '1',
+  `tipe` int(4) NOT NULL DEFAULT 1,
   `urut` tinyint(4) NOT NULL,
   `enabled` tinyint(4) NOT NULL,
-  `parrent` tinyint(4) NOT NULL DEFAULT '0',
+  `parrent` tinyint(4) NOT NULL DEFAULT 0,
   `slug` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
@@ -2834,6 +2823,77 @@ INSERT INTO `kategori` (`id`, `kategori`, `tipe`, `urut`, `enabled`, `parrent`, 
 INSERT INTO `kategori` (`id`, `kategori`, `tipe`, `urut`, `enabled`, `parrent`, `slug`) VALUES (20, 'Berita Lokal', 1, 0, 2, 1, 'berita-lokal');
 INSERT INTO `kategori` (`id`, `kategori`, `tipe`, `urut`, `enabled`, `parrent`, `slug`) VALUES (21, 'Berita Kriminal', 1, 0, 2, 1, 'berita-kriminal');
 
+
+#
+# TABLE STRUCTURE FOR: kehadiran_hari_libur
+#
+
+DROP TABLE IF EXISTS `kehadiran_hari_libur`;
+
+CREATE TABLE `kehadiran_hari_libur` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tanggal` date NOT NULL,
+  `keterangan` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tanggal` (`tanggal`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: kehadiran_jam_kerja
+#
+
+DROP TABLE IF EXISTS `kehadiran_jam_kerja`;
+
+CREATE TABLE `kehadiran_jam_kerja` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nama_hari` varchar(65) NOT NULL,
+  `jam_masuk` time NOT NULL,
+  `jam_keluar` time NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `keterangan` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (1, 'Senin', '08:00:00', '16:00:00', 1, NULL);
+INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (2, 'Selasa', '08:00:00', '16:00:00', 1, NULL);
+INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (3, 'Rabu', '08:00:00', '16:00:00', 1, NULL);
+INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (4, 'Kamis', '08:00:00', '16:00:00', 1, NULL);
+INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (5, 'Jumat', '08:00:00', '16:00:00', 1, NULL);
+INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (6, 'Sabtu', '08:00:00', '16:00:00', 0, NULL);
+INSERT INTO `kehadiran_jam_kerja` (`id`, `nama_hari`, `jam_masuk`, `jam_keluar`, `status`, `keterangan`) VALUES (7, 'Minggu', '08:00:00', '16:00:00', 0, NULL);
+
+
+#
+# TABLE STRUCTURE FOR: kehadiran_pengaduan
+#
+
+DROP TABLE IF EXISTS `kehadiran_pengaduan`;
+
+CREATE TABLE `kehadiran_pengaduan` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `waktu` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `keterangan` text DEFAULT NULL,
+  `id_penduduk` int(11) NOT NULL,
+  `id_pamong` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: kehadiran_perangkat_desa
+#
+
+DROP TABLE IF EXISTS `kehadiran_perangkat_desa`;
+
+CREATE TABLE `kehadiran_perangkat_desa` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tanggal` date DEFAULT NULL,
+  `pamong_id` int(11) DEFAULT NULL,
+  `jam_masuk` time DEFAULT NULL,
+  `jam_keluar` time DEFAULT NULL,
+  `status_kehadiran` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # TABLE STRUCTURE FOR: kelompok
@@ -3366,21 +3426,8 @@ CREATE TABLE `keuangan_master` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `versi_database` varchar(50) NOT NULL,
   `tahun_anggaran` varchar(250) NOT NULL,
-  `aktif` int(2) NOT NULL DEFAULT '1',
+  `aktif` int(2) NOT NULL DEFAULT 1,
   `tanggal_impor` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: klasifikasi_analisis_keluarga
-#
-
-DROP TABLE IF EXISTS `klasifikasi_analisis_keluarga`;
-
-CREATE TABLE `klasifikasi_analisis_keluarga` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(20) NOT NULL,
-  `jenis` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -3395,7 +3442,7 @@ CREATE TABLE `klasifikasi_surat` (
   `kode` varchar(50) NOT NULL,
   `nama` varchar(250) NOT NULL,
   `uraian` mediumtext NOT NULL,
-  `enabled` int(2) NOT NULL DEFAULT '1',
+  `enabled` int(2) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2335 DEFAULT CHARSET=latin1;
 
@@ -5746,15 +5793,15 @@ CREATE TABLE `komentar` (
   `id_artikel` int(7) NOT NULL,
   `owner` varchar(50) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `subjek` tinytext,
+  `subjek` tinytext DEFAULT NULL,
   `komentar` text NOT NULL,
-  `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) DEFAULT NULL,
   `tipe` tinyint(1) DEFAULT NULL,
   `no_hp` varchar(15) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `is_archived` tinyint(1) DEFAULT '0',
-  `permohonan` text,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_archived` tinyint(1) DEFAULT 0,
+  `permohonan` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
@@ -5790,8 +5837,8 @@ CREATE TABLE `laporan_sinkronisasi` (
   `semester` int(11) NOT NULL,
   `nama_file` varchar(100) NOT NULL,
   `kirim` datetime DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5806,11 +5853,11 @@ CREATE TABLE `line` (
   `nama` varchar(50) NOT NULL,
   `simbol` varchar(50) DEFAULT NULL,
   `color` varchar(25) DEFAULT NULL,
-  `tipe` int(4) DEFAULT '0',
-  `tebal` int(2) DEFAULT '3',
+  `tipe` int(4) DEFAULT 0,
+  `tebal` int(2) DEFAULT 3,
   `jenis` varchar(10) DEFAULT 'solid',
-  `parrent` int(4) DEFAULT '1',
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `parrent` int(4) DEFAULT 1,
+  `enabled` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `parrent` (`parrent`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
@@ -5833,11 +5880,11 @@ DROP TABLE IF EXISTS `log_ekspor`;
 
 CREATE TABLE `log_ekspor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tgl_ekspor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_ekspor` timestamp NOT NULL DEFAULT current_timestamp(),
   `kode_ekspor` varchar(100) NOT NULL,
-  `semua` int(1) NOT NULL DEFAULT '1',
+  `semua` int(1) NOT NULL DEFAULT 1,
   `dari_tgl` date DEFAULT NULL,
-  `total` int(11) NOT NULL DEFAULT '0',
+  `total` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -5853,7 +5900,7 @@ CREATE TABLE `log_hapus_penduduk` (
   `nik` decimal(16,0) NOT NULL,
   `foto` varchar(100) DEFAULT NULL,
   `deleted_by` varchar(100) DEFAULT NULL,
-  `deleted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -5867,7 +5914,7 @@ CREATE TABLE `log_perubahan_penduduk` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_pend` int(11) NOT NULL,
   `id_cluster` varchar(200) NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5883,7 +5930,7 @@ CREATE TABLE `log_surat` (
   `id_pend` int(11) DEFAULT NULL,
   `id_pamong` int(4) NOT NULL,
   `id_user` int(4) NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp(),
   `bulan` varchar(2) DEFAULT NULL,
   `tahun` varchar(4) DEFAULT NULL,
   `no_surat` varchar(20) DEFAULT NULL,
@@ -5909,7 +5956,7 @@ CREATE TABLE `lokasi` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `desk` text NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `enabled` int(11) NOT NULL DEFAULT 1,
   `lat` varchar(30) DEFAULT NULL,
   `lng` varchar(30) DEFAULT NULL,
   `ref_point` int(9) NOT NULL,
@@ -5933,9 +5980,9 @@ DROP TABLE IF EXISTS `media_sosial`;
 CREATE TABLE `media_sosial` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gambar` text NOT NULL,
-  `link` text,
+  `link` text DEFAULT NULL,
   `nama` varchar(100) NOT NULL,
-  `tipe` tinyint(1) DEFAULT '1',
+  `tipe` tinyint(1) DEFAULT 1,
   `enabled` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
@@ -5958,9 +6005,9 @@ CREATE TABLE `menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
   `link` varchar(500) NOT NULL,
-  `parrent` int(11) DEFAULT '0',
-  `link_tipe` tinyint(1) NOT NULL DEFAULT '0',
-  `enabled` tinyint(1) DEFAULT '1',
+  `parrent` int(11) DEFAULT 0,
+  `link_tipe` tinyint(1) NOT NULL DEFAULT 0,
+  `enabled` tinyint(1) DEFAULT 1,
   `urut` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8;
@@ -6006,7 +6053,7 @@ CREATE TABLE `migrasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `versi_database` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (1, '2020040102');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (2, '2020050101');
@@ -6043,6 +6090,7 @@ INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (32, '2022070101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (33, '2022080101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (34, '2022090101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (35, '2022100101');
+INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (36, '2022101401');
 
 
 #
@@ -6058,17 +6106,17 @@ CREATE TABLE `notifikasi` (
   `jenis` varchar(50) NOT NULL,
   `isi` text NOT NULL,
   `server` varchar(20) NOT NULL,
-  `tgl_berikutnya` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_berikutnya` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
   `frekuensi` smallint(6) NOT NULL,
   `aksi` varchar(100) NOT NULL,
-  `aktif` tinyint(2) NOT NULL DEFAULT '1',
+  `aktif` tinyint(2) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `kode` (`kode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
-INSERT INTO `notifikasi` (`id`, `kode`, `judul`, `jenis`, `isi`, `server`, `tgl_berikutnya`, `updated_at`, `updated_by`, `frekuensi`, `aksi`, `aktif`) VALUES (1, 'persetujuan_penggunaan', '<i class=\"fa fa-file-text-o text-black\"></i> &nbsp;Persetujuan Penggunaan OpenSID', 'persetujuan', '<p><b>Untuk menggunakan OpenSID, anda dan desa anda perlu menyetujui ketentuan berikut:</b>\n					<ol>\n						<li>Pengguna telah membaca dan menyetujui <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\" target=\"_blank\">Lisensi GPL V3</a>.</li>\n						<li>OpenSID gratis dan disediakan \"SEBAGAIMANA ADANYA\", di mana segala tanggung jawab termasuk keamanan data desa ada pada pengguna.</li>\n						<li>Pengguna paham bahwa setiap ubahan OpenSID juga berlisensi GPL V3 yang tidak dapat dimusnahkan, dan aplikasi ubahan itu juga sumber terbuka yang bebas disebarkan oleh pihak yang menerima.</li>\n						<li>Pengguna mengetahui, paham dan menyetujui bahwa OpenSID akan mengirim data penggunaan ke server OpenDesa secara berkala untuk tujuan menyempurnakan OpenSID, dengan pengertian bahwa data yang dikirim sama sekali tidak berisi data identitas penduduk atau data sensitif desa lainnya.</li>\n					</ol></p>\n					<b>Apakah anda dan desa anda setuju dengan ketentuan di atas?</b>', 'client', '2022-08-30 08:50:48', '2022-06-01 08:50:48', 1, 90, 'notif/update_pengumuman,siteman', 1);
+INSERT INTO `notifikasi` (`id`, `kode`, `judul`, `jenis`, `isi`, `server`, `tgl_berikutnya`, `updated_at`, `updated_by`, `frekuensi`, `aksi`, `aktif`) VALUES (1, 'persetujuan_penggunaan', '<i class=\"fa fa-file-text-o text-black\"></i> &nbsp;Persetujuan Penggunaan OpenSID', 'persetujuan', '<p><b>Untuk menggunakan OpenSID, anda dan desa anda perlu menyetujui ketentuan berikut:</b>\n					<ol>\n						<li>Pengguna telah membaca dan menyetujui <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\" target=\"_blank\">Lisensi GPL V3</a>.</li>\n						<li>OpenSID gratis dan disediakan \"SEBAGAIMANA ADANYA\", di mana segala tanggung jawab termasuk keamanan data desa ada pada pengguna.</li>\n						<li>Pengguna paham bahwa setiap ubahan OpenSID juga berlisensi GPL V3 yang tidak dapat dimusnahkan, dan aplikasi ubahan itu juga sumber terbuka yang bebas disebarkan oleh pihak yang menerima.</li>\n						<li>Pengguna mengetahui, paham dan menyetujui bahwa OpenSID akan mengirim data penggunaan ke server OpenDesa secara berkala untuk tujuan menyempurnakan OpenSID, dengan pengertian bahwa data yang dikirim sama sekali tidak berisi data identitas penduduk atau data sensitif desa lainnya.</li>\n					</ol></p>\n					<b>Apakah anda dan desa anda setuju dengan ketentuan di atas?</b>', 'client', '2023-01-30 10:41:28', '2022-11-01 10:41:28', 1, 90, 'notif/update_pengumuman,siteman/logout', 1);
 INSERT INTO `notifikasi` (`id`, `kode`, `judul`, `jenis`, `isi`, `server`, `tgl_berikutnya`, `updated_at`, `updated_by`, `frekuensi`, `aksi`, `aktif`) VALUES (2, 'tracking_off', '<i class=\"fa fa-exclamation-triangle text-red\"></i> &nbsp;Peringatan Tracking Off', 'peringatan', '<p>Kami mendeteksi bahwa anda telah mematikan fitur tracking. Bila dimatikan, penggunaan website desa anda tidak akan tercatat di server OpenDesa dan tidak akan menerima informasi penting yang sesekali dikirim OpenDesa.</p>\n					<br><b>Hidupkan kembali tracking untuk mendapatkan informasi dari OpenDesa?</b>', 'client', '2020-07-30 03:37:42', '2020-07-30 10:37:03', 1, 90, 'setting/aktifkan_tracking,notif/update_pengumuman', 0);
 
 
@@ -6079,24 +6127,24 @@ INSERT INTO `notifikasi` (`id`, `kode`, `judul`, `jenis`, `isi`, `server`, `tgl_
 DROP TABLE IF EXISTS `outbox`;
 
 CREATE TABLE `outbox` (
-  `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `InsertIntoDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `SendingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `InsertIntoDB` timestamp NOT NULL DEFAULT current_timestamp(),
+  `SendingDateTime` timestamp NOT NULL DEFAULT current_timestamp(),
   `SendBefore` time NOT NULL DEFAULT '23:59:59',
   `SendAfter` time NOT NULL DEFAULT '00:00:00',
-  `Text` text,
+  `Text` text DEFAULT NULL,
   `DestinationNumber` varchar(20) NOT NULL DEFAULT '',
   `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
-  `UDH` text,
-  `Class` int(11) DEFAULT '-1',
+  `UDH` text DEFAULT NULL,
+  `Class` int(11) DEFAULT -1,
   `TextDecoded` text NOT NULL,
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `MultiPart` enum('false','true') DEFAULT 'false',
-  `RelativeValidity` int(11) DEFAULT '-1',
+  `RelativeValidity` int(11) DEFAULT -1,
   `SenderID` varchar(255) DEFAULT NULL,
   `SendingTimeOut` timestamp NULL DEFAULT NULL,
   `DeliveryReport` enum('default','yes','no') DEFAULT 'default',
-  `CreatorID` text,
+  `CreatorID` text DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `outbox_date` (`SendingDateTime`,`SendingTimeOut`),
   KEY `outbox_sender` (`SenderID`)
@@ -6111,7 +6159,7 @@ DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE `password_resets` (
   `email` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6127,8 +6175,8 @@ CREATE TABLE `pelapak` (
   `telepon` varchar(20) DEFAULT NULL,
   `lat` varchar(20) DEFAULT NULL,
   `lng` varchar(20) DEFAULT NULL,
-  `zoom` tinyint(4) NOT NULL DEFAULT '10',
-  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `zoom` tinyint(4) NOT NULL DEFAULT 10,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6151,19 +6199,19 @@ CREATE TABLE `pembangunan` (
   `volume` varchar(100) DEFAULT NULL,
   `tahun_anggaran` year(4) DEFAULT NULL,
   `pelaksana_kegiatan` varchar(255) DEFAULT NULL,
-  `status` tinyint(3) NOT NULL DEFAULT '1',
+  `status` tinyint(3) NOT NULL DEFAULT 1,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL,
-  `anggaran` bigint(20) DEFAULT '0',
-  `perubahan_anggaran` int(11) DEFAULT '0',
-  `sumber_biaya_pemerintah` bigint(20) DEFAULT '0',
-  `sumber_biaya_provinsi` bigint(20) DEFAULT '0',
-  `sumber_biaya_kab_kota` bigint(20) DEFAULT '0',
-  `sumber_biaya_swadaya` bigint(20) DEFAULT '0',
-  `sumber_biaya_jumlah` bigint(20) DEFAULT '0',
+  `anggaran` bigint(20) DEFAULT 0,
+  `perubahan_anggaran` int(11) DEFAULT 0,
+  `sumber_biaya_pemerintah` bigint(20) DEFAULT 0,
+  `sumber_biaya_provinsi` bigint(20) DEFAULT 0,
+  `sumber_biaya_kab_kota` bigint(20) DEFAULT 0,
+  `sumber_biaya_swadaya` bigint(20) DEFAULT 0,
+  `sumber_biaya_jumlah` bigint(20) DEFAULT 0,
   `manfaat` varchar(100) DEFAULT NULL,
-  `waktu` int(11) DEFAULT '0',
+  `waktu` int(11) DEFAULT 0,
   `sifat_proyek` varchar(100) DEFAULT 'BARU',
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`),
@@ -6197,7 +6245,7 @@ DROP TABLE IF EXISTS `pendapat`;
 CREATE TABLE `pendapat` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pengguna` text NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp(),
   `pilihan` int(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6217,10 +6265,10 @@ CREATE TABLE `pengaduan` (
   `telepon` varchar(20) DEFAULT NULL,
   `judul` varchar(100) DEFAULT NULL,
   `isi` text NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '1' COMMENT '1 = menunggu proses, 2 = Sedang Diproses, 3 = Selesai Diproses',
+  `status` int(1) NOT NULL DEFAULT 1 COMMENT '1 = menunggu proses, 2 = Sedang Diproses, 3 = Selesai Diproses',
   `foto` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6235,12 +6283,12 @@ CREATE TABLE `permohonan_surat` (
   `id_pemohon` int(11) NOT NULL,
   `id_surat` int(11) NOT NULL,
   `isian_form` text NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  `keterangan` text,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `keterangan` text DEFAULT NULL,
   `no_hp_aktif` varchar(50) NOT NULL,
   `syarat` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `no_antrian` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6254,33 +6302,16 @@ DROP TABLE IF EXISTS `persil`;
 CREATE TABLE `persil` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nomor` varchar(20) NOT NULL,
-  `nomor_urut_bidang` smallint(6) DEFAULT '1',
+  `nomor_urut_bidang` smallint(6) DEFAULT 1,
   `kelas` int(5) NOT NULL,
   `luas_persil` decimal(7,0) DEFAULT NULL,
   `id_wilayah` int(11) DEFAULT NULL,
-  `lokasi` text,
-  `path` text,
+  `lokasi` text DEFAULT NULL,
+  `path` text DEFAULT NULL,
   `cdesa_awal` int(11) unsigned DEFAULT NULL,
   `id_peta` int(60) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `nomor_nomor_urut_bidang` (`nomor`,`nomor_urut_bidang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-#
-# TABLE STRUCTURE FOR: pertanyaan
-#
-
-DROP TABLE IF EXISTS `pertanyaan`;
-
-CREATE TABLE `pertanyaan` (
-  `1` int(2) DEFAULT NULL,
-  `Pendapatan perkapita perbulan` varchar(87) DEFAULT NULL,
-  `36` int(2) DEFAULT NULL,
-  `15` int(2) DEFAULT NULL,
-  `24` int(2) DEFAULT NULL,
-  `23` int(2) DEFAULT NULL,
-  `26` int(2) DEFAULT NULL,
-  `28` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
@@ -6293,9 +6324,9 @@ CREATE TABLE `point` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
   `simbol` varchar(50) DEFAULT NULL,
-  `tipe` int(4) DEFAULT '0',
-  `parrent` int(4) NOT NULL DEFAULT '1',
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `tipe` int(4) DEFAULT 0,
+  `parrent` int(4) NOT NULL DEFAULT 1,
+  `enabled` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `parrent` (`parrent`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
@@ -6322,9 +6353,9 @@ CREATE TABLE `polygon` (
   `nama` varchar(50) NOT NULL,
   `simbol` varchar(50) DEFAULT NULL,
   `color` varchar(25) DEFAULT NULL,
-  `tipe` int(4) DEFAULT '0',
-  `parrent` int(4) DEFAULT '1',
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `tipe` int(4) DEFAULT 0,
+  `parrent` int(4) DEFAULT 1,
+  `enabled` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `parrent` (`parrent`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -6344,7 +6375,7 @@ CREATE TABLE `produk_kategori` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `kategori` varchar(50) DEFAULT NULL,
   `slug` varchar(100) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `status` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6362,7 +6393,7 @@ CREATE TABLE `program` (
   `sdate` date NOT NULL,
   `edate` date NOT NULL,
   `userid` mediumint(9) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   `asaldana` char(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
@@ -6597,10 +6628,10 @@ INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (10, 'Asmat',
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (11, 'Bare’e', 'Bare’e di Kabupaten Tojo Una-Una Tojo dan Tojo Barat');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (12, 'Banten', 'Banten di Banten');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (13, 'Besemah', 'Besemah di Sumatera Selatan');
-INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (14, 'Bali', 'Bali di Bali terdiri dari: Suku Bali Majapahit di sebagian besar Pulau Bali; Suku Bali Aga di Karangasem dan Kintamani');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (14, 'Bali', 'Bali di Bali terdiri dari: Suku Bali Majapahit di sebagian besar Pulau Bali; Suku Bali Aga di Karangasem dan Kintamani');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (15, 'Balantak', 'Balantak di Sulawesi Tengah');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (16, 'Banggai', 'Banggai di Sulawesi Tengah (Kabupaten Banggai Kepulauan)');
-INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (17, 'Baduy', 'Baduy di Banten');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (17, 'Baduy', 'Baduy di Banten');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (18, 'Bajau', 'Bajau di Kalimantan Timur');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (19, 'Banjar', 'Banjar di Kalimantan Selatan');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (20, 'Batak', 'Sumatera Utara');
@@ -6618,7 +6649,7 @@ INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (31, 'Betawi'
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (32, 'Bima', 'Bima NTB (kota Bima)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (33, 'Boti', 'Boti di kabupaten Timor Tengah Selatan');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (34, 'Bolang Mongondow', 'Bolang Mongondow di Sulawesi Utara (Kabupaten Bolaang Mongondow)');
-INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (35, 'Bugis', 'Bugis di Sulawesi Selatan: Orang Bugis Pagatan di Kalimantan Selatan, Kusan Hilir, Tanah Bumbu');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (35, 'Bugis', 'Bugis di Sulawesi Selatan: Orang Bugis Pagatan di Kalimantan Selatan, Kusan Hilir, Tanah Bumbu');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (36, 'Bungku', 'Bungku di Sulawesi Tengah (Kabupaten Morowali)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (37, 'Buru', 'Buru di Maluku (Kabupaten Buru)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (38, 'Buol', 'Buol di Sulawesi Tengah (Kabupaten Buol)');
@@ -6632,7 +6663,7 @@ INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (45, 'Dampele
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (46, 'Dani ', 'Dani di Papua (Lembah Baliem)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (47, 'Dairi', 'Dairi di Sumatera Utara');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (48, 'Daya ', 'Daya di Sumatera Selatan');
-INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (49, 'Dayak', 'Dayak terdiri dari: Suku Dayak Ahe di Kalimantan Barat; Suku Dayak Bajare di Kalimantan Barat; Suku Dayak Damea di Kalimantan Barat; Suku Dayak Banyadu di Kalimantan Barat; Suku Bakati di Kalimantan Barat; Suku Punan di Kalimantan Tengah; Suku Kanayatn di Kalimantan Barat; Suku Dayak Krio di Kalimantan Barat (Ketapang); Suku Dayak Sungai Laur di Kalimantan Barat (Ketapang); Suku Dayak Simpangh di Kalimantan Barat (Ketapang); Suku Iban di Kalimantan Barat; Suku Mualang di Kalimantan Barat (Sekada');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (49, 'Dayak', 'Dayak terdiri dari: Suku Dayak Ahe di Kalimantan Barat; Suku Dayak Bajare di Kalimantan Barat; Suku Dayak Damea di Kalimantan Barat; Suku Dayak Banyadu di Kalimantan Barat; Suku Bakati di Kalimantan Barat; Suku Punan di Kalimantan Tengah; Suku Kanayatn di Kalimantan Barat; Suku Dayak Krio di Kalimantan Barat (Ketapang); Suku Dayak Sungai Laur di Kalimantan Barat (Ketapang); Suku Dayak Simpangh di Kalimantan Barat (Ketapang); Suku Iban di Kalimantan Barat; Suku Mualang di Kalimantan Barat (Sekada');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (50, 'Dompu', 'Dompu NTB (Kabupaten Dompu)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (51, 'Donggo', 'Donggo, Bima');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (52, 'Dongga', 'Donggala di Sulawesi Tengah');
@@ -6646,7 +6677,7 @@ INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (59, 'Goronta
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (60, 'Gumai ', 'Gumai di Sumatera Selatan (Lahat)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (61, 'India', 'India, terdiri dari: Suku Tamil di Aceh, Sumatera Utara, Sumatera Barat, dan DKI Jakarta; Suku Punjab di Sumatera Utara, DKI Jakarta, dan Jawa Timur; Suku Bengali di DKI Jakarta; Suku Gujarati di DKI Jakarta dan Jawa Tengah; Orang Sindhi di DKI Jakarta dan Jawa Timur; Orang Sikh di Sumatera Utara, DKI Jakarta, dan Jawa Timur');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (62, 'Jawa', 'Jawa di Jawa Tengah, Jawa Timur, DI Yogyakarta');
-INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (63, 'Tengger', 'Tengger di Jawa Timur (Probolinggo, Pasuruan, dan Malang)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (63, 'Tengger', 'Tengger di Jawa Timur (Probolinggo, Pasuruan, dan Malang)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (64, 'Osing ', 'Osing di Jawa Timur (Banyuwangi)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (65, 'Samin ', 'Samin di Jawa Tengah (Purwodadi)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (66, 'Bawean', 'Bawean di Jawa Timur (Pulau Bawean)');
@@ -6718,7 +6749,7 @@ INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (131, 'Saluan
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (132, 'Sambas', 'Sambas (Melayu Sambas) di Kalimantan Barat: Kabupaten Sambas');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (133, 'Samin', 'Samin di Jawa Tengah (Blora) dan Jawa Timur (Bojonegoro)');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (134, 'Sangi', 'Sangir di Sulawesi Utara (Kepulauan Sangihe)');
-INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (135, 'Sasak', 'Sasak di NTB, Lombok');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (135, 'Sasak', 'Sasak di NTB, Lombok');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (136, 'Sekak Bangka', 'Sekak Bangka');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (137, 'Sekayu', 'Sekayu di Sumatera Selatan');
 INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (138, 'Semendo ', 'Semendo di Bengkulu, Sumatera Selatan (Muara Enim)');
@@ -6779,7 +6810,7 @@ CREATE TABLE `ref_persil_kelas` (
   `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
   `tipe` varchar(20) NOT NULL,
   `kode` varchar(20) NOT NULL,
-  `ndesc` text,
+  `ndesc` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
@@ -6802,7 +6833,7 @@ DROP TABLE IF EXISTS `ref_persil_mutasi`;
 CREATE TABLE `ref_persil_mutasi` (
   `id` tinyint(5) unsigned NOT NULL AUTO_INCREMENT,
   `nama` varchar(20) NOT NULL,
-  `ndesc` text,
+  `ndesc` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
@@ -6919,24 +6950,24 @@ INSERT INTO `ref_syarat_surat` (`ref_syarat_id`, `ref_syarat_nama`) VALUES (12, 
 DROP TABLE IF EXISTS `sentitems`;
 
 CREATE TABLE `sentitems` (
-  `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `InsertIntoDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `SendingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `InsertIntoDB` timestamp NOT NULL DEFAULT current_timestamp(),
+  `SendingDateTime` timestamp NOT NULL DEFAULT current_timestamp(),
   `DeliveryDateTime` timestamp NULL DEFAULT NULL,
   `Text` text NOT NULL,
   `DestinationNumber` varchar(20) NOT NULL DEFAULT '',
   `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
   `UDH` text NOT NULL,
   `SMSCNumber` varchar(20) NOT NULL DEFAULT '',
-  `Class` int(11) NOT NULL DEFAULT '-1',
+  `Class` int(11) NOT NULL DEFAULT -1,
   `TextDecoded` text NOT NULL,
-  `ID` int(10) unsigned NOT NULL DEFAULT '0',
+  `ID` int(10) unsigned NOT NULL DEFAULT 0,
   `SenderID` varchar(255) NOT NULL,
-  `SequencePosition` int(11) NOT NULL DEFAULT '1',
+  `SequencePosition` int(11) NOT NULL DEFAULT 1,
   `Status` enum('SendingOK','SendingOKNoReport','SendingError','DeliveryOK','DeliveryFailed','DeliveryPending','DeliveryUnknown','Error') NOT NULL DEFAULT 'SendingOK',
-  `StatusError` int(11) NOT NULL DEFAULT '-1',
-  `TPMR` int(11) NOT NULL DEFAULT '-1',
-  `RelativeValidity` int(11) NOT NULL DEFAULT '-1',
+  `StatusError` int(11) NOT NULL DEFAULT -1,
+  `TPMR` int(11) NOT NULL DEFAULT -1,
+  `RelativeValidity` int(11) NOT NULL DEFAULT -1,
   `CreatorID` text NOT NULL,
   PRIMARY KEY (`ID`,`SequencePosition`),
   KEY `sentitems_date` (`DeliveryDateTime`),
@@ -6954,13 +6985,13 @@ DROP TABLE IF EXISTS `setting_aplikasi`;
 CREATE TABLE `setting_aplikasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `key` varchar(50) DEFAULT NULL,
-  `value` text,
+  `value` text DEFAULT NULL,
   `keterangan` varchar(200) DEFAULT NULL,
   `jenis` varchar(30) DEFAULT NULL,
   `kategori` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=668 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=760 DEFAULT CHARSET=latin1;
 
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (1, 'sebutan_kabupaten', 'kabupaten', 'Pengganti sebutan wilayah kabupaten', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (2, 'sebutan_kabupaten_singkat', 'kab.', 'Pengganti sebutan singkatan wilayah kabupaten', '', '');
@@ -6979,7 +7010,7 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (17, 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (18, 'sumber_gambar_slider', '2', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (19, 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '22.09', 'Versi sekarang untuk migrasi', NULL, 'readonly');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '22.11', 'Versi sekarang untuk migrasi', NULL, 'readonly');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (21, 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (23, 'web_artikel_per_page', '8', 'Jumlah artikel dalam satu halaman', 'int', 'web_theme');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (24, 'penomoran_surat', '2', 'Penomoran surat mulai dari satu (1) setiap tahun', 'option', NULL);
@@ -6992,17 +7023,15 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (32, 'apbdes_footer', '1', 'Apakah akan tampilkan grafik APBDes di halaman muka', 'boolean', 'conf_web');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (33, 'apbdes_footer_all', '1', 'Apakah akan tampilkan grafik APBDes di semua halaman', 'boolean', 'conf_web');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (34, 'apbdes_manual_input', '0', 'Apakah akan tampilkan grafik APBDes yang diinput secara manual', 'boolean', 'conf_web');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (35, 'covid_data', '0', 'Apakah akan tampilkan status Covid-19 Provinsi di halaman muka', 'boolean', 'conf_web');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (36, 'covid_desa', '0', 'Apakah akan tampilkan status Covid-19 Desa di halaman muka', 'boolean', 'conf_web');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (37, 'covid_rss', '0', 'Apakah akan tampilkan RSS Covid-19 di halaman muka', 'boolean', 'conf_web');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (38, 'provinsi_covid', '52', 'Kode provinsi status Covid-19 ', 'int', 'conf_web');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (39, 'statistik_chart_3d', '1', 'Apakah akan tampilkan Statistik Chart 3D', 'boolean', 'conf_web');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (40, 'sebutan_nip_desa', 'NIPD', 'Pengganti sebutan label niap/nipd', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (43, 'token_opensid', '', 'Token OpenSID', '', 'sistem');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (44, 'layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (45, 'ukuran_lebar_bagan', '800', 'Ukuran Lebar Bagan (800 / 1200 / 1400)', 'int', 'conf_bagan');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (48, 'layanan_opendesa_token', '', 'Token pelanggan Layanan OpenDESA', 'textarea', 'pelanggan');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (55, 'api_opendk_server', '', 'Alamat Server OpenDK (contoh: https://demo.opendk.my.id)', NULL, 'opendk');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (55, 'api_opendk_server', '', 'Alamat Server OpenDK (contoh: https://demodk.opendesa.id)', NULL, 'opendk');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (56, 'api_opendk_key', '', 'OpenDK API Key untuk Sinkronisasi Data', NULL, 'opendk');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (57, 'api_opendk_user', '', 'Email Login Pengguna OpenDK', NULL, 'opendk');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (58, 'api_opendk_password', '', 'Password Login Pengguna OpenDK', NULL, 'opendk');
@@ -7025,6 +7054,9 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (522, 'tampilan_anjungan_audio', '0', 'Apakah audio diaktifkan atau tidak saat video diputar', 'boolean', 'setting_mandiri');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (576, 'tampilkan_pendaftaran', '0', 'Aktifkan / Non Aktifkan Pendaftaran Layanan Mandiri', 'boolean', 'setting_mandiri');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (634, 'branding_desa', 'LAYANAN MANDIRI', 'Nama Branding Aplikasi Layanan Mandiri Android', NULL, 'mobile');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (693, 'tampilkan_kehadiran', '1', 'Aktif / Non-aktifkan Halaman Websiten Kehadiran', 'boolean', 'kehadiran');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (694, 'ip_adress_kehadiran', '', 'IP Address Perangkat Kehadiran', NULL, 'kehadiran');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (695, 'mac_adress_kehadiran', '', 'MAC Address Perangkat Kehadiran', NULL, 'kehadiran');
 
 
 #
@@ -7037,15 +7069,15 @@ CREATE TABLE `setting_modul` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `modul` varchar(50) NOT NULL,
   `url` varchar(50) NOT NULL,
-  `aktif` tinyint(1) NOT NULL DEFAULT '0',
+  `aktif` tinyint(1) NOT NULL DEFAULT 0,
   `ikon` varchar(50) DEFAULT '',
   `urut` int(4) DEFAULT NULL,
-  `level` tinyint(1) NOT NULL DEFAULT '2',
-  `hidden` tinyint(1) NOT NULL DEFAULT '0',
+  `level` tinyint(1) NOT NULL DEFAULT 2,
+  `hidden` tinyint(1) NOT NULL DEFAULT 0,
   `ikon_kecil` varchar(50) DEFAULT '',
-  `parent` int(2) NOT NULL DEFAULT '0',
+  `parent` int(2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=337 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=343 DEFAULT CHARSET=utf8;
 
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (1, 'Home', 'hom_sid', 1, 'fa-home', 10, 2, 1, 'fa fa-home', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (2, 'Kependudukan', '', 1, 'fa-users', 30, 2, 0, 'fa fa-users', 0);
@@ -7185,6 +7217,11 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (334, 'Pengaduan', 'pengaduan_admin', 1, 'fa-info', 124, 2, 0, 'fa-info', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (335, 'Vaksin', 'vaksin_covid/clear', 1, 'fa fa-medkit', 2, 2, 0, '', 206);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (336, 'Arsip [Desa]', 'bumindes_arsip', 1, 'fa-archive', 5, 2, 0, 'fa fa-archive', 301);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (337, 'Kehadiran', '', 1, 'fa-calendar-check-o', 41, 0, 0, 'fa-calendar-check-o', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (339, 'Jam Kerja', 'kehadiran_jam_kerja', 1, 'fa-clock-o', 2, 0, 0, 'fa-credit-card', 337);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (340, 'Hari Libur', 'kehadiran_hari_libur', 1, 'fa-calendar', 2, 0, 0, 'fa-credit-card', 337);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (341, 'Rekapitulasi', 'kehadiran_rekapitulasi', 1, 'fa-list', 2, 0, 0, 'fa-list', 337);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (342, 'Pengaduan', 'kehadiran_pengaduan', 1, 'fa-exclamation', 2, 0, 0, 'fa-exclamation', 337);
 
 
 #
@@ -7242,17 +7279,17 @@ CREATE TABLE `surat_keluar` (
   `nomor_surat` varchar(35) DEFAULT NULL,
   `kode_surat` varchar(10) DEFAULT NULL,
   `tanggal_surat` date NOT NULL,
-  `tanggal_catat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tanggal_catat` timestamp NOT NULL DEFAULT current_timestamp(),
   `tujuan` varchar(100) DEFAULT NULL,
   `isi_singkat` varchar(200) DEFAULT NULL,
   `berkas_scan` varchar(100) DEFAULT NULL,
-  `ekspedisi` tinyint(1) DEFAULT '0',
+  `ekspedisi` tinyint(1) DEFAULT 0,
   `tanggal_pengiriman` date DEFAULT NULL,
   `tanda_terima` varchar(200) DEFAULT NULL,
   `keterangan` varchar(500) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
   `lokasi_arsip` varchar(150) DEFAULT '',
   PRIMARY KEY (`id`)
@@ -7308,7 +7345,7 @@ CREATE TABLE `tanah_desa` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_penduduk` int(10) NOT NULL,
   `nik` decimal(16,0) DEFAULT NULL,
-  `jenis_pemilik` text,
+  `jenis_pemilik` text DEFAULT NULL,
   `nama_pemilik_asal` varchar(200) NOT NULL,
   `luas` int(10) NOT NULL,
   `hak_milik` int(11) DEFAULT NULL,
@@ -7334,11 +7371,11 @@ CREATE TABLE `tanah_desa` (
   `lain` int(11) DEFAULT NULL,
   `mutasi` text NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(10) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(10) NOT NULL,
-  `visible` tinyint(3) NOT NULL DEFAULT '1',
+  `visible` tinyint(3) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `id_penduduk` (`id_penduduk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -7374,11 +7411,11 @@ CREATE TABLE `tanah_kas_desa` (
   `peruntukan` text NOT NULL,
   `mutasi` text NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(10) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(10) NOT NULL,
-  `visible` tinyint(2) NOT NULL DEFAULT '1',
+  `visible` tinyint(2) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -7390,13 +7427,13 @@ DROP TABLE IF EXISTS `teks_berjalan`;
 
 CREATE TABLE `teks_berjalan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `teks` text,
+  `teks` text DEFAULT NULL,
   `urut` int(5) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
+  `status` int(1) NOT NULL DEFAULT 0,
   `tautan` varchar(150) DEFAULT NULL,
   `judul_tautan` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -11728,12 +11765,14 @@ CREATE TABLE `tweb_desa_pamong` (
   `pamong_id` int(5) NOT NULL AUTO_INCREMENT,
   `pamong_nama` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_nip` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pamong_tag_id_card` varchar(17) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pamong_pin` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_nik` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `jabatan` varchar(50) COLLATE utf8_unicode_ci DEFAULT '0',
-  `pamong_status` tinyint(1) DEFAULT '1',
+  `pamong_status` tinyint(1) DEFAULT 1,
   `pamong_tgl_terdaftar` date DEFAULT NULL,
   `pamong_ttd` tinyint(1) DEFAULT NULL,
-  `foto` text COLLATE utf8_unicode_ci,
+  `foto` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `id_pend` int(11) DEFAULT NULL,
   `pamong_tempatlahir` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_tanggallahir` date DEFAULT NULL,
@@ -11748,22 +11787,24 @@ CREATE TABLE `tweb_desa_pamong` (
   `pamong_pangkat` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_nohenti` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_tglhenti` date DEFAULT NULL,
-  `pamong_ub` tinyint(1) NOT NULL DEFAULT '0',
+  `pamong_ub` tinyint(1) NOT NULL DEFAULT 0,
   `atasan` int(11) DEFAULT NULL,
   `bagan_tingkat` tinyint(2) DEFAULT NULL,
   `bagan_offset` int(3) DEFAULT NULL,
   `bagan_layout` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `bagan_warna` varchar(25) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`pamong_id`)
+  `kehadiran` int(11) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`pamong_id`),
+  UNIQUE KEY `pamong_tag_id_card` (`pamong_tag_id_card`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (14, 'Muhammad Ilham ', '', NULL, 'Kepala Desa', 1, '2014-04-20', 1, 'jhpgD6_kuser.png', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, '', '', NULL, NULL, 0, NULL, NULL, NULL, '', '');
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (20, 'Mustahiq S.Adm', '197905062010011007', '5201140506790001', 'Sekretaris Desa', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (21, 'Syafruddin ', '-', '5201140911720004', 'Kaur Pemerintahan ', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (22, 'Supardi Rustam ', '-', '5201140101710003', 'Kaur Umum ', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (23, 'Mardiana ', '-', '5201145203810001', 'Kaur Keuangan', 1, '2016-08-23', NULL, 'cNzva0_bendahara.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (24, 'Syafi-i. SE ', '-', '5201140506730002', 'Kaur Pembangunan ', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`) VALUES (25, 'Mahrup ', '', '', 'Kaur Keamanan dan Ketertiban', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (14, 'Muhammad Ilham ', '', NULL, NULL, NULL, 'Kepala Desa', 1, '2014-04-20', 1, 'jhpgD6_kuser.png', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, '', '', NULL, NULL, 0, NULL, NULL, NULL, '', '', 1);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (20, 'Mustahiq S.Adm', '197905062010011007', NULL, NULL, '5201140506790001', 'Sekretaris Desa', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (21, 'Syafruddin ', '-', NULL, NULL, '5201140911720004', 'Kaur Pemerintahan ', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (22, 'Supardi Rustam ', '-', NULL, NULL, '5201140101710003', 'Kaur Umum ', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (23, 'Mardiana ', '-', NULL, NULL, '5201145203810001', 'Kaur Keuangan', 1, '2016-08-23', NULL, 'cNzva0_bendahara.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (24, 'Syafi-i. SE ', '-', NULL, NULL, '5201140506730002', 'Kaur Pembangunan ', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `tweb_desa_pamong` (`pamong_id`, `pamong_nama`, `pamong_nip`, `pamong_tag_id_card`, `pamong_pin`, `pamong_nik`, `jabatan`, `pamong_status`, `pamong_tgl_terdaftar`, `pamong_ttd`, `foto`, `id_pend`, `pamong_tempatlahir`, `pamong_tanggallahir`, `pamong_sex`, `pamong_pendidikan`, `pamong_agama`, `pamong_nosk`, `pamong_tglsk`, `pamong_masajab`, `urut`, `pamong_niap`, `pamong_pangkat`, `pamong_nohenti`, `pamong_tglhenti`, `pamong_ub`, `atasan`, `bagan_tingkat`, `bagan_offset`, `bagan_layout`, `bagan_warna`, `kehadiran`) VALUES (25, 'Mahrup ', '', NULL, NULL, '', 'Kaur Keamanan dan Ketertiban', 1, '2016-08-23', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 1);
 
 
 #
@@ -11803,12 +11844,12 @@ CREATE TABLE `tweb_keluarga` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `no_kk` varchar(16) DEFAULT NULL,
   `nik_kepala` varchar(200) DEFAULT NULL,
-  `tgl_daftar` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_daftar` timestamp NULL DEFAULT current_timestamp(),
   `kelas_sosial` int(4) DEFAULT NULL,
   `tgl_cetak_kk` datetime DEFAULT NULL,
   `alamat` varchar(200) DEFAULT NULL,
   `id_cluster` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `no_kk` (`no_kk`),
@@ -11861,7 +11902,7 @@ INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_s
 DROP TABLE IF EXISTS `tweb_keluarga_sejahtera`;
 
 CREATE TABLE `tweb_keluarga_sejahtera` (
-  `id` int(10) NOT NULL DEFAULT '0',
+  `id` int(10) NOT NULL DEFAULT 0,
   `nama` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -11883,7 +11924,7 @@ CREATE TABLE `tweb_penduduk` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(100) NOT NULL,
   `nik` varchar(16) DEFAULT NULL,
-  `id_kk` int(11) DEFAULT '0',
+  `id_kk` int(11) DEFAULT 0,
   `kk_level` tinyint(2) DEFAULT NULL,
   `id_rtm` varchar(30) DEFAULT NULL,
   `rtm_level` int(11) DEFAULT NULL,
@@ -11895,7 +11936,7 @@ CREATE TABLE `tweb_penduduk` (
   `pendidikan_sedang_id` int(1) DEFAULT NULL,
   `pekerjaan_id` int(1) DEFAULT NULL,
   `status_kawin` tinyint(4) DEFAULT NULL,
-  `warganegara_id` tinyint(4) NOT NULL DEFAULT '1',
+  `warganegara_id` tinyint(4) NOT NULL DEFAULT 1,
   `dokumen_pasport` varchar(45) DEFAULT NULL,
   `dokumen_kitas` varchar(45) DEFAULT NULL,
   `ayah_nik` varchar(16) DEFAULT NULL,
@@ -11908,7 +11949,7 @@ CREATE TABLE `tweb_penduduk` (
   `status` int(10) unsigned DEFAULT NULL,
   `alamat_sebelumnya` varchar(200) DEFAULT NULL,
   `alamat_sekarang` varchar(200) DEFAULT NULL,
-  `status_dasar` tinyint(4) NOT NULL DEFAULT '1',
+  `status_dasar` tinyint(4) NOT NULL DEFAULT 1,
   `hamil` int(1) DEFAULT NULL,
   `cacat_id` int(11) DEFAULT NULL,
   `sakit_menahun_id` int(11) DEFAULT NULL,
@@ -11931,9 +11972,9 @@ CREATE TABLE `tweb_penduduk` (
   `berat_lahir` smallint(6) DEFAULT NULL,
   `panjang_lahir` varchar(10) DEFAULT NULL,
   `tag_id_card` varchar(17) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `id_asuransi` tinyint(5) DEFAULT NULL,
   `no_asuransi` char(100) DEFAULT NULL,
@@ -11946,7 +11987,7 @@ CREATE TABLE `tweb_penduduk` (
   `telegram_tgl_kadaluarsa` datetime DEFAULT NULL,
   `telegram_tgl_verifikasi` datetime DEFAULT NULL,
   `bahasa_id` int(11) DEFAULT NULL,
-  `ket` tinytext,
+  `ket` tinytext DEFAULT NULL,
   `negara_asal` varchar(50) DEFAULT NULL,
   `tempat_cetak_ktp` varchar(150) DEFAULT NULL,
   `tanggal_cetak_ktp` date DEFAULT NULL,
@@ -12369,7 +12410,7 @@ INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALU
 INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (2, 'ANAK-ANAK', 6, 17, 0);
 INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (3, 'DEWASA', 18, 30, 0);
 INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (4, 'TUA', 31, 99999, 0);
-INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (6, 'Di bawah 1 Tahun', 0, 1, 1);
+INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (6, '0 S/D 1 TAHUN', 0, 1, 1);
 INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (9, '2 s/d 4 Tahun', 2, 4, 1);
 INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (12, '5 s/d 9 Tahun', 5, 9, 1);
 INSERT INTO `tweb_penduduk_umur` (`id`, `nama`, `dari`, `sampai`, `status`) VALUES (13, '10 s/d 14 Tahun', 10, 14, 1);
@@ -12415,7 +12456,7 @@ CREATE TABLE `tweb_rtm` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nik_kepala` int(11) NOT NULL,
   `no_kk` varchar(30) NOT NULL,
-  `tgl_daftar` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `tgl_daftar` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `kelas_sosial` int(11) DEFAULT NULL,
   `bdt` varchar(16) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -12502,7 +12543,7 @@ CREATE TABLE `tweb_status_ktp` (
   `ktp_el` tinyint(4) NOT NULL,
   `status_rekam` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (1, 'BELUM REKAM', 1, '2');
 INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (2, 'SUDAH REKAM', 2, '3');
@@ -12511,23 +12552,8 @@ INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (4
 INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (5, 'CARD SHIPPED', 2, '6');
 INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (6, 'SENT FOR CARD PRINTING', 2, '7');
 INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (7, 'CARD ISSUED', 2, '8');
+INSERT INTO `tweb_status_ktp` (`id`, `nama`, `ktp_el`, `status_rekam`) VALUES (8, 'BELUM WAJIB', 1, '1');
 
-
-#
-# TABLE STRUCTURE FOR: tweb_surat_atribut
-#
-
-DROP TABLE IF EXISTS `tweb_surat_atribut`;
-
-CREATE TABLE `tweb_surat_atribut` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_surat` int(11) NOT NULL,
-  `id_tipe` tinyint(4) NOT NULL,
-  `nama` varchar(40) NOT NULL,
-  `long` tinyint(4) NOT NULL,
-  `kode` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # TABLE STRUCTURE FOR: tweb_surat_format
@@ -12541,16 +12567,16 @@ CREATE TABLE `tweb_surat_format` (
   `url_surat` varchar(100) NOT NULL,
   `kode_surat` varchar(10) DEFAULT NULL,
   `lampiran` varchar(100) DEFAULT NULL,
-  `kunci` tinyint(1) NOT NULL DEFAULT '0',
-  `favorit` tinyint(1) NOT NULL DEFAULT '0',
-  `jenis` tinyint(2) NOT NULL DEFAULT '2',
-  `mandiri` tinyint(1) DEFAULT '0',
-  `masa_berlaku` int(3) DEFAULT '1',
+  `kunci` tinyint(1) NOT NULL DEFAULT 0,
+  `favorit` tinyint(1) NOT NULL DEFAULT 0,
+  `jenis` tinyint(2) NOT NULL DEFAULT 2,
+  `mandiri` tinyint(1) DEFAULT 0,
+  `masa_berlaku` int(3) DEFAULT 1,
   `satuan_masa_berlaku` varchar(15) DEFAULT 'M',
-  `qr_code` tinyint(1) NOT NULL DEFAULT '0',
+  `qr_code` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8;
 
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (1, 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, 0, 0, 1, 1, 1, 'M', 0);
 INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (2, 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, 0, 0, 1, 1, 1, 'M', 0);
@@ -12615,7 +12641,7 @@ CREATE TABLE `tweb_wil_clusterdesa` (
   `lat` varchar(20) DEFAULT NULL,
   `lng` varchar(20) DEFAULT NULL,
   `zoom` int(11) DEFAULT NULL,
-  `path` text,
+  `path` text DEFAULT NULL,
   `map_tipe` varchar(20) DEFAULT NULL,
   `warna` varchar(25) DEFAULT NULL,
   `urut` int(11) DEFAULT NULL,
@@ -12684,10 +12710,11 @@ CREATE TABLE `user` (
   `username` varchar(100) DEFAULT NULL,
   `password` varchar(100) NOT NULL,
   `id_grup` int(5) NOT NULL,
+  `pamong_id` int(20) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
   `email_verified_at` datetime DEFAULT NULL,
-  `active` tinyint(1) unsigned DEFAULT '0',
+  `active` tinyint(1) unsigned DEFAULT 0,
   `nama` varchar(50) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
@@ -12695,10 +12722,11 @@ CREATE TABLE `user` (
   `session` varchar(40) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`)
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `pamong_id` (`pamong_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-INSERT INTO `user` (`id`, `username`, `password`, `id_grup`, `email`, `last_login`, `email_verified_at`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES (1, 'admin', '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.', 1, 'info@opendesa.id', '2022-06-30 20:06:34', NULL, 1, 'Administrator', 'ADMIN', '321', 'favicon.png', 'a8d4080245664ed2049c1b2ded7cac30');
+INSERT INTO `user` (`id`, `username`, `password`, `id_grup`, `pamong_id`, `email`, `last_login`, `email_verified_at`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES (1, 'admin', '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.', 1, NULL, 'info@opendesa.id', '2022-06-30 20:06:34', NULL, 1, 'Administrator', 'ADMIN', '321', 'favicon.png', 'a8d4080245664ed2049c1b2ded7cac30');
 
 
 #
@@ -12710,10 +12738,10 @@ DROP TABLE IF EXISTS `user_grup`;
 CREATE TABLE `user_grup` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `nama` varchar(20) NOT NULL,
-  `jenis` tinyint(2) NOT NULL DEFAULT '1',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `jenis` tinyint(2) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
@@ -12733,13 +12761,13 @@ DROP TABLE IF EXISTS `widget`;
 
 CREATE TABLE `widget` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `isi` text,
+  `isi` text DEFAULT NULL,
   `enabled` int(2) DEFAULT NULL,
   `judul` varchar(100) DEFAULT NULL,
-  `jenis_widget` tinyint(2) NOT NULL DEFAULT '3',
+  `jenis_widget` tinyint(2) NOT NULL DEFAULT 3,
   `urut` int(5) DEFAULT NULL,
   `form_admin` varchar(100) DEFAULT NULL,
-  `setting` text,
+  `setting` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
@@ -12822,11 +12850,11 @@ CREATE TABLE `mutasi_inventaris_asset` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `visible` int(1) NOT NULL DEFAULT 1,
   `status_mutasi` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_asset` (`id_inventaris_asset`),
@@ -12847,11 +12875,11 @@ CREATE TABLE `mutasi_inventaris_gedung` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `visible` int(1) NOT NULL DEFAULT 1,
   `status_mutasi` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_gedung` (`id_inventaris_gedung`),
@@ -12872,11 +12900,11 @@ CREATE TABLE `mutasi_inventaris_jalan` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `visible` int(1) NOT NULL DEFAULT 1,
   `status_mutasi` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_jalan` (`id_inventaris_jalan`),
@@ -12897,11 +12925,11 @@ CREATE TABLE `mutasi_inventaris_peralatan` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `visible` int(1) NOT NULL DEFAULT 1,
   `status_mutasi` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_peralatan` (`id_inventaris_peralatan`),
@@ -12922,11 +12950,11 @@ CREATE TABLE `mutasi_inventaris_tanah` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `visible` int(1) NOT NULL DEFAULT 1,
   `status_mutasi` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_tanah` (`id_inventaris_tanah`),
@@ -12962,14 +12990,14 @@ CREATE TABLE `tweb_penduduk_mandiri` (
   `last_login` datetime DEFAULT NULL,
   `tanggal_buat` datetime DEFAULT NULL,
   `id_pend` int(9) NOT NULL,
-  `aktif` int(1) DEFAULT '1',
+  `aktif` int(1) DEFAULT 1,
   `scan_ktp` varchar(100) DEFAULT NULL,
   `scan_kk` varchar(100) DEFAULT NULL,
   `foto_selfie` varchar(100) DEFAULT NULL,
-  `ganti_pin` tinyint(1) NOT NULL DEFAULT '1',
+  `ganti_pin` tinyint(1) NOT NULL DEFAULT 1,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id_pend`),
   CONSTRAINT `id_pend_fk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -12992,7 +13020,7 @@ CREATE TABLE `setting_aplikasi_options` (
   PRIMARY KEY (`id`),
   KEY `id_setting_fk` (`id_setting`),
   CONSTRAINT `id_setting_fk` FOREIGN KEY (`id_setting`) REFERENCES `setting_aplikasi` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (1, 24, 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan', NULL);
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (2, 24, 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama', NULL);
@@ -13012,9 +13040,9 @@ INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VAL
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (16, 12, 'Web bisa diakses publik', 0);
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (17, 12, 'Web hanya bisa diakses petugas web', 1);
 INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (18, 12, 'Web non-aktif sama sekali', 2);
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (37, 496, 'Tidak Aktif', 0);
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (38, 496, 'Slider', 1);
-INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (39, 496, 'Video', 2);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (46, 496, 'Tidak Aktif', 0);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (47, 496, 'Slider', 1);
+INSERT INTO `setting_aplikasi_options` (`id`, `id_setting`, `value`, `kode`) VALUES (48, 496, 'Video', 2);
 
 
 #
@@ -13032,16 +13060,16 @@ CREATE TABLE `log_penduduk` (
   `sebab` varchar(50) DEFAULT NULL,
   `penolong_mati` varchar(50) DEFAULT NULL,
   `akta_mati` varchar(50) DEFAULT NULL,
-  `alamat_tujuan` tinytext,
-  `tgl_lapor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `tgl_peristiwa` datetime DEFAULT CURRENT_TIMESTAMP,
-  `catatan` text,
+  `alamat_tujuan` tinytext DEFAULT NULL,
+  `tgl_lapor` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tgl_peristiwa` datetime DEFAULT current_timestamp(),
+  `catatan` text DEFAULT NULL,
   `no_kk` varchar(16) DEFAULT NULL,
   `nama_kk` varchar(100) DEFAULT NULL,
-  `ref_pindah` tinyint(4) DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `ref_pindah` tinyint(4) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `maksud_tujuan_kedatangan` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -13158,7 +13186,7 @@ DROP TABLE IF EXISTS `agenda`;
 CREATE TABLE `agenda` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_artikel` int(11) NOT NULL,
-  `tgl_agenda` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `tgl_agenda` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `koordinator_kegiatan` varchar(50) NOT NULL,
   `lokasi_kegiatan` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
@@ -13279,7 +13307,7 @@ CREATE TABLE `kelompok_anggota` (
   `id_kelompok` int(11) NOT NULL,
   `id_penduduk` int(11) NOT NULL,
   `no_anggota` varchar(20) DEFAULT NULL,
-  `keterangan` text,
+  `keterangan` text DEFAULT NULL,
   `jabatan` varchar(50) DEFAULT '90',
   `no_sk_jabatan` varchar(50) DEFAULT NULL,
   `tipe` varchar(100) DEFAULT 'kelompok',
@@ -13304,7 +13332,7 @@ CREATE TABLE `log_keluarga` (
   `id_kk` int(11) NOT NULL,
   `kk_sex` tinyint(2) DEFAULT NULL,
   `id_peristiwa` int(4) NOT NULL,
-  `tgl_peristiwa` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_peristiwa` timestamp NOT NULL DEFAULT current_timestamp(),
   `id_pend` int(11) DEFAULT NULL,
   `updated_by` int(11) NOT NULL,
   `id_log_penduduk` int(10) DEFAULT NULL,
@@ -13369,7 +13397,7 @@ CREATE TABLE `grup_akses` (
   KEY `id_modul` (`id_modul`),
   CONSTRAINT `fk_id_grup` FOREIGN KEY (`id_grup`) REFERENCES `user_grup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_id_modul` FOREIGN KEY (`id_modul`) REFERENCES `setting_modul` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8;
 
 INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (1, 5, 3, 0);
 INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (2, 5, 27, 3);
@@ -13530,8 +13558,13 @@ INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (158, 2, 
 INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (159, 2, 335, 3);
 INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (160, 2, 220, 3);
 INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (161, 2, 336, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (162, 2, 313, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (163, 2, 331, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (162, 2, 337, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (163, 2, 341, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (164, 2, 340, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (165, 2, 339, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (166, 2, 342, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (167, 2, 313, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (168, 2, 331, 3);
 
 
 #
@@ -13547,13 +13580,13 @@ CREATE TABLE `produk` (
   `nama` varchar(255) DEFAULT NULL,
   `harga` int(11) DEFAULT NULL,
   `satuan` varchar(20) DEFAULT NULL,
-  `tipe_potongan` tinyint(1) DEFAULT '1',
-  `potongan` int(11) DEFAULT '0',
-  `deskripsi` text,
+  `tipe_potongan` tinyint(1) DEFAULT 1,
+  `potongan` int(11) DEFAULT 0,
+  `deskripsi` text DEFAULT NULL,
   `foto` varchar(225) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -14169,7 +14202,7 @@ CREATE TABLE `keuangan_ta_pemda` (
   `Alamat` varchar(100) NOT NULL,
   `Nm_Bupati` varchar(100) NOT NULL,
   `Jbt_Bupati` varchar(100) NOT NULL,
-  `Logo` mediumblob,
+  `Logo` mediumblob DEFAULT NULL,
   `C_Kode` varchar(100) NOT NULL,
   `C_Pemda` varchar(100) NOT NULL,
   `C_Data` varchar(100) NOT NULL,
@@ -14952,12 +14985,12 @@ CREATE TABLE `mutasi_cdesa` (
   `cdesa_keluar` int(5) unsigned DEFAULT NULL,
   `jenis_mutasi` tinyint(2) DEFAULT NULL,
   `tanggal_mutasi` date DEFAULT NULL,
-  `keterangan` text,
+  `keterangan` text DEFAULT NULL,
   `id_persil` int(11) NOT NULL,
   `no_bidang_persil` tinyint(3) DEFAULT NULL,
   `luas` decimal(7,0) DEFAULT NULL,
   `no_objek_pajak` varchar(30) DEFAULT NULL,
-  `path` text,
+  `path` text DEFAULT NULL,
   `id_peta` int(60) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `cdesa_mutasi_fk` (`id_cdesa_masuk`),
@@ -14968,7 +15001,7 @@ CREATE TABLE `mutasi_cdesa` (
 # TABLE STRUCTURE FOR: daftar_grup
 #
 
-CREATE VIEW `daftar_grup` AS select `a`.`id_grup` AS `id_grup`,`a`.`nama_grup` AS `nama_grup`,(select count(`anggota_grup_kontak`.`id_kontak`) from `anggota_grup_kontak` where (`a`.`id_grup` = `anggota_grup_kontak`.`id_grup`)) AS `jumlah_anggota` from `kontak_grup` `a`;
+CREATE VIEW `daftar_grup` AS select `a`.`id_grup` AS `id_grup`,`a`.`nama_grup` AS `nama_grup`,(select count(`anggota_grup_kontak`.`id_kontak`) from `anggota_grup_kontak` where `a`.`id_grup` = `anggota_grup_kontak`.`id_grup`) AS `jumlah_anggota` from `kontak_grup` `a`;
 
 
 
@@ -14976,7 +15009,7 @@ CREATE VIEW `daftar_grup` AS select `a`.`id_grup` AS `id_grup`,`a`.`nama_grup` A
 # TABLE STRUCTURE FOR: data_surat
 #
 
-CREATE VIEW `data_surat` AS select `u`.`id` AS `id`,`u`.`nama` AS `nama`,`x`.`nama` AS `sex`,`u`.`tempatlahir` AS `tempatlahir`,`u`.`tanggallahir` AS `tanggallahir`,(select (date_format(from_days((to_days(now()) - to_days(`tweb_penduduk`.`tanggallahir`))),'%Y') + 0) from `tweb_penduduk` where (`tweb_penduduk`.`id` = `u`.`id`)) AS `umur`,`w`.`nama` AS `status_kawin`,`f`.`nama` AS `warganegara`,`a`.`nama` AS `agama`,`d`.`nama` AS `pendidikan`,`j`.`nama` AS `pekerjaan`,`u`.`nik` AS `nik`,`c`.`rt` AS `rt`,`c`.`rw` AS `rw`,`c`.`dusun` AS `dusun`,`k`.`no_kk` AS `no_kk`,(select `tweb_penduduk`.`nama` from `tweb_penduduk` where (`tweb_penduduk`.`id` = `k`.`nik_kepala`)) AS `kepala_kk` from ((((((((`tweb_penduduk` `u` left join `tweb_penduduk_sex` `x` on((`u`.`sex` = `x`.`id`))) left join `tweb_penduduk_kawin` `w` on((`u`.`status_kawin` = `w`.`id`))) left join `tweb_penduduk_agama` `a` on((`u`.`agama_id` = `a`.`id`))) left join `tweb_penduduk_pendidikan_kk` `d` on((`u`.`pendidikan_kk_id` = `d`.`id`))) left join `tweb_penduduk_pekerjaan` `j` on((`u`.`pekerjaan_id` = `j`.`id`))) left join `tweb_wil_clusterdesa` `c` on((`u`.`id_cluster` = `c`.`id`))) left join `tweb_keluarga` `k` on((`u`.`id_kk` = `k`.`id`))) left join `tweb_penduduk_warganegara` `f` on((`u`.`warganegara_id` = `f`.`id`)));
+CREATE VIEW `data_surat` AS select `u`.`id` AS `id`,`u`.`nama` AS `nama`,`x`.`nama` AS `sex`,`u`.`tempatlahir` AS `tempatlahir`,`u`.`tanggallahir` AS `tanggallahir`,(select date_format(from_days(to_days(current_timestamp()) - to_days(`tweb_penduduk`.`tanggallahir`)),'%Y') + 0 from `tweb_penduduk` where `tweb_penduduk`.`id` = `u`.`id`) AS `umur`,`w`.`nama` AS `status_kawin`,`f`.`nama` AS `warganegara`,`a`.`nama` AS `agama`,`d`.`nama` AS `pendidikan`,`j`.`nama` AS `pekerjaan`,`u`.`nik` AS `nik`,`c`.`rt` AS `rt`,`c`.`rw` AS `rw`,`c`.`dusun` AS `dusun`,`k`.`no_kk` AS `no_kk`,(select `tweb_penduduk`.`nama` from `tweb_penduduk` where `tweb_penduduk`.`id` = `k`.`nik_kepala`) AS `kepala_kk` from ((((((((`tweb_penduduk` `u` left join `tweb_penduduk_sex` `x` on(`u`.`sex` = `x`.`id`)) left join `tweb_penduduk_kawin` `w` on(`u`.`status_kawin` = `w`.`id`)) left join `tweb_penduduk_agama` `a` on(`u`.`agama_id` = `a`.`id`)) left join `tweb_penduduk_pendidikan_kk` `d` on(`u`.`pendidikan_kk_id` = `d`.`id`)) left join `tweb_penduduk_pekerjaan` `j` on(`u`.`pekerjaan_id` = `j`.`id`)) left join `tweb_wil_clusterdesa` `c` on(`u`.`id_cluster` = `c`.`id`)) left join `tweb_keluarga` `k` on(`u`.`id_kk` = `k`.`id`)) left join `tweb_penduduk_warganegara` `f` on(`u`.`warganegara_id` = `f`.`id`));
 
 
 
@@ -14984,7 +15017,7 @@ CREATE VIEW `data_surat` AS select `u`.`id` AS `id`,`u`.`nama` AS `nama`,`x`.`na
 # TABLE STRUCTURE FOR: dokumen_hidup
 #
 
-CREATE VIEW `dokumen_hidup` AS select `dokumen`.`id` AS `id`,`dokumen`.`satuan` AS `satuan`,`dokumen`.`nama` AS `nama`,`dokumen`.`enabled` AS `enabled`,`dokumen`.`tgl_upload` AS `tgl_upload`,`dokumen`.`id_pend` AS `id_pend`,`dokumen`.`kategori` AS `kategori`,`dokumen`.`attr` AS `attr`,`dokumen`.`tahun` AS `tahun`,`dokumen`.`kategori_info_publik` AS `kategori_info_publik`,`dokumen`.`updated_at` AS `updated_at`,`dokumen`.`deleted` AS `deleted`,`dokumen`.`id_syarat` AS `id_syarat`,`dokumen`.`id_parent` AS `id_parent`,`dokumen`.`created_at` AS `created_at`,`dokumen`.`created_by` AS `created_by`,`dokumen`.`updated_by` AS `updated_by`,`dokumen`.`dok_warga` AS `dok_warga`,`dokumen`.`lokasi_arsip` AS `lokasi_arsip` from `dokumen` where (`dokumen`.`deleted` <> 1);
+CREATE VIEW `dokumen_hidup` AS select `dokumen`.`id` AS `id`,`dokumen`.`satuan` AS `satuan`,`dokumen`.`nama` AS `nama`,`dokumen`.`enabled` AS `enabled`,`dokumen`.`tgl_upload` AS `tgl_upload`,`dokumen`.`id_pend` AS `id_pend`,`dokumen`.`kategori` AS `kategori`,`dokumen`.`attr` AS `attr`,`dokumen`.`tahun` AS `tahun`,`dokumen`.`kategori_info_publik` AS `kategori_info_publik`,`dokumen`.`updated_at` AS `updated_at`,`dokumen`.`deleted` AS `deleted`,`dokumen`.`id_syarat` AS `id_syarat`,`dokumen`.`id_parent` AS `id_parent`,`dokumen`.`created_at` AS `created_at`,`dokumen`.`created_by` AS `created_by`,`dokumen`.`updated_by` AS `updated_by`,`dokumen`.`dok_warga` AS `dok_warga`,`dokumen`.`lokasi_arsip` AS `lokasi_arsip` from `dokumen` where `dokumen`.`deleted` <> 1;
 
 
 
@@ -14992,7 +15025,7 @@ CREATE VIEW `dokumen_hidup` AS select `dokumen`.`id` AS `id`,`dokumen`.`satuan` 
 # TABLE STRUCTURE FOR: keluarga_aktif
 #
 
-CREATE VIEW `keluarga_aktif` AS select `k`.`id` AS `id`,`k`.`no_kk` AS `no_kk`,`k`.`nik_kepala` AS `nik_kepala`,`k`.`tgl_daftar` AS `tgl_daftar`,`k`.`kelas_sosial` AS `kelas_sosial`,`k`.`tgl_cetak_kk` AS `tgl_cetak_kk`,`k`.`alamat` AS `alamat`,`k`.`id_cluster` AS `id_cluster` from (`tweb_keluarga` `k` left join `tweb_penduduk` `p` on((`k`.`nik_kepala` = `p`.`id`))) where (`p`.`status_dasar` = 1);
+CREATE VIEW `keluarga_aktif` AS select `k`.`id` AS `id`,`k`.`no_kk` AS `no_kk`,`k`.`nik_kepala` AS `nik_kepala`,`k`.`tgl_daftar` AS `tgl_daftar`,`k`.`kelas_sosial` AS `kelas_sosial`,`k`.`tgl_cetak_kk` AS `tgl_cetak_kk`,`k`.`alamat` AS `alamat`,`k`.`id_cluster` AS `id_cluster` from (`tweb_keluarga` `k` left join `tweb_penduduk` `p` on(`k`.`nik_kepala` = `p`.`id`)) where `p`.`status_dasar` = 1;
 
 
 
@@ -15000,7 +15033,7 @@ CREATE VIEW `keluarga_aktif` AS select `k`.`id` AS `id`,`k`.`no_kk` AS `no_kk`,`
 # TABLE STRUCTURE FOR: master_inventaris
 #
 
-CREATE VIEW `master_inventaris` AS select 'inventaris_asset' AS `asset`,`inventaris_asset`.`id` AS `id`,`inventaris_asset`.`nama_barang` AS `nama_barang`,`inventaris_asset`.`kode_barang` AS `kode_barang`,'Baik' AS `kondisi`,`inventaris_asset`.`keterangan` AS `keterangan`,`inventaris_asset`.`asal` AS `asal`,`inventaris_asset`.`tahun_pengadaan` AS `tahun_pengadaan` from `inventaris_asset` where (`inventaris_asset`.`visible` = 1) union all select 'inventaris_gedung' AS `asset`,`inventaris_gedung`.`id` AS `id`,`inventaris_gedung`.`nama_barang` AS `nama_barang`,`inventaris_gedung`.`kode_barang` AS `kode_barang`,`inventaris_gedung`.`kondisi_bangunan` AS `kondisi_bangunan`,`inventaris_gedung`.`keterangan` AS `keterangan`,`inventaris_gedung`.`asal` AS `asal`,year(`inventaris_gedung`.`tanggal_dokument`) AS `tahun_pengadaan` from `inventaris_gedung` where (`inventaris_gedung`.`visible` = 1) union all select 'inventaris_jalan' AS `asset`,`inventaris_jalan`.`id` AS `id`,`inventaris_jalan`.`nama_barang` AS `nama_barang`,`inventaris_jalan`.`kode_barang` AS `kode_barang`,`inventaris_jalan`.`kondisi` AS `kondisi`,`inventaris_jalan`.`keterangan` AS `keterangan`,`inventaris_jalan`.`asal` AS `asal`,year(`inventaris_jalan`.`tanggal_dokument`) AS `tahun_pengadaan` from `inventaris_jalan` where (`inventaris_jalan`.`visible` = 1) union all select 'inventaris_peralatan' AS `asset`,`inventaris_peralatan`.`id` AS `id`,`inventaris_peralatan`.`nama_barang` AS `nama_barang`,`inventaris_peralatan`.`kode_barang` AS `kode_barang`,'Baik' AS `Baik`,`inventaris_peralatan`.`keterangan` AS `keterangan`,`inventaris_peralatan`.`asal` AS `asal`,`inventaris_peralatan`.`tahun_pengadaan` AS `tahun_pengadaan` from `inventaris_peralatan` where (`inventaris_peralatan`.`visible` = 1);
+CREATE VIEW `master_inventaris` AS select 'inventaris_asset' AS `asset`,`inventaris_asset`.`id` AS `id`,`inventaris_asset`.`nama_barang` AS `nama_barang`,`inventaris_asset`.`kode_barang` AS `kode_barang`,'Baik' AS `kondisi`,`inventaris_asset`.`keterangan` AS `keterangan`,`inventaris_asset`.`asal` AS `asal`,`inventaris_asset`.`tahun_pengadaan` AS `tahun_pengadaan` from `inventaris_asset` where `inventaris_asset`.`visible` = 1 union all select 'inventaris_gedung' AS `asset`,`inventaris_gedung`.`id` AS `id`,`inventaris_gedung`.`nama_barang` AS `nama_barang`,`inventaris_gedung`.`kode_barang` AS `kode_barang`,`inventaris_gedung`.`kondisi_bangunan` AS `kondisi_bangunan`,`inventaris_gedung`.`keterangan` AS `keterangan`,`inventaris_gedung`.`asal` AS `asal`,year(`inventaris_gedung`.`tanggal_dokument`) AS `tahun_pengadaan` from `inventaris_gedung` where `inventaris_gedung`.`visible` = 1 union all select 'inventaris_jalan' AS `asset`,`inventaris_jalan`.`id` AS `id`,`inventaris_jalan`.`nama_barang` AS `nama_barang`,`inventaris_jalan`.`kode_barang` AS `kode_barang`,`inventaris_jalan`.`kondisi` AS `kondisi`,`inventaris_jalan`.`keterangan` AS `keterangan`,`inventaris_jalan`.`asal` AS `asal`,year(`inventaris_jalan`.`tanggal_dokument`) AS `tahun_pengadaan` from `inventaris_jalan` where `inventaris_jalan`.`visible` = 1 union all select 'inventaris_peralatan' AS `asset`,`inventaris_peralatan`.`id` AS `id`,`inventaris_peralatan`.`nama_barang` AS `nama_barang`,`inventaris_peralatan`.`kode_barang` AS `kode_barang`,'Baik' AS `Baik`,`inventaris_peralatan`.`keterangan` AS `keterangan`,`inventaris_peralatan`.`asal` AS `asal`,`inventaris_peralatan`.`tahun_pengadaan` AS `tahun_pengadaan` from `inventaris_peralatan` where `inventaris_peralatan`.`visible` = 1;
 
 
 
@@ -15008,7 +15041,7 @@ CREATE VIEW `master_inventaris` AS select 'inventaris_asset' AS `asset`,`inventa
 # TABLE STRUCTURE FOR: penduduk_hidup
 #
 
-CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_penduduk`.`nama` AS `nama`,`tweb_penduduk`.`nik` AS `nik`,`tweb_penduduk`.`id_kk` AS `id_kk`,`tweb_penduduk`.`kk_level` AS `kk_level`,`tweb_penduduk`.`id_rtm` AS `id_rtm`,`tweb_penduduk`.`rtm_level` AS `rtm_level`,`tweb_penduduk`.`sex` AS `sex`,`tweb_penduduk`.`tempatlahir` AS `tempatlahir`,`tweb_penduduk`.`tanggallahir` AS `tanggallahir`,`tweb_penduduk`.`agama_id` AS `agama_id`,`tweb_penduduk`.`pendidikan_kk_id` AS `pendidikan_kk_id`,`tweb_penduduk`.`pendidikan_sedang_id` AS `pendidikan_sedang_id`,`tweb_penduduk`.`pekerjaan_id` AS `pekerjaan_id`,`tweb_penduduk`.`status_kawin` AS `status_kawin`,`tweb_penduduk`.`warganegara_id` AS `warganegara_id`,`tweb_penduduk`.`dokumen_pasport` AS `dokumen_pasport`,`tweb_penduduk`.`dokumen_kitas` AS `dokumen_kitas`,`tweb_penduduk`.`ayah_nik` AS `ayah_nik`,`tweb_penduduk`.`ibu_nik` AS `ibu_nik`,`tweb_penduduk`.`nama_ayah` AS `nama_ayah`,`tweb_penduduk`.`nama_ibu` AS `nama_ibu`,`tweb_penduduk`.`foto` AS `foto`,`tweb_penduduk`.`golongan_darah_id` AS `golongan_darah_id`,`tweb_penduduk`.`id_cluster` AS `id_cluster`,`tweb_penduduk`.`status` AS `status`,`tweb_penduduk`.`alamat_sebelumnya` AS `alamat_sebelumnya`,`tweb_penduduk`.`alamat_sekarang` AS `alamat_sekarang`,`tweb_penduduk`.`status_dasar` AS `status_dasar`,`tweb_penduduk`.`hamil` AS `hamil`,`tweb_penduduk`.`cacat_id` AS `cacat_id`,`tweb_penduduk`.`sakit_menahun_id` AS `sakit_menahun_id`,`tweb_penduduk`.`akta_lahir` AS `akta_lahir`,`tweb_penduduk`.`akta_perkawinan` AS `akta_perkawinan`,`tweb_penduduk`.`tanggalperkawinan` AS `tanggalperkawinan`,`tweb_penduduk`.`akta_perceraian` AS `akta_perceraian`,`tweb_penduduk`.`tanggalperceraian` AS `tanggalperceraian`,`tweb_penduduk`.`cara_kb_id` AS `cara_kb_id`,`tweb_penduduk`.`telepon` AS `telepon`,`tweb_penduduk`.`tanggal_akhir_paspor` AS `tanggal_akhir_paspor`,`tweb_penduduk`.`no_kk_sebelumnya` AS `no_kk_sebelumnya`,`tweb_penduduk`.`ktp_el` AS `ktp_el`,`tweb_penduduk`.`status_rekam` AS `status_rekam`,`tweb_penduduk`.`waktu_lahir` AS `waktu_lahir`,`tweb_penduduk`.`tempat_dilahirkan` AS `tempat_dilahirkan`,`tweb_penduduk`.`jenis_kelahiran` AS `jenis_kelahiran`,`tweb_penduduk`.`kelahiran_anak_ke` AS `kelahiran_anak_ke`,`tweb_penduduk`.`penolong_kelahiran` AS `penolong_kelahiran`,`tweb_penduduk`.`berat_lahir` AS `berat_lahir`,`tweb_penduduk`.`panjang_lahir` AS `panjang_lahir`,`tweb_penduduk`.`tag_id_card` AS `tag_id_card`,`tweb_penduduk`.`created_at` AS `created_at`,`tweb_penduduk`.`created_by` AS `created_by`,`tweb_penduduk`.`updated_at` AS `updated_at`,`tweb_penduduk`.`updated_by` AS `updated_by`,`tweb_penduduk`.`id_asuransi` AS `id_asuransi`,`tweb_penduduk`.`no_asuransi` AS `no_asuransi`,`tweb_penduduk`.`email` AS `email`,`tweb_penduduk`.`email_token` AS `email_token`,`tweb_penduduk`.`email_tgl_kadaluarsa` AS `email_tgl_kadaluarsa`,`tweb_penduduk`.`email_tgl_verifikasi` AS `email_tgl_verifikasi`,`tweb_penduduk`.`telegram` AS `telegram`,`tweb_penduduk`.`telegram_token` AS `telegram_token`,`tweb_penduduk`.`telegram_tgl_kadaluarsa` AS `telegram_tgl_kadaluarsa`,`tweb_penduduk`.`telegram_tgl_verifikasi` AS `telegram_tgl_verifikasi`,`tweb_penduduk`.`bahasa_id` AS `bahasa_id`,`tweb_penduduk`.`ket` AS `ket`,`tweb_penduduk`.`negara_asal` AS `negara_asal`,`tweb_penduduk`.`tempat_cetak_ktp` AS `tempat_cetak_ktp`,`tweb_penduduk`.`tanggal_cetak_ktp` AS `tanggal_cetak_ktp`,`tweb_penduduk`.`suku` AS `suku`,`tweb_penduduk`.`bpjs_ketenagakerjaan` AS `bpjs_ketenagakerjaan` from `tweb_penduduk` where (`tweb_penduduk`.`status_dasar` = 1);
+CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_penduduk`.`nama` AS `nama`,`tweb_penduduk`.`nik` AS `nik`,`tweb_penduduk`.`id_kk` AS `id_kk`,`tweb_penduduk`.`kk_level` AS `kk_level`,`tweb_penduduk`.`id_rtm` AS `id_rtm`,`tweb_penduduk`.`rtm_level` AS `rtm_level`,`tweb_penduduk`.`sex` AS `sex`,`tweb_penduduk`.`tempatlahir` AS `tempatlahir`,`tweb_penduduk`.`tanggallahir` AS `tanggallahir`,`tweb_penduduk`.`agama_id` AS `agama_id`,`tweb_penduduk`.`pendidikan_kk_id` AS `pendidikan_kk_id`,`tweb_penduduk`.`pendidikan_sedang_id` AS `pendidikan_sedang_id`,`tweb_penduduk`.`pekerjaan_id` AS `pekerjaan_id`,`tweb_penduduk`.`status_kawin` AS `status_kawin`,`tweb_penduduk`.`warganegara_id` AS `warganegara_id`,`tweb_penduduk`.`dokumen_pasport` AS `dokumen_pasport`,`tweb_penduduk`.`dokumen_kitas` AS `dokumen_kitas`,`tweb_penduduk`.`ayah_nik` AS `ayah_nik`,`tweb_penduduk`.`ibu_nik` AS `ibu_nik`,`tweb_penduduk`.`nama_ayah` AS `nama_ayah`,`tweb_penduduk`.`nama_ibu` AS `nama_ibu`,`tweb_penduduk`.`foto` AS `foto`,`tweb_penduduk`.`golongan_darah_id` AS `golongan_darah_id`,`tweb_penduduk`.`id_cluster` AS `id_cluster`,`tweb_penduduk`.`status` AS `status`,`tweb_penduduk`.`alamat_sebelumnya` AS `alamat_sebelumnya`,`tweb_penduduk`.`alamat_sekarang` AS `alamat_sekarang`,`tweb_penduduk`.`status_dasar` AS `status_dasar`,`tweb_penduduk`.`hamil` AS `hamil`,`tweb_penduduk`.`cacat_id` AS `cacat_id`,`tweb_penduduk`.`sakit_menahun_id` AS `sakit_menahun_id`,`tweb_penduduk`.`akta_lahir` AS `akta_lahir`,`tweb_penduduk`.`akta_perkawinan` AS `akta_perkawinan`,`tweb_penduduk`.`tanggalperkawinan` AS `tanggalperkawinan`,`tweb_penduduk`.`akta_perceraian` AS `akta_perceraian`,`tweb_penduduk`.`tanggalperceraian` AS `tanggalperceraian`,`tweb_penduduk`.`cara_kb_id` AS `cara_kb_id`,`tweb_penduduk`.`telepon` AS `telepon`,`tweb_penduduk`.`tanggal_akhir_paspor` AS `tanggal_akhir_paspor`,`tweb_penduduk`.`no_kk_sebelumnya` AS `no_kk_sebelumnya`,`tweb_penduduk`.`ktp_el` AS `ktp_el`,`tweb_penduduk`.`status_rekam` AS `status_rekam`,`tweb_penduduk`.`waktu_lahir` AS `waktu_lahir`,`tweb_penduduk`.`tempat_dilahirkan` AS `tempat_dilahirkan`,`tweb_penduduk`.`jenis_kelahiran` AS `jenis_kelahiran`,`tweb_penduduk`.`kelahiran_anak_ke` AS `kelahiran_anak_ke`,`tweb_penduduk`.`penolong_kelahiran` AS `penolong_kelahiran`,`tweb_penduduk`.`berat_lahir` AS `berat_lahir`,`tweb_penduduk`.`panjang_lahir` AS `panjang_lahir`,`tweb_penduduk`.`tag_id_card` AS `tag_id_card`,`tweb_penduduk`.`created_at` AS `created_at`,`tweb_penduduk`.`created_by` AS `created_by`,`tweb_penduduk`.`updated_at` AS `updated_at`,`tweb_penduduk`.`updated_by` AS `updated_by`,`tweb_penduduk`.`id_asuransi` AS `id_asuransi`,`tweb_penduduk`.`no_asuransi` AS `no_asuransi`,`tweb_penduduk`.`email` AS `email`,`tweb_penduduk`.`email_token` AS `email_token`,`tweb_penduduk`.`email_tgl_kadaluarsa` AS `email_tgl_kadaluarsa`,`tweb_penduduk`.`email_tgl_verifikasi` AS `email_tgl_verifikasi`,`tweb_penduduk`.`telegram` AS `telegram`,`tweb_penduduk`.`telegram_token` AS `telegram_token`,`tweb_penduduk`.`telegram_tgl_kadaluarsa` AS `telegram_tgl_kadaluarsa`,`tweb_penduduk`.`telegram_tgl_verifikasi` AS `telegram_tgl_verifikasi`,`tweb_penduduk`.`bahasa_id` AS `bahasa_id`,`tweb_penduduk`.`ket` AS `ket`,`tweb_penduduk`.`negara_asal` AS `negara_asal`,`tweb_penduduk`.`tempat_cetak_ktp` AS `tempat_cetak_ktp`,`tweb_penduduk`.`tanggal_cetak_ktp` AS `tanggal_cetak_ktp`,`tweb_penduduk`.`suku` AS `suku`,`tweb_penduduk`.`bpjs_ketenagakerjaan` AS `bpjs_ketenagakerjaan` from `tweb_penduduk` where `tweb_penduduk`.`status_dasar` = 1;
 
 
 
@@ -15016,7 +15049,7 @@ CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_pendud
 # TABLE STRUCTURE FOR: rekap_mutasi_inventaris
 #
 
-CREATE VIEW `rekap_mutasi_inventaris` AS select 'inventaris_asset' AS `asset`,`mutasi_inventaris_asset`.`id_inventaris_asset` AS `id_inventaris_asset`,`mutasi_inventaris_asset`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_asset`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_asset`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_asset`.`keterangan` AS `keterangan` from `mutasi_inventaris_asset` where (`mutasi_inventaris_asset`.`visible` = 1) union all select 'inventaris_gedung' AS `inventaris_gedung`,`mutasi_inventaris_gedung`.`id_inventaris_gedung` AS `id_inventaris_gedung`,`mutasi_inventaris_gedung`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_gedung`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_gedung`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_gedung`.`keterangan` AS `keterangan` from `mutasi_inventaris_gedung` where (`mutasi_inventaris_gedung`.`visible` = 1) union all select 'inventaris_jalan' AS `inventaris_jalan`,`mutasi_inventaris_jalan`.`id_inventaris_jalan` AS `id_inventaris_jalan`,`mutasi_inventaris_jalan`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_jalan`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_jalan`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_jalan`.`keterangan` AS `keterangan` from `mutasi_inventaris_jalan` where (`mutasi_inventaris_jalan`.`visible` = 1) union all select 'inventaris_peralatan' AS `inventaris_peralatan`,`mutasi_inventaris_peralatan`.`id_inventaris_peralatan` AS `id_inventaris_peralatan`,`mutasi_inventaris_peralatan`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_peralatan`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_peralatan`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_peralatan`.`keterangan` AS `keterangan` from `mutasi_inventaris_peralatan` where (`mutasi_inventaris_peralatan`.`visible` = 1);
+CREATE VIEW `rekap_mutasi_inventaris` AS select 'inventaris_asset' AS `asset`,`mutasi_inventaris_asset`.`id_inventaris_asset` AS `id_inventaris_asset`,`mutasi_inventaris_asset`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_asset`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_asset`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_asset`.`keterangan` AS `keterangan` from `mutasi_inventaris_asset` where `mutasi_inventaris_asset`.`visible` = 1 union all select 'inventaris_gedung' AS `inventaris_gedung`,`mutasi_inventaris_gedung`.`id_inventaris_gedung` AS `id_inventaris_gedung`,`mutasi_inventaris_gedung`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_gedung`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_gedung`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_gedung`.`keterangan` AS `keterangan` from `mutasi_inventaris_gedung` where `mutasi_inventaris_gedung`.`visible` = 1 union all select 'inventaris_jalan' AS `inventaris_jalan`,`mutasi_inventaris_jalan`.`id_inventaris_jalan` AS `id_inventaris_jalan`,`mutasi_inventaris_jalan`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_jalan`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_jalan`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_jalan`.`keterangan` AS `keterangan` from `mutasi_inventaris_jalan` where `mutasi_inventaris_jalan`.`visible` = 1 union all select 'inventaris_peralatan' AS `inventaris_peralatan`,`mutasi_inventaris_peralatan`.`id_inventaris_peralatan` AS `id_inventaris_peralatan`,`mutasi_inventaris_peralatan`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_peralatan`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_peralatan`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_peralatan`.`keterangan` AS `keterangan` from `mutasi_inventaris_peralatan` where `mutasi_inventaris_peralatan`.`visible` = 1;
 
 
 
@@ -15024,7 +15057,7 @@ CREATE VIEW `rekap_mutasi_inventaris` AS select 'inventaris_asset' AS `asset`,`m
 # TABLE STRUCTURE FOR: daftar_kontak
 #
 
-CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pend` AS `id_pend`,`b`.`nama` AS `nama`,`a`.`no_hp` AS `no_hp`,(case when (`b`.`sex` = '1') then 'Laki-laki' else 'Perempuan' end) AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from (`kontak` `a` left join `tweb_penduduk` `b` on((`a`.`id_pend` = `b`.`id`)));
+CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pend` AS `id_pend`,`b`.`nama` AS `nama`,`a`.`no_hp` AS `no_hp`,case when `b`.`sex` = '1' then 'Laki-laki' else 'Perempuan' end AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from (`kontak` `a` left join `tweb_penduduk` `b` on(`a`.`id_pend` = `b`.`id`));
 
 
 
@@ -15032,6 +15065,7 @@ CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pen
 # TABLE STRUCTURE FOR: daftar_anggota_grup
 #
 
-CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)));
+CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on(`a`.`id_kontak` = `b`.`id_kontak`)) left join `kontak_grup` `c` on(`a`.`id_grup` = `c`.`id_grup`));
+
 
 
