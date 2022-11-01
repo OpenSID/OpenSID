@@ -90,6 +90,7 @@ Terima kasih pada syahransaputra yang terus berkontribusi.
 33. [#5890](https://github.com/OpenSID/OpenSID/issues/5890) Penyesuaian API SDGS yang berubah lagi di website sumber.
 34. [#5894](https://github.com/OpenSID/OpenSID/issues/5894) Perbaikan panjang karakter pada kolom pada ID penerima bantuan.
 35. [#5895](https://github.com/OpenSID/OpenSID/issues/5895) Perbaikan maksimal foto produk pada menu lapak.
+36. [#5869](https://github.com/OpenSID/OpenSID/issues/5869) Perbaikan form kerjasama karena tidak bisa koneksi ke layanan.
 
 #### Perubahan Teknis
 
