@@ -135,11 +135,11 @@ class Penduduk_model extends MY_Model
                 ->group_end();
         } elseif ($kf == $this->session->status && $kolom === 'u.status_kawin' && in_array($this->session->status, [5, 6])) {
             if ($this->session->status == 5) {
-                $statusKawin = " != ''";
+                $statusKawin = " (u.akta_perkawinan IS NOT NULL OR u.akta_perkawinan != '') AND u.tanggalperkawinan IS NOT NULL";
             } else {
-                $statusKawin = " = ''";
+                $statusKawin = " (u.akta_perkawinan IS NULL OR u.akta_perkawinan = '') AND u.tanggalperkawinan IS NULL";
             }
-            $this->db->where("u.status_kawin = '2' and u.akta_perkawinan $statusKawin");
+            $this->db->where($statusKawin);
         } elseif ($kf == $this->session->status_dasar) {
             $this->db->where_in($kolom, $kf);
         } else {
