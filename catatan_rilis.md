@@ -7,6 +7,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 #### Perbaikan BUG
 
+1. [#5919](https://github.com/OpenSID/OpenSID/issues/5919) Perbaikan token kosong padahal cache sudah dan token sudah di input.
 
 #### Perubahan Teknis
 

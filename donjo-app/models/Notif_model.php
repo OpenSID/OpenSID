@@ -217,13 +217,15 @@ class Notif_model extends CI_Model
      */
     public function api_pelanggan_pemesanan()
     {
-        if (empty($token = $this->setting->layanan_opendesa_token)) {
+        if (empty($this->setting->layanan_opendesa_token)) {
             $this->session->set_userdata('error_status_langganan', 'Token Pelanggan Kosong.');
 
             return null;
         }
 
         if ($cache = $this->cache->file->get('status_langganan')) {
+            $this->session->set_userdata('error_status_langganan', 'Tunggu sebentar, halaman akan dimuat ulang.');
+
             return $cache;
         }
     }

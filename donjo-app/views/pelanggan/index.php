@@ -413,17 +413,15 @@
         <?php endif ?>
     </section>
 </div>
-<script>
-    $('#copy').on('click', function() {
-        $('#token').select();
-        document.execCommand('copy');
-    });
-</script>
-
 <script src="<?= asset('js/sweetalert2/sweetalert2.all.min.js') ?>"></script>
 <link rel="stylesheet" href="<?= asset('js/sweetalert2/sweetalert2.min.css') ?>">
 
 <script type="text/javascript">
+    $('#copy').on('click', function() {
+        $('#token').select();
+        document.execCommand('copy');
+    });
+
     $('.atur-token').click(function(event) {
         Swal.fire({
             title: 'Pengaturan Pelanggan',
@@ -432,6 +430,7 @@
                     popup: 'swal-lg',
                 },
             input: 'textarea',
+            inputValue: '<?= setting('layanan_opendesa_token') ?>',
             inputAttributes: {
                 inputPlaceholder: 'Token pelanggan Layanan OpenDESA'
             },
@@ -442,20 +441,20 @@
             preConfirm: (token) => {
                 return fetch(`<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`, {
                     headers: {
-                         "Authorization" : `Bearer ${token}`,
-                         "X-Requested-With" : `XMLHttpRequest`,
+                        "Authorization" : `Bearer ${token}`,
+                        "X-Requested-With" : `XMLHttpRequest`,
                     },
                     method: 'post',
                 })
-                  .then(response => {
+                .then(response => {
                     if (!response.ok) {
-                      throw new Error(response.statusText)
+                        throw new Error(response.statusText)
                     }
                     return response.json()
-                  })
-                  .catch(error => {
+                })
+                .catch(error => {
                     Swal.showValidationMessage(
-                      `Request failed: ${error}`
+                        `Request failed: ${error}`
                     )
                 })
             },
@@ -473,70 +472,67 @@
                         text: 'Verifikasi token Gagal',
                     })
                 } else {
-                     $.ajax({
-                         url: `${SITE_URL}pelanggan/pemesanan`,
-                         type: 'Post',
-                         dataType: 'json',
-                         data: data,
-                     })
-                     .done(function() {
-                         Swal.fire({
-                             title: 'Berhasil Tersimpan',
+                    $.ajax({
+                        url: `${SITE_URL}pelanggan/pemesanan`,
+                        type: 'Post',
+                        dataType: 'json',
+                        data: data,
+                    })
+                    .done(function() {
+                        Swal.fire({
+                            title: 'Berhasil Tersimpan',
                         })
-                         window.location.replace(`${SITE_URL}pelanggan`);
+                        window.location.replace(`${SITE_URL}pelanggan`);
 
-                     })
-                     .fail(function(e) {
+                    })
+                    .fail(function(e) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Request failed',
                         })
-                     });
+                    });
                 }
             }
         })
     });
 
     $('.perbarui').click(function(event) {
-         Swal.fire({title: 'Sedang Memproses', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
-         $.ajax({
-             url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
-             headers: {
+        Swal.fire({title: 'Sedang Memproses', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
+        $.ajax({
+            url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+            headers: {
                 "Authorization" : `Bearer <?= setting('layanan_opendesa_token') ?>`,
                 "X-Requested-With" : `XMLHttpRequest`,
-             },
-             type: 'Post',
-         })
-         .done(function(response) {
+            },
+            type: 'Post',
+        })
+        .done(function(response) {
             let data = {
                     body : response
                 }
-             $.ajax({
-                 url: `${SITE_URL}pelanggan/pemesanan`,
-                 type: 'Post',
-                 dataType: 'json',
-                 data: data,
-             })
-             .done(function() {
-                 Swal.fire({
-                     title: 'Berhasil Tersimpan',
+            $.ajax({
+                url: `${SITE_URL}pelanggan/pemesanan`,
+                type: 'Post',
+                dataType: 'json',
+                data: data,
+            })
+            .done(function() {
+                Swal.fire({
+                    title: 'Berhasil Tersimpan',
                 })
-                 window.location.replace(`${SITE_URL}pelanggan`);
+                window.location.replace(`${SITE_URL}pelanggan`);
 
-             })
-             .fail(function(e) {
+            })
+            .fail(function(e) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Request failed',
                 })
-             });
-         })
-         .fail(function() {
-             console.log("error");
-         });
-
-
-
+            });
+        })
+        .fail(function() {
+            console.log("error");
+        });
     });
 
 </script>

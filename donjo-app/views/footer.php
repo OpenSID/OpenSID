@@ -54,19 +54,19 @@
 				<script src="<?= asset('js/numeraljs/numeral.min.js') ?>"></script>
 				<script type="text/javascript">
 					numeral.register("locale", "id-id", {
-					   delimiters: {
-					      thousands: ".",
-					      decimal: ","
-					   },
-					   abbreviations: {
-				            thousand: 'k',
-				            million: 'm',
-				            billion: 'b',
-				            trillion: 't'
-				        },
-					   currency: {
-					      symbol: "Rp." //The currency for UAE is called the Dirham
-					   }
+						delimiters: {
+							thousands: ".",
+							decimal: ","
+						},
+						abbreviations: {
+								thousand: 'k',
+								million: 'm',
+								billion: 'b',
+								trillion: 't'
+							},
+						currency: {
+							symbol: "Rp." //The currency for UAE is called the Dirham
+						}
 					});
 					numeral.locale('id-id');
 					numeral.defaultFormat('0,0.00');
@@ -144,6 +144,36 @@
 					});
 				</script>
 				<?php session_error_clear(); ?>
+
+				<?php if (isset($perbaharui_langganan)): ?>
+					<!-- cek status langganan -->
+					<script type="text/javascript">
+						var controller = '<?= $this->controller ?>';
+						$.ajax({
+							url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+							headers: {
+							"Authorization" : `Bearer <?= setting('layanan_opendesa_token') ?>`,
+							"X-Requested-With" : `XMLHttpRequest`,
+							},
+							type: 'Post',
+						})
+						.done(function(response) {
+							let data = {
+									body : response
+								}
+							$.ajax({
+								url: `${SITE_URL}pelanggan/pemesanan`,
+								type: 'Post',
+								dataType: 'json',
+								data: data,
+							}).done(function() {
+								if (controller == 'pelanggan') {
+									location.reload();
+								}
+							});
+						})
+					</script>
+				<?php endif ?>
 				</body>
 
 				</html>

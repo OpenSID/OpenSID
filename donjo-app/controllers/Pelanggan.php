@@ -56,10 +56,7 @@ class Pelanggan extends Admin_Controller
         $this->modul_ini          = 200;
         $this->sub_modul_ini      = 313;
         $this->header['kategori'] = 'pelanggan';
-
-        $this->load->model(['surat_model', 'pamong_model']);
-        $this->client = new Client();
-        $this->server = config_item('server_layanan');
+        $this->client             = new Client();
     }
 
     public function index()
@@ -113,7 +110,7 @@ class Pelanggan extends Admin_Controller
 
         try {
             $this->upload->do_upload('permohonan');
-            $response = $this->client->post("{$this->server}/api/v1/pelanggan/perpanjang", [
+            $this->client->post(config_item('server_layanan') . '/api/v1/pelanggan/perpanjang', [
                 'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
                 'multipart' => [
                     ['name' => 'pemesanan_id', 'contents' => (int) $this->input->post('pemesanan_id')],
