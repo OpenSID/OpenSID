@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class KlasifikasiSurat extends Model
+class KlasifikasiSurat extends BaseModel
 {
     /**
      * The table associated with the model.

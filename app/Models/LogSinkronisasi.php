@@ -37,10 +37,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\Author;
 
-class LogSinkronisasi extends Model
+class LogSinkronisasi extends BaseModel
 {
+    use Author;
+
     /**
      * The table associated with the model.
      *
@@ -55,5 +57,9 @@ class LogSinkronisasi extends Model
      */
     protected $guarded = [];
 
-    protected $fillable = ['modul', 'created_by', 'updated_by'];
+    protected $fillable = [
+        'modul',
+        'created_by',
+        'updated_by',
+    ];
 }

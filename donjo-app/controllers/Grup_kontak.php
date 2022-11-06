@@ -96,7 +96,7 @@ class Grup_kontak extends Admin_Controller
         if ($id) {
             $action     = 'Ubah';
             $formAction = route('grup_kontak.update', $id);
-            $grupKontak = GrupKontak::find($id) ?? show_404();
+            $grupKontak = GrupKontak::findOrFail($id);
         } else {
             $action     = 'Tambah';
             $formAction = route('grup_kontak.insert');
@@ -120,7 +120,7 @@ class Grup_kontak extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = GrupKontak::find($id) ?? show_404();
+        $data = GrupKontak::findOrFail($id);
 
         if ($data->update(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data');
@@ -150,7 +150,7 @@ class Grup_kontak extends Admin_Controller
     // Anggota Grup
     public function anggota($id = null)
     {
-        $grupKontak = GrupKontak::find($id) ?? show_404();
+        $grupKontak = GrupKontak::findOrFail($id);
 
         return view('admin.grup_kontak.anggota.index', compact('grupKontak'));
     }

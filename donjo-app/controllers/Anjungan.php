@@ -116,7 +116,7 @@ class Anjungan extends Admin_Controller
         if ($id) {
             $data['action']      = 'Ubah';
             $data['form_action'] = route('anjungan.update', $id);
-            $data['anjungan']    = AnjunganModel::find($id) ?? show_404();
+            $data['anjungan']    = AnjunganModel::findOrFail($id);
         } else {
             $data['action']      = 'Tambah';
             $data['form_action'] = route('anjungan.insert');
@@ -140,7 +140,7 @@ class Anjungan extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = AnjunganModel::find($id) ?? show_404();
+        $data = AnjunganModel::findOrFail($id);
 
         if ($data->update(static::validated($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
@@ -166,7 +166,7 @@ class Anjungan extends Admin_Controller
             redirect_with('warning', 'Untuk mengaktifkan harus memesan anjungan terlebih dahulu.');
         }
 
-        $kunci = AnjunganModel::find($id) ?? show_404();
+        $kunci = AnjunganModel::findOrFail($id);
         $kunci->update(['status' => ($val == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA]);
 
         redirect_with('success', 'Berhasil Ubah Data');

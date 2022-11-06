@@ -133,7 +133,7 @@ class Identitas_desa extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = Config::find($id) ?? show_404();
+        $data = Config::findOrFail($id);
 
         if ($data->update(static::validate($this->request))) {
             return json([

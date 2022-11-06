@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class IbuHamil extends Model
+class IbuHamil extends BaseModel
 {
     /**
      * Static data status kehamilan ibu

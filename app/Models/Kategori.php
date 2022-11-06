@@ -38,9 +38,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
-class Kategori extends Model
+class Kategori extends BaseModel
 {
     public const ENABLE = 1;
 

@@ -37,10 +37,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\Author;
 
-class AlasanKeluar extends Model
+class AlasanKeluar extends BaseModel
 {
+    use Author;
+
     /**
      * The table associated with the model.
      *

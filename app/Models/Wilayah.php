@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Wilayah extends Model
+class Wilayah extends BaseModel
 {
     /**
      * The table associated with the model.

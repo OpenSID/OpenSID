@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class BantuanPeserta extends Model
+class BantuanPeserta extends BaseModel
 {
     /**
      * The table associated with the model.

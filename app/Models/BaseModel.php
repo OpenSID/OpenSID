@@ -37,12 +37,32 @@
 
 namespace App\Models;
 
-class StatusDasar extends BaseModel
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Model;
+
+class BaseModel extends Model
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'tweb_status_dasar';
+    public static function findOrFail($id, $columns = ['*'])
+    {
+        $result = self::find($id, $columns);
+
+        $id = $id instanceof Arrayable ? $id->toArray() : $id;
+
+        if (is_array($id)) {
+            if (count($result) === count(array_unique($id))) {
+                return $result;
+            }
+        } elseif (null !== $result) {
+            return $result;
+        }
+
+        return show_404();
+    }
+
+    public static function firstOrFail($columns = ['*'])
+    {
+        return self::firstOr($columns, static function () {
+            return show_404();
+        });
+    }
 }

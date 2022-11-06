@@ -92,10 +92,9 @@ class Kehadiran_hari_libur extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         if ($id) {
-            $action      = 'Ubah';
-            $form_action = route('kehadiran_hari_libur.update', $id);
-            // TODO: Gunakan findOrFail
-            $kehadiran_hari_libur          = HariLibur::find($id) ?? show_404();
+            $action                        = 'Ubah';
+            $form_action                   = route('kehadiran_hari_libur.update', $id);
+            $kehadiran_hari_libur          = HariLibur::findOrFail($id);
             $kehadiran_hari_libur->tanggal = date('d-m-Y', strtotime($kehadiran_hari_libur->tanggal));
         } else {
             $action               = 'Tambah';
@@ -121,8 +120,7 @@ class Kehadiran_hari_libur extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        // TODO: Gunakan findOrFail
-        $update = HariLibur::find($id) ?? show_404();
+        $update = HariLibur::findOrFail($id);
 
         if ($update->update($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data');

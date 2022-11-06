@@ -35,14 +35,14 @@
  *
  */
 
-namespace App\Models;
+namespace App\Traits;
 
-class StatusDasar extends BaseModel
+use App\Observers\AuthorObserver;
+
+trait Author
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'tweb_status_dasar';
+    public static function bootAuthor()
+    {
+        static::observe(AuthorObserver::class);
+    }
 }

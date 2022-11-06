@@ -38,11 +38,10 @@
 namespace App\Models;
 
 use Exception;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class Galery extends Model
+class Galery extends BaseModel
 {
     /**
      * {@inheritDoc}

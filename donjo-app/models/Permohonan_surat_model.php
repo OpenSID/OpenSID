@@ -262,7 +262,7 @@ class Permohonan_surat_model extends CI_Model
 
     public function get_syarat_permohonan($id)
     {
-        $permohonan   = PermohonanSurat::select(['syarat'])->find($id) ?? show_404();
+        $permohonan   = PermohonanSurat::select(['syarat'])->findOrFail($id);
         $syarat_surat = collect($permohonan->syarat)->map(static function ($item, $key) {
             $syaratSurat        = SyaratSurat::select(['ref_syarat_nama'])->find($key);
             $dokumenKelengkapan = Dokumen::select(['nama'])->find($item);

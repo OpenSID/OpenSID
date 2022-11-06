@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class LogTolak extends Model
+class LogTolak extends BaseModel
 {
     /**
      * The table associated with the model.

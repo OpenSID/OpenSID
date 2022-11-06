@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class KehadiranPengaduan extends Model
+class KehadiranPengaduan extends BaseModel
 {
     /**
      * The table associated with the model.

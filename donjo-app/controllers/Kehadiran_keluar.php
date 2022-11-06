@@ -91,7 +91,7 @@ class Kehadiran_keluar extends Admin_Controller
         if ($id) {
             $action           = 'Ubah';
             $form_action      = route('kehadiran_keluar.update', $id);
-            $kehadiran_keluar = AlasanKeluar::find($id) ?? show_404();
+            $kehadiran_keluar = AlasanKeluar::findOrFail($id);
         } else {
             $action           = 'Tambah';
             $form_action      = route('kehadiran_keluar.create');
@@ -116,7 +116,7 @@ class Kehadiran_keluar extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $update = AlasanKeluar::find($id) ?? show_404();
+        $update = AlasanKeluar::findOrFail($id);
 
         if ($update->update($this->validated($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');

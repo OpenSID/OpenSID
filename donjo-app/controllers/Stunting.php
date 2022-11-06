@@ -106,7 +106,7 @@ class Stunting extends Admin_Controller
         if ($id) {
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updatePosyandu', $id);
-            $data['posyandu']   = Posyandu::find($id) ?? show_404();
+            $data['posyandu']   = Posyandu::findOrFail($id);
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = route('stunting.insertPosyandu');
@@ -131,7 +131,7 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = Posyandu::find($id) ?? show_404();
+        $data = Posyandu::findOrFail($id);
 
         if ($data->update(static::validatePosyandu($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'stunting');
@@ -232,7 +232,7 @@ class Stunting extends Admin_Controller
         if ($id) {
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updateKia', $id);
-            $data['kia']        = KIA::find($id) ?? show_404();
+            $data['kia']        = KIA::findOrFail($id);
             $data['ibu']        = $data['ibu']->prepend(Penduduk::find($data['kia']->ibu_id));
             $data['anak']       = $data['anak']->where('id', '!=', $data['kia']->ibu_id)->prepend(Penduduk::find($data['kia']->anak_id));
         } else {
@@ -276,7 +276,7 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = KIA::find($id) ?? show_404();
+        $data = KIA::findOrFail($id);
 
         if ($data->update(static::validateKia($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'stunting/kia');
@@ -402,7 +402,7 @@ class Stunting extends Admin_Controller
         if ($id) {
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updateIbuHamil', $id);
-            $data['ibuHamil']   = IbuHamil::find($id) ?? show_404();
+            $data['ibuHamil']   = IbuHamil::findOrFail($id);
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = route('stunting.insertIbuHamil');
@@ -438,7 +438,7 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = IbuHamil::find($id) ?? show_404();
+        $data = IbuHamil::findOrFail($id);
 
         if ($data->update(static::validateIbuHamil($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'stunting/pemantauan_ibu_hamil');
@@ -623,7 +623,7 @@ class Stunting extends Admin_Controller
 
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updateAnak', $id);
-            $data['anak']       = Anak::find($id) ?? show_404();
+            $data['anak']       = Anak::findOrFail($id);
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = route('stunting.insertAnak');
@@ -657,7 +657,7 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = Anak::find($id) ?? show_404();
+        $data = Anak::findOrFail($id);
 
         if ($data->update(static::validateAnak($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'stunting/pemantauan_anak');
@@ -844,7 +844,7 @@ class Stunting extends Admin_Controller
         if ($id) {
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updatePaud', $id);
-            $data['paud']       = Paud::find($id) ?? show_404();
+            $data['paud']       = Paud::findOrFail($id);
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = route('stunting.insertPaud');
@@ -878,7 +878,7 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = Paud::find($id) ?? show_404();
+        $data = Paud::findOrFail($id);
 
         if ($data->update(static::validatePaud($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'stunting/pemantauan_paud');

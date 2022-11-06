@@ -37,10 +37,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\Author;
 
-class AnjunganMenu extends Model
+class AnjunganMenu extends BaseModel
 {
+    use Author;
+
     /**
      * The table associated with the model.
      *

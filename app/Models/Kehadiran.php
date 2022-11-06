@@ -38,9 +38,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
-class Kehadiran extends Model
+class Kehadiran extends BaseModel
 {
     /**
      * The table associated with the model.

@@ -123,7 +123,7 @@ class Anjungan_menu extends Admin_Controller
         if ($id) {
             $data['action']      = 'Ubah';
             $data['form_action'] = route('anjungan_menu.update', $id);
-            $data['menu']        = Menu::find($id) ?? show_404();
+            $data['menu']        = Menu::findOrFail($id);
         } else {
             $data['action']      = 'Tambah';
             $data['form_action'] = route('anjungan_menu.insert');
@@ -151,7 +151,7 @@ class Anjungan_menu extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = Menu::find($id) ?? show_404();
+        $data = Menu::findOrFail($id);
 
         if ($data->update(static::validated($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
@@ -178,7 +178,7 @@ class Anjungan_menu extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $favorit = Menu::find($id) ?? show_404();
+        $favorit = Menu::findOrFail($id);
         $favorit->update(['status' => ($val == 1) ? StatusEnum::TIDAK : StatusEnum::YA]);
 
         redirect_with('success', 'Berhasil Ubah Data');

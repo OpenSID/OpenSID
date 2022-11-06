@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Dokumen extends Model
+class Dokumen extends BaseModel
 {
     public const DOKUMEN_WARGA = 1;
     public const ENABLE        = 1;

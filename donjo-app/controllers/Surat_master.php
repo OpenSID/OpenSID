@@ -126,7 +126,7 @@ class Surat_master extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         if ($id) {
-            $suratMaster = FormatSurat::find($id) ?? show_404();
+            $suratMaster = FormatSurat::findOrFail($id);
 
             $data['action']      = 'Ubah';
             $data['suratMaster'] = $suratMaster;
@@ -215,7 +215,7 @@ class Surat_master extends Admin_Controller
             $this->preview();
         }
 
-        $data = FormatSurat::find($id) ?? show_404();
+        $data = FormatSurat::findOrFail($id);
         if ($data->update(static::validate($this->request, $data->jenis, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
@@ -319,7 +319,7 @@ class Surat_master extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $favorit = FormatSurat::find($id) ?? show_404();
+        $favorit = FormatSurat::findOrFail($id);
         $favorit->update(['kunci' => ($val == 1) ? 0 : 1]);
 
         redirect_with('success', 'Berhasil Ubah Data');
@@ -329,7 +329,7 @@ class Surat_master extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $favorit = FormatSurat::find($id) ?? show_404();
+        $favorit = FormatSurat::findOrFail($id);
         $favorit->update(['favorit' => ($val == 1) ? 0 : 1]);
 
         redirect_with('success', 'Berhasil Ubah Data');

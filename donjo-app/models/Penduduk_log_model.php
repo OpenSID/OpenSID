@@ -138,7 +138,7 @@ class Penduduk_log_model extends MY_Model
     public function kembalikan_status($id_log)
     {
         // Cek untuk kode_peristiwa mati (2) hanya boleh dikembalikan jika tgl(thn/bln) lapor masih sama dengan tgl(thn/bln) saat mau dikembalikan
-        $log = LogPenduduk::find($id_log) ?? show_404();
+        $log = LogPenduduk::firstOrFail($id_log);
 
         // Kembalikan status selain masuk dan lahir
         if ($log->kode_peristiwa != 5 && $log->kode_peristiwa != 1) {

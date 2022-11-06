@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class PendudukMandiri extends Model
+class PendudukMandiri extends BaseModel
 {
     /**
      * {@inheritDoc}

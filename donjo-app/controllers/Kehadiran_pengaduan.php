@@ -80,8 +80,8 @@ class Kehadiran_pengaduan extends Admin_Controller
 
         $action      = 'Ubah';
         $form_action = route('kehadiran_pengaduan.update', $id);
-        // TODO: Gunakan findOrFail
-        $kehadiran_pengaduan = KehadiranPengaduan::find($id) ?? show_404();
+
+        $kehadiran_pengaduan = KehadiranPengaduan::findOrFail($id);
 
         return view('admin.pengaduan.form', compact('action', 'form_action', 'kehadiran_pengaduan'));
     }
@@ -90,8 +90,7 @@ class Kehadiran_pengaduan extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        // TODO: Gunakan findOrFail
-        $update = KehadiranPengaduan::find($id) ?? show_404();
+        $update = KehadiranPengaduan::findOrFail($id);
 
         if ($update->update($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data');

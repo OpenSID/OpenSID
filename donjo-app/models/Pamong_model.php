@@ -370,7 +370,7 @@ class Pamong_model extends CI_Model
      */
     public function ttd($jenis, $id, $val)
     {
-        $pamong = Pamong::find($id) ?? show_404();
+        $pamong = Pamong::findOrFail($id);
 
         if ($jenis == 'a.n') {
             if ($pamong->jabatan_id == '2') {

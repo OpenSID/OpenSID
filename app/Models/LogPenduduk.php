@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class LogPenduduk extends Model
+class LogPenduduk extends BaseModel
 {
     /**
      * KETERANGAN kode_peristiwa di log_penduduk

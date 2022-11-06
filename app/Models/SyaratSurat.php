@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class SyaratSurat extends Model
+class SyaratSurat extends BaseModel
 {
     /**
      * The primary key for the model.

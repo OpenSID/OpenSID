@@ -38,9 +38,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
-class PermohonanSurat extends Model
+class PermohonanSurat extends BaseModel
 {
     public const BELUM_LENGKAP         = 0;
     public const SEDANG_DIPERIKSA      = 1;

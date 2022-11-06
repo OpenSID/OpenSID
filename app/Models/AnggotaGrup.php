@@ -37,10 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class AnggotaGrup extends Model
+class AnggotaGrup extends BaseModel
 {
     /**
      * The table associated with the model.

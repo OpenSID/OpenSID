@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Posyandu extends Model
+class Posyandu extends BaseModel
 {
     /**
      * The table associated with the model.

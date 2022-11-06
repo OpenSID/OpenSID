@@ -38,9 +38,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
-class Komentar extends Model
+class Komentar extends BaseModel
 {
     public const ACTIVE         = 1;
     public const NONACTIVE      = 2;

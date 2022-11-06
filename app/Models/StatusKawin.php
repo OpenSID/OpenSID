@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class StatusKawin extends Model
+class StatusKawin extends BaseModel
 {
     /**
      * {@inheritDoc}

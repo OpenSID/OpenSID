@@ -35,14 +35,20 @@
  *
  */
 
-namespace App\Models;
+namespace App\Observers;
 
-class StatusDasar extends BaseModel
+use Illuminate\Database\Eloquent\Model;
+
+class AuthorObserver
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'tweb_status_dasar';
+    public function creating(Model $model)
+    {
+        $model->created_by = auth()->id;
+        $model->updated_by = auth()->id;
+    }
+
+    public function updating(Model $model)
+    {
+        $model->updated_by = auth()->id;
+    }
 }

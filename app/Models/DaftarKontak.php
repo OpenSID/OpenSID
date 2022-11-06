@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class DaftarKontak extends Model
+class DaftarKontak extends BaseModel
 {
     /**
      * The table associated with the model.

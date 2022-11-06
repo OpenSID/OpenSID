@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class TeksBerjalan extends Model
+class TeksBerjalan extends BaseModel
 {
     /**
      * The table associated with the model.

@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Pesan extends Model
+class Pesan extends BaseModel
 {
     protected $table    = 'pesan';
     protected $fillable = ['id', 'judul', 'jenis', 'sudah_dibaca', 'diarsipkan'];

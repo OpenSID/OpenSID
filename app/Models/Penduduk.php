@@ -38,9 +38,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
-class Penduduk extends Model
+class Penduduk extends BaseModel
 {
     /**
      * Static data tempat lahir.

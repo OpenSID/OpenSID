@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class LogRestoreDesa extends Model
+class LogRestoreDesa extends BaseModel
 {
     /**
      * The table associated with the model.

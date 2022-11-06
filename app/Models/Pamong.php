@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Pamong extends Model
+class Pamong extends BaseModel
 {
     /**
      * The table associated with the model.

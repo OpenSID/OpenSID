@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class PendidikanKK extends Model
+class PendidikanKK extends BaseModel
 {
     /**
      * {@inheritDoc}

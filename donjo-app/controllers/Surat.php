@@ -120,7 +120,7 @@ class Surat extends Admin_Controller
                     $data['individu'] = $this->surat_model->get_penduduk($nik);
                     $data['anggota']  = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => true], true);
                 } else {
-                    $data['individu'] = Penduduk::find($nik) ?? show_404();
+                    $data['individu'] = Penduduk::findOrFail($nik);
                     $data['anggota']  = null;
                 }
             } else {
@@ -261,7 +261,7 @@ class Surat extends Admin_Controller
 
             unset($log_surat['surat'], $log_surat['input']);
             $id    = LogSurat::updateOrCreate(['id' => $cetak['id']], $log_surat)->id;
-            $surat = LogSurat::find($id) ?? show_404();
+            $surat = LogSurat::findOrFail($id);
 
             // Logo Surat
             $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(Config::select('logo')->first()->logo, false, true));
@@ -669,7 +669,7 @@ class Surat extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $favorit = FormatSurat::find($id) ?? show_404();
+        $favorit = FormatSurat::findOrFail($id);
         $favorit->update(['favorit' => ($val == 1) ? 0 : 1]);
 
         redirect_with('success', 'Berhasil Ubah Data');

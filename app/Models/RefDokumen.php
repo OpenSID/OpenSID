@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class RefDokumen extends Model
+class RefDokumen extends BaseModel
 {
     /**
      * The table associated with the model.

@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class SakitMenahun extends Model
+class SakitMenahun extends BaseModel
 {
     /**
      * {@inheritDoc}

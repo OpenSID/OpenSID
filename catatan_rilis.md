@@ -11,3 +11,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 #### Perubahan Teknis
 
 1. Hapus coding tidak digunakan.
+2. BaseModel dan Observer.

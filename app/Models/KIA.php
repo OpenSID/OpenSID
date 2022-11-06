@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class KIA extends Model
+class KIA extends BaseModel
 {
     /**
      * The table associated with the model.
@@ -96,18 +94,4 @@ class KIA extends Model
     {
         return $this->hasOne(Anak::class, 'kia_id');
     }
-
-    // public static function boot()
-    // {
-    //     parent::boot();
-
-    //     static::creating(static function ($model) {
-    //         $model->created_by = auth()->id;
-    //         $model->updated_by = auth()->id;
-    //     });
-
-    //     static::updating(static function ($model) {
-    //         $model->updated_by = auth()->id;
-    //     });
-    // }
 }

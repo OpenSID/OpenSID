@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class KeuanganManualRinci extends Model
+class KeuanganManualRinci extends BaseModel
 {
     /**
      * The table associated with the model.

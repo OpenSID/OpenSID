@@ -86,8 +86,8 @@ class Kehadiran_jam_kerja extends Admin_Controller
 
         $action      = 'Ubah';
         $form_action = route('kehadiran_jam_kerja.update', $id);
-        // TODO: Gunakan findOrFail
-        $kehadiran_jam_kerja = JamKerja::find($id) ?? show_404();
+
+        $kehadiran_jam_kerja = JamKerja::findOrFail($id);
 
         return view('admin.jam_kerja.form', compact('action', 'form_action', 'kehadiran_jam_kerja'));
     }
@@ -96,8 +96,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        // TODO: Gunakan findOrFail
-        $update = JamKerja::find($id) ?? show_404();
+        $update = JamKerja::findOrFail($id);
 
         if ($update->update($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data');

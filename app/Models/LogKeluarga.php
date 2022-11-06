@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class LogKeluarga extends Model
+class LogKeluarga extends BaseModel
 {
     /**
      * KETERANGAN id_peristiwa di log_keluarga

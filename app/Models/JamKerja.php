@@ -38,9 +38,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
-class JamKerja extends Model
+class JamKerja extends BaseModel
 {
     /**
      * The table associated with the model.
