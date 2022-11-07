@@ -108,7 +108,8 @@ class Program_bantuan extends Admin_Controller
             $data['individu'] = null;
         }
 
-        $data['form_action'] = site_url('program_bantuan/add_peserta/' . $program_id);
+        $data['form_action']  = site_url('program_bantuan/add_peserta/' . $program_id);
+        $data['list_sasaran'] = SasaranEnum::DAFTAR;
 
         $this->render('program_bantuan/form', $data);
     }
@@ -133,14 +134,15 @@ class Program_bantuan extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data['cari']     = $this->session->cari ?: '';
-        $data['program']  = $this->program_bantuan_model->get_program($p, $program_id);
-        $data['keyword']  = $this->program_bantuan_model->autocomplete($program_id, $this->input->post('cari'));
-        $data['paging']   = $data['program'][0]['paging'];
-        $data['p']        = $p;
-        $data['func']     = "detail/{$program_id}";
-        $data['per_page'] = $this->session->per_page;
-        $data['set_page'] = $this->_set_page;
+        $data['cari']         = $this->session->cari ?: '';
+        $data['program']      = $this->program_bantuan_model->get_program($p, $program_id);
+        $data['keyword']      = $this->program_bantuan_model->autocomplete($program_id, $this->input->post('cari'));
+        $data['paging']       = $data['program'][0]['paging'];
+        $data['list_sasaran'] = SasaranEnum::DAFTAR;
+        $data['p']            = $p;
+        $data['func']         = "detail/{$program_id}";
+        $data['per_page']     = $this->session->per_page;
+        $data['set_page']     = $this->_set_page;
 
         $this->render('program_bantuan/detail', $data);
     }
