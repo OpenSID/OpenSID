@@ -35,8 +35,10 @@
  *
  */
 
+use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
 use DateTime;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -198,7 +200,7 @@ class Database_model extends MY_Model
         }
 
         // Catat migrasi yg sdh dijalankan, supaya tidak diulang
-        $this->session->daftar_migrasi = null;
+        $this->session->daftar_migrasi = Schema::hasColumn('migrasi', 'premium') ? Migrasi::where('versi_database', '=', VERSI_DATABASE)->first()->premium : null;
         $this->session->success        = 1;
 
         $versi          = $this->cekCurrentVersion();
@@ -219,7 +221,7 @@ class Database_model extends MY_Model
             $this->_migrasi_db_cri();
         }
 
-        // Jalankan migrasi layanan
+        // Layanan
         $this->jalankan_migrasi('migrasi_layanan');
 
         // Lengkapi folder desa
@@ -236,30 +238,15 @@ class Database_model extends MY_Model
         }
 
         SettingAplikasi::whereKey('current_version')->update(['value' => currentVersion()]);
-        $this->catat_versi_database();
+        Migrasi::firstOrCreate(['versi_database' => VERSI_DATABASE]);
         $this->load->model('track_model');
         $this->track_model->kirim_data();
-    }
 
-    private function catat_versi_database()
-    {
-        // Catat migrasi ini telah dilakukan
-        $sudah = $this->db->where('versi_database', VERSI_DATABASE)
-            ->get('migrasi')->num_rows();
-        if (! $sudah) {
-            $this->db->insert('migrasi', ['versi_database' => VERSI_DATABASE]);
-        }
-    }
-
-    private function versi_database_terbaru()
-    {
-        $sudah = false;
-        if ($this->db->table_exists('migrasi')) {
-            $sudah = $this->db->where('versi_database', VERSI_DATABASE)
-                ->get('migrasi')->num_rows();
+        if (Schema::hasColumn('migrasi', 'premium')) {
+            Migrasi::where('versi_database', '=', VERSI_DATABASE)->update(['premium' => $this->session->daftar_migrasi]);
         }
 
-        return $sudah;
+        log_message('error', 'Versi database sudah terbaru');
     }
 
     // Cek apakah migrasi perlu dijalankan
@@ -268,7 +255,7 @@ class Database_model extends MY_Model
         if ($this->validasi() || $install) {
             // Paksa menjalankan migrasi kalau belum
             // Migrasi direkam di tabel migrasi
-            if (! $this->versi_database_terbaru()) {
+            if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
                 // Ulangi migrasi terakhir
                 $terakhir                                   = key(array_slice($this->versionMigrate, -1, 1, true));
                 $sebelumnya                                 = key(array_slice($this->versionMigrate, -2, 1, true));
@@ -280,8 +267,6 @@ class Database_model extends MY_Model
                 kirim_versi_opensid();
             }
         }
-
-        $this->jalankan_migrasi('migrasi_layanan');
     }
 
     // Migrasi dengan fuction

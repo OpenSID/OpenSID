@@ -35,32 +35,39 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace App\Models;
 
-class Migrasi_fitur_premium_2212 extends MY_model
+use Illuminate\Database\Eloquent\Model;
+
+class Migrasi extends Model
 {
-    public function up()
-    {
-        $hasil = true;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'migrasi';
 
-        // Jalankan migrasi sebelumnya
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2211');
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
-        return $hasil && $this->migrasi_2022110171($hasil);
-    }
+    /**
+     * The fillable with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 
-    protected function migrasi_2022110171($hasil)
-    {
-        if (! $this->db->field_exists('premium', 'migrasi')) {
-            $fields = [
-                'premium' => [
-                    'type' => 'text',
-                    'null' => true,
-                ],
-            ];
-            $hasil = $hasil && $this->dbforge->add_column('migrasi', $fields);
-        }
-
-        return $hasil;
-    }
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'premium' => 'json',
+    ];
 }

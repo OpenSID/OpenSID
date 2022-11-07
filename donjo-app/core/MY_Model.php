@@ -36,6 +36,7 @@
  */
 
 use App\Models\FormatSurat;
+use App\Models\Migrasi;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -299,9 +300,10 @@ class MY_Model extends CI_Model
         }
 
         $this->load->model('migrations/' . $migrasi);
-        $_SESSION['daftar_migrasi'][] = $migrasi;
         if ($this->{$migrasi}->up()) {
             log_message('error', 'Berhasil Jalankan ' . $migrasi);
+
+            $_SESSION['daftar_migrasi'][] = $migrasi;
 
             return true;
         }
