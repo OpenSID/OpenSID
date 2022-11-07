@@ -31,3 +31,81 @@
 			</div>
 	</section>
 </div>
+<script src="<?= asset('js/sweetalert2/sweetalert2.all.min.js') ?>"></script>
+<link rel="stylesheet" href="<?= asset('js/sweetalert2/sweetalert2.min.css') ?>">
+
+<script type="text/javascript">
+    $('.atur-token').click(function(event) {
+        Swal.fire({
+            title: 'Pengaturan Pelanggan',
+            text: 'Layanan Opendesa Token',
+            customClass: {
+                popup: 'swal-lg',
+            },
+            input: 'textarea',
+            inputValue: '<?= setting('layanan_opendesa_token') ?>',
+            inputAttributes: {
+                inputPlaceholder: 'Token pelanggan Layanan OpenDESA'
+            },
+            showCancelButton: true,
+            cancelButtonText: 'Tutup',
+            confirmButtonText: 'Simpan',
+            showLoaderOnConfirm: true,
+            preConfirm: (token) => {
+                return fetch(`<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`, {
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "X-Requested-With": `XMLHttpRequest`,
+                    },
+                    method: 'post',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText)
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                            `Request failed: ${error}`
+                        )
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let response = result.value
+                let data = {
+                    body: response
+                }
+                if (response.desa_id == undefined) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Request failed',
+                        text: 'Verifikasi token Gagal',
+                    })
+                } else {
+                    $.ajax({
+                        url: `${SITE_URL}pelanggan/pemesanan`,
+                        type: 'Post',
+                        dataType: 'json',
+                        data: data,
+                    })
+                        .done(function() {
+                            Swal.fire({
+                                title: 'Berhasil Tersimpan',
+                            })
+                            window.location.replace(`${SITE_URL}pelanggan`);
+
+                        })
+                        .fail(function(e) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Request failed',
+                            })
+                        });
+                }
+            }
+        })
+    });
+</script>
