@@ -45,8 +45,9 @@ class Migrasi_fitur_premium_2212 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2211');
+        $hasil = $hasil && $this->migrasi_2022110171($hasil);
 
-        return $hasil && $this->migrasi_2022110171($hasil);
+        return $hasil && $this->migrasi_2022110771($hasil);
     }
 
     protected function migrasi_2022110171($hasil)
@@ -62,5 +63,11 @@ class Migrasi_fitur_premium_2212 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022110771($hasil)
+    {
+        // Buat ulang view keluarga_aktif
+        return $hasil && $this->db->query('CREATE OR REPLACE VIEW keluarga_aktif AS SELECT k.* FROM tweb_keluarga k LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id WHERE p.status_dasar = 1');
     }
 }

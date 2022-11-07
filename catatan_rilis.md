@@ -2,9 +2,6 @@ Di rilis ini, versi 22.11-premium-rev01 [isi disini]. Rilis ini juga berisi pena
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
-#### Penambahan Fitur
-
-
 #### Perbaikan BUG
 
 1. [#5919](https://github.com/OpenSID/OpenSID/issues/5919) Perbaikan token kosong padahal cache sudah dan token sudah di input.
@@ -12,6 +9,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 3. [#5908](https://github.com/OpenSID/OpenSID/issues/5908) Perbaikan migrasi berulang.
 4. [#5925](https://github.com/OpenSID/OpenSID/issues/5925) Perbaikan define LOKASI_CACHE RFM.
 5. [#5905](https://github.com/OpenSID/OpenSID/issues/5905) Hapus pilihan desa pengguna opensid pada peta.
+6. [#5913](https://github.com/OpenSID/OpenSID/issues/5913) Perbaikan sasaran program bantuan tidak muncul di rincian program.
 
 #### Perubahan Teknis
 
