@@ -65,8 +65,14 @@ class Peraturan extends Web_Controller
                 'kategori' => $this->input->get('kategori'),
             ];
 
+            $query = Dokumen::select(['id', 'nama', 'tahun', 'satuan', 'kategori'])
+                ->hidup()
+                ->aktif()
+                ->where('kategori', '!=', 1)
+                ->filters($filters);
+
             return datatables()
-                ->of(Dokumen::select(['id', 'nama', 'tahun', 'satuan', 'kategori'])->hidup()->where('kategori', '!=', 1)->filters($filters))
+                ->of($query)
                 ->addIndexColumn()
                 ->addColumn('kategori_dokumen', static function ($row) {
                     return $row->kategoriDokumen->nama;
