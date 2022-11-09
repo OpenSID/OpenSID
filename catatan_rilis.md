@@ -15,6 +15,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 9. [#5906](https://github.com/OpenSID/OpenSID/issues/5906) Perbaikan edit pada artikel/halaman statis/simpan tidak ada perubahan.
 10. [#5929](https://github.com/OpenSID/OpenSID/issues/5929) Penyesuaian 2 digit di belakang koma untuk APBDes yang tampilan di halaman website.
 11. [#5933](https://github.com/OpenSID/OpenSID/issues/5933) Perbaikan produk hukum yg sudah dikunci namun masih bisa terlihat dibagian halaman produk hukum.
+12. [#189](https://github.com/OpenSID/wiki-layanan-opendesa/issues/189) Penyesuaian keterangan premium pada info tanggal berlangganan di halaman status langganan.
 
 #### Perubahan Teknis
 

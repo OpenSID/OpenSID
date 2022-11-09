@@ -72,7 +72,7 @@
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h4>MULAI BERLANGGANAN</h4>
-                            <h5><?= tgl_indo($response->body->tanggal_berlangganan->mulai); ?></h5>
+                            <h5><?= tgl_indo($response->body->tanggal_berlangganan->mulai); ?> (Premium)</h5>
                         </div>
                         <div class="icon">
                             <i class="ion ion-unlocked"></i>
@@ -83,7 +83,7 @@
                     <div class="small-box bg-red">
                         <div class="inner">
                             <h4>AKHIR BERLANGGANAN</h4>
-                            <h5><?= tgl_indo($response->body->tanggal_berlangganan->akhir); ?></h5>
+                            <h5><?= tgl_indo($response->body->tanggal_berlangganan->akhir); ?> (Premium)</h5>
                         </div>
                         <div class="icon">
                             <i class="ion ion-locked"></i>
