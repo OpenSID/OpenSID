@@ -11,6 +11,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 5. [#5905](https://github.com/OpenSID/OpenSID/issues/5905) Hapus pilihan desa pengguna opensid pada peta.
 6. [#5913](https://github.com/OpenSID/OpenSID/issues/5913) Perbaikan sasaran program bantuan tidak muncul di rincian program.
 7. [#5911](https://github.com/OpenSID/OpenSID/issues/5911) Perbaikan modul TTE tidak bisa melakukan TTD digital.
+8. [#5937](https://github.com/OpenSID/OpenSID/issues/5937) Perbaikan migrasi hapus kk_sex pd tabel log_keluarga tidak jalan.
 
 #### Perubahan Teknis
 

@@ -506,7 +506,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
     protected function migrasi_2022082071($hasil)
     {
-        if (! $this->db->field_exists('berat_badan', 'bulanan_anak')) {
+        if ($this->db->field_exists('kk_sex', 'log_keluarga')) {
             $hasil && $this->dbforge->drop_column('log_keluarga', 'kk_sex');
         }
 
