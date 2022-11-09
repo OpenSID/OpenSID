@@ -176,9 +176,9 @@ function rp($inp = 0)
     return number_format($inp, 2, ',', '.');
 }
 
-function rupiah24($angka)
+function rupiah24($angka, $prefix = 'Rp ', $digit = 2)
 {
-    return 'Rp ' . number_format($angka, 2, ',', '.');
+    return $prefix . number_format($angka, $digit, ',', '.');
 }
 
 function jecho($a, $b, $str)

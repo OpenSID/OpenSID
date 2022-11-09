@@ -13,6 +13,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 7. [#5911](https://github.com/OpenSID/OpenSID/issues/5911) Perbaikan modul TTE tidak bisa melakukan TTD digital.
 8. [#5937](https://github.com/OpenSID/OpenSID/issues/5937) Perbaikan migrasi hapus kk_sex pd tabel log_keluarga tidak jalan.
 9. [#5906](https://github.com/OpenSID/OpenSID/issues/5906) Perbaikan edit pada artikel/halaman statis/simpan tidak ada perubahan.
+10. [#5929](https://github.com/OpenSID/OpenSID/issues/5929) Penyesuaian 2 digit di belakang koma untuk APBDes yang tampilan di halaman website.
 
 #### Perubahan Teknis
 
