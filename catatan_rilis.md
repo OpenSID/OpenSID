@@ -17,6 +17,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 11. [#5933](https://github.com/OpenSID/OpenSID/issues/5933) Perbaikan produk hukum yg sudah dikunci namun masih bisa terlihat dibagian halaman produk hukum.
 12. [#189](https://github.com/OpenSID/wiki-layanan-opendesa/issues/189) Penyesuaian keterangan premium pada info tanggal berlangganan di halaman status langganan.
 13. [#5942](https://github.com/OpenSID/OpenSID/issues/5942) Perbaikan satuan waktu pembangunan.
+14. [#5952](https://github.com/OpenSID/OpenSID/issues/5952) Perbaikan pemberitahuan penambahan user sudah ada dihalaman pengguna.
 
 #### Perubahan Teknis
 

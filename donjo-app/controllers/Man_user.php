@@ -136,7 +136,16 @@ class Man_user extends Admin_Controller
         $this->set_form_validation();
         $this->form_validation->set_rules('username', 'Username', 'is_unique[user.username]');
         $this->form_validation->set_rules('email', 'Email', 'is_unique[user.email]');
-        $this->form_validation->set_rules('pamong_id', 'Pamong', 'is_unique[user.pamong_id]');
+        $this->form_validation->set_rules([
+            [
+                'field'  => 'pamong_id',
+                'label'  => 'Pamong',
+                'rules'  => 'is_unique[user.pamong_id]',
+                'errors' => [
+                    'is_unique' => 'pengguna tersebut sudah ada',
+                ],
+            ],
+        ]);
 
         if ($this->form_validation->run() !== true) {
             session_error(trim(validation_errors()));
@@ -169,7 +178,16 @@ class Man_user extends Admin_Controller
         $this->set_form_validation();
         $this->form_validation->set_rules('username', 'Username', "is_unique[user.username,id,{$id}]");
         $this->form_validation->set_rules('email', 'Email', "is_unique[user.email,id,{$id}]");
-        $this->form_validation->set_rules('pamong_id', 'Pamong', "is_unique[user.pamong_id,id,{$id}]");
+        $this->form_validation->set_rules([
+            [
+                'field'  => 'pamong_id',
+                'label'  => 'Pamong',
+                'rules'  => "is_unique[user.pamong_id,id,{$id}]",
+                'errors' => [
+                    'is_unique' => 'pengguna tersebut sudah ada',
+                ],
+            ],
+        ]);
 
         if ($this->form_validation->run() !== true) {
             session_error(trim(validation_errors()));
