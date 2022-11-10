@@ -46,8 +46,10 @@ class Migrasi_fitur_premium_2212 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2211');
         $hasil = $hasil && $this->migrasi_2022110171($hasil);
+        $hasil = $hasil && $this->migrasi_2022110771($hasil);
+        $hasil = $hasil && $this->migrasi_2022110951($hasil);
 
-        return $hasil && $this->migrasi_2022110771($hasil);
+        return $hasil && true;
     }
 
     protected function migrasi_2022110171($hasil)
@@ -69,5 +71,23 @@ class Migrasi_fitur_premium_2212 extends MY_model
     {
         // Buat ulang view keluarga_aktif
         return $hasil && $this->db->query('CREATE OR REPLACE VIEW keluarga_aktif AS SELECT k.* FROM tweb_keluarga k LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id WHERE p.status_dasar = 1');
+    }
+
+    protected function migrasi_2022110951($hasil)
+    {
+        if (! $this->db->field_exists('satuan_waktu', 'pembangunan')) {
+            $hasil = $hasil && $this->dbforge->add_column('pembangunan', [
+                'satuan_waktu' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'null'       => false,
+                    'default'    => '3',
+                    'after'      => 'waktu',
+                    'comment'    => '1 = Hari, 2 = Minggu, 3 = Bulan, 4 = Tahun',
+                ],
+            ]);
+        }
+
+        return $hasil;
     }
 }

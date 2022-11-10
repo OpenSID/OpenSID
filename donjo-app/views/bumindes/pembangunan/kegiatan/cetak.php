@@ -123,7 +123,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<td align="right"><?= Rupiah2($data->sumber_biaya_kab_kota); ?></td>
 								<td align="right"><?= Rupiah2($data->sumber_biaya_swadaya); ?></td>
 								<td align="right"><?= Rupiah2($data->sumber_biaya_jumlah); ?></td>
-								<td><?= $data->waktu; ?></td>
+								<td><?= $data->waktu . ' ' . $satuan_waktu[$data->satuan_waktu] ?></td>
 								<td align="center"><?= $data->sifat_proyek_baru; ?></td>
 								<td align="center"><?= $data->sifat_proyek_lanjutan; ?></td>
 								<td><?= $data->pelaksana_kegiatan; ?></td>

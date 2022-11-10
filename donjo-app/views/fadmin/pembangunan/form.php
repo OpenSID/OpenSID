@@ -74,7 +74,18 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							</div>
 							<div class="form-group">
 								<label class="control-label" style="text-align:left;">Waktu</label>
-								<input maxlength="50" class="form-control number input-sm required" name="waktu" id="waktu" value="<?= $main->waktu ?>" type="text" placeholder="Lamanya pembangunan (bulan)" />
+								<div class="row">
+									<div class="col-sm-8">
+										<input maxlength="50" class="form-control number input-sm required" name="waktu" id="waktu" value="<?= $main->waktu ?>" type="text" placeholder="Lamanya pembangunan" />
+									</div>
+									<div class="col-sm-4">
+										<select class="form-control input-sm select2 required" name="satuan_waktu">
+											<?php foreach ($satuan_waktu as $key => $value) : ?>
+												<option value="<?= $key ?>" <?= selected($key, $main->satuan_waktu) ?>><?= $value ?></option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="sumber_dana">Sumber Dana</label>
@@ -89,8 +100,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<div class="form-group">
 										<label class="control-label" for="tahun_anggaran">Tahun Anggaran</label>
 										<select class="form-control input-sm select2" id="tahun_anggaran" name="tahun_anggaran" style="width:100%;">
-											<?php foreach (tahun(1999) as $value): ?>
-												<option value="<?= $value ?>" <?= selected($value, $main->tahun_anggaran) ?> ><?= $value ?></option>
+											<?php foreach (tahun(1999) as $value) : ?>
+												<option value="<?= $value ?>" <?= selected($value, $main->tahun_anggaran) ?>><?= $value ?></option>
 											<?php endforeach; ?>
 										</select>
 									</div>
@@ -98,7 +109,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" style="text-align:left;">Anggaran</label>
-										<input class="form-control input-sm required bilangan" name="anggaran" id="anggaran" value="<?= $main->anggaran; ?>" type="text" placeholder="Anggaran" readonly/>
+										<input class="form-control input-sm required bilangan" name="anggaran" id="anggaran" value="<?= $main->anggaran; ?>" type="text" placeholder="Anggaran" readonly />
 									</div>
 								</div>
 							</div>
