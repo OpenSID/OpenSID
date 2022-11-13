@@ -166,7 +166,6 @@ class Ekspor_model extends CI_Model
             'mutasi_inventaris_tanah',
             'disposisi_surat_masuk',
             'tweb_penduduk_mandiri',
-            'setting_aplikasi_options',
             'log_penduduk',
             'agenda',
             'covid19_pemudik',

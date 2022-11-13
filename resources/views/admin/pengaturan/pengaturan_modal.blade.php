@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="myModalLabel"> Pengaturan {{ ucwords($kategori) }}</h4>
       </div>
       
-      @include('admin.layouts.components.form_pengaturan')
+      @include('admin.pengaturan.modal_form')
 
     </div>
   </div>

@@ -38,6 +38,7 @@
 use App\Libraries\TinyMCE;
 use App\Models\KeuanganManualRinci;
 use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -236,35 +237,35 @@ class Migrasi_fitur_premium_2211 extends MY_model
             'kategori'   => 'anjungan',
         ]);
 
-        if (SettingAplikasi::find('tampilan_anjungan')->exists()) {
+        if (DB::table('setting_aplikasi')->whereKey('tampilan_anjungan')->exists()) {
             $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan')
                 ->update('setting_aplikasi', [
                     'kategori' => 'anjungan',
                 ]);
         }
 
-        if (SettingAplikasi::find('tampilan_anjungan_waktu')->exists()) {
+        if (DB::table('setting_aplikasi')->whereKey('tampilan_anjungan_waktu')->exists()) {
             $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_waktu')
                 ->update('setting_aplikasi', [
                     'kategori' => 'anjungan',
                 ]);
         }
 
-        if (SettingAplikasi::find('tampilan_anjungan_slider')->exists()) {
+        if (DB::table('setting_aplikasi')->whereKey('tampilan_anjungan_slider')->exists()) {
             $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_slider')
                 ->update('setting_aplikasi', [
                     'kategori' => 'anjungan',
                 ]);
         }
 
-        if (SettingAplikasi::find('tampilan_anjungan_video')->exists()) {
+        if (DB::table('setting_aplikasi')->whereKey('tampilan_anjungan_video')->exists()) {
             $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_video')
                 ->update('setting_aplikasi', [
                     'kategori' => 'anjungan',
                 ]);
         }
 
-        if (SettingAplikasi::find('tampilan_anjungan_audio')->exists()) {
+        if (DB::table('setting_aplikasi')->whereKey('tampilan_anjungan_audio')->exists()) {
             return $hasil && $this->db->where('key', 'tampilan_anjungan_audio')
                 ->update('setting_aplikasi', [
                     'kategori' => 'anjungan',
@@ -274,7 +275,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     public function migrasi_2022102451($hasil)
     {
-        if (SettingAplikasi::find('format_nomor_surat')->exists()) {
+        if (DB::table('setting_aplikasi')->whereKey('format_nomor_surat')->exists()) {
             $hasil = $hasil && $this->db->where('key', 'format_nomor_surat')
                 ->update('setting_aplikasi', [
                     'kategori' => 'format_surat',
