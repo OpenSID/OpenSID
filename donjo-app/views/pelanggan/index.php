@@ -333,7 +333,7 @@
                                             <?php if($layanan->kategori_id != 4): ?>
 
                                                 <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?></a><br>
-                                                <?= '<style>#tbl-pemesanan-' . $number . ' { display:table-row;}</style>'; ?>
+                                                <?= '<style>#tbl-pemesanan-' . $number . ' { display:table-row!important;}</style>'; ?>
 
                                             <?php else: ?>
                                                 <?= '<style>#tbl-pemesanan-' . $number . ' { display:none;}</style>'; ?>
