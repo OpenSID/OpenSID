@@ -19,6 +19,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 13. [#5942](https://github.com/OpenSID/OpenSID/issues/5942) Perbaikan satuan waktu pembangunan.
 14. [#5952](https://github.com/OpenSID/OpenSID/issues/5952) Perbaikan pemberitahuan penambahan user sudah ada dihalaman pengguna.
 15. [#201](https://github.com/OpenSID/wiki-layanan-opendesa/issues/201) Perbaikan info pemesanan hilang pada rincian pemesanan lainnya.
+16. [#5934](https://github.com/OpenSID/OpenSID/issues/5934) Hilangkan info history autocomplete pada beberapa form.
 
 #### Perubahan Teknis
 
