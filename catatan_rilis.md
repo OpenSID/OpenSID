@@ -27,6 +27,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 29. [#5927](https://github.com/OpenSID/OpenSID/issues/5927) Perbaikan hapus required pada form api OpenDK.
 30. [#5961](https://github.com/OpenSID/OpenSID/issues/5961) Perbaikan tampilan anjungan yang berantakan.
 31. [#5970](https://github.com/OpenSID/OpenSID/issues/5970) Perbaikan periksa jabatan ketika tidak tersedia jabatan sekdes atau kades.
+32. [#5958](https://github.com/OpenSID/OpenSID/issues/5958) Perbaikan batasin tambah data pengaduan.
 
 #### Perubahan Teknis
 

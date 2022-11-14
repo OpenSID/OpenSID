@@ -51,6 +51,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->migrasi_2022110771($hasil);
         $hasil = $hasil && $this->migrasiPengaturanAplikasi($hasil);
         $hasil = $hasil && $this->migrasi_2022110951($hasil);
+        $hasil = $hasil && $this->migrasi_2022111552($hasil);
 
         return $hasil && true;
     }
@@ -369,6 +370,22 @@ class Migrasi_fitur_premium_2212 extends MY_model
                     'default'    => '3',
                     'after'      => 'waktu',
                     'comment'    => '1 = Hari, 2 = Minggu, 3 = Bulan, 4 = Tahun',
+                ],
+            ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022111552($hasil)
+    {
+        if (! $this->db->field_exists('ip_address', 'pengaduan')) {
+            $hasil = $hasil && $this->dbforge->add_column('pengaduan', [
+                'ip_address' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => false,
+                    'after'      => 'foto',
                 ],
             ]);
         }
