@@ -20,6 +20,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 14. [#5952](https://github.com/OpenSID/OpenSID/issues/5952) Perbaikan pemberitahuan penambahan user sudah ada dihalaman pengguna.
 15. [#201](https://github.com/OpenSID/wiki-layanan-opendesa/issues/201) Perbaikan info pemesanan hilang pada rincian pemesanan lainnya.
 16. [#5934](https://github.com/OpenSID/OpenSID/issues/5934) Hilangkan info history autocomplete pada beberapa form.
+17. [#188](https://github.com/OpenSID/wiki-layanan-opendesa/issues/188) Penyesuaian info perpanjangan ditampilkan di home opensid seperti info ada update baru.
 
 #### Perubahan Teknis
 
