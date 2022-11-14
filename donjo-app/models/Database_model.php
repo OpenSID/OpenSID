@@ -237,7 +237,7 @@ class Database_model extends MY_Model
             }
         }
 
-        SettingAplikasi::whereKey('current_version')->update(['value' => currentVersion()]);
+        SettingAplikasi::where('key', '=', 'current_version')->update(['value' => currentVersion()]);
         Migrasi::firstOrCreate(['versi_database' => VERSI_DATABASE]);
         $this->load->model('track_model');
         $this->track_model->kirim_data();

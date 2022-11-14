@@ -72,7 +72,7 @@ class Anjungan_pengaturan extends Admin_Controller
         $data = $this->validated($this->request);
 
         foreach ($data as $key => $value) {
-            SettingAplikasi::whereKey($key)->update(['value' => $value]);
+            SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);
         }
 
         redirect_with('success', 'Berhasil Ubah Data');

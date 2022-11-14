@@ -51,7 +51,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->migrasi_2022110771($hasil);
         $hasil = $hasil && $this->migrasiPengaturanAplikasi($hasil);
         $hasil = $hasil && $this->migrasi_2022110951($hasil);
-        $hasil = $hasil && $this->migrasi_2022111552($hasil);
+        $hasil = $hasil && $this->migrasi_2022111553($hasil);
 
         return $hasil && true;
     }
@@ -306,7 +306,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'penggunaan_server')
             ->update([
-                'jenis' => 'hidden',
+                'kategori' => 'hidden',
             ]);
 
         // Tambahkan validasi untuk pengaturan berikut
@@ -377,7 +377,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022111552($hasil)
+    protected function migrasi_2022111553($hasil)
     {
         if (! $this->db->field_exists('ip_address', 'pengaduan')) {
             $hasil = $hasil && $this->dbforge->add_column('pengaduan', [
