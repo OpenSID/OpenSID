@@ -340,6 +340,15 @@
                   </div>
                 @endif
 
+                @if (in_array('data_jabatan_tidak_ada', $masalah))
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                      <strong>Terdeteksi ada data jabatan yang tidak tersedia.</strong>
+                      <p>Klik tombol Perbaiki untuk mengembalikan data jabatan yang diperlukan tersebut.</p>
+                    </div>
+                  </div>
+                @endif
+
                 <p>Setelah diperbaiki, migrasi akan otomatis diulangi mulai dari versi {{ $migrasi_utk_diulang }}.</p>
                 <a href="#" data-href="{{ route('periksa.perbaiki') }}" class="btn btn-sm btn-social btn-danger" role="button" title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-status" data-body="Apakah yakin akan memperbaiki masalah data?"><i class="fa fa fa-wrench"></i>Perbaiki</a>
               @endif

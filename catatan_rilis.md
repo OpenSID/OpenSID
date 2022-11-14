@@ -26,6 +26,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 20. [#5955](https://github.com/OpenSID/OpenSID/issues/5955) Perbaikan kode isian orang tua pada surat TinyMCE.
 29. [#5927](https://github.com/OpenSID/OpenSID/issues/5927) Perbaikan hapus required pada form api OpenDK.
 30. [#5961](https://github.com/OpenSID/OpenSID/issues/5961) Perbaikan tampilan anjungan yang berantakan.
+31. [#5970](https://github.com/OpenSID/OpenSID/issues/5970) Perbaikan periksa jabatan ketika tidak tersedia jabatan sekdes atau kades.
 
 #### Perubahan Teknis
 
