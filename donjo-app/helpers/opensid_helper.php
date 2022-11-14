@@ -1410,15 +1410,15 @@ function uclast($str)
 function kasus_lain($kategori = null, $str = null)
 {
     $pendidikan = [
-        'Tk',
-        'Sd',
-        'Sltp',
-        'Slta',
-        'Slb',
-        'Iii/s',
-        'Iii',
-        'Ii',
-        'Iv',
+        ' Tk',
+        ' Sd',
+        ' Sltp',
+        ' Slta',
+        ' Slb',
+        ' Iii/s',
+        ' Iii',
+        ' Ii',
+        ' Iv',
     ];
 
     $pekerjaan = [
