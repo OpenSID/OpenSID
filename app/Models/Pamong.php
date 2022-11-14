@@ -222,11 +222,7 @@ class Pamong extends BaseModel
     public function scopeDaftar($query, $value = 1)
     {
         return $query->where('pamong_status', 1)
-            ->where('kehadiran', $value)
-            ->where(static function ($query) {
-                $query->where('tanggal', DB::raw('curdate()'))
-                    ->orWhereNull('tanggal');
-            });
+            ->where('kehadiran', $value);
     }
 
     /**
