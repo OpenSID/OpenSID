@@ -67,7 +67,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<td class="padat"></td>
 							<td><?= $item->pamong_nama != null ? $item->pamong_nama : $item->penduduk->nama ?></td>
 							<td><?= $item->jabatan->nama; ?></td>
-							<td class="padat"><?= $item->status_kehadiran == 'hadir' ? 'Hadir' : '-'; ?></td>
+							<td class="padat"><?= empty($item->status_kehadiran) ? '-' : ucfirst($item->status_kehadiran); ?></td>
 							<td class="padat">
 								<?php if ($item->status_kehadiran == 'hadir' && setting('tampilkan_kehadiran') == '1'): ?>
 									<?php if ($item->id_penduduk == $this->session->is_login->id_pend && date('Y-m-d', strtotime($item->waktu)) == date('Y-m-d')): ?>
@@ -109,6 +109,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	$(document).ready(function() {
 		var kehadiran = '<?= setting('tampilkan_kehadiran') ?>';
 		var tabelData = $('#tabeldata').DataTable({
+			'rowsGroup': [1],
 			'processing': false,
 			'pageLength': 10,
 			'lengthMenu': [

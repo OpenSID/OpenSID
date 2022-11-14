@@ -37,6 +37,8 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
+
 class Pamong extends BaseModel
 {
     /**
@@ -220,7 +222,11 @@ class Pamong extends BaseModel
     public function scopeDaftar($query, $value = 1)
     {
         return $query->where('pamong_status', 1)
-            ->where('kehadiran', $value);
+            ->where('kehadiran', $value)
+            ->where(static function ($query) {
+                $query->where('tanggal', DB::raw('curdate()'))
+                    ->orWhereNull('tanggal');
+            });
     }
 
     /**

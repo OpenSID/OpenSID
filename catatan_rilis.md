@@ -31,6 +31,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 33. [#5963](https://github.com/OpenSID/OpenSID/issues/5963) Perbaikan form master analisis pengisian bobot wajib terisi.
 34. [#5931](https://github.com/OpenSID/OpenSID/issues/5931) Perbaikan datatable pada pencarian data kehadiran.
 35. [#5959](https://github.com/OpenSID/OpenSID/issues/5959) Perbaikan pengecekan kondisi user kades dengan pengaturan nomor surat.
+36. [#5930](https://github.com/OpenSID/OpenSID/issues/5930) Perbaikan kehadiran perangkat pada layanan mandiri.
 
 #### Perubahan Teknis
 
