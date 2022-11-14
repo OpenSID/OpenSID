@@ -37,9 +37,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Migrasi extends Model
+class Migrasi extends BaseModel
 {
     /**
      * The table associated with the model.

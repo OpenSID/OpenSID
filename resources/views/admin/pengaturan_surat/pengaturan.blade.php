@@ -238,7 +238,7 @@
             <div class="box-body">
                 <div class="form-group">
                     <label>Fomat penomoran surat </label>
-                     <input type="text" name="format_nomor_surat" class="form-control input-sm" value="{{ setting('format_nomor_surat') }}" @disabled(!$kades)>
+                    <input type="text" name="format_nomor_surat" class="form-control input-sm" value="{{ setting('format_nomor_surat') }}">
                 </div>
             </div>
         </div>

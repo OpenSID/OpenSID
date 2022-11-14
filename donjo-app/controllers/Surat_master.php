@@ -431,14 +431,13 @@ class Surat_master extends Admin_Controller
         $data = $this->validasi_pengaturan($this->request);
 
         foreach ($data as $key => $value) {
-            SettingAplikasi::whereKey($key)->update(['value' => $value]);
+            SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);
         }
 
         // upload gambar visual tte
-
         if ($_FILES['visual_tte_gambar'] && $_FILES['visual_tte_gambar']['name'] != '') {
             $file = $this->setting_model->upload_img('visual_tte_gambar', LOKASI_MEDIA);
-            SettingAplikasi::whereKey('visual_tte_gambar')->update(['value' => $file]); //update setting
+            SettingAplikasi::where('key', '=', 'visual_tte_gambar')->update(['value' => $file]); //update setting
         }
 
         // Perbarui log_surat jika ada perubahan pengaturan verifikasi kades / sekdes

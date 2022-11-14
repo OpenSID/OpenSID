@@ -51,8 +51,7 @@ class Kehadiran_perangkat extends Mandiri_Controller
             }
 
             return $item;
-        })
-            ->values()->all();
+        })->values()->all();
 
         $this->render('kehadiran', compact('perangkat'));
     }

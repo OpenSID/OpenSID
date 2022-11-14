@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\SatuanWaktuEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Admin_pembangunan extends Admin_Controller
@@ -91,8 +93,9 @@ class Admin_pembangunan extends Admin_Controller
             $data['form_action'] = site_url("{$this->controller}/insert");
         }
 
-        $data['list_lokasi'] = $this->wilayah_model->list_semua_wilayah();
-        $data['sumber_dana'] = $this->referensi_model->list_ref(SUMBER_DANA);
+        $data['list_lokasi']  = $this->wilayah_model->list_semua_wilayah();
+        $data['sumber_dana']  = $this->referensi_model->list_ref(SUMBER_DANA);
+        $data['satuan_waktu'] = SatuanWaktuEnum::DAFTAR;
 
         $this->render(ADMIN . '/pembangunan/form', $data);
     }

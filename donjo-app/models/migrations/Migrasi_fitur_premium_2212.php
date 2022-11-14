@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2212 extends MY_model
@@ -46,8 +48,12 @@ class Migrasi_fitur_premium_2212 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2211');
         $hasil = $hasil && $this->migrasi_2022110171($hasil);
+        $hasil = $hasil && $this->migrasi_2022110771($hasil);
+        $hasil = $hasil && $this->migrasiPengaturanAplikasi($hasil);
+        $hasil = $hasil && $this->migrasi_2022110951($hasil);
+        $hasil = $hasil && $this->migrasi_2022111553($hasil);
 
-        return $hasil && $this->migrasi_2022110771($hasil);
+        return $hasil && true;
     }
 
     protected function migrasi_2022110171($hasil)
@@ -69,5 +75,321 @@ class Migrasi_fitur_premium_2212 extends MY_model
     {
         // Buat ulang view keluarga_aktif
         return $hasil && $this->db->query('CREATE OR REPLACE VIEW keluarga_aktif AS SELECT k.* FROM tweb_keluarga k LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id WHERE p.status_dasar = 1');
+    }
+
+    protected function migrasiPengaturanAplikasi($hasil)
+    {
+        // Pengaturan aplikasi jenis text
+        DB::table('setting_aplikasi')->whereNull('jenis')->orWhere('jenis', '=', '')->update(['jenis' => 'text']);
+
+        // Pengaturan aplikasi kategori sistem
+        DB::table('setting_aplikasi')->whereNull('kategori')->orWhere('kategori', '=', '')->update(['kategori' => 'sistem']);
+
+        // Tambah kolom judul
+        if (! $this->db->field_exists('judul', 'setting_aplikasi')) {
+            $fields = [
+                'judul' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                    'after'      => 'id',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('setting_aplikasi', $fields);
+
+            // Tambahkan data judul
+            $daftar_pengaturan = DB::table('setting_aplikasi')->whereNull('judul')->get();
+            if ($daftar_pengaturan) {
+                foreach ($daftar_pengaturan as $pengaturan) {
+                    if ($pengaturan->key === 'tahun_idm') {
+                        $judul = 'Tahun IDM';
+                    } elseif ($pengaturan->key === 'ip_adress_kehadiran') {
+                        $judul = 'IP Adress Kehadiran';
+                    } elseif ($pengaturan->key === 'aktifkan_sms') {
+                        $judul = 'Aktifkan SMS';
+                    } elseif ($pengaturan->key === 'kode_desa_bps') {
+                        $judul = 'Kode Desa BPS';
+                    } elseif ($pengaturan->key === 'sebutan_nip_desa') {
+                        $judul = 'Sebutan NIP Desa';
+                    } elseif ($pengaturan->key === 'statistik_chart_3d') {
+                        $judul = 'Statistik Chart 3D';
+                    } elseif ($pengaturan->key === 'covid_rss') {
+                        $judul = 'Covid RSS';
+                    } elseif ($pengaturan->key === 'pesan_singkat_wa') {
+                        $judul = 'Pesan Singkat WA';
+                    } elseif ($pengaturan->key === 'mac_adress_kehadiran') {
+                        $judul = 'MAC Adress Kehadiran';
+                    } elseif ($pengaturan->key === 'aktifkan_sms') {
+                        $judul = 'Aktifkan SMS';
+                    } else {
+                        $judul = ucwords(str_replace('_', ' ', $pengaturan->key));
+                    }
+
+                    if (preg_match('/tte/i', $judul)) {
+                        $judul = str_replace('Tte', 'TTE', $judul);
+                    }
+
+                    DB::table('setting_aplikasi')->where('id', $pengaturan->id)->update(['judul' => $judul]);
+                }
+            }
+        }
+
+        // Tambah kolom option
+        if (! $this->db->field_exists('option', 'setting_aplikasi')) {
+            $fields = [
+                'option' => [
+                    'type'  => 'TEXT',
+                    'null'  => true,
+                    'after' => 'jenis',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('setting_aplikasi', $fields);
+        }
+
+        // Tambah kolom attribute
+        if (! $this->db->field_exists('attribute', 'setting_aplikasi')) {
+            $fields = [
+                'attribute' => [
+                    'type'  => 'TEXT',
+                    'null'  => true,
+                    'after' => 'option',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('setting_aplikasi', $fields);
+        }
+
+        // Pindahkan data sebelum tabel dihapus
+        if ($this->db->table_exists('setting_aplikasi_options')) {
+            // Pindahkan data setting aplikasi options ke setting aplikasi > option
+            // offline_mode
+            DB::table('setting_aplikasi')
+                ->where('key', '=', 'offline_mode')
+                ->update([
+                    'option' => json_encode([
+                        '0' => 'Web bisa diakses publik',
+                        '1' => 'Web hanya bisa diakses petugas web',
+                        '2' => 'Web non-aktif sama sekali',
+                    ]),
+                    'jenis'    => 'option',
+                    'kategori' => 'web',
+                ]);
+
+            // jenis_peta
+            DB::table('setting_aplikasi')
+                ->where('key', '=', 'jenis_peta')
+                ->update([
+                    'option' => json_encode([
+                        '1' => 'OpenStreetMap',
+                        '2' => 'OpenStreetMap H.O.T',
+                        '3' => 'Mapbox Streets',
+                        '4' => 'Mapbox Satellite',
+                        '5' => 'Mapbox Satellite-Street',
+                    ]),
+                    'jenis'    => 'option',
+                    'kategori' => 'peta',
+                ]);
+
+            // penomoran_surat
+            DB::table('setting_aplikasi')
+                ->where('key', '=', 'penomoran_surat')
+                ->update([
+                    'option' => json_encode([
+                        '1' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan',
+                        '2' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama',
+                        '3' => 'Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar',
+                    ]),
+                    'jenis'    => 'option',
+                    'kategori' => 'surat',
+                ]);
+
+            // timezone
+            DB::table('setting_aplikasi')
+                ->where('key', '=', 'timezone')
+                ->update([
+                    'option' => json_encode([
+                        'Asia/Jakarta'  => 'Asia/Jakarta',
+                        'Asia/Makassar' => 'Asia/Makassar',
+                        'Asia/Jayapura' => 'Asia/Jayapura',
+                    ]),
+                    'jenis'    => 'option',
+                    'kategori' => 'sistem',
+                ]);
+
+            // sumber_gambar_slider
+            DB::table('setting_aplikasi')
+                ->where('key', '=', 'sumber_gambar_slider')
+                ->update([
+                    'option' => json_encode([
+                        '1' => 'Gambar utama artikel terbaru',
+                        '2' => 'Gambar utama artikel terbaru yang masuk ke slider atas',
+                        '3' => 'Gambar dalam album galeri yang dimasukkan ke slider',
+                    ]),
+                    'jenis'    => 'option',
+                    'kategori' => 'web',
+                ]);
+
+            // tampilan_anjungan
+            DB::table('setting_aplikasi')
+                ->where('key', '=', 'tampilan_anjungan')
+                ->update([
+                    'option' => json_encode([
+                        '0' => 'Tidak Aktif',
+                        '1' => 'Slider',
+                        '2' => 'Video',
+                    ]),
+                    'jenis'    => 'option',
+                    'kategori' => 'anjungan',
+                ]);
+
+            // warna_tema_admin
+            DB::table('setting_aplikasi')
+                ->where('key', '=', 'warna_tema_admin')
+                ->update([
+                    'option' => json_encode([
+                        'skin-blue'         => 'Biru',
+                        'skin-blue-light'   => 'Biru Terang',
+                        'skin-black'        => 'Hitam',
+                        'skin-black-light'  => 'Hitam Terang',
+                        'skin-red'          => 'Merah',
+                        'skin-red-light'    => 'Merah Terang',
+                        'skin-yellow'       => 'Kuning',
+                        'skin-yellow-light' => 'Kuning Terang',
+                        'skin-purple'       => 'Ungu',
+                        'skin-purple-light' => 'Ungu Terang',
+                        'skin-green'        => 'Hijau',
+                        'skin-green-light'  => 'Hijau Terang',
+                    ]),
+                    'jenis'    => 'option',
+                    'kategori' => 'sistem',
+                ]);
+
+            // tampilan_anjungan_slider
+            DB::table('setting_aplikasi')
+                ->where('key', '=', 'tampilan_anjungan_slider')
+                ->update([
+                    'jenis'    => 'option',
+                    'option'   => null,
+                    'kategori' => 'anjungan',
+                ]);
+
+            // web_theme
+            DB::table('setting_aplikasi')
+                ->where('key', '=', 'web_theme')
+                ->update([
+                    'jenis'    => 'option',
+                    'option'   => null,
+                    'kategori' => 'web',
+                ]);
+
+            // Hapus tabel setting aplikasi options
+            $hasil = $hasil && $this->dbforge->drop_table('setting_aplikasi_options');
+        }
+
+        // Sesuaikan kategori
+        $where_key = [
+            'tte',
+            'tte_api',
+            'tte_username',
+            'tte_password',
+            'visual_tte',
+            'visual_tte_gambar',
+            'visual_tte_weight',
+            'visual_tte_height',
+        ];
+
+        DB::table('setting_aplikasi')
+            ->whereIn('key', $where_key)
+            ->update([
+                'kategori' => 'tte',
+            ]);
+
+        DB::table('setting_aplikasi')
+            ->where('key', 'penggunaan_server')
+            ->update([
+                'kategori' => 'hidden',
+            ]);
+
+        // Tambahkan validasi untuk pengaturan berikut
+        DB::table('setting_aplikasi')
+            ->where('key', 'banyak_foto_tiap_produk')
+            ->update([
+                'attribute' => 'class="" max="5"',
+            ]);
+
+        DB::table('setting_aplikasi')
+            ->where('key', 'current_version')
+            ->update([
+                'attribute' => 'class="" disabled',
+                'kategori'  => 'sistem',
+            ]);
+
+        // Ganti jenis = int menjadi jenis = text dengan atribut class="int"
+        DB::table('setting_aplikasi')
+            ->where('jenis', 'int')
+            ->update([
+                'jenis'     => 'text',
+                'attribute' => 'class="int"',
+            ]);
+
+        // Sesuaikan attribute untuk modul kehadiran
+        DB::table('setting_aplikasi')
+            ->where('key', 'mac_adress_kehadiran')
+            ->update([
+                'attribute' => 'class="mac_address" placeholder="00:1B:44:11:3A:B7"',
+            ]);
+
+        DB::table('setting_aplikasi')
+            ->where('key', 'ip_adress_kehadiran')
+            ->update([
+                'attribute' => 'class="ip_address" placeholder="127.0.0.1"',
+            ]);
+
+        DB::table('setting_aplikasi')
+            ->where('key', 'id_pengunjung_kehadiran')
+            ->update([
+                'attribute' => 'class="alfanumerik" placeholder="ad02c373c2a8745d108aff863712fe92"',
+            ]);
+
+        DB::table('setting_aplikasi')
+            ->where('key', 'id_pengunjung_kehadiran')
+            ->update([
+                'attribute' => 'class="alfanumerik" placeholder="ad02c373c2a8745d108aff863712fe92"',
+            ]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022110951($hasil)
+    {
+        if (! $this->db->field_exists('satuan_waktu', 'pembangunan')) {
+            $hasil = $hasil && $this->dbforge->add_column('pembangunan', [
+                'satuan_waktu' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'null'       => false,
+                    'default'    => '3',
+                    'after'      => 'waktu',
+                    'comment'    => '1 = Hari, 2 = Minggu, 3 = Bulan, 4 = Tahun',
+                ],
+            ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022111553($hasil)
+    {
+        if (! $this->db->field_exists('ip_address', 'pengaduan')) {
+            $hasil = $hasil && $this->dbforge->add_column('pengaduan', [
+                'ip_address' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => false,
+                    'after'      => 'foto',
+                ],
+            ]);
+        }
+
+        return $hasil;
     }
 }

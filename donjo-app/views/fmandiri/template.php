@@ -310,6 +310,7 @@ endif;
 	<!-- DataTables -->
 	<script src="<?= asset('bootstrap/js/jquery.dataTables.min.js') ?>"></script>
 	<script src="<?= asset('bootstrap/js/dataTables.bootstrap.min.js') ?>"></script>
+	<script src="<?= asset('bootstrap/js/dataTables.rowsgroup.min.js') ?>"></script>
 	<!-- bootstrap color picker -->
 	<script src="<?= asset('bootstrap/js/bootstrap-colorpicker.min.js') ?>"></script>
 	<!-- bootstrap Date time picker -->

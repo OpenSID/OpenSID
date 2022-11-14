@@ -31,6 +31,8 @@
 
 @include('admin.home.saas')
 
+@include('admin.home.premium')
+
 @include('admin.home.rilis')
 
 @include('admin.home.bantuan')

@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.11-premium-beta01');
+define('VERSION', '22.11-premium-beta02');
 
 /**
  * VERSI_DATABASE
@@ -52,7 +52,7 @@ define('VERSION', '22.11-premium-beta01');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022110751');
+define('VERSI_DATABASE', '2022111553');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1410,15 +1410,15 @@ function uclast($str)
 function kasus_lain($kategori = null, $str = null)
 {
     $pendidikan = [
-        'Tk',
-        'Sd',
-        'Sltp',
-        'Slta',
-        'Slb',
-        'Iii/s',
-        'Iii',
-        'Ii',
-        'Iv',
+        ' Tk',
+        ' Sd',
+        ' Sltp',
+        ' Slta',
+        ' Slb',
+        ' Iii/s',
+        ' Iii',
+        ' Ii',
+        ' Iv',
     ];
 
     $pekerjaan = [

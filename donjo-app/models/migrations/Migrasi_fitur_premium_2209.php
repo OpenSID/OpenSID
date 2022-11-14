@@ -83,21 +83,23 @@ class Migrasi_fitur_premium_2209 extends MY_model
             'jenis'      => 'option-kode',
         ]);
 
-        $id_setting = $this->db->get_where('setting_aplikasi', ['key' => 'jenis_peta'])->row()->id;
+        if ($this->db->table_exists('setting_aplikasi_options')) {
+            $id_setting = $this->db->get_where('setting_aplikasi', ['key' => 'jenis_peta'])->row()->id;
 
-        if ($id_setting) {
-            $this->db->where('id_setting', $id_setting)->delete('setting_aplikasi_options');
+            if ($id_setting) {
+                $this->db->where('id_setting', $id_setting)->delete('setting_aplikasi_options');
 
-            $hasil = $hasil && $this->db->insert_batch(
-                'setting_aplikasi_options',
-                [
-                    ['id_setting' => $id_setting, 'kode' => '1', 'value' => 'OpenStreetMap'],
-                    ['id_setting' => $id_setting, 'kode' => '2', 'value' => 'OpenStreetMap H.O.T'],
-                    ['id_setting' => $id_setting, 'kode' => '3', 'value' => 'Mapbox Streets'],
-                    ['id_setting' => $id_setting, 'kode' => '4', 'value' => 'Mapbox Satellite'],
-                    ['id_setting' => $id_setting, 'kode' => '5', 'value' => 'Mapbox Satellite-Street'],
-                ]
-            );
+                $hasil = $hasil && $this->db->insert_batch(
+                    'setting_aplikasi_options',
+                    [
+                        ['id_setting' => $id_setting, 'kode' => '1', 'value' => 'OpenStreetMap'],
+                        ['id_setting' => $id_setting, 'kode' => '2', 'value' => 'OpenStreetMap H.O.T'],
+                        ['id_setting' => $id_setting, 'kode' => '3', 'value' => 'Mapbox Streets'],
+                        ['id_setting' => $id_setting, 'kode' => '4', 'value' => 'Mapbox Satellite'],
+                        ['id_setting' => $id_setting, 'kode' => '5', 'value' => 'Mapbox Satellite-Street'],
+                    ]
+                );
+            }
         }
 
         return $hasil;
@@ -506,7 +508,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
     protected function migrasi_2022082071($hasil)
     {
-        if (! $this->db->field_exists('berat_badan', 'bulanan_anak')) {
+        if ($this->db->field_exists('kk_sex', 'log_keluarga')) {
             $hasil && $this->dbforge->drop_column('log_keluarga', 'kk_sex');
         }
 

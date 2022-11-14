@@ -158,6 +158,19 @@ class Dokumen extends BaseModel
     }
 
     /**
+     * Scope query untuk status aktif
+     *
+     * @param Builder $query
+     * @param string  $status
+     *
+     * @return Builder
+     */
+    public function scopeAktif($query, $status = '1')
+    {
+        return $query->where('enabled', $status);
+    }
+
+    /**
      * Define a one-to-one relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasOne

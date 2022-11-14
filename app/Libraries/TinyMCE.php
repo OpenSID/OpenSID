@@ -612,38 +612,31 @@ class TinyMCE
             // Data Umum
             $data = array_merge($individu, $lainnya);
 
-            // Data Orang Tua
-            if ($penduduk->id_kk && $penduduk->kk_level != 4) {
-                $data_ortu = [
-                    [
-                        'judul' => 'NIK Ayah',
-                        'isian' => '[Nik_ayaH]',
-                        'data'  => $penduduk->ayah_nik,
-                    ],
-                    [
-                        'judul' => 'Nama Ayah',
-                        'isian' => '[Nama_ayaH]',
-                        'data'  => $penduduk->nama_ayah,
-                    ],
-                    [
-                        'judul' => 'NIK Ibu',
-                        'isian' => '[Nik_ibU]',
-                        'data'  => $penduduk->ibu_nik,
-                    ],
-                    [
-                        'judul' => 'Nama Ibu',
-                        'isian' => '[Nama_ibU]',
-                        'data'  => $penduduk->nama_ibu,
-                    ],
-                ];
+            // Data orang tua
+            $data_ortu = [
+                [
+                    'judul' => 'NIK Ayah',
+                    'isian' => '[Nik_ayaH]',
+                    'data'  => $penduduk->ayah_nik,
+                ],
+                [
+                    'judul' => 'Nama Ayah',
+                    'isian' => '[Nama_ayaH]',
+                    'data'  => $penduduk->nama_ayah,
+                ],
+                [
+                    'judul' => 'NIK Ibu',
+                    'isian' => '[Nik_ibU]',
+                    'data'  => $penduduk->ibu_nik,
+                ],
+                [
+                    'judul' => 'Nama Ibu',
+                    'isian' => '[Nama_ibU]',
+                    'data'  => $penduduk->nama_ibu,
+                ],
+            ];
 
-                return array_merge($data, $data_ortu);
-            }
-            // Data Ayah
-            $data = array_merge($data, $this->getIsianPenduduk($penduduk->id, 'ayah'));
-
-            // Data Ibu
-            return array_merge($data, $this->getIsianPenduduk($penduduk->id, 'ibu'));
+            return array_merge($data, $data_ortu);
         }
 
         return $individu;

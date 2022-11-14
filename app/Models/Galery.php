@@ -43,6 +43,8 @@ use Illuminate\Support\Facades\Storage;
 
 class Galery extends BaseModel
 {
+    public const PARRENT = 0;
+
     /**
      * {@inheritDoc}
      */

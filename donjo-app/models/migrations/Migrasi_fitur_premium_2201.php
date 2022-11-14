@@ -116,18 +116,20 @@ class Migrasi_fitur_premium_2201 extends MY_model
             $hasil = $hasil && $this->tambah_setting($setting);
         }
 
-        $id_setting = $this->db->get_where('setting_aplikasi', ['key' => 'tampilan_anjungan'])->row()->id;
-        if ($id_setting) {
-            $this->db->where('id_setting', $id_setting)->delete('setting_aplikasi_options');
+        if ($this->db->table_exists('setting_aplikasi_options')) {
+            $id_setting = $this->db->get_where('setting_aplikasi', ['key' => 'tampilan_anjungan'])->row()->id;
+            if ($id_setting) {
+                $this->db->where('id_setting', $id_setting)->delete('setting_aplikasi_options');
 
-            $hasil = $hasil && $this->db->insert_batch(
-                'setting_aplikasi_options',
-                [
-                    ['id_setting' => $id_setting, 'kode' => '0', 'value' => 'Tidak Aktif'],
-                    ['id_setting' => $id_setting, 'kode' => '1', 'value' => 'Slider'],
-                    ['id_setting' => $id_setting, 'kode' => '2', 'value' => 'Video'],
-                ]
-            );
+                $hasil = $hasil && $this->db->insert_batch(
+                    'setting_aplikasi_options',
+                    [
+                        ['id_setting' => $id_setting, 'kode' => '0', 'value' => 'Tidak Aktif'],
+                        ['id_setting' => $id_setting, 'kode' => '1', 'value' => 'Slider'],
+                        ['id_setting' => $id_setting, 'kode' => '2', 'value' => 'Video'],
+                    ]
+                );
+            }
         }
 
         return $hasil;

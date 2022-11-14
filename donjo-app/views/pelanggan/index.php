@@ -72,7 +72,7 @@
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h4>MULAI BERLANGGANAN</h4>
-                            <h5><?= tgl_indo($response->body->tanggal_berlangganan->mulai); ?></h5>
+                            <h5><?= tgl_indo($response->body->tanggal_berlangganan->mulai); ?> (Premium)</h5>
                         </div>
                         <div class="icon">
                             <i class="ion ion-unlocked"></i>
@@ -83,7 +83,7 @@
                     <div class="small-box bg-red">
                         <div class="inner">
                             <h4>AKHIR BERLANGGANAN</h4>
-                            <h5><?= tgl_indo($response->body->tanggal_berlangganan->akhir); ?></h5>
+                            <h5><?= tgl_indo($response->body->tanggal_berlangganan->akhir); ?> (Premium)</h5>
                         </div>
                         <div class="icon">
                             <i class="ion ion-locked"></i>
@@ -221,7 +221,7 @@
                                         $server = config_item('server_layanan');
                                 $token          = $this->setting->layanan_opendesa_token;
                                 ?>
-                                        <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran'): ?>
+                                        <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi'): ?>
                                             <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
                                         <?php endif; ?>
                                         <?php if ($pemesanan->mitra_id == ''): ?>
@@ -318,7 +318,7 @@
                                 $server = config_item('server_layanan');
                                 $token  = $this->setting->layanan_opendesa_token;
                                 ?>
-                                        <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran'): ?>
+                                        <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi'): ?>
                                             <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
                                         <?php endif; ?>
                                         <?php if ($pemesanan->mitra_id == ''): ?>
@@ -333,7 +333,7 @@
                                             <?php if($layanan->kategori_id != 4): ?>
 
                                                 <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?></a><br>
-                                                <?= '<style>#tbl-pemesanan-' . $number . ' { display:table-row;}</style>'; ?>
+                                                <?= '<style>#tbl-pemesanan-' . $number . ' { display:table-row!important;}</style>'; ?>
 
                                             <?php else: ?>
                                                 <?= '<style>#tbl-pemesanan-' . $number . ' { display:none;}</style>'; ?>

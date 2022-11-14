@@ -35,51 +35,18 @@
  *
  */
 
-use App\Models\Dokumen;
-use App\Models\RefDokumen;
+namespace App\Enums;
 
-class Peraturan extends Web_Controller
+class SatuanWaktuEnum
 {
-    public function index()
-    {
-        if (! $this->web_menu_model->menu_aktif('peraturan-desa')) {
-            show_404();
-        }
-
-        $data = $this->includes;
-
-        $data['pilihan_kategori'] = RefDokumen::where('id', '!=', 1)->pluck('nama', 'id');
-        $data['pilihan_tahun']    = Dokumen::distinct('tahun')->hidup()->where('kategori', '!=', 1)->pluck('tahun');
-        $data['halaman_statis']   = 'peraturan/index';
-
-        $this->_get_common_data($data);
-        $this->set_template('layouts/halaman_statis.tpl.php');
-        $this->load->view($this->template, $data);
-    }
-
-    public function datatables()
-    {
-        if ($this->input->is_ajax_request()) {
-            $filters = [
-                'tahun'    => $this->input->get('tahun'),
-                'kategori' => $this->input->get('kategori'),
-            ];
-
-            $query = Dokumen::select(['id', 'nama', 'tahun', 'satuan', 'kategori'])
-                ->hidup()
-                ->aktif()
-                ->where('kategori', '!=', 1)
-                ->filters($filters);
-
-            return datatables()
-                ->of($query)
-                ->addIndexColumn()
-                ->addColumn('kategori_dokumen', static function ($row) {
-                    return $row->kategoriDokumen->nama;
-                })
-                ->make();
-        }
-
-        return show_404();
-    }
+    public const HARI   = 1;
+    public const MINGGU = 2;
+    public const BULAN  = 3;
+    public const TAHUN  = 4;
+    public const DAFTAR = [
+        self::HARI   => 'Hari',
+        self::MINGGU => 'Minggu',
+        self::BULAN  => 'Bulan',
+        self::TAHUN  => 'Tahun',
+    ];
 }

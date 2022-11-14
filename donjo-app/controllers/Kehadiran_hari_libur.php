@@ -122,7 +122,9 @@ class Kehadiran_hari_libur extends Admin_Controller
 
         $update = HariLibur::findOrFail($id);
 
-        if ($update->update($this->validate($this->request))) {
+        $data = $this->validate($this->request, $id);
+
+        if ($update->update($data)) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
 
@@ -140,10 +142,34 @@ class Kehadiran_hari_libur extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate($request = [])
+    private function validate($request = [], $id = '')
     {
-        if (HariLibur::where('tanggal', date('Y-m-d', strtotime($request['tanggal'])))->exists()) {
-            redirect_with('error', 'Tanggal terkait sudah ditambahkan pada hari libur');
+        $_POST['tanggal'] = date('Y-m-d', strtotime($request['tanggal']));
+
+        $this->load->library('form_validation');
+        $this->form_validation->set_error_delimiters('', '');
+        $rules = empty($id)
+            ? 'is_unique[kehadiran_hari_libur.tanggal]'
+            : "is_unique[kehadiran_hari_libur.tanggal,id,{$id}]";
+
+        $this->form_validation->set_rules([
+            [
+                'field'  => 'tanggal',
+                'label'  => 'Tanggal',
+                'rules'  => $rules,
+                'errors' => [
+                    'is_unique' => 'Tanggal terkait sudah ditambahkan pada hari libur',
+                ],
+            ],
+            [
+                'field' => 'keterangan',
+                'label' => 'Keterangan',
+                'rules' => 'required',
+            ],
+        ]);
+
+        if ($this->form_validation->run() !== true) {
+            redirect_with('error', trim(validation_errors()));
         }
 
         return [
