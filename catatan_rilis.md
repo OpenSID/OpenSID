@@ -23,6 +23,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 17. [#188](https://github.com/OpenSID/wiki-layanan-opendesa/issues/188) Penyesuaian info perpanjangan ditampilkan di home opensid seperti info ada update baru.
 18. [#5950](https://github.com/OpenSID/OpenSID/issues/5950) Perbaikan ubah tanggal hari libur kehadiran.
 19. [#5947](https://github.com/OpenSID/OpenSID/issues/5947) Perbaikan mode web non-aktif sama sekali.
+20. [#5955](https://github.com/OpenSID/OpenSID/issues/5955) Perbaikan kode isian orang tua pada surat TinyMCE.
 
 #### Perubahan Teknis
 
