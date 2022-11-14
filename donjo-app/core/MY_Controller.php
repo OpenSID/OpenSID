@@ -213,7 +213,7 @@ class Web_Controller extends MY_Controller
         $this->load->model('pamong_model');
 
         $main         = $this->header;
-        $pamong_kades = Pamong::ttd('a.n')->first();
+        $pamong_kades = Pamong::ttd('a.n')->first()->toArray();
 
         // TODO : Gunakan view blade
         if (file_exists(DESAPATH . 'offline_mode.php')) {
