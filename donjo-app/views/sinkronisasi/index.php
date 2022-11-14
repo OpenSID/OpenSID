@@ -64,21 +64,21 @@
                                         <div class="form-group">
                                             <label class="col-sm-12 col-md-3" for="nama">Api Opendk Server</label>
                                             <div class="col-sm-12 col-md-4">
-                                                <input id="api_opendk_server" name="api_opendk_server" class="form-control input-sm required" type="text" onkeyup="cek_input()" value="<?= $this->setting->api_opendk_server; ?>" />
+                                                <input id="api_opendk_server" name="api_opendk_server" class="form-control input-sm" type="text" onkeyup="cek_input()" value="<?= $this->setting->api_opendk_server; ?>" />
                                             </div>
                                             <label class="col-sm-12 col-md-5 pull-left" for="nama">Alamat Server OpenDK <code>(contoh: https://demodk.opendesa.id)</code></label>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-12 col-md-3" for="nama">Api Opendk User</label>
                                             <div class="col-sm-12 col-md-4">
-                                                <input id="api_opendk_user" name="api_opendk_user" class="form-control input-sm required" type="text" onkeyup="cek_input()" value="<?= $this->setting->api_opendk_user; ?>" />
+                                                <input id="api_opendk_user" name="api_opendk_user" class="form-control input-sm" type="text" onkeyup="cek_input()" value="<?= $this->setting->api_opendk_user; ?>" />
                                             </div>
                                             <label class="col-sm-12 col-md-5 pull-left" for="nama">Email Login Pengguna OpenDK</label>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-12 col-md-3" for="nama">Api Opendk Password</label>
                                             <div class="col-sm-12 col-md-4">
-                                                <input id="api_opendk_password" name="api_opendk_password" class="form-control input-sm required" type="password" onkeyup="cek_input()" value="<?= $this->setting->api_opendk_password; ?>" />
+                                                <input id="api_opendk_password" name="api_opendk_password" class="form-control input-sm" type="password" onkeyup="cek_input()" value="<?= $this->setting->api_opendk_password; ?>" />
                                             </div>
                                             <label class="col-sm-12 col-md-5 pull-left" for="nama">Password Login Pengguna OpenDK</label>
                                         </div>

@@ -24,6 +24,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 18. [#5950](https://github.com/OpenSID/OpenSID/issues/5950) Perbaikan ubah tanggal hari libur kehadiran.
 19. [#5947](https://github.com/OpenSID/OpenSID/issues/5947) Perbaikan mode web non-aktif sama sekali.
 20. [#5955](https://github.com/OpenSID/OpenSID/issues/5955) Perbaikan kode isian orang tua pada surat TinyMCE.
+29. [#5927](https://github.com/OpenSID/OpenSID/issues/5927) Perbaikan hapus required pada form api OpenDK.
 
 #### Perubahan Teknis
 
