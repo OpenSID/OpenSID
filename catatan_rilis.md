@@ -21,6 +21,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 15. [#201](https://github.com/OpenSID/wiki-layanan-opendesa/issues/201) Perbaikan info pemesanan hilang pada rincian pemesanan lainnya.
 16. [#5934](https://github.com/OpenSID/OpenSID/issues/5934) Hilangkan info history autocomplete pada beberapa form.
 17. [#188](https://github.com/OpenSID/wiki-layanan-opendesa/issues/188) Penyesuaian info perpanjangan ditampilkan di home opensid seperti info ada update baru.
+18. [#5950](https://github.com/OpenSID/OpenSID/issues/5950) Perbaikan ubah tanggal hari libur kehadiran.
 
 #### Perubahan Teknis
 
