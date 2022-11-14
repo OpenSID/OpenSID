@@ -34,7 +34,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 36. [#5930](https://github.com/OpenSID/OpenSID/issues/5930) Perbaikan kehadiran perangkat pada layanan mandiri.
 37. [#5979](https://github.com/OpenSID/OpenSID/issues/5979) Perbaikan footer surat TinyMCE.
 38. [#5964](https://github.com/OpenSID/OpenSID/issues/5964) Perbaikan jumlah surat di dashboard dengan yang ada di arsip surat.
-
+39. [#208](https://github.com/OpenSID/wiki-layanan-opendesa/issues/208) Perbaikan cetak nota ketika status sudah verifikasi.
 
 #### Perubahan Teknis
 
