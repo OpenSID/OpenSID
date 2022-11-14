@@ -50,6 +50,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Hom_sid extends Admin_Controller
 {
+    public $isAdmin;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->isAdmin = $this->session->isAdmin->pamong;
+    }
+
     public function index()
     {
         get_pesan_opendk(); //ambil pesan baru di opendk
@@ -67,7 +76,7 @@ class Hom_sid extends Admin_Controller
             'kelompok'        => Schema::hasColumn('kelompok', 'tipe') ? Kelompok::status()->tipe()->count() : 0,
             'dusun'           => Wilayah::dusun()->count(),
             'pendaftaran'     => Schema::hasColumn('tweb_penduduk_mandiri', 'aktif') ? PendudukMandiri::status()->count() : 0,
-            'surat'           => (! $this->db->field_exists('deleted_at', 'log_surat')) ? 0 : LogSurat::whereNull('deleted_at')->count(), // jika kolom deleted_at tidak ada, kosongkan jumlah surat.
+            'surat'           => (! $this->db->field_exists('deleted_at', 'log_surat')) ? 0 : $this->logSurat(), // jika kolom deleted_at tidak ada, kosongkan jumlah surat.
             'saas'            => $this->saas->peringatan(),
             'notif_langganan' => $this->notif_model->status_langganan(),
         ];
@@ -107,5 +116,27 @@ class Hom_sid extends Admin_Controller
         $bantuan['program']     = Bantuan::status()->pluck('nama', 'id');
 
         return $bantuan;
+    }
+
+    protected function logSurat()
+    {
+        return LogSurat::whereNull('deleted_at')
+            ->when($this->isAdmin->jabatan_id == '1', static function ($q) {
+                return $q->when(setting('tte') == 1, static function ($tte) {
+                    return $tte->where('tte', '=', 1);
+                })
+                    ->when(setting('tte') == 0, static function ($tte) {
+                        return $tte->where('verifikasi_kades', '=', '1');
+                    })
+                    ->orWhere(static function ($verifikasi) {
+                        $verifikasi->whereNull('verifikasi_operator');
+                    });
+            })
+            ->when($this->isAdmin->jabatan_id == '2', static function ($q) {
+                return $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator');
+            })
+            ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, ['1', '2']), static function ($q) {
+                return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
+            })->count();
     }
 }
