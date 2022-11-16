@@ -1,6 +1,8 @@
-Di rilis ini, versi 22.11-premium-beta02 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.11-premium-beta01 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
+
+#### Penambahan Fitur
 
 #### Perbaikan BUG
 
