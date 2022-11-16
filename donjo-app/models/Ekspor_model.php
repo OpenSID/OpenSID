@@ -235,6 +235,11 @@ class Ekspor_model extends CI_Model
             'cdesa_penduduk',
             'mutasi_cdesa',
             'hubung_warga',
+            'dtks',
+            'dtks_anggota',
+            'dtks_lampiran',
+            'dtks_pengaturan_program',
+            'dtks_ref_lampiran',
         ];
 
         $prefs = [

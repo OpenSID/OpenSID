@@ -52,7 +52,7 @@ define('VERSION', '22.11-premium-beta01');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022111653');
+define('VERSI_DATABASE', '2022111654');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -436,6 +436,25 @@ function max_upload()
     $memory_limit = (int) bilangan(ini_get('memory_limit'));
 
     return min($max_filesize, $max_post, $memory_limit);
+}
+
+function getKodeDesaFromTrackSID()
+{
+    if (session('trackSID_bps_code') && session('trackSID_bps_code') != NULL) {
+        return session('trackSID_bps_code');
+    }
+
+    $config = \App\Models\Config::first();
+    $tracker = config_item('server_pantau');
+
+    $trackSID_bps_code = getUrlContent($tracker . '/index.php/api/wilayah/kodedesa?kode=' . $config->kode_desa . '&token=' . config_item('token_pantau'));
+
+    if (!empty($trackSID_bps_code)) {
+        set_session(['trackSID_bps_code' => json_decode($trackSID_bps_code, true)]);
+        return session('trackSID_bps_code');
+    }
+
+    return null;
 }
 
 function get_external_ip()

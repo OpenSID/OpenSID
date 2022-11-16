@@ -66,6 +66,7 @@ $config = [
         LOKASI_USER_PICT           => [0775, 'htaccess1'],
         LOKASI_VAKSIN              => [0775, 'htaccess1'],
         LOKASI_GAMBAR_WIDGET       => [0775, 'htaccess1'],
+        LOKASI_FOTO_DTKS           => [0775, 'htaccess1'],
         LOKASI_WIDGET              => [0775],
     ],
 

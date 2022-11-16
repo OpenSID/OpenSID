@@ -1,8 +1,10 @@
 Di rilis ini, versi 22.11-premium-beta01 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [isi disini] yang terus berkontribusi.
+Terima kasih pada @ruririzal yang terus berkontribusi.
 
 #### Penambahan Fitur
+
+1. [#5484](https://github.com/OpenSID/OpenSID/issues/5484) Penambahan fitur modul DTKS.
 
 #### Perbaikan BUG
 
