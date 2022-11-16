@@ -185,7 +185,7 @@ class Permohonan_surat_model extends CI_Model
         }
 
         $data = $this->db
-            ->select('u.*, u.status as status_id, n.nama AS nama, n.nik AS nik, s.nama as jenis_surat, JSON_VALUE(isian_form,"$.nomor") AS nomor')
+            ->select('u.*, u.status as status_id, n.nama AS nama, n.nik AS nik, s.nama as jenis_surat')
             ->where('id_pemohon', $id_pemohon)
             ->from('permohonan_surat u')
             ->join('tweb_penduduk n', 'u.id_pemohon = n.id', 'left')
@@ -199,6 +199,7 @@ class Permohonan_surat_model extends CI_Model
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']     = $j + 1;
+            $data[$i]['nomor']  = $data[$i]['isian_form']['nomor'];
             $data[$i]['status'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN)[$data[$i]['status']];
             $data[$i]['id_log'] = LogSurat::where('id_format_surat', $data[$i]['id_surat'])->where('no_surat', $data[$i]['nomor'])->first()->id;
             $data[$i]['tte']    = LogSurat::where('id_format_surat', $data[$i]['id_surat'])->where('no_surat', $data[$i]['nomor'])->first()->tte;
