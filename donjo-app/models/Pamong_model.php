@@ -497,10 +497,15 @@ class Pamong_model extends CI_Model
      */
     public function lock($id, $val)
     {
-        $outp = $this->db
-            ->where('pamong_id', $id)
-            ->update('tweb_desa_pamong', ['pamong_status' => $val]);
+        $pamong        = Pamong::find($id);
+        $jabatan_aktif = Pamong::whereJabatanId($pamong->jabatan_id)->wherePamongStatus(1)->exists();
 
+        // Cek untuk kades atau sekdes apakah sudah ada yang aktif saat mengaktifkan
+        if ($val == 1 && $jabatan_aktif && in_array($pamong->jabatan_id, RefJabatan::EXCLUDE_DELETE)) {
+            return session_error('<br>Pamong ' . $pamong->jabatan->nama . ' sudah tersedia, silahakan non-aktifkan terlebih dahulu jika ingin menggantinya.');
+        }
+
+        $outp = $pamong->update(['pamong_status' => $val]);
         status_sukses($outp);
     }
 

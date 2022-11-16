@@ -36,6 +36,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 30. [#5964](https://github.com/OpenSID/OpenSID/issues/5964) Perbaikan jumlah surat di dashboard dengan yang ada di arsip surat.
 31. [#208](https://github.com/OpenSID/wiki-layanan-opendesa/issues/208) Perbaikan cetak nota ketika status sudah verifikasi.
 32. [#5996](https://github.com/OpenSID/OpenSID/issues/5996) Perbaikan update pengaturan TTE.
+33. [#1616](https://github.com/OpenSID/premium/issues/1616) Perbaikan cek kepala desa baru ketika aktifkan kembali kepala desa lama.
 
 #### Perubahan Teknis
 
