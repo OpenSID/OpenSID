@@ -461,7 +461,6 @@ class Surat_master extends Admin_Controller
             'tte'                => (int) $request['tte'],
             'font_surat'         => alfanumerik_spasi($request['font_surat']),
             'visual_tte'         => (int) $request['visual_tte'],
-            'visual_tte_gambar'  => $request['visual_tte_gambar'],
             'visual_tte_weight'  => (int) $request['visual_tte_weight'],
             'visual_tte_height'  => (int) $request['visual_tte_height'],
             'format_nomor_surat' => $request['format_nomor_surat'],

@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.11-premium-rev02 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.11-premium-rev03 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
@@ -35,6 +35,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 29. [#5979](https://github.com/OpenSID/OpenSID/issues/5979) Perbaikan footer surat TinyMCE.
 30. [#5964](https://github.com/OpenSID/OpenSID/issues/5964) Perbaikan jumlah surat di dashboard dengan yang ada di arsip surat.
 31. [#208](https://github.com/OpenSID/wiki-layanan-opendesa/issues/208) Perbaikan cetak nota ketika status sudah verifikasi.
+32. [#5996](https://github.com/OpenSID/OpenSID/issues/5996) Perbaikan update pengaturan TTE.
 
 #### Perubahan Teknis
 
