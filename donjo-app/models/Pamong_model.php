@@ -218,9 +218,8 @@ class Pamong_model extends CI_Model
 
     public function insert()
     {
-        $post         = $this->input->post();
-        $data         = $this->siapkan_data($post);
-        $data['urut'] = $this->urut_model->urut_max() + 1;
+        $post = $this->input->post();
+        $data = $this->siapkan_data($post);
 
         $data['pamong_tgl_terdaftar'] = date('Y-m-d');
 
@@ -339,10 +338,12 @@ class Pamong_model extends CI_Model
         $data['gelar_depan']        = strip_tags($post['gelar_depan']) ?: null;
         $data['gelar_belakang']     = strip_tags($post['gelar_belakang']) ?: null;
 
-        if ($data['jabatan_id'] == 1) {
+        if ($data['jabatan_id'] == RefJabatan::KADES) {
             $data['urut'] = 1;
-        } elseif ($data['jabatan_id'] == 2) {
+        } elseif ($data['jabatan_id'] == RefJabatan::SEKDES) {
             $data['urut'] = 2;
+        } else {
+            $data['urut'] = $this->urut_model->urut_max() + 1;
         }
 
         if (empty($data['id_pend'])) {
