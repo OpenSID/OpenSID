@@ -37,6 +37,7 @@
 
 use App\Models\KehadiranPengaduan;
 use App\Models\Pamong;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -44,7 +45,14 @@ class Kehadiran_perangkat extends Mandiri_Controller
 {
     public function index()
     {
-        $kehadiran = Pamong::kehadiranPamong()->daftar()->orderBy('urut')->get();
+        $kehadiran = Pamong::kehadiranPamong()
+            ->daftar()
+            ->where(static function ($query) {
+                $query->where('tanggal', DB::raw('curdate()'))
+                    ->orWhereNull('tanggal');
+            })
+            ->orderBy('urut')
+            ->get();
         $perangkat = $kehadiran->each(function ($item) {
             if ($item->id_penduduk != $this->session->is_login->id_pend) {
                 return $item->id_penduduk = 0;

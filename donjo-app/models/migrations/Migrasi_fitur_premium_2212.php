@@ -51,7 +51,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->migrasi_2022110771($hasil);
         $hasil = $hasil && $this->migrasiPengaturanAplikasi($hasil);
         $hasil = $hasil && $this->migrasi_2022110951($hasil);
-        $hasil = $hasil && $this->migrasi_2022111553($hasil);
+        $hasil = $hasil && $this->migrasi_2022111653($hasil);
 
         return $hasil && true;
     }
@@ -158,147 +158,138 @@ class Migrasi_fitur_premium_2212 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('setting_aplikasi', $fields);
         }
 
-        // Pindahkan data sebelum tabel dihapus
-        if ($this->db->table_exists('setting_aplikasi_options')) {
-            // Pindahkan data setting aplikasi options ke setting aplikasi > option
-            // offline_mode
-            DB::table('setting_aplikasi')
-                ->where('key', '=', 'offline_mode')
-                ->update([
-                    'option' => json_encode([
-                        '0' => 'Web bisa diakses publik',
-                        '1' => 'Web hanya bisa diakses petugas web',
-                        '2' => 'Web non-aktif sama sekali',
-                    ]),
-                    'jenis'    => 'option',
-                    'kategori' => 'web',
-                ]);
+        // offline_mode
+        DB::table('setting_aplikasi')
+            ->where('key', '=', 'offline_mode')
+            ->update([
+                'option' => json_encode([
+                    '0' => 'Web bisa diakses publik',
+                    '1' => 'Web hanya bisa diakses petugas web',
+                    '2' => 'Web non-aktif sama sekali',
+                ]),
+                'jenis'    => 'option',
+                'kategori' => 'web',
+            ]);
 
-            // jenis_peta
-            DB::table('setting_aplikasi')
-                ->where('key', '=', 'jenis_peta')
-                ->update([
-                    'option' => json_encode([
-                        '1' => 'OpenStreetMap',
-                        '2' => 'OpenStreetMap H.O.T',
-                        '3' => 'Mapbox Streets',
-                        '4' => 'Mapbox Satellite',
-                        '5' => 'Mapbox Satellite-Street',
-                    ]),
-                    'jenis'    => 'option',
-                    'kategori' => 'peta',
-                ]);
+        // jenis_peta
+        DB::table('setting_aplikasi')
+            ->where('key', '=', 'jenis_peta')
+            ->update([
+                'option' => json_encode([
+                    '1' => 'OpenStreetMap',
+                    '2' => 'OpenStreetMap H.O.T',
+                    '3' => 'Mapbox Streets',
+                    '4' => 'Mapbox Satellite',
+                    '5' => 'Mapbox Satellite-Street',
+                ]),
+                'jenis'    => 'option',
+                'kategori' => 'peta',
+            ]);
 
-            // penomoran_surat
-            DB::table('setting_aplikasi')
-                ->where('key', '=', 'penomoran_surat')
-                ->update([
-                    'option' => json_encode([
-                        '1' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan',
-                        '2' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama',
-                        '3' => 'Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar',
-                    ]),
-                    'jenis'    => 'option',
-                    'kategori' => 'surat',
-                ]);
+        // penomoran_surat
+        DB::table('setting_aplikasi')
+            ->where('key', '=', 'penomoran_surat')
+            ->update([
+                'option' => json_encode([
+                    '1' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan',
+                    '2' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama',
+                    '3' => 'Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar',
+                ]),
+                'jenis'    => 'option',
+                'kategori' => 'sistem',
+            ]);
 
-            // timezone
-            DB::table('setting_aplikasi')
-                ->where('key', '=', 'timezone')
-                ->update([
-                    'option' => json_encode([
-                        'Asia/Jakarta'  => 'Asia/Jakarta',
-                        'Asia/Makassar' => 'Asia/Makassar',
-                        'Asia/Jayapura' => 'Asia/Jayapura',
-                    ]),
-                    'jenis'    => 'option',
-                    'kategori' => 'sistem',
-                ]);
+        // timezone
+        DB::table('setting_aplikasi')
+            ->where('key', '=', 'timezone')
+            ->update([
+                'option' => json_encode([
+                    'Asia/Jakarta'  => 'Asia/Jakarta',
+                    'Asia/Makassar' => 'Asia/Makassar',
+                    'Asia/Jayapura' => 'Asia/Jayapura',
+                ]),
+                'jenis'    => 'option',
+                'kategori' => 'sistem',
+            ]);
 
-            // sumber_gambar_slider
-            DB::table('setting_aplikasi')
-                ->where('key', '=', 'sumber_gambar_slider')
-                ->update([
-                    'option' => json_encode([
-                        '1' => 'Gambar utama artikel terbaru',
-                        '2' => 'Gambar utama artikel terbaru yang masuk ke slider atas',
-                        '3' => 'Gambar dalam album galeri yang dimasukkan ke slider',
-                    ]),
-                    'jenis'    => 'option',
-                    'kategori' => 'web',
-                ]);
+        // sumber_gambar_slider
+        DB::table('setting_aplikasi')
+            ->where('key', '=', 'sumber_gambar_slider')
+            ->update([
+                'option' => json_encode([
+                    '1' => 'Gambar utama artikel terbaru',
+                    '2' => 'Gambar utama artikel terbaru yang masuk ke slider atas',
+                    '3' => 'Gambar dalam album galeri yang dimasukkan ke slider',
+                ]),
+                'jenis'    => 'option',
+                'kategori' => 'web',
+            ]);
 
-            // tampilan_anjungan
-            DB::table('setting_aplikasi')
-                ->where('key', '=', 'tampilan_anjungan')
-                ->update([
-                    'option' => json_encode([
-                        '0' => 'Tidak Aktif',
-                        '1' => 'Slider',
-                        '2' => 'Video',
-                    ]),
-                    'jenis'    => 'option',
-                    'kategori' => 'anjungan',
-                ]);
+        // tampilan_anjungan
+        DB::table('setting_aplikasi')
+            ->where('key', '=', 'tampilan_anjungan')
+            ->update([
+                'option' => json_encode([
+                    '0' => 'Tidak Aktif',
+                    '1' => 'Slider',
+                    '2' => 'Video',
+                ]),
+                'jenis'    => 'option',
+                'kategori' => 'anjungan',
+            ]);
 
-            // warna_tema_admin
-            DB::table('setting_aplikasi')
-                ->where('key', '=', 'warna_tema_admin')
-                ->update([
-                    'option' => json_encode([
-                        'skin-blue'         => 'Biru',
-                        'skin-blue-light'   => 'Biru Terang',
-                        'skin-black'        => 'Hitam',
-                        'skin-black-light'  => 'Hitam Terang',
-                        'skin-red'          => 'Merah',
-                        'skin-red-light'    => 'Merah Terang',
-                        'skin-yellow'       => 'Kuning',
-                        'skin-yellow-light' => 'Kuning Terang',
-                        'skin-purple'       => 'Ungu',
-                        'skin-purple-light' => 'Ungu Terang',
-                        'skin-green'        => 'Hijau',
-                        'skin-green-light'  => 'Hijau Terang',
-                    ]),
-                    'jenis'    => 'option',
-                    'kategori' => 'sistem',
-                ]);
+        // warna_tema_admin
+        DB::table('setting_aplikasi')
+            ->where('key', '=', 'warna_tema_admin')
+            ->update([
+                'option' => json_encode([
+                    'skin-blue'         => 'Biru',
+                    'skin-blue-light'   => 'Biru Terang',
+                    'skin-black'        => 'Hitam',
+                    'skin-black-light'  => 'Hitam Terang',
+                    'skin-red'          => 'Merah',
+                    'skin-red-light'    => 'Merah Terang',
+                    'skin-yellow'       => 'Kuning',
+                    'skin-yellow-light' => 'Kuning Terang',
+                    'skin-purple'       => 'Ungu',
+                    'skin-purple-light' => 'Ungu Terang',
+                    'skin-green'        => 'Hijau',
+                    'skin-green-light'  => 'Hijau Terang',
+                ]),
+                'jenis'    => 'option',
+                'kategori' => 'sistem',
+            ]);
 
-            // tampilan_anjungan_slider
-            DB::table('setting_aplikasi')
-                ->where('key', '=', 'tampilan_anjungan_slider')
-                ->update([
-                    'jenis'    => 'option',
-                    'option'   => null,
-                    'kategori' => 'anjungan',
-                ]);
+        // tampilan_anjungan_slider
+        DB::table('setting_aplikasi')
+            ->where('key', '=', 'tampilan_anjungan_slider')
+            ->update([
+                'jenis'    => 'option',
+                'option'   => null,
+                'kategori' => 'anjungan',
+            ]);
 
-            // web_theme
-            DB::table('setting_aplikasi')
-                ->where('key', '=', 'web_theme')
-                ->update([
-                    'jenis'    => 'option',
-                    'option'   => null,
-                    'kategori' => 'web',
-                ]);
-
-            // Hapus tabel setting aplikasi options
-            $hasil = $hasil && $this->dbforge->drop_table('setting_aplikasi_options');
-        }
+        // web_theme
+        DB::table('setting_aplikasi')
+            ->where('key', '=', 'web_theme')
+            ->update([
+                'jenis'    => 'option',
+                'option'   => null,
+                'kategori' => 'web',
+            ]);
 
         // Sesuaikan kategori
-        $where_key = [
-            'tte',
-            'tte_api',
-            'tte_username',
-            'tte_password',
-            'visual_tte',
-            'visual_tte_gambar',
-            'visual_tte_weight',
-            'visual_tte_height',
-        ];
-
         DB::table('setting_aplikasi')
-            ->whereIn('key', $where_key)
+            ->whereIn('key', [
+                'tte',
+                'tte_api',
+                'tte_username',
+                'tte_password',
+                'visual_tte',
+                'visual_tte_gambar',
+                'visual_tte_weight',
+                'visual_tte_height',
+            ])
             ->update([
                 'kategori' => 'tte',
             ]);
@@ -356,6 +347,21 @@ class Migrasi_fitur_premium_2212 extends MY_model
                 'attribute' => 'class="alfanumerik" placeholder="ad02c373c2a8745d108aff863712fe92"',
             ]);
 
+        // Ganti semua jenis option-kode dan option-value menjadi option
+        DB::table('setting_aplikasi')
+            ->whereIn('jenis', [
+                'option-kode',
+                'option-value',
+            ])
+            ->update([
+                'jenis' => 'option',
+            ]);
+
+        if ($this->db->table_exists('setting_aplikasi_options')) {
+            // Hapus tabel setting aplikasi options
+            $hasil = $hasil && $this->dbforge->drop_table('setting_aplikasi_options');
+        }
+
         return $hasil;
     }
 
@@ -377,7 +383,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022111553($hasil)
+    protected function migrasi_2022111653($hasil)
     {
         if (! $this->db->field_exists('ip_address', 'pengaduan')) {
             $hasil = $hasil && $this->dbforge->add_column('pengaduan', [

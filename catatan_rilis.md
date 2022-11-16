@@ -24,17 +24,17 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 18. [#5950](https://github.com/OpenSID/OpenSID/issues/5950) Perbaikan ubah tanggal hari libur kehadiran.
 19. [#5947](https://github.com/OpenSID/OpenSID/issues/5947) Perbaikan mode web non-aktif sama sekali.
 20. [#5955](https://github.com/OpenSID/OpenSID/issues/5955) Perbaikan kode isian orang tua pada surat TinyMCE.
-29. [#5927](https://github.com/OpenSID/OpenSID/issues/5927) Perbaikan hapus required pada form api OpenDK.
-30. [#5961](https://github.com/OpenSID/OpenSID/issues/5961) Perbaikan tampilan anjungan yang berantakan.
-31. [#5970](https://github.com/OpenSID/OpenSID/issues/5970) Perbaikan periksa jabatan ketika tidak tersedia jabatan sekdes atau kades.
-32. [#5958](https://github.com/OpenSID/OpenSID/issues/5958) Perbaikan batasin tambah data pengaduan.
-33. [#5963](https://github.com/OpenSID/OpenSID/issues/5963) Perbaikan form master analisis pengisian bobot wajib terisi.
-34. [#5931](https://github.com/OpenSID/OpenSID/issues/5931) Perbaikan datatable pada pencarian data kehadiran.
-35. [#5959](https://github.com/OpenSID/OpenSID/issues/5959) Perbaikan pengecekan kondisi user kades dengan pengaturan nomor surat.
-36. [#5930](https://github.com/OpenSID/OpenSID/issues/5930) Perbaikan kehadiran perangkat pada layanan mandiri.
-37. [#5979](https://github.com/OpenSID/OpenSID/issues/5979) Perbaikan footer surat TinyMCE.
-38. [#5964](https://github.com/OpenSID/OpenSID/issues/5964) Perbaikan jumlah surat di dashboard dengan yang ada di arsip surat.
-39. [#208](https://github.com/OpenSID/wiki-layanan-opendesa/issues/208) Perbaikan cetak nota ketika status sudah verifikasi.
+21. [#5927](https://github.com/OpenSID/OpenSID/issues/5927) Perbaikan hapus required pada form api OpenDK.
+22. [#5961](https://github.com/OpenSID/OpenSID/issues/5961) Perbaikan tampilan anjungan yang berantakan.
+23. [#5970](https://github.com/OpenSID/OpenSID/issues/5970) Perbaikan periksa jabatan ketika tidak tersedia jabatan sekdes atau kades.
+24. [#5958](https://github.com/OpenSID/OpenSID/issues/5958) Perbaikan batasin tambah data pengaduan.
+25. [#5963](https://github.com/OpenSID/OpenSID/issues/5963) Perbaikan form master analisis pengisian bobot wajib terisi.
+26. [#5931](https://github.com/OpenSID/OpenSID/issues/5931) Perbaikan datatable pada pencarian data kehadiran.
+27. [#5959](https://github.com/OpenSID/OpenSID/issues/5959) Perbaikan pengecekan kondisi user kades dengan pengaturan nomor surat.
+28. [#5930](https://github.com/OpenSID/OpenSID/issues/5930) Perbaikan kehadiran perangkat pada layanan mandiri.
+29. [#5979](https://github.com/OpenSID/OpenSID/issues/5979) Perbaikan footer surat TinyMCE.
+30. [#5964](https://github.com/OpenSID/OpenSID/issues/5964) Perbaikan jumlah surat di dashboard dengan yang ada di arsip surat.
+31. [#208](https://github.com/OpenSID/wiki-layanan-opendesa/issues/208) Perbaikan cetak nota ketika status sudah verifikasi.
 
 #### Perubahan Teknis
 
