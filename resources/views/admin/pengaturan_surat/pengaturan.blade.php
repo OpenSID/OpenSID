@@ -35,13 +35,13 @@
                 <div class="form-group">
                     <label>Tinggi Header Surat</label>
                     <div class="input-group">
-                        <input type="number" name="tinggi_header" class="form-control input-sm required" min="0" max="100" step="0.01" value="{{ $pengaturanSurat['tinggi_header'] }}" />
+                        <input type="number" name="tinggi_header" class="form-control input-sm required" min="0" max="100" step="0.01" value="{{ setting('tinggi_header') }}" />
                         <span class="input-group-addon input-sm">cm</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Template Header Surat</label>
-                    <textarea name="header_surat" class="form-control input-sm editor required">{{ $pengaturanSurat['header_surat'] }}</textarea>
+                    <textarea name="header_surat" class="form-control input-sm editor required">{{ setting('header_surat') }}</textarea>
                 </div>
             </div>
         </div>
@@ -53,13 +53,13 @@
                 <div class="form-group">
                     <label>Tinggi Footer Surat</label>
                     <div class="input-group">
-                        <input type="number" name="tinggi_footer" class="form-control input-sm required" min="0" max="100" step="0.01" value="{{ $pengaturanSurat['tinggi_footer'] }}" />
+                        <input type="number" name="tinggi_footer" class="form-control input-sm required" min="0" max="100" step="0.01" value="{{ setting('tinggi_footer') }}" />
                         <span class="input-group-addon input-sm">cm</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Template Footer Surat</label>
-                    <textarea name="{{ setting('tte') == 1 ? 'footer_surat_tte' : 'footer_surat' }}" class="form-control input-sm editor required">{{ setting('tte') == 1 ? $pengaturanSurat['footer_surat_tte'] : $pengaturanSurat['footer_surat'] }}</textarea>
+                    <textarea name="{{ setting('tte') == '1' ? 'footer_surat_tte' : 'footer_surat' }}" class="form-control input-sm editor required">{{ setting('tte') == '1' ? setting('footer_surat_tte') : setting('footer_surat') }}</textarea>
                 </div>
             </div>
 
@@ -80,14 +80,14 @@
                     <label>Verifikasi {{ $ref_jabatan->where('id', '=', 2)->first()->nama }}</label>
                     <div class="input-group col-xs-12 col-sm-8">
                         <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
-                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($alur['verifikasi_sekdes'] == 1) @disabled(!$sekdes)">
-                                <input type="radio" name="verifikasi_sekdes" class="form-check-input" value="1" autocomplete="off" @checked($alur['verifikasi_sekdes']==1 && $sekdes) @disabled(!$sekdes)>Ya</label>
-                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($alur['verifikasi_sekdes'] == 0) @disabled(!$sekdes)">
-                                <input type="radio" name="verifikasi_sekdes" class="form-check-input" value="0" autocomplete="off" @checked($alur['verifikasi_sekdes']==0 && $sekdes) @disabled(!$sekdes)>Tidak
+                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('verifikasi_sekdes') == '1') @disabled(! $sekdes)">
+                                <input type="radio" name="verifikasi_sekdes" class="form-check-input" value="1" autocomplete="off" @checked(setting('verifikasi_sekdes') == '1' && $sekdes) @disabled(! $sekdes)>Ya</label>
+                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('verifikasi_sekdes') == '0') @disabled(! $sekdes)">
+                                <input type="radio" name="verifikasi_sekdes" class="form-check-input" value="0" autocomplete="off" @checked(setting('verifikasi_sekdes') == '0' && $sekdes) @disabled(! $sekdes)>Tidak
                             </label>
                         </div>
                     </div>
-                    <span class="help-block text-red @display(!$sekdes)">User
+                    <span class="help-block text-red @display(! $sekdes)">User
                         {{ $ref_jabatan->where('id', '=', 2)->first()->nama }} belum tersedia</span>
                 </div>
             </div>
@@ -97,14 +97,14 @@
                     <label>Verifikasi {{ $ref_jabatan->where('id', '=', 1)->first()->nama }}</label>
                     <div class="input-group col-xs-12 col-sm-8">
                         <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
-                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($alur['verifikasi_kades'] == 1) @disabled(setting('tte') == 1 || !$kades)">
-                                <input type="radio" name="verifikasi_kades" class="form-check-input" value="1" autocomplete="off" @checked($alur['verifikasi_kades']==1) @disabled(setting('tte')==1 || !$kades)>Ya</label>
-                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($alur['verifikasi_kades'] == 0) @disabled(setting('tte') == 1 || !$kades)">
-                                <input type="radio" name="verifikasi_kades" class="form-check-input" value="0" autocomplete="off" @checked($alur['verifikasi_kades']==0) @disabled(setting('tte')==1 || !$kades)>Tidak
+                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('verifikasi_kades') == '1') @disabled(setting('tte') == '1' || ! $kades)">
+                                <input type="radio" name="verifikasi_kades" class="form-check-input" value="1" autocomplete="off" @checked(setting('verifikasi_kades') == '1') @disabled(setting('tte') == '1' || ! $kades)>Ya</label>
+                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('verifikasi_kades') == '0') @disabled(setting('tte') == '1' || ! $kades)">
+                                <input type="radio" name="verifikasi_kades" class="form-check-input" value="0" autocomplete="off" @checked(setting('verifikasi_kades') == '0') @disabled(setting('tte') == '1' || ! $kades)>Tidak
                             </label>
                         </div>
                     </div>
-                    <span class="help-block text-red @display(!$kades)">User
+                    <span class="help-block text-red @display(! $kades)">User
                         {{ $ref_jabatan->where('id', '=', 1)->first()->nama }} belum tersedia</span>
                 </div>
             </div>
@@ -115,7 +115,7 @@
             @include('admin.pengaturan_surat.kembali')
 
             <div class="box-body">
-                @if (!$kades)
+                @if (! $kades)
                 <div class="callout callout-danger">
                     <p>Pengaturan modul TTE hanya bisa aktif jika user <strong>Kepala
                             {{ setting('sebutan_desa') }}</strong> sudah dibuat dan aktif.</p>
@@ -137,41 +137,38 @@
                     </div>
 
                     <label>Aktifkan Modul TTE</label>
-
                     <div class="input-group col-xs-12 col-sm-8">
                         <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
-                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($tte['tte'] == 1) @disabled(!$kades)">
-                                <input type="radio" name="tte" class="form-check-input" value="1" autocomplete="off" @checked($tte['tte']=='1' ) @disabled(!$kades)>Ya</label>
-                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($tte['tte'] == 0) @disabled(!$kades)">
-                                <input type="radio" name="tte" class="form-check-input" value="0" autocomplete="off" @checked($tte['tte']=='0' ) @disabled(!$kades)>Tidak
+                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('tte') == '1') @disabled(! $kades)">
+                                <input type="radio" name="tte" class="form-check-input" value="1" autocomplete="off" @checked(setting('tte') =='1' ) @disabled(! $kades)>Ya</label>
+                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('tte') == '0') @disabled(! $kades)">
+                                <input type="radio" name="tte" class="form-check-input" value="0" autocomplete="off" @checked(setting('tte') =='0' ) @disabled(! $kades)>Tidak
                             </label>
                         </div>
                     </div>
                 </div>
 
-              
                 <div class="form-group">
                     <label>URL API Server TTE</label>
-                    <input type="text" name="tte_api" class="form-control input-sm" value="{{ $tte_demo ? site_url() : $tte['tte_api'] }}" @disabled(!$kades)>
+                    <input type="text" name="tte_api" class="form-control input-sm" value="{{ $tte_demo ? site_url() : setting('tte_api') }}" @disabled(! $kades)>
                 </div>
                 <div class="form-group">
                     <label>Username Login TTE</label>
-                    <input type="text" name="tte_username" class="form-control input-sm" value="{{ $tte['tte_username'] }}" @disabled(!$kades)>
+                    <input type="text" name="tte_username" class="form-control input-sm" value="{{ setting('tte_username') }}" @disabled(! $kades)>
                 </div>
                 <div class="form-group">
                     <label>Password Login TTE</label>
-                    <input type="password" name="tte_password" class="form-control input-sm" value="{{ $tte['tte_password'] }}" @disabled(!$kades)>
+                    <input type="password" name="tte_password" class="form-control input-sm" value="{{ setting('tte_password') }}" @disabled(! $kades)>
                 </div>
 
                 <div class="form-group">
                     <label>Visual TTE</label>
-
                     <div class="input-group col-xs-12 col-sm-8">
                         <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
-                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('visual_tte') == 1) @disabled(!$kades)">
-                                <input type="radio" name="visual_tte" class="form-check-input" value="1" autocomplete="off" @checked(setting('visual_tte')=='1' ) @disabled(!$tte['tte'])>Ya</label>
-                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('visual_tte') == 0) @disabled(!$kades)">
-                                <input type="radio" name="visual_tte" class="form-check-input" value="0" autocomplete="off" @checked(setting('visual_tte')=='0' ) @disabled(!$tte['tte'])>Tidak
+                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('visual_tte') == '1') @disabled(! $kades)">
+                                <input type="radio" name="visual_tte" class="form-check-input" value="1" autocomplete="off" @checked(setting('visual_tte') =='1') @disabled(!setting('tte') )>Ya</label>
+                            <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('visual_tte') == '0') @disabled(! $kades)">
+                                <input type="radio" name="visual_tte" class="form-check-input" value="0" autocomplete="off" @checked(setting('visual_tte') =='0') @disabled(!setting('tte') )>Tidak
                             </label>
                         </div>
                     </div>
@@ -196,14 +193,14 @@
                         <div class="col-sm-6">
                             <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
                                 <span class="input-group-addon input-sm">Tinggi</span>
-                                <input type="number" class="form-control input-sm required" name="visual_tte_height" style="text-align:right;" value="{{ setting(visual_tte_height) }}">
+                                <input type="number" class="form-control input-sm required" name="visual_tte_height" style="text-align:right;" value="{{ setting('visual_tte_height') }}">
                                 <span class="input-group-addon input-sm">px</span>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
                                 <span class="input-group-addon input-sm">Lebar</span>
-                                <input type="number" class="form-control input-sm required" name="visual_tte_weight" style="text-align:right;" value="{{ setting(visual_tte_weight) }}">
+                                <input type="number" class="form-control input-sm required" name="visual_tte_weight" style="text-align:right;" value="{{ setting('visual_tte_weight') }}">
                                 <span class="input-group-addon input-sm">px</span>
                             </div>
                         </div>
@@ -224,8 +221,8 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-7 col-sm-12">
                             <select class="select2 form-control" name="font_surat">
-                                @foreach ($fonts as $font)
-                                <option value="{{ $font }}" @selected($font===$pengaturanSurat['font_surat'])>
+                                @foreach ($font_option as $font)
+                                <option value="{{ $font }}" @selected($font == setting('font_surat'))>
                                     {{ $font }}
                                 </option>
                                 @endforeach
@@ -281,7 +278,7 @@
         }
 
         $('input[name="visual_tte"]').change(function(e) {
-           ganti_visual();
+            ganti_visual();
         })
 
         function ganti_visual() {

@@ -103,6 +103,7 @@ abstract class BaseEnum
      * Get value of the given key
      *
      * @param mixed|null $default
+     * @param mixed      $key
      *
      * @return mixed|null
      */
@@ -113,6 +114,8 @@ abstract class BaseEnum
 
     /**
      * Get related keys of the given value
+     *
+     * @param mixed $value
      */
     public static function keysOf($value): array
     {
@@ -128,7 +131,8 @@ abstract class BaseEnum
     /**
      * Get only the first related key of the given value
      *
-     * @param null $default
+     * @param null  $default
+     * @param mixed $value
      *
      * @return mixed|null
      */

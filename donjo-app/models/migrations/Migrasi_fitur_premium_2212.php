@@ -54,6 +54,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->migrasi_2022110951($hasil);
         $hasil = $hasil && $this->migrasi_2022111653($hasil);
         $hasil = $hasil && $this->migrasi_2022111654($hasil);
+        $hasil = $hasil && $this->migrasi_2022111751($hasil);
 
         return $hasil && true;
     }
@@ -415,6 +416,34 @@ class Migrasi_fitur_premium_2212 extends MY_model
             ->where('jabatan_id', RefJabatan::SEKDES)
             ->update([
                 'urut' => 2,
+            ]);
+
+        return $hasil;
+    }
+    protected function migrasi_2022111751($hasil)
+    {
+        // Pindahkan pengaturan Font dari menggunakan Enum ke pengaturan option
+        DB::table('setting_aplikasi')
+            ->where('key', 'font_surat')
+            ->whereNull('option')
+            ->update([
+                'option' => json_encode([
+                    'Andale Mono',
+                    'Arial',
+                    'Arial Black',
+                    'Bookman Old Style',
+                    'Comic Sans MS',
+                    'Courier New',
+                    'Georgia',
+                    'Helvetica',
+                    'Impact',
+                    'Tahoma',
+                    'Times New Roman',
+                    'Trebuchet MS',
+                    'Verdana',
+                ]),
+                'jenis'    => 'option',
+                'kategori' => 'format_surat',
             ]);
 
         return $hasil;

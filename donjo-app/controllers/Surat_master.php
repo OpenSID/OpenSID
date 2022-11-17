@@ -35,7 +35,6 @@
  *
  */
 
-use App\Enums\FontSuratEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
 use App\Models\Config;
@@ -405,11 +404,9 @@ class Surat_master extends Admin_Controller
 
     public function pengaturan()
     {
-        $data['pengaturanSurat'] = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
-        $data['alur']            = SettingAplikasi::whereKategori('alur_surat')->pluck('value', 'key')->toArray();
-        $data['tte']             = SettingAplikasi::whereKategori('tte')->pluck('value', 'key')->toArray();
-        $data['tte_demo']        = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
-        $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
+        $data['font_option'] = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
+        $data['tte_demo']    = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
+        $data['kades']       = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
             return $query->where('jabatan_id', '=', '1');
         })->exists();
         $data['sekdes'] = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
@@ -419,7 +416,6 @@ class Surat_master extends Admin_Controller
         $data['ref_jabatan'] = RefJabatan::all();
         $data['aksi']        = route('surat_master.update');
         $data['formAksi']    = route('surat_master.edit_pengaturan');
-        $data['fonts']       = FontSuratEnum::DAFTAR;
 
         return view('admin.pengaturan_surat.pengaturan', $data);
     }
@@ -457,7 +453,7 @@ class Surat_master extends Admin_Controller
             'header_surat'       => $request['header_surat'],
             'tinggi_footer'      => (float) $request['tinggi_footer'],
             'verifikasi_sekdes'  => (int) $request['verifikasi_sekdes'],
-            'verifikasi_kades'   => ((int) $request['tte'] == 1) ? 1 : (int) $request['verifikasi_kades'],
+            'verifikasi_kades'   => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
             'tte'                => (int) $request['tte'],
             'font_surat'         => alfanumerik_spasi($request['font_surat']),
             'visual_tte'         => (int) $request['visual_tte'],
@@ -466,7 +462,7 @@ class Surat_master extends Admin_Controller
             'format_nomor_surat' => $request['format_nomor_surat'],
         ];
 
-        if ($validasi['tte'] == 1) {
+        if ($validasi['tte'] == StatusEnum::YA) {
             $validasi['footer_surat_tte'] = $request['footer_surat_tte'];
             $validasi['tte_api']          = alamat_web($request['tte_api']);
             $validasi['tte_username']     = $request['tte_username'];

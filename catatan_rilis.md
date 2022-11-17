@@ -47,3 +47,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. BaseModel dan Observer.
 3. Penyesuaian Pengaturan aplikasi.
 4. Penambahan BaseEnum.
+5. Pindahkan pengaturan font surat ke pengaturan aplikasi.
