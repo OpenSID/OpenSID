@@ -39,6 +39,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 33. [#1616](https://github.com/OpenSID/premium/issues/1616) Perbaikan cek kepala desa baru ketika aktifkan kembali kepala desa lama.
 34. [#1615](https://github.com/OpenSID/premium/issues/1615) Perbaikan urutan utama untuk perangkat desa kades & sekdes.
 35. [#5992](https://github.com/OpenSID/OpenSID/issues/5992) Perbaikan ganti penggunaan JSON_VALUE pada layanan mandiri.
+36. [#5991](https://github.com/OpenSID/OpenSID/issues/5991) Perbaikan pada fungsi konsep pada surat TinyMCE.
 
 #### Perubahan Teknis
 
