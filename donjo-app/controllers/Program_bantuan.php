@@ -85,7 +85,7 @@ class Program_bantuan extends Admin_Controller
         }
 
         $data                 = $this->program_bantuan_model->get_program($p, false);
-        $data['list_sasaran'] = SasaranEnum::DAFTAR;
+        $data['list_sasaran'] = SasaranEnum::all();
         $data['func']         = 'index';
         $data['per_page']     = $this->session->per_page;
         $data['set_page']     = $this->_set_page;
@@ -109,7 +109,7 @@ class Program_bantuan extends Admin_Controller
         }
 
         $data['form_action']  = site_url('program_bantuan/add_peserta/' . $program_id);
-        $data['list_sasaran'] = SasaranEnum::DAFTAR;
+        $data['list_sasaran'] = SasaranEnum::all();
 
         $this->render('program_bantuan/form', $data);
     }
@@ -138,7 +138,7 @@ class Program_bantuan extends Admin_Controller
         $data['program']      = $this->program_bantuan_model->get_program($p, $program_id);
         $data['keyword']      = $this->program_bantuan_model->autocomplete($program_id, $this->input->post('cari'));
         $data['paging']       = $data['program'][0]['paging'];
-        $data['list_sasaran'] = SasaranEnum::DAFTAR;
+        $data['list_sasaran'] = SasaranEnum::all();
         $data['p']            = $p;
         $data['func']         = "detail/{$program_id}";
         $data['per_page']     = $this->session->per_page;

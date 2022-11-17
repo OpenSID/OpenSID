@@ -95,7 +95,7 @@ class Admin_pembangunan extends Admin_Controller
 
         $data['list_lokasi']  = $this->wilayah_model->list_semua_wilayah();
         $data['sumber_dana']  = $this->referensi_model->list_ref(SUMBER_DANA);
-        $data['satuan_waktu'] = SatuanWaktuEnum::DAFTAR;
+        $data['satuan_waktu'] = SatuanWaktuEnum::all();
 
         $this->render(ADMIN . '/pembangunan/form', $data);
     }
