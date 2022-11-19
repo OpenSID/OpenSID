@@ -88,7 +88,7 @@ class SettingAplikasi extends BaseModel
                 }
             }
 
-            return $list_tema;
+            return array_combine($list_tema, $list_tema);
         }
         if ($this->attributes['jenis'] == 'option' && $this->attributes['key'] == 'tampilan_anjungan_slider') {
             return Galeri::whereParrent(Galeri::PARRENT)->whereEnabled(StatusEnum::YA)->pluck('nama', 'id');

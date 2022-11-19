@@ -102,8 +102,8 @@ abstract class BaseEnum
     /**
      * Get value of the given key
      *
-     * @param mixed|null $default
-     * @param mixed      $key
+     * @param mixed $key
+     * @param mixed $default
      *
      * @return mixed|null
      */
@@ -131,8 +131,8 @@ abstract class BaseEnum
     /**
      * Get only the first related key of the given value
      *
-     * @param null  $default
      * @param mixed $value
+     * @param mixed $default
      *
      * @return mixed|null
      */

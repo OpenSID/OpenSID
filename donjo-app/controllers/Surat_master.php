@@ -492,14 +492,15 @@ class Surat_master extends Admin_Controller
 
     public function preview()
     {
-        $setting_footer    = setting('footer_surat');
-        $setting_header    = setting('header_surat');
-        $footer            = setting('tte') == 1 ? setting('footer_surat_tte') : $setting_footer;
-        $data['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $footer);
+        $setting_header    = $this->request['header'] == StatusEnum::YA ? setting('header_surat') : '';
+        $setting_footer    = $this->request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
+        $data['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
-        $sex             = $this->request['individu_sex'] ?: 1;
-        $status_dasar    = $this->request['individu_status_dasar'] ?: 1;
-        $data['id_pend'] = Penduduk::where('status_dasar', $status_dasar)->where('sex', $sex)->first('id')->id;
+        $data['id_pend'] = Penduduk::filters([
+            'sex'          => $this->request['individu_sex'],
+            'status_dasar' => $this->request['individu_status_dasar'],
+        ])->first('id')
+        ->id;
 
         if (! $data['id_pend']) {
             redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
@@ -515,8 +516,8 @@ class Surat_master extends Admin_Controller
         // Pisahkan isian surat
         $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);
         $isi        = explode('<!-- pagebreak -->', $isi_surat);
-        $backtop    = (((float) setting('tinggi_header')) * 10) . 'mm';
-        $backbottom = (((float) setting('tinggi_footer')) * 10) . 'mm';
+        $backtop    = $this->request['header'] == 0 ? 0 : (((float) setting('tinggi_header')) * 10) . 'mm';
+        $backbottom = $this->request['footer'] == 0 ? 0 : (((float) setting('tinggi_footer')) * 10) . 'mm';
 
         $isi_cetak = '
             <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">
@@ -578,31 +579,11 @@ class Surat_master extends Admin_Controller
             } elseif (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
                 $result = str_replace($key, $value, $result);
             } else {
-                $result = $this->caseReplace($key, $value, $result);
+                $result = case_replace($key, $value, $result);
             }
         }
 
         return $result;
-    }
-
-    public function caseReplace($dari, $ke, $str)
-    {
-        $replacer = static function ($matches) use ($ke) {
-            $matches = array_map(static function ($match) {
-                return preg_replace('/[\\[\\]]/', '', $match);
-            }, $matches);
-            if (ctype_upper($matches[0][0]) && ctype_upper($matches[0][1])) {
-                return strtoupper($ke);
-            }
-            if (ctype_upper($matches[0][0])) {
-                return ucwords($ke);
-            }
-
-            return strtolower($ke);
-        };
-        $dari = str_replace('[', '\\[', $dari);
-
-        return preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
     }
 
     public function ekspor()
