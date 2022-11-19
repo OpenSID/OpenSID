@@ -1,6 +1,6 @@
 Di rilis ini, versi 22.11-premium-rev03 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [isi disini] yang terus berkontribusi.
+Terima kasih pada @ruririzal yang terus berkontribusi.
 
 #### Perbaikan BUG
 
@@ -40,6 +40,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 34. [#1615](https://github.com/OpenSID/premium/issues/1615) Perbaikan urutan utama untuk perangkat desa kades & sekdes.
 35. [#5992](https://github.com/OpenSID/OpenSID/issues/5992) Perbaikan ganti penggunaan JSON_VALUE pada layanan mandiri.
 36. [#5991](https://github.com/OpenSID/OpenSID/issues/5991) Perbaikan pada fungsi konsep pada surat TinyMCE.
+37. [#5982](https://github.com/OpenSID/OpenSID/issues/5982) Perbaikan pencarian pada fitur stunting yang tidak berfungsi.
 
 #### Perubahan Teknis
 
