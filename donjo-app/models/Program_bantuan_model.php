@@ -610,21 +610,25 @@ class Program_bantuan_model extends MY_Model
     {
         if ($slug === false) {
             //Query untuk expiration status, jika end date sudah melebihi dari datenow maka status otomatis menjadi tidak aktif
-            $expirySQL   = 'UPDATE program SET status = IF(edate < CURRENT_DATE(), 0, IF(edate > CURRENT_DATE(), 1, status)) WHERE status IS NOT NULL';
-            $expiryQuery = $this->db->query($expirySQL);
+            $expirySQL = 'UPDATE program SET status = IF(edate < CURRENT_DATE(), 0, IF(edate > CURRENT_DATE(), 1, status)) WHERE status IS NOT NULL';
+            $this->db->query($expirySQL);
 
             $response['paging'] = $this->paging_bantuan($p);
 
             $this->sasaran_sql();
 
             $data = $this->db
-                ->select('COUNT(v.id) AS jml_peserta, p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana')
+                ->select('p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana')
                 ->from('program p')
-                ->join('program_peserta v', 'p.id = v.program_id', 'left')
                 ->group_by('p.id')
                 ->limit($response['paging']->per_page, $response['paging']->offset)
-                ->get()->result_array();
-            $response['program'] = $data;
+                ->get()
+                ->result_array();
+            $response['program'] = collect($data)->map(function ($item, $key) {
+                $item['jml_peserta'] = $this->db->query($this->get_peserta_sql($item['id'], (int) $item['sasaran'], true))->row_array()['jumlah'];
+
+                return $item;
+            });
 
             return $response;
         }

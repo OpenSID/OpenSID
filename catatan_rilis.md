@@ -42,6 +42,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 36. [#5991](https://github.com/OpenSID/OpenSID/issues/5991) Perbaikan pada fungsi konsep pada surat TinyMCE.
 37. [#5982](https://github.com/OpenSID/OpenSID/issues/5982) Perbaikan pencarian pada fitur stunting yang tidak berfungsi.
 38. [#5981](https://github.com/OpenSID/OpenSID/issues/5981) Perbaikan penanda tangan yang tidak tampil di lampiran surat.
+39. [#5932](https://github.com/OpenSID/OpenSID/issues/5932) Perbaikan jumlah program bantuan yang tidak sama dengan isi bantuan.
 
 #### Perubahan Teknis
 
