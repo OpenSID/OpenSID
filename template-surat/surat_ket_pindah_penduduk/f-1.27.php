@@ -482,7 +482,7 @@
 			</tr>
 			<tr>
 				<td>Petugas Registrasi</td>
-				<td><?= $this->penandatangan_lampiran($data); ?></td>
+				<td><?= $penandatangan['atas_nama'] ?></td>
 				<td></td>
 			</tr>
 			<tr style="font-size: 20mm; line-height: normal;">
@@ -492,7 +492,7 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td><?= $input['pamong'] ?></td>
+				<td><?= $penandatangan['nama'] ?></td>
 				<td><?= $individu['nama'] ?></td>
 			</tr>
 			<tr>

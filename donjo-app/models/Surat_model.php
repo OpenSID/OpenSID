@@ -771,7 +771,7 @@ class Surat_model extends CI_Model
         // Untuk lampiran
         if (null === $buffer) {
             return [
-                'atas_nama' => $atas_nama,
+                'atas_nama' => str_replace('\par', '<br>', $atas_nama),
                 'jabatan'   => $jabatan,
                 'nama'      => $nama_pamong,
                 'nip'       => $nip_pamong,
@@ -801,12 +801,6 @@ class Surat_model extends CI_Model
         $buffer = str_replace('[pamong_nip]', $nip, $buffer);
 
         return str_replace('[form_pamong_nip]', $pamong_nip, $buffer);
-    }
-
-    // Fuction ini di include ke lampiran
-    private function penandatangan_lampiran($data)
-    {
-        return str_replace('\par', '<br>', $this->atas_nama($data)['atas_nama']);
     }
 
     public function surat_rtf($data)
@@ -1072,15 +1066,17 @@ class Surat_model extends CI_Model
 
     public function lampiran($data, $nama_surat, &$lampiran)
     {
-        $surat           = $data['surat'];
-        $config          = $data['config'];
-        $individu        = $data['individu'];
-        $input           = $data['input'];
-        $input['pamong'] = $this->atas_nama($data)['nama'];
+        $surat    = $data['surat'];
+        $config   = $data['config'];
+        $individu = $data['individu'];
+        $input    = $data['input'];
 
         if (! $surat['lampiran']) {
             return;
         }
+
+        // Data penandatangan terpilih
+        $penandatangan = $this->atas_nama($data);
 
         // $lampiran_surat dalam bentuk seperti "f-1.08.php, f-1.25.php, f-1.27.php"
         $daftar_lampiran = explode(',', $surat['lampiran']);

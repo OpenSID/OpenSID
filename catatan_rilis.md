@@ -41,6 +41,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 35. [#5992](https://github.com/OpenSID/OpenSID/issues/5992) Perbaikan ganti penggunaan JSON_VALUE pada layanan mandiri.
 36. [#5991](https://github.com/OpenSID/OpenSID/issues/5991) Perbaikan pada fungsi konsep pada surat TinyMCE.
 37. [#5982](https://github.com/OpenSID/OpenSID/issues/5982) Perbaikan pencarian pada fitur stunting yang tidak berfungsi.
+38. [#5981](https://github.com/OpenSID/OpenSID/issues/5981) Perbaikan penanda tangan yang tidak tampil di lampiran surat.
 
 #### Perubahan Teknis
 
