@@ -119,8 +119,14 @@ class Rtm_model extends MY_Model
 
     public function add_anggota($id)
     {
-        $data   = $this->input->post('id_cb');
-        $no_rtm = $this->db->select('no_kk')
+        $data = $this->input->post('id_cb');
+        $nik  = $this->input->post('nik');
+        if (! $data && ! $nik) {
+            return session_error('Tidak ada anggota yang dipilih');
+        }
+
+        $no_rtm = $this->db
+            ->select('no_kk')
             ->where('id', $id)
             ->get('tweb_rtm')
             ->row()
@@ -131,7 +137,12 @@ class Rtm_model extends MY_Model
         $temp['updated_at'] = date('Y-m-d H:i:s');
         $temp['updated_by'] = $this->session->user;
 
-        $this->db->where_in('id', $data);
+        if ($data) {
+            $this->db->where_in('id', $data);
+        } else {
+            $this->db->where('nik', $nik);
+        }
+
         $outp = $this->db->update('tweb_penduduk', $temp);
 
         status_sukses($outp); //Tampilkan Pesan
@@ -215,32 +226,14 @@ class Rtm_model extends MY_Model
         return Config::first()->kode_desa;
     }
 
-    /**
-     * List penduduk lepas.
-     *
-     * @param mixed $id_kk ID KK (penduduk)
-     * @param mixed $id    ID RTM (rumah tangga)
-     *
-     * @return array
-     */
-    public function list_penduduk_lepas($id_kk = null, $id = null)
+    public function list_penduduk_lepas()
     {
-        $query = $this->db->select('p.id, p.id_kk, p.nik, p.nama, h.nama as kk_level')
-            ->from('penduduk_hidup p')
-            ->join('keluarga_aktif k', 'p.id_kk = k.id', 'left')
-            ->join(' tweb_penduduk_hubungan h', 'p.kk_level = h.id', 'left')
-            ->join('tweb_rtm r', 'p.id_rtm = r.no_kk', 'left')
-            ->where('(status = 1 or status = 3) and status_dasar = 1 and (id_rtm = 0 OR id_rtm is null)');
-
-        if (! empty($id_kk)) {
-            $query->where('p.id_kk', $id_kk);
-        }
-
-        if (! empty($id)) {
-            $query->or_where('r.id', $id);
-        }
-
-        $data = $query->get()->result_array();
+        $sql = 'SELECT p.id, p.nik, p.nama, h.nama as kk_level
+			FROM penduduk_hidup p
+			LEFT JOIN tweb_penduduk_hubungan h ON p.kk_level = h.id
+			WHERE (status = 1 OR status = 3) AND status_dasar = 1 AND (id_rtm = 0 OR id_rtm IS NULL)';
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
 
         $no = 0;
 
@@ -249,7 +242,6 @@ class Rtm_model extends MY_Model
             $no++;
             $data[$i]['no']     = $no;
             $data[$i]['alamat'] = 'Alamat :' . $data[$i]['nama'];
-            $data[$i]['nama']   = '' . $data[$i]['nama'] . ' - ' . $data[$i]['kk_level'] . '';
         }
 
         return $data;

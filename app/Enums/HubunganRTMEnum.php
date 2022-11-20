@@ -35,77 +35,21 @@
  *
  */
 
-namespace App\Models;
+namespace App\Enums;
 
-class Keluarga extends BaseModel
+class HubunganRTMEnum extends BaseEnum
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'tweb_keluarga';
+    public const KEPALA_RUMAH_TANGGA = 1;
+    public const ANGGOTA             = 2;
 
     /**
-     * The timestamps for the model.
-     *
-     * @var bool
+     * Override method all()
      */
-    public $timestamps = false;
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * {@inheritDoc}
-     */
-    protected $with = [
-        'wilayah',
-    ];
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function kepalaKeluarga()
+    public static function all(): array
     {
-        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala');
-    }
-
-    /**
-     * Define a one-to-many relationship.
-     *
-     * @return HasMany
-     */
-    public function anggota()
-    {
-        return $this->hasMany(Penduduk::class, 'id_kk')->orderBy('kk_level');
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function Wilayah()
-    {
-        return $this->belongsTo(Wilayah::class, 'id_cluster');
-    }
-
-    /**
-     * Scope query untuk status keluarga
-     *
-     * @return Builder
-     */
-    public function scopeStatus()
-    {
-        return static::whereHas('kepalaKeluarga', static function ($query) {
-            $query->status()->where('kk_level', '1');
-        });
+        return [
+            self::KEPALA_RUMAH_TANGGA => 'Kepala Rumah Tangga',
+            self::ANGGOTA             => 'Anggota',
+        ];
     }
 }

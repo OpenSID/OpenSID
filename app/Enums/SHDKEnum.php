@@ -35,77 +35,39 @@
  *
  */
 
-namespace App\Models;
+namespace App\Enums;
 
-class Keluarga extends BaseModel
+class SHDKEnum extends BaseEnum
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'tweb_keluarga';
+    public const KEPALA_KELUARGA = 1;
+    public const SUAMI           = 2;
+    public const ISTRI           = 3;
+    public const ANAK            = 4;
+    public const MENANTU         = 5;
+    public const CUCU            = 6;
+    public const ORANGTUA        = 7;
+    public const MERTUA          = 8;
+    public const FAMILI_LAIN     = 9;
+    public const PEMBANTU        = 10;
+    public const LAINNYA         = 11;
 
     /**
-     * The timestamps for the model.
-     *
-     * @var bool
+     * Override method all()
      */
-    public $timestamps = false;
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * {@inheritDoc}
-     */
-    protected $with = [
-        'wilayah',
-    ];
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function kepalaKeluarga()
+    public static function all(): array
     {
-        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala');
-    }
-
-    /**
-     * Define a one-to-many relationship.
-     *
-     * @return HasMany
-     */
-    public function anggota()
-    {
-        return $this->hasMany(Penduduk::class, 'id_kk')->orderBy('kk_level');
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function Wilayah()
-    {
-        return $this->belongsTo(Wilayah::class, 'id_cluster');
-    }
-
-    /**
-     * Scope query untuk status keluarga
-     *
-     * @return Builder
-     */
-    public function scopeStatus()
-    {
-        return static::whereHas('kepalaKeluarga', static function ($query) {
-            $query->status()->where('kk_level', '1');
-        });
+        return [
+            self::KEPALA_KELUARGA => 'KEPALA KELUARGA',
+            self::SUAMI           => 'SUAMI',
+            self::ISTRI           => 'ISTRI',
+            self::ANAK            => 'ANAK',
+            self::MENANTU         => 'MENANTU',
+            self::CUCU            => 'CUCU',
+            self::ORANGTUA        => 'ORANGTUA',
+            self::MERTUA          => 'MERTUA',
+            self::FAMILI_LAIN     => 'FAMILI LAIN',
+            self::PEMBANTU        => 'PEMBANTU',
+            self::LAINNYA         => 'LAINNYA',
+        ];
     }
 }

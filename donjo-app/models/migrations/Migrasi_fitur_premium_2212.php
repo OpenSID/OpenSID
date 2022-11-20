@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\HubunganRTMEnum;
 use App\Models\RefJabatan;
 use Illuminate\Support\Facades\DB;
 
@@ -55,6 +56,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->migrasi_2022111653($hasil);
         $hasil = $hasil && $this->migrasi_2022111654($hasil);
         $hasil = $hasil && $this->migrasi_2022111751($hasil);
+        $hasil = $hasil && $this->migrasi_2022111851($hasil);
 
         return $hasil && true;
     }
@@ -446,6 +448,25 @@ class Migrasi_fitur_premium_2212 extends MY_model
                 'jenis'    => 'option',
                 'kategori' => 'format_surat',
             ]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022111851($hasil)
+    {
+        // Perbaiki data penduduk untuk data kepala rtm berdasarkan data tweb_rtm
+        $daftar_rtm = DB::table('tweb_rtm')->get(['nik_kepala', 'no_kk']);
+
+        if ($daftar_rtm) {
+            foreach ($daftar_rtm as $key => $value) {
+                DB::table('tweb_penduduk')
+                    ->where('id', '=', $value->nik_kepala)
+                    ->update([
+                        'id_rtm'    => $value->no_kk,
+                        'rtm_level' => HubunganRTMEnum::KEPALA_RUMAH_TANGGA,
+                    ]);
+            }
+        }
 
         return $hasil;
     }
