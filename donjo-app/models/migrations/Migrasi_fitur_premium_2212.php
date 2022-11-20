@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\HubunganRTMEnum;
+use App\Models\RefJabatan;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -51,10 +53,13 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->migrasi_2022110771($hasil);
         $hasil = $hasil && $this->migrasiPengaturanAplikasi($hasil);
         $hasil = $hasil && $this->migrasi_2022110951($hasil);
-        $hasil = $hasil && $this->migrasi_2022111654($hasil);
 
         // Modul DTKS
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_dtks');
+        $hasil = $hasil && $this->migrasi_2022111653($hasil);
+        $hasil = $hasil && $this->migrasi_2022111654($hasil);
+        $hasil = $hasil && $this->migrasi_2022111751($hasil);
+        $hasil = $hasil && $this->migrasi_2022111851($hasil);
 
         return $hasil && true;
     }
@@ -386,7 +391,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022111654($hasil)
+    protected function migrasi_2022111653($hasil)
     {
         if (!$this->db->field_exists('ip_address', 'pengaduan')) {
             $hasil = $hasil && $this->dbforge->add_column('pengaduan', [
@@ -397,6 +402,73 @@ class Migrasi_fitur_premium_2212 extends MY_model
                     'after'      => 'foto',
                 ],
             ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022111654($hasil)
+    {
+        // Perbarui urutan pamong kades
+        DB::table('tweb_desa_pamong')
+            ->where('jabatan_id', RefJabatan::KADES)
+            ->update([
+                'urut' => 1,
+            ]);
+
+        // Perbarui urutan pamong sekdes
+        DB::table('tweb_desa_pamong')
+            ->where('jabatan_id', RefJabatan::SEKDES)
+            ->update([
+                'urut' => 2,
+            ]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022111751($hasil)
+    {
+        // Pindahkan pengaturan Font dari menggunakan Enum ke pengaturan option
+        DB::table('setting_aplikasi')
+            ->where('key', 'font_surat')
+            ->whereNull('option')
+            ->update([
+                'option' => json_encode([
+                    'Andale Mono',
+                    'Arial',
+                    'Arial Black',
+                    'Bookman Old Style',
+                    'Comic Sans MS',
+                    'Courier New',
+                    'Georgia',
+                    'Helvetica',
+                    'Impact',
+                    'Tahoma',
+                    'Times New Roman',
+                    'Trebuchet MS',
+                    'Verdana',
+                ]),
+                'jenis'    => 'option',
+                'kategori' => 'format_surat',
+            ]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022111851($hasil)
+    {
+        // Perbaiki data penduduk untuk data kepala rtm berdasarkan data tweb_rtm
+        $daftar_rtm = DB::table('tweb_rtm')->get(['nik_kepala', 'no_kk']);
+
+        if ($daftar_rtm) {
+            foreach ($daftar_rtm as $key => $value) {
+                DB::table('tweb_penduduk')
+                    ->where('id', '=', $value->nik_kepala)
+                    ->update([
+                        'id_rtm'    => $value->no_kk,
+                        'rtm_level' => HubunganRTMEnum::KEPALA_RUMAH_TANGGA,
+                    ]);
+            }
         }
 
         return $hasil;

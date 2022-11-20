@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.11-premium-beta01 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.11-premium-beta02 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ruririzal yang terus berkontribusi.
 
@@ -39,9 +39,22 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 29. [#5979](https://github.com/OpenSID/OpenSID/issues/5979) Perbaikan footer surat TinyMCE.
 30. [#5964](https://github.com/OpenSID/OpenSID/issues/5964) Perbaikan jumlah surat di dashboard dengan yang ada di arsip surat.
 31. [#208](https://github.com/OpenSID/wiki-layanan-opendesa/issues/208) Perbaikan cetak nota ketika status sudah verifikasi.
+32. [#5996](https://github.com/OpenSID/OpenSID/issues/5996) Perbaikan update pengaturan TTE.
+33. [#1616](https://github.com/OpenSID/premium/issues/1616) Perbaikan cek kepala desa baru ketika aktifkan kembali kepala desa lama.
+34. [#1615](https://github.com/OpenSID/premium/issues/1615) Perbaikan urutan utama untuk perangkat desa kades & sekdes.
+35. [#5992](https://github.com/OpenSID/OpenSID/issues/5992) Perbaikan ganti penggunaan JSON_VALUE pada layanan mandiri.
+36. [#5991](https://github.com/OpenSID/OpenSID/issues/5991) Perbaikan pada fungsi konsep pada surat TinyMCE.
+37. [#5982](https://github.com/OpenSID/OpenSID/issues/5982) Perbaikan pencarian pada fitur stunting yang tidak berfungsi.
+38. [#5981](https://github.com/OpenSID/OpenSID/issues/5981) Perbaikan penanda tangan yang tidak tampil di lampiran surat.
+39. [#5932](https://github.com/OpenSID/OpenSID/issues/5932) Perbaikan jumlah program bantuan yang tidak sama dengan isi bantuan.
+40. [#5990](https://github.com/OpenSID/OpenSID/issues/5990) Perbaikan review konsep surat TinyMCE.
+41. [#6000](https://github.com/OpenSID/OpenSID/issues/6000) Perbaikan ubah nama buku peraturan desa menjadi buku peraturan di desa beserta output cetaknya.
+42. [#5966](https://github.com/OpenSID/OpenSID/issues/5966) Perbaikan data rumah tangga yang hilang karena.
 
 #### Perubahan Teknis
 
 1. Hapus coding tidak digunakan.
 2. BaseModel dan Observer.
 3. Penyesuaian Pengaturan aplikasi.
+4. Penambahan BaseEnum.
+5. Pindahkan pengaturan font surat ke pengaturan aplikasi.

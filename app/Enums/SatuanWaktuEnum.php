@@ -37,16 +37,23 @@
 
 namespace App\Enums;
 
-class SatuanWaktuEnum
+class SatuanWaktuEnum extends BaseEnum
 {
     public const HARI   = 1;
     public const MINGGU = 2;
     public const BULAN  = 3;
     public const TAHUN  = 4;
-    public const DAFTAR = [
-        self::HARI   => 'Hari',
-        self::MINGGU => 'Minggu',
-        self::BULAN  => 'Bulan',
-        self::TAHUN  => 'Tahun',
-    ];
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
+    {
+        return [
+            self::HARI   => 'Hari',
+            self::MINGGU => 'Minggu',
+            self::BULAN  => 'Bulan',
+            self::TAHUN  => 'Tahun',
+        ];
+    }
 }

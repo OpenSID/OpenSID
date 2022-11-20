@@ -79,7 +79,7 @@ class Teks_berjalan_model extends MY_Model
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']        = $i + 1;
             $data[$i]['tautan']    = menu_slug('artikel/' . $data[$i]['tautan']);
-            $data[$i]['tampilkan'] = SistemEnum::DAFTAR[$data[$i]['tipe']];
+            $data[$i]['tampilkan'] = SistemEnum::valueOf($data[$i]['tipe']);
         }
 
         return $data;

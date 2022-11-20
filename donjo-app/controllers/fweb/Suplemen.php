@@ -61,7 +61,7 @@ class Suplemen extends Web_Controller
         $data            = $this->includes;
         $data['main']    = $this->suplemen_model->get_rincian(0, $id);
         $data['title']   = 'Data Suplemen ' . $data['main']['suplemen']['nama'];
-        $data['sasaran'] = SasaranEnum::DAFTAR;
+        $data['sasaran'] = SasaranEnum::all();
 
         $this->_get_common_data($data);
         $this->set_template('layouts/suplemen.tpl.php');
