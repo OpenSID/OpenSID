@@ -240,7 +240,7 @@
                     `<div class="form-group col-sm-6 no-padding">` +
                         `<label class="control-label" for="pilihan_5_{no}_tahun">Tahun</label>` +
                         `<select class="form-control select2 input-sm" id="pilihan_5_{no}_tahun" name="pilihan[5][{no}_tahun]" style="width:100%;">` +
-                            `<option disabled selected value="">-- Pilih --</option>` +
+                            `<option selected value="">-- Pilih --</option>` +
                             option_tahun_program +
                         `</select>` +
                     `</div>` +
