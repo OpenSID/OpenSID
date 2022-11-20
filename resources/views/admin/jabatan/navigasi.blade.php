@@ -36,7 +36,7 @@
                     href="{{ site_url('bumindes_inventaris_kekayaan') }}">{{ SebutanDesa('Buku Inventaris dan Kekayaan [Desa]') }}</a>
             </li>
             <li class="@active($selected_nav == 'pengurus')"><a
-                    href="{{ site_url('pengurus') }}">{{ SebutanDesa('Buku Aparat Pemerintah [Desa]') }}</a></li>
+                    href="{{ site_url('pengurus') }}">{{ 'Buku ' . ucwords(setting('sebutan_pemerintah_desa')) }}</a></li>
             <li class="@active($selected_nav == 'tanah_kas')"><a
                     href="{{ site_url('bumindes_tanah_kas_desa/clear') }}">{{ SebutanDesa('Buku Tanah Kas [Desa]') }}</a>
             </li>

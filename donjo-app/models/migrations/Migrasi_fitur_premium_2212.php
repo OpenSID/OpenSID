@@ -60,6 +60,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->migrasi_2022111654($hasil);
         $hasil = $hasil && $this->migrasi_2022111751($hasil);
         $hasil = $hasil && $this->migrasi_2022112051($hasil);
+        $hasil = $hasil && $this->migrasi_2022112071($hasil);
 
         return $hasil && true;
     }
@@ -470,6 +471,22 @@ class Migrasi_fitur_premium_2212 extends MY_model
                     ]);
             }
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022112071($hasil)
+    {
+        $hasil = $hasil && $this->tambah_setting([
+            'key'        => 'sebutan_pemerintah_desa',
+            'value'      => 'Pemerintah ' . ucwords(setting('sebutan_desa')),
+            'keterangan' => 'Sebutan Pemerintah Desa',
+            'kategori'   => 'Pemerintah Desa',
+        ]);
+
+        return $hasil && $this->ubah_modul(18, [
+            'modul' => '[Pemerintah Desa]',
+        ]);
 
         return $hasil;
     }

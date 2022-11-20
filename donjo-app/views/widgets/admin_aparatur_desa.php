@@ -23,7 +23,7 @@
                     <div class="jumbotron">
                       <p>Widget Aparatur Desa menampilkan foto staf pemerintah desa. Klik tombol berikut untuk mengubah data aparatur desa, termasuk foto staf pemerintah desa</p>
                       <a class="btn btn-primary btn-large" href="<?= site_url('pengurus/clear')?>">
-                        Pemerintah Desa
+                        <?= ucwords(setting('sebutan_pemerintah_desa')) ?>
                       </a>
                     </div>
                   </div>

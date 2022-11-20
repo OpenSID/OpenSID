@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>BUKU DATA APARAT PEMERINTAHAN DESA</title>
+		<title>BUKU DATA <?= strtoupper(setting('sebutan_pemerintah_desa')) ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
@@ -21,7 +21,7 @@
 		<!-- Print Body -->
 			<div id="body">
 				<div align="center">
-					<h3> BUKU DATA APARAT PEMERINTAHAN <?= strtoupper($this->setting->sebutan_desa) ?> </h3>
+					<h3> BUKU DATA <?= strtoupper(setting('sebutan_pemerintah_desa')) ?> </h3>
 				</div>
 				<table>
 					<col span="12" style="width: 7.75%;">

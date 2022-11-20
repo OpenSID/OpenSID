@@ -28,7 +28,7 @@
       <li class="<?php compared_return($selected_nav, 'peraturan', 'active'); ?>"><a href="<?= site_url('dokumen_sekretariat/clear/3') ?>">Buku Peraturan Di <?= ucwords($this->setting->sebutan_desa); ?></a></li>
       <li class="<?php compared_return($selected_nav, 'keputusan', 'active'); ?>"><a href="<?= site_url('dokumen_sekretariat/clear/2') ?>">Buku Keputusan <?= ucwords($this->setting->sebutan_kepala_desa); ?></a></li>
       <li class="<?php compared_return($selected_nav, 'inventaris', 'active'); ?>"><a href="<?= site_url('bumindes_inventaris_kekayaan') ?>">Buku Inventaris dan Kekayaan <?= ucwords($this->setting->sebutan_desa); ?></a></li>
-      <li class="<?php compared_return($selected_nav, 'aparat', 'active'); ?>"><a href="<?= site_url('pengurus') ?>">Buku Aparat Pemerintah <?= ucwords($this->setting->sebutan_desa); ?></a></li>
+      <li class="<?php compared_return($selected_nav, 'aparat', 'active'); ?>"><a href="<?= site_url('pengurus') ?>">Buku <?= ucwords(setting('sebutan_pemerintah_desa')) ?></a></li>
       <li class="<?php compared_return($selected_nav, 'tanah_kas', 'active'); ?>"><a href="<?= site_url('bumindes_tanah_kas_desa/clear') ?>">Buku Tanah Kas <?= ucwords($this->setting->sebutan_desa); ?></a></li>
       <li class="<?php compared_return($selected_nav, 'tanah', 'active'); ?>"><a href="<?= site_url('bumindes_tanah_desa/clear') ?>">Buku Tanah di <?= ucwords($this->setting->sebutan_desa); ?></a></li>
       <li class="<?php compared_return($selected_nav, 'agenda_keluar', 'active'); ?>"><a href="<?= site_url('surat_keluar') ?>">Buku Agenda - Surat Keluar</a></li>

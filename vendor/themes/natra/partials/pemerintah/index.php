@@ -55,7 +55,7 @@
             </div>
             <?php endforeach ?>
         <?php else: ?>
-            <h5>Pemerintah <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']) ?> tidak tersedia.</h5>
+            <h5><?= ucwords(setting('sebutan_pemerintah_desa') . ' ' . $desa['nama_desa']) ?> tidak tersedia.</h5>
         <?php endif ?>
         </div>
     </div>

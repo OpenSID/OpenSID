@@ -132,7 +132,7 @@ define('STAT_LAINNYA', serialize([
     'galeri'                  => 'Galeri',
     'pengaduan'               => 'Pengaduan',
     'data-vaksinasi'          => 'Vaksin',
-    'pemerintah'              => 'Pemerintah [Desa]',
+    'pemerintah'              => '[Pemerintah Desa]',
     'layanan-mandiri/beranda' => 'Layanan Mandiri',
 ]));
 

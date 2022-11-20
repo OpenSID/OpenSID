@@ -51,10 +51,11 @@ class Pengurus extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['pamong_model', 'penduduk_model', 'wilayah_model']);
-        $this->modul_ini     = 301;
-        $this->sub_modul_ini = 302;
-        $this->_set_page     = ['20', '50', '100'];
-        $this->_list_session = ['status', 'cari'];
+        $this->modul_ini          = 301;
+        $this->sub_modul_ini      = 302;
+        $this->_set_page          = ['20', '50', '100'];
+        $this->_list_session      = ['status', 'cari'];
+        $this->header['kategori'] = 'Pemerintah Desa';
     }
 
     public function clear()
@@ -83,7 +84,7 @@ class Pengurus extends Admin_Controller
         $data['main']            = $this->pamong_model->list_data($data['paging']->offset, $data['paging']->per_page);
         $data['keyword']         = $this->pamong_model->autocomplete();
         $data['main_content']    = 'home/pengurus';
-        $data['subtitle']        = 'Buku Aparat Pemerintah Desa';
+        $data['subtitle']        = 'Buku ' . ucwords(setting('sebutan_pemerintah_desa'));
         $data['selected_nav']    = 'aparat';
         $data['kecuali_jabatan'] = RefJabatan::EXCLUDE_DELETE;
 

@@ -5,6 +5,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 #### Penambahan Fitur
 
 1. [#5484](https://github.com/OpenSID/OpenSID/issues/5484) Penambahan fitur modul DTKS.
+2. [#5823](https://github.com/OpenSID/OpenSID/issues/5823) Penambahan fitur pengaturan sebutan aparatur desa.
 
 #### Perbaikan BUG
 

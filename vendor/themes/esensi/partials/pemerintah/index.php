@@ -33,5 +33,5 @@
         <?php endforeach ?>
     </div>
 <?php else: ?>
-    <p class="py-3">Pemerintah <?= NAMA_DESA ?> tidak tersedia.</p>
+    <p class="py-3"><?= ucwords(setting('sebutan_pemerintah_desa')) ?> tidak tersedia.</p>
 <?php endif ?>

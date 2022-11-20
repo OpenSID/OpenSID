@@ -8,7 +8,7 @@ Highcharts.chart('container', {
 	},
 
 	title: {
-		text: 'Struktur Organisasi Pemerintahan <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa'])?>'
+		text: 'Struktur Organisasi <?= ucwords(setting('sebutan_pemerintah_desa')) ?>'
 	},
 
 	accessibility: {
