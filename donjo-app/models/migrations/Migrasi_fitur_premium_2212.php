@@ -59,7 +59,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->migrasi_2022111653($hasil);
         $hasil = $hasil && $this->migrasi_2022111654($hasil);
         $hasil = $hasil && $this->migrasi_2022111751($hasil);
-        $hasil = $hasil && $this->migrasi_2022111851($hasil);
+        $hasil = $hasil && $this->migrasi_2022112051($hasil);
 
         return $hasil && true;
     }
@@ -455,7 +455,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022111851($hasil)
+    protected function migrasi_2022112051($hasil)
     {
         // Perbaiki data penduduk untuk data kepala rtm berdasarkan data tweb_rtm
         $daftar_rtm = DB::table('tweb_rtm')->get(['nik_kepala', 'no_kk']);
