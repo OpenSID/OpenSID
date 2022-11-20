@@ -301,7 +301,7 @@ class MY_Model extends CI_Model
 
         $this->load->model('migrations/' . $migrasi);
         if ($this->{$migrasi}->up()) {
-            log_message('error', 'Berhasil Jalankan ' . $migrasi);
+            log_message('notice', 'Berhasil Jalankan ' . $migrasi);
 
             $_SESSION['daftar_migrasi'][] = $migrasi;
 
