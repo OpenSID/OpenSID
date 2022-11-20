@@ -25,7 +25,7 @@
 <div class="list-group">
   <div class="box-footer no-padding col-sm-11">
     <ul class="nav nav-stacked">
-      <li class="<?php compared_return($selected_nav, 'peraturan', 'active'); ?>"><a href="<?= site_url('dokumen_sekretariat/clear/3') ?>">Buku Peraturan <?= ucwords($this->setting->sebutan_desa); ?></a></li>
+      <li class="<?php compared_return($selected_nav, 'peraturan', 'active'); ?>"><a href="<?= site_url('dokumen_sekretariat/clear/3') ?>">Buku Peraturan Di <?= ucwords($this->setting->sebutan_desa); ?></a></li>
       <li class="<?php compared_return($selected_nav, 'keputusan', 'active'); ?>"><a href="<?= site_url('dokumen_sekretariat/clear/2') ?>">Buku Keputusan <?= ucwords($this->setting->sebutan_kepala_desa); ?></a></li>
       <li class="<?php compared_return($selected_nav, 'inventaris', 'active'); ?>"><a href="<?= site_url('bumindes_inventaris_kekayaan') ?>">Buku Inventaris dan Kekayaan <?= ucwords($this->setting->sebutan_desa); ?></a></li>
       <li class="<?php compared_return($selected_nav, 'aparat', 'active'); ?>"><a href="<?= site_url('pengurus') ?>">Buku Aparat Pemerintah <?= ucwords($this->setting->sebutan_desa); ?></a></li>

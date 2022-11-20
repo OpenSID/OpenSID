@@ -44,6 +44,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 38. [#5981](https://github.com/OpenSID/OpenSID/issues/5981) Perbaikan penanda tangan yang tidak tampil di lampiran surat.
 39. [#5932](https://github.com/OpenSID/OpenSID/issues/5932) Perbaikan jumlah program bantuan yang tidak sama dengan isi bantuan.
 40. [#5990](https://github.com/OpenSID/OpenSID/issues/5990) Perbaikan review konsep surat TinyMCE.
+41. [#6000](https://github.com/OpenSID/OpenSID/issues/6000) Perbaikan ubah nama buku peraturan desa menjadi buku peraturan di desa beserta output cetaknya.
 
 #### Perubahan Teknis
 
