@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '97d2481047b604f02555cc2196e1f84cfc0d5d89',
+        'reference' => '2463ee22897ec6bf0fb6b4610293654c5681b47d',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -256,7 +256,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '97d2481047b604f02555cc2196e1f84cfc0d5d89',
+            'reference' => '2463ee22897ec6bf0fb6b4610293654c5681b47d',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
