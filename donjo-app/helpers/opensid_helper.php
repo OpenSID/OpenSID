@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.11-premium-beta02');
+define('VERSION', '22.11-premium-beta03');
 
 /**
  * VERSI_DATABASE
@@ -52,7 +52,7 @@ define('VERSION', '22.11-premium-beta02');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022112071');
+define('VERSI_DATABASE', '2022112151');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
