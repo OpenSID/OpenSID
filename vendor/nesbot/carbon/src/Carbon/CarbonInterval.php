@@ -24,6 +24,7 @@ use Carbon\Traits\IntervalRounding;
 use Carbon\Traits\IntervalStep;
 use Carbon\Traits\Mixin;
 use Carbon\Traits\Options;
+use Carbon\Traits\ToStringFormat;
 use Closure;
 use DateInterval;
 use DateTimeInterface;
@@ -188,6 +189,7 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
         Mixin::mixin as baseMixin;
     }
     use Options;
+    use ToStringFormat;
 
     /**
      * Interval spec period designators
@@ -767,6 +769,8 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
                 case 'year':
                 case 'years':
                 case 'y':
+                case 'yr':
+                case 'yrs':
                     $years += $intValue;
 
                     break;
@@ -780,6 +784,7 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
                 case 'month':
                 case 'months':
                 case 'mo':
+                case 'mos':
                     $months += $intValue;
 
                     break;
@@ -1821,7 +1826,7 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
      */
     public function __toString()
     {
-        $format = $this->localToStringFormat;
+        $format = $this->localToStringFormat ?? static::$toStringFormat;
 
         if (!$format) {
             return $this->forHumans();
