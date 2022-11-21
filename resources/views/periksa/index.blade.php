@@ -3,8 +3,10 @@
 
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Periksa Database | {{ setting('admin_title') . ' ' . ucwords(setting('sebutan_desa') . ' ' . $header['nama_desa']) }}</title>
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="robots" content="noindex">
   <link rel="shortcut icon" href="{{ favico_desa() }}"/>
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">

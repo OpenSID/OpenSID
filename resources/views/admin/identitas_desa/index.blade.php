@@ -31,12 +31,12 @@
 
 @section('title')
 <h1>
-  Identitas Desa
+  {{ SebutanDesa('Identitas [Desa]') }}
 </h1>
 @endsection
 
 @section('breadcrumb')
-<li class="active">Identitas Desa</li>
+<li class="active">{{ SebutanDesa('Identitas [Desa]') }}</li>
 @endsection
 
 @section('content')

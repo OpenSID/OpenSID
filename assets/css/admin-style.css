@@ -709,3 +709,34 @@ div.form-surat .content-header {
 #dok_warga label {
     padding-left: 10px;
 }
+
+.mailbox-read-info{
+    border-bottom: 1px solid #e6e6e6;
+    border-top: 1px solid #e6e6e6;
+}
+
+.mailbox-read-message{
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.control-sidebar {
+    right: -40%;
+    width: 40%;
+}
+
+.control-sidebar.control-sidebar-open {
+    right: 0;
+    width: 40%;
+}
+
+@media (max-width: 576px) {
+    .control-sidebar.control-sidebar-open {
+        width: 60%;
+    }
+}
+
+@media (max-width: 768px) {
+    .control-sidebar.control-sidebar-open {
+        width: 100%;
+    }
+}

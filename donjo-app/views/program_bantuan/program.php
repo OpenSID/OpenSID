@@ -73,7 +73,7 @@
 																		<?php endif ?>
 																	<?php endif ?>
 																</td>
-																<td ><a href="<?= site_url("program_bantuan/detail/{$item['id']}")?>"><?= $item['nama'] ?></a></td>
+																<td ><a href="<?= site_url("program_bantuan/detail_clear/{$item['id']}")?>"><?= $item['nama'] ?></a></td>
 																<td class="padat"><?= $item['asaldana']?></td>
 																<td class="padat"><?= $item['jml_peserta']?></td>
 																<td class="padat"><?= fTampilTgl($item['sdate'], $item['edate']); ?></td>

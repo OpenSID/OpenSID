@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Catatan Rilis Tema Natra v22.05, sbb:
 
 1. [#5131](https://github.com/OpenSID/OpenSID/issues/5131) Pisahkan Halaman statis IDM.
@@ -9,3 +10,8 @@ Catatan Rilis Tema Natra v22.05, sbb:
 7. [#100](https://github.com/OpenSID/tema-natra/issues/100) Tambahkan noindex pada halaman verifikasi surat.
 8. [#115](https://github.com/OpenSID/tema-natra/issues/115) Sesuaikan widget keuangan.
 9. [117](https://github.com/OpenSID/tema-natra/issues/117) Sesuaikan data covid.
+=======
+Catatan Rilis Tema Natra v22.06, sbb:
+
+1. [#104](https://github.com/OpenSID/tema-natra/issues/104) Sediakan tombol login admin dan layanan mandiri.
+>>>>>>> e482d3086 (rilis-22.05-premium)

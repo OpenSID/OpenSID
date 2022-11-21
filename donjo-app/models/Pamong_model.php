@@ -381,11 +381,14 @@ class Pamong_model extends CI_Model
     // Ambil data untuk widget aparatur desa
     public function list_aparatur_desa()
     {
-        $data_query = $this->db->select('dp.jabatan, dp.pamong_niap, k.status_kehadiran,
-			CASE WHEN dp.id_pend IS NULL THEN dp.foto ELSE p.foto END as foto,
-			CASE WHEN p.sex IS NOT NULL THEN p.sex ELSE dp.pamong_sex END as id_sex,
-			CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama
-			ELSE p.nama END AS nama', false)
+        $data_query = $this->db
+            ->select(
+                'dp.jabatan, dp.pamong_niap, k.status_kehadiran,
+                CASE WHEN dp.id_pend IS NULL THEN dp.foto ELSE p.foto END as foto,
+                CASE WHEN p.sex IS NOT NULL THEN p.sex ELSE dp.pamong_sex END as id_sex,
+                CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama ELSE p.nama END AS nama',
+                false
+            )
             ->from('tweb_desa_pamong dp')
             ->join('tweb_penduduk p', 'p.id = dp.id_pend', 'left')
             ->join('kehadiran_perangkat_desa k', 'k.pamong_id = dp.pamong_id', 'left')

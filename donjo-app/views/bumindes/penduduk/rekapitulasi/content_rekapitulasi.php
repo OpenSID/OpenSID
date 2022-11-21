@@ -218,15 +218,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</div>
 	</div>
 </div>
-<?php else: ?>
-	<div class="box box-info">
-		<div class="box-header with-border">
-		</div>
-		<div class="box-body">
-			<div class="alert alert-warning">
-				Buku Rekapitulasi Penduduk masih dalam proses dilengkapi.<br>
-				Buka <a href="<?=site_url('setting')?>">Pengaturan > Aplikasi</a> untuk melengkapi tanggal lengkap data.
-			</div>
-		</div>
-	</div>
-<?php endif; ?>
+<?php else:
+
+    $this->load->view('bumindes/penduduk/rekapitulasi/data_lengkap', ['judul_rekap' => 'Buku Rekapitulasi Penduduk']);
+
+endif; ?>

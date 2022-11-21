@@ -699,11 +699,6 @@ class Mandiri_model extends CI_Model
         }
     }
 
-    public function jml_mandiri()
-    {
-        return $this->db->get('tweb_penduduk_mandiri')->num_rows();
-    }
-
     //Permintaan Pendaftaran Layanan Mandiri
     public function jml_mandiri_non_aktif()
     {

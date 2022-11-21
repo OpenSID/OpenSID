@@ -229,19 +229,41 @@ class Keluarga_model extends MY_Model
         $this->list_data_sql();
 
         switch ($o) {
-            case 1: $this->db->order_by('u.no_kk'); break;
+            case 1:
+                $this->db->order_by('u.no_kk');
+                break;
 
-            case 2: $this->db->order_by('u.no_kk DESC'); break;
+            case 2:
+                $this->db->order_by('u.no_kk DESC');
+                break;
 
-            case 3: $this->db->order_by('kepala_kk'); break;
+            case 3:
+                $this->db->order_by('kepala_kk');
+                break;
 
-            case 4: $this->db->order_by('kepala_kk DESC'); break;
+            case 4:
+                $this->db->order_by('kepala_kk DESC');
+                break;
 
-            case 5: $this->db->order_by('u.tgl_daftar'); break;
+            case 5:
+                $this->db->order_by('u.tgl_daftar');
+                break;
 
-            case 6: $this->db->order_by('u.tgl_daftar DESC'); break;
+            case 6:
+                $this->db->order_by('u.tgl_daftar DESC');
+                break;
 
-            default:$this->db->order_by('u.no_kk DESC');
+            case 7:
+                $this->db->order_by('u.tgl_cetak_kk');
+                break;
+
+            case 8:
+                $this->db->order_by('u.tgl_cetak_kk DESC');
+                break;
+
+            default:
+                $this->db->order_by('u.no_kk DESC');
+                break;
         }
         $query_dasar = $this->db->get_compiled_select();
 

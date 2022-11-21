@@ -102,4 +102,21 @@ interface OTP_interface
      * @return bool
      */
     public function cek_akun_terdaftar($chat_id);
+
+    /**
+     * Kirim Pesan
+     *
+     * ```php
+     * $data = [
+     *     'tujuan' => 'conto@mail.com',
+     *     'subjek' => 'Subjek',
+     *     'isi'    => 'Isi Pesan',
+     * ];
+     * ```
+     *
+     * @throws \Exception
+     *
+     * @return bool
+     */
+    public function kirim_pesan(array $data = []);
 }

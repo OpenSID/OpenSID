@@ -117,7 +117,7 @@
 			// Reset kalau id berubah
 			if ($_POST['id_bayi'] != $_SESSION['id_bayi'])
 			{
-				$_SESSION['post']['hari']	= hari(strtotime($bayi['tanggallahir']));
+				$_SESSION['post']['hari']	= hari(strtotime($data['bayi']['tanggallahir']));
 				$_SESSION['post']['tanggallahir'] = date('d-m-Y',strtotime($data['bayi']['tanggallahir']));
 				$_SESSION['post']['waktu_lahir'] = $data['bayi']['waktu_lahir'];
 				$_SESSION['post']['tempat_dilahirkan'] = $data['bayi']['tempat_dilahirkan'];

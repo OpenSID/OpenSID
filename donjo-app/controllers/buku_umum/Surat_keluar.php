@@ -226,15 +226,16 @@ class Surat_keluar extends Admin_Controller
     /**
      * Unduh berkas scan berdasarkan kolom surat_keluar.id
      *
-     * @param int $idSuratMasuk Id berkas scan pada koloam surat_keluar.id
+     * @param int $idSuratKeluar Id berkas scan pada koloam surat_keluar.id
+     * @param int $tipe
      *
      * @return void
      */
-    public function unduh_berkas_scan($idSuratMasuk)
+    public function berkas($idSuratKeluar = 0, $tipe = 0)
     {
         // Ambil nama berkas dari database
-        $berkas = $this->surat_keluar_model->getNamaBerkasScan($idSuratMasuk);
-        ambilBerkas($berkas, 'surat_keluar', '__sid__');
+        $berkas = $this->surat_keluar_model->getNamaBerkasScan($idSuratKeluar);
+        ambilBerkas($berkas, 'surat_keluar', '__sid__', LOKASI_ARSIP, ($tipe == 1) ? true : false);
     }
 
     public function nomor_surat_duplikat()

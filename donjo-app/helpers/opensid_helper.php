@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.11');
+define('VERSION', '22.11-beta');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -51,7 +51,7 @@ define('VERSION', '22.11');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022101401');
+define('VERSI_DATABASE', '2022112101');
 
 // Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');
@@ -855,7 +855,7 @@ function namafile($str)
 {
     $tgl = date('d_m_Y');
 
-    return urlencode(underscore(strtolower($str)) . '_' . $tgl);
+    return urlencode(underscore($str, true, true) . '_' . $tgl);
 }
 
 function luas($int = 0, $satuan = 'meter')
@@ -1187,4 +1187,41 @@ function except($array, $keys)
     forget($array, $keys);
 
     return $array;
+}
+
+/**
+ * Get the directory size
+ *
+ * @param string $directory
+ *
+ * @return int
+ *
+ * https://stackoverflow.com/questions/478121/how-to-get-directory-size-in-php
+ */
+function dirSize($directory)
+{
+    $size = 0;
+
+    foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory)) as $file) {
+        $size += $file->getSize();
+    }
+
+    return $size;
+}
+
+function getSizeDB()
+{
+    $CI = &get_instance();
+
+    $query = "SELECT
+        TABLE_SCHEMA AS DB_Name,
+        count(TABLE_SCHEMA) AS total_tables,
+        SUM(TABLE_ROWS) AS total_tables_row,
+        ROUND(sum(data_length + index_length)) AS 'size'
+        FROM information_schema.TABLES
+        WHERE TABLE_SCHEMA = '{$CI->db->database}'
+        GROUP BY TABLE_SCHEMA
+    ";
+
+    return $CI->db->query($query)->row();
 }

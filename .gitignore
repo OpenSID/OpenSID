@@ -56,7 +56,7 @@ version.json
 # obfuscator
 Obfuscator.php
 make_obfuscate.php
-composer.lock
+# composer.lock
 desa-contoh/cache/*
 .htaccess
 !desa-contoh/arsip/.htaccess

@@ -810,9 +810,4 @@ class Web_dokumen_model extends MY_Model
             ->order_by('id')
             ->get()->result_array();
     }
-
-    public function jml_dokumen()
-    {
-        return $this->db->get('dokumen_hidup')->num_rows();
-    }
 }

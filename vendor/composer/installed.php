@@ -5,7 +5,11 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
+<<<<<<< HEAD
         'reference' => 'ee6ac0ddff922d349dfb405f50d872d4ce248d4b',
+=======
+        'reference' => 'd85e6ce283c347ad735df8e983b13ce0f1f366ab',
+>>>>>>> e482d3086 (rilis-22.05-premium)
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -47,12 +51,21 @@
             'dev_requirement' => false,
         ),
         'firebase/php-jwt' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v6.1.2',
             'version' => '6.1.2.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../firebase/php-jwt',
             'aliases' => array(),
             'reference' => 'c297139da7c6873dbd67cbd1093f09ec0bbd0c50',
+=======
+            'pretty_version' => 'v6.2.0',
+            'version' => '6.2.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../firebase/php-jwt',
+            'aliases' => array(),
+            'reference' => 'd28e6df83830252650da4623c78aaaf98fb385f3',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'dev_requirement' => false,
         ),
         'google/apiclient' => array(
@@ -65,12 +78,21 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v0.246.0',
             'version' => '0.246.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
             'reference' => '33aef1ccce34799a1124c39951fed8ad0b16aced',
+=======
+            'pretty_version' => 'v0.250.0',
+            'version' => '0.250.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../google/apiclient-services',
+            'aliases' => array(),
+            'reference' => '3db4c0db2a5452e623b54f06dd993c432e6d6f8c',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'dev_requirement' => false,
         ),
         'google/auth' => array(
@@ -83,12 +105,12 @@
             'dev_requirement' => false,
         ),
         'guzzlehttp/guzzle' => array(
-            'pretty_version' => '7.4.2',
-            'version' => '7.4.2.0',
+            'pretty_version' => '7.4.3',
+            'version' => '7.4.3.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../guzzlehttp/guzzle',
             'aliases' => array(),
-            'reference' => 'ac1ec1cd9b5624694c3a40be801d94137afb12b4',
+            'reference' => '74a8602c6faec9ef74b7a9391ac82c5e65b1cdab',
             'dev_requirement' => false,
         ),
         'guzzlehttp/promises' => array(
@@ -110,8 +132,13 @@
             'dev_requirement' => false,
         ),
         'illuminate/bus' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v8.83.10',
             'version' => '8.83.10.0',
+=======
+            'pretty_version' => 'v8.83.14',
+            'version' => '8.83.14.0',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'type' => 'library',
             'install_path' => __DIR__ . '/../illuminate/bus',
             'aliases' => array(),
@@ -119,8 +146,13 @@
             'dev_requirement' => false,
         ),
         'illuminate/collections' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v8.83.10',
             'version' => '8.83.10.0',
+=======
+            'pretty_version' => 'v8.83.14',
+            'version' => '8.83.14.0',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'type' => 'library',
             'install_path' => __DIR__ . '/../illuminate/collections',
             'aliases' => array(),
@@ -128,8 +160,13 @@
             'dev_requirement' => false,
         ),
         'illuminate/container' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v8.83.10',
             'version' => '8.83.10.0',
+=======
+            'pretty_version' => 'v8.83.14',
+            'version' => '8.83.14.0',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'type' => 'library',
             'install_path' => __DIR__ . '/../illuminate/container',
             'aliases' => array(),
@@ -137,8 +174,13 @@
             'dev_requirement' => false,
         ),
         'illuminate/contracts' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v8.83.10',
             'version' => '8.83.10.0',
+=======
+            'pretty_version' => 'v8.83.14',
+            'version' => '8.83.14.0',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'type' => 'library',
             'install_path' => __DIR__ . '/../illuminate/contracts',
             'aliases' => array(),
@@ -146,6 +188,7 @@
             'dev_requirement' => false,
         ),
         'illuminate/database' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v8.83.10',
             'version' => '8.83.10.0',
             'type' => 'library',
@@ -157,6 +200,19 @@
         'illuminate/events' => array(
             'pretty_version' => 'v8.83.10',
             'version' => '8.83.10.0',
+=======
+            'pretty_version' => 'v8.83.14',
+            'version' => '8.83.14.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../illuminate/database',
+            'aliases' => array(),
+            'reference' => '264976d81a37d06ad64242afa28bc8167cfd1efa',
+            'dev_requirement' => false,
+        ),
+        'illuminate/events' => array(
+            'pretty_version' => 'v8.83.14',
+            'version' => '8.83.14.0',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'type' => 'library',
             'install_path' => __DIR__ . '/../illuminate/events',
             'aliases' => array(),
@@ -164,8 +220,13 @@
             'dev_requirement' => false,
         ),
         'illuminate/filesystem' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v8.83.10',
             'version' => '8.83.10.0',
+=======
+            'pretty_version' => 'v8.83.14',
+            'version' => '8.83.14.0',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'type' => 'library',
             'install_path' => __DIR__ . '/../illuminate/filesystem',
             'aliases' => array(),
@@ -173,8 +234,13 @@
             'dev_requirement' => false,
         ),
         'illuminate/macroable' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v8.83.10',
             'version' => '8.83.10.0',
+=======
+            'pretty_version' => 'v8.83.14',
+            'version' => '8.83.14.0',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'type' => 'library',
             'install_path' => __DIR__ . '/../illuminate/macroable',
             'aliases' => array(),
@@ -182,8 +248,13 @@
             'dev_requirement' => false,
         ),
         'illuminate/pagination' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v8.83.10',
             'version' => '8.83.10.0',
+=======
+            'pretty_version' => 'v8.83.14',
+            'version' => '8.83.14.0',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'type' => 'library',
             'install_path' => __DIR__ . '/../illuminate/pagination',
             'aliases' => array(),
@@ -191,8 +262,13 @@
             'dev_requirement' => false,
         ),
         'illuminate/pipeline' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v8.83.10',
             'version' => '8.83.10.0',
+=======
+            'pretty_version' => 'v8.83.14',
+            'version' => '8.83.14.0',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'type' => 'library',
             'install_path' => __DIR__ . '/../illuminate/pipeline',
             'aliases' => array(),
@@ -200,6 +276,7 @@
             'dev_requirement' => false,
         ),
         'illuminate/support' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v8.83.10',
             'version' => '8.83.10.0',
             'type' => 'library',
@@ -211,6 +288,19 @@
         'illuminate/view' => array(
             'pretty_version' => 'v8.83.10',
             'version' => '8.83.10.0',
+=======
+            'pretty_version' => 'v8.83.14',
+            'version' => '8.83.14.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../illuminate/support',
+            'aliases' => array(),
+            'reference' => '89245b6e19017f627a35af3874ad9251b76b02cc',
+            'dev_requirement' => false,
+        ),
+        'illuminate/view' => array(
+            'pretty_version' => 'v8.83.14',
+            'version' => '8.83.14.0',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'type' => 'library',
             'install_path' => __DIR__ . '/../illuminate/view',
             'aliases' => array(),
@@ -245,21 +335,30 @@
             'dev_requirement' => false,
         ),
         'monolog/monolog' => array(
+<<<<<<< HEAD
             'pretty_version' => '2.5.0',
             'version' => '2.5.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../monolog/monolog',
             'aliases' => array(),
             'reference' => '4192345e260f1d51b365536199744b987e160edc',
+=======
+            'pretty_version' => '2.6.0',
+            'version' => '2.6.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../monolog/monolog',
+            'aliases' => array(),
+            'reference' => '247918972acd74356b0a91dfaa5adcaec069b6c0',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'dev_requirement' => false,
         ),
         'nesbot/carbon' => array(
-            'pretty_version' => '2.57.0',
-            'version' => '2.57.0.0',
+            'pretty_version' => '2.58.0',
+            'version' => '2.58.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../nesbot/carbon',
             'aliases' => array(),
-            'reference' => '4a54375c21eea4811dbd1149fe6b246517554e78',
+            'reference' => '97a34af22bde8d0ac20ab34b29d7bfe360902055',
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
@@ -268,7 +367,11 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
+<<<<<<< HEAD
             'reference' => 'ee6ac0ddff922d349dfb405f50d872d4ce248d4b',
+=======
+            'reference' => 'd85e6ce283c347ad735df8e983b13ce0f1f366ab',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
@@ -565,9 +668,13 @@
             'version' => 'dev-main',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/esensi',
+<<<<<<< HEAD
             'aliases' => array(
                 0 => '9999999-dev',
             ),
+=======
+            'aliases' => array(),
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'reference' => '2b1252e0d6eaeef312d1d74f245cf6fa4ee540a1',
             'dev_requirement' => false,
         ),
@@ -577,7 +684,11 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
+<<<<<<< HEAD
             'reference' => 'c13d6fe4ae28de019b1ce0a1e282950208c00126',
+=======
+            'reference' => 'd81fefce9d3718d0d1bef7fe5f6bd5865cdbcdb5',
+>>>>>>> e482d3086 (rilis-22.05-premium)
             'dev_requirement' => false,
         ),
         'voku/portable-ascii' => array(

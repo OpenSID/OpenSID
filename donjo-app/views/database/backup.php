@@ -10,16 +10,20 @@
 										<form class="form-horizontal">
 											<table class="table table-bordered">
 												<tbody>
+													<?php
+                                                        $sizeFolder = byte_format(dirSize(DESAPATH));
+                                                        $sizeSql    = byte_format(getSizeDB()->size);
+                                                    ?>
 													<tr>
 														<td class="col-sm-10"><b>Backup Seluruh Database SID (.sql)</b></td>
 														<td class="col-sm-2">
-															<a href="<?= site_url('database/exec_backup')?>" class="btn btn-social btn-flat btn-block btn-info btn-sm"><i class="fa fa-download"></i> Unduh Database</a>
+															<a href="<?= site_url('database/exec_backup')?>" class="btn btn-social btn-flat btn-block btn-info btn-sm" title="Perkiraan ukuran file backup sql berdasarkan jumlah tabel dan baris data adalah <?= $sizeSql ?>"><i class="fa fa-download"></i> Unduh Database <b><code><?= $sizeSql ?></code></b></a>
 														</td>
 													</tr>
 													<tr>
 														<td class="col-sm-10"><b>Backup Seluruh Folder Desa SID (.zip)</b> </td>
 														<td class="col-sm-2">
-															<a href="<?= site_url('database/desa_backup'); ?>" class="btn btn-social btn-flat btn-block btn-info btn-sm"><i class="fa fa-download"></i> Unduh Folder Desa</a>
+															<a href="<?= site_url('database/desa_backup'); ?>" class="btn btn-social btn-flat btn-block btn-info btn-sm" title="Perkiraan ukuran folder desa sebelum di compress adalah <?= $sizeFolder ?>"><i class="fa fa-download"></i> Unduh Folder Desa <b><code><?= $sizeFolder ?></code></b></a>
 														</td>
 													</tr>
 												</tbody>

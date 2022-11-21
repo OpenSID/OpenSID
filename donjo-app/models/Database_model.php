@@ -251,19 +251,16 @@ class Database_model extends MY_Model
     {
         // Paksa menjalankan migrasi kalau belum
         // Migrasi direkam di tabel migrasi
-        if (!$this->versi_database_terbaru()) {
-            if (empty($this->session->error_premium)) {
-                // Ulangi migrasi terakhir
-                $terakhir                                                                                  = key(array_slice($this->versionMigrate, -1, 1, true));
-                $sebelumnya                                                                                = key(array_slice($this->versionMigrate, -2, 1, true));
-                $this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
+        if (! $this->versi_database_terbaru()) {
+            // Ulangi migrasi terakhir
+            $terakhir                                                                                  = key(array_slice($this->versionMigrate, -1, 1, true));
+            $sebelumnya                                                                                = key(array_slice($this->versionMigrate, -2, 1, true));
+            $this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
 
-                $this->migrasi_db_cri();
-            } else {
-                // Selalu jalankan migrasi ini
-                $this->jalankan_migrasi('migrasi_layanan');
-            }
+            $this->migrasi_db_cri();
         }
+
+        $this->jalankan_migrasi('migrasi_layanan');
     }
 
     // Migrasi dengan fuction
@@ -3624,9 +3621,15 @@ class Database_model extends MY_Model
             'desa/themes',
         ];
 
+        // Kecuali folder
+        $exclude = [
+            'desa/config',
+            'desa/themes',
+        ];
+
         // Kosongkan folder desa dan copy isi folder desa-contoh
         foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
-            if (!in_array($folder, $exclude)) {
+            if (! in_array($folder, $exclude)) {
                 delete_files(FCPATH . $folder, true);
             }
         }

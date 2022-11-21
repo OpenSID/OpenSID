@@ -424,11 +424,6 @@ class Keluar_model extends CI_Model
         return $data;
     }
 
-    public function jml_surat_keluar()
-    {
-        return $this->db->select('count(*) as jml')->get('log_surat')->row()->jml;
-    }
-
     public function list_tahun_surat()
     {
         return $this->db->distinct()

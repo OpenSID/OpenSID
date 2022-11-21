@@ -45,14 +45,12 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-
         $this->load->model(['pamong_model', 'penduduk_model', 'penduduk_log_model']);
-
-        $this->modul_ini     = 301;
-        $this->sub_modul_ini = 303;
-
-        $this->_set_page     = ['10', '20', '50', '100'];
-        $this->_list_session = ['tgl_lengkap', 'filter_tahun', 'filter_bulan', 'filter', 'kode_peristiwa', 'status_dasar', 'cari', 'status', 'status_penduduk'];
+        $this->modul_ini          = 301;
+        $this->sub_modul_ini      = 303;
+        $this->header['kategori'] = 'data_lengkap';
+        $this->_set_page          = ['10', '20', '50', '100'];
+        $this->_list_session      = ['tgl_lengkap', 'filter_tahun', 'filter_bulan', 'filter', 'kode_peristiwa', 'status_dasar', 'cari', 'status', 'status_penduduk'];
     }
 
     public function index($page_number = 1, $order_by = 0)

@@ -77,12 +77,14 @@
 														<?php endif; ?>
 
 														<?php if ($o == 4): ?>
-															<th width='50%'><a href="<?= site_url("man_user/index/{$cat}/{$p}/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
+															<th><a href="<?= site_url("man_user/index/{$cat}/{$p}/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
 														<?php elseif ($o == 3): ?>
-															<th width='50%'><a href="<?= site_url("man_user/index/{$cat}/{$p}/4")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
+															<th><a href="<?= site_url("man_user/index/{$cat}/{$p}/4")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
 														<?php else: ?>
-															<th width='50%'><a href="<?= site_url("man_user/index/{$cat}/{$p}/3")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
+															<th><a href="<?= site_url("man_user/index/{$cat}/{$p}/3")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
 														<?php endif; ?>
+
+														<th>Staf</th>
 
 														<?php if ($o == 6): ?>
 															<th><a href="<?= site_url("man_user/index/{$cat}/{$p}/5")?>">Group <i class='fa fa-sort-asc fa-sm'></i></a></th>
@@ -127,9 +129,16 @@
 															<?php endif; ?>
 															<td><?=$data['username']?></td>
 															<td><?=$data['nama']?></td>
-															<td><?=$data['grup']?></td>
-															<td><?= tgl_indo($data['last_login']) ?></td>
-															<td><?= tgl_indo($data['email_verified_at']) ?></td>
+															<td class="padat">
+																<?php if ($data['pamong_id']): ?>
+																	<span class="label label-success">Staf</span>
+																<?php else: ?>
+																	<span class="label label-info">Bukan Staf</span>
+																<?php endif ?>
+															</td>
+															<td class="padat"><?= $data['grup'] ?></td>
+															<td class="padat"><?= tgl_indo($data['last_login']) ?></td>
+															<td class="padat"><?= tgl_indo($data['email_verified_at']) ?></td>
 														</tr>
 													<?php endforeach; ?>
 												</tbody>

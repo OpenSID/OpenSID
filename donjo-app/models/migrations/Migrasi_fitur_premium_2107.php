@@ -243,9 +243,9 @@ class Migrasi_fitur_premium_2107 extends MY_Model
         $this->dbforge->add_field($fields);
         $hasil = $hasil && $this->dbforge->create_table('produk', true);
 
-        $hasil = $hasil && $this->tambah_foreign_key('lapak_fk', 'produk', 'id_pelapak', 'pelapak', 'id');
+        $hasil = $hasil && $this->tambahForeignKey('lapak_fk', 'produk', 'id_pelapak', 'pelapak', 'id');
 
-        return $hasil && $this->tambah_foreign_key('produk_kategori_fk', 'produk', 'id_produk_kategori', 'produk_kategori', 'id');
+        return $hasil && $this->tambahForeignKey('produk_kategori_fk', 'produk', 'id_produk_kategori', 'produk_kategori', 'id');
     }
 
     // Menu Produk / Lapak

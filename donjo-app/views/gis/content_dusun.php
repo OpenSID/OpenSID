@@ -53,7 +53,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<div id="bodyContent">
 						<div class="card card-body">
 							<?php foreach ($list_ref as $key => $value): ?>
-								<li <?= jecho($lap, $key, 'class="active"'); ?>><a href="<?= site_url("statistik/chart_gis_dusun/{$key}/" . underscore($dusun[dusun])); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?= $wilayah . ' ' . $dusun['dusun']; ?>"><?= $value; ?></a></li>
+								<li <?= jecho($lap, $key, 'class="active"'); ?>><a href="<?= site_url("statistik/chart_gis_dusun/{$key}/" . underscore($dusun['dusun'])) ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?= $wilayah . ' ' . $dusun['dusun']; ?>"><?= $value; ?></a></li>
 							<?php endforeach; ?>
 						</div>
 					</div>
