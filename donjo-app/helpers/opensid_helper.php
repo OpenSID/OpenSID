@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.11-premium-beta02');
+define('VERSION', '22.11-premium-rev03');
 
 /**
  * VERSI_DATABASE
