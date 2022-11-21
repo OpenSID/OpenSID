@@ -53,6 +53,9 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->migrasi_2022110771($hasil);
         $hasil = $hasil && $this->migrasiPengaturanAplikasi($hasil);
         $hasil = $hasil && $this->migrasi_2022110951($hasil);
+
+        // Modul DTKS
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_dtks');
         $hasil = $hasil && $this->migrasi_2022111653($hasil);
         $hasil = $hasil && $this->migrasi_2022111654($hasil);
         $hasil = $hasil && $this->migrasi_2022111751($hasil);

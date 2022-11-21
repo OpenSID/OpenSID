@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.11-premium-rev03');
+define('VERSION', '22.11-premium-beta02');
 
 /**
  * VERSI_DATABASE
@@ -436,6 +436,25 @@ function max_upload()
     $memory_limit = (int) bilangan(ini_get('memory_limit'));
 
     return min($max_filesize, $max_post, $memory_limit);
+}
+
+function getKodeDesaFromTrackSID()
+{
+    if (session('trackSID_bps_code') && session('trackSID_bps_code') != NULL) {
+        return session('trackSID_bps_code');
+    }
+
+    $config = \App\Models\Config::first();
+    $tracker = config_item('server_pantau');
+
+    $trackSID_bps_code = getUrlContent($tracker . '/index.php/api/wilayah/kodedesa?kode=' . $config->kode_desa . '&token=' . config_item('token_pantau'));
+
+    if (!empty($trackSID_bps_code)) {
+        set_session(['trackSID_bps_code' => json_decode($trackSID_bps_code, true)]);
+        return session('trackSID_bps_code');
+    }
+
+    return null;
 }
 
 function get_external_ip()
