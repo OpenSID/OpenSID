@@ -1,10 +1,45 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 namespace App\Enums\Dtks;
 
 class Regsosek2022kEnum
 {
-    const YA_TIDAK = [
+    public const YA_TIDAK = [
         '1' => 'Ya',
         '2' => 'Tidak',
     ];
@@ -12,7 +47,7 @@ class Regsosek2022kEnum
     /**
      * return ['dtks' => [...], 'dtks_anggota' => [....]]
      */
-    public static final function getUsedFields()
+    final public static function getUsedFields()
     {
         return [
             'dtks' => [
@@ -169,11 +204,11 @@ class Regsosek2022kEnum
                 'kd_ikut_umi',
                 'kd_ikut_pip',
                 'jumlah_jamket_kerja',
-            ]
+            ],
         ];
     }
 
-    public static final function pilihanBagian1()
+    final public static function pilihanBagian1()
     {
         return ['115' => [
             '0' => '0. KK Sesuai',
@@ -182,7 +217,7 @@ class Regsosek2022kEnum
         ]];
     }
 
-    public static final function pilihanBagian2()
+    final public static function pilihanBagian2()
     {
         return [
             '205' => [
@@ -191,11 +226,11 @@ class Regsosek2022kEnum
                 '3' => '3. Tidak ada responden yang dapat memberi jawaban sampai akhir masa pendataan',
                 '4' => '4. Responden menolak',
                 '5' => '5. Keluarga pindah/bangunan sensus sudah tidak ada',
-            ]
+            ],
         ];
     }
 
-    public static final function pilihanBagian3()
+    final public static function pilihanBagian3()
     {
         $pilihan3 = [
             '301a' => [
@@ -213,7 +248,7 @@ class Regsosek2022kEnum
                 '5' => '5. Surat bukti lainnya (Girik, Letter C, dll)',
                 '6' => '6. Tidak Punya',
             ],
-            '303' =>[
+            '303' => [
                 '1' => '1. Marmer/granit',
                 '2' => '2. Keramik',
                 '3' => '3. Parket/vinil/karpet',
@@ -244,15 +279,15 @@ class Regsosek2022kEnum
                 '8' => '8. Lainnya',
             ],
             '306a' => [
-                '1' => '1. Air kemasan bermerk',
-                '2' => '2. Air isi ulang',
-                '3' => '3. Leding',
-                '4' => '4. Sumur bor/pompa',
-                '5' => '5. Sumur terlindung',
-                '6' => '6. Sumur tak terlindung',
-                '7' => '7. Mata air terlindung',
-                '8' => '8. Mata air tak terlindung',
-                '9' => '9. Air permukaan (sungai/danau/waduk/kolam/irigasi)',
+                '1'  => '1. Air kemasan bermerk',
+                '2'  => '2. Air isi ulang',
+                '3'  => '3. Leding',
+                '4'  => '4. Sumur bor/pompa',
+                '5'  => '5. Sumur terlindung',
+                '6'  => '6. Sumur tak terlindung',
+                '7'  => '7. Mata air terlindung',
+                '8'  => '8. Mata air tak terlindung',
+                '9'  => '9. Air permukaan (sungai/danau/waduk/kolam/irigasi)',
                 '10' => '10. Air hujan',
                 '11' => '11. Lainnya',
             ],
@@ -275,19 +310,20 @@ class Regsosek2022kEnum
                 '5' => '5. > 2.200 watt',
             ],
         ];
-        $pilihan3 = $pilihan3 + [
+
+        return $pilihan3 + [
             '307b2' => $pilihan3['307b1'],
             '307b3' => $pilihan3['307b1'],
-            '308' => [
-                '1' => '1. Listrik',
-                '2' => '2. Gas elpiji 5,5kg/Blue gaz',
-                '3' => '3. Gas elpiji 12 kg',
-                '4' => '4. Gas elpiji 3 kg',
-                '5' => '5. Gas kota/meteran PGN',
-                '6' => '6. Biogas',
-                '7' => '7. Minyak tanah',
-                '8' => '8. Briket',
-                '9' => '9. Arang',
+            '308'   => [
+                '1'  => '1. Listrik',
+                '2'  => '2. Gas elpiji 5,5kg/Blue gaz',
+                '3'  => '3. Gas elpiji 12 kg',
+                '4'  => '4. Gas elpiji 3 kg',
+                '5'  => '5. Gas kota/meteran PGN',
+                '6'  => '6. Biogas',
+                '7'  => '7. Minyak tanah',
+                '8'  => '8. Briket',
+                '9'  => '9. Arang',
                 '10' => '10. Kayu bakar',
                 '11' => '11. Lainnya',
                 '12' => '12. Tidak memasak di rumah',
@@ -315,11 +351,9 @@ class Regsosek2022kEnum
                 '6' => '6. Lainnya',
             ],
         ];
-
-        return $pilihan3;
     }
 
-    public static final function pilihanBagian4()
+    final public static function pilihanBagian4()
     {
         $pilihan4 = [
             '404' => [
@@ -363,15 +397,15 @@ class Regsosek2022kEnum
                 '3' => '3. Tidak bersekolah lagi',
             ],
             '413' => [
-                '1' => '01. Paket A',
-                '2' => '02. SDLB',
-                '3' => '03. SD',
-                '4' => '04. MI',
-                '5' => '05. SPM/PDF Ula',
-                '6' => '06. Paket B',
-                '7' => '07. SMP LB',
-                '8' => '08. SMP',
-                '9' => '09. MTs',
+                '1'  => '01. Paket A',
+                '2'  => '02. SDLB',
+                '3'  => '03. SD',
+                '4'  => '04. MI',
+                '5'  => '05. SPM/PDF Ula',
+                '6'  => '06. Paket B',
+                '7'  => '07. SMP LB',
+                '8'  => '08. SMP',
+                '9'  => '09. MTs',
                 '10' => '10. SPM/PDF Wustha',
                 '11' => '11. Paket C',
                 '12' => '12. SMLB',
@@ -407,15 +441,15 @@ class Regsosek2022kEnum
             ],
             // '416b' => 'int(2)',
             '417' => [
-                '1' => '01. Pertanian tanaman padi & palawija',
-                '2' => '02. Hortikultura',
-                '3' => '03. Perkebunan',
-                '4' => '04. Perikanan ',
-                '5' => '05. Peternakan',
-                '6' => '06. Kehutanan & pertanian lainnya',
-                '7' => '07. Pertambangan/penggalian',
-                '8' => '08. Industri pengolahan',
-                '9' => '09. Pengadaan listrik, gas, uap/air panas, & udara dingin',
+                '1'  => '01. Pertanian tanaman padi & palawija',
+                '2'  => '02. Hortikultura',
+                '3'  => '03. Perkebunan',
+                '4'  => '04. Perikanan ',
+                '5'  => '05. Peternakan',
+                '6'  => '06. Kehutanan & pertanian lainnya',
+                '7'  => '07. Pertambangan/penggalian',
+                '8'  => '08. Industri pengolahan',
+                '9'  => '09. Pengadaan listrik, gas, uap/air panas, & udara dingin',
                 '10' => '10. Pengelolaan air, pengelolaan air limbah, pengelolaan dan daur ulang sampah, dan aktivitas remediasi',
                 '11' => '11. Konstruksi',
                 '12' => '12. Perdagangan besar dan eceran, reparasi dan perawatan mobil dan sepeda motor',
@@ -457,15 +491,15 @@ class Regsosek2022kEnum
             // '422' => 'int(3)',
             // '423' => 'int(2)',
             '424' => [
-                '1' => '01. Surat Izin Tempat Usaha (SITU)',
-                '2' => '02. Surat Izin Usaha Perdagangan (SIUP)',
-                '3' => '03. Nomor Registrasi Perusahaan (NRP)',
-                '4' => '04. Nomor Induk Berusaha (NIB)',
-                '5' => '05. Surat Keterangan Domisili Perusahaan (SKDP)',
-                '6' => '06. Analisis Mengenai Dampak Lingkungan (Amdal)',
-                '7' => '07. Surat Izin Mendirikan Bangunan (SIMB)',
-                '8' => '08. Surat Keputusan Badan Hukum (SKBH)',
-                '9' => '09. Akta Pendirian Perseroan Terbatas (APPT)',
+                '1'  => '01. Surat Izin Tempat Usaha (SITU)',
+                '2'  => '02. Surat Izin Usaha Perdagangan (SIUP)',
+                '3'  => '03. Nomor Registrasi Perusahaan (NRP)',
+                '4'  => '04. Nomor Induk Berusaha (NIB)',
+                '5'  => '05. Surat Keterangan Domisili Perusahaan (SKDP)',
+                '6'  => '06. Analisis Mengenai Dampak Lingkungan (Amdal)',
+                '7'  => '07. Surat Izin Mendirikan Bangunan (SIMB)',
+                '8'  => '08. Surat Keputusan Badan Hukum (SKBH)',
+                '9'  => '09. Akta Pendirian Perseroan Terbatas (APPT)',
                 '10' => '10. Surat izin lainnya',
                 '11' => '11. Belum memiliki izin usaha',
                 '12' => '12. Surat Izin Gangguan',
@@ -480,11 +514,11 @@ class Regsosek2022kEnum
                 '7' => '7. &ge; 4.167 Juta (besar)',
             ],
             '426' => [
-                '0' => '00. Tidak menggunakan internet',
-                '1' => '01. Sebagai sarana komunikasi',
-                '2' => '02. Untuk mencari informasi',
-                '4' => '04. Sebagai Pemasaran/Iklan',
-                '8' => '08. Sebagai Sarana Penjualan Produk/Output',
+                '0'  => '00. Tidak menggunakan internet',
+                '1'  => '01. Sebagai sarana komunikasi',
+                '2'  => '02. Untuk mencari informasi',
+                '4'  => '04. Sebagai Pemasaran/Iklan',
+                '8'  => '08. Sebagai Sarana Penjualan Produk/Output',
                 '16' => '16. Sebagai Pembelian dan/atau Produksi',
                 '32' => '32. Lainnya',
             ],
@@ -522,15 +556,15 @@ class Regsosek2022kEnum
                 '3' => '3. Ya, Tinggal Sendiri',
             ],
             '430' => [
-                '1' => '01. Tidak Ada',
-                '2' => '02. Hipertensi (darah tinggi)',
-                '3' => '03. Rematik',
-                '4' => '04. Asma',
-                '5' => '05. Masalah jantung',
-                '6' => '06. Diabetes (kencing manis)',
-                '7' => '07. Tuberculosis (TBC)',
-                '8' => '08. Stroke',
-                '9' => '09. Kanker atau tumor ganas',
+                '1'  => '01. Tidak Ada',
+                '2'  => '02. Hipertensi (darah tinggi)',
+                '3'  => '03. Rematik',
+                '4'  => '04. Asma',
+                '5'  => '05. Masalah jantung',
+                '6'  => '06. Diabetes (kencing manis)',
+                '7'  => '07. Tuberculosis (TBC)',
+                '8'  => '08. Stroke',
+                '9'  => '09. Kanker atau tumor ganas',
                 '10' => '10. Gagal ginjal',
                 '11' => '11. Haemophilia',
                 '12' => '12. HIV/AIDS',
@@ -542,11 +576,11 @@ class Regsosek2022kEnum
                 '18' => '18. Lainnya',
             ],
             '431a' => [
-                '0' => '0. Tidak memiliki',
-                '1' => '1. PBI/JKN',
-                '2' => '2. JKN Mandiri',
-                '4' => '4. JKN Pemberi Kerja',
-                '8' => '8. Jamkes lainnya',
+                '0'  => '0. Tidak memiliki',
+                '1'  => '1. PBI/JKN',
+                '2'  => '2. JKN Mandiri',
+                '4'  => '4. JKN Pemberi Kerja',
+                '8'  => '8. Jamkes lainnya',
                 '99' => '99. Lainnya',
             ],
             '431b' => [
@@ -555,27 +589,26 @@ class Regsosek2022kEnum
                 '8' => '8. Tidak tahu',
             ],
         ];
-        $pilihan4 = $pilihan4 + [
+
+        return $pilihan4 + [
             '431c' => $pilihan4['431b'],
             '431d' => $pilihan4['431b'],
             '431e' => $pilihan4['431b'],
             '431f' => [
-                '0' => '00. Tidak memiliki',
-                '1' => '01. BPJS Jaminan Kecelakaan Kerja',
-                '2' => '02. BPJS Jaminan Kematian',
-                '4' => '04. BPJS Jaminan Hari Tua',
-                '8' => '08. BPJS Jaminan Pensiun',
+                '0'  => '00. Tidak memiliki',
+                '1'  => '01. BPJS Jaminan Kecelakaan Kerja',
+                '2'  => '02. BPJS Jaminan Kematian',
+                '4'  => '04. BPJS Jaminan Hari Tua',
+                '8'  => '08. BPJS Jaminan Pensiun',
                 '16' => '16. Pensiunan/Jaminan hari tua lainnya (Taspen/Program Pensiun Swasta)',
                 '99' => '99. Tidak tahu',
             ],
         ];
-
-        return $pilihan4;
     }
 
-    public static final function pilihanBagian5()
+    final public static function pilihanBagian5()
     {
-        $pilihan5 = [
+        return [
             'ya_tidak' => self::YA_TIDAK,
 
             '505' => [
@@ -591,7 +624,5 @@ class Regsosek2022kEnum
                 '4' => '4. Tidak',
             ],
         ];
-
-        return $pilihan5;
     }
 }

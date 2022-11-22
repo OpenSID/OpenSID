@@ -137,14 +137,14 @@ class Rtm extends Admin_Controller
     public function form_old($id = 0)
     {
         $this->redirect_hak_akses('u');
-        $data['penduduk']    = $this->rtm_model->list_penduduk_lepas();
+        $data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
         // hanya tampilkan field tertentu ke browser, karena digunakan oleh javascript
-        $data['penduduk']    = array_map(function($item) {
+        $data['penduduk'] = array_map(static function ($item) {
             return [
                 'id'    => $item['id'],
                 'id_kk' => $item['id_kk'],
                 'nama'  => $item['nama'],
-                'nik'  => $item['nik'],
+                'nik'   => $item['nik'],
             ];
         }, $data['penduduk']);
         $data['form_action'] = site_url("{$this->controller}/insert/{$id}");

@@ -71,10 +71,10 @@ class Rtm_model extends MY_Model
             $rtm['no_kk'] = $kw . str_pad('1', 5, '0', STR_PAD_LEFT);
         }
 
-        $rtm['nik_kepala']      = $nik;
-        $rtm['bdt']             = ! empty($post['bdt']) ? bilangan($post['bdt']) : null;
-        $rtm['terdaftar_dtks']  = ! empty($post['terdaftar_dtks']) ? 1 : 0;
-        $outp                   = $this->db->insert('tweb_rtm', $rtm);
+        $rtm['nik_kepala']     = $nik;
+        $rtm['bdt']            = ! empty($post['bdt']) ? bilangan($post['bdt']) : null;
+        $rtm['terdaftar_dtks'] = ! empty($post['terdaftar_dtks']) ? 1 : 0;
+        $outp                  = $this->db->insert('tweb_rtm', $rtm);
 
         $default['id_rtm']     = $rtm['no_kk'];
         $default['rtm_level']  = 1;
@@ -84,8 +84,9 @@ class Rtm_model extends MY_Model
         $this->db->update('tweb_penduduk', $default);
 
         // anggota
-        $default['rtm_level']  = 2;
-        foreach($post['anggota_kk'] ?? [] as $anggota_id){
+        $default['rtm_level'] = 2;
+
+        foreach ($post['anggota_kk'] ?? [] as $anggota_id) {
             $this->db->where('id', $anggota_id);
             $this->db->update('tweb_penduduk', $default);
         }
@@ -324,10 +325,10 @@ class Rtm_model extends MY_Model
 
     public function update_nokk($id)
     {
-        $post          = $this->input->post();
-        $data['no_kk'] = bilangan($post['no_kk']);
-        $data['bdt']   = ! empty($post['bdt']) ? bilangan($post['bdt']) : null;
-        $data['terdaftar_dtks']  = ! empty($post['terdaftar_dtks']) ? 1 : 0;
+        $post                   = $this->input->post();
+        $data['no_kk']          = bilangan($post['no_kk']);
+        $data['bdt']            = ! empty($post['bdt']) ? bilangan($post['bdt']) : null;
+        $data['terdaftar_dtks'] = ! empty($post['terdaftar_dtks']) ? 1 : 0;
 
         if ($data['no_kk']) {
             $ada_nokk = $this->db

@@ -258,8 +258,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						</a>
 						<div>
 						<?php
-							view('admin.dtks.info_new_dtks');
-						?>
+                            view('admin.dtks.info_new_dtks');
+?>
 						</div>
 					</div>
 				</div>

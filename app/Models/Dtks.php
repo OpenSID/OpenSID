@@ -1,5 +1,40 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 namespace App\Models;
 
 use App\Enums\Dtks\DtksEnum;
@@ -27,13 +62,12 @@ class Dtks extends BaseModel
         'no_kk_art',
         'versi_kuisioner_name',
     ];
-
     protected $casts = [
-        'created_at' => 'date:Y-m-d H:i:s',
-        'updated_at' => 'date:Y-m-d H:i:s',
-        'tanggal_pencacahan' => 'date:Y-m-d',
+        'created_at'          => 'date:Y-m-d H:i:s',
+        'updated_at'          => 'date:Y-m-d H:i:s',
+        'tanggal_pencacahan'  => 'date:Y-m-d',
         'tanggal_pemeriksaan' => 'date:Y-m-d',
-        'tanggal_pendataan' => 'date:Y-m-d',
+        'tanggal_pendataan'   => 'date:Y-m-d',
     ];
     // /**
     //  * The fillable with the model.
@@ -68,7 +102,7 @@ class Dtks extends BaseModel
     public function getKeluargaInRTMAttribute()
     {
         $this->loadMissing([
-            'rtm.anggota' => function($builder){
+            'rtm.anggota' => static function ($builder) {
                 // override all items within the $with property in Penduduk
                 $builder->withOnly('keluarga');
                 // hanya ambil data anggota yg masih hidup (tweb_penduduk)
@@ -82,7 +116,7 @@ class Dtks extends BaseModel
     public function getAnggotaKeluargaInRTMAttribute()
     {
         $this->loadMissing([
-            'rtm.anggota' => function($builder){
+            'rtm.anggota' => static function ($builder) {
                 // override all items within the $with property in Penduduk
                 $builder->withOnly('');
                 // hanya ambil data anggota yg masih hidup (tweb_penduduk)
@@ -115,7 +149,7 @@ class Dtks extends BaseModel
     {
         $this->loadMissing([
             'keluarga.kepalaKeluarga',
-            'dtksAnggota'
+            'dtksAnggota',
         ]);
 
         return $this->dtksAnggota->where('id_penduduk', $this->keluarga->kepalaKeluarga->id)->first();
@@ -131,7 +165,7 @@ class Dtks extends BaseModel
     public function getNikKKAttribute()
     {
         $this->loadMissing([
-            'keluarga.kepalaKeluarga' => function($builder){
+            'keluarga.kepalaKeluarga' => static function ($builder) {
                 // override all items within the $with property in Penduduk
                 $builder->withoutRelations();
             },
@@ -143,7 +177,7 @@ class Dtks extends BaseModel
     public function getNikKrtAttribute()
     {
         $this->loadMissing([
-            'rtm.kepalaKeluarga' => function($builder){
+            'rtm.kepalaKeluarga' => static function ($builder) {
                 // override all items within the $with property in Penduduk
                 $builder->withoutRelations();
             },
@@ -155,7 +189,7 @@ class Dtks extends BaseModel
     public function getAlamatAttribute()
     {
         $this->loadMissing([
-            'rtm.kepalaKeluarga' => function($builder){
+            'rtm.kepalaKeluarga' => static function ($builder) {
                 // override all items within the $with property in Penduduk
                 $builder->withoutRelations();
             },

@@ -59,5 +59,4 @@ class RtmHubungan extends BaseModel
      * @var array
      */
     protected $guarded = [];
-
 }
