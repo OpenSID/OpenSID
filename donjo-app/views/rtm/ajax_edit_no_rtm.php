@@ -12,7 +12,7 @@
 			</div>
 			<div class="form-group">
 				<label for="terdaftar_dtks">
-					<input type="checkbox" id="terdaftar_dtks" name="terdaftar_dtks" <?php $kk['terdaftar_dtks'] && print('checked'); ?> class="form-checkbox"> Terdaftar di DTKS
+					<input type="checkbox" id="terdaftar_dtks" name="terdaftar_dtks" <?php $kk['terdaftar_dtks'] && print 'checked'; ?> class="form-checkbox"> Terdaftar di DTKS
 				</label>
 			</div>
 		</div>

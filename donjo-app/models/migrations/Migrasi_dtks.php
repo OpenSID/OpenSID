@@ -58,7 +58,7 @@ class Migrasi_dtks extends MY_model
     {
         // tambah menu satu data dan submenu dtks
         $SATU_DATA_MODUL_ID = 352;
-        $DTKS_MODUL_ID = 353;
+        $DTKS_MODUL_ID      = 353;
 
         $hasil = $hasil && $this->tambah_modul([
             'id'         => $SATU_DATA_MODUL_ID,
@@ -72,7 +72,8 @@ class Migrasi_dtks extends MY_model
             'hidden'     => '0',
             'ikon_kecil' => 'fa-globe',
         ]);
-        $hasil = $hasil && $this->tambah_modul([
+
+        return $hasil && $this->tambah_modul([
             'id'         => $DTKS_MODUL_ID,
             'modul'      => 'DTKS',
             'url'        => 'dtks',
@@ -84,8 +85,6 @@ class Migrasi_dtks extends MY_model
             'hidden'     => '0',
             'ikon_kecil' => 'fa-exchange',
         ]);
-
-        return $hasil;
     }
 
     protected function modifyRTMTable($hasil)
@@ -93,20 +92,22 @@ class Migrasi_dtks extends MY_model
         $fields = [
             [
                 'nama'   => 'terdaftar_dtks',
-                'detail' => 'TINYINT(1) NOT NULL DEFAULT 0'
+                'detail' => 'TINYINT(1) NOT NULL DEFAULT 0',
             ],
         ];
+
         foreach ($fields as $item) {
-            if (!$this->db->field_exists($item['nama'], 'tweb_rtm')) {
+            if (! $this->db->field_exists($item['nama'], 'tweb_rtm')) {
                 $hasil = $hasil && $this->db->query("ALTER TABLE tweb_rtm ADD {$item['nama']} {$item['detail']}");
             }
         }
+
         return $hasil;
     }
 
     protected function createDTKSTable($hasil)
     {
-        $hasil = $this->db->query("CREATE TABLE IF NOT EXISTS `dtks` (
+        return $this->db->query("CREATE TABLE IF NOT EXISTS `dtks` (
             `id` INT(11) NOT NULL AUTO_INCREMENT,
             `is_draft` TINYINT(1) NOT NULL DEFAULT '1',
             `id_rtm` INT(11) NULL,
@@ -284,12 +285,11 @@ class Migrasi_dtks extends MY_model
             CONSTRAINT FK_dtks_rtm FOREIGN KEY (id_rtm) REFERENCES tweb_rtm(id) ON UPDATE CASCADE ON DELETE SET NULL
         )
         ");
-        return $hasil;
     }
 
     protected function createDTKSAnggotaTable($hasil)
     {
-        $hasil = $this->db->query("CREATE TABLE IF NOT EXISTS `dtks_anggota` (
+        return $this->db->query("CREATE TABLE IF NOT EXISTS `dtks_anggota` (
             `id` INT(11) NOT NULL AUTO_INCREMENT,
             `id_dtks` INT(11) NULL,
             `id_penduduk` INT(11) NULL,
@@ -394,12 +394,11 @@ class Migrasi_dtks extends MY_model
             CONSTRAINT FK_kel_dtks_anggota FOREIGN KEY (id_keluarga) REFERENCES tweb_keluarga(id) ON UPDATE CASCADE ON DELETE SET NULL
         )
         ");
-        return $hasil;
     }
 
     protected function createDTKSPengaturanProgramTable($hasil)
     {
-        $hasil = $this->db->query("CREATE TABLE IF NOT EXISTS `dtks_pengaturan_program` (
+        return $this->db->query('CREATE TABLE IF NOT EXISTS `dtks_pengaturan_program` (
             `id` INT(11) NOT NULL AUTO_INCREMENT,
             `versi_kuisioner` INT(11) NOT NULL,
             `kode` VARCHAR(25) NOT NULL,
@@ -414,9 +413,7 @@ class Migrasi_dtks extends MY_model
             UNIQUE (versi_kuisioner, kode),
             CONSTRAINT FK_dtks_p_program FOREIGN KEY (id_bantuan) REFERENCES program(id) ON UPDATE CASCADE ON DELETE CASCADE
         )
-        ");
-
-        return $hasil;
+        ');
     }
 
     protected function createLampiranFotoTable($hasil)
@@ -426,7 +423,7 @@ class Migrasi_dtks extends MY_model
             mkdir(LOKASI_FOTO_DTKS, 0755);
         }
 
-        $hasil = $this->db->query("CREATE TABLE IF NOT EXISTS `dtks_lampiran` (
+        $hasil = $this->db->query('CREATE TABLE IF NOT EXISTS `dtks_lampiran` (
             `id` INT(11) NOT NULL AUTO_INCREMENT,
             `id_rtm` INT(11) NULL,
             `judul` VARCHAR(30) NOT NULL,
@@ -438,9 +435,9 @@ class Migrasi_dtks extends MY_model
             PRIMARY KEY (`id`),
             CONSTRAINT FK_dtks_lampiran_rtm FOREIGN KEY (id_rtm) REFERENCES tweb_rtm(id) ON UPDATE CASCADE ON DELETE SET NULL
         )
-        ");
+        ');
 
-        $hasil = $this->db->query("CREATE TABLE IF NOT EXISTS `dtks_ref_lampiran` (
+        return $this->db->query('CREATE TABLE IF NOT EXISTS `dtks_ref_lampiran` (
             `id` INT(11) NOT NULL AUTO_INCREMENT,
             `id_dtks` INT(11) NOT NULL,
             `id_lampiran` INT(11) NOT NULL,
@@ -449,13 +446,12 @@ class Migrasi_dtks extends MY_model
             CONSTRAINT FK_ref_lampiran_dtks FOREIGN KEY (id_dtks) REFERENCES dtks(id) ON UPDATE CASCADE ON DELETE CASCADE,
             CONSTRAINT FK_lampiran_dtks FOREIGN KEY (id_lampiran) REFERENCES dtks_lampiran(id) ON UPDATE CASCADE ON DELETE CASCADE
         )
-        ");
-        return $hasil;
+        ');
     }
 
     protected function addIDKeluargaInDTKSTable($hasil)
     {
-        if ( ! $this->db->field_exists('id_keluarga', 'dtks')) {
+        if (! $this->db->field_exists('id_keluarga', 'dtks')) {
             $fields = [
                 'id_keluarga' => [
                     'type'       => 'INT',
@@ -467,6 +463,7 @@ class Migrasi_dtks extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('dtks', $fields, 'id_rtm');
             $hasil = $hasil && $this->tambahForeignKey('FK_kel_dtks', 'dtks', 'id_keluarga', 'tweb_keluarga', 'id');
         }
+
         return $hasil;
     }
 }

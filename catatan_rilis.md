@@ -51,6 +51,8 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 40. [#5990](https://github.com/OpenSID/OpenSID/issues/5990) Perbaikan review konsep surat TinyMCE.
 41. [#6000](https://github.com/OpenSID/OpenSID/issues/6000) Perbaikan ubah nama buku peraturan desa menjadi buku peraturan di desa beserta output cetaknya.
 42. [#5966](https://github.com/OpenSID/OpenSID/issues/5966) Perbaikan data rumah tangga yang hilang karena.
+43. [#6008](https://github.com/OpenSID/OpenSID/issues/6008) Perbaikan kesalahan penulisan tempat tanggal lahir.
+44. [#5983](https://github.com/OpenSID/OpenSID/issues/5983) Perbaikan input data ibu hamil form tanggal tidak harus required.
 
 #### Perubahan Teknis
 
@@ -59,4 +61,5 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 3. Penyesuaian Pengaturan aplikasi.
 4. Penambahan BaseEnum.
 5. Pindahkan pengaturan font surat ke pengaturan aplikasi.
-6. Penambahan log level notice.
+6. run vendor/bin/php-cs-fixer fix --allow-risky=yes
+7. Penambahan log level notice.
