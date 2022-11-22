@@ -4045,15 +4045,9 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-natra",
-<<<<<<< HEAD
-                "reference": "c13d6fe4ae28de019b1ce0a1e282950208c00126"
-            },
-            "time": "2022-04-29T08:32:13+00:00",
-=======
                 "reference": "d81fefce9d3718d0d1bef7fe5f6bd5865cdbcdb5"
             },
             "time": "2022-05-09T00:42:08+00:00",
->>>>>>> e482d3086 (rilis-22.05-premium)
             "type": "library",
             "installation-source": "source",
             "license": [

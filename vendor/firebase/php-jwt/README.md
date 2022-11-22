@@ -203,8 +203,6 @@ $jwks = ['keys' => []];
 JWT::decode($payload, JWK::parseKeySet($jwks));
 ```
 
-<<<<<<< HEAD
-=======
 Using Cached Key Sets
 ---------------------
 
@@ -244,7 +242,6 @@ $jwt = 'eyJhbGci...'; // Some JWT signed by a key from the $jwkUri above
 $decoded = JWT::decode($jwt, $keySet);
 ```
 
->>>>>>> e482d3086 (rilis-22.05-premium)
 Miscellaneous
 -------------
 

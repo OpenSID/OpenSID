@@ -9,15 +9,8 @@ use Exception;
 use InvalidArgumentException;
 use OpenSSLAsymmetricKey;
 use OpenSSLCertificate;
-<<<<<<< HEAD
-use TypeError;
-use UnexpectedValueException;
-use DateTime;
-use stdClass;
-=======
 use stdClass;
 use UnexpectedValueException;
->>>>>>> e482d3086 (rilis-22.05-premium)
 
 /**
  * JSON Web Token implementation, based on this spec:
@@ -75,11 +68,7 @@ class JWT
      * Decodes a JWT string into a PHP object.
      *
      * @param string                 $jwt            The JWT
-<<<<<<< HEAD
-     * @param Key|array<string, Key> $keyOrKeyArray  The Key or associative array of key IDs (kid) to Key objects.
-=======
      * @param Key|array<string,Key> $keyOrKeyArray  The Key or associative array of key IDs (kid) to Key objects.
->>>>>>> e482d3086 (rilis-22.05-premium)
      *                                               If the algorithm used is asymmetric, this is the public key
      *                                               Each Key object contains an algorithm and matching key.
      *                                               Supported algorithms are 'ES384','ES256', 'HS256', 'HS384',
@@ -121,11 +110,7 @@ class JWT
         if (null === ($payload = static::jsonDecode($payloadRaw))) {
             throw new UnexpectedValueException('Invalid claims encoding');
         }
-<<<<<<< HEAD
-        if (is_array($payload)) {
-=======
         if (\is_array($payload)) {
->>>>>>> e482d3086 (rilis-22.05-premium)
             // prevent PHP Fatal Error in edge-cases when payload is empty array
             $payload = (object) $payload;
         }
@@ -243,11 +228,7 @@ class JWT
         list($function, $algorithm) = static::$supported_algs[$alg];
         switch ($function) {
             case 'hash_hmac':
-<<<<<<< HEAD
-                if (!is_string($key)) {
-=======
                 if (!\is_string($key)) {
->>>>>>> e482d3086 (rilis-22.05-premium)
                     throw new InvalidArgumentException('key must be a string when using hmac');
                 }
                 return \hash_hmac($algorithm, $msg, $key, true);
@@ -267,11 +248,7 @@ class JWT
                 if (!\function_exists('sodium_crypto_sign_detached')) {
                     throw new DomainException('libsodium is not available');
                 }
-<<<<<<< HEAD
-                if (!is_string($key)) {
-=======
                 if (!\is_string($key)) {
->>>>>>> e482d3086 (rilis-22.05-premium)
                     throw new InvalidArgumentException('key must be a string when using EdDSA');
                 }
                 try {
@@ -327,11 +304,7 @@ class JWT
               if (!\function_exists('sodium_crypto_sign_verify_detached')) {
                   throw new DomainException('libsodium is not available');
               }
-<<<<<<< HEAD
-              if (!is_string($keyMaterial)) {
-=======
               if (!\is_string($keyMaterial)) {
->>>>>>> e482d3086 (rilis-22.05-premium)
                   throw new InvalidArgumentException('key must be a string when using EdDSA');
               }
               try {
@@ -344,11 +317,7 @@ class JWT
               }
             case 'hash_hmac':
             default:
-<<<<<<< HEAD
-                if (!is_string($keyMaterial)) {
-=======
                 if (!\is_string($keyMaterial)) {
->>>>>>> e482d3086 (rilis-22.05-premium)
                     throw new InvalidArgumentException('key must be a string when using hmac');
                 }
                 $hash = \hash_hmac($algorithm, $msg, $keyMaterial, true);
@@ -440,11 +409,7 @@ class JWT
     /**
      * Determine if an algorithm has been provided for each Key
      *
-<<<<<<< HEAD
-     * @param Key|array<string, Key> $keyOrKeyArray
-=======
      * @param Key|ArrayAccess<string,Key>|array<string,Key> $keyOrKeyArray
->>>>>>> e482d3086 (rilis-22.05-premium)
      * @param string|null            $kid
      *
      * @throws UnexpectedValueException
@@ -459,23 +424,6 @@ class JWT
             return $keyOrKeyArray;
         }
 
-<<<<<<< HEAD
-        foreach ($keyOrKeyArray as $keyId => $key) {
-            if (!$key instanceof Key) {
-                throw new TypeError(
-                    '$keyOrKeyArray must be an instance of Firebase\JWT\Key key or an '
-                    . 'array of Firebase\JWT\Key keys'
-                );
-            }
-        }
-        if (!isset($kid)) {
-            throw new UnexpectedValueException('"kid" empty, unable to lookup correct key');
-        }
-        if (!isset($keyOrKeyArray[$kid])) {
-            throw new UnexpectedValueException('"kid" invalid, unable to lookup correct key');
-        }
-
-=======
         if ($keyOrKeyArray instanceof CachedKeySet) {
             // Skip "isset" check, as this will automatically refresh if not set
             return $keyOrKeyArray[$kid];
@@ -488,7 +436,6 @@ class JWT
             throw new UnexpectedValueException('"kid" invalid, unable to lookup correct key');
         }
 
->>>>>>> e482d3086 (rilis-22.05-premium)
         return $keyOrKeyArray[$kid];
     }
 

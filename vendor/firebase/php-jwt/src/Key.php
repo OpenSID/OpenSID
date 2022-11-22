@@ -5,10 +5,6 @@ namespace Firebase\JWT;
 use OpenSSLAsymmetricKey;
 use OpenSSLCertificate;
 use TypeError;
-<<<<<<< HEAD
-use InvalidArgumentException;
-=======
->>>>>>> e482d3086 (rilis-22.05-premium)
 
 class Key
 {
@@ -26,17 +22,10 @@ class Key
         string $algorithm
     ) {
         if (
-<<<<<<< HEAD
-            !is_string($keyMaterial)
-            && !$keyMaterial instanceof OpenSSLAsymmetricKey
-            && !$keyMaterial instanceof OpenSSLCertificate
-            && !is_resource($keyMaterial)
-=======
             !\is_string($keyMaterial)
             && !$keyMaterial instanceof OpenSSLAsymmetricKey
             && !$keyMaterial instanceof OpenSSLCertificate
             && !\is_resource($keyMaterial)
->>>>>>> e482d3086 (rilis-22.05-premium)
         ) {
             throw new TypeError('Key material must be a string, resource, or OpenSSLAsymmetricKey');
         }
