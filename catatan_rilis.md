@@ -51,6 +51,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 41. [#6000](https://github.com/OpenSID/OpenSID/issues/6000) Perbaikan ubah nama buku peraturan desa menjadi buku peraturan di desa beserta output cetaknya.
 42. [#5966](https://github.com/OpenSID/OpenSID/issues/5966) Perbaikan data rumah tangga yang hilang karena.
 43. [#6008](https://github.com/OpenSID/OpenSID/issues/6008) Perbaikan kesalahan penulisan tempat tanggal lahir.
+44. [#5983](https://github.com/OpenSID/OpenSID/issues/5983) Perbaikan input data ibu hamil form tanggal tidak harus required.
 
 #### Perubahan Teknis
 

@@ -71,7 +71,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Hari Perkiraan Lahir</label>
                         <div class="col-sm-9">
-                            <input type="text" {{ $kia->anak_id == null ? '' : 'disabled' }} class="form-control input-sm datepicker required" id="perkiraan_lahir" name="perkiraan_lahir"
+                            <input type="text" {{ $kia->anak_id == null ? '' : 'disabled' }} class="form-control input-sm datepicker" id="perkiraan_lahir" name="perkiraan_lahir"
                                 placeholder="Masukkan hari perkiraan lahir" value="{{ $kia->hari_perkiraan_lahir }}" />
                         </div>
                     </div>
