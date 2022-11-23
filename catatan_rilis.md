@@ -54,7 +54,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 44. [#5983](https://github.com/OpenSID/OpenSID/issues/5983) Perbaikan input data ibu hamil form tanggal tidak harus required.
 45. [#6019](https://github.com/OpenSID/OpenSID/issues/6019) Perbaikan tambah anggota rumah tangga & kepala rumah tangga.
 46. [#6023](https://github.com/OpenSID/OpenSID/issues/6023) Perbaikan browse data import pada menu kependudukan.
-47. [#1612](https://github.com/OpenSID/premium/issues/1612) Perbaikan penyebutan nama desa pada menu pengaturan modul.
+47. [#1612](https://github.com/OpenSID/premium/issues/1612) Perbaikan penyebutan nama desa pada menu pengaturan modul & modul grup pengguna.
 
 #### Perubahan Teknis
 
