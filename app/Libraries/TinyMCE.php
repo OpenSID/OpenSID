@@ -609,7 +609,7 @@ class TinyMCE
                 // Data RTM
                 [
                     'judul' => 'ID BDT',
-                    'isian' => '[BdT]',
+                    'isian' => '[Id_bdT]',
                     'data'  => $penduduk->rtm->bdt,
                 ],
             ];
@@ -655,7 +655,7 @@ class TinyMCE
         return [
             [
                 'judul' => 'Urutan',
-                'isian' => '[Klgx_urutaN]',
+                'isian' => '[Klgx_nO]',
                 'data'  => $anggota ? $anggota->pluck('id')
                     ->map(static function ($item, $key) {
                         return $key + 1;
@@ -910,6 +910,49 @@ class TinyMCE
                 'data'  => $pamong_nip,
             ],
         ];
+    }
+
+    public function replceKodeIsian($data = [], $kecuali = [])
+    {
+        $result = $data['isi_surat'];
+
+        $newKodeIsian = [];
+        $kodeIsian    = $this->getFormatedKodeIsian($data, true);
+
+        foreach ($kodeIsian as $key => $value) {
+            if (preg_match('/klg/i', $key)) {
+                for ($i = 1; $i <= 10; $i++) {
+                    $newKodeIsian[] = [
+                        'isian' => str_replace('x_', "{$i}_", $key),
+                        'data'  => $value[$i - 1] ?? '',
+                    ];
+                }
+            } else {
+                $newKodeIsian[] = [
+                    'isian' => $key,
+                    'data'  => $value,
+                ];
+            }
+        }
+
+        $newKodeIsian = array_combine(array_column($newKodeIsian, 'isian'), array_column($newKodeIsian, 'data'));
+
+        if ((int) $data['surat']['masa_berlaku'] == 0) {
+            $result = str_replace('[mulai_berlaku] s/d [berlaku_sampai]', '-', $result);
+        }
+
+        foreach ($newKodeIsian as $key => $value) {
+            if (in_array($key, $kecuali)) {
+                $result = $result;
+            } elseif (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
+                $result = str_replace($key, $value, $result);
+            } else {
+                log_message('error', 'Kode isian tidak ditemukan: ' . $key);
+                $result = case_replace($key, $value, $result);
+            }
+        }
+
+        return $result;
     }
 
     /**

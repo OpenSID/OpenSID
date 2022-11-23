@@ -48,6 +48,19 @@
                             </select>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td>Status Hubungan Dalam Keluarga (SHDK)</td>
+                        <td>
+                            <select class="form-control input-sm select2" name="individu_kk_level">
+                                <option value="">SEMUA</option>
+                                @foreach ($form_isian['daftar_shdk'] as $key => $data):
+                                    <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->individu->kk_level)>{{ $data }}
+                                    </option>
+                                    <?php endforeach; ?>
+                            </select>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

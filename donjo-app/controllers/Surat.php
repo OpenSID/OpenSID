@@ -35,10 +35,12 @@
  *
  */
 
+use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
 use App\Models\Config;
 use App\Models\FormatSurat;
+use App\Models\Keluarga;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
@@ -187,7 +189,7 @@ class Surat extends Admin_Controller
             $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?: $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
             // Lewati ganti kode_isian
-            $isi_surat = $this->replceKodeIsian($log_surat);
+            $isi_surat = $this->tinymce->replceKodeIsian($log_surat);
 
             unset($log_surat['isi_surat']);
             $this->session->log_surat = $log_surat;
@@ -234,7 +236,7 @@ class Surat extends Admin_Controller
             $log_surat['input']     = $cetak['input'];
             $log_surat['isi_surat'] = $this->request['isi_surat'];
 
-            $isi_surat = $this->replceKodeIsian($log_surat);
+            $isi_surat = $this->tinymce->replceKodeIsian($log_surat);
 
             // Pisahkan isian surat
             $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);
@@ -464,7 +466,7 @@ class Surat extends Admin_Controller
             }
 
             $log_surat['id'] = $surat->id;
-            $isi_surat       = $this->replceKodeIsian($log_surat);
+            $isi_surat       = $this->tinymce->replceKodeIsian($log_surat);
 
             unset($log_surat['isi_surat']);
             $this->session->log_surat = $log_surat;
@@ -488,29 +490,6 @@ class Surat extends Admin_Controller
         }
 
         return Pamong::kepalaDesa()->first()->pamong_id;
-    }
-
-    private function replceKodeIsian($data = [], $kecuali = [])
-    {
-        $result = $data['isi_surat'];
-
-        $kodeIsian = $this->tinymce->getFormatedKodeIsian($data, true);
-
-        if ((int) $data['surat']['masa_berlaku'] == 0) {
-            $result = str_replace('[mulai_berlaku] s/d [berlaku_sampai]', '-', $result);
-        }
-
-        foreach ($kodeIsian as $key => $value) {
-            if (in_array($key, $kecuali)) {
-                $result = $result;
-            } elseif (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
-                $result = str_replace($key, $value, $result);
-            } else {
-                $result = case_replace($key, $value, $result);
-            }
-        }
-
-        return $result;
     }
 
     private function nama_surat_arsip($url, $nik, $nomor)
@@ -653,6 +632,11 @@ class Surat extends Admin_Controller
             $filters = collect($data['surat']['form_isian']->individu)->toArray();
 
             $data['penduduk'] = Penduduk::filters($filters)->get();
+            if ($filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
+                $data['anggota'] = Keluarga::find($data['individu']['id_kk'])->anggota;
+            } else {
+                $data['anggota'] = null;
+            }
         }
 
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);

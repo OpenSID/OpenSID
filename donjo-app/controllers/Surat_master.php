@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
 use App\Models\Config;
@@ -169,6 +170,7 @@ class Surat_master extends Admin_Controller
         return [
             'daftar_jenis_kelamin' => Sex::pluck('nama', 'id'),
             'daftar_status_dasar'  => StatusDasar::pluck('nama', 'id'),
+            'daftar_shdk'          => SHDKEnum::all(),
         ];
     }
 
@@ -263,6 +265,7 @@ class Surat_master extends Admin_Controller
             'individu' => [
                 'sex'          => $request['individu_sex'] ?? null,
                 'status_dasar' => $request['individu_status_dasar'] ?? null,
+                'kk_level'     => $request['individu_kk_level'] ?? null,
             ],
         ];
 
@@ -511,7 +514,7 @@ class Surat_master extends Admin_Controller
         }
 
         $data      = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
-        $isi_surat = $this->replceKodeIsian($data);
+        $isi_surat = $this->tinymce->replceKodeIsian($data);
 
         // Pisahkan isian surat
         $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);
@@ -561,29 +564,6 @@ class Surat_master extends Admin_Controller
         }
 
         exit();
-    }
-
-    private function replceKodeIsian($data = [], $kecuali = [])
-    {
-        $result = $data['isi_surat'];
-
-        $kodeIsian = $this->tinymce->getFormatedKodeIsian($data, true);
-
-        if ((int) $data['surat']['masa_berlaku'] == 0) {
-            $result = str_replace('[mulai_berlaku] s/d [berlaku_sampai]', '-', $result);
-        }
-
-        foreach ($kodeIsian as $key => $value) {
-            if (in_array($key, $kecuali)) {
-                $result = $result;
-            } elseif (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
-                $result = str_replace($key, $value, $result);
-            } else {
-                $result = case_replace($key, $value, $result);
-            }
-        }
-
-        return $result;
     }
 
     public function ekspor()

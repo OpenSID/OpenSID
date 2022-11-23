@@ -45,6 +45,52 @@
             <input type="hidden" id="url_remote" name="url_remote" value="{{ site_url('surat/nomor_surat_duplikat') }}">
             @if ($individu)
                 @include('admin.surat.konfirmasi_pemohon')
+
+                @if ($anggota)
+                    <div class="form-group">
+                        <label for="keperluan" class="col-sm-3 control-label">Data Keluarga / KK</label>
+                        <div class="col-sm-8">
+                            <a id="showData" class="btn btn-social btn-danger btn-sm"><i class="fa fa-search-plus"></i>
+                                Tampilkan</a>
+                            <a id="hideData" class="btn btn-social btn-danger btn-sm"><i class="fa fa-search-minus"></i>
+                                Sembunyikan</a>
+                        </div>
+                    </div>
+
+                    <div id="kel" class="form-group hide">
+                        <label for="pengikut" class="col-sm-3 control-label"></label>
+                        <div class="col-sm-8">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover tabel-daftar">
+                                    <thead class="bg-gray disabled color-palette">
+                                        <tr>
+                                            <th>No</th>
+                                            <th>NIK</th>
+                                            <th>Nama</th>
+                                            <th>Jenis Kelamin</th>
+                                            <th>Tempat Tanggal Lahir</th>
+                                            <th>Hubungan</th>
+                                            <th>Status Kawin</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($anggota as $key => $data)
+                                            <tr>
+                                                <td class="padat">{{ $key + 1 }}</td>
+                                                <td class="padat">{{ $data->nik }}</td>
+                                                <td nowrap>{{ $data->nama }}</td>
+                                                <td nowrap>{{ $data->jenisKelamin->nama }}</td>
+                                                <td nowrap>{{ $data->tempatlahir }}, {{ tgl_indo($data->tanggallahir) }}</td>
+                                                <td nowrap>{{ $data->pendudukHubungan->nama }}</td>
+                                                <td nowrap>{{ $data->statusKawin->nama }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             @endif
 
             <div class="row jar_form">
@@ -62,7 +108,8 @@
                     <label for="{{ $item->nama }}" class="col-sm-3 control-label">{{ $item->nama }}</label>
                     @if ($item->tipe == 'textarea')
                         <div class="col-sm-8">
-                            <textarea name="{{ $nama }}" class="form-control input-sm" placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!}></textarea>
+                            <textarea name="{{ $nama }}" class="form-control input-sm" placeholder="{{ $item->deskripsi }}"
+                                {!! $item->atribut !!}></textarea>
                         </div>
                     @elseif ($item->tipe == 'date')
                         <div class="col-sm-3 col-lg-2">
@@ -70,7 +117,8 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control input-sm tgl" name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!}/> 
+                                <input type="text" class="form-control input-sm tgl" name="{{ $nama }}"
+                                    placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!} />
                             </div>
                         </div>
                     @elseif ($item->tipe == 'time')
@@ -79,7 +127,8 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-clock-o"></i>
                                 </div>
-                                <input type="text" class="form-control input-sm jam" name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!}/> 
+                                <input type="text" class="form-control input-sm jam" name="{{ $nama }}"
+                                    placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!} />
                             </div>
                         </div>
                     @elseif ($item->tipe == 'datetime')
@@ -88,12 +137,14 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control input-sm tgl_jam" name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!}/> 
+                                <input type="text" class="form-control input-sm tgl_jam" name="{{ $nama }}"
+                                    placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!} />
                             </div>
                         </div>
                     @else
                         <div class="col-sm-8">
-                            <input type="{{ $item->tipe }}" class="form-control input-sm {{ $class }}" name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!}/> 
+                            <input type="{{ $item->tipe }}" class="form-control input-sm {{ $class }}"
+                                name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" {!! $item->atribut !!} />
                         </div>
                     @endif
                 </div>
@@ -113,3 +164,22 @@
         </form>
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        $(function() {
+            $('#showData').click(function() {
+                $("#kel").removeClass('hide');
+                $('#showData').hide();
+                $('#hideData').show();
+            });
+
+            $('#hideData').click(function() {
+                $('#kel').addClass('hide');
+                $('#hideData').hide();
+                $('#showData').show();
+            });
+            $('#hideData').hide();
+        });
+    </script>
+@endpush
