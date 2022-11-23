@@ -7,7 +7,7 @@
       <div class="pull-left info">
         <strong>{{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa']) }}</strong>
         </br>
-        
+
         @php
           $seb_kec = $setting->sebutan_kecamatan;
           $nam_kec = $desa['nama_kecamatan'];
@@ -24,9 +24,18 @@
           </br>
           {{ ucwords(substr($seb_kab, 0, 3) . '. ' . $nam_kab) }}
         @endif
-        
+
       </div>
     </div>
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" id="cari-menu" class="form-control" placeholder="Search...">
+            <span class="input-group-btn">
+                <button type="button" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">MENU UTAMA</li>
 
@@ -39,7 +48,7 @@
             <span class="pull-right-container"></span>
           </a>
         </li>
-        @else 
+        @else
         <li class="treeview {{ jecho($modul_ini, $mod['id'], 'active') }}">
           <a href="{{ route($mod['url']) }}">
             <i class="fa {{ $mod['ikon'] }} {{ jecho($modul_ini, $mod['id'], 'text-aqua') }}"></i><span>{{ $mod['modul'] }}</span>
@@ -61,6 +70,7 @@
         @endif
 
       @endforeach
+
     </ul>
   </section>
 </aside>

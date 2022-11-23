@@ -9,6 +9,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 3. [#5524](https://github.com/OpenSID/OpenSID/issues/5524) Penmabahan fitur kode isian anggota keluarga sesuai ID kepala keluarga.
 4. [#5761](https://github.com/OpenSID/OpenSID/issues/5761) Penambahan surat TinyMCE - keterangan kurang mampu.
 5. [#5760](https://github.com/OpenSID/OpenSID/issues/5760) Penambahan surat TinyMCE - keterangan beda identitas.
+6. [#5939](https://github.com/OpenSID/OpenSID/issues/5939) Penambahan fitur pencarian menu.
 
 #### Perbaikan BUG
 
