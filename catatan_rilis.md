@@ -7,7 +7,8 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 1. [#5484](https://github.com/OpenSID/OpenSID/issues/5484) Penambahan fitur modul DTKS.
 2. [#5823](https://github.com/OpenSID/OpenSID/issues/5823) Penambahan fitur pengaturan sebutan aparatur desa.
 3. [#5524](https://github.com/OpenSID/OpenSID/issues/5524) Penmabahan fitur kode isian anggota keluarga sesuai ID kepala keluarga.
-4. [#5761](https://github.com/OpenSID/OpenSID/issues/5761) Penambahan TinyMCE surat keterangan kurang mampu.
+4. [#5761](https://github.com/OpenSID/OpenSID/issues/5761) Penambahan surat TinyMCE - keterangan kurang mampu.
+5. [#5760](https://github.com/OpenSID/OpenSID/issues/5760) Penambahan surat TinyMCE - keterangan beda identitas.
 
 #### Perbaikan BUG
 
