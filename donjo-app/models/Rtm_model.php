@@ -37,7 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\HubunganRTMEnum;
 use App\Models\Config;
+use App\Models\Rtm;
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Rtm_model extends MY_Model
@@ -50,7 +52,7 @@ class Rtm_model extends MY_Model
     public function insert()
     {
         $post = $this->input->post();
-        $nik  = bilangan($post['nik_kepala']);
+        $nik  = bilangan($post['nik']);
 
         $no_rtm = $this->db->select('no_kk')
             ->order_by('length(no_kk) DESC, no_kk DESC')->limit(1)
@@ -134,22 +136,16 @@ class Rtm_model extends MY_Model
             return session_error('Tidak ada anggota yang dipilih');
         }
 
-        $no_rtm = $this->db
-            ->select('no_kk')
-            ->where('id', $id)
-            ->get('tweb_rtm')
-            ->row()
-            ->no_kk;
-
-        $temp['id_rtm']     = $no_rtm;
-        $temp['rtm_level']  = 2;
+        // TODO :: Gunakan id pada tabel tweb_rtm agar memudahkan relasi
+        $temp['id_rtm']     = Rtm::findOrFail($id)->no_kk;
+        $temp['rtm_level']  = HubunganRTMEnum::ANGGOTA;
         $temp['updated_at'] = date('Y-m-d H:i:s');
-        $temp['updated_by'] = $this->session->user;
+        $temp['updated_by'] = auth()->id;
 
         if ($data) {
             $this->db->where_in('id', $data);
         } else {
-            $this->db->where('nik', $nik);
+            $this->db->where('id', $nik);
         }
 
         $outp = $this->db->update('tweb_penduduk', $temp);
@@ -336,10 +332,7 @@ class Rtm_model extends MY_Model
                 ->where('no_kk', $data['no_kk'])
                 ->get('tweb_rtm')->row()->id;
             if ($ada_nokk && $ada_nokk != $id) {
-                $this->session->success   = 1;
-                $this->session->error_msg = 'Nomor RTM itu sudah ada';
-
-                return;
+                return session_error('Nomor RTM itu sudah ada. Silakan ganti dengan yang lain.');
             }
             $rtm = $this->db->where('id', $id)->get('tweb_rtm')->row();
             $this->db
