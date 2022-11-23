@@ -61,3 +61,4 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 4. Penambahan BaseEnum.
 5. Pindahkan pengaturan font surat ke pengaturan aplikasi.
 6. run vendor/bin/php-cs-fixer fix --allow-risky=yes
+7. Refaktor pengiriman TrackSID menggunakan Guzzle
