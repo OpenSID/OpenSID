@@ -45,6 +45,11 @@
 			"App\\": "app/"
 		}
 	},
+	"config": {
+		"platform": {
+			"php": "7.3"
+		}
+	},
 	"extra": {
 		"google/apiclient-services": [
 			"Script",
