@@ -27,15 +27,9 @@
 
       </div>
     </div>
-    <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-            <input type="text" id="cari-menu" class="form-control" placeholder="Search...">
-            <span class="input-group-btn">
-                <button type="button" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-            </span>
-        </div>
-    </form>
+
+    @include('admin.layouts.partials.pencarian_sidebar')
+
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">MENU UTAMA</li>
 
