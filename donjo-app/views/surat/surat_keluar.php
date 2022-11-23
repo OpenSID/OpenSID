@@ -334,7 +334,7 @@
                     <?php if (empty($this->setting->tte_api) || $this->setting->tte_api == base_url()) : ?>
                         <div class="alert alert-warning alert-dismissible">
                             <h4><i class="icon fa fa-warning"></i> Info Penting!</h4>
-                            Modul TTE ini hanya sebuah simulasi untuk persiapan penerapan TTE di OPENSID dan Hanya berlaku untuk Surat yang Menggunakan TinyMCE
+                            Modul TTE ini hanya sebuah simulasi untuk persiapan penerapan TTE di <?= config_item('nama_aplikasi') ?> dan Hanya berlaku untuk Surat yang Menggunakan TinyMCE
                         </div>
                     <?php endif; ?>
                     <object data="<?= site_url("{$this->controller}/unduh/tinymce"); ?>/${id}/true" style="width: 100%;min-height: 400px;" type="application/pdf"></object>

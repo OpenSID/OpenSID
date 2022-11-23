@@ -63,5 +63,6 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 3. Penyesuaian Pengaturan aplikasi.
 4. Penambahan BaseEnum.
 5. Pindahkan pengaturan font surat ke pengaturan aplikasi.
-6. run vendor/bin/php-cs-fixer fix --allow-risky=yes
-7. Refaktor pengiriman TrackSID menggunakan Guzzle
+6. run vendor/bin/php-cs-fixer fix --allow-risky=yes.
+7. Refaktor pengiriman TrackSID menggunakan Guzzle.
+8. Penambahan config nama aplikasi dan lemabaga.

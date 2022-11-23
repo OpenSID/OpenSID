@@ -4,7 +4,7 @@
     <div class="callout callout-success update">
       <h4><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Pembaruan Tersedia!</h4>
       <p align="justify">
-        OpenSID <code>{{ $rilis['latest_version'] }}</code> telah tersedia. Periksa catatan rilis untuk melihat daftar perubahan di versi ini. Sangat dianjurkan untuk melakukan pembaruan ke versi terkini, karena setiap rilis berisi perbaikan termasuk peningkatan keamanan data sejak versi yang anda gunakan saat ini <code>{{ $rilis['current_version'] }}</code>. Petunjuk melakukan pembaruan dapat dilihat di <a href="https://github.com/OpenSID/OpenSID/wiki/Panduan-Update-OpenSID" target="_blank">sini</a>.
+        <?= config_item('nama_aplikasi') ?> <code>{{ $rilis['latest_version'] }}</code> telah tersedia. Periksa catatan rilis untuk melihat daftar perubahan di versi ini. Sangat dianjurkan untuk melakukan pembaruan ke versi terkini, karena setiap rilis berisi perbaikan termasuk peningkatan keamanan data sejak versi yang anda gunakan saat ini <code>{{ $rilis['current_version'] }}</code>. Petunjuk melakukan pembaruan dapat dilihat di <a href="https://github.com/<?= config_item('nama_aplikasi') ?>/<?= config_item('nama_aplikasi') ?>/wiki/Panduan-Update-<?= config_item('nama_aplikasi') ?>" target="_blank">sini</a>.
       </p>
       <button class="btn btn-social btn-info btn-sm" data-toggle="modal" data-target="#modal-catatan-rilis">
         <i class="fa fa-book"></i> Catatan Rilis
@@ -20,7 +20,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title"><i class="fa fa-book"></i>&nbsp;&nbsp;Catatan Rilis OpenSID <small class="label label-success">{{ $rilis['latest_version'] }}</small></h4>
+            <h4 class="modal-title"><i class="fa fa-book"></i>&nbsp;&nbsp;Catatan Rilis <?= config_item('nama_aplikasi') ?> <small class="label label-success">{{ $rilis['latest_version'] }}</small></h4>
           </div>
           <div class="modal-body rilis">
             {!! nl2br($rilis['release_body']) !!}

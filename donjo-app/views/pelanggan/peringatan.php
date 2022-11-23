@@ -20,10 +20,10 @@
 					<?php else: ?>
 						<div class="callout callout-danger">
 							<h5>Data Gagal Dimuat, Harap Periksa Dibawah Ini</h5>
-							<h5>Fitur ini khusus untuk pelanggan Layanan OpenDesa (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
+							<h5>Fitur ini khusus untuk pelanggan Layanan <?= config_item('nama_lembaga') ?> (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
 							<li>Periksan koneksi anda, pastikan sudah terhubung dengan jaringan internet.</li>
 							<li>Periksa logs error terakhir di menu <strong><a href="<?= site_url('info_sistem#log_viewer'); ?>" style="text-decoration:none;">Pengaturan > Info Sistem > Logs</a></strong></li>
-							<li>Token pelanggan tidak terontentikasi. Periksa [Layanan Opendesa Token] di <a href="#" style="text-decoration:none;" class="atur-token"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
+							<li>Token pelanggan tidak terontentikasi. Periksa [Layanan <?= config_item('nama_lembaga') ?> Token] di <a href="#" style="text-decoration:none;" class="atur-token"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
 							<li>Jika masih mengalami masalah harap menghubungi pelaksana masing-masing.
 						</div>
 					<?php endif ?>
@@ -38,14 +38,14 @@
     $('.atur-token').click(function(event) {
         Swal.fire({
             title: 'Pengaturan Pelanggan',
-            text: 'Layanan Opendesa Token',
+            text: 'Layanan ' + <?= config_item('nama_lembaga') ?> + ' Token',
             customClass: {
                 popup: 'swal-lg',
             },
             input: 'textarea',
             inputValue: '<?= setting('layanan_opendesa_token') ?>',
             inputAttributes: {
-                inputPlaceholder: 'Token pelanggan Layanan OpenDESA'
+                inputPlaceholder: 'Token pelanggan Layanan ' + '<?= config_item('nama_lembaga') ?>',
             },
             showCancelButton: true,
             cancelButtonText: 'Tutup',

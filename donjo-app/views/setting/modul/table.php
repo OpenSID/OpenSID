@@ -67,10 +67,10 @@
 					<div class="box-body">
 						<h4>Pengaturan Server</h4>
 						<div class="form-group" >
-							<label class="col-sm-3 control-label">Penggunaan OpenSID di <?= ucwords($this->setting->sebutan_desa)?></label>
+							<label class="col-sm-3 control-label">Penggunaan <?= config_item('nama_aplikasi') ?> di <?= ucwords($this->setting->sebutan_desa)?></label>
 							<div class="col-sm-9 col-lg-4">
 								<select class="form-control required input-sm" name="jenis_server" onchange="ubah_jenis_server($(this).val())">
-									<option value='' selected="selected">-- Pilih Penggunaan OpenSID --</option>
+									<option value='' selected="selected">-- Pilih Penggunaan <?= config_item('nama_aplikasi') ?> --</option>
 									<option value="1" <?php selected($this->setting->penggunaan_server, '1')?>>
 										Offline saja di kantor desa
 									</option>
