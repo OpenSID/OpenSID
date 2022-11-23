@@ -196,7 +196,7 @@
 					<a href="<?= site_url('modul/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
 				</div>
 				<div class="box-header with-border">
-				 <strong> Modul Utama : <?=$sub_modul['modul']?></strong>
+				<strong> Modul Utama : <?= SebutanDesa($sub_modul['modul']) ?></strong>
 				</div>
 				<div class="box-body">
 			<?php endif; ?>
@@ -236,7 +236,7 @@
 												<?php endif; ?>
 											</td>
 										<?php endif; ?>
-										<td><?=$data['modul']?></td>
+										<td><?= SebutanDesa($data['modul']) ?></td>
 										<td class="padat"><?=$data['ikon']?></td>
 										<td class="padat"><i class="fa <?=$data['ikon']?> fa-lg"></i></td>
 									</tr>
