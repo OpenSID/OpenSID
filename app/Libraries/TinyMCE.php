@@ -37,8 +37,10 @@
 
 namespace App\Libraries;
 
+use App\Enums\SHDKEnum;
 use App\Models\Config;
 use App\Models\FormatSurat;
+use App\Models\Keluarga;
 use App\Models\Pamong;
 use App\Models\Penduduk;
 use Carbon\Carbon;
@@ -147,6 +149,9 @@ class TinyMCE
 
             // Data Penduduk Umum
             'Penduduk' => $this->getIsianPenduduk($data['id_pend']),
+
+            // Data Anggota keluarga
+            'Anggota Keluarga' => $this->getIsianAnggotaKeluarga($data['id_pend']),
 
             // Data Dari Form Isian
             'Input' => $this->getIsianPost($data),
@@ -640,6 +645,145 @@ class TinyMCE
         }
 
         return $individu;
+    }
+
+    private function getIsianAnggotaKeluarga($id_penduduk = null)
+    {
+        $id_kk   = Penduduk::where('kk_level', SHDKEnum::KEPALA_KELUARGA)->find($id_penduduk)->id_kk;
+        $anggota = Keluarga::find($id_kk)->anggota;
+
+        return [
+            [
+                'judul' => 'Urutan',
+                'isian' => '[Klgx_urutaN]',
+                'data'  => $anggota ? $anggota->pluck('id')
+                    ->map(static function ($item, $key) {
+                        return $key + 1;
+                    })
+                    ->values()->toArray() : '',
+            ],
+            [
+                'judul' => 'NIK',
+                'isian' => '[Klgx_niK]',
+                'data'  => $anggota ? $anggota->pluck('nik')->toArray() : '',
+            ],
+            [
+                'judul' => 'Nama',
+                'isian' => '[Klgx_namA]',
+                'data'  => $anggota ? $anggota->pluck('nama')->toArray() : '',
+            ],
+            [
+                'judul' => 'Jenis Kelamin',
+                'isian' => '[Klgx_jenis_kelamiN]',
+                'data'  => $anggota ? $anggota->pluck('jenisKelamin.nama')->toArray() : '',
+            ],
+            [
+                'judul' => 'Tempat Lahir',
+                'isian' => '[Klgx_tempatlahiR]',
+                'data'  => $anggota ? $anggota->pluck('tempatlahir')->toArray() : '',
+            ],
+            [
+                'judul' => 'Tgl Lahir',
+                'isian' => '[Klgx_tanggallahiR]',
+                'data'  => $anggota ? $anggota->pluck('tanggallahir')
+                    ->map(static function ($item) {
+                        return tgl_indo($item);
+                    })
+                    ->toArray() : '',
+            ],
+            [
+                'judul' => 'Tempat Tgl Lahir',
+                'isian' => '[Klgx_tempat_tgl_lahiR]',
+                'data'  => $anggota ? $anggota->pluck('tempatlahir', 'tanggallahir')
+                    ->map(static function ($item, $key) {
+                        return $item . ', ' . tgl_indo($key);
+                    })
+                    ->values()->toArray() : '',
+            ],
+            [
+                'judul' => 'Tempat Tgl Lahir (TTL)',
+                'isian' => '[Klgx_ttL]',
+                'data'  => $anggota ? $anggota->pluck('tempatlahir', 'tanggallahir')
+                    ->map(static function ($item, $key) {
+                        return $item . ', ' . tgl_indo($key);
+                    })
+                    ->values()->toArray() : '',
+            ],
+            [
+                'judul' => 'Usia',
+                'isian' => '[Klgx_usiA]',
+                'data'  => $anggota ? $anggota->pluck('usia')->toArray() : '',
+            ],
+            [
+                'judul' => 'Agama',
+                'isian' => '[Klgx_agamA]',
+                'data'  => $anggota ? $anggota->pluck('agama.nama')->toArray() : '',
+            ],
+            [
+                'judul' => 'Pendidikan Sedang',
+                'isian' => '[Klgx_pendidikan_sedanG]',
+                'data'  => $anggota ? $anggota->pluck('pendidikan.nama')->toArray() : '',
+            ],
+            [
+                'judul' => 'Pendidikan Dalam KK',
+                'isian' => '[Klgx_pendidikan_kK]',
+                'data'  => $anggota ? $anggota->pluck('pendidikanKk.nama')->toArray() : '',
+            ],
+            [
+                'judul' => 'Pekerjaan',
+                'isian' => '[Klgx_pekerjaaN]',
+                'data'  => $anggota ? $anggota->pluck('pekerjaan.nama')->toArray() : '',
+            ],
+            [
+                'judul' => 'Status Perkawinan',
+                'isian' => '[Klgx_status_kawiN]',
+                'data'  => $anggota ? $anggota->pluck('statusKawin.nama')->toArray() : '',
+            ],
+            [
+                'judul' => 'Hubungan Dalam KK',
+                'isian' => '[Klgx_hubungan_kK]',
+                'data'  => $anggota ? $anggota->pluck('pendudukHubungan.nama')->toArray() : '',
+            ],
+            [
+                'judul' => 'Warga Negara',
+                'isian' => '[Klgx_warga_negarA]',
+                'data'  => $anggota ? $anggota->pluck('warganegara.nama')->toArray() : '',
+            ],
+            [
+                'judul' => 'Dokumen Pasport',
+                'isian' => '[Klgx_dokumen_pasporT]',
+                'data'  => $anggota ? $anggota->pluck('dokumen_pasport')->toArray() : '',
+            ],
+            [
+                'judul' => 'Tgl Akhir Paspor',
+                'isian' => '[Klgx_tanggal_akhir_paspoR]',
+                'data'  => $anggota ? $anggota->pluck('tanggal_akhir_paspor')
+                    ->map(static function ($item) {
+                        return tgl_indo($item);
+                    })
+                    ->toArray() : '',
+            ],
+            [
+                'judul' => 'NIK Ayah',
+                'isian' => '[Klgx_nik_ayaH]',
+                'data'  => $anggota ? $anggota->pluck('ayah_nik')->toArray() : '',
+            ],
+            [
+                'judul' => 'Nama Ayah',
+                'isian' => '[Klgx_nama_ayaH]',
+                'data'  => $anggota ? $anggota->pluck('nama_ayah')->toArray() : '',
+            ],
+            [
+                'judul' => 'NIK Ibu',
+                'isian' => '[Klgx_nik_ibU]',
+                'data'  => $anggota ? $anggota->pluck('ibu_nik')->toArray() : '',
+            ],
+            [
+                'judul' => 'Nama Ibu',
+                'isian' => '[Klgx_nama_ibU]',
+                'data'  => $anggota ? $anggota->pluck('nama_ibu')->toArray() : '',
+            ],
+        ];
     }
 
     private function getIsianPost($data = [])

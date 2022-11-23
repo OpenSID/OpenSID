@@ -6,6 +6,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 
 1. [#5484](https://github.com/OpenSID/OpenSID/issues/5484) Penambahan fitur modul DTKS.
 2. [#5823](https://github.com/OpenSID/OpenSID/issues/5823) Penambahan fitur pengaturan sebutan aparatur desa.
+3. [#5524](https://github.com/OpenSID/OpenSID/issues/5524) Penmabahan fitur kode isian anggota keluarga sesuai ID kepala keluarga.
 
 #### Perbaikan BUG
 
