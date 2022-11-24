@@ -360,9 +360,4 @@ class Data_persil_model extends MY_Model
         $mutasi['id_peta']        = ($data['area_tanah'] == 1 || $data['area_tanah'] == null) ? $data['id_peta'] : null;
         $this->db->insert('mutasi_cdesa', $mutasi);
     }
-
-    public function jml_persil()
-    {
-        return $this->db->get('persil')->num_rows();
-    }
 }

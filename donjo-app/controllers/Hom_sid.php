@@ -35,7 +35,6 @@
  *
  */
 
-use App\Libraries\Parsedown;
 use App\Libraries\Release;
 use App\Models\Bantuan;
 use App\Models\Kelompok;
@@ -54,19 +53,19 @@ class Hom_sid extends Admin_Controller
 
     public function index()
     {
+        get_pesan_opendk(); //ambil pesan baru di opendk
         $this->modul_ini = 1;
 
         $data = [
-            'rilis'         => $this->getUpdate(),
-            'bantuan'       => $this->bantuan(),
-            'penduduk'      => Penduduk::status()->count(),
-            'keluarga'      => Keluarga::status()->count(),
-            'rtm'           => Rtm::status()->count(),
-            'kelompok'      => Kelompok::status()->tipe()->count(),
-            'dusun'         => Wilayah::dusun()->count(),
-            'pendaftaran'   => PendudukMandiri::status()->count(),
-            'surat'         => LogSurat::count(),
-            'catatan_rilis' => $this->catatan(),
+            'rilis'       => $this->getUpdate(),
+            'bantuan'     => $this->bantuan(),
+            'penduduk'    => Penduduk::status()->count(),
+            'keluarga'    => Keluarga::status()->count(),
+            'rtm'         => Rtm::status()->count(),
+            'kelompok'    => Kelompok::status()->tipe()->count(),
+            'dusun'       => Wilayah::dusun()->count(),
+            'pendaftaran' => PendudukMandiri::status()->count(),
+            'surat'       => LogSurat::count(),
         ];
 
         return view("{$this->viewPath}.index", $data);
@@ -100,12 +99,5 @@ class Hom_sid extends Admin_Controller
         $bantuan['program']     = Bantuan::status()->pluck('nama', 'id');
 
         return $bantuan;
-    }
-
-    private function catatan()
-    {
-        $catatan = new Parsedown();
-
-        return $catatan->text(file_get_contents('catatan_rilis.md'));
     }
 }

@@ -18,7 +18,7 @@
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("penduduk/delete_all_dokumen/{$penduduk['id']}")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<?php endif; ?>
-						<a href="<?= site_url("penduduk/detail/1/0/{$penduduk['id']}")?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Biodata Penduduk</a>
+						<a href="<?= (preg_match('/bumindes_arsip/i', $_SERVER['HTTP_REFERER'])) ? site_url('bumindes_arsip/clear') : site_url("penduduk/detail/1/0/{$penduduk['id']}") ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali ke Halaman <?= $_SERVER['HTTP_REFERER'] == site_url('bumindes_arsip') ? 'Bumindes Arsip' : 'Biodata Penduduk' ?></a>
 					</div>
 					<div class="box-body ">
 						<div class="table-responsive">

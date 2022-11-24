@@ -50,7 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<h4>BERIKAN PENILAIAN ANDA TERHADAP PELAYANAN KAMI</h4>
 				<?php foreach (unserialize(NILAI_PENDAPAT) as $key => $value) : ?>
 					<a href="<?= site_url("layanan-mandiri/pendapat/{$key}"); ?>" class="btn btn-app pendapat">
-						<img src="<?= base_url(PENDAPAT . underscore(strtolower($value)) . '.png'); ?>">
+						<img src="<?= base_url(PENDAPAT . underscore($value, false, true) . '.png'); ?>">
 						<p><?= $value; ?></p>
 					</a>
 				<?php endforeach; ?>

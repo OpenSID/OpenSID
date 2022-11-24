@@ -134,20 +134,8 @@
 										<th>No</th>
 										<th>Aksi</th>
 										<th>Foto</th>
-										<?php if ($o == 2): ?>
-											<th><a href="<?= site_url("keluarga/index/{$p}/1")?>">Nomor KK <i class='fa fa-sort-asc fa-sm'></i></a></th>
-										<?php elseif ($o == 1): ?>
-											<th><a href="<?= site_url("keluarga/index/{$p}/2")?>">Nomor KK <i class='fa fa-sort-desc fa-sm'></i></a></th>
-										<?php else: ?>
-											<th><a href="<?= site_url("keluarga/index/{$p}/1")?>">Nomor KK <i class='fa fa-sort fa-sm'></i></a></th>
-										<?php endif; ?>
-										<?php if ($o == 4): ?>
-											<th nowrap><a href="<?= site_url("keluarga/index/{$p}/3")?>">Kepala Keluarga <i class='fa fa-sort-asc fa-sm'></i></a></th>
-										<?php elseif ($o == 3): ?>
-											<th nowrap><a href="<?= site_url("keluarga/index/{$p}/4")?>">Kepala Keluarga <i class='fa fa-sort-desc fa-sm'></i></a></th>
-										<?php else: ?>
-											<th nowrap><a href="<?= site_url("keluarga/index/{$p}/3")?>">Kepala Keluarga <i class='fa fa-sort fa-sm'></i></a></th>
-										<?php endif; ?>
+										<th><?= url_order($o, "{$this->controller}/index/{$p}", 1, 'Nomor KK'); ?></th>
+										<th><?= url_order($o, "{$this->controller}/index/{$p}", 3, 'Kepala Keluarga'); ?></th>
 										<th>NIK</th>
 										<th>Tag ID Card</th>
 										<th>Jumlah Anggota</th>
@@ -156,19 +144,13 @@
 										<th><?= ucwords($this->setting->sebutan_dusun)?></th>
 										<th>RW</th>
 										<th>RT</th>
-										<?php if ($o == 6): ?>
-											<th nowrap><a href="<?= site_url("keluarga/index/{$p}/5")?>">Tanggal Terdaftar <i class='fa fa-sort-asc fa-sm'></i></a></th>
-										<?php elseif ($o == 5): ?>
-											<th nowrap><a href="<?= site_url("keluarga/index/{$p}/6")?>">Tanggal Terdaftar <i class='fa fa-sort-desc fa-sm'></i></a></th>
-										<?php else: ?>
-											<th nowrap><a href="<?= site_url("keluarga/index/{$p}/6")?>">Tanggal Terdaftar <i class='fa fa-sort fa-sm'></i></a></th>
-										<?php endif; ?>
-										<th nowrap>Tanggal Cetak KK</th>
+										<th><?= url_order($o, "{$this->controller}/index/{$p}", 5, 'Tanggal Terdaftar'); ?></th>
+										<th><?= url_order($o, "{$this->controller}/index/{$p}", 7, 'Tanggal Cetak KK'); ?></th>
 									</tr>
 								</thead>
 								<tbody>
 									<?php foreach ($main as $data): ?>
-										<tr>
+										<tr <?= jecho(get_nokk($data['no_kk']), '0', 'class="danger"') ?>>
 											<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 											<td class="padat"><?= $data['no']?></td>
 											<td class="aksi">
@@ -207,14 +189,14 @@
 											<td nowrap><?= strtoupper($data['kepala_kk'])?></td>
 											<td><a href="<?= site_url("penduduk/detail/1/0/{$data['id_pend']}")?>"><?= strtoupper($data['nik'])?></a></td>
 											<td><?= $data['tag_id_card']?></td>
-											<td><a href="<?= site_url("keluarga/anggota/{$p}/{$o}/{$data['id']}")?>"><?= $data['jumlah_anggota']?></a></td>
+											<td class="padat"><a href="<?= site_url("keluarga/anggota/{$p}/{$o}/{$data['id']}")?>"><?= $data['jumlah_anggota']?></a></td>
 											<td><?= strtoupper($data['sex'])?></td>
 											<td><?= strtoupper($data['alamat'])?></td>
 											<td><?= strtoupper($data['dusun'])?></td>
 											<td><?= strtoupper($data['rw'])?></td>
 											<td><?= strtoupper($data['rt'])?></td>
-											<td><?= tgl_indo($data['tgl_daftar'])?></td>
-											<td><?= tgl_indo($data['tgl_cetak_kk'])?></td>
+											<td class="padat"><?= tgl_indo($data['tgl_daftar'])?></td>
+											<td class="padat"><?= tgl_indo($data['tgl_cetak_kk'])?></td>
 										</tr>
 									<?php endforeach; ?>
 								</tbody>

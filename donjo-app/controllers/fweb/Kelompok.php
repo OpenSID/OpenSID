@@ -39,17 +39,20 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kelompok extends Web_Controller
 {
+    protected $tipe = 'kelompok';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('kelompok_model');
+        $this->kelompok_model->set_tipe($this->tipe);
     }
 
     public function detail($slug = null)
     {
         $id = $this->kelompok_model->slug($slug);
 
-        if (! $this->web_menu_model->menu_aktif('data-kelompok/' . $id)) {
+        if (! $this->web_menu_model->menu_aktif("data-kelompok/{$id}")) {
             show_404();
         }
 

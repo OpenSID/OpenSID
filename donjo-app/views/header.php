@@ -51,6 +51,14 @@
 		<link rel="stylesheet" href="<?= asset('css/peta.css') ?>">
 		<link rel="stylesheet" href="<?= asset('css/toastr.min.css') ?>">
 
+		<style>
+			@media (max-width: 576px) {
+				.komunikasi-opendk {
+					display: none !important;
+				}
+			}
+		</style>
+
 		<!-- Untuk ubahan style desa -->
 		<?php if (is_file('desa/css/siteman.css')): ?>
 			<link rel='Stylesheet' href="<?= base_url('desa/css/siteman.css') ?>">
@@ -122,7 +130,17 @@
 									</a>
 								</li>
 							<?php endif ?>
-							<?php if ($this->CI->cek_hak_akses('b', 'permohonan_surat_admin')): ?>
+							<?php if (in_array('343', array_column($modul, 'id')) && can('b', 'opendk_pesan')) : ?>
+								<li class="komunikasi-opendk">
+									<a href="<?=  route('opendk_pesan.clear') ?>">
+										<span><i class="fa fa-university fa-lg" title="Komunikasi OpenDk"></i>&nbsp;</span>
+										<?php if ($notif_pesan_opendk) : ?>
+											<span class="badge" id="b_opendkpesan"><?=  $notif_pesan_opendk ?></span>
+										<?php endif ?>
+									</a>
+								</li>
+							<?php endif ?>
+							<?php if (can('b', 'permohonan_surat_admin')): ?>
 								<li>
 									<a href="<?= site_url('permohonan_surat_admin/clear') ?>">
 										<span><i class="fa fa-print fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
@@ -132,7 +150,7 @@
 									</a>
 								</li>
 							<?php endif ?>
-							<?php if ($this->CI->cek_hak_akses('b', 'komentar')): ?>
+							<?php if (can('b', 'komentar')): ?>
 								<li>
 									<a href="<?= site_url('komentar') ?>">
 										<span><i class="fa fa-commenting-o fa-lg" title="Komentar"></i>&nbsp;</span>
@@ -142,7 +160,7 @@
 									</a>
 								</li>
 							<?php endif ?>
-							<?php if ($this->CI->cek_hak_akses('b', 'mailbox')): ?>
+							<?php if (can('b', 'mailbox')): ?>
 								<li>
 									<a href="<?= site_url('mailbox') ?>">
 										<span><i class="fa fa-envelope-o fa-lg" title="Pesan Masuk"></i>&nbsp;</span>
@@ -175,13 +193,18 @@
 									</li>
 								</ul>
 							</li>
-							<?php if ($this->controller == 'pelanggan' && $this->CI->cek_hak_akses('u', $this->controller)): ?>
-								<li>
-									<a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan <?= ucwords($this->controller); ?>" data-target="#pengaturan">
-										<span><i class="fa fa-gear"></i>&nbsp;</span>
-									</a>
-								</li>
-							<?php endif; ?>
+							<li>
+								<a href="#" data-toggle="control-sidebar" title="Informasi">
+									<span><i class="fa fa-question-circle fa-lg""></i>&nbsp;</span>
+								</a>
+							</li>
+							<?php if ($this->header['kategori'] && can('u', $this->controller)): ?>
+							<li>
+								<a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan <?= ucwords($this->controller) ?>" data-target="#pengaturan">
+									<span><i class="fa fa-gear"></i>&nbsp;</span>
+								</a>
+							</li>
+							<?php endif ?>
 						</ul>
 					</div>
 				</nav>
@@ -200,16 +223,16 @@
 				</div>
 			</div>
 
-			<?php if ($this->controller == 'pelanggan' && $this->CI->cek_hak_akses('u', $this->controller)): ?>
-				<!-- Untuk menampilkan pengaturan -->
+			<!-- Untuk menampilkan pengaturan -->
+			<?php if ($this->header['kategori'] && can('u', $this->controller)): ?>
 				<div class="modal fade" id="pengaturan" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								<h4 class="modal-title" id="myModalLabel"> Pengaturan <?= ucwords($this->controller) ?></h4>
+								<h4 class="modal-title" id="myModalLabel"> Pengaturan <?= ucwords(str_replace('_', ' ', $this->header['kategori'])) ?></h4>
 							</div>
-							<?php $this->load->view('global/modal_setting', ['kategori' => [$this->controller]]) ?>
+							<?php $this->load->view('global/modal_setting', ['kategori' => [$this->header['kategori']]]) ?>
 						</div>
 					</div>
 				</div>

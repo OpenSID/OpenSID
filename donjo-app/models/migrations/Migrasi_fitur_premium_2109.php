@@ -129,7 +129,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
             }
         }
 
-        return $hasil && $this->tambah_indeks('tweb_penduduk', 'nik');
+        return $hasil && $this->tambahIndeks('tweb_penduduk', 'nik');
     }
 
     protected function migrasi_2021082871($hasil)

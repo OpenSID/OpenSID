@@ -200,15 +200,6 @@
 															<th colspan="3" class="subtitle_head"><strong>ALAMAT</strong></th>
 														</tr>
 														<tr>
-															<td>Nomor Telepon</td><td >:</td><td><?= strtoupper($penduduk['telepon'])?></td>
-														</tr>
-														<tr>
-															<td>Alamat Email</td><td >:</td><td><?= strtoupper($penduduk['email'])?></td>
-														</tr>
-														<tr>
-															<td>Telegram</td><td >:</td><td><?= $penduduk['telegram']?></td>
-														</tr>
-														<tr>
 															<td>Alamat</td><td >:</td><td><?= strtoupper($penduduk['alamat'])?></td>
 														</tr>
 														<tr>
@@ -219,6 +210,18 @@
 														</tr>
 														<tr>
 															<td>Alamat Sebelumnya</td><td >:</td><td><?= strtoupper($penduduk['alamat_sebelumnya'])?></td>
+														</tr>
+														<tr>
+															<td>Nomor Telepon</td><td >:</td><td><?= strtoupper($penduduk['telepon'])?></td>
+														</tr>
+														<tr>
+															<td>Alamat Email</td><td >:</td><td><?= strtoupper($penduduk['email'])?></td>
+														</tr>
+														<tr>
+															<td>Telegram</td><td >:</td><td><?= $penduduk['telegram']?></td>
+														</tr>
+														<tr>
+															<td>Cara Hubung Warga</td><td >:</td><td><?= $penduduk['hubung_warga']?></td>
 														</tr>
 														<tr>
 															<th colspan="3" class="subtitle_head"><strong>STATUS KAWIN</strong></th>

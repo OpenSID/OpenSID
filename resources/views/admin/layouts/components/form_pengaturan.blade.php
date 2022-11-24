@@ -6,7 +6,7 @@
 
       @php $key = ucwords(str_replace('_', ' ', $set->key)) @endphp
 
-      @if ($set->key != 'penggunaan_server' && $set->jenis != 'upload' && $set->kategori == $kategori && ($set->key != 'token_opensid'))
+      @if ($set->key != 'penggunaan_server' && $set->jenis != 'upload' && $set->kategori == $kategori)
         
         @php
           $set->kategori = ($set->kategori == 'setting_analisis' && config_item('demo_mode')) ? 'readonly' : $set->kategori;

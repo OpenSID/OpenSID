@@ -764,7 +764,6 @@ class Periksa_model extends MY_Model
             'captcha_codes',
             'password_resets',
             'sentitems', // Belum tau bentuk datanya bagamana
-            'setting_sms',
             'sys_traffic',
             'tweb_penduduk_mandiri',
             'tweb_penduduk_map', // id pada tabel tweb_penduduk_map == penduduk.id (buka id untuk AI)

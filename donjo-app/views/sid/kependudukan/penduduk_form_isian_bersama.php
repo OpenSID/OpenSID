@@ -459,24 +459,6 @@
 	<?php endif; ?>
 	<div class='col-sm-12'>
 		<div class='form-group'>
-			<label for="telepon"> Nomor Telepon </label>
-			<input id="telepon" name="telepon" class="form-control input-sm number" type="text" maxlength="20" placeholder="Nomor Telepon" value="<?= $penduduk['telepon'] ?>"></input>
-		</div>
-	</div>
-	<div class='col-sm-4'>
-		<div class='form-group'>
-			<label for="email"> Alamat Email </label>
-			<input id="email" name="email" class="form-control input-sm email" maxlength="50" placeholder="Alamat Email" value="<?= $penduduk['email'] ?>"></input>
-		</div>
-	</div>
-	<div class='col-sm-8'>
-		<div class='form-group'>
-			<label for="telegram">Telegram </label>
-			<input name="telegram" class="form-control input-sm number" maxlength="100" type="text" placeholder="Akun Telegram" value="<?= $penduduk['telegram'] ?>"></input>
-		</div>
-	</div>
-	<div class='col-sm-12'>
-		<div class='form-group'>
 			<label for="alamat_sebelumnya">Alamat Sebelumnya </label>
 			<input id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm nomor_sk" maxlength="200" type="text" placeholder="Alamat Sebelumnya" value="<?= $penduduk['alamat_sebelumnya'] ?>"></input>
 		</div>
@@ -489,6 +471,40 @@
 			</div>
 		</div>
 	<?php endif; ?>
+	<div class='col-sm-4'>
+		<div class='form-group'>
+			<label for="telepon"> Nomor Telepon </label>
+			<input id="telepon" name="telepon" class="form-control input-sm number" type="text" maxlength="20" placeholder="Nomor Telepon" value="<?= $penduduk['telepon'] ?>"></input>
+		</div>
+	</div>
+	<div class='col-sm-4'>
+		<div class='form-group'>
+			<label for="email"> Email </label>
+			<input id="email" name="email" class="form-control input-sm email" maxlength="50" placeholder="Alamat Email" value="<?= $penduduk['email'] ?>"></input>
+		</div>
+	</div>
+	<div class='col-sm-4'>
+		<div class='form-group'>
+			<label for="telegram"> Telegram </label>
+			<input name="telegram" class="form-control input-sm number" maxlength="100" type="text" placeholder="Akun Telegram" value="<?= $penduduk['telegram'] ?>"></input>
+		</div>
+	</div>
+	<div class='col-sm-4'>
+		<div class='form-group'>
+			<label for="status_kawin"> Cara Hubung Warga </label>
+			<select class="form-control input-sm required" name="hubung_warga">
+				<option value="">Pilih Cara Hubungi</option>
+				<?php foreach (['SMS', 'Email', 'Telegram'] as $value) : ?>
+					<?php
+                        if ((bool) $this->setting->aktifkan_sms === false && $value === 'SMS') {
+                            continue;
+                        }
+                    ?>
+					<option value="<?= $value ?>" <?= selected($penduduk['hubung_warga'], $value); ?>><?= $value ?></option>
+				<?php endforeach ?>
+			</select>
+		</div>
+	</div>
 	<div class='col-sm-12'>
 		<div class="form-group subtitle_head">
 			<label class="text-right"><strong>STATUS PERKAWINAN :</strong></label>
@@ -816,15 +832,15 @@
 				$('#wajib_ktp').text('WAJIB');
 				break;
 			case '3':
-				$("#akta_perkawinan").attr('disabled', true);
-				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perkawinan").attr('disabled', false);
+				$("input[name=tanggalperkawinan]").attr('disabled', false);
 				$("#akta_perceraian").attr('disabled', false);
 				$("input[name=tanggalperceraian]").attr('disabled', false);
 				$('#wajib_ktp').text('WAJIB');
 				break;
 			case '4':
-				$("#akta_perkawinan").attr('disabled', true);
-				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perkawinan").attr('disabled', false);
+				$("input[name=tanggalperkawinan]").attr('disabled', false);
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
 				$('#wajib_ktp').text('WAJIB');

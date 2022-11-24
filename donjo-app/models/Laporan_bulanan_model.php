@@ -48,9 +48,9 @@ class Laporan_bulanan_model extends MY_Model
 
     private function dusun_sql()
     {
-        $dusun = $_SESSION['dusun'];
+        $dusun = $this->session->dusun;
         if (! empty($dusun)) {
-            return " AND dusun = '" . $dusun . "'";
+            return " AND c.dusun = '" . $dusun . "'";
         }
     }
 

@@ -237,18 +237,24 @@ class Covid19_model extends CI_Model
     {
         $tujuan_mudik = $this->referensi_model->list_ref_flip(TUJUAN_MUDIK);
 
-        return [
-            'tanggal_datang'    => $post['tanggal_tiba'],
-            'asal_mudik'        => alfanumerik_spasi($post['asal_pemudik']),
-            'durasi_mudik'      => bilangan($post['durasi_pemudik']),
-            'tujuan_mudik'      => $tujuan_mudik[$post['tujuan_pemudik']],
-            'no_hp'             => bilangan_spasi($post['hp_pemudik']),
-            'email'             => strip_tags($post['email_pemudik']),
+        $data = [
+            'pantau'            => (int) $post['pantau'],
             'status_covid'      => (int) $post['status_covid'],
             'is_wajib_pantau'   => (int) $post['wajib_pantau'],
             'keluhan_kesehatan' => alfanumerik_spasi($post['keluhan']),
             'keterangan'        => alfanumerik_spasi($post['keterangan']),
         ];
+
+        if ($data['pantau'] == 1) {
+            $data['tanggal_datang'] = $post['tanggal_tiba'];
+            $data['asal_mudik']     = alfanumerik_spasi($post['asal_pemudik']);
+            $data['durasi_mudik']   = bilangan($post['durasi_pemudik']);
+            $data['tujuan_mudik']   = $tujuan_mudik[$post['tujuan_pemudik']];
+            $data['no_hp']          = bilangan_spasi($post['hp_pemudik']);
+            $data['email']          = strip_tags($post['email_pemudik']);
+        }
+
+        return $data;
     }
 
     public function update_pemudik_by_id($post, $id)

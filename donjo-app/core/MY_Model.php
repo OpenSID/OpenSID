@@ -75,7 +75,6 @@ class MY_Model extends CI_Model
 
         switch ($cut[0]) {
             case 'artikel':
-
                 $data = $this->first_artikel_m->get_artikel($cut[1]);
                 $url  = ($data) ? ($cut[0] . '/' . buat_slug($data)) : ($url);
                 break;
@@ -92,6 +91,7 @@ class MY_Model extends CI_Model
                 break;
 
             case 'data-kelompok':
+            case 'data-lembaga':
                 $this->load->model('kelompok_model');
                 $data = $this->kelompok_model->get_kelompok($cut[1]);
                 $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
@@ -119,6 +119,7 @@ class MY_Model extends CI_Model
             case 'galeri':
             case 'pengaduan':
             case 'data-vaksinasi':
+            case 'pemerintah':
                 break;
 
             default:
@@ -194,7 +195,7 @@ class MY_Model extends CI_Model
         return true;
     }
 
-    public function tambah_indeks($tabel, $kolom, $index = 'UNIQUE')
+    public function tambahIndeks($tabel, $kolom, $index = 'UNIQUE')
     {
         if ($index == 'UNIQUE') {
             $duplikat = $this->db
@@ -295,7 +296,7 @@ class MY_Model extends CI_Model
     }
 
     // Buat FOREIGN KEY $nama_constraint $di_tbl untuk $fk menunjuk $ke_tbl di $ke_kolom
-    public function tambah_foreign_key($nama_constraint, $di_tbl, $fk, $ke_tbl, $ke_kolom)
+    public function tambahForeignKey($nama_constraint, $di_tbl, $fk, $ke_tbl, $ke_kolom)
     {
         $query = $this->db
             ->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
@@ -307,6 +308,24 @@ class MY_Model extends CI_Model
             $hasil = $hasil && $this->dbforge->add_column($di_tbl, [
                 "CONSTRAINT `{$nama_constraint}` FOREIGN KEY (`{$fk}`) REFERENCES `{$ke_tbl}` (`{$ke_kolom}`) ON DELETE CASCADE ON UPDATE CASCADE",
             ]);
+        }
+
+        return $hasil;
+    }
+
+    // Hapus FOREIGN KEY $tabel, $nama_constraint
+    public function hapus_foreign_key($tabel, $nama_constraint, $drop)
+    {
+        $query = $this->db
+            ->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+            ->where('CONSTRAINT_SCHEMA', $this->db->database)
+            ->where('REFERENCED_TABLE_NAME', $tabel)
+            ->where('CONSTRAINT_NAME', $nama_constraint)
+            ->get();
+
+        $hasil = true;
+        if ($query->num_rows() > 0) {
+            $hasil = $hasil && $this->db->query("ALTER TABLE `{$drop}` DROP FOREIGN KEY `{$nama_constraint}`");
         }
 
         return $hasil;
@@ -331,16 +350,41 @@ class MY_Model extends CI_Model
         return false;
     }
 
-    public function timestamps($tabel = '')
+    public function timestamps($tabel = '', $creator = false)
     {
+        $hasil  = true;
+        $fields = [];
+
         // Kolom created_at
         if (! $this->db->field_exists('created_at', $tabel)) {
-            $hasil = $this->dbforge->add_column($tabel, 'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP');
+            $fields[] = 'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP';
+        }
+
+        // Kolom created_by
+        if ($creator && ! $this->db->field_exists('created_by', $tabel)) {
+            $fields['created_by'] = [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'       => false,
+            ];
         }
 
         // Kolom updated_at
         if (! $this->db->field_exists('updated_at', $tabel)) {
-            $hasil = $this->dbforge->add_column($tabel, 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+            $fields[] = 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP';
+        }
+
+        // Kolom updated_by
+        if ($creator && ! $this->db->field_exists('updated_by', $tabel)) {
+            $fields['updated_by'] = [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'       => false,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->add_column($tabel, $fields);
         }
 
         return $hasil;

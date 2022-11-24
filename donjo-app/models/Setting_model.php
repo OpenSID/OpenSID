@@ -98,10 +98,6 @@ class Setting_model extends MY_Model
         if (empty($this->setting->mapbox_key)) {
             $this->setting->mapbox_key = config_item('mapbox_key');
         }
-        // Ambil token tracksid dari desa/config/config.php kalau tidak ada di database
-        if (empty($this->setting->token_opensid)) {
-            $this->setting->token_opensid = config_item('token_opensid');
-        }
 
         // Ganti token_layanan sesuai config untuk development untuk mempermudah rilis
         if ((ENVIRONMENT == 'development') || config_item('token_layanan')) {

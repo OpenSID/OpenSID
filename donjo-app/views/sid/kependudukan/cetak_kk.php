@@ -58,7 +58,7 @@
 						<td><?= $data['nik']?></td>
 						<td><?= $data['sex']?></td>
 						<td><?= $data['tempatlahir']?></td>
-						<td><?= tgl_indo($data['tanggallahir'])?></td>
+						<td><?= tgl_indo_out($data['tanggallahir'])?></td>
 						<td><?= $data['agama']?></td>
 						<td><?= $data['pendidikan']?></td>
 						<td><?= $data['pekerjaan']?></td>
