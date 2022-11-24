@@ -19,7 +19,7 @@
                             <thead class="bg-gray disabled color-palette">
                                 <tr>
                                     <th>No.</th>
-                                    <th>Kirim Data OpenSID Ke OpenDK</th>
+                                    <th>Kirim Data <?= config_item('nama_aplikasi') ?> Ke OpenDK</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>

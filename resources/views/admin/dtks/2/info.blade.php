@@ -53,7 +53,7 @@
                 <thead class="bg-gray disabled color-palette">
                     <tr>
                         <td>Jenis Program</td>
-                        <td>Relasi dengan Data Program Bantuan OpenSID</td>
+                        <td>Relasi dengan Data Program Bantuan <?= config_item('nama_aplikasi') ?></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -188,7 +188,7 @@
                     <thead class="bg-gray disabled color-palette">
                         <tr>
                             <td>Jenis Program</td>
-                            <td>Relasi dengan Data Jaminan/Program Bantuan OpenSID</td>
+                            <td>Relasi dengan Data Jaminan/Program Bantuan <?= config_item('nama_aplikasi') ?></td>
                             <td>Nilai bawaan jika anggota <b>tidak</b> ikut serta/<b>tidak</b> memilki <b>satupun</b> program/jaminan tersebut</td>
                         </tr>
                     </thead>

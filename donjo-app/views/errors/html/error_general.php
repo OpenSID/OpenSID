@@ -25,7 +25,7 @@ if (! isset($CI)) {
 			<p>
 				<?= $message; ?>
 
-				Versi OpenSID <?= AmbilVersi()?>. PHP versi <?= preg_split('/-/', PHP_VERSION)[0]?>.
+				Versi <?= config_item('nama_aplikasi') . ' ' . AmbilVersi() ?>. PHP versi <?= preg_split('/-/', PHP_VERSION)[0]?>.
 
 				<?php if ($status_code >= 500): ?>
 					<br><br>

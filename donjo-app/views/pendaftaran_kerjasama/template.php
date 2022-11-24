@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KESEPAKATAN MENJADI DESA DIGITAL OPENDESA</title>
+    <title>KESEPAKATAN MENJADI DESA DIGITAL <?= strtoupper(config_item('nama_lembaga')) ?></title>
 </head>
 <style>
     @media print {
@@ -45,7 +45,7 @@
                 </p>
                 <p align="center">
                     <strong>
-                        PEMANFAATAN APLIKASI DAN LAYANAN OPENDESA MENUJU DESA CERDAS<em></em>
+                        PEMANFAATAN APLIKASI DAN LAYANAN <?= strtoupper(config_item('nama_lembaga')) ?> MENUJU DESA CERDAS<em></em>
                     </strong>
                 </p>
                 <p align="center">
@@ -201,7 +201,7 @@
         <strong>PIHAK KESATU </strong>
         bertujuan mewujudkan Desa <strong><?= $desa ?></strong> menjadi Desa Digital menuju
         Desa Cerdas. Untuk tujuan itu, <strong>PIHAK KESATU</strong> bermaksud
-        menggunakan aplikasi dan layanan yang disediakan OpenDesa.
+        menggunakan aplikasi dan layanan yang disediakan <?= config_item('nama_lembaga') ?>.
     </p>
     <p align="justify">
         Maksud dan tujuan Kesepakatan Kerjasama ini adalah untuk saling mendukung dan
@@ -217,7 +217,7 @@
     </p>
     <p align="justify">
         Ruang lingkup Kesepakatan Kerjasama ini adalah pemanfaatan aplikasi dan
-        layanan yang disediakan OpenDesa.
+        layanan yang disediakan <?= config_item('nama_lembaga') ?>.
     </p>
     <p style="page-break-after: always;"></p>
     <p align="center">
@@ -236,11 +236,11 @@
         <li>
             <p align="justify">
                 Dengan berlakunya Kesepakatan Kerjasama ini, <strong>PIHAK KEDUA</strong>
-                akan menyediakan layanan OpenDesa untuk dapat dimanfaatkan oleh <strong>PIHAK KESATU</strong>, di mana
+                akan menyediakan layanan <?= config_item('nama_lembaga') ?> untuk dapat dimanfaatkan oleh <strong>PIHAK KESATU</strong>, di mana
                 layanan
                 tersebut hanya tersedia bagi
                 desa yang telah bekerjasama sehingga terdaftar sebagai Desa Digital
-                OpenDesa.
+                <?= config_item('nama_lembaga') ?>.
             </p>
         </li>
         <li>
@@ -287,7 +287,7 @@
     </p>
     <p align="justify">
         Desa <strong><?= $desa ?></strong> akan berkontribusi dalam pembiayaan gotong-royong nasional
-        pengembangan dan penerapan aplikasi kelolaan OpenDesa sesuai dengan
+        pengembangan dan penerapan aplikasi kelolaan <?= config_item('nama_lembaga') ?> sesuai dengan
         aplikasi dan layanan yang dimanfaatkan. Pembiayaan tersebut diturunkan
         dalam perjanjian atau pemesanan terpisah yang disepakati <strong>PARA PIHAK</strong> untuk aplikasi dan layanan
         yang
@@ -364,8 +364,8 @@
                 scan
                 Perjanjian ini
                 yang telah ditandatangani <strong>PIHAK KESATU</strong> sesuai ayat (1)
-                melalui fitur pendaftaran Desa Digital OpenDesa yang disediakan di aplikasi
-                OpenSID. <strong>PIHAK KEDUA</strong> secara resmi menyatakan persetujuan
+                melalui fitur pendaftaran Desa Digital <?= config_item('nama_lembaga') ?> yang disediakan di aplikasi
+                <?= config_item('nama_aplikasi') ?>. <strong>PIHAK KEDUA</strong> secara resmi menyatakan persetujuan
                 dengan Kesepakatan Kerjasama ini dengan mengubah status pendaftaran menjadi
                 TERDAFTAR.
             </p>
@@ -373,9 +373,9 @@
         <li>
             <p align="justify">
                 Setelah Kesepakatan Kerjasama ini dieksekusi, Desa <strong><?= $desa ?></strong> akan resmi
-                terdaftar sebagai Desa Digital OpenDesa, dan berhak mengakses aplikasi,
+                terdaftar sebagai Desa Digital <?= config_item('nama_lembaga') ?>, dan berhak mengakses aplikasi,
                 layanan dan kegiatan yang hanya tersedia bagi desa yang terdaftar sebagai
-                Desa Digital OpenDesa.
+                Desa Digital <?= config_item('nama_lembaga') ?>.
             </p>
         </li>
         <li>

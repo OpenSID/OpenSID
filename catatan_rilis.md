@@ -57,6 +57,11 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 42. [#5966](https://github.com/OpenSID/OpenSID/issues/5966) Perbaikan data rumah tangga yang hilang karena.
 43. [#6008](https://github.com/OpenSID/OpenSID/issues/6008) Perbaikan kesalahan penulisan tempat tanggal lahir.
 44. [#5983](https://github.com/OpenSID/OpenSID/issues/5983) Perbaikan input data ibu hamil form tanggal tidak harus required.
+45. [#6019](https://github.com/OpenSID/OpenSID/issues/6019) Perbaikan tambah anggota rumah tangga & kepala rumah tangga.
+46. [#6023](https://github.com/OpenSID/OpenSID/issues/6023) Perbaikan browse data import pada menu kependudukan.
+47. [#1612](https://github.com/OpenSID/premium/issues/1612) Perbaikan penyebutan nama desa pada menu pengaturan modul & modul grup pengguna.
+48. [#5988](https://github.com/OpenSID/OpenSID/issues/5988) Perbaikan tombol hapus pada surat perorangan.
+49. [#6018](https://github.com/OpenSID/OpenSID/issues/6018) Perbaikan fitur kembalikan status log penduduk yang tidak berfungsi.
 
 #### Perubahan Teknis
 
@@ -65,5 +70,6 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 3. Penyesuaian Pengaturan aplikasi.
 4. Penambahan BaseEnum.
 5. Pindahkan pengaturan font surat ke pengaturan aplikasi.
-6. run vendor/bin/php-cs-fixer fix --allow-risky=yes
-7. Refaktor pengiriman TrackSID menggunakan Guzzle
+6. run vendor/bin/php-cs-fixer fix --allow-risky=yes.
+7. Refaktor pengiriman TrackSID menggunakan Guzzle.
+8. Penambahan config nama aplikasi dan lemabaga.

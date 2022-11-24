@@ -103,7 +103,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<div class="tab-content">
 											<div id="langkah-1" class="tab-pane" role="tabpanel">
 												<h2 class="StepTitle">Langkah 1 Link Verifikasi</h2>
-												<p>1. Silahkan Klik link ini <a href="https://t.me/opensid_notifikasi_bot" target="_blank">Verifikasi Telegram OpenSID</a> </p>
+												<p>1. Silahkan Klik link ini <a href="https://t.me/opensid_notifikasi_bot" target="_blank">Verifikasi Telegram <?= config_item('nama_aplikasi') ?></a> </p>
 												<p>2. Klik start untuk mendapatkan kode User ID Anda. </p>
 												<p>3. Masukkan kode User ID di <strong>Langkah 2</strong> dengan cara klik tombol "Selanjutnya".</p>
 											</div>

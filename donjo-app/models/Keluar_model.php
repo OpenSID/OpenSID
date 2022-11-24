@@ -338,6 +338,7 @@ class Keluar_model extends CI_Model
     {
         // TODO : Sederhanakan, ini berulang
         $this->db
+            ->where('deleted_at')
             ->join('tweb_penduduk AS n', 'u.id_pend = n.id', 'left')
             ->join('tweb_surat_format AS k', 'u.id_format_surat = k.id', 'left')
             ->join('tweb_desa_pamong AS s', 'u.id_pamong = s.pamong_id', 'left')
@@ -388,7 +389,7 @@ class Keluar_model extends CI_Model
         $j = $offset;
 
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['no'] = $j + 3;
+            $data[$i]['no'] = $j + 1;
             $this->rincian_file($data, $i);
             $j++;
         }

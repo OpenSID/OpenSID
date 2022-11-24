@@ -85,12 +85,18 @@ class Penomoran_surat_model extends CI_Model
                 // no break
             case 'log_surat':
                 if ($setting == 1) {
+                    if ($type == 'log_surat') {
+                        $this->db->where('deleted_at');
+                    }
                     $this->db->from("{$type}")
                         ->where('YEAR(tanggal)', $thn)
                         ->where('status', 1)
                         ->order_by('CAST(no_surat as unsigned) DESC')
                         ->limit(1);
                 } else {
+                    if ($type == 'log_surat') {
+                        $this->db->where('deleted_at');
+                    }
                     $this->db->from("{$type} l")
                         ->join('tweb_surat_format f', 'f.id=l.id_format_surat', 'RIGHT')
                         ->select('*, f.nama, l.id id_surat')
@@ -146,6 +152,7 @@ class Penomoran_surat_model extends CI_Model
             $sql[] = '(' . $this->db->from('log_surat')
                 ->select('no_surat as nomor_urut')
                 ->where('YEAR(tanggal)', $thn)
+                ->where('deleted_at')
                 ->where('no_surat', $nomor_surat)
                 ->get_compiled_select()
                                 . ')';
@@ -175,10 +182,16 @@ class Penomoran_surat_model extends CI_Model
                 // no break
             case 'log_surat':
                 if ($setting == 1) {
+                    if ($type == 'log_surat') {
+                        $this->db->where('deleted_at');
+                    }
                     $this->db->from("{$type}")
                         ->where('YEAR(tanggal)', $thn)
                         ->where('no_surat', $nomor_surat);
                 } else {
+                    if ($type == 'log_surat') {
+                        $this->db->where('deleted_at');
+                    }
                     $this->db->from("{$type} l")
                         ->join('tweb_surat_format f', 'f.id=l.id_format_surat', 'RIGHT')
                         ->select('*, f.nama, l.id id_surat')

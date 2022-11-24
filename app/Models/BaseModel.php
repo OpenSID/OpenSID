@@ -42,7 +42,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
-    public static function findOrFail($id, $columns = ['*'])
+    /**
+     * {@inheritDoc}
+     */
+    public function findOrFail($id, $columns = ['*'])
     {
         $result = self::find($id, $columns);
 
@@ -59,10 +62,15 @@ class BaseModel extends Model
         return show_404();
     }
 
-    public static function firstOrFail($columns = ['*'])
+    /**
+     * {@inheritDoc}
+     */
+    public function firstOrFail($columns = ['*'])
     {
-        return self::firstOr($columns, static function () {
-            return show_404();
-        });
+        if (null !== ($model = $this->first($columns))) {
+            return $model;
+        }
+
+        return show_404();
     }
 }

@@ -36,7 +36,6 @@
  */
 
 use App\Enums\SHDKEnum;
-use App\Models\Keluarga;
 use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -137,16 +136,7 @@ class Rtm extends Admin_Controller
     public function form_old($id = 0)
     {
         $this->redirect_hak_akses('u');
-        $data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
-        // hanya tampilkan field tertentu ke browser, karena digunakan oleh javascript
-        $data['penduduk'] = array_map(static function ($item) {
-            return [
-                'id'    => $item['id'],
-                'id_kk' => $item['id_kk'],
-                'nama'  => $item['nama'],
-                'nik'   => $item['nik'],
-            ];
-        }, $data['penduduk']);
+        $data['penduduk']    = $this->rtm_model->list_penduduk_lepas();
         $data['form_action'] = site_url("{$this->controller}/insert/{$id}");
 
         $this->load->view('rtm/ajax_add_rtm', $data);
@@ -281,16 +271,6 @@ class Rtm extends Admin_Controller
     public function ajax_add_anggota($id = 0)
     {
         $this->redirect_hak_akses('u');
-
-        $data['main'] = $this->rtm_model->list_anggota($id);
-        $kk           = $this->rtm_model->get_kepala_rtm($id);
-        if ($kk) {
-            $data['kepala_kk'] = $kk;
-            $penduduk          = Penduduk::where('nik', $data['kepala_kk']['nik'])->first();
-            $data['keluarga']  = Keluarga::where('id', $penduduk->id_kk)->with(['anggota'])->first();
-        } else {
-            $data['kepala_kk'] = null;
-        }
 
         $data['penduduk']    = $this->rtm_model->list_penduduk_lepas();
         $data['form_action'] = site_url("{$this->controller}/add_anggota/{$id}");
