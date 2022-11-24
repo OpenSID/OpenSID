@@ -57,6 +57,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 47. [#1612](https://github.com/OpenSID/premium/issues/1612) Perbaikan penyebutan nama desa pada menu pengaturan modul & modul grup pengguna.
 48. [#5988](https://github.com/OpenSID/OpenSID/issues/5988) Perbaikan tombol hapus pada surat perorangan.
 49. [#6018](https://github.com/OpenSID/OpenSID/issues/6018) Perbaikan fitur kembalikan status log penduduk yang tidak berfungsi.
+50. [#6017](https://github.com/OpenSID/OpenSID/issues/6017) Perbaikan buat cookies ID pengunjung pada menu anjungan dan kehadiran.
 
 #### Perubahan Teknis
 
