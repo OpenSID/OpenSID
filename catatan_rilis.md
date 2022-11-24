@@ -58,6 +58,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 48. [#5988](https://github.com/OpenSID/OpenSID/issues/5988) Perbaikan tombol hapus pada surat perorangan.
 49. [#6018](https://github.com/OpenSID/OpenSID/issues/6018) Perbaikan fitur kembalikan status log penduduk yang tidak berfungsi.
 50. [#6017](https://github.com/OpenSID/OpenSID/issues/6017) Perbaikan buat cookies ID pengunjung pada menu anjungan dan kehadiran.
+51. [#6027](https://github.com/OpenSID/OpenSID/issues/6027) Perbaikan text dan coding yang tidak di gunakan.
 
 #### Perubahan Teknis
 
