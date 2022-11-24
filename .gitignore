@@ -53,6 +53,7 @@ doc/
 docs/
 example/
 examples/
+tools/
 
 vendor/libreoffice/*
 vendor/mikey179/*
