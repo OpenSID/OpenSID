@@ -60,6 +60,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->migrasi_2022111654($hasil);
         $hasil = $hasil && $this->migrasi_2022111751($hasil);
         $hasil = $hasil && $this->migrasi_2022112151($hasil);
+        $hasil = $hasil && $this->migrasi_2022112351($hasil);
 
         return $hasil && true;
     }
@@ -469,6 +470,19 @@ class Migrasi_fitur_premium_2212 extends MY_model
                         'rtm_level' => HubunganRTMEnum::KEPALA_RUMAH_TANGGA,
                     ]);
             }
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022112351($hasil)
+    {
+        if ($this->db->where('nama', 'SK Kades')->get('ref_dokumen')->row()) {
+            $hasil = $hasil && $this->db->update(
+                'ref_dokumen',
+                ['nama' => 'Keputusan Kades'],
+                ['id'   => 2]
+            );
         }
 
         return $hasil;
