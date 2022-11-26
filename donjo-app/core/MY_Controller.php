@@ -281,6 +281,7 @@ class Premium extends MY_Controller
         'beta.opendesa.id',
         'beta2.opensid.or.id',
         'berputar.opendesa.id',
+        'devpremium.opendesa.id',
     ];
     protected $versi_setara;
 
