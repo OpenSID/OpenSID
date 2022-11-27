@@ -5,9 +5,9 @@
             <div class="form-group" id="form_{{ $pengaturan->key }}">
                 <label>{{ $pengaturan->judul }}</label>
                 @if ($pengaturan->jenis == 'option' || $pengaturan->jenis == 'boolean')
-                    <select
-                        {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm select2 required ', $pengaturan->attribute) : 'class="form-control input-sm select2 required"' !!}
-                        id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}">
+                    <select {!! $pengaturan->attribute
+                        ? str_replace('class="', 'class="form-control input-sm select2 required ', $pengaturan->attribute)
+                        : 'class="form-control input-sm select2 required"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}">
                         @foreach ($pengaturan->option as $key => $value)
                             <option value="{{ $key }}" @selected($pengaturan->value == $key)>{{ $value }}</option>
                         @endforeach
@@ -17,10 +17,10 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input
-                            {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm pull-right tgl_1 ', $pengaturan->attribute) : 'class="form-control input-sm pull-right tgl_1"' !!}
-                            id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}" type="text"
-                            value="{{ $pengaturan->value }}" {{ $pengaturan->attribute }}>
+                        <input {!! $pengaturan->attribute
+                            ? str_replace('class="', 'class="form-control input-sm pull-right tgl_1 ', $pengaturan->attribute)
+                            : 'class="form-control input-sm pull-right tgl_1"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}"
+                            type="text" value="{{ $pengaturan->value }}">
                     </div>
                 @elseif ($pengaturan->jenis == 'unggah')
                     <div class="input-group">
@@ -36,15 +36,15 @@
                         </span>
                     </div>
                 @elseif ($pengaturan->jenis == 'textarea')
-                    <textarea
-                        {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!}
-                        name="{{ $pengaturan->key }}" placeholder="{{ $pengaturan->keterangan }}" rows="5"
-                        {{ $pengaturan->attribute }}>{{ $pengaturan->value }}</textarea>
+                    <textarea {!! $pengaturan->attribute
+                        ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute)
+                        : 'class="form-control input-sm"' !!} name="{{ $pengaturan->key }}" placeholder="{{ $pengaturan->keterangan }}"
+                        rows="5">{{ $pengaturan->value }}</textarea>
                 @else
-                    <input
-                        {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!}
-                        id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}" type="text"
-                        value="{{ $pengaturan->value }}" {{ $pengaturan->attribute }} />
+                    <input {!! $pengaturan->attribute
+                        ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute)
+                        : 'class="form-control input-sm"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}"
+                        type="text" value="{{ $pengaturan->value }}" />
                 @endif
                 <label><code>{!! $pengaturan->keterangan !!}</code></label>
             </div>
