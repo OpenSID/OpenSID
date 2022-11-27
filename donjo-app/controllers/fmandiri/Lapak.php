@@ -47,8 +47,8 @@ class Lapak extends Mandiri_Controller
 
     public function index($p = 1)
     {
-        $data['id_kategori'] = $this->input->get('id_kategori');
-        $data['keyword']     = $this->input->get('keyword');
+        $data['id_kategori'] = $this->input->get('id_kategori', true);
+        $data['keyword']     = $this->input->get('keyword', true);
 
         // TODO : Sederhanakan bagian panging dengan suffix
         $data['paging']       = $this->lapak_model->paging_produk($p, $data['keyword'], $data['id_kategori']);
