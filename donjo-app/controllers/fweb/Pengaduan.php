@@ -54,8 +54,8 @@ class Pengaduan extends Web_Controller
         $this->_get_common_data($data);
 
         $data['form_action'] = site_url("{$this->controller}/kirim");
-        $data['cari']        = $this->input->get('cari');
-        $data['caristatus']  = $this->input->get('caristatus');
+        $data['cari']        = $this->input->get('cari', true);
+        $data['caristatus']  = $this->input->get('caristatus', true);
 
         // TODO : Sederhanakan bagian panging dengan suffix
         $data['paging']       = $this->pengaduan_model->paging_pengaduan($p, $data['cari'] ?? '', $data['caristatus'] ?? '');

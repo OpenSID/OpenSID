@@ -92,7 +92,7 @@ class First_artikel_m extends CI_Model
     {
         $this->db->select('COUNT(a.id) AS jml');
         $this->paging_artikel_sql();
-        $cari = trim($this->input->get('cari'));
+        $cari = trim($this->input->get('cari', true));
         if (! empty($cari)) {
             $cari          = $this->db->escape_like_str($cari);
             $cfg['suffix'] = "?cari={$cari}";
@@ -120,7 +120,7 @@ class First_artikel_m extends CI_Model
             ->where('a.id_kategori NOT IN (1000)')
             ->where('a.tgl_upload <', date('Y-m-d H:i:s'));
 
-        $cari = trim($this->input->get('cari'));
+        $cari = trim($this->input->get('cari', true));
         if (! empty($cari)) {
             $this->db
                 ->group_start()

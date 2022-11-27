@@ -54,8 +54,8 @@ class Lapak extends Web_Controller
         $data = $this->includes;
         $this->_get_common_data($data);
 
-        $data['id_kategori'] = $this->input->get('id_kategori');
-        $data['keyword']     = $this->input->get('keyword');
+        $data['id_kategori'] = $this->input->get('id_kategori', true);
+        $data['keyword']     = $this->input->get('keyword', true);
 
         // TODO : Sederhanakan bagian panging dengan suffix
         $data['paging']       = $this->lapak_model->paging_produk($p, $data['keyword'], $data['id_kategori']);
