@@ -166,7 +166,7 @@ class Siteman extends MY_Controller
         }
 
         $data['header'] = Config::first();
-        $data['email']  = $this->input->get('email');
+        $data['email']  = $this->input->get('email', true);
         $data['token']  = $token;
 
         $this->load->view('reset_kata_sandi', $data);

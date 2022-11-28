@@ -78,12 +78,11 @@ class Track_model extends CI_Model
 
     public function kirim_data()
     {
-        // Jangan kirim data ke pantau jika versi demo
-        if (config_item('demo_mode')) {
-            return;
-        }
-
-        if (! $this->db->field_exists('deleted_at', 'log_surat')) { // cegah error karena tabel belum ada
+        /**
+         * Jangan kirim data ke pantau jika versi demo
+         * cegah error karena tabel belum ada
+         */
+        if (config_item('demo_mode') || ! $this->db->field_exists('deleted_at', 'log_surat')) {
             return;
         }
 

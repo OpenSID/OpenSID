@@ -61,8 +61,8 @@ class Peraturan extends Web_Controller
     {
         if ($this->input->is_ajax_request()) {
             $filters = [
-                'tahun'    => $this->input->get('tahun'),
-                'kategori' => $this->input->get('kategori'),
+                'tahun'    => $this->input->get('tahun', true),
+                'kategori' => $this->input->get('kategori', true),
             ];
 
             $query = Dokumen::select(['id', 'nama', 'tahun', 'satuan', 'kategori'])

@@ -182,11 +182,12 @@ class Plan_garis_model extends MY_Model
         $nama_file  = $_FILES['foto']['name'];
         $nama_file  = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
         if (! empty($garis_file)) {
-            if ($tipe_file == 'image/jpg' || $tipe_file == 'image/jpeg') {
-                Uploadgaris($nama_file);
-                $data['foto'] = $nama_file;
-                $outp         = $this->db->insert($this->table, $data);
+            $upload = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
+            if (! $upload) {
+                return;
             }
+            $data['foto'] = $nama_file;
+            $outp         = $this->db->insert($this->table, $data);
         } else {
             unset($data['foto']);
             $outp = $this->db->insert($this->table, $data);
@@ -202,12 +203,13 @@ class Plan_garis_model extends MY_Model
         $nama_file  = $_FILES['foto']['name'];
         $nama_file  = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
         if (! empty($garis_file)) {
-            if ($tipe_file == 'image/jpg' || $tipe_file == 'image/jpeg') {
-                Uploadgaris($nama_file);
-                $data['foto'] = $nama_file;
-                $this->db->where('id', $id);
-                $outp = $this->db->update($this->table, $data);
+            $upload = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
+            if (! $upload) {
+                return;
             }
+            $data['foto'] = $nama_file;
+            $this->db->where('id', $id);
+            $outp = $this->db->update($this->table, $data);
         } else {
             unset($data['foto']);
             $this->db->where('id', $id);

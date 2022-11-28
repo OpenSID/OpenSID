@@ -62,6 +62,14 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 47. [#1612](https://github.com/OpenSID/premium/issues/1612) Perbaikan penyebutan nama desa pada menu pengaturan modul & modul grup pengguna.
 48. [#5988](https://github.com/OpenSID/OpenSID/issues/5988) Perbaikan tombol hapus pada surat perorangan.
 49. [#6018](https://github.com/OpenSID/OpenSID/issues/6018) Perbaikan fitur kembalikan status log penduduk yang tidak berfungsi.
+50. [#6017](https://github.com/OpenSID/OpenSID/issues/6017) Perbaikan buat cookies ID pengunjung pada menu anjungan dan kehadiran.
+51. [#6027](https://github.com/OpenSID/OpenSID/issues/6027) Perbaikan text dan coding yang tidak di gunakan.
+52. [#6028](https://github.com/OpenSID/OpenSID/issues/6028) Perbaikan bukti pembayaran yang tidak tampil.
+53. [#6004](https://github.com/OpenSID/OpenSID/issues/6004) Perbaikan pendaftaran kerja yang sama tidak ada respon.
+54. [#6001](https://github.com/OpenSID/OpenSID/issues/6001) Penyesuaian kata - kata SK menjadi Keputusan di buku administrasi desa.
+55. [#1609](https://github.com/OpenSID/premium/issues/1609) Perbaikan paginasi yang tidak terpilih.
+56. [#6030](https://github.com/OpenSID/OpenSID/issues/6030) Perbaikan pilih file hanya jenis .sql pada restore database.
+57. [#5912](https://github.com/OpenSID/OpenSID/issues/5912) Perbaikan area hitam  pada gambar yang diupload.
 
 #### Perubahan Teknis
 
@@ -70,6 +78,8 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 3. Penyesuaian Pengaturan aplikasi.
 4. Penambahan BaseEnum.
 5. Pindahkan pengaturan font surat ke pengaturan aplikasi.
-6. run vendor/bin/php-cs-fixer fix --allow-risky=yes.
+6. Run vendor/bin/php-cs-fixer fix --allow-risky=yes.
 7. Refaktor pengiriman TrackSID menggunakan Guzzle.
 8. Penambahan config nama aplikasi dan lemabaga.
+9. Web Demo.
+10. Validasi input get pada halaman publik

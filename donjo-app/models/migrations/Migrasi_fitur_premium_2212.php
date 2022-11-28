@@ -64,13 +64,14 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->migrasi_2022112151($hasil);
         $hasil = $hasil && $this->suratKeteranganKurangMampu($hasil);
         $hasil = $hasil && $this->suratKeteranganBedaIdentitas($hasil);
+        $hasil = $hasil && $this->migrasi_2022112851($hasil);
 
         return $hasil && true;
     }
 
     protected function migrasi_2022110171($hasil)
     {
-        if (! $this->db->field_exists('premium', 'migrasi')) {
+        if (!$this->db->field_exists('premium', 'migrasi')) {
             $fields = [
                 'premium' => [
                     'type' => 'text',
@@ -98,7 +99,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         DB::table('setting_aplikasi')->whereNull('kategori')->orWhere('kategori', '=', '')->update(['kategori' => 'sistem']);
 
         // Tambah kolom judul
-        if (! $this->db->field_exists('judul', 'setting_aplikasi')) {
+        if (!$this->db->field_exists('judul', 'setting_aplikasi')) {
             $fields = [
                 'judul' => [
                     'type'       => 'VARCHAR',
@@ -147,7 +148,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         }
 
         // Tambah kolom option
-        if (! $this->db->field_exists('option', 'setting_aplikasi')) {
+        if (!$this->db->field_exists('option', 'setting_aplikasi')) {
             $fields = [
                 'option' => [
                     'type'  => 'TEXT',
@@ -159,7 +160,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         }
 
         // Tambah kolom attribute
-        if (! $this->db->field_exists('attribute', 'setting_aplikasi')) {
+        if (!$this->db->field_exists('attribute', 'setting_aplikasi')) {
             $fields = [
                 'attribute' => [
                     'type'  => 'TEXT',
@@ -379,7 +380,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
 
     protected function migrasi_2022110951($hasil)
     {
-        if (! $this->db->field_exists('satuan_waktu', 'pembangunan')) {
+        if (!$this->db->field_exists('satuan_waktu', 'pembangunan')) {
             $hasil = $hasil && $this->dbforge->add_column('pembangunan', [
                 'satuan_waktu' => [
                     'type'       => 'TINYINT',
@@ -397,7 +398,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
 
     protected function migrasi_2022111653($hasil)
     {
-        if (! $this->db->field_exists('ip_address', 'pengaduan')) {
+        if (!$this->db->field_exists('ip_address', 'pengaduan')) {
             $hasil = $hasil && $this->dbforge->add_column('pengaduan', [
                 'ip_address' => [
                     'type'       => 'VARCHAR',
@@ -532,5 +533,17 @@ class Migrasi_fitur_premium_2212 extends MY_model
                 <h3 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]</span></h3>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br /><br /></p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :</p>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><strong>I.  Identitas dalam KK</strong></p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 118px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 10px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 10px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 10px; text-align: left;\">1.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 10px;\">Nama Lengkap</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 10px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 10px; text-align: justify;\"><strong>[NAma]</strong></td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">2.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Tempat / Tanggal Lahir</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[TtL]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">3..</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Agama</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[AgAma]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">4.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Jenis Kelamin</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Jenis_kelamin]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">5.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Pekerjaan</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[PeKerjaan]</td>\r\n</tr>\r\n<tr style=\"height: 36px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 36px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 36px; text-align: left;\">6.<br /><br /></td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 36px;\">Alamat / Tempat Tinggal<br /><br /></td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 36px;\">:<br /><br /></td>\r\n<td style=\"width: 60.0206%; height: 36px; text-align: justify;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><strong>Ii. Identitas dalam [Form_kartU]</strong></p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 144px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">7.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">No. Identitas</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_no_identitaS]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">8.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Nama</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_namA]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">9.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Tempat / Tanggal Lahir</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_tempat_lahiR], [Form_tanggal_lahiR]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">10.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Jenis Kelamin</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_jenis_kelamiN]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">11.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Alamat / Tempat Tinggal</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_alamat_tempat_tinggaL]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">12.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Agama</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_agamA]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">13.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Pekerjaan</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_pekerjaaN]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">14.</td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Keterangan</td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_keterangaN]</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Adalah benar-benar warga [SeButan_desa] [NaMa_desa] dan merupakan orang yang sama namun terdapat perbedaan [Form_perbedaaN] seperti tersebut di atas. Adapun data yang benar dan dipakai seperti yang tercantum di Kartu Keluarga (KK).</p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat ini dibuat untuk dipergunakan sebagaimana mestinya.</p>\r\n<p style=\"text-align: justify; text-indent: 30px;\"> </p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> </td>\r\n<td style=\"width: 30%;\"> </td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> </td>\r\n<td style=\"width: 30%;\"> </td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> </td>\r\n<td style=\"width: 30%;\"><br /><br /><br /><br /></td>\r\n<td style=\"width: 35%;\"> </td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> </td>\r\n<td style=\"width: 30%;\"> </td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 35%;\"> </td>\r\n<td style=\"width: 30%;\"> </td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<div style=\"text-align: center;\"><br />[qr_code]</div>
             ",
         ]);
+    }
+    protected function migrasi_2022112851($hasil)
+    {
+        if ($this->db->where('nama', 'SK Kades')->get('ref_dokumen')->row()) {
+            $hasil = $hasil && $this->db->update(
+                'ref_dokumen',
+                ['nama' => 'Keputusan Kades'],
+                ['id'   => 2]
+            );
+        }
+
+        return $hasil;
     }
 }

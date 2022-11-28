@@ -41,7 +41,7 @@
 				<table id="header" style="border-top: 0px;">
 					<tr>
 						<td colspan="6" align="center" style="font-size: 13.5pt;">
-							<strong>BUKU KEPUTUSAN DESA <?= strtoupper($desa['nama_desa'])?></strong>
+							<strong>BUKU KEPUTUSAN KEPALA <?= strtoupper($this->setting->sebutan_desa) . ' ' . strtoupper($desa['nama_desa'])?></strong>
 						</td>
 					</tr>
 					<tr>
