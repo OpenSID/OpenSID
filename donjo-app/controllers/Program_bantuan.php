@@ -488,9 +488,9 @@ class Program_bantuan extends Admin_Controller
                         $no_id_kartu         = (string) $cells[1];
                         $kartu_nama          = (string) $cells[3];
                         $kartu_tempat_lahir  = (string) $cells[4];
-                        $kartu_tanggal_lahir = (string) $cells[5];
+                        $kartu_tanggal_lahir = $cells[5];
+                        $kartu_tanggal_lahir = $this->cek_is_date($kartu_tanggal_lahir);
                         $kartu_alamat        = (string) $cells[6];
-
                         if (empty($kartu_tanggal_lahir)) {
                             $kartu_tanggal_lahir = $cek_penduduk['tanggallahir'];
                         } else {
@@ -500,8 +500,6 @@ class Program_bantuan extends Admin_Controller
 
                                 continue;
                             }
-
-                            $kartu_tanggal_lahir = $this->cek_is_date($kartu_tanggal_lahir);
                         }
 
                         // Random no. kartu peserta

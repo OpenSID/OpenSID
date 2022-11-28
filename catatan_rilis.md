@@ -65,6 +65,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 55. [#1609](https://github.com/OpenSID/premium/issues/1609) Perbaikan paginasi yang tidak terpilih.
 56. [#6030](https://github.com/OpenSID/OpenSID/issues/6030) Perbaikan pilih file hanya jenis .sql pada restore database.
 57. [#5912](https://github.com/OpenSID/OpenSID/issues/5912) Perbaikan area hitam  pada gambar yang diupload.
+58. [#6036](https://github.com/OpenSID/OpenSID/issues/6036) Perbaikan gagal impor bantuan.
 
 #### Perubahan Teknis
 
