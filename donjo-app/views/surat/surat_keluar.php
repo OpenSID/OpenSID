@@ -23,6 +23,7 @@
                         </div>
                     <?php endif ?>
 
+
                     <div class="box-body">
                         <div class="row">
                             <div class="col-sm-12">
@@ -55,6 +56,9 @@
                                                             <option value="<?= $data['id'] ?>" <?php selected($jenis, $data['id']) ?>><?= $data['nama_surat'] ?></option>
                                                         <?php endforeach; ?>
                                                     </select>
+                                                </div>
+                                                 <div class="form-group">
+                                                     <button id="perbaiki" type="button" class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-cogs "></i>Perbaiki</button>
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
@@ -395,6 +399,21 @@
                     }
                 }
 
+            })
+        });
+
+        $('button#perbaiki').click(function(e) {
+            swal.fire({
+              title: 'Perbaiki Arsip Surat',
+              text: 'Surat yang ada sekarang, akan diverifikasi semua. Ingin Melanjutkan?',
+              showCancelButton: true,
+              confirmButtonText: 'Ya',
+              denyButtonText: `Batalkan`,
+               icon: 'warning',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "<?= site_url("{$this->controller}/perbaiki") ?>";
+              }
             })
         });
     });
