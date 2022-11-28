@@ -77,4 +77,5 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 7. Refaktor pengiriman TrackSID menggunakan Guzzle.
 8. Penambahan config nama aplikasi dan lemabaga.
 9. Web Demo.
-10. Validasi input get pada halaman publik
+10. Validasi input get pada halaman publik.
+11. Penyesuaian Token pada halaman versi demo.

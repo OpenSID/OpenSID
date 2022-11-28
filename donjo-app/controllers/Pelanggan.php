@@ -140,6 +140,13 @@ class Pelanggan extends Admin_Controller
     public function pemesanan()
     {
         if ($this->input->is_ajax_request()) {
+            if (config_item('demo_mode')) {
+                return json([
+                    'status'  => false,
+                    'message' => 'Tidak dapat menggati token pada wabsite demo.',
+                ]);
+            }
+
             if (isset($this->request['body']['token'])) {
                 $this->cache->hapus_cache_untuk_semua('status_langganan');
                 $post['layanan_opendesa_token'] = $this->request['body']['token'];
@@ -147,19 +154,18 @@ class Pelanggan extends Admin_Controller
 
                 $this->cache->pakai_cache(function () {
                     // request ke api layanan.opendesa.id
-
                     return json_decode(json_encode($this->request), false);
                 }, 'status_langganan', 24 * 60 * 60);
 
                 return json([
                     'status'  => true,
-                    'message' => 'berhasil tersimpan',
+                    'message' => 'Token berhasil tersimpan',
                 ]);
             }
 
             return json([
                 'status'  => false,
-                'message' => 'token Tidak ada',
+                'message' => 'Token tidak ada.',
             ]);
         }
     }
