@@ -45,7 +45,7 @@ class BaseModel extends Model
     /**
      * {@inheritDoc}
      */
-    public function findOrFail($id, $columns = ['*'])
+    public static function findOrFail($id, $columns = ['*'])
     {
         $result = self::find($id, $columns);
 
@@ -65,9 +65,9 @@ class BaseModel extends Model
     /**
      * {@inheritDoc}
      */
-    public function firstOrFail($columns = ['*'])
+    public static function firstOrFail($columns = ['*'])
     {
-        if (null !== ($model = $this->first($columns))) {
+        if (null !== ($model = self::first($columns))) {
             return $model;
         }
 
