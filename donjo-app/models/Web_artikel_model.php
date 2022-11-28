@@ -345,7 +345,7 @@ class Web_artikel_model extends MY_Model
 
             if (! empty($lokasi_file)) {
                 $tipe_file = TipeFile($_FILES[$gambar]);
-                $hasil     = UploadArtikel($nama_file, $gambar, $fp, $tipe_file);
+                $hasil     = UploadArtikel($nama_file, $gambar);
                 if ($hasil) {
                     $data[$gambar] = $nama_file;
                     HapusArtikel($data['old_' . $gambar]);

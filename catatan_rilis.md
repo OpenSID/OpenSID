@@ -64,6 +64,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 54. [#6001](https://github.com/OpenSID/OpenSID/issues/6001) Penyesuaian kata - kata SK menjadi Keputusan di buku administrasi desa.
 55. [#1609](https://github.com/OpenSID/premium/issues/1609) Perbaikan paginasi yang tidak terpilih.
 56. [#6030](https://github.com/OpenSID/OpenSID/issues/6030) Perbaikan pilih file hanya jenis .sql pada restore database.
+57. [#5912](https://github.com/OpenSID/OpenSID/issues/5912) Perbaikan area hitam  pada gambar yang diupload.
 
 #### Perubahan Teknis
 

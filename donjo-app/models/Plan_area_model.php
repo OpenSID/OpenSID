@@ -159,11 +159,12 @@ class Plan_area_model extends MY_Model
         $nama_file = $_FILES['foto']['name'];
         $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
         if (! empty($area_file)) {
-            if ($tipe_file == 'image/jpg' || $tipe_file == 'image/jpeg') {
-                Uploadarea($nama_file);
-                $data['foto'] = $nama_file;
-                $outp         = $this->db->insert('area', $data);
+            $upload = UploadPeta($nama_file, LOKASI_FOTO_AREA);
+            if (! $upload) {
+                return;
             }
+            $data['foto'] = $nama_file;
+            $outp         = $this->db->insert('area', $data);
         } else {
             unset($data['foto']);
             $outp = $this->db->insert('area', $data);
@@ -180,12 +181,13 @@ class Plan_area_model extends MY_Model
         $nama_file = $_FILES['foto']['name'];
         $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
         if (! empty($area_file)) {
-            if ($tipe_file == 'image/jpg' || $tipe_file == 'image/jpeg') {
-                Uploadarea($nama_file);
-                $data['foto'] = $nama_file;
-                $this->db->where('id', $id);
-                $outp = $this->db->update('area', $data);
+            $upload = UploadPeta($nama_file, LOKASI_FOTO_AREA);
+            if (! $upload) {
+                return;
             }
+            $data['foto'] = $nama_file;
+            $this->db->where('id', $id);
+            $outp = $this->db->update('area', $data);
         } else {
             unset($data['foto']);
             $this->db->where('id', $id);
