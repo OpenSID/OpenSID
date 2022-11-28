@@ -67,6 +67,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 57. [#5912](https://github.com/OpenSID/OpenSID/issues/5912) Perbaikan area hitam  pada gambar yang diupload.
 58. [#6036](https://github.com/OpenSID/OpenSID/issues/6036) Perbaikan gagal impor bantuan.
 59. [#6033](https://github.com/OpenSID/OpenSID/issues/6033) Perbaikan arsip pada akun sekdes & kades.
+60. [#6041](https://github.com/OpenSID/OpenSID/issues/6041) Perbaikan judul program bantuan yang terlalu panjang agar tidak tumpang tindih.
 
 #### Perubahan Teknis
 

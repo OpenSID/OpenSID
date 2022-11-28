@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Enums\SasaranEnum;
 use App\Models\BantuanPeserta;
 use App\Models\Config;
+use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
@@ -143,6 +144,7 @@ class Program_bantuan extends Admin_Controller
         $data['func']         = "detail/{$program_id}";
         $data['per_page']     = $this->session->per_page;
         $data['set_page']     = $this->_set_page;
+        $data['nama_excerpt'] = Str::limit($data['program'][0]['nama'], 25);
 
         $this->render('program_bantuan/detail', $data);
     }
@@ -272,9 +274,10 @@ class Program_bantuan extends Admin_Controller
         $this->form_validation->set_rules('edate', 'Tanggal akhir', 'required');
         $this->form_validation->set_rules('asaldana', 'Asal Dana', 'required');
 
-        $data['asaldana'] = unserialize(ASALDANA);
-        $data['program']  = $this->program_bantuan_model->get_program(1, $id);
-        $data['jml']      = $this->program_bantuan_model->jml_peserta_program($id);
+        $data['asaldana']     = unserialize(ASALDANA);
+        $data['program']      = $this->program_bantuan_model->get_program(1, $id);
+        $data['jml']          = $this->program_bantuan_model->jml_peserta_program($id);
+        $data['nama_excerpt'] = Str::limit($data['program'][0]['nama'], 25);
 
         if ($this->form_validation->run() === false) {
             $this->render('program_bantuan/edit', $data);
