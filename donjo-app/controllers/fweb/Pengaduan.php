@@ -85,9 +85,14 @@ class Pengaduan extends Web_Controller
         $post = $this->input->post();
         if ($securimage->check($post['captcha_code']) == false) {
             $notif = [
-                'status' => 'danger',
+                'status' => 'error',
                 'pesan'  => 'Kode captcha anda salah. Silakan ulangi lagi.',
                 'data'   => $post,
+            ];
+        } elseif (empty($this->input->ip_address())) {
+            $notif = [
+                'status' => 'error',
+                'pesan'  => 'Pengaduan gagal dikirim. IP Address anda tidak dikenali.',
             ];
         } else {
             // Cek pengaduan dengan ip_address yang pada hari yang sama
@@ -97,7 +102,7 @@ class Pengaduan extends Web_Controller
 
             if ($cek) {
                 $notif = [
-                    'status' => 'danger',
+                    'status' => 'error',
                     'pesan'  => 'Pengaduan gagal dikirim. Anda hanya dapat mengirimkan satu pengaduan dalam satu hari.',
                 ];
             } else {
@@ -119,7 +124,7 @@ class Pengaduan extends Web_Controller
                     ];
                 } else {
                     $notif = [
-                        'status' => 'danger',
+                        'status' => 'error',
                         'pesan'  => 'Pengaduan gagal dikirim.',
                         'data'   => $post,
                     ];
