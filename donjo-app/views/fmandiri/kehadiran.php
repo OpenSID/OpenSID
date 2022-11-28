@@ -65,7 +65,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<?php foreach ($perangkat as $key => $item): ?>
 						<tr>
 							<td class="padat"></td>
-							<td><?= $item->pamong_nama != null ? $item->pamong_nama : $item->penduduk->nama ?></td>
+							<td><?= $item->pamong_nama ?></td>
 							<td><?= $item->jabatan->nama; ?></td>
 							<td class="padat"><?= empty($item->status_kehadiran) ? '-' : ucfirst($item->status_kehadiran); ?></td>
 							<td class="padat">

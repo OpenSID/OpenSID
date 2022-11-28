@@ -69,6 +69,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 59. [#6033](https://github.com/OpenSID/OpenSID/issues/6033) Perbaikan arsip pada akun sekdes & kades.
 60. [#6041](https://github.com/OpenSID/OpenSID/issues/6041) Perbaikan judul program bantuan yang terlalu panjang agar tidak tumpang tindih.
 61. [#5874](https://github.com/OpenSID/OpenSID/issues/5874) Penyesuaian tombol kembalikan data pada aksi ubah status dasar penduduk.
+62. [#6040](https://github.com/OpenSID/OpenSID/issues/6040) Perbaikan pamong nama yang menggunakan gelar di layanan mandiri.
 
 #### Perubahan Teknis
 

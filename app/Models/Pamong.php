@@ -230,7 +230,11 @@ class Pamong extends BaseModel
      */
     public function getPamongNamaAttribute()
     {
-        $pamong_nama = $this->attributes['pamong_nama'];
+        if ($this->attributes['id_pend'] != null) {
+            $pamong_nama = $this->penduduk->nama;
+        } else {
+            $pamong_nama = $this->attributes['pamong_nama'];
+        }
 
         if ($this->gelar_depan) {
             $pamong_nama = $this->gelar_depan . ' ' . $pamong_nama;
