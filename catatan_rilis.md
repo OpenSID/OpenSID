@@ -49,7 +49,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 39. [#5932](https://github.com/OpenSID/OpenSID/issues/5932) Perbaikan jumlah program bantuan yang tidak sama dengan isi bantuan.
 40. [#5990](https://github.com/OpenSID/OpenSID/issues/5990) Perbaikan review konsep surat TinyMCE.
 41. [#6000](https://github.com/OpenSID/OpenSID/issues/6000) Perbaikan ubah nama buku peraturan desa menjadi buku peraturan di desa beserta output cetaknya.
-42. [#5966](https://github.com/OpenSID/OpenSID/issues/5966) Perbaikan data rumah tangga yang hilang karena.
+42. [#5966](https://github.com/OpenSID/OpenSID/issues/5966) Perbaikan data rumah tangga yang hilang.
 43. [#6008](https://github.com/OpenSID/OpenSID/issues/6008) Perbaikan kesalahan penulisan tempat tanggal lahir.
 44. [#5983](https://github.com/OpenSID/OpenSID/issues/5983) Perbaikan input data ibu hamil form tanggal tidak harus required.
 45. [#6019](https://github.com/OpenSID/OpenSID/issues/6019) Perbaikan tambah anggota rumah tangga & kepala rumah tangga.
@@ -70,8 +70,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 60. [#6041](https://github.com/OpenSID/OpenSID/issues/6041) Perbaikan judul program bantuan yang terlalu panjang agar tidak tumpang tindih.
 61. [#5874](https://github.com/OpenSID/OpenSID/issues/5874) Penyesuaian tombol kembalikan data pada aksi ubah status dasar penduduk.
 62. [#6040](https://github.com/OpenSID/OpenSID/issues/6040) Perbaikan pamong nama yang menggunakan gelar di layanan mandiri.
-63. [#6038](https://github.com/OpenSID/OpenSID/issues/6038) Perbaikan respon tanggapin pengaduan yang tidak terproses karena IP tidak terekam.
-64. [#6045](https://github.com/OpenSID/OpenSID/issues/6045) Perbaikan tulisan wwww menjadi www.
+63. [#6045](https://github.com/OpenSID/OpenSID/issues/6045) Perbaikan tulisan wwww menjadi www.
 
 #### Perubahan Teknis
 
