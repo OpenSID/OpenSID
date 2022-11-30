@@ -485,6 +485,8 @@
                                 title: 'Berhasil',
                                 timer: 2000,
                                 text: response.message,
+                            }).then((result) => {
+                                window.location.replace('pelanggan');
                             });
                         } else {
                             Swal.fire({
