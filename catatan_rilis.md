@@ -71,6 +71,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 61. [#5874](https://github.com/OpenSID/OpenSID/issues/5874) Penyesuaian tombol kembalikan data pada aksi ubah status dasar penduduk.
 62. [#6040](https://github.com/OpenSID/OpenSID/issues/6040) Perbaikan pamong nama yang menggunakan gelar di layanan mandiri.
 63. [#6045](https://github.com/OpenSID/OpenSID/issues/6045) Perbaikan tulisan wwww menjadi www.
+64. [#6039](https://github.com/OpenSID/OpenSID/issues/6039) Perbaikan informasi publik peraturan desa.
 
 #### Perubahan Teknis
 

@@ -65,7 +65,7 @@ class Peraturan extends Web_Controller
                 'kategori' => $this->input->get('kategori', true),
             ];
 
-            $query = Dokumen::select(['id', 'nama', 'tahun', 'satuan', 'kategori'])
+            $query = Dokumen::select(['id', 'nama', 'tahun', 'satuan', 'kategori', 'attr', 'url'])
                 ->hidup()
                 ->aktif()
                 ->where('kategori', '!=', 1)
@@ -75,7 +75,7 @@ class Peraturan extends Web_Controller
                 ->of($query)
                 ->addIndexColumn()
                 ->addColumn('kategori_dokumen', static function ($row) {
-                    return $row->kategoriDokumen->nama;
+                    return $row['attr']['jenis_peraturan'] ?? $row->kategoriDokumen->nama;
                 })
                 ->make();
         }
