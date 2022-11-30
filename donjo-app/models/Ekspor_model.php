@@ -279,7 +279,7 @@ class Ekspor_model extends CI_Model
         // dihasilkan oleh dbutil->backup untuk view karena bermasalah
         // pada waktu import dgn restore ataupun phpmyadmin
         $backup = preg_replace('/ALGORITHM=UNDEFINED DEFINER=.+SQL SECURITY DEFINER /', '', $backup);
-        $backup = preg_replace('/utf8_general_ci;|cp850_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;/', '', $backup);
+        $backup = preg_replace('/COLLATE=utf8_general_ci|COLLATE=cp850_general_ci|COLLATE=utf8mb4_general_ci|COLLATE=utf8mb4_unicode_ci/', '', $backup);
 
         $db_name = 'backup-on-' . date('Y-m-d-H-i-s') . '.sql';
         $save    = base_url() . $db_name;
