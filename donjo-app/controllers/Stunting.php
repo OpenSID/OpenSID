@@ -37,6 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\JenisKelaminEnum;
+use App\Enums\StatusHubunganEnum;
 use App\Models\Anak;
 use App\Models\IbuHamil;
 use App\Models\KIA;
@@ -215,17 +217,17 @@ class Stunting extends Admin_Controller
         $data             = $this->widget();
         $data['navigasi'] = 'kia';
         $data['ibu']      = Penduduk::where(static function ($query) {
-            $query->where('kk_level', 1) // kepala keluarga
-                ->orWhere('kk_level', 3) // istri
-                ->orWhere('kk_level', 4) // anak
-                ->orWhere('kk_level', 5); // menantu
+            $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                ->orWhere('kk_level', StatusHubunganEnum::ISTRI)
+                ->orWhere('kk_level', StatusHubunganEnum::ANAK)
+                ->orWhere('kk_level', StatusHubunganEnum::MENANTU);
         })
-            ->where('sex', 2)
+            ->where('sex', JenisKelaminEnum::PEREMPUAN)
             ->get();
 
         $data['anak'] = Penduduk::select(['id', 'nik', 'nama'])
             ->whereNotIn('id', KIA::pluck('anak_id'))
-            ->where('kk_level', 4)
+            ->whereIn('kk_level', [StatusHubunganEnum::ANAK, StatusHubunganEnum::CUCU, StatusHubunganEnum::FAMILI_LAIN])
             ->where('tanggallahir', '>=', Carbon::now()->subYears(6))
             ->get();
 
@@ -246,16 +248,18 @@ class Stunting extends Admin_Controller
 
     public function getAnak()
     {
-        $anakId = [];
-
         foreach (KiA::all() as $data) {
-            $ibuId[] = $data->ibu_id ?? 0;
+            $anakId[] = $data->anak_id ?? 0;
         }
 
         if ($this->input->is_ajax_request()) {
             $ibu      = $this->input->get('ibu');
             $penduduk = Penduduk::find($ibu);
-            $anak     = Penduduk::where('id_kk', $penduduk->id_kk)->where('id', '!=', $ibu)->whereNotIn('id', $anakId)->whereIn('kk_level', [4, 6, 9])->where('tanggallahir', '>=', Carbon::now()->subYears(6))->get();
+            $anak     = Penduduk::where('id_kk', $penduduk->id_kk)
+                ->where('id', '!=', $ibu)->whereNotIn('id', $anakId)
+                ->whereIn('kk_level', [StatusHubunganEnum::ANAK, StatusHubunganEnum::CUCU, StatusHubunganEnum::FAMILI_LAIN])->where('tanggallahir', '>=', Carbon::now()
+                ->subYears(6))
+                ->get();
 
             return json($anak);
         }
@@ -753,7 +757,7 @@ class Stunting extends Admin_Controller
             $data = [
                 $row->kia->no_kia,
                 $row->kia->anak->nama,
-                $row->kia->anak->sex == 1 ? 'LAKI-LAKI' : 'PEREMPUAN',
+                $row->kia->anak->sex == JenisKelaminEnum::LAKI_LAKI ? 'LAKI-LAKI' : 'PEREMPUAN',
                 tgl_indo($row->kia->anak->tanggallahir),
                 $row->status_gizi,
                 $row->umur_bulan,
@@ -956,7 +960,7 @@ class Stunting extends Admin_Controller
             $data = [
                 $row->kia->no_kia,
                 $row->kia->anak->nama,
-                $row->kia->anak->sex == 1 ? 'LAKI-LAKI' : 'PEREMPUAN',
+                $row->kia->anak->sex == JenisKelaminEnum::LAKI_LAKI ? 'LAKI-LAKI' : 'PEREMPUAN',
                 $row->kategori_usia == 1 ? 'Anak Usia 2 - < 3 Tahun' : 'Anak Usia 3 - 6 Tahun',
                 $row->januari   = ($row->januari == 1) ? '-' : (($row->januari == 2) ? 'v' : 'x'),
                 $row->februari  = ($row->februari == 1) ? '-' : (($row->februari == 2) ? 'v' : 'x'),
