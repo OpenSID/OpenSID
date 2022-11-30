@@ -37,6 +37,7 @@
 
 use App\Enums\HubunganRTMEnum;
 use App\Enums\StatusEnum;
+use App\Models\FormatSurat;
 use App\Models\RefJabatan;
 use Illuminate\Support\Facades\DB;
 
@@ -65,6 +66,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->suratKeteranganKurangMampu($hasil);
         $hasil = $hasil && $this->suratKeteranganBedaIdentitas($hasil);
         $hasil = $hasil && $this->migrasi_2022112851($hasil);
+        $hasil = $hasil && $this->migrasi_2022112971($hasil);
 
         return $hasil && true;
     }
@@ -543,6 +545,26 @@ class Migrasi_fitur_premium_2212 extends MY_model
                 ['nama' => 'Keputusan Kades'],
                 ['id'   => 2]
             );
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022112971($hasil)
+    {
+        // Sesuaikan attribut lama
+        $surat_tinymce = DB::table('tweb_surat_format')
+            ->whereIn('jenis', FormatSurat::TINYMCE)
+            ->whereNotNull('kode_isian')
+            ->pluck('kode_isian', 'id');
+        if ($surat_tinymce) {
+            foreach ($surat_tinymce as $id => $kode_isian) {
+                DB::table('tweb_surat_format')
+                    ->where('id', $id)
+                    ->update([
+                        'kode_isian' => str_replace('"required"', '"class=\"required\""', $kode_isian),
+                    ]);
+            }
         }
 
         return $hasil;
