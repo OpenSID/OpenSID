@@ -245,6 +245,11 @@ class Dokumen_sekretariat extends Admin_Controller
     {
         // Ambil nama berkas dari database
         $data = $this->web_dokumen_model->get_dokumen($id_dokumen);
+
+        if ($data['url'] != null) {
+            redirect($data['url']);
+        }
+
         ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, null, LOKASI_DOKUMEN, ($tipe == 1) ? true : false);
     }
 }

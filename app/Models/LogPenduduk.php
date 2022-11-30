@@ -71,7 +71,7 @@ class LogPenduduk extends BaseModel
     protected $guarded = [];
 
     protected $casts = [
-        'tgl_lapor'     => 'datetime:Y-m-d H:i:s',
-        'tgl_peristiwa' => 'datetime:Y-m-d H:i:s',
+        'tgl_lapor'     => 'datetime:Y-m-d',
+        'tgl_peristiwa' => 'datetime:Y-m-d',
     ];
 }

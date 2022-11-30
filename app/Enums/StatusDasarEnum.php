@@ -35,51 +35,29 @@
  *
  */
 
-use App\Models\Dokumen;
-use App\Models\RefDokumen;
+namespace App\Enums;
 
-class Peraturan extends Web_Controller
+class StatusDasarEnum
 {
-    public function index()
+    public const HIDUP       = 1;
+    public const MATI        = 2;
+    public const PINDAH      = 3;
+    public const HILANG      = 4;
+    public const PERGI       = 6;
+    public const TIDAK_VALID = 9;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
     {
-        if (! $this->web_menu_model->menu_aktif('peraturan-desa')) {
-            show_404();
-        }
-
-        $data = $this->includes;
-
-        $data['pilihan_kategori'] = RefDokumen::where('id', '!=', 1)->pluck('nama', 'id');
-        $data['pilihan_tahun']    = Dokumen::distinct('tahun')->hidup()->where('kategori', '!=', 1)->pluck('tahun');
-        $data['halaman_statis']   = 'peraturan/index';
-
-        $this->_get_common_data($data);
-        $this->set_template('layouts/halaman_statis.tpl.php');
-        $this->load->view($this->template, $data);
-    }
-
-    public function datatables()
-    {
-        if ($this->input->is_ajax_request()) {
-            $filters = [
-                'tahun'    => $this->input->get('tahun', true),
-                'kategori' => $this->input->get('kategori', true),
-            ];
-
-            $query = Dokumen::select(['id', 'nama', 'tahun', 'satuan', 'kategori', 'attr', 'url'])
-                ->hidup()
-                ->aktif()
-                ->where('kategori', '!=', 1)
-                ->filters($filters);
-
-            return datatables()
-                ->of($query)
-                ->addIndexColumn()
-                ->addColumn('kategori_dokumen', static function ($row) {
-                    return $row['attr']['jenis_peraturan'] ?? $row->kategoriDokumen->nama;
-                })
-                ->make();
-        }
-
-        return show_404();
+        return [
+            self::HIDUP       => 'Hidup',
+            self::MATI        => 'Mati',
+            self::PINDAH      => 'Pindah',
+            self::HILANG      => 'Hilang',
+            self::PERGI       => 'Pergi',
+            self::TIDAK_VALID => 'Tidak Valid',
+        ];
     }
 }

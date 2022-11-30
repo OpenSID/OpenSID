@@ -170,7 +170,7 @@
                                     <?php endforeach ?>
                                 </td>
                             </tr>
-                            <?php if ($response->body->token) : ?>
+                            <?php if (! config_item('demo_mode') && $response->body->token) : ?>
                             <tr>
                                 <td>Token</td>
                                 <td> : </td>
@@ -430,7 +430,7 @@
                     popup: 'swal-lg',
                 },
             input: 'textarea',
-            inputValue: '<?= setting('layanan_opendesa_token') ?>',
+            inputValue: '<?= config_item('demo_mode') ? '' : setting('layanan_opendesa_token') ?>',
             inputAttributes: {
                 inputPlaceholder: 'Token pelanggan Layanan ' + `<?= config_item('nama_lembaga') ?>`,
             },
@@ -478,12 +478,22 @@
                         dataType: 'json',
                         data: data,
                     })
-                    .done(function() {
-                        Swal.fire({
-                            title: 'Berhasil Tersimpan',
-                        })
-                        window.location.replace(`${SITE_URL}pelanggan`);
-
+                    .done(function(response) {
+                        if (response.status) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                timer: 2000,
+                                text: response.message,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                timer: 2000,
+                                text: response.message,
+                            });
+                        }
                     })
                     .fail(function(e) {
                         Swal.fire({

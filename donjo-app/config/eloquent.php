@@ -111,3 +111,7 @@ CursorPaginator::currentCursorResolver(static function ($cursorName = 'cursor') 
         return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
     }, $this->toSql());
 });
+
+\Illuminate\Database\Eloquent\Builder::macro('toRawSql', function () {
+    return $this->getQuery()->toRawSql();
+});

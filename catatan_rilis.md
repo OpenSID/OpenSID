@@ -54,7 +54,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 39. [#5932](https://github.com/OpenSID/OpenSID/issues/5932) Perbaikan jumlah program bantuan yang tidak sama dengan isi bantuan.
 40. [#5990](https://github.com/OpenSID/OpenSID/issues/5990) Perbaikan review konsep surat TinyMCE.
 41. [#6000](https://github.com/OpenSID/OpenSID/issues/6000) Perbaikan ubah nama buku peraturan desa menjadi buku peraturan di desa beserta output cetaknya.
-42. [#5966](https://github.com/OpenSID/OpenSID/issues/5966) Perbaikan data rumah tangga yang hilang karena.
+42. [#5966](https://github.com/OpenSID/OpenSID/issues/5966) Perbaikan data rumah tangga yang hilang.
 43. [#6008](https://github.com/OpenSID/OpenSID/issues/6008) Perbaikan kesalahan penulisan tempat tanggal lahir.
 44. [#5983](https://github.com/OpenSID/OpenSID/issues/5983) Perbaikan input data ibu hamil form tanggal tidak harus required.
 45. [#6019](https://github.com/OpenSID/OpenSID/issues/6019) Perbaikan tambah anggota rumah tangga & kepala rumah tangga.
@@ -70,6 +70,13 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 55. [#1609](https://github.com/OpenSID/premium/issues/1609) Perbaikan paginasi yang tidak terpilih.
 56. [#6030](https://github.com/OpenSID/OpenSID/issues/6030) Perbaikan pilih file hanya jenis .sql pada restore database.
 57. [#5912](https://github.com/OpenSID/OpenSID/issues/5912) Perbaikan area hitam  pada gambar yang diupload.
+58. [#6036](https://github.com/OpenSID/OpenSID/issues/6036) Perbaikan gagal impor bantuan.
+59. [#6033](https://github.com/OpenSID/OpenSID/issues/6033) Perbaikan arsip pada akun sekdes & kades.
+60. [#6041](https://github.com/OpenSID/OpenSID/issues/6041) Perbaikan judul program bantuan yang terlalu panjang agar tidak tumpang tindih.
+61. [#5874](https://github.com/OpenSID/OpenSID/issues/5874) Penyesuaian tombol kembalikan data pada aksi ubah status dasar penduduk.
+62. [#6040](https://github.com/OpenSID/OpenSID/issues/6040) Perbaikan pamong nama yang menggunakan gelar di layanan mandiri.
+63. [#6045](https://github.com/OpenSID/OpenSID/issues/6045) Perbaikan tulisan wwww menjadi www.
+64. [#6039](https://github.com/OpenSID/OpenSID/issues/6039) Perbaikan informasi publik peraturan desa.
 
 #### Perubahan Teknis
 
@@ -82,4 +89,5 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 7. Refaktor pengiriman TrackSID menggunakan Guzzle.
 8. Penambahan config nama aplikasi dan lemabaga.
 9. Web Demo.
-10. Validasi input get pada halaman publik
+10. Validasi input get pada halaman publik.
+11. Penyesuaian Token pada halaman versi demo.

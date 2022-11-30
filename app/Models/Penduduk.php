@@ -37,10 +37,13 @@
 
 namespace App\Models;
 
+use App\Traits\Author;
 use Carbon\Carbon;
 
 class Penduduk extends BaseModel
 {
+    use Author;
+
     /**
      * Static data tempat lahir.
      *
