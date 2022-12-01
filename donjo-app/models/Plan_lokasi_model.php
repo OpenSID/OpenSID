@@ -209,7 +209,10 @@ class Plan_lokasi_model extends MY_Model
         $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
         if (! empty($lokasi_file)) {
             if ($tipe_file == 'image/jpg' || $tipe_file == 'image/jpeg') {
-                UploadPeta($nama_file, LOKASI_FOTO_LOKASI);
+                $upload = UploadPeta($nama_file, LOKASI_FOTO_LOKASI);
+                if (! $upload) {
+                    return;
+                }
                 $data['foto'] = $nama_file;
                 $this->db->where('id', $id);
                 $outp = $this->db->update('lokasi', $data);

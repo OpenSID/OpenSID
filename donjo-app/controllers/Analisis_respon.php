@@ -42,6 +42,14 @@ class Analisis_respon extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+
+        if (! $this->session->has_userdata('analisis_master')) {
+            $this->session->success   = -1;
+            $this->session->error_msg = 'Pilih master analisis terlebih dahulu';
+
+            redirect('analisis_master');
+        }
+
         $this->session->unset_userdata(['delik']);
         $this->load->model(['analisis_respon_model', 'wilayah_model', 'analisis_master_model']);
         $this->session->submenu  = 'Input Data';

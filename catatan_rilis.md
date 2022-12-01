@@ -80,6 +80,15 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 65. [#6047](https://github.com/OpenSID/OpenSID/issues/6047) Perbaikan popup pada icon gear yang tidak dapat muncul sat di klik.
 66. [#5984](https://github.com/OpenSID/OpenSID/issues/5984) Perbaikan input ganda data anak pada menu stunting kia & perbaikan pada pencarian data kia.
 67. [#6044](https://github.com/OpenSID/OpenSID/issues/6044) Perbaikan backup sql dengan collaction nya ke "utf8mb4_unicode_ci" sehingga data backup tidak lengkap.
+68. [#1691](https://github.com/OpenSID/premium/issues/1691) Perbaikan unggah file yang berbahaya di form pengaturan lokasi.
+69. [#6059](https://github.com/OpenSID/OpenSID/issues/6059) Perbaikan redirect halaman jika gagal simpan.
+70. [#6067](https://github.com/OpenSID/OpenSID/issues/6067) Perbaikan pengaturan dtks yang disimpan berulang kali.
+71. [#6060](https://github.com/OpenSID/OpenSID/issues/6060) Penyesuaian Hapus tombol import persil yang masih belum ada fungsinya.
+72. [#6061](https://github.com/OpenSID/OpenSID/issues/6061) Perbaikan kondisi akses url yang tidak melalui tahapan pada menu master data analisis.
+73. [#6070](https://github.com/OpenSID/OpenSID/issues/6070) Perbaikan kolom API OpenDK Key yang dapat dikosongkan.
+74. [#1704](https://github.com/OpenSID/premium/issues/1704) Perbaikan unggah file script di modul pengaduan (public).
+75. [#6050](https://github.com/OpenSID/OpenSID/issues/6050) Perbaikan perbaikan perubahan anggaran pada dokumentasi pembangunan.
+76. [#1694](https://github.com/OpenSID/premium/issues/1694) Perbaikan keamanan upload dokumen lampiran di layanan mandiri.
 
 #### Perubahan Teknis
 

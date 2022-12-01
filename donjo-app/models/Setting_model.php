@@ -137,6 +137,10 @@ class Setting_model extends MY_Model
                     $value = alfanumerik(trim($value));
                 }
 
+                if ($key == 'api_opendk_key' && (empty(setting('api_opendk_server')) || empty(setting('api_opendk_user')) || empty(setting('api_opendk_password')))) {
+                    $value = null;
+                }
+
                 $this->update($key, $value);
                 $this->setting->{$key} = $value;
                 if ($key == 'enable_track') {

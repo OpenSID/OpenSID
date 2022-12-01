@@ -67,13 +67,14 @@ class Migrasi_fitur_premium_2212 extends MY_model
         $hasil = $hasil && $this->suratKeteranganBedaIdentitas($hasil);
         $hasil = $hasil && $this->migrasi_2022112851($hasil);
         $hasil = $hasil && $this->migrasi_2022112971($hasil);
+        $hasil = $hasil && $this->migrasi_2022113052($hasil);
 
         return $hasil && true;
     }
 
     protected function migrasi_2022110171($hasil)
     {
-        if (! $this->db->field_exists('premium', 'migrasi')) {
+        if (!$this->db->field_exists('premium', 'migrasi')) {
             $fields = [
                 'premium' => [
                     'type' => 'text',
@@ -101,7 +102,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         DB::table('setting_aplikasi')->whereNull('kategori')->orWhere('kategori', '=', '')->update(['kategori' => 'sistem']);
 
         // Tambah kolom judul
-        if (! $this->db->field_exists('judul', 'setting_aplikasi')) {
+        if (!$this->db->field_exists('judul', 'setting_aplikasi')) {
             $fields = [
                 'judul' => [
                     'type'       => 'VARCHAR',
@@ -150,7 +151,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         }
 
         // Tambah kolom option
-        if (! $this->db->field_exists('option', 'setting_aplikasi')) {
+        if (!$this->db->field_exists('option', 'setting_aplikasi')) {
             $fields = [
                 'option' => [
                     'type'  => 'TEXT',
@@ -162,7 +163,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         }
 
         // Tambah kolom attribute
-        if (! $this->db->field_exists('attribute', 'setting_aplikasi')) {
+        if (!$this->db->field_exists('attribute', 'setting_aplikasi')) {
             $fields = [
                 'attribute' => [
                     'type'  => 'TEXT',
@@ -382,7 +383,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
 
     protected function migrasi_2022110951($hasil)
     {
-        if (! $this->db->field_exists('satuan_waktu', 'pembangunan')) {
+        if (!$this->db->field_exists('satuan_waktu', 'pembangunan')) {
             $hasil = $hasil && $this->dbforge->add_column('pembangunan', [
                 'satuan_waktu' => [
                     'type'       => 'TINYINT',
@@ -400,7 +401,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
 
     protected function migrasi_2022111653($hasil)
     {
-        if (! $this->db->field_exists('ip_address', 'pengaduan')) {
+        if (!$this->db->field_exists('ip_address', 'pengaduan')) {
             $hasil = $hasil && $this->dbforge->add_column('pengaduan', [
                 'ip_address' => [
                     'type'       => 'VARCHAR',
@@ -564,6 +565,23 @@ class Migrasi_fitur_premium_2212 extends MY_model
                     ->update([
                         'kode_isian' => str_replace('"required"', '"class=\"required\""', $kode_isian),
                     ]);
+            }
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022113052($hasil)
+    {
+        $tables = $this->db
+            ->query("SELECT TABLE_NAME, TABLE_COLLATION FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '{$this->db->database}' AND TABLE_COLLATION != 'utf8_general_ci'")
+            ->result_array();
+
+        if ($tables) {
+            foreach ($tables as $tbl) {
+                if ($this->db->table_exists($tbl['TABLE_NAME'])) {
+                    $hasil = $hasil && $this->db->query("ALTER TABLE {$tbl['TABLE_NAME']} CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci");
+                }
             }
         }
 
