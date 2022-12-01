@@ -1777,9 +1777,9 @@ class DTKSRegsosEk2022k
         foreach ($request as $key => $item) {
             if ($item != '' && in_array($key, array_keys($relasi)) && (substr($key, -(strlen('default'))) !== 'default') && $bantuan_keluarga_rtm->where('id', $item)->count() == 0) {
                 $message[] = "{$key}: Bantuan tidak ditemukan";
-            }else if($item != '' && in_array($key, array_keys($relasi)) && in_array($key, ['431a1_431a4_default', '431f1_431f5_default']) && ! in_array($item,['0', '99'])){
+            } elseif ($item != '' && in_array($key, array_keys($relasi)) && in_array($key, ['431a1_431a4_default', '431f1_431f5_default']) && ! in_array($item, ['0', '99'])) {
                 $message[] = "{$key}: Nilai bawaan tidak ditemukan";
-            }else if($item != '' && in_array($key, array_keys($relasi)) && in_array($key, ['431b_default', '431c_default', '431d_default', '431e_default']) && ! in_array($item,['2', '8'])){
+            } elseif ($item != '' && in_array($key, array_keys($relasi)) && in_array($key, ['431b_default', '431c_default', '431d_default', '431e_default']) && ! in_array($item, ['2', '8'])) {
                 $message[] = "{$key}: Nilai bawaan tidak ditemukan";
             }
             $is_for_anggota = $is_for_anggota || $relasi[$key][0] == 'dtks_anggota';
@@ -1796,7 +1796,7 @@ class DTKSRegsosEk2022k
         }
 
         // Ambil pengaturan program dtks untuk versi ini
-        $target_table = array_column($relasi, 0)[0];
+        $target_table        = array_column($relasi, 0)[0];
         $pengaturan_programs = DtksPengaturanProgram::where('versi_kuisioner', '2')
             ->where('target_table', $target_table)
             ->whereIn('target_field', array_column($relasi, 1))
@@ -1816,7 +1816,7 @@ class DTKSRegsosEk2022k
                 $pengaturan_program->update(['id_bantuan' => $request[$form_input_name]]);
             }
             // khusus pengaturan program anggota default
-            elseif($request[$form_input_name] != '' && $pengaturan_program && (substr($form_input_name, -(strlen('default'))) === 'default') && $request[$form_input_name] != $pengaturan_program->nilai_default) {
+            elseif ($request[$form_input_name] != '' && $pengaturan_program && (substr($form_input_name, -(strlen('default'))) === 'default') && $request[$form_input_name] != $pengaturan_program->nilai_default) {
                 $pengaturan_program->update(['nilai_default' => $request[$form_input_name]]);
             } elseif ($request[$form_input_name] != '' && ! $pengaturan_program && (substr($form_input_name, -(strlen('default'))) !== 'default')) {
                 $to_be_inserted[] = [

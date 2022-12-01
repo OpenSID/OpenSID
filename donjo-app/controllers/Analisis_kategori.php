@@ -42,9 +42,14 @@ class Analisis_kategori extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        if (empty($this->session->analisis_master)) {
+
+        if (! $this->session->has_userdata('analisis_master')) {
+            $this->session->success   = -1;
+            $this->session->error_msg = 'Pilih master analisis terlebih dahulu';
+
             redirect('analisis_master');
         }
+
         $this->load->model(['analisis_kategori_model', 'analisis_master_model']);
         $this->session->submenu  = 'Data Kategori';
         $this->session->asubmenu = 'analisis_kategori';

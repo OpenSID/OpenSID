@@ -79,6 +79,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 69. [#6059](https://github.com/OpenSID/OpenSID/issues/6059) Perbaikan redirect halaman jika gagal simpan.
 70. [#6067](https://github.com/OpenSID/OpenSID/issues/6067) Perbaikan pengaturan dtks yang disimpan berulang kali.
 71. [#6060](https://github.com/OpenSID/OpenSID/issues/6060) Penyesuaian Hapus tombol import persil yang masih belum ada fungsinya.
+72. [#6061](https://github.com/OpenSID/OpenSID/issues/6061) Perbaikan kondisi akses url yang tidak melalui tahapan pada menu master data analisis.
 
 #### Perubahan Teknis
 
