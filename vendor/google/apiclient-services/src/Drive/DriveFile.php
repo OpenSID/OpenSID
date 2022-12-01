@@ -96,6 +96,8 @@ class DriveFile extends \Google\Collection
    * @var string
    */
   public $kind;
+  protected $labelInfoType = DriveFileLabelInfo::class;
+  protected $labelInfoDataType = '';
   protected $lastModifyingUserType = User::class;
   protected $lastModifyingUserDataType = '';
   protected $linkShareMetadataType = DriveFileLinkShareMetadata::class;
@@ -156,6 +158,14 @@ class DriveFile extends \Google\Collection
    * @var string
    */
   public $resourceKey;
+  /**
+   * @var string
+   */
+  public $sha1Checksum;
+  /**
+   * @var string
+   */
+  public $sha256Checksum;
   /**
    * @var bool
    */
@@ -528,6 +538,20 @@ class DriveFile extends \Google\Collection
     return $this->kind;
   }
   /**
+   * @param DriveFileLabelInfo
+   */
+  public function setLabelInfo(DriveFileLabelInfo $labelInfo)
+  {
+    $this->labelInfo = $labelInfo;
+  }
+  /**
+   * @return DriveFileLabelInfo
+   */
+  public function getLabelInfo()
+  {
+    return $this->labelInfo;
+  }
+  /**
    * @param User
    */
   public function setLastModifyingUser(User $lastModifyingUser)
@@ -764,6 +788,34 @@ class DriveFile extends \Google\Collection
   public function getResourceKey()
   {
     return $this->resourceKey;
+  }
+  /**
+   * @param string
+   */
+  public function setSha1Checksum($sha1Checksum)
+  {
+    $this->sha1Checksum = $sha1Checksum;
+  }
+  /**
+   * @return string
+   */
+  public function getSha1Checksum()
+  {
+    return $this->sha1Checksum;
+  }
+  /**
+   * @param string
+   */
+  public function setSha256Checksum($sha256Checksum)
+  {
+    $this->sha256Checksum = $sha256Checksum;
+  }
+  /**
+   * @return string
+   */
+  public function getSha256Checksum()
+  {
+    return $this->sha256Checksum;
   }
   /**
    * @param bool

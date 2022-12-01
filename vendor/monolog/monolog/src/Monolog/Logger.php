@@ -112,6 +112,22 @@ class Logger implements LoggerInterface, ResettableInterface
     ];
 
     /**
+     * Mapping between levels numbers defined in RFC 5424 and Monolog ones
+     *
+     * @phpstan-var array<int, Level> $rfc_5424_levels
+     */
+    private const RFC_5424_LEVELS = [
+        7 => self::DEBUG,
+        6 => self::INFO,
+        5 => self::NOTICE,
+        4 => self::WARNING,
+        3 => self::ERROR,
+        2 => self::CRITICAL,
+        1 => self::ALERT,
+        0 => self::EMERGENCY,
+    ];
+
+    /**
      * @var string
      */
     protected $name;
@@ -151,6 +167,13 @@ class Logger implements LoggerInterface, ResettableInterface
      * @var int Keeps track of depth to prevent infinite logging loops
      */
     private $logDepth = 0;
+
+    /**
+     * @var bool Whether to detect infinite logging loops
+     *
+     * This can be disabled via {@see useLoggingLoopDetection} if you have async handlers that do not play well with this
+     */
+    private $detectCycles = true;
 
     /**
      * @psalm-param array<callable(array): array> $processors
@@ -284,19 +307,33 @@ class Logger implements LoggerInterface, ResettableInterface
         return $this;
     }
 
+    public function useLoggingLoopDetection(bool $detectCycles): self
+    {
+        $this->detectCycles = $detectCycles;
+
+        return $this;
+    }
+
     /**
      * Adds a log record.
      *
-     * @param  int     $level   The logging level
-     * @param  string  $message The log message
-     * @param  mixed[] $context The log context
-     * @return bool    Whether the record has been processed
+     * @param  int               $level    The logging level (a Monolog or RFC 5424 level)
+     * @param  string            $message  The log message
+     * @param  mixed[]           $context  The log context
+     * @param  DateTimeImmutable $datetime Optional log date to log into the past or future
+     * @return bool              Whether the record has been processed
      *
      * @phpstan-param Level $level
      */
-    public function addRecord(int $level, string $message, array $context = []): bool
+    public function addRecord(int $level, string $message, array $context = [], DateTimeImmutable $datetime = null): bool
     {
-        $this->logDepth += 1;
+        if (isset(self::RFC_5424_LEVELS[$level])) {
+            $level = self::RFC_5424_LEVELS[$level];
+        }
+
+        if ($this->detectCycles) {
+            $this->logDepth += 1;
+        }
         if ($this->logDepth === 3) {
             $this->warning('A possible infinite logging loop was detected and aborted. It appears some of your handler code is triggering logging, see the previous log record for a hint as to what may be the cause.');
             return false;
@@ -322,7 +359,7 @@ class Logger implements LoggerInterface, ResettableInterface
                         'level' => $level,
                         'level_name' => $levelName,
                         'channel' => $this->name,
-                        'datetime' => new DateTimeImmutable($this->microsecondTimestamps, $this->timezone),
+                        'datetime' => $datetime ?? new DateTimeImmutable($this->microsecondTimestamps, $this->timezone),
                         'extra' => [],
                     ];
 
@@ -349,7 +386,9 @@ class Logger implements LoggerInterface, ResettableInterface
                 }
             }
         } finally {
-            $this->logDepth--;
+            if ($this->detectCycles) {
+                $this->logDepth--;
+            }
         }
 
         return null !== $record;
@@ -501,7 +540,7 @@ class Logger implements LoggerInterface, ResettableInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param mixed             $level   The log level
+     * @param mixed             $level   The log level (a Monolog, PSR-3 or RFC 5424 level)
      * @param string|Stringable $message The log message
      * @param mixed[]           $context The log context
      *
@@ -511,6 +550,10 @@ class Logger implements LoggerInterface, ResettableInterface
     {
         if (!is_int($level) && !is_string($level)) {
             throw new \InvalidArgumentException('$level is expected to be a string or int');
+        }
+
+        if (isset(self::RFC_5424_LEVELS[$level])) {
+            $level = self::RFC_5424_LEVELS[$level];
         }
 
         $level = static::toMonologLevel($level);

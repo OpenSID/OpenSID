@@ -79,8 +79,8 @@ trait Creator
 
         // Work-around for PHP bug https://bugs.php.net/bug.php?id=67127
         if (!str_contains((string) .1, '.')) {
-            $locale = setlocale(LC_NUMERIC, '0');
-            setlocale(LC_NUMERIC, 'C');
+            $locale = setlocale(LC_NUMERIC, '0'); // @codeCoverageIgnore
+            setlocale(LC_NUMERIC, 'C'); // @codeCoverageIgnore
         }
 
         try {
@@ -92,7 +92,7 @@ trait Creator
         $this->constructedObjectId = spl_object_hash($this);
 
         if (isset($locale)) {
-            setlocale(LC_NUMERIC, $locale);
+            setlocale(LC_NUMERIC, $locale); // @codeCoverageIgnore
         }
 
         self::setLastErrors(parent::getLastErrors());
@@ -148,7 +148,7 @@ trait Creator
 
         $instance = new static($date->format('Y-m-d H:i:s.u'), $date->getTimezone());
 
-        if ($date instanceof CarbonInterface || $date instanceof Options) {
+        if ($date instanceof CarbonInterface) {
             $settings = $date->getSettings();
 
             if (!$date->hasLocalTranslator()) {
@@ -907,9 +907,9 @@ trait Creator
         if (\is_string($var)) {
             $var = trim($var);
 
-            if (!preg_match('/^P[0-9T]/', $var) &&
-                !preg_match('/^R[0-9]/', $var) &&
-                preg_match('/[a-z0-9]/i', $var)
+            if (!preg_match('/^P[\dT]/', $var) &&
+                !preg_match('/^R\d/', $var) &&
+                preg_match('/[a-z\d]/i', $var)
             ) {
                 $date = static::parse($var);
             }
@@ -921,13 +921,20 @@ trait Creator
     /**
      * Set last errors.
      *
-     * @param array $lastErrors
+     * @param array|bool $lastErrors
      *
      * @return void
      */
-    private static function setLastErrors(array $lastErrors)
+    private static function setLastErrors($lastErrors)
     {
-        static::$lastErrors = $lastErrors;
+        if (\is_array($lastErrors) || $lastErrors === false) {
+            static::$lastErrors = \is_array($lastErrors) ? $lastErrors : [
+                'warning_count' => 0,
+                'warnings' => [],
+                'error_count' => 0,
+                'errors' => [],
+            ];
+        }
     }
 
     /**

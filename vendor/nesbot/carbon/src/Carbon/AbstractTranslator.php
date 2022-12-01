@@ -220,8 +220,8 @@ abstract class AbstractTranslator extends Translation\Translator
 
         $catalogue = $this->getCatalogue($locale);
         $format = $this instanceof TranslatorStrongTypeInterface
-            ? $this->getFromCatalogue($catalogue, (string) $id, $domain) // @codeCoverageIgnore
-            : $this->getCatalogue($locale)->get((string) $id, $domain);
+            ? $this->getFromCatalogue($catalogue, (string) $id, $domain)
+            : $this->getCatalogue($locale)->get((string) $id, $domain); // @codeCoverageIgnore
 
         if ($format instanceof Closure) {
             // @codeCoverageIgnoreStart
@@ -307,7 +307,7 @@ abstract class AbstractTranslator extends Translation\Translator
      */
     public function setLocale($locale)
     {
-        $locale = preg_replace_callback('/[-_]([a-z]{2,}|[0-9]{2,})/', function ($matches) {
+        $locale = preg_replace_callback('/[-_]([a-z]{2,}|\d{2,})/', function ($matches) {
             // _2-letters or YUE is a region, _3+-letters is a variant
             $upper = strtoupper($matches[1]);
 
