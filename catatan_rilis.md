@@ -83,6 +83,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 73. [#6070](https://github.com/OpenSID/OpenSID/issues/6070) Perbaikan kolom API OpenDK Key yang dapat dikosongkan.
 74. [#1704](https://github.com/OpenSID/premium/issues/1704) Perbaikan unggah file script di modul pengaduan (public).
 75. [#6050](https://github.com/OpenSID/OpenSID/issues/6050) Perbaikan perbaikan perubahan anggaran pada dokumentasi pembangunan.
+76. [#1694](https://github.com/OpenSID/premium/issues/1694) Perbaikan keamanan upload dokumen lampiran di layanan mandiri.
 
 #### Perubahan Teknis
 

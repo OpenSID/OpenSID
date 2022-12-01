@@ -36,6 +36,8 @@
  */
 
 defined('BASEPATH') || exit('No direct script access allowed');
+require_once './vendor/codeigniter/framework/system/libraries/Upload.php'; // This is not auto loaded
+
 
 class MY_Upload extends CI_Upload
 {
