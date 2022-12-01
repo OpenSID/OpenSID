@@ -381,7 +381,7 @@ function UploadPeta($fupload_name, $lokasi)
     $ci                      = &get_instance();
     $config['upload_path']   = $lokasi;
     $config['allowed_types'] = 'gif|jpg|png|jpeg';
-    $ci->load->library('upload');
+    $ci->load->library('MY_Upload', null, upload);
     $ci->upload->initialize($config);
 
     if (! $ci->upload->do_upload('foto')) {
