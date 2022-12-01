@@ -307,15 +307,15 @@ class Web_dokumen_model extends MY_Model
 
     private function upload_dokumen($data, $file_lama = '')
     {
-        $satuan     = $_POST['satuan'];
-        $old_satuan = $_POST['old_satuan'];
-        $filename = $_FILES['satuan']['name'];
-        $ext = get_extension($filename);
-        $nama_file    = str_replace(".{$nama_akhiran}", '', $filename);
-        $nama_file    = bersihkan_namafile(substr($nama_file, 0, 180) . ".{$ext}");
+        $satuan                  = $_POST['satuan'];
+        $old_satuan              = $_POST['old_satuan'];
+        $filename                = $_FILES['satuan']['name'];
+        $ext                     = get_extension($filename);
+        $nama_file               = str_replace(".{$nama_akhiran}", '', $filename);
+        $nama_file               = bersihkan_namafile(substr($nama_file, 0, 180) . ".{$ext}");
         $config['upload_path']   = LOKASI_DOKUMEN;
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        $config['file_name'] = $nama_file;
+        $config['file_name']     = $nama_file;
 
         $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize($config);
