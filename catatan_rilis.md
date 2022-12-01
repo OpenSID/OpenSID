@@ -80,6 +80,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 70. [#6067](https://github.com/OpenSID/OpenSID/issues/6067) Perbaikan pengaturan dtks yang disimpan berulang kali.
 71. [#6060](https://github.com/OpenSID/OpenSID/issues/6060) Penyesuaian Hapus tombol import persil yang masih belum ada fungsinya.
 72. [#6061](https://github.com/OpenSID/OpenSID/issues/6061) Perbaikan kondisi akses url yang tidak melalui tahapan pada menu master data analisis.
+73. [#6070](https://github.com/OpenSID/OpenSID/issues/6070) Perbaikan kolom API OpenDK Key yang dapat dikosongkan.
 
 #### Perubahan Teknis
 

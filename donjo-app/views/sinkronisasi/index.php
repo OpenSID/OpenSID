@@ -85,7 +85,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-12 col-md-3" for="nama">Api Opendk Key</label>
                                             <div class="col-sm-12 col-md-4">
-                                                <textarea rows="5" id="api_opendk_key" name="api_opendk_key" class="form-control input-sm" type="text" placeholder="Silahkan Buat API Key OpenDK"><?= $this->setting->api_opendk_key; ?></textarea>
+                                                <textarea rows="5" id="api_opendk_key" name="api_opendk_key" class="form-control input-sm" type="text" placeholder="Silahkan Buat API Key OpenDK"></textarea>
                                             </div>
                                             <label class="col-sm-12 col-md-5 pull-left" for="nama">OpenDK API Key untuk Sinkronisasi Data</label>
                                         </div>
@@ -375,11 +375,13 @@
 
     function cek_input() {
         if ($('#api_opendk_server').val() == '' || $('#api_opendk_user').val() == '' || $('#api_opendk_password').val() == '') {
-            $('#api_opendk_key').prop("disabled", true);
-            $('#btn_buat_key').prop("disabled", true);
+            $('#api_opendk_key').prop("readonly", true);
+            $('#btn_buat_key').prop("readonly", true);
+            $('#api_opendk_key').val("");
         } else {
-            $('#api_opendk_key').prop("disabled", false);
-            $('#btn_buat_key').prop("disabled", false);
+            $('#api_opendk_key').prop("readonly", false);
+            $('#btn_buat_key').prop("readonly", false);
+            $('#api_opendk_key').val("<?= setting('api_opendk_key') ?>");
         }
     }
 
