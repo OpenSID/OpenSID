@@ -85,14 +85,6 @@ class Pelanggan extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function perbarui()
-    {
-        $this->cache->hapus_cache_untuk_semua('status_langganan');
-        session_success();
-        sleep(3);
-        redirect($this->controller);
-    }
-
     public function perpanjang_layanan()
     {
         $this->render('pelanggan/perpanjang_layanan', ['pemesanan_id' => $_GET['pemesanan_id'], 'server' => $_GET['server'], 'invoice' => $_GET['invoice'], 'token' => $_GET['token']]);
