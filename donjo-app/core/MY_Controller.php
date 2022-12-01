@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Pesan;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
@@ -273,12 +275,13 @@ class Admin_Controller extends MY_Controller
                 redirect('main');
             }
         }
-
+        $cek_kotak_pesan                        = $this->db->table_exists('pesan') && $this->db->table_exists('pesan_detail');
         $this->header                           = $this->header_model->get_data();
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
         $this->header['notif_inbox']            = $this->notif_model->inbox_baru();
         $this->header['notif_komentar']         = $this->notif_model->komentar_baru();
         $this->header['notif_langganan']        = $this->notif_model->status_langganan();
+        $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
         $this->header['notif_pengumuman']       = $this->cek_pengumuman();
     }
 

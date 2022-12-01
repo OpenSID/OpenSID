@@ -107,7 +107,8 @@ class Menu extends Admin_Controller
         $data['statistik_keluarga']         = $this->referensi_model->list_ref(STAT_KELUARGA);
         $data['statistik_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
         $data['statistik_program_bantuan']  = $this->program_bantuan_model->list_program(0);
-        $data['kelompok']                   = $this->kelompok_model->list_data();
+        $data['kelompok']                   = $this->kelompok_model->set_tipe('kelompok')->list_data();
+        $data['lembaga']                    = $this->kelompok_model->set_tipe('lembaga')->list_data();
         $data['suplemen']                   = $this->suplemen_model->list_data();
         $data['statis_lainnya']             = $this->referensi_model->list_ref(STAT_LAINNYA);
         $data['artikel_keuangan']           = $this->keuangan_model->artikel_statis_keuangan();

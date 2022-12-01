@@ -110,7 +110,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<select id="statis_lainnya" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 5, 'link')?>" style="<?php ($menu['link_tipe'] != 5) && print 'display:none;'; ?>">
 				<option value="">-- Pilih Halaman Statis Lainnya --</option>
 				<?php foreach ($statis_lainnya as $id => $nama): ?>
-					<option value="<?= $id?>" <?= selected($menu['link'], $id) ?>><?= $nama?></option>
+					<option value="<?= $id?>" <?= selected($menu['link'], $id) ?>><?= str_replace('[Desa]', ucwords($this->setting->sebutan_desa), $nama) ?></option>
 				<?php endforeach; ?>
 			</select>
 			<select id="artikel_keuangan" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 6, 'link')?>" style="<?php ($menu['link_tipe'] != 6) && print 'display:none;'; ?>">
@@ -123,6 +123,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<option value="">Pilih Kelompok</option>
 				<?php foreach ($kelompok as $kel): ?>
 					<option value="<?= "data-kelompok/{$kel['id']}"; ?>" <?= selected($menu['link'], "data-kelompok/{$kel['id']}") ?>><?= $kel['nama'] . ' (' . $kel['master'] . ')'; ?></option>
+				<?php endforeach; ?>
+			</select>
+			<select id="lembaga" class="form-control input-sm jenis_link required" name="<?= jecho($menu['link_tipe'], 7, 'link'); ?>" style="<?php ($menu['link_tipe'] != 7) && print 'display:none;' ?>">
+				<option value="">Pilih Lembaga</option>
+				<?php foreach ($lembaga as $lem): ?>
+					<option value="<?= "data-lembaga/{$lem['id']}"; ?>" <?= selected($menu['link'], "data-lembaga/{$lem['id']}") ?>><?= $lem['nama'] . ' (' . $lem['master'] . ')'; ?></option>
 				<?php endforeach; ?>
 			</select>
 			<select id="suplemen" class="form-control input-sm jenis_link required" name="<?= jecho($menu['link_tipe'], 9, 'link'); ?>" style="<?php ($menu['link_tipe'] != 9) && print 'display:none;'; ?>">
@@ -203,6 +209,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			$('#status_idm').show();
 			$('#status_idm').attr('name', 'link');
 			$('#status_idm').addClass('required');
+		} else if (jenis == '11') {
+			$('#lembaga').show();
+			$('#lembaga').attr('name', 'link');
+			$('#lembaga').addClass('required');
 		} else if (jenis == '99') {
 			$('#eksternal').show();
 			$('#eksternal > input').show();

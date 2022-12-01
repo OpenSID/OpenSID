@@ -63,13 +63,13 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="username">Username</label>
 								<div class="col-sm-8">
-									<input id="username" name="username" class="form-control input-sm required username" type="text" placeholder="Username" value="<?= $user['username'] ?>"></input>
+									<input id="username" name="username" class="form-control input-sm required username" type="text" placeholder="Username" value="<?= $user['username'] ?>" autocomplete="off"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="password">Kata Sandi</label>
 								<div class="col-sm-8">
-									<input id="password" name="password" class="form-control input-sm required pwdLengthNist_atau_kosong" type="password" placeholder="Kata Sandi" <?php if ($user) : ?>value="radiisi" <?php endif ?>></input>
+									<input id="password" name="password" class="form-control input-sm required pwdLengthNist_atau_kosong" type="password" placeholder="Kata Sandi" <?php if ($user) : ?>value="radiisi" <?php endif ?> autocomplete="off"></input>
 								</div>
 							</div>
 							<div class="form-group">

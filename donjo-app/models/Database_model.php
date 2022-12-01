@@ -107,7 +107,8 @@ class Database_model extends MY_Model
         '22.08'   => ['migrate' => 'migrasi_2208_ke_2209', 'nextVersion' => '22.09'],
         '22.09'   => ['migrate' => 'migrasi_2209_ke_2210', 'nextVersion' => '22.10'],
         '22.10'   => ['migrate' => 'migrasi_2210_ke_2211', 'nextVersion' => '22.11'],
-        '22.11'   => ['migrate' => 'migrasi_2211_ke_2212', 'nextVersion' => null],
+        '22.11'   => ['migrate' => 'migrasi_2211_ke_2212', 'nextVersion' => '22.12'],
+        '22.12'   => ['migrate' => 'migrasi_2212_ke_2301', 'nextVersion' => null],
     ];
 
     public function __construct()
@@ -251,19 +252,16 @@ class Database_model extends MY_Model
     {
         // Paksa menjalankan migrasi kalau belum
         // Migrasi direkam di tabel migrasi
-        if (!$this->versi_database_terbaru()) {
-            if (empty($this->session->error_premium)) {
-                // Ulangi migrasi terakhir
-                $terakhir                                                                                  = key(array_slice($this->versionMigrate, -1, 1, true));
-                $sebelumnya                                                                                = key(array_slice($this->versionMigrate, -2, 1, true));
-                $this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
+        if (! $this->versi_database_terbaru()) {
+            // Ulangi migrasi terakhir
+            $terakhir                                                                                  = key(array_slice($this->versionMigrate, -1, 1, true));
+            $sebelumnya                                                                                = key(array_slice($this->versionMigrate, -2, 1, true));
+            $this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
 
-                $this->migrasi_db_cri();
-            } else {
-                // Selalu jalankan migrasi ini
-                $this->jalankan_migrasi('migrasi_layanan');
-            }
+            $this->migrasi_db_cri();
         }
+
+        $this->jalankan_migrasi('migrasi_layanan');
     }
 
     // Migrasi dengan fuction
@@ -3611,6 +3609,12 @@ class Database_model extends MY_Model
         $this->analisis_import_model->impor_analisis($file_analisis, 'DDK02', 1);
         $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
         $this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', $jenis = 1);
+
+        // Kecuali folder
+        $exclude = [
+            'desa/config',
+            'desa/themes',
+        ];
 
         // Kecuali folder
         $exclude = [

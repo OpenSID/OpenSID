@@ -53,10 +53,10 @@
 										</div>
 									<?php else: ?>
 										<div class="form-group">
-											<input name="username" type="text" placeholder="Nama pengguna" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> value="" class="form-username form-control required">
+											<input name="username" type="text" autocomplete="off" placeholder="Nama pengguna" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> class="form-username form-control required">
 										</div>
 										<div class="form-group">
-											<input name="password" id="password" type="password" placeholder="Kata sandi" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> value="" class="form-username form-control required">
+											<input id="password" name="password" type="password" autocomplete="off" placeholder="Kata sandi" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> class="form-username form-control required">
 										</div>
 										<div class="form-group">
 											<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan kata sandi

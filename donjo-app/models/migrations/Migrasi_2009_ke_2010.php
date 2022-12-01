@@ -48,7 +48,7 @@ class Migrasi_2009_ke_2010 extends MY_model
         // Bolehkan C-Desa berbeda berisi nama kepemilikan sama
         $hasil = $hasil && $this->hapus_indeks('cdesa', 'nama_kepemilikan');
         // Key di setting_aplikasi seharusnya unik
-        $hasil = $hasil && $this->tambah_indeks('setting_aplikasi', 'key');
+        $hasil = $hasil && $this->tambahIndeks('setting_aplikasi', 'key');
         $hasil = $hasil && $this->db->query("INSERT INTO setting_aplikasi (`key`,value,keterangan) VALUES ('sebutan_nip_desa','NIPD','Pengganti sebutan label niap/nipd')
                             ON DUPLICATE KEY UPDATE
                             value = VALUES(value),

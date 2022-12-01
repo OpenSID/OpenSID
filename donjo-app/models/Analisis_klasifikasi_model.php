@@ -131,29 +131,27 @@ class Analisis_klasifikasi_model extends MY_Model
 
     private function validasi_data($post)
     {
-        $data           = [];
-        $data['nama']   = nomor_surat_keputusan($post['nama']);
-        $data['minval'] = bilangan_titik($post['minval']);
-        $data['maxval'] = bilangan_titik($post['maxval']);
-
-        return $data;
+        return [
+            'nama'      => nomor_surat_keputusan($post['nama']),
+            'minval'    => bilangan_titik($post['minval']),
+            'maxval'    => bilangan_titik($post['maxval']),
+            'id_master' => $this->session->analisis_master,
+        ];
     }
 
     public function insert()
     {
-        $data              = $this->validasi_data($this->input->post());
-        $data['id_master'] = $this->session->analisis_master;
-        $outp              = $this->db->insert('analisis_klasifikasi', $data);
+        $data = $this->validasi_data($this->input->post());
+        $outp = $this->db->insert('analisis_klasifikasi', $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
 
     public function update($id = 0)
     {
-        $data              = $this->validasi_data($this->input->post());
-        $data['id_master'] = $this->session->analisis_master;
-        $this->db->where('id', $id);
-        $outp = $this->db->update('analisis_klasifikasi', $data);
+        $data = $this->validasi_data($this->input->post());
+        $outp = $this->db->where('id', $id)->update('analisis_klasifikasi', $data);
+
         status_sukses($outp); //Tampilkan Pesan
     }
 

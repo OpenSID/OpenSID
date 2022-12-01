@@ -3,6 +3,16 @@
 <div class="content_right">
 	<div id="jam" style="margin:5px 0 5px 0; background:#e64946;border:3px double #ffffff;padding:3px;width:auto;" align="center;"></div>
 
+	<div class="single_bottom_rightbar">
+		<h2><i class="fa fa-lock"></i>&ensp;MASUK</h2>
+		<div class="tab-pane fade in active">
+			<a href="<?= site_url('siteman') ?>" class="btn btn-primary btn-block" rel="noopener noreferrer" target="_blank">ADMIN</a>
+			<?php if ((bool) $this->setting->layanan_mandiri) : ?>
+			<a href="<?= site_url('layanan-mandiri') ?>" class="btn btn-success btn-block" rel="noopener noreferrer" target="_blank">LAYANAN MANDIRI</a>
+			<?php endif ?>
+		</div>
+	</div>
+
 	<!-- Tampilkan Widget -->
 	<?php if ($w_cos): ?>
 		<?php foreach ($w_cos as $widget): ?>

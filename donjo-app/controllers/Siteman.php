@@ -94,7 +94,7 @@ class Siteman extends MY_Controller
             redirect('siteman');
         }
 
-        if (! $this->user_model->syarat_sandi() && ! ($this->session->user == 1 && config_item('demo_mode'))) {
+        if (! $this->user_model->syarat_sandi() && ! ($this->session->user == 1 && (config_item('demo_mode') || ENVIRONMENT === 'development'))) {
             // Password tidak memenuhi syarat kecuali di website demo
             redirect('user_setting/change_pwd');
         }
@@ -161,7 +161,7 @@ class Siteman extends MY_Controller
 
         $data['header']      = $this->config_model->get_data();
         $data['latar_login'] = $this->theme_model->latar_login();
-        $data['email']       = $this->input->get('email');
+        $data['email']       = $this->input->get('email', true);
         $data['token']       = $token;
 
         $this->load->view('reset_kata_sandi', $data);

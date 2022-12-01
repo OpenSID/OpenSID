@@ -472,7 +472,7 @@ trait Difference
      */
     public function floatDiffInSeconds($date = null, $absolute = true)
     {
-        return $this->diffInMicroseconds($date, $absolute) / static::MICROSECONDS_PER_SECOND;
+        return (float) ($this->diffInMicroseconds($date, $absolute) / static::MICROSECONDS_PER_SECOND);
     }
 
     /**
@@ -1161,7 +1161,7 @@ trait Difference
             version_compare(PHP_VERSION, '8.1.0-dev', '<') &&
             abs($interval->d - $daysDiff) === 1
         ) {
-            $daysDiff = abs($interval->d);
+            $daysDiff = abs($interval->d); // @codeCoverageIgnore
         }
 
         return $daysDiff * $sign;

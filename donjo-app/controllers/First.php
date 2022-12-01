@@ -82,7 +82,7 @@ class First extends Web_Controller
         $data['artikel']      = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
 
         $data['headline'] = $this->first_artikel_m->get_headline();
-        $data['cari']     = htmlentities($this->input->get('cari'));
+        $data['cari']     = $this->input->get('cari', true);
         if ($this->setting->covid_rss) {
             $data['feed'] = [
                 'items' => $this->first_artikel_m->get_feed(),
@@ -99,7 +99,7 @@ class First extends Web_Controller
 
         $data['covid'] = $this->laporan_penduduk_model->list_data('covid');
 
-        $cari = trim($this->input->get('cari'));
+        $cari = trim($this->input->get('cari', true));
         if (! empty($cari)) {
             // Judul artikel bisa digunakan untuk serangan XSS
             $data['judul_kategori'] = htmlentities('Hasil pencarian : ' . substr($cari, 0, 50));
@@ -241,7 +241,7 @@ class First extends Web_Controller
             show_404();
         }
 
-        $master = $this->input->get('master');
+        $master = $this->input->get('master', true);
 
         $data                     = $this->includes;
         $data['master_indikator'] = $this->first_penduduk_m->master_indikator();
@@ -542,33 +542,6 @@ class First extends Web_Controller
 
     public function status_idm(int $tahun)
     {
-        if (! $this->web_menu_model->menu_aktif('status-idm/' . $tahun)) {
-            show_404();
-        }
-
-        $data = $this->includes;
-        $this->load->library('data_publik');
-        $this->_get_common_data($data);
-        $kode_desa = $data['desa']['kode_desa'];
-        $cache     = 'idm_' . $tahun . '_' . $kode_desa;
-
-        if (cek_koneksi_internet()) {
-            $this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/{$kode_desa}/{$tahun}", $cache)
-                ->set_interval(7)
-                ->set_cache_folder($this->config->item('cache_path'));
-
-            $idm = $this->data_publik->get_url_content();
-            if ($idm->body->error) {
-                $idm->body->mapData->error_msg = $idm->body->message . ' : <a href="' . $idm->header->url . ' ">' . $idm->header->url . '<br><br> Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh : 3507012006 <br>';
-            }
-
-            $data['idm'] = $idm->body->mapData;
-        }
-
-        $data['halaman_statis'] = 'idm/index.php';
-
-        $this->set_template('layouts/halaman_statis_lebar.tpl.php');
-        $this->load->view($this->template, $data);
     }
 
     public function status_sdgs()
@@ -589,14 +562,14 @@ class First extends Web_Controller
 
     public function get_form_info()
     {
-        $redirect_link = $this->input->get('redirectLink');
+        $redirect_link = $this->input->get('redirectLink', true);
 
         if ($this->session->inside_retry == false) {
             // Untuk kondisi SEBELUM autentikasi dan SETELAH RETRY hit API
-            if ($this->input->get('outsideRetry') == 'true') {
+            if ($this->input->get('outsideRetry', true) == 'true') {
                 $this->session->inside_retry = true;
             }
-            $this->session->google_form_id = $this->input->get('formId');
+            $this->session->google_form_id = $this->input->get('formId', true);
             $result                        = $this->analisis_import_model->import_gform($redirect_link);
 
             echo json_encode($result);
@@ -606,7 +579,7 @@ class First extends Web_Controller
 
             $this->session->unset_userdata(['inside_retry', 'inside_redirect_link']);
 
-            header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $this->input->get('code') . '&formId=' . $this->session->google_form_id);
+            header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $this->input->get('code', true) . '&formId=' . $this->session->google_form_id);
         }
     }
 }

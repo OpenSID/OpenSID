@@ -77,11 +77,12 @@ if (! function_exists('view')) {
             'modul'        => $CI->header['modul'],
             'modul_ini'    => $CI->modul_ini,
             'notif'        => [
-                'surat'      => $CI->header['notif_permohonan_surat'],
-                'inbox'      => $CI->header['notif_inbox'],
-                'komentar'   => $CI->header['notif_komentar'],
-                'langganan'  => $CI->header['notif_langganan'],
-                'pengumuman' => $CI->header['notif_pengumuman'],
+                'surat'       => $CI->header['notif_permohonan_surat'],
+                'opendkpesan' => $CI->header['notif_pesan_opendk'],
+                'inbox'       => $CI->header['notif_inbox'],
+                'komentar'    => $CI->header['notif_komentar'],
+                'langganan'   => $CI->header['notif_langganan'],
+                'pengumuman'  => $CI->header['notif_pengumuman'],
             ],
             'kategori'      => $CI->header['kategori'],
             'sub_modul_ini' => $CI->sub_modul_ini,
@@ -174,7 +175,7 @@ if (! function_exists('setting')) {
     {
         $getSetting = get_instance()->setting;
 
-        if ($params && $getSetting->{$params}) {
+        if ($params && property_exists($getSetting, $params)) {
             return $getSetting->{$params};
         }
 
@@ -213,10 +214,57 @@ if (! function_exists('calculate_date_intervals')) {
     }
 }
 
-// SebuatanDesa('Surat [Desa]');
-if (! function_exists('SebuatanDesa')) {
-    function SebuatanDesa($params = null)
+// Parsedown
+if (! function_exists('parsedown')) {
+    function parsedown($params = null)
     {
-        return str_replace('[Desa]', ucwords(setting('sebutan_desa')), $params);
+        $parsedown = new \App\Libraries\Parsedown();
+
+        if (null !== $params) {
+            return $parsedown->text(file_get_contents(FCPATH . $params));
+        }
+
+        return $parsedown;
+    }
+}
+
+// SebutanDesa('Surat [Desa]');
+if (! function_exists('SebutanDesa')) {
+    function SebutanDesa($params = null)
+    {
+        return str_replace(['[Desa]', '[desa]'], ucwords(setting('sebutan_desa')), $params);
+    }
+}
+
+if (! function_exists('underscore')) {
+    /**
+     * Membuat spasi menjadi underscore atau sebaliknya
+     *
+     * @param string $str           string yang akan dibuat spasi
+     * @param bool   $to_underscore true jika ingin membuat spasi menjadi underscore, false jika sebaliknya
+     * @param bool   $lowercase     true jika ingin mengubah huruf menjadi kecil semua
+     *
+     * @return string string yang sudah dibuat spasi
+     */
+    function underscore($str, $to_underscore = true, $lowercase = false)
+    {
+        // membersihkan string di akhir dan di awal
+        $str = trim($str);
+
+        // membuat text lowercase jika diperlukan
+        if ($lowercase) {
+            $str = MB_ENABLED ? mb_strtolower($str) : strtolower($str);
+        }
+
+        // mengganti spasi dengan underscore
+        $str = str_replace(' ', '_', $str);
+
+        // mengganti underscore dengan spasi
+        if ($to_underscore) {
+            $str = str_replace('_', ' ', $str);
+        }
+
+        // menyajikan hasil akhir
+        return $str;
     }
 }

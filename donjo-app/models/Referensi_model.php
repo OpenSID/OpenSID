@@ -77,6 +77,7 @@ define('LINK_TIPE', serialize([
     '5'  => 'Halaman Statis Lainnya',
     '6'  => 'Artikel Keuangan',
     '7'  => 'Kelompok',
+    '11' => 'Lembaga',
     '9'  => 'Data Suplemen',
     '10' => 'Status IDM',
     '99' => 'Eksternal',
@@ -132,12 +133,13 @@ define('STAT_LAINNYA', serialize([
     'informasi_publik' => 'Informasi Publik',
     'peta'             => 'Peta',
     'data_analisis'    => 'Data Analisis',
-    'status-sdgs'      => 'SDGs Desa',
-    'lapak'            => 'Lapak Desa',
+    'status-sdgs'      => 'SDGs [Desa]',
+    'lapak'            => 'Lapak [Desa]',
     'pembangunan'      => 'Pembangunan',
     'galeri'           => 'Galeri',
     'pengaduan'        => 'Pengaduan',
     'data-vaksinasi'   => 'Vaksin',
+    'pemerintah'       => 'Pemerintah [Desa]',
 ]));
 
 // Jabatan Kelompok

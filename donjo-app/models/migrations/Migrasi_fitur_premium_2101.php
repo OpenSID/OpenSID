@@ -82,10 +82,9 @@ class Migrasi_fitur_premium_2101 extends MY_model
         // setting_aplikasi.valud diperpanjang
         $field = [
             'value' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 1000,
-                'null'       => true,
-                'default'    => null,
+                'type'    => 'TEXT',
+                'null'    => true,
+                'default' => null,
             ],
         ];
 

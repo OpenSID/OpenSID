@@ -365,7 +365,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
             $hasil = $hasil && $this->db->update_batch('tweb_penduduk', $penduduk, 'id');
         }
 
-        return $hasil && $this->tambah_indeks('tweb_penduduk', 'email');
+        return $hasil && $this->tambahIndeks('tweb_penduduk', 'email');
     }
 
     protected function migrasi_2022012071($hasil)
@@ -447,9 +447,9 @@ class Migrasi_fitur_premium_2202 extends MY_model
             $hasil = $hasil && $this->db->update_batch('user', $users, 'id');
         }
 
-        $hasil = $hasil && $this->tambah_indeks('user', 'username');
+        $hasil = $hasil && $this->tambahIndeks('user', 'username');
 
-        return $hasil && $this->tambah_indeks('user', 'email');
+        return $hasil && $this->tambahIndeks('user', 'email');
     }
 
     protected function migrasi_2022012771($hasil)

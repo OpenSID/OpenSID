@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\SettingAplikasi;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Status_desa extends Admin_Controller
@@ -50,7 +52,7 @@ class Status_desa extends Admin_Controller
     public function index()
     {
         $kode_desa = $this->header['desa']['kode_desa'];
-        $tahun     = $this->session->flashdata('tahun') ?? ($this->input->post('tahun') ?? date('Y'));
+        $tahun     = session('tahun') ?? ($this->input->post('tahun') ?? ($this->setting->tahun_idm));
         $cache     = 'idm_' . $tahun . '_' . $kode_desa;
 
         if (cek_koneksi_internet()) {
@@ -60,29 +62,36 @@ class Status_desa extends Admin_Controller
 
             $idm = $this->data_publik->get_url_content();
             if ($idm->body->error) {
-                $idm->body->mapData->error_msg = $idm->body->message . ' : <a href="' . $idm->header->url . ' ">' . $idm->header->url . '<br><br> Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh : 3507012006 <br>';
+                $idm->body->mapData->error_msg = $idm->body->message . ' : <a href="' . $idm->header->url . ' ">' . $idm->header->url . '</a><br><br>Periksa Kode Desa di ' . SebutanDesa('Identitas [Desa]') . ' dan masukkan kode lengkap. Contoh : 3507012006 <br>';
             }
 
             $data = [
+                'tahun' => (int) $tahun,
                 'idm'   => $idm->body->mapData,
-                'tahun' => $tahun,
             ];
         }
 
-        $this->render('home/idm', $data);
+        return view('admin.status_desa.index', $data);
     }
 
-    public function perbaharui(int $tahun)
+    public function perbarui(int $tahun)
     {
         if (cek_koneksi_internet() && $tahun) {
             $kode_desa = $this->header['desa']['kode_desa'];
             $cache     = 'idm_' . $tahun . '_' . $kode_desa . '.json';
 
             $this->cache->file->delete($cache);
-            $this->session->set_flashdata('tahun', $tahun);
-            $this->session->success = 1;
+            set_session('tahun', $tahun);
         }
 
-        redirect('status_desa');
+        redirect_with('success', 'Berhasil Perbarui Data');
+    }
+
+    public function simpan(int $tahun)
+    {
+        SettingAplikasi::where('key', 'tahun_idm')->update(['value' => $tahun]);
+        set_session('tahun', $tahun);
+
+        redirect_with('success', 'Berhasil Simpan Data');
     }
 }

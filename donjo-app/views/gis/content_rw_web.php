@@ -53,7 +53,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<div class="collapse box-body no-padding" id="collapseStatGraph">
 						<div class="card card-body">
 							<?php foreach ($list_ref as $key => $value): ?>
-								<li <?= jecho($lap, $key, 'class="active"'); ?>><a href="<?= site_url("statistik_web/chart_gis_rw/{$key}/" . underscore($rw[dusun]) . '/' . underscore($rw[rw])); ?>" data-remote="false" data-toggle="modal" data-target="#modalSedang" data-title="Statistik Penduduk RW <?= set_ucwords($rw['rw']) . ' ' . set_ucwords($wilayah) . set_ucwords($rw['dusun']); ?>"><?= $value ?></a></li>
+								<li <?= jecho($lap, $key, 'class="active"'); ?>><a href="<?= site_url("statistik_web/chart_gis_rw/{$key}/" . underscore($rw['dusun']) . '/' . underscore($rw['rw'])) ?>" data-remote="false" data-toggle="modal" data-target="#modalSedang" data-title="Statistik Penduduk RW <?= set_ucwords($rw['rw']) . ' ' . set_ucwords($wilayah) . set_ucwords($rw['dusun']) ?>"><?= $value ?></a></li>
 							<?php endforeach; ?>
 						</div>
 					</div>

@@ -22,30 +22,30 @@
 						<div class="form-group">
 							<label for="tgl_peristiwa">Username</label>
 							<input name="nama" type="hidden" value="<?= $main['nama'] ?>" />
-							<input class="form-control input-sm" type="text" value="<?= $main['username'] ?>" disabled=""></input>
+							<input class="form-control input-sm" type="text" value="<?= $main['username'] ?>" disabled autocomplete="off"></input>
 						</div>
 						<div class="form-group">
 							<label for="email">Email</label>
 							<input class="form-control input-sm" type="text" value="<?= $main['email'] ?>" readonly></input>
 						</div>
 						<div class="form-group">
-							<label for="catatan">Nama Lengkap</label>
+							<label for="nama_lengkap">Nama Lengkap</label>
 							<input class="form-control input-sm" type="text" name="nama" value="<?= $main['nama'] ?>"></input>
 						</div>
 						<div class="form-group">
-							<label for="catatan">Kata Sandi Lama</label>
-							<input class="form-control input-sm required" type="password" name="pass_lama"></input>
+							<label for="pass_lama">Kata Sandi Lama</label>
+							<input class="form-control input-sm required" type="password" name="pass_lama" autocomplete="off"></input>
 						</div>
 						<div class="form-group">
-							<label for="catatan">Kata Sandi Baru</label>
-							<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru" name="pass_baru"></input>
+							<label for="pass_baru">Kata Sandi Baru</label>
+							<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru" name="pass_baru" autocomplete="off"></input>
 						</div>
 						<div class="form-group">
-							<label for="catatan">Kata Sandi Baru (Ulangi)</label>
-							<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru1" name="pass_baru1"></input>
+							<label for="pass_baru1">Kata Sandi Baru (Ulangi)</label>
+							<input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru1" name="pass_baru1" autocomplete="off"></input>
 						</div>
 						<div class="form-group">
-							<label for="catatan">Ganti Foto</label>
+							<label for="foto">Ganti Foto</label>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path" name="foto">
 								<input type="file" class="hidden" id="file" name="foto">

@@ -266,6 +266,6 @@ class Migrasi_fitur_premium_2111 extends MY_Model
             }
         }
 
-        return $hasil && $this->tambah_indeks('tweb_keluarga', 'no_kk');
+        return $hasil && $this->tambahIndeks('tweb_keluarga', 'no_kk');
     }
 }

@@ -460,7 +460,7 @@ class User_model extends CI_Model
             unset($data['password']);
         }
         // Untuk demo jangan ubah username atau password
-        if ($idUser == 1 && config_item('demo_mode')) {
+        if ($idUser == 1 && (config_item('demo_mode') || ENVIRONMENT === 'development')) {
             unset($data['username'], $data['password']);
         }
         if ($data['password']) {
@@ -814,10 +814,5 @@ class User_model extends CI_Model
         }
 
         return $ada_akses;
-    }
-
-    public function jml_pengguna()
-    {
-        return $this->db->get('user')->num_rows();
     }
 }

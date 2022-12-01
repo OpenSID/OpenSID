@@ -83,7 +83,7 @@ class Migrasi_fitur_premium_2102 extends MY_model
                 ->update('tweb_penduduk_mandiri');
         }
 
-        $hasil = $hasil && $this->tambah_indeks('tweb_penduduk', 'id_rtm', 'INDEX');
+        $hasil = $hasil && $this->tambahIndeks('tweb_penduduk', 'id_rtm', 'INDEX');
 
         // Perbaiki jenis untuk key 'offline_mode'
         $this->db->where('key', 'offline_mode')->update('setting_aplikasi', ['jenis' => 'option-value']);

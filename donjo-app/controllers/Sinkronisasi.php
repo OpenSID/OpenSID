@@ -44,7 +44,7 @@ class Sinkronisasi extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 11;
+        $this->modul_ini     = 343;
         $this->sub_modul_ini = 326;
         $this->load->library('zip');
         $this->load->model('ekspor_model');
@@ -54,7 +54,7 @@ class Sinkronisasi extends Admin_Controller
     public function index()
     {
         $data = [
-            'kirim_data' => ['Penduduk', 'Laporan Penduduk', 'Laporan APBDes'],
+            'kirim_data' => ['Penduduk', 'Laporan Penduduk', 'Laporan APBDes', 'Identitas Desa'],
         ];
 
         $this->render("{$this->controller}/index", $data);
@@ -88,6 +88,11 @@ class Sinkronisasi extends Admin_Controller
             case 'laporan-apbdes':
                 // Laporan APBDes
                 redirect('laporan_apbdes');
+                break;
+
+            case 'identitas-desa':
+                // identitas desa
+                $this->sinkronisasi_identitas_desa();
                 break;
 
             default:
@@ -310,6 +315,45 @@ class Sinkronisasi extends Admin_Controller
         }
 
         curl_close($curl);
+        $this->session->unset_userdata(['success', 'error_msg']);
+        $this->session->set_flashdata('notif', $notif);
+    }
+
+    private function sinkronisasi_identitas_desa()
+    {
+        try {
+            $client   = new \GuzzleHttp\Client();
+            $response = $client->post("{$this->setting->api_opendk_server}/api/v1/identitas-desa", [
+                'headers' => [
+                    'X-Requested-With' => 'XMLHttpRequest',
+                    'Authorization'    => "Bearer {$this->setting->api_opendk_key}",
+                ],
+                'form_params' => [
+                    'kode_desa'    => kode_wilayah($this->header['desa']['kode_desa']),
+                    'sebutan_desa' => $this->setting->sebutan_desa,
+                    'website'      => empty($this->header['desa']['website']) ? base_url() : $this->header['desa']['website'],
+                ],
+            ])->getBody()->getContents();
+
+            $data_respon = json_decode($response);
+
+            $notif = [
+                'status' => $data_respon->status,
+                'pesan'  => $data_respon->message,
+            ];
+        } catch (GuzzleHttp\Exception\ConnectException $e) {
+            $message = $e->getHandlerContext()['error'];
+            $notif   = [
+                'status' => 'danger',
+                'pesan'  => "<br/>{$message}<br/>",
+            ];
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            $message = $e->getResponse()->getBody()->getContents();
+            $notif   = [
+                'status' => 'danger',
+                'pesan'  => "<br/>{$message}<br/>",
+            ];
+        }
         $this->session->unset_userdata(['success', 'error_msg']);
         $this->session->set_flashdata('notif', $notif);
     }
