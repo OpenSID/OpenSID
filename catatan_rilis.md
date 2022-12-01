@@ -77,6 +77,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 67. [#6044](https://github.com/OpenSID/OpenSID/issues/6044) Perbaikan backup sql dengan collaction nya ke "utf8mb4_unicode_ci" sehingga data backup tidak lengkap.
 68. [#1691](https://github.com/OpenSID/premium/issues/1691) Perbaikan unggah file yang berbahaya di form pengaturan lokasi.
 69. [#6059](https://github.com/OpenSID/OpenSID/issues/6059) Perbaikan redirect halaman jika gagal simpan.
+70. [#6067](https://github.com/OpenSID/OpenSID/issues/6067) Perbaikan pengaturan dtks yang disimpan berulang kali.
 
 #### Perubahan Teknis
 
