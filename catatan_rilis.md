@@ -78,6 +78,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 68. [#1691](https://github.com/OpenSID/premium/issues/1691) Perbaikan unggah file yang berbahaya di form pengaturan lokasi.
 69. [#6059](https://github.com/OpenSID/OpenSID/issues/6059) Perbaikan redirect halaman jika gagal simpan.
 70. [#6067](https://github.com/OpenSID/OpenSID/issues/6067) Perbaikan pengaturan dtks yang disimpan berulang kali.
+71. [#6060](https://github.com/OpenSID/OpenSID/issues/6060) Penyesuaian Hapus tombol import persil yang masih belum ada fungsinya.
 
 #### Perubahan Teknis
 
