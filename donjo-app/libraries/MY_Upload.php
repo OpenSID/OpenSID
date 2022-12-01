@@ -152,7 +152,7 @@ class MY_Upload extends CI_Upload
 
         // cek malicious code dalam gambar
         if (isPHP($this->file_temp, $this->file_name) == true) {
-            $this->set_error('Gambar mengandung kode berbahaya', 'debug');
+            $this->set_error('upload_invalid_filedangerous', 'debug');
 
             return false;
         }
