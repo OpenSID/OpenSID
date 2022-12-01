@@ -142,19 +142,23 @@ class Pengaduan_model extends CI_Model
 
     public function insert()
     {
-        $this->load->library('upload');
+        $upload['file_name'] = '';
 
-        $config['upload_path']   = LOKASI_PENGADUAN;
-        $config['allowed_types'] = 'jpg|jpeg|png';
-        $config['max_size']      = max_upload() * 1024;
-        $config['file_name']     = namafile($this->input->post('judul', true));
+        if ($_FILES['foto']['error'] == 0) {
+            $this->load->library('MY_Upload', null, 'upload');
 
-        $this->upload->initialize($config);
+            $config['upload_path']   = LOKASI_PENGADUAN;
+            $config['allowed_types'] = 'jpg|jpeg|png';
+            $config['max_size']      = max_upload() * 1024;
+            $config['file_name']     = namafile($this->input->post('judul', true));
 
-        if ($this->upload->do_upload('foto')) {
-            $upload = $this->upload->data();
-        } else {
-            $upload['file_name'] = '';
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('foto')) {
+                $upload = $this->upload->data();
+            } else {
+                return false;
+            }
         }
 
         $data = $this->validasi($this->input->post());
