@@ -1,4 +1,4 @@
-<form action="#" method="get" class="sidebar-form">
+<div class="sidebar-form">
     <div class="input-group">
         <input type="text" id="cari-menu" class="form-control" placeholder="Pencarian...">
         <span class="input-group-btn">
@@ -6,4 +6,4 @@
                     class="fa fa-search"></i></button>
         </span>
     </div>
-</form>
+</div>
