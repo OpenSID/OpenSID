@@ -3630,7 +3630,7 @@ class Database_model extends MY_Model
 
         // Kosongkan folder desa dan copy isi folder desa-contoh
         foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
-            if (! in_array($folder, $exclude)) {
+            if (!in_array($folder, $exclude)) {
                 delete_files(FCPATH . $folder, true);
             }
         }
