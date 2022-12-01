@@ -77,6 +77,9 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 62. [#6040](https://github.com/OpenSID/OpenSID/issues/6040) Perbaikan pamong nama yang menggunakan gelar di layanan mandiri.
 63. [#6045](https://github.com/OpenSID/OpenSID/issues/6045) Perbaikan tulisan wwww menjadi www.
 64. [#6039](https://github.com/OpenSID/OpenSID/issues/6039) Perbaikan informasi publik peraturan desa.
+65. [#6047](https://github.com/OpenSID/OpenSID/issues/6047) Perbaikan popup pada icon gear yang tidak dapat muncul sat di klik.
+66. [#5984](https://github.com/OpenSID/OpenSID/issues/5984) Perbaikan input ganda data anak pada menu stunting kia & perbaikan pada pencarian data kia.
+67. [#6044](https://github.com/OpenSID/OpenSID/issues/6044) Perbaikan backup sql dengan collaction nya ke "utf8mb4_unicode_ci" sehingga data backup tidak lengkap.
 
 #### Perubahan Teknis
 

@@ -95,7 +95,7 @@
                     },
                     {
                         data: 'ibu.nama',
-                        name: 'ibu_id',
+                        name: 'ibu.nama',
                         searchable: true,
                         orderable: true
                     },
@@ -103,7 +103,7 @@
                         data: function (data) {
                             return data.anak_id != null ? data.anak.nama : '-' 
                         },
-                        name: 'anak_id',
+                        name: 'anak.nama',
                         searchable: true,
                         orderable: true
                     },
