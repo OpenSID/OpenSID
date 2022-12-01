@@ -429,7 +429,7 @@ class Mandiri_model extends CI_Model
         } else {
             $respon = [
                 'status' => -1,
-                'pesan'  => "Mohon Maaf, pendaftaran anda tidak dapat di proses. Silahkan periksa {$this->upload->display_errors()}",
+                'pesan'  => 'Mohon Maaf, pendaftaran anda tidak dapat di proses. Silahkan periksa kembali unggahan anda.',
             ];
             $this->session->set_flashdata('info_pendaftaran', $respon);
 
@@ -439,7 +439,7 @@ class Mandiri_model extends CI_Model
 
     protected function upload_scan($key = 1)
     {
-        $this->load->library('upload');
+        $this->load->library('MY_Upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_PENDAFTARAN,
             'allowed_types' => 'gif|jpg|jpeg|png',
@@ -465,8 +465,7 @@ class Mandiri_model extends CI_Model
         }
         // Upload gagal
         else {
-            $this->session->success   = -1;
-            $this->session->error_msg = $this->upload->display_errors(null, null);
+            session_error($this->upload->display_errors());
         }
 
         return (! empty($uploadData)) ? $uploadData['file_name'] : null;
