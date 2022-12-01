@@ -428,7 +428,7 @@ function isMobile()
 /*
 Deteksi file berisi script PHP:
 -- extension .php
--- berisi string '<?php', '<?=', '<script'
+-- berisi string '<?php', '<script', function, __halt_compiler,<html
 Perhatian: string '<?', '<%' tidak bisa digunakan sebagai indikator,
 karena file image dan PDF juga mengandung string ini.
 */
@@ -441,7 +441,7 @@ function isPHP($file, $filename)
 
     $handle = fopen($file, 'rb');
     $buffer = stream_get_contents($handle);
-    if (preg_match('/<\?php|<script/i', $buffer)) {
+    if (preg_match('/<\?php|<script|function|__halt_compiler|<html/i', $buffer)) {
         fclose($handle);
 
         return true;
