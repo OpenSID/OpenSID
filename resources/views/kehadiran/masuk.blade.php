@@ -27,11 +27,11 @@
                         </div>
                     @else
                         <div class="form-group has-feedback">
-                            <input type="text" name="username" id="username" class="form-control" placeholder="Username / NIK" required>
+                            <input type="text" name="username" id="username" autocomplete="off" class="form-control" placeholder="Username / NIK" required>
                             <span class="glyphicon glyphicon glyphicon-user form-control-feedback"></span>
                         </div>
                         <div class="form-group has-feedback">
-                            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                            <input type="password" name="password" id="password" autocomplete="off" class="form-control" placeholder="Password" required>
                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                         </div>
                         <div class="form-group">

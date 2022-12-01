@@ -57,10 +57,10 @@
                                     <input type="hidden" name="token" value="<?= $token ?>">
                                 </div>
                                 <div class="form-group">
-                                    <input name="password" type="password" placeholder="Password" class="form-control required pwdLengthNist">
+                                    <input name="password" type="password" placeholder="Password" autocomplete="off" class="form-control required pwdLengthNist">
                                 </div>
                                 <div class="form-group">
-                                    <input name="konfirmasi_password" type="password" placeholder="Konfirmasi Password" class="form-control required pwdLengthNist">
+                                    <input name="konfirmasi_password" type="password" placeholder="Konfirmasi Password" autocomplete="off" class="form-control required pwdLengthNist">
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn">Reset Sandi</button>
