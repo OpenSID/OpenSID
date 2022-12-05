@@ -332,12 +332,13 @@ class Ekspor_model extends CI_Model
 
     public function restore()
     {
-        $this->load->library('upload');
+        $this->load->library('MY_Upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
             'file_ext'      => 'sql',
             'max_size'      => max_upload() * 1024,
+            'cek_script'    => false,
         ];
         $this->upload->initialize($this->uploadConfig);
         // Upload sukses
