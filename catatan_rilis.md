@@ -9,3 +9,5 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 1. [#1698](https://github.com/OpenSID/premium/issues/1698) Perbaikan validasi form upload gambar pada modul pengaturan.
 
 #### Perubahan Teknis
+
+1. Menambahkan accept file pada inputan file sesuai kebutuhan.

@@ -2,21 +2,21 @@
 	<section class="content-header">
 		<h1>Pengaturan Garis</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('garis')?>"><i class="fa fa-dashboard"></i> Daftar Garis</a></li>
+			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('garis') ?>"><i class="fa fa-dashboard"></i> Daftar Garis</a></li>
 			<li class="active">Pengaturan Garis</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+		<form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
-					<?php $this->load->view('plan/nav.php')?>
+					<?php $this->load->view('plan/nav.php') ?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url('garis')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+							<a href="<?= site_url('garis') ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Garis
 							</a>
 						</div>
@@ -24,25 +24,25 @@
 							<div class="form-group">
 								<label class="control-label col-sm-3">Nama Garis / Properti</label>
 								<div class="col-sm-7">
-									<input name="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" value="<?=$garis['nama']?>"></input>
+									<input name="nama" class="form-control input-sm nomor_sk required" maxlength="100" type="text" value="<?= $garis['nama'] ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-3">Kategori</label>
 								<div class="col-sm-7">
 									<select class="form-control input-sm required" id="ref_line" name="ref_line">
-									<option value="">Pilih Kategori</option>
-									<?php foreach ($list_subline as $data): ?>
-										<option value="<?= $data['id']; ?>" <?= selected($garis['ref_line'], $data['id']); ?>><?= $data['nama']; ?></option>
-									<?php endforeach; ?>
+										<option value="">Pilih Kategori</option>
+										<?php foreach ($list_subline as $data) : ?>
+											<option value="<?= $data['id']; ?>" <?= selected($garis['ref_line'], $data['id']); ?>><?= $data['nama']; ?></option>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
-							<?php if ($garis['foto']): ?>
+							<?php if ($garis['foto']) : ?>
 								<div class="form-group">
 									<label class="control-label col-sm-3"></label>
 									<div class="col-sm-7">
-										<img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_FOTO_GARIS?>kecil_<?= $garis['foto']?>" alt="Foto">
+										<img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_FOTO_GARIS ?>kecil_<?= $garis['foto'] ?>" alt="Foto">
 									</div>
 								</div>
 							<?php endif; ?>
@@ -51,9 +51,9 @@
 								<div class="col-sm-7">
 									<div class="input-group input-group-sm">
 										<input type="text" class="form-control" id="file_path">
-										<input id="file" type="file" class="hidden" name="foto" value="<?= $garis['foto']?>">
+										<input id="file" type="file" class="hidden" name="foto" value="<?= $garis['foto'] ?>" accept=".gif, .jpg, .jpeg, .png">
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+											<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
 									<p class="help-block small text-red">Kosongkan jika tidak ingin mengubah foto.</p>
@@ -62,17 +62,17 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-7">
-									<textarea id="desk" name="desk" class="form-control input-sm" style="height: 200px;"><?= $garis['desk']?></textarea>
+									<textarea id="desk" name="desk" class="form-control input-sm" style="height: 200px;"><?= $garis['desk'] ?></textarea>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-xs-12 col-sm-3 col-lg-3 control-label" for="status">Status</label>
 								<div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
-									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($garis['enabled'] == '1' || $garis['enabled'] == null): ?>active<?php endif ?>">
-										<input id="sx1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($garis['enabled'] == '1' || $garis['enabled'] == null): ?>checked <?php endif ?> autocomplete="off"> Aktif
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($garis['enabled'] == '1' || $garis['enabled'] == null) : ?>active<?php endif ?>">
+										<input id="sx1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($garis['enabled'] == '1' || $garis['enabled'] == null) : ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($garis['enabled'] == '2'): ?>active<?php endif ?>">
-										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($garis['enabled'] == '2'): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($garis['enabled'] == '2') : ?>active<?php endif ?>">
+										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($garis['enabled'] == '2') : ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>
