@@ -15,3 +15,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 #### Perubahan Teknis
 
 1. Menambahkan accept file pada inputan file sesuai kebutuhan.
+2. Hapus file yang tidak di gunakan.
