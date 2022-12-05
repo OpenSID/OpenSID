@@ -8,6 +8,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 1. [#1698](https://github.com/OpenSID/premium/issues/1698) Perbaikan validasi form upload gambar pada modul pengaturan.
 2. [#6074](https://github.com/OpenSID/OpenSID/issues/6074) Perbaikan terkait refaktor api tracksid yang tidak respon.
+3. [#1682](https://github.com/OpenSID/premium/issues/1682) Perbaikan validasi form upload gambar pada modul RFM TinyMCE.
 
 #### Perubahan Teknis
 
