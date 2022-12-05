@@ -120,6 +120,8 @@ class Setting_model extends MY_Model
 
     public function update_setting($data)
     {
+        $hasil = true;
+
         foreach ($data as $key => $value) {
             // Update setting yang diubah
             if ($this->setting->{$key} != $value) {
@@ -141,31 +143,33 @@ class Setting_model extends MY_Model
                     $value = null;
                 }
 
-                $this->update($key, $value);
+                $hasil                 = $hasil && $this->update($key, $value);
                 $this->setting->{$key} = $value;
                 if ($key == 'enable_track') {
-                    $this->notifikasi_tracker();
+                    $hasil = $hasil && $this->notifikasi_tracker();
                 }
             }
         }
         $this->apply_setting();
         // TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
         if ($data['latar_website'] != '') {
-            $this->upload_img('latar_website', $this->theme_model->lokasi_latar_website(str_replace('desa/', '', $this->setting->web_theme)));
-        } // latar_website
-        if ($data['latar_login'] != '') {
-            $this->upload_img('latar_login', LATAR_LOGIN);
-        } // latar_login
-        if ($data['latar_login_mandiri'] != '') {
-            $this->upload_img('latar_login_mandiri', LATAR_LOGIN);
-        } // latar_login_mandiri
+            $hasil = $hasil && $this->upload_img('latar_website', $this->theme_model->lokasi_latar_website(str_replace('desa/', '', $this->setting->web_theme)));
+        }
 
-        return $data;
+        if ($data['latar_login'] != '') {
+            $hasil = $hasil && $this->upload_img('latar_login', LATAR_LOGIN);
+        }
+
+        if ($data['latar_login_mandiri'] != '') {
+            $hasil = $hasil && $this->upload_img('latar_login_mandiri', LATAR_LOGIN);
+        }
+
+        return $hasil;
     }
 
     public function upload_img($key = '', $lokasi = '')
     {
-        $this->load->library('upload');
+        $this->load->library('MY_Upload', null, 'upload');
 
         $config['upload_path']   = $lokasi;
         $config['allowed_types'] = 'jpg|jpeg|png';
@@ -181,7 +185,7 @@ class Setting_model extends MY_Model
             return $lokasi . $config['file_name'];
         }
 
-        session_error($this->upload->display_errors());
+        set_session('flash_error_msg', $this->upload->display_errors(null, null));
 
         return false;
     }
@@ -203,6 +207,8 @@ class Setting_model extends MY_Model
             ];
         }
         $this->db->where('kode', 'tracking_off')->update('notifikasi', $notif);
+
+        return true;
     }
 
     public function update($key = 'enable_track', $value = 1)
@@ -223,6 +229,8 @@ class Setting_model extends MY_Model
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         status_sukses($outp);
+
+        return true;
     }
 
     public function aktifkan_tracking()

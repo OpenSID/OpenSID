@@ -63,8 +63,8 @@ class Setting extends Admin_Controller
     public function update()
     {
         $this->redirect_hak_akses_url('u');
-        $this->setting_model->update_setting($this->input->post());
-        status_sukses(true, false, 'Berhasil Ubah Data');
+        $hasil = $this->setting_model->update_setting($this->input->post());
+        status_sukses($hasil, false, 'Berhasil Ubah Data');
 
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -73,8 +73,11 @@ class Setting extends Admin_Controller
     public function new_update()
     {
         $this->redirect_hak_akses_url('u');
-        $this->setting_model->update_setting($this->input->post());
-        set_session('success', 'Berhasil Ubah Data');
+        if ($this->setting_model->update_setting($this->input->post())) {
+            set_session('success', 'Berhasil Ubah Data');
+        } else {
+            set_session('error', 'Gagal Ubah Data. ' . session('flash_error_msg'));
+        }
 
         redirect($_SERVER['HTTP_REFERER']);
     }
