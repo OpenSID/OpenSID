@@ -70,14 +70,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<label class="control-label" for="kategori">Nama Pelapak</label>
 								<select class="form-control input-sm select2 required" name="id_pelapak">
 									<option value="">Pilih Nama Pelapak</option>
-									<?php foreach ($pelapak as $pel): ?>
+									<?php foreach ($pelapak as $pel) : ?>
 										<option value="<?= $pel->id; ?>" <?= selected($main->id_pelapak, $pel->id); ?>><?= $pel->nik . ' - ' . $pel->pelapak; ?></option>
 									<?php endforeach ?>
 								</select>
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="nama">Nama Produk</label>
-								<input name="nama" class="form-control input-sm nama_produk required" type="text" placeholder="Nama Produk" minlength="3" maxlength="100" value="<?= $main->nama; ?>"/>
+								<input name="nama" class="form-control input-sm nama_produk required" type="text" placeholder="Nama Produk" minlength="3" maxlength="100" value="<?= $main->nama; ?>" />
 							</div>
 							<div class="row">
 								<div class="col-md-6">
@@ -85,7 +85,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<label class="control-label" for="kategori">Kategori Produk</label>
 										<select class="form-control input-sm select2 required" name="id_produk_kategori">
 											<option value="">Pilih Kategori Produk</option>
-											<?php foreach ($kategori as $kat): ?>
+											<?php foreach ($kategori as $kat) : ?>
 												<option value="<?= $kat->id; ?>" <?= selected($main->id_produk_kategori, $kat->id); ?>><?= $kat->kategori; ?></option>
 											<?php endforeach ?>
 										</select>
@@ -98,7 +98,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<label class="control-label" for="harga">Harga Produk</label>
 										<div class="input-group">
 											<span class="input-group-addon input-sm">Rp.</span>
-											<input id="harga" name="harga" onkeyup="cek_nominal();" class="form-control input-sm number required" type="number" placeholder="Harga Produk" style="text-align:right;" min="100" max="2000000000" step="100" value="<?= $main->harga; ?>"/>
+											<input id="harga" name="harga" onkeyup="cek_nominal();" class="form-control input-sm number required" type="number" placeholder="Harga Produk" style="text-align:right;" min="100" max="2000000000" step="100" value="<?= $main->harga; ?>" />
 										</div>
 									</div>
 								</div>
@@ -107,7 +107,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<label class="control-label" for="satuan">Satuan Produk</label>
 										<select class="form-control input-sm select2-tags required" name="satuan">
 											<option value="">Pilih Satuan Produk</option>
-											<?php foreach ($satuan as $sat): ?>
+											<?php foreach ($satuan as $sat) : ?>
 												<option value="<?= $sat; ?>" <?= selected($main->satuan, $sat); ?>><?= $sat; ?></option>
 											<?php endforeach ?>
 										</select>
@@ -129,7 +129,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6" id="tampil-persen" <?= jecho($main->tipe_potongan, 2, 'style="display:none;"'); ?>>
 									<div class="form-group">
 										<div class="input-group">
-											<input type="number" class="form-control input-sm number required" <?= $main->tipe_potongan == 1 ? '' : 'disabled'; ?> id="persen" name="persen" onkeyup="cek_persen();" placeholder="Potongan Persen (%)"  style="text-align:right;" min="0" max="100" step="1" value="<?= $main->potongan ?? 0; ?>"/>
+											<input type="number" class="form-control input-sm number required" <?= $main->tipe_potongan == 1 ? '' : 'disabled'; ?> id="persen" name="persen" onkeyup="cek_persen();" placeholder="Potongan Persen (%)" style="text-align:right;" min="0" max="100" step="1" value="<?= $main->potongan ?? 0; ?>" />
 											<span class="input-group-addon input-sm">%</span>
 										</div>
 									</div>
@@ -139,7 +139,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<div class="form-group">
 										<div class="input-group">
 											<span class="input-group-addon input-sm ">Rp.</span>
-											<input type="number" class="form-control input-sm number required" <?= $main->tipe_potongan == 2 ? '' : 'disabled'; ?> id="nominal" name="nominal" onkeyup="cek_nominal();" placeholder="Potongan Nominal (Rp.)" style="text-align:right;" min="0" max="99999999999" step="10" value="<?= $main->potongan ?? 0; ?>"/>
+											<input type="number" class="form-control input-sm number required" <?= $main->tipe_potongan == 2 ? '' : 'disabled'; ?> id="nominal" name="nominal" onkeyup="cek_nominal();" placeholder="Potongan Nominal (Rp.)" style="text-align:right;" min="0" max="99999999999" step="10" value="<?= $main->potongan ?? 0; ?>" />
 										</div>
 									</div>
 								</div>
@@ -166,30 +166,30 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						</div>
 						<div class="box-body">
 							<center>
-							<?php $foto = json_decode($main->foto); ?>
-							<?php for ($i = 0; $i < $this->setting->banyak_foto_tiap_produk; $i++): ?>
-								<b>Foto <?= ($i == 0) ? 'Utama' : 'Tambahan'; ?></b>
-								<?php $ii = $i + 1; ?>
-								<div class="form-group">
-									<?php if (is_file(LOKASI_PRODUK . $foto[$i])): ?>
-										<img class="img-responsive" src="<?= base_url(LOKASI_PRODUK . $foto[$i]); ?>" alt="Foto Produk">
-									<?php else: ?>
-										<img class="img-responsive" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Produk"/>
-									<?php endif; ?>
-									<div class="input-group input-group-sm">
-										<input type="hidden" name="old_foto_<?= $ii; ?>" value="<?= $foto[$i]; ?>">
-										<input type="text" class="form-control" id="file_path<?= $ii; ?>">
-										<input type="file" class="hidden" id="file<?= $ii; ?>" name="foto_<?= $ii; ?>">
-										<span class="input-group-btn">
-											<button type="button" class="btn btn-info btn-flat" id="file_browser<?= $ii; ?>"><i class="fa fa-search"></i></button>
-										</span>
-										<span class="input-group-addon" style="background-color: red; border: 1px solid #ccc;">
-											<input type="checkbox" title="Centang Untuk Hapus Foto" name="hapus_foto_<?= $ii; ?>" value="hapus">
-										</span>
+								<?php $foto = json_decode($main->foto); ?>
+								<?php for ($i = 0; $i < $this->setting->banyak_foto_tiap_produk; $i++) : ?>
+									<b>Foto <?= ($i == 0) ? 'Utama' : 'Tambahan'; ?></b>
+									<?php $ii = $i + 1; ?>
+									<div class="form-group">
+										<?php if (is_file(LOKASI_PRODUK . $foto[$i])) : ?>
+											<img class="img-responsive" src="<?= base_url(LOKASI_PRODUK . $foto[$i]); ?>" alt="Foto Produk">
+										<?php else : ?>
+											<img class="img-responsive" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Produk" />
+										<?php endif; ?>
+										<div class="input-group input-group-sm">
+											<input type="hidden" name="old_foto_<?= $ii; ?>" value="<?= $foto[$i]; ?>">
+											<input type="text" class="form-control" id="file_path<?= $ii; ?>">
+											<input type="file" class="hidden" id="file<?= $ii; ?>" name="foto_<?= $ii; ?>" accept=".gif,.jpg,.jpeg,.png">
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-info btn-flat" id="file_browser<?= $ii; ?>"><i class="fa fa-search"></i></button>
+											</span>
+											<span class="input-group-addon" style="background-color: red; border: 1px solid #ccc;">
+												<input type="checkbox" title="Centang Untuk Hapus Foto" name="hapus_foto_<?= $ii; ?>" value="hapus">
+											</span>
+										</div>
 									</div>
-								</div>
-								<hr/>
-							<?php endfor; ?>
+									<hr />
+								<?php endfor; ?>
 							</center>
 						</div>
 					</div>
@@ -204,7 +204,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	 * 1 = Persen
 	 * 2 = Nominal
 	 */
-	$( document ).ready(function() {
+	$(document).ready(function() {
 
 		$('#tipe_potongan').change();
 

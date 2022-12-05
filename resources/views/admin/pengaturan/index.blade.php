@@ -33,7 +33,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm" id="file_path" name="latar_website">
                                 <input type="file" class="hidden" id="file" name="latar_website"
-                                    accept=".jpg, .jpeg, .png" />
+                                    accept=".jpg,.jpeg,.png" />
                                 <input type="text" class="hidden" name="lokasi" value="{{ $lokasi }}" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser"><i
@@ -53,7 +53,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm" id="file_path1" name="latar_login" />
                                 <input type="file" class="hidden" id="file1" name="latar_login"
-                                    accept=".jpg, .jpeg, .png" />
+                                    accept=".jpg,.jpeg,.png" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser1"><i
                                             class="fa fa-search"></i>&nbsp;</button>
@@ -75,7 +75,7 @@
                                 <input type="text" class="form-control input-sm" id="file_path2"
                                     name="latar_login_mandiri" />
                                 <input type="file" class="hidden" id="file2" name="latar_login_mandiri"
-                                    accept=".jpg, .jpeg, .png" />
+                                    accept=".jpg,.jpeg,.png" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser2"><i
                                             class="fa fa-search"></i>&nbsp;</button>

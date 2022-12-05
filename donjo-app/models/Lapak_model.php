@@ -198,7 +198,7 @@ class Lapak_model extends MY_Model
 
     private function upload_foto_produk($key = 1)
     {
-        $this->load->library('upload');
+        $this->load->library('MY_Upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_PRODUK,
             'allowed_types' => 'gif|jpg|jpeg|png',
@@ -216,18 +216,17 @@ class Lapak_model extends MY_Model
             return $this->input->post("old_foto_{$key}");
         }
 
-        // Tes tidak berisi script PHP
-        if (isPHP($_FILES['logo']['tmp_name'], $_FILES["foto_{$key}"]['name'])) {
-            $this->session->success   = -1;
-            $this->session->error_msg = ' -> Jenis file ini tidak diperbolehkan ';
-            redirect('produk');
-        }
-
         $uploadData = null;
         // Inisialisasi library 'upload'
         $this->upload->initialize($this->uploadConfig);
+        // Upload gagal
+        if (! $this->upload->do_upload("foto_{$key}")) {
+            unlink(LOKASI_PRODUK . $this->input->post("old_foto_{$key}"));
+            session_error($this->upload->display_errors());
+            redirect('lapak_admin/produk');
+        }
         // Upload sukses
-        if ($this->upload->do_upload("foto_{$key}")) {
+        else {
             $uploadData = $this->upload->data();
             // Buat nama file unik agar url file susah ditebak dari browser
             $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
@@ -239,13 +238,6 @@ class Lapak_model extends MY_Model
             // Ganti nama di array upload jika file berhasil di-rename --
             // jika rename gagal, fallback ke nama asli
             $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
-
-            unlink(LOKASI_PRODUK . $this->input->post("old_foto_{$key}"));
-        }
-        // Upload gagal
-        else {
-            $this->session->success   = -1;
-            $this->session->error_msg = $this->upload->display_errors(null, null);
         }
 
         return (! empty($uploadData)) ? $uploadData['file_name'] : null;
