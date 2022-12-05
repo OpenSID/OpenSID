@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.12 menyediakan modul hubung warga dan komunikasi antar desa dan kecamatan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.12.01 menyediakan modul hubung warga dan komunikasi antar desa dan kecamatan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada  totoprayogo1916 yang terus berkontribusi. Terima kasih pula pada eltociear dan  balongbesuk yang baru mulai berkontribusi.
 
