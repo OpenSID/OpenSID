@@ -39,6 +39,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class MY_Upload extends CI_Upload
 {
+    /**
+     * Cek script untuk kode berbahaya
+     *
+     * @var bool
+     */
+    public $cek_script = true;
+
     public function __construct($config = [])
     {
         parent::__construct($config);
@@ -151,7 +158,7 @@ class MY_Upload extends CI_Upload
         }
 
         // cek malicious code dalam gambar
-        if (isPHP($this->file_temp, $this->file_name) == true) {
+        if ($this->cek_script && isPHP($this->file_temp, $this->file_name) == true) {
             $this->set_error('upload_invalid_filedangerous', 'debug');
 
             return false;

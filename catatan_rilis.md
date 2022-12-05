@@ -73,6 +73,7 @@ Terima kasih pada totoprayogo1916 yang terus berkontribusi. Terima kasih pula pa
 43. [#5202](https://github.com/OpenSID/OpenSID/issues/5202) Sembunyikan icon pesan OpenDK pada header jika modul dimatikan.
 44. [#5224](https://github.com/OpenSID/OpenSID/issues/5224) Perbaiki hari kelahiran pada lampiran Surat Keterangan Kelahiran yang tampil tidak benar.
 45. [#5219](https://github.com/OpenSID/OpenSID/issues/5219) Perbaiki daftar perangkat desa di kehadiran yang tidak tampil dengan benar.
+46. [#1724](https://github.com/OpenSID/premium/issues/1724) Perbaikan cek extension gambar & error pada saat restore database.
 
 #### Perubahan Teknis
 
