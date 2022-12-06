@@ -187,7 +187,8 @@ function AmbilVersi()
  */
 function currentVersion()
 {
-    return preg_replace('/-premium.*|-beta/', '', AmbilVersi());
+    $version = preg_replace("/[^0-9]/", "", AmbilVersi());
+    return substr($version, 0, 2) . '.' . substr($version, 2, 2);
 }
 
 /**
@@ -416,6 +417,7 @@ function umur($tgl_lahir)
     }
     $now      = new DateTime();
     $interval = $now->diff($date);
+
     return $interval->y;
 }
 
@@ -463,6 +465,7 @@ function max_upload()
     $max_filesize = (int) bilangan(ini_get('upload_max_filesize'));
     $max_post     = (int) bilangan(ini_get('post_max_size'));
     $memory_limit = (int) bilangan(ini_get('memory_limit'));
+
     return min($max_filesize, $max_post, $memory_limit);
 }
 
@@ -520,10 +523,12 @@ function sql_in_list($list_array)
     }
 
     $prefix = $list = '';
+
     foreach ($list_array as $key => $value) {
         $list .= $prefix . "'" . $value . "'";
         $prefix = ', ';
     }
+
     return $list;
 }
 
@@ -714,6 +719,7 @@ function masukkan_zip($files = [])
         $zip->addFromString($nama_file, $download_file);
     }
     $zip->close();
+
     return $tmp_file;
 }
 
