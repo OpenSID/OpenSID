@@ -12,6 +12,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#6073](https://github.com/OpenSID/OpenSID/issues/6073) Perbaikan validasi form unggah gambar pada dokumen penduduk.
 5. [#1724](https://github.com/OpenSID/premium/issues/1724) Perbaikan cek extension gambar & error pada saat restore database.
 6. [#1692](https://github.com/OpenSID/premium/issues/1692) Perbaikan validasi form unggah file gambar di produk lapak.
+7. [#6080](https://github.com/OpenSID/OpenSID/issues/6080) Perbaikan tulisan yang tidak rapi. 
 
 #### Perubahan Teknis
 
