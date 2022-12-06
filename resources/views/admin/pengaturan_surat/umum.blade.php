@@ -209,6 +209,24 @@
                 </div>
             </div>
 
+            @if (setting('tte'))
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="kecamatan">Kirim ke Kecamatan</label>
+                    <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+                        <label id="n1"
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($suratMaster->kecamatan)">
+                            <input id="q1" type="radio" name="kecamatan" class="form-check-input" type="radio"
+                                value="1" @checked($suratMaster->kecamatan) autocomplete="off">Ya
+                        </label>
+                        <label id="n2"
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$suratMaster->kecamatan)">
+                            <input id="q2" type="radio" name="kecamatan" class="form-check-input" type="radio"
+                                value="0" @checked(!$suratMaster->kecamatan) autocomplete="off">Tidak
+                        </label>
+                    </div>
+                </div>
+            @endif
+
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="mandiri">Sediakan di Layanan Mandiri</label>
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">

@@ -279,6 +279,7 @@ class Surat_master extends Admin_Controller
             'syarat_surat'        => $request['mandiri'] ? json_encode($request['id_cb']) : null,
             'qr_code'             => $request['qr_code'],
             'logo_garuda'         => $request['logo_garuda'],
+            'kecamatan'           => $request['kecamatan'],
             'template_desa'       => $request['template_desa'],
             'form_isian'          => json_encode($formIsian),
             'kode_isian'          => json_encode($kodeIsian),

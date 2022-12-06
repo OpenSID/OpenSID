@@ -46,6 +46,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2212');
         $hasil = $hasil && $this->migrasi_2022120651($hasil);
+        $hasil = $hasil && $this->migrasi_2022120751($hasil);
 
         return $hasil && true;
     }
@@ -59,6 +60,24 @@ class Migrasi_fitur_premium_2301 extends MY_model
             ])
             ->set('nama', 'Peraturan')
             ->update('ref_dokumen');
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022120751($hasil)
+    {
+        if (! $this->db->field_exists('kecamatan', 'tweb_surat_format')) {
+            $fields = [
+                'kecamatan' => [
+                    'type'       => 'tinyint',
+                    'constraint' => 1,
+                    'null'       => false,
+                    'default'    => 0,
+                    'after'      => 'logo_garuda',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
+        }
 
         return $hasil;
     }
