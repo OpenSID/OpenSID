@@ -17,3 +17,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 1. Menambahkan accept file pada inputan file sesuai kebutuhan.
 2. Hapus file yang tidak di gunakan.
+3. RFM url_upload false.
