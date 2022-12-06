@@ -1,9 +1,9 @@
 Di rilis ini, versi 22.12.01 menyediakan modul hubung warga dan komunikasi antar desa dan kecamatan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada  totoprayogo1916 yang terus berkontribusi. Terima kasih pula pada eltociear dan  balongbesuk yang baru mulai berkontribusi.
-
+Terima kasih pada totoprayogo1916 yang terus berkontribusi. Terima kasih pula pada eltociear dan balongbesuk yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
+
 1. [#5095](https://github.com/OpenSID/OpenSID/issues/5095) Tambahkan informasi data keluarga dengan No KK sementara.
 2. [#5091](https://github.com/OpenSID/OpenSID/issues/5091) Tambahkan fitur bersihkan pada bantuan / daftar peserta bantuan.
 3. [#5124](https://github.com/OpenSID/OpenSID/issues/5124) Tambahkan informasi ukuran file database dan folder desa.
@@ -25,7 +25,6 @@ Terima kasih pada  totoprayogo1916 yang terus berkontribusi. Terima kasih pula p
 19. [#4481](https://github.com/OpenSID/OpenSID/issues/4481) Mekarkan modul SMS menjadi modul Hubung Warga.
 20. [#310](https://github.com/OpenSID/OpenDK/issues/310) Tambahkan sinkronisasi profil desa OpenSID ke OpenDK.
 21. [#218](https://github.com/OpenSID/OpenDK/issues/218) Sediakan kotak pesan untuk komunikasi dengan desa.
-
 
 #### Perbaikan BUG
 
@@ -56,25 +55,24 @@ Terima kasih pada  totoprayogo1916 yang terus berkontribusi. Terima kasih pula p
 25. [#5187](https://github.com/OpenSID/OpenSID/issues/5187) Perbaiki kosongkan DB, jam kerja pada modul kehadiran juga terhapus.
 26. [#5189](https://github.com/OpenSID/OpenSID/issues/5189) Perbaiki nilai setting tidak tampil saat periksa database.
 27. [#5174](https://github.com/OpenSID/OpenSID/issues/5174) Perbaiki hapus fitur sebaran data covid di peta web.
-18. [#5175](https://github.com/OpenSID/OpenSID/issues/5175) Perbaiki hapus fitur covid provinsi di web.
-19. [#5192](https://github.com/OpenSID/OpenSID/issues/5192) Perbaiki notifikasi saat kembalikan ke pengaturan default server selalu error.
-20. [#5181](https://github.com/OpenSID/OpenSID/issues/5181) Perbaiki sesi login gagal mengulangi waktu hitung tunggu untuk login kembali.
-21. [#5183](https://github.com/OpenSID/OpenSID/issues/5183) Perbaiki notifikasi persetujuan penggunaan aplikasi OpenSID.
-22. [#5194](https://github.com/OpenSID/OpenSID/issues/5194) Perbaiki error ketika klik bantuan pada layanan mandiri.
-23. [#5106](https://github.com/OpenSID/OpenSID/issues/5106) Perbaiki deteksi MAC Address Gawai Kehadiran.
-24. [#5197](https://github.com/OpenSID/OpenSID/issues/5197) Perbaiki tampilan produk lapak mandiri berantakan.
-25. [#5207](https://github.com/OpenSID/OpenSID/issues/5207) Perbaiki gagal impor siskuedes (Error : Data too long for column 'Keterangan' tabel keuangan_ta_spj_sisa).
-26. [#5170](https://github.com/OpenSID/OpenSID/issues/5170) Perbaiki tampilan informasi staf untuk absensi pada modul pengguna.
-27. [#5198](https://github.com/OpenSID/OpenSID/issues/5198) Perbaiki gagal simpan pemudik non domisili pada modul siaga covid-19.
-28. [#5212](https://github.com/OpenSID/OpenSID/issues/5212) Perbaiki kirim pesan ke OpenDK jika token kosong.
-29. [#4883](https://github.com/OpenSID/OpenSID/issues/4883) Perbaiki tombol kembali pada arsip desa untuk dokumen penduduk.
-30. [#5217](https://github.com/OpenSID/OpenSID/issues/5217) Perbaiki pengaturan aktif/nonaktifkan halaman kehadiran yang tidak berfungsi.
-31. [#5214](https://github.com/OpenSID/OpenSID/issues/5214) Perbaiki daftar dokumen surat keterangan kematian yang tampil tidak sesuai.
-32. [#5176](https://github.com/OpenSID/OpenSID/issues/5176) Perbaiki akta perkawinan dan tanggal menikah ikut terhapus ketika status status kawin diubah menjadi cerai hidup / cerai mati.
-33. [#5202](https://github.com/OpenSID/OpenSID/issues/5202) Sembunyikan icon pesan OpenDK pada header jika modul dimatikan.
-34. [#5224](https://github.com/OpenSID/OpenSID/issues/5224) Perbaiki hari kelahiran pada lampiran Surat Keterangan Kelahiran yang tampil tidak benar.
-35. [#5219](https://github.com/OpenSID/OpenSID/issues/5219) Perbaiki daftar perangkat desa di kehadiran yang tidak tampil dengan benar.
-
+28. [#5175](https://github.com/OpenSID/OpenSID/issues/5175) Perbaiki hapus fitur covid provinsi di web.
+29. [#5192](https://github.com/OpenSID/OpenSID/issues/5192) Perbaiki notifikasi saat kembalikan ke pengaturan default server selalu error.
+30. [#5181](https://github.com/OpenSID/OpenSID/issues/5181) Perbaiki sesi login gagal mengulangi waktu hitung tunggu untuk login kembali.
+31. [#5183](https://github.com/OpenSID/OpenSID/issues/5183) Perbaiki notifikasi persetujuan penggunaan aplikasi OpenSID.
+32. [#5194](https://github.com/OpenSID/OpenSID/issues/5194) Perbaiki error ketika klik bantuan pada layanan mandiri.
+33. [#5106](https://github.com/OpenSID/OpenSID/issues/5106) Perbaiki deteksi MAC Address Gawai Kehadiran.
+34. [#5197](https://github.com/OpenSID/OpenSID/issues/5197) Perbaiki tampilan produk lapak mandiri berantakan.
+35. [#5207](https://github.com/OpenSID/OpenSID/issues/5207) Perbaiki gagal impor siskuedes (Error : Data too long for column 'Keterangan' tabel keuangan_ta_spj_sisa).
+36. [#5170](https://github.com/OpenSID/OpenSID/issues/5170) Perbaiki tampilan informasi staf untuk absensi pada modul pengguna.
+37. [#5198](https://github.com/OpenSID/OpenSID/issues/5198) Perbaiki gagal simpan pemudik non domisili pada modul siaga covid-19.
+38. [#5212](https://github.com/OpenSID/OpenSID/issues/5212) Perbaiki kirim pesan ke OpenDK jika token kosong.
+39. [#4883](https://github.com/OpenSID/OpenSID/issues/4883) Perbaiki tombol kembali pada arsip desa untuk dokumen penduduk.
+40. [#5217](https://github.com/OpenSID/OpenSID/issues/5217) Perbaiki pengaturan aktif/nonaktifkan halaman kehadiran yang tidak berfungsi.
+41. [#5214](https://github.com/OpenSID/OpenSID/issues/5214) Perbaiki daftar dokumen surat keterangan kematian yang tampil tidak sesuai.
+42. [#5176](https://github.com/OpenSID/OpenSID/issues/5176) Perbaiki akta perkawinan dan tanggal menikah ikut terhapus ketika status status kawin diubah menjadi cerai hidup / cerai mati.
+43. [#5202](https://github.com/OpenSID/OpenSID/issues/5202) Sembunyikan icon pesan OpenDK pada header jika modul dimatikan.
+44. [#5224](https://github.com/OpenSID/OpenSID/issues/5224) Perbaiki hari kelahiran pada lampiran Surat Keterangan Kelahiran yang tampil tidak benar.
+45. [#5219](https://github.com/OpenSID/OpenSID/issues/5219) Perbaiki daftar perangkat desa di kehadiran yang tidak tampil dengan benar.
 
 #### Perubahan Teknis
 
@@ -102,3 +100,6 @@ Terima kasih pada  totoprayogo1916 yang terus berkontribusi. Terima kasih pula p
 22. #5237 Sederhanakan pemanggilan tracksid dengan menghapus token_opensid, gunakan token_pantau.
 23. Perpanjang layanan.
 24. #63 Batasi jalankan migrasi sesuai versi dan masa langganan.
+25. Menambahkan accept file pada inputan file sesuai kebutuhan.
+26. Hapus file yang tidak di gunakan.
+27. RFM url_upload false.
