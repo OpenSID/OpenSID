@@ -6,6 +6,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 1. [#5994](https://github.com/OpenSID/OpenSID/issues/5994) Penambahan pengaturan jenis surat yang dapat dikirim ke opendk pada pengaturan surat.
 2. [#6125](https://github.com/OpenSID/OpenSID/issues/6125) Sediakan informasi tag qrcode ketika pengaturan TTE camat diaktifkan.
+3. [#5340](https://github.com/OpenSID/OpenSID/issues/5340) Penambahan buku tamu.
 
 #### Perbaikan BUG
 

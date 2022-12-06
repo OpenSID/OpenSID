@@ -57,6 +57,9 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122153($hasil);
         $hasil = $hasil && $this->migrasi_2022122154($hasil);
 
+        // Modul Buku Tamu
+        $hasil = $hasil && $this->buku_tamu($hasil);
+
         return $hasil && true;
     }
 
@@ -76,7 +79,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
 
     protected function migrasi_2022120751($hasil)
     {
-        if (! $this->db->field_exists('kecamatan', 'tweb_surat_format')) {
+        if (!$this->db->field_exists('kecamatan', 'tweb_surat_format')) {
             $fields = [
                 'kecamatan' => [
                     'type'       => 'tinyint',
@@ -160,6 +163,236 @@ class Migrasi_fitur_premium_2301 extends MY_model
             }
 
             $hasil = $hasil && unlink(LOKASI_FOTO_LOKASI . $file);
+        }
+
+        return $hasil;
+    }
+
+    public function buku_tamu($hasil)
+    {
+        // Modul Buku Tamu
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 354,
+            'modul'      => 'Buku Tamu',
+            'url'        => '',
+            'aktif'      => 1,
+            'ikon'       => 'fa-book',
+            'urut'       => 180,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-book',
+            'parent'     => 0,
+        ]);
+
+        // Modul Data Tamu
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 355,
+            'modul'      => 'Data Tamu',
+            'url'        => 'buku_tamu',
+            'aktif'      => 1,
+            'ikon'       => 'fa-bookmark-o',
+            'urut'       => 1,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-bookmark-o',
+            'parent'     => 354,
+        ]);
+
+        // Modul Data Kepuasan
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 356,
+            'modul'      => 'Data Kepuasan',
+            'url'        => 'buku_kepuasan',
+            'aktif'      => 1,
+            'ikon'       => 'fa-smile-o',
+            'urut'       => 2,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-smile-o',
+            'parent'     => 354,
+        ]);
+
+        // Modul Data Pertanyaan
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 357,
+            'modul'      => 'Data Pertanyaan',
+            'url'        => 'buku_pertanyaan',
+            'aktif'      => 1,
+            'ikon'       => 'fa-question',
+            'urut'       => 3,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-question',
+            'parent'     => 354,
+        ]);
+
+        // Modul Data Keperluan
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 358,
+            'modul'      => 'Data Keperluan',
+            'url'        => 'buku_keperluan',
+            'aktif'      => 1,
+            'ikon'       => 'fa-send',
+            'urut'       => 4,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-send',
+            'parent'     => 354,
+        ]);
+
+        // Tabel buku_keperluan
+        if (!$this->db->table_exists('buku_keperluan')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'null'           => false,
+                    'auto_increment' => true,
+                ],
+                'keperluan' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => false,
+                ],
+                'status' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'default'    => 0,
+                    'null'       => false,
+                ],
+                'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP',
+                'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            ];
+
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('buku_keperluan', true);
+        }
+
+        // Tabel buku_pertanyaan
+        if (!$this->db->table_exists('buku_pertanyaan')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'null'           => false,
+                    'auto_increment' => true,
+                ],
+                'pertanyaan' => [
+                    'type'    => 'TEXT',
+                    'null'    => true,
+                    'default' => null,
+                ],
+                'status' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'default'    => 0,
+                    'null'       => false,
+                ],
+                'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP',
+                'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            ];
+
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('buku_pertanyaan', true);
+        }
+
+        // Tabel buku_kepuasan
+        if (!$this->db->table_exists('buku_kepuasan')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'null'           => false,
+                    'auto_increment' => true,
+                ],
+                'id_nama' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ],
+                'id_pertanyaan' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ],
+                'id_jawaban' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ],
+                'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP',
+                'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            ];
+
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('buku_kepuasan', true);
+        }
+
+        // Tabel buku_tamu
+        if (!$this->db->table_exists('buku_tamu')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'null'           => false,
+                    'auto_increment' => true,
+                ],
+                'nama' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 50,
+                    'null'       => false,
+                ],
+                'telepon' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 20,
+                    'null'       => false,
+                ],
+                'instansi' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => false,
+                ],
+                'jenis_kelamin' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'default'    => 1,
+                    'null'       => false,
+                ],
+                'alamat' => [
+                    'type'    => 'TEXT',
+                    'null'    => true,
+                    'default' => null,
+                ],
+                'id_bidang' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ],
+                'id_keperluan' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ],
+                'foto' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 50,
+                    'null'       => true,
+                    'default'    => null,
+                ],
+                'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP',
+                'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            ];
+
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('buku_tamu', true);
         }
 
         return $hasil;

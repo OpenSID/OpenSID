@@ -35,25 +35,31 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace App\Models;
 
-$route['data-kelompok/(:any)'] = WEB . '/kelompok/detail/$1';
-$route['data-lembaga/(:any)']  = WEB . '/lembaga/detail/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['pemerintah']           = WEB . '/pemerintah';
+class BukuKeperluan extends BaseModel
+{
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'buku_keperluan';
 
-// SDGS
-$route['status-sdgs']    = WEB . '/sdgs/index';
-$route['peta']           = WEB . '/peta/index';
-$route['peraturan-desa'] = WEB . '/peraturan/index';
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 
-// Tampil Assets
-$route['tampil/(:any)'] = 'dokumen_web/tampil/$1';
-$route['unduh/(:any)']  = 'dokumen_web/unduh/$1';
-// Buku Tamu
-$route['buku-tamu/jawaban/(:num)/(:num)'] = WEB . '/buku_tamu/jawaban/$1/$2';
-$route['buku-tamu/kepuasan/(:num)']       = WEB . '/buku_tamu/kepuasan/$1';
-$route['buku-tamu/kepuasan']              = WEB . '/buku_tamu/kepuasan';
-$route['buku-tamu/registrasi']            = WEB . '/buku_tamu/registrasi';
-$route['buku-tamu']                       = WEB . '/buku_tamu/index';
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'date:Y-m-d H:i:s',
+        'updated_at' => 'date:Y-m-d H:i:s',
+    ];
+}

@@ -35,25 +35,47 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use App\Models\BukuKepuasan;
 
-$route['data-kelompok/(:any)'] = WEB . '/kelompok/detail/$1';
-$route['data-lembaga/(:any)']  = WEB . '/lembaga/detail/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['pemerintah']           = WEB . '/pemerintah';
+class Buku_kepuasan extends Admin_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->modul_ini     = 354;
+        $this->sub_modul_ini = 356;
+    }
 
-// SDGS
-$route['status-sdgs']    = WEB . '/sdgs/index';
-$route['peta']           = WEB . '/peta/index';
-$route['peraturan-desa'] = WEB . '/peraturan/index';
+    public function index()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(BukuKepuasan::query()->with('tamu', 'pertanyaan'))
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    if (can('h')) {
+                        return '<a href="#" data-href="' . route('buku_kepuasan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+                })
+                ->rawColumns(['ceklist', 'aksi'])
+                ->make();
+        }
 
-// Tampil Assets
-$route['tampil/(:any)'] = 'dokumen_web/tampil/$1';
-$route['unduh/(:any)']  = 'dokumen_web/unduh/$1';
-// Buku Tamu
-$route['buku-tamu/jawaban/(:num)/(:num)'] = WEB . '/buku_tamu/jawaban/$1/$2';
-$route['buku-tamu/kepuasan/(:num)']       = WEB . '/buku_tamu/kepuasan/$1';
-$route['buku-tamu/kepuasan']              = WEB . '/buku_tamu/kepuasan';
-$route['buku-tamu/registrasi']            = WEB . '/buku_tamu/registrasi';
-$route['buku-tamu']                       = WEB . '/buku_tamu/index';
+        return view('admin.buku_tamu.kepuasan.index');
+    }
+
+    public function delete($id = null)
+    {
+        $this->redirect_hak_akses('h');
+
+        if (BukuKepuasan::destroy($this->request['id_cb'] ?? $id)) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+}
