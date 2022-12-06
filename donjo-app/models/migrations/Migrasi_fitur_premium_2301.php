@@ -45,13 +45,21 @@ class Migrasi_fitur_premium_2301 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2212');
-        $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        $hasil = $hasil && $this->migrasi_2022120651($hasil);
 
         return $hasil && true;
     }
 
-    protected function migrasi_xxxxxxxxxx($hasil)
+    protected function migrasi_2022120651($hasil)
     {
+        $this->db
+            ->where([
+                'id'   => 3,
+                'nama' => 'Perdes',
+            ])
+            ->set('nama', 'Peraturan')
+            ->update('ref_dokumen');
+
         return $hasil;
     }
 }

@@ -10,7 +10,7 @@
 <div class="box box-info">
 	<div class="box-header with-border">
 		<?php if ($this->CI->cek_hak_akses('u')) : ?>
-			<a href="<?= site_url("{$this->controller}/form/{$kat}") ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Menu Baru"><i class="fa fa-plus"></i>Tambah <?= $kat_nama ?></a>
+			<a href="<?= site_url("{$this->controller}/form/{$kat}") ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah <?= $kat_nama ?>"><i class="fa fa-plus"></i>Tambah <?= $kat_nama ?></a>
 		<?php endif; ?>
 		<?php if ($this->CI->cek_hak_akses('h')) : ?>
 			<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("{$this->controller}/delete_all/{$kat}/{$p}/{$o}") ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
@@ -29,8 +29,8 @@
 					<div class="col-sm-9">
 						<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url($this->controller . '/filter') ?>')">
 							<option value="">Status</option>
-							<option value="1" <?php selected($this->session->filter, 1); ?>>Aktif</option>
-							<option value="2" <?php selected($this->session->filter, 2); ?>>Tidak Aktif</option>
+							<option value="1" <?php selected($this->session->filter, 1); ?>>Berlaku</option>
+							<option value="2" <?php selected($this->session->filter, 2); ?>>Dicabut/Tidak Berlaku</option>
 						</select>
 						<?php if ($kat == 3) : ?>
 							<select class="form-control input-sm " name="jenis_peraturan" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/jenis_peraturan') ?>')">
@@ -117,7 +117,7 @@
 														<a href="<?= site_url($this->controller . '/dokumen_unlock/' . $kat . '/' . $data['id']) ?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 													<?php endif ?>
 												<?php endif; ?>
-												<?php if (! empty($data['satuan'])) : ?>
+												<?php if (!empty($data['satuan'])) : ?>
 													<a href='<?= site_url("{$this->controller}/berkas/{$data['id']}/{$kat}/0") ?>' class="btn bg-purple btn-flat btn-sm" title="Unduh"><i class="fa fa-download"></i></a>
 												<?php else : ?>
 													<a class="btn bg-purple btn-flat btn-sm" disabled title="Unduh"><i class="fa fa-download"></i></a>

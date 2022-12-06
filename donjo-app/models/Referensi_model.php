@@ -40,8 +40,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 // Model ini digunakan untuk data referensi statis yg tidak disimpan pd database atau sebagai referensi global
 
 define('JENIS_PERATURAN_DESA', serialize([
-    'Peraturan Desa (Perdes)',
-    'Peraturan Kepala Desa (Perkades)',
+    'Peraturan Desa',
+    'Peraturan Kepala Desa',
     'Peraturan Bersama Kepala Desa',
 ]));
 
@@ -283,9 +283,8 @@ class Referensi_model extends CI_Model
 
     public function jenis_peraturan_desa()
     {
-        $dafault  = $this->list_ref(JENIS_PERATURAN_DESA);
-        $tambahan = collect(\App\Models\Dokumen::kategori(3)->pluck('attr'))->pluck('jenis_peraturan');
+        $dafault = $this->list_ref(JENIS_PERATURAN_DESA);
 
-        return collect($dafault)->merge($tambahan)->unique()->values();
+        return collect($dafault)->unique()->values();
     }
 }
