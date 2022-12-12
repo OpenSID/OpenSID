@@ -46,7 +46,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2212');
         $hasil = $hasil && $this->migrasi_2022120651($hasil);
-        $hasil = $hasil && $this->migrasi_2022120951($hasil);
+        $hasil = $hasil && $this->migrasi_2022121251($hasil);
 
         return $hasil && true;
     }
@@ -65,7 +65,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022120951($hasil)
+    protected function migrasi_2022121251($hasil)
     {
         // Ubah panjang kolom judul 100 menjadi 200
         $fields = [
