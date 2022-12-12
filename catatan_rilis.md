@@ -17,6 +17,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 11. [#6093](https://github.com/OpenSID/OpenSID/issues/6093) Perbaikan tidak dapat mengembalikan status dasar pada log penduduk.
 12. [#6104](https://github.com/OpenSID/OpenSID/issues/6104) Sesuaikan jumlah karakter maksimal 200 karakter pada judul artikel.
 13. [#1613](https://github.com/OpenSID/premium/issues/1613) Sesuaikan button batal pada tambah/ubah data dusun/rt/rw.
+14. [#6094](https://github.com/OpenSID/OpenSID/issues/6094) Perbaikan halaman berlangganan selalu reload.
 
 #### Perubahan Teknis
 
