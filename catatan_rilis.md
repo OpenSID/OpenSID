@@ -25,3 +25,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. Hapus file yang tidak di gunakan.
 3. RFM url_upload false.
 4. [#1754](https://github.com/OpenSID/premium/issues/1754) Menambahkan timestamp pada upload photo di menu lapak.
+5. [#6108](https://github.com/OpenSID/OpenSID/issues/6108)Tampilkan keterangan singkat fungsi tombol perbaiki.
