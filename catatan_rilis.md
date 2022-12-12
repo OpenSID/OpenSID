@@ -14,6 +14,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 8. [#6082](https://github.com/OpenSID/OpenSID/issues/6082) Sesuaikan opsi dan tombol pada buku peraturan di desa.
 9. [#6106](https://github.com/OpenSID/OpenSID/issues/6106) Sesuaikan hasil cetak buku aparat pemerintah desa.
 10. [#6087](https://github.com/OpenSID/OpenSID/issues/6087) Perbaikan disable menu yang tidak berfungsi.
+11. [#6093](https://github.com/OpenSID/OpenSID/issues/6093) Perbaikan tidak dapat mengembalikan status dasar pada log penduduk.
 
 #### Perubahan Teknis
 
