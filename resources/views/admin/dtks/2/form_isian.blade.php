@@ -9,9 +9,9 @@
         <div class="box-body tab-content" style="padding-left:30px; padding-right:30px">
             <table>
                 <tr>
-                    <td>No Kartu Keluarga(KK)</td>
+                    <td>No Kartu Rumah Tangga(KRT)</td>
                     <td>:</td>
-                    <td>{{ $dtks->kepala_keluarga->keluarga->no_kk }}</td>
+                    <td>{{ $dtks->rtm->no_kk }}</td>
                     @if($dtks->jumlah_keluarga > 1)
                         <td rowspan="4">
                             <a href="#" id="btn-modal-keluarga-lainnya" data-remote="false" data-toggle="modal" data-target="#modal-keluarga-lainnya" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Data Keluarga dalam rumah tangga ini</a>
@@ -21,7 +21,7 @@
                 <tr>
                     <td>Nama KRT</td>
                     <td>:</td>
-                    <td>{{ $dtks->kepala_keluarga->nama }}</td>
+                    <td>{{ $dtks->kepala_rumah_tangga->nama }}</td>
                 </tr>
                 <tr>
                     <td>Alamat</td>
@@ -45,17 +45,21 @@
                             <div class="modal-body">
                                 <table class="table">
                                     <tr>
+                                        <th>Kepala Rumah Tangga</th>
                                         <th>No KK</th>
                                         <th>Kepala Keluarga</th>
+                                        <th>Jumlah Anggota</th>
                                         <th>Aksi</th>
                                     </tr>
-                                    @foreach($dtks->anggota_keluarga_in_rtm as $item)
-                                        @php $kepala = $item->firstWhere('kk_level', 1); @endphp
-                                        <tr>
-                                            <td>{{ $kepala ? $kepala->keluarga->no_kk : '' }}</td>
-                                            <td>{{ $kepala ? $kepala->nama : '' }}</td>
+                                    @foreach($dtks->all_dtks_id as $item)
+                                    <tr>
+                                        {{-- <td>{{$dtks->all_dtks_id[1]}}</td> --}}
+                                            <td>{{ $item ? $item->rtm->kepalaKeluarga->nama : '' }}</td>
+                                            <td>{{ $item ? $item->keluarga->no_kk : '' }}</td>
+                                            <td>{{ $item ? $item->keluarga->kepalaKeluarga->nama : '' }}</td>
+                                            <td><a href="{{ route('dtks.listAnggota') }}/{{ $item->id }}" title="Lihat Nama Anggota" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Daftar Anggota">{{ $item->dtks_anggota_count }}</a></td>
                                             <td>
-                                                <a href="{{ route('dtks.form', $dtks->all_dtks_id[$kepala->id_kk]) }}" target="__blank" class="btn btn-primary btn-sm">
+                                                <a href="{{ route('dtks.form', $item->id) }}" target="__blank" class="btn btn-primary btn-sm">
                                                     Lihat
                                                 </a>
                                             </td>

@@ -121,19 +121,24 @@ class Plan_garis_model extends MY_Model
     public function list_data($o = 0, $offset = 0, $limit = 1000)
     {
         switch ($o) {
-            case 1: $order_sql = ' ORDER BY nama';
+            case 1:
+                $order_sql = ' ORDER BY nama';
                 break;
 
-            case 2: $order_sql = ' ORDER BY nama DESC';
+            case 2:
+                $order_sql = ' ORDER BY nama DESC';
                 break;
 
-            case 3: $order_sql = ' ORDER BY enabled';
+            case 3:
+                $order_sql = ' ORDER BY enabled';
                 break;
 
-            case 4: $order_sql = ' ORDER BY enabled DESC';
+            case 4:
+                $order_sql = ' ORDER BY enabled DESC';
                 break;
 
-            default:$order_sql = ' ORDER BY id';
+            default:
+                $order_sql = ' ORDER BY id';
         }
 
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
@@ -180,12 +185,13 @@ class Plan_garis_model extends MY_Model
         $garis_file = $_FILES['foto']['tmp_name'];
         $tipe_file  = $_FILES['foto']['type'];
         $nama_file  = $_FILES['foto']['name'];
-        $nama_file  = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+        $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($garis_file)) {
             $upload = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
             if (! $upload) {
                 return;
             }
+
             $data['foto'] = $nama_file;
             $outp         = $this->db->insert($this->table, $data);
         } else {
@@ -201,7 +207,7 @@ class Plan_garis_model extends MY_Model
         $garis_file = $_FILES['foto']['tmp_name'];
         $tipe_file  = $_FILES['foto']['type'];
         $nama_file  = $_FILES['foto']['name'];
-        $nama_file  = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+        $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($garis_file)) {
             $upload = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
             if (! $upload) {

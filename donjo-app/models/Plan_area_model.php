@@ -104,19 +104,24 @@ class Plan_area_model extends MY_Model
     public function list_data($o = 0, $offset = 0, $limit = null)
     {
         switch ($o) {
-            case 1: $this->db->order_by('nama');
+            case 1:
+                $this->db->order_by('nama');
                 break;
 
-            case 2: $this->db->order_by('nama', 'DESC');
+            case 2:
+                $this->db->order_by('nama', 'DESC');
                 break;
 
-            case 3: $this->db->order_by('enabled');
+            case 3:
+                $this->db->order_by('enabled');
                 break;
 
-            case 4: $this->db->order_by('enabled', 'DESC');
+            case 4:
+                $this->db->order_by('enabled', 'DESC');
                 break;
 
-            default: $this->db->order_by('id');
+            default:
+                $this->db->order_by('id');
         }
 
         $this->db->select('l.*, p.nama as kategori, m.nama as jenis, p.simbol as simbol, p.color as color')
@@ -157,7 +162,7 @@ class Plan_area_model extends MY_Model
         $area_file = $_FILES['foto']['tmp_name'];
         $tipe_file = $_FILES['foto']['type'];
         $nama_file = $_FILES['foto']['name'];
-        $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+        $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($area_file)) {
             $upload = UploadPeta($nama_file, LOKASI_FOTO_AREA);
             if (! $upload) {
@@ -179,7 +184,7 @@ class Plan_area_model extends MY_Model
         $area_file = $_FILES['foto']['tmp_name'];
         $tipe_file = $_FILES['foto']['type'];
         $nama_file = $_FILES['foto']['name'];
-        $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+        $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($area_file)) {
             $upload = UploadPeta($nama_file, LOKASI_FOTO_AREA);
             if (! $upload) {

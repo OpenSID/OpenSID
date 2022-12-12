@@ -144,13 +144,16 @@ class Penduduk_log_model extends MY_Model
 
         // Kembalikan status selain lahir dan masuk
         if (! in_array($log->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])) {
-            $outp = Penduduk::find($log->id_pend)
-                ->updated([
+            $outp = Penduduk::where('id', $log->id_pend)
+                ->update([
                     'status_dasar' => StatusDasarEnum::HIDUP,
                 ]);
 
             // Hapus log_keluarga, jika terkait
-            $outp = $outp && LogKeluarga::where('id_log_penduduk', $log->id)->delete();
+            $logKeluarga = LogKeluarga::where('id_log_penduduk', $log->id)->first();
+            if ($logKeluarga) {
+                $outp = $outp && $logKeluarga->delete();
+            }
 
             // Hapus log penduduk
             $outp = $outp && LogPenduduk::find($id_log)->delete();
@@ -415,37 +418,48 @@ class Penduduk_log_model extends MY_Model
         $this->list_data_sql();
 
         switch ($o) {
-            case 1: $this->db->order_by('u.nik', 'ASC');
+            case 1:
+                $this->db->order_by('u.nik', 'ASC');
                 break;
 
-            case 2: $this->db->order_by('u.nik', 'DESC');
+            case 2:
+                $this->db->order_by('u.nik', 'DESC');
                 break;
 
-            case 3: $this->db->order_by('u.nama', 'ASC');
+            case 3:
+                $this->db->order_by('u.nama', 'ASC');
                 break;
 
-            case 4: $this->db->order_by('u.nama', 'DESC');
+            case 4:
+                $this->db->order_by('u.nama', 'DESC');
                 break;
 
-            case 5: $this->db->order_by('d.no_kk', 'ASC');
+            case 5:
+                $this->db->order_by('d.no_kk', 'ASC');
                 break;
 
-            case 6: $this->db->order_by('d.no_kk', 'DESC');
+            case 6:
+                $this->db->order_by('d.no_kk', 'DESC');
                 break;
 
-            case 7: $this->db->order_by('umur_pada_peristiwa', 'ASC');
+            case 7:
+                $this->db->order_by('umur_pada_peristiwa', 'ASC');
                 break;
 
-            case 8: $this->db->order_by('umur_pada_peristiwa', 'DESC');
+            case 8:
+                $this->db->order_by('umur_pada_peristiwa', 'DESC');
                 break;
                 // Untuk Log Penduduk
-            case 9:  $this->db->order_by('log.tgl_peristiwa', 'ASC');
+            case 9:
+                $this->db->order_by('log.tgl_peristiwa', 'ASC');
                 break;
 
-            case 10: $this->db->order_by('log.tgl_peristiwa', 'DESC');
+            case 10:
+                $this->db->order_by('log.tgl_peristiwa', 'DESC');
                 break;
 
-            default:$this->db->order_by('log.tgl_lapor', 'DESC');
+            default:
+                $this->db->order_by('log.tgl_lapor', 'DESC');
                 break;
         }
 
