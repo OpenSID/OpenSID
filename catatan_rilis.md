@@ -14,6 +14,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 6. [#1692](https://github.com/OpenSID/premium/issues/1692) Perbaikan validasi form unggah file gambar di produk lapak.
 7. [#6080](https://github.com/OpenSID/OpenSID/issues/6080) Perbaikan tulisan yang tidak rapi.
 8. [#6082](https://github.com/OpenSID/OpenSID/issues/6082) Sesuaikan opsi dan tombol pada buku peraturan di desa.
+9. [#6106](https://github.com/OpenSID/OpenSID/issues/6106) Sesuaikan hasil cetak buku aparat pemerintah desa.
 
 #### Perubahan Teknis
 
