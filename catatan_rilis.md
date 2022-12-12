@@ -2,8 +2,6 @@ Di rilis ini, versi 22.12-premium-rev01 ditambahkan [isi disini]. Rilis ini juga
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
-
-
 #### Perbaikan BUG
 
 1. [#1698](https://github.com/OpenSID/premium/issues/1698) Perbaikan validasi form unggah gambar pada modul pengaturan.
@@ -15,6 +13,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 7. [#6080](https://github.com/OpenSID/OpenSID/issues/6080) Perbaikan tulisan yang tidak rapi.
 8. [#6082](https://github.com/OpenSID/OpenSID/issues/6082) Sesuaikan opsi dan tombol pada buku peraturan di desa.
 9. [#6106](https://github.com/OpenSID/OpenSID/issues/6106) Sesuaikan hasil cetak buku aparat pemerintah desa.
+10. [#6087](https://github.com/OpenSID/OpenSID/issues/6087) Perbaikan disable menu yang tidak berfungsi.
 
 #### Perubahan Teknis
 
