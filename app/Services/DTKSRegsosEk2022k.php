@@ -170,7 +170,7 @@ class DTKSRegsosEk2022k
      *
      * @param mixed $dtks
      */
-    public function splitDTKSForEachKeluarga($dtks)
+    protected function splitDTKSForEachKeluarga($dtks)
     {
         $semua_dtks = DTKS::where('id_rtm', $dtks->id_rtm)->whereNotNull('id_keluarga')->get();
 
@@ -185,7 +185,7 @@ class DTKSRegsosEk2022k
                 // dtks ini belum punya acuan keluarga
                 if (! $dtks->id_keluarga) {
                     $dtks->id_keluarga = $keluarga->id;
-                    $dtks->save();
+                    $this->saveRelatedAttribute($dtks);
                     $dtks_resync = $dtks;
                 }
                 // clone dtks dan set id_keluarga
@@ -197,13 +197,14 @@ class DTKSRegsosEk2022k
                         $new_dtks = $dtks->replicate()->fill([
                             'id_keluarga' => $keluarga->id,
                         ]);
-                        $new_dtks->save();
+                        $this->saveRelatedAttribute($new_dtks);
                     }
-
-                    $this->generateDefaultDtks($new_dtks);
+                    $semua_dtks->push($new_dtks);
                     $dtks_resync = $new_dtks;
                 }
-
+                else{
+                    $dtks_resync = $dtks;
+                }
                 if ($dtks_resync) {
                     foreach ($dtks_resync->anggota_keluarga_in_rtm[$dtks_resync->id_keluarga] as $agt) {
                         // cek data dtks anggota yang lepas
@@ -211,7 +212,9 @@ class DTKSRegsosEk2022k
                         if (! $dtks_anggota) {
                             $dtks_anggota = new DtksAnggota();
                         }
+                        $dtks_anggota->id_penduduk = $agt->id;
                         $dtks_anggota->id_keluarga = $dtks_resync->id_keluarga;
+                        $dtks_anggota->id_dtks = $dtks_resync->id;
                         $this->saveRelatedAttribute($dtks_anggota);
                     }
                 }
@@ -231,8 +234,14 @@ class DTKSRegsosEk2022k
      *
      * @param mixed $dtks
      */
-    protected function generateDefaultDtks($dtks): Dtks
+    public function generateDefaultDtks($dtks): Dtks
     {
+        $dtks->setAppends([
+            'kepala_keluarga',
+            'jumlah_keluarga',
+            'jumlah_anggota_dtks',
+            'no_kk_art',
+        ]);
         $dtks->loadMissing([
             'rtm',
             'rtm.kepalaKeluarga' => static function ($builder) {
@@ -335,9 +344,29 @@ class DTKSRegsosEk2022k
         });
 
         if ($dtks->jumlah_keluarga > 1) {
-            $dtks->all_dtks_id = DTKS::where('id_rtm', $dtks->id_rtm)
+            $dtks->all_dtks_id = DTKS::select('id', 'id_rtm', 'id_keluarga', 'versi_kuisioner')
+                ->withOnly([
+                    'rtm' => static function ($builder) {
+                        $builder->select('id', 'nik_kepala');
+                    },
+                    'rtm.kepalaKeluarga' => static function ($builder) {
+                        $builder->select('id', 'nama');
+                        // override all items within the $with property in Penduduk
+                        $builder->withOnly([]);
+                    },
+                    'keluarga' => static function ($builder) {
+                        $builder->select('id', 'nik_kepala', 'no_kk');
+                    },
+                    'keluarga.kepalaKeluarga'=> static function ($builder) {
+                        $builder->select('id', 'nama');
+                        // override all items within the $with property in Penduduk
+                        $builder->withOnly([]);
+                    },
+                ])
+                ->withCount('dtksAnggota')
+                ->where('id_rtm', $dtks->id_rtm)
                 ->whereNotNull('id_keluarga')
-                ->pluck('id', 'id_keluarga');
+                ->get();
         }
 
         return $this->syncKepesertaanProgramKeluarga($dtks);
@@ -410,7 +439,7 @@ class DTKSRegsosEk2022k
         }
         $dtks      = $this->generateDefaultDtks($dtks);
         $nama_file = 'cetak_regsosek2022k_' . $dtks->kepala_keluarga->nik
-            . '_' . str_replace([':', '-', ' '], '', $dtks->updated_at) . '.pdf';
+            . '_' . $dtks->id_rtm . '_' . str_replace([':', '-', ' '], '', $dtks->updated_at) . '.pdf';
         $path = FCPATH . LOKASI_FOTO_DTKS . $nama_file;
 
         if (! is_file($path) || $preview) {
@@ -430,7 +459,7 @@ class DTKSRegsosEk2022k
 
             // cari berkas dtks lama untuk dihapus
             foreach (glob(FCPATH . LOKASI_FOTO_DTKS . 'cetak_regsosek2022k_' . $dtks->kepala_keluarga->nik
-            . '_*.pdf') as $file) {
+            . '_' . $dtks->id_rtm . '_*.pdf') as $file) {
                 if (file_exists($file)) {
                     unlink($file);
                     break;
@@ -474,7 +503,7 @@ class DTKSRegsosEk2022k
 
         foreach ($many_dtks as $dtks) {
             $nama_file = 'cetak_regsosek2022k_' . $dtks->kepala_keluarga->nik
-                . '_' . str_replace([':', '-', ' '], '', $dtks->updated_at) . '.pdf';
+                . '_' . $dtks->id_rtm . '_' . str_replace([':', '-', ' '], '', $dtks->updated_at) . '.pdf';
             $path = FCPATH . LOKASI_FOTO_DTKS . $nama_file;
 
             if (! is_file($path)) {
@@ -807,7 +836,7 @@ class DTKSRegsosEk2022k
         // $dtks->no_kk            = $dtks->keluarga->kepalaKeluarga->keluarga->no_kk; // 114
         // $dtks->kd_kk            = null; // 115
 
-        $dtks->save();
+        $this->saveRelatedAttribute($dtks);
 
         $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(PendudukHubungan::class);
         $daftar_sakit_menahun                          = $this->cacheTemporaryModelGet(SakitMenahun::class);
@@ -1004,7 +1033,7 @@ class DTKSRegsosEk2022k
         $dtks->kode_landmark_wilkerstat = $this->null_or_value($request['input']['1']['113']);
         $dtks->kd_kk                    = $this->null_or_value($request['pilihan']['1']['115']);
 
-        $dtks->save();
+        $this->saveRelatedAttribute($dtks);
 
         return ['content' => ['message' => 'Berhasil disimpan'], 'header_code' => 200];
     }
@@ -1062,7 +1091,7 @@ class DTKSRegsosEk2022k
         $dtks->no_hp_responden             = $this->null_or_value($request['input']['2']['responden_hp']);
         $dtks->kd_hasil_pendataan_keluarga = $this->null_or_value($request['pilihan']['2']['205']);
 
-        $dtks->save();
+        $this->saveRelatedAttribute($dtks);
 
         return ['content' => ['message' => 'Berhasil disimpan'], 'header_code' => 200];
     }
@@ -1124,7 +1153,7 @@ class DTKSRegsosEk2022k
             : null;
         $dtks->kd_pembuangan_akhir_tinja = $this->null_or_value($request['pilihan']['3']['310']);
 
-        $dtks->save();
+        $this->saveRelatedAttribute($dtks);
 
         return ['content' => ['message' => 'Berhasil disimpan'], 'header_code' => 200];
     }
@@ -1223,7 +1252,7 @@ class DTKSRegsosEk2022k
         $dtks->kd_internet_sebulan    = $this->null_or_value($request['pilihan']['5']['505']);
         $dtks->kd_rek_aktif           = $this->null_or_value($request['pilihan']['5']['506']);
 
-        $dtks->save();
+        $this->saveRelatedAttribute($dtks);
 
         return ['content' => ['message' => 'Berhasil disimpan'], 'header_code' => 200];
     }
@@ -1247,7 +1276,7 @@ class DTKSRegsosEk2022k
 
         $dtks->catatan = $this->null_or_value(alamat($request['catatan']));
 
-        $dtks->save();
+        $this->saveRelatedAttribute($dtks);
 
         return ['content' => ['message' => 'Berhasil disimpan'], 'header_code' => 200];
     }
@@ -1386,7 +1415,7 @@ class DTKSRegsosEk2022k
             ? $this->null_or_value(array_sum(explode(',', $request['pilihan']['4']['411'])))
             : null;
 
-        $selected_anggota->save();
+        $this->saveRelatedAttribute($selected_anggota);
 
         $new_data = [
             'id'                    => $selected_anggota->id,
@@ -1439,7 +1468,7 @@ class DTKSRegsosEk2022k
             ? $this->null_or_value($request['pilihan']['4']['415'])
             : null;
 
-        $selected_anggota->save();
+        $this->saveRelatedAttribute($selected_anggota);
 
         $new_data = [
             'id'                      => $selected_anggota->id,
@@ -1497,7 +1526,7 @@ class DTKSRegsosEk2022k
             ? $this->null_or_value($request['pilihan']['4']['419'])
             : null;
 
-        $selected_anggota->save();
+        $this->saveRelatedAttribute($selected_anggota);
 
         $new_data = [
             'id'                             => $selected_anggota->id,
@@ -1581,7 +1610,7 @@ class DTKSRegsosEk2022k
             ? $this->null_or_value(array_sum(explode(',', $request['pilihan']['4']['426'])))
             : null;
 
-        $selected_anggota->save();
+        $this->saveRelatedAttribute($selected_anggota);
 
         $new_data = [
             'id'                             => $selected_anggota->id,
@@ -1675,7 +1704,7 @@ class DTKSRegsosEk2022k
             : null;
         $selected_anggota->kd_penyakit_kronis_menahun = $this->null_or_value($request['pilihan']['4']['430']);
 
-        $selected_anggota->save();
+        $this->saveRelatedAttribute($selected_anggota);
 
         $new_data = [
             'id'                           => $selected_anggota->id,
@@ -1751,7 +1780,7 @@ class DTKSRegsosEk2022k
             ? $this->null_or_value(array_sum(explode(',', $request['pilihan']['4']['431f'])))
             : null;
 
-        $selected_anggota->save();
+        $this->saveRelatedAttribute($selected_anggota);
 
         $new_data = [
             'id'                  => $selected_anggota->id,
@@ -1858,7 +1887,7 @@ class DTKSRegsosEk2022k
         // jika bukan satu kk, maka hubungannya jadi lainnya, biar diatur sendiri oleh user
         if ($agt->id_kk == $kepala_keluarga->id_kk) {
             $hubungan_dengan_kk              = $ref_eloquent_collection['hubungan_dengan_kk']->where('id', $agt->kk_level)->pluck('nama')->first();
-            $dtks_anggota->kd_hubungan_dg_kk = $this->getIndexPilihan(Regsosek2022kEnum::pilihanBagian4()['409'], $hubungan_dengan_kk);
+            $dtks_anggota->kd_hubungan_dg_kk = $this->getIndexPilihanWithDefault(Regsosek2022kEnum::pilihanBagian4()['409'], $hubungan_dengan_kk);
         } else {
             $kd_hubungan_dg_kk = $this->getIndexPilihan(Regsosek2022kEnum::pilihanBagian4()['409'], 'Lainnya');
             // jika sinkron dengan data dtks, selainnya dapat disesuaikan manual
