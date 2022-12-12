@@ -15,6 +15,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 9. [#6106](https://github.com/OpenSID/OpenSID/issues/6106) Sesuaikan hasil cetak buku aparat pemerintah desa.
 10. [#6087](https://github.com/OpenSID/OpenSID/issues/6087) Perbaikan disable menu yang tidak berfungsi.
 11. [#6093](https://github.com/OpenSID/OpenSID/issues/6093) Perbaikan tidak dapat mengembalikan status dasar pada log penduduk.
+12. [#6104](https://github.com/OpenSID/OpenSID/issues/6104) Sesuaikan jumlah karakter maksimal 200 karakter pada judul artikel.
 
 #### Perubahan Teknis
 

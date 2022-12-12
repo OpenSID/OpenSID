@@ -46,12 +46,14 @@ class Migrasi_fitur_premium_2301 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2212');
         $hasil = $hasil && $this->migrasi_2022120651($hasil);
+        $hasil = $hasil && $this->migrasi_2022120951($hasil);
 
         return $hasil && true;
     }
 
     protected function migrasi_2022120651($hasil)
     {
+        // Ubah Perdes menjadi Peraturan
         $this->db
             ->where([
                 'id'   => 3,
@@ -61,5 +63,19 @@ class Migrasi_fitur_premium_2301 extends MY_model
             ->update('ref_dokumen');
 
         return $hasil;
+    }
+
+    protected function migrasi_2022120951($hasil)
+    {
+        // Ubah panjang kolom judul 100 menjadi 200
+        $fields = [
+            'judul' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 200,
+                'null'       => false,
+            ],
+        ];
+
+        return $hasil && $this->dbforge->modify_column('artikel', $fields);
     }
 }
