@@ -199,7 +199,7 @@ class Lapak_model extends MY_Model
     private function upload_foto_produk($key = 1)
     {
         $this->load->library('MY_Upload', null, 'upload');
-        $this->uploadConfig = [
+        $config = [
             'upload_path'   => LOKASI_PRODUK,
             'allowed_types' => 'gif|jpg|jpeg|png',
             'max_size'      => max_upload() * 1024,
@@ -218,7 +218,7 @@ class Lapak_model extends MY_Model
 
         $uploadData = null;
         // Inisialisasi library 'upload'
-        $this->upload->initialize($this->uploadConfig);
+        $this->upload->initialize($config);
         // Upload gagal
         if (! $this->upload->do_upload("foto_{$key}")) {
             unlink(LOKASI_PRODUK . $this->input->post("old_foto_{$key}"));
@@ -227,20 +227,10 @@ class Lapak_model extends MY_Model
         }
         // Upload sukses
         else {
-            $uploadData = $this->upload->data();
-            // Buat nama file unik agar url file susah ditebak dari browser
-            $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
-            // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
-            $fileRenamed = rename(
-                $this->uploadConfig['upload_path'] . $uploadData['file_name'],
-                $this->uploadConfig['upload_path'] . $namaFileUnik
-            );
-            // Ganti nama di array upload jika file berhasil di-rename --
-            // jika rename gagal, fallback ke nama asli
-            $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+            $uploadData = $this->upload->data()['file_name'];
         }
 
-        return (! empty($uploadData)) ? $uploadData['file_name'] : null;
+        return $uploadData;
     }
 
     public function produk_delete($id = 0)

@@ -21,3 +21,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 1. Menambahkan accept file pada inputan file sesuai kebutuhan.
 2. Hapus file yang tidak di gunakan.
 3. RFM url_upload false.
+4. [#1754](https://github.com/OpenSID/premium/issues/1754) Menambahkan timestamp pada upload photo di menu lapak.
