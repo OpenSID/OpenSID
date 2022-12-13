@@ -201,8 +201,7 @@ class DTKSRegsosEk2022k
                     }
                     $semua_dtks->push($new_dtks);
                     $dtks_resync = $new_dtks;
-                }
-                else{
+                } else {
                     $dtks_resync = $dtks;
                 }
                 if ($dtks_resync) {
@@ -214,7 +213,7 @@ class DTKSRegsosEk2022k
                         }
                         $dtks_anggota->id_penduduk = $agt->id;
                         $dtks_anggota->id_keluarga = $dtks_resync->id_keluarga;
-                        $dtks_anggota->id_dtks = $dtks_resync->id;
+                        $dtks_anggota->id_dtks     = $dtks_resync->id;
                         $this->saveRelatedAttribute($dtks_anggota);
                     }
                 }
@@ -357,7 +356,7 @@ class DTKSRegsosEk2022k
                     'keluarga' => static function ($builder) {
                         $builder->select('id', 'nik_kepala', 'no_kk');
                     },
-                    'keluarga.kepalaKeluarga'=> static function ($builder) {
+                    'keluarga.kepalaKeluarga' => static function ($builder) {
                         $builder->select('id', 'nama');
                         // override all items within the $with property in Penduduk
                         $builder->withOnly([]);
