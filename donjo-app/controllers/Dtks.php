@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 use App\Enums\Dtks\DtksEnum;
 use App\Enums\StatusEnum;
 use App\Models\Config;
@@ -46,8 +48,6 @@ use App\Models\Rtm;
 use App\Models\Wilayah;
 use App\Services\DTKSRegsosEk2022k;
 use Illuminate\Support\Facades\DB;
-
-defined('BASEPATH') || exit('No direct script access allowed');
 
 // TODO : jika ada perubahan versi DTKS terbaru, selain merubah data yg ada
 // silahkan buat kode untuk menghapus file pdf versi DTKS sebelumnya.

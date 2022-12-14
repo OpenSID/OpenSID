@@ -94,7 +94,7 @@ class Pembangunan_dokumentasi_model extends CI_Model
         $post = $this->input->post();
 
         $data['id_pembangunan'] = $id_pembangunan;
-        $data['gambar']         = $this->upload_gambar_pembangunan('gambar');
+        $data['gambar']         = $this->upload_gambar_pembangunan('gambar', $id);
         $data['persentase']     = $post['persentase'] ?: $post['id_persentase'];
         $data['keterangan']     = $post['keterangan'];
         $data['updated_at']     = date('Y-m-d H:i:s');
@@ -112,29 +112,24 @@ class Pembangunan_dokumentasi_model extends CI_Model
         status_sukses($outp);
     }
 
-    private function upload_gambar_pembangunan($jenis)
+    private function upload_gambar_pembangunan($jenis, $id = null)
     {
-        $this->load->library('upload');
+        // Inisialisasi library 'upload'
+        $this->load->library('MY_Upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_GALERI,
-            'allowed_types' => 'gif|jpg|jpeg|png',
+            'allowed_types' => 'jpg|jpeg|png',
             'max_size'      => max_upload() * 1024,
         ];
+        $this->upload->initialize($this->uploadConfig);
+
+        $uploadData = null;
         // Adakah berkas yang disertakan?
         $adaBerkas = ! empty($_FILES[$jenis]['name']);
         if ($adaBerkas !== true) {
             return null;
         }
-        // Tes tidak berisi script PHP
-        if (isPHP($_FILES['logo']['tmp_name'], $_FILES[$jenis]['name'])) {
-            $_SESSION['error_msg'] .= ' -> Jenis file ini tidak diperbolehkan ';
-            $_SESSION['success'] = -1;
-            redirect('identitas_desa');
-        }
 
-        $uploadData = null;
-        // Inisialisasi library 'upload'
-        $this->upload->initialize($this->uploadConfig);
         // Upload sukses
         if ($this->upload->do_upload($jenis)) {
             $uploadData = $this->upload->data();
@@ -153,6 +148,8 @@ class Pembangunan_dokumentasi_model extends CI_Model
         else {
             $_SESSION['success']   = -1;
             $_SESSION['error_msg'] = $this->upload->display_errors(null, null);
+
+            return redirect("admin_pembangunan/dokumentasi_form/{$id}");
         }
 
         return (! empty($uploadData)) ? $uploadData['file_name'] : null;
