@@ -37,8 +37,12 @@
 
 namespace App\Models;
 
+use App\Traits\Author;
+
 class LogRestoreDesa extends BaseModel
 {
+    use Author;
+
     /**
      * The table associated with the model.
      *
