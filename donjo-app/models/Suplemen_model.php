@@ -764,16 +764,16 @@ class Suplemen_model extends MY_Model
 
     public function impor($suplemen_id)
     {
-        $this->load->library('upload');
+        $config = [
+            'upload_path'   => sys_get_temp_dir(),
+            'allowed_types' => 'xls|xlsx|xlsm',
+        ];
 
-        $config['upload_path']   = LOKASI_DOKUMEN;
-        $config['allowed_types'] = 'xls|xlsx|xlsm';
-        $config['file_name']     = namafile('Impor Peserta Data Suplemen');
-
+        $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('userfile')) {
-            return session_error($this->upload->display_errors());
+            return session_error($this->upload->display_errors(null, null));
         }
 
         // Data Suplemen
@@ -781,10 +781,9 @@ class Suplemen_model extends MY_Model
         $this->session->per_page = 1000000000;
 
         $upload = $this->upload->data();
-        $file   = LOKASI_DOKUMEN . $upload['file_name'];
 
         $reader = ReaderEntityFactory::createXLSXReader();
-        $reader->open($file);
+        $reader->open($upload['full_path']);
 
         $data_peserta      = [];
         $terdaftar_peserta = [];
@@ -879,7 +878,6 @@ class Suplemen_model extends MY_Model
         }
 
         $reader->close();
-        unlink($file);
 
         $notif = [
             'gagal'  => $no_gagal,

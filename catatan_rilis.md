@@ -31,3 +31,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 6. [#1754](https://github.com/OpenSID/premium/issues/1754) Menambahkan timestamp pada upload photo di menu lapak.
 7. [#6108](https://github.com/OpenSID/OpenSID/issues/6108) Tampilkan keterangan singkat fungsi tombol perbaiki.
 8. [#1737](https://github.com/OpenSID/premium/issues/1737) Penyesuaian proses restore folder desa .zip terkait keamaan.
+9. [#1741](https://github.com/OpenSID/premium/issues/1741) Penyesuaian proses import pada menu suplemen.
