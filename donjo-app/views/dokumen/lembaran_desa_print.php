@@ -40,7 +40,7 @@
 		<div id="container">
 			<div id="body">
 				<div class="header" align="center">
-					<h3>A.9 BUKU LEMBARAN DESA DAN BERITA DESA</h3>
+					<h3>BUKU LEMBARAN DESA DAN BERITA DESA</h3>
 					<h4><?= strtoupper($this->setting->sebutan_desa . ' ' . $desa['nama_desa'] . $this->setting->sebutan_kecamatan . ' ' . $desa['nama_kecamatan'] . ' ' . $this->setting->sebutan_kabupaten . ' ' . $desa['nama_kabupaten'])?></h4>
 					<h4><?= ! empty($tahun) ? 'TAHUN ' . $tahun : ''?></h4>
 					<br>

@@ -15,16 +15,10 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="#"
-								class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-								title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox"
-								data-title="Cetak Inventaris">
+							<a href="#" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Inventaris">
 								<i class="fa fa-print"></i>Cetak
 							</a>
-							<a href="#"
-								class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-								title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#unduhBox"
-								data-title="Unduh Inventaris">
+							<a href="#" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Inventaris">
 								<i class="fa fa-download"></i>Unduh
 							</a>
 						</div>
@@ -138,8 +132,6 @@
 		</form>
 	</section>
 </div>
-<?php $this->load->view('inventaris/inventaris_permen47_cetak') ?>
-<?php $this->load->view('inventaris/inventaris_permen47_unduh') ?>
 <?php $this->load->view('global/confirm_delete'); ?>
 
 <script>
