@@ -20,6 +20,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 14. [#6094](https://github.com/OpenSID/OpenSID/issues/6094) Perbaikan halaman berlangganan selalu reload.
 15. [#6078](https://github.com/OpenSID/OpenSID/issues/6078) Perbaikan penjumlahan pada kolom JLH ART dan kolom jumlah keluarga.
 16. [#1693](https://github.com/OpenSID/premium/issues/1693) Perbaikan validasi unggah file gambar di pembangunan.
+17. [#6118](https://github.com/OpenSID/OpenSID/issues/6118) Perbaikan tombol kembalikan status terpilih pada form log penduduk tidak berfungsi.
 
 #### Perubahan Teknis
 

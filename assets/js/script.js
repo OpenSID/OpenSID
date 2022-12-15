@@ -420,7 +420,7 @@ function enableHapusTerpilih() {
 		$(".hapus-terpilih").attr('href','#confirm-delete');
 		if (disable.length != 0) {
 			$(".hapus-terpilih").addClass('disabled');
-		  $(".hapus-terpilih").attr('href','#');
+			$(".hapus-terpilih").attr('href','#');
 		}
 	}
 }
@@ -436,12 +436,13 @@ function deleteAllBox(idForm, action)
 	});
 	return false;
 }
+
 function aksiBorongan(idForm, action) {
 	$('#confirm-status').modal('show');
-	$('#ok-status').click(function ()
-	{
+	$('#ok-status').click(function () {
 		$('#' + idForm).attr('action', action);
-    $('#' + idForm).submit();
+		addCsrfField($("#" + idForm)[0]);
+		$('#' + idForm).submit();
 	});
 	return false;
 }
