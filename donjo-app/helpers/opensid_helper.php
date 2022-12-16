@@ -1441,3 +1441,59 @@ function kasus_lain($kategori = null, $str = null)
 
     return str_ireplace($daftar_ganti, array_map('strtoupper', $daftar_ganti), $str);
 }
+
+if (! function_exists('encrypt')) {
+    /**
+     * - Fungsi untuk encrypt string.
+     *
+     * @param string $str
+     *
+     * @return string
+     */
+    function encrypt($str = '')
+    {
+        $CI = &get_instance();
+        $CI->load->library('encryption');
+
+        $result = $CI->encryption->encrypt($str);
+
+        $result = strtr(
+            $result,
+            [
+                '+' => '.',
+                '=' => '-',
+                '/' => '~',
+            ]
+        );
+
+        return $result;
+    }
+}
+
+if (! function_exists('decrypt')) {
+    /**
+     * - Fungsi untuk decrypt string.
+     *
+     * @param string $str
+     *
+     * @return string
+     */
+    function decrypt($str = '')
+    {
+        $CI = &get_instance();
+        $CI->load->library('encryption');
+
+        $str = strtr(
+            $str,
+            [
+                '.' => '+',
+                '-' => '=',
+                '~' => '/',
+            ]
+        );
+
+        $result = $CI->encryption->decrypt($str);
+
+        return $result;
+    }
+}

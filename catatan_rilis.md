@@ -39,3 +39,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 10. [#1757](https://github.com/OpenSID/premium/issues/1757) Defined file folder app dan tambahkan index.php
 11. [#1761](https://github.com/OpenSID/premium/issues/1761) Jangan sertakan file dan folder pada rilis.
 12. [#1763](https://github.com/OpenSID/premium/issues/1763) Penyesuaian htaccess untuk batasi akses file.
+13. [#1779](https://github.com/OpenSID/premium/issues/1779) Audit Keamanan - Modul Identitas Desa.

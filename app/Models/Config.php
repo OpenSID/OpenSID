@@ -93,6 +93,8 @@ class Config extends BaseModel
     protected $appends = [
         'nip_kepala_desa',
         'nama_kepala_desa',
+        'path_logo',
+        'path_kantor_desa',
     ];
 
     /**
@@ -118,5 +120,37 @@ class Config extends BaseModel
     public function pamong()
     {
         return Pamong::kepalaDesa()->first();
+    }
+
+    /**
+     * Getter untuk path + logo desa
+     *
+     * @return string
+     */
+    public function getPathLogoAttribute()
+    {
+        $logo = LOKASI_LOGO_DESA . $this->attributes['logo'];
+
+        if (empty($this->attributes['logo']) || ! file_exists(FCPATH . $logo)) {
+            return 'assets/files/logo/opensid_logo.png';
+        }
+
+        return $logo;
+    }
+
+    /**
+     * Getter untuk path + kantor desa
+     *
+     * @return string
+     */
+    public function getPathKantorDesaAttribute()
+    {
+        $kantor_desa = LOKASI_LOGO_DESA . $this->attributes['kantor_desa'];
+
+        if (empty($this->attributes['kantor_desa']) || ! file_exists(FCPATH . $kantor_desa)) {
+            return 'assets/files/logo/opensid_kantor.jpg';
+        }
+
+        return $kantor_desa;
     }
 }

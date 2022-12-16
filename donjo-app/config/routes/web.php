@@ -47,3 +47,6 @@ $route['pemerintah']           = WEB . '/pemerintah';
 $route['status-sdgs']    = WEB . '/sdgs/index';
 $route['peta']           = WEB . '/peta/index';
 $route['peraturan-desa'] = WEB . '/peraturan/index';
+
+// Tampil Assets
+$route['tampil/(:any)'] = 'dokumen_web/tampil/$1';
