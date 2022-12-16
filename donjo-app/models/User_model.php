@@ -581,15 +581,16 @@ class User_model extends CI_Model
 
         $data['nama']           = alfanumerik_spasi($this->input->post('nama'));
         $data['notif_telegram'] = (int) $this->input->post('notif_telegram');
-        $data['id_telegram']    = alfanumerik($this->input->post('id_telegram'));
+        $data['id_telegram']    = alfanumerik(empty($this->input->post('id_telegram')) ? 0 : $this->input->post('id_telegram'));
+
         // Update foto
         $data['foto'] = $this->urusFoto($id);
         $hasil        = $this->db->where('id', $id)->update('user', $data);
 
         // Untuk Blade
-        $this->session->isAdmin = User::whereId($id)->first();
+        $this->session->isAdmin = User::findOrFail($id);
 
-        status_sukses($hasil, $gagal_saja = true);
+        status_sukses($hasil, true);
     }
 
     public function list_grup()
