@@ -22,6 +22,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 16. [#1693](https://github.com/OpenSID/premium/issues/1693) Perbaikan validasi unggah file gambar di pembangunan.
 17. [#6118](https://github.com/OpenSID/OpenSID/issues/6118) Perbaikan tombol kembalikan status terpilih pada form log penduduk tidak berfungsi.
 18. [#6119](https://github.com/OpenSID/OpenSID/issues/6119) Perbaikan pilihan cetak buku administrasi desa.
+19. [#6111](https://github.com/OpenSID/OpenSID/issues/6111) Perbaikan halaman layanan mandiri selalu reload di browser firefox.
 
 #### Perubahan Teknis
 
