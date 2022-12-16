@@ -163,6 +163,16 @@ class Pelanggan extends Admin_Controller
                     return json_decode(json_encode($this->request), false);
                 }, 'status_langganan', 24 * 60 * 60);
 
+                // perbarui anjungan aktif
+                if (cek_anjungan()) {
+                    $this->db
+                        ->update(
+                            'anjungan',
+                            ['status' => '1'],
+                            ['tipe'   => '1']
+                        );
+                }
+
                 return json([
                     'status'  => true,
                     'message' => 'Token berhasil tersimpan',

@@ -23,6 +23,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 17. [#6118](https://github.com/OpenSID/OpenSID/issues/6118) Perbaikan tombol kembalikan status terpilih pada form log penduduk tidak berfungsi.
 18. [#6119](https://github.com/OpenSID/OpenSID/issues/6119) Perbaikan pilihan cetak buku administrasi desa.
 19. [#6111](https://github.com/OpenSID/OpenSID/issues/6111) Perbaikan halaman layanan mandiri selalu reload di browser firefox.
+20. [#6115](https://github.com/OpenSID/OpenSID/issues/6115) Perbaikan gawai anjungan terkunci otomatis dalam rentang waktu yg tidak menentu.
 
 #### Perubahan Teknis
 
