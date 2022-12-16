@@ -37,6 +37,8 @@
 
 namespace App\Models;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class KeuanganManualRinci extends BaseModel
 {
     /**

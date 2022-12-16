@@ -40,6 +40,8 @@ namespace App\Enums;
 use ReflectionClass;
 use Throwable;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 abstract class BaseEnum
 {
     /**

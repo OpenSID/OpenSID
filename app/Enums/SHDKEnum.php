@@ -37,6 +37,8 @@
 
 namespace App\Enums;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class SHDKEnum extends BaseEnum
 {
     public const KEPALA_KELUARGA = 1;

@@ -37,7 +37,8 @@
 
 namespace App\Enums;
 
-// Gunakan hanya jika kondisi hanya ada 2 yakni 1 (true) atau 0 (false)
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class StatusEnum extends BaseEnum
 {
     public const YA    = 1;

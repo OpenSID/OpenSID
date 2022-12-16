@@ -40,6 +40,8 @@ namespace App\Models;
 use App\Traits\Author;
 use Illuminate\Database\Eloquent\Builder;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class FormatSurat extends BaseModel
 {
     use Author;

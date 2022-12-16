@@ -37,6 +37,8 @@
 
 namespace App\Models;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Dokumen extends BaseModel
 {
     public const DOKUMEN_WARGA = 1;

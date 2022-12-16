@@ -40,6 +40,8 @@ namespace App\Models;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class BaseModel extends Model
 {
     /**

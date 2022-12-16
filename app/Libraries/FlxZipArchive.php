@@ -40,6 +40,8 @@ namespace App\Libraries;
 use Carbon\Carbon;
 use ZipArchive;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 // Compress keseluruhan folder, seperti folder desa
 // https://stackoverflow.com/questions/4914750/how-to-zip-a-whole-folder-using-php
 class FlxZipArchive extends ZipArchive
