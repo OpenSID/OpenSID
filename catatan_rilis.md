@@ -37,3 +37,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 9. [#1741](https://github.com/OpenSID/premium/issues/1741) Penyesuaian proses import pada menu suplemen.
 10. [#1757](https://github.com/OpenSID/premium/issues/1757) Defined file folder app dan tambahkan index.php
 11. [#1761](https://github.com/OpenSID/premium/issues/1761) Jangan sertakan file dan folder pada rilis.
+12. [#1763](https://github.com/OpenSID/premium/issues/1763) Penyesuaian htaccess untuk batasi akses file.
