@@ -585,7 +585,7 @@ class Admin_Controller extends Premium
 
         return [
             'pamong'         => Pamong::penandaTangan()->get(),
-            'pamong_ttd'     => Pamong::ttd('a.n')->first(),
+            'pamong_ttd'     => Pamong::sekretarisDesa()->first(),
             'pamong_ketahui' => Pamong::kepalaDesa()->first(),
         ];
     }

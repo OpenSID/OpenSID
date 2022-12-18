@@ -37,8 +37,14 @@
 
 namespace App\Models;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
+use App\Traits\Author;
+
 class LogRestoreDesa extends BaseModel
 {
+    use Author;
+
     /**
      * The table associated with the model.
      *

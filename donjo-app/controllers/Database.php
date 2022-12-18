@@ -66,7 +66,7 @@ class Database extends Admin_Controller
             'size_folder' => byte_format(dirSize(DESAPATH)),
             'size_sql'    => byte_format(getSizeDB()->size),
             'act_tab'     => 1,
-            'inkremental' => $this->db->table_exists('log_backup') ? LogBackup::where('status', '<', 2)->latest()->first() : null,
+            'inkremental' => Schema::hasTable('log_backup') ? LogBackup::where('status', '<', 2)->latest()->first() : null,
             'restore'     => Schema::hasTable('log_restore_desa') ? LogRestoreDesa::where('status', '=', 0)->exists() : false,
         ];
 
@@ -236,8 +236,8 @@ class Database extends Admin_Controller
 
     public function kirim_otp()
     {
-        $method = $this->input->post('method');
-        //cek verifikasi
+        $method                  = $this->input->post('method');
+        $this->session->kode_otp = null;
 
         if (! in_array($method, ['telegram', 'email'])) {
             return json([
@@ -245,6 +245,7 @@ class Database extends Admin_Controller
                 'message' => 'Metode tidak ditemukan',
             ]);
         }
+
         $user = User::when($method == 'telegram', static fn ($query) => $query->whereNotNull('telegram_verified_at'))
             ->when($method == 'email', static fn ($query) => $query->whereNotNull('email_verified_at'))
             ->first();
@@ -281,60 +282,60 @@ class Database extends Admin_Controller
 
     public function verifikasi_otp()
     {
-        $otp = $this->input->post('otp');
+        if ($this->input->post()) {
+            $otp = $this->input->post('otp');
+            if ($this->cek_otp($otp)) {
+                $this->session->kode_otp = $otp;
 
-        if ($otp == '') {
+                return json([
+                    'status'  => true,
+                    'message' => 'Verifikasi berhasil',
+                ]);
+            }
+
             return json([
                 'status'  => false,
-                'message' => 'kode otp kosong',
+                'message' => 'Kode OTP Salah',
             ]);
         }
 
-        $verifikasi_otp = User::where('id', '=', $this->session->user)
-            ->where('token_exp', '>', date('Y-m-d H:i:s'))
-            ->where('token', '=', hash('sha256', $otp))
-            ->first();
-
-        if ($verifikasi_otp == null) {
-            return json([
-                'status'  => false,
-                'message' => 'kode otp Salah',
-            ]);
-        }
-
-        return json([
-            'status'  => true,
-            'message' => 'Verifikasi berhasil',
-        ]);
+        show_404();
     }
 
     public function upload_restore()
     {
-        $this->load->library('upload');
-        $this->uploadConfig = [
+        if (! $this->cek_otp(bilangan($this->session->kode_otp))) {
+            return json([
+                'status'  => false,
+                'message' => 'Kode OTP Salah',
+            ]);
+        }
+
+        $this->session->kode_otp = null;
+        $config                  = [
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'zip',
             'file_ext'      => 'zip',
             'max_size'      => max_upload() * 1024,
+            'check_script'  => false,
         ];
-        $this->upload->initialize($this->uploadConfig);
+        $this->load->library('MY_Upload', null, 'upload');
+        $this->upload->initialize($config);
 
         try {
             if (! $this->upload->do_upload('file')) {
                 return json([
-                    'status'  => true,
-                    'message' => $this->upload->display_errors(null, null) . ': ' . $this->upload->file_type,
+                    'status'  => false,
+                    'message' => $this->upload->display_errors(null, null),
                 ]);
             }
             $uploadData = $this->upload->data();
-            $filename   = $this->uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
 
             $id = LogRestoreDesa::create([
                 'ukuran'     => $uploadData['file_name'],
                 'path'       => $uploadData['full_path'],
                 'restore_at' => date('Y-m-d H:i:s'),
                 'status'     => 0,
-                'created_by' => $this->session->user,
             ])->id;
 
             $process = new Process(['php', '-f', FCPATH . 'index.php', 'job', 'restore_desa', $id]);
@@ -365,5 +366,13 @@ class Database extends Admin_Controller
             $value->save();
         }
         redirect($this->controller);
+    }
+
+    private function cek_otp($otp)
+    {
+        return User::where('id', '=', auth()->id)
+            ->where('token_exp', '>', date('Y-m-d H:i:s'))
+            ->where('token', '=', hash('sha256', bilangan($otp)))
+            ->exists();
     }
 }

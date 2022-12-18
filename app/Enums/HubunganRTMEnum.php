@@ -37,6 +37,8 @@
 
 namespace App\Enums;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class HubunganRTMEnum extends BaseEnum
 {
     public const KEPALA_RUMAH_TANGGA = 1;

@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.12-premium-beta01');
+define('VERSION', '22.12-premium-beta02');
 
 /**
  * VERSI_DATABASE
@@ -52,7 +52,7 @@ define('VERSION', '22.12-premium-beta01');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022120951');
+define('VERSI_DATABASE', '2022121252');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1440,4 +1440,60 @@ function kasus_lain($kategori = null, $str = null)
     }
 
     return str_ireplace($daftar_ganti, array_map('strtoupper', $daftar_ganti), $str);
+}
+
+if (!function_exists('encrypt')) {
+    /**
+     * - Fungsi untuk encrypt string.
+     *
+     * @param string $str
+     *
+     * @return string
+     */
+    function encrypt($str = '')
+    {
+        $CI = &get_instance();
+        $CI->load->library('encryption');
+
+        $result = $CI->encryption->encrypt($str);
+
+        $result = strtr(
+            $result,
+            [
+                '+' => '.',
+                '=' => '-',
+                '/' => '~',
+            ]
+        );
+
+        return $result;
+    }
+}
+
+if (!function_exists('decrypt')) {
+    /**
+     * - Fungsi untuk decrypt string.
+     *
+     * @param string $str
+     *
+     * @return string
+     */
+    function decrypt($str = '')
+    {
+        $CI = &get_instance();
+        $CI->load->library('encryption');
+
+        $str = strtr(
+            $str,
+            [
+                '.' => '+',
+                '-' => '=',
+                '~' => '/',
+            ]
+        );
+
+        $result = $CI->encryption->decrypt($str);
+
+        return $result;
+    }
 }

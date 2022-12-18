@@ -39,6 +39,8 @@ namespace App\Models;
 
 use App\Traits\Author;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class AlasanKeluar extends BaseModel
 {
     use Author;

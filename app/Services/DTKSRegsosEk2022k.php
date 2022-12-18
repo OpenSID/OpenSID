@@ -213,7 +213,7 @@ class DTKSRegsosEk2022k
                         }
                         $dtks_anggota->id_penduduk = $agt->id;
                         $dtks_anggota->id_keluarga = $dtks_resync->id_keluarga;
-                        $dtks_anggota->id_dtks = $dtks_resync->id;
+                        $dtks_anggota->id_dtks     = $dtks_resync->id;
                         $this->saveRelatedAttribute($dtks_anggota);
                     }
                 }

@@ -40,6 +40,8 @@ namespace App\Models;
 use App\Traits\Author;
 use Carbon\Carbon;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Penduduk extends BaseModel
 {
     use Author;

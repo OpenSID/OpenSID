@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.12-premium-beta01 ditambahkan [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.12-premium-beta02 ditambahkan [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
@@ -23,6 +23,13 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 13. [#1613](https://github.com/OpenSID/premium/issues/1613) Sesuaikan button batal pada tambah/ubah data dusun/rt/rw.
 14. [#6094](https://github.com/OpenSID/OpenSID/issues/6094) Perbaikan halaman berlangganan selalu reload.
 15. [#6078](https://github.com/OpenSID/OpenSID/issues/6078) Perbaikan penjumlahan pada kolom JLH ART dan kolom jumlah keluarga.
+16. [#1693](https://github.com/OpenSID/premium/issues/1693) Perbaikan validasi unggah file gambar di pembangunan.
+17. [#6118](https://github.com/OpenSID/OpenSID/issues/6118) Perbaikan tombol kembalikan status terpilih pada form log penduduk tidak berfungsi.
+18. [#6119](https://github.com/OpenSID/OpenSID/issues/6119) Perbaikan pilihan cetak buku administrasi desa.
+19. [#6111](https://github.com/OpenSID/OpenSID/issues/6111) Perbaikan halaman layanan mandiri selalu reload di browser firefox.
+20. [#6115](https://github.com/OpenSID/OpenSID/issues/6115) Perbaikan gawai anjungan terkunci otomatis dalam rentang waktu yg tidak menentu.
+21. [#6120](https://github.com/OpenSID/OpenSID/issues/6120) Perbaikan update profile ketika id telegram kosong.
+22. [#6102](https://github.com/OpenSID/OpenSID/issues/6102) Perbaikan jarak samping bagian artikel pada tema natra.
 
 #### Perubahan Teknis
 
@@ -33,3 +40,10 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 5. [#1732](https://github.com/OpenSID/premium/issues/1732) Menambahkan timestamp unggah file di form pengaturan area.
 6. [#1754](https://github.com/OpenSID/premium/issues/1754) Menambahkan timestamp pada upload photo di menu lapak.
 7. [#6108](https://github.com/OpenSID/OpenSID/issues/6108) Tampilkan keterangan singkat fungsi tombol perbaiki.
+8. [#1737](https://github.com/OpenSID/premium/issues/1737) Penyesuaian proses restore folder desa .zip terkait keamaan.
+9. [#1741](https://github.com/OpenSID/premium/issues/1741) Penyesuaian proses import pada menu suplemen.
+10. [#1757](https://github.com/OpenSID/premium/issues/1757) Defined file folder app dan tambahkan index.php
+11. [#1761](https://github.com/OpenSID/premium/issues/1761) Jangan sertakan file dan folder pada rilis.
+12. [#1763](https://github.com/OpenSID/premium/issues/1763) Penyesuaian htaccess untuk batasi akses file.
+13. [#1779](https://github.com/OpenSID/premium/issues/1779) Audit Keamanan - Modul Identitas Desa.
+14. [#1786](https://github.com/OpenSID/premium/issues/1786) Audit Keamaan - merubah url untuk melihat atau mengunduh pada gambar pengaduan.

@@ -66,7 +66,7 @@
 										<div class="col-sm-7">
 											<div class="input-group input-group-sm">
 												<input type="text" class="form-control " id="file_path" name="gambar">
-												<input id="file" type="file" class="hidden" name="gambar">
+												<input id="file" type="file" class="hidden" name="gambar" accept=".jpg, .jpeg, .png">
 												<span class="input-group-btn">
 													<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 												</span>

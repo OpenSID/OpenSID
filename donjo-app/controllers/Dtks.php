@@ -37,17 +37,17 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\Rtm;
+use App\Enums\Dtks\DtksEnum;
+use App\Enums\StatusEnum;
 use App\Models\Config;
-use App\Models\Wilayah;
+use App\Models\Dtks as ModelDtks;
+use App\Models\DtksAnggota;
 use App\Models\Keluarga;
 use App\Models\Penduduk;
-use App\Enums\StatusEnum;
-use App\Models\DtksAnggota;
-use App\Enums\Dtks\DtksEnum;
-use App\Models\Dtks as ModelDtks;
-use Illuminate\Support\Facades\DB;
+use App\Models\Rtm;
+use App\Models\Wilayah;
 use App\Services\DTKSRegsosEk2022k;
+use Illuminate\Support\Facades\DB;
 
 // TODO : jika ada perubahan versi DTKS terbaru, selain merubah data yg ada
 // silahkan buat kode untuk menghapus file pdf versi DTKS sebelumnya.
@@ -64,6 +64,8 @@ class Dtks extends Admin_Controller
 
     /**
      * proses singkronisasi jumlah anggota dtks dengan anggota keluarga yg berubah
+     *
+     * @param mixed $rtm
      */
     protected function syncDtksRtm($rtm)
     {
@@ -76,17 +78,17 @@ class Dtks extends Admin_Controller
             ->whereIn('id_rtm', $rtm->pluck('id'))
             ->get();
 
-        foreach($rtm as $item){
+        foreach ($rtm as $item) {
             $dtks_rtm = $semua_dtks->where('id_rtm', $item->id);
 
-            if($dtks_rtm->count() != 0){
-                $jumlah_dtks_anggota = $dtks_rtm->reduce(function ($carry, $item) {
+            if ($dtks_rtm->count() != 0) {
+                $jumlah_dtks_anggota = $dtks_rtm->reduce(static function ($carry, $item) {
                     return $carry + $item->dtks_anggota_count;
                 });
                 $jumlah_anggota_rt = $semua_anggota->where('id_rtm', $item->no_kk)->count();
 
-                if($jumlah_anggota_rt != $jumlah_dtks_anggota){
-                    foreach($dtks_rtm as $dtks){
+                if ($jumlah_anggota_rt != $jumlah_dtks_anggota) {
+                    foreach ($dtks_rtm as $dtks) {
                         if ($dtks->versi_kuisioner == DtksEnum::REGSOS_EK2022_K) {
                             return (new DTKSRegsosEk2022k())->generateDefaultDtks($dtks);
                         }
@@ -99,13 +101,13 @@ class Dtks extends Admin_Controller
     public function index()
     {
         $data['rtm'] = Rtm::with([
-            'kepalaKeluarga' => static function($builder){
+            'kepalaKeluarga' => static function ($builder) {
                 $builder->select('id', 'nama', 'nik');
                 $builder->withOnly([]);
             },
         ])
-        ->where('terdaftar_dtks', 1)
-        ->get();
+            ->where('terdaftar_dtks', 1)
+            ->get();
 
         $this->syncDtksRtm($data['rtm']);
 
@@ -144,7 +146,7 @@ class Dtks extends Admin_Controller
                 ->join($wilayah . ' AS wil_kk', 'kk.id_cluster', '=', 'wil_kk.id');
 
             $case_sql = static function (&$query, $keyword, $fields = [DtksEnum::REGSOS_EK2022_K => ''], $operator = 'LIKE') {
-                $sql = '(versi_kuisioner = ' . DtksEnum::REGSOS_EK2022_K . ' AND ' . $fields[DtksEnum::REGSOS_EK2022_K] . ' ' . $operator . ' ?)';
+                $sql     = '(versi_kuisioner = ' . DtksEnum::REGSOS_EK2022_K . ' AND ' . $fields[DtksEnum::REGSOS_EK2022_K] . ' ' . $operator . ' ?)';
                 $binding = strtolower($operator) == strtolower('LIKE')
                     ? ['%' . $keyword . '%', '%' . $keyword . '%']
                     : [$keyword, $keyword];
@@ -214,11 +216,11 @@ class Dtks extends Admin_Controller
     {
         $this->syncDtksRtm(Rtm::where('terdaftar_dtks', 1)->get());
         $data['anggota'] = DtksAnggota::with([
-                'penduduk' => static function($builder){
-                    $builder->select('id', 'nama', 'nik');
-                    $builder->withOnly([]);
-                }
-            ])
+            'penduduk' => static function ($builder) {
+                $builder->select('id', 'nama', 'nik');
+                $builder->withOnly([]);
+            },
+        ])
             ->select('id', 'id_dtks', 'id_penduduk')
             ->where('id_dtks', $id_dtks)
             ->get();

@@ -39,6 +39,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class PermohonanSurat extends BaseModel
 {
     public const BELUM_LENGKAP         = 0;

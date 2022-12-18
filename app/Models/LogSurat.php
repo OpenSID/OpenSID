@@ -39,6 +39,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class LogSurat extends BaseModel
 {
     public const KONSEP  = 0;

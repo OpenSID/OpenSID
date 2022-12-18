@@ -128,8 +128,8 @@ class Bumindes_penduduk_induk extends Admin_Controller
         $data = [
             'aksi'           => $aksi,
             'config'         => $this->header['desa'],
-            'pamong_ketahui' => Pamong::ttd('a.n')->first(),
-            'pamong_ttd'     => Pamong::kepalaDesa()->first(),
+            'pamong_ttd'     => Pamong::sekretarisDesa()->first(),
+            'pamong_ketahui' => Pamong::kepalaDesa()->first(),
             'main'           => $this->penduduk_model->list_data($o, 0),
             'bulan'          => $this->session->filter_bulan,
             'tahun'          => $this->session->filter_tahun,

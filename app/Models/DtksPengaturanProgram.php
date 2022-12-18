@@ -39,6 +39,8 @@ namespace App\Models;
 
 use App\Enums\Dtks\DtksEnum;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class DtksPengaturanProgram extends BaseModel
 {
     /**

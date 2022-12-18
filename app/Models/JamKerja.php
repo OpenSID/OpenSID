@@ -39,6 +39,8 @@ namespace App\Models;
 
 use Carbon\Carbon;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class JamKerja extends BaseModel
 {
     /**

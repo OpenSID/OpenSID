@@ -42,7 +42,7 @@
 					<div class="form-group">
 						<?php if ($value['foto']) : ?>
 							<label>Gambar</label><br>
-							<img class="img-responsive" src="<?= base_url(LOKASI_PENGADUAN . $value['foto']); ?>">
+							<img class="img-responsive" src="<?= site_url('tampil/' . encrypt(LOKASI_PENGADUAN . $value['foto'])) ?>">
 						<?php endif; ?>
 					</div>
 

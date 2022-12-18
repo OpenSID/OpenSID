@@ -40,6 +40,8 @@ namespace App\Models;
 use App\Enums\StatusEnum;
 use App\Models\Galery as Galeri;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class SettingAplikasi extends BaseModel
 {
     /**

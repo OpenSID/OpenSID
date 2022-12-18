@@ -42,6 +42,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Artikel extends BaseModel
 {
     public const ENABLE         = 1;
