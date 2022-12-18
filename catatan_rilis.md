@@ -25,6 +25,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 19. [#6111](https://github.com/OpenSID/OpenSID/issues/6111) Perbaikan halaman layanan mandiri selalu reload di browser firefox.
 20. [#6115](https://github.com/OpenSID/OpenSID/issues/6115) Perbaikan gawai anjungan terkunci otomatis dalam rentang waktu yg tidak menentu.
 21. [#6120](https://github.com/OpenSID/OpenSID/issues/6120) Perbaikan update profile ketika id telegram kosong.
+22. [#6102](https://github.com/OpenSID/OpenSID/issues/6102) Perbaikan jarak samping bagian artikel pada tema natra.
 
 #### Perubahan Teknis
 
