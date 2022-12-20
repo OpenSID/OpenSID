@@ -1,6 +1,10 @@
-Di rilis ini, versi 22.12-premium-rev03 ditambahkan [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.12-premium-beta02 ditambahkan [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
+
+#### Penambahan Fitur
+
+1. [#5994](https://github.com/OpenSID/OpenSID/issues/5994) Penambahan pengaturan jenis surat yang dapat dikirim ke opendk pada pengaturan surat.
 
 #### Perbaikan BUG
 

@@ -162,6 +162,7 @@ class FormatSurat extends BaseModel
         'satuan_masa_berlaku',
         'qr_code',
         'logo_garuda',
+        'kecamatan',
         'syarat_surat',
         'template',
         'template_desa',
