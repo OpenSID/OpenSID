@@ -4,6 +4,13 @@
             class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
             <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Surat
         </a>
+        @if (setting('tte') && ($suratMaster->jenis == 3 || $suratMaster->jenis == 4))
+            <br/><br/>
+            <div class="alert alert-info alert-dismissible">
+                <h4><i class="icon fa fa-info"></i> Info !</h4>
+                Jika surat ingin dikirim ke kecamatan, letakan kode [qrcode_bsre_kecamatan] pada tempat yang ingin ditempelkan QRCode Kecamatan.
+            </div>
+        @endif
     </div>
     <div class="box-body form-horizontal">
         <div class="form-group">

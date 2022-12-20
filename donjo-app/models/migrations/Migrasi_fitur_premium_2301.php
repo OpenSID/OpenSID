@@ -68,7 +68,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
 
     protected function migrasi_2022120751($hasil)
     {
-        if (!$this->db->field_exists('kecamatan', 'tweb_surat_format')) {
+        if (! $this->db->field_exists('kecamatan', 'tweb_surat_format')) {
             $fields = [
                 'kecamatan' => [
                     'type'       => 'tinyint',
