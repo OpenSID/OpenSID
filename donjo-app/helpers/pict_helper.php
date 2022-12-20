@@ -35,8 +35,8 @@
  *
  */
 
-define('FOTO_DEFAULT_PRIA', base_url() . 'assets/images/pengguna/kuser.png');
-define('FOTO_DEFAULT_WANITA', base_url() . 'assets/images/pengguna/wuser.png');
+define('FOTO_DEFAULT_PRIA', 'assets/images/pengguna/kuser.png');
+define('FOTO_DEFAULT_WANITA', 'assets/images/pengguna/wuser.png');
 
 define('MIME_TYPE_SIMBOL', serialize([
     'image/png',  'image/x-png', ]));
@@ -125,14 +125,14 @@ function AmbilFoto($foto, $ukuran = 'kecil_', $sex = '1')
 
     if ($foto == $file_foto) {
         $ukuran    = ($ukuran == 'kecil_') ? 'kecil_' : '';
-        $file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
+        $file_foto = LOKASI_USER_PICT . $ukuran . $foto;
 
         if (! file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto)) {
             $file_foto = Foto_Default(null, $sex);
         }
     }
 
-    return $file_foto;
+    return to_base64($file_foto);
 }
 
 function Foto_Default($foto, $sex = 1)
@@ -163,13 +163,13 @@ function UploadFoto($fupload_name, $old_foto)
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_USER_PICT;
     $config['allowed_types'] = 'jpg|png|jpeg';
-    $ci->load->library('upload');
+    $ci->load->library('MY_Upload', null, 'upload');
     $ci->upload->initialize($config);
 
     if (! $ci->upload->do_upload('foto')) {
         session_error($ci->upload->display_errors());
 
-        return false;
+        redirect($_SERVER['HTTP_REFERER']);
     }
     $uploadedImage = $ci->upload->data();
     if ($old_foto != '') {
@@ -762,4 +762,12 @@ function upload_foto_penduduk($nama_file = null)
     }
 
     return $nama_file;
+}
+
+function to_base64($file)
+{
+    $type = pathinfo($file, PATHINFO_EXTENSION);
+    $data = file_get_contents($file);
+
+    return 'data:image/' . $type . ';base64,' . base64_encode($data);
 }

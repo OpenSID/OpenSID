@@ -1442,7 +1442,7 @@ function kasus_lain($kategori = null, $str = null)
     return str_ireplace($daftar_ganti, array_map('strtoupper', $daftar_ganti), $str);
 }
 
-if (!function_exists('encrypt')) {
+if (! function_exists('encrypt')) {
     /**
      * - Fungsi untuk encrypt string.
      *
@@ -1470,7 +1470,7 @@ if (!function_exists('encrypt')) {
     }
 }
 
-if (!function_exists('decrypt')) {
+if (! function_exists('decrypt')) {
     /**
      * - Fungsi untuk decrypt string.
      *
