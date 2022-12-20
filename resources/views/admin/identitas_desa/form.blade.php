@@ -21,8 +21,8 @@
         <div class="col-md-3">
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <img class="profile-user-img img-responsive img-circle"
-                        src="{{ site_url('tampil/' . encrypt($main->path_logo)) }}" alt="Logo">
+                    <img class="profile-user-img img-responsive img-circle" src="{{ to_base64($main->path_logo) }}"
+                        alt="Logo">
                     <br />
                     <p class="text-center text-bold">Lambang {{ ucwords($setting->sebutan_desa) }}</p>
                     <p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
@@ -47,7 +47,7 @@
             </div>
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <img class="img-responsive" src="{{ site_url('tampil/' . encrypt($main->path_kantor_desa)) }}"
+                    <img class="img-responsive" src="{{ to_base64($main->path_kantor_desa) }}"
                         alt="Kantor {{ ucwords($setting->sebutan_desa) }}">
                     <br />
                     <p class="text-center text-bold">Kantor {{ ucwords($setting->sebutan_desa) }}</p>
