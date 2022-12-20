@@ -9,7 +9,7 @@
         .bg-identitas {
             width: 100%;
             height: 300px;
-            background: url("{{ site_url('tampil/' . encrypt($main['path_kantor_desa'])) }}");
+            background: url("{{ to_base64($main['path_kantor_desa']) }}");
             background-repeat: no-repeat;
             background-position: center center;
         }
@@ -62,8 +62,7 @@
         @endif
         <div class="box-body">
             <div class="box-body bg-identitas">
-                <img class="img-identitas img-responsive" src="{{ site_url('tampil/' . encrypt($main['path_logo'])) }}"
-                    alt="logo-desa">
+                <img class="img-identitas img-responsive" src="{{ to_base64($main['path_logo']) }}" alt="logo-desa">
                 <h3 class="text-identitas">{{ ucwords($setting->sebutan_desa . ' ' . $main['nama_desa']) }}</h3>
                 <p class="text-identitas">
                     <b>{{ ucwords($setting->sebutan_kecamatan . ' ' . $main['nama_kecamatan'] . ', ' . $setting->sebutan_kabupaten . ' ' . $main['nama_kabupaten'] . ', ' . Provinsi . ' ' . $main['nama_propinsi']) }}</b>
