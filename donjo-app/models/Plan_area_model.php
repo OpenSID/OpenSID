@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Area;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan_area_model extends MY_Model
@@ -182,22 +184,30 @@ class Plan_area_model extends MY_Model
     {
         $data      = $this->validasi($this->input->post());
         $area_file = $_FILES['foto']['tmp_name'];
-        $tipe_file = $_FILES['foto']['type'];
         $nama_file = $_FILES['foto']['name'];
         $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($area_file)) {
+            // hapus foto area sebelumnya
+            $old_foto = $this->input->post('old_foto');
+            if ($old_foto) {
+                unlink(LOKASI_FOTO_AREA . 'kecil_' . $old_foto);
+                unlink(LOKASI_FOTO_AREA . 'sedang_' . $old_foto);
+            }
+
+            // upload foto area terbaru ke path
             $upload = UploadPeta($nama_file, LOKASI_FOTO_AREA);
             if (! $upload) {
                 return;
             }
+
+            // simpan nama foto ke database
             $data['foto'] = $nama_file;
-            $this->db->where('id', $id);
-            $outp = $this->db->update('area', $data);
         } else {
             unset($data['foto']);
-            $this->db->where('id', $id);
-            $outp = $this->db->update('area', $data);
         }
+
+        $outp = $this->db->where('id', $id)->update('area', $data);
+
         status_sukses($outp); //Tampilkan Pesan
     }
 
@@ -207,9 +217,17 @@ class Plan_area_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete('area');
+        $area = Area::findOrFail($id);
+        $outp = $area->delete();
 
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+        if ($outp) {
+            if ($area->foto_kecil || $area->foto_sedang) {
+                unlink(FCPATH . $area->foto_kecil);
+                unlink(FCPATH . $area->foto_sedang);
+            }
+        }
+
+        status_sukses($outp, true); //Tampilkan Pesan
     }
 
     public function delete_all()
@@ -219,7 +237,7 @@ class Plan_area_model extends MY_Model
         $id_cb = $this->input->post('id_cb');
 
         foreach ($id_cb as $id) {
-            $this->delete($id, $semua = true);
+            $this->delete($id, true);
         }
     }
 

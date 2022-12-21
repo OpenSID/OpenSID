@@ -50,6 +50,7 @@
 								<label class="control-label col-sm-3">Ganti Foto</label>
 								<div class="col-sm-7">
 									<div class="input-group input-group-sm">
+										<input type="hidden" name="old_foto" value="<?= $area['foto'] ?>">
 										<input type="text" class="form-control" id="file_path">
 										<input id="file" type="file" class="hidden" name="foto" accept=".gif,.jpg,.jpeg,.png">
 										<span class="input-group-btn">

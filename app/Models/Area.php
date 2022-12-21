@@ -35,65 +35,73 @@
  *
  */
 
-use App\Models\Area;
+namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_fitur_premium_2301 extends MY_model
+class Area extends BaseModel
 {
-    public function up()
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'area';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nama',
+        'path',
+        'enabled',
+        'ref_polygon',
+        'foto',
+        'id_cluster',
+        'desk',
+    ];
+
+    /**
+     * The appends with the model.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'foto_kecil',
+        'foto_sedang',
+    ];
+
+    /**
+     * Getter untuk foto kecil.
+     *
+     * @return string
+     */
+    public function getFotoKecilAttribute()
     {
-        $hasil = true;
+        $foto = LOKASI_FOTO_AREA . 'kecil_' . $this->attributes['foto'];
 
-        // Jalankan migrasi sebelumnya
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2212');
-        $hasil = $hasil && $this->migrasi_2022120651($hasil);
-        $hasil = $hasil && $this->migrasi_2022121251($hasil);
-        $hasil = $hasil && $this->migrasi_2022122151($hasil);
-
-        return $hasil && true;
-    }
-
-    protected function migrasi_2022120651($hasil)
-    {
-        // Ubah Perdes menjadi Peraturan
-        $this->db
-            ->where([
-                'id'   => 3,
-                'nama' => 'Perdes',
-            ])
-            ->set('nama', 'Peraturan')
-            ->update('ref_dokumen');
-
-        return $hasil;
-    }
-
-    protected function migrasi_2022121251($hasil)
-    {
-        // Ubah panjang kolom judul 100 menjadi 200
-        $fields = [
-            'judul' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 200,
-                'null'       => false,
-            ],
-        ];
-
-        return $hasil && $this->dbforge->modify_column('artikel', $fields);
-    }
-
-    protected function migrasi_2022122151($hasil)
-    {
-        $semua_foto = Area::pluck('foto')->toArray();
-
-        foreach (get_filenames(LOKASI_FOTO_AREA, false, false) as $file) {
-            if (in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
-                continue;
-            }
-
-            $hasil = $hasil && unlink(LOKASI_FOTO_AREA . $file);
+        if (file_exists(FCPATH . $foto)) {
+            return $foto;
         }
 
-        return $hasil;
+        return null;
+    }
+
+    /**
+     * Getter untuk foto sedang.
+     *
+     * @return string
+     */
+    public function getFotoSedangAttribute()
+    {
+        $foto = LOKASI_FOTO_AREA . 'sedang_' . $this->attributes['foto'];
+
+        if (file_exists(FCPATH . $foto)) {
+            return $foto;
+        }
+
+        return null;
     }
 }
