@@ -35,8 +35,6 @@
  *
  */
 
-use Closure;
-
 interface Password_interface
 {
     /**

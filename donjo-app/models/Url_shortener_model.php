@@ -39,13 +39,22 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Url_shortener_model extends CI_Model
 {
-    public function url_pendek($url)
+    public function url_pendek(array $log_surat = [])
     {
-        $id               = $this->add_url($url);
-        $url_data         = $this->get_url_by_id($id);
-        $data['url_data'] = $url_data;
+        $urls_id = $log_surat['urls_id'];
 
-        return site_url('v/' . $url_data->alias);
+        if ($urls_id) {
+            $id = $urls_id;
+        } else {
+            $url = site_url("c1/{$log_surat['id']}");
+            $id  = $this->add_url($url);
+        }
+        $urlData = $this->getUrlById($id);
+
+        return [
+            'isiqr'   => site_url('v/' . $urlData->alias),
+            'urls_id' => $id,
+        ];
     }
 
     public function add_url($url)
@@ -60,14 +69,9 @@ class Url_shortener_model extends CI_Model
         return $this->db->insert_id();
     }
 
-    public function get_url_by_id($id)
+    public function getUrlById($id)
     {
-        $this->db->select('*');
-        $this->db->from('urls');
-        $this->db->where('id', (int) $id);
-        $result = $this->db->get()->row_object();
-
-        return (count($result) > 0) ? $result : false;
+        return $this->db->get_where('urls', ['id' => (int) $id])->row();
     }
 
     public function get_url($alias)

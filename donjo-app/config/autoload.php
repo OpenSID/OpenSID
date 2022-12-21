@@ -94,7 +94,8 @@ $autoload['packages'] = [APPPATH . 'third_party/DevelBar'];
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = ['database', 'session'];
+// $autoload['libraries'] = ['database', 'session'];
+$autoload['libraries'] = ['session'];
 
 /*
 | -------------------------------------------------------------------
@@ -168,4 +169,8 @@ $autoload['language'] = [];
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = ['config_model', 'setting_model'];
+/*
+| Di sini hanya autoload model untuk mengisi data awal.
+| Untuk model lain yang akan diautoload, tambahkan di donjo-app/core/MY_Controller.php
+*/
+$autoload['model'] = ['seeders/seeder'];

@@ -69,27 +69,48 @@ if (! function_exists('view')) {
             return $factory;
         }
 
-        $factory->share([
-            'auth'         => $CI->session->isAdmin,
-            'controller'   => $CI->controller,
-            'desa'         => \App\Models\Config::first(),
-            'list_setting' => $CI->list_setting,
-            'modul'        => $CI->header['modul'],
-            'modul_ini'    => $CI->modul_ini,
-            'notif'        => [
-                'surat'       => $CI->header['notif_permohonan_surat'],
-                'opendkpesan' => $CI->header['notif_pesan_opendk'],
-                'inbox'       => $CI->header['notif_inbox'],
-                'komentar'    => $CI->header['notif_komentar'],
-                'langganan'   => $CI->header['notif_langganan'],
-                'pengumuman'  => $CI->header['notif_pengumuman'],
-            ],
-            'kategori'      => $CI->header['kategori'],
-            'sub_modul_ini' => $CI->sub_modul_ini,
-            'session'       => $CI->session,
-            'setting'       => $CI->setting,
-            'token'         => $CI->security->get_csrf_token_name(),
-        ]);
+        $factory->directive('selected', static function ($condition) {
+            return "<?php if({$condition}): echo 'selected'; endif; ?>";
+        });
+
+        $factory->directive('checked', static function ($condition) {
+            return "<?php if({$condition}): echo 'checked'; endif; ?>";
+        });
+
+        $factory->directive('disabled', static function ($condition) {
+            return "<?php if({$condition}): echo 'disabled'; endif; ?>";
+        });
+
+        $factory->directive('active', static function ($condition) {
+            return "<?php if({$condition}): echo 'active'; endif; ?>";
+        });
+
+        if ($CI->session->db_error['code'] === 1049) {
+            $CI->session->error_db = null;
+            $CI->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception', 'sudah_mulai']);
+        } else {
+            $factory->share([
+                'auth'         => $CI->session->isAdmin,
+                'controller'   => $CI->controller,
+                'desa'         => \App\Models\Config::first(),
+                'list_setting' => $CI->list_setting,
+                'modul'        => $CI->header['modul'],
+                'modul_ini'    => $CI->modul_ini,
+                'notif'        => [
+                    'surat'       => $CI->header['notif_permohonan_surat'],
+                    'opendkpesan' => $CI->header['notif_pesan_opendk'],
+                    'inbox'       => $CI->header['notif_inbox'],
+                    'komentar'    => $CI->header['notif_komentar'],
+                    'langganan'   => $CI->header['notif_langganan'],
+                    'pengumuman'  => $CI->header['notif_pengumuman'],
+                ],
+                'kategori'      => $CI->header['kategori'],
+                'sub_modul_ini' => $CI->sub_modul_ini,
+                'session'       => $CI->session,
+                'setting'       => $CI->setting,
+                'token'         => $CI->security->get_csrf_token_name(),
+            ]);
+        }
 
         echo $factory->render($view, $data, $mergeData);
     }
@@ -256,15 +277,94 @@ if (! function_exists('underscore')) {
             $str = MB_ENABLED ? mb_strtolower($str) : strtolower($str);
         }
 
-        // mengganti spasi dengan underscore
-        $str = str_replace(' ', '_', $str);
-
-        // mengganti underscore dengan spasi
         if ($to_underscore) {
+            // mengganti spasi dengan underscore
+            $str = str_replace(' ', '_', $str);
+        } else {
+            // mengganti underscore dengan spasi
             $str = str_replace('_', ' ', $str);
         }
 
         // menyajikan hasil akhir
         return $str;
+    }
+}
+
+if (! function_exists('akun_demo')) {
+    /**
+     * Membuat batasan agar akun demo tidak dapat dihapus pada demo_mode
+     *
+     * @param int   $id
+     * @param mixed $redirect
+     */
+    function akun_demo($id, $redirect = true)
+    {
+        if (config_item('demo_mode') && in_array($id, array_keys(config_item('demo_akun')))) {
+            if ($redirect) {
+                session_error(', tidak dapat mengubah / menghapus akun demo');
+                redirect($_SERVER['HTTP_REFERER']);
+            }
+
+            return true;
+        }
+    }
+}
+
+if (! function_exists('folder')) {
+    /**
+     * Membuat folder jika tidak tersedia
+     *
+     * @param string     $folder
+     * @param string     $permissions
+     * @param mixed|null $htaccess
+     */
+    function folder($folder = null, $permissions = 0755, $htaccess = null)
+    {
+        $hasil = true;
+
+        get_instance()->load->helper('file');
+
+        $folder = FCPATH . $folder;
+
+        // Buat folder
+        $hasil = is_dir($folder) || mkdir($folder, $permissions, true);
+
+        if ($hasil) {
+            if ($htaccess !== null) {
+                write_file($folder . '.htaccess', config_item($htaccess), 'x');
+            }
+
+            // File index.hmtl
+            write_file($folder . 'index.html', config_item('index_html'), 'x');
+
+            return true;
+        }
+
+        return false;
+    }
+}
+
+if (! function_exists('folder_desa')) {
+    /**
+     * Membuat folder desa dan isinya
+     */
+    function folder_desa()
+    {
+        get_instance()->load->config('installer');
+        $list_folder = array_merge(config_item('desa'), config_item('lainnya'));
+
+        // Buat folder dan subfolder desa
+        foreach ($list_folder as $folder => $lainnya) {
+            folder($folder, $lainnya[0], $lainnya[1]);
+        }
+
+        // Buat file offline_mode.php, config.php dan database.php awal
+        write_file(LOKASI_CONFIG_DESA . 'config.php', config_item('config'), 'x');
+        write_file(LOKASI_CONFIG_DESA . 'database.php', config_item('database'), 'x');
+        write_file(DESAPATH . 'pengaturan/siteman/siteman.css', config_item('siteman_css'), 'x');
+        write_file(DESAPATH . 'pengaturan/siteman/siteman_mandiri.css', config_item('siteman_mandiri_css'), 'x');
+        write_file(DESAPATH . 'offline_mode.php', config_item('offline_mode'), 'x');
+
+        return true;
     }
 }

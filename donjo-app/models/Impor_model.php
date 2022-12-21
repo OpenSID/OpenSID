@@ -37,6 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\LogKeluarga;
+use App\Models\Penduduk;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Impor_model extends CI_Model
@@ -475,6 +477,10 @@ class Impor_model extends CI_Model
             $this->db->insert('tweb_keluarga', $data);
             $isi_baris['id_kk'] = $this->db->insert_id();
             $keluarga_baru      = true;
+
+            // Tulis Log Keluarga Baru
+            $this->load->model('keluarga_model');
+            $this->keluarga_model->log_keluarga($isi_baris['id_kk'], $isi_baris['nik_kepala'], 1);
         }
 
         return $keluarga_baru;
@@ -632,6 +638,13 @@ class Impor_model extends CI_Model
                     'id_cluster' => $isi_baris['id_cluster'],
                     'alamat'     => $isi_baris['alamat'],
                 ]);
+
+            // Update kk_sex pada log
+            $log = LogKeluarga::where('id_kk', $data['id_kk'])->first();
+            if ($log) {
+                $log->kk_sex = Penduduk::select('sex')->find($penduduk_baru)->sex;
+                $log->save();
+            }
         }
 
         return $penduduk_baru;
@@ -742,7 +755,7 @@ class Impor_model extends CI_Model
                         $this->tulis_tweb_keluarga($isi_baris);
 
                         // Untuk pesan jika data yang sama akan diganti
-                        if ($index = array_search($isi_baris['nik'], $data_penduduk)) {
+                        if ($index = array_search($isi_baris['nik'], $data_penduduk) && $isi_baris['nik'] != '0') {
                             $ganda++;
                             $pesan .= $baris_data . ') NIK ' . $isi_baris['nik'] . ' sama dengan baris ' . ($index + 2) . '<br>';
                         }

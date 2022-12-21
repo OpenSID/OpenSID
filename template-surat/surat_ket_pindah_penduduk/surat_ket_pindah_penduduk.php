@@ -397,8 +397,8 @@
 			$('#group_penanggungjawab').hide();
 
 			// Klasifikasi pindah tidak untuk F-1.08
-			$('#pindah').hide();
-			$('#klasifikasi_pindah_id').removeClass('required');
+			$('#pindah').show();
+			$('#klasifikasi_pindah_id').addClass('required');
 
 			$('#nama_sponsor').attr('disabled', 'disabled');
 			$('#tipe_sponsor_id').attr('disabled', 'disabled');

@@ -128,4 +128,56 @@ class Pelanggan extends Admin_Controller
         sleep(3);
         redirect($this->controller);
     }
+
+    public function perbarui()
+    {
+        $this->cache->hapus_cache_untuk_semua('status_langganan');
+        session_success();
+        sleep(3);
+        redirect($this->controller);
+    }
+
+    public function perpanjang_layanan()
+    {
+        $this->render('pelanggan/perpanjang_layanan', ['pemesanan_id' => $_GET['pemesanan_id'], 'server' => $_GET['server'], 'invoice' => $_GET['invoice'], 'token' => $_GET['token']]);
+    }
+
+    public function perpanjang()
+    {
+        $this->load->library('upload');
+        $config['upload_path']   = LOKASI_DOKUMEN;
+        $config['file_name']     = 'dokumen-permohonan.pdf';
+        $config['allowed_types'] = 'pdf';
+        $config['max_size']      = 1024;
+        $config['overwrite']     = true;
+        $this->upload->initialize($config);
+
+        try {
+            $this->upload->do_upload('permohonan');
+            $response = $this->client->post("{$this->server}/api/v1/pelanggan/perpanjang", [
+                'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
+                'multipart' => [
+                    ['name' => 'pemesanan_id', 'contents' => (int) $this->input->post('pemesanan_id')],
+                    ['name' => 'permohonan', 'contents' => Psr7\Utils::tryFopen(LOKASI_DOKUMEN . 'dokumen-permohonan.pdf', 'r')],
+                ],
+            ])
+                ->getBody();
+        } catch (ClientException $cx) {
+            log_message('error', $cx);
+            $this->session->set_flashdata(['errors' => json_decode($cx->getResponse()->getBody())]);
+            session_error();
+
+            return redirect('pelanggan');
+        } catch (Exception $e) {
+            log_message('error', $e);
+            session_error();
+
+            return redirect('pelanggan');
+        }
+
+        $this->cache->hapus_cache_untuk_semua('status_langganan');
+        session_success();
+        sleep(3);
+        redirect($this->controller);
+    }
 }

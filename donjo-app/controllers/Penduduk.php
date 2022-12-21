@@ -1035,4 +1035,29 @@ class Penduduk extends Admin_Controller
             redirect('penduduk');
         }
     }
+
+    public function foto_bawaan($id)
+    {
+        $penduduk = $this->db->get_where('tweb_penduduk', ['id' => $id])->row();
+
+        if (empty($penduduk)) {
+            return redirect('penduduk');
+        }
+
+        $this->db->where('id', $penduduk->id)->set('foto', null)->update('tweb_penduduk');
+
+        // Hapus file foto penduduk yg di hapus di folder desa/upload/user_pict
+        $file_foto = LOKASI_USER_PICT . $penduduk->foto;
+        if (is_file($file_foto)) {
+            unlink($file_foto);
+        }
+
+        // Hapus file foto kecil penduduk yg di hapus di folder desa/upload/user_pict
+        $file_foto_kecil = LOKASI_USER_PICT . 'kecil_' . $penduduk->foto;
+        if (is_file($file_foto_kecil)) {
+            unlink($file_foto_kecil);
+        }
+
+        redirect("penduduk/form/1/0/{$penduduk->id}");
+    }
 }

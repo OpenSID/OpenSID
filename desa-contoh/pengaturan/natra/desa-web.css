@@ -1,8 +1,0 @@
-/*
- * File ini berisi CSS ubahan desa untuk tema natra
-
-/* Untuk menyembunyikan tampilan keuangan tema, ubah display: block menjadi display: none;. */
-
-#transparansi-footer{
-  display: block;
-}

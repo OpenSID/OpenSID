@@ -49,7 +49,7 @@ class MY_Exceptions extends CI_Exceptions
      *
      * @var array
      */
-    protected $db_error_codes = [1029, 1051, 1054, 1062, 1067, 1072, 1109, 1138, 1146, 1166, 1169, 1173, 1176, 1265, 1271, 1364, 1406, 1978];
+    protected $db_error_codes = [1029, 1049, 1051, 1054, 1062, 1067, 1072, 1109, 1138, 1146, 1166, 1169, 1173, 1176, 1265, 1271, 1364, 1406, 1978];
 
     public function __construct()
     {
@@ -79,7 +79,7 @@ class MY_Exceptions extends CI_Exceptions
             $this->ci->session->message_query     = '<p>Error ditemukan di file' . $filepath . 'pada baris ' . $line . '</p>';
             $this->ci->session->message_exception = strip_tags((new \Exception())->getTraceAsString());
 
-            return redirect('periksa');
+            redirect('periksa');
         }
     }
 
@@ -92,14 +92,28 @@ class MY_Exceptions extends CI_Exceptions
             return parent::show_error($heading, $message, $template, $status_code);
         }
 
-        if (! empty($error = $this->ci->db->error()) && in_array($error['code'], $this->db_error_codes)) {
+        if (preg_match('/Aplikasi tidak bisa terhubung ke database/', $message[0])) {
+            $this->ci->session->error_koneksi = true;
+            $error['code']                    = 1049;
+            $error['message']                 = 'Aplikasi tidak bisa terhubung ke database';
+        }
+
+        $error = $error ?: $this->ci->db->error();
+        if (! empty($error) && in_array($error['code'], $this->db_error_codes)) {
             $this->ci->session->db_error          = $error;
             $this->ci->session->message           = '<p>' . (is_array($error) ? implode('</p><p>', $error) : $error) . '</p>';
             $this->ci->session->heading           = $heading;
             $this->ci->session->message_query     = '<p>' . (is_array($message) ? implode('</p><p>', $message) : $message) . '</p>';
             $this->ci->session->message_exception = strip_tags((new \Exception())->getTraceAsString());
+            /*
+            | 1049 adalah kode koneksi database gagal. Dalam hal ini tampilkan halaman khusus
+            | menjelaskan langkah yang dapat dilakukan untuk mengatasi.
+            */
+            if ($error['code'] === 1049) {
+                redirect('koneksi-database');
+            }
 
-            return redirect('periksa');
+            redirect('periksa');
         }
 
         return parent::show_error($heading, $message, $template, $status_code);

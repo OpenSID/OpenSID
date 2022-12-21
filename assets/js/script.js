@@ -345,8 +345,10 @@ function modalBox()
 	{
 		var link = $(e.relatedTarget);
 		var title = link.data('title');
+		var size = link.data('size') ?? '';
 		var modal = $(this)
 		modal.find('.modal-title').text(title)
+		modal.find('.modal-dialog').addClass(size);
 		$(this).find('.fetched-data').load(link.attr('href'));
 		// tambahkan csrf token kalau ada form
 		if (modal.find("form")[0]) {
@@ -564,3 +566,14 @@ function refresh_badge(elem, url)
 function huruf_awal_besar(str) {
 	return str.replace(/\S+/g, str => str.charAt(0).toUpperCase() + str.substr(1).toLowerCase());
 }
+
+// cek suport es6/es2015
+var supportsES6 = function() {
+  try {
+    new Function("(a = 0) => a");
+    return true;
+  }
+  catch (err) {
+    return false;
+  }
+}();

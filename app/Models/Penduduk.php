@@ -88,6 +88,9 @@ class Penduduk extends Model
      */
     protected $fillable = [
         'email',
+        'telepon',
+        'telegram',
+        'hubung_warga',
     ];
 
     /**
@@ -391,5 +394,14 @@ class Penduduk extends Model
     public function scopeStatus($query, $value = 1)
     {
         return $query->where('status_dasar', $value);
+    }
+
+    public function scopeHubungWarga($query)
+    {
+        return $query->select(['id', 'nama', 'telepon', 'email', 'telegram', 'hubung_warga'])
+            ->whereNotNull('telepon')
+            ->orWhereNotNull('email')
+            ->orWhereNotNull('telegram')
+            ->status();
     }
 }

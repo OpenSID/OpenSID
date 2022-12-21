@@ -63,6 +63,9 @@ $capsule->addConnection([
     'collation' => $db['default']['dbcollat'],
     'prefix'    => $db['default']['dbprefix'],
     'stricton'  => $db['default']['stricton'],
+    'options'   => [
+        \PDO::ATTR_EMULATE_PREPARES => true,
+    ],
 ]);
 $capsule->setAsGlobal();
 $capsule->setEventDispatcher(new Dispatcher());

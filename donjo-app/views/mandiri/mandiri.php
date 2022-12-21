@@ -65,7 +65,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" method="post">
 			<div class="box box-info">
-				<?php if ($this->CI->cek_hak_akses('u')) : ?>
+				<?php if (can('u')) : ?>
 					<div class="box-header with-border">
 						<a href="<?= site_url('mandiri/ajax_pin'); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Buat PIN Warga" class="btn btn-social btn-flat btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Pengguna</a>
 					</div>
@@ -90,7 +90,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<thead class="bg-gray disabled color-palette">
 										<tr>
 											<th>No</th>
-											<?php if ($this->CI->cek_hak_akses('u') || $this->CI->cek_hak_akses('h')) : ?>
+											<?php if (can('u')) : ?>
 												<th>Aksi</th>
 											<?php endif; ?>
 											<th>
@@ -137,16 +137,16 @@ defined('BASEPATH') || exit('No direct script access allowed');
 											<?php foreach ($main as $key => $data) : ?>
 												<tr <?= jecho($data['telepon'], false, 'class="select-row"'); ?>>
 													<td class="padat"><?= ($key + 1); ?></td>
-													<?php if ($this->CI->cek_hak_akses('u') || $this->CI->cek_hak_akses('h')) : ?>
+													<?php if (can('u')) : ?>
 														<td class="aksi">
-															<?php if ($this->CI->cek_hak_akses('u')) : ?>
+															<?php if (can('u')) : ?>
 																<a href="<?= site_url("mandiri/ajax_pin/{$data['id_pend']}"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Reset PIN Warga" title="Reset PIN Warga" class="btn btn-flat btn-primary btn-sm"><i class="fa fa-key"></i></a>
 																<a href="<?= site_url("mandiri/ajax_hp/{$data['id_pend']}"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="<?= $data['telepon'] ? 'Ubah' : 'Tambah' ?> Telepon Warga" title="<?= $data['telepon'] ? 'Ubah' : 'Tambah' ?> Telepon" class="btn <?= $data['telepon'] ? 'bg-teal' : 'bg-green' ?> btn-flat btn-sm"><i class="fa fa-phone"></i></a>
 																<?php if ($data['aktif'] == 0) : ?>
 																	<a href="<?= site_url("mandiri/ajax_verifikasi_warga/{$data['id_pend']}"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Verifikasi Pendaftaran Warga" title="Verifikasi Pendaftaran Warga" class="btn bg-purple btn-flat btn-sm"><i class="fa fa-eye"></i></a>
 																<?php endif ?>
 															<?php endif; ?>
-															<?php if ($this->CI->cek_hak_akses('h')) : ?>
+															<?php if (can('h')) : ?>
 																<a href="#" data-href="<?= site_url("mandiri/delete/{$data['id_pend']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 															<?php endif; ?>
 														</td>
