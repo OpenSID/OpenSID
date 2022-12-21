@@ -166,16 +166,12 @@ class Plan_area_model extends MY_Model
         $nama_file = $_FILES['foto']['name'];
         $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($area_file)) {
-            $upload = UploadPeta($nama_file, LOKASI_FOTO_AREA);
-            if (! $upload) {
-                return;
-            }
-            $data['foto'] = $nama_file;
-            $outp         = $this->db->insert('area', $data);
+            $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_AREA);
         } else {
             unset($data['foto']);
-            $outp = $this->db->insert('area', $data);
         }
+
+        $outp = $this->db->insert('area', $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -183,25 +179,12 @@ class Plan_area_model extends MY_Model
     public function update($id = 0)
     {
         $data      = $this->validasi($this->input->post());
+        $old_foto  = $this->input->post('old_foto');
         $area_file = $_FILES['foto']['tmp_name'];
         $nama_file = $_FILES['foto']['name'];
         $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($area_file)) {
-            // hapus foto area sebelumnya
-            $old_foto = $this->input->post('old_foto');
-            if ($old_foto) {
-                unlink(LOKASI_FOTO_AREA . 'kecil_' . $old_foto);
-                unlink(LOKASI_FOTO_AREA . 'sedang_' . $old_foto);
-            }
-
-            // upload foto area terbaru ke path
-            $upload = UploadPeta($nama_file, LOKASI_FOTO_AREA);
-            if (! $upload) {
-                return;
-            }
-
-            // simpan nama foto ke database
-            $data['foto'] = $nama_file;
+            $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_AREA, $old_foto);
         } else {
             unset($data['foto']);
         }

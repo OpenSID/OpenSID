@@ -47,4 +47,3 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 14. [#1786](https://github.com/OpenSID/premium/issues/1786) Audit Keamaan - merubah url untuk melihat atau mengunduh pada gambar pengaduan.
 15. [#1781](https://github.com/OpenSID/premium/issues/1781) Audit Keamanan - modul pengurus.
 16. [#1782](https://github.com/OpenSID/premium/issues/1783) Audit Keamanan - form tambah penduduk.
-17. [#1825](https://github.com/OpenSID/premium/issues/1825) Perbaikan path agar proses menampilkan data lebih cepat.
