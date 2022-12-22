@@ -51,3 +51,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 17. [#1788](https://github.com/OpenSID/premium/issues/1788) Audit Keamanan - enkrip link storage admin layanan mandiri.
 18. [#1738](https://github.com/OpenSID/premium/issues/1738) Audit Keamanan - penyesuaian proses_sinkronkan() upload file zip dengan penyimpanan sementara.
 19. [#1740](https://github.com/OpenSID/premium/issues/1740) Audit Keamanan - proses import program bantuan.
+20. [#1770](https://github.com/OpenSID/premium/issues/1770) Audit Keamanan - form produk lapak.
