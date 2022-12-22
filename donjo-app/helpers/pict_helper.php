@@ -390,7 +390,7 @@ function UploadPeta($fupload_name, $lokasi, $old_foto = null)
     ]);
 
     if (! $ci->upload->do_upload('foto')) {
-        session_error($ci->upload->display_errors());
+        session_error($ci->upload->display_errors(null, null));
 
         redirect($_SERVER['HTTP_REFERER']);
     } else {

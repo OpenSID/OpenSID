@@ -37,6 +37,7 @@
 
 use App\Models\Area;
 use App\Models\Garis;
+use App\Models\Lokasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -53,6 +54,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122151($hasil);
         $hasil = $hasil && $this->migrasi_2022122152($hasil);
         $hasil = $hasil && $this->migrasi_2022122153($hasil);
+        $hasil = $hasil && $this->migrasi_2022122154($hasil);
 
         return $hasil && true;
     }
@@ -125,6 +127,21 @@ class Migrasi_fitur_premium_2301 extends MY_model
             'jenis'      => 'unggah',
             'kategori'   => 'latar',
         ]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022122154($hasil)
+    {
+        $semua_foto = Lokasi::pluck('foto')->toArray();
+
+        foreach (get_filenames(LOKASI_FOTO_LOKASI, false, false) as $file) {
+            if (in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
+                continue;
+            }
+
+            $hasil = $hasil && unlink(LOKASI_FOTO_LOKASI . $file);
+        }
 
         return $hasil;
     }

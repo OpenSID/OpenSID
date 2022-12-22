@@ -235,13 +235,13 @@ class Plan extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->plan_lokasi_model->lokasi_lock($id, 1);
-        redirect("plan/index/{$p}/{$o}");
+        redirect('plan');
     }
 
     public function lokasi_unlock($id = '')
     {
         $this->redirect_hak_akses('u');
         $this->plan_lokasi_model->lokasi_lock($id, 2);
-        redirect("plan/index/{$p}/{$o}");
+        redirect('plan');
     }
 }
