@@ -162,7 +162,6 @@ class Plan_area_model extends MY_Model
     {
         $data      = $this->validasi($this->input->post());
         $area_file = $_FILES['foto']['tmp_name'];
-        $tipe_file = $_FILES['foto']['type'];
         $nama_file = $_FILES['foto']['name'];
         $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($area_file)) {

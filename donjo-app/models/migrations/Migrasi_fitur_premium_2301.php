@@ -36,6 +36,7 @@
  */
 
 use App\Models\Area;
+use App\Models\Garis;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,6 +51,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022120651($hasil);
         $hasil = $hasil && $this->migrasi_2022121251($hasil);
         $hasil = $hasil && $this->migrasi_2022122151($hasil);
+        $hasil = $hasil && $this->migrasi_2022122152($hasil);
 
         return $hasil && true;
     }
@@ -92,6 +94,21 @@ class Migrasi_fitur_premium_2301 extends MY_model
             }
 
             $hasil = $hasil && unlink(LOKASI_FOTO_AREA . $file);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022122152($hasil)
+    {
+        $semua_foto = Garis::pluck('foto')->toArray();
+
+        foreach (get_filenames(LOKASI_FOTO_GARIS, false, false) as $file) {
+            if (in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
+                continue;
+            }
+
+            $hasil = $hasil && unlink(LOKASI_FOTO_GARIS . $file);
         }
 
         return $hasil;

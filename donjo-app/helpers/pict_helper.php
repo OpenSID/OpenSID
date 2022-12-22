@@ -39,7 +39,8 @@ define('FOTO_DEFAULT_PRIA', 'assets/images/pengguna/kuser.png');
 define('FOTO_DEFAULT_WANITA', 'assets/images/pengguna/wuser.png');
 
 define('MIME_TYPE_SIMBOL', serialize([
-    'image/png',  'image/x-png', ]));
+    'image/png',  'image/x-png',
+]));
 
 define('EXT_SIMBOL', serialize([
     '.png',
@@ -58,7 +59,8 @@ define('MIME_TYPE_DOKUMEN', serialize([
     'application/powerpoint',
     'application/vnd.ms-powerpoint',
     'application/vnd.ms-excel',
-    'application/msexcel', ]));
+    'application/msexcel',
+]));
 
 define('EXT_DOKUMEN', serialize([
     '.pdf', '.ppt', '.pptx', '.pps', '.ppsx',
@@ -67,7 +69,8 @@ define('EXT_DOKUMEN', serialize([
 
 define('MIME_TYPE_GAMBAR', serialize([
     'image/jpeg', 'image/pjpeg',
-    'image/png',  'image/x-png', ]));
+    'image/png',  'image/x-png',
+]));
 
 define('EXT_GAMBAR', serialize([
     '.jpg', '.jpeg', '.png',
@@ -75,7 +78,8 @@ define('EXT_GAMBAR', serialize([
 
 define('MIME_TYPE_ARSIP', serialize([
     'application/rar', 'application/x-rar', 'application/x-rar-compressed', 'application/octet-stream',
-    'application/zip', 'application/x-zip', 'application/x-zip-compressed', ]));
+    'application/zip', 'application/x-zip', 'application/x-zip-compressed',
+]));
 
 define('EXT_ARSIP', serialize([
     '.zip', '.rar',
@@ -101,7 +105,7 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter =
     $namaFile           = is_string($namaFile) ? $namaFile : (string) $namaFile;
     $urlEncode          = is_bool($urlEncode) ? $urlEncode : true;
     $delimiterUniqueKey = (! is_string($delimiter) || empty($delimiter))
-    ? '__sid__' : $delimiter;
+        ? '__sid__' : $delimiter;
 
     // Pastikan nama file tidak mengandung string milik $this->delimiterUniqueKey
     $namaFile = str_replace($delimiterUniqueKey, '__', $namaFile);
@@ -112,7 +116,7 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter =
     $namaFileUnik = implode('.', $namaFileUnik);
 
     return urlencode($namaFileUnik) .
-    $delimiterUniqueKey . generator() . '.' . $ekstensiFile;
+        $delimiterUniqueKey . generator() . '.' . $ekstensiFile;
     // Contoh return:
     // - nama asli = 'kitten.jpg'
     // - nama unik = 'kitten__sid__xUCc8KO.jpg'
@@ -398,8 +402,8 @@ function UploadPeta($fupload_name, $lokasi, $old_foto = null)
 
         // Hapus gambar lama
         if ($old_foto) {
-            unlink(LOKASI_FOTO_AREA . 'kecil_' . $old_foto);
-            unlink(LOKASI_FOTO_AREA . 'sedang_' . $old_foto);
+            unlink($lokasi . 'kecil_' . $old_foto);
+            unlink($lokasi . 'sedang_' . $old_foto);
         }
 
         return $fupload_name;

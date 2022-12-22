@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Garis;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan_garis_model extends MY_Model
@@ -183,44 +185,34 @@ class Plan_garis_model extends MY_Model
     {
         $data       = $this->validasi($this->input->post());
         $garis_file = $_FILES['foto']['tmp_name'];
-        $tipe_file  = $_FILES['foto']['type'];
         $nama_file  = $_FILES['foto']['name'];
         $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($garis_file)) {
-            $upload = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
-            if (! $upload) {
-                return;
-            }
-
-            $data['foto'] = $nama_file;
-            $outp         = $this->db->insert($this->table, $data);
+            $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
         } else {
             unset($data['foto']);
-            $outp = $this->db->insert($this->table, $data);
         }
+
+        $outp = $this->db->insert('garis', $data);
+
         status_sukses($outp); //Tampilkan Pesan
     }
 
     public function update($id = 0)
     {
         $data       = $this->validasi($this->input->post());
+        $old_foto   = $this->input->post('old_foto');
         $garis_file = $_FILES['foto']['tmp_name'];
-        $tipe_file  = $_FILES['foto']['type'];
         $nama_file  = $_FILES['foto']['name'];
         $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($garis_file)) {
-            $upload = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
-            if (! $upload) {
-                return;
-            }
-            $data['foto'] = $nama_file;
-            $this->db->where('id', $id);
-            $outp = $this->db->update($this->table, $data);
+            $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_GARIS, $old_foto);
         } else {
             unset($data['foto']);
-            $this->db->where('id', $id);
-            $outp = $this->db->update($this->table, $data);
         }
+
+        $outp = $this->db->where('id', $id)->update('garis', $data);
+
         status_sukses($outp); //Tampilkan Pesan
     }
 
@@ -230,7 +222,15 @@ class Plan_garis_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete($this->table);
+        $garis = Garis::findOrFail($id);
+        $outp  = $garis->delete();
+
+        if ($outp) {
+            if ($garis->foto_kecil || $garis->foto_sedang) {
+                unlink(FCPATH . $garis->foto_kecil);
+                unlink(FCPATH . $garis->foto_sedang);
+            }
+        }
 
         status_sukses($outp, true); //Tampilkan Pesan
     }
