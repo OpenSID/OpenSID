@@ -50,3 +50,4 @@ $route['peraturan-desa'] = WEB . '/peraturan/index';
 
 // Tampil Assets
 $route['tampil/(:any)'] = 'dokumen_web/tampil/$1';
+$route['unduh/(:any)']  = 'dokumen_web/unduh/$1';

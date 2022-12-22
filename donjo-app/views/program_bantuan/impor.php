@@ -11,7 +11,7 @@
 							<label for="file" class="control-label">File Program Bantuan : </label>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path" name="userfile" required>
-								<input type="file" class="hidden" id="file" name="userfile">
+								<input type="file" class="hidden" id="file" name="userfile"  accept=".xls,.xlsx,.xlsm">
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 								</span>
@@ -27,7 +27,7 @@
 								<p class="help-block">&emsp;<input type="checkbox" name="rand_kartu_peserta" value="1"/> Acak No. Kartu Peserta Jika Kosong</p>
 							</label>
 							<br/>
-							<a href="<?= base_url('assets/import/format_impor_program_bantuan.xlsx'); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Program Bantuan</a>
+							<a href="<?= site_url('unduh/' . encrypt('assets/import/format_impor_program_bantuan.xlsx')) ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Program Bantuan</a>
 						</div>
 					</div>
 					<div class="modal-footer">

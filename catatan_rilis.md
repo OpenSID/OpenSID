@@ -49,4 +49,5 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 15. [#1781](https://github.com/OpenSID/premium/issues/1781) Audit Keamanan - modul pengurus.
 16. [#1782](https://github.com/OpenSID/premium/issues/1783) Audit Keamanan - form tambah penduduk.
 17. [#1788](https://github.com/OpenSID/premium/issues/1788) Audit Keamanan - enkrip link storage admin layanan mandiri.
-18. [#1738](https://github.com/OpenSID/premium/issues/1738) Audit Keamanan - Penyesuaian proses_sinkronkan() upload file zip dengan penyimpanan sementara.
+18. [#1738](https://github.com/OpenSID/premium/issues/1738) Audit Keamanan - penyesuaian proses_sinkronkan() upload file zip dengan penyimpanan sementara.
+19. [#1740](https://github.com/OpenSID/premium/issues/1740) Audit Keamanan - proses import program bantuan.
