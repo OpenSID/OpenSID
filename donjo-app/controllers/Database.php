@@ -200,22 +200,22 @@ class Database extends Admin_Controller
         $this->redirect_hak_akses('u');
         $this->load->model('sinkronisasi_model');
 
-        $this->load->library('upload');
-
-        $config['upload_path']   = LOKASI_SINKRONISASI_ZIP;
-        $config['allowed_types'] = 'zip';
-        $config['overwrite']     = true;
-        //$config['max_size']				= max_upload() * 1024;
-        $config['file_name'] = namafile('sinkronisasi');
-
-        $this->upload->initialize($config);
+        $this->load->library('MY_Upload', null, 'upload');
+        $this->upload->initialize([
+            'upload_path'   => sys_get_temp_dir(),
+            'allowed_types' => 'zip',
+            'overwrite'     => true,
+            'file_name'     => namafile('Sinkronisasi'),
+        ]);
 
         if (! $this->upload->do_upload('sinkronkan')) {
             status_sukses(false, false, $this->upload->display_errors());
             redirect($_SERVER['HTTP_REFERER']);
         }
 
-        $hasil = $this->sinkronisasi_model->sinkronkan();
+        $upload = $this->upload->data();
+
+        $hasil = $this->sinkronisasi_model->sinkronkan($upload['full_path']);
         status_sukses($hasil);
         redirect($_SERVER['HTTP_REFERER']);
     }

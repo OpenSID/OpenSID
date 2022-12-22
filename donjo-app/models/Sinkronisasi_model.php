@@ -44,13 +44,6 @@ class Sinkronisasi_model extends CI_model
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('upload');
-        $this->load->helper('donjolib');
-        $this->uploadConfig = [
-            'upload_path'   => LOKASI_SINKRONISASI_ZIP,
-            'allowed_types' => 'zip',
-            'max_size'      => max_upload() * 1024,
-        ];
     }
 
     // $file = nama file yg akan diproses
@@ -68,7 +61,7 @@ class Sinkronisasi_model extends CI_model
         return $data;
     }
 
-    public function sinkronkan()
+    public function sinkronkan($file = null)
     {
         $hasil = true;
 
@@ -81,7 +74,7 @@ class Sinkronisasi_model extends CI_model
             ->get('ref_sinkronisasi')->result_array();
 
         // Proses tabel yg berlaku untuk jenis penggunaan server
-        $this->zip_file = $this->upload->upload_path . $this->upload->file_name;
+        $this->zip_file = $file;
 
         foreach ($list_tabel as $tabel) {
             $nama_tabel        = $tabel['tabel'];
