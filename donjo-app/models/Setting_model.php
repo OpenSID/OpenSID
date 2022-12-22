@@ -175,14 +175,22 @@ class Setting_model extends MY_Model
         $config['allowed_types'] = 'jpg|jpeg|png';
         $config['overwrite']     = true;
         $config['max_size']      = max_upload() * 1024;
-        $config['file_name']     = $key . '.jpg';
+        $config['file_name']     = time() . $key . '.jpg';
+        $data['value']           = $config['file_name'];
+        $latar_old               = $this->latar_login_mandiri();
 
         $this->upload->initialize($config);
 
         if ($this->upload->do_upload($key)) {
             $this->upload->data();
 
-            return $lokasi . $config['file_name'];
+            if ($latar_old) {
+                unlink($lokasi . $latar_old); // hapus file yang sebelumya
+            }
+
+            $this->db->where('key', $key)->update('setting_aplikasi', $data); // simpan ke database
+
+            return $lokasi . $config['file_name']; // simpan ke path
         }
 
         set_session('flash_error_msg', $this->upload->display_errors(null, null));
@@ -353,5 +361,10 @@ class Setting_model extends MY_Model
             'versi' => $versi,
             'cek'   => (version_compare($versi, minMySqlVersion, '>=') && version_compare($versi, maxMySqlVersion, '<')) || (version_compare($versi, minMariaDBVersion, '>=')),
         ];
+    }
+
+    public function latar_login_mandiri()
+    {
+        return $this->list_setting->where('key', 'latar_login_mandiri')->first()->value;
     }
 }

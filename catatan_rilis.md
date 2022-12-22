@@ -28,7 +28,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 22. [#6102](https://github.com/OpenSID/OpenSID/issues/6102) Perbaikan jarak samping bagian artikel pada tema natra.
 23. [#1756](https://github.com/OpenSID/premium/issues/1756) Perbaikan perbarui dan hapus data area tidak menghapus file unggahan.
 24. [#6103](https://github.com/OpenSID/OpenSID/issues/6103) Perbaikan tema esensi artikel home posisi tidak pada tempatnya.
-23. [#1816](https://github.com/OpenSID/premium/issues/1816) Perbaikan perbarui dan hapus data garis tidak menghapus file unggahan.
+25. [#1816](https://github.com/OpenSID/premium/issues/1816) Perbaikan perbarui dan hapus data garis tidak menghapus file unggahan.
 
 #### Perubahan Teknis
 
@@ -48,3 +48,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 14. [#1786](https://github.com/OpenSID/premium/issues/1786) Audit Keamaan - merubah url untuk melihat atau mengunduh pada gambar pengaduan.
 15. [#1781](https://github.com/OpenSID/premium/issues/1781) Audit Keamanan - modul pengurus.
 16. [#1782](https://github.com/OpenSID/premium/issues/1783) Audit Keamanan - form tambah penduduk.
+17. [#1788](https://github.com/OpenSID/premium/issues/1788) Audit Keamanan - enkrip link storage admin layanan mandiri.

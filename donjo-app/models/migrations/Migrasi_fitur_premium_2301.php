@@ -52,6 +52,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022121251($hasil);
         $hasil = $hasil && $this->migrasi_2022122151($hasil);
         $hasil = $hasil && $this->migrasi_2022122152($hasil);
+        $hasil = $hasil && $this->migrasi_2022122153($hasil);
 
         return $hasil && true;
     }
@@ -110,6 +111,20 @@ class Migrasi_fitur_premium_2301 extends MY_model
 
             $hasil = $hasil && unlink(LOKASI_FOTO_GARIS . $file);
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022122153($hasil)
+    {
+        $hasil && $this->tambah_setting([
+            'judul'      => 'Latar Login Mandiri',
+            'key'        => 'latar_login_mandiri',
+            'value'      => 'latar_login_mandiri.jpg',
+            'keterangan' => 'Latar untuk Login Layanan Mandiri',
+            'jenis'      => 'unggah',
+            'kategori'   => 'latar',
+        ]);
 
         return $hasil;
     }
