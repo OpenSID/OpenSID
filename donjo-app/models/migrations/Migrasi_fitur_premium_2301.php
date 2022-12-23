@@ -111,7 +111,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $semua_foto = Area::pluck('foto')->toArray();
 
         foreach (get_filenames(LOKASI_FOTO_AREA, false, false) as $file) {
-            if (in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
+            if ($file == 'index.html' || in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
                 continue;
             }
 
@@ -126,7 +126,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $semua_foto = Garis::pluck('foto')->toArray();
 
         foreach (get_filenames(LOKASI_FOTO_GARIS, false, false) as $file) {
-            if (in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
+            if ($file == 'index.html' || in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
                 continue;
             }
 
@@ -155,7 +155,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $semua_foto = Lokasi::pluck('foto')->toArray();
 
         foreach (get_filenames(LOKASI_FOTO_LOKASI, false, false) as $file) {
-            if (in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
+            if ($file == 'index.html' || in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
                 continue;
             }
 
