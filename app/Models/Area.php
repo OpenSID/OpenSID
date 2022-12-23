@@ -35,19 +35,73 @@
  *
  */
 
+namespace App\Models;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-$route['data-kelompok/(:any)'] = WEB . '/kelompok/detail/$1';
-$route['data-lembaga/(:any)']  = WEB . '/lembaga/detail/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['pemerintah']           = WEB . '/pemerintah';
+class Area extends BaseModel
+{
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'area';
 
-// SDGS
-$route['status-sdgs']    = WEB . '/sdgs/index';
-$route['peta']           = WEB . '/peta/index';
-$route['peraturan-desa'] = WEB . '/peraturan/index';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nama',
+        'path',
+        'enabled',
+        'ref_polygon',
+        'foto',
+        'id_cluster',
+        'desk',
+    ];
 
-// Tampil Assets
-$route['tampil/(:any)'] = 'dokumen_web/tampil/$1';
-$route['unduh/(:any)']  = 'dokumen_web/unduh/$1';
+    /**
+     * The appends with the model.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'foto_kecil',
+        'foto_sedang',
+    ];
+
+    /**
+     * Getter untuk foto kecil.
+     *
+     * @return string
+     */
+    public function getFotoKecilAttribute()
+    {
+        $foto = LOKASI_FOTO_AREA . 'kecil_' . $this->attributes['foto'];
+
+        if (file_exists(FCPATH . $foto)) {
+            return $foto;
+        }
+
+        return null;
+    }
+
+    /**
+     * Getter untuk foto sedang.
+     *
+     * @return string
+     */
+    public function getFotoSedangAttribute()
+    {
+        $foto = LOKASI_FOTO_AREA . 'sedang_' . $this->attributes['foto'];
+
+        if (file_exists(FCPATH . $foto)) {
+            return $foto;
+        }
+
+        return null;
+    }
+}

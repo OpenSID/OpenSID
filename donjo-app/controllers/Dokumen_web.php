@@ -64,4 +64,14 @@ class Dokumen_web extends Web_Controller
 
         return ambilBerkas($nama_file, null, null, $lokasi_file, true);
     }
+
+    public function unduh($slug = null)
+    {
+        $slug        = decrypt($slug);
+        $part        = explode('/', $slug);
+        $nama_file   = end($part);
+        $lokasi_file = str_replace($nama_file, '', $slug);
+
+        return ambilBerkas($nama_file, null, null, $lokasi_file);
+    }
 }

@@ -68,7 +68,7 @@
                             <b>Latar Login Mandiri</b>
                         </div>
                         <div class="box-body box-profile text-center">
-                            <img class="img-responsive" src="{{ default_file(LATAR_KEHADIRAN, DEFAULT_LATAR_KEHADIRAN) }}"
+                            <img class="img-responsive" src="{{ $latar_mandiri }}"
                                 alt="Latar Halaman Login" width="100%">
                             <p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
                             <div class="input-group">

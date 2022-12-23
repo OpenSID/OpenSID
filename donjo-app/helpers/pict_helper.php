@@ -39,7 +39,8 @@ define('FOTO_DEFAULT_PRIA', 'assets/images/pengguna/kuser.png');
 define('FOTO_DEFAULT_WANITA', 'assets/images/pengguna/wuser.png');
 
 define('MIME_TYPE_SIMBOL', serialize([
-    'image/png',  'image/x-png', ]));
+    'image/png',  'image/x-png',
+]));
 
 define('EXT_SIMBOL', serialize([
     '.png',
@@ -58,7 +59,8 @@ define('MIME_TYPE_DOKUMEN', serialize([
     'application/powerpoint',
     'application/vnd.ms-powerpoint',
     'application/vnd.ms-excel',
-    'application/msexcel', ]));
+    'application/msexcel',
+]));
 
 define('EXT_DOKUMEN', serialize([
     '.pdf', '.ppt', '.pptx', '.pps', '.ppsx',
@@ -67,7 +69,8 @@ define('EXT_DOKUMEN', serialize([
 
 define('MIME_TYPE_GAMBAR', serialize([
     'image/jpeg', 'image/pjpeg',
-    'image/png',  'image/x-png', ]));
+    'image/png',  'image/x-png',
+]));
 
 define('EXT_GAMBAR', serialize([
     '.jpg', '.jpeg', '.png',
@@ -75,7 +78,8 @@ define('EXT_GAMBAR', serialize([
 
 define('MIME_TYPE_ARSIP', serialize([
     'application/rar', 'application/x-rar', 'application/x-rar-compressed', 'application/octet-stream',
-    'application/zip', 'application/x-zip', 'application/x-zip-compressed', ]));
+    'application/zip', 'application/x-zip', 'application/x-zip-compressed',
+]));
 
 define('EXT_ARSIP', serialize([
     '.zip', '.rar',
@@ -101,7 +105,7 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter =
     $namaFile           = is_string($namaFile) ? $namaFile : (string) $namaFile;
     $urlEncode          = is_bool($urlEncode) ? $urlEncode : true;
     $delimiterUniqueKey = (! is_string($delimiter) || empty($delimiter))
-    ? '__sid__' : $delimiter;
+        ? '__sid__' : $delimiter;
 
     // Pastikan nama file tidak mengandung string milik $this->delimiterUniqueKey
     $namaFile = str_replace($delimiterUniqueKey, '__', $namaFile);
@@ -112,7 +116,7 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter =
     $namaFileUnik = implode('.', $namaFileUnik);
 
     return urlencode($namaFileUnik) .
-    $delimiterUniqueKey . generator() . '.' . $ekstensiFile;
+        $delimiterUniqueKey . generator() . '.' . $ekstensiFile;
     // Contoh return:
     // - nama asli = 'kitten.jpg'
     // - nama unik = 'kitten__sid__xUCc8KO.jpg'
@@ -376,26 +380,34 @@ function HapusArtikel($gambar)
     return true;
 }
 
-function UploadPeta($fupload_name, $lokasi)
+function UploadPeta($fupload_name, $lokasi, $old_foto = null)
 {
-    $ci                      = &get_instance();
-    $config['upload_path']   = $lokasi;
-    $config['allowed_types'] = 'gif|jpg|png|jpeg';
+    $ci = &get_instance();
     $ci->load->library('MY_Upload', null, 'upload');
-    $ci->upload->initialize($config);
+    $ci->upload->initialize([
+        'upload_path'   => $lokasi,
+        'allowed_types' => 'gif|jpg|png|jpeg',
+    ]);
 
     if (! $ci->upload->do_upload('foto')) {
-        session_error($ci->upload->display_errors());
+        session_error($ci->upload->display_errors(null, null));
 
-        return false;
+        redirect($_SERVER['HTTP_REFERER']);
+    } else {
+        $uploadedImage = $ci->upload->data();
+        ResizeGambar($uploadedImage['full_path'], $lokasi . 'kecil_' . $fupload_name, ['width' => 120, 'height' => 100]);
+        ResizeGambar($uploadedImage['full_path'], $lokasi . 'sedang_' . $fupload_name, ['width' => 880, 'height' => 660]);
+
+        unlink($uploadedImage['full_path']);
+
+        // Hapus gambar lama
+        if ($old_foto) {
+            unlink($lokasi . 'kecil_' . $old_foto);
+            unlink($lokasi . 'sedang_' . $old_foto);
+        }
+
+        return $fupload_name;
     }
-    $uploadedImage = $ci->upload->data();
-    ResizeGambar($uploadedImage['full_path'], $lokasi . 'kecil_' . $fupload_name, ['width' => 120, 'height' => 100]);
-    ResizeGambar($uploadedImage['full_path'], $lokasi . 'sedang_' . $fupload_name, ['width' => 880, 'height' => 660]);
-
-    unlink($uploadedImage['full_path']);
-
-    return true;
 }
 
 function ResizeGambar($filename, $path, $dimensi)

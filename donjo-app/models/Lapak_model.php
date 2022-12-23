@@ -199,11 +199,6 @@ class Lapak_model extends MY_Model
     private function upload_foto_produk($key = 1)
     {
         $this->load->library('MY_Upload', null, 'upload');
-        $config = [
-            'upload_path'   => LOKASI_PRODUK,
-            'allowed_types' => 'gif|jpg|jpeg|png',
-            'max_size'      => max_upload() * 1024,
-        ];
         // Adakah berkas yang disertakan?
         if (empty($_FILES["foto_{$key}"]['name'])) {
             // Jika hapus (ceklis)
@@ -218,15 +213,19 @@ class Lapak_model extends MY_Model
 
         $uploadData = null;
         // Inisialisasi library 'upload'
-        $this->upload->initialize($config);
+        $this->upload->initialize([
+            'upload_path'   => LOKASI_PRODUK,
+            'allowed_types' => 'gif|jpg|jpeg|png',
+            'max_size'      => 1024, // 1 MB
+        ]);
         // Upload gagal
         if (! $this->upload->do_upload("foto_{$key}")) {
-            unlink(LOKASI_PRODUK . $this->input->post("old_foto_{$key}"));
             session_error($this->upload->display_errors());
             redirect('lapak_admin/produk');
         }
         // Upload sukses
         else {
+            unlink(LOKASI_PRODUK . $this->input->post("old_foto_{$key}"));
             $uploadData = $this->upload->data()['file_name'];
         }
 

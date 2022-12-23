@@ -117,6 +117,7 @@ class Setting extends Admin_Controller
             'pengaturan_kategori' => ['setting_mandiri'],
             'atur_latar'          => true,
             'aksi_controller'     => 'setting/mandiri',
+            'latar_mandiri'       => to_base64(default_file(LATAR_LOGIN . $this->setting_model->latar_login_mandiri(), DEFAULT_LATAR_KEHADIRAN)),
         ];
 
         return view('admin.pengaturan.index', $data);
