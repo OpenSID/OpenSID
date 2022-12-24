@@ -58,7 +58,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122154($hasil);
 
         // Modul Buku Tamu
-        $hasil = $hasil && $this->buku_tamu($hasil);
+        $hasil = $hasil && $this->migrasi_2022122552($hasil);
 
         return $hasil && true;
     }
@@ -168,7 +168,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         return $hasil;
     }
 
-    public function buku_tamu($hasil)
+    public function migrasi_2022122552($hasil)
     {
         // Modul Buku Tamu
         $hasil = $hasil && $this->tambah_modul([
