@@ -122,6 +122,31 @@ class Setting_model extends MY_Model
     {
         $hasil = true;
 
+        // TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
+        if ($data['latar_website'] != '') {
+            $hasil = $hasil && $this->upload_img('latar_website', $this->theme_model->lokasi_latar_website(str_replace('desa/', '', $this->setting->web_theme)), $this->setting->latar_website);
+        }
+
+        if ($data['latar_login'] != '') {
+            $hasil = $hasil && $this->upload_img('latar_login', LATAR_LOGIN, $this->setting->latar_login);
+        }
+
+        if ($data['latar_login_mandiri'] != '') {
+            $hasil = $hasil && $this->upload_img('latar_login_mandiri', LATAR_LOGIN, $this->setting->latar_login_mandiri);
+        }
+
+        if ($this->setting->latar_website) {
+            $data['latar_website'] = $this->setting->latar_website;
+        }
+
+        if ($this->setting->latar_login) {
+            $data['latar_login'] = $this->setting->latar_login;
+        }
+
+        if ($this->setting->latar_login_mandiri) {
+            $data['latar_login_mandiri'] = $this->setting->latar_login_mandiri;
+        }
+
         foreach ($data as $key => $value) {
             // Update setting yang diubah
             if ($this->setting->{$key} != $value) {
@@ -151,23 +176,11 @@ class Setting_model extends MY_Model
             }
         }
         $this->apply_setting();
-        // TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
-        if ($data['latar_website'] != '') {
-            $hasil = $hasil && $this->upload_img('latar_website', $this->theme_model->lokasi_latar_website(str_replace('desa/', '', $this->setting->web_theme)));
-        }
-
-        if ($data['latar_login'] != '') {
-            $hasil = $hasil && $this->upload_img('latar_login', LATAR_LOGIN);
-        }
-
-        if ($data['latar_login_mandiri'] != '') {
-            $hasil = $hasil && $this->upload_img('latar_login_mandiri', LATAR_LOGIN);
-        }
 
         return $hasil;
     }
 
-    public function upload_img($key = '', $lokasi = '')
+    public function upload_img($key = '', $lokasi = '', $latar_old = '')
     {
         $this->load->library('MY_Upload', null, 'upload');
 
@@ -177,7 +190,6 @@ class Setting_model extends MY_Model
         $config['max_size']      = max_upload() * 1024;
         $config['file_name']     = time() . $key . '.jpg';
         $data['value']           = $config['file_name'];
-        $latar_old               = $this->latar_login_mandiri();
 
         $this->upload->initialize($config);
 
@@ -186,6 +198,10 @@ class Setting_model extends MY_Model
 
             if ($latar_old) {
                 unlink($lokasi . $latar_old); // hapus file yang sebelumya
+            }
+
+            if ($key . '.jpg') {
+                unlink($lokasi . $key . '.jpg'); // hapus file yang sebelumya
             }
 
             $this->db->where('key', $key)->update('setting_aplikasi', $data); // simpan ke database
@@ -222,7 +238,7 @@ class Setting_model extends MY_Model
     public function update($key = 'enable_track', $value = 1)
     {
         if (in_array($key, ['latar_kehadiran'])) {
-            $value = $this->upload_img('latar_kehadiran', LATAR_LOGIN);
+            $value = $this->upload_img('latar_kehadiran', LATAR_LOGIN, null);
         }
 
         if ($key == 'tte' && $value == 1) {
@@ -361,10 +377,5 @@ class Setting_model extends MY_Model
             'versi' => $versi,
             'cek'   => (version_compare($versi, minMySqlVersion, '>=') && version_compare($versi, maxMySqlVersion, '<')) || (version_compare($versi, minMariaDBVersion, '>=')),
         ];
-    }
-
-    public function latar_login_mandiri()
-    {
-        return $this->list_setting->where('key', 'latar_login_mandiri')->first()->value;
     }
 }

@@ -55,6 +55,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122152($hasil);
         $hasil = $hasil && $this->migrasi_2022122153($hasil);
         $hasil = $hasil && $this->migrasi_2022122154($hasil);
+        $hasil = $hasil && $this->migrasi_2022122351($hasil);
 
         return $hasil && true;
     }
@@ -142,6 +143,29 @@ class Migrasi_fitur_premium_2301 extends MY_model
 
             $hasil = $hasil && unlink(LOKASI_FOTO_LOKASI . $file);
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022122351($hasil)
+    {
+        $hasil && $this->tambah_setting([
+            'judul'      => 'Latar Website',
+            'key'        => 'latar_website',
+            'value'      => 'latar_website.jpg',
+            'keterangan' => 'Latar untuk login ke halaman website',
+            'jenis'      => 'unggah',
+            'kategori'   => 'latar',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'judul'      => 'Latar Login Admin',
+            'key'        => 'latar_login',
+            'value'      => 'latar_login.jpg',
+            'keterangan' => 'Latar untuk login ke halaman admin',
+            'jenis'      => 'unggah',
+            'kategori'   => 'latar',
+        ]);
 
         return $hasil;
     }

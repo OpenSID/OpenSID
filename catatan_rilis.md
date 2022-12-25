@@ -54,3 +54,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 19. [#1740](https://github.com/OpenSID/premium/issues/1740) Audit Keamanan - proses import program bantuan.
 20. [#1770](https://github.com/OpenSID/premium/issues/1770) Audit Keamanan - form produk lapak.
 21. [#1819](https://github.com/OpenSID/premium/issues/1819) Audit Keamanan - sembunyikan javascript.
+22. [#1733](https://github.com/OpenSID/premium/issues/1733) Audit keamanan form pengaturan latar belakang
