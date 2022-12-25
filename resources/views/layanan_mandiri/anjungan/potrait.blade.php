@@ -33,39 +33,51 @@
             <img src="{{ gambar_desa($desa['logo']) }}" class="logo" alt="Logo">
             <div class="box-anjungan">
                 <h4 class="tulisan-anjungan">Anjungan Desa Mandiri</h4>
-                <p class="tulisan-desa">{{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}</p>
+                <p class="tulisan-desa">
+                    {{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}
+                </p>
             </div>
         </div>
     </header>
 
     <section class="flex center content">
         @if (setting('anjungan_profil') == 1)
-        <div id="swiper-slide" class="swiper">
-            <div class="swiper-wrapper">
-                @foreach ($gambar as $item)
-                <div class="swiper-slide">
-                    <img src="{{ base_url() . LOKASI_GALERI . 'sedang_' . $item->gambar }}" class="background" alt="Icon Menu">
+            <div id="swiper-slide" class="swiper">
+                <div class="swiper-wrapper">
+                    @foreach ($gambar as $item)
+                        <div class="swiper-slide">
+                            <img src="{{ base_url() . LOKASI_GALERI . 'sedang_' . $item->gambar }}" class="background"
+                                alt="Icon Menu">
+                        </div>
+                    @endforeach
                 </div>
-                @endforeach
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
             </div>
-            <!-- Add Pagination -->
-            <div class="swiper-pagination"></div>
-        </div>
         @elseif (setting('anjungan_profil') == 2)
-        <video class="background" width="100%" height="100%" autoplay loop controls>
-            <source src="{{ setting('anjungan_video') }}" type="video/mp4">
-        </video>
+            <video class="background" width="100%" height="100%" autoplay loop controls>
+                <source src="{{ setting('anjungan_video') }}" type="video/mp4">
+            </video>
         @else
-        <iframe class="background" width="100%" height="100%" src="{{ setting('anjungan_youtube') }}?autoplay=1&loop=1&rel=0&showinfo=0&color=white&iv_load_policy=3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe class="background" width="100%" height="100%"
+                src="{{ setting('anjungan_youtube') }}?autoplay=1&loop=1&rel=0&showinfo=0&color=white&iv_load_policy=3"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
         @endif
     </section>
 
     <section class="flex center box-menu-header">
-        <a href="{{ site_url('/') }}" title="Home"><img src="{{ asset('images/anjungan/home.svg') }}" class="menu-header" alt="Icon Menu"></a>
-        <a data-value="{{ site_url('kehadiran') }}" class="popup" title="Kehadiran Perangkat Desa"><img src="{{ asset('images/anjungan/kehadiran.svg') }}" class="menu-header" alt="Icon Menu"></a>
-        <a href="#" title="Buku Tamu"><img src="{{ asset('images/anjungan/tamu.svg') }}" class="menu-header" alt="Icon Menu"></a>
-        <a href="#" id="perangkat" title="Daftar Perangkat Desa"><img src="{{ asset('images/anjungan/perangkat.svg') }}" class="menu-header" alt="Icon Menu"></a>
-        <a href="#" title="Mode Gelap"><img src="{{ asset('images/anjungan/mode.svg') }}" class="menu-header" alt="Icon Menu"></a>
+        <a href="{{ site_url('/') }}" title="Home"><img src="{{ asset('images/anjungan/home.svg') }}"
+                class="menu-header" alt="Icon Menu"></a>
+        <a data-value="{{ site_url('kehadiran') }}" class="popup" title="Kehadiran Perangkat Desa"><img
+                src="{{ asset('images/anjungan/kehadiran.svg') }}" class="menu-header" alt="Icon Menu"></a>
+        <a href="#" title="Buku Tamu"><img src="{{ asset('images/anjungan/tamu.svg') }}" class="menu-header"
+                alt="Icon Menu"></a>
+        <a href="#" id="perangkat" title="Daftar Perangkat Desa"><img
+                src="{{ asset('images/anjungan/perangkat.svg') }}" class="menu-header" alt="Icon Menu"></a>
+        <a href="#" title="Mode Gelap"><img src="{{ asset('images/anjungan/mode.svg') }}" class="menu-header"
+                alt="Icon Menu"></a>
     </section>
 
     <section class="flex center content">
@@ -74,44 +86,56 @@
                 <h4 class="tulisan-berita">Berita Desa</h4>
                 <div>
                     <ul role="tablist" class="nav nav-tabs custom-tabs">
-                        <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home" href="#terkini">Terbaru</a></li>
-                        <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="messages" href="#populer">Populer</a></li>
+                        <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home"
+                                href="#terkini">Terbaru</a></li>
+                        <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="messages"
+                                href="#populer">Populer</a></li>
                     </ul>
                 </div>
             </div>
             <div class="tab-content">
                 <div id="terkini" class="tab-pane fade in active row" role="tabpanel">
                     @foreach ($arsip_terkini as $arsip)
-                    <div class="col-md-3 box-berita">
-                        <a data-value="{{ site_url('artikel/'.buat_slug($arsip)) }}" class="popup">
-                            @if (is_file(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip['gambar']))
-                            <img width="25%" class="img-berita" src="{{ base_url(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip[gambar]) }}" />
-                            @else
-                            <img width="25%" class="img-berita" src="{{ base_url('assets/images/404-image-not-found.jpg') }}" />
-                            @endif
-                            <div class="content-berita">
-                                <h4 class="judul-berita">{{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 25, $end = '...') }}</h4>
-                                <p class="keterangan-berita">{{ tgl_indo($arsip['tgl_upload']) }} | {{ hit($arsip['hit']) }} Dilihat</p>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="col-md-3 box-berita">
+                            <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}" class="popup">
+                                @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']))
+                                    <img width="25%" class="img-berita"
+                                        src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip[gambar]) }}" />
+                                @else
+                                    <img width="25%" class="img-berita"
+                                        src="{{ base_url('assets/images/404-image-not-found.jpg') }}" />
+                                @endif
+                                <div class="content-berita">
+                                    <h4 class="judul-berita">
+                                        {{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 25, $end = '...') }}
+                                    </h4>
+                                    <p class="keterangan-berita">{{ tgl_indo($arsip['tgl_upload']) }} |
+                                        {{ hit($arsip['hit']) }} Dilihat</p>
+                                </div>
+                            </a>
+                        </div>
                     @endforeach
                 </div>
                 <div id="populer" class="tab-pane fade in row" role="tabpanel">
                     @foreach ($arsip_populer as $arsip)
-                    <div class="col-md-3 box-berita">
-                        <a data-value="{{ site_url('artikel/'.buat_slug($arsip)) }}" class="popup">
-                            @if (is_file(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip['gambar']))
-                            <img width="25%" class="img-berita" src="{{ base_url(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip[gambar]) }}" />
-                            @else
-                            <img width="25%" class="img-berita" src="{{ base_url('assets/images/404-image-not-found.jpg') }}" />
-                            @endif
-                            <div class="content-berita">
-                                <h4 class="judul-berita">{{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 20, $end = '...') }}</h4>
-                                <p class="keterangan-berita">{{ tgl_indo($arsip['tgl_upload']) }} | {{ hit($arsip['hit']) }} Dilihat</p>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="col-md-3 box-berita">
+                            <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}" class="popup">
+                                @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']))
+                                    <img width="25%" class="img-berita"
+                                        src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip[gambar]) }}" />
+                                @else
+                                    <img width="25%" class="img-berita"
+                                        src="{{ base_url('assets/images/404-image-not-found.jpg') }}" />
+                                @endif
+                                <div class="content-berita">
+                                    <h4 class="judul-berita">
+                                        {{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 20, $end = '...') }}
+                                    </h4>
+                                    <p class="keterangan-berita">{{ tgl_indo($arsip['tgl_upload']) }} |
+                                        {{ hit($arsip['hit']) }} Dilihat</p>
+                                </div>
+                            </a>
+                        </div>
                     @endforeach
                 </div>
             </div>
@@ -121,21 +145,22 @@
     <section class="box-menu-statis">
         <!-- Swiper -->
         @if ($slides > 0)
-        <div id="swiper-menu" class="swiper">
-            <div class="swiper-wrapper">
-                @foreach ($menu as $item)
-                <div class="swiper-slide">
-                    <a data-value="{{ $item->link }}" class="popup">
-                        <img src="{{ icon_menu_anjungan($item->icon) }}" class="menu-statis" alt="Icon Menu">
-                        <p class="keterangan-menu-statis">{{ $item->nama }}</p>
-                    </a>
+            <div id="swiper-menu" class="swiper">
+                <div class="swiper-wrapper">
+                    @foreach ($menu as $item)
+                        <div class="swiper-slide">
+                            <a data-value="{{ $item->link }}" class="popup">
+                                <img src="{{ icon_menu_anjungan($item->icon) }}" class="menu-statis"
+                                    alt="Icon Menu">
+                                <p class="keterangan-menu-statis">{{ $item->nama }}</p>
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
-                @endforeach
+                <!-- Add Arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
-            <!-- Add Arrows -->
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-        </div>
         @endif
     </section>
     <footer>
@@ -153,49 +178,51 @@
         <div class="row">
             @if ($pamong)
                 @foreach ($pamong as $data)
-                <div class="col-xs-3">
-                    <div class="card text-center">
-                    <img class="foto-perangkat" src="{{ $data['foto'] }}" alt="Foto {{ $data['nama'] }}"/>
-                    <hr class="line">
-                    <b>
-                        {{ $data['nama'] }}<br>
-                        {{ $data['jabatan'] }}<br>
-                        @if (setting('tampilkan_kehadiran') && $data['status_kehadiran'] == 'hadir')
-                            <span class='label label-success'>Hadir</span>
-                        @elseif (setting('tampilkan_kehadiran') && $data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir')
-                            <span class='label label-danger'><?= ucwords($data['status_kehadiran']) ?></span>
-                        @else
-                            <span class='label label-danger'>Belum Rekam Kehadiran</span>
-                        @endif
+                    <div class="col-xs-3">
+                        <div class="card text-center">
+                            <img class="foto-perangkat" src="{{ $data['foto'] }}" alt="Foto {{ $data['nama'] }}" />
+                            <hr class="line">
+                            <b>
+                                {{ $data['nama'] }}<br>
+                                {{ $data['jabatan'] }}<br>
+                                @if (setting('tampilkan_kehadiran') && $data['status_kehadiran'] == 'hadir')
+                                    <span class='label label-success'>Hadir</span>
+                                @elseif (setting('tampilkan_kehadiran') && $data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir')
+                                    <span class='label label-danger'><?= ucwords($data['status_kehadiran']) ?></span>
+                                @else
+                                    <span class='label label-danger'>Belum Rekam Kehadiran</span>
+                                @endif
+                        </div>
                     </div>
-                </div>
                 @endforeach
             @else
-                <h5>Pemerintah {{ ucwords(setting('sebutan_desa') . ' ' . $nama_desa); }} tidak tersedia.</h5>
+                <h5>Pemerintah {{ ucwords(setting('sebutan_desa') . ' ' . $nama_desa) }} tidak tersedia.</h5>
             @endif
         </div>
     </div>
 
-    @if (setting('tampilan_anjungan') == 1 && ! empty(setting('tampilan_anjungan_slider')))
-    <div id="sliderv" class="video-internal" style="display: none;">
-        <div id="myCarousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                @foreach ($gambar as $key => $value)
-                <div class="item {{ jecho($key, 0, 'active') }}">
-                    <img src="{{ AmbilGaleri($value->gambar, 'sedang') }}" alt="Los Angeles" style="width:100%;">
+    @if (setting('tampilan_anjungan') == 1 && !empty(setting('tampilan_anjungan_slider')))
+        <div id="sliderv" class="video-internal" style="display: none;">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach ($gambar as $key => $value)
+                        <div class="item {{ jecho($key, 0, 'active') }}">
+                            <img src="{{ AmbilGaleri($value->gambar, 'sedang') }}" alt="Los Angeles"
+                                style="width:100%;">
+                        </div>
+                    @endforeach
                 </div>
-                @endforeach
             </div>
         </div>
-    </div>
     @endif
 
-    @if (setting('tampilan_anjungan') == 2 && ! empty(setting('tampilan_anjungan_video')))
-    <div class="video-internal" id="videov" style="display: none;">
-        <video loop {{ jecho(setting('tampilan_anjungan_audio'), 0, 'muted') }} class="video-internal-bg" id="videona">
-            <source src="{{ setting('tampilan_anjungan_video') }}" type="video/mp4">
-        </video>
-    </div>
+    @if (setting('tampilan_anjungan') == 2 && !empty(setting('tampilan_anjungan_video')))
+        <div class="video-internal" id="videov" style="display: none;">
+            <video loop {{ jecho(setting('tampilan_anjungan_audio'), 0, 'muted') }} class="video-internal-bg"
+                id="videona">
+                <source src="{{ setting('tampilan_anjungan_video') }}" type="video/mp4">
+            </video>
+        </div>
     @endif
     <!-- jQuery 3 -->
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
@@ -212,6 +239,9 @@
     <script src="{{ asset('bootstrap/js/id.js') }}"></script>
     {{-- Sweet Alert --}}
     <script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
+    @if (ENVIRONMENT !== 'development')
+        <script src="{{ asset('js/disabled.min.js') }}"></script>
+    @endif
 </body>
 
 </html>
@@ -247,16 +277,17 @@
     });
 
     $('.popup').on('click', function(e) {
-        window.open($(this).data("value"), "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=400,width=600,height=600");
+        window.open($(this).data("value"), "_blank",
+            "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=400,width=600,height=600");
     });
 
     $(document).ready(function() {
-        $('#perangkat').click(function(){
+        $('#perangkat').click(function() {
             Swal.fire({
-                html:$('#daftar-perangkat').html(),
-                confirmButtonText:'Tutup',
-                customClass:{
-                      popup: 'swal-perangkat',
+                html: $('#daftar-perangkat').html(),
+                confirmButtonText: 'Tutup',
+                customClass: {
+                    popup: 'swal-perangkat',
                 }
             })
         });

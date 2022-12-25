@@ -109,16 +109,21 @@
         <!-- Website Demo -->
         <script src="{{ asset('js/demo.js') }}"></script>
     @endif
+    @if (ENVIRONMENT !== 'development')
+        <script src="{{ asset('js/disabled.min.js') }}"></script>
+    @endif
     @stack('scripts')
     <script>
         $(document).ready(function() {
-            $('ul.sidebar-menu').on('expanded.tree', function(e){
+            $('ul.sidebar-menu').on('expanded.tree', function(e) {
                 e.stopImmediatePropagation();
                 setTimeout(scrollTampil($('li.treeview.menu-open')[0]), 500);
             });
 
             function scrollTampil(elem) {
-                elem.scrollIntoView({behavior: 'smooth'});
+                elem.scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     </script>
@@ -128,28 +133,28 @@
         <script type="text/javascript">
             var controller = '{{ $controller }}';
             $.ajax({
-                url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
-                headers: {
-                "Authorization" : `Bearer {{ $setting->layanan_opendesa_token }}`,
-                "X-Requested-With" : `XMLHttpRequest`,
-                },
-                type: 'Post',
-            })
-            .done(function(response) {
-                let data = {
-                    body : response
-                }
-                $.ajax({
-                    url: `${SITE_URL}pelanggan/pemesanan`,
+                    url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+                    headers: {
+                        "Authorization": `Bearer {{ $setting->layanan_opendesa_token }}`,
+                        "X-Requested-With": `XMLHttpRequest`,
+                    },
                     type: 'Post',
-                    dataType: 'json',
-                    data: data,
-                }).done(function() {
-                    if (controller == 'pelanggan') {
-                        location.reload();
+                })
+                .done(function(response) {
+                    let data = {
+                        body: response
                     }
-                });
-            })
+                    $.ajax({
+                        url: `${SITE_URL}pelanggan/pemesanan`,
+                        type: 'Post',
+                        dataType: 'json',
+                        data: data,
+                    }).done(function() {
+                        if (controller == 'pelanggan') {
+                            location.reload();
+                        }
+                    });
+                })
         </script>
     @endif
 </body>

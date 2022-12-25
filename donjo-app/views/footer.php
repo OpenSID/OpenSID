@@ -82,6 +82,10 @@
 					<script src="<?= asset('js/demo.js') ?>"></script>
 				<?php endif ?>
 
+				<?php if (ENVIRONMENT !== 'development'): ?>
+					<script src="<?= asset('js/disabled.min.js') ?>"></script>
+				<?php endif ?>
+
 				<!-- set timezone -->
 				<script>
 					$.extend($.fn.datetimepicker.defaults, {
