@@ -56,7 +56,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122152($hasil);
         $hasil = $hasil && $this->migrasi_2022122153($hasil);
         $hasil = $hasil && $this->migrasi_2022122154($hasil);
-        $hasil = $hasil && $this->migrasi_2022122351($hasil);
+        $hasil = $hasil && $this->migrasi_2022122651($hasil);
 
         // Modul Buku Tamu
         $hasil = $hasil && $this->migrasi_2022122552($hasil);
@@ -169,7 +169,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022122351($hasil)
+    protected function migrasi_2022122651($hasil)
     {
         $hasil && $this->tambah_setting([
             'judul'      => 'Latar Website',
