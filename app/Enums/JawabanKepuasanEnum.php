@@ -37,6 +37,8 @@
 
 namespace App\Enums;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class JawabanKepuasanEnum extends BaseEnum
 {
     public const SANGAT_PUAS = 1;

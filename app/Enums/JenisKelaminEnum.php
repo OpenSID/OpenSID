@@ -37,6 +37,8 @@
 
 namespace App\Enums;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class JenisKelaminEnum extends BaseEnum
 {
     public const LAKI_LAKI = 1;
