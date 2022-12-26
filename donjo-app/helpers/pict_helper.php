@@ -228,7 +228,7 @@ function UploadGambar($fupload_name, $old_gambar)
 
 function AmbilGaleri($foto, $ukuran)
 {
-    return base_url() . LOKASI_GALERI . $ukuran . '_' . $foto;
+    return to_base64(LOKASI_GALERI . $ukuran . '_' . $foto);
 }
 
 // $file_upload = $_FILES['<lokasi>']
@@ -346,7 +346,7 @@ function UploadSimbolx($fupload_name, $old_gambar)
 
 function AmbilFotoArtikel($foto, $ukuran)
 {
-    return base_url() . LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto;
+    return to_base64(default_file(LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto));
 }
 
 function UploadArtikel($fupload_name, $gambar)
@@ -782,4 +782,9 @@ function to_base64($file)
     $data = file_get_contents($file);
 
     return 'data:image/' . $type . ';base64,' . base64_encode($data);
+}
+
+function home_noimage()
+{
+    return to_base64(LOKASI_FILES_LOGO . 'home.png');
 }

@@ -56,3 +56,5 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 21. [#1819](https://github.com/OpenSID/premium/issues/1819) Audit Keamanan - sembunyikan javascript.
 22. [#1733](https://github.com/OpenSID/premium/issues/1733) Audit keamanan - form pengaturan latar belakang.
 23. [#1771](https://github.com/OpenSID/premium/issues/1771) Audit keamanan - form pembangunan.
+24. [#1765](https://github.com/OpenSID/premium/issues/1765) Audit keamanan - form galeri.
+25. [#1808](https://github.com/OpenSID/premium/issues/1808) Audit keamanan - form artikel.
