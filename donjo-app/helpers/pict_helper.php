@@ -104,7 +104,7 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter =
     // Type check
     $namaFile           = is_string($namaFile) ? $namaFile : (string) $namaFile;
     $urlEncode          = is_bool($urlEncode) ? $urlEncode : true;
-    $delimiterUniqueKey = (! is_string($delimiter) || empty($delimiter))
+    $delimiterUniqueKey = (!is_string($delimiter) || empty($delimiter))
         ? '__sid__' : $delimiter;
 
     // Pastikan nama file tidak mengandung string milik $this->delimiterUniqueKey
@@ -131,17 +131,17 @@ function AmbilFoto($foto, $ukuran = 'kecil_', $sex = '1')
         $ukuran    = ($ukuran == 'kecil_') ? 'kecil_' : '';
         $file_foto = LOKASI_USER_PICT . $ukuran . $foto;
 
-        if (! file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto)) {
+        if (!file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto)) {
             $file_foto = Foto_Default(null, $sex);
         }
     }
 
-    return to_base64($file_foto);
+    return site_url('tampil/' . encrypt($file_foto));
 }
 
 function Foto_Default($foto, $sex = 1)
 {
-    if (! in_array($foto, ['kuser.png', 'wuser.png']) && ! empty($foto)) {
+    if (!in_array($foto, ['kuser.png', 'wuser.png']) && !empty($foto)) {
         return $foto;
     }
     if (($foto == 'kuser.png') || $sex == 1) {
@@ -170,7 +170,7 @@ function UploadFoto($fupload_name, $old_foto)
     $ci->load->library('MY_Upload', null, 'upload');
     $ci->upload->initialize($config);
 
-    if (! $ci->upload->do_upload('foto')) {
+    if (!$ci->upload->do_upload('foto')) {
         session_error($ci->upload->display_errors());
 
         redirect($_SERVER['HTTP_REFERER']);
@@ -228,7 +228,7 @@ function UploadGambar($fupload_name, $old_gambar)
 
 function AmbilGaleri($foto, $ukuran)
 {
-    return base_url() . LOKASI_GALERI . $ukuran . '_' . $foto;
+    return to_base64(LOKASI_GALERI . $ukuran . '_' . $foto);
 }
 
 // $file_upload = $_FILES['<lokasi>']
@@ -277,7 +277,7 @@ function CekGambar($file_upload, $tipe_file)
     $nama_file = $file_upload['name'];
     $ext       = get_extension($nama_file);
 
-    if (! in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR)) || ! in_array($ext, unserialize(EXT_GAMBAR))) {
+    if (!in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR)) || !in_array($ext, unserialize(EXT_GAMBAR))) {
         $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file . ' ' . $ext;
 
         return false;
@@ -294,7 +294,7 @@ function UploadGallery($fupload_name, $old_foto = '', $tipe_file = '')
     $ci->load->library('upload');
     $ci->upload->initialize($config);
 
-    if (! $ci->upload->do_upload('gambar')) {
+    if (!$ci->upload->do_upload('gambar')) {
         session_error($ci->upload->display_errors());
     } else {
         $uploadedImage = $ci->upload->data();
@@ -346,7 +346,7 @@ function UploadSimbolx($fupload_name, $old_gambar)
 
 function AmbilFotoArtikel($foto, $ukuran)
 {
-    return base_url() . LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto;
+    return to_base64(default_file(LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto));
 }
 
 function UploadArtikel($fupload_name, $gambar)
@@ -357,7 +357,7 @@ function UploadArtikel($fupload_name, $gambar)
     $ci->load->library('upload');
     $ci->upload->initialize($config);
 
-    if (! $ci->upload->do_upload($gambar)) {
+    if (!$ci->upload->do_upload($gambar)) {
         session_error($ci->upload->display_errors());
     } else {
         $uploadedImage = $ci->upload->data();
@@ -389,7 +389,7 @@ function UploadPeta($fupload_name, $lokasi, $old_foto = null)
         'allowed_types' => 'gif|jpg|png|jpeg',
     ]);
 
-    if (! $ci->upload->do_upload('foto')) {
+    if (!$ci->upload->do_upload('foto')) {
         session_error($ci->upload->display_errors(null, null));
 
         redirect($_SERVER['HTTP_REFERER']);
@@ -429,7 +429,7 @@ function ResizeGambar($filename, $path, $dimensi)
 
     $ci->load->library('image_lib');
     $ci->image_lib->initialize($config_manip);
-    if (! $ci->image_lib->resize()) {
+    if (!$ci->image_lib->resize()) {
         session_error($ci->image_lib->display_errors());
 
         return false;
@@ -442,7 +442,7 @@ function resizeImage($filepath_in, $tipe_file, $dimensi, $filepath_out = '')
 {
     // Hanya bisa resize jpeg atau png
     $mime_type_image = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png'];
-    if (! in_array($tipe_file, $mime_type_image)) {
+    if (!in_array($tipe_file, $mime_type_image)) {
         $_SESSION['error_msg'] .= ' -> Jenis file tidak bisa di-resize: ' . $tipe_file;
         $_SESSION['success'] = -1;
 
@@ -516,7 +516,7 @@ function UploadResizeImage($lokasi, $dimensi, $jenis_upload, $fupload_name, $nam
     $mime_type_image = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png'];
     $ext_type_image  = ['.jpg', '.jpeg', '.png'];
     $ext             = get_extension($fupload_name);
-    if (! in_array($tipe_file, $mime_type_image) || ! in_array($ext, $ext_type_image)) {
+    if (!in_array($tipe_file, $mime_type_image) || !in_array($ext, $ext_type_image)) {
         $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file;
         $_SESSION['success'] = -1;
 
@@ -524,7 +524,7 @@ function UploadResizeImage($lokasi, $dimensi, $jenis_upload, $fupload_name, $nam
     }
 
     $vdir_upload = $lokasi;
-    if (! empty($old_foto)) {
+    if (!empty($old_foto)) {
         unlink($vdir_upload . $old_foto);
     }
     $filepath_in  = $vdir_upload . $fupload_name;
@@ -672,7 +672,7 @@ function periksa_file($upload, $mime_types, $exts)
     $nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
     $ext       = get_extension($nama_file);
 
-    if (! in_array($tipe_file, $mime_types) || ! in_array($ext, $exts)) {
+    if (!in_array($tipe_file, $mime_types) || !in_array($ext, $exts)) {
         return ' -> Jenis file salah: ' . $tipe_file . ' ' . $ext;
     }
     if (isPHP($lokasi_file, $nama_file)) {
@@ -689,7 +689,7 @@ function qrcode_generate(array $qrcode = [], $base64 = false)
 
     $barcodeobj = new TCPDF2DBarcode($qrcode['isiqr'], 'QRCODE,H');
 
-    if (! empty($foreqr)) {
+    if (!empty($foreqr)) {
         if ($foreqr[0] == '#') {
             $foreqr = substr($foreqr, 1);
         }
@@ -782,4 +782,9 @@ function to_base64($file)
     $data = file_get_contents($file);
 
     return 'data:image/' . $type . ';base64,' . base64_encode($data);
+}
+
+function home_noimage()
+{
+    return to_base64(LOKASI_FILES_LOGO . 'home.png');
 }

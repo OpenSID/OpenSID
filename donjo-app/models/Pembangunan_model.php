@@ -192,7 +192,7 @@ class Pembangunan_model extends MY_Model
         $this->uploadConfig = [
             'upload_path'   => LOKASI_GALERI,
             'allowed_types' => 'jpg|jpeg|png',
-            'max_size'      => max_upload() * 1024,
+            'max_size'      => 1024, // 1 MB
         ];
         $this->upload->initialize($this->uploadConfig);
 
@@ -223,11 +223,13 @@ class Pembangunan_model extends MY_Model
             // Ganti nama di array upload jika file berhasil di-rename --
             // jika rename gagal, fallback ke nama asli
             $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+
+            // Hapus file lama
+            unlink(LOKASI_GALERI . $this->input->post('old_foto'));
         }
         // Upload gagal
         else {
-            $this->session->success   = -1;
-            $this->session->error_msg = $this->upload->display_errors(null, null);
+            session_error($this->upload->display_errors(null, null));
 
             return redirect('admin_pembangunan');
         }
@@ -246,7 +248,14 @@ class Pembangunan_model extends MY_Model
 
     public function delete($id)
     {
-        return $this->db->where('id', $id)->delete($this->table);
+        $data = $this->find($id);
+
+        if ($outp = $this->db->where('id', $id)->delete($this->table)) {
+            // Hapus file
+            unlink(LOKASI_GALERI . $data->foto);
+        }
+
+        status_sukses($outp);
     }
 
     public function find($id)

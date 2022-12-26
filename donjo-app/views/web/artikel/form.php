@@ -89,7 +89,7 @@
 										<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar'], 'kecil') ?>" alt="Gambar Utama">
 										<p class="text-center"><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $artikel['gambar'] ?>" /> Hapus Gambar</label></p>
 									<?php else : ?>
-										<img class="profile-user-img img-responsive img-circle" src="<?= base_url() ?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
+										<img class="profile-user-img img-responsive img-circle" src="<?= home_noimage() ?>" alt="Tidak Ada Gambar">
 									<?php endif; ?>
 									<label class="control-label" for="gambar">Gambar Utama</label>
 									<div class="input-group input-group-sm">
@@ -108,7 +108,7 @@
 										<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar1'], 'kecil') ?>" alt="Gambar Utama">
 										<p class="text-center"><label class="control-label"><input type="checkbox" name="gambar1_hapus" value="<?= $artikel['gambar1'] ?>" /> Hapus Gambar</label></p>
 									<?php else : ?>
-										<img class="profile-user-img img-responsive img-circle" src="<?= base_url() ?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
+										<img class="profile-user-img img-responsive img-circle" src="<?= home_noimage() ?>" alt="Tidak Ada Gambar">
 									<?php endif; ?>
 									<label class="control-label" for="gambar1">Gambar Tambahan</label>
 									<div class="input-group input-group-sm">
@@ -127,7 +127,7 @@
 										<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar2'], 'kecil') ?>" alt="Gambar Utama">
 										<p class="text-center"><label class="control-label"><input type="checkbox" name="gambar2_hapus" value="<?= $artikel['gambar2'] ?>" /> Hapus Gambar</label></p>
 									<?php else : ?>
-										<img class="profile-user-img img-responsive img-circle" src="<?= base_url() ?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
+										<img class="profile-user-img img-responsive img-circle" src="<?= home_noimage() ?>" alt="Tidak Ada Gambar">
 									<?php endif; ?>
 									<label class="control-label" for="gambar2">Gambar Tambahan</label>
 									<div class="input-group input-group-sm">
@@ -146,7 +146,7 @@
 										<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFotoArtikel($artikel['gambar3'], 'kecil') ?>" alt="Gambar Utama">
 										<p class="text-center"><label class="control-label"><input type="checkbox" name="gambar3_hapus" value="<?= $artikel['gambar3'] ?>" /> Hapus Gambar</label></p>
 									<?php else : ?>
-										<img class="profile-user-img img-responsive img-circle" src="<?= base_url() ?>assets/files/logo/home.png" alt="Tidak Ada Gambar">
+										<img class="profile-user-img img-responsive img-circle" src="<?= home_noimage() ?>" alt="Tidak Ada Gambar">
 									<?php endif; ?>
 									<label class="control-label" for="gambar3">Gambar Tambahan</label>
 									<div class="input-group input-group-sm">

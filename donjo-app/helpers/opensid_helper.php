@@ -195,13 +195,13 @@ function favico_desa($favico = 'favicon.ico')
 function gambar_desa($nama_file, $type = false, $file = false)
 {
     if (is_file(FCPATH . LOKASI_LOGO_DESA . $nama_file)) {
-        return ($file ? FCPATH : base_url()) . LOKASI_LOGO_DESA . $nama_file;
+        return $file ? FCPATH : to_base64(LOKASI_LOGO_DESA . $nama_file);
     }
 
     // type FALSE = logo, TRUE = kantor
     $default = ($type) ? 'opensid_kantor.jpg' : 'opensid_logo.png';
 
-    return ($file ? FCPATH : base_url()) . "assets/files/logo/{$default}";
+    return $file ? FCPATH : to_base64("assets/files/logo/{$default}");
 }
 
 function session_error($pesan = '')

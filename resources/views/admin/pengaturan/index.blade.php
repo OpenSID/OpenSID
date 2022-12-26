@@ -27,7 +27,7 @@
                         </div>
                         <div class="box-body box-profile text-center">
                             <img class="img-responsive"
-                                src="{{ asset($latar_website ?: 'assets/front/css/images/latar_website.jpg?v', false) }}"
+                                src="{{ $latar_website }}"
                                 alt="Latar Halaman Website" width="100%">
                             <p class="text-muted text-center text-red">(Kosongkan, jika latar website tidak berubah)</p>
                             <div class="input-group">
@@ -47,7 +47,7 @@
                             <b>Latar Login Admin</b>
                         </div>
                         <div class="box-body box-profile text-center">
-                            <img class="img-responsive" src="{{ default_file(LATAR_SITEMAN, DEFAULT_LATAR_SITEMAN) }}"
+                            <img class="img-responsive" src="{{ $latar_siteman }}"
                                 alt="Latar Halaman Login" width="100%">
                             <p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
                             <div class="input-group">

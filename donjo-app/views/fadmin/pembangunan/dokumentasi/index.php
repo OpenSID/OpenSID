@@ -119,7 +119,7 @@
 				{
 					'data': function (data) {
 						if (data.gambar) {
-							return `<img src="<?= base_url(LOKASI_GALERI) ?>${data.gambar}" class="penduduk_kecil" alt="Foto Dokumentasi">`
+							return `<img src="${data.url_gambar}" class="penduduk_kecil" alt="Foto Dokumentasi">`
 						}
 						return null
 					}, 'class': 'padat'

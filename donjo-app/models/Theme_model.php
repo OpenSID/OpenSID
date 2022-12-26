@@ -77,7 +77,7 @@ class Theme_model extends CI_Model
     // Mengambil latar belakang website ubahan
     public function latar_website()
     {
-        $ubahan_tema   = "desa/pengaturan/{$this->tema}/images/latar_website.jpg";
+        $ubahan_tema   = "desa/pengaturan/{$this->tema}/images/";
         $bawaan_tema   = "{$this->folder}/{$this->tema}/assets/css/images/latar_website.jpg";
         $latar_website = is_file($ubahan_tema) ? $ubahan_tema : $bawaan_tema;
 

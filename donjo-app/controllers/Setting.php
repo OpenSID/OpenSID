@@ -53,7 +53,8 @@ class Setting extends Admin_Controller
             'judul'               => 'Pengaturan Aplikasi',
             'pengaturan_kategori' => ['sistem', 'peta', 'web_theme', 'readonly', 'web', 'mobile'],
             'atur_latar'          => true,
-            'latar_website'       => $this->theme_model->latar_website(),
+            'latar_website'       => to_base64(default_file($this->theme_model->lokasi_latar_website() . $this->setting->latar_website ?: 'assets/front/css/images/latar_website.jpg?v', false)),
+            'latar_siteman'       => to_base64(default_file(LATAR_LOGIN . $this->setting->latar_login, DEFAULT_LATAR_SITEMAN)),
         ];
 
         return view('admin.pengaturan.index', $data);
@@ -117,7 +118,7 @@ class Setting extends Admin_Controller
             'pengaturan_kategori' => ['setting_mandiri'],
             'atur_latar'          => true,
             'aksi_controller'     => 'setting/mandiri',
-            'latar_mandiri'       => to_base64(default_file(LATAR_LOGIN . $this->setting_model->latar_login_mandiri(), DEFAULT_LATAR_KEHADIRAN)),
+            'latar_mandiri'       => to_base64(default_file(LATAR_LOGIN . $this->setting->latar_login_mandiri, DEFAULT_LATAR_KEHADIRAN)),
         ];
 
         return view('admin.pengaturan.index', $data);

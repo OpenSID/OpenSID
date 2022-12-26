@@ -149,6 +149,7 @@ define('BACKUPPATH', 'backup_inkremental' . DIRECTORY_SEPARATOR);
  * Folder dan file pada folder sistem.
  */
 // Folder
+define('LOKASI_FILES_LOGO', 'assets/files/logo/');
 define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
 define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
 define('PENDAPAT', 'assets/images/layanan_mandiri/');

@@ -35,7 +35,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 23. [#1756](https://github.com/OpenSID/premium/issues/1756) Perbaikan perbarui dan hapus data area tidak menghapus file unggahan.
 24. [#6103](https://github.com/OpenSID/OpenSID/issues/6103) Perbaikan tema esensi artikel home posisi tidak pada tempatnya.
 25. [#1816](https://github.com/OpenSID/premium/issues/1816) Perbaikan perbarui dan hapus data garis tidak menghapus file unggahan.
-26. [#1834](https://github.com/OpenSID/premium/issues/1834)Perbaikan mengilangkan file yang telah di hapus dari folder desa untuk inputan lokasi.
+26. [#1834](https://github.com/OpenSID/premium/issues/1834) Perbaikan mengilangkan file yang telah di hapus dari folder desa untuk inputan lokasi.
 
 #### Perubahan Teknis
 
@@ -59,3 +59,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 18. [#1738](https://github.com/OpenSID/premium/issues/1738) Audit Keamanan - penyesuaian proses_sinkronkan() upload file zip dengan penyimpanan sementara.
 19. [#1740](https://github.com/OpenSID/premium/issues/1740) Audit Keamanan - proses import program bantuan.
 20. [#1770](https://github.com/OpenSID/premium/issues/1770) Audit Keamanan - form produk lapak.
+21. [#1819](https://github.com/OpenSID/premium/issues/1819) Audit Keamanan - sembunyikan javascript.
+22. [#1733](https://github.com/OpenSID/premium/issues/1733) Audit keamanan - form pengaturan latar belakang.
+23. [#1771](https://github.com/OpenSID/premium/issues/1771) Audit keamanan - form pembangunan.
+24. [#1765](https://github.com/OpenSID/premium/issues/1765) Audit keamanan - form galeri.
+25. [#1808](https://github.com/OpenSID/premium/issues/1808) Audit keamanan - form artikel.

@@ -56,7 +56,7 @@
 					<tr>
 						<td class="text-center">
 							<h4><?= $value->keterangan . ' ' . $value->persentase ?></h4>
-							<img class="gambar-pembangunan" src="<?= base_url() . LOKASI_GALERI . $value->gambar ?>" width="400" height="200" alt="<?= $pembangunan->judul ?>">
+							<img class="gambar-pembangunan" src="<?= to_base64(LOKASI_GALERI . $value->gambar) ?>" width="400" height="200" alt="<?= $pembangunan->judul ?>">
 						</td>
 					</tr>
 					<tr>
