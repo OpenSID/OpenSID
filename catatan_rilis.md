@@ -31,6 +31,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 25. [#1816](https://github.com/OpenSID/premium/issues/1816) Perbaikan perbarui dan hapus data garis tidak menghapus file unggahan.
 26. [#1834](https://github.com/OpenSID/premium/issues/1834) Perbaikan mengilangkan file yang telah di hapus dari folder desa untuk inputan lokasi.
 27. [#1849](https://github.com/OpenSID/premium/issues/1849) Perbaikan gagal migrasi pada rev04.
+28. [#1850](https://github.com/OpenSID/premium/issues/1850) Perbaikan jalankan migrasi Loading terus karena gagal komunikasi dengan api layanan.
 
 #### Perubahan Teknis
 
