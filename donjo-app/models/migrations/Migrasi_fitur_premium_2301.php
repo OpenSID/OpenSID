@@ -119,7 +119,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
                 continue;
             }
 
-            $hasil = $hasil && unlink(LOKASI_FOTO_AREA . $file);
+            unlink(LOKASI_FOTO_AREA . $file);
         }
 
         return $hasil;
@@ -134,7 +134,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
                 continue;
             }
 
-            $hasil = $hasil && unlink(LOKASI_FOTO_GARIS . $file);
+            unlink(LOKASI_FOTO_GARIS . $file);
         }
 
         return $hasil;
@@ -163,7 +163,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
                 continue;
             }
 
-            $hasil = $hasil && unlink(LOKASI_FOTO_LOKASI . $file);
+            unlink(LOKASI_FOTO_LOKASI . $file);
         }
 
         return $hasil;

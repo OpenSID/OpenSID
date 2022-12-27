@@ -346,7 +346,7 @@ function UploadSimbolx($fupload_name, $old_gambar)
 
 function AmbilFotoArtikel($foto, $ukuran)
 {
-    return to_base64(default_file(LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto));
+    return to_base64(LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto);
 }
 
 function UploadArtikel($fupload_name, $gambar)
