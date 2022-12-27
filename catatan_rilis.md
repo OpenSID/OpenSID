@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.12-premium-rev04 ditambahkan [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.12-premium-rev05 ditambahkan [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
@@ -30,6 +30,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 24. [#6103](https://github.com/OpenSID/OpenSID/issues/6103) Perbaikan tema esensi artikel home posisi tidak pada tempatnya.
 25. [#1816](https://github.com/OpenSID/premium/issues/1816) Perbaikan perbarui dan hapus data garis tidak menghapus file unggahan.
 26. [#1834](https://github.com/OpenSID/premium/issues/1834) Perbaikan mengilangkan file yang telah di hapus dari folder desa untuk inputan lokasi.
+27. [#1849](https://github.com/OpenSID/premium/issues/1849) Perbaikan gagal migrasi pada rev04.
 
 #### Perubahan Teknis
 
