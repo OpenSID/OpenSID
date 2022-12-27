@@ -53,7 +53,7 @@ class Setting extends Admin_Controller
             'judul'               => 'Pengaturan Aplikasi',
             'pengaturan_kategori' => ['sistem', 'peta', 'web_theme', 'readonly', 'web', 'mobile'],
             'atur_latar'          => true,
-            'latar_website'       => to_base64(default_file($this->theme_model->lokasi_latar_website() . $this->setting->latar_website ?: 'assets/front/css/images/latar_website.jpg?v', false)),
+            'latar_website'       => to_base64(default_file($this->theme_model->lokasi_latar_website() . $this->setting->latar_website, DEFAULT_LATAR_WEBSITE)),
             'latar_siteman'       => to_base64(default_file(LATAR_LOGIN . $this->setting->latar_login, DEFAULT_LATAR_SITEMAN)),
         ];
 

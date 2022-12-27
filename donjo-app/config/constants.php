@@ -161,6 +161,7 @@ define('DEFAULT_LOKASI_TEMA', 'vendor/themes/');
 // File
 define('DEFAULT_LATAR_SITEMAN', 'assets/css/images/latar_login.jpg');
 define('DEFAULT_LATAR_KEHADIRAN', 'assets/css/images/latar_login_mandiri.jpg');
+define('DEFAULT_LATAR_WEBSITE', 'assets/front/css/images/latar_website.jpg');
 define('GAMBAR_QRCODE', 'assets/images/opensid.png');
 define('LOGO_GARUDA', 'assets/images/garuda.png');
 define('LOGO_BSRE', 'assets/images/bsre.png');
