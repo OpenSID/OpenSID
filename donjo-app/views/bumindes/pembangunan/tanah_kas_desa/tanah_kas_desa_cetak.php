@@ -2,11 +2,6 @@
     <tbody>
         <tr>
             <td class="text-center">
-                <h4>BUKU TANAH KAS DESA</h4>
-            </td>
-        </tr>
-        <tr>
-            <td class="text-center">
                 <h4>BUKU TANAH KAS DESA BULAN <?= strtoupper(getBulan($bulan)) ?> TAHUN <?= $tahun ?></h4>
             </td>
         </tr>
@@ -81,14 +76,14 @@
                     </thead>
                     <tbody>
                         <?php
-                            $count = 1;
+                        $count = 1;
 
-                foreach ($main as $data):
+                foreach ($main as $data) :
                     ?>
                             <tr>
                                 <td class="text-left"><?= $count ?></td>
-                                <td><?= strtoupper($data['asal'])?></td>
-                                <td class="text-left"><?= $data['letter_c']?></td>
+                                <td><?= strtoupper($data['asal']) ?></td>
+                                <td class="text-left"><?= $data['letter_c'] ?></td>
                                 <td><?= strtoupper($data['luas']) ?></td>
                                 <td><?= strtoupper($data['kode']) ?></td>
                                 <td class="text-center"><?= $data['asli_milik_desa'] ?: '' ?></td>
@@ -112,7 +107,7 @@
                                 <td><?= strtoupper($data['keterangan']) ?></td>
                             </tr>
                         <?php
-        $count++;
+                        $count++;
                 endforeach;
                 ?>
                     </tbody>
