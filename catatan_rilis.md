@@ -8,6 +8,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. [#6125](https://github.com/OpenSID/OpenSID/issues/6125) Sediakan informasi tag qrcode ketika pengaturan TTE camat diaktifkan.
 3. [#5340](https://github.com/OpenSID/OpenSID/issues/5340) Penambahan buku tamu.
 4. [#5259](https://github.com/OpenSID/OpenSID/issues/5259) Tambahkan lampiran F-2.01 pada format suket kelahiran.
+5. [#4515](https://github.com/OpenSID/OpenSID/issues/4515) Tambahkan lampiran F-1.06 pada format surat keterangan beda identitas.
 
 #### Perbaikan BUG
 

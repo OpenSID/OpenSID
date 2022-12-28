@@ -56,6 +56,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122152($hasil);
         $hasil = $hasil && $this->migrasi_2022122153($hasil);
         $hasil = $hasil && $this->migrasi_2022122154($hasil);
+        $hasil = $hasil && $this->migrasi_2022122371($hasil);
         $hasil = $hasil && $this->migrasi_2022122651($hasil);
 
         // Modul Buku Tamu
@@ -420,5 +421,16 @@ class Migrasi_fitur_premium_2301 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022122371($hasil)
+    {
+        return $hasil && $this->db
+            ->set([
+                'lampiran'   => 'F-1.06',
+                'updated_at' => date('Y-m-d H:i:s'),
+            ])
+            ->where('url_surat', 'surat-keterangan-beda-identitas')
+            ->update('tweb_surat_format');
     }
 }
