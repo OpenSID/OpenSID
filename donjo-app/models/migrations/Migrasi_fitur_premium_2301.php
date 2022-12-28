@@ -57,6 +57,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122154($hasil);
         $hasil = $hasil && $this->migrasi_2022122751($hasil);
         $hasil = $hasil && $this->migrasi_2022122851($hasil);
+        $hasil = $hasil && $this->migrasi_2022122852($hasil);
 
         return $hasil && true;
     }
@@ -178,6 +179,26 @@ class Migrasi_fitur_premium_2301 extends MY_model
                 ->where('nama', 'Keputusan Kades')
                 ->set('nama', 'Keputusan Kepala Desa')
                 ->update('ref_dokumen');
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022122852($hasil)
+    {
+        $check = $this->db
+            ->where_in('nama', [
+                'Jual Beli',
+                'Hibah / Sumbangan',
+                'Lain - lain',
+            ])
+            ->get('ref_asal_tanah_kas')
+            ->result_array();
+
+        if ($check) {
+            $hasil = $hasil && $this->db->update('ref_asal_tanah_kas', ['nama' => 'APB Desa'], ['nama' => 'Jual Beli']);
+            $hasil = $hasil && $this->db->update('ref_asal_tanah_kas', ['nama' => 'Perolehan Lainnya yang Sah'], ['nama' => 'Hibah / Sumbangan']);
+            $hasil = $hasil && $this->db->update('ref_asal_tanah_kas', ['nama' => 'Kekayaan Asli Desa'], ['nama' => 'Lain - lain']);
         }
 
         return $hasil;

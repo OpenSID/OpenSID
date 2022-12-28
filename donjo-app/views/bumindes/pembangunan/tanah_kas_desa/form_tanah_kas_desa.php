@@ -315,10 +315,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" style="text-align:left;" for="peruntukan">Peruntukan</label>
+                        <label class="col-sm-3 control-label" style="text-align:left;" for="peruntukan">Pemanfaatan</label>
                         <div class="col-sm-4">
                             <select name="peruntukan" id="peruntukan" class="form-control input-sm required">
-                                <option value>-- Peruntukan Tanah--</option>
+                                <option value>-- Pemanfaatan Tanah--</option>
                                 <?php foreach ($list_peruntukan as $item): ?>
                                 <option value="<?= $item['id']?>" <?php selected($item['id'], $main->peruntukan) ?>><?= $item['nama']?></option>
                                 <?php endforeach ?>
