@@ -35,6 +35,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 29. [#6133](https://github.com/OpenSID/OpenSID/issues/6133) Penyesuaian tampilan redaksi keputusan kades menjadi keputusan kepala desa pada tampilan web produk hukum.
 30. [#6134](https://github.com/OpenSID/OpenSID/issues/6134) Penyesuaian asal tanah kas desa di buku tanah kas desa.
 31. [#6135](https://github.com/OpenSID/OpenSID/issues/6135) Perbaikan hapus judul buku tanah desa pada saat cetak.
+32. [#6148](https://github.com/OpenSID/OpenSID/issues/6148) Perbaikan data pendidikan pada konfirmasi penduduk cetak surat tinymce.
 
 #### Perubahan Teknis
 
