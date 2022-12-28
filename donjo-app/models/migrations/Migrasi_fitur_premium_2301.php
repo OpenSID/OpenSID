@@ -80,7 +80,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
 
     protected function migrasi_2022120751($hasil)
     {
-        if (!$this->db->field_exists('kecamatan', 'tweb_surat_format')) {
+        if (! $this->db->field_exists('kecamatan', 'tweb_surat_format')) {
             $fields = [
                 'kecamatan' => [
                     'type'       => 'tinyint',
@@ -265,7 +265,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         ]);
 
         // Tabel buku_keperluan
-        if (!$this->db->table_exists('buku_keperluan')) {
+        if (! $this->db->table_exists('buku_keperluan')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -295,7 +295,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         }
 
         // Tabel buku_pertanyaan
-        if (!$this->db->table_exists('buku_pertanyaan')) {
+        if (! $this->db->table_exists('buku_pertanyaan')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -325,7 +325,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         }
 
         // Tabel buku_kepuasan
-        if (!$this->db->table_exists('buku_kepuasan')) {
+        if (! $this->db->table_exists('buku_kepuasan')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -359,7 +359,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         }
 
         // Tabel buku_tamu
-        if (!$this->db->table_exists('buku_tamu')) {
+        if (! $this->db->table_exists('buku_tamu')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
