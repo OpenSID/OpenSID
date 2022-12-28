@@ -32,6 +32,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 26. [#1834](https://github.com/OpenSID/premium/issues/1834) Perbaikan mengilangkan file yang telah di hapus dari folder desa untuk inputan lokasi.
 27. [#1849](https://github.com/OpenSID/premium/issues/1849) Perbaikan gagal migrasi pada rev04.
 28. [#1850](https://github.com/OpenSID/premium/issues/1850) Perbaikan jalankan migrasi Loading terus karena gagal komunikasi dengan api layanan.
+29. [#6133](https://github.com/OpenSID/OpenSID/issues/6133) Sesuaikan tampilan redaksi keputusan kades menjadi keputusan kepala desa pada tampilan web produk hukum.
 
 #### Perubahan Teknis
 

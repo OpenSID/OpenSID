@@ -56,6 +56,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122153($hasil);
         $hasil = $hasil && $this->migrasi_2022122154($hasil);
         $hasil = $hasil && $this->migrasi_2022122751($hasil);
+        $hasil = $hasil && $this->migrasi_2022122851($hasil);
 
         return $hasil && true;
     }
@@ -166,6 +167,18 @@ class Migrasi_fitur_premium_2301 extends MY_model
             'jenis'      => 'unggah',
             'kategori'   => 'latar',
         ]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022122851($hasil)
+    {
+        if ($this->db->where('nama', 'Keputusan Kades')->get('ref_dokumen')->row()) {
+            $hasil = $hasil && $this->db
+                ->where('nama', 'Keputusan Kades')
+                ->set('nama', 'Keputusan Kepala Desa')
+                ->update('ref_dokumen');
+        }
 
         return $hasil;
     }
