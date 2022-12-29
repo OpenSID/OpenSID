@@ -1500,3 +1500,17 @@ if (! function_exists('decrypt')) {
         return $result;
     }
 }
+
+if (! function_exists('form_kode_isian')) {
+    /**
+     * - Fungsi untuk bersihkan kode isian.
+     *
+     * @param string $str
+     *
+     * @return string
+     */
+    function form_kode_isian($str)
+    {
+        return '[form_' . preg_replace('/\s+/', '_', preg_replace('/[^A-Za-z0-9& ]/', '', strtolower($str))) . ']';
+    }
+}
