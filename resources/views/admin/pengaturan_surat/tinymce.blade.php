@@ -78,6 +78,12 @@
                         <td>Atribut</td>
                         <td>Aksi</td>
                     </tr>
+                    <tr>
+                        <td colspan="5">
+                            <button type="button" class="btn btn-success btn-sm btn-block tambah-kode"><i
+                                    class="fa fa-plus"></i></button>
+                        </td>
+                    </tr>
                     @forelse ($suratMaster->kode_isian as $key => $value)
                         <tr class="duplikasi" id="gandakan-{{ $key }}">
                             <td>
@@ -120,12 +126,6 @@
                             </td>
                         </tr>
                     @endforelse
-                    <tr>
-                        <td colspan="5">
-                            <button type="button" class="btn btn-success btn-sm btn-block tambah-kode"><i
-                                    class="fa fa-plus"></i></button>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -142,21 +142,22 @@
             $('.tambah-kode').on('click', function() {
                 var editElm;
                 counter++;
-                key++;
                 $("#gandakan-0").clone(true)
                     .map(function() {
                         editElm = $(this)
-                            .attr('id', 'gandakan-' + key)
+                            .attr('id', 'gandakan-' + counter)
                             .find('select')
                             .end();
                     });
 
-                if ($("#gandakan-" + (key - 1)).length) {
-                    $("#gandakan-" + (key - 1)).after(editElm);
+                if ($("#gandakan-" + (counter - 1)).length) {
+                    $("#gandakan-" + (counter - 1)).before(editElm);
                 } else {
-                    $("#gandakan-0").after(editElm);
+                    $("#gandakan-0").before(editElm);
                 }
-                $("#gandakan-" + key).find('input').val('');
+                $("#gandakan-" + counter).find('input').val('');
+                $("#gandakan-" + counter).find('select').change(0);
+                $("#gandakan-" + counter + " option:selected").removeAttr('selected');
 
                 $('.duplikasi').find("button").show();
                 $('#gandakan-0').find("button").hide();
