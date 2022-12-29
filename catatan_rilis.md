@@ -72,3 +72,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 26. [#1811](https://github.com/OpenSID/premium/issues/1811) Audit keamanan - to_base64 gambar barcode pada peta.
 27. [#1774](https://github.com/OpenSID/premium/issues/1774) Audit keamanan - keamanan form pengaduan.
 28. [#1766](https://github.com/OpenSID/premium/issues/1766) Audit keamanan - form manajemen pengguna.
+29. [#1791](https://github.com/OpenSID/premium/issues/1791) Audit keamanan - to_base64 semua gambar form login & reset password.
