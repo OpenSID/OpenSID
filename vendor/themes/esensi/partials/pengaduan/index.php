@@ -64,8 +64,9 @@
               <div class="w-full py-2 space-y-2">
                 <p class="text-muted text-xs lg:text-sm">Pengaduan oleh <?= $value['nama']; ?> | <?= $value['created_at'] ?></p>
                 <p class="italic">"<?= $value['isi'] ?></p>
-                <?php if ($value['foto']) : ?>
-                  <img class="w-auto max-w-full" src="<?= base_url(LOKASI_PENGADUAN . $value['foto']); ?>">
+                <?php $file_foto = LOKASI_PENGADUAN . $value['foto']; ?>
+                <?php if (file_exists(FCPATH . $file_foto)) : ?>
+                  <img class="w-auto max-w-full" src="<?= to_base64($file_foto) ?>">
                 <?php endif; ?>
               </div>
               <?php foreach ($pengaduan_balas as $keyna => $valuena) : ?>

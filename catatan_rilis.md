@@ -70,3 +70,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 24. [#1765](https://github.com/OpenSID/premium/issues/1765) Audit keamanan - form galeri.
 25. [#1808](https://github.com/OpenSID/premium/issues/1808) Audit keamanan - form artikel.
 26. [#1811](https://github.com/OpenSID/premium/issues/1811) Audit keamanan - to_base64 gambar barcode pada peta.
+27. [#1774](https://github.com/OpenSID/premium/issues/1774) Audit keamanan - keamanan form pengaduan.
