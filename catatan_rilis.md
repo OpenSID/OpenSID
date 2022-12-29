@@ -37,6 +37,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 31. [#6135](https://github.com/OpenSID/OpenSID/issues/6135) Perbaikan hapus judul buku tanah desa pada saat cetak.
 32. [#6148](https://github.com/OpenSID/OpenSID/issues/6148) Perbaikan data pendidikan pada konfirmasi penduduk cetak surat tinymce.
 33. [#6137](https://github.com/OpenSID/OpenSID/issues/6137) Perbaikan photo profi hilang di bagan aparatur desa.
+34. [#6136](https://github.com/OpenSID/OpenSID/issues/6136) Penyesuaian informasi gagal hapus karena kondisi tertentu pada hapus dusun/rw/rt.
 
 #### Perubahan Teknis
 

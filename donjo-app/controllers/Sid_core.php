@@ -147,10 +147,9 @@ class Sid_core extends Admin_Controller
     //Delete dusun/rw/rt tergantung tipe
     public function delete($tipe = '', $id = '')
     {
-        $kembali = $_SERVER['HTTP_REFERER'];
         $this->redirect_hak_akses('h');
         $this->wilayah_model->delete($tipe, $id);
-        redirect($kembali);
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function sub_rw($id_dusun = '', $p = 1, $o = 0)
