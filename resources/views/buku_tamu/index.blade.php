@@ -22,8 +22,7 @@
                         <div class="page-title d-flex flex-column me-3">
                             <div class="d-flex flex-wrap flex-sm-nowrap">
                                 <div class="me-7 mb-4">
-                                    <img src="{{ gambar_desa($desa->logo) }}" alt="{{ $desa->nama_desa }}"
-                                        style="max-height: 100px">
+                                    <img src="{{ gambar_desa($desa->logo) }}" alt="{{ $desa->nama_desa }}" style="max-height: 100px">
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
@@ -38,15 +37,15 @@
                                                 {{ strtoupper(setting('sebutan_kabupaten') . ' ' . $desa->nama_kabupaten) }}
                                             </h3>
                                             <h3 class="d-flex align-items-center text-white mb-2">
-                                                {{ strtoupper('Provinsi ' . $desa->nama_propinsi) }}</h3>
+                                                {{ strtoupper('Provinsi ' . $desa->nama_propinsi) }}
+                                            </h3>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex align-items-center py-3 py-md-1">
-                            <a href="{{ base_url('layanan-mandiri') }}"
-                                class="btn btn-bg-white btn-active-color-primary">Layanan Mandiri</a>
+                            <a href="{{ base_url('layanan-mandiri') }}" class="btn btn-bg-white btn-active-color-primary">Layanan Mandiri</a>
                         </div>
                     </div>
                 </div>
@@ -62,15 +61,12 @@
                                             <h1 class="fw-semibold text-white text-center lh-lg mb-9">
                                                 <span class="fw-bolder">Buku Tamu</span>
                                             </h1>
-                                            <div class="flex-grow-1 bgi-no-repeat bgi-size-contain bgi-position-x-center card-rounded-bottom h-200px mh-200px my-5 mb-lg-12"
-                                                style="background-image:url('https://kuangampilan.org/assets/templates/landing/images/buku-tamu-2.svg')">
+                                            <div class="flex-grow-1 bgi-no-repeat bgi-size-contain bgi-position-x-center card-rounded-bottom h-200px mh-200px my-5 mb-lg-12" style="background-image:url('https://kuangampilan.org/assets/templates/landing/images/buku-tamu-2.svg')">
                                             </div>
                                         </div>
                                         <div class="text-center">
-                                            <a href="{{ site_url('buku-tamu') }}"
-                                                class="btn btn-sm bg-white btn-color-gray-800 me-5">Registrasi Tamu</a>
-                                            <a href="{{ site_url('buku-tamu/kepuasan') }}"
-                                                class="btn btn-sm bg-white btn-color-gray-800">Indeks Kepuasan</a>
+                                            <a href="{{ site_url('buku-tamu') }}" class="btn btn-sm bg-white btn-color-gray-800 me-5">Registrasi Tamu</a>
+                                            <a href="{{ site_url('buku-tamu/kepuasan') }}" class="btn btn-sm bg-white btn-color-gray-800">Indeks Kepuasan</a>
                                         </div>
                                     </div>
                                 </div>
@@ -85,9 +81,14 @@
         </div>
     </div>
     <script src="{{ asset('buku_tamu/plugins.bundle.js') }}"></script>
+    @if (!setting('inspect_element'))
+    <script src="{{ asset('js/disabled.min.js') }}"></script>
+    @endif
     <script>
-        var success = '{!! session('success') !!}';
-        var error = '{!! session('error') !!}';
+        var success = '{!! session('
+        success ') !!}';
+        var error = '{!! session('
+        error ') !!}';
         if (success) {
             Swal.fire({
                 html: '<strong> ' + success + ' </strong>',

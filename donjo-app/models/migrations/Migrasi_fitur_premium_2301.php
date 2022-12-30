@@ -60,7 +60,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122751($hasil);
         $hasil = $hasil && $this->migrasi_2022122851($hasil);
         $hasil = $hasil && $this->migrasi_2022122852($hasil);
-        $hasil = $hasil && $this->migrasi_2022123051($hasil);
+        $hasil = $hasil && $this->migrasi_2022123052($hasil);
 
         // Modul Buku Tamu
         $hasil = $hasil && $this->migrasi_2022122552($hasil);
@@ -469,7 +469,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
             ->update('tweb_surat_format');
     }
 
-    protected function migrasi_2022123051($hasil)
+    protected function migrasi_2022123052($hasil)
     {
         return $hasil && $this->tambah_setting([
             'judul'      => 'Inspect Element',
