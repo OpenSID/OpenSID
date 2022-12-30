@@ -76,3 +76,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 29. [#1791](https://github.com/OpenSID/premium/issues/1791) Audit keamanan - to_base64 semua gambar form login & reset password.
 30. [#1768](https://github.com/OpenSID/premium/issues/1768) Audit keamanan - to_base64 pada modul pengaturan simbol lokasi.
 31. [#1767](https://github.com/OpenSID/premium/issues/1767) Audit keamanan - to_base64 pada modul pengaturan peta > Area.
+32. [#1793](https://github.com/OpenSID/premium/issues/1793) Audit keamanan - to_base64 pada stempel dan logo layanan.
