@@ -788,3 +788,24 @@ function home_noimage()
 {
     return to_base64(LOKASI_FILES_LOGO . 'home.png');
 }
+
+function unggah_file($config = [], $old_file = null)
+{
+    $ci = &get_instance();
+    $ci->load->library('MY_Upload', null, 'upload');
+    $ci->upload->initialize($config);
+
+    if (! $ci->upload->do_upload('file')) {
+        session_error($ci->upload->display_errors(null, null));
+
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    $data = $ci->upload->data();
+
+    if ($old_file) {
+        unlink($config['upload_path'] . $old_file);
+    }
+
+    return $data['file_name'];
+}

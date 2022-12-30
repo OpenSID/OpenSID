@@ -77,3 +77,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 30. [#1768](https://github.com/OpenSID/premium/issues/1768) Audit keamanan - to_base64 pada modul pengaturan simbol lokasi.
 31. [#1767](https://github.com/OpenSID/premium/issues/1767) Audit keamanan - to_base64 pada modul pengaturan peta > Area.
 32. [#1793](https://github.com/OpenSID/premium/issues/1793) Audit keamanan - to_base64 pada stempel dan logo layanan.
+33. [#1803](https://github.com/OpenSID/premium/issues/1803) Audit keamanan - form bantuan.
