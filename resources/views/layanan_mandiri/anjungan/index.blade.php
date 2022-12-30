@@ -236,7 +236,7 @@
     <script src="{{ asset('bootstrap/js/id.js') }}"></script>
     {{-- Sweet Alert --}}
     <script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
-    @if (ENVIRONMENT !== 'development')
+    @if (!setting('inspect_element'))
         <script src="{{ asset('js/disabled.min.js') }}"></script>
     @endif
 </body>

@@ -58,6 +58,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122751($hasil);
         $hasil = $hasil && $this->migrasi_2022122851($hasil);
         $hasil = $hasil && $this->migrasi_2022122852($hasil);
+        $hasil = $hasil && $this->migrasi_2022123051($hasil);
 
         return $hasil && true;
     }
@@ -202,5 +203,17 @@ class Migrasi_fitur_premium_2301 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022123051($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Inspect Element',
+            'key'        => 'inspect_element',
+            'value'      => 1,
+            'keterangan' => 'Mengaktifkan inspect element pada halaman website',
+            'jenis'      => 'boolean',
+            'kategori'   => 'sistem',
+        ]);
     }
 }

@@ -109,7 +109,7 @@
         <!-- Website Demo -->
         <script src="{{ asset('js/demo.js') }}"></script>
     @endif
-    @if (ENVIRONMENT !== 'development')
+    @if (!setting('inspect_element'))
         <script src="{{ asset('js/disabled.min.js') }}"></script>
     @endif
     @stack('scripts')

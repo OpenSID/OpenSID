@@ -41,6 +41,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 35. [#6152](https://github.com/OpenSID/OpenSID/issues/6152) Perbaikan muncul pesan error kode isian tidak temukan pada log.
 36. [#6153](https://github.com/OpenSID/OpenSID/issues/6153) Perbaikan kode isian dan sederhanakan.
 37. [#6143](https://github.com/OpenSID/OpenSID/issues/6143) Perbaikan add more pada kode isian surat tinymce berada di tengah.
+38. [#6156](https://github.com/OpenSID/OpenSID/issues/6156) Penyesuaian inspect element pada pengaturan aplikasi.
 
 #### Perubahan Teknis
 

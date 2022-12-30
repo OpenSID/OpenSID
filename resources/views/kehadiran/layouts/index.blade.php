@@ -58,7 +58,7 @@
     <script src="{{ asset('bootstrap/js/fastclick.js') }}"></script>
     <!-- plugins -->
     <script src="{{ asset('js/bootstrap-toggle.min.js') }}"></script>
-    @if (ENVIRONMENT !== 'development')
+    @if (!setting('inspect_element'))
         <script src="{{ asset('js/disabled.min.js') }}"></script>
     @endif
     @stack('scripts')
