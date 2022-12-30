@@ -39,12 +39,13 @@
 						<textarea class="form-control" rows="5" disabled><?= $value['isi']; ?></textarea>
 					</div>
 
-					<div class="form-group">
-						<?php if ($value['foto']) : ?>
+					<?php $file_foto = LOKASI_PENGADUAN . $value['foto']; ?>
+					<?php if (file_exists(FCPATH . $file_foto)) : ?>
+						<div class="form-group">
 							<label>Gambar</label><br>
-							<img class="img-responsive" src="<?= to_base64(LOKASI_PENGADUAN . $value['foto']) ?>">
-						<?php endif; ?>
-					</div>
+							<img class="img-responsive" src="<?= to_base64($file_foto) ?>">
+						</div>
+					<?php endif; ?>
 
 					<?php foreach ($pengaduana as $keyna => $valuena) : ?>
 						<?php if ($valuena['id_pengaduan'] && $valuena['id_pengaduan'] == $value['id']) : ?>

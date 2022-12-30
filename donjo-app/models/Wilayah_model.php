@@ -35,6 +35,10 @@
  *
  */
 
+use App\Models\Keluarga;
+use App\Models\Penduduk;
+use App\Models\Wilayah;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Wilayah_model extends MY_Model
@@ -269,60 +273,47 @@ class Wilayah_model extends MY_Model
         }
     }
 
-    //Delete dusun/rw/rt tergantung tipe
+    // Delete dusun/rw/rt tergantung tipe
     public function delete($tipe = '', $id = '')
     {
-        $this->session->success = 1;
         // Perlu hapus berdasarkan nama, supaya baris RW dan RT juga terhapus
-        $temp  = $this->cluster_by_id($id);
-        $rw    = $temp['rw'];
-        $dusun = $temp['dusun'];
+        $wilayah = Wilayah::findOrFail($id);
 
         switch ($tipe) {
             case 'dusun':
-                // cek data
-                $id_cluster = $this->db->select('id')->where('rw', $rw)->where('dusun', $dusun)->get('tweb_wil_clusterdesa')->result_array();
-                $id_cluster = array_map(static fn ($value) => $value['id'], $id_cluster);
-
-                $penduduk = $this->db->select("count('id') as jmlh")->where_in('p.id_cluster', $id_cluster)->get('tweb_penduduk as p')->row();
-                $keluarga = $this->db->select("count('id') as jmlh")->where_in('k.id_cluster', $id_cluster)->get('tweb_keluarga as k')->row();
-
-                if ($penduduk->jmlh + $keluarga->jmlh != 0) {
-                    return session_error('Data dusun tidak dapat dihapus, data sudah tersedia di Penduduk atau Keluarga.');
-                }
-
-                $this->db->where('dusun', $dusun);
-                break; //dusun
+                $id_cluster = Wilayah::where('dusun', $wilayah->dusun)->pluck('id')->toArray();
+                $nama       = setting('sebutan_dusun');
+                break;
 
             case 'rw':
-                $id_cluster = $this->db->select('id')->where('rw', $rw)->where('dusun', $dusun)->get('tweb_wil_clusterdesa')->result_array();
-                $id_cluster = array_map(static fn ($value) => $value['id'], $id_cluster);
-
-                $penduduk = $this->db->select("count('id') as jmlh")->where_in('p.id_cluster', $id_cluster)->get('tweb_penduduk as p')->row();
-                $keluarga = $this->db->select("count('id') as jmlh")->where_in('k.id_cluster', $id_cluster)->get('tweb_keluarga as k')->row();
-
-                if ($penduduk->jmlh + $keluarga->jmlh != 0) {
-                    return session_error('Data dusun tidak dapat dihapus, data sudah tersedia di Penduduk atau Keluarga.');
-                }
-
-                $this->db->where('rw', $rw)->where('dusun', $dusun);
-                break; //rw
+                $id_cluster = Wilayah::where('rw', '!=', '-')->where('rw', $wilayah->rw)->where('dusun', $wilayah->dusun)->pluck('id')->toArray();
+                $nama       = 'RW';
+                break;
 
             default:
-                $penduduk = $this->db->select("count('id') as jmlh")->where('p.id_cluster', $id)->get('tweb_penduduk as p')->row();
-                $keluarga = $this->db->select("count('id') as jmlh")->where('k.id_cluster', $id)->get('tweb_keluarga as k')->row();
-
-                if ($penduduk->jmlh + $keluarga->jmlh != 0) {
-                    return session_error('Data dusun tidak dapat dihapus, data sudah tersedia di Penduduk atau Keluarga.');
-                }
-
-                $this->db->where('id', $id);
-                break; //rt
+                $id_cluster = [$id];
+                $nama       = 'RT';
+                break;
         }
 
-        $outp = $this->db->delete('tweb_wil_clusterdesa');
+        $outp = $this->proses_hapus($nama, $id_cluster);
 
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+        status_sukses($outp, true);
+    }
+
+    private function proses_hapus($tipe = '', $in_id = [])
+    {
+        $penduduk = Penduduk::whereIn('id_cluster', $in_id)->count();
+        $keluarga = Keluarga::whereIn('id_cluster', $in_id)->count();
+
+        if (($penduduk + $keluarga) != 0) {
+            session_error('Data ' . $tipe . ' tidak dapat dihapus, data sudah tersedia di Penduduk atau Keluarga.<br> Silakan hapus data Penduduk atau Keluarga terlebih dahulu pada setiap status yang ada.');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        Wilayah::whereIn('id', $in_id)->delete();
+
+        return true;
     }
 
     //paginasi untuk RW

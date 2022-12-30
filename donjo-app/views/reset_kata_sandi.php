@@ -12,11 +12,11 @@
     <?php if (is_file('desa/pengaturan/siteman/siteman.css')) : ?>
         <link rel='Stylesheet' href="<?= base_url('desa/pengaturan/siteman/siteman.css') ?>">
     <?php endif ?>
-    <link rel="shortcut icon" href="<?= favico_desa() ?>"/>
+    <link rel="shortcut icon" href="<?= favico_desa() ?>" />
 
     <style type="text/css">
         body.login {
-            background-image: url('<?= default_file(LATAR_SITEMAN, DEFAULT_LATAR_SITEMAN) ?>');
+            background-image: url('<?= $latar_login ?>');
         }
     </style>
     <script src="<?= asset('bootstrap/js/jquery.min.js') ?>"></script>

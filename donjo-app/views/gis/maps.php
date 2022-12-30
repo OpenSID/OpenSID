@@ -141,7 +141,7 @@
 						<div id="qrcode">
 							<div class="panel-body-lg">
 								<a href="https://github.com/OpenSID/OpenSID">
-									<img src="<?= base_url() ?>assets/images/opensid.png" alt="OpenSID">
+									<img src="<?= to_base64(GAMBAR_QRCODE) ?>" alt="OpenSID">
 								</a>
 							</div>
 						</div>

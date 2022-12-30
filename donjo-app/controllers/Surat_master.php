@@ -254,7 +254,7 @@ class Surat_master extends Admin_Controller
 
             $kodeIsian[] = [
                 'tipe'      => $request['tipe_kode'][$i],
-                'kode'      => '[form_' . preg_replace('/\s+/', '_', preg_replace('/[^A-Za-z0-9& ]/', '', strtolower($request['nama_kode'][$i]))) . ']',
+                'kode'      => form_kode_isian($request['nama_kode'][$i]),
                 'nama'      => $request['nama_kode'][$i],
                 'deskripsi' => $request['deskripsi_kode'][$i],
                 'atribut'   => $request['atribut_kode'][$i],
@@ -503,6 +503,7 @@ class Surat_master extends Admin_Controller
         $data['id_pend'] = Penduduk::filters([
             'sex'          => $this->request['individu_sex'],
             'status_dasar' => $this->request['individu_status_dasar'],
+            'kk_level'     => $this->request['individu_kk_level'],
         ])->first('id')
         ->id;
 
@@ -511,7 +512,7 @@ class Surat_master extends Admin_Controller
         }
 
         foreach ($this->request['nama_kode'] as $kode) {
-            $data = case_replace('[form_' . str_replace(' ', '_', strtolower($kode)) . ']', 'Masukkan ' . $kode, $data);
+            $data = case_replace(form_kode_isian($kode), 'Masukkan ' . $kode, $data);
         }
 
         $data      = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);

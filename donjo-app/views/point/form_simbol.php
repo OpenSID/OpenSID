@@ -93,7 +93,7 @@
 											<?php foreach ($simbol as $data) : ?>
 												<li>
 													<label>
-														<img src="<?= base_url(LOKASI_SIMBOL_LOKASI) ?><?= $data['simbol'] ?>">
+														<img src="<?= to_base64(LOKASI_SIMBOL_LOKASI . $data['simbol']) ?>">
 														<span class="glyphicon-class"><?= $data['simbol'] ?></span>
 														<a href="#" data-href="<?= site_url("point/delete_simbol/{$data['id']}/{$data['simbol']}") ?>" class="btn btn-danger btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													</label>

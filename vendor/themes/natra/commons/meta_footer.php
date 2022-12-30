@@ -15,6 +15,6 @@
         }
     });
 </script>
-<?php if (ENVIRONMENT !== 'development'): ?>
+<?php if (! setting('inspect_element')): ?>
     <script src="<?= asset('js/disabled.min.js') ?>"></script>
 <?php endif ?>

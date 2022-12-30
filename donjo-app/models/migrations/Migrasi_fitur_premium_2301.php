@@ -57,7 +57,10 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122153($hasil);
         $hasil = $hasil && $this->migrasi_2022122154($hasil);
         $hasil = $hasil && $this->migrasi_2022122371($hasil);
-        $hasil = $hasil && $this->migrasi_2022122651($hasil);
+        $hasil = $hasil && $this->migrasi_2022122751($hasil);
+        $hasil = $hasil && $this->migrasi_2022122851($hasil);
+        $hasil = $hasil && $this->migrasi_2022122852($hasil);
+        $hasil = $hasil && $this->migrasi_2022123051($hasil);
 
         // Modul Buku Tamu
         $hasil = $hasil && $this->migrasi_2022122552($hasil);
@@ -81,7 +84,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
 
     protected function migrasi_2022120751($hasil)
     {
-        if (! $this->db->field_exists('kecamatan', 'tweb_surat_format')) {
+        if (!$this->db->field_exists('kecamatan', 'tweb_surat_format')) {
             $fields = [
                 'kecamatan' => [
                     'type'       => 'tinyint',
@@ -170,7 +173,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022122651($hasil)
+    protected function migrasi_2022122751($hasil)
     {
         $hasil && $this->tambah_setting([
             'judul'      => 'Latar Website',
@@ -266,7 +269,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         ]);
 
         // Tabel buku_keperluan
-        if (! $this->db->table_exists('buku_keperluan')) {
+        if (!$this->db->table_exists('buku_keperluan')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -296,7 +299,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         }
 
         // Tabel buku_pertanyaan
-        if (! $this->db->table_exists('buku_pertanyaan')) {
+        if (!$this->db->table_exists('buku_pertanyaan')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -326,7 +329,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         }
 
         // Tabel buku_kepuasan
-        if (! $this->db->table_exists('buku_kepuasan')) {
+        if (!$this->db->table_exists('buku_kepuasan')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -360,7 +363,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         }
 
         // Tabel buku_tamu
-        if (! $this->db->table_exists('buku_tamu')) {
+        if (!$this->db->table_exists('buku_tamu')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -423,6 +426,38 @@ class Migrasi_fitur_premium_2301 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2022122851($hasil)
+    {
+        if ($this->db->where('nama', 'Keputusan Kades')->get('ref_dokumen')->row()) {
+            $hasil = $hasil && $this->db
+                ->where('nama', 'Keputusan Kades')
+                ->set('nama', 'Keputusan Kepala Desa')
+                ->update('ref_dokumen');
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022122852($hasil)
+    {
+        $check = $this->db
+            ->where_in('nama', [
+                'Jual Beli',
+                'Hibah / Sumbangan',
+                'Lain - lain',
+            ])
+            ->get('ref_asal_tanah_kas')
+            ->result_array();
+
+        if ($check) {
+            $hasil = $hasil && $this->db->update('ref_asal_tanah_kas', ['nama' => 'APB Desa'], ['nama' => 'Jual Beli']);
+            $hasil = $hasil && $this->db->update('ref_asal_tanah_kas', ['nama' => 'Perolehan Lainnya yang Sah'], ['nama' => 'Hibah / Sumbangan']);
+            $hasil = $hasil && $this->db->update('ref_asal_tanah_kas', ['nama' => 'Kekayaan Asli Desa'], ['nama' => 'Lain - lain']);
+        }
+
+        return $hasil;
+    }
+
     protected function migrasi_2022122371($hasil)
     {
         return $hasil && $this->db
@@ -432,5 +467,17 @@ class Migrasi_fitur_premium_2301 extends MY_model
             ])
             ->where('url_surat', 'surat-keterangan-beda-identitas')
             ->update('tweb_surat_format');
+    }
+
+    protected function migrasi_2022123051($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Inspect Element',
+            'key'        => 'inspect_element',
+            'value'      => 1,
+            'keterangan' => 'Mengaktifkan inspect element pada halaman website',
+            'jenis'      => 'boolean',
+            'kategori'   => 'sistem',
+        ]);
     }
 }

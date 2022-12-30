@@ -113,6 +113,7 @@ class Penduduk extends BaseModel
         'jenisKelamin',
         'agama',
         'pendidikan',
+        'pendidikanKK',
         'pekerjaan',
         'wargaNegara',
         'golonganDarah',

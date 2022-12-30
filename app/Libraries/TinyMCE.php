@@ -949,7 +949,6 @@ class TinyMCE
             } elseif (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
                 $result = str_replace($key, $value, $result);
             } else {
-                log_message('error', 'Kode isian tidak ditemukan: ' . $key);
                 $result = case_replace($key, $value, $result);
             }
         }

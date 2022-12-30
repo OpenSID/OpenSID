@@ -422,7 +422,7 @@
     <script src="{{ asset('bootstrap/js/fastclick.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
-    @if (ENVIRONMENT !== 'development')
+    @if (!setting('inspect_element'))
         <script src="{{ asset('js/disabled.min.js') }}"></script>
     @endif
     <script type="text/javascript">

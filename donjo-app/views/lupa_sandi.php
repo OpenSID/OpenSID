@@ -16,7 +16,7 @@
 
     <style type="text/css">
         body.login {
-            background-image: url('<?= default_file(LATAR_SITEMAN, DEFAULT_LATAR_SITEMAN) ?>');
+            background-image: url('<?= $latar_login ?>');
         }
     </style>
     <script src="<?= asset('bootstrap/js/jquery.min.js') ?>"></script>
