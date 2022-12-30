@@ -38,7 +38,7 @@
 use App\Models\BukuKepuasan;
 use App\Models\BukuTamu;
 
-class Buku_tamu extends Admin_Controller
+class Buku_tamu extends Anjungan_Controller
 {
     public function __construct()
     {

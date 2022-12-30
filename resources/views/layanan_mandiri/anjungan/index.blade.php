@@ -43,8 +43,8 @@
                     class="menu-header" alt="Icon Menu"></a>
             <a data-value="{{ site_url('kehadiran') }}" class="popup" title="Kehadiran Perangkat Desa"><img
                     src="{{ asset('images/anjungan/kehadiran.svg') }}" class="menu-header" alt="Icon Menu"></a>
-            <a href="#" title="Buku Tamu"><img src="{{ asset('images/anjungan/tamu.svg') }}" class="menu-header"
-                    alt="Icon Menu"></a>
+            <a data-value="{{ site_url('buku-tamu') }}" class="popup" href="#" title="Buku Tamu"><img
+                    src="{{ asset('images/anjungan/tamu.svg') }}" class="menu-header" alt="Icon Menu"></a>
             <a href="#" id="perangkat" title="Daftar Perangkat Desa"><img
                     src="{{ asset('images/anjungan/perangkat.svg') }}" class="menu-header" alt="Icon Menu"></a>
             <a href="#" title="Mode Gelap"><img src="{{ asset('images/anjungan/mode.svg') }}" class="menu-header"

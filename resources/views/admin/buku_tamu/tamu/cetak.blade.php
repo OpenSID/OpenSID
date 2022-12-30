@@ -5,6 +5,9 @@
 <head>
     <title>Buku Tamu</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex">
+    <link rel="shortcut icon" href="{{ favico_desa() }}" />
     <link href="{{ asset('css/report.css') }}" rel="stylesheet">
 </head>
 
@@ -13,7 +16,7 @@
         <tbody>
             <tr>
                 <td>
-                    <img class="logo" src="{{ gambar_desa($config['logo']) }}" alt="logo-desa">
+                    <img class="logo" src="{{ gambar_desa($desa->logo) }}" alt="logo-desa">
                     <h1 class="judul">
                         PEMERINTAH
                         {!! strtoupper(

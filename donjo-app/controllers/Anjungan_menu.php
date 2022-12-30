@@ -45,17 +45,13 @@ use App\Models\Suplemen;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Anjungan_menu extends Admin_Controller
+class Anjungan_menu extends Anjungan_Controller
 {
     public function __construct()
     {
         parent::__construct();
         $this->modul_ini     = 312;
         $this->sub_modul_ini = 348;
-
-        if (! cek_anjungan()) {
-            redirect('anjungan');
-        }
     }
 
     public function index()

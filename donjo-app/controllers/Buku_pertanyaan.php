@@ -38,7 +38,7 @@
 use App\Enums\StatusEnum;
 use App\Models\BukuPertanyaan;
 
-class Buku_pertanyaan extends Admin_Controller
+class Buku_pertanyaan extends Anjungan_Controller
 {
     public function __construct()
     {

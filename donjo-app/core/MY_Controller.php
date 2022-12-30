@@ -276,13 +276,6 @@ class Api_Controller extends MY_Controller
 
 class Premium extends MY_Controller
 {
-    // Hanya domain terdaftar yg bisa melewati validasi premium dengan mode demo
-    protected $domain = [
-        'beta.opendesa.id',
-        'beta2.opensid.or.id',
-        'berputar.opendesa.id',
-        'devpremium.opendesa.id',
-    ];
     protected $versi_setara;
 
     /**
@@ -309,7 +302,7 @@ class Premium extends MY_Controller
     public function validasi()
     {
         // Jangan jalankan validasi akses untuk spesifik controller.
-        if (in_array($this->router->class, $this->kecuali) || (config_item('demo_mode') && (in_array(get_domain(APP_URL), $this->domain)))) {
+        if (in_array($this->router->class, $this->kecuali) || (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO)))) {
             return;
         }
 
@@ -588,5 +581,16 @@ class Admin_Controller extends Premium
             'pamong_ttd'     => Pamong::sekretarisDesa()->first(),
             'pamong_ketahui' => Pamong::kepalaDesa()->first(),
         ];
+    }
+}
+
+class Anjungan_Controller extends Admin_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (! cek_anjungan()) {
+            redirect('anjungan');
+        }
     }
 }

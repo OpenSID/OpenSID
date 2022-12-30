@@ -37,13 +37,13 @@
                             <div class="col">
                                 <div class="fv-row mb-7 fv-plugins-icon-container">
                                     <input type="text" class="form-control form-control-solid" name="nama"
-                                        placeholder="Nama" maxlength="50" required>
+                                        placeholder="Nama" maxlength="50" autocomplete="off" required>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="fv-row mb-7 fv-plugins-icon-container">
                                     <input type="text" class="form-control form-control-solid" name="telepon"
-                                        placeholder="Telepon" maxlength="20" pattern="[0-9]+" required>
+                                        placeholder="Telepon" maxlength="20" pattern="[0-9]+" autocomplete="off" required>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                             <div class="col">
                                 <div class="fv-row mb-7 fv-plugins-icon-container">
                                     <input type="text" class="form-control form-control-solid" name="instansi"
-                                        placeholder="Asal Instansi" maxlength="100" required>
+                                        placeholder="Asal Instansi" maxlength="100" autocomplete="off" required>
                                 </div>
                             </div>
                             <div class="col">

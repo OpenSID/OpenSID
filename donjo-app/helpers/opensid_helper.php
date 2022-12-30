@@ -54,6 +54,14 @@ define('VERSION', '22.12-premium-beta02');
  */
 define('VERSI_DATABASE', '2022122671');
 
+// Website Demo OpenSID
+define('WEBSITE_DEMO', [
+    'beta.opendesa.id',
+    'beta2.opensid.or.id',
+    'berputar.opendesa.id',
+    'devpremium.opendesa.id',
+]);
+
 // Kode laporan statistik
 define('JUMLAH', 666);
 define('BELUM_MENGISI', 777);
@@ -1313,6 +1321,11 @@ function sdgs()
 
 function cek_anjungan()
 {
+    // Lewati pengecekan jika web demo dan terdaftar sebagai pengecualian
+    if (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
+        return true;
+    }
+
     $CI = &get_instance();
     $CI->load->model('notif_model');
 

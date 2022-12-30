@@ -22,7 +22,7 @@
                         <div class="page-title d-flex flex-column me-3">
                             <div class="d-flex flex-wrap flex-sm-nowrap">
                                 <div class="me-7 mb-4">
-                                    <img src="{{ gambar_desa($header['logo']) }}" alt="{{ $desa->nama_desa }}"
+                                    <img src="{{ gambar_desa($desa->logo) }}" alt="{{ $desa->nama_desa }}"
                                         style="max-height: 100px">
                                 </div>
                                 <div class="flex-grow-1">
