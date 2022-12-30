@@ -43,6 +43,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 37. [#6143](https://github.com/OpenSID/OpenSID/issues/6143) Perbaikan add more pada kode isian surat tinymce berada di tengah.
 38. [#6156](https://github.com/OpenSID/OpenSID/issues/6156) Penyesuaian inspect element pada pengaturan aplikasi.
 39. [#6158](https://github.com/OpenSID/OpenSID/issues/6158) Penyesuaian favicon halaman kehadiran tidak sesuai.
+40. [#5951](https://github.com/OpenSID/OpenSID/issues/5951) Perbaikan pada rekam kehadiran merubah status keluar di jam kerja.
 
 #### Perubahan Teknis
 
