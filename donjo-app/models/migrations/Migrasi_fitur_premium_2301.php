@@ -37,6 +37,7 @@
 
 use App\Models\Area;
 use App\Models\Garis;
+use App\Models\LogSurat;
 use App\Models\Lokasi;
 use Illuminate\Support\Facades\DB;
 
@@ -61,6 +62,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122852($hasil);
         $hasil = $hasil && $this->migrasi_2022123051($hasil);
         $hasil = $hasil && $this->migrasi_2022123052($hasil);
+        $hasil = $hasil && $this->migrasi_2022123053($hasil);
 
         return $hasil && true;
     }
@@ -225,6 +227,30 @@ class Migrasi_fitur_premium_2301 extends MY_model
         DB::table('kehadiran_perangkat_desa')
             ->where('status_kehadiran', 'keluar')
             ->update(['status_kehadiran' => 'tidak berada di kantor']);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022123053($hasil)
+    {
+        if (! $this->db->field_exists('nama_jabatan', 'log_surat')) {
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', [
+                'nama_jabatan' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                    'after'      => 'id_pamong',
+                ],
+            ]);
+        }
+
+        // ganti nama pamong yang masih null
+        $check = LogSurat::whereNull('nama_jabatan')->get();
+
+        foreach ($check as $surat) {
+            $surat->nama_jabatan = $surat->pamong->jabatan->nama;
+            $hasil               = $surat->save();
+        }
 
         return $hasil;
     }

@@ -45,6 +45,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 39. [#6158](https://github.com/OpenSID/OpenSID/issues/6158) Penyesuaian favicon halaman kehadiran tidak sesuai.
 40. [#5951](https://github.com/OpenSID/OpenSID/issues/5951) Perbaikan pada rekam kehadiran merubah status keluar di jam kerja.
 41. [#6142](https://github.com/OpenSID/OpenSID/issues/6142) Perbaikan undefined data penduduk berstatus meninggal.
+42. [#6157](https://github.com/OpenSID/OpenSID/issues/6157) Perbaikan arsip surat jabatan penandatanganan berubah sesuai jabatan saat ini.
 
 #### Perubahan Teknis
 
