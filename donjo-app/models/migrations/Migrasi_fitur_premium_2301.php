@@ -38,6 +38,7 @@
 use App\Models\Area;
 use App\Models\Garis;
 use App\Models\Lokasi;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -61,6 +62,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122851($hasil);
         $hasil = $hasil && $this->migrasi_2022122852($hasil);
         $hasil = $hasil && $this->migrasi_2022123052($hasil);
+        $hasil = $hasil && $this->migrasi_2022123053($hasil);
 
         // Modul Buku Tamu
         $hasil = $hasil && $this->migrasi_2022122552($hasil);
@@ -479,5 +481,15 @@ class Migrasi_fitur_premium_2301 extends MY_model
             'jenis'      => 'boolean',
             'kategori'   => 'sistem',
         ]);
+    }
+
+    protected function migrasi_2022123053($hasil)
+    {
+        // Ganti status kehadiran dari 'keluar' menjadi 'tidak berada di kantor'
+        DB::table('kehadiran_perangkat_desa')
+            ->where('status_kehadiran', 'keluar')
+            ->update(['status_kehadiran' => 'tidak berada di kantor']);
+
+        return $hasil;
     }
 }

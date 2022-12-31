@@ -165,6 +165,8 @@ define('DEFAULT_LATAR_WEBSITE', 'assets/front/css/images/latar_website.jpg');
 define('GAMBAR_QRCODE', 'assets/images/opensid.png');
 define('LOGO_GARUDA', 'assets/images/garuda.png');
 define('LOGO_BSRE', 'assets/images/bsre.png');
+define('STEMPEL', 'assets/images/layanan/stempel.png');
+define('LAYANAN_LOGO', 'assets/images/layanan/logo.png');
 
 /**
  * Folder dan file pada folder desa.

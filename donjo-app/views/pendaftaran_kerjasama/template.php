@@ -15,6 +15,7 @@
         }
     }
 </style>
+
 <body onload="window.print()">
     <table width="100%">
         <tr>
@@ -57,7 +58,7 @@
                 </p>
             </td>
             <td width="25" align="center" valign="top">
-                <img src="<?= base_url('assets/images/layanan/logo.png') ?>" width="70%">
+                <img src="<?= $layanan_logo ?>" width="70%">
             </td>
         </tr>
     </table>
@@ -129,7 +130,7 @@
     </p>
     <p style="page-break-after: always;"></p>
     <p align="center">
-        <strong>PASAL 1</strong><br/>
+        <strong>PASAL 1</strong><br />
         <strong>DASAR HUKUM</strong>
     </p>
     <ol>
@@ -192,9 +193,9 @@
             </p>
         </li>
     </ol>
-    <br/>
+    <br />
     <p align="center">
-        <strong>PASAL 2</strong><br/>
+        <strong>PASAL 2</strong><br />
         <strong>MAKSUD DAN TUJUAN</strong>
     </p>
     <p align="justify">
@@ -210,9 +211,9 @@
         meningkatkan kapasitas desa dalam rangka mewujudkan Desa Digital menuju
         Desa Cerdas.
     </p>
-    <br/>
+    <br />
     <p align="center">
-        <strong>PASAL 3</strong><br/>
+        <strong>PASAL 3</strong><br />
         <strong>RUANG LINGKUP</strong>
     </p>
     <p align="justify">
@@ -221,7 +222,7 @@
     </p>
     <p style="page-break-after: always;"></p>
     <p align="center">
-        <strong>PASAL 4</strong><br/>
+        <strong>PASAL 4</strong><br />
         <strong>PELAKSANAAN</strong>
     </p>
     <ol>
@@ -261,9 +262,9 @@
             </p>
         </li>
     </ol>
-    <br/>
+    <br />
     <p align="center">
-        <strong>PASAL 5</strong><br/>
+        <strong>PASAL 5</strong><br />
         <strong>JANGKA WAKTU</strong>
     </p>
     <ol>
@@ -280,9 +281,9 @@
             </p>
         </li>
     </ol>
-    <br/>
+    <br />
     <p align="center">
-        <strong>PASAL 6</strong><br/>
+        <strong>PASAL 6</strong><br />
         <strong>PEMBIAYAAN</strong>
     </p>
     <p align="justify">
@@ -293,9 +294,9 @@
         yang
         digunakan.
     </p>
-    <br/>
+    <br />
     <p align="center">
-        <strong>PASAL 7</strong><br/>
+        <strong>PASAL 7</strong><br />
         <strong>PENYELESAIAN PERSELISIHAN</strong>
     </p>
     <ol>
@@ -325,7 +326,7 @@
     </ol>
     <p style="page-break-after: always;"></p>
     <p align="center">
-        <strong>PASAL 8</strong><br/>
+        <strong>PASAL 8</strong><br />
         <strong>LAIN-LAIN</strong>
     </p>
     <ol>
@@ -344,9 +345,9 @@
             </p>
         </li>
     </ol>
-    <br/>
+    <br />
     <p align="center">
-        <strong>PASAL 9</strong><br/>
+        <strong>PASAL 9</strong><br />
         <strong>PENUTUP</strong>
     </p>
     <ol>
@@ -385,7 +386,7 @@
             </p>
         </li>
     </ol>
-    <br/>
+    <br />
     <table border="0" cellspacing="0" cellpadding="0" width="631">
         <tbody>
             <tr>
@@ -412,7 +413,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><img src="<?= base_url('assets/images/layanan/stempel.png') ?>" width="220"></td>
+                <td><img src="<?= $stempel ?>" width="220"></td>
             </tr>
             <tr>
                 <td>
@@ -429,4 +430,5 @@
         </tbody>
     </table>
 </body>
+
 </html>

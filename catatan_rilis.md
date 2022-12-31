@@ -50,6 +50,9 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 36. [#6153](https://github.com/OpenSID/OpenSID/issues/6153) Perbaikan kode isian dan sederhanakan.
 37. [#6143](https://github.com/OpenSID/OpenSID/issues/6143) Perbaikan add more pada kode isian surat tinymce berada di tengah.
 38. [#6156](https://github.com/OpenSID/OpenSID/issues/6156) Penyesuaian inspect element pada pengaturan aplikasi.
+39. [#6158](https://github.com/OpenSID/OpenSID/issues/6158) Penyesuaian favicon halaman kehadiran tidak sesuai.
+40. [#5951](https://github.com/OpenSID/OpenSID/issues/5951) Perbaikan pada rekam kehadiran merubah status keluar di jam kerja.
+41. [#6142](https://github.com/OpenSID/OpenSID/issues/6142) Perbaikan undefined data penduduk berstatus meninggal.
 
 #### Perubahan Teknis
 
@@ -84,3 +87,5 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 29. [#1791](https://github.com/OpenSID/premium/issues/1791) Audit keamanan - to_base64 semua gambar form login & reset password.
 30. [#1768](https://github.com/OpenSID/premium/issues/1768) Audit keamanan - to_base64 pada modul pengaturan simbol lokasi.
 31. [#1767](https://github.com/OpenSID/premium/issues/1767) Audit keamanan - to_base64 pada modul pengaturan peta > Area.
+32. [#1793](https://github.com/OpenSID/premium/issues/1793) Audit keamanan - to_base64 pada stempel dan logo layanan.
+33. [#1803](https://github.com/OpenSID/premium/issues/1803) Audit keamanan - form bantuan.
