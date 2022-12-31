@@ -1,6 +1,6 @@
-Di rilis ini, versi 22.12-premium-beta02 ditambahkan [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 23.01-premium ditambahkan fitur buku tamu dan melengkapi lampiran F-2.01, F-1.06 pada surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [isi disini] yang terus berkontribusi.
+Terima kasih pada @Irvan1609 yang terus berkontribusi.
 
 #### Penambahan Fitur
 
@@ -90,3 +90,10 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 31. [#1767](https://github.com/OpenSID/premium/issues/1767) Audit keamanan - to_base64 pada modul pengaturan peta > Area.
 32. [#1793](https://github.com/OpenSID/premium/issues/1793) Audit keamanan - to_base64 pada stempel dan logo layanan.
 33. [#1803](https://github.com/OpenSID/premium/issues/1803) Audit keamanan - form bantuan.
+
+#### Bug yang tidak masuk rilis
+
+1. [#6130](https://github.com/OpenSID/OpenSID/issues/6130) Fitur yang tidak tampil pada arsip layanan surat untuk akses tertentu.
+2. [#6139](https://github.com/OpenSID/OpenSID/issues/6139) Salinan template surat rtf error saat cetak setelah melakukan update.
+3. [#6141](https://github.com/OpenSID/OpenSID/issues/6141) Gagal upload foto profil jika kosongkan DB openSID umum.
+4. [#6159](https://github.com/OpenSID/OpenSID/issues/6159) Pada tampilan mobile beberapa menu tidak dapat di klik karena tertindih dengan class yang lain.
