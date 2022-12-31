@@ -228,7 +228,7 @@ function UploadGambar($fupload_name, $old_gambar)
 
 function AmbilGaleri($foto, $ukuran)
 {
-    return to_base64(LOKASI_GALERI . $ukuran . '_' . $foto);
+    return base_url(LOKASI_GALERI . $ukuran . '_' . $foto);
 }
 
 // $file_upload = $_FILES['<lokasi>']
@@ -346,7 +346,7 @@ function UploadSimbolx($fupload_name, $old_gambar)
 
 function AmbilFotoArtikel($foto, $ukuran)
 {
-    return to_base64(LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto);
+    return base_url(LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto);
 }
 
 function UploadArtikel($fupload_name, $gambar)
