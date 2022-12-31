@@ -425,14 +425,15 @@ class JWT
             return $keyOrKeyArray;
         }
 
+        if (empty($kid)) {
+            throw new UnexpectedValueException('"kid" empty, unable to lookup correct key');
+        }
+
         if ($keyOrKeyArray instanceof CachedKeySet) {
             // Skip "isset" check, as this will automatically refresh if not set
             return $keyOrKeyArray[$kid];
         }
 
-        if (empty($kid)) {
-            throw new UnexpectedValueException('"kid" empty, unable to lookup correct key');
-        }
         if (!isset($keyOrKeyArray[$kid])) {
             throw new UnexpectedValueException('"kid" invalid, unable to lookup correct key');
         }
