@@ -132,6 +132,10 @@ class Setting_model extends MY_Model
                     $value = trim($value);
                 }
 
+                if ($key == 'id_pengunjung_kehadiran') {
+                    $value = alfanumerik(trim($value));
+                }
+
                 $this->update($key, $value);
                 $this->setting->{$key} = $value;
                 if ($key == 'enable_track') {
@@ -168,10 +172,13 @@ class Setting_model extends MY_Model
 
         if ($this->upload->do_upload($key)) {
             $this->upload->data();
-        } else {
-            $this->session->error_msg = $this->upload->display_errors();
-            $this->session->success   = -1;
+
+            return $lokasi . $config['file_name'];
         }
+
+        session_error($this->upload->display_errors());
+
+        return false;
     }
 
     private function notifikasi_tracker()
@@ -195,6 +202,10 @@ class Setting_model extends MY_Model
 
     public function update($key = 'enable_track', $value = 1)
     {
+        if (in_array($key, ['latar_kehadiran'])) {
+            $value = $this->upload_img('latar_kehadiran', LATAR_KEHADIRAN);
+        }
+
         $outp = $this->db->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
 
         // Hapus Cache

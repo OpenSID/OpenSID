@@ -204,9 +204,8 @@ class Migrasi_fitur_premium_2201 extends MY_model
     protected function migrasi_2021122471($hasil)
     {
         $hasil = $hasil && $this->tambah_tabel_pengaduan($hasil);
-        $hasil = $hasil && $this->tambah_modul_pengaduan($hasil);
 
-        return $hasil && $this->tambah_folder_pengaduan($hasil);
+        return $hasil && $this->tambah_modul_pengaduan($hasil);
     }
 
     protected function tambah_tabel_pengaduan($hasil)
@@ -299,17 +298,6 @@ class Migrasi_fitur_premium_2201 extends MY_model
         ]);
     }
 
-    protected function tambah_folder_pengaduan($hasil)
-    {
-        $folder = 'upload/pengaduan';
-        if (! file_exists('/desa/' . $folder)) {
-            mkdir('desa/' . $folder, 0755, true);
-            xcopy('desa-contoh/' . $folder, 'desa/' . $folder);
-        }
-
-        return $hasil;
-    }
-
     protected function migrasi_2021122971($hasil)
     {
         $hasil = $hasil && $this->tambah_modul_hasil_pembangunan($hasil);
@@ -348,12 +336,6 @@ class Migrasi_fitur_premium_2201 extends MY_model
 
     protected function migrasi_2021122972($hasil)
     {
-        // tambahkan folder vaksin
-        $folder = 'upload/vaksin';
-        if (! file_exists('/desa/' . $folder)) {
-            mkdir('desa/' . $folder, 0755, true);
-            xcopy('desa-contoh/' . $folder, 'desa/' . $folder);
-        }
         // tambahkan field untuk vaksin covid 19
 
         if (! $this->db->table_exists('covid19_vaksin')) {

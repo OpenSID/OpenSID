@@ -106,13 +106,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_pemerintah">Sumber Biaya Pemerintah</label>
-										<input id="sumber_biaya_pemerintah" name="sumber_biaya_pemerintah" onkeyup="cek()" class="form-control input-sm required bilangan" maxlength="9" type="text" placeholder="Sumber Biaya Pemerintah" value="<?= $main->sumber_biaya_pemerintah; ?>"></input>
+										<input id="sumber_biaya_pemerintah" name="sumber_biaya_pemerintah" onkeyup="cek()" class="form-control input-sm required bilangan" maxlength="12" type="text" placeholder="Sumber Biaya Pemerintah" value="<?= $main->sumber_biaya_pemerintah; ?>"></input>
 									</div>
 								</div>
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_provinsi">Sumber Biaya Provinsi</label>
-										<input id="sumber_biaya_provinsi" name="sumber_biaya_provinsi" onkeyup="cek()" class="form-control input-sm required bilangan" maxlength="9" type="text" placeholder="Sumber Biaya Provinsi" value="<?= $main->sumber_biaya_provinsi; ?>"></input>
+										<input id="sumber_biaya_provinsi" name="sumber_biaya_provinsi" onkeyup="cek()" class="form-control input-sm required bilangan" maxlength="12" type="text" placeholder="Sumber Biaya Provinsi" value="<?= $main->sumber_biaya_provinsi; ?>"></input>
 									</div>
 								</div>
 							</div>
@@ -120,13 +120,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_kab_kota">Sumber Biaya Kab / Kota</label>
-										<input id="sumber_biaya_kab_kota" name="sumber_biaya_kab_kota" class="form-control input-sm required bilangan" maxlength="9" onkeyup="cek()" type="text" placeholder="Sumber Biaya Kab / Kota" value="<?= $main->sumber_biaya_kab_kota; ?>"></input>
+										<input id="sumber_biaya_kab_kota" name="sumber_biaya_kab_kota" class="form-control input-sm required bilangan" maxlength="12" onkeyup="cek()" type="text" placeholder="Sumber Biaya Kab / Kota" value="<?= $main->sumber_biaya_kab_kota; ?>"></input>
 									</div>
 								</div>
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_swadaya">Sumber Biaya Swadaya</label>
-										<input id="sumber_biaya_swadaya" name="sumber_biaya_swadaya" class="form-control input-sm required bilangan" maxlength="9" type="text" onkeyup="cek()" placeholder="Sumber Biaya Swadaya" value="<?= $main->sumber_biaya_swadaya; ?>"></input>
+										<input id="sumber_biaya_swadaya" name="sumber_biaya_swadaya" class="form-control input-sm required bilangan" maxlength="12" type="text" onkeyup="cek()" placeholder="Sumber Biaya Swadaya" value="<?= $main->sumber_biaya_swadaya; ?>"></input>
 									</div>
 								</div>
 							</div>

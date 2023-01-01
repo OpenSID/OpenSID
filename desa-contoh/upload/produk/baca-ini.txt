@@ -1,5 +1,0 @@
-*******************************
-Folder: desa/upload/produk
-*******************************
-
-Folder ini tempat menyimpan semua gambar yang diunggah untuk modul Lapak.

@@ -152,7 +152,15 @@ class Permohonan_surat_admin extends Admin_Controller
         $data['pamong']             = $this->surat_model->list_pamong();
         $pamong_ttd                 = $this->pamong_model->get_ttd();
         $pamong_ub                  = $this->pamong_model->get_ub();
-        $data_form                  = $this->surat_model->get_data_form($url);
+        $data['perempuan']          = $this->surat_model->list_penduduk_perempuan();
+        if ($pamong_ttd) {
+            $str_ttd             = ucwords($pamong_ttd['jabatan'] . ' ' . $data['lokasi']['nama_desa']);
+            $data['atas_nama'][] = "a.n {$str_ttd}";
+            if ($pamong_ub) {
+                $data['atas_nama'][] = "u.b {$pamong_ub['jabatan']}";
+            }
+        }
+        $data_form = $this->surat_model->get_data_form($url);
         if (is_file($data_form)) {
             include $data_form;
         }

@@ -106,7 +106,6 @@
                 <?php endif; ?>
             </div>
 
-
             <?php if ($response->body->status_langganan === 'menunggu verifikasi email') : ?>
                 <div class="box box-info">
                     <div class="box-header with-border">

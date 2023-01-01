@@ -209,19 +209,16 @@ class Keluar_model extends CI_Model
             $berkas_rtf      = $nama_surat . '.rtf';
             $berkas_pdf      = $nama_surat . '.pdf';
             $berkas_php      = $nama_surat . '.php';
-            $berkas_qr       = $nama_surat . '.png';
             $berkas_lampiran = $nama_surat . '_lampiran.pdf';
         } else {
             $berkas_rtf      = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '.rtf';
             $berkas_pdf      = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '.pdf';
             $berkas_php      = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '.php';
-            $berkas_qr       = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '.png';
             $berkas_lampiran = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '._lampiran.pdf';
         }
 
         $data[$i]['file_rtf']      = LOKASI_ARSIP . $berkas_rtf;
         $data[$i]['file_pdf']      = LOKASI_ARSIP . $berkas_pdf;
-        $data[$i]['file_qr']       = LOKASI_MEDIA . $berkas_qr;
         $data[$i]['file_lampiran'] = LOKASI_ARSIP . $berkas_lampiran;
     }
 

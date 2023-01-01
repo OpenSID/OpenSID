@@ -37,6 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Libraries\FlxZipArchive;
+
 class Database extends Admin_Controller
 {
     public function __construct()
@@ -50,10 +52,14 @@ class Database extends Admin_Controller
 
     public function index()
     {
-        $data['form_action'] = site_url('database/restore');
+        $data = [
+            'act_tab'     => 1,
+            'content'     => 'database/backup',
+            'form_action' => site_url('database/restore'),
+            'size_folder' => byte_format(dirSize(DESAPATH)),
+            'size_sql'    => byte_format(getSizeDB()->size),
+        ];
 
-        $data['act_tab'] = 1;
-        $data['content'] = 'database/backup';
         $this->load->view('database/database.tpl.php', $data);
     }
 
@@ -102,11 +108,9 @@ class Database extends Admin_Controller
 
     public function desa_backup()
     {
-        $this->load->library('zip');
-
-        $backup_folder = FCPATH . 'desa/'; // Folder yg akan di backup
-        $this->zip->read_dir($backup_folder, false);
-        $this->zip->download('backup_folder_desa_' . date('Y_m_d') . '.zip');
+        $za = new FlxZipArchive();
+        $za->read_dir(DESAPATH);
+        $za->download('backup_folder_desa_' . date('Y_m_d') . '.zip');
     }
 
     public function restore()

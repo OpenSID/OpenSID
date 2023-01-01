@@ -1129,6 +1129,8 @@ class Penduduk_model extends MY_Model
 
     public function update_status_dasar($id = 0)
     {
+        akun_demo($id);
+
         $data['kelahiran_anak_ke'] = (int) $this->input->post('anak_ke');
         $data['status_dasar']      = $this->input->post('status_dasar');
         $data['updated_at']        = date('Y-m-d H:i:s');
@@ -1193,9 +1195,7 @@ class Penduduk_model extends MY_Model
 
     public function delete($id = '', $semua = false)
     {
-        if (! $semua) {
-            $this->session->success = 1;
-        }
+        akun_demo($id);
 
         // Catat data penduduk yg di hapus di log_hapus_penduduk
         $penduduk_hapus = $this->get_penduduk($id);

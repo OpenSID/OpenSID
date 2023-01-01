@@ -121,7 +121,7 @@ class Keluar extends Admin_Controller
         if ($cari != '') {
             $this->session->cari = $cari;
         } else {
-            $this->session->session_unset('cari');
+            $this->session->unset_userdata('cari');
         }
     }
 
@@ -216,5 +216,14 @@ class Keluar extends Admin_Controller
         $data['letak_ttd'] = ['2', '2', '3'];
 
         $this->load->view('global/format_cetak', $data);
+    }
+
+    public function qrcode($id = null)
+    {
+        if ($id) {
+            $data = $this->surat_model->getQrCode($id);
+
+            $this->load->view('surat/qrcode', $data);
+        }
     }
 }

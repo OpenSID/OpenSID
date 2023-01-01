@@ -63,9 +63,15 @@ $config['useDatabaseConfig'] = true;
 */
 // $config["environment"] = "development";
 
-// Untuk situs yang digunakan untuk demo, seperti https://demosid.opendesa.id,
-// buat setting berikut menjadi 'y'
+// Untuk situs yang digunakan untuk demo, seperti https://demosid.opendesa.id
 $config['demo_mode'] = false;
+
+// Data id penduduk dan pin layanan mandiri yang digunakan sebagai default akun demo
+$config['demo_akun'] = [
+    1 => '123456',
+    2 => '234561',
+    3 => '345612',
+];
 
 $config['defaultAdminAuthInfo'] = [
     'username' => 'admin',

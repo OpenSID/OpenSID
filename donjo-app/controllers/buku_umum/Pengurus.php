@@ -80,10 +80,7 @@ class Pengurus extends Admin_Controller
         $data['subtitle']     = 'Buku Aparat Pemerintah Desa';
         $data['selected_nav'] = 'aparat';
 
-        $this->load->view('header', $this->header);
-        $this->load->view('nav');
-        $this->load->view('bumindes/umum/main', $data);
-        $this->load->view('footer');
+        $this->render('bumindes/umum/main', $data);
     }
 
     public function form($id = 0)
@@ -167,7 +164,7 @@ class Pengurus extends Admin_Controller
     public function delete($id = 0)
     {
         $this->redirect_hak_akses('h');
-        $outp = $this->pamong_model->delete($id);
+        $this->pamong_model->delete($id);
         redirect('pengurus');
     }
 

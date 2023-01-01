@@ -41,8 +41,6 @@ use Esyede\Curly;
 use Exception;
 use stdClass;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 class Release
 {
     /**

@@ -1,5 +1,0 @@
-*******************************
-Folder: desa/upload/vaksin
-*******************************
-
-Folder ini tempat menyimpan semua gambar yang diunggah untuk modul vaksin.

@@ -36,9 +36,16 @@
  */
 
 defined('BASEPATH') || exit('No direct script access allowed');
+use App\Models\Config;
+use Illuminate\Support\Facades\Schema;
 
 class Config_model extends CI_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     // Digunakan dibanyak tempat
     public function get_data()
     {
@@ -52,5 +59,39 @@ class Config_model extends CI_Model
             ->join('tweb_penduduk p', 'u.id_pend = p.id', 'left')
             ->get()
             ->row_array();
+    }
+
+    // Kalau belum diisi, buat identitas desa jika kode_desa ada di file desa/config/config.php
+    public function isi_config()
+    {
+        if (! Schema::hasTable('config') || Config::first() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
+            return;
+        }
+
+        // Ambil data desa dari tracksid
+        $this->load->library('data_publik');
+        $this->data_publik->set_api_url(config_item('server_pantau') . '/index.php/api/wilayah/kodedesa?token=' . config_item('token_pantau') . '&kode=' . $kode_desa, 'kode_desa');
+        $data_desa = $this->data_publik->get_url_content(true);
+
+        if ($data_desa->header->http_code != 200 || empty($data_desa->body)) {
+            set_session('error', "Kode desa {$kode_desa} di desa/config/config.php tidak ditemukan di " . config_item('server_pantau'));
+        } else {
+            $desa = $data_desa->body;
+            $data = [
+                'nama_desa'         => $desa->nama_desa,
+                'kode_desa'         => $kode_desa,
+                'nama_kecamatan'    => $desa->nama_kec,
+                'kode_kecamatan'    => $desa->kode_kec,
+                'nama_kabupaten'    => $desa->nama_kab,
+                'kode_kabupaten'    => $desa->kode_kab,
+                'nama_propinsi'     => $desa->nama_prov,
+                'kode_propinsi'     => $desa->kode_prov,
+                'nama_kepala_camat' => '',
+                'nip_kepala_camat'  => '',
+            ];
+            if (Config::insert($data)) {
+                set_session('success', "Kode desa {$kode_desa} diambil dari desa/config/config.php");
+            }
+        }
     }
 }

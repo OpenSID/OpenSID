@@ -83,6 +83,17 @@
 						</div>
 					<?php endif; ?>
 					<div class="form-group">
+						<label class="col-sm-3 control-label" for="mandiri">Gunakan Logo Burung Garuda</label>
+						<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+							<label id="n1" class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label <?= jecho($surat_master['logo_garuda'], 1, 'active'); ?>">
+								<input id="bg1" type="radio" name="logo_garuda" class="form-check-input" type="radio" value="1" <?= jecho($surat_master['logo_garuda'], 1, 'checked'); ?> autocomplete="off">Ya
+							</label>
+							<label id="n2" class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label <?= jecho($surat_master['logo_garuda'] != 1, true, 'active'); ?>">
+								<input id="bg2" type="radio" name="logo_garuda" class="form-check-input" type="radio" value="0" <?= jecho($surat_master['logo_garuda'] != 1, true, 'checked'); ?> autocomplete="off">Tidak
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="col-sm-3 control-label" for="mandiri">Sediakan di Layanan Mandiri</label>
 						<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
 							<label id="m1" class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label <?= jecho($surat_master['mandiri'], 1, 'active'); ?>">
