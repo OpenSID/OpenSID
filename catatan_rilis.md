@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.12.03 menyediakan Sinkronisasi data Program Bantuan dan Pembangunan ke OpenDK. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 23.01 menyediakan Sinkronisasi data Program Bantuan dan Pembangunan ke OpenDK. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada balongbesuk yang terus berkontribusi.
 
@@ -39,22 +39,6 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 10. [#5224](https://github.com/OpenSID/OpenSID/issues/5224) Perbaiki hari kelahiran pada lampiran Surat Keterangan Kelahiran yang tampil tidak benar.
 11. [#5219](https://github.com/OpenSID/OpenSID/issues/5219) Perbaiki daftar perangkat desa di kehadiran yang tidak tampil dengan benar.
 12. [#5243](https://github.com/OpenSID/OpenSID/issues/5243) Perbaiki sebutan kepala desa dan sebutan desa pada template surat yang tidak sesuai.
-13. [#5249](https://github.com/OpenSID/OpenSID/issues/5249) Perbaiki impor data penduduk terbaca ganda.
-14. [#5255](https://github.com/OpenSID/OpenSID/issues/5255) Perbaiki qr code surat yaang mengarah ke github opensid.
-15. [#5261](https://github.com/OpenSID/OpenSID/issues/5261) Perbaiki data lampiran surat keterangan pindah penduduk tidak tampil.
-16. [#5264](https://github.com/OpenSID/OpenSID/issues/5264) Perbaiki IDM Kemendes tidak dapat di perbaharui jika respon dari api tidak sesuai.
-17. [#5263](https://github.com/OpenSID/OpenSID/issues/5263) Perbaiki statistik pada peta wilayah dusun tidak tampil.
-18. [#5177](https://github.com/OpenSID/OpenSID/issues/5177) Perbaiki data jumlah keluarga tidak tampil pada Statistik Penduduk Laporan Bulanan.
-19. [#5267](https://github.com/OpenSID/OpenSID/issues/5267) Perbaiki isian jumlah biaya pembangunan tidak bisa lebih dari 9 digit.
-20. [#5265](https://github.com/OpenSID/OpenSID/issues/5265) Perbaiki duplikasi peserta program bantuan pada semua sasaran bantuan.
-21. [#5269](https://github.com/OpenSID/OpenSID/issues/5269) Perbaiki error saat ubah artikel dengan grup pengguna bukan bawaan sistem.
-22. [#5272](https://github.com/OpenSID/OpenSID/issues/5272) Perbaiki tidak bisa tampilkan feed.
-23. [#5279](https://github.com/OpenSID/OpenSID/issues/5279) Perbaiki an/ub pada menu permohonan surat tidak muncul.
-24. [#5277](https://github.com/OpenSID/OpenSID/issues/5277) Perbaiki masih bisa hapus pengguna yang sudah lakukan absensi kehadiran.
-25. [#5285](https://github.com/OpenSID/OpenSID/issues/5285) Perbaiki notifikasi status langganan.
-26. [#5286](https://github.com/OpenSID/OpenSID/issues/5286) Perbaiki error console [Uncaught TypeError: Cannot read properties of undefined (reading 'settings')]
-27. [#5287](https://github.com/OpenSID/OpenSID/issues/5287) Perbaiki surat keterangan pindah penduduk.
-28. [#5289](https://github.com/OpenSID/OpenSID/issues/5289) Perbaiki gagal install v22.06-premium di shared hosting.
 
 #### Perubahan Teknis
 
@@ -71,7 +55,3 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 11. [#5237](https://github.com/OpenSID/OpenSID/issues/5237) Sederhanakan pemanggilan tracksid dengan menghapus token_opensid, gunakan token_pantau.
 12. Perpanjang layanan.
 13. [#63](https://github.com/OpenSID/wiki-layanan-opendesa/issues/63) Batasi jalankan migrasi sesuai versi dan masa langganan.
-14. [#1070](https://github.com/OpenSID/premium/pull/1070) Teknis perbaiki view database blank, rubah ke error 500.
-15. [#1075](https://github.com/OpenSID/premium/pull/1075) Teknis perbaiki backup tidak jalan di VPS.
-16. [#1080](https://github.com/OpenSID/premium/pull/1080) Teknis perbaiki hapus fungsi yang tidak diperlukan.
-17. [#109](https://github.com/OpenSID/wiki-layanan-opendesa/issues/109) Teknis tidak bisa cetak nota pelanggan jika ada layanan yg belum lunas.

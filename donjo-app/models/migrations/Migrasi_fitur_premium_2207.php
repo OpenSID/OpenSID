@@ -56,7 +56,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2206');
         $hasil = $hasil && $this->migrasi_2022060851($hasil);
 
-        return $hasil && $this->migrasi_2022060951($hasil);
+        return $hasil && $this->migrasi_2023010171($hasil);
     }
 
     protected function migrasi_2022060851($hasil)
@@ -89,7 +89,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022060951($hasil)
+    protected function migrasi_2023010171($hasil)
     {
         // Cek data ganda
         $akanDihapus = [];
@@ -132,7 +132,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
         }
 
         // Tambahkan index pada program_id dan kartu_id_pend
-        if (! $this->cek_indeks('program_peserta', 'program_peserta_program_id_kartu_id_pend_unique')) {
+        if (!$this->cek_indeks('program_peserta', 'program_peserta_program_id_kartu_id_pend_unique')) {
             Schema::table('program_peserta', static function (Blueprint $table) {
                 $table->unique(['program_id', 'kartu_id_pend']);
             });
