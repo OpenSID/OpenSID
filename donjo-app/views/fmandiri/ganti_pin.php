@@ -53,7 +53,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<form action="<?= $form_action; ?>" method="POST" id="validasi">
 					<div class="box-body">
-						<?php $gagal = $data = $this->session->flashdata('notif'); ?>
+						<?php $gagal = $data = session('notif'); ?>
 						<?php if ($data['status'] == -1) : ?>
 							<div class="callout callout-danger">
 								<?= $gagal['pesan']; ?>

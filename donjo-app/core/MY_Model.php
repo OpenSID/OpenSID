@@ -62,6 +62,7 @@ class MY_Model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+
         $this->load->driver('cache');
         $this->load->dbforge();
     }
@@ -229,7 +230,7 @@ class MY_Model extends CI_Model
             ->where('table_schema', $db)
             ->where('table_name', $tabel)
             ->where('index_name', $kolom)
-            ->get()->row()->ada;
+            ->get()->row()->ada > 0;
     }
 
     public function tambah_modul($modul)
@@ -365,7 +366,7 @@ class MY_Model extends CI_Model
             $fields['created_by'] = [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'null'       => false,
+                'null'       => true,
             ];
         }
 
@@ -379,7 +380,7 @@ class MY_Model extends CI_Model
             $fields['updated_by'] = [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'null'       => false,
+                'null'       => true,
             ];
         }
 

@@ -174,6 +174,8 @@ class Mandiri_model extends CI_Model
 
     public function update($id_pend = null)
     {
+        akun_demo($id_pend);
+
         $post = $this->input->post();
         $pin  = bilangan($post['pin'] ?? $this->generate_pin());
         $nama = $this->db->select('nama')->where('id', $id_pend)->get('penduduk_hidup')->row()->nama;
@@ -215,27 +217,13 @@ class Mandiri_model extends CI_Model
         }
     }
 
-    public function delete($id_pend = '', $semua = false)
+    public function delete($id_pend = '')
     {
-        if (! $semua) {
-            $this->session->success = 1;
-        }
+        akun_demo($id_pend);
 
         $outp = $this->db->where('id_pend', $id_pend)->delete('tweb_penduduk_mandiri');
 
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
-    }
-
-    // TODO : Belum digunakan
-    public function delete_all()
-    {
-        $this->session->success = 1;
-
-        $id_cb = $_POST['id_cb'];
-
-        foreach ($id_cb as $id) {
-            $this->delete($id, $semua = true);
-        }
+        status_sukses($outp);
     }
 
     // TODO : Digunakan dimana ?
@@ -506,6 +494,12 @@ class Mandiri_model extends CI_Model
         session_error_clear();
         $this->session->aktif = false;
 
+        if (akun_demo($data->id_pend, false)) {
+            $data->pin       = hash_pin(config_item('demo_akun')[$data->id_pend]);
+            $data->ganti_pin = 1;
+            $data->aktif     = 1;
+        }
+
         if ($data->aktif == 1) {
             switch (true) {
                 case $data && $pin == $data->pin:
@@ -553,6 +547,11 @@ class Mandiri_model extends CI_Model
 
         session_error_clear();
         $this->session->aktif = false;
+
+        if (akun_demo($data->id_pend, false)) {
+            $data->ganti_pin = 1;
+            $data->aktif     = 1;
+        }
 
         if ($data->aktif == 1) {
             switch (true) {
@@ -637,12 +636,18 @@ class Mandiri_model extends CI_Model
         ];
 
         switch (true) {
+            case akun_demo($id_pend, false):
+                $respon = [
+                    'status' => -1, // Notif gagal
+                    'pesan'  => 'Tidak dapat mengubah PIN akun demo',
+                ];
+                break;
+
             case $pin_lama != $pin:
                 $respon = [
                     'status' => -1, // Notif gagal
                     'pesan'  => 'PIN gagal diganti, <b>PIN Lama</b> yang anda masukkan tidak sesuai',
                 ];
-                $this->session->set_flashdata('notif', $respon);
                 break;
 
             case $pin_baru2 == $pin:
@@ -650,7 +655,6 @@ class Mandiri_model extends CI_Model
                     'status' => -1, // Notif gagal
                     'pesan'  => '<b>PIN</b> gagal diganti, Silahkan ganti <b>PIN Lama</b> anda dengan <b>PIN Baru</b> ',
                 ];
-                $this->session->set_flashdata('notif', $respon);
                 break;
 
             case $pilihan_kirim == 'kirim_telegram':
@@ -660,13 +664,11 @@ class Mandiri_model extends CI_Model
                         'aksi'   => site_url('layanan-mandiri/keluar'),
                         'pesan'  => 'PIN Baru sudah dikirim ke Akun Telegram Anda',
                     ];
-                    $this->session->set_flashdata('notif', $respon);
                 } else {
                     $respon = [
                         'status' => -1, // Notif gagal
                         'pesan'  => '<b>PIN Baru</b> gagal dikirim ke Telegram, silahkan hubungi operator',
                     ];
-                    $this->session->set_flashdata('notif', $respon);
                 }
                 break;
 
@@ -677,13 +679,11 @@ class Mandiri_model extends CI_Model
                         'aksi'   => site_url('layanan-mandiri/keluar'),
                         'pesan'  => 'PIN Baru sudah dikirim ke Akun Email Anda',
                     ];
-                    $this->session->set_flashdata('notif', $respon);
                 } else {
                     $respon = [
                         'status' => -1, // Notif gagal
                         'pesan'  => '<b>PIN Baru</b> gagal dikirim ke Email, silahkan hubungi operator',
                     ];
-                    $this->session->set_flashdata('notif', $respon);
                 }
                 break;
 
@@ -694,9 +694,10 @@ class Mandiri_model extends CI_Model
                     'aksi'   => site_url('layanan-mandiri/keluar'),
                     'pesan'  => 'PIN berhasil diganti, silahkan masuk kembali dengan Kode PIN : ' . $ganti['pin_baru2'],
                 ];
-                $this->session->set_flashdata('notif', $respon);
                 break;
         }
+
+        set_session('notif', $respon);
     }
 
     //Permintaan Pendaftaran Layanan Mandiri

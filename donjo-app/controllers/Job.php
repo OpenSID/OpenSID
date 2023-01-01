@@ -68,16 +68,18 @@ class Job extends CI_Controller
             'desa/themes',
         ];
 
-        // Kosongkan folder desa dan copy isi folder desa-contoh
+        // Kosongkan folder desa
         foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
             if (! in_array($folder, $exclude)) {
                 delete_files(FCPATH . $folder, true);
             }
         }
-        xcopy('desa-contoh', 'desa', ['config']);
+
+        // Buat folder desa
+        folder_desa();
 
         // Proses Restore Database
-        if ($this->ekspor_model->proses_restore($this->cekDB($database))) {
+        if ($this->ekspor_model->proses_restore($this->cekDB($database ?? 'contoh_data_awal'))) {
             $this->database_model->migrasi_db_cri();
         } else {
             log_message('error', 'Proses Restore Database Gagal');
@@ -86,17 +88,10 @@ class Job extends CI_Controller
         log_message('error', '>_ Selesai');
     }
 
-    private function cekDB($filename = null)
+    private function cekDB($filename)
     {
-        if (! $filename) {
-            $filename = FCPATH . 'contoh_data_awal_' . str_replace('.', '', '20' . currentVersion()) . '01.sql';
-        }
+        $filename = DESAPATH . "/config/{$filename}.sql";
 
-        return $this->cekFile($filename);
-    }
-
-    private function cekFile($filename = null)
-    {
         if (file_exists($filename)) {
             return $filename;
         }

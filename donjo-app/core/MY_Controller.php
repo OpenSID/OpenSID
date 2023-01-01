@@ -70,6 +70,16 @@ class MY_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $error = $this->session->db_error;
+        if ($error['code'] == 1049 && ! $this->db) {
+            return;
+        }
+        /*
+        | Tambahkan model yg akan diautoload di sini.
+        | donjo-app/config/autoload.php digunakan untuk autoload model untuk mengisi data awal
+        | pada waktu install, di mana database masih kosong
+        */
+        $this->load->model(['config_model', 'setting_model']);
         $this->controller = strtolower($this->router->fetch_class());
         $this->setting_model->init();
         $this->header  = $this->config_model->get_data();

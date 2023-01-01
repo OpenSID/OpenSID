@@ -36,6 +36,7 @@
  */
 
 use App\Models\DaftarKontak;
+use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,7 +52,9 @@ class Daftar_kontak extends Admin_Controller
 
     public function index()
     {
-        return view('admin.daftar_kontak.index');
+        return view('admin.daftar_kontak.index', [
+            'navigasi' => 'Eksternal',
+        ]);
     }
 
     public function datatables()
@@ -84,9 +87,35 @@ class Daftar_kontak extends Admin_Controller
         return show_404();
     }
 
+    public function penduduk()
+    {
+        return view('admin.daftar_kontak.penduduk', [
+            'navigasi' => 'Penduduk',
+        ]);
+    }
+
+    public function datatablesPenduduk()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(Penduduk::hubungWarga())
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    if (can('u')) {
+                        return '<a href="' . route('daftar_kontak.form_penduduk', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
+                })
+                ->rawColumns(['ceklist', 'aksi'])
+                ->make();
+        }
+
+        return show_404();
+    }
+
     public function form($id = null)
     {
         $this->redirect_hak_akses('u');
+
+        $navigasi = 'Eksternal';
 
         if ($id) {
             $action       = 'Ubah';
@@ -98,7 +127,19 @@ class Daftar_kontak extends Admin_Controller
             $daftarKontak = null;
         }
 
-        return view('admin.daftar_kontak.form', compact('action', 'formAction', 'daftarKontak'));
+        return view('admin.daftar_kontak.form', compact('title', 'navigasi', 'action', 'formAction', 'daftarKontak'));
+    }
+
+    public function form_penduduk($id = null)
+    {
+        $this->redirect_hak_akses('u');
+
+        $navigasi     = 'Penduduk';
+        $action       = 'Ubah';
+        $formAction   = route('daftar_kontak.update_penduduk', $id);
+        $daftarKontak = Penduduk::find($id) ?? show_404();
+
+        return view('admin.daftar_kontak.form', compact('title', 'navigasi', 'action', 'formAction', 'daftarKontak'));
     }
 
     public function insert()
@@ -121,6 +162,18 @@ class Daftar_kontak extends Admin_Controller
             redirect_with('success', 'Berhasil Ubah Data');
         }
         redirect_with('error', 'Gagal Ubah Data');
+    }
+
+    public function update_penduduk($id = null)
+    {
+        $this->redirect_hak_akses('u');
+
+        $data = Penduduk::find($id) ?? show_404();
+
+        if ($data->update(static::validate($this->request))) {
+            redirect_with('success', 'Berhasil Ubah Data', 'daftar_kontak/penduduk');
+        }
+        redirect_with('error', 'Gagal Ubah Data', 'daftar_kontak/penduduk');
     }
 
     public function delete($id = null)

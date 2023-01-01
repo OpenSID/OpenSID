@@ -614,12 +614,14 @@ class Surat_model extends CI_Model
         return str_replace('[kop_surat]', $kop_surat, $buffer);
     }
 
-    private function sisipkan_logo($nama_logo, $buffer)
+    private function sisipkan_logo($nama_logo, $logo_garuda, $buffer)
     {
-        $file_logo = APPPATH . '../' . LOKASI_LOGO_DESA . $nama_logo;
+        $file_logo = FCPATH . (($logo_garuda) ? 'assets/images/garuda.png' : LOKASI_LOGO_DESA . $nama_logo);
+
         if (! is_file($file_logo)) {
             return $buffer;
         }
+
         // Akhiran dan awalan agak panjang supaya unik
         $akhiran_logo      = 'e33874670000000049454e44ae426082';
         $awalan_logo       = '89504e470d0a1a0a0000000d4948445200000040000000400806000000aa';
@@ -799,11 +801,11 @@ class Surat_model extends CI_Model
         $surat       = $data['surat'];
         $id          = $input['nik'];
         $url         = $surat['url_surat'];
+        $logo_garuda = $surat['logo_garuda'];
         $tgl         = tgl_indo(date('Y m d'));
         $tgl_hijri   = Hijri_date_id::date('j F Y');
         $thn         = date('Y');
         $tampil_foto = $input['tampil_foto'];
-        $qrcode      = $this->session->qrcode;
 
         $tgllhr           = ucwords(tgl_indo($individu['tanggallahir']));
         $individu['nama'] = strtoupper($individu['nama']);
@@ -819,10 +821,9 @@ class Surat_model extends CI_Model
             $buffer = stream_get_contents($handle);
             $buffer = $this->bersihkan_kode_isian($buffer);
             $buffer = $this->sisipkan_kop_surat($buffer);
-            $buffer = $this->sisipkan_logo($config['logo'], $buffer);
-
+            $buffer = $this->sisipkan_logo($config['logo'], $logo_garuda, $buffer);
             $buffer = $this->sisipkan_foto($data, $tampil_foto ? $individu['foto'] : 'empty.png', $buffer);
-            $buffer = $this->sisipkan_qr($data, $qrcode ? "{$qrcode['namaqr']}.png" : 'empty.png', $buffer);
+            $buffer = $this->sisipkan_qr($data['qrCode']['viewqr'] ?? FCPATH . LOKASI_SISIPAN_DOKUMEN . 'empty.png', $buffer);
 
             // SURAT PROPERTI
             $array_replace = [
@@ -1061,14 +1062,15 @@ class Surat_model extends CI_Model
 
     public function lampiran($data, $nama_surat, &$lampiran)
     {
-        $surat = $data['surat'];
+        $surat    = $data['surat'];
+        $config   = $data['config'];
+        $individu = $data['individu'];
+        $input    = $data['input'];
+
         if (! $surat['lampiran']) {
             return;
         }
 
-        $config   = $data['config'];
-        $individu = $data['individu'];
-        $input    = $data['input'];
         // $lampiran_surat dalam bentuk seperti "f-1.08.php, f-1.25.php, f-1.27.php"
         $daftar_lampiran = explode(',', $surat['lampiran']);
         include $this->get_file_data_lampiran($surat['url_surat'], $surat['lokasi_rtf']);
@@ -1091,7 +1093,7 @@ class Surat_model extends CI_Model
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
             $formatter = new ExceptionFormatter($e);
-            echo $formatter->getHtmlMessage();
+            log_message('error', $formatter->getHtmlMessage());
         }
     }
 
@@ -1117,14 +1119,19 @@ class Surat_model extends CI_Model
 
     public function buat_surat($url, &$nama_surat, &$lampiran)
     {
-        $data  = $this->get_data_untuk_surat($url);
-        $input = $data['input'];
+        $data = $this->get_data_untuk_surat($url);
+
+        $data['qrCode'] = null;
         if ($data['surat']['qr_code'] == 1) {
-            $this->buat_qrcode($data, $nama_surat);
+            $data['qrCode'] = $this->buatQrCode($nama_surat);
         }
+
         $this->lampiran($data, $nama_surat, $lampiran);
 
-        return $this->surat_utama($data, $nama_surat);
+        return [
+            'namaSurat' => $this->surat_utama($data, $nama_surat),
+            'qrCode'    => $data['qrCode'],
+        ];
     }
 
     public function surat_utama($data, &$nama_surat)
@@ -1206,11 +1213,8 @@ class Surat_model extends CI_Model
             ->get()->result_array()[0];
     }
 
-    private function sisipkan_qr($data, $nama_qr, $buffer)
+    private function sisipkan_qr($file_qr, $buffer)
     {
-        $input   = $data['input'];
-        $file_qr = APPPATH . '../' . (($nama_qr == 'empty.png') ? LOKASI_SISIPAN_DOKUMEN : LOKASI_MEDIA) . $nama_qr;
-
         if (! is_file($file_qr)) {
             return $buffer;
         }
@@ -1234,38 +1238,26 @@ class Surat_model extends CI_Model
         return $buffer;
     }
 
-    public function buat_qrcode($data, $nama_surat)
+    public function buatQrCode($nama_surat)
     {
         $this->load->model('url_shortener_model');
 
-        $surat         = $data['surat'];
-        $input         = $data['input'];
-        $config        = $data['config'];
-        $foreqr        = '#000000';
-        $nama_surat_qr = pathinfo($nama_surat, PATHINFO_FILENAME);
-        $id_log_surat  = $this->db->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->limit(1)->get()->row()->id;
+        $log_surat = $this->db->select('id, urls_id')->get_where('log_surat', ['nama_surat' => $nama_surat])->row_array();
 
         //redirect link tidak ke path aslinya dan encode ID surat
-        $check_surat = site_url("c1/{$id_log_surat}");
+        $urls = $this->url_shortener_model->url_pendek($log_surat);
 
-        //link diubah ke URL Shortener
-        $isiqr = $this->url_shortener_model->url_pendek($check_surat);
-
-        $pathqr = LOKASI_MEDIA;
-        $desa   = $this->header['desa'];
-        $logoqr = gambar_desa($desa['logo'], false, $file = true);
-
-        $qrcode = [
-            'pathqr' => $pathqr,
-            'namaqr' => $nama_surat_qr,
-            'isiqr'  => $isiqr,
-            'logoqr' => $logoqr,
-            'sizeqr' => 6,
-            'foreqr' => $foreqr,
-            'viewqr' => base_url(LOKASI_MEDIA . '' . $nama_surat_qr . '.png'),
+        $qrCode = [
+            'isiqr'   => $urls['isiqr'],
+            'urls_id' => $urls['urls_id'],
+            'logoqr'  => gambar_desa($this->header['desa']['logo'], false, true),
+            'sizeqr'  => 6,
+            'foreqr'  => '#000000',
         ];
-        $this->session->qrcode = $qrcode;
-        qrcode_generate($qrcode['pathqr'], $qrcode['namaqr'], $qrcode['isiqr'], $qrcode['logoqr'], $qrcode['sizeqr'], $qrcode['foreqr']);
+
+        $qrCode['viewqr'] = qrcode_generate($qrCode);
+
+        return $qrCode;
     }
 
     // Periksa apakah template rtf berisi sematan qrcode
@@ -1293,5 +1285,24 @@ class Surat_model extends CI_Model
         return $this->db
             ->get_where('tweb_surat_format', ['id' => $id])
             ->row_array();
+    }
+
+    public function getQrCode($id)
+    {
+        $this->load->model('url_shortener_model');
+
+        //redirect link tidak ke path aslinya dan encode ID surat
+        $urls = $this->url_shortener_model->getUrlById($id);
+
+        $qrCode = [
+            'isiqr'  => site_url('v/' . $urls->alias),
+            'logoqr' => gambar_desa($this->header['desa']['logo'], false, true),
+            'sizeqr' => 6,
+            'foreqr' => '#000000',
+        ];
+
+        $qrCode['viewqr'] = qrcode_generate($qrCode, true);
+
+        return $qrCode;
     }
 }

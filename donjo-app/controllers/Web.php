@@ -106,7 +106,7 @@ class Web extends Admin_Controller
 
     public function form($id = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $cat = $this->session->kategori ?: 0;
 
         if ($id) {
@@ -146,7 +146,7 @@ class Web extends Admin_Controller
 
     public function insert()
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $cat = $this->session->kategori ?: 0;
 
         $this->web_artikel_model->insert($cat);
@@ -155,7 +155,7 @@ class Web extends Admin_Controller
 
     public function update($id = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $cat = $this->session->kategori ?: 0;
 
         if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
@@ -187,7 +187,7 @@ class Web extends Admin_Controller
     // TODO: Pindahkan ke controller kategori
     public function hapus()
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $cat = $this->session->kategori ?: 0;
 
         $this->redirect_hak_akses('h');
@@ -199,7 +199,7 @@ class Web extends Admin_Controller
     // TODO: Pindahkan ke controller kategoris
     public function ubah_kategori_form($id = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
         }
@@ -212,7 +212,7 @@ class Web extends Admin_Controller
 
     public function update_kategori($id = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
         }
@@ -225,7 +225,6 @@ class Web extends Admin_Controller
 
     public function artikel_lock($id = 0, $val = 1)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         // Kontributor tidak boleh mengubah status aktif artikel
         $this->redirect_hak_akses('u');
 
@@ -235,7 +234,6 @@ class Web extends Admin_Controller
 
     public function komentar_lock($id = 0, $val = 1)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         // Kontributor tidak boleh mengubah status komentar artikel
         $this->redirect_hak_akses('u');
 
@@ -246,7 +244,7 @@ class Web extends Admin_Controller
     // TODO: Pindahkan ke controller kategori
     public function ajax_add_kategori($cat = 1, $p = 1, $o = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $data['form_action'] = site_url("web/insert_kategori/{$cat}/{$p}/{$o}");
         $this->load->view('web/artikel/ajax_add_kategori_form', $data);
     }
@@ -254,8 +252,7 @@ class Web extends Admin_Controller
     // TODO: Pindahkan ke controller kategori
     public function insert_kategori($cat = 1, $p = 1, $o = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        redirect_hak_akses('u', "web/index/{$cat}/{$p}/{$o}", 'kategori');
+        $this->redirect_hak_akses('u', "web/index/{$cat}/{$p}/{$o}", 'kategori');
         $this->web_artikel_model->insert_kategori();
         redirect("web/index/{$cat}/{$p}/{$o}");
     }
@@ -312,7 +309,7 @@ class Web extends Admin_Controller
 
     public function reset()
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $cat = $this->session->kategori ?: 0;
 
         if ($cat == 999) {

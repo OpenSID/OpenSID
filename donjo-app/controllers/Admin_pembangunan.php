@@ -37,12 +37,15 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\Pembangunan;
+
 class Admin_pembangunan extends Admin_Controller
 {
     public function __construct()
     {
         parent::__construct();
         $this->modul_ini = 220;
+        $this->load->library('zip');
         $this->load->library('upload');
         $this->load->model('pembangunan_model', 'pembangunan');
         $this->load->model('pembangunan_dokumentasi_model', 'dokumentasi');

@@ -99,6 +99,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete'); ?>
+<?php $this->load->view('global/sinkronisasi_notif'); ?>
 <script>
 	$(document).ready(function() {
 		let tabelPembangunan = $('#tabel-pembangunan').DataTable({
@@ -121,9 +122,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				}
 			},
 			'columns': [
-				{
-					'data': null,
-				},
+				{ 'data': null },
 				{
 					'data': function(data) {
 						let status;

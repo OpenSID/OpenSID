@@ -48,6 +48,7 @@ class Perangkat extends Web_Controller
     private $jam;
     private $ip;
     private $mac;
+    private $pengunjung;
     private $url;
 
     public function __construct()
@@ -59,11 +60,12 @@ class Perangkat extends Web_Controller
 
         $this->cekAbsenKeluar();
 
-        $this->tgl = date('Y-m-d');
-        $this->jam = date('H:i');
-        $this->ip  = $this->input->ip_address();
-        $this->mac = $this->input->get('mac_address', true) ?? $this->session->mac_address;
-        $this->url = 'kehadiran/masuk';
+        $this->tgl        = date('Y-m-d');
+        $this->jam        = date('H:i');
+        $this->ip         = $this->input->ip_address();
+        $this->mac        = $this->input->get('mac_address', true) ?? $this->session->mac_address;
+        $this->pengunjung = $_COOKIE['pengunjung'];
+        $this->url        = 'kehadiran/masuk';
 
         if ($this->mac) {
             $this->session->mac_address = $this->mac;
@@ -75,11 +77,12 @@ class Perangkat extends Web_Controller
         $this->cekLogin();
 
         $data = [
-            'masuk'       => $this->session->masuk,
-            'success'     => $this->session->kehadiran,
-            'ip_address'  => $this->ip,
-            'mac_address' => $this->mac,
-            'kehadiran'   => Kehadiran::where('tanggal', '=', $this->tgl)->where('pamong_id', '=', $this->session->masuk['pamong_id'])->where('status_kehadiran', '=', 'hadir')->first(),
+            'masuk'         => $this->session->masuk,
+            'success'       => $this->session->kehadiran,
+            'ip_address'    => $this->ip,
+            'mac_address'   => $this->mac,
+            'id_pengunjung' => $this->pengunjung,
+            'kehadiran'     => Kehadiran::where('tanggal', '=', $this->tgl)->where('pamong_id', '=', $this->session->masuk['pamong_id'])->where('status_kehadiran', '=', 'hadir')->first(),
         ];
 
         return view('kehadiran.index', $data);
@@ -147,16 +150,17 @@ class Perangkat extends Web_Controller
 
     public function masuk($ektp = false)
     {
-        $cek_gawai   = (setting('ip_adress_kehadiran') === $this->ip || setting('mac_adress_kehadiran') === $this->mac);
+        $cek_gawai   = (setting('ip_adress_kehadiran') === $this->ip || setting('mac_adress_kehadiran') === $this->mac || setting('id_pengunjung_kehadiran') === $this->pengunjung);
         $cek_hari    = HariLibur::where('tanggal', '=', date('Y-m-d'))->first();
         $cek_weekend = JamKerja::libur()->first();
         $cek_jam     = JamKerja::jamKerja()->first();
 
         $data = [
-            'ip_address'  => $this->ip,
-            'mac_address' => $this->mac,
-            'ektp'        => $ektp,
-            'cek'         => [
+            'ip_address'    => $this->ip,
+            'mac_address'   => $this->mac,
+            'id_pengunjung' => $this->pengunjung,
+            'ektp'          => $ektp,
+            'cek'           => [
                 'status' => null === $cek_hari && null === $cek_jam && null === $cek_weekend && $cek_gawai === true,
                 'judul'  => 'Tidak bisa masuk!',
                 'pesan'  => $this->getStatusPesan([

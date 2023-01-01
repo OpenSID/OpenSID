@@ -3,7 +3,7 @@
 
 @section('title')
 <h1>
-  Grup Kontak
+    Grup Kontak
   <small>{{ $action }} Data</small>
 </h1>
 @endsection

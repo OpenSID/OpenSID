@@ -167,7 +167,6 @@ class Database_model extends MY_Model
 
     public function migrasi_db_cri()
     {
-        $this->load->model('folder_desa_model');
         // Tunggu restore selesai sebelum migrasi
         if (isset($this->session->sedang_restore) && $this->session->sedang_restore == 1) {
             return;
@@ -196,8 +195,9 @@ class Database_model extends MY_Model
 
         // Jalankan migrasi layanan
         $this->jalankan_migrasi('migrasi_layanan');
-        $this->folder_desa_model->amankan_folder_desa();
         $this->db->where('id', 13)->update('setting_aplikasi', ['value' => true]);
+        // Lengkapi folder desa
+        folder_desa();
         /*
          * Update current_version di db.
          * 'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
@@ -248,17 +248,22 @@ class Database_model extends MY_Model
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi()
+    public function cek_migrasi($install = false)
     {
-        // Paksa menjalankan migrasi kalau belum
-        // Migrasi direkam di tabel migrasi
-        if (! $this->versi_database_terbaru()) {
-            // Ulangi migrasi terakhir
-            $terakhir                                                                                  = key(array_slice($this->versionMigrate, -1, 1, true));
-            $sebelumnya                                                                                = key(array_slice($this->versionMigrate, -2, 1, true));
-            $this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
+        if ($install) {
+            // Paksa menjalankan migrasi kalau belum
+            // Migrasi direkam di tabel migrasi
+            if (! $this->versi_database_terbaru()) {
+                // Ulangi migrasi terakhir
+                $terakhir                                                                                  = key(array_slice($this->versionMigrate, -1, 1, true));
+                $sebelumnya                                                                                = key(array_slice($this->versionMigrate, -2, 1, true));
+                $this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
 
-            $this->migrasi_db_cri();
+                $this->migrasi_db_cri();
+
+                // Kirim versi aplikasi ke layanan setelah migrasi selesai
+                $this->kirimVersi();
+            }
         }
 
         $this->jalankan_migrasi('migrasi_layanan');
@@ -1084,7 +1089,6 @@ class Database_model extends MY_Model
             ]);
 
             if ($this->db->field_exists('disposisi_kepada', 'surat_masuk')) {
-
                 // ambil semua data surat masuk
                 $data = $this->db->select()->from('surat_masuk')->get()->result();
 
@@ -1691,8 +1695,6 @@ class Database_model extends MY_Model
 
     private function migrasi_210_ke_211()
     {
-        $this->load->model('analisis_import_model');
-
         // Tambah kolom jenis untuk analisis_master
         $fields = [];
         if (!$this->db->field_exists('jenis', 'analisis_master')) {
@@ -2223,15 +2225,6 @@ class Database_model extends MY_Model
 				modul = VALUES(modul),
 				url = VALUES(url)";
         $this->db->query($query);
-        // Tambah folder desa/upload/media
-        if (!file_exists('/desa/upload/media')) {
-            mkdir('desa/upload/media');
-            xcopy('desa-contoh/upload/media', 'desa/upload/media');
-        }
-        if (!file_exists('/desa/upload/thumbs')) {
-            mkdir('desa/upload/thumbs');
-            xcopy('desa-contoh/upload/thumbs', 'desa/upload/thumbs');
-        }
         // Tambah kolom kode di tabel kelompok
         if (!$this->db->field_exists('kode', 'kelompok')) {
             $fields = [
@@ -3604,40 +3597,36 @@ class Database_model extends MY_Model
             }
         }
         $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
+
+        $this->impor_data_awal_analisis();
+
+        // Kecuali folder
+        $exclude = [
+            'desa/config',
+            'desa/themes',
+        ];
+
+        // Kosongkan folder desa
+        foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
+            if (! in_array($folder, $exclude)) {
+                delete_files(FCPATH . $folder, true);
+            }
+        }
+        // Buat folder desa
+        folder_desa();
+
+        session_success();
+    }
+
+    public function impor_data_awal_analisis()
+    {
+        $this->load->model('analisis_import_model');
+
         // Tambahkan kembali Analisis DDK Profil Desa dan Analisis DAK Profil Desa
         $file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xlsx';
         $this->analisis_import_model->impor_analisis($file_analisis, 'DDK02', 1);
         $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
-        $this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', $jenis = 1);
-
-        // Kecuali folder
-        $exclude = [
-            'desa/config',
-            'desa/themes',
-        ];
-
-        // Kecuali folder
-        $exclude = [
-            'desa/config',
-            'desa/themes',
-        ];
-
-        // Kecuali folder
-        $exclude = [
-            'desa/config',
-            'desa/themes',
-        ];
-
-        // Kosongkan folder desa dan copy isi folder desa-contoh
-        foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
-            if (!in_array($folder, $exclude)) {
-                delete_files(FCPATH . $folder, true);
-            }
-        }
-
-        xcopy('desa-contoh', 'desa', ['config'], ['.htaccess', 'index.html', 'baca-ini.txt']);
-
-        session_success();
+        $this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', 1);
     }
 
     public function get_views()
@@ -3648,5 +3637,33 @@ class Database_model extends MY_Model
         $data  = $query->result_array();
 
         return array_column($data, 'TABLE_NAME');
+    }
+
+    private function kirimVersi()
+    {
+        if (empty($this->header['desa']['kode_desa'])) {
+            return;
+        }
+
+        $this->load->driver('cache');
+
+        $versi = AmbilVersi();
+
+        if ($versi != $this->cache->file->get('versi_app_cache')) {
+            try {
+                $client = new \GuzzleHttp\Client();
+                $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
+                    'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
+                    'form_params' => [
+                        'kode_desa' => kode_wilayah($this->header['desa']['kode_desa']),
+                        'versi'     => $versi,
+                    ],
+                ])
+                    ->getBody();
+                $this->cache->file->save('versi_app_cache', $versi);
+            } catch (Exception $e) {
+                log_message('error', $e);
+            }
+        }
     }
 }

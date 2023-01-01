@@ -118,8 +118,8 @@
 																		<?php if (is_file($data['file_lampiran'])): ?>
 																			<a href="<?= site_url("{$this->controller}/unduh/lampiran/{$data['id']}"); ?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
 																		<?php	endif; ?>
-																		<?php if (is_file($data['file_qr'])): ?>
-																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" data-urlqr="<?= site_url("c1/{$data['id']}"); ?>" title="Lihat QR Code" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
+																		<?php if ($data['urls_id']): ?>
+																			<a href="<?= site_url("{$this->controller}/qrcode/{$data['urls_id']}"); ?>" title="QR Code" data-size="modal-sm" class="viewQR btn btn-flat bg-aqua btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="QR Code"><i class="fa fa-qrcode"></i></a>
 																		<?php	endif; ?>
 																	</td>
 																	<td><?= $data['kode_surat']?></td>
@@ -197,26 +197,6 @@
 
 <?php $this->load->view('global/confirm_delete'); ?>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-sm">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel"><center>QR Code</center></h4>
-			</div>
-				<div class="box-body">
-					<div class="form-group">
-						<center>
-							<img id="image_qr" src="" class="img-thumbnail" >
-							<a id="url_qr" href="" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i> Lihat</a>
-						</center>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
 <script>
 	$(function() {
 		var keyword = <?= $keyword?> ;
@@ -224,14 +204,5 @@
 			source: keyword,
 			maxShowItems: 10,
 		});
-	});
-
-	$(document).on("click", ".viewQR", function (e) {
-		e.preventDefault();
-
-		$("#image_qr").attr('src', $(this).data('fileqr'));
-		$("#url_qr").attr('href', $(this).data('urlqr'));
-
-		$($(this).attr('href')).modal('show');
 	});
 </script>

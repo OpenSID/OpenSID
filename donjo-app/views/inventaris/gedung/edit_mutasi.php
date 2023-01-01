@@ -3,7 +3,7 @@
 		<h1>Ubah Data Mutasi Inventaris Gedung Dan Bangunan</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url() ?>inventaris_gedung/mutasi"><i class="fa fa-dashboard"></i>Daftar Mutasi Inventaris Gedung Dan Bangunan</a></li>
+			<li><a href="<?= site_url('inventaris_gedung/mutasi') ?>"><i class="fa fa-dashboard"></i>Daftar Mutasi Inventaris Gedung Dan Bangunan</a></li>
 			<li class="active">Ubah Data Mutasi</li>
 		</ol>
 	</section>
@@ -16,7 +16,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url() ?>inventaris_gedung/mutasi" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Mutasi Inventaris Gedung Dan Bangunan</a>
+							<a href="<?= site_url('inventaris_gedung/mutasi') ?>" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Mutasi Inventaris Gedung Dan Bangunan</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -45,29 +45,28 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Mutasi</label>
 										<div class="col-sm-4">
 											<select name="status_mutasi" id="status" class="form-control input-sm required">
-												<option value="Baik" <?php selected($main->status_mutasi, 'Baik') ?>>Baik</option>
-												<option value="Rusak" <?php selected($main->status_mutasi, 'Rusak') ?>>Rusak</option>
-												<option value="Diperbaiki" <?php selected($main->status_mutasi, 'Diperbaiki') ?>>Diperbaiki</option>
-												<option value="Hapus" <?php selected($main->status_mutasi, 'Hapus') ?>>Penghapusan</option>
+												<option value="Baik" <?= selected($main->status_mutasi, 'Baik') ?>>Baik</option>
+												<option value="Rusak" <?= selected($main->status_mutasi, 'Rusak') ?>>Rusak</option>
+												<option value="Diperbaiki" <?= selected($main->status_mutasi, 'Diperbaiki') ?>>Diperbaiki</option>
+												<option value="Hapus" <?= selected($main->status_mutasi, 'Hapus') ?>>Penghapusan</option>
 											</select>
 										</div>
 									</div>
-
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" require>Jenis Mutasi </label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="mutasi" class="form-control input-sm ">
+											<select name="mutasi" id="mutasi" class="form-control input-sm">
 												<optgroup label="Penghapusan">
-													<option value="Baik" <?php selected($main->jenis_mutasi, 'Baik') ?>>Status Baik</option>
-													<option value="Rusak" <?php selected($main->jenis_mutasi, 'Rusak') ?>>Status Rusak</option>
+													<option value="Baik" <?= selected($main->jenis_mutasi, 'Baik') ?>>Status Baik</option>
+													<option value="Rusak" <?= selected($main->jenis_mutasi, 'Rusak') ?>>Status Rusak</option>
 												</optgroup>
 												<optgroup label="Disumbangkan">
-													<option value="Masih Baik Disumbangkan" <?php selected($main->jenis_mutasi, 'Masih Baik Disumbangkan') ?>>Masih Baik</option>
-													<option value="Barang Rusak Disumbangkan" <?php selected($main->jenis_mutasi, 'Barang Rusak Disumbangkan') ?>>Rusak</option>
+													<option value="Masih Baik Disumbangkan" <?= selected($main->jenis_mutasi, 'Masih Baik Disumbangkan') ?>>Masih Baik</option>
+													<option value="Barang Rusak Disumbangkan" <?= selected($main->jenis_mutasi, 'Barang Rusak Disumbangkan') ?>>Rusak</option>
 												</optgroup>
 												<optgroup label="Jual">
-													<option value="Masih Baik Dijual" <?php selected($main->jenis_mutasi, 'Masih Baik Dijual') ?>>Masih Baik</option>
-													<option value="Barang Rusak Dijual" <?php selected($main->jenis_mutasi, 'Barang Rusak Dijual') ?>>Rusak</option>
+													<option value="Masih Baik Dijual" <?= selected($main->jenis_mutasi, 'Masih Baik Dijual') ?>>Masih Baik</option>
+													<option value="Barang Rusak Dijual" <?= selected($main->jenis_mutasi, 'Barang Rusak Dijual') ?>>Rusak</option>
 												</optgroup>
 											</select>
 										</div>
@@ -109,8 +108,8 @@
 						</div>
 						<div class="box-footer">
 							<div class="col-xs-12">
-								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+								<button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+								<button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 							</div>
 						</div>
 					</div>
@@ -119,47 +118,5 @@
 		</form>
 	</section>
 </div>
-<script>
-	$(document).ready(function() {
-		var status = $("#status").val();
-		if (status == 'Hapus') {
-			$("#mutasi").parent().parent().show();
-		} else {
-			$("#mutasi").parent().parent().hide();
-		}
 
-		if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan") {
-			$(".disumbangkan").show();
-			$(".harga_jual").hide();
-		} else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual") {
-			$(".disumbangkan").hide();
-			$(".harga_jual").show();
-		} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki") {
-			$(".disumbangkan").hide();
-			$(".harga_jual").hide();
-		}
-
-		$("#mutasi").change(function() {
-			if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan") {
-				$(".disumbangkan").show();
-				$(".harga_jual").hide();
-			} else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual") {
-				$(".disumbangkan").hide();
-				$(".harga_jual").show();
-			} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki") {
-				$(".disumbangkan").hide();
-				$(".harga_jual").hide();
-			}
-		});
-		$("#status").change(function() {
-			var status = $(this).val();
-			if (status == "Hapus") {
-				$("#mutasi").parent().parent().show();
-				$("#mutasi").addClass('required');
-			} else {
-				$("#mutasi").parent().parent().hide();
-				$("#mutasi").removeClass('required');
-			}
-		});
-	});
-</script>
+<?php $this->load->view('inventaris/js_mutasi') ?>

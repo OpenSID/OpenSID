@@ -43,7 +43,7 @@ class Feed extends CI_Controller
     {
         parent::__construct();
 
-        $this->load->model('feed_model');
+        $this->load->model(['feed_model', 'config_model']);
     }
 
     public function index()
