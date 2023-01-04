@@ -9,7 +9,7 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 4. [#5108](https://github.com/OpenSID/OpenSID/issues/5108) Buat template surat menggunakan TinyMCE.
 
 #### Perbaikan BUG
-[#5249](https://github.com/OpenSID/OpenSID/issues/5249) Perbaiki impor data penduduk terbaca ganda.
+1. [#5249](https://github.com/OpenSID/OpenSID/issues/5249) Perbaiki impor data penduduk terbaca ganda.
 2. [#5255](https://github.com/OpenSID/OpenSID/issues/5255) Perbaiki qr code surat yaang mengarah ke github opensid.
 3. [#5261](https://github.com/OpenSID/OpenSID/issues/5261) Perbaiki data lampiran surat keterangan pindah penduduk tidak tampil.
 4. [#5264](https://github.com/OpenSID/OpenSID/issues/5264) Perbaiki IDM Kemendes tidak dapat di perbaharui jika respon dari api tidak sesuai.
