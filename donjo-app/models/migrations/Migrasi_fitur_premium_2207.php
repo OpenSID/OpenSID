@@ -873,6 +873,6 @@ class Migrasi_fitur_premium_2207 extends MY_model
         $hasil = $hasil && FormatSurat::updateOrCreate(['nama' => 'raw'], ['url_surat' => 'surat_raw']);
 
         // TODO :: Pindahkan pemanggilan migrasi ini di file Migrasi_2302_ke_2303.php yang akan datang
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2206');
+        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
     }
 }
