@@ -57,11 +57,27 @@ class LogSurat extends Model
     public $timestamps = false;
 
     /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * The relations to eager load on every query.
      *
      * @var array
      */
     protected $with = ['formatSurat', 'penduduk', 'pamong'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => 'boolean',
+    ];
 
     public function formatSurat()
     {
@@ -88,5 +104,18 @@ class LogSurat extends Model
     public function scopePengguna($query)
     {
         // return $query->where('id_pend', auth('jwt')->user()->penduduk->id);
+    }
+
+    /**
+     * Scope query untuk Status LogSurat
+     *
+     * @param mixed $query
+     * @param mixed $value
+     *
+     * @return Builder
+     */
+    public function scopeStatus($query, $value = 1)
+    {
+        return $query->where('status', $value);
     }
 }

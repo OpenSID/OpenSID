@@ -36,8 +36,8 @@
 								</div>
 							</div>
 							<?php if ($widget['jenis_widget'] && $widget['jenis_widget'] != 1 && $widget['jenis_widget'] != 2) {
-    $dinamis = true;
-} ?>
+							    $dinamis = true;
+							} ?>
 							<div id="dinamis" class="form-group" <?php ! $dinamis && print 'style="display:none;"' ?>>
 								<label class="col-sm-4 control-label" for="alamat_kantor">Kode Widget</label>
 								<div class="col-sm-6">
@@ -45,8 +45,8 @@
 								</div>
 							</div>
 							<?php if ($widget['jenis_widget'] && $widget['jenis_widget'] == 2) {
-    $statis = true;
-} ?>
+							    $statis = true;
+							} ?>
 							<div id="statis" class="form-group" <?php ! $statis && print 'style="display:none;"' ?>>
 								<label class="col-sm-4 control-label" for="isi-statis">Nama File Widget (.php)</label>
 								<div class="col-sm-6">

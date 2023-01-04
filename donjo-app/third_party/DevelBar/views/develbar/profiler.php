@@ -145,33 +145,33 @@
         <?php
         $helpers = $profiler['helpers'];
 
-        foreach ($helpers['helpers'] as $helper) {
-            echo '
+    foreach ($helpers['helpers'] as $helper) {
+        echo '
             <p class="list">' . ucfirst($helper) . '</p>';
-        }
-        ?>
+    }
+    ?>
     </div>
     <div class="models">
         <h1><?= lang('models') ?></h1>
         <?php
-        $models = $profiler['models'];
+    $models = $profiler['models'];
 
-        foreach ($models['models'] as $model) {
-            echo '
+    foreach ($models['models'] as $model) {
+        echo '
             <p class="list">' . $model . '</p>';
-        }
-        ?>
+    }
+    ?>
     </div>
     <div class="libraries">
         <h1><?= lang('libraries') ?></h1>
         <?php
-        $libraries = $profiler['libraries'];
+    $libraries = $profiler['libraries'];
 
-        foreach ($libraries['loaded_libraries'] as $library) {
-            echo '
+    foreach ($libraries['loaded_libraries'] as $library) {
+        echo '
             <p class="list">' . $library . '</p>';
-        }
-        ?>
+    }
+    ?>
     </div>
     <div class="configuration">
         <h1><?= lang('config') ?></h1>
@@ -184,18 +184,18 @@
             </thead>
 
             <?php
-            $configuration = $profiler['config'];
+        $configuration = $profiler['config'];
 
-            foreach ($configuration['configuration'] as $config => $val) {
-                if (is_array($val) || is_object($val)) {
-                    $val = print_r($val, true);
-                }
-                echo '<tr>';
-                echo '<td>' . $config . '</td>';
-                echo '<td>' . htmlentities($val) . '</td>';
-                echo '</tr>';
-            }
-            ?>
+    foreach ($configuration['configuration'] as $config => $val) {
+        if (is_array($val) || is_object($val)) {
+            $val = print_r($val, true);
+        }
+        echo '<tr>';
+        echo '<td>' . $config . '</td>';
+        echo '<td>' . htmlentities($val) . '</td>';
+        echo '</tr>';
+    }
+    ?>
         </table>
     </div>
 </div>

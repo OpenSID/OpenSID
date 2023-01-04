@@ -35,6 +35,10 @@
  *
  */
 
+use App\Models\LogPenduduk;
+use App\Models\LogPerubahanPenduduk;
+use App\Models\PendudukMandiri;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Periksa_model extends MY_Model
@@ -196,6 +200,12 @@ class Periksa_model extends MY_Model
             $this->periksa['collation_table'] = $collation_table;
         }
 
+        // Error invalid date
+        if (! empty($tabel_invalid_date = $this->deteksi_invalid_date())) {
+            $this->periksa['masalah'][]          = 'tabel_invalid_date';
+            $this->periksa['tabel_invalid_date'] = $tabel_invalid_date;
+        }
+
         return $calon;
     }
 
@@ -350,6 +360,42 @@ class Periksa_model extends MY_Model
             ->result_array();
     }
 
+    private function deteksi_invalid_date()
+    {
+        $tabel = [];
+
+        // Tabel log_penduduk
+        $logPenduduk = LogPenduduk::select(['id', 'tgl_lapor', 'tgl_peristiwa', 'created_at', 'updated_at'])
+            ->whereDate('created_at', '0000-00-00')
+            ->orWhereDate('tgl_lapor', '0000-00-00')
+            ->orWhereDate('tgl_peristiwa', '0000-00-00')
+            ->get();
+
+        if ($logPenduduk->count() > 0) {
+            $tabel['log_penduduk'] = $logPenduduk;
+        }
+
+        // Tabel log_perubahan_penduduk
+        $logPerubahanPenduduk = LogPerubahanPenduduk::select(['id', 'id_pend', 'tanggal'])
+            ->whereDate('tanggal', '0000-00-00')
+            ->get();
+
+        if ($logPerubahanPenduduk->count() > 0) {
+            $tabel['log_perubahan_penduduk'] = $logPerubahanPenduduk;
+        }
+
+        // Tabel penduduk_mandiri
+        $pendudukMandiri = PendudukMandiri::select(['id_pend', 'tanggal_buat', 'updated_at'])
+            ->whereDate('updated_at', '0000-00-00')
+            ->get();
+
+        if ($pendudukMandiri->count() > 0) {
+            $tabel['tweb_penduduk_mandiri'] = $pendudukMandiri;
+        }
+
+        return $tabel;
+    }
+
     public function perbaiki()
     {
         // TODO: login
@@ -410,6 +456,10 @@ class Periksa_model extends MY_Model
 
                 case 'collation':
                     $this->perbaiki_collation_table();
+                    break;
+
+                case 'tabel_invalid_date':
+                    $this->perbaiki_invalid_date();
                     break;
 
                 default:
@@ -815,6 +865,62 @@ class Periksa_model extends MY_Model
                     log_message('error', 'Tabel ' . $tbl['TABLE_NAME'] . ' collation diubah dari ' . $tbl['TABLE_COLLATION'] . ' menjadi utf8_general_ci.');
                 }
             }
+        }
+
+        return $hasil;
+    }
+
+    private function perbaiki_invalid_date()
+    {
+        $hasil = true;
+
+        // Tabel log_penduduk
+        if ($logPenduduk = $this->periksa['tabel_invalid_date']['log_penduduk']) {
+            log_message('error', 'ada log_penduduk');
+
+            foreach ($logPenduduk as $log) {
+                $update = LogPenduduk::find($log->id);
+
+                // created_at, ambil data dari updated_at
+                if ($log->created_at->format('Y-m-d H:i:s') == '-0001-11-30 00:00:00') {
+                    $hasil = $hasil && $update->update(['created_at' => $log->updated_at->format('Y-m-d H:i:s')]);
+                }
+
+                // tgl_lapor, ambil data dari created_at
+                if ($log->tgl_lapor->format('Y-m-d H:i:s') == '-0001-11-30 00:00:00') {
+                    $hasil = $hasil && $update->update(['tgl_lapor' => $log->created_at->format('Y-m-d H:i:s')]);
+                }
+
+                // tgl_peristiwa, ambil data dari default 1971-01-01 00:00:00 (agar tidak merusak laporan yg sudah ada)
+                if ($log->tgl_peristiwa->format('Y-m-d H:i:s') == '-0001-11-30 00:00:00') {
+                    $hasil = $hasil && $update->update(['tgl_peristiwa' => '1971-01-01 00:00:00']);
+                }
+            }
+
+            log_message('error', 'Sesuaikan tanggal invalid pada kolom tgl_lapor, tgl_peristiwa dan created_at tabel log_pendudk pada data berikut ini : ' . print_r($logPenduduk->toArray(), true));
+        }
+
+        // Tabel log_perubahan_penduduk, field tanggal => isi data dari tweb_penduduk->updated_at
+        if ($logPerubahanPenduduk = $this->periksa['tabel_invalid_date']['log_perubahan_penduduk']) {
+            foreach ($logPerubahanPenduduk as $log) {
+                if (null === $log->penduduk) {
+                    // Hapus data log yang tidak digunakan
+                    $hasil = $hasil && LogPerubahanPenduduk::find($log->id)->delete();
+                } else {
+                    $hasil = $hasil && LogPerubahanPenduduk::where('id', $log->id)->update(['tanggal' => $log->penduduk->updated_at->format('Y-m-d H:i:s')]);
+                }
+            }
+
+            log_message('error', 'Sesuaikan tanggal invalid pada kolom tanggal tabel log_perubahan_penduduk pada data berikut ini : ' . print_r($logPerubahanPenduduk->toArray(), true));
+        }
+
+        // Tabel tweb_penduduk_mandiri, field updated_at => isi data dari tweb_penduduk_mandiri->taanggal_buat
+        if ($pendudukMandiri = $this->periksa['tabel_invalid_date']['tweb_penduduk_mandiri']) {
+            foreach ($pendudukMandiri as $mandiri) {
+                $hasil = $hasil && PendudukMandiri::where('id_pend', $mandiri->id_pend)->update(['updated_at' => $mandiri->tanggal_buat]);
+            }
+
+            log_message('error', 'Sesuaikan tanggal invalid pada kolom tanggal tabel mandiri_perubahan_penduduk pada data berikut ini : ' . print_r($pendudukMandiri->toArray(), true));
         }
 
         return $hasil;

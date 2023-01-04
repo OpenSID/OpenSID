@@ -18,6 +18,7 @@
 				<link><?= site_url('artikel/' . buat_slug((array) $key)); ?></link>
 				<guid><?= site_url('artikel/' . buat_slug((array) $key)); ?></guid>
 				<pubDate><?= date(DATE_RSS, strtotime($key->tgl_upload)); ?></pubDate>
+				<category><![CDATA[<?= $key->kategori ?>]]></category>
 				<description>
 					<![CDATA[
 						<?php if (is_file(LOKASI_FOTO_ARTIKEL . "sedang_{$key->gambar}")): ?>

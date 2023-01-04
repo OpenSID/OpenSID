@@ -158,17 +158,23 @@ class Keluar_model extends CI_Model
     {
         //Ordering SQL
         switch ($o) {
-            case 1: $this->db->order_by('(u.no_surat) * 1'); break;
+            case 1: $this->db->order_by('(u.no_surat) * 1');
+                break;
 
-            case 2: $this->db->order_by('(u.no_surat) * 1 DESC'); break;
+            case 2: $this->db->order_by('(u.no_surat) * 1 DESC');
+                break;
 
-            case 3: $this->db->order_by('nama'); break;
+            case 3: $this->db->order_by('nama');
+                break;
 
-            case 4: $this->db->order_by('nama', 'DESC'); break;
+            case 4: $this->db->order_by('nama', 'DESC');
+                break;
 
-            case 5: $this->db->order_by('u.tanggal'); break;
+            case 5: $this->db->order_by('u.tanggal');
+                break;
 
-            case 6: $this->db->order_by('u.tanggal', 'DESC'); break;
+            case 6: $this->db->order_by('u.tanggal', 'DESC');
+                break;
 
             default:$this->db->order_by('u.tanggal', 'DESC');
         }
@@ -177,6 +183,8 @@ class Keluar_model extends CI_Model
         $this->db
             ->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend')
             ->select('(case when p.nama is not null then p.nama else s.pamong_nama end) as pamong_nama')
+            ->select('k.url_surat, k.jenis', )
+            ->where('u.status !=', null)
             ->limit($limit, $offset);
 
         $data = $this->list_data_sql()->result_array();
@@ -192,7 +200,9 @@ class Keluar_model extends CI_Model
                 $data[$i]['id_pend'] = 'Masuk';
             } else {
                 $data[$i]['id_pend'] = 'Keluar';
-                $this->rincian_file($data, $i);
+                if (in_array($data[$i]['jenis'], [1, 2])) {
+                    $this->rincian_file($data, $i);
+                }
             }
 
             $j++;
@@ -208,12 +218,10 @@ class Keluar_model extends CI_Model
         if ($nama_surat) {
             $berkas_rtf      = $nama_surat . '.rtf';
             $berkas_pdf      = $nama_surat . '.pdf';
-            $berkas_php      = $nama_surat . '.php';
             $berkas_lampiran = $nama_surat . '_lampiran.pdf';
         } else {
             $berkas_rtf      = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '.rtf';
             $berkas_pdf      = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '.pdf';
-            $berkas_php      = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '.php';
             $berkas_lampiran = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '._lampiran.pdf';
         }
 
@@ -271,17 +279,23 @@ class Keluar_model extends CI_Model
 
         //Ordering SQL
         switch ($o) {
-            case 1: $this->db->order_by('(u.no_surat) * 1'); break;
+            case 1: $this->db->order_by('(u.no_surat) * 1');
+                break;
 
-            case 2: $this->db->order_by('(u.no_surat) * 1 DESC'); break;
+            case 2: $this->db->order_by('(u.no_surat) * 1 DESC');
+                break;
 
-            case 3: $this->db->order_by('nama'); break;
+            case 3: $this->db->order_by('nama');
+                break;
 
-            case 4: $this->db->order_by('nama', 'DESC'); break;
+            case 4: $this->db->order_by('nama', 'DESC');
+                break;
 
-            case 5: $this->db->order_by('u.tanggal'); break;
+            case 5: $this->db->order_by('u.tanggal');
+                break;
 
-            case 6: $this->db->order_by('u.tanggal', 'DESC'); break;
+            case 6: $this->db->order_by('u.tanggal', 'DESC');
+                break;
 
             default:  $this->db->order_by('u.tanggal', 'DESC');
 
@@ -344,8 +358,9 @@ class Keluar_model extends CI_Model
         $data['bulan']   = date('m');
         $data['tahun']   = date('Y');
         $data['tanggal'] = date('Y-m-d H:i:s');
+        $data['status']  = 1; // Cetak
         //print_r($data);
-        if (! empty($nama_surat)) /**
+        if (! empty($nama_surat)) { /**
             Ekspor Dok:
             Penambahan atau update log disesuaikan dengan file surat yang tersimpan di arsip,
             sehingga hanya ada satu entri di log surat untuk setiap versi surat di arsip.
@@ -353,7 +368,6 @@ class Keluar_model extends CI_Model
             lihat fungsi nama_surat_arsip (kolom nama_surat di tabel log_surat).
             Entri itu akan berisi timestamp (pencetakan) terakhir untuk file surat yang bersangkutan.
         */
-        {
             $log_id = $this->db->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->limit(1)->get()->row()->id;
         } else { // Cetak:
             // Sama dengan aturan Ekspor Dok, hanya URL-NIK-nomor surat-tanggal diambil dari data kolom
@@ -385,26 +399,25 @@ class Keluar_model extends CI_Model
 
     public function delete($id = '')
     {
-        $_SESSION['success']   = 1;
-        $_SESSION['error_msg'] = '';
-        $arsip                 = $this->db->select('nama_surat, lampiran')->
-            where('id', $id)->
-            get('log_surat')->
-            row_array();
+        $arsip = $this->db
+            ->select('nama_surat, lampiran, urls_id')
+            ->where('id', $id)
+            ->get('log_surat')
+            ->row_array();
         $berkas_surat = pathinfo($arsip['nama_surat'], PATHINFO_FILENAME);
         unlink(LOKASI_ARSIP . $berkas_surat . '.rtf');
         unlink(LOKASI_ARSIP . $berkas_surat . '.pdf');
-        unlink(LOKASI_ARSIP . $berkas_surat . '.php');
-        unlink(LOKASI_MEDIA . $berkas_surat . '.png');
+
         if (! empty($arsip['lampiran'])) {
             unlink(LOKASI_ARSIP . $arsip['lampiran']);
         }
 
-        if (! $this->db->where('id', $id)->delete('log_surat')) {	// Jika query delete terjadi error
-            $_SESSION['success']   = -1;								// Maka, nilai success jadi -1, untuk memunculkan notifikasi error
-            $error                 = $this->db->error();
-            $_SESSION['error_msg'] = $error['message']; // Pesan error ditampung disession
+        if ($output = $this->db->where('id', $id)->delete('log_surat')) {	// Jika query delete terjadi error
+            // Hapus urls dari qrcode surat
+            $this->db->where('id', $arsip['urls_id'])->delete('urls');
         }
+
+        status_sukses($output);
     }
 
     public function list_penduduk()

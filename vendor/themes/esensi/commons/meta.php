@@ -66,6 +66,13 @@ $desa_title = $title ? $title.' - '.$suffix : $suffix ?>
 <link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 <noscript>You must have JavaScript enabled in order to use this theme. Please enable JavaScript and then reload this page in order to continue.</noscript>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="<?= base_url('assets/js/highcharts/highcharts.js'); ?>"></script>
+<script src="<?= base_url('assets/js/highcharts/highcharts-3d.js'); ?>"></script>
+<script src="<?= base_url('assets/js/highcharts/exporting.js'); ?>"></script>
+<script src="<?= base_url('assets/js/highcharts/highcharts-more.js'); ?>"></script>
+<script src="<?= base_url('assets/js/highcharts/sankey.js'); ?>"></script>
+<script src="<?= base_url('assets/js/highcharts/organization.js'); ?>"></script>
+<script src="<?= base_url('assets/js/highcharts/accessibility.js'); ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.6.0/leaflet-providers.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/1.11.1/mapbox-gl.js"></script>

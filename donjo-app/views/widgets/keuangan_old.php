@@ -73,54 +73,54 @@
   //Realisasi Pelaksanaan APBD
   $raw_data = $this->keuangan_model->rp_apbd('1', '2016');
 
-  $res_pelaksanaan = [];
-  $nama            = [
-      'PENDAPATAN' => '(PA) Pendapatan Desa',
-      'BELANJA'    => '(PA) Belanja Desa',
-      'PEMBIAYAAN' => '(PA) Pembiayaan Desa',
-  ];
+    $res_pelaksanaan = [];
+    $nama            = [
+        'PENDAPATAN' => '(PA) Pendapatan Desa',
+        'BELANJA'    => '(PA) Belanja Desa',
+        'PEMBIAYAAN' => '(PA) Pembiayaan Desa',
+    ];
 
-  for ($i = 0; $i < count($raw_data['jenis_belanja']) / 2; $i++) {
-      $row = [
-          'jenis_belanja' => $raw_data['jenis_belanja'][$i]['Nama_Akun'],
-          'anggaran'      => $raw_data['anggaran'][$i]['AnggaranStlhPAK'],
-          'realisasi'     => $raw_data['realisasi'][$i]['Nilai'],
-      ];
-      $res_pelaksanaan[] = $row;
-  }
+    for ($i = 0; $i < count($raw_data['jenis_belanja']) / 2; $i++) {
+        $row = [
+            'jenis_belanja' => $raw_data['jenis_belanja'][$i]['Nama_Akun'],
+            'anggaran'      => $raw_data['anggaran'][$i]['AnggaranStlhPAK'],
+            'realisasi'     => $raw_data['realisasi'][$i]['Nilai'],
+        ];
+        $res_pelaksanaan[] = $row;
+    }
 
-  //Pendapatan APBD
-  $raw_data       = $this->keuangan_model->r_pd('2', '2016');
-  $res_pendapatan = [];
+    //Pendapatan APBD
+    $raw_data       = $this->keuangan_model->r_pd('2', '2016');
+    $res_pendapatan = [];
 
-  foreach ($raw_data['jenis_pendapatan'] as $r) {
-      $res_pendapatan[$r['Jenis']]['nama'] = $r['Nama_Jenis'];
-  }
+    foreach ($raw_data['jenis_pendapatan'] as $r) {
+        $res_pendapatan[$r['Jenis']]['nama'] = $r['Nama_Jenis'];
+    }
 
-  foreach ($raw_data['anggaran'] as $r) {
-      $res_pendapatan[$r['jenis_pendapatan']]['anggaran'] = $r['Pagu'];
-  }
+    foreach ($raw_data['anggaran'] as $r) {
+        $res_pendapatan[$r['jenis_pendapatan']]['anggaran'] = $r['Pagu'];
+    }
 
-  foreach ($raw_data['realisasi'] as $r) {
-      $res_pendapatan[$r['jenis_pendapatan']]['realisasi'] = $r['Pagu'];
-  }
+    foreach ($raw_data['realisasi'] as $r) {
+        $res_pendapatan[$r['jenis_pendapatan']]['realisasi'] = $r['Pagu'];
+    }
 
-  //Belanja APBD
-  $raw_data    = $this->keuangan_model->r_bd('1', '2016');
-  $res_belanja = [];
+    //Belanja APBD
+    $raw_data    = $this->keuangan_model->r_bd('1', '2016');
+    $res_belanja = [];
 
-  foreach ($raw_data['bidang'] as $r) {
-      $res_belanja[$r['Kd_Bid']]['nama'] = $r['Nama_Bidang'];
-  }
+    foreach ($raw_data['bidang'] as $r) {
+        $res_belanja[$r['Kd_Bid']]['nama'] = $r['Nama_Bidang'];
+    }
 
-  foreach ($raw_data['anggaran'] as $r) {
-      $res_belanja[$r['Kd_Bid']]['anggaran'] = $r['Pagu'];
-  }
+    foreach ($raw_data['anggaran'] as $r) {
+        $res_belanja[$r['Kd_Bid']]['anggaran'] = $r['Pagu'];
+    }
 
-  foreach ($raw_data['realisasi'] as $r) {
-      $res_belanja[$r['Kd_Bid']]['realisasi'] = $r['Nilai'];
-  }
-?>
+    foreach ($raw_data['realisasi'] as $r) {
+        $res_belanja[$r['Kd_Bid']]['realisasi'] = $r['Nilai'];
+    }
+    ?>
 
 <script type="text/javascript">
   function displayPelaksanaan(){
@@ -128,7 +128,7 @@
     $("#widget-keuangan-container h3").text("Realisasi Pelaksanaan APBDesa");
     <?php $i = 0;
 
-foreach ($res_pelaksanaan as $data):?>
+    foreach ($res_pelaksanaan as $data):?>
       $("#graph-container").append("<div class='graph-sub'><?= $nama[$data['jenis_belanja']] ?></div><div id='graph-<?= $i ?>' class='graph'></div>");
       Highcharts.chart('graph-<?= $i ?>', {
           chart: {
@@ -196,7 +196,7 @@ foreach ($res_pelaksanaan as $data):?>
     $("#widget-keuangan-container h3").text("Realisasi Pendapatan Desa");
     <?php $i = 0;
 
-foreach ($res_pendapatan as $data):?>
+    foreach ($res_pendapatan as $data):?>
       $("#graph-container").append("<div class='graph-sub'><?= $nama[$data['jenis_belanja']] ?></div><div id='graph-<?= $i ?>'></div>");
       Highcharts.chart('graph-<?= $i ?>', {
           chart: {
@@ -261,7 +261,7 @@ foreach ($res_pendapatan as $data):?>
     $("#widget-keuangan-container h3").text("Realisasi Belanja Desa");
     <?php $i = 0;
 
-foreach ($res_belanja as $data):?>
+    foreach ($res_belanja as $data):?>
       $("#graph-container").append("<div class='graph-sub'><?= $data['nama'] ?></div><div id='graph-<?= $i ?>'></div>");
       Highcharts.chart('graph-<?= $i ?>', {
           chart: {

@@ -115,7 +115,7 @@ class Suplemen_model extends MY_Model
         $data = [];
 
         switch ($sasaran) {
-                // Sasaran Penduduk
+            // Sasaran Penduduk
             case '1':
                 $data['judul'] = 'NIK / Nama Penduduk';
                 $data['data']  = $this->list_penduduk($id);
@@ -238,7 +238,7 @@ class Suplemen_model extends MY_Model
         $suplemen = $this->db->where('id', $suplemen_id)->get($this->table)->row_array();
 
         switch ($suplemen['sasaran']) {
-                // Sasaran Penduduk
+            // Sasaran Penduduk
             case '1':
                 $data                                = $this->get_penduduk_terdata($suplemen_id, $p);
                 $data['judul']['judul_terdata_info'] = 'No. KK';
@@ -404,7 +404,7 @@ class Suplemen_model extends MY_Model
         $this->load->model('surat_model');
 
         switch ($sasaran) {
-                // Sasaran Penduduk
+            // Sasaran Penduduk
             case 1:
                 $sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.id_kk AS id_kk,
 				u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
@@ -534,7 +534,7 @@ class Suplemen_model extends MY_Model
                 break;
 
             default:
-        }
+            }
 
         return $data;
     }
@@ -595,7 +595,7 @@ class Suplemen_model extends MY_Model
                 break;
 
             default:
-        }
+            }
         if (! empty($list_suplemen)) {
             return ['daftar_suplemen' => $list_suplemen, 'profil' => $data_profil];
         }

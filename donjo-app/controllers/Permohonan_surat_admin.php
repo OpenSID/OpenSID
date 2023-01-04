@@ -35,6 +35,10 @@
  *
  */
 
+use App\Models\Config;
+use App\Models\FormatSurat;
+use App\Models\Pamong;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Permohonan_surat_admin extends Admin_Controller
@@ -42,7 +46,7 @@ class Permohonan_surat_admin extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['permohonan_surat_model', 'penduduk_model', 'surat_model', 'keluarga_model', 'pamong_model', 'mailbox_model', 'surat_master_model']);
+        $this->load->model(['permohonan_surat_model', 'penduduk_model', 'surat_model', 'keluarga_model', 'mailbox_model', 'surat_master_model']);
         $this->modul_ini     = 14;
         $this->sub_modul_ini = 98;
     }
@@ -113,7 +117,7 @@ class Permohonan_surat_admin extends Admin_Controller
             redirect('permohonan_surat_admin');
         }
 
-        $surat = $this->surat_model->cek_surat_mandiri($periksa['id_surat']);
+        $surat = FormatSurat::find($periksa['id_surat']);
         $url   = $surat['url_surat'];
 
         $data['periksa']      = $periksa;
@@ -122,12 +126,16 @@ class Permohonan_surat_admin extends Admin_Controller
         $data['individu']     = $this->surat_model->get_penduduk($periksa['id_pemohon']);
         $data['anggota']      = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
         $this->get_data_untuk_form($url, $data);
+        $data['surat_url']         = rtrim($_SERVER['REQUEST_URI'], '/clear');
         $data['isian_form']        = json_encode($this->ambil_isi_form($periksa['isian_form']));
         $data['syarat_permohonan'] = $this->permohonan_surat_model->get_syarat_permohonan($id);
-        $data['masa_berlaku']      = $this->surat_model->masa_berlaku_surat($url);
-        $data['surat_url']         = rtrim($_SERVER['REQUEST_URI'], '/clear');
         $data['form_action']       = site_url("surat/periksa_doc/{$id}/{$url}");
         $data['form_surat']        = 'surat/form_surat.php';
+
+        $data_form = $this->surat_model->get_data_form($url);
+        if (is_file($data_form)) {
+            include $data_form;
+        }
 
         $this->render('mandiri/periksa_surat', $data);
     }
@@ -139,30 +147,31 @@ class Permohonan_surat_admin extends Admin_Controller
         redirect('permohonan_surat_admin');
     }
 
+    // TODO:: Duplikasi dengan kode yang ada di donjo-app/controllers/Surat.php
     private function get_data_untuk_form($url, &$data)
     {
-        $this->load->model('penomoran_surat_model');
+        $config = Config::first();
 
+        $data['config']             = $config;
+        $data['lokasi']             = $config;
+        $data['surat']              = FormatSurat::where('url_surat', $url)->first();
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
-        $data['surat']              = $this->surat_model->get_surat($url);
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
         $data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
-        $data['lokasi']             = $this->header['desa'];
-        $data['pamong']             = $this->surat_model->list_pamong();
-        $pamong_ttd                 = $this->pamong_model->get_ttd();
-        $pamong_ub                  = $this->pamong_model->get_ub();
+        $data['penduduk']           = $this->surat_model->list_penduduk();
         $data['perempuan']          = $this->surat_model->list_penduduk_perempuan();
+        $data['pamong']             = $this->surat_model->list_pamong();
+
+        $pamong_ttd = Pamong::ttd('a.n')->first();
+
         if ($pamong_ttd) {
-            $str_ttd             = ucwords($pamong_ttd['jabatan'] . ' ' . $data['lokasi']['nama_desa']);
+            $str_ttd             = ucwords($pamong_ttd->jabatan . ' ' . $config->nama_desa);
             $data['atas_nama'][] = "a.n {$str_ttd}";
+            $pamong_ub           = Pamong::ttd('u.b')->first();
             if ($pamong_ub) {
-                $data['atas_nama'][] = "u.b {$pamong_ub['jabatan']}";
+                $data['atas_nama'][] = "u.b {$pamong_ub->jabatan}";
             }
-        }
-        $data_form = $this->surat_model->get_data_form($url);
-        if (is_file($data_form)) {
-            include $data_form;
         }
     }
 
@@ -189,7 +198,6 @@ class Permohonan_surat_admin extends Admin_Controller
     {
         $periksa = $this->permohonan_surat_model->get_permohonan(['id' => $id_permohonan, 'status' => 1]);
         $pemohon = $this->surat_model->get_penduduk($periksa['id_pemohon']);
-        $surat   = $this->surat_master_model->get_surat_format($periksa['id_surat']);
         $post    = $this->input->post();
         $judul   = ($tipe == 0) ? 'Perlu Dilengkapi' : 'Dibatalkan';
         $data    = [

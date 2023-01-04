@@ -37,10 +37,8 @@
 
 namespace App\Models;
 
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 
 class FormatSurat extends Model
 {
@@ -50,9 +48,126 @@ class FormatSurat extends Model
     public const KUNCI_DISABLE   = 0;
 
     /**
+     * Static data masa berlaku surat.
+     *
+     * @var array
+     */
+    public const MASA_BERLAKU = [
+        'd' => 'Hari',
+        'w' => 'Minggu',
+        'M' => 'Bulan',
+        'y' => 'Tahun',
+    ];
+
+    /**
+     * Static data jenis surat.
+     *
+     * @var array
+     */
+    public const JENIS_SURAT = [
+        '1' => 'Surat Sistem (lama/rtf)',
+        '2' => 'Surat [Desa] (lama/rtf)',
+        '3' => 'Surat Sistem (baru/tinymce)',
+        '4' => 'Surat [Desa] (baru/tinymce)',
+    ];
+
+    /**
+     * Static data margin surat.
+     *
+     * @var array
+     */
+    public const MARGINS = [
+        'kiri'  => 1.78,
+        'atas'  => 0.63,
+        'kanan' => 1.78,
+        'bawah' => 1.37,
+    ];
+
+    /**
+     * Static data orientation surat.
+     *
+     * @var array
+     */
+    public const ORIENTATAIONS = [
+        'Potrait',
+        'Lanscape',
+    ];
+
+    /**
+     * Static data Size surat.
+     *
+     * @var array
+     */
+    public const SIZES = [
+        'A1',
+        'A2',
+        'A3',
+        'A4',
+        'A5',
+        'A6',
+        'F4',
+    ];
+
+    /**
      * {@inheritDoc}
      */
     protected $table = 'tweb_surat_format';
+
+    /**
+     * The fillable with the model.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nama',
+        'url_surat',
+        'kode_surat',
+        'lampiran',
+        'kunci',
+        'favorit',
+        'jenis',
+        'mandiri',
+        'masa_berlaku',
+        'satuan_masa_berlaku',
+        'qr_code',
+        'logo_garuda',
+        'syarat_surat',
+        'template',
+        'template_desa',
+        'kode_isian',
+        'orientasi',
+        'ukuran',
+        'margin',
+        'created_by',
+        'updated_by',
+    ];
+
+    /**
+     * The fillable with the model.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'judul_surat',
+        'margin_cm_to_mm',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'masa_berlaku' => 'integer',
+        'kunci'        => 'boolean',
+        'favorit'      => 'boolean',
+        'mandiri'      => 'boolean',
+        'qr_code'      => 'boolean',
+        'logo_garuda'  => 'boolean',
+        // 'syarat_surat' => 'json',
+        // 'kode_isian'   => 'json',
+        // 'margin'       => 'json',
+    ];
 
     /**
      * Define a many-to-many relationship.
@@ -83,10 +198,10 @@ class FormatSurat extends Model
      *
      * @return Builder
      */
-    public function scopeKunci($query)
-    {
-        return $query->where('kunci', static::KUNCI_DISABLE);
-    }
+    // public function scopeKunci($query)
+    // {
+    //     return $query->where('kunci', static::KUNCI_DISABLE);
+    // }
 
     /**
      * Getter list surat dan dokumen attribute.
@@ -135,4 +250,125 @@ class FormatSurat extends Model
         //     return null;
         // }
     }
+
+    /**
+     * Setter untuk url_surat.
+     *
+     * @return void
+     */
+    // public function setUrlSuratAttribute()
+    // {
+    //     $this->attributes['url_surat'] = 'surat_' . strtolower(str_replace([' ', '-'], '_', $this->attributes['nama']));
+    // }
+
+    /**
+     * Getter untuk lokasi_surat
+     *
+     * @return string
+     */
+    public function getLokasiSuratAttribute()
+    {
+        return LOKASI_SURAT_DESA . $this->url_surat;
+    }
+
+    /**
+     * Getter untuk judul_surat
+     *
+     * @return string
+     */
+    public function getJudulSuratAttribute()
+    {
+        return 'Surat ' . $this->nama;
+    }
+
+    /**
+     * Getter untuk judul_surat
+     *
+     * @return string
+     */
+    public function getMarginCmToMmAttribute()
+    {
+        $margin = json_decode($this->margin);
+
+        return [
+            $margin->kiri * 10,
+            $margin->atas * 10,
+            $margin->kanan * 10,
+            $margin->bawah * 10,
+        ];
+    }
+
+    /**
+     * Scope query untuk IsExist
+     *
+     * @param mixed $query
+     * @param mixed $value
+     *
+     * @return Builder
+     */
+    public function scopeIsExist($query, $value)
+    {
+        return $query->where('url_surat', $value)->exists();
+    }
+
+    /**
+     * Scope query untuk Kunci Surat
+     *
+     * @param mixed $query
+     * @param mixed $value
+     *
+     * @return Builder
+     */
+    public function scopeKunci($query, $value = 1)
+    {
+        return $query->where('kunci', $value);
+    }
+
+    /**
+     * Scope query untuk Favorit Surat
+     *
+     * @param mixed $query
+     * @param mixed $value
+     *
+     * @return Builder
+     */
+    public function scopeFavorit($query, $value = 1)
+    {
+        return $query->where('favorit', $value);
+    }
+
+    /**
+     * Scope query untuk Jenis Surat
+     *
+     * @param mixed $query
+     * @param mixed $value
+     *
+     * @return Builder
+     */
+    public function scopeJenis($query, $value)
+    {
+        if (empty($value)) {
+            return $query->whereNotNull('jenis');
+        }
+
+        if (is_array($value)) {
+            return $query->whereIn('jenis', $value);
+        }
+
+        return $query->where('jenis', $value);
+    }
+
+    // public static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::creating(static function ($model) {
+    //         $model->created_by = auth()->id;
+    //         $model->updated_by = auth()->id;
+    //     });
+
+    //     static::updating(static function ($model) {
+    //         $model->updated_by = auth()->id;
+    //     });
+    // }
 }

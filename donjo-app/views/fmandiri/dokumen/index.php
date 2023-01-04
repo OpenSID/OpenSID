@@ -69,7 +69,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<?php
                         if ($dokumen) :
                             foreach ($dokumen as $key => $data) :
-                    ?>
+                                ?>
 						<tr>
 							<td class="padat"></td>
 							<td class="aksi">
@@ -84,7 +84,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<?php
                             endforeach;
                         else :
-                    ?>
+                            ?>
 						<tr>
 							<td class="text-center" colspan="5">Data tidak tersedia</td>
 						</tr>

@@ -10,7 +10,7 @@
                 <span class="left-col"><strong>' . $library . '</strong></span>';
         echo '</p>';
     }
-    ?>
+         ?>
     </div>
 </div>
 <?php endif; ?>

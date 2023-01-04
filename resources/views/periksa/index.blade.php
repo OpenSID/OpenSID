@@ -321,6 +321,25 @@
                   </div>
                 @endif
 
+                @if (in_array('tabel_invalid_date', $masalah))
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                        <strong>Terdeteksi tanggal tidak sesuai <code>(0000-00-00 00:00:00)</code> pada tabel berikut : </strong>
+                        <table class="table">
+                          <tr>
+                            <th>Tabel</th>
+                          </tr>
+                          @foreach ($tabel_invalid_date as $key => $value)
+                            <tr>
+                              <td>{{ $key }}</td>
+                            </tr>
+                          @endforeach
+                        </table>
+                        <p>Klik tombol Perbaiki untuk memperbaiki semua data tanggal table yang tidak sesuai <code>(0000-00-00 00:00:00)</code>.</code>Untuk melihat data tanggal yang diubah harap periksa berkas logs.</p>
+                    </div>
+                  </div>
+                @endif
+
                 <p>Setelah diperbaiki, migrasi akan otomatis diulangi mulai dari versi {{ $migrasi_utk_diulang }}.</p>
                 <a href="#" data-href="{{ route('periksa.perbaiki') }}" class="btn btn-sm btn-social btn-danger" role="button" title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-status" data-body="Apakah yakin akan memperbaiki masalah data?"><i class="fa fa fa-wrench"></i>Perbaiki</a>
               @endif

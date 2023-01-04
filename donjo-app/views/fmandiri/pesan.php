@@ -69,7 +69,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				</thead>
 				<tbody>
 				<?php if ($pesan):
-                        foreach ($pesan as $key => $data): ?>
+				    foreach ($pesan as $key => $data): ?>
 							<tr <?= jecho($data['status'], '2', 'class="select_row"'); ?>>
 								<td class="padat"><?= ($key + 1); ?></td>
 								<td class="padat">
@@ -80,7 +80,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<td nowrap><?=tgl_indo2($data['tgl_upload']); ?></td>
 							</tr>
 						<?php endforeach;
-                    else: ?>
+				else: ?>
 						<tr>
 							<td class="text-center" colspan="5">Data tidak tersedia</td>
 						</tr>

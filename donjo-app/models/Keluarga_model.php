@@ -286,11 +286,20 @@ class Keluarga_model extends MY_Model
                 $data[$i]['jumlah_anggota'] = '-';
             }
 
-            if ($data[$i]['sex'] == 1) {
-                $data[$i]['sex'] = 'LAKI-LAKI';
-            } else {
-                $data[$i]['sex'] = 'PEREMPUAN';
+            switch ($data[$i]['sex']) {
+                case 1:
+                    $data[$i]['sex'] = 'LAKI-LAKI';
+                    break;
+
+                case 2:
+                    $data[$i]['sex'] = 'PEREMPUAN';
+                    break;
+
+                default:
+                    $data[$i]['sex'] = '-';
+                    break;
             }
+
             $data[$i]['boleh_hapus'] = $this->cek_boleh_hapus($data[$i]['id']);
             $j++;
         }

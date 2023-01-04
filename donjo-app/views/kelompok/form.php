@@ -23,10 +23,11 @@
 										<input  id="nama" class="form-control input-sm nama_terbatas required" type="text" placeholder="Nama <?= ucfirst($this->controller) ?>" name="nama" value="<?= $kelompok['nama']?>">
 									</div>
 								</div>
-								<div class="form-group">
+								<div class="form-group ">
 									<label  class="col-sm-3 control-label" for="kode">Kode <?= ucfirst($this->controller) ?></label>
 									<div class="col-sm-7">
 										<input  id="kode" class="form-control input-sm nomor_sk" type="text" placeholder="Kode <?= ucfirst($this->controller) ?>" name="kode" value="<?= $kelompok['kode']?>">
+										<p class="text-warning">*Pastikan kode belum pernah dipakai di data lembaga / di data kelompok.</p>
 									</div>
 								</div>
 								<div class="form-group">

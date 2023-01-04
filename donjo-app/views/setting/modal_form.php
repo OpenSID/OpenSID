@@ -62,7 +62,7 @@
 					<input class="form-control input-sm pull-right tgl_1" id="<?= $setting->key?>" name="<?= $setting->key?>" type="text" value="<?= $setting->value?>">
 				</div>
 			<?php elseif ($setting->jenis == 'textarea'): ?>
-				<textarea <?= jecho($setting->kategori, 'readonly', 'disabled') ?> class="form-control input-sm" name="<?= $setting->key ?>" placeholder="<?= $setting->keterangan?>" rows="5"><?= $setting->value ?> </textarea>
+				<textarea <?= jecho($setting->kategori, 'readonly', 'disabled') ?> class="form-control input-sm <?= in_array($setting->kategori, ['pelanggan']) ? 'required' : '' ?>" name="<?= $setting->key ?>" placeholder="<?= $setting->keterangan?>" rows="5"><?= $setting->value ?> </textarea>
 			<?php else : ?>
 				<input id="<?= $setting->key ?>" name="<?= $setting->key?>" class="form-control input-sm <?php ($setting->jenis != 'int') || print 'digits'?>" type="text" value="<?= $setting->value?>" <?= jecho($setting->kategori, 'readonly', 'disabled') ?>></input>
 			<?php endif ?>

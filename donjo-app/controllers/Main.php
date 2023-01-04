@@ -58,13 +58,17 @@ class Main extends CI_Controller
             $grup = $this->user_model->sesi_grup($_SESSION['sesi']);
 
             switch ($grup) {
-                case 1: redirect('hom_sid'); break;
+                case 1: redirect('hom_sid');
+                    break;
 
-                case 2: redirect('hom_sid'); break;
+                case 2: redirect('hom_sid');
+                    break;
 
-                case 3: redirect('web/clear'); break;
+                case 3: redirect('web/clear');
+                    break;
 
-                case 4: redirect('web/clear'); break;
+                case 4: redirect('web/clear');
+                    break;
 
                 default:
                     $modul_awal = $this->grup_model->modul_awal($grup);

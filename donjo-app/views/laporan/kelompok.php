@@ -84,20 +84,20 @@
 									</thead>
 									<tbody>
 										<?php
-                                            $bayi        = 0;
-                                            $balita      = 0;
-                                            $sd          = 0;
-                                            $smp         = 0;
-                                            $sma         = 0;
-                                            $lansia      = 0;
-                                            $cacat       = 0;
-                                            $sakit_L     = 0;
-                                            $sakit_P     = 0;
-                                            $hamil       = 0;
-                                            $jenis_cacat = ['cacat_fisik', 'cacat_netra', 'cacat_rungu', 'cacat_mental', 'cacat_fisik_mental', 'cacat_lainnya', 'tidak_cacat'];
-                                            $total_cacat = [];
+                                            $bayi = 0;
+			$balita                                        = 0;
+			$sd                                            = 0;
+			$smp                                           = 0;
+			$sma                                           = 0;
+			$lansia                                        = 0;
+			$cacat                                         = 0;
+			$sakit_L                                       = 0;
+			$sakit_P                                       = 0;
+			$hamil                                         = 0;
+			$jenis_cacat                                   = ['cacat_fisik', 'cacat_netra', 'cacat_rungu', 'cacat_mental', 'cacat_fisik_mental', 'cacat_lainnya', 'tidak_cacat'];
+			$total_cacat                                   = [];
 
-                                            foreach ($main as $data): $id_cluster = $data['id_cluster']; ?>
+			foreach ($main as $data): $id_cluster = $data['id_cluster']; ?>
 											<tr>
 												<td class="text-right"><?= $data['dusunnya'] ?></td>
 												<td class="text-right"><?= $data['rw'] ?></td>
@@ -118,21 +118,21 @@
 												<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/11") ?>"><?= $data['sakit_P'] ?></a></td>
 												<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/12") ?>"><?= $data['hamil'] ?></a></td>
 												<?php
-                                                    $bayi    = $bayi + $data['bayi'];
-                                                    $balita  = $balita + $data['balita'];
-                                                    $sd      = $sd + $data['sd'];
-                                                    $smp     = $smp + $data['smp'];
-                                                    $sma     = $sma + $data['sma'];
-                                                    $lansia  = $lansia + $data['lansia'];
-                                                    $cacat   = $cacat + $data['cacat'];
-                                                    $sakit_L = $sakit_L + $data['sakit_L'];
-                                                    $sakit_P = $sakit_P + $data['sakit_P'];
-                                                    $hamil   = $hamil + $data['hamil'];
+			        $bayi = $bayi + $data['bayi'];
+			    $balita   = $balita + $data['balita'];
+			    $sd       = $sd + $data['sd'];
+			    $smp      = $smp + $data['smp'];
+			    $sma      = $sma + $data['sma'];
+			    $lansia   = $lansia + $data['lansia'];
+			    $cacat    = $cacat + $data['cacat'];
+			    $sakit_L  = $sakit_L + $data['sakit_L'];
+			    $sakit_P  = $sakit_P + $data['sakit_P'];
+			    $hamil    = $hamil + $data['hamil'];
 
-                                                    foreach ($jenis_cacat as $key => $val):
-                                                            $total_cacat[$key] += $data[$val];
-                                                    endforeach;
-                                                ?>
+			    foreach ($jenis_cacat as $key => $val):
+			        $total_cacat[$key] += $data[$val];
+			    endforeach;
+			    ?>
 											</tr>
 										<?php endforeach; ?>
 									</tbody>

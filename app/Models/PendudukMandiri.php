@@ -79,7 +79,7 @@ class PendudukMandiri extends Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The guarded with the model.

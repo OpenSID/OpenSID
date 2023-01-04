@@ -319,11 +319,30 @@ class Pamong_model extends CI_Model
         return $data;
     }
 
+    /**
+     * Update pamong ttd.
+     *
+     * @param mixed $jenis Jenis pamong_ttd atau pamong_ub
+     * @param mixed $id    ID pamong
+     * @param mixed $val   1. checklist 2. un-checklist
+     *
+     * @return mixed
+     */
     public function ttd($jenis, $id, $val)
     {
         if ($val == 1) {
             // Hanya satu pamong yang boleh digunakan sebagai ttd a.n / u.b
             $this->db->where($jenis, 1)->update('tweb_desa_pamong', [$jenis => 0]);
+        }
+
+        if ($jenis == 'pamong_ttd' && $val == 1) {
+            // ubah config pamong_id mengikuti pamong
+            $this->db->update('config', ['pamong_id' => $id]);
+        }
+
+        if ($jenis == 'pamong_ttd' && $val == 2) {
+            // ubah config pamong_id kosong
+            $this->db->update('config', ['pamong_id' => null]);
         }
 
         $outp = $this->db->where('pamong_id', $id)->update('tweb_desa_pamong', [$jenis => $val]);

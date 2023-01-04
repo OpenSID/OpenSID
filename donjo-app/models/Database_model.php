@@ -252,6 +252,7 @@ class Database_model extends MY_Model
     public function cek_migrasi($install = false)
     {
         if ($install) {
+
             // Paksa menjalankan migrasi kalau belum
             // Migrasi direkam di tabel migrasi
             if (! $this->versi_database_terbaru()) {
@@ -3508,115 +3509,6 @@ class Database_model extends MY_Model
             $query = 'ALTER TABLE tweb_penduduk ADD no_kk_sebelumnya varchar(30)';
             $this->db->query($query);
         }
-    }
-
-    public function kosongkan_db()
-    {
-        $this->load->model('analisis_import_model');
-
-        // Views tidak perlu dikosongkan.
-        $views        = $this->get_views();
-        $table_lookup = [
-            'analisis_ref_state',
-            'analisis_ref_subjek',
-            'analisis_tipe_indikator',
-            'artikel', // Remove everything except widgets 1003
-            'config', // Karena terkait validasi pengguna premium
-            'gis_simbol',
-            'kehadiran_jam_kerja',
-            'klasifikasi_surat',
-            'keuangan_manual_ref_bidang',
-            'keuangan_manual_ref_kegiatan',
-            'keuangan_manual_ref_rek1',
-            'keuangan_manual_ref_rek2',
-            'keuangan_manual_ref_rek3',
-            'keuangan_manual_rinci_tpl',
-            'media_sosial',
-            'ref_asal_tanah_kas',
-            'ref_dokumen',
-            'ref_penduduk_hamil',
-            'ref_peristiwa',
-            'ref_persil_kelas', // Migrasi tambah data ref_peristiwa perlu dilakukan ulang (Migrasi_2007_ke_2008)
-            'ref_persil_mutasi', // Migrasi tambah data ref_persil_kelas perlu dilakukan ulang (Migrasi_2007_ke_2008)
-            'ref_peruntukan_tanah_kas', // Migrasi tambah data ref_peruntukan_tanah_kas perlu dilakukan ulang (Migrasi_2007_ke_2008)
-            'ref_pindah',
-            'ref_penduduk_bahasa',
-            'ref_penduduk_bidang',
-            'ref_penduduk_kursus',
-            'ref_penduduk_suku',
-            'ref_syarat_surat',
-            'ref_status_covid',
-            'setting_modul',
-            'setting_aplikasi',
-            'setting_aplikasi_options',
-            'syarat_surat',
-            'tweb_aset',
-            'tweb_cacat',
-            'tweb_cara_kb',
-            'tweb_golongan_darah',
-            'tweb_keluarga_sejahtera',
-            'tweb_penduduk_agama',
-            'tweb_penduduk_asuransi',
-            'tweb_penduduk_hubungan',
-            'tweb_penduduk_kawin',
-            'tweb_penduduk_pekerjaan',
-            'tweb_penduduk_pendidikan',
-            'tweb_penduduk_pendidikan_kk',
-            'tweb_penduduk_sex',
-            'tweb_penduduk_status',
-            'tweb_penduduk_umur',
-            'tweb_penduduk_warganegara',
-            'tweb_rtm_hubungan',
-            'tweb_sakit_menahun',
-            'tweb_status_dasar',
-            'tweb_status_ktp',
-            'tweb_surat_format',
-            'user',
-            'user_grup',
-            'widget',
-        ];
-
-        // Hanya kosongkan contoh menu kalau pengguna memilih opsi itu
-        if (empty($_POST['kosongkan_menu'])) {
-            array_push($table_lookup, 'kategori', 'menu');
-        }
-
-        $jangan_kosongkan = array_merge($views, $table_lookup);
-
-        // Hapus semua artikel kecuali artikel widget dengan kategori 1003
-        $this->db->where('id_kategori !=', '1003');
-        $query = $this->db->delete('artikel');
-        // Kosongkan semua tabel kecuali table lookup dan views
-        // Tabel yang ada foreign key akan dikosongkan secara otomatis
-        $semua_table = $this->db->list_tables();
-        $this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
-
-        foreach ($semua_table as $table) {
-            if (!in_array($table, $jangan_kosongkan)) {
-                $query = 'DELETE FROM ' . $table . ' WHERE 1';
-                $this->db->query($query);
-            }
-        }
-        $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
-
-        $this->impor_data_awal_analisis();
-
-        // Kecuali folder
-        $exclude = [
-            'desa/config',
-            'desa/themes',
-        ];
-
-        // Kosongkan folder desa
-        foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
-            if (! in_array($folder, $exclude)) {
-                delete_files(FCPATH . $folder, true);
-            }
-        }
-        // Buat folder desa
-        folder_desa();
-
-        session_success();
     }
 
     public function impor_data_awal_analisis()

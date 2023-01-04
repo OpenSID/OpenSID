@@ -144,6 +144,10 @@ class Kehadiran_hari_libur extends Admin_Controller
 
     private function validate($request = [])
     {
+        if (HariLibur::where('tanggal', date('Y-m-d', strtotime($request['tanggal'])))->exists()) {
+            redirect_with('error', 'Tanggal terkait sudah ditambahkan pada hari libur');
+        }
+
         return [
             'tanggal'    => date('Y-m-d', strtotime($request['tanggal'])),
             'keterangan' => strip_tags($request['keterangan']),

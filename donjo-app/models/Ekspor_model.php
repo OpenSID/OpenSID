@@ -169,7 +169,6 @@ class Ekspor_model extends CI_Model
             'setting_aplikasi_options',
             'log_penduduk',
             'agenda',
-            'syarat_surat',
             'covid19_pemudik',
             'covid19_pantau',
             'kelompok_anggota',

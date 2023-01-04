@@ -183,11 +183,15 @@ class Keluar extends Admin_Controller
 
     public function unduh($tipe, $id)
     {
-        $berkas = $this->keluar_model->get_surat($id);
-        if ($tipe == 'pdf') {
-            $berkas->nama_surat = basename($berkas->nama_surat, 'rtf') . 'pdf';
+        if ($tipe == 'tinymce') {
+            redirect("surat/cetak/{$id}");
+        } else {
+            $berkas = $this->keluar_model->get_surat($id);
+            if ($tipe == 'pdf') {
+                $berkas->nama_surat = basename($berkas->nama_surat, 'rtf') . 'pdf';
+            }
+            ambilBerkas($tipe == 'lampiran' ? $berkas->lampiran : $berkas->nama_surat, $this->controller);
         }
-        ambilBerkas($tipe == 'lampiran' ? $berkas->lampiran : $berkas->nama_surat, $this->controller);
     }
 
     public function dialog_cetak($aksi = '')

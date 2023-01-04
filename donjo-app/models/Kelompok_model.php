@@ -242,7 +242,7 @@ class Kelompok_model extends MY_Model
 
         if ($this->get_kelompok(null, $data['kode'])) {
             $this->session->success   = -1;
-            $this->session->error_msg = '<br/>Kode ' . $this->tipe . ' sudah digunakan';
+            $this->session->error_msg = "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silahkan gunakan kode yang lain!";
 
             return false;
         }

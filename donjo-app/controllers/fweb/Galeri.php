@@ -58,7 +58,7 @@ class Galeri extends Web_Controller
         $data['end_paging']   = min($data['paging']->end_link, $p + $data['paging_range']);
         $data['pages']        = range($data['start_paging'], $data['end_paging']);
         $data['gallery']      = $this->first_gallery_m->gallery_show($data['paging']->offset, $data['paging']->per_page);
-        $data['paging_page']  = 'index';
+        $data['paging_page']  = 'galeri/index';
 
         $this->_get_common_data($data);
         $this->set_template('layouts/gallery.tpl.php');
@@ -76,7 +76,7 @@ class Galeri extends Web_Controller
         $data['pages']        = range($data['start_paging'], $data['end_paging']);
         $data['gallery']      = $this->first_gallery_m->sub_gallery_show($parent, $data['paging']->offset, $data['paging']->per_page);
         $data['parent']       = $this->first_gallery_m->get_parent($parent);
-        $data['paging_page']  = "{$parent}/index";
+        $data['paging_page']  = "galeri/{$parent}/index";
 
         $this->_get_common_data($data);
         $this->set_template('layouts/sub_gallery.tpl.php');
