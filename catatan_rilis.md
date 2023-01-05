@@ -5,6 +5,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 #### Perbaikan BUG
 
 1. [#6164](https://github.com/OpenSID/OpenSID/issues/6164) Perbaikan modul buku-tamu untuk menutup akses ke url langsung tanpa berlangganan lisensi dan belum terdaftar di anjungan.
+2. [#6166](https://github.com/OpenSID/OpenSID/issues/6166) Perbaikan hari tidak sesuai tanggal pada data tamu.
 
 #### Perubahan Teknis
 

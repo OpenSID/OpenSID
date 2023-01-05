@@ -37,6 +37,7 @@
 
 use App\Models\BukuKepuasan;
 use App\Models\BukuTamu;
+use Carbon\Carbon;
 
 class Buku_tamu extends Anjungan_Controller
 {
@@ -66,7 +67,7 @@ class Buku_tamu extends Anjungan_Controller
                     return '<img src="' . $row->url_foto . '" class="penduduk_kecil text-center" alt="' . $row->nama . '">';
                 })
                 ->editColumn('created_at', static function ($row) {
-                    return hari($row->created_at) . ' / ' . tgl_indo($row->created_at);
+                    return Carbon::parse($row->created_at)->dayName . ' / ' . tgl_indo($row->created_at);
                 })
                 ->rawColumns(['ceklist', 'tampil_foto', 'aksi'])
                 ->make();
