@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-info">
-                    <?php if ($this->tab_ini == 10 && $operator) : ?>
+                    <?php if ($this->tab_ini == 10) : ?>
                         <div class="box-header with-border">
                             <a href="<?= site_url('keluar/perorangan_clear') ?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-archive"></i> Rekam Surat Perorangan</a>
                             <a href="<?= site_url('keluar/graph') ?>" class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Pie Surat Keluar</a>
