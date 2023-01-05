@@ -48,6 +48,19 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Buku_tamu extends MY_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        if ($this->setting->layanan_mandiri == 0) {
+            show_404();
+        }
+
+        if (null === $this->cek_anjungan) {
+            show_404();
+        }
+    }
+
     public function index()
     {
         return view('buku_tamu.registrasi', [
