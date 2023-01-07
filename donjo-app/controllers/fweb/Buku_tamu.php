@@ -132,9 +132,10 @@ class Buku_tamu extends MY_Controller
         } else {
             $pertanyaan = BukuKepuasan::whereIdNama($id)->pluck('id_pertanyaan');
             BukuKepuasan::insert([
-                'id_nama'       => $tamu->id,
-                'id_pertanyaan' => BukuPertanyaan::whereNotIn('id', $pertanyaan)->whereStatus(StatusEnum::YA)->first()->id,
-                'id_jawaban'    => $jawaban,
+                'id_nama'           => $tamu->id,
+                'id_pertanyaan'     => BukuPertanyaan::whereNotIn('id', $pertanyaan)->whereStatus(StatusEnum::YA)->first()->id,
+                'pertanyaan_statis' => $this->input->get('pertanyaan', true),
+                'id_jawaban'        => $jawaban,
             ]);
 
             // jika masih ada pertanyaan
