@@ -10,6 +10,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#6130](https://github.com/OpenSID/OpenSID/issues/6130) Perbaikan fitur cetak,bersihkan pada arsip layanan surat.
 5. [#6176](https://github.com/OpenSID/OpenSID/issues/6176) Perbaikan surat keterangan untuk nikah (N-1) salah penandatangan mengetahui camat.
 6. [#6167](https://github.com/OpenSID/OpenSID/issues/6167) Perbaikan buku tamu jika pertanyaan di perbarui maka pertanyaan yang tersimpan ikut berubah.
+7. [#6173](https://github.com/OpenSID/OpenSID/issues/6173) Perbaikan jam simpan data pada fitur buku tamu.
 
 #### Perubahan Teknis
 

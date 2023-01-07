@@ -86,7 +86,7 @@ class Buku_tamu extends MY_Controller
             if ($cek_registrasi) {
                 set_session('error', 'Registrasi Gagal Disimpan<br>Anda Sudah Melakukan Registrasi Hari Ini');
             } else {
-                if (BukuTamu::insert($post)) {
+                if (BukuTamu::create($post)) {
                     set_session('success', 'Registrasi Berhasil Disimpan');
                 } else {
                     set_session('error', 'Registrasi Gagal Disimpan');

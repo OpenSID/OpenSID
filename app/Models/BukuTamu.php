@@ -49,20 +49,11 @@ class BukuTamu extends BaseModel
     protected $table = 'buku_tamu';
 
     /**
-     * The model's default values for attributes.
+     * The guarded with the model.
      *
      * @var array
      */
-    protected $attributes = [
-        'nama',
-        'telepon',
-        'instansi',
-        'jenis_kelamin',
-        'alamat',
-        'id_bidang',
-        'id_keperluan',
-        'foto',
-    ];
+    protected $guarded = [];
 
     /**
      * The appends with the model.
@@ -71,16 +62,6 @@ class BukuTamu extends BaseModel
      */
     protected $appends = [
         'url_foto',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'created_at' => 'date:Y-m-d H:i:s',
-        'updated_at' => 'date:Y-m-d H:i:s',
     ];
 
     /**
