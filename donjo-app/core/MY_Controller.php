@@ -95,7 +95,7 @@ class MY_Controller extends CI_Controller
         if (Schema::hasColumn('anjungan', 'tipe')) {
             if (! cek_anjungan() && Anjungan::exists()) {
                 try {
-                    Anjungan::tipe(1)->update(['status' => 0]);
+                    Anjungan::tipe(1)->update(['status' => 0, 'status_alasan' => 'tidak berlangganan anjungan']);
                 } catch (Exception $e) {
                 }
             }

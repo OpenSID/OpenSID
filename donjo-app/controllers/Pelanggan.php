@@ -166,11 +166,11 @@ class Pelanggan extends Admin_Controller
                 // perbarui anjungan aktif
                 if (cek_anjungan()) {
                     $this->db
-                        ->update(
-                            'anjungan',
-                            ['status' => '1'],
-                            ['tipe'   => '1']
-                        );
+                        ->set(['status' => '1'])
+                        ->where('tipe', '1')
+                        ->where('status', '0')
+                        ->where('status_alasan', 'tidak berlangganan anjungan')
+                        ->update('anjungan');
                 }
 
                 return json([

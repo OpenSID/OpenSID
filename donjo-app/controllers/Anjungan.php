@@ -167,7 +167,7 @@ class Anjungan extends Admin_Controller
         }
 
         $kunci = AnjunganModel::findOrFail($id);
-        $kunci->update(['status' => ($val == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA]);
+        $kunci->update(['status' => ($val == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA, 'status_alasan' => null]);
 
         redirect_with('success', 'Berhasil Ubah Data');
     }
