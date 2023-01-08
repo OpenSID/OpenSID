@@ -100,7 +100,7 @@ class Pelanggan extends Admin_Controller
 
     public function perpanjang()
     {
-        $this->load->library('upload');
+        $this->load->library('MY_Upload', null, 'upload');
         $config['upload_path']   = LOKASI_DOKUMEN;
         $config['file_name']     = 'dokumen-permohonan.pdf';
         $config['allowed_types'] = 'pdf';

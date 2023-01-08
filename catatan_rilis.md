@@ -17,3 +17,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 1. Perbarui header tahun 2022 menjadi 2023.
 2. Gunakan create() untuk menganti insert().
+3. [#1805](https://github.com/OpenSID/premium/issues/1805) audit keamanan form perpanjangan layanan.
