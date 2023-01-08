@@ -201,7 +201,7 @@ class Surat_master extends Admin_Controller
             $this->preview();
         }
 
-        if (FormatSurat::insert(static::validate($this->request))) {
+        if (FormatSurat::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 
@@ -392,7 +392,7 @@ class Surat_master extends Admin_Controller
                         $data['nama']      = ucwords(trim(str_replace(['surat_', '_'], ' ', $surat_baru)));
                         $data['url_surat'] = $surat_baru;
 
-                        FormatSurat::insert($data);
+                        FormatSurat::create($data);
                     }
 
                     $daftarSurat[] = $url_surat;

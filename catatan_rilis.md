@@ -16,3 +16,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 #### Perubahan Teknis
 
 1. Perbarui header tahun 2022 menjadi 2023.
+2. Gunakan create() untuk menganti insert().

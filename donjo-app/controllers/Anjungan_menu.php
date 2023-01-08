@@ -137,7 +137,7 @@ class Anjungan_menu extends Anjungan_Controller
             $this->surat_master_model->upload($this->request['url_surat']);
         }
 
-        if (Menu::insert(static::validated($this->request))) {
+        if (Menu::create(static::validated($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
         redirect_with('error', 'Gagal Tambah Data');

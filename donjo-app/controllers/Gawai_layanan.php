@@ -121,7 +121,7 @@ class Gawai_layanan extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (AnjunganModel::insert(static::validated($this->request))) {
+        if (AnjunganModel::create(static::validated($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
         redirect_with('error', 'Gagal Tambah Data');

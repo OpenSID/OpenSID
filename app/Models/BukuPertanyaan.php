@@ -52,14 +52,4 @@ class BukuPertanyaan extends BaseModel
      * @var array
      */
     protected $guarded = [];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'created_at' => 'date:Y-m-d H:i:s',
-        'updated_at' => 'date:Y-m-d H:i:s',
-    ];
 }

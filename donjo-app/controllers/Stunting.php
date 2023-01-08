@@ -122,7 +122,7 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (Posyandu::insert(static::validatePosyandu($this->request))) {
+        if (Posyandu::create(static::validatePosyandu($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', 'stunting');
         }
 
@@ -269,7 +269,7 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (KIA::insert(static::validateKia($this->request))) {
+        if (KIA::create(static::validateKia($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', 'stunting/kia');
         }
 
@@ -431,7 +431,7 @@ class Stunting extends Admin_Controller
             redirect_with('error', 'Data telah ditambahkan', 'stunting/pemantauan_ibu_hamil');
         }
 
-        if (IbuHamil::insert(static::validateIbuHamil($this->request))) {
+        if (IbuHamil::create(static::validateIbuHamil($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', 'stunting/pemantauan_ibu_hamil');
         }
 
@@ -650,7 +650,7 @@ class Stunting extends Admin_Controller
             redirect_with('error', 'Data telah ditambahkan', 'stunting/pemantauan_anak');
         }
 
-        if (Anak::insert(static::validateAnak($this->request))) {
+        if (Anak::create(static::validateAnak($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', 'stunting/pemantauan_anak');
         }
 
@@ -871,7 +871,7 @@ class Stunting extends Admin_Controller
             redirect_with('error', 'Data telah ditambahkan', 'stunting/pemantauan_paud');
         }
 
-        if (Paud::insert(static::validatePaud($this->request))) {
+        if (Paud::create(static::validatePaud($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', 'stunting/pemantauan_paud');
         }
 

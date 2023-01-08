@@ -127,15 +127,14 @@ class Buku_tamu extends MY_Controller
     {
         $tamu = BukuTamu::find($id);
 
-        if (! $tamu || ! in_array($jawaban, JawabanKepuasanEnum::keys())) {
+        if (!$tamu || !in_array($jawaban, JawabanKepuasanEnum::keys())) {
             set_session('error', 'Jawaban Gagal Disimpan');
         } else {
             $pertanyaan = BukuKepuasan::whereIdNama($id)->pluck('id_pertanyaan');
-            BukuKepuasan::insert([
-                'id_nama'           => $tamu->id,
-                'id_pertanyaan'     => BukuPertanyaan::whereNotIn('id', $pertanyaan)->whereStatus(StatusEnum::YA)->first()->id,
-                'pertanyaan_statis' => $this->input->get('pertanyaan', true),
-                'id_jawaban'        => $jawaban,
+            BukuKepuasan::create([
+                'id_nama'       => $tamu->id,
+                'id_pertanyaan' => BukuPertanyaan::whereNotIn('id', $pertanyaan)->whereStatus(StatusEnum::YA)->first()->id,
+                'id_jawaban'    => $jawaban,
             ]);
 
             // jika masih ada pertanyaan
@@ -154,7 +153,7 @@ class Buku_tamu extends MY_Controller
         $sudah_ada  = BukuKepuasan::whereIdNama($id)->pluck('id_pertanyaan');
         $pertanyaan = BukuPertanyaan::whereNotIn('id', $sudah_ada)->whereStatus(StatusEnum::YA)->first();
 
-        if (! $pertanyaan) {
+        if (!$pertanyaan) {
             set_session('success', '<h1>TERIMA KASIH</h1><br><br>Anda Telah Membantu Kami Untuk Melayani Lebih Baik Lagi.');
             redirect('buku-tamu');
         }
