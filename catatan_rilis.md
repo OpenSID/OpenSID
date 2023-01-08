@@ -11,6 +11,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 5. [#6176](https://github.com/OpenSID/OpenSID/issues/6176) Perbaikan surat keterangan untuk nikah (N-1) salah penandatangan mengetahui camat.
 6. [#6167](https://github.com/OpenSID/OpenSID/issues/6167) Perbaikan buku tamu jika pertanyaan di perbarui maka pertanyaan yang tersimpan ikut berubah.
 7. [#6173](https://github.com/OpenSID/OpenSID/issues/6173) Perbaikan jam simpan data pada fitur buku tamu.
+8. [#6171](https://github.com/OpenSID/OpenSID/issues/6171) Perbaikan lampiran f-2.01 data orang tua di surat keterangan lahir tidak muncul.
 
 #### Perubahan Teknis
 
