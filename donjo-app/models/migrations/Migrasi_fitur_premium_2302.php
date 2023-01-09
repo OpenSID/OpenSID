@@ -88,10 +88,9 @@ class Migrasi_fitur_premium_2302 extends MY_model
         return $hasil && true;
     }
 
-
     protected function migrasi_2023010171($hasil)
     {
-        if (!$this->db->field_exists('pertanyaan_statis', 'buku_kepuasan')) {
+        if (! $this->db->field_exists('pertanyaan_statis', 'buku_kepuasan')) {
             $hasil = $hasil && $this->dbforge->add_column('buku_kepuasan', [
                 'pertanyaan_statis' => ['type' => 'TEXT', 'null' => true, 'default' => null, 'after' => 'id_jawaban'],
             ]);
@@ -117,7 +116,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
 
     protected function migrasi_2023010452($hasil)
     {
-        if (!$this->db->field_exists('status_alasan', 'anjungan')) {
+        if (! $this->db->field_exists('status_alasan', 'anjungan')) {
             $hasil = $hasil && $this->dbforge->add_column('anjungan', [
                 'status_alasan' => [
                     'type'       => 'VARCHAR',
