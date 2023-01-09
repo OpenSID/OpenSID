@@ -25,7 +25,7 @@
                 <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
                     @foreach (\App\Enums\JawabanKepuasanEnum::all() as $index => $jawaban)
                         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                            <a href="{{ site_url('buku-tamu/jawaban/' . $id . '/' . $index) }}"
+                            <a href="{{ site_url('buku-tamu/jawaban/' . $id . '/' . $index . '?pertanyaan=' . $pertanyaan->pertanyaan) }}"
                                 class="text-gray-800 text-hover-primary d-flex flex-column">
                                 <div class="card h-100" style="background-color: #f3f7f9">
                                     <div class="card-body d-flex justify-content-center text-center flex-column p-3">

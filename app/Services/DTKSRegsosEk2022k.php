@@ -1867,7 +1867,7 @@ class DTKSRegsosEk2022k
             }
         }
         DtksPengaturanProgram::whereIn('id', $to_be_deleted)->delete();
-        DtksPengaturanProgram::insert($to_be_inserted);
+        DtksPengaturanProgram::create($to_be_inserted);
 
         return ['content' => ['message' => 'Berhasil disimpan'], 'header_code' => 200];
     }

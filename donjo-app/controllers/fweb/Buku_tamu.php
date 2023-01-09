@@ -48,6 +48,19 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Buku_tamu extends MY_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        if ($this->setting->layanan_mandiri == 0) {
+            show_404();
+        }
+
+        if (null === $this->cek_anjungan) {
+            show_404();
+        }
+    }
+
     public function index()
     {
         return view('buku_tamu.registrasi', [
@@ -73,7 +86,7 @@ class Buku_tamu extends MY_Controller
             if ($cek_registrasi) {
                 set_session('error', 'Registrasi Gagal Disimpan<br>Anda Sudah Melakukan Registrasi Hari Ini');
             } else {
-                if (BukuTamu::insert($post)) {
+                if (BukuTamu::create($post)) {
                     set_session('success', 'Registrasi Berhasil Disimpan');
                 } else {
                     set_session('error', 'Registrasi Gagal Disimpan');
@@ -118,7 +131,7 @@ class Buku_tamu extends MY_Controller
             set_session('error', 'Jawaban Gagal Disimpan');
         } else {
             $pertanyaan = BukuKepuasan::whereIdNama($id)->pluck('id_pertanyaan');
-            BukuKepuasan::insert([
+            BukuKepuasan::create([
                 'id_nama'       => $tamu->id,
                 'id_pertanyaan' => BukuPertanyaan::whereNotIn('id', $pertanyaan)->whereStatus(StatusEnum::YA)->first()->id,
                 'id_jawaban'    => $jawaban,

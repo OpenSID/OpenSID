@@ -78,8 +78,7 @@
                         orderable: true
                     },
                     {
-                        data: 'pertanyaan.pertanyaan',
-                        name: 'pertanyaan.pertanyaan',
+                        data: 'pertanyaan_statis',
                         searchable: true,
                         orderable: true
                     },

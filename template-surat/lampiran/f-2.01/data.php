@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -38,10 +38,11 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 // View untuk Permohonan Akta Kelahiran
-$tampil_data_orangtua = true;
-$tampil_data_anak     = true;
-$tampil_data_pelapor  = true;
-$tampil_data_saksi    = true;
+$tampil_data_orangtua  = true;
+$tampil_data_anak      = true;
+$tampil_data_pelapor   = true;
+$tampil_data_saksi     = true;
+$tampil_data_orang_tua = true;
 
 // Pilih model yang digunakan untuk menampilkan data
 $format_f201 = 1;
@@ -51,6 +52,7 @@ if ($_SESSION['id_ibu']) {
     $ibu                            = $this->get_data_surat($_SESSION['id_ibu']);
     $input['nik_ibu']               = $ibu['nik'];
     $input['nama_ibu']              = $ibu['nama'];
+    $input['tempat_lahir_ibu']      = strtoupper($ibu['tempatlahir']);
     $input['tanggal_lahir_ibu']     = $ibu['tanggallahir'];
     $input['umur_ibu']              = str_pad($ibu['umur'], 3, ' ', STR_PAD_LEFT);
     $input['pekerjaanid_ibu']       = str_pad($ibu['pekerjaan_id'], 2, '0', STR_PAD_LEFT);
@@ -62,25 +64,26 @@ if ($_SESSION['id_ibu']) {
     $input['kecibu']                = $config['nama_kecamatan'];
     $input['kabibu']                = $config['nama_kabupaten'];
     $input['provinsiibu']           = $config['nama_propinsi'];
-    $input['wn_ibu']                = $ibu['warganegara_id'];
     $input['tanggalperkawinan_ibu'] = $ibu['tanggalperkawinan'];
+    $input['kewarganegaraan_ibu']   = $ibu['warganegara'];
 
     $ayah = $this->get_data_suami($ibu['id']);
     if ($ayah) {
-        $input['nik_ayah']           = $ayah['nik'];
-        $input['nama_ayah']          = $ayah['nama'];
-        $input['tanggal_lahir_ayah'] = $ayah['tanggallahir'];
-        $input['umur_ayah']          = str_pad($ayah['umur'], 3, ' ', STR_PAD_LEFT);
-        $input['pekerjaanid_ayah']   = str_pad($ayah['pekerjaan_id'], 2, '0', STR_PAD_LEFT);
-        $input['pekerjaanayah']      = $ayah['pek'];
-        $input['alamat_ayah']        = trim($ayah['alamat'] . ' ' . $ayah['dusun']);
-        $input['rt_ayah']            = $ayah['rt'];
-        $input['rw_ayah']            = $ayah['rw'];
-        $input['desaayah']           = $config['nama_desa'];
-        $input['kecayah']            = $config['nama_kecamatan'];
-        $input['kabayah']            = $config['nama_kabupaten'];
-        $input['provinsiayah']       = $config['nama_propinsi'];
-        $input['wn_ayah']            = $ayah['warganegara_id'];
+        $input['nik_ayah']             = $ayah['nik'];
+        $input['nama_ayah']            = $ayah['nama'];
+        $input['tempat_lahir_ayah']    = strtoupper($ayah['tempatlahir']);
+        $input['tanggal_lahir_ayah']   = $ayah['tanggallahir'];
+        $input['umur_ayah']            = str_pad($ayah['umur'], 3, ' ', STR_PAD_LEFT);
+        $input['pekerjaanid_ayah']     = str_pad($ayah['pekerjaan_id'], 2, '0', STR_PAD_LEFT);
+        $input['pekerjaanayah']        = $ayah['pek'];
+        $input['alamat_ayah']          = trim($ayah['alamat'] . ' ' . $ayah['dusun']);
+        $input['rt_ayah']              = $ayah['rt'];
+        $input['rw_ayah']              = $ayah['rw'];
+        $input['desaayah']             = $config['nama_desa'];
+        $input['kecayah']              = $config['nama_kecamatan'];
+        $input['kabayah']              = $config['nama_kabupaten'];
+        $input['provinsiayah']         = $config['nama_propinsi'];
+        $input['kewarganegaraan_ayah'] = $ayah['wn'];
     } else {
         $input['pekerjaanid_ayah'] = str_pad($input['pekerjaanid_ayah'], 2, '0', STR_PAD_LEFT);
         $input['umur_ayah']        = str_pad($input['umur_ayah'], 3, ' ', STR_PAD_LEFT);

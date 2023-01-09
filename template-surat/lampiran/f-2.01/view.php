@@ -491,8 +491,8 @@
             <td class="kanan">:</td>
             <?php for ($i = 0; $i < 26; $i++): ?>
                 <td class="kotak padat tengah">
-                    <?php if (isset($input['dokumen_perjalanan_ayah'][$i])): ?>
-                        <?= $input['dokumen_perjalanan_ayah'][$i]; ?>
+                    <?php if (isset($input['tempat_lahir_ayah'][$i])): ?>
+                        <?= $input['tempat_lahir_ayah'][$i]; ?>
                     <?php else: ?>
                         &nbsp;
                     <?php endif; ?>
@@ -583,8 +583,8 @@
             <td class="kanan">:</td>
             <?php for ($i = 0; $i < 26; $i++): ?>
                 <td class="kotak padat tengah">
-                    <?php if (isset($input['dokumen_perjalanan_ibu'][$i])): ?>
-                        <?= $input['dokumen_perjalanan_ibu'][$i]; ?>
+                    <?php if (isset($input['tempat_lahir_ibu'][$i])): ?>
+                        <?= $input['tempat_lahir_ibu'][$i]; ?>
                     <?php else: ?>
                         &nbsp;
                     <?php endif; ?>
@@ -705,7 +705,7 @@
                 </td>
             <?php endfor; ?>
         </tr>
-        <!-- <tr>
+        <tr>
             <td>5.</td>
             <td colspan="20">Hari dan Tanggal Lahir </td>
             <td class="kanan">:</td>
@@ -757,7 +757,7 @@
                     <?php endif; ?>
                 </td>
             <?php endfor; ?>
-        </tr> -->
+        </tr>
         <tr>
             <td>6.</td>
             <td colspan="20">Pukul </td>

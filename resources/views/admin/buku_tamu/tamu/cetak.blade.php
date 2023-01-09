@@ -68,7 +68,8 @@
                                 <tr>
                                     <td width="1%"class="text-center">{{ $no + 1 }}</td>
                                     <td width="15%">
-                                        {{ hari($tamu->created_at) . ' / ' . tgl_indo($tamu->created_at) }}</td>
+                                        {{ \Carbon\Carbon::parse($tamu->created_at)->dayName . ' / ' . tgl_indo($tamu->created_at) }}
+                                    </td>
                                     <td width="20%">{{ $tamu->nama }}</td>
                                     <td width="15%">{{ $tamu->telepon }}</td>
                                     <td>{{ $tamu->instansi }}</td>

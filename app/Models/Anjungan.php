@@ -63,6 +63,7 @@ class Anjungan extends BaseModel
         'id_pengunjung',
         'keterangan',
         'status',
+        'status_alasan',
         'tipe',
         'printer_ip',
         'printer_port',

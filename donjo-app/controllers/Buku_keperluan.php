@@ -101,7 +101,7 @@ class Buku_keperluan extends Anjungan_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (BukuKeperluan::insert($this->validate($this->request))) {
+        if (BukuKeperluan::create($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 

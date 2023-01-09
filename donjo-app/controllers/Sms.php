@@ -277,7 +277,7 @@ class Sms extends Admin_Controller
         $notif = $this->kirimPesanGrup($validasi);
 
         if ($notif['jumlahBerhasil'] > 0) {
-            HubungWarga::insert($validasi);
+            HubungWarga::create($validasi);
             set_session('success', "Berhasil Kirim Pesan </br>{$notif['pesanError']}");
         } else {
             set_session('error', "Gagal Kirim Pesan </br>{$notif['pesanError']}");

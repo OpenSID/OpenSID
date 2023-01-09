@@ -804,7 +804,7 @@ class Program_bantuan_model extends MY_Model
             $data['kartu_peserta'] = unggah_file(['upload_path' => LOKASI_DOKUMEN, 'allowed_types' => 'jpg|jpeg|png']);
         }
 
-        $outp = BantuanPeserta::insert($data);
+        $outp = BantuanPeserta::create($data);
         status_sukses($outp);
     }
 

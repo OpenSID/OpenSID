@@ -101,7 +101,7 @@ class Buku_pertanyaan extends Anjungan_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (BukuPertanyaan::insert($this->validate($this->request))) {
+        if (BukuPertanyaan::create($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 

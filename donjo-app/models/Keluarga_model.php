@@ -598,7 +598,7 @@ class Keluarga_model extends MY_Model
             'updated_by'      => $this->session->user,
         ];
 
-        $outp = LogKeluarga::insert($log_keluarga);
+        $outp = LogKeluarga::create($log_keluarga);
 
         status_sukses($outp);
     }

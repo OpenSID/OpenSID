@@ -110,7 +110,7 @@ class Grup_kontak extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (GrupKontak::insert(static::validate($this->request))) {
+        if (GrupKontak::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
         redirect_with('error', 'Gagal Tambah Data');
@@ -195,7 +195,7 @@ class Grup_kontak extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (AnggotaGrup::insert(static::anggotaValidate($this->request))) {
+        if (AnggotaGrup::create(static::anggotaValidate($this->request))) {
             set_session('success', 'Berhasil Tambah Data');
         } else {
             set_session('error', 'Gagal Tambah Data');
