@@ -16,6 +16,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 10. [#6187](https://github.com/OpenSID/OpenSID/issues/6187) Penyesuaian url api SDGs yang terbaru.
 11. [#6174](https://github.com/OpenSID/OpenSID/issues/6174) Perbaikan required surat masuk jika tidak memilih disposisi.
 12. [#6186](https://github.com/OpenSID/OpenSID/issues/6186) Perbaikan ubah latar belakang website & login tidak berfungsi, masih muncul gambar bawaan.
+13. [#5909](https://github.com/OpenSID/OpenSID/issues/5909) Perbaikan notif untuk kondisi token langganan sudah berakhir.
 
 #### Perubahan Teknis
 

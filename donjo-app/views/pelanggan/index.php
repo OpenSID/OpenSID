@@ -441,6 +441,16 @@
             confirmButtonText: 'Simpan',
             showLoaderOnConfirm: true,
             preConfirm: (token) => {
+                //cek token
+                var parse_token = parseJwt(token);
+                if (moment(parse_token.tanggal_berlangganan.akhir, 'YYYY-MM-DD').diff(moment()) < 0) { // jika perbedaanya minus
+
+                    Swal.showValidationMessage(
+                        `Token Berlangganan sudah berakhir. Tanggal berlangganan sampai : ${parse_token.tanggal_berlangganan.akhir}`
+                    )
+                    return;
+                }
+
                 return fetch(`<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`, {
                         headers: {
                             "Authorization": `Bearer ${token}`,
