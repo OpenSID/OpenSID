@@ -626,7 +626,7 @@ $config['api_idm'] = 'https://idm.kemendesa.go.id/open/api/desa/rumusan';
 |--------------------------------------------------------------------------
 |
 */
-$config['api_sdgs'] = 'https://sid.kemendesa.go.id/sdgs/searching/score-sdgs?';
+$config['api_sdgs'] = 'https://sid.kemendesa.go.id/sdgs/searching/score-sdgs?location_code=';
 
 /*
 |--------------------------------------------------------------------------

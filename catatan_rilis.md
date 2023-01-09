@@ -13,6 +13,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 7. [#6173](https://github.com/OpenSID/OpenSID/issues/6173) Perbaikan jam simpan data pada fitur buku tamu.
 8. [#6171](https://github.com/OpenSID/OpenSID/issues/6171) Perbaikan lampiran f-2.01 data orang tua di surat keterangan lahir tidak muncul.
 9. [#6163](https://github.com/OpenSID/OpenSID/issues/6163) Perbaikan menu anjungan otomatis aktif setelah status langganan di perbarui.
+10. [#6187](https://github.com/OpenSID/OpenSID/issues/6187) Penyesuaian url api SDGs yang terbaru.
 
 #### Perubahan Teknis
 
