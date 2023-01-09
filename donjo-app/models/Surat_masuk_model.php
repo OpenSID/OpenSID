@@ -374,7 +374,9 @@ class Surat_masuk_model extends MY_Model
             $adaBerkasLamaDiDB = null !== $berkasLama;
         }
 
-        $this->update_disposisi_surat_masuk($idSuratMasuk, $jabatan);
+        if ($jabatan) {
+            $this->disposisi_surat_masuk($idSuratMasuk, $jabatan);
+        }
 
         $this->db->trans_complete();
 
