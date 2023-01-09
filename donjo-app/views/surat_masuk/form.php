@@ -99,18 +99,22 @@
                             <textarea id="isi_singkat" name="isi_singkat" class="form-control input-sm required" placeholder="Isi Singkat/Perihal" rows="5"><?= $surat_masuk['isi_singkat']?></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="grp_disposisi">
                         <label class="col-sm-3 control-label" for="disposisi_kepada">Disposisi Kepada</label>
                         <div class="col-sm-8 col-lg-8">
-                            <div id="op_item">
+                            <div id="op_item" class="checkbox-group required">
                                 <?php foreach ($ref_disposisi as $id => $nama): ?>
                                     <div class="col-sm-12 col-lg-6 checkbox">
                                         <label style="padding: 5px;">
-                                            <input name="disposisi_kepada[]" value="<?= $id ?>" type="checkbox" <?= selected(in_array($id, $disposisi_surat_masuk), true, true) ?>><?= strtoupper($nama); ?>
+                                            <input class="akas" type="checkbox" name="disposisi_kepada[]" onclick="cek()" value="<?= $id ?>" <?= selected(in_array($id, $disposisi_surat_masuk), true, true) ?>><?= strtoupper($nama); ?>
                                         </label>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
+                        </div>
+                        <label class="col-sm-3 control-label"></label>
+                        <div class="col-sm-8 col-lg-8">
+                            <label id="msg_disposisi" class="error">Kolom ini diperlukan.</label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -122,18 +126,38 @@
                 </div>
                 <div class='box-footer'>
                     <button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-                    <button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+                    <button type='button' class='btn btn-social btn-flat btn-info btn-sm pull-right' onclick="submit_form()" ><i class='fa fa-check'></i> Simpan</button>
                 </div>
             </form>
         </div>
     </section>
 </div>
 <script type="text/javascript">
-    $(function() {
+    $(document).ready(function() {
         var keyword = <?= $pengirim; ?> ;
         $("#pengirim").autocomplete({
             source: keyword,
             maxShowItems: 10,
         });
+
+        $("#msg_disposisi").hide();
     });
+
+    function submit_form() {
+		if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
+			$("#validasi").submit();
+		}
+
+        cek();
+	}
+
+    function cek() {
+        if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
+            $("#msg_disposisi").hide();
+            $("#grp_disposisi").closest(".form-group").removeClass("has-error");
+        } else {
+            $("#msg_disposisi").show();
+            $("#grp_disposisi").closest(".form-group").addClass("has-error");
+        }
+    }
 </script>

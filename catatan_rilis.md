@@ -14,6 +14,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 8. [#6171](https://github.com/OpenSID/OpenSID/issues/6171) Perbaikan lampiran f-2.01 data orang tua di surat keterangan lahir tidak muncul.
 9. [#6163](https://github.com/OpenSID/OpenSID/issues/6163) Perbaikan menu anjungan otomatis aktif setelah status langganan di perbarui.
 10. [#6187](https://github.com/OpenSID/OpenSID/issues/6187) Penyesuaian url api SDGs yang terbaru.
+11. [#6174](https://github.com/OpenSID/OpenSID/issues/6174) Perbaikan required surat masuk jika tidak memilih disposisi.
 
 #### Perubahan Teknis
 
