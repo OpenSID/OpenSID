@@ -59,6 +59,9 @@
     <link rel="stylesheet" href="<?= asset('css/peta.css') ?>">
     <link rel="stylesheet" href="<?= asset('css/toastr.min.css') ?>">
 
+    <!-- Sweet Alert -->
+    <link rel="stylesheet" href="<?= asset('js/sweetalert2/sweetalert2.min.css') ?>">
+
     <style>
         @media (max-width: 576px) {
             .komunikasi-opendk {

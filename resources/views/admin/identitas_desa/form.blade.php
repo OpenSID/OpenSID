@@ -16,7 +16,7 @@
     @include('admin.layouts.components.notifikasi')
     @include('admin.identitas_desa.info_kades')
 
-    {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
+    {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi-modif"') !!}
     <div class="row">
         <div class="col-md-3">
             <div class="box box-primary">
@@ -306,7 +306,7 @@
             });
 
             // simpan
-            $(document).on("submit", "form#validasi", function(event) {
+            $(document).on("submit", "form#validasi-modif", function(event) {
                 event.preventDefault();
                 Swal.fire({
                     title: 'Sedang Menyimpan',
