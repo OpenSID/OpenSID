@@ -69,8 +69,8 @@ class OTP_telegram implements OTP_interface
 
         try {
             $this->telegram->sendMessage([
-                'chat_id' => $user,
-                'text'    => <<<EOD
+                'chat_id'    => $user,
+                'text'       => <<<EOD
                     Kode Verifikasi OTP Anda: {$otp}
 
                     JANGAN BERIKAN KODE RAHASIA INI KEPADA SIAPA PUN,
@@ -141,8 +141,8 @@ class OTP_telegram implements OTP_interface
     {
         try {
             $this->telegram->sendMessage([
-                'chat_id' => $user,
-                'text'    => <<<EOD
+                'chat_id'    => $user,
+                'text'       => <<<EOD
                     HALO {$nama},
 
                     SELAMAT AKUN TELEGRAM ANDA BERHASIL DIVERIFIKASI
@@ -163,8 +163,8 @@ class OTP_telegram implements OTP_interface
     {
         try {
             $this->telegram->sendMessage([
-                'chat_id' => $user,
-                'text'    => <<<EOD
+                'chat_id'    => $user,
+                'text'       => <<<EOD
                     HALO {$nama},
 
                     BERIKUT ADALAH KODE PIN YANG BARU SAJA DIHASILKAN,
@@ -202,8 +202,8 @@ class OTP_telegram implements OTP_interface
     {
         try {
             $this->telegram->sendMessage([
-                'chat_id' => $data['tujuan'],
-                'text'    => <<<EOD
+                'chat_id'    => $data['tujuan'],
+                'text'       => <<<EOD
                     SUBJEK :
                     {$data['subjek']}
 

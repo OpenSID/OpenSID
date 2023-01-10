@@ -121,7 +121,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
     protected function migrasi_2021051701($hasil)
     {
         $fields = [
-            'foto' => [
+            'foto'          => [
                 'type'    => 'TEXT',
                 'default' => null,
             ],
@@ -189,7 +189,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
     {
         // Kolom tidak harus diisi
         $fields = [
-            'merk' => [
+            'merk'   => [
                 'type' => 'varchar(255)',
                 'null' => true,
             ],
@@ -197,14 +197,14 @@ class Migrasi_fitur_premium_2106 extends MY_Model
                 'type' => 'text',
                 'null' => true,
             ],
-            'bahan' => [
+            'bahan'  => [
                 'type' => 'text',
                 'null' => true,
             ],
         ];
         $hasil  = $hasil && $this->dbforge->modify_column('inventaris_peralatan', $fields);
         $fields = [
-            'no_sertifikat' => [
+            'no_sertifikat'      => [
                 'type' => 'varchar(255)',
                 'null' => true,
             ],
@@ -417,7 +417,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
     protected function tambah_tabel_pendapat($hasil)
     {
         $fields = [
-            'id' => [
+            'id'       => [
                 'type'           => 'INT',
                 'constraint'     => 11,
                 'auto_increment' => true,
@@ -429,7 +429,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
             'tanggal TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
 
-            'pilihan' => [
+            'pilihan'  => [
                 'type'       => 'int',
                 'constraint' => 1,
             ],

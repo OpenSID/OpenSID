@@ -65,7 +65,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
         // Tambah tabel ref_penduduk_kehamilan
         if (! $this->db->table_exists('ref_penduduk_hamil')) {
             $fields = [
-                'id' => [
+                'id'   => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'unsigned'       => true,
@@ -97,20 +97,20 @@ class Migrasi_fitur_premium_2202 extends MY_model
     {
         if (! $this->db->field_exists('aktif', 'tweb_penduduk_mandiri')) {
             $fields = [
-                'aktif' => [
+                'aktif'       => [
                     'type'       => 'INT',
                     'constraint' => 1,
                     'null'       => true,
                     'default'    => 1,
                     'after'      => 'id_pend',
                 ],
-                'scan_ktp' => [
+                'scan_ktp'    => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'null'       => true,
                     'after'      => 'aktif',
                 ],
-                'scan_kk' => [
+                'scan_kk'     => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'null'       => true,
@@ -320,7 +320,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
     {
         if (! $this->db->field_exists('email_token', 'tweb_penduduk')) {
             $fields = [
-                'email_token' => [
+                'email_token'          => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'unique'     => true,

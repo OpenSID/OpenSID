@@ -77,7 +77,7 @@ class Sinkronisasi extends Admin_Controller
                     'inkremental' => 0,
                 ],
             ],
-            'Pembangunan' => [
+            'Pembangunan'     => [
                 [
                     'path'        => 'kirim_pembangunan',
                     'modul'       => 'pembangunan',
@@ -299,7 +299,7 @@ class Sinkronisasi extends Admin_Controller
         //Tambah/Ubah Data
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL => "{$this->setting->api_opendk_server}/api/v1/penduduk/storedata",
+            CURLOPT_URL            => "{$this->setting->api_opendk_server}/api/v1/penduduk/storedata",
             // Jika http gunakan url ini :
             //CURLOPT_URL => $this->setting->api_opendk_server."/api/v1/penduduk/storedata?token=".$this->setting->api_opendk_key,
             CURLOPT_RETURNTRANSFER => true,
@@ -324,7 +324,7 @@ class Sinkronisasi extends Admin_Controller
         //Hapus Data
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL => "{$this->setting->api_opendk_server}/api/v1/penduduk",
+            CURLOPT_URL            => "{$this->setting->api_opendk_server}/api/v1/penduduk",
             // Jika http gunakan url ini :
             //CURLOPT_URL => $this->setting->api_opendk_server."/api/v1/penduduk?token=".$this->setting->api_opendk_key,
             CURLOPT_RETURNTRANSFER => true,

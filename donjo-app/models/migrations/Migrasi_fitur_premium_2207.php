@@ -151,18 +151,18 @@ class Migrasi_fitur_premium_2207 extends MY_model
         // Buat tabel log sinkronisasi
         if (! $this->db->table_exists('log_backup')) {
             $fields = [
-                'id' => [
+                'id'            => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                     'unsigned'       => true,
                 ],
-                'ukuran' => [
+                'ukuran'        => [
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                     'null'       => true,
                 ],
-                'path' => [
+                'path'          => [
                     'type'       => 'VARCHAR',
                     'constraint' => 150,
                     'null'       => true,
@@ -171,7 +171,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
                     'type' => 'TIMESTAMP',
                     'null' => true,
                 ],
-                'status' => [
+                'status'        => [
                     'type'    => 'int',
                     'null'    => false,
                     'default' => 0,
@@ -214,13 +214,13 @@ class Migrasi_fitur_premium_2207 extends MY_model
         // Tabel posyandu
 
         $posyandu = [
-            'id' => [
+            'id'     => [
                 'type'           => 'INT',
                 'constraint'     => 11,
                 'auto_increment' => true,
                 'unsigned'       => true,
             ],
-            'nama' => [
+            'nama'   => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
             ],
@@ -239,33 +239,33 @@ class Migrasi_fitur_premium_2207 extends MY_model
 
         // Tabel ibu_hamil
         $ibu_hamil = [
-            'id' => [
+            'id'                    => [
                 'type'           => 'INT',
                 'constraint'     => 11,
                 'auto_increment' => true,
                 'unsigned'       => true,
             ],
-            'posyandu_id' => [
+            'posyandu_id'           => [
                 'type'       => 'INT',
                 'constraint' => 11,
             ],
-            'kia_id' => [
+            'kia_id'                => [
                 'type'       => 'INT',
                 'constraint' => 11,
             ],
-            'status_kehamilan' => [
+            'status_kehamilan'      => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'NORMAL','RISTI','KEK',
                 'null'       => true,
                 'default'    => null,
             ],
-            'usia_kehamilan' => [
+            'usia_kehamilan'        => [
                 'type'       => 'TINYINT',
                 'constraint' => 255,
                 'null'       => true,
                 'default'    => null,
             ],
-            'tanggal_melahirkan' => [
+            'tanggal_melahirkan'    => [
                 'type' => 'DATE',
                 'null' => true,
             ],
@@ -273,35 +273,35 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'konsumsi_pil_fe' => [
+            'konsumsi_pil_fe'       => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'butir_pil_fe' => [
+            'butir_pil_fe'          => [
                 'type'       => 'INT',
                 'constraint' => 11, // 'YA','TIDAK',
             ],
-            'pemeriksaan_nifas' => [
+            'pemeriksaan_nifas'     => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'konseling_gizi' => [
+            'konseling_gizi'        => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'kunjungan_rumah' => [
+            'kunjungan_rumah'       => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'akses_air_bersih' => [
+            'akses_air_bersih'      => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'kepemilikan_jamban' => [
+            'kepemilikan_jamban'    => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'jaminan_kesehatan' => [
+            'jaminan_kesehatan'     => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
@@ -316,21 +316,21 @@ class Migrasi_fitur_premium_2207 extends MY_model
 
         // Tabel kia
         $kia = [
-            'id' => [
+            'id'                   => [
                 'type'           => 'INT',
                 'constraint'     => 11,
                 'auto_increment' => true,
                 'unsigned'       => true,
             ],
-            'no_kia' => [
+            'no_kia'               => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
             ],
-            'ibu_id' => [
+            'ibu_id'               => [
                 'type'       => 'INT',
                 'constraint' => 11,
             ],
-            'anak_id' => [
+            'anak_id'              => [
                 'type'       => 'INT',
                 'constraint' => 11,
                 'null'       => true,
@@ -354,33 +354,33 @@ class Migrasi_fitur_premium_2207 extends MY_model
 
         // Tabel bulanan_anak
         $bulanan_anak = [
-            'id' => [
+            'id'                         => [
                 'type'           => 'INT',
                 'constraint'     => 11,
                 'auto_increment' => true,
                 'unsigned'       => true,
             ],
-            'posyandu_id' => [
+            'posyandu_id'                => [
                 'type'       => 'INT',
                 'constraint' => 11,
             ],
-            'kia_id' => [
+            'kia_id'                     => [
                 'type'       => 'INT',
                 'constraint' => 11,
             ],
-            'status_gizi' => [
+            'status_gizi'                => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'N','GK','GB','S'
             ],
-            'umur_bulan' => [
+            'umur_bulan'                 => [
                 'type'       => 'TINYINT',
                 'constraint' => 3,
             ],
-            'status_tikar' => [
+            'status_tikar'               => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'TD','M','K','H'
             ],
-            'pemberian_imunisasi_dasar' => [
+            'pemberian_imunisasi_dasar'  => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
@@ -389,43 +389,43 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 'constraint' => 1, // 'YA','TIDAK',
                 'null'       => true,
             ],
-            'pengukuran_berat_badan' => [
+            'pengukuran_berat_badan'     => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'pengukuran_tinggi_badan' => [
+            'pengukuran_tinggi_badan'    => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'konseling_gizi_ayah' => [
+            'konseling_gizi_ayah'        => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'konseling_gizi_ibu' => [
+            'konseling_gizi_ibu'         => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'kunjungan_rumah' => [
+            'kunjungan_rumah'            => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'air_bersih' => [
+            'air_bersih'                 => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'kepemilikan_jamban' => [
+            'kepemilikan_jamban'         => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'akta_lahir' => [
+            'akta_lahir'                 => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'jaminan_kesehatan' => [
+            'jaminan_kesehatan'          => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
-            'pengasuhan_paud' => [
+            'pengasuhan_paud'            => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'YA','TIDAK',
             ],
@@ -440,17 +440,17 @@ class Migrasi_fitur_premium_2207 extends MY_model
 
         // Tabel sasaran_paud
         $sasaran_paud = [
-            'id' => [
+            'id'            => [
                 'type'           => 'INT',
                 'constraint'     => 11,
                 'auto_increment' => true,
                 'unsigned'       => true,
             ],
-            'posyandu_id' => [
+            'posyandu_id'   => [
                 'type'       => 'INT',
                 'constraint' => 11,
             ],
-            'kia_id' => [
+            'kia_id'        => [
                 'type'       => 'INT',
                 'constraint' => 11,
             ],
@@ -458,51 +458,51 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Anak Usia 2 - < 3 Tahun','Anak Usia 3 - 6 Tahun'
             ],
-            'januari' => [
+            'januari'       => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
             ],
-            'februari' => [
+            'februari'      => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
             ],
-            'maret' => [
+            'maret'         => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
             ],
-            'april' => [
+            'april'         => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
             ],
-            'mei' => [
+            'mei'           => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
             ],
-            'juni' => [
+            'juni'          => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
             ],
-            'juli' => [
+            'juli'          => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
             ],
-            'agustus' => [
+            'agustus'       => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
             ],
-            'september' => [
+            'september'     => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
             ],
-            'oktober' => [
+            'oktober'       => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
             ],
-            'november' => [
+            'november'      => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
             ],
-            'desember' => [
+            'desember'      => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
             ],
@@ -719,7 +719,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
             'mandiri'             => StatusEnum::YA,
             'syarat_surat'        => ['13', '3'],
             'template'            => "
-                <h3 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]</span></h3>
+                <h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]</span></h4>
                 <p style=\"margin: 0; text-align: center;\">Nomor : [format_nomor_surat]<br /><br /></p>
                 <p style=\"text-align: justify;\">\u{a0} \u{a0} \u{a0} Yang bertanda tangan di bawah ini [Jabatan] [Nama_desa], Kecamatan [Nama_kecamatan], [Sebutan_kabupaten] [Nama_kabupaten], Provinsi [Nama_provinsi] menerangkan dengan sebenarnya bahwa :</p>
                 <table style=\"border-collapse: collapse; width: 100%; height: 270px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">

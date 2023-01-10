@@ -168,8 +168,8 @@ class Mandiri extends Admin_Controller
             $outp = $this->db->where('id_pend', $id_pend)->set('aktif', true)->update('tweb_penduduk_mandiri');
 
             $this->telegram->sendMessage([
-                'chat_id' => $data->telegram,
-                'text'    => <<<EOD
+                'chat_id'    => $data->telegram,
+                'text'       => <<<EOD
                     HALO {$data->nama},
 
                     SELAMAT AKUN LAYANAN MANDIRI ANDA SUDAH DIVERIFIKASI DAN TELAH DISETUJUI

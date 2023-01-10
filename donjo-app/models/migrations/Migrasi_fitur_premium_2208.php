@@ -122,7 +122,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
         // Buat tabel ref font Surat
         if (! $this->db->table_exists('ref_font_surat')) {
             $fields = [
-                'id' => [
+                'id'          => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,

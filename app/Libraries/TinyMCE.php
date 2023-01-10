@@ -55,7 +55,7 @@ class TinyMCE
         <tr>
         <td style="width: 10%;">[logo]</td>
         <td style="text-align: center; width: 90%;">
-        <p style="margin: 0; text-align: center;"><span style="font-size: 18pt;">PEMERINTAH [SEbutan_kabupaten] [NAma_kabupaten] <br />KECAMATAN [NAma_kecamatan]<strong><br />[SEbutan_desa] [NAma_desa] </strong></span></p>
+        <p style="margin: 0; text-align: center;"><span style="font-size: 14pt;">PEMERINTAH [SEbutan_kabupaten] [NAma_kabupaten] <br />KECAMATAN [NAma_kecamatan]<strong><br />[SEbutan_desa] [NAma_desa] </strong></span></p>
         <p style="margin: 0; text-align: center;"><em><span style="font-size: 10pt;">[Alamat_desA]</span></em></p>
         </td>
         </tr>
@@ -144,22 +144,22 @@ class TinyMCE
     {
         $daftar_kode_isian = [
             // Data Surat
-            'Surat' => $this->getIsianSurat($data),
+            'Surat'            => $this->getIsianSurat($data),
 
             // Data Identitas Desa
-            'Identitas Desa' => $this->getIsianIdentitas($data['id_pend']),
+            'Identitas Desa'   => $this->getIsianIdentitas($data['id_pend']),
 
             // Data Penduduk Umum
-            'Penduduk' => $this->getIsianPenduduk($data['id_pend']),
+            'Penduduk'         => $this->getIsianPenduduk($data['id_pend']),
 
             // Data Anggota keluarga
             'Anggota Keluarga' => $this->getIsianAnggotaKeluarga($data['id_pend']),
 
             // Data Dari Form Isian
-            'Input' => $this->getIsianPost($data),
+            'Input'            => $this->getIsianPost($data),
 
             // Penandatangan
-            'Penandatangan' => $this->getPenandatangan($data['input']),
+            'Penandatangan'    => $this->getPenandatangan($data['input']),
         ];
 
         if ($withData) {

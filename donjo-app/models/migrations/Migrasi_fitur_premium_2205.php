@@ -391,7 +391,7 @@ class Migrasi_fitur_premium_2205 extends MY_model
         // Tambahkan tabel hubung_warga
         if (! $this->db->table_exists('hubung_warga')) {
             $fields = [
-                'id' => [
+                'id'      => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
@@ -402,12 +402,12 @@ class Migrasi_fitur_premium_2205 extends MY_model
                     'constraint' => 11,
                     'null'       => false,
                 ],
-                'subjek' => [
+                'subjek'  => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'null'       => false,
                 ],
-                'isi' => [
+                'isi'     => [
                     'type' => 'TEXT',
                     'null' => false,
                 ],
@@ -465,18 +465,18 @@ class Migrasi_fitur_premium_2205 extends MY_model
         // Buat tabel pesan
         if (! $this->db->table_exists('pesan')) {
             $fields = [
-                'id' => [
+                'id'           => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'unsigned'       => true,
                     'auto_increment' => false,
                 ],
-                'judul' => [
+                'judul'        => [
                     'type'       => 'VARCHAR',
                     'constraint' => 255,
                     'null'       => true,
                 ],
-                'jenis' => [
+                'jenis'        => [
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                 ],
@@ -485,16 +485,16 @@ class Migrasi_fitur_premium_2205 extends MY_model
                     'constraint' => 2,
                     'default'    => 1,
                 ],
-                'diarsipkan' => [
+                'diarsipkan'   => [
                     'type'       => 'INT',
                     'constraint' => 2,
                     'default'    => 0,
                 ],
-                'created_at' => [
+                'created_at'   => [
                     'type' => 'timestamp',
                     'null' => true,
                 ],
-                'updated_at' => [
+                'updated_at'   => [
                     'type' => 'timestamp',
                     'null' => true,
                 ],
@@ -506,20 +506,20 @@ class Migrasi_fitur_premium_2205 extends MY_model
 
         if (! $this->db->table_exists('pesan_detail')) {
             $fields = [
-                'id' => [
+                'id'            => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'unsigned'       => true,
                     'auto_increment' => false,
                 ],
-                'pesan_id' => [
+                'pesan_id'      => [
                     'type'       => 'INT',
                     'constraint' => 11,
                 ],
-                'text' => [
+                'text'          => [
                     'type' => 'TEXT',
                 ],
-                'pengirim' => [
+                'pengirim'      => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'null'       => true,
@@ -529,11 +529,11 @@ class Migrasi_fitur_premium_2205 extends MY_model
                     'constraint' => 100,
                     'null'       => true,
                 ],
-                'created_at' => [
+                'created_at'    => [
                     'type' => 'timestamp',
                     'null' => true,
                 ],
-                'updated_at' => [
+                'updated_at'    => [
                     'type' => 'timestamp',
                     'null' => true,
                 ],
