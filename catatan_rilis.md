@@ -2,6 +2,10 @@ Di rilis ini, versi 23.01-premium-beta01 [isi disini]. Rilis ini juga berisi pen
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
+#### Penambahan Fitur
+
+1. [#6151](https://github.com/OpenSID/OpenSID/issues/6151) Menambahkan lampiran F-2.01 pada format suket kematian.
+
 #### Perbaikan BUG
 
 1. [#6164](https://github.com/OpenSID/OpenSID/issues/6164) Perbaikan modul buku-tamu untuk menutup akses ke url langsung tanpa berlangganan lisensi dan belum terdaftar di anjungan.

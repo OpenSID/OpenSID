@@ -268,3 +268,36 @@ if (! function_exists('QRCodeExist')) {
         return $inputs;
     }
 }
+
+// Untuk Lampiran
+if (! function_exists('kotak')) {
+    function kotak($data_kolom, $max_kolom = 26)
+    {
+        $view = '';
+
+        for ($i = 0; $i < $max_kolom; $i++) {
+            $view .= '<td class="kotak padat tengah">';
+            if (isset($data_kolom[$i])) {
+                $view .= strtoupper($data_kolom[$i]);
+            } else {
+                $view .= '&nbsp;';
+            }
+            $view .= '</td>';
+        }
+
+        return $view;
+    }
+}
+
+if (! function_exists('checklist')) {
+    function checklist($kondisi_1, $kondisi_2)
+    {
+        $view = '<td class="kotak padat tengah">';
+        if ($kondisi_1 == $kondisi_2) {
+            $view .= '<img src="' . base_url('assets/images/check.png') . '" height="10" width="10"/>';
+        }
+        $view .= '</td>';
+
+        return $view;
+    }
+}
