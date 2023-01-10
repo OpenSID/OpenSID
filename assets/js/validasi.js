@@ -116,7 +116,7 @@ $(document).ready(function() {
 			}
 		},
 		invalidHandler: function(e, validator){
-			if(validator.errorList.length) {
+			if(validator.errorList.length && $('#tabs').length) {
 				$('#tabs a[href="#' + $(validator.errorList[0].element).closest(".tab-pane").attr('id') + '"]').tab('show');
 			}
 		},
