@@ -337,8 +337,8 @@ class Keluar extends Admin_Controller
 
             foreach ($kirim_telegram as $value) {
                 $telegram->sendMessage([
-                    'chat_id' => $value->id_telegram,
-                    'text'    => <<<EOD
+                    'chat_id'      => $value->id_telegram,
+                    'text'         => <<<EOD
                         Permohonan Surat telah ditolak,
                         Nomor Surat : {$log_surat->formatpenomoransurat}
                         Jenis Surat : {$jenis_surat}
@@ -596,7 +596,7 @@ class Keluar extends Admin_Controller
                 ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, ['1', '2']), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '0');
                 })->count(),
-            'arsip' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == '1', static function ($q) {
+            'arsip'      => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == '1', static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('tte', '=', 1);
                 })
@@ -613,7 +613,7 @@ class Keluar extends Admin_Controller
                 ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, ['1', '2']), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
                 })->count(),
-            'tolak' => LogSurat::whereNull('deleted_at')->where('verifikasi_operator', '=', '-1')->count(),
+            'tolak'      => LogSurat::whereNull('deleted_at')->where('verifikasi_operator', '=', '-1')->count(),
         ];
     }
 

@@ -955,7 +955,7 @@ class Surat_model extends CI_Model
                 '[warga_negara]'         => $individu['warganegara'],
 
                 // Data RTM
-                '[bdt]' => $individu['bdt'] ?? '-',
+                '[bdt]'                  => $individu['bdt'] ?? '-',
             ];
             $buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 

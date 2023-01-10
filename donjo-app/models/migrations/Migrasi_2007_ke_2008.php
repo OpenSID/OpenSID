@@ -123,10 +123,10 @@ class Migrasi_2007_ke_2008 extends CI_model
 
             // Persetujuan Pengguna
             [
-                'kode'  => 'persetujuan_penggunaan',
-                'judul' => '<i class="fa fa-file-text-o text-black"></i> &nbsp;Persetujuan Penggunaan OpenSID',
-                'jenis' => 'persetujuan',
-                'isi'   => '<p><b>Untuk menggunakan OpenSID, anda dan desa anda perlu menyetujui ketentuan berikut:</b>
+                'kode'           => 'persetujuan_penggunaan',
+                'judul'          => '<i class="fa fa-file-text-o text-black"></i> &nbsp;Persetujuan Penggunaan OpenSID',
+                'jenis'          => 'persetujuan',
+                'isi'            => '<p><b>Untuk menggunakan OpenSID, anda dan desa anda perlu menyetujui ketentuan berikut:</b>
 					<ol>
 						<li>Pengguna telah membaca dan menyetujui <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">Lisensi GPL V3</a>.</li>
 						<li>OpenSID gratis dan disediakan "SEBAGAIMANA ADANYA", di mana segala tanggung jawab termasuk keamanan data desa ada pada pengguna.</li>
@@ -144,10 +144,10 @@ class Migrasi_2007_ke_2008 extends CI_model
 
             // Tracking Off
             [
-                'kode'  => 'tracking_off',
-                'judul' => '<i class="fa fa-exclamation-triangle text-red"></i> &nbsp;Peringatan Tracking Off',
-                'jenis' => 'peringatan',
-                'isi'   => '<p>Kami mendeteksi bahwa anda telah mematikan fitur tracking. Bila dimatikan, penggunaan website desa anda tidak akan tercatat di server OpenDesa dan tidak akan menerima informasi penting yang sesekali dikirim OpenDesa.</p>
+                'kode'           => 'tracking_off',
+                'judul'          => '<i class="fa fa-exclamation-triangle text-red"></i> &nbsp;Peringatan Tracking Off',
+                'jenis'          => 'peringatan',
+                'isi'            => '<p>Kami mendeteksi bahwa anda telah mematikan fitur tracking. Bila dimatikan, penggunaan website desa anda tidak akan tercatat di server OpenDesa dan tidak akan menerima informasi penting yang sesekali dikirim OpenDesa.</p>
 					<br><b>Hidupkan kembali tracking untuk mendapatkan informasi dari OpenDesa?</b>',
                 'server'         => 'client',
                 'tgl_berikutnya' => date('Y-m-d H:i:s'),
@@ -211,17 +211,17 @@ class Migrasi_2007_ke_2008 extends CI_model
         // Buat tabel jenis Kelas Persil
         if (! $this->db->table_exists('ref_persil_kelas')) {
             $fields = [
-                'id' => [
+                'id'    => [
                     'type'           => 'INT',
                     'constraint'     => 5,
                     'unsigned'       => true,
                     'auto_increment' => true,
                 ],
-                'tipe' => [
+                'tipe'  => [
                     'type'       => 'VARCHAR',
                     'constraint' => 20,
                 ],
-                'kode' => [
+                'kode'  => [
                     'type'       => 'VARCHAR',
                     'constraint' => 20,
                 ],
@@ -255,13 +255,13 @@ class Migrasi_2007_ke_2008 extends CI_model
         // Buat tabel ref Mutasi Persil
         if (! $this->db->table_exists('ref_persil_mutasi')) {
             $fields = [
-                'id' => [
+                'id'    => [
                     'type'           => 'TINYINT',
                     'constraint'     => 5,
                     'unsigned'       => true,
                     'auto_increment' => true,
                 ],
-                'nama' => [
+                'nama'  => [
                     'type'       => 'VARCHAR',
                     'constraint' => 20,
                 ],
@@ -290,28 +290,28 @@ class Migrasi_2007_ke_2008 extends CI_model
         // Buat tabel C-DESA
         if (! $this->db->table_exists('cdesa')) {
             $fields = [
-                'id' => [
+                'id'                  => [
                     'type'           => 'INT',
                     'constraint'     => 5,
                     'unsigned'       => true,
                     'auto_increment' => true,
                 ],
-                'nomor' => [
+                'nomor'               => [
                     'type'       => 'VARCHAR',
                     'constraint' => 20,
                     'unique'     => true,
                 ],
-                'nama_kepemilikan' => [
+                'nama_kepemilikan'    => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'unique'     => true,
                 ],
-                'jenis_pemilik' => [
+                'jenis_pemilik'       => [
                     'type'       => 'TINYINT',
                     'constraint' => 1,
                     'default'    => 0,
                 ],
-                'nama_pemilik_luar' => [
+                'nama_pemilik_luar'   => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'null'       => true,
@@ -339,7 +339,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         // Buat tabel C-DESA
         if (! $this->db->table_exists('cdesa_penduduk')) {
             $fields = [
-                'id' => [
+                'id'       => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'unsigned'       => true,
@@ -350,7 +350,7 @@ class Migrasi_2007_ke_2008 extends CI_model
                     'unsigned'   => true,
                     'constraint' => 5,
                 ],
-                'id_pend' => [
+                'id_pend'  => [
                     'type'       => 'INT',
                     'constraint' => 11,
                 ],
@@ -370,13 +370,13 @@ class Migrasi_2007_ke_2008 extends CI_model
         //tambahkan kolom untuk beberapa data persil
         if (! $this->db->table_exists('persil')) {
             $fields = [
-                'id' => [
+                'id'                => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'unsigned'       => true,
                     'auto_increment' => true,
                 ],
-                'nomor' => [
+                'nomor'             => [
                     'type'       => 'VARCHAR',
                     'constraint' => 20,
                 ],
@@ -385,29 +385,29 @@ class Migrasi_2007_ke_2008 extends CI_model
                     'constraint' => 3,
                     'default'    => 1,
                 ],
-                'kelas' => [
+                'kelas'             => [
                     'type'       => 'INT',
                     'constraint' => 5,
                 ],
-                'luas_persil' => [
+                'luas_persil'       => [
                     'type'       => 'decimal',
                     'constraint' => 7,
                     'null'       => true,
                 ],
-                'id_wilayah' => [
+                'id_wilayah'        => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => true,
                 ],
-                'lokasi' => [
+                'lokasi'            => [
                     'type' => 'TEXT',
                     'null' => true,
                 ],
-                'path' => [
+                'path'              => [
                     'type' => 'TEXT',
                     'null' => true,
                 ],
-                'cdesa_awal' => [
+                'cdesa_awal'        => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'unsigned'   => true,
@@ -426,38 +426,38 @@ class Migrasi_2007_ke_2008 extends CI_model
         // Buat tabel mutasi Persil
         if (! $this->db->table_exists('mutasi_cdesa')) {
             $fields = [
-                'id' => [
+                'id'               => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'unsigned'       => true,
                     'auto_increment' => true,
                 ],
-                'id_cdesa_masuk' => [
+                'id_cdesa_masuk'   => [
                     'type'       => 'INT',
                     'unsigned'   => true,
                     'constraint' => 5,
                     'null'       => true,
                 ],
-                'cdesa_keluar' => [
+                'cdesa_keluar'     => [
                     'type'       => 'INT',
                     'unsigned'   => true,
                     'constraint' => 5,
                     'null'       => true,
                 ],
-                'jenis_mutasi' => [
+                'jenis_mutasi'     => [
                     'type'       => 'TINYINT',
                     'constraint' => 2,
                     'null'       => true,
                 ],
-                'tanggal_mutasi' => [
+                'tanggal_mutasi'   => [
                     'type' => 'DATE',
                     'null' => true,
                 ],
-                'keterangan' => [
+                'keterangan'       => [
                     'type' => 'TEXT',
                     'null' => true,
                 ],
-                'id_persil' => [
+                'id_persil'        => [
                     'type'       => 'INT',
                     'constraint' => 11,
                 ],
@@ -466,17 +466,17 @@ class Migrasi_2007_ke_2008 extends CI_model
                     'constraint' => 3,
                     'null'       => true,
                 ],
-                'luas' => [
+                'luas'             => [
                     'type'       => 'decimal',
                     'constraint' => 7,
                     'null'       => true,
                 ],
-                'no_objek_pajak' => [
+                'no_objek_pajak'   => [
                     'type'       => 'VARCHAR',
                     'constraint' => 30,
                     'null'       => true,
                 ],
-                'path' => [
+                'path'             => [
                     'type' => 'TEXT',
                     'null' => true,
                 ],

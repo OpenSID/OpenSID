@@ -157,7 +157,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
                     'null'       => true,
                     'after'      => 'pamong_nip',
                 ],
-                'pamong_pin' => [
+                'pamong_pin'         => [
                     'type'       => 'VARCHAR',
                     'constraint' => 15,
                     'null'       => true,
@@ -174,26 +174,26 @@ class Migrasi_fitur_premium_2204 extends MY_model
     {
         if (! $this->db->table_exists('kehadiran_perangkat_desa')) {
             $fields = [
-                'id' => [
+                'id'               => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                     'unsigned'       => true,
                 ],
-                'tanggal' => [
+                'tanggal'          => [
                     'type' => 'DATE',
                     'null' => true,
                 ],
-                'pamong_id' => [
+                'pamong_id'        => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => true,
                 ],
-                'jam_masuk' => [
+                'jam_masuk'        => [
                     'type' => 'TIME',
                     'null' => true,
                 ],
-                'jam_keluar' => [
+                'jam_keluar'       => [
                     'type' => 'TIME',
                     'null' => true,
                 ],
@@ -233,13 +233,13 @@ class Migrasi_fitur_premium_2204 extends MY_model
     {
         if (! $this->db->table_exists('kehadiran_hari_libur')) {
             $fields = [
-                'id' => [
+                'id'         => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                     'unsigned'       => true,
                 ],
-                'tanggal' => [
+                'tanggal'    => [
                     'type'   => 'DATE',
                     'unique' => true,
                     'null'   => false,
@@ -272,18 +272,18 @@ class Migrasi_fitur_premium_2204 extends MY_model
     {
         if (! $this->db->table_exists('kehadiran_jam_kerja')) {
             $fields = [
-                'id' => [
+                'id'         => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                     'unsigned'       => true,
                 ],
-                'nama_hari' => [
+                'nama_hari'  => [
                     'type'       => 'VARCHAR',
                     'constraint' => 65,
                     'null'       => false,
                 ],
-                'jam_masuk' => [
+                'jam_masuk'  => [
                     'type' => 'TIME',
                     'null' => false,
                 ],
@@ -291,7 +291,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
                     'type' => 'TIME',
                     'null' => false,
                 ],
-                'status' => [
+                'status'     => [
                     'type'       => 'TINYINT',
                     'constraint' => 1,
                     'null'       => false,
@@ -360,23 +360,23 @@ class Migrasi_fitur_premium_2204 extends MY_model
     {
         if (! $this->db->table_exists('kehadiran_pengaduan')) {
             $fields = [
-                'id' => [
+                'id'          => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                     'unsigned'       => true,
                 ],
-                'waktu' => [
+                'waktu'       => [
                     'type' => 'DATETIME',
                     'null' => false,
                 ],
-                'status' => [
+                'status'      => [
                     'type'       => 'TINYINT',
                     'constraint' => 1,
                     'null'       => false,
                     'default'    => 0,
                 ],
-                'keterangan' => [
+                'keterangan'  => [
                     'type' => 'TEXT',
                     'null' => true,
                 ],
@@ -385,7 +385,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
                     'constraint' => 11,
                     'null'       => false,
                 ],
-                'id_pamong' => [
+                'id_pamong'   => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => false,

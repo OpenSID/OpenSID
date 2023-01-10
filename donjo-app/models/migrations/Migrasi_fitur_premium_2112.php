@@ -84,7 +84,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         // Tambah tabel kader_pemberdayaan_masyarakat
         if (! $this->db->table_exists('kader_pemberdayaan_masyarakat')) {
             $fields = [
-                'id' => [
+                'id'          => [
                     'type'           => 'INT',
                     'constraint'     => 12,
                     'unsigned'       => true,
@@ -94,17 +94,17 @@ class Migrasi_fitur_premium_2112 extends MY_Model
                     'type'       => 'INT',
                     'constraint' => 12,
                 ],
-                'kursus' => [
+                'kursus'      => [
                     'type'    => 'TEXT',
                     'null'    => true,
                     'default' => null,
                 ],
-                'bidang' => [
+                'bidang'      => [
                     'type'    => 'TEXT',
                     'null'    => true,
                     'default' => null,
                 ],
-                'keterangan' => [
+                'keterangan'  => [
                     'type'    => 'TEXT',
                     'null'    => true,
                     'default' => null,
@@ -118,7 +118,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         // Tambah tabel ref_penduduk_bidang
         if (! $this->db->table_exists('ref_penduduk_bidang')) {
             $fields = [
-                'id' => [
+                'id'   => [
                     'type'           => 'INT',
                     'constraint'     => 12,
                     'unsigned'       => true,
@@ -165,7 +165,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         // Tambah tabel ref_penduduk_kursus
         if (! $this->db->table_exists('ref_penduduk_kursus')) {
             $fields = [
-                'id' => [
+                'id'   => [
                     'type'           => 'INT',
                     'constraint'     => 12,
                     'unsigned'       => true,
@@ -359,12 +359,12 @@ class Migrasi_fitur_premium_2112 extends MY_Model
     protected function tambah_tabel($hasil)
     {
         $fields = [
-            'email' => [
+            'email'      => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
                 'null'       => false,
             ],
-            'token' => [
+            'token'      => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
                 'null'       => false,

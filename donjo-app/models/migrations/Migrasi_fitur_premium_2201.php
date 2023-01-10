@@ -139,7 +139,7 @@ class Migrasi_fitur_premium_2201 extends MY_model
     {
         if (! $this->db->field_exists('telegram_token', 'tweb_penduduk')) {
             $fields = [
-                'telegram_token' => [
+                'telegram_token'          => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'unique'     => true,
@@ -214,7 +214,7 @@ class Migrasi_fitur_premium_2201 extends MY_model
     {
         if (! $this->db->table_exists('pengaduan')) {
             $fields = [
-                'id' => [
+                'id'           => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
@@ -226,47 +226,47 @@ class Migrasi_fitur_premium_2201 extends MY_model
                     'null'       => true,
                 ],
 
-                'nik' => [
+                'nik'          => [
                     'type'       => 'VARCHAR',
                     'constraint' => 16,
                     'null'       => true,
                 ],
 
-                'nama' => [
+                'nama'         => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                 ],
 
-                'email' => [
+                'email'        => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'null'       => true,
                 ],
 
-                'telepon' => [
+                'telepon'      => [
                     'type'       => 'VARCHAR',
                     'constraint' => 20,
                     'null'       => true,
                 ],
 
-                'judul' => [
+                'judul'        => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'null'       => true,
                 ],
 
-                'isi' => [
+                'isi'          => [
                     'type' => 'TEXT',
                 ],
 
-                'status' => [
+                'status'       => [
                     'type'       => 'INT',
                     'constraint' => 1,
                     'default'    => '1',
                     'comment'    => '1 = menunggu proses, 2 = Sedang Diproses, 3 = Selesai Diproses',
                 ],
 
-                'foto' => [
+                'foto'         => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'null'       => true,
@@ -342,16 +342,16 @@ class Migrasi_fitur_premium_2201 extends MY_model
 
         if (! $this->db->table_exists('covid19_vaksin')) {
             $this->dbforge->add_field([
-                'id_penduduk' => [
+                'id_penduduk'      => [
                     'type'       => 'varchar',
                     'constraint' => 100,
                 ],
-                'vaksin_1' => [
+                'vaksin_1'         => [
                     'type'       => 'int',
                     'constraint' => 1,
                     'null'       => true,
                 ],
-                'tgl_vaksin_1' => [
+                'tgl_vaksin_1'     => [
                     'type' => 'date',
                     'null' => true,
                 ],
@@ -360,12 +360,12 @@ class Migrasi_fitur_premium_2201 extends MY_model
                     'constraint' => 255,
                     'null'       => true,
                 ],
-                'vaksin_2' => [
+                'vaksin_2'         => [
                     'type'       => 'int',
                     'constraint' => 1,
                     'null'       => true,
                 ],
-                'tgl_vaksin_2' => [
+                'tgl_vaksin_2'     => [
                     'type' => 'date',
                     'null' => true,
                 ],
@@ -374,12 +374,12 @@ class Migrasi_fitur_premium_2201 extends MY_model
                     'constraint' => 255,
                     'null'       => true,
                 ],
-                'vaksin_3' => [
+                'vaksin_3'         => [
                     'type'       => 'int',
                     'constraint' => 1,
                     'null'       => true,
                 ],
-                'tgl_vaksin_3' => [
+                'tgl_vaksin_3'     => [
                     'type' => 'date',
                     'null' => true,
                 ],
@@ -388,17 +388,17 @@ class Migrasi_fitur_premium_2201 extends MY_model
                     'constraint' => 255,
                     'null'       => true,
                 ],
-                'tunda' => [
+                'tunda'            => [
                     'type'       => 'int',
                     'constraint' => 1,
                     'null'       => true,
                 ],
-                'keterangan' => [
+                'keterangan'       => [
                     'type'       => 'text',
                     'constraint' => 1,
                     'null'       => true,
                 ],
-                'surat_dokter' => [
+                'surat_dokter'     => [
                     'type'       => 'varchar',
                     'constraint' => 255,
                     'null'       => true,

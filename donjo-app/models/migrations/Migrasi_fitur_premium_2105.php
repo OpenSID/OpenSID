@@ -288,10 +288,10 @@ class Migrasi_fitur_premium_2105 extends MY_model
             'mutasi'            => ['type' => 'TEXT'],
             'keterangan'        => ['type' => 'TEXT'],
             'created_at timestamp default current_timestamp',
-            'created_by' => ['type' => 'INT', 'constraint' => 10],
+            'created_by'        => ['type' => 'INT', 'constraint' => 10],
             'updated_at timestamp default current_timestamp',
-            'updated_by' => ['type' => 'INT', 'constraint' => 10],
-            'visible'    => ['type' => 'TINYINT', 'constraint' => 3, 'default' => 1],
+            'updated_by'        => ['type' => 'INT', 'constraint' => 10],
+            'visible'           => ['type' => 'TINYINT', 'constraint' => 3, 'default' => 1],
         ]);
 
         $this->dbforge->add_key('id', true);
@@ -314,15 +314,15 @@ class Migrasi_fitur_premium_2105 extends MY_model
             'patok'             => ['type' => 'TEXT'],
             'papan_nama'        => ['type' => 'TEXT'],
             'tanggal_perolehan date',
-            'lokasi'     => ['type' => 'TEXT'],
-            'peruntukan' => ['type' => 'TEXT'],
-            'mutasi'     => ['type' => 'TEXT'],
-            'keterangan' => ['type' => 'TEXT'],
+            'lokasi'            => ['type' => 'TEXT'],
+            'peruntukan'        => ['type' => 'TEXT'],
+            'mutasi'            => ['type' => 'TEXT'],
+            'keterangan'        => ['type' => 'TEXT'],
             'created_at timestamp default current_timestamp',
-            'created_by' => ['type' => 'INT', 'constraint' => 10],
+            'created_by'        => ['type' => 'INT', 'constraint' => 10],
             'updated_at timestamp default current_timestamp',
-            'updated_by' => ['type' => 'INT', 'constraint' => 10],
-            'visible'    => ['type' => 'TINYINT', 'constraint' => 2, 'default' => 1],
+            'updated_by'        => ['type' => 'INT', 'constraint' => 10],
+            'visible'           => ['type' => 'TINYINT', 'constraint' => 2, 'default' => 1],
         ]);
 
         $this->dbforge->add_key('id', true);
@@ -474,7 +474,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         $hasil = $hasil && $this->dbforge->modify_column('user_grup', $fields);
         if (! $this->db->field_exists('created_by', 'user_grup')) {
             $hasil = $hasil && $this->dbforge->add_column('user_grup', [
-                'jenis' => ['type' => 'TINYINT', 'constraint' => 2, 'null' => false, 'default' => 1],
+                'jenis'      => ['type' => 'TINYINT', 'constraint' => 2, 'null' => false, 'default' => 1],
                 'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
                 'created_by' => ['type' => 'INT', 'constraint' => 11, 'null' => true],
                 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',

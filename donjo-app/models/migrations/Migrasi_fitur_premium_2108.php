@@ -105,23 +105,23 @@ class Migrasi_fitur_premium_2108 extends MY_Model
     {
         if (! $this->db->table_exists('laporan_sinkronisasi')) {
             $fields = [
-                'id' => [
+                'id'        => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                 ],
 
-                'judul' => [
+                'judul'     => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                 ],
 
-                'tahun' => [
+                'tahun'     => [
                     'type'       => 'INT',
                     'constraint' => 11,
                 ],
 
-                'semester' => [
+                'semester'  => [
                     'type'       => 'INT',
                     'constraint' => 11,
                 ],
@@ -131,7 +131,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
                     'constraint' => 100,
                 ],
 
-                'kirim' => [
+                'kirim'     => [
                     'type' => 'DATETIME',
                     'null' => true,
                 ],
@@ -201,7 +201,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
             $hasil = $hasil && $this->dbforge->drop_column('menu', 'tipe');
 
             $fields = [
-                'id' => [
+                'id'      => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,

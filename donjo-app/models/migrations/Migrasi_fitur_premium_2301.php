@@ -273,7 +273,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         // Tabel buku_keperluan
         if (! $this->db->table_exists('buku_keperluan')) {
             $fields = [
-                'id' => [
+                'id'        => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'null'           => false,
@@ -284,7 +284,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
                     'constraint' => 100,
                     'null'       => false,
                 ],
-                'status' => [
+                'status'    => [
                     'type'       => 'TINYINT',
                     'constraint' => 1,
                     'default'    => 0,
@@ -303,7 +303,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         // Tabel buku_pertanyaan
         if (! $this->db->table_exists('buku_pertanyaan')) {
             $fields = [
-                'id' => [
+                'id'         => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'null'           => false,
@@ -314,7 +314,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
                     'null'    => true,
                     'default' => null,
                 ],
-                'status' => [
+                'status'     => [
                     'type'       => 'TINYINT',
                     'constraint' => 1,
                     'default'    => 0,
@@ -333,13 +333,13 @@ class Migrasi_fitur_premium_2301 extends MY_model
         // Tabel buku_kepuasan
         if (! $this->db->table_exists('buku_kepuasan')) {
             $fields = [
-                'id' => [
+                'id'            => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'null'           => false,
                     'auto_increment' => true,
                 ],
-                'id_nama' => [
+                'id_nama'       => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => false,
@@ -349,7 +349,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
                     'constraint' => 11,
                     'null'       => false,
                 ],
-                'id_jawaban' => [
+                'id_jawaban'    => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => false,
@@ -367,23 +367,23 @@ class Migrasi_fitur_premium_2301 extends MY_model
         // Tabel buku_tamu
         if (! $this->db->table_exists('buku_tamu')) {
             $fields = [
-                'id' => [
+                'id'            => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'null'           => false,
                     'auto_increment' => true,
                 ],
-                'nama' => [
+                'nama'          => [
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                     'null'       => false,
                 ],
-                'telepon' => [
+                'telepon'       => [
                     'type'       => 'VARCHAR',
                     'constraint' => 20,
                     'null'       => false,
                 ],
-                'instansi' => [
+                'instansi'      => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'null'       => false,
@@ -394,22 +394,22 @@ class Migrasi_fitur_premium_2301 extends MY_model
                     'default'    => 1,
                     'null'       => false,
                 ],
-                'alamat' => [
+                'alamat'        => [
                     'type'    => 'TEXT',
                     'null'    => true,
                     'default' => null,
                 ],
-                'id_bidang' => [
+                'id_bidang'     => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => false,
                 ],
-                'id_keperluan' => [
+                'id_keperluan'  => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => false,
                 ],
-                'foto' => [
+                'foto'          => [
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                     'null'       => true,

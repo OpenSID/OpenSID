@@ -432,33 +432,33 @@ class Analisis_indikator_model extends MY_Model
             // Penduduk
             case 1:
                 $data = [
-                    'kk_level' => [
+                    'kk_level'             => [
                         'judul'     => 'Hubungan Dalam Keluarga',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_penduduk_hubungan'),
                     ],
-                    'rtm_level' => [
+                    'rtm_level'            => [
                         'judul'     => 'Hubungan Dalam Rumah Tangga',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_rtm_hubungan'),
                     ],
-                    'sex' => [
+                    'sex'                  => [
                         'judul'     => 'Jenis Kelamin',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_penduduk_sex'),
                     ],
-                    'tempatlahir' => [
+                    'tempatlahir'          => [
                         'judul' => 'Tempat Lahir',
                     ],
-                    'tanggallahir' => [
+                    'tanggallahir'         => [
                         'judul' => 'Tanggal Lahir',
                     ],
-                    'agama_id' => [
+                    'agama_id'             => [
                         'judul'     => 'Agama',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_penduduk_agama'),
                     ],
-                    'pendidikan_kk_id' => [
+                    'pendidikan_kk_id'     => [
                         'judul'     => 'Pendidikan Dalam KK',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk'),
@@ -468,167 +468,167 @@ class Analisis_indikator_model extends MY_Model
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_penduduk_pendidikan'),
                     ],
-                    'pekerjaan_id' => [
+                    'pekerjaan_id'         => [
                         'judul'     => 'Pekerjaan',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_penduduk_pekerjaan'),
                     ],
-                    'status_kawin' => [
+                    'status_kawin'         => [
                         'judul'     => 'Status_perkawinan',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_penduduk_kawin'),
                     ],
-                    'warganegara_id' => [
+                    'warganegara_id'       => [
                         'judul'     => 'Kewarganegaraan',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_penduduk_warganegara'),
                     ],
-                    'dokumen_pasport' => [
+                    'dokumen_pasport'      => [
                         'judul' => 'Dokumen Passport',
                     ],
-                    'dokumen_kitas' => [
+                    'dokumen_kitas'        => [
                         'judul' => 'Dokumen KITAS',
                     ],
-                    'ayah_nik' => [
+                    'ayah_nik'             => [
                         'judul' => 'NIK Ayah',
                     ],
-                    'nama_ayah' => [
+                    'nama_ayah'            => [
                         'judul' => 'Nama Ayah',
                     ],
-                    'ibu_nik' => [
+                    'ibu_nik'              => [
                         'judul' => 'NIK Ibu',
                     ],
-                    'nama_ibu' => [
+                    'nama_ibu'             => [
                         'judul' => 'Nama Ibu',
                     ],
-                    'golongan_darah_id' => [
+                    'golongan_darah_id'    => [
                         'judul'     => 'Golongan Darah',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_golongan_darah'),
                     ],
                     // id_cluster => wilayah, agar tdk duplikasi
-                    'wilayah' => [
+                    'wilayah'              => [
                         'judul' => 'Wilayah (Dusun/RW/RT)',
                     ],
-                    'status' => [
+                    'status'               => [
                         'judul'     => 'Status Penduduk',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_penduduk_status'),
                     ],
-                    'alamat_sebelumnya' => [
+                    'alamat_sebelumnya'    => [
                         'judul' => 'Alamat Sebelumnya',
                     ],
-                    'alamat_sekarang' => [
+                    'alamat_sekarang'      => [
                         'judul' => 'Alamat Sekarang',
                     ],
-                    'status_dasar' => [
+                    'status_dasar'         => [
                         'judul'     => 'Status Dasar',
                         'referensi' => $this->referensi_model->list_data('tweb_status_dasar'),
                     ],
-                    'hamil' => [
+                    'hamil'                => [
                         'judul' => 'Status Kehamilan',
                     ],
-                    'cacat_id' => [
+                    'cacat_id'             => [
                         'judul'     => 'Jenis Cacat',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_cacat'),
                     ],
-                    'sakit_menahun_id' => [
+                    'sakit_menahun_id'     => [
                         'judul'     => 'Sakit Menahun',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_sakit_menahun'),
                     ],
-                    'akta_lahir' => [
+                    'akta_lahir'           => [
                         'judul' => 'Akta Lahir',
                     ],
-                    'akta_perkawinan' => [
+                    'akta_perkawinan'      => [
                         'judul' => 'Akta Perkawinan',
                     ],
-                    'tanggalperkawinan' => [
+                    'tanggalperkawinan'    => [
                         'judul' => 'Tanggal Perkawinan',
                     ],
-                    'akta_perceraian' => [
+                    'akta_perceraian'      => [
                         'judul' => 'Akta Perceraian',
                     ],
-                    'tanggalperceraian' => [
+                    'tanggalperceraian'    => [
                         'judul' => 'Tanggal Perceraian',
                     ],
-                    'cara_kb_id' => [
+                    'cara_kb_id'           => [
                         'judul'     => 'Akseptor KB',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_cara_kb'),
                     ],
-                    'telepon' => [
+                    'telepon'              => [
                         'judul' => 'Telepon',
                     ],
                     'tanggal_akhir_paspor' => [
                         'judul' => 'Tanggal Akhir Paspor',
                     ],
-                    'no_kk_sebelumnya' => [
+                    'no_kk_sebelumnya'     => [
                         'judul' => 'No. KK Sebelumnya',
                     ],
-                    'ktp_el' => [
+                    'ktp_el'               => [
                         'judul'     => 'E-KTP',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_status_ktp'),
                     ],
-                    'status_rekam' => [
+                    'status_rekam'         => [
                         'judul'     => 'Status Rekam',
                         'referensi' => $this->referensi_model->list_status_rekam(),
                     ],
-                    'waktu_lahir' => [
+                    'waktu_lahir'          => [
                         'judul' => 'Waktu Lahir',
                     ],
-                    'tempat_dilahirkan' => [
+                    'tempat_dilahirkan'    => [
                         'judul' => 'Tempat Dilahirkan',
                     ],
-                    'jenis_kelahiran' => [
+                    'jenis_kelahiran'      => [
                         'judul' => 'Jenis Kelahiran',
                     ],
-                    'kelahiran_anak_ke' => [
+                    'kelahiran_anak_ke'    => [
                         'judul' => 'Kelahiran Anak Ke - ',
                         'tipe'  => 3,
                     ],
-                    'penolong_kelahiran' => [
+                    'penolong_kelahiran'   => [
                         'judul' => 'Penolong Kelahiran',
                     ],
-                    'berat_lahir' => [
+                    'berat_lahir'          => [
                         'judul' => 'Berat lahir',
                         'tipe'  => 3,
                     ],
-                    'panjang_lahir' => [
+                    'panjang_lahir'        => [
                         'judul' => 'Panjang Lahir',
                         'tipe'  => 3,
                     ],
-                    'tag_id_card' => [
+                    'tag_id_card'          => [
                         'judul' => 'Tag ID Card',
                     ],
-                    'id_asuransi' => [
+                    'id_asuransi'          => [
                         'judul'     => 'ID Asuransi',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_penduduk_asuransi'),
                     ],
-                    'no_asuransi' => [
+                    'no_asuransi'          => [
                         'judul' => 'No. Asusransi',
                     ],
-                    'email' => [
+                    'email'                => [
                         'judul' => 'Email',
                     ],
-                    'bahasa_id' => [
+                    'bahasa_id'            => [
                         'judul'     => 'Dapat Membaca Huruf',
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('ref_penduduk_bahasa'),
                     ],
-                    'negara_asal' => [
+                    'negara_asal'          => [
                         'judul' => 'Negara Asal',
                     ],
-                    'tempat_cetak_ktp' => [
+                    'tempat_cetak_ktp'     => [
                         'judul' => 'Tempat Cetak KTP',
                     ],
-                    'tanggal_cetak_ktp' => [
+                    'tanggal_cetak_ktp'    => [
                         'judul' => 'Tanggal Cetak KTP',
                     ],
-                    'suku' => [
+                    'suku'                 => [
                         'judul' => 'Suku/Etnis',
                     ],
                     'bpjs_ketenagakerjaan' => [
@@ -640,7 +640,7 @@ class Analisis_indikator_model extends MY_Model
                 // Keluarga
             case 2:
                 $data = [
-                    'nik_kepala' => [
+                    'nik_kepala'   => [
                         'judul' => 'NIK Kepala KK',
                     ],
                     'kelas_sosial' => [
@@ -648,11 +648,11 @@ class Analisis_indikator_model extends MY_Model
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_keluarga_sejahtera'),
                     ],
-                    'alamat' => [
+                    'alamat'       => [
                         'judul' => 'Alamat',
                     ],
                     // id_cluster => wilayah, agar tdk duplikasi
-                    'wilayah' => [
+                    'wilayah'      => [
                         'judul' => 'Wilayah (Dusun/RW/RT)',
                     ],
                 ];
@@ -667,86 +667,86 @@ class Analisis_indikator_model extends MY_Model
                 $data = [
 
                     // IDENTITAS DESA
-                    'nama_desa' => [
+                    'nama_desa'                        => [
                         'judul' => 'Nama ' . $desa,
                     ],
-                    'kode_desa' => [
+                    'kode_desa'                        => [
                         'judul' => 'Kode ' . $desa,
                     ],
-                    'kode_pos' => [
+                    'kode_pos'                         => [
                         'judul' => 'Kode POS',
                     ],
-                    'nama_kepala_desa' => [
+                    'nama_kepala_desa'                 => [
                         'judul' => 'Nama ' . $kepala,
                     ],
-                    'nip_kepala_desa' => [
+                    'nip_kepala_desa'                  => [
                         'judul' => 'NIP ' . $kepala,
                     ],
-                    'jk_kepala_desa' => [
+                    'jk_kepala_desa'                   => [
                         'judul'     => 'Jenis Kelamin ' . $kepala,
                         'tipe'      => 1,
                         'referensi' => $this->referensi_model->list_data('tweb_penduduk_sex'),
                     ],
-                    'titik_koordinat_desa' => [
+                    'titik_koordinat_desa'             => [
                         'judul' => 'Titik Koordinat ' . $desa . ' (Lintang / Bujur)',
                     ],
-                    'alamat_kantor' => [
+                    'alamat_kantor'                    => [
                         'judul' => 'Alamat Kantor',
                     ],
-                    'no_telepon_kepala_desa' => [
+                    'no_telepon_kepala_desa'           => [
                         'judul' => 'Nomor Telepon Rumah / HP ' . $kepala,
                     ],
-                    'no_telepon_kantor_desa' => [
+                    'no_telepon_kantor_desa'           => [
                         'judul' => 'Nomor Telepon Kantor ' . $desa,
                     ],
-                    'email_desa' => [
+                    'email_desa'                       => [
                         'judul' => 'Email ' . $desa,
                     ],
-                    'pendidikan_kepala_desa' => [
+                    'pendidikan_kepala_desa'           => [
                         'judul' => 'Pendidikan Terakhir ' . $kepala,
                     ],
-                    'nama_kecamatan' => [
+                    'nama_kecamatan'                   => [
                         'judul' => 'Nama Kecamatan',
                     ],
-                    'kode_kecamatan' => [
+                    'kode_kecamatan'                   => [
                         'judul' => 'Kode Kecamatan',
                     ],
-                    'nama_kepala_camat' => [
+                    'nama_kepala_camat'                => [
                         'judul' => 'Nama Kepala Camat',
                     ],
-                    'nip_kepala_camat' => [
+                    'nip_kepala_camat'                 => [
                         'judul' => 'NIP Kepala Camat',
                     ],
-                    'kode_kabupaten' => [
+                    'kode_kabupaten'                   => [
                         'judul' => 'Kode Kabupaten',
                     ],
-                    'nama_propinsi' => [
+                    'nama_propinsi'                    => [
                         'judul' => 'Nama Provinsi',
                     ],
-                    'kode_propinsi' => [
+                    'kode_propinsi'                    => [
                         'judul' => 'Kode Provinsi',
                     ],
 
                     // DEMOGRAFI
                     // # Penduduk
-                    'jumlah_total_penduduk' => [
+                    'jumlah_total_penduduk'            => [
                         'judul' => 'Jumlah Total Penduduk',
                     ],
-                    'jumlah_penduduk_laki_laki' => [
+                    'jumlah_penduduk_laki_laki'        => [
                         'judul' => 'Jumlah Penduduk Laki-laki',
                     ],
-                    'jumlah_penduduk_perempuan' => [
+                    'jumlah_penduduk_perempuan'        => [
                         'judul' => 'Jumlah Penduduk Perempuan',
                     ],
-                    'jumlah_penduduk_pedatang' => [
+                    'jumlah_penduduk_pedatang'         => [
                         'judul' => 'Jumlah Penduduk Pendatang',
                     ],
-                    'jumlah_penduduk_yang_pergi' => [
+                    'jumlah_penduduk_yang_pergi'       => [
                         'judul' => 'Jumlah Penduduk Yang Pergi',
                     ],
 
                     // # Kepala Keluarga
-                    'jumlah_total_kepala_keluarga' => [
+                    'jumlah_total_kepala_keluarga'     => [
                         'judul' => 'Jumlah Total Kepala Keluarga',
                     ],
                     'jumlah_kepala_keluarga_laki_laki' => [
@@ -782,7 +782,7 @@ class Analisis_indikator_model extends MY_Model
                     // ],
 
                     // Tingkat Kepesertaan BPJS (BPJS Kesehatan / JKN)
-                    'jumlah_peserta_bpjs' => [
+                    'jumlah_peserta_bpjs'              => [
                         'judul' => 'Jumlah Penduduk Terdaftar BPJS Kesehatan / JKN',
                     ],
 

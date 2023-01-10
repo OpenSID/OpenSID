@@ -90,7 +90,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
     protected function tambah_table_pelapak($hasil)
     {
         $fields = [
-            'id' => [
+            'id'      => [
                 'type'           => 'INT',
                 'constraint'     => 11,
                 'auto_increment' => true,
@@ -109,25 +109,25 @@ class Migrasi_fitur_premium_2107 extends MY_Model
                 'null'       => true,
             ],
 
-            'lat' => [
+            'lat'     => [
                 'type'       => 'VARCHAR',
                 'constraint' => 20,
                 'null'       => true,
             ],
 
-            'lng' => [
+            'lng'     => [
                 'type'       => 'VARCHAR',
                 'constraint' => 20,
                 'null'       => true,
             ],
 
-            'zoom' => [
+            'zoom'    => [
                 'type'       => 'TINYINT',
                 'constraint' => 4,
                 'null'       => true,
             ],
 
-            'status' => [
+            'status'  => [
                 'type'       => 'TINYINT',
                 'constraint' => 1,
                 'default'    => 1,
@@ -144,7 +144,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
     protected function tambah_table_produk_kategori($hasil)
     {
         $fields = [
-            'id' => [
+            'id'       => [
                 'type'           => 'INT',
                 'constraint'     => 11,
                 'auto_increment' => true,
@@ -156,7 +156,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
                 'default'    => null,
             ],
 
-            'slug' => [
+            'slug'     => [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
                 'default'    => null,
@@ -173,13 +173,13 @@ class Migrasi_fitur_premium_2107 extends MY_Model
     protected function tambah_table_produk($hasil)
     {
         $fields = [
-            'id' => [
+            'id'                 => [
                 'type'           => 'INT',
                 'constraint'     => 11,
                 'auto_increment' => true,
             ],
 
-            'id_pelapak' => [
+            'id_pelapak'         => [
                 'type'       => 'INT',
                 'constraint' => 11,
                 'null'       => true,
@@ -193,42 +193,42 @@ class Migrasi_fitur_premium_2107 extends MY_Model
                 'default'    => null,
             ],
 
-            'nama' => [
+            'nama'               => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
                 'default'    => null,
             ],
 
-            'harga' => [
+            'harga'              => [
                 'type'       => 'INT',
                 'constraint' => 11,
                 'default'    => null,
             ],
 
-            'satuan' => [
+            'satuan'             => [
                 'type'       => 'VARCHAR',
                 'constraint' => 20,
                 'default'    => null,
             ],
 
-            'potongan' => [
+            'potongan'           => [
                 'type'       => 'INT',
                 'constraint' => 11,
                 'default'    => 0,
             ],
 
-            'deskripsi' => [
+            'deskripsi'          => [
                 'type'    => 'TEXT',
                 'default' => null,
             ],
 
-            'foto' => [
+            'foto'               => [
                 'type'       => 'VARCHAR',
                 'constraint' => 225,
                 'null'       => true,
             ],
 
-            'status' => [
+            'status'             => [
                 'type'       => 'TINYINT',
                 'constraint' => 1,
                 'default'    => 1,
@@ -473,13 +473,13 @@ class Migrasi_fitur_premium_2107 extends MY_Model
         // Tambah tabel ref_penduduk_suku
         if (! $this->db->table_exists('ref_penduduk_suku')) {
             $fields = [
-                'id' => [
+                'id'        => [
                     'type'           => 'INT',
                     'constraint'     => 65,
                     'unsigned'       => true,
                     'auto_increment' => true,
                 ],
-                'suku' => [
+                'suku'      => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                 ],

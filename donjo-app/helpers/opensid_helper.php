@@ -238,7 +238,7 @@ function httpPost($url, $params)
 {
     try {
         $response = (new Client())->post($url, [
-            'headers' => [
+            'headers'         => [
                 'X-Requested-With' => 'XMLHttpRequest',
                 'Authorization'    => 'Bearer ' . config_item('token_pantau'),
             ],
@@ -1258,7 +1258,7 @@ function idm($kode_desa, $tahun)
                 'headers' => [
                     'X-Requested-With' => 'XMLHttpRequest',
                 ],
-                'verify' => false,
+                'verify'  => false,
             ]);
 
             return json_decode($response->getBody()->getContents())->mapData;
@@ -1287,7 +1287,7 @@ function sdgs()
                     'headers' => [
                         'X-Requested-With' => 'XMLHttpRequest',
                     ],
-                    'verify' => false,
+                    'verify'  => false,
                 ]);
 
                 return (object) collect(json_decode($response->getBody()->getContents()))

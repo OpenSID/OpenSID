@@ -136,32 +136,32 @@ class Migrasi_2004_ke_2005 extends CI_model
         // Tambah Tabel Covid-19
         if (! $this->db->table_exists('covid19_pemudik')) {
             $this->dbforge->add_field([
-                'id' => [
+                'id'                => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'null'           => false,
                     'auto_increment' => true,
                 ],
-                'id_terdata' => [
+                'id_terdata'        => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => true,
                 ],
-                'tanggal_datang' => [
+                'tanggal_datang'    => [
                     'type' => 'DATE',
                     'null' => true,
                 ],
-                'asal_mudik' => [
+                'asal_mudik'        => [
                     'type'       => 'VARCHAR',
                     'constraint' => 255,
                     'null'       => true,
                 ],
-                'durasi_mudik' => [
+                'durasi_mudik'      => [
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                     'null'       => true,
                 ],
-                'tujuan_mudik' => [
+                'tujuan_mudik'      => [
                     'type'       => 'VARCHAR',
                     'constraint' => 255,
                     'null'       => true,
@@ -171,22 +171,22 @@ class Migrasi_2004_ke_2005 extends CI_model
                     'constraint' => 255,
                     'null'       => true,
                 ],
-                'status_covid' => [
+                'status_covid'      => [
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                     'null'       => true,
                 ],
-                'no_hp' => [
+                'no_hp'             => [
                     'type'       => 'VARCHAR',
                     'constraint' => 20,
                     'null'       => true,
                 ],
-                'email' => [
+                'email'             => [
                     'type'       => 'VARCHAR',
                     'constraint' => 255,
                     'null'       => true,
                 ],
-                'keterangan' => [
+                'keterangan'        => [
                     'type'       => 'VARCHAR',
                     'constraint' => 255,
                     'null'       => true,
@@ -282,37 +282,37 @@ class Migrasi_2004_ke_2005 extends CI_model
         // Tambah Tabel Pemantauan Covid-19
         if (! $this->db->table_exists('covid19_pantau')) {
             $this->dbforge->add_field([
-                'id' => [
+                'id'           => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'null'           => false,
                     'auto_increment' => true,
                 ],
-                'id_pemudik' => [
+                'id_pemudik'   => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => true,
                 ],
-                'tanggal_jam' => [
+                'tanggal_jam'  => [
                     'type' => 'DATETIME',
                     'null' => true,
                 ],
-                'suhu_tubuh' => [
+                'suhu_tubuh'   => [
                     'type'       => 'DECIMAL',
                     'constraint' => '4,2',
                     'null'       => true,
                 ],
-                'batuk' => [
+                'batuk'        => [
                     'type'       => 'VARCHAR',
                     'constraint' => 20,
                     'null'       => true,
                 ],
-                'flu' => [
+                'flu'          => [
                     'type'       => 'VARCHAR',
                     'constraint' => 20,
                     'null'       => true,
                 ],
-                'sesak_nafas' => [
+                'sesak_nafas'  => [
                     'type'       => 'VARCHAR',
                     'constraint' => 20,
                     'null'       => true,
@@ -356,7 +356,7 @@ class Migrasi_2004_ke_2005 extends CI_model
         // Tambah Tabel ref_status_covid
         if (! $this->db->table_exists('ref_status_covid')) {
             $this->dbforge->add_field([
-                'id' => [
+                'id'   => [
                     'type'           => 'INT',
                     'constraint'     => 10,
                     'null'           => false,

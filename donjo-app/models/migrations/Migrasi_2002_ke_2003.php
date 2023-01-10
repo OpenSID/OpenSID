@@ -92,7 +92,7 @@ class Migrasi_2002_ke_2003 extends CI_model
         // Table ref_syarat_surat tempat nama dokumen sbg syarat Permohonan surat
         if (! $this->db->table_exists('ref_syarat_surat')) {
             $this->dbforge->add_field([
-                'ref_syarat_id' => [
+                'ref_syarat_id'   => [
                     'type'           => 'INT',
                     'constraint'     => 1,
                     'unsigned'       => true,
@@ -130,7 +130,7 @@ class Migrasi_2002_ke_2003 extends CI_model
         // Table syarat_surat sbg link antara surat yg dimohon dan dokumen yg diperlukan
         if (! $this->db->table_exists('syarat_surat')) {
             $this->dbforge->add_field([
-                'id' => [
+                'id'              => [
                     'type'           => 'INT',
                     'constraint'     => 10,
                     'null'           => false,
@@ -142,7 +142,7 @@ class Migrasi_2002_ke_2003 extends CI_model
                     'null'       => false,
 
                 ],
-                'ref_syarat_id' => [
+                'ref_syarat_id'   => [
                     'type'       => 'INT',
                     'constraint' => 10,
                     'null'       => false,
@@ -195,30 +195,30 @@ class Migrasi_2002_ke_2003 extends CI_model
         // Tabel mendaftarkan permohonan surat dari layanan mandiri
         if (! $this->db->table_exists('permohonan_surat')) {
             $this->dbforge->add_field([
-                'id' => [
+                'id'          => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                 ],
-                'id_pemohon' => [
+                'id_pemohon'  => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => false,
                 ],
-                'id_surat' => [
+                'id_surat'    => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => false,
                 ],
-                'isian_form' => [
+                'isian_form'  => [
                     'type' => 'TEXT',
                 ],
-                'status' => [
+                'status'      => [
                     'type'       => 'TINYINT',
                     'constraint' => 1,
                     'default'    => 0,
                 ],
-                'keterangan' => [
+                'keterangan'  => [
                     'type' => 'TEXT',
                     'null' => true,
                 ],
@@ -226,7 +226,7 @@ class Migrasi_2002_ke_2003 extends CI_model
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                 ],
-                'syarat' => [
+                'syarat'      => [
                     'type' => 'TEXT',
                 ],
             ]);
