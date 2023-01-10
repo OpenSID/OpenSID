@@ -548,8 +548,6 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
     }
     // OK, berkas ada. Ambil konten berkasnya
 
-    $data = file_get_contents($pathBerkas);
-
     if (null !== $unique_id) {
         // Buang unique id pada nama berkas download
         $nama_berkas  = explode($unique_id, $nama_berkas);
@@ -597,13 +595,13 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
         header('Content-Disposition: inline; filename="' . $nama_berkas . '"');
         header('Expires: 0');
         header('Content-Transfer-Encoding: binary');
-        header('Content-Length: ' . strlen($data));
+        header('Content-Length: ' . filesize($pathBerkas));
         header('Cache-Control: private, no-transform, no-store, must-revalidate');
 
         return readfile($pathBerkas);
     }
 
-    force_download($nama_berkas, $data);
+    force_download($nama_berkas, file_get_contents($pathBerkas));
 }
 
 /**
