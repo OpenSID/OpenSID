@@ -49,7 +49,7 @@ class Siteman extends MY_Controller
         $this->load->model('theme_model');
         $this->lang->load('passwords');
         $this->load->library('Reset/Password', '', 'password');
-        $this->latar_login = to_base64(default_file(LATAR_SITEMAN, DEFAULT_LATAR_SITEMAN));
+        $this->latar_login = to_base64(default_file(LATAR_LOGIN . $this->setting->latar_login, DEFAULT_LATAR_SITEMAN));
     }
 
     public function index()

@@ -116,6 +116,47 @@ $(document).ready(function() {
 			}
 		},
 		invalidHandler: function(e, validator){
+			if(validator.errorList.length && $('#tabs').length) {
+				$('#tabs a[href="#' + $(validator.errorList[0].element).closest(".tab-pane").attr('id') + '"]').tab('show');
+			}
+		},
+		submitHandler: function(form) {
+			Swal.fire({
+				title: 'Sedang Menyimpan',
+				allowOutsideClick: false,
+				allowEscapeKey: false,
+				showConfirmButton: false,
+				didOpen: () => {
+					Swal.showLoading()
+				}
+			});
+			form.submit();
+		}
+	});
+
+	$("#validasi-modif").validate({
+		ignore: ".ignore",
+		errorElement: "label",
+		errorClass: "error",
+		highlight:function (element){
+			$(element).closest(".form-group").addClass("has-error");
+		},
+		unhighlight:function (element){
+			$(element).closest(".form-group").removeClass("has-error");
+		},
+		errorPlacement: function (error, element) {
+			if (element.parent('.input-group').length) {
+				error.insertAfter(element.parent());
+				element.parent().focus();
+			} else if (element.hasClass('select2')) {
+				error.insertAfter(element.next('span'));
+				element.next('span').focus();
+			} else {
+				error.insertAfter(element);
+				element.focus();
+			}
+		},
+		invalidHandler: function(e, validator){
 			if(validator.errorList.length) {
 				$('#tabs a[href="#' + $(validator.errorList[0].element).closest(".tab-pane").attr('id') + '"]').tab('show');
 			}

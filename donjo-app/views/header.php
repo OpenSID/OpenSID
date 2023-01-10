@@ -11,6 +11,11 @@
     <link rel="shortcut icon" href="<?= favico_desa() ?>" />
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?= base_url('rss.xml') ?>" />
 
+
+    <!-- lazy load images -->
+    <script src="<?= asset('js/progressive-image/progressive-image.js') ?>"></script>
+    <link rel="stylesheet" href="<?= asset('js/progressive-image/progressive-image.css') ?>">
+
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap.min.css') ?>">
     <!-- Jquery UI -->
@@ -54,6 +59,9 @@
     <link rel="stylesheet" href="<?= asset('css/peta.css') ?>">
     <link rel="stylesheet" href="<?= asset('css/toastr.min.css') ?>">
 
+    <!-- Sweet Alert -->
+    <link rel="stylesheet" href="<?= asset('js/sweetalert2/sweetalert2.min.css') ?>">
+
     <style>
         @media (max-width: 576px) {
             .komunikasi-opendk {
@@ -92,6 +100,7 @@
     <script src="<?= asset('js/leaflet.browser.print.sizes.js') ?>"></script>
     <script src="<?= asset('js/dom-to-image.min.js') ?>"></script>
     <script src="<?= asset('js/toastr.min.js') ?>"></script>
+
 
     <!-- Diperlukan untuk global automatic base_url oleh external js file -->
     <script type="text/javascript">

@@ -20,9 +20,16 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 9. [#6163](https://github.com/OpenSID/OpenSID/issues/6163) Perbaikan menu anjungan otomatis aktif setelah status langganan di perbarui.
 10. [#6187](https://github.com/OpenSID/OpenSID/issues/6187) Penyesuaian url api SDGs yang terbaru.
 11. [#6174](https://github.com/OpenSID/OpenSID/issues/6174) Perbaikan required surat masuk jika tidak memilih disposisi.
+12. [#6186](https://github.com/OpenSID/OpenSID/issues/6186) Perbaikan ubah latar belakang website & login tidak berfungsi, masih muncul gambar bawaan.
+13. [#5909](https://github.com/OpenSID/OpenSID/issues/5909) Perbaikan notif untuk kondisi token langganan sudah berakhir.
+14. [#6170](https://github.com/OpenSID/OpenSID/issues/6170) Penyesuaian lazy loading pada halaman dengan banyak gambar.
+15. [#6202](https://github.com/OpenSID/OpenSID/issues/6202) Penyesuaian notif sedang menyimpan pada saat klik tombol  simpan.
+16. [#6203](https://github.com/OpenSID/OpenSID/issues/6203) Perbaikan required pada form login admin siteman yang tidak berfungsi.
+17. [#6201](https://github.com/OpenSID/OpenSID/issues/6201) Perbaikan urutan inputan terbaru pada data penduduk.
 
 #### Perubahan Teknis
 
 1. Perbarui header tahun 2022 menjadi 2023.
 2. Gunakan create() untuk menganti insert().
 3. [#1805](https://github.com/OpenSID/premium/issues/1805) audit keamanan form perpanjangan layanan.
+4. [#6205](https://github.com/OpenSID/OpenSID/issues/6205) Ubah link gambar domain luar ke gambar dari direktori sistem.
