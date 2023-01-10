@@ -64,7 +64,7 @@
                                                 <span class="fw-bolder">Buku Tamu</span>
                                             </h1>
                                             <div class="flex-grow-1 bgi-no-repeat bgi-size-contain bgi-position-x-center card-rounded-bottom h-200px mh-200px my-5 mb-lg-12"
-                                                style="background-image:url('https://kuangampilan.org/assets/templates/landing/images/buku-tamu-2.svg')">
+                                                style="background-image:url('{{ asset('buku_tamu/ebook.png') }}')">
                                             </div>
                                         </div>
                                         <div class="text-center">
