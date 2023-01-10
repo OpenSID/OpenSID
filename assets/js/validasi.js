@@ -120,21 +120,9 @@ $(document).ready(function() {
 				$('#tabs a[href="#' + $(validator.errorList[0].element).closest(".tab-pane").attr('id') + '"]').tab('show');
 			}
 		},
-		submitHandler: function(form) {
-			Swal.fire({
-				title: 'Sedang Menyimpan',
-				allowOutsideClick: false,
-				allowEscapeKey: false,
-				showConfirmButton: false,
-				didOpen: () => {
-					Swal.showLoading()
-				}
-			});
-			form.submit();
-		}
 	});
 
-	$("#validasi-modif").validate({
+	$("#validasi-proses").validate({
 		ignore: ".ignore",
 		errorElement: "label",
 		errorClass: "error",
@@ -157,9 +145,21 @@ $(document).ready(function() {
 			}
 		},
 		invalidHandler: function(e, validator){
-			if(validator.errorList.length) {
+			if(validator.errorList.length && $('#tabs').length) {
 				$('#tabs a[href="#' + $(validator.errorList[0].element).closest(".tab-pane").attr('id') + '"]').tab('show');
 			}
+		},
+		submitHandler: function(form) {
+			Swal.fire({
+				title: 'Sedang Menyimpan',
+				allowOutsideClick: false,
+				allowEscapeKey: false,
+				showConfirmButton: false,
+				didOpen: () => {
+					Swal.showLoading()
+				}
+			});
+			form.submit();
 		}
 	});
 
