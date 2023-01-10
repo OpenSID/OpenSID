@@ -42,6 +42,8 @@ use App\Models\FormatSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class TinyMCE
 {
     public const HEADER = '
