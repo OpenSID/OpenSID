@@ -18,10 +18,11 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 12. [#6186](https://github.com/OpenSID/OpenSID/issues/6186) Perbaikan ubah latar belakang website & login tidak berfungsi, masih muncul gambar bawaan.
 13. [#5909](https://github.com/OpenSID/OpenSID/issues/5909) Perbaikan notif untuk kondisi token langganan sudah berakhir.
 14. [#6170](https://github.com/OpenSID/OpenSID/issues/6170) Penyesuaian lazy loading pada halaman dengan banyak gambar.
-15. [#6202](https://github.com/OpenSID/OpenSID/issues/6202) Penyesuaian notif sedang menyimpan pada saat klik tombol  simpan.
+15. [#6202](https://github.com/OpenSID/OpenSID/issues/6202) Penyesuaian notif sedang menyimpan pada saat klik tombol simpan.
 16. [#6203](https://github.com/OpenSID/OpenSID/issues/6203) Perbaikan required pada form login admin siteman yang tidak berfungsi.
 17. [#6201](https://github.com/OpenSID/OpenSID/issues/6201) Perbaikan urutan inputan terbaru pada data penduduk.
 18. [#6190](https://github.com/OpenSID/OpenSID/issues/6190) Perbaikan ukuran font surat tinymce contoh data awal.
+19. [#6235](https://github.com/OpenSID/OpenSID/issues/6235) Perbaikan error migrasi kepuasan.
 
 #### Perubahan Teknis
 

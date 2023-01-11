@@ -97,7 +97,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
 
             $data = BukuKepuasan::query()->has('pertanyaan')->get()->pluck('pertanyaan.pertanyaan', 'id');
 
-            if ($data !== null) {
+            if (count($data) !== 0) {
                 foreach ($data as $key => $value) {
                     $batch[] = [
                         'id'                => $key,
