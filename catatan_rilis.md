@@ -32,3 +32,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 3. [#1805](https://github.com/OpenSID/premium/issues/1805) Audit keamanan form perpanjangan layanan.
 4. [#6205](https://github.com/OpenSID/OpenSID/issues/6205) Ubah link gambar domain luar ke gambar dari direktori sistem.
 5. [#6075](https://github.com/OpenSID/OpenSID/issues/6075) Tambahkan Autocomplete="off" di Passphrase TTE.
+6. [#6243](https://github.com/OpenSID/OpenSID/issues/6243) Improve lazy load foto penduduk.

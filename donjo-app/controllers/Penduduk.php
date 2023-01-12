@@ -120,11 +120,10 @@ class Penduduk extends Admin_Controller
         $this->render('sid/kependudukan/penduduk', $data);
     }
 
-    public function ambil_foto($id)
+    public function ambil_foto()
     {
-        $data = $this->db->select('foto, sex')->where('id ', $id)->get('tweb_penduduk')->row();
-        $foto = $data->foto;
-        $sex  = $data->sex;
+        $foto = $this->input->get('foto');
+        $sex  = $this->input->get('sex');
         if (empty($foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $foto)) {
             $foto = ($sex == 1) ? 'kuser.png' : 'wuser.png';
             ambilBerkas($foto, $this->controller, null, 'assets/images/pengguna/', $tampil = true);
