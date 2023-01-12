@@ -25,6 +25,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 19. [#6235](https://github.com/OpenSID/OpenSID/issues/6235) Perbaikan error migrasi kepuasan.
 20. [#6198](https://github.com/OpenSID/OpenSID/issues/6198) Perbaikan qr surat nama penandatangan kades surat ikut di perbarui.
 21. [#6242](https://github.com/OpenSID/OpenSID/issues/6242) Perbaikan base64 ke base_url khusus latar belakang.
+22. [#6234](https://github.com/OpenSID/OpenSID/issues/6234) Perbaikan ejaan OpenDK.
 
 #### Perubahan Teknis
 
