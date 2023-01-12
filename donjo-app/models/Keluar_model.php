@@ -257,7 +257,7 @@ class Keluar_model extends CI_Model
         // TODO : Sederhanakan, ini berulang
         $this->db
             ->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.gelar_depan, s.gelar_belakang')
-            ->select('(case when p.nama is not null then p.nama else s.pamong_nama end) as pamong_nama')
+            ->select('u.nama_pamong as pamong_nama')
             ->select('k.url_surat, k.jenis')
             ->where('u.status !=', null)
             ->limit($limit, $offset);
@@ -279,8 +279,6 @@ class Keluar_model extends CI_Model
                     $this->rincian_file($data, $i);
                 }
             }
-
-            $data[$i]['pamong_nama'] = gelar($data[$i]['gelar_depan'], $data[$i]['pamong_nama'], $data[$i]['gelar_belakang']);
 
             $j++;
         }
@@ -544,7 +542,7 @@ class Keluar_model extends CI_Model
         // TODO : Sederhanakan, ini berulang
         $data = $this->db
             ->select('l.*, k.nama AS perihal, k.kode_surat, n.nama AS nama_penduduk, l.nama_jabatan AS pamong_jabatan')
-            ->select('(case when p.nama is not null then p.nama else s.pamong_nama end) as pamong_nama')
+            ->select('nama_pamong as pamong_nama')
             ->from('log_surat l')
             ->join('tweb_penduduk n', 'l.id_pend = n.id', 'left')
             ->join('tweb_surat_format k', 'l.id_format_surat = k.id', 'left')

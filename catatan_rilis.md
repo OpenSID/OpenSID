@@ -23,6 +23,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 17. [#6201](https://github.com/OpenSID/OpenSID/issues/6201) Perbaikan urutan inputan terbaru pada data penduduk.
 18. [#6190](https://github.com/OpenSID/OpenSID/issues/6190) Perbaikan ukuran font surat tinymce contoh data awal.
 19. [#6235](https://github.com/OpenSID/OpenSID/issues/6235) Perbaikan error migrasi kepuasan.
+20. [#6198](https://github.com/OpenSID/OpenSID/issues/6198) Perbaikan qr surat nama penandatangan kades surat ikut di perbarui.
 
 #### Perubahan Teknis
 
