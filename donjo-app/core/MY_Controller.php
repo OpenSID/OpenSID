@@ -179,7 +179,7 @@ class Web_Controller extends MY_Controller
         // Data statistik pengunjung
         $data['statistik_pengunjung'] = $this->statistik_pengunjung->get_statistik();
 
-        $data['latar_website'] = to_base64(default_file($this->theme_model->lokasi_latar_website() . $this->setting->latar_website, DEFAULT_LATAR_WEBSITE));
+        $data['latar_website'] = default_file($this->theme_model->lokasi_latar_website() . $this->setting->latar_website, DEFAULT_LATAR_WEBSITE);
         $data['desa']          = $this->header;
         $data['menu_atas']     = $this->first_menu_m->list_menu_atas();
         $data['menu_kiri']     = $this->first_menu_m->list_menu_kiri();
