@@ -40,6 +40,7 @@ use App\Models\KehadiranPengaduan;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\RefJabatan;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -466,7 +467,7 @@ class Pamong_model extends CI_Model
 
         $data_query = $this->db
             ->select(
-                'rj.nama AS jabatan, dp.pamong_niap, k.tanggal, k.status_kehadiran,
+                'dp.pamong_id, rj.nama AS jabatan, dp.pamong_niap,
                 CASE WHEN dp.id_pend IS NULL THEN dp.foto ELSE p.foto END as foto,
                 CASE WHEN p.sex IS NOT NULL THEN p.sex ELSE dp.pamong_sex END as id_sex,
                 CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama ELSE p.nama END AS nama',
@@ -474,20 +475,21 @@ class Pamong_model extends CI_Model
             )
             ->from('tweb_desa_pamong dp')
             ->join('tweb_penduduk p', 'p.id = dp.id_pend', 'left')
-            ->join('kehadiran_perangkat_desa k', 'k.pamong_id = dp.pamong_id', 'left')
             ->join('ref_jabatan rj', 'rj.id = dp.jabatan_id', 'left')
             ->where('dp.pamong_status', '1')
             ->order_by('dp.urut')
             ->get()
             ->result_array();
 
-        foreach ($data_query as $key => $perangkat) {
-            $perangkat['foto'] = AmbilFoto($perangkat['foto'], 'besar', $perangkat['id_sex']);
-            $key               = $perangkat['nama'];
-            $data[$key]        = $perangkat;
-        }
+        return ['daftar_perangkat' => collect($data_query)->map(static function ($item) {
+            $kehadiran                = Kehadiran::where('pamong_id', $item['pamong_id'])->where('tanggal', Carbon::now()->format('Y-m-d'))->orderBy('id', 'DESC')->first();
+            $item['status_kehadiran'] = $kehadiran ? $kehadiran->status_kehadiran : null;
+            $item['tanggal']          = $kehadiran ? $kehadiran->tanggal : null;
+            $item['foto']             = AmbilFoto($item['foto'], 'besar', $item['id_sex']);
 
-        return ['daftar_perangkat' => array_values($data)];
+            return $item;
+        })->toArray(),
+        ];
     }
 
     //----------------------------------------------------------------------------------------------------
