@@ -27,6 +27,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 21. [#6242](https://github.com/OpenSID/OpenSID/issues/6242) Perbaikan base64 ke base_url khusus latar belakang.
 22. [#6234](https://github.com/OpenSID/OpenSID/issues/6234) Perbaikan ejaan OpenDK.
 23. [#6204](https://github.com/OpenSID/OpenSID/issues/6204) Perbaikan tampilan perangkat desa dengan nama sama.
+24. [#6179](https://github.com/OpenSID/OpenSID/issues/6179) Perbaikan icon image kosong pada lampiran buku agenda surat masuk.
 
 #### Perubahan Teknis
 
