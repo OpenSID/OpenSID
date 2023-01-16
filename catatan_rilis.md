@@ -31,6 +31,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 25. [#6009](https://github.com/OpenSID/OpenSID/issues/6009) Perbaikan disable headjs cetak buku tanah kas desa.
 26. [#6233](https://github.com/OpenSID/OpenSID/issues/6233) Perbaikian nama pamong sesuai gelar.
 27. [#6195](https://github.com/OpenSID/OpenSID/issues/6195) Perbaikan error dengan id sama pada saat impor bantuan.
+28. [#6206](https://github.com/OpenSID/OpenSID/issues/6206) Perbaikan alamat tujuan surat keterangan pindah penduduk.
 
 #### Perubahan Teknis
 
