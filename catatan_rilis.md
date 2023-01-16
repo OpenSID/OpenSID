@@ -32,6 +32,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 26. [#6233](https://github.com/OpenSID/OpenSID/issues/6233) Perbaikian nama pamong sesuai gelar.
 27. [#6195](https://github.com/OpenSID/OpenSID/issues/6195) Perbaikan error dengan id sama pada saat impor bantuan.
 28. [#6206](https://github.com/OpenSID/OpenSID/issues/6206) Perbaikan alamat tujuan surat keterangan pindah penduduk.
+29. [#6274](https://github.com/OpenSID/OpenSID/issues/6274) Perbaikan bekas pencarian tetap muncul di halaman berbeda.
 
 #### Perubahan Teknis
 
