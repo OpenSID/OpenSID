@@ -811,7 +811,7 @@
 			file_foto = sex == '2' ? '<?= FOTO_DEFAULT_WANITA ?>' : '<?= FOTO_DEFAULT_PRIA ?>';
 		}
 
-		return BASE_URL + file_foto;
+		return file_foto;
 	}
 
 	function disable_kawin_cerai(status) {
