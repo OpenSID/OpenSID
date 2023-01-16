@@ -568,7 +568,17 @@ class Keluar_model extends CI_Model
 
         $data->nomor_surat = $this->penomoran_surat_model->format_penomoran_surat($format);
 
-        return $data;
+        // Filter Output
+        $output = [
+            'nomor_surat'    => $data->nomor_surat,
+            'tanggal'        => $data->tanggal,
+            'perihal'        => $data->perihal,
+            'nama_penduduk'  => $data->nama_penduduk ?? $data->nama_non_warga,
+            'pamong_nama'    => $data->pamong_nama,
+            'pamong_jabatan' => $data->pamong_jabatan,
+        ];
+
+        return (object) $output;
     }
 
     public function get_surat($id = 0)

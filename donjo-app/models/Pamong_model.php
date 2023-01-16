@@ -467,7 +467,7 @@ class Pamong_model extends CI_Model
 
         $data_query = $this->db
             ->select(
-                'dp.pamong_id, rj.nama AS jabatan, dp.pamong_niap,
+                'dp.pamong_id, rj.nama AS jabatan, dp.pamong_niap, dp.gelar_depan, dp.gelar_belakang,
                 CASE WHEN dp.id_pend IS NULL THEN dp.foto ELSE p.foto END as foto,
                 CASE WHEN p.sex IS NOT NULL THEN p.sex ELSE dp.pamong_sex END as id_sex,
                 CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama ELSE p.nama END AS nama',
@@ -486,6 +486,7 @@ class Pamong_model extends CI_Model
             $item['status_kehadiran'] = $kehadiran ? $kehadiran->status_kehadiran : null;
             $item['tanggal']          = $kehadiran ? $kehadiran->tanggal : null;
             $item['foto']             = AmbilFoto($item['foto'], 'besar', $item['id_sex']);
+            $item['nama']             = gelar($item['gelar_depan'], $item['nama'], $item['gelar_belakang']);
 
             return $item;
         })->toArray(),
@@ -544,8 +545,8 @@ class Pamong_model extends CI_Model
             $data['struktur'][] = [$pamong['atasan'] => $pamong['pamong_id']];
         }
 
-        $data['nodes'] = $this->db
-            ->select('p.pamong_id, rj.nama AS jabatan, p.bagan_tingkat, p.bagan_offset, p.bagan_layout, p.bagan_warna')
+        $data_query = $this->db
+            ->select('p.pamong_id, rj.nama AS jabatan, p.gelar_depan, p.gelar_belakang, p.bagan_tingkat, p.bagan_offset, p.bagan_layout, p.bagan_warna')
             ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.foto ELSE p.foto END) as foto')
             ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nama ELSE p.pamong_nama END) as nama')
             ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.sex ELSE p.pamong_sex END) as jenis_kelamin')
@@ -553,7 +554,15 @@ class Pamong_model extends CI_Model
             ->join('penduduk_hidup ph', 'ph.id = p.id_pend', 'left')
             ->join('ref_jabatan rj', 'rj.id = p.jabatan_id', 'left')
             ->where('pamong_status', 1)
-            ->get()->result_array();
+            ->get()
+            ->result_array();
+
+        $data['nodes'] = collect($data_query)->map(static function ($item) {
+            $item['nama'] = gelar($item['gelar_depan'], $item['nama'], $item['gelar_belakang']);
+
+            return $item;
+        })
+            ->toArray();
 
         return $data;
     }
