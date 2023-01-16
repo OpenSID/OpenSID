@@ -30,6 +30,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 24. [#6179](https://github.com/OpenSID/OpenSID/issues/6179) Perbaikan icon image kosong pada lampiran buku agenda surat masuk.
 25. [#6009](https://github.com/OpenSID/OpenSID/issues/6009) Perbaikan disable headjs cetak buku tanah kas desa.
 26. [#6233](https://github.com/OpenSID/OpenSID/issues/6233) Perbaikian nama pamong sesuai gelar.
+27. [#6195](https://github.com/OpenSID/OpenSID/issues/6195) Perbaikan error dengan id sama pada saat impor bantuan.
 
 #### Perubahan Teknis
 
