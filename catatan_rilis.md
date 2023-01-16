@@ -42,3 +42,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 5. [#6075](https://github.com/OpenSID/OpenSID/issues/6075) Tambahkan Autocomplete="off" di Passphrase TTE.
 6. [#6243](https://github.com/OpenSID/OpenSID/issues/6243) Improve lazy load foto penduduk.
 7. [#6249](https://github.com/OpenSID/OpenSID/issues/6249) Ganti helper setting dan gunakan models.
+8. [#6245](https://github.com/OpenSID/OpenSID/issues/6245) Hapus tag yang tidak di gunakan.
