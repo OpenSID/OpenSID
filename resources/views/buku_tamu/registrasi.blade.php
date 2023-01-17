@@ -97,13 +97,20 @@
                     </div>
 
                     <div class="col-md-3 col-xl-3">
-                        <div id="camera" class="col-md-12 mt-0"></div>
-                        <input type="hidden" id="foto" name="foto">
-                        <div class="row">
-                            <div class="col col-md-12">
-                                <button type="reset" class="btn btn-danger w-100 py-3 mb-5">Batal</button>
-                                <button type="submit" id="simpan" class="btn btn-primary w-100 mb-5">Simpan</button>
+                         <div class="row">
+                            <div class="position-relative">
+                                <div id="camera" class="col-md-12 top-50 translate-middle start-50"></div>
+                                <input type="hidden" id="foto" name="foto">
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-6 col-xm-12">
+                                <button type="reset" class="btn btn-danger w-100 py-3 mb-5">Batal</button>
+                               
+                            </div>
+                             <div class="col-md-12 col-sm-6 col-xm-12">
+                                 <button type="submit" id="simpan" class="btn btn-primary w-100 mb-5">Simpan</button>
+                             </div>
                         </div>
                     </div>
                 </div>
