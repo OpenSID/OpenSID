@@ -54,7 +54,6 @@ class Migrasi_fitur_premium_2208 extends MY_model
         $hasil = $hasil && $this->migrasi_2022070451($hasil);
         $hasil = $hasil && $this->migrasi_2022070751($hasil);
         $hasil = $hasil && $this->migrasi_2022071851($hasil);
-        $hasil = $hasil && $this->migrasi_2022070751($hasil);
         $hasil = $hasil && $this->migrasi_2022072751($hasil);
 
         return $hasil && $this->migrasi_2022073151($hasil);
@@ -119,50 +118,6 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
     protected function migrasi_2022070751($hasil)
     {
-        // Buat tabel ref font Surat
-        if (! $this->db->table_exists('ref_font_surat')) {
-            $fields = [
-                'id'          => [
-                    'type'           => 'INT',
-                    'constraint'     => 11,
-                    'auto_increment' => true,
-                    'unsigned'       => true,
-                ],
-                'font_family' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 50,
-                    'unique'     => true,
-                    'null'       => false,
-                ],
-            ];
-
-            $this->dbforge->add_key('id', true);
-            $this->dbforge->add_field($fields);
-            $hasil = $hasil && $this->dbforge->create_table('ref_font_surat', true);
-
-            // isi data font surat
-            $fonts = [
-                ['font_family' => 'Andale Mono'],
-                ['font_family' => 'Arial'],
-                ['font_family' => 'Arial Black'],
-                ['font_family' => 'Book Antiqua'],
-                ['font_family' => 'Comic Sans MS'],
-                ['font_family' => 'Courier New'],
-                ['font_family' => 'Georgia'],
-                ['font_family' => 'Helvetica'],
-                ['font_family' => 'Impact'],
-                ['font_family' => 'Symbol'],
-                ['font_family' => 'Tahoma'],
-                ['font_family' => 'Terminal'],
-                ['font_family' => 'Times New Roman'],
-                ['font_family' => 'Trebuchet MS'],
-                ['font_family' => 'Verdana'],
-                ['font_family' => 'Webdings'],
-                ['font_family' => 'Wingdings'],
-            ];
-            $hasil = $this->db->insert_batch('ref_font_surat', $fonts);
-        }
-
         // tambahkan pengaturan
         return $hasil && $this->tambah_setting([
             'key'        => 'font_surat',
