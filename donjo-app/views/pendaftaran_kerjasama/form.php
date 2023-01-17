@@ -105,7 +105,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="domain">Domain <?= ucfirst($this->setting->sebutan_desa) ?></label>
                             <div class="col-sm-8">
-                                <input id="domain" class="form-control input-sm required" type="text" name="domain" value="<?= $response->data->domain ?? APP_URL ?>">
+                                <input id="domain" class="form-control input-sm" type="text" readonly name="domain" value="<?= $response->data->domain ?? APP_URL ?>">
                                 <?php if ($domain = $this->session->errors->messages->domain) : ?>
                                     <p class="error"><?= $domain ?></p>
                                 <?php endif ?>
@@ -114,7 +114,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="kontak_nama">Nama Kontak</label>
                             <div class="col-sm-8">
-                                <input id="kontak_nama" class="form-control input-sm nama required" type="text" name="kontak_nama" value="<?= $response->data->nama_kontak ?>">
+                                <input id="kontak_nama" class="form-control input-sm nama" readonly type="text" name="kontak_nama" value="<?= $response->data->nama_kontak ?>">
                                 <?php if ($kontak_nama = $this->session->errors->messages->kontak_nama) : ?>
                                     <p class="error"><?= $kontak_nama ?></p>
                                 <?php endif ?>
@@ -123,7 +123,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="email">No HP. Kontak</label>
                             <div class="col-sm-8">
-                                <input id="kontak_no_hp" class="form-control input-sm required" type="number" name="kontak_no_hp" value="<?= $response->data->no_hp_kontak ?>">
+                                <input id="kontak_no_hp" class="form-control input-sm" readonly type="number" name="kontak_no_hp" value="<?= $response->data->no_hp_kontak ?>">
                                 <?php if ($kontak_no_hp = $this->session->errors->messages->kontak_no_hp) : ?>
                                     <p class="error"><?= $kontak_no_hp ?></p>
                                 <?php endif ?>

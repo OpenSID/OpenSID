@@ -38,6 +38,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 32. [#6247](https://github.com/OpenSID/OpenSID/issues/6247) Perbaikan batasin setiap inputan agar tidak dapat input script.
 33. [#6240](https://github.com/OpenSID/OpenSID/issues/6240) Perbaikan latar belakang layanan mandiri tidak berubah.
 34. [#6277](https://github.com/OpenSID/OpenSID/issues/6277) Perbaikan tampilkan info pemesanan yang aktif saja.
+35. [#6278](https://github.com/OpenSID/OpenSID/issues/6278) Perbaikan disable edit link web, kontak pada form pendaftaran kerjasama.
 
 #### Perubahan Teknis
 
