@@ -36,6 +36,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 30. [#6127](https://github.com/OpenSID/OpenSID/issues/6127) Perbaikan kata bertemu menjadi berkunjung pada halaman buku tamu.
 31. [#6246](https://github.com/OpenSID/OpenSID/issues/6246) Perbaikan tampilan buku tamu agar responsive pada ukuran tertentu.
 32. [#6247](https://github.com/OpenSID/OpenSID/issues/6247) Perbaikan batasin setiap inputan agar tidak dapat input script.
+33. [#6240](https://github.com/OpenSID/OpenSID/issues/6240) Perbaikan latar belakang layanan mandiri tidak berubah.
 
 #### Perubahan Teknis
 
