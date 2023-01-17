@@ -73,6 +73,10 @@
     margin: 0px 5px 5px 0px;
 }
 
+.btn-mb-5{
+    margin-bottom: 5px;
+}
+
 
 /* Modifikasi Sidabar menu */
 .main-sidebar:hover {

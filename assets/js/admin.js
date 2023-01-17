@@ -14,6 +14,14 @@ $('.sidebar-toggle').on('click', function() {
   localStorage.setItem('sidebar', $("#sidebar_collapse").hasClass('sidebar-collapse'));
 });
 
+// Select2 default
+$('.select2').select2();
+
+// Select2 dengan fitur pencarian dan boleh isi sendiri
+$('.select2-tags').select2({
+  tags: true
+});
+
 //CheckBox All Selected
 checkAllHeader("id_cb[]");
 checkAllBody("#checkall", "#tabeldata", "id_cb[]");

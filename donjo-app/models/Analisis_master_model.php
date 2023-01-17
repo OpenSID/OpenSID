@@ -118,17 +118,23 @@ class Analisis_master_model extends MY_Model
         $this->list_data_query();
 
         switch ($o) {
-            case 1: $this->db->order_by('u.lock'); break;
+            case 1: $this->db->order_by('u.lock');
+                break;
 
-            case 2: $this->db->order_by('u.lock DESC'); break;
+            case 2: $this->db->order_by('u.lock DESC');
+                break;
 
-            case 3: $this->db->order_by('u.nama'); break;
+            case 3: $this->db->order_by('u.nama');
+                break;
 
-            case 4: $this->db->order_by('u.nama DESC'); break;
+            case 4: $this->db->order_by('u.nama DESC');
+                break;
 
-            case 5: $this->db->order_by('s.subjek'); break;
+            case 5: $this->db->order_by('s.subjek');
+                break;
 
-            case 6: $this->db->order_by('s.subjek DESC'); break;
+            case 6: $this->db->order_by('s.subjek DESC');
+                break;
 
             default:$this->db->order_by('u.id');
         }

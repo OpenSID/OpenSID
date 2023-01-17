@@ -160,13 +160,17 @@ class Analisis_laporan extends Admin_Controller
         $subjek_tipe = $this->session->subjek_tipe;
 
         switch ($subjek_tipe) {
-            case 1: $asubjek = 'Penduduk'; break;
+            case 1: $asubjek = 'Penduduk';
+                break;
 
-            case 2: $asubjek = 'Keluarga'; break;
+            case 2: $asubjek = 'Keluarga';
+                break;
 
-            case 3: $asubjek = 'Rumahtangga'; break;
+            case 3: $asubjek = 'Rumahtangga';
+                break;
 
-            case 4: $asubjek = 'Kelompok'; break;
+            case 4: $asubjek = 'Kelompok';
+                break;
 
             default: return null;
         }

@@ -118,20 +118,26 @@ class Surat_masuk_model extends MY_Model
     {
         //Ordering SQL
         switch ($o) {
-        case 1: $order_sql = ' ORDER BY YEAR(u.tanggal_penerimaan) ASC, u.nomor_urut ASC'; break;
+            case 1: $order_sql = ' ORDER BY YEAR(u.tanggal_penerimaan) ASC, u.nomor_urut ASC';
+                break;
 
-        case 2: $order_sql = ' ORDER BY YEAR(u.tanggal_penerimaan) DESC, u.nomor_urut DESC'; break;
+            case 2: $order_sql = ' ORDER BY YEAR(u.tanggal_penerimaan) DESC, u.nomor_urut DESC';
+                break;
 
-        case 3: $order_sql = ' ORDER BY u.tanggal_penerimaan'; break;
+            case 3: $order_sql = ' ORDER BY u.tanggal_penerimaan';
+                break;
 
-        case 4: $order_sql = ' ORDER BY u.tanggal_penerimaan DESC'; break;
+            case 4: $order_sql = ' ORDER BY u.tanggal_penerimaan DESC';
+                break;
 
-        case 5: $order_sql = ' ORDER BY u.pengirim'; break;
+            case 5: $order_sql = ' ORDER BY u.pengirim';
+                break;
 
-        case 6: $order_sql = ' ORDER BY u.pengirim DESC'; break;
+            case 6: $order_sql = ' ORDER BY u.pengirim DESC';
+                break;
 
-        default:$order_sql = ' ORDER BY u.id';
-    }
+            default:$order_sql = ' ORDER BY u.id';
+        }
 
         //Paging SQL
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
@@ -368,7 +374,9 @@ class Surat_masuk_model extends MY_Model
             $adaBerkasLamaDiDB = null !== $berkasLama;
         }
 
-        $this->update_disposisi_surat_masuk($idSuratMasuk, $jabatan);
+        if ($jabatan) {
+            $this->disposisi_surat_masuk($idSuratMasuk, $jabatan);
+        }
 
         $this->db->trans_complete();
 

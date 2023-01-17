@@ -45,13 +45,6 @@ define('JENIS_PERATURAN_DESA', serialize([
     'Peraturan Bersama Kepala Desa',
 ]));
 
-define('MASA_BERLAKU', serialize([
-    'd' => 'Hari',
-    'w' => 'Minggu',
-    'M' => 'Bulan',
-    'y' => 'Tahun',
-]));
-
 define('KATEGORI_PUBLIK', serialize([
     'Informasi Berkala'      => '1',
     'Informasi Serta-merta'  => '2',

@@ -143,7 +143,7 @@
 											<tbody>
 												<?php $total = 0;
 
-foreach ($main as $key => $data): ?>
+		foreach ($main as $key => $data): ?>
 													<tr>
 														<td class="padat"><?= ($key + 1); ?></td>
 														<td width="30%"><?= $data['pertanyaan']; ?></a></td>
@@ -170,10 +170,10 @@ foreach ($main as $key => $data): ?>
 														<td class="padat"><?= $data['act_analisis']; ?></td>
 													</tr>
 													<?php
-                                                        if ($data['jumlah'] != '-'):
-                                                            $total += $data['jumlah'];
-                                                        endif;
-                                                    ?>
+		                                                        if ($data['jumlah'] != '-'):
+		                                                            $total += $data['jumlah'];
+		                                                        endif;
+		    ?>
 												<?php endforeach; ?>
 											</tbody>
 											<?php if ($total != 0): ?>

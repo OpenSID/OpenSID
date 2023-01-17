@@ -64,16 +64,16 @@
 														</thead>
 														<tbody>
 															<?php
-                                                                $total                  = [];
-                                                                $total['total_rw']      = 0;
-                                                                $total['total_rt']      = 0;
-                                                                $total['total_kk']      = 0;
-                                                                $total['total_warga']   = 0;
-                                                                $total['total_warga_l'] = 0;
-                                                                $total['total_warga_p'] = 0;
+                                                                $total = [];
+		$total['total_rw']                                                   = 0;
+		$total['total_rt']                                                   = 0;
+		$total['total_kk']                                                   = 0;
+		$total['total_warga']                                                = 0;
+		$total['total_warga_l']                                              = 0;
+		$total['total_warga_p']                                              = 0;
 
-                                                                foreach ($main as $data):
-                                                            ?>
+		foreach ($main as $data):
+		    ?>
 															<tr>
 																<td class="no_urut"><?= $data['no']?></td>
 																<td nowrap>
@@ -110,14 +110,14 @@
 																<td class="bilangan"><a href="<?= site_url("sid_core/warga_p/{$data['id']}")?>"><?= $data['jumlah_warga_p']?></a></td>
 															</tr>
 															<?php
-                                                                $total['total_rw'] += $data['jumlah_rw'];
-                                                                $total['total_rt'] += $data['jumlah_rt'];
-                                                                $total['total_kk'] += $data['jumlah_kk'];
-                                                                $total['total_warga'] += $data['jumlah_warga'];
-                                                                $total['total_warga_l'] += $data['jumlah_warga_l'];
-                                                                $total['total_warga_p'] += $data['jumlah_warga_p'];
-                                                                endforeach;
-                                                            ?>
+		        $total['total_rw'] += $data['jumlah_rw'];
+		    $total['total_rt'] += $data['jumlah_rt'];
+		    $total['total_kk'] += $data['jumlah_kk'];
+		    $total['total_warga'] += $data['jumlah_warga'];
+		    $total['total_warga_l'] += $data['jumlah_warga_l'];
+		    $total['total_warga_p'] += $data['jumlah_warga_p'];
+		endforeach;
+		?>
 														</tbody>
 														<tfoot>
 															<tr>

@@ -175,7 +175,7 @@
 																<a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/{$data['id_log']}")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status" data-body="<?= $pertanyaan; ?>"><i class="fa fa-undo"></i></a>
 														<?php
                                                                                                                                         }
-                                                                                                                                ?>
+											    ?>
 													</td>
 													<td class="padat">
 														<img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>

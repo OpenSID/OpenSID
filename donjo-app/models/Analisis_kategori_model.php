@@ -92,9 +92,11 @@ class Analisis_kategori_model extends MY_Model
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
         switch ($o) {
-            case 3: $order_sql = ' ORDER BY u.kategori'; break;
+            case 3: $order_sql = ' ORDER BY u.kategori';
+                break;
 
-            case 4: $order_sql = ' ORDER BY u.kategori DESC'; break;
+            case 4: $order_sql = ' ORDER BY u.kategori DESC';
+                break;
 
             default:$order_sql = ' ORDER BY u.kategori';
         }

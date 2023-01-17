@@ -37,6 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Libraries\DateConv;
+use App\Models\LogSurat;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -48,8 +50,7 @@ class Surat_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('penduduk_model');
-        $this->load->model('penomoran_surat_model');
+        $this->load->model(['penduduk_model', 'penomoran_surat_model', 'url_shortener_model']);
     }
 
     public function list_surat()
@@ -573,35 +574,35 @@ class Surat_model extends CI_Model
 
         while ($in < strlen($buffer_in)) {
             switch ($buffer_in[$in]) {
-          case '[':
-            // Ambil kode isian, hilangkan karakter bukan alpha
-            $kode_isian = $buffer_in[$in];
-            $in++;
+                case '[':
+                    // Ambil kode isian, hilangkan karakter bukan alpha
+                    $kode_isian = $buffer_in[$in];
+                    $in++;
 
-            while ($buffer_in[$in] != ']' && $in < strlen($buffer_in)) {
-                $kode_isian .= $buffer_in[$in];
-                $in++;
-            }
-            if ($in < strlen($buffer_in)) {
-                $kode_isian .= $buffer_in[$in];
-                $in++;
-            }
-            // Ganti karakter non-alphanumerik supaya bisa di-cek
-            $kode_isian = preg_replace('/[^a-zA-Z0-9,_\{\}\[\]\-]/', '#', $kode_isian);
-            // Regex ini untuk membersihkan kode isian dari karakter yang dimasukkan oleh Word
-            // Regex ini disusun berdasarkan RTF yang dihasilkan oleh Word 2011 di Mac.
-            // Perlu diverifikasi regex ini berlaku juga untuk RTF yang dihasilkan oleh versi Word lain.
-            $regex      = '/(\\}.?#)|rtlch.?#|cf\\d#|fcs.?#+|afs.?\\d#+|f\\d*?\\d#|fs\\d*?\\d#|af\\d*?\\d#+|ltrch#+|insrsid\\d*?\\d#+|alang\\d+#+|lang\\d+|langfe\\d+|langnp\\d+|langfenp\\d+|b#+|ul#+|hich#+|dbch#+|loch#+|charrsid\\d*?\\d#+|#+/';
-            $kode_isian = preg_replace($regex, '', $kode_isian);
-            $buffer_out .= $kode_isian;
-            break;
+                    while ($buffer_in[$in] != ']' && $in < strlen($buffer_in)) {
+                        $kode_isian .= $buffer_in[$in];
+                        $in++;
+                    }
+                    if ($in < strlen($buffer_in)) {
+                        $kode_isian .= $buffer_in[$in];
+                        $in++;
+                    }
+                    // Ganti karakter non-alphanumerik supaya bisa di-cek
+                    $kode_isian = preg_replace('/[^a-zA-Z0-9,_\{\}\[\]\-]/', '#', $kode_isian);
+                    // Regex ini untuk membersihkan kode isian dari karakter yang dimasukkan oleh Word
+                    // Regex ini disusun berdasarkan RTF yang dihasilkan oleh Word 2011 di Mac.
+                    // Perlu diverifikasi regex ini berlaku juga untuk RTF yang dihasilkan oleh versi Word lain.
+                    $regex      = '/(\\}.?#)|rtlch.?#|cf\\d#|fcs.?#+|afs.?\\d#+|f\\d*?\\d#|fs\\d*?\\d#|af\\d*?\\d#+|ltrch#+|insrsid\\d*?\\d#+|alang\\d+#+|lang\\d+|langfe\\d+|langnp\\d+|langfenp\\d+|b#+|ul#+|hich#+|dbch#+|loch#+|charrsid\\d*?\\d#+|#+/';
+                    $kode_isian = preg_replace($regex, '', $kode_isian);
+                    $buffer_out .= $kode_isian;
+                    break;
 
-          default:
-            // Ambil isi yang bukan bagian dari kode isian
-            $buffer_out .= $buffer_in[$in];
-            $in++;
-            break;
-        }
+                default:
+                    // Ambil isi yang bukan bagian dari kode isian
+                    $buffer_out .= $buffer_in[$in];
+                    $in++;
+                    break;
+            }
         }
 
         return $buffer_out;
@@ -742,7 +743,7 @@ class Surat_model extends CI_Model
     */
     public function case_replace($dari, $ke, $str)
     {
-        $replacer = static function ($matches) use ($ke) {
+        $replacer    = static function ($matches) use ($ke) {
             $matches = array_map(static function ($match) {
                 return preg_replace('/[\\[\\]]/', '', $match);
             }, $matches);
@@ -791,7 +792,8 @@ class Surat_model extends CI_Model
 
     public function surat_rtf($data)
     {
-        $this->load->library('date_conv');
+        $DateConv = new DateConv();
+
         // Ambil data
         $input       = $data['input'];
         $individu    = $data['individu'];
@@ -803,7 +805,7 @@ class Surat_model extends CI_Model
         $url         = $surat['url_surat'];
         $logo_garuda = $surat['logo_garuda'];
         $tgl         = tgl_indo(date('Y m d'));
-        $tgl_hijri   = Hijri_date_id::date('j F Y');
+        $tgl_hijri   = $DateConv->HijriDateId('j F Y');
         $thn         = date('Y');
         $tampil_foto = $input['tampil_foto'];
 
@@ -879,11 +881,15 @@ class Surat_model extends CI_Model
                 '[kode_kabupaten]'    => $config['kode_kabupaten'],
                 '[kode_pos]'          => $config['kode_pos'],
                 '[kode_provinsi]'     => $config['kode_propinsi'],
+                '[NAMA_DES]'          => strtoupper($config['nama_desa']),
                 '[nama_des]'          => $config['nama_desa'],
+                '[NAMA_KAB]'          => strtoupper($config['nama_kabupaten']),
                 '[nama_kab]'          => ucwords(strtolower($config['nama_kabupaten'])),
                 '[nama_kabupaten]'    => $config['nama_kabupaten'],
+                '[NAMA_KEC]'          => strtoupper($config['nama_kecamatan']),
                 '[nama_kec]'          => $config['nama_kecamatan'],
                 '[nama_kecamatan]'    => $config['nama_kecamatan'],
+                '[NAMA_PROV]'         => strtoupper($config['nama_propinsi']),
                 '[nama_provinsi]'     => ucwords(strtolower($config['nama_propinsi'])),
                 '[nama_kepala_camat]' => $config['nama_kepala_camat'],
                 '[nama_kepala_desa]'  => $config['nama_kepala_desa'],
@@ -1100,6 +1106,7 @@ class Surat_model extends CI_Model
     public function get_data_untuk_surat($url)
     {
         $data['input'] = $_POST;
+
         // Ambil data
         $data['config']                      = $this->header['desa'];
         $data['surat']                       = $this->get_surat($url);
@@ -1119,8 +1126,7 @@ class Surat_model extends CI_Model
 
     public function buat_surat($url, &$nama_surat, &$lampiran)
     {
-        $data = $this->get_data_untuk_surat($url);
-
+        $data           = $this->get_data_untuk_surat($url);
         $data['qrCode'] = null;
         if ($data['surat']['qr_code'] == 1) {
             $data['qrCode'] = $this->buatQrCode($nama_surat);
@@ -1204,15 +1210,6 @@ class Surat_model extends CI_Model
             ->row()->jml;
     }
 
-    public function masa_berlaku_surat($url)
-    {
-        return $this->db
-            ->select('masa_berlaku, satuan_masa_berlaku')
-            ->from('tweb_surat_format')
-            ->where('url_surat', $url)
-            ->get()->result_array()[0];
-    }
-
     private function sisipkan_qr($file_qr, $buffer)
     {
         if (! is_file($file_qr)) {
@@ -1240,9 +1237,7 @@ class Surat_model extends CI_Model
 
     public function buatQrCode($nama_surat)
     {
-        $this->load->model('url_shortener_model');
-
-        $log_surat = $this->db->select('id, urls_id')->get_where('log_surat', ['nama_surat' => $nama_surat])->row_array();
+        $log_surat = LogSurat::select(['id', 'urls_id'])->where('nama_surat', $nama_surat)->first();
 
         //redirect link tidak ke path aslinya dan encode ID surat
         $urls = $this->url_shortener_model->url_pendek($log_surat);
@@ -1260,26 +1255,6 @@ class Surat_model extends CI_Model
         return $qrCode;
     }
 
-    // Periksa apakah template rtf berisi sematan qrcode
-    public function cek_sisipan_qrcode($url)
-    {
-        $ada = false;
-        // Pakai surat ubahan desa apabila ada
-        $file = SuratExportDesa($url);
-        if ($file == '') {
-            $file = "template-surat/{$url}/{$url}.rtf";
-        }
-
-        if (is_file($file)) {
-            $handle = fopen($file, 'rb');
-            $buffer = stream_get_contents($handle);
-            $ada    = strpos($buffer, $this->awalan_qr) !== false;
-            fclose($handle);
-        }
-
-        return $ada;
-    }
-
     public function cek_surat_mandiri($id)
     {
         return $this->db
@@ -1289,8 +1264,6 @@ class Surat_model extends CI_Model
 
     public function getQrCode($id)
     {
-        $this->load->model('url_shortener_model');
-
         //redirect link tidak ke path aslinya dan encode ID surat
         $urls = $this->url_shortener_model->getUrlById($id);
 

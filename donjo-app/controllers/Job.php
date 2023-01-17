@@ -35,6 +35,9 @@
  *
  */
 
+use App\Libraries\FlxZipArchive;
+use App\Models\LogBackup;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Job extends CI_Controller
@@ -42,7 +45,7 @@ class Job extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('file');
+        $this->load->helper(['number', 'file']);
         $this->load->model(['ekspor_model', 'database_model']);
     }
 
@@ -99,5 +102,28 @@ class Job extends CI_Controller
         log_message('error', 'File ' . $filename . ' tidak ditemukan');
 
         return false;
+    }
+
+    public function backup_inkremental($lokasi)
+    {
+        if (! is_cli()) {
+            return;
+        }
+
+        $lokasi      = ($lokasi == 'null') ? null : 'backup_inkremental';
+        $last_backup = LogBackup::latest()->first()->created_at;
+        $last_backup = ($last_backup != null) ? $last_backup->format('Y-m-d') : '1990-01-01';
+        $backup      = LogBackup::create(['permanen' => ($lokasi) ? 1 : 0]); // tandai backup sedang berlangsung
+
+        try {
+            $za = new FlxZipArchive();
+
+            $path        = $za->read_dir(DESAPATH, $last_backup, $lokasi);
+            $file_backup = get_file_info($path);
+            $backup->update(['status' => 1, 'ukuran' => byte_format($file_backup['size']), 'path' => $path]); // update backup sudah selesai
+        } catch (Exception $e) {
+            $backup->update(['status' => -1]); // update backup gagal
+            printf($e);
+        }
     }
 }

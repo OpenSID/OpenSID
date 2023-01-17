@@ -39,6 +39,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Pamong extends Model
 {
     /**
@@ -115,6 +117,29 @@ class Pamong extends Model
     public function scopeDaftar($query, $value = 1)
     {
         return $query->where('pamong_status', 1)->where('kehadiran', $value);
+    }
+
+    /**
+     * Scope query untuk Penanda Tangan
+     *
+     * @param Builder    $query
+     * @param mixed      $value
+     * @param mixed|null $jenis
+     *
+     * @return Builder
+     */
+    public function scopeTtd($query, $jenis = null)
+    {
+        if ($jenis === 'a.n') {
+            $query->where('pamong_ttd', 1);
+        } elseif ($jenis === 'u.b') {
+            $query->where('pamong_ub', 1);
+        }
+
+        return $query
+            ->select(['pamong_id', 'pamong_nama', 'jabatan', 'pamong_nip', 'pamong_niap', 'nama'])
+            ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
+            ->where('pamong_status', 1);
     }
 
     public function scopeKehadiranPamong($query)

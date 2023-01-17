@@ -38,6 +38,9 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Libraries\FlxZipArchive;
+use App\Models\LogBackup;
+use Carbon\Carbon;
+use Symfony\Component\Process\Process;
 
 class Database extends Admin_Controller
 {
@@ -58,6 +61,8 @@ class Database extends Admin_Controller
             'form_action' => site_url('database/restore'),
             'size_folder' => byte_format(dirSize(DESAPATH)),
             'size_sql'    => byte_format(getSizeDB()->size),
+            'act_tab'     => 1,
+            'inkremental' => $this->db->table_exists('log_backup') ? LogBackup::latest()->first() : null,
         ];
 
         $this->load->view('database/database.tpl.php', $data);
@@ -72,33 +77,12 @@ class Database extends Admin_Controller
         $this->load->view('database/database.tpl.php', $data);
     }
 
-    public function kosongkan()
-    {
-        if (config_item('demo_mode')) {
-            redirect($this->controller);
-        }
-
-        $data['act_tab'] = 3;
-        $data['content'] = 'database/kosongkan';
-        $this->load->view('database/database.tpl.php', $data);
-    }
-
     public function migrasi_db_cri()
     {
         $this->redirect_hak_akses('u');
         $this->session->unset_userdata(['success, error_msg']);
         $this->database_model->migrasi_db_cri();
         redirect('database/migrasi_cri');
-    }
-
-    public function kosongkan_db()
-    {
-        if (config_item('demo_mode')) {
-            redirect($this->controller);
-        }
-        $this->redirect_hak_akses('h');
-        $this->database_model->kosongkan_db();
-        redirect('database/kosongkan');
     }
 
     public function exec_backup()
@@ -111,6 +95,51 @@ class Database extends Admin_Controller
         $za = new FlxZipArchive();
         $za->read_dir(DESAPATH);
         $za->download('backup_folder_desa_' . date('Y_m_d') . '.zip');
+    }
+
+    public function desa_inkremental()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables(LogBackup::query())
+                ->addIndexColumn()
+                ->make();
+        }
+
+        return view('admin.database.inkremental');
+    }
+
+    public function inkremental_job()
+    {
+        // cek tanggal
+        // job hanya bisa dilakukan 1 hari 1 kali
+        $now    = Carbon::now()->format('Y-m-d');
+        $last   = LogBackup::latest()->first();
+        $lokasi = $this->input->post('lokasi');
+
+        if ($last != null && $now == $last->created_at->format('Y-m-d')) {
+            return json([
+                'status'  => false,
+                'message' => 'Anda sudah melakukan Backup inkremental hari ini',
+            ]);
+        }
+
+        $process = new Process(['php', '-f', FCPATH . 'index.php', 'job', 'backup_inkremental', $lokasi]);
+        $process->disableOutput()->setOptions(['create_new_console' => true]);
+        $process->start();
+
+        return json([
+            'status'  => true,
+            'message' => 'Backup inkremental sedang berlangsung',
+        ]);
+    }
+
+    public function inkremental_download()
+    {
+        $file = LogBackup::latest()->first();
+        $file->update(['downloaded_at' => Carbon::now(), 'status' => 2]);
+        $za           = new FlxZipArchive();
+        $za->tmp_file = $file->path;
+        $za->download('backup_inkremental' . $file->created_at->format('Y_m-d') . '.zip');
     }
 
     public function restore()

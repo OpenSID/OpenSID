@@ -37,10 +37,9 @@
 
 namespace App\Models;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen extends Model
 {

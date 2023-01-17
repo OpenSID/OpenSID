@@ -39,6 +39,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class SettingAplikasi extends Model
 {
     /**
@@ -64,4 +66,11 @@ class SettingAplikasi extends Model
         'key',
         'value',
     ];
+
+    /**
+     * The table update parameter.
+     *
+     * @var string
+     */
+    public $primaryKey = 'key';
 }

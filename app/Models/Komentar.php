@@ -40,6 +40,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Komentar extends Model
 {
     public const ACTIVE         = 1;

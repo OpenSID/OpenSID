@@ -30,7 +30,7 @@
                 }
                 echo '</div>';
             }
-            ?>
+         ?>
         </div>
     </div>
 <?php endif; ?>

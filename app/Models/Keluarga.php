@@ -39,6 +39,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Keluarga extends Model
 {
     /**
@@ -63,6 +65,13 @@ class Keluarga extends Model
     protected $guarded = [];
 
     /**
+     * {@inheritDoc}
+     */
+    protected $with = [
+        'wilayah',
+    ];
+
+    /**
      * Define a one-to-one relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasOne
@@ -80,6 +89,16 @@ class Keluarga extends Model
     public function anggota()
     {
         return $this->hasMany(Penduduk::class, 'id_kk');
+    }
+
+    /**
+     * Define an inverse one-to-one or many relationship.
+     *
+     * @return BelongsTo
+     */
+    public function Wilayah()
+    {
+        return $this->belongsTo(Wilayah::class, 'id_cluster');
     }
 
     /**

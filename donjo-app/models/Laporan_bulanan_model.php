@@ -198,7 +198,7 @@ class Laporan_bulanan_model extends MY_Model
                     ->join('tweb_keluarga k', 'k.id = l.id_kk')
                     ->join('tweb_penduduk p', 'p.id = k.nik_kepala')
                     ->where("DATE_FORMAT(l.tgl_peristiwa, '%Y-%m') < '{$thn}-{$pad_bln}'");
-                    break;
+                break;
         }
 
         $penduduk_mutasi_sql = $this->db->get_compiled_select();
@@ -249,25 +249,33 @@ class Laporan_bulanan_model extends MY_Model
     private function rincian_dasar($tipe)
     {
         switch ($tipe) {
-            case 'wni_l': $this->db->where('sex = 1 AND warganegara_id <> 2'); break;
+            case 'wni_l': $this->db->where('sex = 1 AND warganegara_id <> 2');
+                break;
 
-            case 'wni_p': $this->db->where('sex = 2 AND warganegara_id <> 2'); break;
+            case 'wni_p': $this->db->where('sex = 2 AND warganegara_id <> 2');
+                break;
 
-            case 'wna_l': $this->db->where('sex = 1 AND warganegara_id = 2'); break;
+            case 'wna_l': $this->db->where('sex = 1 AND warganegara_id = 2');
+                break;
 
-            case 'wna_p': $this->db->where('sex = 2 AND warganegara_id = 2'); break;
+            case 'wna_p': $this->db->where('sex = 2 AND warganegara_id = 2');
+                break;
 
             case 'jml': break;
 
-            case 'jml_l': $this->db->where('sex = 1'); break;
+            case 'jml_l': $this->db->where('sex = 1');
+                break;
 
-            case 'jml_p': $this->db->where('sex = 2'); break;
+            case 'jml_p': $this->db->where('sex = 2');
+                break;
 
             case 'kk': break;
 
-            case 'kk_l': $this->db->where('sex = 1'); break;
+            case 'kk_l': $this->db->where('sex = 1');
+                break;
 
-            case 'kk_p': $this->db->where('sex = 2'); break;
+            case 'kk_p': $this->db->where('sex = 2');
+                break;
         }
     }
 
@@ -297,7 +305,7 @@ class Laporan_bulanan_model extends MY_Model
                     ->join('tweb_keluarga k', 'k.id = l.id_kk')
                     ->join('tweb_penduduk p', 'p.id = k.nik_kepala')
                     ->where("DATE_FORMAT(l.tgl_peristiwa, '%Y-%m') <= '{$thn}-{$pad_bln}'");
-                    break;
+                break;
         }
 
         $penduduk_mutasi_sql = $this->db->get_compiled_select();
@@ -440,19 +448,25 @@ class Laporan_bulanan_model extends MY_Model
                 ->from('(' . $mutasi_pada_bln_thn . ') as m');
 
             switch ($tipe) {
-                case 'wni_l': $this->db->where('sex = 1 AND warganegara_id <> 2'); break;
+                case 'wni_l': $this->db->where('sex = 1 AND warganegara_id <> 2');
+                    break;
 
-                case 'wni_p': $this->db->where('sex = 2 AND warganegara_id <> 2'); break;
+                case 'wni_p': $this->db->where('sex = 2 AND warganegara_id <> 2');
+                    break;
 
-                case 'wna_l': $this->db->where('sex = 1 AND warganegara_id = 2'); break;
+                case 'wna_l': $this->db->where('sex = 1 AND warganegara_id = 2');
+                    break;
 
-                case 'wna_p': $this->db->where('sex = 2 AND warganegara_id = 2'); break;
+                case 'wna_p': $this->db->where('sex = 2 AND warganegara_id = 2');
+                    break;
 
                 case 'jml': break;
 
-                case 'jml_l': $this->db->where('sex = 1'); break;
+                case 'jml_l': $this->db->where('sex = 1');
+                    break;
 
-                case 'jml_p': $this->db->where('sex = 2'); break;
+                case 'jml_p': $this->db->where('sex = 2');
+                    break;
             }
         } elseif (in_array($tipe, $keluarga)) {
             $mutasi_keluarga_bln_thn = $this->mutasi_keluarga_bln_thn($peristiwa);
@@ -463,9 +477,11 @@ class Laporan_bulanan_model extends MY_Model
             switch ($tipe) {
                 case 'kk': break;
 
-                case 'kk_l': $this->db->where('sex = 1'); break;
+                case 'kk_l': $this->db->where('sex = 1');
+                    break;
 
-                case 'kk_p': $this->db->where('sex = 2'); break;
+                case 'kk_p': $this->db->where('sex = 2');
+                    break;
             }
         }
 

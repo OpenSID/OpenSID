@@ -219,8 +219,8 @@ class Penduduk extends Admin_Controller
 
     public function dokumen($id = '')
     {
+        $data['penduduk']           = $this->penduduk_model->get_penduduk($id) ?? show_404();
         $data['list_dokumen']       = $this->penduduk_model->list_dokumen($id);
-        $data['penduduk']           = $this->penduduk_model->get_penduduk($id);
         $data['jenis_syarat_surat'] = $this->referensi_model->list_by_id('ref_syarat_surat', 'ref_syarat_id');
 
         $this->render('sid/kependudukan/penduduk_dokumen', $data);

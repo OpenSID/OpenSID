@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Url_shortener_model extends CI_Model
 {
-    public function url_pendek(array $log_surat = [])
+    public function url_pendek($log_surat = [])
     {
         $urls_id = $log_surat['urls_id'];
 

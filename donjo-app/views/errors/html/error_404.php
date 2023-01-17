@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <?php $previous = 'javascript:history.go(-1)';
-    if (isset($_SERVER['HTTP_REFERER'])) {
-        $previous = $_SERVER['HTTP_REFERER'];
-    }
-    $CI = &get_instance();
-    if (! isset($CI)) {
-        $CI = new CI_Controller();
-    }
+if (isset($_SERVER['HTTP_REFERER'])) {
+    $previous = $_SERVER['HTTP_REFERER'];
+}
+$CI = &get_instance();
+if (! isset($CI)) {
+    $CI = new CI_Controller();
+}
 ?>
 
 <!DOCTYPE html>

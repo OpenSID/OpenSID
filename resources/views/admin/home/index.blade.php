@@ -29,6 +29,8 @@
 
 @include('admin.layouts.components.notifikasi')
 
+@include('admin.home.saas')
+
 @include('admin.home.rilis')
 
 @include('admin.home.bantuan')

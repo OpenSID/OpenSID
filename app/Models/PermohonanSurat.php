@@ -40,6 +40,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class PermohonanSurat extends Model
 {
     public const STATUS_PERMOHONAN = [

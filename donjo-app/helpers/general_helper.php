@@ -70,19 +70,19 @@ if (! function_exists('view')) {
         }
 
         $factory->directive('selected', static function ($condition) {
-            return "<?php if({$condition}): echo 'selected'; endif; ?>";
+            return "<?= ({$condition}) ? 'selected' : ''; ?>";
         });
 
         $factory->directive('checked', static function ($condition) {
-            return "<?php if({$condition}): echo 'checked'; endif; ?>";
+            return "<?= ({$condition}) ? 'checked' : ''; ?>";
         });
 
         $factory->directive('disabled', static function ($condition) {
-            return "<?php if({$condition}): echo 'disabled'; endif; ?>";
+            return "<?= ({$condition}) ? 'disabled' : ''; ?>";
         });
 
         $factory->directive('active', static function ($condition) {
-            return "<?php if({$condition}): echo 'active'; endif; ?>";
+            return "<?= ({$condition}) ? 'active' : ''; ?>";
         });
 
         if ($CI->session->db_error['code'] === 1049) {
@@ -366,5 +366,23 @@ if (! function_exists('folder_desa')) {
         write_file(DESAPATH . 'offline_mode.php', config_item('offline_mode'), 'x');
 
         return true;
+    }
+}
+
+if (! function_exists('auth')) {
+    /**
+     * Ambil data user login
+     *
+     * @param mixed|null $params
+     */
+    function auth($params = null)
+    {
+        $CI = &get_instance();
+
+        if (null !== $params) {
+            return $CI->session->isAdmin->{$params};
+        }
+
+        return $CI->session->isAdmin;
     }
 }

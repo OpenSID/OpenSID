@@ -39,6 +39,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class PendudukMandiri extends Model
 {
     /**
@@ -79,7 +81,7 @@ class PendudukMandiri extends Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The guarded with the model.

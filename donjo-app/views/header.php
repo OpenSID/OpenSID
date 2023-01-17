@@ -28,6 +28,8 @@
 		<link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap-colorpicker.min.css') ?>">
 		<!-- bootstrap datepicker -->
 		<link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap-datepicker.min.css') ?>">
+		<!-- boostrap datetimepicker -->
+		<link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap-datetimepicker.min.css') ?>">
 		<!-- Theme style -->
 		<link rel="stylesheet" href="<?= asset('css/AdminLTE.min.css') ?>">
 		<!-- AdminLTE Skins. -->
@@ -242,4 +244,4 @@
                 if ($notif_pengumuman):
                     $this->load->view('notif/pengumuman', $notif_pengumuman);
                 endif
-            ?>
+			?>

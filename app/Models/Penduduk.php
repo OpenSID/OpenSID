@@ -37,7 +37,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Penduduk extends Model
 {
@@ -96,6 +99,14 @@ class Penduduk extends Model
     /**
      * {@inheritDoc}
      */
+    protected $appends = [
+        'usia',
+        'alamat_wilayah',
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
     protected $with = [
         'jenisKelamin',
         'agama',
@@ -106,6 +117,7 @@ class Penduduk extends Model
         'cacat',
         'statusKawin',
         'pendudukStatus',
+        'wilayah',
     ];
 
     /**
@@ -130,6 +142,26 @@ class Penduduk extends Model
     public function mandiri()
     {
         return $this->hasOne(PendudukMandiri::class, 'id_pend');
+    }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return HasOne
+     */
+    public function kia_ibu()
+    {
+        return $this->hasOne(KIA::class, 'ibu_id');
+    }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return HasOne
+     */
+    public function kia_anak()
+    {
+        return $this->hasOne(KIA::class, 'anak_id');
     }
 
     /**
@@ -277,9 +309,19 @@ class Penduduk extends Model
      *
      * @return BelongsTo
      */
-    public function clusterDesa()
+    public function rtm()
     {
-        return $this->belongsTo(ClusterDesa::class, 'id_cluster')->withDefault();
+        return $this->belongsTo(Rtm::class, 'id_rtm', 'no_kk')->withDefault();
+    }
+
+    /**
+     * Define an inverse one-to-one or many relationship.
+     *
+     * @return BelongsTo
+     */
+    public function Wilayah()
+    {
+        return $this->belongsTo(Wilayah::class, 'id_cluster');
     }
 
     /**
@@ -403,5 +445,22 @@ class Penduduk extends Model
             ->orWhereNotNull('email')
             ->orWhereNotNull('telegram')
             ->status();
+    }
+
+    public function getUsiaAttribute()
+    {
+        $tglSekarang = Carbon::now();
+        $tglLahir    = Carbon::parse($this->tanggallahir);
+
+        return $tglLahir->diffInYears($tglSekarang) . ' Tahun';
+    }
+
+    public function getAlamatWilayahAttribute()
+    {
+        if (! in_array($this->id_kk, [0, null])) {
+            return $this->keluarga->alamat . ' RT ' . $this->keluarga->wilayah->rt . ' / RW ' . $this->keluarga->wilayah->rw . ' ' . ucwords(Setting($this->setting->sebutan_dusun . ' ' . $this->keluarga->wilayah->dusun));
+        }
+
+        return $this->alamat_sekarang . ' RT ' . $this->wilayah->rt . ' / RW ' . $this->wilayah->rw . ' ' . ucwords(Setting($this->setting->sebutan_dusun . ' ' . $this->wilayah->dusun));
     }
 }

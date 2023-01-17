@@ -69,8 +69,9 @@ $config = [
     ],
 
     'lainnya' => [
-        'storage/framework/' => [0775],
-        'storage/logs/'      => [0775],
+        'storage/framework/'  => [0775],
+        'storage/logs/'       => [0775],
+        'backup_inkremental/' => [0775],
     ],
 
     'config' => <<<'EOS'
@@ -154,6 +155,7 @@ $config = [
         <html>
         <head>
             <title>Offline Mode - <?= ucwords($this->setting->sebutan_desa).' '.$main['nama_desa'] ?></title>
+            <link rel="shortcut icon" href="<?= favico_desa() ?>"/>
         </head>
         <body>
             <br/><br/><br/>
@@ -171,6 +173,8 @@ $config = [
                 </p>
                 <p>
                     <?= ucwords($pamong_kades['jabatan']).' '.$main['nama_desa'] ?>
+                    <br>
+                    <br>
                     <br>
                     <u><b><?= $main['nama_kepala_desa'] ?></b></u><br>
                     NIP. <?= $main['nip_kepala_desa'] ?>

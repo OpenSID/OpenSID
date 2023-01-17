@@ -39,6 +39,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Wilayah extends Model
 {
     /**

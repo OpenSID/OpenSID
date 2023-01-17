@@ -653,7 +653,7 @@ class Program_bantuan_model extends MY_Model
                 break;
 
             default:
-        }
+            }
 
         return [$hasil0, $hasil1, $hasil2];
     }
@@ -759,7 +759,7 @@ class Program_bantuan_model extends MY_Model
                 break;
 
             default:
-        }
+            }
         if (! $data_program == false) {
             return ['programkerja' => $data_program, 'profil' => $data_profil];
         }
@@ -933,7 +933,7 @@ class Program_bantuan_model extends MY_Model
                 break;
 
             default:
-        }
+            }
 
         return $data;
     }

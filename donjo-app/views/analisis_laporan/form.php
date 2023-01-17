@@ -64,7 +64,7 @@
 											<tbody>
 												<?php $i = 1;
 
-foreach ($list_anggota as $ang): ?>
+			foreach ($list_anggota as $ang): ?>
 													<tr>
 														<td><?= $i?></td>
 														<td><?= $ang['nik']?></td>
@@ -94,7 +94,8 @@ foreach ($list_anggota as $ang): ?>
 											</thead>
 											<tbody>
 												<?php foreach ($list_jawab as $data): ?>
-													<?php if ($data['cek'] >= 1):$bg = "class='bg'"; else:$bg = ''; endif; ?>
+													<?php if ($data['cek'] >= 1):$bg = "class='bg'";
+													else:$bg                         = ''; endif; ?>
 													<tr>
 														<td><?= $data['no']?></td>
 														<td><?= $data['pertanyaan']?></td>
