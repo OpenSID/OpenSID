@@ -28,10 +28,31 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 17. [#6201](https://github.com/OpenSID/OpenSID/issues/6201) Perbaikan urutan inputan terbaru pada data penduduk.
 18. [#6190](https://github.com/OpenSID/OpenSID/issues/6190) Perbaikan ukuran font surat tinymce contoh data awal.
 19. [#6235](https://github.com/OpenSID/OpenSID/issues/6235) Perbaikan error migrasi kepuasan.
+20. [#6198](https://github.com/OpenSID/OpenSID/issues/6198) Perbaikan qr surat nama penandatangan kades surat ikut di perbarui.
+21. [#6242](https://github.com/OpenSID/OpenSID/issues/6242) Perbaikan base64 ke base_url khusus latar belakang.
+22. [#6234](https://github.com/OpenSID/OpenSID/issues/6234) Perbaikan ejaan OpenDK.
+23. [#6204](https://github.com/OpenSID/OpenSID/issues/6204) Perbaikan tampilan perangkat desa dengan nama sama.
+24. [#6179](https://github.com/OpenSID/OpenSID/issues/6179) Perbaikan icon image kosong pada lampiran buku agenda surat masuk.
+25. [#6009](https://github.com/OpenSID/OpenSID/issues/6009) Perbaikan disable headjs cetak buku tanah kas desa.
+26. [#6233](https://github.com/OpenSID/OpenSID/issues/6233) Perbaikian nama pamong sesuai gelar.
+27. [#6195](https://github.com/OpenSID/OpenSID/issues/6195) Perbaikan error dengan id sama pada saat impor bantuan.
+28. [#6206](https://github.com/OpenSID/OpenSID/issues/6206) Perbaikan alamat tujuan surat keterangan pindah penduduk.
+29. [#6274](https://github.com/OpenSID/OpenSID/issues/6274) Perbaikan bekas pencarian tetap muncul di halaman berbeda.
+30. [#6127](https://github.com/OpenSID/OpenSID/issues/6127) Perbaikan kata bertemu menjadi berkunjung pada halaman buku tamu.
+31. [#6246](https://github.com/OpenSID/OpenSID/issues/6246) Perbaikan tampilan buku tamu agar responsive pada ukuran tertentu.
+32. [#6247](https://github.com/OpenSID/OpenSID/issues/6247) Perbaikan batasin setiap inputan agar tidak dapat input script.
+33. [#6240](https://github.com/OpenSID/OpenSID/issues/6240) Perbaikan latar belakang layanan mandiri tidak berubah.
+34. [#6277](https://github.com/OpenSID/OpenSID/issues/6277) Perbaikan tampilkan info pemesanan yang aktif saja.
+35. [#6278](https://github.com/OpenSID/OpenSID/issues/6278) Perbaikan disable edit link web, kontak pada form pendaftaran kerjasama.
+36. [#6279](https://github.com/OpenSID/OpenSID/issues/6279) Menyesuaikan informasi cara cek email konfirmasi pada pendaftaran kerja sama.
 
 #### Perubahan Teknis
 
-1. Perbarui header tahun 2022 menjadi 2023.
-2. Gunakan create() untuk menganti insert().
-3. [#1805](https://github.com/OpenSID/premium/issues/1805) audit keamanan form perpanjangan layanan.
+1. [#1880](https://github.com/OpenSID/premium/issues/1880) Perbarui header tahun 2022 menjadi 2023.
+2. [#1889](https://github.com/OpenSID/premium/issues/1889) Gunakan create() untuk menganti insert().
+3. [#1805](https://github.com/OpenSID/premium/issues/1805) Audit keamanan form perpanjangan layanan.
 4. [#6205](https://github.com/OpenSID/OpenSID/issues/6205) Ubah link gambar domain luar ke gambar dari direktori sistem.
+5. [#6075](https://github.com/OpenSID/OpenSID/issues/6075) Tambahkan Autocomplete="off" di Passphrase TTE.
+6. [#6243](https://github.com/OpenSID/OpenSID/issues/6243) Improve lazy load foto penduduk.
+7. [#6249](https://github.com/OpenSID/OpenSID/issues/6249) Ganti helper setting dan gunakan models.
+8. [#6245](https://github.com/OpenSID/OpenSID/issues/6245) Hapus tag yang tidak di gunakan.

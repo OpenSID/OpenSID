@@ -1195,7 +1195,7 @@ class Program_bantuan_model extends MY_Model
 
             case 2:
                 // Keluarga
-                $sasaran = 'No. KK';
+                $sasaran_peserta = 'No. KK';
 
                 $data = $this->db
                     ->select('k.id, p.nik')

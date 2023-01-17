@@ -342,7 +342,7 @@
                         </div>
                     <?php endif; ?>
                     <object data="<?= site_url("{$this->controller}/unduh/tinymce"); ?>/${id}/true" style="width: 100%;min-height: 400px;" type="application/pdf"></object>
-                    <input type="password" id="passphrase" class="swal2-input" placeholder="Masukkan Passphrase">
+                    <input type="password" id="passphrase" autocomplete="off" class="swal2-input" placeholder="Masukkan Passphrase">
                 `,
                 showCancelButton: true,
                 confirmButtonText: 'Kirim',

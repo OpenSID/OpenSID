@@ -30,34 +30,34 @@
                 </div>
             </div>
             <div class="card-body pt-5">
-                {!! form_open($aksi) !!}
+                {!! form_open($aksi, ['id' => 'mainform']) !!}
                 <div class="row g-6 g-xl-9">
                     <div class="col-md-9 col-xl-9">
                         <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
                             <div class="col">
                                 <div class="fv-row mb-7 fv-plugins-icon-container">
-                                    <input type="text" class="form-control form-control-solid" name="nama"
-                                        placeholder="Nama" maxlength="50" autocomplete="off" required>
+                                    <input type="text" class="form-control form-control-solid nama required" name="nama"
+                                        placeholder="Nama" maxlength="50" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="fv-row mb-7 fv-plugins-icon-container">
-                                    <input type="text" class="form-control form-control-solid" name="telepon"
-                                        placeholder="Telepon" maxlength="20" pattern="[0-9]+" autocomplete="off" required>
+                                    <input type="text" class="form-control form-control-solid bilangan required" name="telepon"
+                                        placeholder="Telepon" maxlength="20" pattern="[0-9]+" autocomplete="off">
                                 </div>
                             </div>
                         </div>
                         <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
                             <div class="col">
                                 <div class="fv-row mb-7 fv-plugins-icon-container">
-                                    <input type="text" class="form-control form-control-solid" name="instansi"
-                                        placeholder="Asal Instansi" maxlength="100" autocomplete="off" required>
+                                    <input type="text" class="form-control form-control-solid required" name="instansi"
+                                        placeholder="Asal Instansi" maxlength="100" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="fv-row mb-7 fv-plugins-icon-container">
-                                    <select class="form-select form-control form-control-solid" data-control="select2"
-                                        name="jenis_kelamin" placeholder="Jenis Kelamin" required>
+                                    <select class="form-select form-control form-control-solid alamat required" data-control="select2"
+                                        name="jenis_kelamin" placeholder="Jenis Kelamin">
                                         <option value="">Jenis Kelamin</option>
                                         @foreach (\App\Enums\JenisKelaminEnum::all() as $key => $value)
                                             <option value="{{ $key }}">{{ $value }}</option>
@@ -67,15 +67,15 @@
                             </div>
                         </div>
                         <div class="fv-row mb-7">
-                            <textarea class="form-control form-control-solid" name="alamat" placeholder="Alamat" maxlength="500" rows="5"
-                                required></textarea>
+                            <textarea class="form-control form-control-solid alamat required" name="alamat" placeholder="Alamat" maxlength="500" rows="5"
+                                 ></textarea>
                         </div>
                         <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
                             <div class="col">
                                 <div class="fv-row mb-7 fv-plugins-icon-container">
-                                    <select class="form-control form-control-solid select2" name="id_bidang"
+                                    <select class="form-control form-control-solid select2 " name="id_bidang"
                                         placeholder="Bertemu" required>
-                                        <option value="">Bertemu</option>
+                                        <option value="">Berkunjung</option>
                                         @foreach ($bertemu as $key => $value)
                                             <option value="{{ $key }}">{{ $value }}</option>
                                         @endforeach
@@ -84,7 +84,7 @@
                             </div>
                             <div class="col">
                                 <div class="fv-row mb-7 fv-plugins-icon-container">
-                                    <select class="form-control form-control-solid select2" name="id_keperluan"
+                                    <select class="form-control form-control-solid select2 " name="id_keperluan"
                                         placeholder="Keperluan" required>
                                         <option value="">Keperluan</option>
                                         @foreach ($keperluan as $key => $value)
@@ -97,13 +97,20 @@
                     </div>
 
                     <div class="col-md-3 col-xl-3">
-                        <div id="camera" class="col-md-12 mt-0"></div>
-                        <input type="hidden" id="foto" name="foto">
-                        <div class="row">
-                            <div class="col col-md-12">
-                                <button type="reset" class="btn btn-danger w-100 py-3 mb-5">Batal</button>
-                                <button type="submit" id="simpan" class="btn btn-primary w-100 mb-5">Simpan</button>
+                         <div class="row">
+                            <div class="position-relative">
+                                <div id="camera" class="col-md-12 top-50 translate-middle start-50"></div>
+                                <input type="hidden" id="foto" name="foto">
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-6 col-xm-12">
+                                <button type="reset" class="btn btn-danger w-100 py-3 mb-5">Batal</button>
+                               
+                            </div>
+                             <div class="col-md-12 col-sm-6 col-xm-12">
+                                 <button type="submit" id="simpan" class="btn btn-primary w-100 mb-5">Simpan</button>
+                             </div>
                         </div>
                     </div>
                 </div>

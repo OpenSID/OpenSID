@@ -41,14 +41,16 @@
                             <h4>PEMESANAN LAYANAN</h4>
                             <h6>
                                 <?php foreach ($response->body->pemesanan as $pemesanan) : ?>
-                                    <?php foreach ($pemesanan->layanan as $layanan) : ?>
-                                        <?php
-                                        if (preg_match('/Hosting|Domain/', $layanan->nama) && ! file_exists('mitra')) {
-                                            fopen('mitra', 'wb');
-                                        }
-                                        ?>
-                                        <li><?= $layanan->nama ?></li>
-                                    <?php endforeach ?>
+                                    <?php if ($pemesanan->status_pemesanan == 'aktif') : ?>
+                                        <?php foreach ($pemesanan->layanan as $layanan) : ?>
+                                            <?php
+                                            if (preg_match('/Hosting|Domain/', $layanan->nama) && ! file_exists('mitra')) {
+                                                fopen('mitra', 'wb');
+                                            }
+                                            ?>
+                                            <li><?= $layanan->nama ?></li>
+                                        <?php endforeach ?>
+                                    <?php endif ?>
                                 <?php endforeach ?>
                             </h6>
                         </div>

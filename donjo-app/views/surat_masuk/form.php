@@ -39,10 +39,12 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="kode_pos"></label>
                             <div class="col-sm-6">
-                                <div class="mailbox-attachment-info">
-                                    <img class="attachment-img img-responsive img-circle" src="<?= site_url() . $this->controller . '/unduh_berkas_scan/' . $surat_masuk['id']?>" alt="Berkas <?= $surat_keluar['nomor_urut']?>">
-                                    <p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $surat_masuk['berkas_scan']?>" /> Hapus Berkas Lama</label></p>
-                                </div>
+                                <?php if (get_extension($surat_masuk['berkas_scan']) == '.pdf'): ?>
+                                <i class="fa fa-file-pdf-o pop-up-pdf" aria-hidden="true" style="font-size: 60px;" data-title="Berkas <?= $surat_masuk['nomor_surat']?>" data-url="<?= site_url() . $this->controller . '/berkas/' . $surat_masuk['id'] . '/1'?>"></i>
+                                <?php else: ?>
+                                    <i class="fa fa-picture-o pop-up-images" style="font-size: 60px;" aria-hidden="true" data-title="Berkas <?= $surat_masuk['nomor_surat']?>" data-url="<?= site_url() . $this->controller . '/berkas/' . $surat_masuk['id']?>" src="<?= site_url() . $this->controller . '/berkas/' . $surat_masuk['id']?>"></i>
+                                <?php endif ?>
+                                <p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $surat_masuk['berkas_scan']?>" /> Hapus Berkas Lama</label></p>
                             </div>
                         </div>
                     <?php endif; ?>

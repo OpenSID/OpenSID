@@ -38,7 +38,7 @@
 	<?php $this->load->view('head_tags') ?>
 	<style type="text/css">
         body.login {
-            background-image: url('<?= default_file(LATAR_KEHADIRAN, DEFAULT_LATAR_KEHADIRAN) ?>');
+            background-image: url('<?= default_file(LATAR_LOGIN . $this->setting->latar_login_mandiri, DEFAULT_LATAR_KEHADIRAN) ?>');
         }
     </style>
 	<?php if (cek_koneksi_internet()): ?>

@@ -164,11 +164,13 @@ class Surat extends Admin_Controller
         if ($surat && $this->request) {
             // Simpan data ke log_surat sebagai draf
             $id_pamong = $this->ttd($this->request['pilih_atas_nama'], $this->request['pamong_id']);
+            $pamong    = Pamong::find($id_pamong);
             $log_surat = [
                 'id_format_surat' => $surat->id,
                 'id_pend'         => $this->request['nik'], // nik = id_pend
                 'id_pamong'       => $id_pamong,
-                'nama_jabatan'    => Pamong::find($id_pamong)->jabatan->nama,
+                'nama_jabatan'    => $pamong->jabatan->nama,
+                'nama_pamong'     => $pamong->pamong_nama,
                 'tanggal'         => Carbon::now(),
                 'bulan'           => date('m'),
                 'tahun'           => date('Y'),
@@ -215,11 +217,13 @@ class Surat extends Admin_Controller
         $cetak = $this->session->log_surat;
         if ($cetak) {
             $id_pamong = $this->ttd($this->request['pilih_atas_nama'], $this->request['pamong_id']);
+            $pamong    = Pamong::find($id_pamong);
             $log_surat = [
                 'id_format_surat' => $cetak['id_format_surat'],
                 'id_pend'         => $cetak['id_pend'], // nik = id_pend
                 'id_pamong'       => $id_pamong,
-                'nama_jabatan'    => Pamong::find($id_pamong)->jabatan->nama,
+                'nama_jabatan'    => $pamong->jabatan->nama,
+                'nama_pamong'     => $pamong->pamong_nama,
                 'id_user'         => auth()->id,
                 'tanggal'         => Carbon::now(),
                 'bulan'           => date('m'),
@@ -340,11 +344,13 @@ class Surat extends Admin_Controller
 
         if ($cetak) {
             $id_pamong = $this->ttd($this->request['pilih_atas_nama'], $this->request['pamong_id']);
+            $pamong    = Pamong::find($id_pamong);
             $log_surat = [
                 'id_format_surat' => $cetak['id_format_surat'],
                 'id_pend'         => $cetak['id_pend'], // nik = id_pend
                 'id_pamong'       => $id_pamong,
-                'nama_jabatan'    => Pamong::find($id_pamong)->jabatan->nama,
+                'nama_jabatan'    => $pamong->jabatan->nama,
+                'nama_pamong'     => $pamong->pamong_nama,
                 'id_user'         => auth()->id,
                 'tanggal'         => Carbon::now(),
             ];
@@ -524,14 +530,16 @@ class Surat extends Admin_Controller
     {
         $format                    = $this->surat_model->get_surat($url);
         $id_pamong                 = $this->ttd($this->request['pilih_atas_nama'], $this->request['pamong_id']);
+        $pamong                    = Pamong::find($id_pamong);
         $log_surat['url_surat']    = $format['id'];
-        $log_surat['id_pamong']    = $this->ttd($this->request['pilih_atas_nama'], $this->request['pamong_id']);
-        $log_surat['nama_jabatan'] = Pamong::find($id_pamong)->jabatan->nama;
+        $log_surat['nama_jabatan'] = $pamong->jabatan->nama;
+        $log_surat['nama_pamong']  = $pamong->pamong_nama;
         $log_surat['id_user']      = $_SESSION['user'];
         $log_surat['no_surat']     = $_POST['nomor'];
         $id                        = $_POST['nik'];
         $keperluan                 = $_POST['keperluan'];
         $keterangan                = $_POST['keterangan'];
+        $log_surat['id_pamong']    = $id_pamong;
 
         switch ($url) {
             case 'surat_ket_kelahiran':

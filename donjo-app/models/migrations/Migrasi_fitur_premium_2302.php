@@ -37,6 +37,7 @@
 
 use App\Models\BukuKepuasan;
 use Illuminate\Support\Facades\DB;
+use App\Models\LogSurat;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,6 +49,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2301');
+        $hasil = $hasil && $this->migrasi_2023010851($hasil);
         $hasil = $hasil && $this->migrasi_2023010171($hasil);
         $hasil = $hasil && $this->migrasi_2023010452($hasil);
         $hasil = $hasil && $this->migrasi_2023010971($hasil);
@@ -57,7 +59,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
 
     protected function migrasi_2023010171($hasil)
     {
-        if (! $this->db->field_exists('pertanyaan_statis', 'buku_kepuasan')) {
+        if (!$this->db->field_exists('pertanyaan_statis', 'buku_kepuasan')) {
             $hasil = $hasil && $this->dbforge->add_column('buku_kepuasan', [
                 'pertanyaan_statis' => ['type' => 'TEXT', 'null' => true, 'default' => null, 'after' => 'id_jawaban'],
             ]);
@@ -81,9 +83,34 @@ class Migrasi_fitur_premium_2302 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2023010851($hasil)
+    {
+        if (!$this->db->field_exists('nama_pamong', 'log_surat')) {
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', [
+                'nama_pamong' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                    'after'      => 'id_pamong',
+                    'comment'    => 'Nama pamong agar tidak berubah saat ada perubahan di master pamong',
+                ],
+            ]);
+        }
+
+        // ganti nama pamong yang masih null
+        $check = LogSurat::whereNull('nama_pamong')->get();
+
+        foreach ($check as $surat) {
+            $surat->nama_pamong = $surat->pamong->pamong_nama;
+            $hasil              = $surat->save();
+        }
+
+        return $hasil;
+    }
+
     protected function migrasi_2023010452($hasil)
     {
-        if (! $this->db->field_exists('status_alasan', 'anjungan')) {
+        if (!$this->db->field_exists('status_alasan', 'anjungan')) {
             $hasil = $hasil && $this->dbforge->add_column('anjungan', [
                 'status_alasan' => [
                     'type'       => 'VARCHAR',
