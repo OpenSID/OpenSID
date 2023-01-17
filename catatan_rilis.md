@@ -7,6 +7,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 1. [#6151](https://github.com/OpenSID/OpenSID/issues/6151) Menambahkan lampiran F-2.01 pada format suket kematian.
 2. [#6200](https://github.com/OpenSID/OpenSID/issues/6200) Menambahkan fitur lihat password pada pengguna & profil.
 3. [#6188](https://github.com/OpenSID/OpenSID/issues/6188) Menambahkan tombol tambah penduduk alternatif setiap tambah penduduk baru.
+4. [#6197](https://github.com/OpenSID/OpenSID/issues/6197) Menambahkan select otomatis input status perkawinan ketika pilih status hubungan istri / suami.
 
 #### Perbaikan BUG
 
