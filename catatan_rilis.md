@@ -39,6 +39,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 33. [#6240](https://github.com/OpenSID/OpenSID/issues/6240) Perbaikan latar belakang layanan mandiri tidak berubah.
 34. [#6277](https://github.com/OpenSID/OpenSID/issues/6277) Perbaikan tampilkan info pemesanan yang aktif saja.
 35. [#6278](https://github.com/OpenSID/OpenSID/issues/6278) Perbaikan disable edit link web, kontak pada form pendaftaran kerjasama.
+36. [#6279](https://github.com/OpenSID/OpenSID/issues/6279) Menyesuaikan informasi cara cek email konfirmasi pada pendaftaran kerja sama.
 
 #### Perubahan Teknis
 

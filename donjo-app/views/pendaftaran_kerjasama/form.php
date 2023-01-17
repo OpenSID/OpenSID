@@ -68,6 +68,23 @@
             <?php endif ?>
             <div class="box box-info">
                 <div class="box-header with-border">
+                    <i class="icon fa fa-info"></i>
+                    <h3 class="box-title">Langkah-langkah melakukan pengecekan email untuk verifikasi
+                </div>
+                <div class="box-body">
+                    <div class="callout callout-info">
+                        <h5>1. Cek folder kotak masuk / inbox, jika ada, maka silahkan klik pesan tersebut lalu klik tombol verifikasi email. </h5>
+                        <h5>2. Cek folder spam, jika ada, maka:<br>
+                            - Klik pesan lalu hapus label spam pada pesan tersebut.<br>
+                            - Setelah label spam dihapus, pesan akan masuk ke folder inbox.<br>
+                            - Selanjutnya cek folder inbox, dan silahkan klik pesan dan klik tombol verifikasi.<br>
+                        </h5>
+                        <h5>3. Jika Anda tidak menerima pesan pada folder inbox dan folder spam, silahkan kirim ulang pendaftaran kerjasama menggunakan email aktif untuk menerima link verifikasi baru, pastikan email sudah benar.</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="box box-info">
+                <div class="box-header with-border">
                     <h3 class="box-title">Form Pendaftaran Kerjasama</h3>
                 </div>
                 <form id="validasi" action="<?= site_url('pendaftaran_kerjasama/register') ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
