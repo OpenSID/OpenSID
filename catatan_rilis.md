@@ -33,6 +33,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 27. [#6195](https://github.com/OpenSID/OpenSID/issues/6195) Perbaikan error dengan id sama pada saat impor bantuan.
 28. [#6206](https://github.com/OpenSID/OpenSID/issues/6206) Perbaikan alamat tujuan surat keterangan pindah penduduk.
 29. [#6274](https://github.com/OpenSID/OpenSID/issues/6274) Perbaikan bekas pencarian tetap muncul di halaman berbeda.
+30. [#6127](https://github.com/OpenSID/OpenSID/issues/6127) Perbaikan kata bertemu menjadi berkunjung pada halaman buku tamu.
 
 #### Perubahan Teknis
 

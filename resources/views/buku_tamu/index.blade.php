@@ -86,6 +86,8 @@
         </div>
     </div>
     <script src="{{ asset('buku_tamu/plugins.bundle.js') }}"></script>
+    <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('js/validasi.js') }}"></script>
     @if (!setting('inspect_element'))
         <script src="{{ asset('js/disabled.min.js') }}"></script>
     @endif
@@ -121,5 +123,14 @@
     </script>
     @stack('scripts')
 </body>
-
+<style type="text/css">
+    .form-group.has-error label {
+      color: #dd4b39;
+      font-weight: 700;
+    }
+    .error {
+        color: #dd4b39;
+        font-weight: 700;
+    }
+</style>
 </html>
