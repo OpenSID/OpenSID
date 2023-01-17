@@ -51,6 +51,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
         $hasil = $hasil && $this->migrasi_2023010851($hasil);
         $hasil = $hasil && $this->migrasi_2023010171($hasil);
         $hasil = $hasil && $this->migrasi_2023010452($hasil);
+        $hasil = $hasil && $this->migrasi_2023011751($hasil);
 
         return $hasil && true;
     }
@@ -117,6 +118,48 @@ class Migrasi_fitur_premium_2302 extends MY_model
                     'after'      => 'status',
                 ],
             ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023011751($hasil)
+    {
+        $check = $this->db
+            ->where_in('Nama_Bidang', [
+                'BIDANG PEMBINAAN KEMASYARAKATAN',
+                'BIDANG PEMBERDAYAAN MASYARAKAT',
+            ])
+            ->get('keuangan_manual_ref_bidang')
+            ->result_array();
+
+        if ($check) {
+            // keuangan manual ref bidang
+            foreach ([
+                ['3', 'BIDANG PEMBINAAN KEMASYARAKATAN DESA'],
+                ['4', 'BIDANG PEMBERDAYAAN MASYARAKAT DESA'],
+            ] as $value) {
+                [$id, $nama_bidang] = $value;
+
+                $hasil = $hasil && $this->db
+                    ->where('id', $id)
+                    ->set('Nama_Bidang', $nama_bidang)
+                    ->update('keuangan_manual_ref_bidang');
+            }
+
+            // keuangan manual ref rek1
+            foreach ([
+                ['4', 'PENDAPATAN DESA'],
+                ['5', 'BELANJA DESA'],
+                ['6', 'PEMBIAYAAN DESA'],
+            ] as $value) {
+                [$id, $nama_akun] = $value;
+
+                $hasil = $hasil && $this->db
+                    ->where('id', $id)
+                    ->set('Nama_Akun', $nama_akun)
+                    ->update('keuangan_manual_ref_rek1');
+            }
         }
 
         return $hasil;
