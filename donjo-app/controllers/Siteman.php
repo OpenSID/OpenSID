@@ -74,8 +74,6 @@ class Siteman extends MY_Controller
         if (! isset($_SESSION['siteman'])) {
             // Belum ada session variable
             $this->session->set_userdata('siteman', 0);
-            $this->session->set_userdata('siteman_try', 4);
-            $this->session->set_userdata('siteman_wait', 0);
         }
         session_error_clear();
         $_SESSION['per_page']   = 10;
