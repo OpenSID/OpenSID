@@ -49,6 +49,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2301');
         $hasil = $hasil && $this->migrasi_2023010851($hasil);
+        $hasil = $hasil && $this->migrasi_2023010852($hasil);
         $hasil = $hasil && $this->migrasi_2023010171($hasil);
         $hasil = $hasil && $this->migrasi_2023010452($hasil);
         $hasil = $hasil && $this->migrasi_2023011751($hasil);
@@ -118,6 +119,43 @@ class Migrasi_fitur_premium_2302 extends MY_model
                     'after'      => 'status',
                 ],
             ]);
+        }
+
+        return $hasil;
+    }
+
+    public function migrasi_2023010852($hasil)
+    {
+        if (! $this->db->table_exists('login_attempts')) {
+            $fields = [
+                'id'         => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                    'unsigned'       => true,
+                    'null'           => false,
+                ],
+                'username'   => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 50,
+                    'null'       => false,
+                ],
+                'ip_address' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 45,
+                    'null'       => false,
+                ],
+                'time'       => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                    'unsigned'   => true,
+                ],
+            ];
+
+            $this->dbforge->add_key('id', true);
+            $this->dbforge->add_field($fields);
+            $hasil = $hasil && $this->dbforge->create_table('login_attempts', true);
         }
 
         return $hasil;

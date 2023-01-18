@@ -495,7 +495,7 @@ $config['global_xss_filtering'] = false;
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection']   = true;
+$config['csrf_protection']   = false;
 $config['csrf_token_name']   = 'sidcsrf';
 $config['csrf_cookie_name']  = 'sidcsrf';
 $config['csrf_expire']       = 7200;
@@ -643,3 +643,12 @@ $config['views_blade'] = RESOURCESPATH . 'views/';
 |
 */
 $config['cache_blade'] = STORAGEPATH . 'framework/views/';
+
+/*
+|--------------------------------------------------------------------------
+| failed login attempts
+|--------------------------------------------------------------------------
+|
+*/
+$config['maximum_login_attempts'] = 3;
+$config['lockout_time']           = 300;                 // The number of seconds to lockout an account due to exceeded attempts
