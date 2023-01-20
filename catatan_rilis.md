@@ -44,6 +44,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 38. [#6180](https://github.com/OpenSID/OpenSID/issues/6180) Perbaikan font bookman old style.
 39. [#6193](https://github.com/OpenSID/OpenSID/issues/6193) Perbaikan block user jika sudah lebih dari 3 kali salah password.
 40. [#6238](https://github.com/OpenSID/OpenSID/issues/6238) Perbaikan redirect hapus arsip surat sesuai halamannya.
+41. [#130](https://github.com/OpenSID/tema-natra/issues/130) Perbaikan lazy load pada tema natra.
 
 #### Perubahan Teknis
 
