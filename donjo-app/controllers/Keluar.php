@@ -104,6 +104,7 @@ class Keluar extends Admin_Controller
         $data['bulan_surat'] = ($this->session->tahun == null) ? [] : $this->keluar_model->list_bulan_surat(); //ambil list bulan dari log
         $data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
         $data['keyword']     = $this->keluar_model->autocomplete();
+        $data['redirect']    = 'index';
 
         $this->render('surat/surat_keluar', $data);
     }
@@ -157,6 +158,7 @@ class Keluar extends Admin_Controller
         $data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
         $data['keyword']     = $this->keluar_model->autocomplete();
         $data['widgets']     = $this->widget();
+        $data['redirect']    = 'masuk';
 
         $this->render('surat/surat_keluar', $data);
     }
@@ -202,6 +204,8 @@ class Keluar extends Admin_Controller
         $data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
         $data['keyword']     = $this->keluar_model->autocomplete();
         $data['widgets']     = $this->widget();
+        $data['redirect']    = 'ditolak';
+
         $this->render('surat/surat_keluar', $data);
     }
 
@@ -453,12 +457,13 @@ class Keluar extends Admin_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($id = '')
     {
         $this->redirect_hak_akses('h');
         session_error_clear();
         $this->keluar_model->delete($id);
-        redirect("keluar/masuk/{$p}/{$o}");
+
+        redirect("keluar/clear/{$this->input->get('redirect')}");
     }
 
     public function search()
