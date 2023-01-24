@@ -97,10 +97,12 @@ class Penomoran_surat_model extends CI_Model
                     if ($type == 'log_surat') {
                         $this->db->where('deleted_at');
                     }
-                    $this->db->from("{$type} l")
-                        ->join('tweb_surat_format f', 'f.id=l.id_format_surat', 'RIGHT')
+                    $this->db
                         ->select('*, f.nama, l.id id_surat')
+                        ->from("{$type} l")
+                        ->join('tweb_surat_format f', 'f.id=l.id_format_surat', 'RIGHT')
                         ->where('url_surat', $url)
+                        ->or_where("url_surat = REPLACE(REPLACE('{$url}', 'erangan', ''), '-', '_')")
                         ->where('YEAR(l.tanggal)', $thn)
                         ->order_by('CAST(l.no_surat as unsigned) DESC');
                 }
@@ -119,8 +121,7 @@ class Penomoran_surat_model extends CI_Model
                     ->order_by('CAST(nomor_urut as unsigned) DESC')
                     ->limit(1);
         }
-        $surat                                             = $this->db->get()->result_array();
-        $surat                                             = $surat[0];
+        $surat                                             = $this->db->get()->row_array();
         $surat['nomor_urut']    || $surat['nomor_urut']    = $surat['no_surat'];
         $surat['no_surat']      || $surat['no_surat']      = $surat['nomor_urut'];
         $surat['tanggal_surat'] || $surat['tanggal_surat'] = $surat['tanggal'];
