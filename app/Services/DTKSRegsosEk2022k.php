@@ -1866,8 +1866,12 @@ class DTKSRegsosEk2022k
                 ];
             }
         }
-        DtksPengaturanProgram::whereIn('id', $to_be_deleted)->delete();
-        DtksPengaturanProgram::create($to_be_inserted);
+        if($to_be_deleted){
+            DtksPengaturanProgram::whereIn('id', $to_be_deleted)->delete();
+        }
+        if($to_be_inserted){
+            DtksPengaturanProgram::insert($to_be_inserted);
+        }
 
         return ['content' => ['message' => 'Berhasil disimpan'], 'header_code' => 200];
     }
