@@ -169,12 +169,14 @@ class Tte extends Premium
                     ['name' => 'imageTTD', 'contents' => Psr7\Utils::tryFopen(FCPATH . $image, 'r')],
                 ];
             } else {
+                $this->load->model('url_shortener_model');
+                $urls    = $this->url_shortener_model->url_pendek($data);
                 $tag     = '[qr_bsre]';
                 $width   = 90;
                 $height  = 90;
                 $visible = [
                     ['name' => 'tag_koordinat', 'contents' => '[qr_bsre]'],
-                    ['name' => 'linkQR', 'contents' => 'https://tte.kominfo.go.id/verifyPDF'],
+                    ['name' => 'linkQR', 'contents' => $urls['isiqr']],
                 ];
             }
 

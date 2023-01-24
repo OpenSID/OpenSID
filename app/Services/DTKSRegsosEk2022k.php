@@ -1866,10 +1866,10 @@ class DTKSRegsosEk2022k
                 ];
             }
         }
-        if($to_be_deleted){
+        if ($to_be_deleted) {
             DtksPengaturanProgram::whereIn('id', $to_be_deleted)->delete();
         }
-        if($to_be_inserted){
+        if ($to_be_inserted) {
             DtksPengaturanProgram::insert($to_be_inserted);
         }
 

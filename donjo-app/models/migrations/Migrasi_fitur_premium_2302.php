@@ -36,8 +36,8 @@
  */
 
 use App\Models\BukuKepuasan;
-use Illuminate\Support\Facades\DB;
 use App\Models\LogSurat;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -61,7 +61,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
 
     protected function migrasi_2023010171($hasil)
     {
-        if (!$this->db->field_exists('pertanyaan_statis', 'buku_kepuasan')) {
+        if (! $this->db->field_exists('pertanyaan_statis', 'buku_kepuasan')) {
             $hasil = $hasil && $this->dbforge->add_column('buku_kepuasan', [
                 'pertanyaan_statis' => ['type' => 'TEXT', 'null' => true, 'default' => null, 'after' => 'id_jawaban'],
             ]);
@@ -87,7 +87,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
 
     protected function migrasi_2023010851($hasil)
     {
-        if (!$this->db->field_exists('nama_pamong', 'log_surat')) {
+        if (! $this->db->field_exists('nama_pamong', 'log_surat')) {
             $hasil = $hasil && $this->dbforge->add_column('log_surat', [
                 'nama_pamong' => [
                     'type'       => 'VARCHAR',
@@ -112,7 +112,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
 
     protected function migrasi_2023010452($hasil)
     {
-        if (!$this->db->field_exists('status_alasan', 'anjungan')) {
+        if (! $this->db->field_exists('status_alasan', 'anjungan')) {
             $hasil = $hasil && $this->dbforge->add_column('anjungan', [
                 'status_alasan' => [
                     'type'       => 'VARCHAR',
@@ -136,7 +136,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
 
     public function migrasi_2023010852($hasil)
     {
-        if (!$this->db->table_exists('login_attempts')) {
+        if (! $this->db->table_exists('login_attempts')) {
             $fields = [
                 'id'         => [
                     'type'           => 'INT',
@@ -209,6 +209,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
                     ->update('keuangan_manual_ref_rek1');
             }
         }
+
         return $hasil;
     }
 }

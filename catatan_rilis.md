@@ -1,6 +1,6 @@
 Di rilis ini, versi 23.01-premium-beta01 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [isi disini] yang terus berkontribusi.
+Terima kasih pada @ruririzal yang terus berkontribusi.
 
 #### Penambahan Fitur
 
@@ -8,6 +8,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. [#6200](https://github.com/OpenSID/OpenSID/issues/6200) Menambahkan fitur lihat password pada pengguna & profil.
 3. [#6188](https://github.com/OpenSID/OpenSID/issues/6188) Menambahkan tombol tambah penduduk alternatif setiap tambah penduduk baru.
 4. [#6197](https://github.com/OpenSID/OpenSID/issues/6197) Menambahkan select otomatis input status perkawinan ketika pilih status hubungan istri / suami.
+5. [#6085](https://github.com/OpenSID/OpenSID/issues/6085) Mengubah QRcode tte menjadi link bawaan dari OpenSID.
 
 #### Perbaikan BUG
 
