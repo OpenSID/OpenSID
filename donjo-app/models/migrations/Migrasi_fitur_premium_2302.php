@@ -49,12 +49,12 @@ class Migrasi_fitur_premium_2302 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2301');
-        $hasil = $hasil && $this->migrasi_2023010851($hasil);
-        $hasil = $hasil && $this->migrasi_2023010852($hasil);
         $hasil = $hasil && $this->migrasi_2023010171($hasil);
+        $hasil = $hasil && $this->migrasi_2023010851($hasil);
         $hasil = $hasil && $this->migrasi_2023010452($hasil);
         $hasil = $hasil && $this->migrasi_2023010971($hasil);
-        $hasil = $hasil && $this->migrasi_2023011751($hasil);
+        $hasil = $hasil && $this->migrasi_2023010852($hasil);
+        $hasil = $hasil && $this->migrasi_2023012451($hasil);
         $hasil = $hasil && $this->migrasi_2023012551($hasil);
 
         return $hasil && true;
@@ -135,7 +135,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
         return $hasil;
     }
 
-    public function migrasi_2023010852($hasil)
+    protected function migrasi_2023010852($hasil)
     {
         if (! $this->db->table_exists('login_attempts')) {
             $fields = [
@@ -172,7 +172,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2023011751($hasil)
+    protected function migrasi_2023012451($hasil)
     {
         $check = $this->db
             ->where_in('Nama_Bidang', [
@@ -214,7 +214,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
         return $hasil;
     }
 
-    public function migrasi_2023012551($hasil)
+    protected function migrasi_2023012551($hasil)
     {
         if (! $this->db->field_exists('nomor_operator', 'config')) {
             $hasil = $this->dbforge->add_column('config', [

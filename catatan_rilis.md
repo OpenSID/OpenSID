@@ -58,6 +58,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 40. [#6238](https://github.com/OpenSID/OpenSID/issues/6238) Perbaikan redirect hapus arsip surat sesuai halamannya.
 41. [#130](https://github.com/OpenSID/tema-natra/issues/130) Perbaikan lazy load pada tema natra.
 42. [#6289](https://github.com/OpenSID/OpenSID/issues/6289) Perbaikan pada simpan pengaturan program bantuan dimenu DTKS.
+43. [#6192](https://github.com/OpenSID/OpenSID/issues/6192) Perbaikan duplikat nomor urut surat tinymce dan rtf.
 
 #### Perubahan Teknis
 
