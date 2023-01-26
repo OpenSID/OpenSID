@@ -11,6 +11,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 5. [#6085](https://github.com/OpenSID/OpenSID/issues/6085) Mengubah QRcode tte menjadi link bawaan dari OpenSID.
 6. [#6089](https://github.com/OpenSID/OpenSID/issues/6089) Menambahkan filter tanggal untuk rekapan buku tamu.
 7. [#6006](https://github.com/OpenSID/OpenSID/issues/6006) Menambahkan format link media sosial youtube. (Misalnya: @KomunitasOpenSID-OpenDesa)
+8. [#37](https://github.com/OpenSID/wiki-mobile/issues/37) Menambahkan nomor ponsel pada identitas desa untuk keperluan aplikasi android.
 
 
 #### Perbaikan BUG

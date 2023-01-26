@@ -55,6 +55,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
         $hasil = $hasil && $this->migrasi_2023010452($hasil);
         $hasil = $hasil && $this->migrasi_2023010971($hasil);
         $hasil = $hasil && $this->migrasi_2023011751($hasil);
+        $hasil = $hasil && $this->migrasi_2023012551($hasil);
 
         return $hasil && true;
     }
@@ -208,6 +209,22 @@ class Migrasi_fitur_premium_2302 extends MY_model
                     ->set('Nama_Akun', $nama_akun)
                     ->update('keuangan_manual_ref_rek1');
             }
+        }
+
+        return $hasil;
+    }
+
+    public function migrasi_2023012551($hasil)
+    {
+        if (! $this->db->field_exists('nomor_operator', 'config')) {
+            $hasil = $this->dbforge->add_column('config', [
+                'nomor_operator' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 20,
+                    'null'       => true,
+                    'after'      => 'telepon',
+                ],
+            ]);
         }
 
         return $hasil;

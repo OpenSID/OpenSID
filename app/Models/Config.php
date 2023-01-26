@@ -83,6 +83,7 @@ class Config extends BaseModel
         'warna',
         'created_by',
         'updated_by',
+        'nomor_operator',
     ];
 
     /**

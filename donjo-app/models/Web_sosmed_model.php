@@ -75,9 +75,9 @@ class Web_sosmed_model extends CI_Model
         $link = trim(strip_tags($this->input->post('link')));
 
         // untuk youtube validasi dilakukan khusus
-        if($id === '4'){
+        if ($id === '4') {
             $data['link'] = $this->link_sosmed($id, $link);
-        }else{
+        } else {
             $data['link'] = $link;
         }
 
@@ -115,7 +115,7 @@ class Web_sosmed_model extends CI_Model
         }
 
         // validasi nickname youtube
-        if($id === '4' && str_contains($link, '@')){
+        if ($id === '4' && str_contains($link, '@')) {
             /**
              * https://support.google.com/youtube/answer/11585688?hl=id&p=handles_info&rd=1
              * 24 Januari 2023
@@ -124,11 +124,11 @@ class Web_sosmed_model extends CI_Model
              * - Nama sebutan channel Anda juga dapat menyertakan garis bawah (_), tanda hubung (-), dan titik (.)
              * - Tidak menyerupai URL atau nomor telepon
              */
-            $pattern = "/@[A-Za-z][A-Za-z0-9_\-.]{2,29}/i";
-            if(preg_match_all($pattern, $link, $matches)) {
+            $pattern = '/@[A-Za-z][A-Za-z0-9_\\-.]{2,29}/i';
+            if (preg_match_all($pattern, $link, $matches)) {
                 $nickname = array_shift(array_shift($matches));
-                $link = 'https://www.youtube.com/' . $nickname;
-            }else{
+                $link     = 'https://www.youtube.com/' . $nickname;
+            } else {
                 $link = '';
             }
 
