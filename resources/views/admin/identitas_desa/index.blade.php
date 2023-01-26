@@ -120,7 +120,7 @@
                         <tr>
                             <td>Nomor Ponsel {{ ucwords($setting->sebutan_desa) }}</td>
                             <td>:</td>
-                            <td>{{ $main['telepon'] }}</td>
+                            <td>{{ $main['nomor_operator'] }}</td>
                         </tr>
                         <tr>
                             <td>Website {{ ucwords($setting->sebutan_desa) }}</td>
