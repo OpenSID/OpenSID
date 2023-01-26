@@ -4,9 +4,14 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Link Akun Youtube</label>
 				<div class="col-sm-9">
-					<!-- pattern/regex: https://regex101.com/r/EmFSAE/3 -->
-					<input id="link" pattern="^((https?:\/\/)?(www\.)?youtube\.com\/(channel)\/[\w-]+|[\w-]+)" name="link" class="form-control input-lg" placeholder="UCvZuSYtrWYuE8otM4SsdT0Q" value="<?= ($main ? $main['link'] : '') ?>" />
-					<small class="form-text text-muted">Contoh : https://www.youtube.com/channel/UCvZuSYtrWYuE8otM4SsdT0Q atau UCvZuSYtrWYuE8otM4SsdT0Q</small>
+					<!-- pattern/regex: https://regex101.com/r/EipVTZ/3 -->
+					<input id="link" pattern="^((https?:\/\/)?(www\.)?youtube\.com\/((channel\/[\w-]+)|@[\w-]+)|@[\w-]+|[\w-]+)" name="link" class="form-control input-lg" placeholder="UCvZuSYtrWYuE8otM4SsdT0Q" value="<?= ($main ? $main['link'] : '') ?>" />
+					<small class="form-text text-muted">
+						Contoh : https://www.youtube.com/channel/UCvZuSYtrWYuE8otM4SsdT0Q
+						<br>atau UCvZuSYtrWYuE8otM4SsdT0Q
+						<br>atau https://www.youtube.com/@KomunitasOpenSID-OpenDesa
+						<br>atau @KomunitasOpenSID-OpenDesa
+					</small>
 				</div>
 			</div>
 			<div class="form-group">
