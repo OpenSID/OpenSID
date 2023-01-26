@@ -9,6 +9,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 3. [#6188](https://github.com/OpenSID/OpenSID/issues/6188) Menambahkan tombol tambah penduduk alternatif setiap tambah penduduk baru.
 4. [#6197](https://github.com/OpenSID/OpenSID/issues/6197) Menambahkan select otomatis input status perkawinan ketika pilih status hubungan istri / suami.
 5. [#6085](https://github.com/OpenSID/OpenSID/issues/6085) Mengubah QRcode tte menjadi link bawaan dari OpenSID.
+6. [#6089](https://github.com/OpenSID/OpenSID/issues/6089) Menambahkan filter tanggal untuk rekapan buku tamu.
 
 #### Perbaikan BUG
 
