@@ -47,6 +47,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 41. [#130](https://github.com/OpenSID/tema-natra/issues/130) Perbaikan lazy load pada tema natra.
 42. [#6289](https://github.com/OpenSID/OpenSID/issues/6289) Perbaikan pada simpan pengaturan program bantuan dimenu DTKS.
 43. [#6192](https://github.com/OpenSID/OpenSID/issues/6192) Perbaikan duplikat nomor urut surat tinymce dan rtf.
+44. [#6284](https://github.com/OpenSID/OpenSID/issues/6284) Perbaikan surat TinyMCE di arsip layanan kolom keterangan yang tidak terisi.
 
 #### Perubahan Teknis
 

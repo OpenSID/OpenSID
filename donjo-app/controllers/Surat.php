@@ -175,6 +175,7 @@ class Surat extends Admin_Controller
                 'bulan'           => date('m'),
                 'tahun'           => date('Y'),
                 'no_surat'        => $this->request['nomor'],
+                'keterangan'      => $this->request['keterangan'] ?: $this->request['keperluan'],
             ];
 
             if ($log_surat['id_pend']) {
@@ -229,6 +230,7 @@ class Surat extends Admin_Controller
                 'bulan'           => date('m'),
                 'tahun'           => date('Y'),
                 'no_surat'        => $cetak['input']['nomor'],
+                'keterangan'      => $cetak['keterangan'],
             ];
 
             if ($nik = $cetak['input']['nik']) {
