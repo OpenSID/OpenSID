@@ -49,6 +49,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 43. [#6192](https://github.com/OpenSID/OpenSID/issues/6192) Perbaikan duplikat nomor urut surat tinymce dan rtf.
 44. [#6284](https://github.com/OpenSID/OpenSID/issues/6284) Perbaikan surat TinyMCE di arsip layanan kolom keterangan yang tidak terisi.
 45. [#6323](https://github.com/OpenSID/OpenSID/issues/6323) Penyesuaian tombol pertinjau dan konsep agar tidak tampil setelah cetak surat.
+46. [#6328](https://github.com/OpenSID/OpenSID/issues/6328) Perbaikan tidak dapat menambahkan log_penduduk dikarenakan pada referensi ref_pindah tidak sama type datanya.
 
 #### Perubahan Teknis
 

@@ -54,6 +54,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
         $hasil = $hasil && $this->migrasi_2023010452($hasil);
         $hasil = $hasil && $this->migrasi_2023012451($hasil);
         $hasil = $hasil && $this->migrasi_2023013051($hasil);
+        $hasil = $hasil && $this->migrasi_2023013052($hasil);
 
         return $hasil && true;
     }
@@ -244,5 +245,19 @@ class Migrasi_fitur_premium_2302 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2023013052($hasil)
+    {
+        // Hapus unsigned pada kolom id di tabel ref_pindah
+        return $hasil && $this->dbforge->modify_column('ref_pindah', [
+            'id' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'auto_increment' => true,
+                'null'           => false,
+                'unsigned'       => false,
+            ],
+        ]);
     }
 }

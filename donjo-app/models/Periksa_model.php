@@ -907,7 +907,6 @@ class Periksa_model extends MY_Model
                     $key => [
                         'type'           => 'INT',
                         'constraint'     => 11,
-                        'unsigned'       => true,
                         'auto_increment' => true,
                     ],
                 ];
