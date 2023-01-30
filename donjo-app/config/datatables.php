@@ -37,15 +37,15 @@
 
 $config = [
     // DataTables search options.
-    'search'         => [
+    'search' => [
         /*
          * Smart search will enclose search keyword with wildcard string "%keyword%".
          * SQL: column LIKE "%keyword%"
          */
-        'smart'            => true,
+        'smart' => true,
 
         // Multi-term search will explode search keyword using spaces resulting into multiple term search.
-        'multi_term'       => true,
+        'multi_term' => true,
 
         /*
          * Case insensitive will search the keyword in lower case format.
@@ -57,23 +57,23 @@ $config = [
          * Wild card will add "%" in between every characters of the keyword.
          * SQL: column LIKE "%k%e%y%w%o%r%d%"
          */
-        'use_wildcards'    => false,
+        'use_wildcards' => false,
 
         /*
          * Perform a search which starts with the given keyword.
          * SQL: column LIKE "keyword%"
          */
-        'starts_with'      => false,
+        'starts_with' => false,
     ],
 
     // DataTables internal index id response column name.
-    'index_column'   => 'DT_RowIndex',
+    'index_column' => 'DT_RowIndex',
 
     /*
      * List of available builders for DataTables.
      * This is where you can register your custom dataTables builder.
      */
-    'engines'        => [
+    'engines' => [
         'eloquent' => Fluent\DataTables\EloquentDataTable::class,
         'query'    => Fluent\DataTables\QueryDataTable::class,
     ],
@@ -83,7 +83,7 @@ $config = [
      * This is where you can override which engine a builder should use
      * Note, only change this if you know what you are doing!
      */
-    'builders'       => [
+    'builders' => [
         //Illuminate\Database\Eloquent\Relations\Relation::class => 'eloquent',
         //Illuminate\Database\Eloquent\Builder::class            => 'eloquent',
         //Illuminate\Database\Query\Builder::class               => 'query',
@@ -103,24 +103,24 @@ $config = [
      * 'throw'          - Throws a \Fluent\DataTables\Exceptions\Exception. Use your custom error handler if needed.
      * 'custom message' - Any friendly message to be displayed to the user. You can also use translation key.
      */
-    'error'          => null,
+    'error' => null,
 
     // Default columns definition of dataTable utility functions.
-    'columns'        => [
+    'columns' => [
         // List of columns hidden/removed on json response.
-        'excess'    => ['rn', 'row_num'],
+        'excess' => ['rn', 'row_num'],
 
         /*
          * List of columns to be escaped. If set to *, all columns are escape.
          * Note: You can set the value to empty array to disable XSS protection.
          */
-        'escape'    => '*',
+        'escape' => '*',
 
         /*
          * List of columns that are allowed to display html content.
          * Note: Adding columns to list will make us available to XSS attacks.
          */
-        'raw'       => ['action'],
+        'raw' => ['action'],
 
         // List of columns are are forbidden from being searched/sorted.
         'blacklist' => ['password', 'remember_token'],
@@ -133,7 +133,7 @@ $config = [
     ],
 
     // JsonResponse header and options config.
-    'json'           => [
+    'json' => [
         'header'  => [],
         'options' => 0,
     ],

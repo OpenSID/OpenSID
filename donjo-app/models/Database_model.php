@@ -572,23 +572,23 @@ class Database_model extends MY_Model
         $tb = 'agenda';
         if (! $this->db->table_exists($tb)) {
             $this->dbforge->add_field([
-                'id'                   => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                 ],
-                'id_artikel'           => [
+                'id_artikel' => [
                     'type'       => 'INT',
                     'constraint' => 11,
                 ],
-                'tgl_agenda'           => [
+                'tgl_agenda' => [
                     'type' => 'timestamp',
                 ],
                 'koordinator_kegiatan' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                 ],
-                'lokasi_kegiatan'      => [
+                'lokasi_kegiatan' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                 ],
@@ -675,7 +675,7 @@ class Database_model extends MY_Model
         $tb_option = 'ref_pindah';
         if (! $this->db->table_exists($tb_option)) {
             $this->dbforge->add_field([
-                'id'   => [
+                'id' => [
                     'type'       => 'TINYINT',
                     'constraint' => 4,
                 ],
@@ -880,7 +880,7 @@ class Database_model extends MY_Model
         $tb_option = 'setting_aplikasi_options';
         if (! $this->db->table_exists($tb_option)) {
             $this->dbforge->add_field([
-                'id'         => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'unsigned'       => false,
@@ -891,7 +891,7 @@ class Database_model extends MY_Model
                     'constraint' => 11,
                     'unsigned'   => false,
                 ],
-                'value'      => [
+                'value' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 512,
                 ],
@@ -1057,7 +1057,7 @@ class Database_model extends MY_Model
         // buat tabel disposisi dengan relasi ke surat masuk dan tweb_desa_pamong
         if (! $this->db->table_exists('disposisi_surat_masuk')) {
             $sql = [
-                'id_disposisi'   => [
+                'id_disposisi' => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'unsigned'       => false,
@@ -1074,7 +1074,7 @@ class Database_model extends MY_Model
                     'unsigned'   => false,
                     'null'       => true,
                 ],
-                'disposisi_ke'   => [
+                'disposisi_ke' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                     'null'       => true,
@@ -1226,12 +1226,12 @@ class Database_model extends MY_Model
                 'unsigned'       => false,
                 'auto_increment' => true,
             ],
-            'id_grup'        => [
+            'id_grup' => [
                 'type'       => 'INT',
                 'constraint' => 11,
                 'unsigned'   => false,
             ],
-            'id_kontak'      => [
+            'id_kontak' => [
                 'type'       => 'INT',
                 'constraint' => 11,
                 'unsigned'   => false,

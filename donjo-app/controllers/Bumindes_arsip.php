@@ -61,22 +61,22 @@ class Bumindes_arsip extends Admin_controller
         $total_layanan_surat = $this->arsip_fisik_model->ambil_total_data('layanan_surat');
 
         $data = [
-            'dokumen_desa'  => [
+            'dokumen_desa' => [
                 'title' => 'Dokumen Desa',
                 'total' => $total_dokumen_desa,
                 'uri'   => 'dokumen_desa',
             ],
-            'surat_masuk'   => [
+            'surat_masuk' => [
                 'title' => 'Surat Masuk',
                 'total' => $total_surat_masuk,
                 'uri'   => 'surat_masuk',
             ],
-            'surat_keluar'  => [
+            'surat_keluar' => [
                 'title' => 'Surat Keluar',
                 'total' => $total_surat_keluar,
                 'uri'   => 'surat_keluar',
             ],
-            'kependudukan'  => [
+            'kependudukan' => [
                 'title' => 'Kependudukan',
                 'total' => $total_kependudukan,
                 'uri'   => 'kependudukan',

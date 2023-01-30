@@ -41,7 +41,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 23. [#6204](https://github.com/OpenSID/OpenSID/issues/6204) Perbaikan tampilan perangkat desa dengan nama sama.
 24. [#6179](https://github.com/OpenSID/OpenSID/issues/6179) Perbaikan icon image kosong pada lampiran buku agenda surat masuk.
 25. [#6009](https://github.com/OpenSID/OpenSID/issues/6009) Perbaikan disable headjs cetak buku tanah kas desa.
-26. [#6233](https://github.com/OpenSID/OpenSID/issues/6233) Perbaikian nama pamong sesuai gelar.
+26. [#6233](https://github.com/OpenSID/OpenSID/issues/6233) Perbaikan nama pamong sesuai gelar.
 27. [#6195](https://github.com/OpenSID/OpenSID/issues/6195) Perbaikan error dengan id sama pada saat impor bantuan.
 28. [#6206](https://github.com/OpenSID/OpenSID/issues/6206) Perbaikan alamat tujuan surat keterangan pindah penduduk.
 29. [#6274](https://github.com/OpenSID/OpenSID/issues/6274) Perbaikan bekas pencarian tetap muncul di halaman berbeda.
@@ -51,7 +51,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 33. [#6240](https://github.com/OpenSID/OpenSID/issues/6240) Perbaikan latar belakang layanan mandiri tidak berubah.
 34. [#6277](https://github.com/OpenSID/OpenSID/issues/6277) Perbaikan tampilkan info pemesanan yang aktif saja.
 35. [#6278](https://github.com/OpenSID/OpenSID/issues/6278) Perbaikan disable edit link web, kontak pada form pendaftaran kerjasama.
-36. [#6279](https://github.com/OpenSID/OpenSID/issues/6279) Menyesuaikan informasi cara cek email konfirmasi pada pendaftaran kerja sama.
+36. [#6279](https://github.com/OpenSID/OpenSID/issues/6279) Penyesuaian informasi cara cek email konfirmasi pada pendaftaran kerja sama.
 37. [#6159](https://github.com/OpenSID/OpenSID/issues/6159) Perbaikan tampilan mobile beberapa menu tidak dapat di klik karena tertimpah dengan class yang lain (tema natra).
 38. [#6180](https://github.com/OpenSID/OpenSID/issues/6180) Perbaikan font bookman old style.
 39. [#6193](https://github.com/OpenSID/OpenSID/issues/6193) Perbaikan block user jika sudah lebih dari 3 kali salah password.
@@ -59,6 +59,9 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 41. [#130](https://github.com/OpenSID/tema-natra/issues/130) Perbaikan lazy load pada tema natra.
 42. [#6289](https://github.com/OpenSID/OpenSID/issues/6289) Perbaikan pada simpan pengaturan program bantuan dimenu DTKS.
 43. [#6192](https://github.com/OpenSID/OpenSID/issues/6192) Perbaikan duplikat nomor urut surat tinymce dan rtf.
+44. [#6284](https://github.com/OpenSID/OpenSID/issues/6284) Perbaikan surat TinyMCE di arsip layanan kolom keterangan yang tidak terisi.
+45. [#6323](https://github.com/OpenSID/OpenSID/issues/6323) Penyesuaian tombol pertinjau dan konsep agar tidak tampil setelah cetak surat.
+46. [#6328](https://github.com/OpenSID/OpenSID/issues/6328) Perbaikan tidak dapat menambahkan log_penduduk dikarenakan pada referensi ref_pindah tidak sama type datanya.
 
 #### Perubahan Teknis
 
@@ -70,3 +73,4 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 6. [#6243](https://github.com/OpenSID/OpenSID/issues/6243) Improve lazy load foto penduduk.
 7. [#6249](https://github.com/OpenSID/OpenSID/issues/6249) Ganti helper setting dan gunakan models.
 8. [#6245](https://github.com/OpenSID/OpenSID/issues/6245) Hapus tag yang tidak di gunakan.
+9. [#1810](https://github.com/OpenSID/premium/issues/1810) Audit keamanan form widget sinergi program.

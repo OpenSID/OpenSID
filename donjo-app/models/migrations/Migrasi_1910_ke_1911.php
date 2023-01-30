@@ -172,7 +172,7 @@ class Migrasi_1910_ke_1911 extends CI_model
         // Penambahan table dokumen_kategori untuk dynamic categories dokumen
         if (! $this->db->table_exists('ref_dokumen')) {
             $fields = [
-                'id'   => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 5,
                     'unsigned'       => true,

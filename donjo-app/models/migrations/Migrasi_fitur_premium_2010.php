@@ -55,7 +55,7 @@ class Migrasi_fitur_premium_2010 extends MY_model
         // Tambah kolom jabatan dan no_sk_jabatan di tabel kelompok_anggota
         if (! $this->db->field_exists('jabatan', 'kelompok_anggota')) {
             $fields = [
-                'jabatan'       => [
+                'jabatan' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                     'default'    => 90,
@@ -65,7 +65,7 @@ class Migrasi_fitur_premium_2010 extends MY_model
                     'constraint' => 50,
                     'null'       => true,
                 ],
-                'foto'          => [
+                'foto' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'null'       => true,

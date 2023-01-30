@@ -175,6 +175,7 @@ class Surat extends Admin_Controller
                 'bulan'           => date('m'),
                 'tahun'           => date('Y'),
                 'no_surat'        => $this->request['nomor'],
+                'keterangan'      => $this->request['keterangan'] ?: $this->request['keperluan'],
             ];
 
             if ($log_surat['id_pend']) {
@@ -229,6 +230,7 @@ class Surat extends Admin_Controller
                 'bulan'           => date('m'),
                 'tahun'           => date('Y'),
                 'no_surat'        => $cetak['input']['nomor'],
+                'keterangan'      => $cetak['keterangan'],
             ];
 
             if ($nik = $cetak['input']['nik']) {
@@ -461,9 +463,9 @@ class Surat extends Admin_Controller
             $log_surat['no_surat'] = $this->surat_model->get_last_nosurat_log($surat->url_surat)['no_surat_berikutnya'];
             $log_surat['surat']    = $surat->formatSurat;
             $log_surat['input']    = [
-                'nik'             => $surat->id_pend,
-                'nama_non_warga'  => $surat->nama_non_warga,
-                'nik_non_warga'   => $surat->nik_non_warga,
+                'nik'            => $surat->id_pend,
+                'nama_non_warga' => $surat->nama_non_warga,
+                'nik_non_warga'  => $surat->nik_non_warga,
 
                 // 1. Nomer surat dicek dan dibuat ulang
                 'nomor'           => $log_surat['no_surat'],

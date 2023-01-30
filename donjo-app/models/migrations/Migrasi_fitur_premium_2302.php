@@ -37,7 +37,6 @@
 
 use App\Models\BukuKepuasan;
 use App\Models\LogSurat;
-use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,20 +48,20 @@ class Migrasi_fitur_premium_2302 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2301');
-        $hasil = $hasil && $this->migrasi_2023010171($hasil);
         $hasil = $hasil && $this->migrasi_2023010851($hasil);
-        $hasil = $hasil && $this->migrasi_2023010452($hasil);
-        $hasil = $hasil && $this->migrasi_2023010971($hasil);
         $hasil = $hasil && $this->migrasi_2023010852($hasil);
+        $hasil = $hasil && $this->migrasi_2023010171($hasil);
+        $hasil = $hasil && $this->migrasi_2023010452($hasil);
         $hasil = $hasil && $this->migrasi_2023012451($hasil);
-        $hasil = $hasil && $this->migrasi_2023012551($hasil);
+        $hasil = $hasil && $this->migrasi_2023013051($hasil);
+        $hasil = $hasil && $this->migrasi_2023013052($hasil);
 
         return $hasil && true;
     }
 
     protected function migrasi_2023010171($hasil)
     {
-        if (! $this->db->field_exists('pertanyaan_statis', 'buku_kepuasan')) {
+        if (!$this->db->field_exists('pertanyaan_statis', 'buku_kepuasan')) {
             $hasil = $hasil && $this->dbforge->add_column('buku_kepuasan', [
                 'pertanyaan_statis' => ['type' => 'TEXT', 'null' => true, 'default' => null, 'after' => 'id_jawaban'],
             ]);
@@ -88,7 +87,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
 
     protected function migrasi_2023010851($hasil)
     {
-        if (! $this->db->field_exists('nama_pamong', 'log_surat')) {
+        if (!$this->db->field_exists('nama_pamong', 'log_surat')) {
             $hasil = $hasil && $this->dbforge->add_column('log_surat', [
                 'nama_pamong' => [
                     'type'       => 'VARCHAR',
@@ -113,7 +112,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
 
     protected function migrasi_2023010452($hasil)
     {
-        if (! $this->db->field_exists('status_alasan', 'anjungan')) {
+        if (!$this->db->field_exists('status_alasan', 'anjungan')) {
             $hasil = $hasil && $this->dbforge->add_column('anjungan', [
                 'status_alasan' => [
                     'type'       => 'VARCHAR',
@@ -127,26 +126,18 @@ class Migrasi_fitur_premium_2302 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2023010971($hasil)
+    public function migrasi_2023010852($hasil)
     {
-        // Ganti lampiran f-2.29.php menjadi f-2.01.php
-        DB::table('tweb_surat_format')->where('lampiran', 'f-2.29.php')->update(['lampiran' => 'f-2.01.php']);
-
-        return $hasil;
-    }
-
-    protected function migrasi_2023010852($hasil)
-    {
-        if (! $this->db->table_exists('login_attempts')) {
+        if (!$this->db->table_exists('login_attempts')) {
             $fields = [
-                'id'         => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                     'unsigned'       => true,
                     'null'           => false,
                 ],
-                'username'   => [
+                'username' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                     'null'       => false,
@@ -156,7 +147,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
                     'constraint' => 45,
                     'null'       => false,
                 ],
-                'time'       => [
+                'time' => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => false,
@@ -214,19 +205,59 @@ class Migrasi_fitur_premium_2302 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2023012551($hasil)
+    protected function migrasi_2023013051($hasil)
     {
-        if (! $this->db->field_exists('nomor_operator', 'config')) {
-            $hasil = $this->dbforge->add_column('config', [
-                'nomor_operator' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 20,
-                    'null'       => true,
-                    'after'      => 'telepon',
-                ],
-            ]);
+        $check = $this->db
+            ->where_in('Nama_Bidang', [
+                'BIDANG PEMBINAAN KEMASYARAKATAN DESA',
+                'BIDANG PEMBERDAYAAN MASYARAKAT DESA',
+            ])
+            ->get('keuangan_manual_ref_bidang')
+            ->result_array();
+
+        if ($check) {
+            // keuangan manual ref bidang
+            foreach ([
+                ['3', 'BIDANG PEMBINAAN KEMASYARAKATAN'],
+                ['4', 'BIDANG PEMBERDAYAAN MASYARAKAT'],
+            ] as $value) {
+                [$id, $nama_bidang] = $value;
+
+                $hasil = $hasil && $this->db
+                    ->where('id', $id)
+                    ->set('Nama_Bidang', $nama_bidang)
+                    ->update('keuangan_manual_ref_bidang');
+            }
+
+            // keuangan manual ref rek1
+            foreach ([
+                ['4', 'PENDAPATAN'],
+                ['5', 'BELANJA'],
+                ['6', 'PEMBIAYAAN'],
+            ] as $value) {
+                [$id, $nama_akun] = $value;
+
+                $hasil = $hasil && $this->db
+                    ->where('id', $id)
+                    ->set('Nama_Akun', $nama_akun)
+                    ->update('keuangan_manual_ref_rek1');
+            }
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2023013052($hasil)
+    {
+        // Hapus unsigned pada kolom id di tabel ref_pindah
+        return $hasil && $this->dbforge->modify_column('ref_pindah', [
+            'id' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'auto_increment' => true,
+                'null'           => false,
+                'unsigned'       => false,
+            ],
+        ]);
     }
 }

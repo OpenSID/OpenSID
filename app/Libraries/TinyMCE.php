@@ -144,22 +144,22 @@ class TinyMCE
     {
         $daftar_kode_isian = [
             // Data Surat
-            'Surat'            => $this->getIsianSurat($data),
+            'Surat' => $this->getIsianSurat($data),
 
             // Data Identitas Desa
-            'Identitas Desa'   => $this->getIsianIdentitas($data['id_pend']),
+            'Identitas Desa' => $this->getIsianIdentitas($data['id_pend']),
 
             // Data Penduduk Umum
-            'Penduduk'         => $this->getIsianPenduduk($data['id_pend']),
+            'Penduduk' => $this->getIsianPenduduk($data['id_pend']),
 
             // Data Anggota keluarga
             'Anggota Keluarga' => $this->getIsianAnggotaKeluarga($data['id_pend']),
 
             // Data Dari Form Isian
-            'Input'            => $this->getIsianPost($data),
+            'Input' => $this->getIsianPost($data),
 
             // Penandatangan
-            'Penandatangan'    => $this->getPenandatangan($data['input']),
+            'Penandatangan' => $this->getPenandatangan($data['input']),
         ];
 
         if ($withData) {

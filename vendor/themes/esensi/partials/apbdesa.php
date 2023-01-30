@@ -8,7 +8,7 @@
           <?php foreach($subdatas as $key => $subdata) : ?>
             <?php if($subdata['judul'] != NULL and $key != 'laporan' and $subdata['realisasi'] != 0 or $subdata['anggaran'] != 0): ?>
             <div class="space-y-1">
-              <span class="text-sm font-bold"><?= ucwords(strtolower($subdata['judul'])) ?></span>
+              <span class="text-sm font-bold"><?= strpos($judul = ucwords(strtolower($subdata['judul'])), 'Desa') ? $judul : $judul . ' ' . ucwords(setting('sebutan_desa')) ?></span>
               <div class="text-sm flex justify-between">
                 <span><?= rupiah24($subdata['realisasi']) ?></span>
                 <span><?= rupiah24($subdata['anggaran']) ?></span>

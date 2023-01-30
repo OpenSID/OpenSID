@@ -117,27 +117,27 @@ class Migrasi_fitur_premium_2210 extends MY_model
         // buat tabel log restore folder desa
         if (! $this->db->table_exists('log_restore_desa')) {
             $fields = [
-                'id'          => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                     'unsigned'       => true,
                 ],
-                'ukuran'      => [
+                'ukuran' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                     'null'       => true,
                 ],
-                'path'        => [
+                'path' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 150,
                     'null'       => true,
                 ],
-                'restore_at'  => [
+                'restore_at' => [
                     'type' => 'TIMESTAMP',
                     'null' => true,
                 ],
-                'status'      => [
+                'status' => [
                     'type'    => 'int',
                     'null'    => false,
                     'default' => 0,
@@ -273,7 +273,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
     {
         if (! $this->db->field_exists('gelar_depan', 'tweb_desa_pamong')) {
             $hasil = $hasil && $this->dbforge->add_column('tweb_desa_pamong', [
-                'gelar_depan'    => [
+                'gelar_depan' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'null'       => true,
@@ -296,8 +296,8 @@ class Migrasi_fitur_premium_2210 extends MY_model
     protected function migrasi_2022091471($hasil)
     {
         return $hasil && $this->tambah_setting([
-            'key'        => 'notifikasi_pengajuan_surat',
-            'value'      => <<<'EOD'
+            'key'   => 'notifikasi_pengajuan_surat',
+            'value' => <<<'EOD'
                 Segera cek Halaman Admin, penduduk atas nama [nama_penduduk] telah mengajukan [judul_surat] melalui [melalui] pada tanggal [tanggal]
 
                 TERIMA KASIH.
@@ -332,7 +332,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
                 'type' => 'LONGTEXT',
                 'null' => false,
             ],
-            'Jumlah'    => [
+            'Jumlah' => [
                 'type'       => 'BIGINT',
                 'constraint' => 20,
                 'null'       => false,
@@ -400,33 +400,33 @@ class Migrasi_fitur_premium_2210 extends MY_model
     {
         if (! $this->db->table_exists('anjungan_menu')) {
             $fields = [
-                'id'        => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                     'unsigned'       => true,
                 ],
-                'nama'      => [
+                'nama' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 255,
                 ],
-                'icon'      => [
+                'icon' => [
                     'type'    => 'TEXT',
                     'null'    => true,
                     'default' => null,
                 ],
-                'link'      => [
+                'link' => [
                     'type' => 'TEXT',
                 ],
                 'link_tipe' => [
                     'type'       => 'TINYINT',
                     'constraint' => 4,
                 ],
-                'urut'      => [
+                'urut' => [
                     'type'       => 'TINYINT',
                     'constraint' => 4,
                 ],
-                'status'    => [
+                'status' => [
                     'type'       => 'INT',
                     'constraint' => 4,
                     'default'    => 1,
@@ -478,13 +478,13 @@ class Migrasi_fitur_premium_2210 extends MY_model
     {
         if (! $this->db->table_exists('kehadiran_alasan_keluar')) {
             $fields = [
-                'id'         => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                     'unsigned'       => true,
                 ],
-                'alasan'     => [
+                'alasan' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 255,
                 ],

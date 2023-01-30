@@ -183,7 +183,7 @@ class Opendk_pesan extends Admin_Controller
 
             $client   = new \GuzzleHttp\Client();
             $response = $client->post("{$this->setting->api_opendk_server}/api/v1/pesan", [
-                'headers'     => [
+                'headers' => [
                     'X-Requested-With' => 'XMLHttpRequest',
                     'Authorization'    => "Bearer {$this->setting->api_opendk_key}",
                 ],
@@ -235,7 +235,7 @@ class Opendk_pesan extends Admin_Controller
     {
         try {
             $response = $this->client->post("{$this->setting->api_opendk_server}/api/v1/pesan", [
-                'headers'     => [
+                'headers' => [
                     'X-Requested-With' => 'XMLHttpRequest',
                     'Authorization'    => "Bearer {$this->setting->api_opendk_key}",
                 ],
