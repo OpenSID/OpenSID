@@ -51,6 +51,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 45. [#6323](https://github.com/OpenSID/OpenSID/issues/6323) Penyesuaian tombol pertinjau dan konsep agar tidak tampil setelah cetak surat.
 46. [#6328](https://github.com/OpenSID/OpenSID/issues/6328) Perbaikan tidak dapat menambahkan log_penduduk dikarenakan pada referensi ref_pindah tidak sama type datanya.
 47. [#6281](https://github.com/OpenSID/OpenSID/issues/6281) Perbaikan migrasi dari versi lama (mis: 1903) ke versi paling baru.
+48. [#6168](https://github.com/OpenSID/OpenSID/issues/6168) Menambah fasilitas untuk resize gambar yang sudah ada.
 
 #### Perubahan Teknis
 
@@ -58,7 +59,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. [#1889](https://github.com/OpenSID/premium/issues/1889) Gunakan create() untuk menganti insert().
 3. [#1805](https://github.com/OpenSID/premium/issues/1805) Audit keamanan form perpanjangan layanan.
 4. [#6205](https://github.com/OpenSID/OpenSID/issues/6205) Ubah link gambar domain luar ke gambar dari direktori sistem.
-5. [#6075](https://github.com/OpenSID/OpenSID/issues/6075) Tambahkan Autocomplete="off" di Passphrase TTE.
+5. [#6075](https://github.com/OpenSID/OpenSID/issues/6075) Menambah Autocomplete="off" di Passphrase TTE.
 6. [#6243](https://github.com/OpenSID/OpenSID/issues/6243) Improve lazy load foto penduduk.
 7. [#6249](https://github.com/OpenSID/OpenSID/issues/6249) Ganti helper setting dan gunakan models.
 8. [#6245](https://github.com/OpenSID/OpenSID/issues/6245) Hapus tag yang tidak di gunakan.
