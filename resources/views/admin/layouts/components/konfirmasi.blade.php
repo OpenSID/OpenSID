@@ -1,4 +1,4 @@
-@if (can("h") || $periksa_data)
+@if ($periksa_data)
   <div class="modal fade" id="confirm-status" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">

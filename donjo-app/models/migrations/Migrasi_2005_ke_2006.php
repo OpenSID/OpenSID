@@ -102,6 +102,12 @@ class Migrasi_2005_ke_2006 extends CI_model
         ];
 
         // karena di versi ini belum ada updated_by, tp dilakukan migrasi mundur jadi updated_by perlu diisi
+        if (! $this->db->field_exists('updated_by', 'user_grup')) {
+            $this->dbforge->add_column('user_grup', [
+                'updated_by' => ['type' => 'INT', 'constraint' => 11, 'null' => false],
+            ]);
+        }
+
         foreach ($data as $grup) {
             $sql = $this->db->insert_string('user_grup', $grup);
             $sql .= ' ON DUPLICATE KEY UPDATE

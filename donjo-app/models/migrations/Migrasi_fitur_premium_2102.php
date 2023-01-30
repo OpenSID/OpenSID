@@ -46,6 +46,8 @@ class Migrasi_fitur_premium_2102 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2101');
 
+        $hasil = $hasil && $this->timestamps('tweb_penduduk');
+
         $hasil = $hasil && $this->pengaturan_latar($hasil);
 
         //tambah kolom urut di tabel tweb_wil_clusterdesa
