@@ -723,7 +723,7 @@ function get_pesan_opendk()
     try {
         $client   = new \GuzzleHttp\Client();
         $response = $client->post("{$ci->setting->api_opendk_server}/api/v1/pesan/getpesan", [
-            'headers'     => [
+            'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
                 'Authorization'    => "Bearer {$ci->setting->api_opendk_key}",
             ],

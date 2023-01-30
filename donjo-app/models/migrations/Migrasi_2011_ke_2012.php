@@ -49,7 +49,7 @@ class Migrasi_2011_ke_2012 extends MY_model
         // Tambah kolom masa_berlaku & satuan_masa_berlaku di tweb_surat_format
         if (! $this->db->field_exists('masa_berlaku', 'tweb_surat_format')) {
             $fields = [
-                'masa_berlaku'        => [
+                'masa_berlaku' => [
                     'type'       => 'INT',
                     'constraint' => 3,
                     'default'    => '1',

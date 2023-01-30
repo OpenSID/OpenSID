@@ -293,8 +293,8 @@ class Keuangan_grafik_manual_model extends CI_model
 
         return [
             //Encode ke JSON
-            'data'          => json_encode($res),
-            'tahun'         => $this->keuangan_manual_model->list_tahun_anggaran_manual_manual(),
+            'data'  => json_encode($res),
+            'tahun' => $this->keuangan_manual_model->list_tahun_anggaran_manual_manual(),
             //Cari tahun anggaran terbaru (terbesar secara value)
             'tahun_terbaru' => $this->keuangan_manual_model->list_tahun_anggaran_manual()[0],
         ];

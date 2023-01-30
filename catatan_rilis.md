@@ -60,3 +60,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 6. [#6243](https://github.com/OpenSID/OpenSID/issues/6243) Improve lazy load foto penduduk.
 7. [#6249](https://github.com/OpenSID/OpenSID/issues/6249) Ganti helper setting dan gunakan models.
 8. [#6245](https://github.com/OpenSID/OpenSID/issues/6245) Hapus tag yang tidak di gunakan.
+9. [#1810](https://github.com/OpenSID/premium/issues/1810) Audit keamanan form widget sinergi program.

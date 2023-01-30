@@ -174,7 +174,7 @@ class Migrasi_fitur_premium_2206 extends MY_model
         // Buat tabel log sinkronisasi
         if (! $this->db->table_exists('log_sinkronisasi')) {
             $fields = [
-                'id'    => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,

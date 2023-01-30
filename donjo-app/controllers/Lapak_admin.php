@@ -55,12 +55,12 @@ class Lapak_admin extends Admin_Controller
     public function navigasi()
     {
         return [
-            'jml_produk'   => [
+            'jml_produk' => [
                 'aktif' => $this->lapak_model->get_produk('', 1)->count_all_results(),
                 'total' => $this->lapak_model->get_produk()->count_all_results(),
             ],
 
-            'jml_pelapak'  => [
+            'jml_pelapak' => [
                 'aktif' => $this->lapak_model->get_pelapak('', 1)->count_all_results(),
                 'total' => $this->lapak_model->get_pelapak()->count_all_results(),
             ],

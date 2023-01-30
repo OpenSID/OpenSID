@@ -179,7 +179,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', '=', 'offline_mode')
             ->update([
-                'option'   => json_encode([
+                'option' => json_encode([
                     '0' => 'Web bisa diakses publik',
                     '1' => 'Web hanya bisa diakses petugas web',
                     '2' => 'Web non-aktif sama sekali',
@@ -192,7 +192,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', '=', 'jenis_peta')
             ->update([
-                'option'   => json_encode([
+                'option' => json_encode([
                     '1' => 'OpenStreetMap',
                     '2' => 'OpenStreetMap H.O.T',
                     '3' => 'Mapbox Streets',
@@ -207,7 +207,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', '=', 'penomoran_surat')
             ->update([
-                'option'   => json_encode([
+                'option' => json_encode([
                     '1' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan',
                     '2' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama',
                     '3' => 'Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar',
@@ -220,7 +220,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', '=', 'timezone')
             ->update([
-                'option'   => json_encode([
+                'option' => json_encode([
                     'Asia/Jakarta'  => 'Asia/Jakarta',
                     'Asia/Makassar' => 'Asia/Makassar',
                     'Asia/Jayapura' => 'Asia/Jayapura',
@@ -233,7 +233,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', '=', 'sumber_gambar_slider')
             ->update([
-                'option'   => json_encode([
+                'option' => json_encode([
                     '1' => 'Gambar utama artikel terbaru',
                     '2' => 'Gambar utama artikel terbaru yang masuk ke slider atas',
                     '3' => 'Gambar dalam album galeri yang dimasukkan ke slider',
@@ -246,7 +246,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', '=', 'tampilan_anjungan')
             ->update([
-                'option'   => json_encode([
+                'option' => json_encode([
                     '0' => 'Tidak Aktif',
                     '1' => 'Slider',
                     '2' => 'Video',
@@ -259,7 +259,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', '=', 'warna_tema_admin')
             ->update([
-                'option'   => json_encode([
+                'option' => json_encode([
                     'skin-blue'         => 'Biru',
                     'skin-blue-light'   => 'Biru Terang',
                     'skin-black'        => 'Hitam',
@@ -442,7 +442,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
             ->where('key', 'font_surat')
             ->whereNull('option')
             ->update([
-                'option'   => json_encode([
+                'option' => json_encode([
                     'Andale Mono',
                     'Arial',
                     'Arial Black',

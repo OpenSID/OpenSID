@@ -233,13 +233,13 @@ class Migrasi_fitur_premium_2209 extends MY_model
         if (! $this->db->table_exists('ref_jabatan')) {
             // Tambah tabel ref_jabatan
             $ref_jabatan = [
-                'id'      => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 10,
                     'null'           => false,
                     'auto_increment' => true,
                 ],
-                'nama'    => [
+                'nama' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
                     'null'       => false,
@@ -249,7 +249,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
                     'null'    => true,
                     'default' => null,
                 ],
-                'jenis'   => [
+                'jenis' => [
                     'type'       => 'TINYINT',
                     'constraint' => 1,
                     'default'    => 0,
@@ -400,13 +400,13 @@ class Migrasi_fitur_premium_2209 extends MY_model
     {
         if (! $this->db->table_exists('log_tolak')) {
             $log_tolak = [
-                'id'         => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 10,
                     'null'           => false,
                     'auto_increment' => true,
                 ],
-                'id_surat'   => [
+                'id_surat' => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => false,
@@ -543,13 +543,13 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
         if (! $this->db->table_exists('log_tte')) {
             $fields = [
-                'id'          => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                     'unsigned'       => true,
                 ],
-                'message'     => [
+                'message' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 150,
                     'null'       => true,

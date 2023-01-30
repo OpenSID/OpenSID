@@ -134,7 +134,7 @@ class Status_desa extends Admin_Controller
                     'headers' => [
                         'X-Requested-With' => 'XMLHttpRequest',
                     ],
-                    'verify'  => false,
+                    'verify' => false,
                 ]);
 
                 $this->cache->file->delete($cache);

@@ -247,7 +247,7 @@ class DTKSRegsosEk2022k
                 // override all items within the $with property in Penduduk
                 $builder->withOnly('Wilayah', 'keluarga');
             },
-            'rtm.anggota'        => static function ($builder) {
+            'rtm.anggota' => static function ($builder) {
                 // override all items within the $with property in Penduduk
                 $builder->withOnly(['keluarga', 'pekerjaan', 'pendidikan', 'pendidikanKK']);
                 // hanya ambil data anggota yg masih hidup (tweb_penduduk)
@@ -345,15 +345,15 @@ class DTKSRegsosEk2022k
         if ($dtks->jumlah_keluarga > 1) {
             $dtks->all_dtks_id = DTKS::select('id', 'id_rtm', 'id_keluarga', 'versi_kuisioner')
                 ->withOnly([
-                    'rtm'                     => static function ($builder) {
+                    'rtm' => static function ($builder) {
                         $builder->select('id', 'nik_kepala');
                     },
-                    'rtm.kepalaKeluarga'      => static function ($builder) {
+                    'rtm.kepalaKeluarga' => static function ($builder) {
                         $builder->select('id', 'nama');
                         // override all items within the $with property in Penduduk
                         $builder->withOnly([]);
                     },
-                    'keluarga'                => static function ($builder) {
+                    'keluarga' => static function ($builder) {
                         $builder->select('id', 'nik_kepala', 'no_kk');
                     },
                     'keluarga.kepalaKeluarga' => static function ($builder) {
@@ -804,7 +804,7 @@ class DTKSRegsosEk2022k
                 // override all items within the $with property in Penduduk
                 $builder->withOnly('Wilayah', 'keluarga');
             },
-            'rtm.anggota'        => static function ($builder) {
+            'rtm.anggota' => static function ($builder) {
                 // override all items within the $with property in Penduduk
                 $builder->withOnly('keluarga');
                 // hanya ambil data anggota yg masih hidup (tweb_penduduk)
@@ -1422,9 +1422,9 @@ class DTKSRegsosEk2022k
             'id'                    => $selected_anggota->id,
             'kd_ket_keberadaan_art' => $selected_anggota->kd_ket_keberadaan_art,
             // 'kd_stat_perkawinan'       => $selected_anggota->kd_stat_perkawinan,
-            'kd_hubungan_dg_kk'     => $selected_anggota->kd_hubungan_dg_kk,
+            'kd_hubungan_dg_kk' => $selected_anggota->kd_hubungan_dg_kk,
             // 'kd_status_kehamilan'      => $selected_anggota->kd_status_kehamilan,
-            'kd_punya_kartuid'      => $selected_anggota->kd_punya_kartuid,
+            'kd_punya_kartuid' => $selected_anggota->kd_punya_kartuid,
         ];
 
         return ['content' => ['message' => 'Berhasil disimpan', 'new_data' => $new_data], 'header_code' => 200];

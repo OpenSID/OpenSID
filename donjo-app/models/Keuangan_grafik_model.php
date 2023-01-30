@@ -1433,8 +1433,8 @@ class Keuangan_grafik_model extends CI_model
 
         return [
             //Encode ke JSON
-            'data'          => json_encode($res),
-            'tahun'         => $this->keuangan_model->list_tahun_anggaran(),
+            'data'  => json_encode($res),
+            'tahun' => $this->keuangan_model->list_tahun_anggaran(),
             //Cari tahun anggaran terbaru (terbesar secara value)
             'tahun_terbaru' => $this->keuangan_model->list_tahun_anggaran()[0],
         ];

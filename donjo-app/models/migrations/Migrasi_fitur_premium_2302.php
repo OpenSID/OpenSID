@@ -128,14 +128,14 @@ class Migrasi_fitur_premium_2302 extends MY_model
     {
         if (! $this->db->table_exists('login_attempts')) {
             $fields = [
-                'id'         => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
                     'unsigned'       => true,
                     'null'           => false,
                 ],
-                'username'   => [
+                'username' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 50,
                     'null'       => false,
@@ -145,7 +145,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
                     'constraint' => 45,
                     'null'       => false,
                 ],
-                'time'       => [
+                'time' => [
                     'type'       => 'INT',
                     'constraint' => 11,
                     'null'       => false,

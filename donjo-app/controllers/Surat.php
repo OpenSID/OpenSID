@@ -463,9 +463,9 @@ class Surat extends Admin_Controller
             $log_surat['no_surat'] = $this->surat_model->get_last_nosurat_log($surat->url_surat)['no_surat_berikutnya'];
             $log_surat['surat']    = $surat->formatSurat;
             $log_surat['input']    = [
-                'nik'             => $surat->id_pend,
-                'nama_non_warga'  => $surat->nama_non_warga,
-                'nik_non_warga'   => $surat->nik_non_warga,
+                'nik'            => $surat->id_pend,
+                'nama_non_warga' => $surat->nama_non_warga,
+                'nik_non_warga'  => $surat->nik_non_warga,
 
                 // 1. Nomer surat dicek dan dibuat ulang
                 'nomor'           => $log_surat['no_surat'],

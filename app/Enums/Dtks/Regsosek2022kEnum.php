@@ -87,7 +87,7 @@ class Regsosek2022kEnum
     final public static function getUsedFields()
     {
         return [
-            'dtks'         => [
+            'dtks' => [
                 'id',
                 'is_draft',
                 'id_rtm',
@@ -270,14 +270,14 @@ class Regsosek2022kEnum
     final public static function pilihanBagian3()
     {
         $pilihan3 = [
-            '301a'  => [
+            '301a' => [
                 '1' => '1. Milik sendiri',
                 '2' => '2. Kontrak/sewa',
                 '3' => '3. Bebas sewa',
                 '4' => '4. Dinas',
                 '5' => '5. Lainnya',
             ],
-            '301b'  => [
+            '301b' => [
                 '1' => '1. SHM atas Nama Anggota Keluarga',
                 '2' => '2. SHM bukan a.n Anggota Keluarga dengan perjanjian pemanfaatan tertulis',
                 '3' => '3. SHM bukan a.n Anggota Keluarga tanpa perjanjian pemanfaatan tertulis',
@@ -285,7 +285,7 @@ class Regsosek2022kEnum
                 '5' => '5. Surat bukti lainnya (Girik, Letter C, dll)',
                 '6' => '6. Tidak Punya',
             ],
-            '303'   => [
+            '303' => [
                 '1' => '1. Marmer/granit',
                 '2' => '2. Keramik',
                 '3' => '3. Parket/vinil/karpet',
@@ -296,7 +296,7 @@ class Regsosek2022kEnum
                 '8' => '8. Tanah',
                 '9' => '9. Lainnya',
             ],
-            '304'   => [
+            '304' => [
                 '1' => '1. Tembok',
                 '2' => '2. Plesteran anyaman bambu/kawat',
                 '3' => '3. Kayu/papan/Gypsum/GRC/Calciboard',
@@ -305,7 +305,7 @@ class Regsosek2022kEnum
                 '6' => '6. Bambu',
                 '7' => '7. Lainnya',
             ],
-            '305'   => [
+            '305' => [
                 '1' => '1. Beton',
                 '2' => '2. Genteng',
                 '3' => '3. Seng',
@@ -315,7 +315,7 @@ class Regsosek2022kEnum
                 '7' => '7. Jerami/ijuk/daun-daunan/rumbia',
                 '8' => '8. Lainnya',
             ],
-            '306a'  => [
+            '306a' => [
                 '1'  => '1. Air kemasan bermerk',
                 '2'  => '2. Air isi ulang',
                 '3'  => '3. Leding',
@@ -328,12 +328,12 @@ class Regsosek2022kEnum
                 '10' => '10. Air hujan',
                 '11' => '11. Lainnya',
             ],
-            '306b'  => [
+            '306b' => [
                 '1' => '1. < 10 meter',
                 '2' => '2. &ge; 10 meter',
                 '3' => '3. Tidak tahu',
             ],
-            '307a'  => [
+            '307a' => [
                 '1' => '1. Listrik PLN dengan meteran',
                 '2' => '2. Listrik PLN tanpa meteran',
                 '3' => '3. Listrik Non-PLN',
@@ -365,7 +365,7 @@ class Regsosek2022kEnum
                 '11' => '11. Lainnya',
                 '12' => '12. Tidak memasak di rumah',
             ],
-            '309a'  => [
+            '309a' => [
                 '1' => '1. Ada, digunakan hanya Anggota Keluarga sendiri ',
                 '2' => '2. Ada, digunakan bersama Anggota Keluarga dari rumah tangga tertentu',
                 '3' => '3. Ada, di MCK komunal',
@@ -373,13 +373,13 @@ class Regsosek2022kEnum
                 '5' => '5. Ada, Anggota Keluarga tidak menggunakan',
                 '6' => '6. Tidak ada fasilitas',
             ],
-            '309b'  => [
+            '309b' => [
                 '1' => '1. Leher angsa',
                 '2' => '2. Plengsengan dengan tutup',
                 '3' => '3. Plengsengan tanpa tutup',
                 '4' => '4. Cemplung/cubluk',
             ],
-            '310'   => [
+            '310' => [
                 '1' => '1. Tangki septik',
                 '2' => '2. IPAL',
                 '3' => '3. Kolam/sawah/sungai/danau/laut',
@@ -469,7 +469,7 @@ class Regsosek2022kEnum
             ],
         ];
         $pilihan4 = $pilihan4 + [
-            '415'  => $pilihan4['413'] + [
+            '415' => $pilihan4['413'] + [
                 '23' => '23. Tidak Punya Ijazah SD',
             ],
             '416a' => [
@@ -477,7 +477,7 @@ class Regsosek2022kEnum
                 '2' => '2. Tidak',
             ],
             // '416b' => 'int(2)',
-            '417'  => [
+            '417' => [
                 '1'  => '01. Pertanian tanaman padi & palawija',
                 '2'  => '02. Hortikultura',
                 '3'  => '03. Perkebunan',
@@ -505,7 +505,7 @@ class Regsosek2022kEnum
                 '25' => '25. Aktivitas keluarga sebagai pemberi kerja',
                 '26' => '26. Aktivitas badan internasional dan badan ekstra internasional lainnya',
             ],
-            '418'  => [
+            '418' => [
                 '1' => '1. Berusaha sendiri',
                 '2' => '2. Berusaha dibantu buruh tidak tetap/tidak dibayar',
                 '3' => '3. Berusaha dibantu buruh tetap/dibayar',
@@ -515,7 +515,7 @@ class Regsosek2022kEnum
                 '7' => '7. Pekerja bebas non-pertanian',
                 '8' => '8. Pekerja keluarga/tidak dibayar',
             ],
-            '419'  => [
+            '419' => [
                 '1' => '1. Ada, Dapat menunjukkan',
                 '2' => '2. Ada, Tidak dapat  menunjukkan ',
                 '3' => '3. Tidak ada',
@@ -524,10 +524,10 @@ class Regsosek2022kEnum
             // '420b' => 'int(2)',
         ];
         $pilihan4 = $pilihan4 + [
-            '421'  => $pilihan4['417'],
+            '421' => $pilihan4['417'],
             // '422' => 'int(3)',
             // '423' => 'int(2)',
-            '424'  => [
+            '424' => [
                 '1'  => '01. Surat Izin Tempat Usaha (SITU)',
                 '2'  => '02. Surat Izin Usaha Perdagangan (SIUP)',
                 '3'  => '03. Nomor Registrasi Perusahaan (NRP)',
@@ -541,7 +541,7 @@ class Regsosek2022kEnum
                 '11' => '11. Belum memiliki izin usaha',
                 '12' => '12. Surat Izin Gangguan',
             ],
-            '425'  => [
+            '425' => [
                 '1' => '1. < 5 Juta (ultra mikro)',
                 '2' => '2. 5 -< 15 Juta (ultra mikro)',
                 '3' => '3. 15 -< 25 Juta (ultra mikro)',
@@ -550,7 +550,7 @@ class Regsosek2022kEnum
                 '6' => '6. 1.250 -< 4.167 Juta (menengah)',
                 '7' => '7. &ge; 4.167 Juta (besar)',
             ],
-            '426'  => [
+            '426' => [
                 '0'  => '00. Tidak menggunakan internet',
                 '1'  => '01. Sebagai sarana komunikasi',
                 '2'  => '02. Untuk mencari informasi',
@@ -559,7 +559,7 @@ class Regsosek2022kEnum
                 '16' => '16. Sebagai Pembelian dan/atau Produksi',
                 '32' => '32. Lainnya',
             ],
-            '427'  => [
+            '427' => [
                 '1' => '1. Kurang Gizi (Wasting)',
                 '2' => '2. Kerdil (Stunting)',
                 '3' => '3. Tidak ada catatan',
@@ -587,12 +587,12 @@ class Regsosek2022kEnum
                 '3' => '3. Jarang',
                 '4' => '4. Tidak pernah',
             ],
-            '429'  => [
+            '429' => [
                 '1' => '1. Ya, Anggota Keluarga',
                 '2' => '2. Ya, Bukan Anggota Keluarga',
                 '3' => '3. Ya, Tinggal Sendiri',
             ],
-            '430'  => [
+            '430' => [
                 '1'  => '01. Tidak Ada',
                 '2'  => '02. Hipertensi (darah tinggi)',
                 '3'  => '03. Rematik',
@@ -648,13 +648,13 @@ class Regsosek2022kEnum
         return [
             'ya_tidak' => self::YA_TIDAK,
 
-            '505'      => [
+            '505' => [
                 '0' => '0. Tidak menggunakan internet',
                 '1' => '1. Internet dan TV digital berlangganan',
                 '2' => '2. Wifi',
                 '3' => '3. Internet <i>Handphone</i>',
             ],
-            '506'      => [
+            '506' => [
                 '1' => '1. Ya, untuk usaha',
                 '2' => '2. Ya, untuk pribadi',
                 '3' => '3. Ya, untuk usaha dan pribadi',
