@@ -179,6 +179,9 @@ class Database_model extends MY_Model
     private function cekCurrentVersion()
     {
         $version = setting('current_version');
+        if ($version == null) { // versi tidak terdeteksi dari modul periksa.
+            $version = SettingAplikasi::where('key', 'current_version')->first()->value;
+        }
 
         // Jalankan migrasi dari awal jika migrasi dari sid lain (misalnya SID CRI)
         if (in_array($version, $this->otherVersions)) {
@@ -208,6 +211,7 @@ class Database_model extends MY_Model
         $versi          = $this->cekCurrentVersion();
         $nextVersion    = $versi;
         $versionMigrate = $this->versionMigrate;
+
         if (isset($versionMigrate[$versi])) {
             while (! empty($nextVersion) && ! empty($versionMigrate[$nextVersion]['migrate'])) {
                 $migrate     = $versionMigrate[$nextVersion]['migrate'];
@@ -257,7 +261,7 @@ class Database_model extends MY_Model
         if ($this->validasi() || $install) {
             // Paksa menjalankan migrasi kalau belum
             // Migrasi direkam di tabel migrasi
-            if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
+            if (Schema::hasColumn('migrasi', 'premium') && Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
                 // Ulangi migrasi terakhir
                 $terakhir                                   = key(array_slice($this->versionMigrate, -1, 1, true));
                 $sebelumnya                                 = key(array_slice($this->versionMigrate, -2, 1, true));
@@ -324,6 +328,21 @@ class Database_model extends MY_Model
 
     private function migrasi_1905_ke_1906()
     {
+        // null kan tanggal perkawinan jika tanggal 0000-00-00
+        if ($this->db->field_exists('tanggalperkawinan', 'tweb_penduduk')) {
+            $this->db->where('tanggalperkawinan', '0000-00-00')->update('tweb_penduduk', ['tanggalperkawinan' => null]);
+        }
+
+        // null kan tanggal perceraian jika tanggal 0000-00-00
+        if ($this->db->field_exists('tanggalperceraian', 'tweb_penduduk')) {
+            $this->db->where('tanggalperceraian', '0000-00-00')->update('tweb_penduduk', ['tanggalperceraian' => null]);
+        }
+
+        // null kan tanggal tanggal_akhir_paspor jika tanggal 0000-00-00
+        if ($this->db->field_exists('tanggal_akhir_paspor', 'tweb_penduduk')) {
+            $this->db->where('tanggal_akhir_paspor', '0000-00-00')->update('tweb_penduduk', ['tanggal_akhir_paspor' => null]);
+        }
+
         // Tambah kolom waktu update dan user pengupdate
         if (! $this->db->field_exists('created_at', 'tweb_penduduk')) {
             // Tambah kolom
@@ -377,7 +396,7 @@ class Database_model extends MY_Model
                 `urut` int(5),
                 `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 `created_by` int(11) NOT NULL,
-                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 `updated_by` int(11),
                 `status` int(1) NOT NULL DEFAULT '0',
                 PRIMARY KEY (id)

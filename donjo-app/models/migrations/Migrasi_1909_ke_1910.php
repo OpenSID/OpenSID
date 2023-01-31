@@ -92,14 +92,15 @@ class Migrasi_1909_ke_1910 extends CI_model
         $query = $this->db->select('1')->where('key', 'penggunaan_server')->get('setting_aplikasi');
         $query->result() || $this->db->insert('setting_aplikasi', ['key' => 'penggunaan_server', 'value' => '1	', 'jenis' => 'int', 'keterangan' => 'Setting penggunaan server', 'kategori' => 'sistem']);
         // Tambah controller yg merupakan submodul yg tidak tampil di menu utama
+
         $modul_nonmenu = [
             'id'         => '65',
             'modul'      => 'Kategori',
             'url'        => 'kategori',
             'aktif'      => '1',
             'ikon'       => '',
-            'urut'       => '',
-            'level'      => '',
+            'urut'       => '0',
+            'level'      => '0',
             'parent'     => '49',
             'hidden'     => '2',
             'ikon_kecil' => '',
@@ -112,8 +113,8 @@ class Migrasi_1909_ke_1910 extends CI_model
             'url'        => 'penduduk_log',
             'aktif'      => '1',
             'ikon'       => '',
-            'urut'       => '',
-            'level'      => '',
+            'urut'       => '0',
+            'level'      => '0',
             'parent'     => '21',
             'hidden'     => '2',
             'ikon_kecil' => '',
@@ -129,8 +130,8 @@ class Migrasi_1909_ke_1910 extends CI_model
                 'url'        => $submodul,
                 'aktif'      => '1',
                 'ikon'       => '',
-                'urut'       => '',
-                'level'      => '',
+                'urut'       => '0',
+                'level'      => '0',
                 'parent'     => '5',
                 'hidden'     => '2',
                 'ikon_kecil' => '',
@@ -144,8 +145,8 @@ class Migrasi_1909_ke_1910 extends CI_model
             'url'        => 'wilayah',
             'aktif'      => '1',
             'ikon'       => '',
-            'urut'       => '',
-            'level'      => '',
+            'urut'       => '0',
+            'level'      => '0',
             'parent'     => '21',
             'hidden'     => '2',
             'ikon_kecil' => '',
@@ -162,8 +163,8 @@ class Migrasi_1909_ke_1910 extends CI_model
                 'url'        => $submodul,
                 'aktif'      => '1',
                 'ikon'       => '',
-                'urut'       => '',
-                'level'      => '',
+                'urut'       => '0',
+                'level'      => '0',
                 'parent'     => '61',
                 'hidden'     => '2',
                 'ikon_kecil' => '',
@@ -177,10 +178,17 @@ class Migrasi_1909_ke_1910 extends CI_model
         $this->db->query($sql);
         $sql = 'ALTER TABLE `tweb_penduduk` CHANGE `id_rtm` `id_rtm` VARCHAR(30) NOT NULL';
         $this->db->query($sql);
+
+        // null kan tanggal tanggal_akhir_paspor jika tanggal 0000-00-00
+        if ($this->db->field_exists('kartu_tanggal_lahir', 'program_peserta')) {
+            $this->db->where('kartu_tanggal_lahir', '0000-00-00')->update('program_peserta', ['kartu_tanggal_lahir' => null]);
+        }
+
         $sql = 'ALTER TABLE `program_peserta` CHANGE `peserta` `peserta` VARCHAR(30) NOT NULL';
         $this->db->query($sql);
-        $sql = 'ALTER TABLE `program_peserta` CHANGE `kartu_nik` `kartu_nik` VARCHAR(30) NOT NULL';
-        $this->db->query($sql);
+        // perbaiki data nul
+        $this->db->where('kartu_nik')->update('program_peserta', ['kartu_nik' => 0]);
+        $this->dbforge->modify_column('program_peserta', ['kartu_nik' => ['type' => 'VARCHAR', 'constraint' => 30, 'null' => false]]);
 
         // ubah/perbaiki struktur database, table artikel
         $this->db->query('ALTER TABLE artikel MODIFY gambar VARCHAR(200) DEFAULT NULL;');

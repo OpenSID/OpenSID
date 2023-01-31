@@ -53,6 +53,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
         $hasil = $hasil && $this->migrasi_2023010171($hasil);
         $hasil = $hasil && $this->migrasi_2023010452($hasil);
         $hasil = $hasil && $this->migrasi_2023012451($hasil);
+        $hasil = $hasil && $this->migrasi_2023012751($hasil);
         $hasil = $hasil && $this->migrasi_2023013051($hasil);
         $hasil = $hasil && $this->migrasi_2023013052($hasil);
 
@@ -203,6 +204,22 @@ class Migrasi_fitur_premium_2302 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2023012751($hasil)
+    {
+        return $hasil && $this->tambah_modul([
+            'id'         => 359,
+            'modul'      => 'Optimasi Gambar',
+            'url'        => 'optimasi_gambar',
+            'aktif'      => 1,
+            'ikon'       => 'fa-picture-o',
+            'urut'       => 7,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-picture-o',
+            'parent'     => 11,
+        ]);
     }
 
     protected function migrasi_2023013051($hasil)
