@@ -126,7 +126,7 @@ class Web_Controller extends MY_Controller
     {
         parent::__construct();
 
-        $this->header = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
+        $this->header = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') && Schema::hasColumn('config', 'nomor_operator') ? Config::first() : null;
 
         if ($this->setting->offline_mode == 2) {
             $this->view_maintenance();
