@@ -52,6 +52,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 46. [#6328](https://github.com/OpenSID/OpenSID/issues/6328) Perbaikan tidak dapat menambahkan log_penduduk dikarenakan pada referensi ref_pindah tidak sama type datanya.
 47. [#6281](https://github.com/OpenSID/OpenSID/issues/6281) Perbaikan migrasi dari versi lama (mis: 1903) ke versi paling baru.
 48. [#6168](https://github.com/OpenSID/OpenSID/issues/6168) Menambah fasilitas untuk resize gambar yang sudah ada.
+49. [#6337](https://github.com/OpenSID/OpenSID/issues/6337) Penyesuaian cara perbarui IDM saat server MT.
 
 #### Perubahan Teknis
 

@@ -77,11 +77,26 @@ class Status_desa extends Admin_Controller
             $kode_desa = $this->header['desa']['kode_desa'];
             $cache     = 'idm_' . $tahun . '_' . $kode_desa . '.json';
 
-            $this->cache->file->delete($cache);
-            set_session('tahun', $tahun);
+            // Cek server Kemendes sebelum hapus cache
+            try {
+                $client = new \GuzzleHttp\Client();
+                $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
+                    'headers' => [
+                        'X-Requested-With' => 'XMLHttpRequest',
+                    ],
+                    'verify' => false,
+                ]);
+
+                $this->cache->file->delete($cache);
+                set_session('tahun', $tahun);
+
+                redirect_with('success', 'Berhasil Perbarui Data');
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+            }
         }
 
-        redirect_with('success', 'Berhasil Perbarui Data');
+        redirect_with('error', 'Tidak dapat mengambil data IDM.');
     }
 
     public function simpan(int $tahun)
