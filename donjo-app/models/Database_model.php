@@ -261,7 +261,7 @@ class Database_model extends MY_Model
         if ($this->validasi() || $install) {
             // Paksa menjalankan migrasi kalau belum
             // Migrasi direkam di tabel migrasi
-            if (Schema::hasColumn('migrasi', 'premium') && Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
+            if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
                 // Ulangi migrasi terakhir
                 $terakhir                                   = key(array_slice($this->versionMigrate, -1, 1, true));
                 $sebelumnya                                 = key(array_slice($this->versionMigrate, -2, 1, true));
@@ -3555,7 +3555,7 @@ class Database_model extends MY_Model
     protected function validasi()
     {
         if (empty($token = $this->setting->layanan_opendesa_token)) {
-            log_message('error', 'Token pelanggan kosong / tidak valid.');
+            log_message('notice', 'Token pelanggan kosong / tidak valid.');
 
             return false;
         }

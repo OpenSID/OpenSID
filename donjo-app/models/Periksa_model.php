@@ -36,13 +36,13 @@
  */
 
 use App\Enums\StatusEnum;
+use App\Models\InventarisAsset;
 use App\Models\LogPenduduk;
 use App\Models\LogPerubahanPenduduk;
 use App\Models\PendudukMandiri;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\User;
-use App\Models\InventarisAsset;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -69,12 +69,11 @@ class Periksa_model extends MY_Model
         $current_version  = $this->getSetting('current_version');
         $calon            = $current_version;
 
-
         // tag_id_card belum ada
         if ($db_error_code == 1054 && strpos($db_error_message, 'tag_id_card') !== false) {
-            $calon_ini = '19.04';
-            $this->periksa['masalah'][]          = 'coloumn_tag_id_card_doesnt_exist';
-            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+            $calon_ini                  = '19.04';
+            $this->periksa['masalah'][] = 'coloumn_tag_id_card_doesnt_exist';
+            $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
         }
 
         // Table tweb_penduduk no_kk ganda
@@ -194,7 +193,7 @@ class Periksa_model extends MY_Model
         // Email penduduk ganda, menyebabkan migrasi 22.02 gagal.
         if ($db_error_code == 1062) {
             $pos       = strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE email');
-        $calon_ini = '22.02';
+            $calon_ini = '22.02';
             if ($pos !== false) {
                 $calon_ini                    = '22.02';
                 $this->periksa['masalah'][]   = 'email_ganda';
@@ -214,10 +213,9 @@ class Periksa_model extends MY_Model
 
         $zero_date_default_value = $this->deteksi_zero_date_default_value();
         if (! empty($zero_date_default_value)) {
-            $this->periksa['masalah'][]       = 'zero_date_default_value';
+            $this->periksa['masalah'][]               = 'zero_date_default_value';
             $this->periksa['zero_date_default_value'] = $zero_date_default_value;
         }
-
 
         // Error invalid date
         if (! empty($tabel_invalid_date = $this->deteksi_invalid_date())) {
@@ -435,10 +433,11 @@ class Periksa_model extends MY_Model
         }
 
         //deteksi di modul inventaris
-        $inventaris_asset = InventarisAsset::select(['id', 'updated_at'])->where('updated_at','0000-00-00')->get();
+        $inventaris_asset = InventarisAsset::select(['id', 'updated_at'])->where('updated_at', '0000-00-00')->get();
         if ($inventaris_asset->count() > 0) {
             $tabel['inventaris_asset'] = $inventaris_asset;
         }
+
         return $tabel;
     }
 
@@ -476,6 +475,7 @@ class Periksa_model extends MY_Model
     {
         $database = $this->db->database;
         $table    = str_replace(["Table '", $database, '.', "' doesn't exist"], '', $table);
+
         switch ($table) {
             case 'ref_penduduk_hamil':
                 return '22.02';
@@ -571,6 +571,7 @@ class Periksa_model extends MY_Model
                 case 'zero_date_default_value':
                     $this->perbaiki_zero_date_default_value();
                     break;
+
                 default:
                     break;
             }
@@ -580,7 +581,7 @@ class Periksa_model extends MY_Model
         // Ulangi migrasi mulai dari migrasi_utk_diulang
         if (! $this->db->table_exists('migrasi')) {
             $this->dbforge->add_field([
-                'id'             => [
+                'id' => [
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
@@ -595,7 +596,7 @@ class Periksa_model extends MY_Model
                     'constraint' => 10,
                     'null'       => false,
                 ],
-                'premium'        => [
+                'premium' => [
                     'type' => 'text',
                     'null' => true,
                 ],
@@ -1070,12 +1071,12 @@ class Periksa_model extends MY_Model
         $hasil = true;
 
         if ($zero_date_default_value = $this->periksa['zero_date_default_value']) {
-             foreach ($zero_date_default_value as $key => $value) {
+            foreach ($zero_date_default_value as $key => $value) {
                 $fields = [
                     $value['column_name'] => [
-                        'type'       => $value['data_type'],
-                        'null'       => false,
-                        'default' =>'CURRENT_TIMESTAMP'
+                        'type'    => $value['data_type'],
+                        'null'    => false,
+                        'default' => 'CURRENT_TIMESTAMP',
                     ],
                 ];
 
@@ -1083,6 +1084,7 @@ class Periksa_model extends MY_Model
                 log_message('error', 'Tabel ' . $value['TABLE_NAME'] . ' kolom ' . $value['column_name'] . ' default value menjadi CURRENT_TIMESTAMP.');
             }
         }
+
         return $hasil;
     }
 

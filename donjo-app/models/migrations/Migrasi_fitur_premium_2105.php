@@ -91,7 +91,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
     protected function tambah_kolom_updated_at()
     {
         $hasil = true;
-        if (!$this->db->field_exists('updated_at', 'tweb_keluarga')) {
+        if (! $this->db->field_exists('updated_at', 'tweb_keluarga')) {
             $hasil = $hasil && $this->dbforge->add_column('tweb_keluarga', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
             $hasil = $hasil && $this->dbforge->add_column('tweb_keluarga', 'updated_by int(11) NOT NULL');
         }
@@ -194,14 +194,14 @@ class Migrasi_fitur_premium_2105 extends MY_model
 
     protected function tambah_kolom_log_keluarga($hasil)
     {
-        if (!$this->db->field_exists('id_pend', 'log_keluarga')) {
+        if (! $this->db->field_exists('id_pend', 'log_keluarga')) {
             $hasil = $hasil && $this->dbforge->add_column('log_keluarga', [
                 'id_pend'    => ['type' => 'INT', 'constraint' => 11, 'null' => true],
                 'updated_by' => ['type' => 'INT', 'constraint' => 11, 'null' => false],
             ]);
             $hasil = $hasil && $this->isi_ulang_log_keluarga($hasil);
         }
-        if (!$this->db->field_exists('id_log_penduduk', 'log_keluarga')) {
+        if (! $this->db->field_exists('id_log_penduduk', 'log_keluarga')) {
             $hasil = $hasil && $this->dbforge->add_column('log_keluarga', [
                 'id_log_penduduk' => ['type' => 'INT', 'constraint' => 10, 'null' => true],
             ]);
@@ -227,7 +227,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         $data = [];
 
         foreach ($log_keluar as $log) {
-            if (!$log['id_kk']) {
+            if (! $log['id_kk']) {
                 continue;
             } // Abaikan kasus keluar dari keluarga
             $data[] = [
@@ -268,7 +268,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
             ->join('log_penduduk lp', 'lp.id_pend = p.id and lp.kode_peristiwa = p.status_dasar')
             ->where('p.status_dasar <>', 1)
             ->get()->result_array();
-        if (!empty($mutasi)) {
+        if (! empty($mutasi)) {
             $hasil = $hasil && $this->db->insert_batch('log_keluarga', $mutasi);
         }
 
@@ -384,7 +384,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
     protected function tambah_kolom_tanah_di_desa()
     {
         $hasil = true;
-        if (!$this->db->field_exists('hak_milik', 'tanah_desa')) {
+        if (! $this->db->field_exists('hak_milik', 'tanah_desa')) {
             $hasil = $hasil && $this->dbforge->add_column('tanah_desa', [
                 'jenis_pemilik'        => ['type' => 'TEXT', 'after' => 'id_penduduk'],
                 'hak_milik'            => ['type' => 'INT', 'constraint' => 11, 'after' => 'luas'],
@@ -416,7 +416,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
     protected function tambah_kolom_nik_tanah_di_desa()
     {
         $hasil = true;
-        if (!$this->db->field_exists('nik', 'tanah_desa')) {
+        if (! $this->db->field_exists('nik', 'tanah_desa')) {
             $hasil = $hasil && $this->dbforge->add_column('tanah_desa', [
                 'nik' => ['type' => 'DECIMAL', 'constraint' => 16.0, 'after' => 'id_penduduk'],
             ]);
@@ -429,7 +429,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
     protected function tambah_kolom_tanah_kas_desa()
     {
         $hasil = true;
-        if (!$this->db->field_exists('asli_milik_desa', 'tanah_kas_desa')) {
+        if (! $this->db->field_exists('asli_milik_desa', 'tanah_kas_desa')) {
             $hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', [
                 'asli_milik_desa'      => ['type' => 'INT', 'constraint' => 11, 'after' => 'luas'],
                 'pemerintah'           => ['type' => 'INT', 'constraint' => 11, 'after' => 'asli_milik_desa'],
@@ -472,31 +472,31 @@ class Migrasi_fitur_premium_2105 extends MY_model
             'id' => ['type' => 'INT', 'constraint' => 5, 'auto_increment' => true],
         ];
         $hasil = $hasil && $this->dbforge->modify_column('user_grup', $fields);
-        if (!$this->db->field_exists('created_by', 'user_grup')) {
+        if (! $this->db->field_exists('created_by', 'user_grup')) {
             $hasil = $hasil && $this->dbforge->add_column('user_grup', [
                 'created_by' => ['type' => 'INT', 'constraint' => 11, 'null' => true],
             ]);
         }
 
-        if (!$this->db->field_exists('jenis', 'user_grup')) {
+        if (! $this->db->field_exists('jenis', 'user_grup')) {
             $hasil = $hasil && $this->dbforge->add_column('user_grup', [
                 'jenis' => ['type' => 'TINYINT', 'constraint' => 2, 'null' => false, 'default' => 1],
             ]);
         }
 
-        if (!$this->db->field_exists('created_at', 'user_grup')) {
+        if (! $this->db->field_exists('created_at', 'user_grup')) {
             $hasil = $hasil && $this->dbforge->add_column('user_grup', [
                 'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
             ]);
         }
 
-        if (!$this->db->field_exists('updated_at', 'user_grup')) {
+        if (! $this->db->field_exists('updated_at', 'user_grup')) {
             $hasil = $hasil && $this->dbforge->add_column('user_grup', [
                 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
             ]);
         }
 
-        if (!$this->db->field_exists('updated_by', 'user_grup')) {
+        if (! $this->db->field_exists('updated_by', 'user_grup')) {
             $hasil = $hasil && $this->dbforge->add_column('user_grup', [
                 'updated_by' => ['type' => 'INT', 'constraint' => 11, 'null' => false],
             ]);
@@ -719,15 +719,15 @@ class Migrasi_fitur_premium_2105 extends MY_model
 
         // Hanya isi jika grup Satgas Covid masih ada dan grup_akses belum ada (Jangan ubah grup_akses satgas covid jika sudah ada)
         if ($this->db->get_where('user_grup', ['id' => 5])->row()) {
-            if (!$this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 3])->row()) {
+            if (! $this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 3])->row()) {
                 $this->grupAkses(5, 3, 0);
             }
 
-            if (!$this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 206])->row()) {
+            if (! $this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 206])->row()) {
                 $this->grupAkses(5, 206, 0);
             }
 
-            if (!$this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 208])->row()) {
+            if (! $this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 208])->row()) {
                 $this->grupAkses(5, 208, 7);
             }
         }
@@ -853,7 +853,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
     private function field_gform_id_master_analisis($hasil)
     {
         // Tambah field gfrom_id pada tabel analisis_master
-        if (!$this->db->field_exists('gform_id', 'analisis_master')) {
+        if (! $this->db->field_exists('gform_id', 'analisis_master')) {
             $fields = [
                 'gform_id' => [
                     'type' => 'TEXT',
@@ -865,7 +865,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         }
 
         // Tambah field gform_nik_item_id pada tabel analisis_master
-        if (!$this->db->field_exists('gform_nik_item_id', 'analisis_master')) {
+        if (! $this->db->field_exists('gform_nik_item_id', 'analisis_master')) {
             $fields = [
                 'gform_nik_item_id' => [
                     'type' => 'TEXT',
@@ -877,7 +877,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         }
 
         // Tambah field gform_last_sync pada tabel analisis_master
-        if (!$this->db->field_exists('gform_last_sync', 'analisis_master')) {
+        if (! $this->db->field_exists('gform_last_sync', 'analisis_master')) {
             $fields = [
                 'gform_last_sync' => [
                     'type' => 'DATETIME',

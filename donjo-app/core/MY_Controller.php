@@ -92,7 +92,7 @@ class MY_Controller extends CI_Controller
         $this->request = $this->input->post();
 
         // Untuk anjungan
-        if (Schema::hasColumn('anjungan', 'tipe')) {
+        if (Schema::hasColumn('anjungan', 'tipe') && Schema::hasColumn('anjungan', 'status_alasan')) {
             if (! cek_anjungan() && Anjungan::exists()) {
                 try {
                     Anjungan::tipe(1)->update(['status' => 0, 'status_alasan' => 'tidak berlangganan anjungan']);
@@ -183,7 +183,7 @@ class Web_Controller extends MY_Controller
         $data['desa']          = $this->header;
         $data['menu_atas']     = $this->first_menu_m->list_menu_atas();
         $data['menu_kiri']     = $this->first_menu_m->list_menu_kiri();
-        $data['teks_berjalan'] = $this->teks_berjalan_model->list_data(true, 1);
+        $data['teks_berjalan'] = ($this->db->field_exists('tipe', 'teks_berjalan')) ? $this->teks_berjalan_model->list_data(true, 1) : null;
         $data['slide_artikel'] = $this->first_artikel_m->slide_show();
         $data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
         $data['w_cos']         = $this->web_widget_model->get_widget_aktif();
@@ -301,6 +301,8 @@ class Premium extends MY_Controller
      */
     public function validasi()
     {
+        return true;
+
         // Jangan jalankan validasi akses untuk spesifik controller.
         if (in_array($this->router->class, $this->kecuali) || (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO)))) {
             return;

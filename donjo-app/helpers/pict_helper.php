@@ -414,8 +414,8 @@ function ResizeGambar($filename, $path, $dimensi)
 {
     $source_path = $filename;
     $target_path = $path;
-    $imgdata=exif_read_data($target_path,'IFD0');
-     
+    $imgdata     = exif_read_data($target_path, 'IFD0');
+
     $config_manip = [
         'image_library'  => 'gd2',
         'source_image'   => $source_path,
@@ -439,19 +439,22 @@ function ResizeGambar($filename, $path, $dimensi)
 
     //putar gambar
     $config['image_library'] = 'gd2';
-    $config['source_image'] = $path;
+    $config['source_image']  = $path;
+
     switch($imgdata['Orientation']) {
         case 3:
-            $config['rotation_angle']='180';
+            $config['rotation_angle'] = '180';
             break;
+
         case 6:
-            $config['rotation_angle']='270';
+            $config['rotation_angle'] = '270';
             break;
+
         case 8:
-            $config['rotation_angle']='90';
+            $config['rotation_angle'] = '90';
             break;
     }
-    $ci->image_lib->initialize($config); 
+    $ci->image_lib->initialize($config);
     $ci->image_lib->rotate();
 }
 
