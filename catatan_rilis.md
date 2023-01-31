@@ -1,4 +1,4 @@
-Di rilis ini, versi 23.01-pasca menyediakan integrasi aplikasi stunting ke OpenSID dan fitur baru surat TinyMCE. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 23.02 menyediakan integrasi aplikasi stunting ke OpenSID dan fitur baru surat TinyMCE. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada balongbesuk yang terus berkontribusi.
 
