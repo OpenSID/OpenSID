@@ -64,6 +64,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 47. [#6281](https://github.com/OpenSID/OpenSID/issues/6281) Perbaikan migrasi dari versi lama (mis: 1903) ke versi paling baru.
 48. [#6168](https://github.com/OpenSID/OpenSID/issues/6168) Menambah fasilitas untuk resize gambar yang sudah ada.
 49. [#6337](https://github.com/OpenSID/OpenSID/issues/6337) Penyesuaian cara perbarui IDM saat server MT.
+50. [#6338](https://github.com/OpenSID/OpenSID/issues/6338) Perbaikan install awal dengan seeder.
 
 #### Perubahan Teknis
 

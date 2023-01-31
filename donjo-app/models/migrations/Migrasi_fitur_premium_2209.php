@@ -341,7 +341,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             // Sesuaikan Penanda tangan kepala desa
             $hasil = $hasil && Pamong::where('pamong_ttd', 1)->update(['jabatan_id' => 1, 'pamong_ttd' => 0, 'pamong_ub' => 0]);
         } else {
-            log_message('error', 'Kepala Desa tidak ditemukan');
+            log_message('notice', 'Kepala Desa tidak ditemukan');
         }
 
         // Jalankan hanya jika terdeksi cara lama (sekdes = u.b)
@@ -349,7 +349,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             // Sesuaikan Penanda tangan sekdes (a.n)
             $hasil = $hasil && Pamong::where('pamong_ub', 1)->update(['jabatan_id' => 2, 'pamong_ttd' => 1, 'pamong_ub' => 0]);
         } else {
-            log_message('error', 'Sekretaris Desa tidak ditemukan');
+            log_message('notice', 'Sekretaris Desa tidak ditemukan');
         }
 
         // Bagian ini di lewati, default tidak ada terpilih
