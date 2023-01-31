@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '23.01-premium-beta01');
+define('VERSION', '23.02-premium');
 
 /**
  * VERSI_DATABASE
@@ -52,7 +52,7 @@ define('VERSION', '23.01-premium-beta01');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023013052');
+define('VERSI_DATABASE', '2023013152');
 
 // Website Demo OpenSID
 define('WEBSITE_DEMO', [

@@ -55,7 +55,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
         $hasil = $hasil && $this->migrasi_2023012451($hasil);
         $hasil = $hasil && $this->migrasi_2023012751($hasil);
         $hasil = $hasil && $this->migrasi_2023013051($hasil);
-        $hasil = $hasil && $this->migrasi_2023013052($hasil);
+        $hasil = $hasil && $this->migrasi_2023013152($hasil);
 
         return $hasil && true;
     }
@@ -264,7 +264,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2023013052($hasil)
+    protected function migrasi_2023013152($hasil)
     {
         // Hapus unsigned pada kolom id di tabel ref_pindah
         return $hasil && $this->dbforge->modify_column('ref_pindah', [
