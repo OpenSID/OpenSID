@@ -301,8 +301,6 @@ class Premium extends MY_Controller
      */
     public function validasi()
     {
-        return true;
-
         // Jangan jalankan validasi akses untuk spesifik controller.
         if (in_array($this->router->class, $this->kecuali) || (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO)))) {
             return;
