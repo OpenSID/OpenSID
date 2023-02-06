@@ -259,6 +259,7 @@ class Rtm extends Admin_Controller
 
     public function anggota($id = 0)
     {
+        $data['p']  = $this->session->per_page;
         $data['kk'] = $id;
 
         $data['main']      = $this->rtm_model->list_anggota($id);
