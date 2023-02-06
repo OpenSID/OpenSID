@@ -12,4 +12,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Perubahan Teknis
 
-1. 
+1. [#1889](https://github.com/OpenSID/premium/issues/1889) Penyesuaian created_at dan updated_at pada modul DTKS.
