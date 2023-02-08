@@ -4,7 +4,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 #### Perbaikan BUG
 
-1.
+1. [#6391](https://github.com/OpenSID/OpenSID/issues/6391) Perbaikan menampilkan dan menyembunyikan password pada saat ganti profil.
 
 #### Perubahan Teknis
 
