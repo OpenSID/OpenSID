@@ -121,13 +121,13 @@ class Keluar_model extends CI_Model
     {
         $isAdmin = $this->session->isAdmin->pamong;
         if (isset($this->session->masuk)) {
-            if ($isAdmin->jabatan_id == 1) {
+            if ($isAdmin->jabatan_id == kades()->id) {
                 if (setting('tte') == 1) {
                     $this->db->where('verifikasi_kades', '0')->or_where('tte', '0');
                 } else {
                     $this->db->where('verifikasi_kades', '0');
                 }
-            } elseif ($isAdmin->jabatan_id == 2) {
+            } elseif ($isAdmin->jabatan_id == sekdes()->id) {
                 $this->db->where('verifikasi_sekdes', '0');
             } else {
                 $this->db->where('verifikasi_operator', '0');
@@ -136,13 +136,13 @@ class Keluar_model extends CI_Model
             $this->db->where('verifikasi_operator', '-1');
         } else {
             $isAdmin = $this->session->isAdmin->pamong;
-            if ($isAdmin->jabatan_id == 1 && setting('verifikasi_kades') == 1) {
+            if ($isAdmin->jabatan_id == kades()->id && setting('verifikasi_kades') == 1) {
                 $this->db->where('verifikasi_kades', '1')
                     ->or_group_start()
                     ->where('verifikasi_operator')
                     ->where('verifikasi_sekdes')
                     ->group_end();
-            } elseif ($isAdmin->jabatan_id == 2 && setting('verifikasi_sekdes') == 1) {
+            } elseif ($isAdmin->jabatan_id == sekdes()->id && setting('verifikasi_sekdes') == 1) {
                 $this->db->where('verifikasi_sekdes', '1')->or_where('verifikasi_operator');
             } else {
                 $this->db->where('verifikasi_operator', '1')->or_where('verifikasi_operator');
@@ -154,14 +154,14 @@ class Keluar_model extends CI_Model
     {
         // jika kepdesa
         $isAdmin = $this->session->isAdmin->pamong;
-        if ($isAdmin->jabatan_id == 1 && setting('verifikasi_kades') == 1) {
+        if ($isAdmin->jabatan_id == kades()->id && setting('verifikasi_kades') == 1) {
             $this->db->group_start()
                 ->where_in('verifikasi_kades', ['1', '0'])
                 ->group_end();
             $this->db->select('verifikasi_kades as verifikasi');
             $raw_status_periksa = 'CASE when verifikasi_kades = 1 THEN IF(tte is null,verifikasi_kades,2) ELSE 0 end AS status_periksa';
             $this->db->select($raw_status_periksa);
-        } elseif ($isAdmin->jabatan_id == 2 && setting('verifikasi_sekdes') == 1) {
+        } elseif ($isAdmin->jabatan_id == sekdes()->id && setting('verifikasi_sekdes') == 1) {
             $this->db->group_start()
                 ->where_in('verifikasi_sekdes', ['1', '0'])
                 ->or_where('verifikasi_operator')

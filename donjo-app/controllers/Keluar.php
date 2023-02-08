@@ -35,11 +35,12 @@
  *
  */
 
+use App\Models\User;
 use App\Models\LogSurat;
 use App\Models\LogTolak;
 use App\Models\Penduduk;
+use App\Models\RefJabatan;
 use App\Models\PermohonanSurat;
-use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -91,7 +92,7 @@ class Keluar extends Admin_Controller
         }
 
         if (setting('verifikasi_kades') || setting('verifikasi_sekdes')) {
-            $data['operator'] = ($this->isAdmin->jabatan_id == 1 || $this->isAdmin->jabatan_id == 2) ? false : true;
+            $data['operator'] = ($this->isAdmin->jabatan_id == kades()->id || $this->isAdmin->jabatan_id == sekdes()->id) ? false : true;
             $data['widgets']  = $this->widget();
         }
 
@@ -132,14 +133,14 @@ class Keluar extends Admin_Controller
 
         $data['per_page']   = $this->session->per_pages;
         $data['title']      = 'Permohonan Surat';
-        $data['operator']   = (in_array($this->isAdmin->jabatan_id, ['1', '2'])) ? false : true;
+        $data['operator']   = (in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes())) ? false : true;
         $data['user_admin'] = (config_item('user_admin') == auth()->id) ? true : false;
         $ref_jabatan_kades  = setting('sebutan_kepala_desa');
         $ref_jabatan_sekdes = setting('sebutan_sekretaris_desa');
 
-        if ($this->isAdmin->jabatan_id == 1) {
+        if ($this->isAdmin->jabatan_id == kades()->id) {
             $data['next'] = null;
-        } elseif ($this->isAdmin->jabatan_id == 2) {
+        } elseif ($this->isAdmin->jabatan_id == sekdes()->id) {
             $data['next'] = setting('verifikasi_kades') ? $ref_jabatan_kades : null;
         } else {
             if (setting('verifikasi_sekdes')) {
@@ -187,7 +188,7 @@ class Keluar extends Admin_Controller
 
         $data['per_page'] = $this->session->per_pages;
         $data['title']    = 'Surat Ditolak';
-        $data['operator'] = ((int) $this->isAdmin->jabatan_id == 1 || (int) $this->isAdmin->jabatan_id == 2) ? false : true;
+        $data['operator'] = ((int) $this->isAdmin->jabatan_id == kades()->id || (int) $this->isAdmin->jabatan_id == sekdes()->id) ? false : true;
 
         if (setting('verifikasi_sekdes')) {
             $data['next'] = setting('sebutan_sekretaris_desa');
@@ -419,12 +420,12 @@ class Keluar extends Admin_Controller
         $surat->pamong;
         $mandiri            = PermohonanSurat::where('id_surat', $surat->id_format_surat)->where('isian_form->nomor', $surat->no_surat)->first();
         $individu           = $surat->penduduk;
-        $operator           = ($this->isAdmin->jabatan_id == 1 || $this->isAdmin->jabatan_id == 2) ? false : true;
+        $operator           = ($this->isAdmin->jabatan_id == kades()->id || $this->isAdmin->jabatan_id == sekdes()->id) ? false : true;
         $ref_jabatan_sekdes = setting('sebutan_sekretaris_desa');
 
-        if ($this->isAdmin->jabatan_id == 1) {
+        if ($this->isAdmin->jabatan_id == kades()->id) {
             $next = null;
-        } elseif ($this->isAdmin->jabatan_id == 2) {
+        } elseif ($this->isAdmin->jabatan_id == sekdes()->id) {
             $next = setting('verifikasi_kades') ? setting('sebutan_kepala_desa') : null;
         } else {
             if (setting('verifikasi_sekdes')) {
@@ -587,7 +588,7 @@ class Keluar extends Admin_Controller
         }
 
         return [
-            'suratMasuk' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == '1', static function ($q) {
+            'suratMasuk' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == kades()->id, static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
                 })
@@ -595,13 +596,13 @@ class Keluar extends Admin_Controller
                         return $tte->where('verifikasi_kades', '=', '0');
                     });
             })
-                ->when($this->isAdmin->jabatan_id == '2', static function ($q) {
+                ->when($this->isAdmin->jabatan_id == sekdes()->id, static function ($q) {
                     return $q->where('verifikasi_sekdes', '=', '0');
                 })
-                ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, ['1', '2']), static function ($q) {
+                ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '0');
                 })->count(),
-            'arsip' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == '1', static function ($q) {
+            'arsip' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == kades()->id, static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('tte', '=', 1);
                 })
@@ -612,10 +613,10 @@ class Keluar extends Admin_Controller
                         $verifikasi->whereNull('verifikasi_operator');
                     });
             })
-                ->when($this->isAdmin->jabatan_id == '2', static function ($q) {
+                ->when($this->isAdmin->jabatan_id == sekdes()->id, static function ($q) {
                     return $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator');
                 })
-                ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, ['1', '2']), static function ($q) {
+                ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
                 })->count(),
             'tolak' => LogSurat::whereNull('deleted_at')->where('verifikasi_operator', '=', '-1')->count(),

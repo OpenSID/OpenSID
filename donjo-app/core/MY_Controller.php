@@ -35,12 +35,12 @@
  *
  */
 
-use App\Models\Anjungan;
-use App\Models\Config;
-use App\Models\GrupAkses;
-use App\Models\LogSurat;
-use App\Models\Pamong;
 use App\Models\Pesan;
+use App\Models\Config;
+use App\Models\Pamong;
+use App\Models\Anjungan;
+use App\Models\LogSurat;
+use App\Models\GrupAkses;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -459,17 +459,17 @@ class Admin_Controller extends Premium
         $isAdmin                                = $this->session->isAdmin->pamong;
         $this->header['notif_permohonan']       = 0;
         if ($this->db->field_exists('verifikasi_operator', 'log_surat') && $this->db->field_exists('deleted_at', 'log_surat')) {
-            $this->header['notif_permohonan'] = LogSurat::whereNull('deleted_at')->when($isAdmin->jabatan_id == '1', static function ($q) {
+            $this->header['notif_permohonan'] = LogSurat::whereNull('deleted_at')->when($isAdmin->jabatan_id == kades()->id, static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
                 })->when(setting('tte') == 0, static function ($tte) {
                     return $tte->where('verifikasi_kades', '=', 0);
                 });
             })
-                ->when($isAdmin->jabatan_id == '2', static function ($q) {
+                ->when($isAdmin->jabatan_id == sekdes()->id, static function ($q) {
                     return $q->where('verifikasi_sekdes', '=', '0');
                 })
-                ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, ['1', '2']), static function ($q) {
+                ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, [kades()->id, sekdes()->id]), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '0')->orWhere('verifikasi_operator', '=', '-1');
                 })
                 ->count();

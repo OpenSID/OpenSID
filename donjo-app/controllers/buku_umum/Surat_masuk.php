@@ -118,7 +118,7 @@ class Surat_masuk extends Admin_Controller
             $data['disposisi_surat_masuk']     = null;
         }
 
-        $data['ref_disposisi'] = RefJabatan::where('id', '!=', RefJabatan::KADES)->pluck('nama', 'id');
+        $data['ref_disposisi'] = RefJabatan::urut()->latest()->pluck('nama', 'id')->except(kades()->id);
 
         // Buang unique id pada link nama file
         $berkas                             = explode('__sid__', $data['surat_masuk']['berkas_scan']);
@@ -244,7 +244,7 @@ class Surat_masuk extends Admin_Controller
         $data['desa']                  = $this->header['desa'];
         $data['pamong_ttd']            = $this->pamong_model->get_data($_POST['pamong_ttd']);
         $data['pamong_ketahui']        = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-        $data['ref_disposisi']         = RefJabatan::select(['id', 'nama'])->where('id', '!=', RefJabatan::KADES)->get();
+        $data['ref_disposisi']         = RefJabatan::select(['id', 'nama'])->urut()->latest()->get()->except(kades()->id);
         $data['disposisi_surat_masuk'] = DisposisiSuratmasuk::where('id_surat_masuk', $id)->pluck('disposisi_ke')->toArray();
         $data['surat']                 = $this->surat_masuk_model->get_surat_masuk($id);
         $this->load->view('surat_masuk/disposisi', $data);

@@ -36,6 +36,7 @@
  */
 
 use App\Models\Pamong;
+use App\Models\RefJabatan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -171,6 +172,7 @@ class Statistik extends Admin_Controller
         $data['aksi']        = $aksi;
         $data['lap']         = $this->session->lap;
         $data['pamong']      = Pamong::penandaTangan()->get();
+        $data['getKades']    = kades()->id;
         $data['form_action'] = site_url("statistik/daftar/{$aksi}/{$data['lap']}");
 
         $this->load->view('statistik/ajax_daftar', $data);

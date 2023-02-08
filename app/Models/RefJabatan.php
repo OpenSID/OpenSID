@@ -38,6 +38,8 @@
 namespace App\Models;
 
 use App\Traits\Author;
+use App\Traits\ConfigId;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,12 +47,8 @@ class RefJabatan extends BaseModel
 {
     use Author;
 
-    public const KADES          = 1;
-    public const SEKDES         = 2;
-    public const EXCLUDE_DELETE = [
-        self::KADES,
-        self::SEKDES,
-    ];
+    public const KADES  = 1;
+    public const SEKDES = 2;
 
     /**
      * The table associated with the model.
@@ -72,12 +70,30 @@ class RefJabatan extends BaseModel
         'updated_by',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'jenis' => 'boolean',
-    ];
+    // get data jabatan jenis kades
+    public static function getKades()
+    {
+        return self::whereJenis(self::KADES)->first();
+    }
+
+    // get data jabatan jenis sekdes
+    public static function getSekdes()
+    {
+        return self::whereJenis(self::SEKDES)->first();
+    }
+
+    // get data jabatan jenis sekdes
+    public static function getKadesSekdes()
+    {
+        return [
+            self::getKades()->id,
+            self::getSekdes()->id,
+        ];
+    }
+
+    // scope
+    public function scopeUrut($query, $order = 'ASC')
+    {
+        return $query->orderByRaw("CASE WHEN jenis = 0 THEN 999999 ELSE jenis END", $order);
+    }
 }
