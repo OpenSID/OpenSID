@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+
 /*
  *
  * File ini bagian dari:
@@ -46,11 +48,15 @@ class Migrasi_fitur_premium_2303 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2302');
 
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023020251($hasil);
     }
 
-    protected function migrasi_xxxxxxxxxx($hasil)
+    protected function migrasi_2023020251($hasil)
     {
+        // Sesuaikan data jabatan agar bisa digunakan di OpenKAB
+        // Parameter migrasi ditentukan dari jabatan sekreatis dengan id = 2 jika jenis = 1 akan dilakukan migrasi
+        DB::table('ref_jabatan')->where('id', 2)->where('jenis', 1)->update(['jenis' => 2]);
+
         return $hasil;
     }
 }

@@ -139,7 +139,7 @@
                                             <?php $mulai = 1;
 
         foreach ($main as $key => $data): ?>
-                                                <tr <?= jecho(in_array($data['jabatan_id'], [1, 2]), true, 'class="select-row"') ?>>
+                                                <tr <?= jecho(in_array($data['jabatan_id'], $jabatanKadesSekdes), true, 'class="select-row"') ?>>
                                                     <td class="text-center">
                                                         <input data-deletable="<?= $data['deletable'] ?>" type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
                                                     </td>
@@ -147,7 +147,7 @@
                                                     <?php if (can('u')): ?>
                                                         <td nowrap>
                                                             <?php if (can('u')): ?>
-                                                                <?php if (! in_array($data['jabatan_id'], [1, 2])): ?>
+                                                                <?php if (! in_array($data['jabatan_id'], $jabatanKadesSekdes)): ?>
                                                                     <a href="<?= site_url("pengurus/urut/{$paging->page}/{$data['pamong_id']}/1")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) && print 'disabled'; ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
                                                                     <a href="<?= site_url("pengurus/urut/{$paging->page}/{$data['pamong_id']}/2")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $mulai && $paging->page == $paging->start_link) && print 'disabled'; ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
                                                                 <?php else: ?>
@@ -169,14 +169,14 @@
                                                                 <?php else: ?>
                                                                     <a href="<?= site_url("pengurus/kehadiran/{$data['pamong_id']}/1")?>" class="btn bg-aqua btn-flat btn-sm" title="Aktifkan Kehadiran Perangkat"><i class="fa fa-ban"></i></a>
                                                                 <?php endif ?>
-                                                                <?php if (in_array($data['jabatan_id'], [2])): ?>
+                                                                <?php if ($data['jabatan_id'] == $jabatanSekdes): ?>
                                                                     <?php if ($data['pamong_ttd'] == '1'): ?>
                                                                         <a href="<?= site_url("pengurus/ttd/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD a.n">a.n</a>
                                                                     <?php else: ?>
                                                                         <a href="<?= site_url("pengurus/ttd/{$data['pamong_id']}/1")?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD a.n">a.n</a>
                                                                     <?php endif ?>
                                                                 <?php endif ?>
-                                                                <?php if (! in_array($data['jabatan_id'], $kecuali_jabatan)): ?>
+                                                                <?php if (! in_array($data['jabatan_id'], $jabatanKadesSekdes)): ?>
                                                                     <?php if ($data['pamong_ub'] == '1'): ?>
                                                                         <a href="<?= site_url("pengurus/ub/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD u.b">u.b</a>
                                                                     <?php else: ?>

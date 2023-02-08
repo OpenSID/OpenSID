@@ -411,10 +411,10 @@ class Surat_master extends Admin_Controller
         $data['font_option'] = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
         $data['tte_demo']    = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
         $data['kades']       = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
-            return $query->where('jabatan_id', '=', '1');
+            return $query->where('jabatan_id', '=', kades()->id);
         })->exists();
         $data['sekdes'] = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
-            return $query->where('jabatan_id', '=', '2');
+            return $query->where('jabatan_id', '=', sekdes()->id);
         })->exists();
 
         $data['ref_jabatan'] = RefJabatan::all();

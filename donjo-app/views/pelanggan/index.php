@@ -445,12 +445,16 @@
             preConfirm: (token) => {
                 //cek token
                 var parse_token = parseJwt(token);
-                if (moment(parse_token.tanggal_berlangganan.akhir, 'YYYY-MM-DD').diff(moment()) < 0) { // jika perbedaanya minus
+                var ambilversi = "<?=substr(str_replace('.', '', AmbilVersi()), 0, 4)?>";
+                var ambiltanggal = ((parse_token.tanggal_berlangganan.akhir).replace('-', '')).substr(2,4);
+                if (ambilversi != ambiltanggal){
+                    if (moment(parse_token.tanggal_berlangganan.akhir, 'YYYY-MM-DD').diff(moment()) < 0) { // jika perbedaanya minus
 
-                    Swal.showValidationMessage(
-                        `Token Berlangganan sudah berakhir. Tanggal berlangganan sampai : ${parse_token.tanggal_berlangganan.akhir}`
-                    )
-                    return;
+                        Swal.showValidationMessage(
+                            `Token Berlangganan sudah berakhir. Tanggal berlangganan sampai : ${parse_token.tanggal_berlangganan.akhir}`
+                        )
+                        return;
+                    }
                 }
 
                 return fetch(`<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`, {

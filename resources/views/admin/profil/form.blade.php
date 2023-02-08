@@ -53,7 +53,7 @@
                         <div class="input-group">
                             <input id="password-lama" class="form-control input-sm required" type="password" name="pass_lama"
                                 autocomplete="off" />
-                            <span class="input-group-addon input-sm reveal-lama"><i class="fa fa-eye-slash"></i></span>
+                            <span class="input-group-addon input-sm reveal-lama" id="reveal-lama"><i class="fa fa-eye-slash"></i></span>
                         </div>
                     </div>
                     <div class="form-group">
