@@ -261,6 +261,9 @@ class Keluar extends Admin_Controller
             $log_surat = LogSurat::where('id', '=', $id)->first();
             $log_surat->update([$current => 1,  $next => 0, 'log_verifikasi' => $log]);
 
+            // hapus surat pdf agar bisa digenerate ulang.
+            unlink(FCPATH . LOKASI_ARSIP . $log_surat->nama_surat);
+
             $kirim_telegram = User::whereHas('pamong', static function ($query) use ($next) {
                 if ($next == 'verifikasi_sekdes') {
                     return $query->where('pamong_ub', '=', '1');
