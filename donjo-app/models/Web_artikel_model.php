@@ -327,6 +327,9 @@ class Web_artikel_model extends MY_Model
         session_error_clear();
 
         $data = $_POST;
+        $hapus_lampiran = $data['hapus_lampiran'];
+        unset($data['hapus_lampiran']);
+
         if (empty($data['judul']) || empty($data['isi'])) {
             $_SESSION['error_msg'] .= ' -> Data harus diisi';
             $_SESSION['success'] = -1;
@@ -411,6 +414,10 @@ class Web_artikel_model extends MY_Model
         } else {
             $this->db->where('a.id', $id);
             $outp = $this->db->update('artikel a', $data);
+        }
+
+        if ($hapus_lampiran == 'true') {
+            $this->db->where('id', $id)->update('artikel', ['dokumen' => null, 'link_dokumen' => '']);
         }
 
         status_sukses($outp);
@@ -661,4 +668,5 @@ class Web_artikel_model extends MY_Model
             $this->db->where('a.id_user', $this->session->user);
         }
     }
+
 }
