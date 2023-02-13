@@ -502,4 +502,21 @@ class Surat_masuk_model extends MY_Model
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
+
+    public function remove_character()
+    {
+        $surat_masuk = $this->db->select('*')->get('surat_masuk')->result_array();
+
+        foreach ($surat_masuk as $data) {
+            $this->db->where('id', $data['id']);
+            $this->db->update(
+                'surat_masuk',
+                [
+                    'pengirim'      => trim(preg_replace('/\n|\r/', ' ', $data['pengirim'])),
+                    'isi_singkat'   => trim(preg_replace('/\n|\r/', ' ', $data['isi_singkat'])),
+                    'isi_disposisi' => trim(preg_replace('/\n|\r/', ' ', $data['isi_disposisi'])),
+                ]
+            );
+        }
+    }
 }

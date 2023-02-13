@@ -6,6 +6,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 1. [#6391](https://github.com/OpenSID/OpenSID/issues/6391) Perbaikan menampilkan dan menyembunyikan password pada saat ganti profil.
 2. [#6405](https://github.com/OpenSID/OpenSID/issues/6405) Perbaikan validasi token versi dan tanggal berakhir sama.
+3. [#6344](https://github.com/OpenSID/OpenSID/issues/6344) Perbaikan validasi karakter pada surat masuk.
 
 #### Perubahan Teknis
 
