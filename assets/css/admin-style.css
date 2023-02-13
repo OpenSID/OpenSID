@@ -48,6 +48,16 @@
     border-radius: 0;
 }
 
+.input-group> label.error{
+    position:fixed;
+    margin-top: 25px;
+    margin-left: -366px;
+}
+
+.input-group{
+    margin-bottom: 30px!important;
+}
+
 .btn-group-sm>.btn,
 .btn-sm {
     line-height: 1;
