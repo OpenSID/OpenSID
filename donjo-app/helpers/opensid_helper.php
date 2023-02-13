@@ -1525,7 +1525,7 @@ if (! function_exists('kades')) {
     /**
      * - Fungsi untuk mengambil data jabatan kades.
      *
-     * @return array | object
+     * @return array|object
      */
     function kades()
     {
@@ -1537,7 +1537,7 @@ if (! function_exists('sekdes')) {
     /**
      * - Fungsi untuk mengambil data jabatan sekdes.
      *
-     * @return array | object
+     * @return array|object
      */
     function sekdes()
     {

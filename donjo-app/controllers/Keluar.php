@@ -35,12 +35,12 @@
  *
  */
 
-use App\Models\User;
 use App\Models\LogSurat;
 use App\Models\LogTolak;
 use App\Models\Penduduk;
-use App\Models\RefJabatan;
 use App\Models\PermohonanSurat;
+use App\Models\RefJabatan;
+use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

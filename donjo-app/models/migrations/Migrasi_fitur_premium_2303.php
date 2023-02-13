@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
-
 /*
  *
  * File ini bagian dari:
@@ -36,6 +34,8 @@ use Illuminate\Support\Facades\DB;
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

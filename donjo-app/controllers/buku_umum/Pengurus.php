@@ -312,7 +312,7 @@ class Pengurus extends Admin_Controller
         }
 
         return view('admin.jabatan.index', [
-            'selected_nav'  => 'pengurus',
+            'selected_nav' => 'pengurus',
         ]);
     }
 

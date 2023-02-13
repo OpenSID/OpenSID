@@ -36,7 +36,6 @@
  */
 
 use App\Libraries\TinyMCE;
-use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\Schema;
 

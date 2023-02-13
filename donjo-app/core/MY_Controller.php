@@ -35,12 +35,12 @@
  *
  */
 
-use App\Models\Pesan;
-use App\Models\Config;
-use App\Models\Pamong;
 use App\Models\Anjungan;
-use App\Models\LogSurat;
+use App\Models\Config;
 use App\Models\GrupAkses;
+use App\Models\LogSurat;
+use App\Models\Pamong;
+use App\Models\Pesan;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');

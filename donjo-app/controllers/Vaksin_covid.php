@@ -36,7 +36,6 @@
  */
 
 use App\Models\Pamong;
-use App\Models\RefJabatan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
