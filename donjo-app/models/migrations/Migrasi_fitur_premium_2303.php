@@ -46,9 +46,11 @@ class Migrasi_fitur_premium_2303 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2302');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2301');
+        $hasil = $hasil && $this->migrasi_2023020251($hasil);
+        $hasil = $hasil && $this->migrasi_2023021471($hasil);
 
-        return $hasil && $this->migrasi_2023020251($hasil);
+        return $hasil && true;
     }
 
     protected function migrasi_2023020251($hasil)
@@ -58,5 +60,17 @@ class Migrasi_fitur_premium_2303 extends MY_model
         DB::table('ref_jabatan')->where('id', 2)->where('jenis', 1)->update(['jenis' => 2]);
 
         return $hasil;
+    }
+
+    protected function migrasi_2023021471($hasil)
+    {
+        $fields = [
+            'tinggi_badan' => [
+                'type'       => 'FLOAT',
+                'constraint' => '',
+            ],
+        ];
+
+        return $hasil && $this->dbforge->modify_column('bulanan_anak', $fields);
     }
 }
