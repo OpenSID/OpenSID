@@ -38,8 +38,6 @@
 namespace App\Models;
 
 use App\Traits\Author;
-use App\Traits\ConfigId;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -94,6 +92,6 @@ class RefJabatan extends BaseModel
     // scope
     public function scopeUrut($query, $order = 'ASC')
     {
-        return $query->orderByRaw("CASE WHEN jenis = 0 THEN 999999 ELSE jenis END", $order);
+        return $query->orderByRaw('CASE WHEN jenis = 0 THEN 999999 ELSE jenis END', $order);
     }
 }

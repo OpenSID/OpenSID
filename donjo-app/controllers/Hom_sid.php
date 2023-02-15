@@ -35,16 +35,16 @@
  *
  */
 
-use App\Models\Rtm;
+use App\Libraries\Release;
 use App\Models\Bantuan;
-use App\Models\Wilayah;
 use App\Models\Kelompok;
 use App\Models\Keluarga;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
-use App\Libraries\Release;
-use App\Models\RefJabatan;
 use App\Models\PendudukMandiri;
+use App\Models\RefJabatan;
+use App\Models\Rtm;
+use App\Models\Wilayah;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
