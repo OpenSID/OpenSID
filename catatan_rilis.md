@@ -16,3 +16,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. [#6383](https://github.com/OpenSID/OpenSID/issues/6383) Mengatasi HTML Injection pada form pencarian tema natra.
 3. [#1976](https://github.com/OpenSID/premium/issues/1976) Sesuaikan modul jabatan agar bisa digunakan di OpenKAB.
 4. [#6403](https://github.com/OpenSID/OpenSID/issues/6403) Penyesuaian penandatangan dokumen kerja sama dengan pengurus baru.
+5. [#6421](https://github.com/OpenSID/OpenSID/issues/6421) Penambahan keterangan pada informasi cetak faktur.

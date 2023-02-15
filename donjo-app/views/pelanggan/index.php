@@ -200,7 +200,7 @@
                         <p class="error"><?= $permohonan ?></p>
                     <?php endif ?>
                     <br><br>
-                    <span class="text-danger">Info: Nota faktur dapat dicetak hanya untuk pembayaran yang sudah lunas.</span>
+                    <span class="text-danger">Info: Nota faktur dapat dicetak hanya untuk pembayaran yang sudah lunas dan telah melakukan pendaftaran kerjasama sampai verifikasi email.</span>
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">
@@ -297,7 +297,7 @@
                         <p class="error"><?= $permohonan ?></p>
                     <?php endif ?>
                     <br><br>
-                    <span class="text-danger">Info: Nota faktur dapat dicetak hanya untuk pembayaran yang sudah lunas.</span>
+                    <span class="text-danger">Info: Nota faktur dapat dicetak hanya untuk pembayaran yang sudah lunas dan telah melakukan pendaftaran kerjasama sampai verifikasi email.</span>
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">
