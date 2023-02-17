@@ -10,6 +10,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#6407](https://github.com/OpenSID/OpenSID/issues/6407) Perbaikan tampilan berantakan pada saat inputan error menggunakan elemen input-grup.
 5. [#6417](https://github.com/OpenSID/OpenSID/issues/6417) Perbaikan modul stunting tidak dapat menginput tinggi badan jika menggunakan tanda koma.
 6. [#6422](https://github.com/OpenSID/OpenSID/issues/6422) Perbaikan bagian yang tidak digunakan pada pencarian menu.
+7. [#6424](https://github.com/OpenSID/OpenSID/issues/6424) Perbaikan gagal migrasi pada jabatan sekdes.
 
 #### Perubahan Teknis
 
