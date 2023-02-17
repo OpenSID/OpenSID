@@ -15,6 +15,7 @@ Terima kasih pada @yonathanrizky yang terus berkontribusi.
 3. [#6344](https://github.com/OpenSID/OpenSID/issues/6344) Perbaikan validasi karakter pada surat masuk.
 4. [#6407](https://github.com/OpenSID/OpenSID/issues/6407) Perbaikan tampilan berantakan pada saat inputan error menggunakan elemen input-grup.
 5. [#6417](https://github.com/OpenSID/OpenSID/issues/6417) Perbaikan modul stunting tidak dapat menginput tinggi badan jika menggunakan tanda koma.
+6. [#6422](https://github.com/OpenSID/OpenSID/issues/6422) Perbaikan bagian yang tidak digunakan pada pencarian menu.
 
 #### Perubahan Teknis
 
@@ -22,3 +23,4 @@ Terima kasih pada @yonathanrizky yang terus berkontribusi.
 2. [#6383](https://github.com/OpenSID/OpenSID/issues/6383) Mengatasi HTML Injection pada form pencarian tema natra.
 3. [#1976](https://github.com/OpenSID/premium/issues/1976) Sesuaikan modul jabatan agar bisa digunakan di OpenKAB.
 4. [#6403](https://github.com/OpenSID/OpenSID/issues/6403) Penyesuaian penandatangan dokumen kerja sama dengan pengurus baru.
+5. [#6421](https://github.com/OpenSID/OpenSID/issues/6421) Penambahan keterangan pada informasi cetak faktur.
