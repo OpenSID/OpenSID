@@ -49,6 +49,7 @@ class Migrasi_fitur_premium_2303 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2301');
         $hasil = $hasil && $this->migrasi_2023020251($hasil);
         $hasil = $hasil && $this->migrasi_2023021471($hasil);
+        $hasil = $hasil && $this->migrasi_2023021671($hasil);
 
         return $hasil && true;
     }
@@ -72,5 +73,17 @@ class Migrasi_fitur_premium_2303 extends MY_model
         ];
 
         return $hasil && $this->dbforge->modify_column('bulanan_anak', $fields);
+    }
+
+    protected function migrasi_2023021671($hasil)
+    {
+        // Sesuaikan data jabatan agar bisa digunakan di OpenKAB
+        // Parameter migrasi ditentukan dari jabatan sekretaris dengan nama like sekretaris akan dilakukan migrasi
+        $this->db
+            ->like('nama', 'sekretaris')
+            ->set('jenis', '2')
+            ->update('ref_jabatan');
+
+        return $hasil;
     }
 }

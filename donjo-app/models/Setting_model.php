@@ -52,6 +52,7 @@ define('EKSTENSI_WAJIB', serialize([
     'mysqlnd',
     'tidy',
     'zip',
+    'exif',
 ]));
 define('minPhpVersion', '7.3.0');
 define('maxPhpVersion', '8.0.0');
