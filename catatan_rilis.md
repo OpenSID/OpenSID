@@ -12,6 +12,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 6. [#6422](https://github.com/OpenSID/OpenSID/issues/6422) Perbaikan bagian yang tidak digunakan pada pencarian menu.
 7. [#6424](https://github.com/OpenSID/OpenSID/issues/6424) Perbaikan gagal migrasi pada jabatan sekdes.
 8. [#6435](https://github.com/OpenSID/OpenSID/issues/6435) Perbaikan tampilan pilihan jenis presentasi pembagunan pada dokumentasi pembagunan tidak sesuai.
+9. [#6438](https://github.com/OpenSID/OpenSID/issues/6438) Penyesuaian informasi harus aktifkan extensi exif di informasi kebutuhan sistem.
 
 #### Perubahan Teknis
 
