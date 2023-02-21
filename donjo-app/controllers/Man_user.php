@@ -49,7 +49,7 @@ class Man_user extends Admin_Controller
         parent::__construct();
         $this->modul_ini     = 11;
         $this->sub_modul_ini = 44;
-        $this->_set_page     = ['5', '50', '100', '200'];
+        $this->_set_page     = ['10', '50', '100', '200'];
         $this->_list_session = ['cari', 'filter'];
     }
 
@@ -57,6 +57,7 @@ class Man_user extends Admin_Controller
     {
         $this->session->unset_userdata($this->_list_session);
         $this->session->per_page = $this->_set_page[0];
+        $this->session->filter = 'active';
 
         redirect('man_user');
     }
@@ -68,7 +69,12 @@ class Man_user extends Admin_Controller
         $data['o']     = $o;
 
         foreach ($this->_list_session as $list) {
-            $data[$list] = $this->session->{$list} ?: '';
+            if ($list != 'filter') {
+                $data[$list] = $this->session->{$list} ?: ''; 
+            } else {
+                $data[$list] = $this->session->filter ?: 'active'; 
+            }
+            
         }
 
         $per_page = $this->input->post('per_page');
@@ -82,7 +88,10 @@ class Man_user extends Admin_Controller
         $data['paging']     = $this->user_model->paging($p, $o);
         $data['main']       = $this->user_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
         $data['keyword']    = $this->user_model->autocomplete();
-        $data['user_group'] = $this->referensi_model->list_data('user_grup');
+        $data['user_group'] = array_merge([
+            ['id' => 'active', 'nama' => 'Aktif'],
+            ['id' => 'inactive', 'nama' => 'Tidak Aktif']
+        ], $this->referensi_model->list_data('user_grup'));
 
         $this->render('man_user/manajemen_user_table', $data);
     }
@@ -122,7 +131,7 @@ class Man_user extends Admin_Controller
     public function filter()
     {
         $filter = $this->input->post('filter');
-        if ($filter != 0) {
+        if ($filter != 0 || $filter) {
             $_SESSION['filter'] = $filter;
         } else {
             unset($_SESSION['filter']);

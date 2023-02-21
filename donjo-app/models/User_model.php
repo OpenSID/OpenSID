@@ -234,8 +234,14 @@ class User_model extends CI_Model
     {
         if (isset($_SESSION['filter'])) {
             $filter     = $_SESSION['filter'];
-            $filter_sql = " AND u.id_grup = {$filter}";
-
+            if ($filter == 'active') {
+                $filter_sql = " AND u.active = 1";
+            } else if ($filter == 'inactive') {
+                $filter_sql = " AND u.active = 0";
+            } else {
+                $filter_sql = " AND u.id_grup = {$filter}";    
+            }
+            
             return $filter_sql;
         }
     }

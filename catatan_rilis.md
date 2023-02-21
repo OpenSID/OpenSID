@@ -5,8 +5,9 @@ Terima kasih pada @yonathanrizky yang terus berkontribusi.
 #### Penambahan Fitur
 
 1. [#6035](https://github.com/OpenSID/OpenSID/issues/6035) Penambahan pintasan ubah data penduduk pada modul Rumah Tangga.
-2. [#5899](https://github.com/OpenSID/OpenSID/issues/5899) Pernambahan fitur hapus lampiran artikel.
+2. [#5899](https://github.com/OpenSID/OpenSID/issues/5899) Penambahan fitur hapus lampiran artikel.
 3. [#6076](https://github.com/OpenSID/OpenSID/issues/6076) Penyesuaian qrcode saat kondisi TTE aktif.
+4. [#6406](https://github.com/OpenSID/OpenSID/issues/6406) Penambahan filter aktif dan tidak aktif di menu pengguna.
 
 #### Perbaikan BUG
 

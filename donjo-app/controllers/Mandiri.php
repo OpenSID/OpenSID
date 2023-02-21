@@ -51,7 +51,7 @@ class Mandiri extends Admin_Controller
 
         $this->modul_ini     = 14;
         $this->sub_modul_ini = 56;
-        $this->_set_page     = ['20', '50', '100'];
+        $this->_set_page     = ['10', '50', '100'];
         $this->_list_session = ['cari', 'order_by'];
         $this->telegram      = new Telegram();
     }
