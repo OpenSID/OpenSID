@@ -13,9 +13,16 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
+
+      - uses: actions/cache@v3
+        with:
+          path: .php-cs-fixer.cache
+          key: ${{ runner.OS }}-${{ github.repository }}-phpcsfixer-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.OS }}-${{ github.repository }}-phpcsfixer-
 
       - name: Run PHP CS Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
