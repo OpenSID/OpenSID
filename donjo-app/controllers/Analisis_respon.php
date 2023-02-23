@@ -267,15 +267,22 @@ class Analisis_respon extends Admin_Controller
         $this->load->view('analisis_respon/import/data_ajax');
     }
 
-    public function data_unduh($p = 0, $o = 0)
+    /**
+     * Unduh data analisis respon
+     *
+     * @param int $tipe | 1. Dengan isian data, 2. Dengan kode isian
+     *
+     * @return void
+     */
+    public function data_unduh($tipe = 1)
     {
         $data['subjek_tipe'] = $this->session->subjek_tipe;
-        $data['main']        = $this->analisis_respon_model->data_unduh($p, $o);
+        $data['main']        = $this->analisis_respon_model->data_unduh(1, 0);
         $data['periode']     = $this->analisis_master_model->get_aktif_periode();
-        $data['indikator']   = $this->analisis_respon_model->indikator_unduh($p, $o);
-
-        $key         = ($data['periode'] + 3) * ($this->session->analisis_master + 7) * ($this->session->subjek_tipe * 3);
-        $data['key'] = 'AN' . $key;
+        $data['indikator']   = $this->analisis_respon_model->indikator_unduh(1);
+        $data['tipe']        = $tipe;
+        $key                 = ($data['periode'] + 3) * ($this->session->analisis_master + 7) * ($this->session->subjek_tipe * 3);
+        $data['key']         = 'AN' . $key;
 
         switch ($this->session->subjek_tipe) {
             case 5:

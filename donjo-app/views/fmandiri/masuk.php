@@ -25,7 +25,9 @@
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="<?= asset('bootstrap/css/font-awesome.min.css') ?>">
 	<!-- Google Font -->
+	<?php if (cek_koneksi_internet()): ?>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+	<?php endif ?>
 	<script src="<?= asset('bootstrap/js/jquery.min.js') ?>"></script>
 
 	<?php if ($cek_anjungan) : ?>
@@ -42,9 +44,10 @@
 			}
 		</style>
 	<?php endif; ?>
-
+	<?php if (cek_koneksi_internet()): ?>
 	<!-- Form Wizard - smartWizard -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css">
+	<?php endif ?>
 </head>
 
 <?php if ($this->setting->tampilan_anjungan == 1 && ! empty($this->setting->tampilan_anjungan_slider)) : ?>
@@ -234,8 +237,10 @@
 	<script src="<?= asset('js/validasi.js') ?>"></script>
 	<script src="<?= asset('js/localization/messages_id.js') ?>"></script>
 
+	<?php if (cek_koneksi_internet()): ?>
 	<!-- Form Wizard - jquery.smartWizard -->
 	<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+	<?php endif ?>
 
 	<?php if ($cek_anjungan) : ?>
 		<!-- keyboard widget css & script -->

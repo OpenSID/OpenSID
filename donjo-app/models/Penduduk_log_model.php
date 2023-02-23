@@ -36,7 +36,6 @@
  */
 
 use App\Models\LogPenduduk;
-use Illuminate\Support\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -138,10 +137,6 @@ class Penduduk_log_model extends MY_Model
     {
         // Cek untuk kode_peristiwa mati (2) hanya boleh dikembalikan jika tgl(thn/bln) lapor masih sama dengan tgl(thn/bln) saat mau dikembalikan
         $log = LogPenduduk::find($id_log) ?? show_404();
-
-        if ($log->kode_peristiwa == 2 && $log->tgl_lapor->format('Y-m') != Carbon::now()->format('Y-m')) {
-            return session_error(', tidak dapat mengubah status dasar mati jadi hidup karena sudah tercatat pada laporan bulanan.');
-        }
 
         // Kembalikan status selain masuk dan lahir
         if ($log->kode_peristiwa != 5 && $log->kode_peristiwa != 1) {

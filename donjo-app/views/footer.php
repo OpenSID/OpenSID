@@ -71,6 +71,12 @@
 				<!-- NOTIFICATION-->
 				<script type="text/javascript">
 					$('document').ready(function() {
+						var koneksi = '<?= ! cek_koneksi_internet() && setting('notifikasi_koneksi') ?>';
+
+						if (koneksi) {
+							cek_koneksi();
+						}
+
 						var success = '<?= addslashes($this->session->success) ?>';
 						var message = '<?= addslashes($this->session->error_msg) ?>';
 

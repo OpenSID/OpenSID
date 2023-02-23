@@ -158,9 +158,9 @@
             foreach ($data['par'] as $jawab):
                 if ($pt['id'] == $jawab['id_indikator'] && $false == 0):
                     if ($pt['id_tipe'] == 1):
-                        $isi = $jawab['kode_jawaban'];
+                        $isi = ($tipe == 1) ? $jawab['jawaban'] : $jawab['kode_jawaban'];
                     elseif ($pt['id_tipe'] == 2 && $pt['is_teks'] == 0):
-                        $isi .= $jawab['kode_jawaban'] . ',';
+                        $isi .= ($tipe == 1) ? $jawab['jawaban'] : $jawab['kode_jawaban'] . ',';
                     elseif ($pt['id_tipe'] == 2 && $pt['is_teks'] == 1):
                         $isi .= $jawab['jawaban'] . ',';
                     else:

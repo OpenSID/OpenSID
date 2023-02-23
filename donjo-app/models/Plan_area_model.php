@@ -262,17 +262,23 @@ class Plan_area_model extends MY_Model
         status_sukses($outp, $gagal_saja = false, $msg = 'titik koordinat area harus diisi'); //Tampilkan Pesan
     }
 
-    public function list_area()
+    public function list_area($status = null)
     {
+        if (null !== $status) {
+            $this->db
+                ->where('l.enabled', $status)
+                ->where('p.enabled', $status)
+                ->where('m.enabled', $status);
+        }
+
         return $this->db
             ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color')
             ->from('area l')
             ->join('polygon p', 'l.ref_polygon = p.id', 'left')
             ->join('polygon m', 'p.parrent = m.id', 'left')
-            ->where('l.enabled', 1)
-            ->where('p.enabled', 1)
-            ->where('m.enabled', 1)
-            ->get()->result_array();
+            ->where('l.ref_polygon !=', 0)
+            ->get()
+            ->result_array();
     }
 
     public function kosongkan_path($id)

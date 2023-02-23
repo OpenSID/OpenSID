@@ -17,7 +17,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<?php $pertanyaan = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?'; ?>
+		<?php $pertanyaan = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.'; ?>
 		<div class="box box-info">
 			<form id="mainform" name="mainform" method="post">
 				<div class="box-header with-border">

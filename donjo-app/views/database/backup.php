@@ -44,20 +44,20 @@
 														<td class="col-sm-2">
 															<!-- Split button -->
 															<div class="btn-group" style="width:100%">
-																<button type="button" class="btn btn-social btn-flat <?= $inkremental->status == '0' ? 'btn-warning' : 'btn-info'  ?> btn-info btn-sm" id="Inkremental" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: calc(100% - 25px);"><i class="fa fa-download"></i> <?= $inkremental->status == '0' ? 'Backup Sedang Dalam Proses' : 'Backup Inkremental'  ?></button>
-																<button type="button" class="btn btn-flat btn-sm dropdown-toggle <?= $inkremental->status == '0' ? 'btn-warning' : 'btn-info'  ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 23px;">
-																	<span class="caret"></span>
-																	<span class="sr-only">Toggle Dropdown</span>
-																</button>
-																<ul class="dropdown-menu">
-																	<?php if ($inkremental == null || $inkremental->status == '2' || $inkremental->status == '-1'): ?>
-																		<li><a href="#" id="buat-job">Buat Backup Inkremental</a></li>
-																	<?php endif ?>
-																	<?php if ($inkremental != null && $inkremental->status == '1' && $inkremental->ukuran != '0 Bytes'): ?>
-																		<li><a href="<?= site_url('database/inkremental_download'); ?>">Download Backup Inkremental</a></li>
-																	<?php endif ?>
-																	<li><a href="<?= site_url('database/desa_inkremental'); ?>">Lihat Riwayat</a></li>
-																</ul>
+															  <button type="button" class="btn btn-social btn-flat <?= $inkremental->status == '0' ? 'btn-warning' : 'btn-info'  ?> btn-info btn-sm" id="Inkremental" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: calc(100% - 25px);"><i class="fa fa-download"></i> <?= $inkremental->status == '0' ? 'Backup Sedang Dalam Proses' : 'Backup Inkremental'  ?></button>
+															  <button type="button" class="btn btn-flat btn-sm dropdown-toggle <?= $inkremental->status == '0' ? 'btn-warning' : 'btn-info'  ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 23px;">
+															    <span class="caret"></span>
+															    <span class="sr-only">Toggle Dropdown</span>
+															  </button>
+															  <ul class="dropdown-menu">
+															  	<?php if ($inkremental == null || $inkremental->status == '2' || $inkremental->status == '-1'): ?>
+															  		<li><a href="#" id="buat-job">Buat Backup Inkremental</a></li>
+															  	<?php endif ?>
+															  	<?php if ($inkremental != null && $inkremental->status == '1' && $inkremental->ukuran != '0 Bytes'): ?>
+															  		 <li><a href="<?= site_url('database/inkremental_download'); ?>">Download Backup Inkremental</a></li>
+															  	<?php endif ?>
+															    <li><a href="<?= site_url('database/desa_inkremental'); ?>">Lihat Riwayat</a></li>
+															  </ul>
 															</div>
 														</td>
 													</tr>
@@ -133,37 +133,37 @@
 			e.preventDefault();
 			var lokasi;
 			Swal.fire({
-				title: 'Backup Inkremental',
-				text: "Backup Inkremental membutuhkan resource yang besar dan membuat akses ke aplikasi menjadi lambat. Disarankan menjalankan backup Inkremental disaat aplikasi tidak di akses.",
-				footer: `<div class="text-bold text-center text-red">Backup Inkremental akan berjalan di belakang layar dan tidak bisa dibatalkan sampai proses selesai</div>`,
-				icon: "warning",
-				showCancelButton: true,
-				confirmButtonText: 'Lanjutkan',
+			   title: 'Backup Inkremental',
+			   text: "Backup Inkremental membutuhkan resource yang besar dan membuat akses ke aplikasi menjadi lambat. Disarankan menjalankan backup Inkremental disaat aplikasi tidak di akses.",
+			   footer: `<div class="text-bold text-center text-red">Backup Inkremental akan berjalan di belakang layar dan tidak bisa dibatalkan sampai proses selesai</div>`,
+			   icon: "warning",
+			   showCancelButton: true,
+			   confirmButtonText: 'Lanjutkan',
 			}).then((result) => {
 			  /* Read more about isConfirmed, isDenied below */
 				if (result.isConfirmed) {
-					Swal.fire({
-						title: 'Lokasi Simpan',
-						showDenyButton: true,
-						showCancelButton: false,
-						confirmButtonText: 'Temporary folder',
-						denyButtonText: `Backup folder`,
-						footer: `
-						<div class="text-bold text-warning">
-							<ul>
-								<li>Temporary folder : file backup akan terhapus otomatis oleh sistem</li>
-								<li>folder backup : file backup akan disimpan di dalam folder backup_inkremental dan tidak akan dihapus oleh sistem. </li>
-							</ul>
-						</div>
-						`,
+				    Swal.fire({
+					  title: 'Lokasi Simpan',
+					  showDenyButton: true,
+					  showCancelButton: false,
+					  confirmButtonText: 'Temporary folder',
+					  denyButtonText: `Backup folder`,
+					  footer: `
+					  <div class="text-bold text-warning">
+						  <ul>
+							  <li>Temporary folder : file backup akan terhapus otomatis oleh sistem</li>
+							  <li>folder backup : file backup akan disimpan di dalam folder backup_inkremental dan tidak akan dihapus oleh sistem. </li>
+						  </ul>
+					  </div>
+					  `,
 					}).then((result) => {
-						if (result.isConfirmed) {
-							backup('null')
-						} else if (result.isDenied) {
-							backup('backup')
-						}else{
-							return;
-						}
+					  if (result.isConfirmed) {
+					  	backup('null')
+					  } else if (result.isDenied) {
+					  	backup('backup')
+					  }else{
+					  	return;
+					  }
 					})
 				}else{
 					return;

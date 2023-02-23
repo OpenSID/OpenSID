@@ -107,14 +107,17 @@ class Pembangunan_model extends MY_Model
         return $this->paginasi($page_number, $jml_data);
     }
 
-    public function list_lokasi_pembangunan()
+    public function list_lokasi_pembangunan($status = null)
     {
         $this->lokasi_pembangunan_query();
+
+        if (null !== $status) {
+            $this->db->where('p.status = 1');
+        }
 
         return $this->db
             ->select('p.*')
             ->from("{$this->table} p")
-            ->where('p.status = 1')
             ->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
             ->get()
             ->result();

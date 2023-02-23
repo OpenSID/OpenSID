@@ -970,12 +970,13 @@ class Surat_model extends CI_Model
             // Kode isian yang disediakan pada SID CRI
             $this->substitusi_nomor_surat($input['nomor'], $buffer);
             $buffer = str_replace('[nomor_sorat]', "{$input['nomor']}", $buffer);
-            if (isset($input['berlaku_dari'])) {
+            if (isset($input['berlaku_dari']) || isset($input['berlaku_dari'])) {
                 $buffer = str_replace('[mulai_berlaku]', tgl_indo(date('Y m d', strtotime($input['berlaku_dari']))), $buffer);
-            }
-            if (isset($input['berlaku_sampai'])) {
                 $buffer = str_replace('[tgl_akhir]', tgl_indo(date('Y m d', strtotime($input['berlaku_sampai']))), $buffer);
+            } else {
+                $buffer = str_replace('[mulai_berlaku] s/d [tgl_akhir]', '-', $buffer);
             }
+
             $buffer = str_replace('[jabatan]', "{$input['jabatan']}", $buffer);
             $buffer = str_replace('[nama_pamong]', "{$input['pamong']}", $buffer);
             $nip    = "{$input['pamong_nip']}";

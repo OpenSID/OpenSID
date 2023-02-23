@@ -421,6 +421,13 @@ function notification(type, message)
 	);
 }
 
+function cek_koneksi() {
+	$('#maincontent').prepend('<div class = "callout callout-warning">' +
+		'<h4><i class="fa fa-warning"></i>&nbsp;&nbsp;Informasi</h4 >' +
+		'<p> Aplikasi tidak dapat terhubung dengan koneksi internet, beberapa modul mungkin tidak berjalan dengan baik. </a></p>'+
+		'</div>');
+}
+
 function cari_nik()
 {
 	$('#cari_nik').change(function()

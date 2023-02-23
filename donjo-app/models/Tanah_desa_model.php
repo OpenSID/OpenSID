@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Penduduk;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Tanah_desa_model extends CI_Model
@@ -230,21 +232,13 @@ class Tanah_desa_model extends CI_Model
             return;
         }
 
-        // add
+        // cek nik penduduk luar tidak boleh sama dengan penduduk desa
         if ($id == 0) {
-            if ($this->nik_warga_luar_checking($data['nik']) || $this->nik_warga_luar_join_checking($data['nik'])) {
+            if (Penduduk::whereNik($data['nik'])->exists()) {
                 $valid[] = "NIK {$data['nik']} sudah digunakan";
             }
 
             return;
-        }
-
-        // update
-        $nik_old_check = $this->nik_warga_luar_old_checking($data['nik'], $id);
-        if (! $nik_old_check) {
-            if ($this->nik_warga_luar_checking($data['nik']) || $this->nik_warga_luar_join_checking($data['nik'])) {
-                $valid[] = "NIK {$data['nik']} sudah digunakan";
-            }
         }
     }
 
@@ -294,46 +288,6 @@ class Tanah_desa_model extends CI_Model
         }
 
         return $valid;
-    }
-
-    private function nik_warga_luar_old_checking($nik, $id)
-    {
-        $this->db
-            ->select('td.nik')
-            ->from("{$this->table} td")
-            ->where((['td.visible' => 1, 'td.id' => $id]))
-            ->limit(1);
-        $data = $this->db
-            ->get()
-            ->row();
-
-        return $nik == $data->nik;
-    }
-
-    private function nik_warga_luar_checking($nik)
-    {
-        $this->db
-            ->select('td.nik')
-            ->from("{$this->table} td")
-            ->where((['td.visible' => 1, 'td.nik' => $nik]))
-            ->limit(1);
-
-        return $this->db
-            ->get()
-            ->row();
-    }
-
-    public function nik_warga_luar_join_checking($nik)
-    {
-        $this->db
-            ->select('p.nik')
-            ->from("{$this->table} td")
-            ->join('tweb_penduduk p', 'td.id_penduduk = p.id')
-            ->where((['td.visible' => 1, 'p.nik' => $nik]));
-
-        return $this->db
-            ->get()
-            ->result_array();
     }
 
     private function nik_error($nilai, $judul)

@@ -56,7 +56,7 @@
           @if ($session->db_error)
             <div class="callout callout-warning">
               <h4>{{ $session->heading }}</h4>
-              <p>{{ $session->message }}</p>
+              <p>{!! $session->message !!}</p>
               @if (ENVIRONMENT === 'development')
                 <pre>{{ $session->message_query }}</pre>
                 <pre>{{ $session->message_exception }}</pre>

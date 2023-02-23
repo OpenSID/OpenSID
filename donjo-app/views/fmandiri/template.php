@@ -73,8 +73,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<!-- AdminLTE Skins. -->
 	<link rel="stylesheet" href="<?= asset('css/skins/_all-skins.min.css') ?>">
 
+	<?php if (cek_koneksi_internet()): ?>
 	<!-- Form Wizard - smartWizard -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css">
+	<?php endif ?>
 
 	<?php if ($this->controller == 'lapak') : ?>
 		<!-- Map -->
@@ -360,7 +362,9 @@ endif;
 		});
 	</script>
 
+	<?php if (cek_koneksi_internet()): ?>
 	<!-- Form Wizard - jquery.smartWizard -->
 	<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js"></script>
+	<?php endif ?>
 </body>
 </html>
