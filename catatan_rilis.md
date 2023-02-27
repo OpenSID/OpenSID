@@ -16,6 +16,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 10. [#6432](https://github.com/OpenSID/OpenSID/issues/6432) Perbaikan nomor surat tidak kembali ke nomor 1 ketika pergantian tahun.
 11. [#6447](https://github.com/OpenSID/OpenSID/issues/6447) Perbaikan maxlength input dengan maxlength pada table pangkat pamong.
 11. [#6433](https://github.com/OpenSID/OpenSID/issues/6433) Perbaikan backup database berisi baris yg menyebabkan restore error.
+12. [#6437](https://github.com/OpenSID/OpenSID/issues/6437) Perbaikan tambah data penduduk lahir dari modul keluarga.
 
 #### Perubahan Teknis
 
