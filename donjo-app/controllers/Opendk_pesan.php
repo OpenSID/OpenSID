@@ -47,8 +47,8 @@ class Opendk_pesan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 343;
-        $this->sub_modul_ini = 344;
+        $this->modul_ini     = 'opendk';
+        $this->sub_modul_ini = 'pesan';
         $this->_list_session = ['cari', 'status'];
     }
 

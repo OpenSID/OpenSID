@@ -43,8 +43,8 @@ class Suplemen extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['suplemen_model', 'pamong_model', 'penduduk_model', 'keluarga_model', 'wilayah_model']);
-        $this->modul_ini     = 2;
-        $this->sub_modul_ini = 25;
+        $this->modul_ini     = 'kependudukan';
+        $this->sub_modul_ini = 'data-suplemen';
         $this->_list_session = ['cari', 'sasaran', 'sex', 'dusun', 'rw', 'rt'];
         $this->_set_page     = ['20', '50', '100'];
     }

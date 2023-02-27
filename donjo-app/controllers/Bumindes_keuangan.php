@@ -42,7 +42,7 @@ class Bumindes_keuangan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 301;
+        $this->modul_ini     = 'buku-administrasi-desa';
         $this->sub_modul_ini = 304;
     }
 

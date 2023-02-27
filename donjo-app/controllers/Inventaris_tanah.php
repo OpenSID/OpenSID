@@ -45,8 +45,8 @@ class Inventaris_tanah extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['inventaris_tanah_model', 'pamong_model', 'aset_model']);
-        $this->modul_ini     = 15;
-        $this->sub_modul_ini = 61;
+        $this->modul_ini     = 'sekretariat';
+        $this->sub_modul_ini = 'inventaris';
     }
 
     public function index()

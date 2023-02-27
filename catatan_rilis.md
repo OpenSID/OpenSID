@@ -28,3 +28,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 3. [#1976](https://github.com/OpenSID/premium/issues/1976) Sesuaikan modul jabatan agar bisa digunakan di OpenKAB.
 4. [#6403](https://github.com/OpenSID/OpenSID/issues/6403) Penyesuaian penandatangan dokumen kerja sama dengan pengurus baru.
 5. [#6421](https://github.com/OpenSID/OpenSID/issues/6421) Penambahan keterangan pada informasi cetak faktur.
+6. Ubah slug modul tanpa menggunakan id.

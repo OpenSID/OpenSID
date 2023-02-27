@@ -54,8 +54,8 @@ class Menu extends Admin_Controller
         $this->load->model('program_bantuan_model');
         $this->load->model('keuangan_model');
         $this->load->model('kelompok_model');
-        $this->modul_ini     = 13;
-        $this->sub_modul_ini = 49;
+        $this->modul_ini     = 'admin-web';
+        $this->sub_modul_ini = 'menu';
     }
 
     public function clear($parrent = 0)

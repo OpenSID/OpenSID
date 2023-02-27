@@ -54,8 +54,8 @@ class Pendaftaran_kerjasama extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 200;
-        $this->sub_modul_ini = 331;
+        $this->modul_ini     = 'info-desa';
+        $this->sub_modul_ini = 'pendaftaran-kerjasama';
 
         $this->load->model(['surat_model', 'pamong_model']);
         $this->client = new Client();

@@ -47,8 +47,8 @@ class Kelompok_master extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['kelompok_master_model']);
-        $this->modul_ini     = 2;
-        $this->sub_modul_ini = 24;
+        $this->modul_ini     = 'kependudukan';
+        $this->sub_modul_ini = 'kelompok';
         $this->_set_page     = ['20', '50', '100'];
         $this->_list_session = ['cari', 'filter'];
         $this->kelompok_master_model->set_tipe($this->tipe);

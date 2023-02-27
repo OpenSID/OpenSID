@@ -58,8 +58,8 @@ class Dtks extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 352;
-        $this->sub_modul_ini = 353;
+        $this->modul_ini     = 'satu-data';
+        $this->sub_modul_ini = 'dtks';
     }
 
     /**

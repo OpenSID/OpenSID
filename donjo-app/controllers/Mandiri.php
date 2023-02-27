@@ -49,8 +49,8 @@ class Mandiri extends Admin_Controller
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
         $this->load->library('email', config_item('email'));
 
-        $this->modul_ini     = 14;
-        $this->sub_modul_ini = 56;
+        $this->modul_ini     = 'layanan-mandiri';
+        $this->sub_modul_ini = 'pendaftar-layanan-mandiri';
         $this->_set_page     = ['20', '50', '100'];
         $this->_list_session = ['cari', 'order_by'];
         $this->telegram      = new Telegram();

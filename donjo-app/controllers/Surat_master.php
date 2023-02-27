@@ -64,8 +64,8 @@ class Surat_master extends Admin_Controller
         parent::__construct();
         $this->load->model(['surat_master_model', 'lapor_model']);
         $this->tinymce       = new TinyMCE();
-        $this->modul_ini     = 4;
-        $this->sub_modul_ini = 30;
+        $this->modul_ini     = 'layanan-surat';
+        $this->sub_modul_ini = 'pengaturan-surat';
     }
 
     public function index()

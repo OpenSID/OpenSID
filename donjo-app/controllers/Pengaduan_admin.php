@@ -42,7 +42,7 @@ class Pengaduan_admin extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini = 334;
+        $this->modul_ini = 'pengaduan';
         $this->load->model('pengaduan_model');
     }
 

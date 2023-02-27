@@ -58,8 +58,8 @@ class Keluar extends Admin_Controller
 
         $this->load->helper('download');
         $this->load->model('pamong_model');
-        $this->modul_ini     = 4;
-        $this->sub_modul_ini = 32;
+        $this->modul_ini     = 'layanan-surat';
+        $this->sub_modul_ini = 'arsip-layanan';
         $this->isAdmin       = $this->session->isAdmin->pamong;
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
     }

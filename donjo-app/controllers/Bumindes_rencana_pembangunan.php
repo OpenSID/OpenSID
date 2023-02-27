@@ -49,8 +49,8 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
         parent::__construct();
         $this->load->model('pembangunan_model', 'model');
         $this->load->model('pamong_model');
-        $this->modul_ini     = 301;
-        $this->sub_modul_ini = 305;
+        $this->modul_ini     = 'buku-administrasi-desa';
+        $this->sub_modul_ini = 'administrasi-pembangunan';
         $this->model->set_tipe($this->tipe);
     }
 

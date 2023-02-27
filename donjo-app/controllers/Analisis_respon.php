@@ -54,8 +54,8 @@ class Analisis_respon extends Admin_Controller
         $this->load->model(['analisis_respon_model', 'wilayah_model', 'analisis_master_model']);
         $this->session->submenu  = 'Input Data';
         $this->session->asubmenu = "{$this->controller}";
-        $this->modul_ini         = 5;
-        $this->sub_modul_ini     = 110;
+        $this->modul_ini         = 'analisis';
+        $this->sub_modul_ini     = 'master-analisis';
     }
 
     public function clear()
