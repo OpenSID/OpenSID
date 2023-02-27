@@ -123,9 +123,6 @@
 	</div>
 	<div class='col-sm-4'>
 		<div class='form-group'>
-			<?php if (! empty($penduduk)) : ?>
-				<input type="hidden" name="kk_level_lama" value="<?= $penduduk['kk_level'] ?>">
-			<?php endif; ?>
 			<label for="kk_level">Hubungan Dalam Keluarga</label>
 			<select id="kk_level" class="form-control input-sm select2 required" name="kk_level">
 				<option value="">Pilih Hubungan Keluarga</option>
