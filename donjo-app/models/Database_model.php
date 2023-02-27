@@ -265,11 +265,6 @@ class Database_model extends MY_Model
             // Paksa menjalankan migrasi kalau belum
             // Migrasi direkam di tabel migrasi
             if (! $this->versi_database_terbaru()) {
-                // Ulangi migrasi terakhir
-                $terakhir                                                                                  = key(array_slice($this->versionMigrate, -1, 1, true));
-                $sebelumnya                                                                                = key(array_slice($this->versionMigrate, -2, 1, true));
-                $this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
-
                 $this->migrasi_db_cri();
 
                 // Kirim versi aplikasi ke layanan setelah migrasi selesai
