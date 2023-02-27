@@ -42,8 +42,8 @@ class Optimasi_gambar extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 11;
-        $this->sub_modul_ini      = 359;
+        $this->modul_ini          = 'pengaturan';
+        $this->sub_modul_ini      = 'optimasi-gambar';
         $this->header['kategori'] = 'Optimasi';
     }
 

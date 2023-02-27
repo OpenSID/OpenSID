@@ -22,9 +22,11 @@ Terima kasih pada @yonathanrizky yang terus berkontribusi.
 9. [#6438](https://github.com/OpenSID/OpenSID/issues/6438) Penyesuaian informasi harus aktifkan extensi exif di informasi kebutuhan sistem.
 10. [#6432](https://github.com/OpenSID/OpenSID/issues/6432) Perbaikan nomor surat tidak kembali ke nomor 1 ketika pergantian tahun.
 11. [#6447](https://github.com/OpenSID/OpenSID/issues/6447) Perbaikan maxlength input dengan maxlength pada table pangkat pamong.
-11. [#6433](https://github.com/OpenSID/OpenSID/issues/6433) Perbaikan backup database berisi baris yg menyebabkan restore error.
-12. [#6437](https://github.com/OpenSID/OpenSID/issues/6437) Perbaikan tambah data penduduk lahir dari modul keluarga.
-13. [#6434](https://github.com/OpenSID/OpenSID/issues/6434) Perbaikan migrasi otomatis yang tidak berjalan sempurna.
+12. [#6433](https://github.com/OpenSID/OpenSID/issues/6433) Perbaikan backup database berisi baris yg menyebabkan restore error.
+13. [#6437](https://github.com/OpenSID/OpenSID/issues/6437) Perbaikan tambah data penduduk lahir dari modul keluarga.
+14. [#6434](https://github.com/OpenSID/OpenSID/issues/6434) Perbaikan migrasi otomatis yang tidak berjalan sempurna.
+15. [#6448](https://github.com/OpenSID/OpenSID/issues/6448) Perbaikan lampiran dokumen kelengkapan tidak muncul pada halaman verifikasi surat.
+16. [#6341](https://github.com/OpenSID/OpenSID/issues/6341) Perbaikan font bookman old style yang tidak bisa cetak Tebal.
 
 #### Perubahan Teknis
 
@@ -33,3 +35,4 @@ Terima kasih pada @yonathanrizky yang terus berkontribusi.
 3. [#1976](https://github.com/OpenSID/premium/issues/1976) Sesuaikan modul jabatan agar bisa digunakan di OpenKAB.
 4. [#6403](https://github.com/OpenSID/OpenSID/issues/6403) Penyesuaian penandatangan dokumen kerja sama dengan pengurus baru.
 5. [#6421](https://github.com/OpenSID/OpenSID/issues/6421) Penambahan keterangan pada informasi cetak faktur.
+6. Ubah slug modul tanpa menggunakan id.

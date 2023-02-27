@@ -46,8 +46,8 @@ class Anjungan_pengaturan extends Anjungan_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 312;
-        $this->sub_modul_ini = 349;
+        $this->modul_ini     = 'anjungan';
+        $this->sub_modul_ini = 'pengaturan-anjungan';
     }
 
     public function index()

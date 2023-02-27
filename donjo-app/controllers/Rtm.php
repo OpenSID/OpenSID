@@ -51,8 +51,8 @@ class Rtm extends Admin_Controller
         $this->load->model(['rtm_model', 'wilayah_model', 'program_bantuan_model']);
         $this->_set_page     = ['50', '100', '200'];
         $this->_list_session = ['status_dasar', 'cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas', 'judul_statistik', 'sex', 'bdt', 'penerima_bantuan']; // Session id_bos
-        $this->modul_ini     = 2;
-        $this->sub_modul_ini = 23;
+        $this->modul_ini     = 'kependudukan';
+        $this->sub_modul_ini = 'rumah-tangga';
     }
 
     public function clear()

@@ -47,8 +47,8 @@ class Teks_berjalan extends Admin_Controller
 
         $this->load->model('teks_berjalan_model');
         $this->load->model('web_artikel_model');
-        $this->modul_ini     = 13;
-        $this->sub_modul_ini = 64;
+        $this->modul_ini     = 'admin-web';
+        $this->sub_modul_ini = 'teks-berjalan';
     }
 
     public function index()

@@ -45,8 +45,8 @@ class Dokumen extends Admin_Controller
         $this->load->model('web_dokumen_model');
         $this->load->model('pamong_model');
         $this->load->helper('download');
-        $this->modul_ini     = 15;
-        $this->sub_modul_ini = 52;
+        $this->modul_ini     = 'sekretariat';
+        $this->sub_modul_ini = 'informasi-publik';
     }
 
     public function clear()

@@ -43,8 +43,8 @@ class Laporan_rentan extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['laporan_bulanan_model', 'wilayah_model']);
-        $this->modul_ini     = 3;
-        $this->sub_modul_ini = 29;
+        $this->modul_ini     = 'statistik';
+        $this->sub_modul_ini = 'laporan-kelompok-rentan';
     }
 
     public function clear()

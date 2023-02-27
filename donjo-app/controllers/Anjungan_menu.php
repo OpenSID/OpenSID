@@ -50,8 +50,8 @@ class Anjungan_menu extends Anjungan_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 312;
-        $this->sub_modul_ini = 348;
+        $this->modul_ini     = 'anjungan';
+        $this->sub_modul_ini = 'anjungan-menu';
     }
 
     public function index()

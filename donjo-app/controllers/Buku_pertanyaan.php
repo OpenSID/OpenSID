@@ -43,8 +43,8 @@ class Buku_pertanyaan extends Anjungan_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 354;
-        $this->sub_modul_ini = 357;
+        $this->modul_ini     = 'buku-tamu';
+        $this->sub_modul_ini = 'data-pertanyaan';
     }
 
     public function index()

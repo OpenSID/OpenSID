@@ -64,7 +64,7 @@ class Hom_sid extends Admin_Controller
     {
         get_pesan_opendk(); //ambil pesan baru di opendk
 
-        $this->modul_ini = 1;
+        $this->modul_ini = 'home';
 
         $this->load->library('saas');
 

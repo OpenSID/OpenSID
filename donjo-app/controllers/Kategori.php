@@ -44,8 +44,8 @@ class Kategori extends Admin_Controller
         parent::__construct();
 
         $this->load->model('web_kategori_model');
-        $this->modul_ini     = 13;
-        $this->sub_modul_ini = 49;
+        $this->modul_ini     = 'admin-web';
+        $this->sub_modul_ini = 'menu';
     }
 
     public function clear()

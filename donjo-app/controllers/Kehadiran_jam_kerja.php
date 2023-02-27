@@ -44,8 +44,8 @@ class Kehadiran_jam_kerja extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 337;
-        $this->sub_modul_ini      = 339;
+        $this->modul_ini          = 'kehadiran';
+        $this->sub_modul_ini      = 'jam-kerja';
         $this->header['kategori'] = 'kehadiran';
     }
 

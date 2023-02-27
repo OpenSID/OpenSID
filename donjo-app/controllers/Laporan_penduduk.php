@@ -46,7 +46,7 @@ class Laporan_penduduk extends Laporan_apbdes
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 3;
-        $this->sub_modul_ini = 330;
+        $this->modul_ini     = 'statistik';
+        $this->sub_modul_ini = 'laporan-penduduk';
     }
 }

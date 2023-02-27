@@ -47,8 +47,8 @@ class Man_user extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 11;
-        $this->sub_modul_ini = 44;
+        $this->modul_ini     = 'pengaturan';
+        $this->sub_modul_ini = 'pengguna';
         $this->_set_page     = ['10', '50', '100', '200'];
         $this->_list_session = ['cari', 'filter'];
     }
@@ -70,11 +70,10 @@ class Man_user extends Admin_Controller
 
         foreach ($this->_list_session as $list) {
             if ($list != 'filter') {
-                $data[$list] = $this->session->{$list} ?: ''; 
+                $data[$list] = $this->session->{$list} ?: '';
             } else {
-                $data[$list] = $this->session->filter ?: 'active'; 
+                $data[$list] = $this->session->filter ?: 'active';
             }
-            
         }
 
         $per_page = $this->input->post('per_page');

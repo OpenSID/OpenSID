@@ -54,8 +54,8 @@ class Web extends Admin_Controller
 
         $this->load->model(['web_artikel_model', 'web_kategori_model']);
         $this->_set_page     = ['20', '50', '100'];
-        $this->modul_ini     = 13;
-        $this->sub_modul_ini = 47;
+        $this->modul_ini     = 'admin-web';
+        $this->sub_modul_ini = 'artikel';
     }
 
     public function clear()
@@ -280,7 +280,7 @@ class Web extends Admin_Controller
 
     public function slider()
     {
-        $this->sub_modul_ini = 54;
+        $this->sub_modul_ini = 'slider';
 
         $this->render('slider/admin_slider.php');
     }
@@ -296,7 +296,7 @@ class Web extends Admin_Controller
 
     public function teks_berjalan()
     {
-        $this->sub_modul_ini = 64;
+        $this->sub_modul_ini = 'teks-berjalan';
 
         $this->render('web/admin_teks_berjalan.php');
     }

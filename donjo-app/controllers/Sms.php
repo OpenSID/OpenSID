@@ -49,8 +49,8 @@ class Sms extends Admin_Controller
     {
         parent::__construct();
         $this->load->model('sms_model');
-        $this->modul_ini          = 10;
-        $this->sub_modul_ini      = 39;
+        $this->modul_ini          = 'hubung-warga';
+        $this->sub_modul_ini      = 'kirim-pesan';
         $this->header['kategori'] = 'hubung warga';
     }
 

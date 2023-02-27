@@ -46,8 +46,8 @@ class Pengunjung extends Admin_Controller
         parent::__construct();
 
         $this->load->library('statistik_pengunjung');
-        $this->modul_ini     = 13;
-        $this->sub_modul_ini = 205;
+        $this->modul_ini     = 'admin-web';
+        $this->sub_modul_ini = 'pengunjung';
     }
 
     public function index()

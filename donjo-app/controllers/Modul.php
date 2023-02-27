@@ -45,8 +45,8 @@ class Modul extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['modul_model']);
-        $this->modul_ini     = 11;
-        $this->sub_modul_ini = 42;
+        $this->modul_ini     = 'pengaturan';
+        $this->sub_modul_ini = 'modul';
         $this->list_session  = ['status', 'cari', 'module'];
     }
 

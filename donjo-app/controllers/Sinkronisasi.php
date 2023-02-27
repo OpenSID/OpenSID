@@ -52,8 +52,8 @@ class Sinkronisasi extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 343;
-        $this->sub_modul_ini = 326;
+        $this->modul_ini     = 'opendk';
+        $this->sub_modul_ini = 'sinkronisasi';
         $this->kode_desa     = kode_wilayah($this->header['desa']['kode_desa']);
         $this->load->library('zip');
         $this->load->model('ekspor_model');

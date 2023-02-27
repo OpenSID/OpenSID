@@ -48,8 +48,8 @@ class Statistik extends Admin_Controller
         parent::__construct();
         $this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model']);
         $this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt', 'status', 'tahun'];
-        $this->modul_ini     = 3;
-        $this->sub_modul_ini = 27;
+        $this->modul_ini     = 'statistik';
+        $this->sub_modul_ini = 'statistik-kependudukan';
     }
 
     public function index()

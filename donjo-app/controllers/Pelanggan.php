@@ -53,8 +53,8 @@ class Pelanggan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 200;
-        $this->sub_modul_ini      = 313;
+        $this->modul_ini          = 'info-desa';
+        $this->sub_modul_ini      = 'layanan-pelanggan';
         $this->header['kategori'] = 'pelanggan';
         $this->client             = new Client();
     }
