@@ -19,6 +19,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 13. [#6437](https://github.com/OpenSID/OpenSID/issues/6437) Perbaikan tambah data penduduk lahir dari modul keluarga.
 14. [#6434](https://github.com/OpenSID/OpenSID/issues/6434) Perbaikan migrasi otomatis yang tidak berjalan sempurna.
 15. [#6448](https://github.com/OpenSID/OpenSID/issues/6448) Perbaikan lampiran dokumen kelengkapan tidak muncul pada halaman verifikasi surat.
+16. [#6341](https://github.com/OpenSID/OpenSID/issues/6341) Perbaikan font bookman old style yang tidak bisa cetak Tebal.
 
 #### Perubahan Teknis
 
