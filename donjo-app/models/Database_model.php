@@ -191,6 +191,14 @@ class Database_model extends MY_Model
                     $this->jalankan_migrasi($migrate);
                 }
             }
+            $this->load->helper('directory');
+            if ($this->db->affected_rows() > 0) { // jika ada perubahan data, hapus chace view blade
+                foreach (directory_map(config_item('cache_blade')) as $file) {
+                    if ($file !== 'index.html') {
+                        unlink(config_item('cache_blade') . DIRECTORY_SEPARATOR . $file);
+                    }
+                }
+            }
         } else {
             $this->_migrasi_db_cri();
         }

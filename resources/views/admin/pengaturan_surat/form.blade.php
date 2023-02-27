@@ -60,8 +60,8 @@
 
         function masaBerlaku() {
             var masa_berlaku = $('#masa_berlaku').val();
-            if (masa_berlaku < 1) {
-                $('#masa_berlaku').val(1);
+            if (masa_berlaku < 0) {
+                $('#masa_berlaku').val(0);
             } else if (masa_berlaku > 31) {
                 $('#masa_berlaku').val(31);
             }

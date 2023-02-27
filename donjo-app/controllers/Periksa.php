@@ -86,20 +86,19 @@ class Periksa extends CI_Controller
     // Login khusus untuk periksa
     public function login()
     {
+        if ($this->session->periksa_data == 1) {
+            redirect('periksa');
+        }
+
         $this->session->siteman_wait = 0;
-        $this->user_model->login();
-        $data = [
+        $data                        = [
             'header'      => $this->header,
             'form_action' => site_url('periksa/auth'),
         ];
-        $this->setting->sebutan_desa      = $this->getSetting('sebutan_desa');
-        $this->setting->sebutan_kabupaten = $this->getSetting('sebutan_kabupaten');
-        $this->load->view('siteman', $data);
-    }
 
-    private function getSetting($key)
-    {
-        return SettingAplikasi::where('key', $key)->pluck('value');
+        $this->setting->sebutan_desa      = $this->periksa_model->getSetting('sebutan_desa');
+        $this->setting->sebutan_kabupaten = $this->periksa_model->getSetting('sebutan_kabupaten');
+        $this->load->view('siteman', $data);
     }
 
     // Login khusus untuk periksa

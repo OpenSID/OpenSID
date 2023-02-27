@@ -5,10 +5,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="<?= base_url() ?>assets/css/report.css" rel="stylesheet" type="text/css">
 	<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
-
+	<?php if (cek_koneksi_internet()): ?>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<?php endif ?>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/validasi.js"></script>
 	<script type="text/javascript" src="<?= base_url() ?>assets/js/localization/messages_id.js"></script>

@@ -22,6 +22,7 @@
         <ul class="nav nav-tabs">
             <li class="active"><a href="#header" data-toggle="tab">Header</a></li>
             <li><a href="#footer" data-toggle="tab">Footer</a></li>
+            <li><a href="#lainnya" data-toggle="tab">Lainnya</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="header">
@@ -62,7 +63,23 @@
                     </div>
                 </div>
             </div>
-
+            <div class="tab-pane" id="lainnya">
+                @include('admin.pengaturan_surat.kembali')
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Jenis Font Bawaan </label>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-7 col-sm-12">
+                                <select class="select2 form-control" name="font_surat">
+                                    @foreach ($fonts as $font)
+                                        <option value="{{ $font->font_family }}" @selected($font->font_family === $pengaturanSurat['font_surat'])>{{ $font->font_family }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
                 <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>

@@ -26,7 +26,7 @@
         <div class="box-header with-border">
             {!! form_open(route('status_desa'), 'class="form-inline" id="mainform" name="mainform"') !!}
             <label for="tahun">IDM Tahun </label>
-            <select class="form-control input-sm select2" name="tahun" onchange="$('#mainform').submit()">
+            <select class="form-control input-sm" name="tahun" onchange="$('#mainform').submit()">
                 <option value="" disabled>Pilih Tahun</option>
                 @foreach (tahun(2020) as $thn)
                     <option value="{{ $thn }}" @selected($tahun === $thn)>{{ $thn }}</option>

@@ -102,7 +102,6 @@ $route['peraturan_desa']             = 'first/peraturan_desa';
 $route['data_analisis']              = 'first/data_analisis';
 $route['data_analisis/(.+)']         = 'first/data_analisis/$1';
 $route['jawaban_analisis/(.+)']      = 'first/jawaban_analisis/$1';
-$route['peta']                       = 'first/peta';
 $route['load_aparatur_desa']         = 'first/load_aparatur_desa';
 $route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
 $route['status-sdgs']                = 'first/status_sdgs';

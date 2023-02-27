@@ -57,6 +57,13 @@ class User extends Model
     protected $table = 'user';
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -65,6 +72,7 @@ class User extends Model
         'name',
         'email',
         'password',
+        'last_login',
     ];
 
     /**
@@ -104,5 +112,18 @@ class User extends Model
     public function pamong()
     {
         return $this->hasOne(Pamong::class, 'pamong_id', 'pamong_id');
+    }
+
+    /**
+     * Scope query untuk status pengguna
+     *
+     * @param mixed $query
+     * @param mixed $status
+     *
+     * @return Builder
+     */
+    public function scopeStatus($query, $status = 1)
+    {
+        return $query->where('active', $status);
     }
 }
