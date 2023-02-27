@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Dokumen;
 use App\Models\LogSurat;
 use App\Models\LogTolak;
 use App\Models\Penduduk;
@@ -415,13 +416,12 @@ class Keluar extends Admin_Controller
 
     public function periksa($id)
     {
-        $surat = LogSurat::find($id);
-        $surat->filesurat;
-        $surat->pamong;
-        $mandiri            = PermohonanSurat::where('id_surat', $surat->id_format_surat)->where('isian_form->nomor', $surat->no_surat)->first();
-        $individu           = $surat->penduduk;
-        $operator           = ($this->isAdmin->jabatan_id == kades()->id || $this->isAdmin->jabatan_id == sekdes()->id) ? false : true;
-        $ref_jabatan_sekdes = setting('sebutan_sekretaris_desa');
+        $surat                = LogSurat::find($id);
+        $data['surat']        = $surat;
+        $data['mandiri']      = PermohonanSurat::where('id_surat', $surat->id_format_surat)->where('isian_form->nomor', $surat->no_surat)->first();
+        $data['individu']     = $surat->penduduk;
+        $data['operator']     = ($this->isAdmin->jabatan_id == kades()->id || $this->isAdmin->jabatan_id == sekdes()->id) ? false : true;
+        $data['list_dokumen'] = Dokumen::hidup()->where('id_pend', $data['individu']->id)->get();
 
         if ($this->isAdmin->jabatan_id == kades()->id) {
             $next = null;
@@ -429,15 +429,16 @@ class Keluar extends Admin_Controller
             $next = setting('verifikasi_kades') ? setting('sebutan_kepala_desa') : null;
         } else {
             if (setting('verifikasi_sekdes')) {
-                $next = $ref_jabatan_sekdes;
+                $next = setting('sebutan_sekretaris_desa');
             } elseif (setting('verifikasi_kades')) {
                 $next = setting('sebutan_kepala_desa');
             } else {
                 $next = null;
             }
         }
+        $data['next'] = $next;
 
-        return view('admin.surat.periksa', compact('surat', 'mandiri', 'individu', 'next', 'operator'));
+        return view('admin.surat.periksa', $data);
     }
 
     public function edit_keterangan($id = 0)
