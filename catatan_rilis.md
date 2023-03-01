@@ -88,6 +88,4 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 5. Mengembalikan fungsi pencarian cetak surat.
 6. Menambahkan penjelasan tambahan di impor analisis.
 7. Memperbarui .gitignore.
-8. Deploy Website Berputar
-9. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan fitur kosongkan database.
-10. Update .gitignore.
+8. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan fitur kosongkan database.
