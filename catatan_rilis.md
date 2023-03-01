@@ -1,4 +1,4 @@
-Di rilis ini, versi v23.03-pasca menyediakan pengaturan masa berlaku surat agar bisa dipilih untuk dihilangkan atau ditampilkan pada form surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi v23.03 menyediakan pengaturan masa berlaku surat agar bisa dipilih untuk dihilangkan atau ditampilkan pada form surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 Terima kasih pada Irvan1609 yang terus berkontribusi.
 
 #### Penambahan Fitur
