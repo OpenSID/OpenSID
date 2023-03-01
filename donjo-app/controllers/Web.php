@@ -123,7 +123,7 @@ class Web extends Admin_Controller
             $this->session->kategori = $cek_data['id_kategori'];
             $data['artikel']         = $cek_data;
             $data['form_action']     = site_url("web/update/{$id}");
-            $data['id'] = $id;
+            $data['id']              = $id;
         } else {
             $data['artikel']     = null;
             $data['form_action'] = site_url('web/insert');
@@ -321,5 +321,4 @@ class Web extends Admin_Controller
 
         redirect('web');
     }
-
 }

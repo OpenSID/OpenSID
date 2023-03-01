@@ -208,7 +208,7 @@ class Mandiri extends Admin_Controller
                 ->set_mailtype('html')
                 ->message($this->load->view('mandiri/email/verifikasi-berhasil', ['nama' => $data->nama], true));
 
-            if (!$this->email->send()) {
+            if (! $this->email->send()) {
                 throw new \Exception($this->email->print_debugger());
             }
 

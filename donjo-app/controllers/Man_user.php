@@ -57,7 +57,7 @@ class Man_user extends Admin_Controller
     {
         $this->session->unset_userdata($this->_list_session);
         $this->session->per_page = $this->_set_page[0];
-        $this->session->filter = 'active';
+        $this->session->filter   = 'active';
 
         redirect('man_user');
     }
@@ -89,7 +89,7 @@ class Man_user extends Admin_Controller
         $data['keyword']    = $this->user_model->autocomplete();
         $data['user_group'] = array_merge([
             ['id' => 'active', 'nama' => 'Aktif'],
-            ['id' => 'inactive', 'nama' => 'Tidak Aktif']
+            ['id' => 'inactive', 'nama' => 'Tidak Aktif'],
         ], $this->referensi_model->list_data('user_grup'));
 
         $this->render('man_user/manajemen_user_table', $data);

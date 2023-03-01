@@ -326,7 +326,7 @@ class Web_artikel_model extends MY_Model
     {
         session_error_clear();
 
-        $data = $_POST;
+        $data           = $_POST;
         $hapus_lampiran = $data['hapus_lampiran'];
         unset($data['hapus_lampiran']);
 
@@ -668,5 +668,4 @@ class Web_artikel_model extends MY_Model
             $this->db->where('a.id_user', $this->session->user);
         }
     }
-
 }

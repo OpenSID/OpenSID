@@ -1,10 +1,10 @@
-Di rilis ini, versi 23.02-premium-beta02 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 23.03-premium berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @yonathanrizky yang terus berkontribusi.
 
 #### Penambahan Fitur
 
-1. [#6035](https://github.com/OpenSID/OpenSID/issues/6035) Penambahan pintasan ubah data penduduk pada modul Rumah Tangga.
+1. [#6035](https://github.com/OpenSID/OpenSID/issues/6035) Penambahan pintasan ubah data penduduk pada modul rumah tangga.
 2. [#5899](https://github.com/OpenSID/OpenSID/issues/5899) Penambahan fitur hapus lampiran artikel.
 3. [#6076](https://github.com/OpenSID/OpenSID/issues/6076) Penyesuaian qrcode saat kondisi TTE aktif.
 4. [#6406](https://github.com/OpenSID/OpenSID/issues/6406) Penambahan filter aktif dan tidak aktif di menu pengguna.
@@ -35,4 +35,4 @@ Terima kasih pada @yonathanrizky yang terus berkontribusi.
 3. [#1976](https://github.com/OpenSID/premium/issues/1976) Sesuaikan modul jabatan agar bisa digunakan di OpenKAB.
 4. [#6403](https://github.com/OpenSID/OpenSID/issues/6403) Penyesuaian penandatangan dokumen kerja sama dengan pengurus baru.
 5. [#6421](https://github.com/OpenSID/OpenSID/issues/6421) Penambahan keterangan pada informasi cetak faktur.
-6. Ubah slug modul tanpa menggunakan id.
+6. [#5854](https://github.com/OpenSID/OpenSID/issues/5854) Ubah slug modul tanpa menggunakan id.
