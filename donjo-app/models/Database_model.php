@@ -259,18 +259,15 @@ class Database_model extends MY_Model
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi($install = false)
+    public function cek_migrasi()
     {
-        if ($install) {
+        // Paksa menjalankan migrasi kalau belum
+        // Migrasi direkam di tabel migrasi
+        if (! $this->versi_database_terbaru()) {
+            $this->migrasi_db_cri();
 
-            // Paksa menjalankan migrasi kalau belum
-            // Migrasi direkam di tabel migrasi
-            if (! $this->versi_database_terbaru()) {
-                $this->migrasi_db_cri();
-
-                // Kirim versi aplikasi ke layanan setelah migrasi selesai
-                $this->kirimVersi();
-            }
+            // Kirim versi aplikasi ke layanan setelah migrasi selesai
+            $this->kirimVersi();
         }
 
         $this->jalankan_migrasi('migrasi_layanan');
