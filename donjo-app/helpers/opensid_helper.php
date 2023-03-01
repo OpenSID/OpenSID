@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '23.02-pasca');
+define('VERSION', '23.03');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -51,7 +51,7 @@ define('VERSION', '23.02-pasca');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023022301');
+define('VERSI_DATABASE', '2023030101');
 
 // Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');

@@ -1,4 +1,4 @@
-Di rilis ini, versi v23.03-pasca menyediakan pengaturan masa berlaku surat agar bisa dipilih untuk dihilangkan atau ditampilkan pada form surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi v23.03 menyediakan pengaturan masa berlaku surat agar bisa dipilih untuk dihilangkan atau ditampilkan pada form surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 Terima kasih pada Irvan1609 yang terus berkontribusi.
 
 #### Penambahan Fitur
@@ -88,6 +88,4 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 5. Mengembalikan fungsi pencarian cetak surat.
 6. Menambahkan penjelasan tambahan di impor analisis.
 7. Memperbarui .gitignore.
-8. Deploy Website Berputar
-9. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan fitur kosongkan database.
-10. Update .gitignore.
+8. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan fitur kosongkan database.
