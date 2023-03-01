@@ -38,6 +38,7 @@
 use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
+use App\Models\RefFontSurat;
 use App\Models\SettingAplikasi;
 use App\Models\SyaratSurat;
 
@@ -137,8 +138,9 @@ class Surat_master extends Admin_Controller
 
         $masaBerlaku      = FormatSurat::MASA_BERLAKU;
         $klasifikasiSurat = KlasifikasiSurat::orderBy('kode')->enabled()->get(['kode', 'nama']);
+        $pengaturanSurat  = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
 
-        return view('admin.pengaturan_surat.form', compact('action', 'formAction', 'suratMaster', 'masaBerlaku', 'klasifikasiSurat', 'kodeIsian', 'margins', 'orientations', 'sizes', 'qrCode'));
+        return view('admin.pengaturan_surat.form', compact('action', 'formAction', 'suratMaster', 'masaBerlaku', 'klasifikasiSurat', 'kodeIsian', 'margins', 'orientations', 'sizes', 'qrCode', 'pengaturanSurat'));
     }
 
     public function syaratSuratDatatables($id = null)
@@ -423,8 +425,9 @@ class Surat_master extends Admin_Controller
         $pengaturanSurat = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
         $aksi            = route('surat_master.update');
         $formAksi        = route('surat_master.edit_pengaturan');
+        $fonts           = RefFontSurat::all();
 
-        return view('admin.pengaturan_surat.pengaturan', compact('pengaturanSurat', 'aksi', 'formAksi'));
+        return view('admin.pengaturan_surat.pengaturan', compact('pengaturanSurat', 'aksi', 'formAksi', 'fonts'));
     }
 
     public function edit_pengaturan()

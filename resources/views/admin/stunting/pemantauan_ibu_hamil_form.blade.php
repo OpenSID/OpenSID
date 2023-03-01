@@ -50,8 +50,8 @@
                         <div class="col-sm-9">
                             <select class="form-control input-sm required select2" name="id_posyandu" style="width:100%;">
                                 <option value="">-- Cari Posyandu --</option>
-                                @foreach ($posyandu as $data)
-                                    <option value="{{ $data->id }}" @selected($ibuHamil->posyandu_id == $data->id)>{{ $data->nama }}</option>
+                                @foreach ($posyandu as $key => $value)
+                                    <option value="{{ $key }}" @selected($ibuHamil->posyandu_id == $key)>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -59,10 +59,10 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Status Kehamilan</label>
                         <div class="col-sm-9">
-                            <select class="form-control input-sm required" {{ $ibuHamil->status_kehamilan != null ? '' : 'disabled' }} id="status_kehamilan" name="status_kehamilan">
+                            <select class="form-control input-sm required select2" @disabled($ibuHamil->status_kehamilan === null) id="status_kehamilan" name="status_kehamilan">
                                 <option value="">Pilih Status Kehamilan</option>
-                                @foreach (['Normal', 'Risiko Tinggi (Risti)', 'Kekurangan Energi Kronis (KEK)'] as $key => $value)
-                                <option value="{{ $key+1 }}" {{ selected($ibuHamil->status_kehamilan, $key+1) }}>{{ $value }}</option>
+                                @foreach ($status_kehamilan_ibu as $key => $value)
+                                <option value="{{ $key }}" {{ selected($ibuHamil->status_kehamilan, $key) }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -70,21 +70,21 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Usia Kehamilan (Bulan)</label>
                         <div class="col-sm-9">
-                            <input type="number" {{ $ibuHamil->usia_kehamilan != null ? '' : 'disabled' }} class="form-control input-sm required" min="1" max="12" id="usia_kehamilan" name="usia_kehamilan"
+                            <input type="number" @disabled($ibuHamil->usia_kehamilan === null) class="form-control input-sm required" min="1" max="12" id="usia_kehamilan" name="usia_kehamilan"
                                 placeholder="Masukkan usia kehamilan" value="{{ $ibuHamil->usia_kehamilan }}" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Tanggal Melahirkan</label>
                         <div class="col-sm-9">
-                            <input type="text" {{ $ibuHamil->tanggal_melahirkan != null ? '' : 'disabled' }} class="form-control input-sm datepicker required" id="tanggal_melahirkan" name="tanggal_melahirkan"
+                            <input type="text" @disabled($ibuHamil->tanggal_melahirkan === null) class="form-control input-sm datepicker required" id="tanggal_melahirkan" name="tanggal_melahirkan"
                                 placeholder="Masukkan tanggal melahirkan" value="{{ $ibuHamil->tanggal_melahirkan }}" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Berapa butir pil Fe</label>
                         <div class="col-sm-9">
-                            <input type="number" {{ $ibuHamil->konsumsi_pil_fe ? '' : 'disabled' }} class="form-control input-sm required" min="1" id="butir_pil_fe" name="butir_pil_fe"
+                            <input type="number" @disabled($ibuHamil->konsumsi_pil_fe === null) class="form-control input-sm required" min="1" id="butir_pil_fe" name="butir_pil_fe"
                                 placeholder="Masukkan jumlah butir pil Fe" value="{{ $ibuHamil->butir_pil_fe }}" />
                         </div>
                     </div>

@@ -300,16 +300,22 @@ class Plan_lokasi_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function list_lokasi()
+    public function list_lokasi($status = null)
     {
+        if (null !== $status) {
+            $this->db
+                ->where('l.enabled', $status)
+                ->where('p.enabled', $status)
+                ->where('m.enabled', $status);
+        }
+
         return $this->db
             ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol')
             ->from('lokasi l')
             ->join('point p', 'l.ref_point = p.id', 'left')
             ->join('point m', 'p.parrent = m.id', 'left')
-            ->where('l.enabled = 1')
-            ->where('p.enabled = 1')
-            ->where('m.enabled = 1')
-            ->get()->result_array();
+            ->where('l.ref_point !=', 0)
+            ->get()
+            ->result_array();
     }
 }

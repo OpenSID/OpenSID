@@ -12,6 +12,7 @@ info.php
 sftp-config.json
 .php-cs-fixer.cache
 .htaccess
+*.sql
 mitra
 
 # Abaikan file cache milik phpintel (plugin sublime text)

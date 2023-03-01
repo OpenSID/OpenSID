@@ -37,7 +37,7 @@
         <?php foreach ($pemerintah as $data): ?>
           <div class="col-sm-3 pamong">
             <div class="card text-center">
-              <img width="auto" class="rounded-circle image" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']) ?>" alt="Foto <? $data['nama'] ?>"/>
+              <img width="auto" class="rounded-circle image" src="<?= $data['foto'] ?>" alt="Foto <? $data['nama'] ?>"/>
               <hr class="line">
               <b>
                 <?= $data['nama'] ?><br>

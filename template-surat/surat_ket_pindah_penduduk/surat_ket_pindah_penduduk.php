@@ -375,9 +375,8 @@
 			$('#group_jenis_permohonan').show();
 			$('#jenis_permohonan_id').removeAttr('disabled');
 
-			// Klasifikasi pindah tidak untuk F-1.03
-			$('#pindah').hide();
-			$('#klasifikasi_pindah_id').removeClass('required');
+			$('#pindah').show();
+			$('#klasifikasi_pindah_id').addClass('required');
 		} else if (kode_format == 'f108') {
 			$('#kode_format').val('F-1.08');
 			$('#status_kk_tidak_pindah_f103_show').hide();
@@ -396,7 +395,6 @@
 			$('#group_alamat_tujuan').hide();
 			$('#group_penanggungjawab').hide();
 
-			// Klasifikasi pindah tidak untuk F-1.08
 			$('#pindah').show();
 			$('#klasifikasi_pindah_id').addClass('required');
 

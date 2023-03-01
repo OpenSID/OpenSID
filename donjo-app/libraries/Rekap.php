@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Anak;
 use Illuminate\Support\Facades\DB;
 
 class Rekap
@@ -70,6 +71,7 @@ class Rekap
         $ibuHamil = DB::table('ibu_hamil')
             ->join('kia', 'ibu_hamil.kia_id', '=', 'kia.id')
             ->join('tweb_penduduk', 'kia.ibu_id', '=', 'tweb_penduduk.id')
+            ->where('status_kehamilan', '!=', null)
             ->whereMonth('ibu_hamil.created_at', '>=', $batasBulanBawah)
             ->whereMonth('ibu_hamil.created_at', '<=', $batasBulanAtas)
             ->whereYear('ibu_hamil.created_at', $tahun)
@@ -392,6 +394,8 @@ class Rekap
             ->distinct()
             ->get();
 
+        $status_gizi_anak = collect(Anak::STATUS_GIZI_ANAK)->pluck('simbol', 'id');
+
         if ($bulananAnak) {
             foreach ($bulananAnak as $item) {
                 $item                        = (array) $item;
@@ -455,7 +459,7 @@ class Rekap
                         $hitungJambanSehat++;
                     }
 
-                    $statusGizi = $item['status_gizi'];
+                    $statusGizi = $status_gizi_anak[$item['status_gizi']];
                 }
 
                 // HITUNG PENIMBANGAN DALAM 1 TAHUN

@@ -110,7 +110,8 @@ class Database_model extends MY_Model
         '22.11'   => ['migrate' => 'migrasi_2211_ke_2212', 'nextVersion' => '22.12'],
         '22.12'   => ['migrate' => 'migrasi_2212_ke_2301', 'nextVersion' => '23.01'],
         '23.01'   => ['migrate' => 'migrasi_2301_ke_2302', 'nextVersion' => '23.02'],
-        '23.02'   => ['migrate' => 'migrasi_2302_ke_2303', 'nextVersion' => null],
+        '23.02'   => ['migrate' => 'migrasi_2302_ke_2303', 'nextVersion' => '23.03'],
+        '23.03'   => ['migrate' => 'migrasi_2303_ke_2304', 'nextVersion' => null],
     ];
 
     public function __construct()
@@ -191,6 +192,14 @@ class Database_model extends MY_Model
                     $this->jalankan_migrasi($migrate);
                 }
             }
+            $this->load->helper('directory');
+            if ($this->db->affected_rows() > 0) { // jika ada perubahan data, hapus chace view blade
+                foreach (directory_map(config_item('cache_blade')) as $file) {
+                    if ($file !== 'index.html') {
+                        unlink(config_item('cache_blade') . DIRECTORY_SEPARATOR . $file);
+                    }
+                }
+            }
         } else {
             $this->_migrasi_db_cri();
         }
@@ -250,23 +259,15 @@ class Database_model extends MY_Model
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi($install = false)
+    public function cek_migrasi()
     {
-        if ($install) {
+        // Paksa menjalankan migrasi kalau belum
+        // Migrasi direkam di tabel migrasi
+        if (! $this->versi_database_terbaru()) {
+            $this->migrasi_db_cri();
 
-            // Paksa menjalankan migrasi kalau belum
-            // Migrasi direkam di tabel migrasi
-            if (! $this->versi_database_terbaru()) {
-                // Ulangi migrasi terakhir
-                $terakhir                                                                                  = key(array_slice($this->versionMigrate, -1, 1, true));
-                $sebelumnya                                                                                = key(array_slice($this->versionMigrate, -2, 1, true));
-                $this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
-
-                $this->migrasi_db_cri();
-
-                // Kirim versi aplikasi ke layanan setelah migrasi selesai
-                $this->kirimVersi();
-            }
+            // Kirim versi aplikasi ke layanan setelah migrasi selesai
+            $this->kirimVersi();
         }
 
         $this->jalankan_migrasi('migrasi_layanan');

@@ -16,6 +16,15 @@
 @section('content')
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
+        <div class="box-header with-border">
+            <select class="form-control select2 " id="cetak_surat" name="cetak_surat" style="width: 100%;">
+                <option selected="selected">--- Cari Judul Surat Yang Akan Dicetak ---</option>
+                @foreach ($cetak_surat as $url => $nama)
+                    <option value="{{ $url }}">{{ $nama }}</option>
+                @endforeach
+            </select>
+        </div>
+        
         {!! form_open($formAction, 'id="validasi"') !!}
         <div class="box-body">
             <div class="table-responsive">
@@ -53,6 +62,10 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('#cetak_surat').select2().on('change', function(e) {
+                window.location = SITE_URL + 'surat/form/' + this.value;
+            });
+
             var TableData = $('#favorit').DataTable({
                 responsive: true,
                 processing: true,
@@ -111,7 +124,6 @@
                 TableData.column(1).visible(false);
                 TableData.column(4).visible(false);
             }
-
         });
 
         $(document).ready(function() {

@@ -141,8 +141,10 @@
     <?php endif; ?>
 </div>
 <?php $this->load->view('global/konfirmasi'); ?>
-<script src="<?= base_url(); ?>assets/js/axios.min.js"></script>
+<script src="<?= asset('js/axios.min.js'); ?>"></script>
+<?php if (cek_koneksi_internet()): ?>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<?php endif ?>
 
 <script>
     $(document).ready(function() {
@@ -278,14 +280,14 @@
         }).show();
         // $('#status .modal-content')
         for (var i = 0; i < modul.length; i++) {
-
             var val = modul[i];
             // cek pagination
             let page = await $.ajax({
                     'url': "<?= site_url($this->controller . '/total') ?>",
                     data: {
                         'modul': val.modul,
-                        'model': val.model
+                        'model': val.model,
+                        'inkremental' : val.inkremental
                     },
                     type: 'Post',
                 })

@@ -36,41 +36,7 @@
  */
 
 use App\Models\User;
-
-/*
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package   OpenSID
- * @author    Tim Pengembang OpenDesa
- * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license   http://www.gnu.org/licenses/gpl.html GPL V3
- * @link      https://github.com/OpenSID/OpenSID
- *
- */
+use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -92,8 +58,6 @@ class User_model extends CI_Model
         parent::__construct();
         // Untuk dapat menggunakan library upload
         $this->load->library('upload');
-        // Untuk dapat menggunakan fungsi generator()
-        $this->load->helper('donjolib');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_USER_PICT,
             'allowed_types' => 'gif|jpg|jpeg|png',
@@ -102,41 +66,36 @@ class User_model extends CI_Model
         $this->load->model('grup_model');
         // Untuk password hashing
         $this->load->helper('password');
-        // Helper upload file
-        $this->load->helper('pict_helper');
         // Helper Tulis file
         $this->load->helper('file');
     }
 
     public function siteman()
     {
-        $this->load->library('Telegram/telegram');
-
         $this->_username = $username = trim($this->input->post('username'));
         $this->_password = $password = trim($this->input->post('password'));
-        $sql             = 'SELECT * FROM user WHERE username = ?';
 
-        // User 'admin' tidak bisa di-non-aktifkan
-        if ($username !== 'admin') {
-            $sql .= ' AND active = 1';
+        if (config_item('demo_mode') && ($username == config_item('demo_user')['username'] && $password == config_item('demo_user')['password'])) {
+            // Ambil data user pertama yang merupakan admin
+            $user = User::first();
+
+            return $this->setLogin($user);
         }
 
-        $query = $this->db->query($sql, [$username]);
-        $row   = $query->row();
+        $user = User::where('username', $username)->status()->first();
 
         // Cek hasil query ke db, ada atau tidak data user ybs.
-        $userAda    = is_object($row);
-        $pwMasihMD5 = $userAda ?
+        $pwMasihMD5 = $user ?
             (
-                (strlen($row->password) == 32) && (stripos($row->password, '$') === false)
+                (strlen($user->password) == 32) && (stripos($user->password, '$') === false)
             ) : false;
 
         $authLolos = $pwMasihMD5
-            ? (md5($password) == $row->password)
-            : password_verify($password, $row->password);
+            ? (md5($password) == $user->password)
+            : password_verify($password, $user->password);
 
         // Login gagal: user tidak ada atau tidak lolos verifikasi
-        if ($userAda === false || $authLolos === false) {
+        if ($user === false || $authLolos === false) {
             $this->session->siteman = -1;
             if ($this->session->siteman_try > 2) {
                 $this->session->siteman_try = $this->session->siteman_try - 1;
@@ -160,35 +119,42 @@ class User_model extends CI_Model
                 $this->db->query($sql);
                 // Lanjut ke update password di database
                 $sql = 'UPDATE user SET password = ? WHERE id = ?';
-                $this->db->query($sql, [$pwBcrypt, $row->id]);
+                $this->db->query($sql, [$pwBcrypt, $user->id]);
             }
             // Lanjut set session
-            if (($row->id_grup == self::GROUP_REDAKSI) && ($this->setting->offline_mode >= 2)) {
+            if (($user->id_grup == self::GROUP_REDAKSI) && ($this->setting->offline_mode >= 2)) {
                 $this->session->siteman = -2;
             } else {
-                $this->session->siteman      = 1;
-                $this->session->sesi         = $row->session;
-                $this->session->user         = $row->id;
-                $this->session->nama         = $row->nama;
-                $this->session->grup         = $row->id_grup;
-                $this->session->per_page     = 10;
-                $this->session->siteman_wait = 0;
-                $this->session->siteman_try  = 4;
-                $this->session->fm_key       = $this->set_fm_key($row->id . $row->id_grup . $row->sesi);
-                $this->session->isAdmin      = $row;
-                $this->last_login($this->session->user);
+                return $this->setLogin($user);
+            }
+        }
+    }
 
-                if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
-                    try {
-                        $this->telegram->sendMessage([
-                            'text'       => sprintf('%s login Halaman Admin %s pada tanggal %s', $row->nama, APP_URL, tgl_indo2(date('Y-m-d H:i:s'))),
-                            'parse_mode' => 'Markdown',
-                            'chat_id'    => $this->setting->telegram_user_id,
-                        ]);
-                    } catch (Exception $e) {
-                        log_message('error', $e->getMessage());
-                    }
-                }
+    private function setLogin($user)
+    {
+        $this->session->siteman      = 1;
+        $this->session->sesi         = $user->session;
+        $this->session->user         = $user->id;
+        $this->session->nama         = $user->nama;
+        $this->session->grup         = $user->id_grup;
+        $this->session->per_page     = 10;
+        $this->session->siteman_wait = 0;
+        $this->session->siteman_try  = 4;
+        $this->session->fm_key       = $this->set_fm_key($user->id . $user->id_grup . $user->sesi);
+        $this->session->isAdmin      = $user;
+        $this->last_login($user->id);
+
+        if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
+            $this->load->library('Telegram/telegram');
+
+            try {
+                $this->telegram->sendMessage([
+                    'text'       => sprintf('%s login Halaman Admin %s pada tanggal %s', $user->nama, APP_URL, tgl_indo2(date('Y-m-d H:i:s'))),
+                    'parse_mode' => 'Markdown',
+                    'chat_id'    => $this->setting->telegram_user_id,
+                ]);
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
             }
         }
     }
@@ -205,8 +171,7 @@ class User_model extends CI_Model
     //mengupdate waktu login
     private function last_login($id = '')
     {
-        $sql = 'UPDATE user SET last_login = NOW() WHERE id = ?';
-        $this->db->query($sql, $id);
+        return User::find($id)->update(['last_login' => Carbon::now()]);
     }
 
     //Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus
@@ -222,29 +187,6 @@ class User_model extends CI_Model
         $row   = $query->row_array();
 
         return $row['id_grup'];
-    }
-
-    public function login()
-    {
-        $username = $this->input->post('username');
-        $password = $this->input->post('password');
-        $sql      = 'SELECT id, password, id_grup, session FROM user WHERE id_grup = 1 LIMIT 1';
-        $query    = $this->db->query($sql);
-        $row      = $query->row();
-
-        // Verifikasi password lolos
-        if (password_verify($password, $row->password)) {
-            // Simpan sesi - sesi
-            $this->session->siteman  = 1;
-            $this->session->sesi     = $row->session;
-            $this->session->user     = $row->id;
-            $this->session->grup     = $row->id_grup;
-            $this->session->per_page = 10;
-        }
-        // Verifikasi password gagal
-        else {
-            $this->session->siteman = -1;
-        }
     }
 
     public function logout()
