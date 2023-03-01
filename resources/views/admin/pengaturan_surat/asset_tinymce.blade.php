@@ -1,5 +1,4 @@
 @push('scripts')
-
     <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
     <script>
         $(document).ready(function() {
@@ -22,8 +21,8 @@
                 ],
                 relative_urls: false,
                 entity_encoding: 'raw',
-                setup : function(ed) {
-                   ed.on('init', function (e) {
+                setup: function(ed) {
+                    ed.on('init', function(e) {
                         ed.execCommand("fontName", false, "${default_font}");
                     });
                 }
