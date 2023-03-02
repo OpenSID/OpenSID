@@ -234,12 +234,23 @@ class User_model extends CI_Model
     {
         if (isset($_SESSION['filter'])) {
             $filter = $_SESSION['filter'];
-            if ($filter == 'active') {
-                $filter_sql = ' AND u.active = 1';
-            } elseif ($filter == 'inactive') {
-                $filter_sql = ' AND u.active = 0';
-            } else {
-                $filter_sql = " AND u.id_grup = {$filter}";
+
+            switch ($filter) {
+                case 'active':
+                    $filter_sql = ' AND u.active = 1';
+                    break;
+
+                case 'inactive':
+                    $filter_sql = ' AND u.active = 0';
+                    break;
+
+                case 'all':
+                    $filter_sql = ' AND (u.active = 0 OR u.active = 1)';
+                    break;
+
+                default:
+                    $filter_sql = " AND u.id_grup = {$filter}";
+                    break;
             }
 
             return $filter_sql;
@@ -308,7 +319,8 @@ class User_model extends CI_Model
         $sql = 'SELECT u.*, p.pamong_status, g.nama as grup ' . $this->list_data_sql();
         $sql .= $order_sql;
         $sql .= $paging_sql;
-
+        // var_dump ($sql);
+        // die();
         $query = $this->db->query($sql);
         $data  = $query->result_array();
 
