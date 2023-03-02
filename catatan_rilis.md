@@ -5,6 +5,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 #### Perbaikan BUG
 
 1. [#6459](https://github.com/OpenSID/OpenSID/issues/6459) Perbaikan gagal saat buat artikel baru.
+2. [#6453](https://github.com/OpenSID/OpenSID/issues/6453) Perbaikan tidak ada notifikasi gagal tambah pengguna.
 
 
 
