@@ -45,12 +45,22 @@ class Migrasi_fitur_premium_2304 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2303');
+        $hasil = $hasil && $this->migrasi_2023030271($hasil);
 
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && true;
     }
 
-    protected function migrasi_xxxxxxxxxx($hasil)
+    protected function migrasi_2023030271($hasil)
     {
-        return $hasil;
+        // Ubah tipe kolom id_telegram int menjadi varchar (100)
+        $fields = [
+            'id_telegram' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => false,
+            ],
+        ];
+
+        return $hasil && $this->dbforge->modify_column('user', $fields);
     }
 }
