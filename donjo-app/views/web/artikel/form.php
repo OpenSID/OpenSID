@@ -225,7 +225,9 @@
 										<span class="input-group-btn">
 											<button type="button" class="btn btn-info btn-flat" id="file_browser4"><i class="fa fa-search"></i></button>
 											<button type='button' class='btn btn-info btn-flat btn-danger' id="hapus_file"><i class='fa fa-stop'></i></button>
-											<input type="text" hidden="" name="hapus_lampiran" value="" id="hapus_lampiran" />
+											<?php if ($artikel) : ?>
+												<input type="text" hidden="" name="hapus_lampiran" value="" id="hapus_lampiran" />
+											<?php endif; ?>
 										</span>
 									</div>
 								</div>
