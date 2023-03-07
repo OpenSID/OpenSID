@@ -9,5 +9,6 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 3. [#6455](https://github.com/OpenSID/OpenSID/issues/6455) Perbaikan ubah status semua pada halaman pengguna tidak aktif terpilih.
 4. [#6456](https://github.com/OpenSID/OpenSID/issues/6456) Perbaikan panjang karekter id_telegram agar dapat menampung data 10 digit.
 5. [#6454](https://github.com/OpenSID/OpenSID/issues/6454) Penyesuaian status aktif dan non aktif ketika nambah pengguna.
+6. [#6451](https://github.com/OpenSID/OpenSID/issues/6451) Perbaikan warna latar belakang lampiran agar tulisan terlihat.
 
 #### Perubahan Teknis
