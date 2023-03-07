@@ -12,5 +12,6 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 6. [#6451](https://github.com/OpenSID/OpenSID/issues/6451) Perbaikan warna latar belakang lampiran agar tulisan terlihat.
 7. [#6467](https://github.com/OpenSID/OpenSID/issues/6467) Perbaikan tidak bisa menambah anggota grup.
 8. [#6452](https://github.com/OpenSID/OpenSID/issues/6452) Perbaikan placeholder password pada saat edit pengguna.
+9. [#6468](https://github.com/OpenSID/OpenSID/issues/6468) Perbaikan surat RTF terkait variabel tanggal,jam dan tempat kematian yang tidak muncul.
 
 #### Perubahan Teknis
