@@ -1,6 +1,8 @@
-Di rilis ini, versi 23.03-premium-rev01 berisi penambahan fitur [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 23.03-premium-beta01 berisi penambahan fitur [isi disini] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
+
+#### Penambahan Fitur
 
 #### Perbaikan BUG
 
