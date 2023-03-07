@@ -370,6 +370,7 @@ class User_model extends CI_Model
     {
         $data             = [];
         $data['password'] = $post['password'];
+        $data['active']   = (int) $post['aktif'];
         if (isset($post['username']) && ! empty($post['username'])) {
             $data['username'] = alfanumerik($post['username']);
         }

@@ -85,6 +85,19 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label for="aktif" class="col-sm-3 control-label">Status</label>
+                                <div class="btn-group col-xs-12 col-sm-8 " data-toggle="buttons">
+                                    <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= compared_return($user['active'], '1') ?>">
+                                        <input type="radio" name="aktif" class="form-check-input" value="1" <?= selected($user['active'], 1) ?>> Aktif
+                                    </label>
+                                    <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= compared_return($user['active'], '0') ?>">
+                                        <input type="radio" name="aktif" class="form-check-input" value="0" <?= selected($user['notif_telegram'], 0) ?>> Tidak Aktif
+                                    </label>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="nama">Nama</label>
                                 <div class="col-sm-8">
@@ -186,5 +199,10 @@
                 $(".reveal i").removeClass("fa-eye");
             }
         });
+
+        <?php if (! isset($user['active'])): ?>
+            $('input[value="1"][name="aktif"]').parent().trigger('click')
+        <?php endif ?>
+
     });
 </script>
