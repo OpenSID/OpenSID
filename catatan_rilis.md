@@ -11,5 +11,6 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 5. [#6454](https://github.com/OpenSID/OpenSID/issues/6454) Penyesuaian status aktif dan non aktif ketika nambah pengguna.
 6. [#6451](https://github.com/OpenSID/OpenSID/issues/6451) Perbaikan warna latar belakang lampiran agar tulisan terlihat.
 7. [#6467](https://github.com/OpenSID/OpenSID/issues/6467) Perbaikan tidak bisa menambah anggota grup.
+8. [#6452](https://github.com/OpenSID/OpenSID/issues/6452) Perbaikan placeholder password pada saat edit pengguna.
 
 #### Perubahan Teknis

@@ -47,6 +47,8 @@ class Man_user extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('form_validation');
+        $this->form_validation->set_error_delimiters('', '');
         $this->modul_ini     = 'pengaturan';
         $this->sub_modul_ini = 'pengguna';
         $this->_set_page     = ['10', '50', '100', '200'];
@@ -167,8 +169,6 @@ class Man_user extends Admin_Controller
 
     private function set_form_validation()
     {
-        $this->load->library('form_validation');
-        $this->form_validation->set_error_delimiters('', '');
         $this->form_validation->set_rules('password', 'Kata Sandi Baru', 'required|callback_syarat_sandi');
         $this->form_validation->set_message('syarat_sandi', 'Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil');
     }
@@ -183,7 +183,9 @@ class Man_user extends Admin_Controller
     public function update($p = 1, $o = 0, $id = '')
     {
         $this->redirect_hak_akses('u');
-        $this->set_form_validation();
+        if ($this->input->post('password') != '') {
+            $this->set_form_validation();
+        }
         $this->form_validation->set_rules('username', 'Username', "is_unique[user.username,id,{$id}]");
         $this->form_validation->set_rules('email', 'Email', "is_unique[user.email,id,{$id}]");
         $this->form_validation->set_rules([
@@ -199,6 +201,7 @@ class Man_user extends Admin_Controller
 
         if ($this->form_validation->run() !== true) {
             session_error(trim(validation_errors()));
+
             redirect("man_user/form/{$p}/{$o}/{$id}");
         } else {
             $this->user_model->update($id);

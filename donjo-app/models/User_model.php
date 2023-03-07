@@ -427,16 +427,13 @@ class User_model extends CI_Model
             redirect('man_user');
         }
 
-        if (
-            empty($data['username']) || empty($data['password'])
-                                     || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())
-        ) {
+        if (empty($data['username']) || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())) {
             session_error(' -> Nama, Username dan Kata Sandi harus diisi');
             redirect('man_user');
         }
 
         // radiisi menandakan password tidak diubah
-        if ($data['password'] == 'radiisi') {
+        if ($data['password'] == '') {
             unset($data['password']);
         }
         // Untuk demo jangan ubah username atau password
