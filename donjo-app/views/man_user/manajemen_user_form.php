@@ -200,9 +200,7 @@
             }
         });
 
-        <?php if (! isset($user['active'])): ?>
-            $('input[value="1"][name="aktif"]').parent().trigger('click')
-        <?php endif ?>
+            $('input[value="<?= $user['active'] ?? 1 ?>"][name="aktif"]').parent().trigger('click')
 
     });
 </script>

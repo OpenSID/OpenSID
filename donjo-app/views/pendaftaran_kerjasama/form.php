@@ -107,7 +107,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Status Registrasi</label>
                             <div class="col-sm-8">
-                                <input class="form-control input-sm required" type="text" name="status_registrasi" value="<?= $response->data->status_langganan ?? 'belum terdaftar' ?>" readonly>
+                                <input class="form-control input-sm" type="text" name="status_registrasi" value="<?= $response->data->status_langganan ?? 'belum terdaftar' ?>" readonly>
                             </div>
                         </div>
                         <div class="form-group">
