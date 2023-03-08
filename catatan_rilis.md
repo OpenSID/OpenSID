@@ -13,5 +13,6 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 7. [#6467](https://github.com/OpenSID/OpenSID/issues/6467) Perbaikan tidak bisa menambah anggota grup.
 8. [#6452](https://github.com/OpenSID/OpenSID/issues/6452) Perbaikan placeholder password pada saat edit pengguna.
 9. [#6468](https://github.com/OpenSID/OpenSID/issues/6468) Perbaikan surat RTF terkait variabel tanggal,jam dan tempat kematian yang tidak muncul.
+10. [#6465](https://github.com/OpenSID/OpenSID/issues/6465) Perbaikan halaman kerja sama loading terus saat disimpan.
 
 #### Perubahan Teknis
