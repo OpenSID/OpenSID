@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Libraries\TinyMCE;
 use App\Traits\Author;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -330,13 +331,18 @@ class FormatSurat extends BaseModel
             return kode_isian($this->url_surat);
         }
 
-        return json_decode($this->attributes['kode_isian']);
+        $kode_isian = json_decode($this->attributes['kode_isian']);
+        if ($this->getFormIsianAttribute()->data == '2') {
+            return [...json_decode(TinyMCE::getKodeIsianNonWarga()), ...$kode_isian];
+        }
+
+        return $kode_isian;
     }
 
     /**
      * Getter untuk form_isian
      *
-     * @return string
+     * @return mixed
      */
     public function getFormIsianAttribute()
     {

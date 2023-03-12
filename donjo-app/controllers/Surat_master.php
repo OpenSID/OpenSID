@@ -262,6 +262,7 @@ class Surat_master extends Admin_Controller
         }
 
         $formIsian = [
+            'data'     => $request['data_utama'] ?? 1,
             'individu' => [
                 'sex'          => $request['individu_sex'] ?? null,
                 'status_dasar' => $request['individu_status_dasar'] ?? null,
@@ -500,15 +501,19 @@ class Surat_master extends Admin_Controller
         $setting_footer    = $this->request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
         $data['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
-        $data['id_pend'] = Penduduk::filters([
-            'sex'          => $this->request['individu_sex'],
-            'status_dasar' => $this->request['individu_status_dasar'],
-            'kk_level'     => $this->request['individu_kk_level'],
-        ])->first('id')
-        ->id;
+        if ($this->request['data_utama'] == 1) {
+            $data['id_pend'] = Penduduk::filters([
+                'sex'          => $this->request['individu_sex'],
+                'status_dasar' => $this->request['individu_status_dasar'],
+                'kk_level'     => $this->request['individu_kk_level'],
+            ])->first('id')->id;
 
-        if (! $data['id_pend']) {
-            redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+            if (! $data['id_pend']) {
+                redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+            }
+        } else {
+            $data['nik_non_warga']  = '1234567890123456';
+            $data['nama_non_warga'] = 'Nama Non Warga';
         }
 
         foreach ($this->request['nama_kode'] as $kode) {
@@ -517,6 +522,10 @@ class Surat_master extends Admin_Controller
 
         $data      = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
         $isi_surat = $this->tinymce->replceKodeIsian($data);
+
+        // Manual replace kode isian non warga
+        $isi_surat = str_replace('[Form_nik_non_wargA]', $data['nik_non_warga'], $isi_surat);
+        $isi_surat = str_replace('[Form_nama_non_wargA]', $data['nama_non_warga'], $isi_surat);
 
         // Pisahkan isian surat
         $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);

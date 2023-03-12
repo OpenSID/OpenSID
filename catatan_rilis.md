@@ -4,6 +4,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 #### Penambahan Fitur
 
+1. [#5821](https://github.com/OpenSID/OpenSID/issues/5821) Nambah Pengaturan & kode isian non warga khusus tinymce.
+
 #### Perbaikan BUG
 
 1. [#6459](https://github.com/OpenSID/OpenSID/issues/6459) Perbaikan gagal saat buat artikel baru.

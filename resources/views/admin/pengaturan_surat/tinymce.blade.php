@@ -20,8 +20,20 @@
             <table class="table table-hover table-striped">
                 <tbody>
                     <tr style="font-weight: bold;">
-                        <td>Data Penduduk Individu Berdasarkan</td>
+                        <td>Data Kategori</td>
                         <td>Pilihan</td>
+                    </tr>
+                    <tr>
+                        <td>Data Individu</td>
+                        <td>
+                            @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
+                            <select class="form-control input-sm select2" name="data_utama">
+                                <option value="1" @selected(1 == $suratMaster->form_isian->data)>PENDUDUK {{ $desa_pend }}
+                                </option>
+                                <option value="2" @selected(2 == $suratMaster->form_isian->data)>PENDUDUK LUAR {{ $desa_pend }}
+                                </option>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td>Jenis Kelamin</td>
@@ -54,17 +66,16 @@
                         <td>
                             <select class="form-control input-sm select2" name="individu_kk_level">
                                 <option value="">SEMUA</option>
-                                @foreach ($form_isian['daftar_shdk'] as $key => $data):
+                                @foreach ($form_isian['daftar_shdk'] as $key => $data)
                                     <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->individu->kk_level)>{{ $data }}
                                     </option>
-                                    <?php endforeach; ?>
+                                @endforeach
                             </select>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
         <hr>
 
         <h5><b>Kode Isian</b></h5>
@@ -79,33 +90,37 @@
                         <td>Aksi</td>
                     </tr>
                     @forelse ($suratMaster->kode_isian as $key => $value)
-                        <tr class="duplikasi" id="gandakan-{{ $key }}" data-id="{{ $key }}">
-                            <td>
-                                <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
-                                    @foreach ($attributes as $attr_key => $attr_value)
-                                        <option value="{{ $attr_key }}" @selected($attr_key == $value->tipe)>{{ $attr_value }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </td>
-                            <td><input type="text" name="nama_kode[]" class="form-control input-sm"
-                                    value="{{ $value->nama }}"></td>
-                            <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm"
-                                    value="{{ $value->deskripsi }}"></td>
-                            <td>
-                                <textarea class="form-control input-sm" placeholder='minlength="5" maxlength="50"' name="atribut_kode[]" rows="5">{{ $value->atribut }}</textarea>
-                            </td>
-                            <td width="1%">
-                                <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
-                                        class='fa fa-trash-o'></i></button>
-                            </td>
-                        </tr>
+                        @if (!$value->statis)
+                            <tr class="duplikasi" id="gandakan-{{ $key }}">
+                                <td>
+                                    <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
+                                        @foreach ($attributes as $attr_key => $attr_value)
+                                            <option value="{{ $attr_key }}" @selected($attr_key == $value->tipe)>
+                                                {{ $attr_value }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td><input type="text" name="nama_kode[]" class="form-control input-sm"
+                                        value="{{ $value->nama }}"></td>
+                                <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm"
+                                        value="{{ $value->deskripsi }}"></td>
+                                <td>
+                                    <textarea class="form-control input-sm" placeholder='minlength="5" maxlength="50"' name="atribut_kode[]" rows="5">{{ $value->atribut }}</textarea>
+                                </td>
+                                <td width="1%">
+                                    <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
+                                            class="fa fa-trash-o"></i></button>
+                                </td>
+                            </tr>
+                        @endif
                     @empty
                         <tr class="duplikasi" id="gandakan-0" data-id="0">
                             <td>
                                 <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
                                     @foreach ($attributes as $attr_key => $attr_value)
-                                        <option value="{{ $attr_key }}" @selected($attr_key == 1)>{{ $attr_value }}</option>
+                                        <option value="{{ $attr_key }}" @selected($attr_key == 1)>
+                                            {{ $attr_value }}</option>
                                     @endforeach
                                 </select>
                             </td>
@@ -116,7 +131,7 @@
                             </td>
                             <td width="1%">
                                 <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
-                                        class='fa fa-trash-o'></i></button>
+                                        class="fa fa-trash-o"></i></button>
                             </td>
                         </tr>
                     @endforelse

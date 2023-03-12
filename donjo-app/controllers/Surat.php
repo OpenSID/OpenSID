@@ -167,7 +167,9 @@ class Surat extends Admin_Controller
             $pamong    = Pamong::find($id_pamong);
             $log_surat = [
                 'id_format_surat' => $surat->id,
-                'id_pend'         => $this->request['nik'], // nik = id_pend
+                'id_pend'         => $this->request['nik'],
+                'nama_non_warga'  => $this->request['nama_non_warga'],
+                'nik_non_warga'   => $this->request['nik_non_warga'],
                 'id_pamong'       => $id_pamong,
                 'nama_jabatan'    => $pamong->jabatan->nama,
                 'nama_pamong'     => $pamong->pamong_nama,
@@ -177,15 +179,6 @@ class Surat extends Admin_Controller
                 'no_surat'        => $this->request['nomor'],
                 'keterangan'      => $this->request['keterangan'] ?: $this->request['keperluan'],
             ];
-
-            if ($log_surat['id_pend']) {
-                $nik = Penduduk::find($log_surat['id_pend'])->nik;
-            } else {
-                // Surat untuk non-warga
-                $log_surat['nama_non_warga'] = $this->request['nama_non_warga'];
-                $log_surat['nik_non_warga']  = $this->request['nik_non_warga'];
-                $nik                         = $log_surat['nik_non_warga'];
-            }
 
             $log_surat['surat']     = $surat;
             $log_surat['input']     = $this->request;
@@ -647,13 +640,17 @@ class Surat extends Admin_Controller
         } else {
             // TinyMCE
             // Data penduduk diambil sesuai pengaturan surat
-            $filters = collect($data['surat']['form_isian']->individu)->toArray();
-
-            $data['penduduk'] = Penduduk::filters($filters)->get();
-            if ($filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
-                $data['anggota'] = Keluarga::find($data['individu']['id_kk'])->anggota;
+            if ($data['surat']['form_isian']->data == 2) {
+                $data['penduduk'] = null;
+                $data['anggota']  = null;
             } else {
-                $data['anggota'] = null;
+                $filters          = collect($data['surat']['form_isian']->individu)->toArray();
+                $data['penduduk'] = Penduduk::filters($filters)->get();
+                if ($filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
+                    $data['anggota'] = Keluarga::find($data['individu']['id_kk'])->anggota;
+                } else {
+                    $data['anggota'] = null;
+                }
             }
         }
 
