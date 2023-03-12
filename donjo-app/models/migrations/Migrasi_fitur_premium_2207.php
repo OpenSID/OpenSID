@@ -714,7 +714,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
             'orientasi'           => 'Potrait',
             'ukuran'              => 'F4',
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
-            'qrcode'              => StatusEnum::YA,
+            'qr_code'             => StatusEnum::YA,
             'kode_isian'          => '[{"kode":"[form_keterangan]","nama":"Keterangan","tipe":"text","deskripsi":"Masukkan keterangan"}]',
             'mandiri'             => StatusEnum::YA,
             'syarat_surat'        => ['13', '3'],
