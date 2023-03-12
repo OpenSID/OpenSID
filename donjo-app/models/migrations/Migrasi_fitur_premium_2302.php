@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\BukuKepuasan;
 use App\Models\LogSurat;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -67,21 +66,6 @@ class Migrasi_fitur_premium_2302 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('buku_kepuasan', [
                 'pertanyaan_statis' => ['type' => 'TEXT', 'null' => true, 'default' => null, 'after' => 'id_jawaban'],
             ]);
-
-            $data = BukuKepuasan::query()->has('pertanyaan')->get()->pluck('pertanyaan.pertanyaan', 'id');
-
-            if (count($data) !== 0) {
-                foreach ($data as $key => $value) {
-                    $batch[] = [
-                        'id'                => $key,
-                        'pertanyaan_statis' => $value,
-                    ];
-                }
-
-                $hasil = $hasil && $this->db->update_batch('buku_kepuasan', $batch, 'id');
-            }
-
-            return $hasil;
         }
 
         return $hasil;

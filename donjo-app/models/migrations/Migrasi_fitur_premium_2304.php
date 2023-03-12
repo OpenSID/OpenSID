@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\BukuKepuasan;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2304 extends MY_model
@@ -46,6 +48,7 @@ class Migrasi_fitur_premium_2304 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2303');
         $hasil = $hasil && $this->migrasi_2023030271($hasil);
+        $hasil = $hasil && $this->migrasi_2023030851($hasil);
 
         return $hasil && true;
     }
@@ -62,5 +65,23 @@ class Migrasi_fitur_premium_2304 extends MY_model
         ];
 
         return $hasil && $this->dbforge->modify_column('user', $fields);
+    }
+
+    protected function migrasi_2023030851($hasil)
+    {
+        $data = BukuKepuasan::query()->has('pertanyaan')->get()->pluck('pertanyaan.pertanyaan', 'id');
+
+        if (count($data) !== 0) {
+            foreach ($data as $key => $value) {
+                $batch[] = [
+                    'id'                => $key,
+                    'pertanyaan_statis' => $value,
+                ];
+            }
+
+            $hasil = $hasil && $this->db->update_batch('buku_kepuasan', $batch, 'id');
+        }
+
+        return $hasil;
     }
 }
