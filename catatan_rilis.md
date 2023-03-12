@@ -17,3 +17,5 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 11. [#6483](https://github.com/OpenSID/OpenSID/issues/6483) Perbaikan tidak bisa akses modul Pertanahan > Daftar Persil.
 
 #### Perubahan Teknis
+
+1. [#6479](https://github.com/OpenSID/OpenSID/issues/6479) Perbaikan log migrasi gagal tapi migrasi tetap jalan.
