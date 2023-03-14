@@ -17,6 +17,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 11. [#6483](https://github.com/OpenSID/OpenSID/issues/6483) Perbaikan tidak bisa akses modul Pertanahan > Daftar Persil.
 12. [#6488](https://github.com/OpenSID/OpenSID/issues/6488) Perbaikan validasi desa gagal saat nama desa memiliki angka.
 13. [#6480](https://github.com/OpenSID/OpenSID/issues/6480) Perbaikan data pertanyaan di menu kepuasan buku tamu tidak tampil.
+14. [#6500](https://github.com/OpenSID/OpenSID/issues/6500) Perbaikan nomor KK menjadi 0 setelah menambahkan anggota keluarga baru.
 
 #### Perubahan Teknis
 
