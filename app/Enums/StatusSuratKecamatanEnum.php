@@ -35,54 +35,25 @@
  *
  */
 
-use App\Models\BukuKepuasan;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_fitur_premium_2304 extends MY_model
+class StatusSuratKecamatanEnum
 {
-    public function up()
+    public const TidakAktif   = 1;
+    public const BelumDikirim = 2;
+    public const SudahDikirim = 3;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
     {
-        $hasil = true;
-
-        // Jalankan migrasi sebelumnya
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_tte');
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2303');
-        $hasil = $hasil && $this->migrasi_2023030271($hasil);
-        $hasil = $hasil && $this->migrasi_2023030851($hasil);
-
-        return $hasil && true;
-    }
-
-    protected function migrasi_2023030271($hasil)
-    {
-        // Ubah tipe kolom id_telegram int menjadi varchar (100)
-        $fields = [
-            'id_telegram' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 100,
-                'null'       => false,
-            ],
+        return [
+            self::TidakAktif   => 'Tidak Aktif',
+            self::BelumDikirim => 'Belum Dikirim',
+            self::SudahDikirim => 'Sudah Dikirim',
         ];
-
-        return $hasil && $this->dbforge->modify_column('user', $fields);
-    }
-
-    protected function migrasi_2023030851($hasil)
-    {
-        $data = BukuKepuasan::query()->has('pertanyaan')->get()->pluck('pertanyaan.pertanyaan', 'id');
-
-        if (count($data) !== 0) {
-            foreach ($data as $key => $value) {
-                $batch[] = [
-                    'id'                => $key,
-                    'pertanyaan_statis' => $value,
-                ];
-            }
-
-            $hasil = $hasil && $this->db->update_batch('buku_kepuasan', $batch, 'id');
-        }
-
-        return $hasil;
     }
 }

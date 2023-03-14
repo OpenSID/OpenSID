@@ -134,6 +134,9 @@
 						} else if (success == 6) {
 							notify = 'success';
 							notify_msg = 'Silahkan Cek Pesan di Email Anda';
+						} else if (success == -99) {
+							notify = 'error';
+							notify_msg = message;
 						} else {
 							notify = success;
 							notify_msg = message;

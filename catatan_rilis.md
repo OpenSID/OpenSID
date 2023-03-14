@@ -5,6 +5,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 #### Penambahan Fitur
 
 1. [#5821](https://github.com/OpenSID/OpenSID/issues/5821) Nambah Pengaturan & kode isian non warga khusus tinymce.
+2. [#6394](https://github.com/OpenSID/OpenSID/issues/6394) TTE OpenDK.
 
 #### Perbaikan BUG
 

@@ -37,6 +37,7 @@
 
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
+use App\Enums\StatusSuratKecamatanEnum;
 use App\Libraries\TinyMCE;
 use App\Models\Config;
 use App\Models\FormatSurat;
@@ -159,7 +160,8 @@ class Surat extends Admin_Controller
             $this->permohonan_surat_model->proses($id, 2);
         }
 
-        $surat = FormatSurat::cetak($url)->first();
+        $surat     = FormatSurat::cetak($url)->first();
+        $kecamatan = $surat->kecamatan == StatusEnum::TIDAK ? StatusSuratKecamatanEnum::TidakAktif : StatusSuratKecamatanEnum::BelumDikirim;
 
         if ($surat && $this->request) {
             // Simpan data ke log_surat sebagai draf
@@ -178,6 +180,7 @@ class Surat extends Admin_Controller
                 'tahun'           => date('Y'),
                 'no_surat'        => $this->request['nomor'],
                 'keterangan'      => $this->request['keterangan'] ?: $this->request['keperluan'],
+                'kecamatan'       => $kecamatan,
             ];
 
             $log_surat['surat']     = $surat;
@@ -224,6 +227,7 @@ class Surat extends Admin_Controller
                 'tahun'           => date('Y'),
                 'no_surat'        => $cetak['input']['nomor'],
                 'keterangan'      => $cetak['keterangan'],
+                'kecamatan'       => $cetak['kecamatan'],
             ];
 
             if ($nik = $cetak['input']['nik']) {
@@ -348,6 +352,7 @@ class Surat extends Admin_Controller
                 'nama_pamong'     => $pamong->pamong_nama,
                 'id_user'         => auth()->id,
                 'tanggal'         => Carbon::now(),
+                'kecamatan'       => $cetak['kecamatan'],
             ];
             $log_surat['verifikasi_operator'] = 0;
 
