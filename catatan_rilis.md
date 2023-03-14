@@ -21,3 +21,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 #### Perubahan Teknis
 
 1. [#6479](https://github.com/OpenSID/OpenSID/issues/6479) Perbaikan log migrasi gagal tapi migrasi tetap jalan.
+2. [#6489](https://github.com/OpenSID/OpenSID/issues/6489) Tambahkan Peringatan saat hapus penduduk.
