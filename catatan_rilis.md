@@ -24,3 +24,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 1. [#6479](https://github.com/OpenSID/OpenSID/issues/6479) Perbaikan log migrasi gagal tapi migrasi tetap jalan.
 2. [#6489](https://github.com/OpenSID/OpenSID/issues/6489) Tambahkan peringatan saat hapus penduduk.
 3. [#6491](https://github.com/OpenSID/OpenSID/issues/6491) Tambahkan peringatan pada fitur impor penduduk.
+4. [#2153](https://github.com/OpenSID/premium/issues/2153) Perbaikan dtks- model withOnly.

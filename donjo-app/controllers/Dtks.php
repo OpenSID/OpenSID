@@ -69,7 +69,19 @@ class Dtks extends Admin_Controller
      */
     protected function syncDtksRtm($rtm)
     {
-        $semua_anggota = Penduduk::withOnly([])
+        $semua_anggota = Penduduk::without([
+                'jenisKelamin',
+                'agama',
+                'pendidikan',
+                'pendidikanKK',
+                'pekerjaan',
+                'wargaNegara',
+                'golonganDarah',
+                'cacat',
+                'statusKawin',
+                'pendudukStatus',
+                'wilayah',
+            ])
             ->select('id', 'nama', 'id_rtm', 'rtm_level', 'id_kk', 'kk_level')
             ->whereIn('id_rtm', $rtm->pluck('no_kk'))
             ->get();
@@ -103,7 +115,19 @@ class Dtks extends Admin_Controller
         $data['rtm'] = Rtm::with([
             'kepalaKeluarga' => static function ($builder) {
                 $builder->select('id', 'nama', 'nik');
-                $builder->withOnly([]);
+                $builder->without([
+                    'jenisKelamin',
+                    'agama',
+                    'pendidikan',
+                    'pendidikanKK',
+                    'pekerjaan',
+                    'wargaNegara',
+                    'golonganDarah',
+                    'cacat',
+                    'statusKawin',
+                    'pendudukStatus',
+                    'wilayah',
+                ]);
             },
         ])
             ->where('terdaftar_dtks', 1)
@@ -218,7 +242,19 @@ class Dtks extends Admin_Controller
         $data['anggota'] = DtksAnggota::with([
             'penduduk' => static function ($builder) {
                 $builder->select('id', 'nama', 'nik');
-                $builder->withOnly([]);
+                $builder->without([
+                    'jenisKelamin',
+                    'agama',
+                    'pendidikan',
+                    'pendidikanKK',
+                    'pekerjaan',
+                    'wargaNegara',
+                    'golonganDarah',
+                    'cacat',
+                    'statusKawin',
+                    'pendudukStatus',
+                    'wilayah',
+                ]);
             },
         ])
             ->select('id', 'id_dtks', 'id_penduduk')
