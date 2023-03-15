@@ -70,18 +70,18 @@ class Dtks extends Admin_Controller
     protected function syncDtksRtm($rtm)
     {
         $semua_anggota = Penduduk::without([
-                'jenisKelamin',
-                'agama',
-                'pendidikan',
-                'pendidikanKK',
-                'pekerjaan',
-                'wargaNegara',
-                'golonganDarah',
-                'cacat',
-                'statusKawin',
-                'pendudukStatus',
-                'wilayah',
-            ])
+            'jenisKelamin',
+            'agama',
+            'pendidikan',
+            'pendidikanKK',
+            'pekerjaan',
+            'wargaNegara',
+            'golonganDarah',
+            'cacat',
+            'statusKawin',
+            'pendudukStatus',
+            'wilayah',
+        ])
             ->select('id', 'nama', 'id_rtm', 'rtm_level', 'id_kk', 'kk_level')
             ->whereIn('id_rtm', $rtm->pluck('no_kk'))
             ->get();
