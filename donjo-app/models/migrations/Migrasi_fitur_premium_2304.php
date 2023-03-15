@@ -48,7 +48,7 @@ class Migrasi_fitur_premium_2304 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2303');
         $hasil = $hasil && $this->migrasi_2023030271($hasil);
-        $hasil = $hasil && $this->migrasi_2023030851($hasil);
+        $hasil = $hasil && $this->migrasi_2023031551($hasil);
 
         return $hasil && true;
     }
@@ -67,7 +67,7 @@ class Migrasi_fitur_premium_2304 extends MY_model
         return $hasil && $this->dbforge->modify_column('user', $fields);
     }
 
-    protected function migrasi_2023030851($hasil)
+    protected function migrasi_2023031551($hasil)
     {
         $data = BukuKepuasan::query()->has('pertanyaan')->get()->pluck('pertanyaan.pertanyaan', 'id');
 
