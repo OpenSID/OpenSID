@@ -22,7 +22,12 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 11. [#6483](https://github.com/OpenSID/OpenSID/issues/6483) Perbaikan tidak bisa akses modul Pertanahan > Daftar Persil.
 12. [#6488](https://github.com/OpenSID/OpenSID/issues/6488) Perbaikan validasi desa gagal saat nama desa memiliki angka.
 13. [#6480](https://github.com/OpenSID/OpenSID/issues/6480) Perbaikan data pertanyaan di menu kepuasan buku tamu tidak tampil.
+14. [#6500](https://github.com/OpenSID/OpenSID/issues/6500) Perbaikan nomor KK menjadi 0 setelah menambahkan anggota keluarga baru.
+15. [#6503](https://github.com/OpenSID/OpenSID/issues/6503) Perbaiki logo bsre yang tidak tampil saat cetak surat setelah surat diverifikasi.
 
 #### Perubahan Teknis
 
 1. [#6479](https://github.com/OpenSID/OpenSID/issues/6479) Perbaikan log migrasi gagal tapi migrasi tetap jalan.
+2. [#6489](https://github.com/OpenSID/OpenSID/issues/6489) Tambahkan peringatan saat hapus penduduk.
+3. [#6491](https://github.com/OpenSID/OpenSID/issues/6491) Tambahkan peringatan pada fitur impor penduduk.
+4. [#2153](https://github.com/OpenSID/premium/issues/2153) Perbaikan dtks- model withOnly.

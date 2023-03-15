@@ -116,7 +116,19 @@ class Dtks extends BaseModel
         $this->loadMissing([
             'rtm.anggota' => static function ($builder) {
                 // override all items within the $with property in Penduduk
-                $builder->withOnly('');
+                $builder->without([
+                    'jenisKelamin',
+                    'agama',
+                    'pendidikan',
+                    'pendidikanKK',
+                    'pekerjaan',
+                    'wargaNegara',
+                    'golonganDarah',
+                    'cacat',
+                    'statusKawin',
+                    'pendudukStatus',
+                    'wilayah',
+                ]);
                 // hanya ambil data anggota yg masih hidup (tweb_penduduk)
                 $builder->where('status_dasar', 1);
             },

@@ -351,7 +351,19 @@ class DTKSRegsosEk2022k
                     'rtm.kepalaKeluarga' => static function ($builder) {
                         $builder->select('id', 'nama');
                         // override all items within the $with property in Penduduk
-                        $builder->withOnly([]);
+                        $builder->without([
+                            'jenisKelamin',
+                            'agama',
+                            'pendidikan',
+                            'pendidikanKK',
+                            'pekerjaan',
+                            'wargaNegara',
+                            'golonganDarah',
+                            'cacat',
+                            'statusKawin',
+                            'pendudukStatus',
+                            'wilayah',
+                        ]);
                     },
                     'keluarga' => static function ($builder) {
                         $builder->select('id', 'nik_kepala', 'no_kk');
@@ -359,7 +371,19 @@ class DTKSRegsosEk2022k
                     'keluarga.kepalaKeluarga' => static function ($builder) {
                         $builder->select('id', 'nama');
                         // override all items within the $with property in Penduduk
-                        $builder->withOnly([]);
+                        $builder->without([
+                            'jenisKelamin',
+                            'agama',
+                            'pendidikan',
+                            'pendidikanKK',
+                            'pekerjaan',
+                            'wargaNegara',
+                            'golonganDarah',
+                            'cacat',
+                            'statusKawin',
+                            'pendudukStatus',
+                            'wilayah',
+                        ]);
                     },
                 ])
                 ->withCount('dtksAnggota')
