@@ -79,7 +79,9 @@ class Migrasi_fitur_premium_2304 extends MY_model
                 ];
             }
 
-            $hasil = $hasil && $this->db->update_batch('buku_kepuasan', $batch, 'id');
+            if ($batch) {
+                $hasil = $hasil && $this->db->update_batch('buku_kepuasan', $batch, 'id');
+            }
         }
 
         return $hasil;
