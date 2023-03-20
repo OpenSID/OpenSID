@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusSuratKecamatanEnum;
 use App\Models\BukuKepuasan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -46,10 +47,10 @@ class Migrasi_fitur_premium_2304 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_tte');
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2303');
         $hasil = $hasil && $this->migrasi_2023030271($hasil);
         $hasil = $hasil && $this->migrasi_2023031551($hasil);
+        $hasil = $hasil && $this->tambah_kolom_kecamatan($hasil);
 
         return $hasil && true;
     }
@@ -83,6 +84,24 @@ class Migrasi_fitur_premium_2304 extends MY_model
             if ($batch) {
                 $hasil = $hasil && $this->db->update_batch('buku_kepuasan', $batch, 'id');
             }
+        }
+
+        return $hasil;
+    }
+
+    protected function tambah_kolom_kecamatan($hasil)
+    {
+        if (! $this->db->field_exists('kecamatan', 'log_surat')) {
+            $fields = [
+                'kecamatan' => [
+                    'type'       => 'tinyint',
+                    'constraint' => 1,
+                    'null'       => false,
+                    'default'    => StatusSuratKecamatanEnum::TidakAktif,
+                    'after'      => 'isi_surat',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
         }
 
         return $hasil;
