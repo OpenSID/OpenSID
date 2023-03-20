@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -324,7 +324,6 @@ class Log_Viewer
      * This function will extract the logs in the supplied
      * fileName
      *
-     * @param      $fileNameInBase64
      * @param bool $singleLine
      *
      * @return array|null
@@ -416,7 +415,6 @@ class Log_Viewer
      * otherwise, it will return all file content as a single string with each line ending
      * in line break character "\n"
      *
-     * @param      $fileName
      * @param bool $singleLine
      *
      * @return bool|string
@@ -479,7 +477,7 @@ class Log_Viewer
         //if we're to return the base name of the files
         //let's do that here
         foreach ($files as $file) {
-            array_push($finalFiles, ['file_b64' => base64_encode(basename($file)), 'file_name' => basename($file)]);
+            $finalFiles[] = ['file_b64' => base64_encode(basename($file)), 'file_name' => basename($file)];
         }
 
         return $finalFiles;
@@ -526,8 +524,6 @@ class Log_Viewer
      * This function will take in the raw file
      * name as sent from the browser/client
      * and append the LOG_FOLDER_PREFIX and decode it from base64
-     *
-     * @param $fileNameInBase64
      *
      * @return string|null
      *
