@@ -269,6 +269,7 @@ class Admin_Controller extends MY_Controller
         parent::__construct();
         $this->CI = CI_Controller::get_instance();
         $this->load->model(['header_model', 'user_model', 'notif_model', 'referensi_model']);
+        $this->header = $this->header_model->get_data();
 
         // Kalau sehabis periksa data, paksa harus login lagi
         if ($this->session->periksa_data == 1) {
