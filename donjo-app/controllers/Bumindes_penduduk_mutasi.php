@@ -115,7 +115,6 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
         $data = [
             'o'           => $o,
             'aksi'        => $aksi,
-            'list_tahun'  => $this->penduduk_log_model->list_tahun(),
             'form_action' => site_url("bumindes_penduduk_mutasi/cetak/{$o}/{$aksi}"),
             'isi'         => 'bumindes/penduduk/mutasi/ajax_dialog_mutasi',
         ];
@@ -125,19 +124,16 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
 
     public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
     {
-        $data = [
-            'aksi'           => $aksi,
-            'config'         => $this->header['desa'],
-            'pamong_ketahui' => $this->pamong_model->get_ttd(),
-            'pamong_ttd'     => $this->pamong_model->get_ub(),
-            'main'           => $this->penduduk_log_model->list_data($o, null, null),
-            'bulan'          => $this->session->filter_bulan,
-            'tahun'          => $this->session->filter_tahun,
-            'tgl_cetak'      => $_POST['tgl_cetak'],
-            'file'           => 'Buku Mutasi Penduduk',
-            'isi'            => 'bumindes/penduduk/mutasi/content_mutasi_cetak',
-            'letak_ttd'      => ['1', '2', '8'],
-        ];
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['bulan']     = $this->session->filter_bulan ?: date('m');
+        $data['tahun']     = $this->session->filter_tahun ?: date('Y');
+        $data['main']      = $this->penduduk_log_model->list_data($o);
+        $data['config']    = $this->header['desa'];
+        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
+        $data['file']      = 'Buku Mutasi Penduduk';
+        $data['isi']       = 'bumindes/penduduk/mutasi/content_mutasi_cetak';
+        $data['letak_ttd'] = ['1', '2', '8'];
 
         $this->load->view('global/format_cetak', $data);
     }

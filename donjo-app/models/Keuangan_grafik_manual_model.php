@@ -155,7 +155,7 @@ class Keuangan_grafik_manual_model extends CI_model
     private function data_widget_pendapatan($tahun, $opt = false)
     {
         if ($opt) {
-            $raw_data       = $this->r_pd_widget($tahun, $opt       = true);
+            $raw_data       = $this->r_pd_widget($tahun, $opt = true);
             $res_pendapatan = [];
             $tmp_pendapatan = [];
 
@@ -171,7 +171,7 @@ class Keuangan_grafik_manual_model extends CI_model
                 $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi'] = ($r['realisasi'] ?: 0);
             }
         } else {
-            $raw_data       = $this->r_pd_widget($tahun, $opt       = false);
+            $raw_data       = $this->r_pd_widget($tahun, $opt = false);
             $res_pendapatan = [];
             $tmp_pendapatan = [];
 
@@ -198,7 +198,7 @@ class Keuangan_grafik_manual_model extends CI_model
     private function data_widget_belanja($tahun, $opt = false)
     {
         if ($opt) {
-            $raw_data    = $this->r_bd_widget($tahun, $opt    = true);
+            $raw_data    = $this->r_bd_widget($tahun, $opt = true);
             $res_belanja = [];
             $tmp_belanja = [];
 
@@ -214,7 +214,7 @@ class Keuangan_grafik_manual_model extends CI_model
                 $tmp_belanja[$r['jenis_belanja']]['realisasi'] = ($r['realisasi'] ?: 0);
             }
         } else {
-            $raw_data    = $this->r_bd_widget($tahun, $opt    = false);
+            $raw_data    = $this->r_bd_widget($tahun, $opt = false);
             $res_belanja = [];
             $tmp_belanja = [];
 
@@ -241,7 +241,7 @@ class Keuangan_grafik_manual_model extends CI_model
     private function data_widget_pelaksanaan($tahun, $opt = false)
     {
         if ($opt) {
-            $raw_data        = $this->rp_apbd_widget($tahun, $opt        = true);
+            $raw_data        = $this->rp_apbd_widget($tahun, $opt = true);
             $res_pelaksanaan = [];
             $tmp_pelaksanaan = [];
 
@@ -257,7 +257,7 @@ class Keuangan_grafik_manual_model extends CI_model
                 $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi'] = ($r['realisasi'] ?: 0);
             }
         } else {
-            $raw_data        = $this->rp_apbd_widget($tahun, $opt        = false);
+            $raw_data        = $this->rp_apbd_widget($tahun, $opt = false);
             $res_pelaksanaan = [];
             $tmp_pelaksanaan = [];
 
@@ -286,8 +286,8 @@ class Keuangan_grafik_manual_model extends CI_model
         $data = $this->keuangan_manual_model->list_tahun_anggaran_manual();
 
         foreach ($data as $tahun) {
-            $res[$tahun]['res_pendapatan']  = $this->data_widget_pendapatan($tahun, $opt  = true);
-            $res[$tahun]['res_belanja']     = $this->data_widget_belanja($tahun, $opt     = true);
+            $res[$tahun]['res_pendapatan']  = $this->data_widget_pendapatan($tahun, $opt = true);
+            $res[$tahun]['res_belanja']     = $this->data_widget_belanja($tahun, $opt = true);
             $res[$tahun]['res_pelaksanaan'] = $this->data_widget_pelaksanaan($tahun, $opt = true);
         }
 
@@ -302,11 +302,11 @@ class Keuangan_grafik_manual_model extends CI_model
 
     private function data_keuangan_tema($tahun)
     {
-        $data['res_pelaksanaan']            = $this->data_widget_pelaksanaan($tahun, $opt            = false);
+        $data['res_pelaksanaan']            = $this->data_widget_pelaksanaan($tahun, $opt = false);
         $data['res_pelaksanaan']['laporan'] = 'APBDes ' . $tahun . ' Pelaksanaan';
-        $data['res_pendapatan']             = $this->data_widget_pendapatan($tahun, $opt             = false);
+        $data['res_pendapatan']             = $this->data_widget_pendapatan($tahun, $opt = false);
         $data['res_pendapatan']['laporan']  = 'APBDes ' . $tahun . ' Pendapatan';
-        $data['res_belanja']                = $this->data_widget_belanja($tahun, $opt                = false);
+        $data['res_belanja']                = $this->data_widget_belanja($tahun, $opt = false);
         $data['res_belanja']['laporan']     = 'APBDes ' . $tahun . ' Pembelanjaan';
 
         return $data;

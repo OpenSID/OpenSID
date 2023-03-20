@@ -203,8 +203,8 @@ class Wilayah_model extends MY_Model
         if (empty((int) $data['id_kepala'])) {
             unset($data['id_kepala']);
         }
-        $data['dusun'] = nama_terbatas($data['dusun']) ?: 0;
-        $data['rw']    = nama_terbatas($data['rw']) ?: 0;
+        $data['dusun'] = nama_terbatas(trim(str_ireplace('DUSUN', '', $data['dusun'])));
+        $data['rw']    = nama_terbatas(trim(str_ireplace('RW', '', $data['rw']))) ?: 0;
         $data['rt']    = bilangan($data['rt']) ?: 0;
 
         return $data;

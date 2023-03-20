@@ -57,5 +57,10 @@ class LogBackup extends Model
      */
     protected $guarded = [];
 
-    protected $fillable = ['ukuran', 'path', 'status', 'downloaded_at', 'permanen'];
+    protected $fillable = ['ukuran', 'path', 'status', 'downloaded_at', 'permanen', 'pid_process'];
+    protected $casts    = [
+        'created_at'    => 'datetime:Y-m-d H:i:s',
+        'updated_at'    => 'datetime:Y-m-d H:i:s',
+        'downloaded_at' => 'datetime:Y-m-d H:i:s',
+    ];
 }

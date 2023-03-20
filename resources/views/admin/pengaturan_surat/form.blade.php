@@ -21,10 +21,10 @@
     {!! form_open($formAction, 'id="validasi" enctype="multipart/form-data"') !!}
     <input type="hidden" id="id_surat" value="{{ $suratMaster->id }}">
     <div class="nav-tabs-custom">
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" id="tabs">
             <li class="active"><a href="#pengaturan-umum" data-toggle="tab">Umum</a></li>
             <li><a href="#template-surat" data-toggle="tab">Template</a></li>
-            <li><a href="#kode-isian" data-toggle="tab">Kode Isian</a></li>
+            <li><a href="#form-isian" data-toggle="tab">Form Isian</a></li>
         </ul>
         <div class="tab-content">
 

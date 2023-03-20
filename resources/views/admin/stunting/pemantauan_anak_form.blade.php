@@ -46,6 +46,12 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group" style="display: {{ $anak->created_at ? 'none' : ''}}">
+                        <label class="col-sm-3 control-label">Tanggal Periksa</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control input-sm tgl_sekarang required" name="tanggal_periksa" placeholder="Masukkan tanggal periksa" value="{{ $anak->created_at }}" />
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Posyandu</label>
                         <div class="col-sm-9">
@@ -100,6 +106,20 @@
                                         {{ $value }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Berat Badan (kg)</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control input-sm required luas" {{ $anak->pengukuran_berat_badan ? '' : 'disabled' }} min="1" id="berat_badan" name="berat_badan"
+                                placeholder="Masukkan berat badan" value="{{ $anak->berat_badan }}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Tinggi Badan (cm)</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control input-sm required angka" {{ $anak->pengukuran_tinggi_badan ? '' : 'disabled' }} min="1" id="tinggi_badan" name="tinggi_badan"
+                                placeholder="Masukkan berat badan" value="{{ $anak->tinggi_badan }}" />
                         </div>
                     </div>
                     <div class="row">
@@ -334,6 +354,24 @@
                 $('#pemberian_imunisasi_campak').prop("disabled", false);
             } else {
                 $('#pemberian_imunisasi_campak').prop("disabled", true);
+            }
+        });
+
+        $('input[type=radio][name=pengukuran_berat_badan]').change(function() {
+            if (this.value == 1) {
+                $('#berat_badan').prop("disabled", false);
+            }
+            else {
+                $('#berat_badan').prop("disabled", true);
+            }
+        });
+
+        $('input[type=radio][name=pengukuran_tinggi_badan]').change(function() {
+            if (this.value == 1) {
+                $('#tinggi_badan').prop("disabled", false);
+            }
+            else {
+                $('#tinggi_badan').prop("disabled", true);
             }
         });
     </script>

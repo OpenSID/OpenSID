@@ -87,6 +87,7 @@
                                     <th rowspan="3" class="text-center padat" style="vertical-align: middle;">Aksi</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">NO KIA</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Nama Ibu</th>
+                                    <th rowspan="3" class="text-center" style="vertical-align: middle;">Tanggal Periksa</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Status Kehamilan</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Hari Perkiraan Lahir</th>
                                 </tr>
@@ -161,6 +162,12 @@
                     {
                         data: 'kia.ibu.nama',
                         name: 'kia.ibu.nama',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
+                        data: 'tanggal_periksa',
+                        name: 'tanggal_periksa',
                         searchable: true,
                         orderable: true
                     },

@@ -35,14 +35,14 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use OpenSpout\Common\Entity\Style\Border;
+use OpenSpout\Common\Entity\Style\Color;
+use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
+use OpenSpout\Writer\Common\Creator\Style\BorderBuilder;
+use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
-use Box\Spout\Common\Entity\Style\Border;
-use Box\Spout\Common\Entity\Style\Color;
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
-use Box\Spout\Writer\Common\Creator\Style\BorderBuilder;
-use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Suplemen_model extends MY_Model
 {
@@ -534,7 +534,7 @@ class Suplemen_model extends MY_Model
                 break;
 
             default:
-            }
+        }
 
         return $data;
     }
@@ -595,7 +595,7 @@ class Suplemen_model extends MY_Model
                 break;
 
             default:
-            }
+        }
         if (! empty($list_suplemen)) {
             return ['daftar_suplemen' => $list_suplemen, 'profil' => $data_profil];
         }
@@ -963,14 +963,5 @@ class Suplemen_model extends MY_Model
             'sasaran_peserta' => $sasaran_peserta,
             'valid'           => array_column($data, 'no'), // untuk daftar valid anggota keluarga
         ];
-    }
-
-    public function slug($slug = null)
-    {
-        return $this->db
-            ->select('id')
-            ->get_where($this->table, ['slug' => $slug])
-            ->row()
-            ->id;
     }
 }

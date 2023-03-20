@@ -184,12 +184,10 @@ class Dokumen extends Admin_Controller
 
     public function dialog_cetak($kat = 1)
     {
+        $data                    = $this->modal_penandatangan();
         $data['form_action']     = site_url("dokumen/cetak/{$kat}");
         $data['kat']             = $kat;
         $data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
-        $data['pamong']          = $this->pamong_model->list_data();
-        $data['pamong_ttd']      = $this->pamong_model->get_ub();
-        $data['pamong_ketahui']  = $this->pamong_model->get_ttd();
         $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat);
         $this->load->view('dokumen/dialog_cetak', $data);
     }
@@ -206,12 +204,11 @@ class Dokumen extends Admin_Controller
         $post                   = $this->input->post();
         $data['main']           = $this->web_dokumen_model->data_cetak($kat, $post['tahun'], $post['jenis_peraturan']);
         $data['input']          = $post;
-        $data['pamong']         = $this->pamong_model->list_data();
         $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
         $data['kat']            = $kat;
         $data['tahun']          = $post['tahun'];
-        $data['desa']           = $this->config_model->get_data();
+        $data['desa']           = $this->header['desa'];
         if ($kat == 1) {
             $data['kategori'] = 'Informasi Publik';
         } else {
@@ -231,12 +228,10 @@ class Dokumen extends Admin_Controller
 
     public function dialog_excel($kat = 1)
     {
+        $data                    = $this->modal_penandatangan();
         $data['form_action']     = site_url("dokumen/excel/{$kat}");
         $data['kat']             = $kat;
         $data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
-        $data['pamong']          = $this->pamong_model->list_data();
-        $data['pamong_ttd']      = $this->pamong_model->get_ub();
-        $data['pamong_ketahui']  = $this->pamong_model->get_ttd();
         $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat);
         $this->load->view('dokumen/dialog_cetak', $data);
     }

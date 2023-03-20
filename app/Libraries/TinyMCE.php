@@ -73,7 +73,32 @@ class TinyMCE
         </tbody>
         </table>
     ';
-    public const TOP    = 4; // cm
+    public const FOOTER_TTE = '
+        <table style="border-collapse: collapse; width: 100%; height: 10px;" border="0">
+        <tbody>
+        <tr>
+        <td style="width: 11.2886%; height: 10px;">[kode_desa]</td>
+        <td style="width: 78.3174%; height: 10px;">
+        <p style="text-align: center;">&nbsp;</p>
+        </td>
+        <td style="width: 10.3939%; height: 10px; text-align: right;">[kode_surat]</td>
+        </tr>
+        </tbody>
+        </table>
+        <table style="border-collapse: collapse; width: 100%; height: 10px;" border="0">
+        <tbody>
+        <tr>
+        <td style="width: 5%;">&nbsp;</td>
+        <td style="width: 20%;">[logo_bsre]</td>
+        <td style="width: 60%; text-align: left; vertical-align: top;">
+        <p>Dokumen ini telah ditandatangani secara elektronik menggunakan sertifikat elektronik yang diterbitkan oleh BSrE</p>
+        </td>
+        <td style="width: 15%;">&nbsp;</td>
+        </tr>
+        </tbody>
+        </table>
+    ';
+    public const TOP    = 3.5; // cm
     public const BOTTOM = 2; // cm
 
     public function getTemplate()
@@ -88,6 +113,11 @@ class TinyMCE
                 'nama'     => 'Footer',
                 'template' => static::FOOTER,
             ],
+
+            [
+                'nama'     => 'Footer TTE',
+                'template' => static::FOOTER_TTE,
+            ],
         ];
 
         return collect($template);
@@ -95,7 +125,7 @@ class TinyMCE
 
     public function getTemplateSurat()
     {
-        return collect(FormatSurat::whereNotNull('template')->jenis([3, 4])->get(['nama', 'template', 'template_desa']))
+        return collect(FormatSurat::whereNotNull('template')->jenis(FormatSurat::TINYMCE)->get(['nama', 'template', 'template_desa']))
             ->map(static function ($item, $key) {
                 return [
                     'nama'     => 'Surat ' . $item->nama,
@@ -189,6 +219,11 @@ class TinyMCE
                 'isian' => '[qr_code]',
                 'data'  => '[qr_code]',
             ],
+            [
+                'judul' => 'Logo BSrE',
+                'isian' => '[logo_bsre]',
+                'data'  => '[logo_bsre]',
+            ],
         ];
     }
 
@@ -205,7 +240,7 @@ class TinyMCE
         $sebutan_nip_desa    = null;
 
         if ($id_penduduk) {
-            $config              = Config::with('pamong.penduduk')->first();
+            $config              = Config::first();
             $sebutan_dusun       = setting('sebutan_dusun');
             $sebutan_desa        = setting('sebutan_desa');
             $sebutan_kecamatan   = setting('sebutan_kecamatan');
@@ -223,7 +258,7 @@ class TinyMCE
                 $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos}";
             }
 
-            if (null === $config->pamong->pamong_nip && (! empty($config->pamong->pamong_niap))) {
+            if (null === $config->pamong()->pamong_nip && (! empty($config->pamong()->pamong_niap))) {
                 $sebutan_nip_desa = setting('sebutan_nip_desa');
             } else {
                 $sebutan_nip_desa = 'NIP';
@@ -257,14 +292,9 @@ class TinyMCE
                 'data'  => $sebutan_kepala_desa,
             ],
             [
-                'judul' => 'Sebutan Kepala Desa',
-                'isian' => '[jabatan]',
-                'data'  => $sebutan_kepala_desa,
-            ],
-            [
                 'judul' => 'Nama Kepala Desa',
                 'isian' => '[nama_kepala_desa]',
-                'data'  => $config->pamong->pamong_nama ?? $config->penduduk->nama,
+                'data'  => $config->pamong_nama,
             ],
             [
                 'judul' => 'Sebutan NIP Desa',
@@ -274,7 +304,7 @@ class TinyMCE
             [
                 'judul' => 'NIP Kepala Desa',
                 'isian' => '[nip_kepala_desa]',
-                'data'  => $config->pamong->pamong_nip,
+                'data'  => $config->pamong_nip,
             ],
             [
                 'judul' => 'Nama Kecamatan',
@@ -643,7 +673,7 @@ class TinyMCE
         }
 
         // Dinamis
-        $postDinamis = collect(json_decode($data['surat']['kode_isian']))
+        $postDinamis = collect($data['surat']['kode_isian'])
             ->map(static function ($item, $key) use ($input) {
                 return [
                     'judul' => $item->nama,
@@ -661,28 +691,45 @@ class TinyMCE
         $nama_desa = Config::select(['nama_desa'])->first()->nama_desa;
 
         //Data penandatangan
-        $pamong_ttd = Pamong::ttd('a.n')->first();
+        $kades = Pamong::kepalaDesa()->first();
 
-        $ttd       = $input['pilih_atas_nama'];
-        $atas_nama = ucwords($pamong_ttd->jabatan . ' ' . $nama_desa);
+        $ttd         = $input['pilih_atas_nama'];
+        $atas_nama   = $kades->pamong_jabatan . ' ' . $nama_desa;
+        $jabatan     = $kades->pamong_jabatan;
+        $nama_pamong = $kades->pamong_nama;
+        $nip_pamong  = $kades->pamong_nip;
+        $niap_pamong = $kades->pamong_niap;
 
-        $nama_pamong = $pamong_ttd->nama ?? $pamong_ttd->pamong_nama;
-        $nip_pamong  = $pamong_ttd->pamong_nip ?? $pamong_ttd->pamong_niap;
-
-        $pamong_ub = Pamong::ttd('u.b')->first();
+        $sekdes = Pamong::ttd('a.n')->first();
         if (preg_match('/a.n/i', $ttd)) {
-            $atas_nama = 'a.n ' . $atas_nama . ' <br> ' . $pamong_ub->jabatan;
-
-            $nama_pamong = $pamong_ub->nama ?? $pamong_ub->pamong_nama;
-            $nip_pamong  = $pamong_ub->pamong_nip ?? $pamong_ub->pamong_niap;
+            $atas_nama   = 'a.n ' . $atas_nama . ' <br> ' . $sekdes->pamong_jabatan;
+            $jabatan     = $sekdes->pamong_jabatan;
+            $nama_pamong = $sekdes->pamong_nama;
+            $nip_pamong  = $sekdes->pamong_nip;
+            $niap_pamong = $sekdes->pamong_niap;
         }
 
         if (preg_match('/u.b/i', $ttd)) {
-            $pamong    = Pamong::find($input['pamong_id']);
-            $atas_nama = 'a.n ' . $atas_nama . ' <br> ' . $pamong_ub->jabatan . '<br> u.b <br>' . $pamong->jabatan;
+            $pamong      = Pamong::ttd('u.b')->find($input['pamong_id']);
+            $atas_nama   = 'a.n ' . $atas_nama . ' <br> ' . $sekdes->pamong_jabatan . '<br> u.b <br>' . $pamong->jabatan->nama;
+            $jabatan     = $pamong->pamong_jabatan;
+            $nama_pamong = $pamong->pamong_nama;
+            $nip_pamong  = $pamong->pamong_nip;
+            $niap_pamong = $pamong->pamong_niap;
+        }
 
-            $nama_pamong = $pamong->nama ?? $pamong->pamong_nama;
-            $nip_pamong  = $pamong->pamong_nip ?? $pamong->pamong_niap;
+        if (strlen($nip_pamong) > 10) {
+            $sebutan_nip_desa = 'NIP';
+            $nip              = $nip_pamong;
+            $pamong_nip       = $sebutan_nip_desa . ' : ' . $nip;
+        } else {
+            $sebutan_nip_desa = setting('sebutan_nip_desa');
+            if (! empty($niap_pamong)) {
+                $nip        = $niap_pamong;
+                $pamong_nip = $sebutan_nip_desa . ' : ' . $niap_pamong;
+            } else {
+                $pamong_nip = '';
+            }
         }
 
         return [
@@ -697,9 +744,24 @@ class TinyMCE
                 'data'  => $nama_pamong,
             ],
             [
-                'judul' => 'NIP / NIAP Pamong',
+                'judul' => 'Jabatan Pamong',
+                'isian' => '[jabatan]',
+                'data'  => $jabatan,
+            ],
+            [
+                'judul' => 'Sebutan NIP ' . ucwords(setting('sebutan desa')),
+                'isian' => '[sebutan_nip_desa]',
+                'data'  => $sebutan_nip_desa,
+            ],
+            [
+                'judul' => 'NIP Pamong',
                 'isian' => '[nip_pamong]',
-                'data'  => $nip_pamong,
+                'data'  => $nip,
+            ],
+            [
+                'judul' => 'Sebutan NIP ' . ucwords(setting('sebutan desa')) . ' & NIP Pamong',
+                'isian' => '[form_nip_pamong]',
+                'data'  => $pamong_nip,
             ],
         ];
     }
@@ -725,5 +787,39 @@ class TinyMCE
         }
 
         return $format;
+    }
+
+    /**
+     * Daftar penandatangan dan pamongnya
+     */
+    public function formPenandatangan()
+    {
+        $config        = Config::first();
+        $penandatangan = Pamong::penandaTangan()->get();
+
+        // Kepala Desa
+        $kades = Pamong::kepalaDesa()->first();
+        if ($kades) {
+            $atas_nama[''] = $kades->pamong_jabatan . ' ' . $config->nama_desa;
+
+            // Sekretaris Desa
+            $sekdes = Pamong::ttd('a.n')->first();
+            if ($sekdes) {
+                $atas_nama['a.n'] = 'a.n ' . $kades->pamong_jabatan . ' ' . $config->nama_desa;
+
+                // Pamogn selain Kepala Desa dan Sekretaris Desa
+                $pamong = Pamong::ttd('u.b')->exists();
+                if ($pamong) {
+                    $atas_nama['u.b'] = 'u.b ' . $sekdes->pamong_jabatan . ' ' . $config->nama_desa;
+                }
+            }
+
+            return [
+                'penandatangan' => $penandatangan,
+                'atas_nama'     => $atas_nama,
+            ];
+        }
+        session_error(', ' . setting('sebutan_kepala_desa') . ' belum ditentukan.');
+        redirect('pengurus');
     }
 }

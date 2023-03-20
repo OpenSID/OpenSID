@@ -64,6 +64,7 @@
 					<li class="active"><a data-toggle="tab" href="#log_viewer">Logs</a></li>
 					<li><a data-toggle="tab" href="#ekstensi">Kebutuhan Sistem</a></li>
 					<li><a data-toggle="tab" href="#info_sistem">Info Sistem</a></li>
+					<li><a data-toggle="tab" href="#optimasi">Optimasi</a></li>
 				</ul>
 				<div class="tab-content">
 					<div id="log_viewer" class="tab-pane fade in active">
@@ -164,6 +165,7 @@
 							</div>
 						</div>
 					</div>
+
 					<div id="ekstensi" class="tab-pane fade in">
 						<?php if ($mysql['cek']) : ?>
 							<div class="alert alert-success" role="alert">
@@ -172,7 +174,7 @@
 						<?php else : ?>
 							<div class="alert alert-danger" role="alert">
 								<p>Versi Database terpasang <?= $mysql['versi'] ?> tidak memenuhi syarat.</p>
-								<p>Update versi Database supaya minimal <?= minMySqlVersion ?>dan maksimal <?= maxMySqlVersion ?>, atau MariaDB supaya minimal <?= minMariaDBVersion ?>.</p>
+								<p>Update versi Database supaya minimal <?= minMySqlVersion ?> dan maksimal <?= maxMySqlVersion ?>, atau MariaDB supaya minimal <?= minMariaDBVersion ?>.</p>
 							</div>
 						<?php endif; ?>
 						<?php if ($php['cek']) : ?>
@@ -215,6 +217,7 @@
 							</div>
 						</div>
 					</div>
+
 					<div id="info_sistem" class="tab-pane fade in">
 						<?php
                                                     ob_start();
@@ -264,7 +267,27 @@
 											</div>
 										<?php endforeach; ?>
 									<?php endif; ?>
-									</div>
+					</div>
+
+					<div id="optimasi" class="tab-pane fade in">
+						<div class="row">
+							<div class="col-sm-6">
+								<h5><b>CACHE</b></h5>
+								<div class="input-group">
+									<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('cache_path')) ?>*" readonly>
+									<span class="input-group-btn">
+										<a href="<?= site_url("{$this->controller}/cache_desa") ?>" class="btn btn-info btn-flat">Bersihkan</a>
+									</span>
+								</div>
+								<hr>
+								<div class="input-group">
+									<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('views_blade')) ?>*" readonly>
+									<span class="input-group-btn">
+										<a href="<?= site_url("{$this->controller}/cache_blade") ?>" class="btn btn-info btn-flat">Bersihkan</a>
+									</span>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

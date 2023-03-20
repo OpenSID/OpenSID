@@ -37,7 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\Config;
 use App\Models\FormatSurat;
+use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
@@ -166,19 +168,20 @@ class Surat extends Mandiri_Controller
         $surat = $this->surat_model->cek_surat_mandiri($data['id_surat']);
         $url   = $surat['url_surat'];
 
-        $data['url']          = $url;
-        $data['list_dokumen'] = $this->penduduk_model->list_dokumen($id_pend);
-        $data['individu']     = $this->surat_model->get_penduduk($id_pend);
-        $data['anggota']      = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
-        $data['penduduk']     = $this->penduduk_model->get_penduduk($id_pend);
+        $data['url']      = $url;
+        $data['individu'] = $this->surat_model->get_penduduk($id_pend);
+        $data['anggota']  = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
         $this->get_data_untuk_form($url, $data);
-        $data['desa']         = $this->header;
         $data['surat_url']    = rtrim($_SERVER['REQUEST_URI'], '/clear');
         $data['form_action']  = site_url("surat/cetak/{$url}");
         $data['cek_anjungan'] = $this->cek_anjungan;
         $data['mandiri']      = 1; // Untuk tombol cetak/kirim surat
 
-        $this->render('permohonan_surat', $data);
+        if (in_array($data['surat']['jenis'], FormatSurat::TINYMCE)) {
+            return $this->render('permohonan_surat_tinymce', $data);
+        }
+
+        return $this->render('permohonan_surat', $data);
     }
 
     public function kirim($id = '')
@@ -224,18 +227,22 @@ class Surat extends Mandiri_Controller
 
     private function get_data_untuk_form($url, &$data)
     {
-        $this->load->model('pamong_model');
-        $this->load->model('surat_model');
+        // RTF
+        if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
+            $data['config']    = $data['lokasi'] = Config::first();
+            $data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
+        }
+
+        // Panggil 1 penduduk berdasarkan datanya sendiri
+        $data['penduduk'] = [$data['periksa']['penduduk']];
+
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
-        $data['surat']              = $this->surat_model->get_surat($url);
+        $data['surat']              = FormatSurat::where('url_surat', $url)->first();
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
         $data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
-        $data['lokasi']             = $this->header['desa'];
-        $data['pamong']             = $this->surat_model->list_pamong();
-        $pamong_ttd                 = $this->pamong_model->get_ttd();
-        $pamong_ub                  = $this->pamong_model->get_ub();
-        $data_form                  = $this->surat_model->get_data_form($url);
+
+        $data_form = $this->surat_model->get_data_form($url);
         if (is_file($data_form)) {
             include $data_form;
         }
@@ -264,7 +271,7 @@ class Surat extends Mandiri_Controller
 
             $printer->setTextSize(1, 1);
             $printer->text("SELAMAT DATANG \n");
-            $printer->text('NOMOR ANTRIAN ANDA');
+            $printer->text('NOMOR ANTREAN ANDA');
             $printer->feed();
 
             $printer->setTextSize(4, 4);

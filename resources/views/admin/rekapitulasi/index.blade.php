@@ -153,7 +153,7 @@
           name: 'pamong.pamong_nama',
           searchable: true, orderable: true
         },
-        { data: 'pamong.jabatan', name: 'pamong.jabatan', searchable: true, orderable: true },
+        { data: 'pamong.jabatan.nama', name: 'pamong.jabatan.nama', searchable: true, orderable: true },
         { data: 'tanggal', name: 'tanggal', searchable: true, orderable: true },
         { data: 'jam_masuk', name: 'jam_masuk', searchable: true, orderable: true },
         { data: 'jam_keluar', name: 'jam_keluar', searchable: true, orderable: true },

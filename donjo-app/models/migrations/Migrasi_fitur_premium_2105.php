@@ -213,7 +213,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         // Perhatikan pemindahan ini tidak akan dilakukan jika semua log id_peristiwa = 7
         // terhapus pada Migrasi_fitur_premium_2102.php
         $log_keluar = $this->db
-            ->select('l.id as id, l.id_pend, k.id as id_kk, p2.sex as kk_sex')
+            ->select('l.id as id, l.id_pend, k.id as id_kk')
             ->where('l.kode_peristiwa', 7)
             ->from('log_penduduk l')
             ->join('tweb_penduduk p1', 'p1.id = l.id_pend')
@@ -235,7 +235,6 @@ class Migrasi_fitur_premium_2105 extends MY_model
                 'tgl_peristiwa' => $log['tgl_peristiwa'],
                 'updated_by'    => $log['updated_by'] ?: $this->session->user,
                 'id_kk'         => $log['id_kk'],
-                'kk_sex'        => $log['kk_sex'],
                 'id_pend'       => $log['id_pend'],
             ];
         }
@@ -253,7 +252,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         $this->db->truncate('log_keluarga');
         // Tambah keluarga yg ada sebagai keluarga baru
         $keluarga = $this->db
-            ->select('k.id as id_kk, p.sex as kk_sex, "1" as id_peristiwa, tgl_daftar as tgl_peristiwa, "1" as updated_by')
+            ->select('k.id as id_kk, "1" as id_peristiwa, tgl_daftar as tgl_peristiwa, "1" as updated_by')
             ->from('tweb_keluarga k')
             ->join('tweb_penduduk p', 'p.id = k.nik_kepala')
             ->get()->result_array();
@@ -261,7 +260,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
 
         // Tambah mutasi keluarga
         $mutasi = $this->db
-            ->select('k.id as id_kk, p.sex as kk_sex, lp.tgl_lapor as tgl_peristiwa')
+            ->select('k.id as id_kk, lp.tgl_lapor as tgl_peristiwa')
             ->select('(case when lp.kode_peristiwa in (2, 3, 4) then lp.kode_peristiwa end) as id_peristiwa')
             ->select('"1" as updated_by')
             ->from('tweb_keluarga k')

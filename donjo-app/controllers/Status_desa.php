@@ -45,11 +45,21 @@ class Status_desa extends Admin_Controller
     {
         parent::__construct();
         $this->load->library('data_publik');
-        $this->modul_ini     = 200;
-        $this->sub_modul_ini = 101;
+        $this->modul_ini          = 200;
+        $this->sub_modul_ini      = 101;
+        $this->header['kategori'] = 'status sdgs';
     }
 
     public function index()
+    {
+        if (session('navigasi') == 'sdgs') {
+            return $this->sdgs();
+        }
+
+        return $this->idm();
+    }
+
+    private function idm()
     {
         $kode_desa = $this->header['desa']['kode_desa'];
         $tahun     = session('tahun') ?? ($this->input->post('tahun') ?? ($this->setting->tahun_idm));
@@ -69,10 +79,10 @@ class Status_desa extends Admin_Controller
             'idm'   => $idm->body->mapData,
         ];
 
-        return view('admin.status_desa.index', $data);
+        return view('admin.status_desa.idm', $data);
     }
 
-    public function perbarui(int $tahun)
+    public function perbarui_idm(int $tahun)
     {
         if (cek_koneksi_internet() && $tahun) {
             $kode_desa = $this->header['desa']['kode_desa'];
@@ -91,5 +101,33 @@ class Status_desa extends Admin_Controller
         set_session('tahun', $tahun);
 
         redirect_with('success', 'Berhasil Simpan Data');
+    }
+
+    private function sdgs()
+    {
+        set_session('navigasi', 'sdgs');
+
+        $sdgs = sdgs();
+
+        return view('admin.status_desa.sdgs', compact('sdgs'));
+    }
+
+    public function perbarui_sdgs()
+    {
+        set_session('navigasi', 'sdgs');
+
+        if (cek_koneksi_internet()) {
+            $kode_desa = setting('kode_desa_bps');
+            $cache     = 'sdgs_' . $kode_desa . '.json';
+
+            $this->cache->file->delete($cache);
+        }
+
+        redirect_with('success', 'Berhasil Perbarui Data');
+    }
+
+    public function navigasi($navigasi = 'idm')
+    {
+        redirect_with('navigasi', $navigasi);
     }
 }

@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Shortcode_model extends CI_Model
@@ -45,7 +47,6 @@ class Shortcode_model extends CI_Model
         $this->load->model('keuangan_grafik_model');
         $this->load->model('keuangan_grafik_manual_model');
         $this->load->model('laporan_penduduk_model');
-        $this->load->model('config_model');
         $this->load->model('pamong_model');
     }
 
@@ -121,7 +122,7 @@ class Shortcode_model extends CI_Model
     private function tabel_rp_apbd($type, $thn, $smt1)
     {
         $data              = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1);
-        $desa              = $this->config_model->get_data();
+        $desa              = Config::first();
         $pendapatan        = $data['pendapatan'];
         $belanja           = $data['belanja'];
         $belanja_bidang    = $data['belanja_bidang'];
@@ -140,7 +141,7 @@ class Shortcode_model extends CI_Model
     private function tabel_rp_apbd_bidang($type, $thn, $smt1)
     {
         $data              = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1);
-        $desa              = $this->config_model->get_data();
+        $desa              = Config::first();
         $pendapatan        = $data['pendapatan'];
         $belanja           = $data['belanja'];
         $belanja_bidang    = $data['belanja_bidang'];
@@ -172,7 +173,7 @@ class Shortcode_model extends CI_Model
     private function tabel_rp_apbd_bidang_manual($type, $thn)
     {
         $data              = $this->keuangan_grafik_manual_model->lap_rp_apbd($thn);
-        $desa              = $this->config_model->get_data();
+        $desa              = Config::first();
         $pendapatan        = $data['pendapatan'];
         $belanja           = $data['belanja'];
         $belanja_bidang    = $data['belanja_bidang'];
@@ -250,7 +251,7 @@ class Shortcode_model extends CI_Model
 
     private function sotk_w_bpd()
     {
-        $desa    = $this->config_model->get_data();
+        $desa    = Config::first();
         $bagan   = $this->pamong_model->list_bagan();
         $ada_bpd = true;
 
@@ -263,7 +264,7 @@ class Shortcode_model extends CI_Model
 
     private function sotk_wo_bpd()
     {
-        $desa    = $this->config_model->get_data();
+        $desa    = Config::first();
         $bagan   = $this->pamong_model->list_bagan();
         $ada_bpd = false;
 

@@ -35,7 +35,11 @@
  *
  */
 
+use App\Models\Config;
+use App\Models\LogSurat;
+use App\Models\Pamong;
 use App\Models\Pesan;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -79,10 +83,9 @@ class MY_Controller extends CI_Controller
         | donjo-app/config/autoload.php digunakan untuk autoload model untuk mengisi data awal
         | pada waktu install, di mana database masih kosong
         */
-        $this->load->model(['config_model', 'setting_model']);
+        $this->load->model(['setting_model']);
         $this->controller = strtolower($this->router->fetch_class());
         $this->setting_model->init();
-        $this->header  = $this->config_model->get_data();
         $this->request = $this->input->post();
     }
 
@@ -103,6 +106,8 @@ class Web_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->header = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
+
         if ($this->setting->offline_mode == 2) {
             $this->view_maintenance();
         } elseif ($this->setting->offline_mode == 1) {
@@ -189,7 +194,7 @@ class Web_Controller extends MY_Controller
         $this->load->model('pamong_model');
 
         $main         = $this->header;
-        $pamong_kades = $this->pamong_model->get_ttd();
+        $pamong_kades = Pamong::ttd('a.n')->first();
 
         // TODO : Gunakan view blade
         if (file_exists(DESAPATH . 'offline_mode.php')) {
@@ -213,6 +218,7 @@ class Mandiri_Controller extends MY_Controller
         $this->load->model('anjungan_model');
         $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
         $this->is_login     = $this->session->is_login;
+        $this->header       = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
 
         if ($this->setting->layanan_mandiri == 0 && !$this->cek_anjungan) {
             show_404();
@@ -287,13 +293,30 @@ class Admin_Controller extends MY_Controller
             }
         }
         $cek_kotak_pesan                        = $this->db->table_exists('pesan') && $this->db->table_exists('pesan_detail');
-        $this->header                           = $this->header_model->get_data();
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
         $this->header['notif_inbox']            = $this->notif_model->inbox_baru();
         $this->header['notif_komentar']         = $this->notif_model->komentar_baru();
         $this->header['notif_langganan']        = $this->notif_model->status_langganan();
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
         $this->header['notif_pengumuman']       = $this->cek_pengumuman();
+        $isAdmin                                = $this->session->isAdmin->pamong;
+        $this->header['notif_permohonan']       = 0;
+        if ($this->db->field_exists('verifikasi_operator', 'log_surat')) {
+            $this->header['notif_permohonan'] = LogSurat::when($isAdmin->jabatan_id == '1', static function ($q) {
+                return $q->when(setting('tte') == 1, static function ($tte) {
+                    return $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
+                })->when(setting('tte') == 0, static function ($tte) {
+                    return $tte->where('verifikasi_kades', '=', 0);
+                });
+            })
+                ->when($isAdmin->jabatan_id == '2', static function ($q) {
+                    return $q->where('verifikasi_sekdes', '=', '0');
+                })
+                ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, ['1', '2']), static function ($q) {
+                    return $q->where('verifikasi_operator', '=', '0')->orWhere('verifikasi_operator', '=', '-1');
+                })
+                ->count();
+        }
     }
 
     private function cek_pengumuman()
@@ -380,5 +403,16 @@ class Admin_Controller extends MY_Controller
         $this->load->view('nav');
         $this->load->view($view, $data);
         $this->load->view('footer');
+    }
+
+    public function modal_penandatangan()
+    {
+        $this->load->model('pamong_model');
+
+        return [
+            'pamong'         => Pamong::penandaTangan()->get(),
+            'pamong_ttd'     => Pamong::ttd('a.n')->first(),
+            'pamong_ketahui' => Pamong::kepalaDesa()->first(),
+        ];
     }
 }

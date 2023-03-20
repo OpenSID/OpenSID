@@ -244,11 +244,11 @@
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan">Penandatangan</label>
 													<div class="col-sm-9">
-														<select name="penandatangan" id="penandatangan" class="form-control input-sm">
+														<select name="penandatangan" id="penandatangan" class="form-control input-sm select2">
 															<?php foreach ($pamong as $data): ?>
-																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
-																	<?= (strpos(strtolower($data['jabatan']), 'Kepala Desa') !== false) ? 'selected' : '' ?>>
-																	<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
+																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['pamong_jabatan'])?>"
+																	<?= selected($data['jabatan_id'], 1) ?>>
+																	<?= $data['pamong_nama']?>(<?= $data['pamong_jabatan']?>)
 																</option>
 															<?php endforeach; ?>
 														</select>
@@ -256,7 +256,7 @@
 												</div>
 											</div>
 											<div class="modal-footer">
-												<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+												<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left" data-dismiss="modal"><i class='fa fa-times'></i> Tutup</button>
 												<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_download" name="form_download" data-dismiss="modal"><i class='fa fa-check'></i> Unduh</button>
 											</div>
 
@@ -287,11 +287,11 @@
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan_pdf">Penandatangan</label>
 													<div class="col-sm-9">
-														<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control input-sm">
+														<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control input-sm select2">
 															<?php foreach ($pamong as $data): ?>
-																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
-																	<?= (strpos(strtolower($data['jabatan']), 'Kepala Desa') !== false) ? 'selected' : '' ?>>
-																	<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
+																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['pamong_jabatan'])?>"
+																	<?= selected($data['jabatan_id'], 1) ?>>
+																	<?= $data['pamong_nama']?> (<?= $data['pamong_jabatan']?>)
 																</option>
 															<?php endforeach; ?>
 														</select>
@@ -299,7 +299,7 @@
 												</div>
 											</div>
 											<div class="modal-footer">
-												<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+												<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left" data-dismiss="modal"><i class='fa fa-times'></i> Tutup</button>
 												<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_cetak" name="form_cetak"  data-dismiss="modal"><i class='fa fa-check'></i> Cetak</button>
 											</div>
 										</form>

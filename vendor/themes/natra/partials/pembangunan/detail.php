@@ -110,7 +110,6 @@
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			let map_key = "<?= $this->setting->mapbox_key; ?>";
 			let lat = "<?= $pembangunan->lat ?? $desa['lat']; ?>";
 			let lng = "<?= $pembangunan->lng ?? $desa['lng']; ?>";
 			let posisi = [lat, lng];
@@ -120,7 +119,7 @@
 			});
 
 			pembangunan = L.map('map').setView(posisi, zoom);
-			getBaseLayers(pembangunan, map_key);
+			getBaseLayers(pembangunan, "<?= setting('mapbox_key') ?>", "<?= setting('jenis_peta') ?>");
 			pembangunan.addLayer(new L.Marker(posisi, {icon:logo}));
 		});
 	</script>

@@ -282,11 +282,9 @@ class Suplemen extends Admin_Controller
     // $aksi = cetak/unduh
     public function dialog_daftar($id = 0, $aksi = '')
     {
-        $data['aksi']           = $aksi;
-        $data['pamong']         = $this->pamong_model->list_data();
-        $data['pamong_ttd']     = $this->pamong_model->get_ub();
-        $data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-        $data['form_action']    = site_url("{$this->controller}/daftar/{$id}/{$aksi}");
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = $aksi;
+        $data['form_action'] = site_url("{$this->controller}/daftar/{$id}/{$aksi}");
 
         $this->load->view('global/ttd_pamong', $data);
     }

@@ -146,17 +146,14 @@ class Bumindes_kader extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $data = [
-            'aksi'           => $aksi,
-            'config'         => $this->header['desa'],
-            'pamong_ketahui' => $this->pamong_model->get_ttd(),
-            'pamong_ttd'     => $this->pamong_model->get_ub(),
-            'main'           => $this->kader_model->get_data()->get()->result(),
-            'tgl_cetak'      => $this->input->post('tgl_cetak'),
-            'file'           => 'Buku ' . ucwords($this->tipe) . ' Kerja Pembangunan',
-            'isi'            => 'bumindes/pembangunan/kader/cetak',
-            'letak_ttd'      => ['2', '2', '5'],
-        ];
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['config']    = $this->header['desa'];
+        $data['main']      = $this->kader_model->get_data()->get()->result();
+        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
+        $data['file']      = 'Buku ' . ucwords($this->tipe) . ' Kerja Pembangunan';
+        $data['isi']       = 'bumindes/pembangunan/kader/cetak';
+        $data['letak_ttd'] = ['2', '2', '5'];
 
         $this->load->view('global/format_cetak', $data);
     }

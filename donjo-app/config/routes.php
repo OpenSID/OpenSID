@@ -47,7 +47,7 @@ $route['ppid']         = 'Api_informasi_publik/ppid';
 
 // Artikel
 $route['artikel/(:num)']                      = 'first/artikel/$1'; // Contoh : artikel/1
-$route['artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // Contoh : artikel/2020/5/15/contoh-artikel
+$route['artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$1/$2/$3/$4'; // Contoh : artikel/2020/5/15/contoh-artikel
 // Artikel lama (Agar url lama masih dpt di akases)
 $route['first/artikel/(:num)']                      = 'first/artikel/$1'; // Contoh : Contoh : first/artikel/1
 $route['first/artikel/(:num)/(:num)/(:num)/(:any)'] = 'first/artikel/$4'; // Contoh : first/artikel/2020/5/15/contoh-artikel
@@ -104,7 +104,6 @@ $route['data_analisis/(.+)']         = 'first/data_analisis/$1';
 $route['jawaban_analisis/(.+)']      = 'first/jawaban_analisis/$1';
 $route['load_aparatur_desa']         = 'first/load_aparatur_desa';
 $route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
-$route['status-sdgs']                = 'first/status_sdgs';
 
 // WEB --------------------------------------------------------------
 // Pembangunan

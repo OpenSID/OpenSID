@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengunjung extends Admin_Controller
@@ -77,7 +79,7 @@ class Pengunjung extends Admin_Controller
 
     public function cetak()
     {
-        $data['config'] = $this->config_model->get_data();
+        $data['config'] = Config::first();
         $data['main']   = $this->statistik_pengunjung->get_pengunjung($this->session->id);
         $this->load->view('pengunjung/print', $data);
     }
@@ -85,7 +87,7 @@ class Pengunjung extends Admin_Controller
     public function unduh()
     {
         $data['aksi']     = 'unduh';
-        $data['config']   = $this->config_model->get_data();
+        $data['config']   = Config::first();
         $data['filename'] = underscore('Laporan Data Statistik Pengunjung Website');
         $data['main']     = $this->statistik_pengunjung->get_pengunjung($this->session->id);
         $this->load->view('pengunjung/excel', $data);

@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class pengaduan extends Web_Controller
@@ -49,7 +51,7 @@ class pengaduan extends Web_Controller
     {
         $cari = $this->input->get('cari');
         $data = [
-            'header'        => $this->config_model->get_data(),
+            'header'        => Config::first(),
             'pengaduan'     => $this->pengaduan_model->list_data($cari),
             'form_action'   => site_url('pengaduan/kirim'),
             'search_action' => site_url('pengaduan'),

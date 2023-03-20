@@ -285,8 +285,8 @@ class Plan_point_model extends MY_Model
         move_uploaded_file($_FILES['simbol']['tmp_name'], $vfile_upload);
 
         $im_src     = imagecreatefrompng($vfile_upload);
-        $src_width  = imageSX($im_src);
-        $src_height = imageSY($im_src);
+        $src_width  = imagesx($im_src);
+        $src_height = imagesy($im_src);
         if (($src_width * 3) < ($src_height * 3)) {
             $dst_width  = 32;
             $dst_height = ($dst_width / $src_width) * $src_height;

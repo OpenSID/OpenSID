@@ -149,3 +149,4 @@ define('BACKUPPATH', 'backup_inkremental' . DIRECTORY_SEPARATOR);
  * Default file
  */
 define('LOGO_GARUDA', 'assets/images/garuda.png');
+define('LOGO_BSRE', 'assets/images/bsre.png');

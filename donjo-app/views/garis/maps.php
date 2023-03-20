@@ -75,8 +75,7 @@
 <?php $this->load->view('global/konfirmasi'); ?>
 <script>
   var infoWindow;
-  window.onload = function()
-  {
+  window.onload = function() {
     <?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
       var posisi = [<?=$desa['lat'] . ',' . $desa['lng']?>];
       var zoom = <?= $desa['zoom'] ?? 18 ?>;
@@ -127,12 +126,12 @@
     <?php endif; ?>
 
     //Menampilkan BaseLayers Peta
-    var baseLayers = getBaseLayers(peta_garis, '<?=$this->setting->mapbox_key?>');
+    var baseLayers = getBaseLayers(peta_garis, MAPBOX_KEY, JENIS_PETA);
 
     //Menampilkan Peta wilayah yg sudah ada
     <?php if (! empty($garis['path'])): ?>
       var wilayah = <?=$garis['path']?>;
-      showCurrentLine(wilayah, peta_garis, jenis, tebal, warna);
+      showCurrentLine(wilayah, peta_garis, jenis, tebal, warna, TAMPIL_LUAS);
     <?php endif; ?>
 
     //Menambahkan zoom scale ke peta
@@ -159,7 +158,7 @@
     hapusPeta(peta_garis);
 
     // Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
-		var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_garis, '<?= addslashes(json_encode($all_area)) ?>', '<?= addslashes(json_encode($all_garis)) ?>', '<?= addslashes(json_encode($all_lokasi)) ?>', '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', "<?= favico_desa()?>", '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url('pembangunan/')?>');
+		var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_garis, '<?= addslashes(json_encode($all_area)) ?>', '<?= addslashes(json_encode($all_garis)) ?>', '<?= addslashes(json_encode($all_lokasi)) ?>', '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', "<?= favico_desa()?>", '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url('pembangunan/')?>', TAMPIL_LUAS);
 
     L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_garis);
     L.control.groupedLayers('', layerCustom, {groupCheckboxes: true, position: 'topleft', collapsed: true}).addTo(peta_garis);

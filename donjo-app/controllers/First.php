@@ -114,7 +114,7 @@ class First extends Web_Controller
     | Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. url artikel/:id
     | Kalau menggunakan slug, dipanggil menggunakan url artikel/:thn/:bln/:hri/:slug
     */
-    public function artikel($url)
+    public function artikel($thn, $bln, $hr, $url)
     {
         if (is_numeric($url)) {
             $data_artikel = $this->first_artikel_m->get_artikel_by_id($url);
@@ -126,7 +126,7 @@ class First extends Web_Controller
         $this->load->model('shortcode_model');
         $data = $this->includes;
         $this->first_artikel_m->hit($url); // catat artikel diakses
-        $data['single_artikel'] = $this->first_artikel_m->get_artikel($url);
+        $data['single_artikel'] = $this->first_artikel_m->get_artikel($thn, $bln, $hr, $url);
         $id                     = $data['single_artikel']['id'];
 
         // replace isi artikel dengan shortcodify
@@ -504,26 +504,6 @@ class First extends Web_Controller
         }
 
         $this->load->view('gis/aparatur_wilayah', $data);
-    }
-
-    public function status_idm(int $tahun)
-    {
-    }
-
-    public function status_sdgs()
-    {
-        if (! $this->web_menu_model->menu_aktif('status-sdgs')) {
-            show_404();
-        }
-
-        $this->load->model('data_eksternal_model');
-        $data = $this->includes;
-        $this->_get_common_data($data);
-        $kode_desa              = $data['desa']['kode_desa'];
-        $data['evaluasi']       = $this->data_eksternal_model->sdgs_kemendes($kode_desa);
-        $data['halaman_statis'] = '../../' . $this->theme_folder . '/' . $this->theme . '/partials/kemendes_sdgs.php';
-        $this->set_template('layouts/halaman_statis_lebar.tpl.php');
-        $this->load->view($this->template, $data);
     }
 
     public function get_form_info()

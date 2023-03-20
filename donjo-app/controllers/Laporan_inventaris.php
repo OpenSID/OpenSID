@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\Config;
+use App\Models\Pamong;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Laporan_inventaris extends Admin_Controller
@@ -51,7 +54,7 @@ class Laporan_inventaris extends Admin_Controller
 
     public function index()
     {
-        $data['pamong'] = $this->pamong_model->list_data();
+        $data['pamong'] = Pamong::penandaTangan()->get();
         $data           = array_merge($data, $this->inventaris_laporan_model->laporan_inventaris());
         $data['tip']    = 1;
 
@@ -60,7 +63,7 @@ class Laporan_inventaris extends Admin_Controller
 
     public function cetak($tahun, $penandatangan)
     {
-        $data['header'] = $this->config_model->get_data();
+        $data['header'] = Config::first();
         $data['tahun']  = $tahun;
         $data['pamong'] = $this->pamong_model->get_data($penandatangan);
         $data           = array_merge($data, $this->inventaris_laporan_model->cetak_inventaris($tahun));
@@ -70,7 +73,7 @@ class Laporan_inventaris extends Admin_Controller
 
     public function download($tahun, $penandatangan)
     {
-        $data['header'] = $this->config_model->get_data();
+        $data['header'] = Config::first();
         $data['tahun']  = $tahun;
         $data['pamong'] = $this->pamong_model->get_data($penandatangan);
         $data           = array_merge($data, $this->inventaris_laporan_model->cetak_inventaris($tahun));
@@ -81,7 +84,7 @@ class Laporan_inventaris extends Admin_Controller
     public function mutasi()
     {
         $this->load->model('surat_model');
-        $data['pamong'] = $this->surat_model->list_pamong();
+        $data['pamong'] = Pamong::penandaTangan()->get();
         $data['tip']    = 2;
         $data           = array_merge($data, $this->inventaris_laporan_model->mutasi_laporan_inventaris());
 
@@ -90,7 +93,7 @@ class Laporan_inventaris extends Admin_Controller
 
     public function cetak_mutasi($tahun, $penandatangan)
     {
-        $data['header'] = $this->config_model->get_data();
+        $data['header'] = Config::first();
         $data['tahun']  = $tahun;
         $data['pamong'] = $this->pamong_model->get_data($penandatangan);
         $data           = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
@@ -100,7 +103,7 @@ class Laporan_inventaris extends Admin_Controller
 
     public function download_mutasi($tahun, $penandatangan)
     {
-        $data['header'] = $this->config_model->get_data();
+        $data['header'] = Config::first();
         $data['tahun']  = $tahun;
         $data['pamong'] = $this->pamong_model->get_data($penandatangan);
         $data           = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
@@ -108,6 +111,7 @@ class Laporan_inventaris extends Admin_Controller
         $this->load->view('inventaris/laporan/inventaris_excel_mutasi', $data);
     }
 
+    // TODO: Ini masih digunakan ? Jika tidak, hapus
     public function permendagri_47($asset = null)
     {
         $tahun = (isset($this->session->tahun)) ? $this->session->tahun : date('Y');
@@ -139,8 +143,7 @@ class Laporan_inventaris extends Admin_Controller
     public function permendagri_47_cetak($kades, $sekdes, $asset = null)
     {
         $tahun           = (isset($this->session->tahun)) ? $this->session->tahun : date('Y');
-        $data['header']  = $this->config_model->get_data();
-        $pamong          = $this->pamong_model->list_data();
+        $data['header']  = Config::first();
         $data['kades']   = $this->pamong_model->get_data($kades);
         $data['sekdes']  = $this->pamong_model->get_data($sekdes);
         $data['data']    = $this->inventaris_laporan_model->permen_47($tahun, $asset);
@@ -153,8 +156,7 @@ class Laporan_inventaris extends Admin_Controller
     public function permendagri_47_excel($kades, $sekdes, $asset = null)
     {
         $tahun           = (isset($this->session->tahun)) ? $this->session->tahun : date('Y');
-        $data['header']  = $this->config_model->get_data();
-        $pamong          = $this->pamong_model->list_data();
+        $data['header']  = Config::first();
         $data['kades']   = $this->pamong_model->get_data($kades);
         $data['sekdes']  = $this->pamong_model->get_data($sekdes);
         $data['data']    = $this->inventaris_laporan_model->permen_47($tahun, $asset);
@@ -164,6 +166,7 @@ class Laporan_inventaris extends Admin_Controller
         $this->load->view('inventaris/laporan/permen47_excel', $data);
     }
 
+    // TODO: Ini digunakan dimana pada view
     public function filter($filter)
     {
         $value = $this->input->post($filter);

@@ -37,14 +37,14 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use App\Models\Config;
+use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Rtm_model extends MY_Model
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('config_model');
     }
 
     public function insert()
@@ -209,9 +209,7 @@ class Rtm_model extends MY_Model
 
     private function get_kode_wilayah()
     {
-        $data = $this->config_model->get_data();
-
-        return $data['kode_desa'];
+        return Config::first()->kode_desa;
     }
 
     public function list_penduduk_lepas()

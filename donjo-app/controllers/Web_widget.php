@@ -184,7 +184,8 @@ class Web_widget extends Admin_Controller
         $range = $this->session->urut_range;
         $page  = $this->session->page;
 
-        if ($urut <= 0); elseif ($urut < $range['min']) {
+        if ($urut <= 0);
+        elseif ($urut < $range['min']) {
             $page--;
         } elseif ($urut > $range['max']) {
             $page++;

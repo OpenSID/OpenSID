@@ -165,11 +165,9 @@ class Kelompok extends Admin_Controller
     // $aksi = cetak/unduh
     public function dialog($aksi = 'cetak')
     {
-        $data['aksi']           = ucwords($aksi);
-        $data['pamong']         = $this->pamong_model->list_data();
-        $data['pamong_ttd']     = $this->pamong_model->get_ub();
-        $data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-        $data['form_action']    = site_url("{$this->controller}/daftar/{$aksi}");
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = ucwords($aksi);
+        $data['form_action'] = site_url("{$this->controller}/daftar/{$aksi}");
 
         $this->load->view('global/ttd_pamong', $data);
     }
@@ -192,11 +190,9 @@ class Kelompok extends Admin_Controller
     // $aksi = cetak/unduh
     public function dialog_anggota($aksi = 'cetak', $id = 0)
     {
-        $data['aksi']           = ucwords($aksi);
-        $data['pamong']         = $this->pamong_model->list_data();
-        $data['pamong_ttd']     = $this->pamong_model->get_ub();
-        $data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-        $data['form_action']    = site_url("{$this->controller}/daftar_anggota/{$aksi}/{$id}");
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = ucwords($aksi);
+        $data['form_action'] = site_url("{$this->controller}/daftar_anggota/{$aksi}/{$id}");
 
         $this->load->view('global/ttd_pamong', $data);
     }

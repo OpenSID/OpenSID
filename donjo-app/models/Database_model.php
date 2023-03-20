@@ -192,14 +192,6 @@ class Database_model extends MY_Model
                     $this->jalankan_migrasi($migrate);
                 }
             }
-            $this->load->helper('directory');
-            if ($this->db->affected_rows() > 0) { // jika ada perubahan data, hapus chace view blade
-                foreach (directory_map(config_item('cache_blade')) as $file) {
-                    if ($file !== 'index.html') {
-                        unlink(config_item('cache_blade') . DIRECTORY_SEPARATOR . $file);
-                    }
-                }
-            }
         } else {
             $this->_migrasi_db_cri();
         }
@@ -209,6 +201,17 @@ class Database_model extends MY_Model
         $this->db->where('id', 13)->update('setting_aplikasi', ['value' => true]);
         // Lengkapi folder desa
         folder_desa();
+
+        // Hapus cache blade
+        $this->load->helper('directory');
+        $dir = config_item('cache_blade');
+
+        foreach (directory_map($dir) as $file) {
+            if ($file !== 'index.html') {
+                unlink($dir . DIRECTORY_SEPARATOR . $file);
+            }
+        }
+
         /*
          * Update current_version di db.
          * 'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
@@ -1721,7 +1724,7 @@ class Database_model extends MY_Model
         $query = $this->db->where('kode_analisis', 'DDK02')
             ->get('analisis_master')->result_array();
         if (count($query) == 0) {
-            $file_analisis                                                             = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xlsx';
+            $file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xlsx';
             $this->analisis_import_model->import_excel($file_analisis, 'DDK02', $jenis = 1);
         }
         // Impor analisis Data Anggota Keluarga kalau belum ada
@@ -1736,7 +1739,7 @@ class Database_model extends MY_Model
             ->get('analisis_master')->row();
         if (empty($dak)) {
             $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
-            $id_dak        = $this->analisis_import_model->import_excel($file_analisis, 'DAK02', $jenis        = 1);
+            $id_dak        = $this->analisis_import_model->import_excel($file_analisis, 'DAK02', $jenis = 1);
         } else {
             $id_dak = $dak->id;
         }

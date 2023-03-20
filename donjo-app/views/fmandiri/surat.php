@@ -63,7 +63,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<tr>
 							<th>No</th>
 							<th>Aksi</th>
-							<th>No Antrian</th>
+							<th>No Antrean</th>
 							<th>Jenis Surat</th>
 							<th>Tanggal Kirim</th>
 						</tr>
@@ -85,12 +85,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 											<a class="btn btn-social btn-success btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-check"></i><?= $data['status']; ?></a>
 										<?php else : ?>
 											<a class="btn btn-social btn-danger btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-times"></i><?= $data['status']; ?></a>
+
+											<button title="Keterangan" class="btn bg-orange btn-sm keterangan" data-toggle="popover" data-trigger="focus" data-content="<?= $data['alasan']; ?>"><i class="fa fa-info-circle"></i></button>
+
 										<?php endif; ?>
 										<?php if (in_array($data['status_id'], ['0', '1'])) : ?>
 											<a href="<?= site_url(MANDIRI . "/surat/proses/{$data['id']}"); ?>" title="Batalkan Surat" class="btn bg-maroon btn-sm"><i class="fa fa-times"></i></a>
 										<?php endif; ?>
 										<?php if ($data['no_antrian'] && $this->cek_anjungan && $printer) : ?>
-											<a href="<?= site_url(MANDIRI . "/surat/cetak_no_antrian/{$data['no_antrian']}"); ?>" class="btn btn-social btn-sm bg-navy" title="Cetak No Antrian"><i class="fa fa-print"></i>No Antrian</a>
+											<a href="<?= site_url(MANDIRI . "/surat/cetak_no_antrian/{$data['no_antrian']}"); ?>" class="btn btn-social btn-sm bg-navy" title="Cetak No. Antrean"><i class="fa fa-print"></i>No. Antrean</a>
 										<?php endif ?>
 									</td>
 									<td class="padat"><?= get_antrian($data['no_antrian']) ?? '-'; ?></td>
@@ -157,5 +160,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				cell.innerHTML = i + 1;
 			});
 		}).draw();
+
+		$('button.keterangan').click(function(event) {
+			$(this).popover('show');
+		});
+
 	});
 </script>

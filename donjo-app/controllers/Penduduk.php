@@ -37,7 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use App\Enums\StatusEnum;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Penduduk extends Admin_Controller
 {
@@ -405,7 +406,7 @@ class Penduduk extends Admin_Controller
         $data['list_warganegara']     = $this->referensi_model->list_data('tweb_penduduk_warganegara');
         $data['list_golongan_darah']  = $this->referensi_model->list_data('tweb_golongan_darah');
         $data['list_sakit_menahun']   = $this->referensi_model->list_data('tweb_sakit_menahun');
-        $data['list_tag_id_card']     = $this->referensi_model->list_ref(STATUS);
+        $data['list_tag_id_card']     = StatusEnum::DAFTAR;
         $data['form_action']          = site_url("{$this->controller}/adv_search_proses");
 
         $this->load->view('sid/kependudukan/ajax_adv_search_form', $data);
@@ -927,6 +928,13 @@ class Penduduk extends Admin_Controller
     public function program_bantuan_proses()
     {
         $id_program = $this->input->post('program_bantuan');
+
+        if ($id_program == JUMLAH) {
+            $id_program = JUMLAH;
+        } elseif ($id_program == BELUM_MENGISI) {
+            $id_program = BELUM_MENGISI;
+        }
+
         $this->statistik('bantuan_penduduk', $id_program, '0');
     }
 

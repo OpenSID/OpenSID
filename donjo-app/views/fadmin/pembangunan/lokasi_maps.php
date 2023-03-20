@@ -89,7 +89,7 @@
 		<?php endif; ?>
 
 		//Menampilkan BaseLayers Peta
-		var baseLayers = getBaseLayers(peta_lokasi, '<?= $this->setting->mapbox_key ?>');
+		var baseLayers = getBaseLayers(peta_lokasi, MAPBOX_KEY, JENIS_PETA);
 
 		//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS
 		L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url() ?>assets/images/folder.svg" alt="file icon"/>';
@@ -104,7 +104,7 @@
 		L.control.scale().addTo(peta_lokasi);
 
 		// Menampilkan OverLayer Area, Garis, Lokasi dan Lokasi Pembangunan
-		layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_lokasi, '<?= addslashes(json_encode($all_area)) ?>', '<?= addslashes(json_encode($all_garis)) ?>', '<?= addslashes(json_encode($all_lokasi)) ?>', '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', '<?= favico_desa()?>', '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url('pembangunan/')?>');
+		layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_lokasi, '<?= addslashes(json_encode($all_area)) ?>', '<?= addslashes(json_encode($all_garis)) ?>', '<?= addslashes(json_encode($all_lokasi)) ?>', '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', '<?= favico_desa()?>', '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url('pembangunan/')?>', TAMPIL_LUAS);
 
 		L.control.layers(baseLayers, overlayLayers, {
 			position: 'topleft',

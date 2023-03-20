@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '23.03');
+define('VERSION', '23.03-pasca');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -51,12 +51,13 @@ define('VERSION', '23.03');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023030101');
+define('VERSI_DATABASE', '2023032001');
 
 // Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');
 define('LOKASI_ARSIP', 'desa/arsip/');
 define('LOKASI_CONFIG_DESA', 'desa/config/');
+define('LOKASI_SURAT_SISTEM', 'template-surat/');
 define('LOKASI_SURAT_DESA', 'desa/template-surat/');
 define('LOKASI_SURAT_FORM_DESA', 'desa/template-surat/form/');
 define('LOKASI_SURAT_PRINT_DESA', 'desa/template-surat/print/');
@@ -1258,4 +1259,38 @@ function getSizeDB()
     ";
 
     return $CI->db->query($query)->row();
+}
+
+function sdgs()
+{
+    $CI = &get_instance();
+    $CI->load->library('data_publik');
+
+    $sdgs      = null;
+    $kode_desa = setting('kode_desa_bps');
+
+    if (null !== $kode_desa) {
+        $cache = 'sdgs_' . $kode_desa;
+
+        if (cek_koneksi_internet()) {
+            $CI->data_publik->set_api_url(config_item('api_sdgs') . "={$kode_desa}", $cache)
+                ->set_interval(7)
+                ->set_cache_folder(config_item('cache_path'));
+
+            $sdgs = $CI->data_publik->get_url_content();
+            $sdgs = $sdgs->body->data;
+        }
+    }
+
+    return $sdgs;
+}
+
+function cek_anjungan()
+{
+    $CI = &get_instance();
+    $CI->load->model('notif_model');
+
+    $status = $CI->notif_model->api_pelanggan_pemesanan();
+
+    return $status->body->tanggal_berlangganan->anjungan != 'aktif' ? false : true;
 }

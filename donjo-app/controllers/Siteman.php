@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Siteman extends MY_Controller
@@ -62,7 +64,7 @@ class Siteman extends MY_Controller
             redirect('main');
         }
         unset($_SESSION['balik_ke']);
-        $data['header']      = $this->config_model->get_data();
+        $data['header']      = Config::first();
         $data['latar_login'] = $this->theme_model->latar_login();
 
         $data['form_action'] = site_url('siteman/auth');
@@ -124,7 +126,7 @@ class Siteman extends MY_Controller
 
     public function lupa_sandi()
     {
-        $data['header']      = $this->config_model->get_data();
+        $data['header']      = Config::first();
         $data['latar_login'] = $this->theme_model->latar_login();
 
         $this->load->view('lupa_sandi', $data);
@@ -165,7 +167,7 @@ class Siteman extends MY_Controller
             redirect('siteman');
         }
 
-        $data['header']      = $this->config_model->get_data();
+        $data['header']      = Config::first();
         $data['latar_login'] = $this->theme_model->latar_login();
         $data['email']       = $this->input->get('email', true);
         $data['token']       = $token;

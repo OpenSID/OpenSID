@@ -36,6 +36,7 @@
  */
 
 use App\Models\JamKerja;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -365,7 +366,8 @@ class Web_widget_model extends MY_Model
         $data['stat_widget']     = $this->laporan_penduduk_model->list_data(4);
         $data['sinergi_program'] = $this->get_setting('sinergi_program');
         $data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
-        $data['jam_kerja']       = JamKerja::get();
+
+        $data['jam_kerja'] = Schema::hasTable('kehadiran_jam_kerja') ? JamKerja::get() : new stdClass();
     }
 
     // widget statis di ambil dari folder desa/widget, vendor/themes/nama_tema/widgets dan desa/themes/nama_tema/widgets
@@ -377,11 +379,11 @@ class Web_widget_model extends MY_Model
         $list_widget = array_merge($list_widget, $widget_desa);
 
         foreach ($tema_desa as $tema) {
-            if (in_array($tema, ['esensi', 'natra'])) {
-                $tema = 'vendor/themes/' . $tema;
-            } else {
+            if (preg_match('/desa/i', $tema)) {
                 $tema = str_replace('desa/', '', $tema);
                 $tema = 'desa/themes/' . $tema;
+            } else {
+                $tema = 'vendor/themes/' . $tema;
             }
 
             $list = $this->widget($tema . '/widgets/*.php');

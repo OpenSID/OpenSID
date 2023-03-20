@@ -40,5 +40,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 $route['data-kelompok/(:any)'] = WEB . '/kelompok/detail/$1';
 $route['data-lembaga/(:any)']  = WEB . '/lembaga/detail/$1';
 $route['status-idm/(:num)']    = WEB . '/idm/index/$1';
+$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
 $route['pemerintah']           = WEB . '/pemerintah';
-$route['peta']                 = WEB . '/peta/index';
+
+// SDGS
+$route['status-sdgs'] = WEB . '/sdgs/index';
+$route['peta']        = WEB . '/peta/index';

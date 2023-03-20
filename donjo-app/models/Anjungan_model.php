@@ -42,10 +42,15 @@ class Anjungan_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('notif_model');
     }
 
     public function cek_anjungan($mac_address = null)
     {
+        if (! cek_anjungan()) {
+            return null;
+        }
+
         $ip          = $this->input->ip_address();
         $mac_address = $mac_address ?: $this->session->mac_address;
 
@@ -61,70 +66,5 @@ class Anjungan_model extends CI_Model
             ->get('anjungan');
 
         return ($data->num_rows() > 0) ? $data->row_array() : null;
-    }
-
-    public function list_data()
-    {
-        return $this->db
-            ->order_by('ip_address')
-            ->get('anjungan')
-            ->result_array();
-    }
-
-    public function insert()
-    {
-        $data               = $this->validasi($this->input->post());
-        $data['created_by'] = $this->session->user;
-        $data['created_at'] = date('Y-m-d H:i:s');
-        $outp               = $this->db->insert('anjungan', $data);
-        status_sukses($outp);
-    }
-
-    private function validasi($post)
-    {
-        $data['ip_address']   = bilangan_titik($post['ip_address']);
-        $data['printer_ip']   = bilangan_titik($post['printer_ip']);
-        $data['printer_port'] = bilangan($post['printer_port']);
-        $data['mac_address']  = alfanumerik_kolon($post['mac_address']);
-        $data['keterangan']   = htmlentities($post['keterangan']);
-        $data['keyboard']     = bilangan($post['keyboard']);
-        $data['status']       = bilangan($post['status']);
-        $data['updated_by']   = $this->session->user;
-
-        return $data;
-    }
-
-    public function delete($id)
-    {
-        $outp = $this->db->where('id', $id)->delete('anjungan');
-        status_sukses($outp);
-    }
-
-    public function update($id)
-    {
-        $data               = $this->validasi($this->input->post());
-        $data['updated_at'] = date('Y-m-d H:i:s');
-        $outp               = $this->db->where('id', $id)->update('anjungan', $data);
-
-        status_sukses($outp);
-    }
-
-    public function get_anjungan($id)
-    {
-        return $this->db
-            ->where('id', $id)
-            ->get('anjungan')->row_array();
-    }
-
-    /**
-     * @param $id id
-     * @param $val status : 1 = Unlock, 2 = Lock
-     */
-    public function lock($id, $val)
-    {
-        $outp = $this->db
-            ->where('id', $id)
-            ->update('anjungan', ['status' => $val]);
-        status_sukses($outp);
     }
 }

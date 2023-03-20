@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\Config;
+use Illuminate\Support\Facades\Schema;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Header_model extends CI_Model
@@ -63,8 +66,7 @@ class Header_model extends CI_Model
             }
         }
 
-        $this->load->model('config_model');
-        $outp['desa'] = $this->config_model->get_data();
+        $outp['desa'] = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
 
         $sql           = 'SELECT COUNT(id) AS jml FROM komentar WHERE id_artikel = 775 AND status = 2;';
         $query         = $this->db->query($sql);

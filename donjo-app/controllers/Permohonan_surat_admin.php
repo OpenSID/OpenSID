@@ -35,9 +35,11 @@
  *
  */
 
+use App\Libraries\TinyMCE;
 use App\Models\Config;
 use App\Models\FormatSurat;
-use App\Models\Pamong;
+use App\Models\Penduduk;
+use App\Models\PermohonanSurat;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,87 +49,79 @@ class Permohonan_surat_admin extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['permohonan_surat_model', 'penduduk_model', 'surat_model', 'keluarga_model', 'mailbox_model', 'surat_master_model']);
-        $this->modul_ini     = 14;
+        $this->modul_ini     = 4;
         $this->sub_modul_ini = 98;
     }
 
-    public function clear()
+    public function index()
     {
-        unset($_SESSION['cari'], $_SESSION['filter']);
-
-        redirect($this->controller);
+        return view('admin.permohonan_surat.index', [
+            'list_status_permohonan' => $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN),
+        ]);
     }
 
-    public function index($p = 1, $o = 0)
+    public function datatables()
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        if ($this->input->is_ajax_request()) {
+            return datatables(PermohonanSurat::query())
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    $aksi = '';
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
+                    if (can('u')) {
+                        if ($row->status == PermohonanSurat::BELUM_LENGKAP) {
+                            $aksi .= '<a class="btn btn-social bg-navy btn-flat btn-sm btn-proses" title="Surat Belum Lengkap" style="width: 170px"><i class="fa fa-info-circle"></i> ' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::BELUM_LENGKAP] . '</a> ';
+                        } elseif ($row->status == PermohonanSurat::SEDANG_DIPERIKSA) {
+                            $aksi .= '<a href="' . route('permohonan_surat_admin/periksa', $row->id) . '" class="btn btn-social btn-info btn-flat btn-sm pesan-hover" title="Klik untuk memeriksa" style="width: 170px"><i class="fa fa-spinner"></i>' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::SEDANG_DIPERIKSA] . '</a> ';
+                        } elseif ($row->status == PermohonanSurat::MENUNGGU_TANDA_TANGAN) {
+                            if (in_array($row->surat->jenis, FormatSurat::TINYMCE) && (setting('verifikasi_sekdes') || setting('verifikasi_kades'))) {
+                                $aksi .= '<a class="btn btn-social bg-purple btn-flat btn-sm btn-proses" title="Surat Menunggu Tandatangan" style="width: 170px"><i class="fa fa-edit"></i>' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::MENUNGGU_TANDA_TANGAN] . '</a> ';
+                            } else {
+                                $aksi .= '<a href="' . route("permohonan_surat_admin/proses/{$row->id}/3") . '" class="btn btn-social bg-purple btn-flat btn-sm" title="Surat Menunggu Tandatangan" style="width: 170px"><i class="fa fa-edit"></i>' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::MENUNGGU_TANDA_TANGAN] . '</a> ';
+                            }
+                        } elseif ($row->status == PermohonanSurat::SIAP_DIAMBIL) {
+                            $aksi .= '<a href="' . route("permohonan_surat_admin/proses/{$row->id}/4") . '" class="btn btn-social bg-orange btn-flat btn-sm pesan-hover" title="Klik jika telah diambil" style="width: 170px"><i class="fa fa-thumbs-o-up"></i>' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::SIAP_DIAMBIL] . '</a> ';
+                        } elseif ($row->status == PermohonanSurat::SUDAH_DIAMBIL) {
+                            $aksi .= '<a class="btn btn-social btn-success btn-flat btn-sm btn-proses" title="Surat Sudah Diambil" style="width: 170px"><i class="fa fa-check"></i>' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::SUDAH_DIAMBIL] . '</a> ';
+                        } else {
+                            $aksi .= '<a class="btn btn-social btn-danger btn-flat btn-sm btn-proses" title="Surat Dibatalkan" style="width: 170px"><i class="fa fa-times"></i>' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::DIBATALKAN] . '</a> ';
+                        }
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('no_antrian', static function ($row) {
+                    return get_antrian($row->no_antrian);
+                })
+                ->editColumn('created_at', static function ($row) {
+                    return tgl_indo2($row->created_at);
+                })
+                ->rawColumns(['aksi'])
+                ->make();
         }
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        }
-
-        $per_page                = $this->input->post('per_page');
-        $this->session->per_page = $per_page ?? 20;
-
-        $data['per_page']               = $this->session->per_page;
-        $data['list_status_permohonan'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN);
-        $data['func']                   = 'index';
-        $data['paging']                 = $this->permohonan_surat_model->paging($p, $o);
-        $data['main']                   = $this->permohonan_surat_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']                = $this->permohonan_surat_model->autocomplete();
-
-        $this->render('mandiri/permohonan_surat', $data);
-    }
-
-    public function search()
-    {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $_SESSION['cari'] = $cari;
-        } else {
-            unset($_SESSION['cari']);
-        }
-        redirect($this->controller);
-    }
-
-    public function filter()
-    {
-        $filter = $this->input->post('filter');
-        if ($filter != '') {
-            $_SESSION['filter'] = $filter;
-        } else {
-            unset($_SESSION['filter']);
-        }
-        redirect($this->controller);
+        return show_404();
     }
 
     public function periksa($id = '')
     {
         // Cek hanya status = 1 (sedang diperiksa) yg boleh di proses
-        $periksa = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'status' => 1]);
+        $periksa = PermohonanSurat::whereStatus(PermohonanSurat::SEDANG_DIPERIKSA)->find($id) ?? show_404();
 
         if (! $id || ! $periksa) {
             redirect('permohonan_surat_admin');
         }
-
-        $surat = FormatSurat::find($periksa['id_surat']);
-        $url   = $surat['url_surat'];
+        $url = $periksa->surat->url_surat;
 
         $data['periksa']      = $periksa;
+        $data['surat']        = $periksa->surat;
         $data['url']          = $url;
-        $data['list_dokumen'] = $this->penduduk_model->list_dokumen($periksa['id_pemohon']);
-        $data['individu']     = $this->surat_model->get_penduduk($periksa['id_pemohon']);
-        $data['anggota']      = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
+        $data['list_dokumen'] = $this->penduduk_model->list_dokumen($periksa->id_pemohon);
+        $data['individu']     = $this->surat_model->get_penduduk($periksa->id_pemohon);
+
         $this->get_data_untuk_form($url, $data);
+        $data['isian_form']        = json_encode($this->ambil_isi_form($data['periksa']['isian_form']));
         $data['surat_url']         = rtrim($_SERVER['REQUEST_URI'], '/clear');
-        $data['isian_form']        = json_encode($this->ambil_isi_form($periksa['isian_form']));
         $data['syarat_permohonan'] = $this->permohonan_surat_model->get_syarat_permohonan($id);
         $data['form_action']       = site_url("surat/periksa_doc/{$id}/{$url}");
         $data['form_surat']        = 'surat/form_surat.php';
@@ -135,6 +129,12 @@ class Permohonan_surat_admin extends Admin_Controller
         $data_form = $this->surat_model->get_data_form($url);
         if (is_file($data_form)) {
             include $data_form;
+        }
+
+        if (in_array($data['surat']['jenis'], FormatSurat::TINYMCE)) {
+            $data['list_dokumen'] = empty($_POST['nik']) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
+            $data['form_action']  = route("surat/pratinjau/{$url}/{$id}");
+            $data['form_surat']   = 'surat/form_surat_tinymce.php';
         }
 
         $this->render('mandiri/periksa_surat', $data);
@@ -150,35 +150,30 @@ class Permohonan_surat_admin extends Admin_Controller
     // TODO:: Duplikasi dengan kode yang ada di donjo-app/controllers/Surat.php
     private function get_data_untuk_form($url, &$data)
     {
-        $config = Config::first();
+        // RTF
+        if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
+            $data['config']    = $data['lokasi'] = Config::first();
+            $data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
+            $data['anggota']   = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
+        }
 
-        $data['config']             = $config;
-        $data['lokasi']             = $config;
-        $data['surat']              = FormatSurat::where('url_surat', $url)->first();
+        // Panggil 1 penduduk berdasarkan datanya sendiri
+        $data['penduduk'] = [$data['periksa']['penduduk']];
+
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
         $data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
-        $data['penduduk']           = $this->surat_model->list_penduduk();
-        $data['perempuan']          = $this->surat_model->list_penduduk_perempuan();
-        $data['pamong']             = $this->surat_model->list_pamong();
 
-        $pamong_ttd = Pamong::ttd('a.n')->first();
-
-        if ($pamong_ttd) {
-            $str_ttd             = ucwords($pamong_ttd->jabatan . ' ' . $config->nama_desa);
-            $data['atas_nama'][] = "a.n {$str_ttd}";
-            $pamong_ub           = Pamong::ttd('u.b')->first();
-            if ($pamong_ub) {
-                $data['atas_nama'][] = "u.b {$pamong_ub->jabatan}";
-            }
-        }
+        $tinymce           = new TinyMCE();
+        $penandatangan     = $tinymce->formPenandatangan();
+        $data['pamong']    = $penandatangan['penandatangan'];
+        $data['atas_nama'] = $penandatangan['atas_nama'];
     }
 
     private function ambil_isi_form($isian_form)
     {
-        $isian_form = json_decode($isian_form, true);
-        $hapus      = ['url_surat', 'url_remote', 'nik', 'id_surat', 'nomor', 'pilih_atas_nama', 'pamong', 'pamong_nip', 'jabatan', 'pamong_id'];
+        $hapus = ['url_surat', 'url_remote', 'nik', 'id_surat', 'nomor', 'pilih_atas_nama', 'pamong', 'pamong_nip', 'jabatan', 'pamong_id'];
 
         foreach ($hapus as $kolom) {
             unset($isian_form[$kolom]);

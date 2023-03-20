@@ -499,7 +499,7 @@ $config['csrf_token_name']   = 'sidcsrf';
 $config['csrf_cookie_name']  = 'sidcsrf';
 $config['csrf_expire']       = 7200;
 $config['csrf_regenerate']   = true;
-$config['csrf_exclude_uris'] = [];
+$config['csrf_exclude_uris'] = ['api/tte'];
 
 /*
 |--------------------------------------------------------------------------
@@ -609,11 +609,19 @@ $config['api_idm'] = 'https://idm.kemendesa.go.id/open/api/desa/rumusan';
 
 /*
 |--------------------------------------------------------------------------
+| API SDGS Kemendesa
+|--------------------------------------------------------------------------
+|
+*/
+$config['api_sdgs'] = 'https://sdgsdev.kemendesa.go.id/SIDcutoff/goals?wilayah';
+
+/*
+|--------------------------------------------------------------------------
 | Path View Blade
 |--------------------------------------------------------------------------
 |
 */
-$config['views_blade'] = RESOURCESPATH . '/views/';
+$config['views_blade'] = RESOURCESPATH . 'views/';
 
 /*
 |--------------------------------------------------------------------------
@@ -621,4 +629,4 @@ $config['views_blade'] = RESOURCESPATH . '/views/';
 |--------------------------------------------------------------------------
 |
 */
-$config['cache_blade'] = STORAGEPATH . '/framework/views/';
+$config['cache_blade'] = STORAGEPATH . 'framework/views/';

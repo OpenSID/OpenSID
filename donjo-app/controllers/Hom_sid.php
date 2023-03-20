@@ -44,6 +44,7 @@ use App\Models\Penduduk;
 use App\Models\PendudukMandiri;
 use App\Models\Rtm;
 use App\Models\Wilayah;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,6 +55,7 @@ class Hom_sid extends Admin_Controller
     public function index()
     {
         get_pesan_opendk(); //ambil pesan baru di opendk
+
         $this->modul_ini = 1;
 
         $this->load->library('saas');
@@ -64,9 +66,9 @@ class Hom_sid extends Admin_Controller
             'penduduk'    => Penduduk::status()->count(),
             'keluarga'    => Keluarga::status()->count(),
             'rtm'         => Rtm::status()->count(),
-            'kelompok'    => Kelompok::status()->tipe()->count(),
+            'kelompok'    => Schema::hasColumn('kelompok', 'tipe') ? Kelompok::status()->tipe()->count() : 0,
             'dusun'       => Wilayah::dusun()->count(),
-            'pendaftaran' => PendudukMandiri::status()->count(),
+            'pendaftaran' => Schema::hasColumn('tweb_penduduk_mandiri', 'aktif') ? PendudukMandiri::status()->count() : 0,
             'surat'       => LogSurat::count(),
             'saas'        => $this->saas->peringatan(),
         ];

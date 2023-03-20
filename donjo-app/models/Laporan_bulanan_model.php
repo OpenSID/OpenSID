@@ -443,7 +443,7 @@ class Laporan_bulanan_model extends MY_Model
 
         if (in_array($tipe, $penduduk)) {
             $mutasi_pada_bln_thn = $this->mutasi_pada_bln_thn($peristiwa);
-            $data                = $this->db
+            $this->db
                 ->select('*')
                 ->from('(' . $mutasi_pada_bln_thn . ') as m');
 
@@ -470,7 +470,7 @@ class Laporan_bulanan_model extends MY_Model
             }
         } elseif (in_array($tipe, $keluarga)) {
             $mutasi_keluarga_bln_thn = $this->mutasi_keluarga_bln_thn($peristiwa);
-            $data                    = $this->db
+            $this->db
                 ->select('*')
                 ->from('(' . $mutasi_keluarga_bln_thn . ') as m');
 

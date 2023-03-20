@@ -119,20 +119,16 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
 
     public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
     {
-        $data = [
-            'aksi'           => $aksi,
-            'main'           => $this->penduduk_model->list_data($o, 0),
-            'config'         => $this->header['desa'],
-            'pamong_ketahui' => $this->pamong_model->get_ttd(),
-            'pamong_ttd'     => $this->pamong_model->get_ub(),
-            'bulan'          => $this->session->filter_bulan ?: date('m'),
-            'tahun'          => $this->session->filter_tahun ?: date('Y'),
-            'tgl_cetak'      => $this->input->post('tgl_cetak'),
-            // pengaturan data untuk format cetak/unduh
-            'file'      => 'Buku KTP dan KK',
-            'isi'       => 'bumindes/penduduk/ktpkk/content_ktpkk_cetak',
-            'letak_ttd' => ['2', '2', '9'],
-        ];
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['main']      = $this->penduduk_model->list_data($o, 0);
+        $data['config']    = $this->header['desa'];
+        $data['bulan']     = $this->session->filter_bulan ?: date('m');
+        $data['tahun']     = $this->session->filter_tahun ?: date('Y');
+        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
+        $data['file']      = 'Buku KTP dan KK';
+        $data['isi']       = 'bumindes/penduduk/ktpkk/content_ktpkk_cetak';
+        $data['letak_ttd'] = ['2', '2', '9'];
 
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;

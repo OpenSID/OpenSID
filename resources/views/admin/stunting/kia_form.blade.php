@@ -42,14 +42,14 @@
                                 placeholder="Masukkan nomor KIA" style="display: none" value="{{ $kia->no_kia }}" />
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="display: {{ $kia->ibu_id == null ? '' : 'none'}}">
                         <label class="col-sm-3 control-label">Nama Ibu</label>
                         <div class="col-sm-9">
-                            <select class="form-control required input-sm select2" name="id_ibu" style="width:100%;">
+                            <select class="form-control required input-sm select2" id="ibu" name="id_ibu" style="width:100%;">
                                 <option value="">-- Cari NIK / Nama Ibu --</option>
                                 @foreach ($ibu as $data)
                                     <option value="{{ $data->id }}" @selected($kia->ibu_id == $data->id)>NIK :
-                                        {{ $data->nik . ' - ' . $data->nama }}</option>
+                                        {{ $data->nik . ' - ' . $data->nama . ' - ' . $data->alamatWilayah }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -57,7 +57,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Nama Anak</label>
                         <div class="col-sm-9">
-                            <select class="form-control input-sm select2" id="id_anak" name="id_anak" style="width:100%;">
+                            <select class="form-control input-sm select2" id="anak" name="id_anak" style="width:100%;" {{ $kia->ibu_id == null ? 'disabled' : '' }}>
                                 <option value="">-- Cari NIK / Nama Anak --</option>
                                 @foreach ($anak as $data)
                                     @if ($data)
@@ -90,7 +90,7 @@
 
 @push('scripts')
     <script>
-        $('#id_anak').on('change', function() {
+        $('#anak').on('change', function() {
             if (this.value == "") {
                 $('#perkiraan_lahir').prop("disabled", false);
             }
@@ -100,5 +100,41 @@
         });
 
         $(".select2").select2();
+
+    $(function() {
+        $('#ibu').on('change', function() {
+            var ibu = $(this).val();
+            if(ibu) {
+                $.ajax({
+                    url: "{{ route('stunting.getAnak') }}",
+                    type: "GET",
+                    data: {
+                        ibu: ibu,
+                    },
+                    success:function(data) {
+                        $('#anak').empty();
+                        if (Object.keys(data).length === 0){
+                            $('#anak').prop('disabled', true);
+                        } else {
+                            $('#anak').prop('disabled', false);
+                            $('#anak').append($('<option>', {
+                                value: '',
+                                text: '-- Cari NIK / Nama Anak --'
+                            }));
+                            $.each(data, function(key, value) {
+                                $('#anak').append($('<option>', {
+                                    value: value.id,
+                                    text: 'NIK: ' + value.nik + ' - ' + value.nama
+                                }));
+                            });
+                        }
+                    }
+                });
+            } else{
+                $('#anak').empty();
+                $('#anak').prop('disabled', true);
+            }
+       });
+    });
     </script>
 @endpush

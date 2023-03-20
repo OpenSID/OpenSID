@@ -305,7 +305,6 @@ class Laporan_penduduk_model extends MY_Model
 
     protected function order_by($o, $lap)
     {
-
         //Ordering SQL
         switch (true) {
             case $o == 1 && $lap == 'suku': $this->db->order_by($lap);
@@ -530,7 +529,6 @@ class Laporan_penduduk_model extends MY_Model
 
             default:
                 $this->select_jml_penduduk_per_kategori($statistik_penduduk['0']['id_referensi'], $statistik_penduduk['0']['tabel_referensi']);
-
         }
 
         return true;

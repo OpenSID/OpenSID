@@ -120,6 +120,7 @@ class Log_Viewer
      * and return it's content that can then be echoed
      *
      * @param $fileName optional base64_encoded filename of the log file to process.
+     *
      * @returns the parse view file content as a string that can be echoed
      */
     public function showLogs()
@@ -390,6 +391,7 @@ class Log_Viewer
      * in the underlying log file
      *
      * @returns array | each line of file contents is an entry in the returned array.
+     *
      * @params complete fileName
      *
      * @param mixed $fileName
@@ -436,6 +438,7 @@ class Log_Viewer
      *
      * @param boolean. If true returns the basename of the files otherwise full path
      * @param mixed $basename
+     *
      * @returns array of file
      */
     private function getFiles($basename = true)
@@ -532,7 +535,6 @@ class Log_Viewer
      */
     private function prepareRawFileName($fileNameInBase64)
     {
-
         //let's determine what the current log file is
         if (null !== $fileNameInBase64 && ! empty($fileNameInBase64)) {
             $currentFile = $this->logFolderPath . '/' . basename(base64_decode($fileNameInBase64, true));

@@ -44,22 +44,17 @@ class Kehadiran_perangkat extends Mandiri_Controller
 {
     public function index()
     {
-        $kehadiran = Pamong::kehadiranPamong()->daftar()->get();
-        $kehadiran = $kehadiran->each(function ($item) {
+        $kehadiran = Pamong::kehadiranPamong()->daftar()->orderBy('urut')->get();
+        $perangkat = $kehadiran->each(function ($item) {
             if ($item->id_penduduk != $this->session->is_login->id_pend) {
                 return $item->id_penduduk = 0;
             }
 
             return $item;
         })
-            ->sortBy([['tanggal', 'desc'], ['jam_masuk', 'desc'], ['id_penduduk', 'desc'], ['waktu', 'desc']])
             ->values()->all();
 
-        $data = [
-            'perangkat' => $kehadiran,
-        ];
-
-        $this->render('kehadiran', $data);
+        $this->render('kehadiran', compact('perangkat'));
     }
 
     public function lapor($id)

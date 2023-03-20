@@ -148,8 +148,8 @@ class Analisis_laporan extends Admin_Controller
     // $aksi = cetak/unduh
     public function dialog_kuisioner($p = 1, $o = 0, $id = 0, $aksi = '')
     {
+        $data                = $this->modal_penandatangan();
         $data['aksi']        = ucwords($aksi);
-        $data['pamong']      = $this->pamong_model->list_data();
         $data['form_action'] = site_url("analisis_laporan/daftar/{$p}/{$o}/{$id}/{$aksi}");
 
         $this->load->view('global/ttd_pamong', $data);
@@ -208,12 +208,10 @@ class Analisis_laporan extends Admin_Controller
         // Simpan session lama
         $temp_cari = $this->session->cari;
         $this->session->unset_userdata('cari');
-        $data['aksi']           = ucwords($aksi);
-        $data['pamong']         = $this->pamong_model->list_data();
-        $data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-        $data['pamong_ttd']     = $this->pamong_model->get_ub();
-        $data['form_action']    = site_url("analisis_laporan/cetak/{$o}/{$aksi}");
-        $this->session->cari    = $temp_cari;
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = ucwords($aksi);
+        $data['form_action'] = site_url("analisis_laporan/cetak/{$o}/{$aksi}");
+        $this->session->cari = $temp_cari;
 
         $this->load->view('global/ttd_pamong', $data);
     }

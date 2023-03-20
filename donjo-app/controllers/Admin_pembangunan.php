@@ -37,8 +37,6 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\Pembangunan;
-
 class Admin_pembangunan extends Admin_Controller
 {
     public function __construct()
@@ -157,13 +155,11 @@ class Admin_pembangunan extends Admin_Controller
 
     public function dialog_daftar($id = 0, $aksi = '')
     {
-        $this->load->view('global/ttd_pamong', [
-            'aksi'           => $aksi,
-            'pamong'         => $this->pamong_model->list_data(),
-            'pamong_ttd'     => $this->pamong_model->get_ub(),
-            'pamong_ketahui' => $this->pamong_model->get_ttd(),
-            'form_action'    => site_url("{$this->controller}/daftar/{$id}/{$aksi}"),
-        ]);
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = $aksi;
+        $data['form_action'] = site_url("{$this->controller}/daftar/{$id}/{$aksi}");
+
+        $this->load->view('global/ttd_pamong', $data);
     }
 
     public function daftar($id = 0, $aksi = '')
