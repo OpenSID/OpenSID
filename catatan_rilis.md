@@ -69,10 +69,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 #### Perubahan Teknis
 
 1. Teknis rapikan penulisan code seeder data awal.
-2. Pengecekan validasi premium dimulai dari identitas desa.
-3. Merapikan select option pada pilih tahun id menu status desa.
-4. Menambahkan required pada form edit album.
-5. Mengembalikan fungsi pencarian cetak surat.
-6. Menambahkan penjelasan tambahan di impor analisis.
-7. Memperbarui .gitignore.
-8. Deploy Website Berputar.
+2. Merapikan select option pada pilih tahun id menu status desa.
+3. Menambahkan required pada form edit album.
+4. Mengembalikan fungsi pencarian cetak surat.
+5. Menambahkan penjelasan tambahan di impor analisis.
