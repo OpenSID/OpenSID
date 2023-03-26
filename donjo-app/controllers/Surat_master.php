@@ -248,7 +248,7 @@ class Surat_master extends Admin_Controller
         $kodeIsian = null;
 
         for ($i = 0; $i < count($request['tipe_kode']); $i++) {
-            if (empty($request['tipe_kode'][$i]) || empty($request['nama_kode'][$i]) || empty($request['deskripsi_kode'][$i])) {
+            if (empty($request['tipe_kode'][$i])) {
                 continue;
             }
 
@@ -257,8 +257,13 @@ class Surat_master extends Admin_Controller
                 'kode'      => form_kode_isian($request['nama_kode'][$i]),
                 'nama'      => $request['nama_kode'][$i],
                 'deskripsi' => $request['deskripsi_kode'][$i],
-                'atribut'   => $request['atribut_kode'][$i],
+                'atribut'   => $request['atribut_kode'][$i] ?: null,
+                'pilihan'   => null,
             ];
+
+            if (in_array($request['tipe_kode'][$i], ['select-manual'])) {
+                $kodeIsian[$i]['pilihan'] = json_decode(preg_replace('/[\r\n\t]/', '', $request['pilihan_kode'][$i]), true);
+            }
         }
 
         $formIsian = [

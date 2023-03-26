@@ -131,13 +131,14 @@ class FormatSurat extends BaseModel
      * @var array
      */
     public const ATTRIBUTES = [
-        'text'     => 'Input Teks',
-        'number'   => 'Input Angka',
-        'email'    => 'Input Email',
-        'url'      => 'Input Url',
-        'date'     => 'Input Tanggal',
-        'time'     => 'Input Jam',
-        'textarea' => 'Text Area',
+        'text'          => 'Input Teks',
+        'number'        => 'Input Angka',
+        'email'         => 'Input Email',
+        'url'           => 'Input Url',
+        'date'          => 'Input Tanggal',
+        'time'          => 'Input Jam',
+        'textarea'      => 'Text Area',
+        'select-manual' => 'Select (Manual)',
     ];
 
     /**

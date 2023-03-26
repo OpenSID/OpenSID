@@ -114,7 +114,21 @@
                 @php $nama = underscore($item->nama, true, true) @endphp
                 <div class="form-group">
                     <label for="{{ $item->nama }}" class="col-sm-3 control-label">{{ $item->nama }}</label>
-                    @if ($item->tipe == 'textarea')
+                    @if ($item->tipe == 'select-manual')
+                        <div class="col-sm-8">
+                            <select name="{{ $nama }}" {!! $item->atribut
+                                ? str_replace('class="', 'class="form-control input-sm ', $item->atribut)
+                                : 'class="form-control input-sm"' !!}
+                                placeholder="{{ $item->deskripsi }}">
+                                <option value="">-- {{ $item->deskripsi }} --</option>
+                                @foreach ($item->pilihan as $key => $pilih)
+                                    <option value="{{ $pilih }}">
+                                        {{ $pilih }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @elseif ($item->tipe == 'textarea')
                         <div class="col-sm-8">
                             <textarea name="{{ $nama }}" {!! $item->atribut
                                 ? str_replace('class="', 'class="form-control input-sm ', $item->atribut)

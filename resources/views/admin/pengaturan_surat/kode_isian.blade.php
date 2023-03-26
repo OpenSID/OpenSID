@@ -1,0 +1,172 @@
+<h5><b>Kode Isian</b></h5>
+<div class="table-responsive">
+    <table class="table table-hover table-striped">
+        <tbody>
+            <tr style="font-weight: bold;">
+                <td>TIPE</td>
+                <td>NAMA</td>
+                <td>PLACEHOLDER</td>
+                <td>ATRIBUT</td>
+                <td class="isian-pilihan">PILIHAN</td>
+                <td>AKSI</td>
+            </tr>
+            @forelse ($suratMaster->kode_isian as $key => $value)
+                @if (!$value->statis)
+                    <tr class="duplikasi" id="gandakan-{{ $key }}" data-id="{{ $key }}">
+                        <td>
+                            <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
+                                <option value="" selected>Pilihan Tipe</option>
+                                @foreach ($attributes as $attr_key => $attr_value)
+                                    <option value="{{ $attr_key }}" @selected($attr_key == $value->tipe)>{{ $attr_value }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td><input type="text" name="nama_kode[]" class="form-control input-sm isian"
+                                value="{{ $value->nama }}" placeholder="Masukkan Nama" @disabled($value->tipe == '')>
+                        </td>
+                        <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm isian"
+                                value="{{ $value->deskripsi }}" placeholder="Masukkan Placeholder"
+                                @disabled($value->tipe == '')></td>
+                        <td>
+                            <textarea class="form-control input-sm isian isian-atribut" name="atribut_kode[]" rows="5"
+                                placeholder="Masukkan Atribut" @disabled($value->tipe == '')>{{ $value->atribut }}</textarea>
+                        </td>
+                        <td>
+                            <textarea class="form-control input-sm isian isian-pilihan" name="pilihan_kode[]" rows="5"
+                                placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>{{ json_encode($value->pilihan) }}</textarea>
+                        </td>
+                        <td width="1%">
+                            <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
+                                    class='fa fa-trash-o'></i></button>
+                        </td>
+                    </tr>
+                @endif
+            @empty
+                <tr class="duplikasi" id="gandakan-0" data-id="0">
+                    <td>
+                        <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
+                            <option value="" selected>Pilihan Tipe</option>
+                            @foreach ($attributes as $attr_key => $attr_value)
+                                <option value="{{ $attr_key }}" @selected($attr_key == 1)>
+                                    {{ $attr_value }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td><input type="text" name="nama_kode[]" class="form-control input-sm isian"
+                            placeholder="Masukkan Nama" @disabled($value->tipe == '')></td>
+                    <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm isian"
+                            placeholder="Masukkan Placeholder" @disabled($value->tipe == '')></td>
+                    <td>
+                        <textarea class="form-control input-sm isian isian-atribut" name="atribut_kode[]" rows="5"
+                            placeholder="Masukkan Atribut" @disabled($value->tipe == '')>{{ $value->atribut }}</textarea>
+                    </td>
+                    <td>
+                        <textarea class="form-control input-sm isian isian-pilihan" name="pilihan_kode[]" rows="5"
+                            placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>{{ (string) $value->atribut }}</textarea>
+                    </td>
+                    <td class="padat">
+                        <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
+                                class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+            @endforelse
+            <tr>
+                <td colspan="5">
+                    <button type="button" class="btn btn-success btn-sm btn-block tambah-kode"><i
+                            class="fa fa-plus"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            var counter = $(".duplikasi:last").data("id");
+            $("#gandakan-" + counter).find("button").hide();
+
+            $('.tambah-kode').on('click', function() {
+                var editElm;
+                counter++;
+                $("#gandakan-0").clone(true)
+                    .map(function() {
+                        editElm = $(this)
+                            .attr('id', 'gandakan-' + counter)
+                            .attr('data-id', counter)
+                            .find('select')
+                            .end();
+                    });
+
+                if ($("#gandakan-" + (counter - 1)).length) {
+                    $("#gandakan-" + (counter - 1)).after(editElm);
+                } else {
+                    $("#gandakan-0").after(editElm);
+                }
+                $("#gandakan-" + counter).find('input').val('');
+                $("#gandakan-" + counter).find('select').change(0);
+                $("#gandakan-" + counter + " option:selected").removeAttr('selected');
+
+                $('.duplikasi').find("button").show();
+                $("#gandakan-" + counter).find("button").hide();
+            });
+
+            $('.hapus-kode').on('click', function() {
+                $(this).parents('.duplikasi').remove();
+            });
+
+            $('.pilih_tipe').on('change', function() {
+                var tipe = $(this).val();
+                var atribut = '';
+                var option = '{}';
+
+                var isian_atribut = $(this).parents('.duplikasi').find('.isian-atribut');
+                var isian_pilihan = $(this).parents('.duplikasi').find('.isian-pilihan');
+
+                if (tipe == '') {
+                    atribut = 'Masukkan Atribut';
+                    option = 'Masukkan Pilihan';
+                    $(".isian").prop("disabled", true);
+                    $(".isian").removeClass('required');
+                } else {
+                    $(".isian").prop("disabled", false);
+                    $(".isian").addClass('required');
+                    isian_atribut.removeClass('required');
+
+                    if (tipe == 'select-manual') {
+                        atribut = 'size="5"';
+                        option =
+                            `["Laki-laki","Perempuan"]`;
+
+                        isian_pilihan.prop("disabled", false);
+                        isian_pilihan.addClass('required');
+                        isian_pilihan.val(option);
+                    } else {
+                        option = '{}';
+                        if (tipe == 'text') {
+                            atribut = 'minlength="5" maxlength="50"';
+                        } else if (tipe == 'number') {
+                            atribut = 'min="1" max="100" step="1"';
+                        } else if (tipe == 'email') {
+                            atribut = 'minlength="5" maxlength="50"';
+                        } else if (tipe == 'url') {
+                            atribut = 'minlength="5" maxlength="50"';
+                        } else if (tipe == 'date') {
+                            atribut = 'min="2021-01-01" max="2021-12-31"';
+                        } else if (tipe == 'time') {
+                            atribut = 'min="00:00" max="23:59"';
+                        } else {
+                            atribut = 'minlength="5" maxlength="50" rows="5"';
+                        }
+                        isian_pilihan.prop("disabled", true);
+                        isian_pilihan.removeClass('required');
+                    }
+                }
+
+                isian_atribut.attr("placeholder", atribut);
+                isian_pilihan.attr("placeholder", option);
+                $(this).parents('.duplikasi').find('.isian').val('');
+            });
+        });
+    </script>
+@endpush
