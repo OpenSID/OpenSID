@@ -52,7 +52,7 @@ define('VERSION', '23.03-premium-rev02');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023031551');
+define('VERSI_DATABASE', '2023032351');
 
 // Website Demo OpenSID
 define('WEBSITE_DEMO', [
