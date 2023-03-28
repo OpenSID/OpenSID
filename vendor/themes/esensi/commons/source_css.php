@@ -15,4 +15,3 @@
 <?php endif ?>
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/style.min.css?" . THEME_VERSION) ?>">
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/custom.css?" . THEME_VERSION) ?>">
-<?php endif ?>
