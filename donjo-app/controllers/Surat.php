@@ -67,13 +67,6 @@ class Surat extends Admin_Controller
 
     public function index()
     {
-        $data['cetak_surat'] = FormatSurat::select(['nama', 'jenis', 'url_surat'])->kunci(FormatSurat::KUNCI_DISABLE)->latest('updated_at')->orderBy('favorit', 'desc')->get();
-
-        return view('admin.surat.index', $data);
-    }
-
-    public function datatables()
-    {
         if ($this->input->is_ajax_request()) {
             return datatables()->of(FormatSurat::kunci(FormatSurat::KUNCI_DISABLE)->orderBy('favorit', 'desc')->latest('updated_at'))
                 ->addIndexColumn()
@@ -100,6 +93,37 @@ class Surat extends Admin_Controller
                 })
                 ->rawColumns(['aksi', 'template_surat'])
                 ->make();
+        }
+
+        return view('admin.surat.index');
+    }
+
+    public function apidaftarsurat()
+    {
+        if ($this->input->is_ajax_request()) {
+            $cari = $this->input->get('q');
+
+            $surat = FormatSurat::select(['id', 'nama', 'jenis', 'url_surat'])
+                ->when($cari, static function ($query) use ($cari) {
+                    $query->orWhere('nama', 'like', "%{$cari}%");
+                })
+                ->kunci(FormatSurat::KUNCI_DISABLE)
+                ->latest('updated_at')
+                ->orderBy('favorit', 'desc')
+                ->paginate(10);
+
+            return json([
+                'results' => collect($surat->items())
+                    ->map(static function ($item) {
+                        return [
+                            'id'   => $item->url_surat,
+                            'text' => ($item->jenis == 1 ? '[RTF]' : '[TinyMCE]') . " - {$item->nama}",
+                        ];
+                    }),
+                'pagination' => [
+                    'more' => $surat->currentPage() < $surat->lastPage(),
+                ],
+            ]);
         }
 
         return show_404();
