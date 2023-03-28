@@ -33,8 +33,16 @@
                                 placeholder="Masukkan Atribut" @disabled($value->tipe == '')>{{ $value->atribut }}</textarea>
                         </td>
                         <td>
-                            <textarea class="form-control input-sm isian isian-pilihan" name="pilihan_kode[]" rows="5"
+                            <textarea class="form-control input-sm isian isian-pilihan @display($value->tipe != 'select-otomatis')" name="pilihan_kode[]" rows="5"
                                 placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>{{ json_encode($value->pilihan) }}</textarea>
+                            <select class="form-control input-sm isian isian-referensi @display($value->tipe == 'select-otomatis')"
+                                name="referensi_kode[]" placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>
+                                <option value="" selected>Pilihan Referensi</option>
+                                @foreach (\App\Enums\ReferensiEnum::all() as $label => $val)
+                                    <option value="{{ $val }}" @selected($val == $value->refrensi)>{{ $label }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </td>
                         <td width="1%">
                             <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
@@ -64,6 +72,13 @@
                     <td>
                         <textarea class="form-control input-sm isian isian-pilihan" name="pilihan_kode[]" rows="5"
                             placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>{{ (string) $value->atribut }}</textarea>
+                        <select class="form-control input-sm isian isian-referensi @display($value->tipe == 'select-otomatis')"
+                            name="referensi_kode[]" placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>
+                            <option value="" selected>Pilihan Referensi</option>
+                            @foreach (\App\Enums\ReferensiEnum::all() as $key => $value)
+                                <option value="{{ $value }}">{{ $key }}</option>
+                            @endforeach
+                        </select>
                     </td>
                     <td class="padat">
                         <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
@@ -103,9 +118,12 @@
                 } else {
                     $("#gandakan-0").after(editElm);
                 }
+
+                $("#gandakan-" + counter + " option:selected").removeAttr('selected');
                 $("#gandakan-" + counter).find('input').val('');
                 $("#gandakan-" + counter).find('select').change(0);
-                $("#gandakan-" + counter + " option:selected").removeAttr('selected');
+                $("#gandakan-" + counter).find('textarea').val('');
+                $("#gandakan-" + counter).find('.isian').prop("disabled", true);
 
                 $('.duplikasi').find("button").show();
                 $("#gandakan-" + counter).find("button").hide();
@@ -119,19 +137,23 @@
                 var tipe = $(this).val();
                 var atribut = '';
                 var option = '{}';
-
-                var isian_atribut = $(this).parents('.duplikasi').find('.isian-atribut');
-                var isian_pilihan = $(this).parents('.duplikasi').find('.isian-pilihan');
+                var parents = $(this).parents('.duplikasi');
+                var isian_atribut = parents.find('.isian-atribut');
+                var isian_pilihan = parents.find('.isian-pilihan');
+                var isian_referensi = parents.find('.isian-referensi');
+                var isian = parents.find('.isian');
 
                 if (tipe == '') {
                     atribut = 'Masukkan Atribut';
                     option = 'Masukkan Pilihan';
-                    $(".isian").prop("disabled", true);
-                    $(".isian").removeClass('required');
+                    isian.prop("disabled", true);
+                    isian.removeClass('required');
+                    isian_referensi.addClass('hide');
                 } else {
-                    $(".isian").prop("disabled", false);
-                    $(".isian").addClass('required');
+                    isian.prop("disabled", false);
+                    isian.addClass('required');
                     isian_atribut.removeClass('required');
+                    isian_referensi.addClass('hide');
 
                     if (tipe == 'select-manual') {
                         atribut = 'size="5"';
@@ -139,11 +161,24 @@
                             `["Laki-laki","Perempuan"]`;
 
                         isian_pilihan.prop("disabled", false);
-                        isian_pilihan.addClass('required');
                         isian_pilihan.val(option);
+                        isian_pilihan.removeClass('hide');
+                        isian_pilihan.addClass('required');
+                        isian_referensi.addClass('hide');
+                        isian_referensi.removeClass('required');
                     } else {
                         option = '{}';
-                        if (tipe == 'text') {
+                        isian_referensi.addClass('hide');
+                        isian_referensi.removeClass('required');
+                        isian_pilihan.removeClass('hide');
+                        isian_pilihan.removeClass('required');
+                        if (tipe == 'select-otomatis') {
+                            atribut = 'size="5"';
+                            isian_referensi.removeClass('hide');
+                            isian_referensi.addClass('required');
+                            isian_pilihan.addClass('hide');
+                            isian_pilihan.removeClass('required');
+                        } else if (tipe == 'text') {
                             atribut = 'minlength="5" maxlength="50"';
                         } else if (tipe == 'number') {
                             atribut = 'min="1" max="100" step="1"';

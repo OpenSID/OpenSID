@@ -7,7 +7,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 1. [#5821](https://github.com/OpenSID/OpenSID/issues/5821) Nambah Pengaturan & kode isian non warga khusus tinymce.
 2. [#6394](https://github.com/OpenSID/OpenSID/issues/6394) TTE OpenDK.
 3. [#6034](https://github.com/OpenSID/OpenSID/issues/6034) Menambahkan kode isian pilihan dengan data manual.
-4. [#2202](https://github.com/OpenSID/premium/issues/2202) Menambahkan Infinite scroll untuk select surat.
+4. [#2202](https://github.com/OpenSID/premium/issues/2202) Menambahkan infinite scroll untuk select surat.
+5. [#6066](https://github.com/OpenSID/OpenSID/issues/6066) Menambahkan kode isian pilihan dengan data otomatis.
 
 #### Perbaikan BUG
 

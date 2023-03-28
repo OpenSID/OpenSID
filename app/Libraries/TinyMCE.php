@@ -926,8 +926,6 @@ class TinyMCE
         $newKodeIsian = [];
         $kodeIsian    = $this->getFormatedKodeIsian($data, true);
 
-        log_message('error', 'kodeIsian = ' . print_r($kodeIsian, true));
-
         foreach ($kodeIsian as $key => $value) {
             if (preg_match('/klg/i', $key)) {
                 for ($i = 1; $i <= 10; $i++) {

@@ -259,10 +259,13 @@ class Surat_master extends Admin_Controller
                 'deskripsi' => $request['deskripsi_kode'][$i],
                 'atribut'   => $request['atribut_kode'][$i] ?: null,
                 'pilihan'   => null,
+                'refrensi'  => null,
             ];
 
-            if (in_array($request['tipe_kode'][$i], ['select-manual'])) {
+            if ($request['tipe_kode'][$i] == 'select-manual') {
                 $kodeIsian[$i]['pilihan'] = json_decode(preg_replace('/[\r\n\t]/', '', $request['pilihan_kode'][$i]), true);
+            } elseif ($request['tipe_kode'][$i] == 'select-otomatis') {
+                $kodeIsian[$i]['refrensi'] = $request['referensi_kode'][$i];
             }
         }
 
@@ -521,8 +524,24 @@ class Surat_master extends Admin_Controller
             $data['nama_non_warga'] = 'Nama Non Warga';
         }
 
-        foreach ($this->request['nama_kode'] as $kode) {
-            $data = case_replace(form_kode_isian($kode), 'Masukkan ' . $kode, $data);
+        for ($i = 0; $i < count($this->request['tipe_kode']); $i++) {
+            if (empty($this->request['tipe_kode'][$i])) {
+                continue;
+            }
+
+            $kode = $this->request['nama_kode'][$i];
+
+            if ($this->request['tipe_kode'][$i] == 'select-manual') {
+                $pilihan    = json_decode(preg_replace('/[\r\n\t]/', '', $this->request['pilihan_kode'][$i]), true);
+                $kode_isian = $pilihan[array_rand($pilihan)];
+            } elseif ($this->request['tipe_kode'][$i] == 'select-otomatis') {
+                $pilihan    = ref($this->request['referensi_kode'][$i]);
+                $kode_isian = $pilihan[array_rand($pilihan)]->nama;
+            } else {
+                $kode_isian = 'Masukkan ' . $kode;
+            }
+
+            $data = case_replace(form_kode_isian($kode), $kode_isian, $data);
         }
 
         $data      = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);

@@ -1544,3 +1544,17 @@ if (! function_exists('sekdes')) {
         return RefJabatan::getSekdes();
     }
 }
+
+if (! function_exists('ref')) {
+    /**
+     * - Fungsi untuk mengambil data tabel refrensi.
+     *
+     * @param mixed $alias
+     *
+     * @return array|object
+     */
+    function ref($alias)
+    {
+        return get_instance()->db->get($alias)->result();
+    }
+}
