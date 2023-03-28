@@ -55,7 +55,7 @@ class Migrasi_fitur_premium_2304 extends MY_model
         $hasil = $hasil && $this->tambah_kolom_kecamatan($hasil);
         $hasil = $hasil && $this->suratPermohonanAktaLahir($hasil);
         $hasil = $hasil && $this->suratKeteranganBepergian($hasil);
-        $hasil = $hasil && $this->migrasi_2023032351($hasil);
+        $hasil = $hasil && $this->migrasi_2023032851($hasil);
 
         return $hasil && true;
     }
@@ -110,7 +110,7 @@ class Migrasi_fitur_premium_2304 extends MY_model
         }
     }
 
-    protected function migrasi_2023032351($hasil)
+    protected function migrasi_2023032851($hasil)
     {
         $config = DB::table('config')->first();
 
