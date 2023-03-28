@@ -28,3 +28,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. [#6489](https://github.com/OpenSID/OpenSID/issues/6489) Tambahkan peringatan saat hapus penduduk.
 3. [#6491](https://github.com/OpenSID/OpenSID/issues/6491) Tambahkan peringatan pada fitur impor penduduk.
 4. [#2153](https://github.com/OpenSID/premium/issues/2153) Perbaikan dtks- model withOnly.
+5. [#2191](https://github.com/OpenSID/premium/issues/2191) Data eksternal (tidak digunakan).
