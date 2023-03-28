@@ -149,12 +149,21 @@ class Pelanggan extends Admin_Controller
 
                 return json([
                     'status'  => false,
-                    'message' => 'Tidak dapat menggati token pada wabsite demo.',
+                    'message' => 'Tidak dapat mengganti token pada wabsite demo.',
                 ]);
             }
 
             if (isset($this->request['body']['token'])) {
                 $this->cache->hapus_cache_untuk_semua('status_langganan');
+                if ($this->request['body']['desa_id'] != kode_wilayah($this->header['desa']['kode_desa'])) {
+                    $this->setting_model->update_setting(['layanan_opendesa_token' => null]);
+
+                    return json([
+                        'status'  => false,
+                        'message' => ucwords($this->setting->sebutan_desa . ' ' . $this->header['desa']['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan') . ' atau Token yang di input tidak sesuai dengan kode desa',
+                    ]);
+                }
+
                 $post['layanan_opendesa_token'] = $this->request['body']['token'];
                 $this->setting_model->update_setting($post);
 
@@ -162,16 +171,6 @@ class Pelanggan extends Admin_Controller
                     // request ke api layanan.opendesa.id
                     return json_decode(json_encode($this->request), false);
                 }, 'status_langganan', 24 * 60 * 60);
-
-                // perbarui anjungan aktif
-                if (cek_anjungan()) {
-                    $this->db
-                        ->set(['status' => '1'])
-                        ->where('tipe', '1')
-                        ->where('status', '0')
-                        ->where('status_alasan', 'tidak berlangganan anjungan')
-                        ->update('anjungan');
-                }
 
                 return json([
                     'status'  => true,

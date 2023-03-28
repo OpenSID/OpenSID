@@ -37,6 +37,7 @@
 
 use App\Enums\StatusSuratKecamatanEnum;
 use App\Models\BukuKepuasan;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,6 +52,7 @@ class Migrasi_fitur_premium_2304 extends MY_model
         $hasil = $hasil && $this->migrasi_2023030271($hasil);
         $hasil = $hasil && $this->migrasi_2023031551($hasil);
         $hasil = $hasil && $this->tambah_kolom_kecamatan($hasil);
+        $hasil = $hasil && $this->migrasi_2023032351($hasil);
 
         return $hasil && true;
     }
@@ -91,7 +93,7 @@ class Migrasi_fitur_premium_2304 extends MY_model
 
     protected function tambah_kolom_kecamatan($hasil)
     {
-        if (! $this->db->field_exists('kecamatan', 'log_surat')) {
+        if (!$this->db->field_exists('kecamatan', 'log_surat')) {
             $fields = [
                 'kecamatan' => [
                     'type'       => 'tinyint',
@@ -102,6 +104,20 @@ class Migrasi_fitur_premium_2304 extends MY_model
                 ],
             ];
             $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
+        }
+    }
+
+    protected function migrasi_2023032351($hasil)
+    {
+        $config = DB::table('config')->first();
+
+        if ($config) {
+            $hasil = $hasil && DB::table('config')->update([
+                'kode_desa'      => bilangan($config->kode_desa),
+                'kode_kecamatan' => bilangan($config->kode_kecamatan),
+                'kode_kabupaten' => bilangan($config->kode_kabupaten),
+                'kode_propinsi'  => bilangan($config->kode_propinsi),
+            ]);
         }
 
         return $hasil;
