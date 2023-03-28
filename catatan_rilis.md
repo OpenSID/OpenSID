@@ -10,6 +10,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#2202](https://github.com/OpenSID/premium/issues/2202) Menambahkan infinite scroll untuk select surat.
 5. [#6066](https://github.com/OpenSID/OpenSID/issues/6066) Menambahkan kode isian pilihan dengan data otomatis.
 6. [#5768](https://github.com/OpenSID/OpenSID/issues/5768) Menambahkan surat TinyMce permohonan akta lahir.
+7. [#6211](https://github.com/OpenSID/OpenSID/issues/6211) Menambahkan surat TinyMce keterangan bepergian / jalan.
 
 #### Perbaikan BUG
 
