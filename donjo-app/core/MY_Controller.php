@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\Anjungan;
 use App\Models\Config;
 use App\Models\GrupAkses;
 use App\Models\LogSurat;
@@ -93,12 +92,6 @@ class MY_Controller extends CI_Controller
 
         // Untuk anjungan
         if (Schema::hasColumn('anjungan', 'tipe') && Schema::hasColumn('anjungan', 'status_alasan')) {
-            if (! cek_anjungan() && Anjungan::exists()) {
-                try {
-                    Anjungan::tipe(1)->update(['status' => 0, 'status_alasan' => 'tidak berlangganan anjungan']);
-                } catch (Exception $e) {
-                }
-            }
             $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
         }
 
@@ -478,7 +471,7 @@ class Admin_Controller extends Premium
         // cek langganan premium
         $info_langganan = $this->cache->file->get_metadata('status_langganan');
 
-        if ((strtotime('+1 day', $info_langganan['mtime']) < strtotime('now')) || ($this->cache->file->get_metadata('status_langganan') == false && $this->setting->layanan_opendesa_token != null)) {
+        if ((strtotime('+30 day', $info_langganan['mtime']) < strtotime('now')) || ($this->cache->file->get_metadata('status_langganan') == false && $this->setting->layanan_opendesa_token != null)) {
             $this->header['perbaharui_langganan'] = true;
         }
     }

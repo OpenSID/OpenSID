@@ -554,7 +554,14 @@
                         dataType: 'json',
                         data: data,
                     })
-                    .done(function() {
+                    .done(function(result) {
+                        if (result.status == false) {
+                            Swal.fire({
+                                title: 'Token Gagal',
+                                text : result.message
+                            })
+                            return
+                        }
                         Swal.fire({
                             title: 'Berhasil Tersimpan',
                         })

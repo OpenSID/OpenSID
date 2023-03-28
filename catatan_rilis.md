@@ -21,6 +21,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 15. [#6503](https://github.com/OpenSID/OpenSID/issues/6503) Perbaikan logo bsre yang tidak tampil saat cetak surat setelah surat diverifikasi.
 16. [#6510](https://github.com/OpenSID/OpenSID/issues/6510) Perbaikan modul keuangan laporan bidang semester 1 tidak sesuai.
 17. [#6521](https://github.com/OpenSID/OpenSID/issues/6521) Perbaikan install awal menggunakan config kode_desa memliki perbedaan dengan manual.
+18. [#6486](https://github.com/OpenSID/OpenSID/issues/6486) Perbaikan anjungan tidak dapat digunakan padahal fitur premium sudah aktif.
 
 #### Perubahan Teknis
 
