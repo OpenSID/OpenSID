@@ -90,13 +90,25 @@
     <!-- AdminLTE -->
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
     <!-- jquery validasi -->
+    <script src="{{ asset('js/script.js') }}"></script>
     <!-- Modifikasi -->
-    <script src="{{ asset('js/admin.js') }}"></script>
     @if (config_item('demo_mode'))
         <!-- Website Demo -->
         <script src="{{ asset('js/demo.js') }}"></script>
     @endif
     @stack('scripts')
+    <script>
+        $(document).ready(function() {
+            $('ul.sidebar-menu').on('expanded.tree', function(e){
+                e.stopImmediatePropagation();
+                setTimeout(scrollTampil($('li.treeview.menu-open')[0]), 500);
+            });
+
+            function scrollTampil(elem) {
+                elem.scrollIntoView({behavior: 'smooth'});
+            }
+        });
+    </script>
 </body>
 
 </html>

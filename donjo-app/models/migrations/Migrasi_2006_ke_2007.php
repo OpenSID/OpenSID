@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,11 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
+use App\Models\Config;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,7 +54,6 @@ class Migrasi_2006_ke_2007 extends CI_model
 
     private function data_apbdes_manual()
     {
-
         // Update Menu Keuangan - perbaikan urutan sub menu
         $this->db->where('id', 202)
             ->set('urut', '1')
@@ -574,9 +575,8 @@ class Migrasi_2006_ke_2007 extends CI_model
 
     private function konfigurasi_web()
     {
-        // Ambil config code provinsi
-        $this->load->model('config_model');
-        $desa = $this->config_model->get_data();
+        $kode_propinsi = Config::first()->pluck('kode_propinsi');
+
         // Tambah menu Admin Web -> Konfigurasi
         $query = "
 			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
@@ -595,7 +595,7 @@ class Migrasi_2006_ke_2007 extends CI_model
 			(35, 'covid_data', '1', 'Apakah akan tampilkan status Covid-19 Provinsi di halaman muka', 'boolean', 'conf_web'),
 			(36, 'covid_desa', '1', 'Apakah akan tampilkan status Covid-19 Desa di halaman muka', 'boolean', 'conf_web'),
 			(37, 'covid_rss', '0', 'Apakah akan tampilkan RSS Covid-19 di halaman muka', 'boolean', 'conf_web'),
-			(38, 'provinsi_covid', '{$desa['kode_propinsi']}', 'Kode provinsi status Covid-19 ', 'int', 'conf_web'),
+			(38, 'provinsi_covid', '{$kode_propinsi}', 'Kode provinsi status Covid-19 ', 'int', 'conf_web'),
 			(39, 'statistik_chart_3d', '1', 'Apakah akan tampilkan Statistik Chart 3D', 'boolean', 'conf_web')
 			ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
         $this->db->query($query);

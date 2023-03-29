@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -121,25 +121,9 @@ class Surat_master_model extends MY_Model
         $data = $_POST;
         $this->validasi_surat($data);
 
-        $before = FormatSurat::find($id) ?? show_404();
-
         $outp = $this->db
             ->where('id', $id)
             ->update($this->table, $data);
-
-        if ($outp) {
-            $surat_baru  = 'surat_' . str_replace([' ', '-'], '_', strtolower($data['nama']));
-            $lokasi_baru = LOKASI_SURAT_DESA . $surat_baru;
-
-            // Ubah nama folder penyimpanan template surat
-            rename($before->lokasi_surat, $lokasi_baru);
-
-            // Ubah nama file surat
-            rename($lokasi_baru . '/' . $before->url_surat . '.rtf', $lokasi_baru . '/' . $surat_baru . '.rtf');
-            rename($lokasi_baru . '/' . $before->url_surat . '.php', $lokasi_baru . '/' . $surat_baru . '.php');
-            rename($lokasi_baru . '/data_rtf_' . $before->url_surat . '.php', $lokasi_baru . '/data_rtf_' . $surat_baru . '.php');
-            rename($lokasi_baru . '/data_form_' . $before->url_surat . '.php', $lokasi_baru . '/data_form_' . $surat_baru . '.php');
-        }
 
         status_sukses($outp); //Tampilkan Pesan
 
@@ -220,8 +204,6 @@ class Surat_master_model extends MY_Model
      * @param mixed $lokasi
      * @param mixed $redirect
      * @param mixed $nama_file
-     *
-     * @return
      */
     private function uploadBerkas($allowed_types, $upload_path, $lokasi, $redirect, $nama_file)
     {

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -85,6 +85,10 @@ if (! function_exists('view')) {
             return "<?= ({$condition}) ? 'active' : ''; ?>";
         });
 
+        $factory->directive('display', static function ($condition) {
+            return "<?= ({$condition}) ? 'show' : 'hide'; ?>";
+        });
+
         if ($CI->session->db_error['code'] === 1049) {
             $CI->session->error_db = null;
             $CI->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception', 'sudah_mulai']);
@@ -97,12 +101,13 @@ if (! function_exists('view')) {
                 'modul'        => $CI->header['modul'],
                 'modul_ini'    => $CI->modul_ini,
                 'notif'        => [
-                    'surat'       => $CI->header['notif_permohonan_surat'],
-                    'opendkpesan' => $CI->header['notif_pesan_opendk'],
-                    'inbox'       => $CI->header['notif_inbox'],
-                    'komentar'    => $CI->header['notif_komentar'],
-                    'langganan'   => $CI->header['notif_langganan'],
-                    'pengumuman'  => $CI->header['notif_pengumuman'],
+                    'surat'           => $CI->header['notif_permohonan_surat'],
+                    'opendkpesan'     => $CI->header['notif_pesan_opendk'],
+                    'inbox'           => $CI->header['notif_inbox'],
+                    'komentar'        => $CI->header['notif_komentar'],
+                    'langganan'       => $CI->header['notif_langganan'],
+                    'pengumuman'      => $CI->header['notif_pengumuman'],
+                    'permohonansurat' => $CI->header['notif_permohonan'],
                 ],
                 'kategori'      => $CI->header['kategori'],
                 'sub_modul_ini' => $CI->sub_modul_ini,
@@ -196,8 +201,12 @@ if (! function_exists('setting')) {
     {
         $getSetting = get_instance()->setting;
 
-        if ($params && property_exists($getSetting, $params)) {
-            return $getSetting->{$params};
+        if ($params) {
+            if (property_exists($getSetting, $params)) {
+                return $getSetting->{$params};
+            }
+
+            return null;
         }
 
         return $getSetting;

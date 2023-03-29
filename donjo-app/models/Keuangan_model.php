@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -84,34 +84,34 @@ class Keuangan_model extends CI_model
         'keuangan_ta_triwulan_rinci',
     ];
     private $data_siskeudes = [
-        'keuangan_ref_bank_desa'          => 'Ref_Bank_Desa.csv',
-        'keuangan_ref_bel_operasional'    => 'Ref_Bel_Operasional.csv',
-        'keuangan_ref_bidang'             => 'Ref_Bidang.csv',
-        'keuangan_ref_bunga'              => 'Ref_Bunga.csv',
-        'keuangan_ref_desa'               => 'Ref_Desa.csv',
-        'keuangan_ref_kecamatan'          => 'Ref_Kecamatan.csv',
-        'keuangan_ref_kegiatan'           => 'Ref_Kegiatan.csv',
-        'keuangan_ref_korolari'           => 'Ref_Korolari.csv',
-        'keuangan_ref_neraca_close'       => 'Ref_NeracaClose.csv',
-        'keuangan_ref_perangkat'          => 'Ref_Perangkat.csv',
-        'keuangan_ref_potongan'           => 'Ref_Potongan.csv',
-        'keuangan_ref_rek1'               => 'Ref_Rek1.csv',
-        'keuangan_ref_rek2'               => 'Ref_Rek2.csv',
-        'keuangan_ref_rek3'               => 'Ref_Rek3.csv',
-        'keuangan_ref_rek4'               => 'Ref_Rek4.csv',
-        'keuangan_ref_sbu'                => 'Ref_SBU.csv',
-        'keuangan_ref_sumber'             => 'Ref_Sumber.csv',
-        'keuangan_ta_anggaran'            => 'Ta_Anggaran.csv',
-        'keuangan_ta_anggaran_log'        => 'Ta_AnggaranLog.csv',
-        'keuangan_ta_anggaran_rinci'      => 'Ta_AnggaranRinci.csv',
-        'keuangan_ta_bidang'              => 'Ta_Bidang.csv',
-        'keuangan_ta_jurnal_umum'         => 'Ta_JurnalUmum.csv',
-        'keuangan_ta_jurnal_umum_rinci'   => 'Ta_JurnalUmumRinci.csv',
-        'keuangan_ta_kegiatan'            => 'Ta_Kegiatan.csv',
-        'keuangan_ta_mutasi'              => 'Ta_Mutasi.csv',
-        'keuangan_ta_pajak'               => 'Ta_Pajak.csv',
-        'keuangan_ta_pajak_rinci'         => 'Ta_PajakRinci.csv',
-        'keuangan_ta_pemda'               => 'Ta_Pemda.csv',
+        'keuangan_ref_bank_desa'        => 'Ref_Bank_Desa.csv',
+        'keuangan_ref_bel_operasional'  => 'Ref_Bel_Operasional.csv',
+        'keuangan_ref_bidang'           => 'Ref_Bidang.csv',
+        'keuangan_ref_bunga'            => 'Ref_Bunga.csv',
+        'keuangan_ref_desa'             => 'Ref_Desa.csv',
+        'keuangan_ref_kecamatan'        => 'Ref_Kecamatan.csv',
+        'keuangan_ref_kegiatan'         => 'Ref_Kegiatan.csv',
+        'keuangan_ref_korolari'         => 'Ref_Korolari.csv',
+        'keuangan_ref_neraca_close'     => 'Ref_NeracaClose.csv',
+        'keuangan_ref_perangkat'        => 'Ref_Perangkat.csv',
+        'keuangan_ref_potongan'         => 'Ref_Potongan.csv',
+        'keuangan_ref_rek1'             => 'Ref_Rek1.csv',
+        'keuangan_ref_rek2'             => 'Ref_Rek2.csv',
+        'keuangan_ref_rek3'             => 'Ref_Rek3.csv',
+        'keuangan_ref_rek4'             => 'Ref_Rek4.csv',
+        'keuangan_ref_sbu'              => 'Ref_SBU.csv',
+        'keuangan_ref_sumber'           => 'Ref_Sumber.csv',
+        'keuangan_ta_anggaran'          => 'Ta_Anggaran.csv',
+        'keuangan_ta_anggaran_log'      => 'Ta_AnggaranLog.csv',
+        'keuangan_ta_anggaran_rinci'    => 'Ta_AnggaranRinci.csv',
+        'keuangan_ta_bidang'            => 'Ta_Bidang.csv',
+        'keuangan_ta_jurnal_umum'       => 'Ta_JurnalUmum.csv',
+        'keuangan_ta_jurnal_umum_rinci' => 'Ta_JurnalUmumRinci.csv',
+        'keuangan_ta_kegiatan'          => 'Ta_Kegiatan.csv',
+        'keuangan_ta_mutasi'            => 'Ta_Mutasi.csv',
+        'keuangan_ta_pajak'             => 'Ta_Pajak.csv',
+        'keuangan_ta_pajak_rinci'       => 'Ta_PajakRinci.csv',
+        // 'keuangan_ta_pemda'               => 'Ta_Pemda.csv',
         'keuangan_ta_pencairan'           => 'Ta_Pencairan.csv',
         'keuangan_ta_perangkat'           => 'Ta_Perangkat.csv',
         'keuangan_ta_rab'                 => 'Ta_RAB.csv',

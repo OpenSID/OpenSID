@@ -339,25 +339,23 @@ function aksiBorongan(idForm, action) {
 	return false;
 }
 
-function modalBox()
-{
-	$('#modalBox').on('show.bs.modal', function(e)
-	{
-		var link = $(e.relatedTarget);
-		var title = link.data('title');
-		var size = link.data('size') ?? '';
-		var modal = $(this)
-		modal.find('.modal-title').text(title)
-		modal.find('.modal-dialog').addClass(size);
-		$(this).find('.fetched-data').load(link.attr('href'));
-		// tambahkan csrf token kalau ada form
-		if (modal.find("form")[0]) {
-			setTimeout(function() {
-				addCsrfField(modal.find("form")[0]);
-			}, 500);
-		}
-	});
-	return false;
+function modalBox() {
+    $('#modalBox').one('show.bs.modal', function(e) {
+        var link = $(e.relatedTarget);
+        var title = link.data('title');
+        var size = link.data('size') ?? '';
+        var modal = $(this)
+        modal.find('.modal-title').text(title)
+        modal.find('.modal-dialog').addClass(size);
+        $(this).find('.fetched-data').load(link.attr('href'));
+        // tambahkan csrf token kalau ada form
+        if (modal.find("form")[0]) {
+            setTimeout(function() {
+                addCsrfField(modal.find("form")[0]);
+            }, 500);
+        }
+    });
+    return false;
 }
 
 function cetakBox()
@@ -584,3 +582,104 @@ var supportsES6 = function() {
     return false;
   }
 }();
+
+function ditolak(id, ajax_url, redirect, title = 'Alasan Ditolak', text, placeHolders){
+
+  Swal.fire({
+    title: title,
+    input: 'textarea',
+    inputPlaceholder : placeHolders,
+    text: text,
+	  inputValidator: (value) => {
+	    if (!value) {
+		    return 'Kolom keterangan tidak boleh kosong'
+		  }
+	  },
+	  customClass:{
+	  	popup: 'swal-lg',
+	  	htmlContainer: 'swal-left swal-bold',
+	  },
+    showCancelButton: true,
+    confirmButtonText: 'Kirim',
+    cancelButtonText: 'Tutup',
+    showLoaderOnConfirm: true,
+    preConfirm: (alasan) => {
+      const formData = new FormData();
+      formData.append('sidcsrf', getCsrfToken());
+      formData.append('id', id);
+      formData.append('alasan', alasan);
+
+      return fetch(ajax_url, {
+              method: 'POST',
+              body: formData,
+      }).then(response => {
+          if (!response.ok) {
+              throw new Error(response.statusText)
+          }
+          return response.json()
+      })
+      .catch(error => {
+      	console.log(error)
+          Swal.showValidationMessage(
+            `Request failed: ${error}`
+          )
+      })
+    }
+  }).then((result) => {
+      if (result.isConfirmed) {
+          if (result.value.status == true) {
+              swal2_success(redirect, 'Berhasil dikembalikan');
+          } else {
+          		Swal.fire({ icon: 'error', title: result.value.message })
+          }
+      }
+  })
+}
+
+function swal2_success(to, message ="Berhasil disimpan") {
+	Swal.fire({
+	  icon: 'success',
+	  title: message,
+	  showConfirmButton: false,
+	  timer: 1500
+	}).then((result) => {
+	  window.location.replace(to);
+	})
+}
+
+function swal2_question(url_ajax, redirect, message, data, tolak = false) {
+	Swal.fire({
+    title: message,
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d73925',
+    confirmButtonText: 'Ya',
+    showDenyButton: tolak,
+    denyButtonColor: '#ffc107',
+    denyButtonText: `Tolak`,
+    cancelButtonText: `Tutup`,
+
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({title: 'Sedang Memproses', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
+      $.ajax({
+          url: url_ajax.confirm,
+          type: 'Post',
+          data: data,
+      })
+      .done(function() {
+          window.location.replace(redirect.confirm);
+      })
+      .fail(function(e) {
+      	Swal.fire({
+				  icon: 'error',
+				  text: e.statusText,
+				})
+      })
+    }else if(result.isDenied){
+    	ditolak(data.id, url_ajax.denied, redirect.denied);
+    }
+  })
+}
+

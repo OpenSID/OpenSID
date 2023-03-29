@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -141,7 +141,7 @@ class Program_bantuan_model extends MY_Model
                 // Data Penduduk; $peserta_id adalah NIK
                 $data                   = $this->get_penduduk($peserta_id);
                 $data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($data);
-                $data['kartu_nik']      = $data['id_peserta']      = $data['nik']; /// NIK Penduduk digunakan sebagai peserta
+                $data['kartu_nik']      = $data['id_peserta'] = $data['nik']; /// NIK Penduduk digunakan sebagai peserta
                 $data['judul_nik']      = 'NIK Penduduk';
                 $data['judul']          = 'Penduduk';
                 break;
@@ -152,7 +152,7 @@ class Program_bantuan_model extends MY_Model
                 $data = $this->get_penduduk($peserta_id);
                 // Data KK
                 $kk                     = $this->get_kk($data['id_kk']);
-                $data['no_kk']          = $data['id_peserta']          = $kk['no_kk']; // No KK digunakan sebagai peserta
+                $data['no_kk']          = $data['id_peserta'] = $kk['no_kk']; // No KK digunakan sebagai peserta
                 $data['nik_kk']         = $kk['nik_kk'];
                 $data['nama_kk']        = $kk['nama_kk'];
                 $data['alamat_wilayah'] = $this->wilayah_model->get_alamat_wilayah($kk);
@@ -163,7 +163,7 @@ class Program_bantuan_model extends MY_Model
 
             case 3:
                 // Data Penduduk; $peserta_id adalah No RTM (kolom no_kk)
-                $data                    = $this->rtm_model->get_kepala_rtm($peserta_id, $is_no_kk                    = true);
+                $data                    = $this->rtm_model->get_kepala_rtm($peserta_id, $is_no_kk = true);
                 $data['id_peserta']      = $data['no_kk']; // No RTM digunakan sebagai peserta
                 $data['nama_kepala_rtm'] = $data['nama'];
                 $data['kartu_nik']       = $data['nik'];
@@ -653,7 +653,7 @@ class Program_bantuan_model extends MY_Model
                 break;
 
             default:
-            }
+        }
 
         return [$hasil0, $hasil1, $hasil2];
     }
@@ -759,7 +759,7 @@ class Program_bantuan_model extends MY_Model
                 break;
 
             default:
-            }
+        }
         if (! $data_program == false) {
             return ['programkerja' => $data_program, 'profil' => $data_profil];
         }
@@ -933,7 +933,7 @@ class Program_bantuan_model extends MY_Model
                 break;
 
             default:
-            }
+        }
 
         return $data;
     }

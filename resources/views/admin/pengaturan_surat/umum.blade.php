@@ -70,9 +70,8 @@
                     <label class="col-sm-3 control-label">Orientasi Kertas</label>
                     <div class="col-sm-7">
                         <select class="form-control input-sm select2-tags required" name="orientasi">
-                            <option value="">-- Pilih Orientasi Kertas --</option>
                             @foreach ($orientations as $value)
-                                <option value="{{ $value }}" @selected($suratMaster->orientasi === $value)>
+                                <option value="{{ $value }}" @selected(($suratMaster->orientasi ?? $default_orientations) === $value)>
                                     {{ $value }}</option>
                             @endforeach
                         </select>
@@ -85,9 +84,8 @@
                     <label class="col-sm-3 control-label">Ukuran Kertas</label>
                     <div class="col-sm-7">
                         <select class="form-control input-sm select2-tags required" name="ukuran">
-                            <option value="">-- Pilih Ukuran Kertas --</option>
                             @foreach ($sizes as $value)
-                                <option value="{{ $value }}" @selected($suratMaster->ukuran === $value)>
+                                <option value="{{ $value }}" @selected(($suratMaster->ukuran ?? $default_sizes) === $value)>
                                     {{ $value }}</option>
                             @endforeach
                         </select>
@@ -134,6 +132,43 @@
                 </div>
             @endif
 
+            @if (isset($header))
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="mandiri">Tampilkan Header</label>
+                    <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+                        <label id="n1"
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($header)">
+                            <input id="q1" type="radio" name="header" class="form-check-input" type="radio"
+                                value="1" @checked($header) autocomplete="off">Ya
+                        </label>
+                        <label id="n2"
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$header)">
+                            <input id="q2" type="radio" name="header" class="form-check-input" type="radio"
+                                value="0" @checked(!$header) autocomplete="off">Tidak
+                        </label>
+                    </div>
+                </div>
+            @endif
+
+            @if (isset($footer))
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="mandiri">Tampilkan Footer</label>
+                    <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+                        <label id="n1"
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($footer)">
+                            <input id="q1" type="radio" name="footer" class="form-check-input" type="radio"
+                                value="1" @checked($footer) autocomplete="off">Ya
+                        </label>
+                        <label id="n2"
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$footer)">
+                            <input id="q2" type="radio" name="footer" class="form-check-input" type="radio"
+                                value="0" @checked(!$footer) autocomplete="off">Tidak
+                        </label>
+                    </div>
+                </div>
+            @endif
+
+
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="logo_garuda">Logo Burung Garuda</label>
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
@@ -150,77 +185,73 @@
                 </div>
             </div>
 
-            @if (in_array($suratMaster->jenis, [1, 2]))
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="mandiri">Sediakan di Layanan Mandiri</label>
-                    <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                        <label id="m1"
-                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($suratMaster->mandiri)">
-                            <input id="g1" type="radio" name="mandiri" class="form-check-input" type="radio"
-                                value="1" @checked($suratMaster->mandiri) autocomplete="off">Ya
-                        </label>
-                        <label id="m2"
-                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$suratMaster->mandiri)">
-                            <input id="g2" type="radio" name="mandiri" class="form-check-input" type="radio"
-                                value="0" @checked(!$suratMaster->mandiri) autocomplete="off">Tidak
-                        </label>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="mandiri">Sediakan di Layanan Mandiri</label>
+                <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+                    <label id="m1"
+                        class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($suratMaster->mandiri)">
+                        <input id="g1" type="radio" name="mandiri" class="form-check-input" type="radio"
+                            value="1" @checked($suratMaster->mandiri) autocomplete="off">Ya
+                    </label>
+                    <label id="m2"
+                        class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$suratMaster->mandiri)">
+                        <input id="g2" type="radio" name="mandiri" class="form-check-input" type="radio"
+                            value="0" @checked(!$suratMaster->mandiri) autocomplete="off">Tidak
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group" id="syarat"
+                {{ jecho($suratMaster->mandiri, false, 'style="display:none;"') }}>
+                <label class="col-sm-3 control-label" for="mandiri">Syarat Surat</label>
+                <div class="col-sm-7">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="tabeldata" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="checkall" /></th>
+                                    <th>NO</th>
+                                    <th>NAMA DOKUMEN</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
+            </div>
 
-                <div class="form-group" id="syarat"
-                    {{ jecho($suratMaster->mandiri, false, 'style="display:none;"') }}>
-                    <label class="col-sm-3 control-label" for="mandiri">Syarat Surat</label>
-                    <div class="col-sm-7">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="tabeldata" style="width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th><input type="checkbox" id="checkall" /></th>
-                                        <th>NO</th>
-                                        <th>NAMA DOKUMEN</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            @endif
         </div>
     </div>
 
-    @if (in_array($suratMaster->jenis, [1, 2]))
-        @push('scripts')
-            <script>
-                var TableData = $('#tabeldata').DataTable({
-                    responsive: true,
-                    processing: true,
-                    serverSide: true,
-                    bPaginate: false,
-                    ajax: "{{ route('surat_master.syaratsuratdatatables', $suratMaster->id) }}",
-                    columns: [{
-                            data: 'ceklist',
-                            class: 'padat',
-                            searchable: false,
-                            orderable: false
-                        },
-                        {
-                            data: 'DT_RowIndex',
-                            class: 'padat',
-                            searchable: false,
-                            orderable: false
-                        },
-                        {
-                            data: 'ref_syarat_nama',
-                            name: 'ref_syarat_nama',
-                            searchable: true,
-                            orderable: true
-                        },
-                    ],
-                    order: [
-                        [2, 'asc']
-                    ]
-                });
-            </script>
-        @endpush
-    @endif
+    @push('scripts')
+        <script>
+            var TableData = $('#tabeldata').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                bPaginate: false,
+                ajax: "{{ route('surat_master.syaratsuratdatatables', $suratMaster->id) }}",
+                columns: [{
+                        data: 'ceklist',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'ref_syarat_nama',
+                        name: 'ref_syarat_nama',
+                        searchable: true,
+                        orderable: true
+                    },
+                ],
+                order: [
+                    [2, 'asc']
+                ]
+            });
+        </script>
+    @endpush

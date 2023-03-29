@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,18 +29,23 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
+use App\Enums\FontSuratEnum;
 use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
-use App\Models\RefFontSurat;
+use App\Models\LogSurat;
+use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
+use App\Models\Sex;
+use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
+use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -112,35 +117,48 @@ class Surat_master extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         if ($id) {
-            $action      = 'Ubah';
             $suratMaster = FormatSurat::find($id) ?? show_404();
 
-            if (in_array($suratMaster->jenis, [1, 2])) {
-                $formAction = route('surat_master.update', $id);
-                $kodeIsian  = $this->getKodeIsian($suratMaster->url_surat);
-                $qrCode     = QRCodeExist($suratMaster->url_surat);
+            $data['action']      = 'Ubah';
+            $data['suratMaster'] = $suratMaster;
+
+            if (in_array($suratMaster->jenis, FormatSurat::RTF)) {
+                $data['formAction'] = route('surat_master.update', $id);
+                $data['qrCode']     = QRCodeExist($suratMaster->url_surat);
             } else {
-                $formAction = route('surat_master.update_baru', $id);
-                $kodeIsian  = json_decode($suratMaster->kode_isian);
+                $data['formAction'] = route('surat_master.update_baru', $id);
             }
         } else {
-            $action      = 'Tambah';
-            $formAction  = route('surat_master.insert');
-            $suratMaster = null;
+            $data['action']      = 'Tambah';
+            $data['formAction']  = route('surat_master.insert');
+            $data['suratMaster'] = null;
         }
 
         if (in_array($suratMaster->jenis, [3, 4, null])) {
-            $margins      = json_decode($suratMaster->margin) ?? FormatSurat::MARGINS;
-            $orientations = FormatSurat::ORIENTATAIONS;
-            $sizes        = FormatSurat::SIZES;
-            $qrCode       = true;
+            $data['margins']              = json_decode($suratMaster->margin) ?? FormatSurat::MARGINS;
+            $data['orientations']         = FormatSurat::ORIENTATAIONS;
+            $data['sizes']                = FormatSurat::SIZES;
+            $data['default_orientations'] = FormatSurat::DEFAULT_ORIENTATAIONS;
+            $data['default_sizes']        = FormatSurat::DEFAULT_SIZES;
+            $data['qrCode']               = true;
+            $data['header']               = $suratMaster->header ?? 1;
+            $data['footer']               = $suratMaster->footer ?? 1;
         }
 
-        $masaBerlaku      = FormatSurat::MASA_BERLAKU;
-        $klasifikasiSurat = KlasifikasiSurat::orderBy('kode')->enabled()->get(['kode', 'nama']);
-        $pengaturanSurat  = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
+        $data['form_isian']       = $this->form_isian();
+        $data['masaBerlaku']      = FormatSurat::MASA_BERLAKU;
+        $data['klasifikasiSurat'] = KlasifikasiSurat::orderBy('kode')->enabled()->get(['kode', 'nama']);
+        $data['pengaturanSurat']  = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
 
-        return view('admin.pengaturan_surat.form', compact('action', 'formAction', 'suratMaster', 'masaBerlaku', 'klasifikasiSurat', 'kodeIsian', 'margins', 'orientations', 'sizes', 'qrCode', 'pengaturanSurat'));
+        return view('admin.pengaturan_surat.form', $data);
+    }
+
+    private function form_isian()
+    {
+        return [
+            'daftar_jenis_kelamin' => Sex::pluck('nama', 'id'),
+            'daftar_status_dasar'  => StatusDasar::pluck('nama', 'id'),
+        ];
     }
 
     public function syaratSuratDatatables($id = null)
@@ -179,7 +197,7 @@ class Surat_master extends Admin_Controller
 
         $data = FormatSurat::find($id) ?? show_404();
 
-        if ($data->update(static::validate($this->request, $data->jenis, $id))) {
+        if ($data->update(static::validate($this->request, $data->jenis))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
 
@@ -204,7 +222,7 @@ class Surat_master extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    private function validate($request = [], $jenis = 4, $id = null)
+    private function validate($request = [], $jenis = 4)
     {
         $isian = array_combine(array_filter($request['nama_kode'], 'strlen'), array_filter($request['deskripsi_kode'], 'strlen'));
 
@@ -218,6 +236,13 @@ class Surat_master extends Admin_Controller
                 ];
             }
         }
+
+        $formIsian = [
+            'individu' => [
+                'sex'          => $request['individu_sex'] ?? null,
+                'status_dasar' => $request['individu_status_dasar'] ?? null,
+            ],
+        ];
 
         $nama_surat = nama_terbatas($request['nama']);
 
@@ -233,9 +258,12 @@ class Surat_master extends Admin_Controller
             'qr_code'             => $request['qr_code'],
             'logo_garuda'         => $request['logo_garuda'],
             'template_desa'       => $request['template_desa'],
+            'form_isian'          => json_encode($formIsian),
             'kode_isian'          => json_encode($kodeIsian),
             'orientasi'           => $request['orientasi'],
             'ukuran'              => $request['ukuran'],
+            'header'              => (int) $request['header'],
+            'footer'              => (int) $request['footer'],
         ];
 
         // Margin
@@ -246,82 +274,7 @@ class Surat_master extends Admin_Controller
             'bawah' => (float) $request['bawah'],
         ]);
 
-        if (null === $id) {
-            $data['created_by'] = auth()->id;
-        }
-
-        $data['updated_by'] = auth()->id;
-
         return $data;
-    }
-
-    private function getKodeIsian($urlSurat = null)
-    {
-        // Lokasi instalasi SID mungkin di sub-folder
-        require_once FCPATH . 'vendor/simplehtmldom/simplehtmldom/simple_html_dom.php';
-
-        $pathBawaan = FCPATH . 'template-surat/' . $urlSurat . '/' . $urlSurat . '.php';
-        $pathLokal  = FCPATH . LOKASI_SURAT_DESA . $urlSurat . '/' . $urlSurat . '.php';
-
-        if (file_exists($pathLokal)) {
-            $html = file_get_html($pathLokal);
-        } elseif (file_exists($pathBawaan)) {
-            $html = file_get_html($pathBawaan);
-        } else {
-            return [];
-        }
-        // Kumpulkan semua isian (tag input) di form surat
-        // Asumsi di form surat, struktur input seperti ini
-        // <tr>
-        // 		<th>Keterangan Isian</th>
-        // 		<td><input><td>
-        // </tr>
-        $inputs = [];
-
-        foreach ($html->find('input') as $input) {
-            if ($input->type == 'hidden') {
-                continue;
-            }
-            if ($input->title == 'Pilih Tanggal') {
-                $inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
-
-                continue;
-            }
-            if ($input->type == 'radio') {
-                $inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
-
-                continue;
-            }
-            if ($input->id == 'jam_1') {
-                $inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
-
-                continue;
-            }
-            if ($input->id == 'input_group') {
-                $inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
-
-                continue;
-            }
-            $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
-        }
-
-        foreach ($html->find('textarea') as $input) {
-            if ($input->type == 'hidden') {
-                continue;
-            }
-            $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
-        }
-
-        foreach ($html->find('select') as $input) {
-            if ($input->type == 'hidden') {
-                continue;
-            }
-            $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
-        }
-
-        $html->clear();
-
-        return $inputs;
     }
 
     // Versi baru
@@ -422,23 +375,65 @@ class Surat_master extends Admin_Controller
 
     public function pengaturan()
     {
-        $pengaturanSurat = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
-        $aksi            = route('surat_master.update');
-        $formAksi        = route('surat_master.edit_pengaturan');
-        $fonts           = RefFontSurat::all();
+        $data['pengaturanSurat'] = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
+        $data['alur']            = SettingAplikasi::whereKategori('alur_surat')->pluck('value', 'key')->toArray();
+        $data['tte']             = SettingAplikasi::whereKategori('tte')->pluck('value', 'key')->toArray();
+        $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
+            return $query->where('jabatan_id', '=', '1');
+        })->exists();
+        $data['sekdes'] = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
+            return $query->where('jabatan_id', '=', '2');
+        })->exists();
 
-        return view('admin.pengaturan_surat.pengaturan', compact('pengaturanSurat', 'aksi', 'formAksi', 'fonts'));
+        $data['ref_jabatan'] = RefJabatan::all();
+        $data['aksi']        = route('surat_master.update');
+        $data['formAksi']    = route('surat_master.edit_pengaturan');
+        $data['fonts']       = FontSuratEnum::DAFTAR;
+
+        return view('admin.pengaturan_surat.pengaturan', $data);
     }
 
     public function edit_pengaturan()
     {
         $this->redirect_hak_akses('u');
+        $data = $this->validasi_pengaturan($this->request);
 
-        foreach ($this->request as $key => $value) {
-            SettingAplikasi::whereKey($key)->update(['value' => $this->request[$key]]);
+        foreach ($data as $key => $value) {
+            SettingAplikasi::whereKey($key)->update(['value' => $value]);
+        }
+
+        // Perbarui log_surat jika ada perubahan pengaturan verifikasi kades / sekdes
+        if (! setting('verifikasi_kades') || ! setting('verifikasi_sekdes')) {
+            LogSurat::where('verifikasi_operator', LogSurat::PERIKSA)->update(['verifikasi_operator' => LogSurat::TERIMA]);
+
+            redirect_with('success', 'Berhasil Ubah Data dan Perbaharui Log Surat');
         }
 
         redirect_with('success', 'Berhasil Ubah Data');
+    }
+
+    protected static function validasi_pengaturan($request)
+    {
+        $validasi = [
+            'tinggi_header'     => (float) $request['tinggi_header'],
+            'header_surat'      => $request['header_surat'],
+            'tinggi_footer'     => (float) $request['tinggi_footer'],
+            'verifikasi_sekdes' => (int) $request['verifikasi_sekdes'],
+            'verifikasi_kades'  => ((int) $request['tte'] == 1) ? 1 : (int) $request['verifikasi_kades'],
+            'tte'               => (int) $request['tte'],
+            'font_surat'        => alfanumerik_spasi($request['font_surat']),
+        ];
+
+        if ($validasi['tte'] == 1) {
+            $validasi['footer_surat_tte'] = $request['footer_surat_tte'];
+            $validasi['tte_api']          = alamat_web($request['tte_api']);
+            $validasi['tte_username']     = $request['tte_username'];
+            $validasi['tte_password']     = $request['tte_password'];
+        } else {
+            $validasi['footer_surat'] = $request['footer_surat'];
+        }
+
+        return $validasi;
     }
 
     public function kode_isian($id = null)

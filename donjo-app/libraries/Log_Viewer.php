@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -120,6 +120,7 @@ class Log_Viewer
      * and return it's content that can then be echoed
      *
      * @param $fileName optional base64_encoded filename of the log file to process.
+     *
      * @returns the parse view file content as a string that can be echoed
      */
     public function showLogs()
@@ -323,7 +324,6 @@ class Log_Viewer
      * This function will extract the logs in the supplied
      * fileName
      *
-     * @param      $fileNameInBase64
      * @param bool $singleLine
      *
      * @return array|null
@@ -390,6 +390,7 @@ class Log_Viewer
      * in the underlying log file
      *
      * @returns array | each line of file contents is an entry in the returned array.
+     *
      * @params complete fileName
      *
      * @param mixed $fileName
@@ -414,7 +415,6 @@ class Log_Viewer
      * otherwise, it will return all file content as a single string with each line ending
      * in line break character "\n"
      *
-     * @param      $fileName
      * @param bool $singleLine
      *
      * @return bool|string
@@ -436,6 +436,7 @@ class Log_Viewer
      *
      * @param boolean. If true returns the basename of the files otherwise full path
      * @param mixed $basename
+     *
      * @returns array of file
      */
     private function getFiles($basename = true)
@@ -476,7 +477,7 @@ class Log_Viewer
         //if we're to return the base name of the files
         //let's do that here
         foreach ($files as $file) {
-            array_push($finalFiles, ['file_b64' => base64_encode(basename($file)), 'file_name' => basename($file)]);
+            $finalFiles[] = ['file_b64' => base64_encode(basename($file)), 'file_name' => basename($file)];
         }
 
         return $finalFiles;
@@ -524,15 +525,12 @@ class Log_Viewer
      * name as sent from the browser/client
      * and append the LOG_FOLDER_PREFIX and decode it from base64
      *
-     * @param $fileNameInBase64
-     *
      * @return string|null
      *
      * @internal param $fileName
      */
     private function prepareRawFileName($fileNameInBase64)
     {
-
         //let's determine what the current log file is
         if (null !== $fileNameInBase64 && ! empty($fileNameInBase64)) {
             $currentFile = $this->logFolderPath . '/' . basename(base64_decode($fileNameInBase64, true));

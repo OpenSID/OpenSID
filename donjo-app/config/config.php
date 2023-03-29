@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -499,7 +499,7 @@ $config['csrf_token_name']   = 'sidcsrf';
 $config['csrf_cookie_name']  = 'sidcsrf';
 $config['csrf_expire']       = 7200;
 $config['csrf_regenerate']   = true;
-$config['csrf_exclude_uris'] = [];
+$config['csrf_exclude_uris'] = ['api/tte'];
 
 /*
 |--------------------------------------------------------------------------
@@ -609,11 +609,19 @@ $config['api_idm'] = 'https://idm.kemendesa.go.id/open/api/desa/rumusan';
 
 /*
 |--------------------------------------------------------------------------
+| API SDGS Kemendesa
+|--------------------------------------------------------------------------
+|
+*/
+$config['api_sdgs'] = 'https://sdgsdev.kemendesa.go.id/SIDcutoff/goals?wilayah';
+
+/*
+|--------------------------------------------------------------------------
 | Path View Blade
 |--------------------------------------------------------------------------
 |
 */
-$config['views_blade'] = RESOURCESPATH . '/views/';
+$config['views_blade'] = RESOURCESPATH . 'views/';
 
 /*
 |--------------------------------------------------------------------------
@@ -621,4 +629,4 @@ $config['views_blade'] = RESOURCESPATH . '/views/';
 |--------------------------------------------------------------------------
 |
 */
-$config['cache_blade'] = STORAGEPATH . '/framework/views/';
+$config['cache_blade'] = STORAGEPATH . 'framework/views/';

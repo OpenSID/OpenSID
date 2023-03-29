@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -160,26 +160,12 @@ class Perangkat extends Web_Controller
 
     public function masuk($ektp = false)
     {
-        $cek_gawai   = (setting('ip_adress_kehadiran') === $this->ip || setting('mac_adress_kehadiran') === $this->mac || setting('id_pengunjung_kehadiran') === $this->pengunjung);
-        $cek_hari    = HariLibur::where('tanggal', '=', date('Y-m-d'))->first();
-        $cek_weekend = JamKerja::libur()->first();
-        $cek_jam     = JamKerja::jamKerja()->first();
-
         $data = [
             'ip_address'    => $this->ip,
             'mac_address'   => $this->mac,
             'id_pengunjung' => $this->pengunjung,
             'ektp'          => $ektp,
-            'cek'           => [
-                'status' => null === $cek_hari && null === $cek_jam && null === $cek_weekend && $cek_gawai === true,
-                'judul'  => 'Tidak bisa masuk!',
-                'pesan'  => $this->getStatusPesan([
-                    'cek_gawai'   => $cek_gawai,
-                    'cek_hari'    => $cek_hari,
-                    'cek_weekend' => $cek_weekend,
-                    'cek_jam'     => $cek_jam,
-                ]),
-            ],
+            'cek'           => $this->deteksi(),
         ];
 
         return view('kehadiran.masuk', $data);
@@ -214,15 +200,40 @@ class Perangkat extends Web_Controller
 
     public function logout()
     {
-        $this->session->sess_destroy();
-        redirect('kehadiran');
+        $this->session->unset_userdata(['masuk', 'kehadiran', 'mac_address']);
+
+        redirect('kehadiran/masuk');
     }
 
     private function cekLogin()
     {
+        // Paksa keluar jika perangkat tidak terdeteksi
+        if (! $this->deteksi()['status']) {
+            return $this->logout();
+        }
+
         if (! $this->session->masuk) {
             redirect($this->url);
         }
+    }
+
+    private function deteksi()
+    {
+        $cek_gawai   = (setting('ip_adress_kehadiran') === $this->ip || setting('mac_adress_kehadiran') === $this->mac || setting('id_pengunjung_kehadiran') === $this->pengunjung);
+        $cek_hari    = HariLibur::where('tanggal', '=', date('Y-m-d'))->first();
+        $cek_weekend = JamKerja::libur()->first();
+        $cek_jam     = JamKerja::jamKerja()->first();
+
+        return [
+            'status' => null === $cek_hari && null === $cek_jam && null === $cek_weekend && $cek_gawai === true,
+            'judul'  => 'Tidak bisa masuk!',
+            'pesan'  => $this->getStatusPesan([
+                'cek_gawai'   => $cek_gawai,
+                'cek_hari'    => $cek_hari,
+                'cek_weekend' => $cek_weekend,
+                'cek_jam'     => $cek_jam,
+            ]),
+        ];
     }
 
     private function getStatusPesan(array $cek)

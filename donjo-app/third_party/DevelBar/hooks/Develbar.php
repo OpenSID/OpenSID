@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -368,7 +368,7 @@ class Develbar
      */
     protected function database_section($return_view = true)
     {
-        $dbs      = $data      = [];
+        $dbs      = $data = [];
         $cobjects = get_object_vars($this->CI);
 
         foreach ($cobjects as $name => $cobject) {
@@ -446,7 +446,7 @@ class Develbar
             }
         }
 
-        $data                               = [
+        $data = [
             'icon'         => $data['icon'] = image_base64_encode($this->assets_folder . 'images/hook.png'),
             'loaded_hooks' => $hooks,
             'total_hooks'  => $total_hooks,
@@ -467,7 +467,7 @@ class Develbar
         $loaded_libraries = &is_loaded();
         asort($loaded_libraries);
 
-        $data                                   = [
+        $data = [
             'icon'             => $data['icon'] = image_base64_encode($this->assets_folder . 'images/library.png'),
             'loaded_libraries' => $loaded_libraries,
         ];
@@ -491,7 +491,7 @@ class Develbar
         $helpers = array_keys($this->CI->load->get_helpers());
         asort($helpers);
 
-        $data                          = [
+        $data = [
             'icon'    => $data['icon'] = image_base64_encode($this->assets_folder . 'images/helper.png'),
             'helpers' => $helpers,
         ];
@@ -515,7 +515,7 @@ class Develbar
         $models = $this->CI->load->get_models();
         asort($models);
 
-        $data                         = [
+        $data = [
             'icon'   => $data['icon'] = image_base64_encode($this->assets_folder . 'images/model.png'),
             'models' => $this->CI->load->get_models(),
         ];
@@ -548,7 +548,7 @@ class Develbar
             $_views[$path] = $data;
         }
 
-        $data                        = [
+        $data = [
             'icon'  => $data['icon'] = image_base64_encode($this->assets_folder . 'images/view.png'),
             'views' => $_views,
         ];
@@ -566,7 +566,7 @@ class Develbar
     protected function config_section($return_view = true)
     {
         unset($this->CI->config->config['develbar']);
-        $data                                = [
+        $data = [
             'icon'          => $data['icon'] = image_base64_encode($this->assets_folder . 'images/config.png'),
             'configuration' => $this->CI->config->config,
         ];
@@ -585,7 +585,7 @@ class Develbar
      */
     protected function session_section()
     {
-        $data                          = [
+        $data = [
             'icon'    => $data['icon'] = image_base64_encode($this->assets_folder . 'images/session.png'),
             'session' => isset($this->CI->session) ? $this->CI->session->all_userdata() : [],
         ];
@@ -600,7 +600,7 @@ class Develbar
      */
     protected function ajax_section()
     {
-        $data                       = [
+        $data = [
             'icon' => $data['icon'] = image_base64_encode($this->assets_folder . 'images/ajax.png'),
         ];
 

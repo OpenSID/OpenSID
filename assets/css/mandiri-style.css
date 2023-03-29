@@ -510,6 +510,12 @@ a.pendapat > p {
   }
 }
 
+.btn-info.active, .btn-info.active:focus, .btn-info.active:hover, .open>.dropdown-toggle.btn-info.focus, .open>.dropdown-toggle.btn-info:hover {
+    color: #fff;
+    background-color: #1788aa;
+    border-color: #1b6d85;
+}
+
 .carousel-indicators li,
 .carousel-indicators .active {
   height: 10px;

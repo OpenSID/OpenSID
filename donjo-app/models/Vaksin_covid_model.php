@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Vaksin_covid_model extends MY_Model
 {
@@ -435,7 +435,6 @@ class Vaksin_covid_model extends MY_Model
 
             if ($sheet->getName() == 'Vaksin') {
                 foreach ($sheet->getRowIterator() as $row) {
-
                     // Abaikan baris pertama yg berisi nama kolom
                     if (! $baris_pertama) {
                         $baris_pertama = true;
@@ -481,8 +480,8 @@ class Vaksin_covid_model extends MY_Model
                                     }
                                 } else {
                                     $pesan .= "Pesan Lainnya : Baris {$nomor_baris} kolom vaksin-2 tidak valid, hanya vaksin 1 yang tersimpan.</br>";
-                                    $vaksin_2       = $vaksin_3       = 0;
-                                    $tgl_vaksin_2   = $tgl_vaksin_3   = null;
+                                    $vaksin_2       = $vaksin_3 = 0;
+                                    $tgl_vaksin_2   = $tgl_vaksin_3 = null;
                                     $jenis_vaksin_2 = $jenis_vaksin_3 = null;
                                 }
                             } else {

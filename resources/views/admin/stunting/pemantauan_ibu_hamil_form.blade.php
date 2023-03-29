@@ -46,6 +46,17 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-3 control-label">Tanggal Periksa</label>
+                        <div class="col-sm-9">
+                            <input type="text"
+                                class="form-control input-sm {{ $ibuHamil->created_at ? 'datepicker' : 'tgl_sekarang' }} required"
+                                name="tanggal_periksa"
+                                placeholder="Masukkan tanggal periksa"
+                                value="{{ $ibuHamil->created_at ? date('d-m-Y', strtotime($ibuHamil->created_at)) : date('d-m-Y') }}"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-3 control-label">Posyandu</label>
                         <div class="col-sm-9">
                             <select class="form-control input-sm required select2" name="id_posyandu" style="width:100%;">

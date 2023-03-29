@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -1184,7 +1184,7 @@ class Keuangan_grafik_model extends CI_model
     private function data_widget_pendapatan($tahun, $opt = false)
     {
         if ($opt) {
-            $raw_data       = $this->r_pd_widget($tahun, $opt       = true);
+            $raw_data       = $this->r_pd_widget($tahun, $opt = true);
             $res_pendapatan = [];
             $tmp_pendapatan = [];
 
@@ -1204,7 +1204,7 @@ class Keuangan_grafik_model extends CI_model
                 $tmp_pendapatan[$r['jenis_pendapatan']]['realisasi'] = ($r['realisasi'] ?: 0);
             }
         } else {
-            $raw_data       = $this->r_pd_widget($tahun, $opt       = false);
+            $raw_data       = $this->r_pd_widget($tahun, $opt = false);
             $res_pendapatan = [];
             $tmp_pendapatan = [];
 
@@ -1239,7 +1239,7 @@ class Keuangan_grafik_model extends CI_model
     private function data_widget_belanja($tahun, $opt = false)
     {
         if ($opt) {
-            $raw_data    = $this->r_bd_widget($tahun, $opt    = true);
+            $raw_data    = $this->r_bd_widget($tahun, $opt = true);
             $res_belanja = [];
             $tmp_belanja = [];
 
@@ -1271,7 +1271,7 @@ class Keuangan_grafik_model extends CI_model
                 $tmp_belanja[$r['jenis_belanja']]['realisasi'] = ($r['realisasi'] ?: 0);
             }
         } else {
-            $raw_data    = $this->r_bd_widget($tahun, $opt    = false);
+            $raw_data    = $this->r_bd_widget($tahun, $opt = false);
             $res_belanja = [];
             $tmp_belanja = [];
 
@@ -1318,7 +1318,7 @@ class Keuangan_grafik_model extends CI_model
     private function data_widget_pelaksanaan($tahun, $opt = false)
     {
         if ($opt) {
-            $raw_data        = $this->rp_apbd_widget($tahun, $opt        = true);
+            $raw_data        = $this->rp_apbd_widget($tahun, $opt = true);
             $res_pelaksanaan = [];
             $tmp_pelaksanaan = [];
 
@@ -1358,7 +1358,7 @@ class Keuangan_grafik_model extends CI_model
                 $tmp_pelaksanaan[$r['jenis_pelaksanaan']]['realisasi'] = ($r['realisasi'] ?: 0);
             }
         } else {
-            $raw_data        = $this->rp_apbd_widget($tahun, $opt        = false);
+            $raw_data        = $this->rp_apbd_widget($tahun, $opt = false);
             $res_pelaksanaan = [];
             $tmp_pelaksanaan = [];
 
@@ -1442,11 +1442,11 @@ class Keuangan_grafik_model extends CI_model
 
     private function data_keuangan_tema($tahun)
     {
-        $data['res_pelaksanaan']            = $this->data_widget_pelaksanaan($tahun, $opt            = false);
+        $data['res_pelaksanaan']            = $this->data_widget_pelaksanaan($tahun, $opt = false);
         $data['res_pelaksanaan']['laporan'] = 'APBDes ' . $tahun . ' Pelaksanaan';
-        $data['res_pendapatan']             = $this->data_widget_pendapatan($tahun, $opt             = false);
+        $data['res_pendapatan']             = $this->data_widget_pendapatan($tahun, $opt = false);
         $data['res_pendapatan']['laporan']  = 'APBDes ' . $tahun . ' Pendapatan';
-        $data['res_belanja']                = $this->data_widget_belanja($tahun, $opt                = false);
+        $data['res_belanja']                = $this->data_widget_belanja($tahun, $opt = false);
         $data['res_belanja']['laporan']     = 'APBDes ' . $tahun . ' Pembelanjaan';
 
         return $data;

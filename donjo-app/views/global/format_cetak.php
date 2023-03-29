@@ -81,7 +81,7 @@
 					<?php if (! empty($pamong_ketahui)) :?>
 						<td colspan="<?= $letak_ttd[1]; ?>" width=<?= $width ? '"' . (0.2 * $width) . 'mm;"' : '20%'?>>
 							Mengetahui
-							<br><?= $pamong_ketahui['jabatan'] . ' ' . $config['nama_desa']?>
+							<br><?= $pamong_ketahui['pamong_jabatan'] . ' ' . $config['nama_desa']?>
 							<br><br><br><br>
 							<br><u>( <?= $pamong_ketahui['nama'] ?? $pamong_ketahui['pamong_nama']?> )</u>
 							<br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ketahui['pamong_nip']?>
@@ -90,7 +90,7 @@
 					<td colspan="<?= $letak_ttd[2]; ?>" width=<?= $width ? '"' . (0.4 * $width) . 'mm;"' : '40%'?>>&nbsp;</td>
 					<td width=<?= $width ? '"' . (0.2 * $width) . 'mm;"' : '20%'?> nowrap>
 						<?= ucwords($this->setting->sebutan_desa) . ' ' . $config['nama_desa']?>, <?= tgl_indo($tgl_cetak ? date('Y m d', strtotime($tgl_cetak)) : date('Y m d'))?>
-						<br><?= $pamong_ttd['jabatan'] . ' ' . $config['nama_desa']?>
+						<br><?= $pamong_ttd['pamong_jabatan'] . ' ' . $config['nama_desa']?>
 						<br><br><br><br>
 						<br><u>( <?= $pamong_ttd['nama'] ?? $pamong_ttd['pamong_nama'] ?> )</u>
 						<br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ttd['pamong_nip']?>

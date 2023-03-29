@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -204,6 +204,13 @@ class Periksa_model extends MY_Model
         if (! empty($tabel_invalid_date = $this->deteksi_invalid_date())) {
             $this->periksa['masalah'][]          = 'tabel_invalid_date';
             $this->periksa['tabel_invalid_date'] = $tabel_invalid_date;
+        }
+
+        // Error table doesn't exist
+        if ($db_error_code === 1146) {
+            $calon_ini                  = $this->deteksi_table_doesnt_exist($db_error_message);
+            $this->periksa['masalah'][] = 'table_not_exist';
+            $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
         }
 
         return $calon;
@@ -394,6 +401,20 @@ class Periksa_model extends MY_Model
         }
 
         return $tabel;
+    }
+
+    private function deteksi_table_doesnt_exist($table = null)
+    {
+        $database = $this->db->database;
+        $table    = str_replace(["Table '", $database, '.', "' doesn't exist"], '', $table);
+
+        switch ($table) {
+            case 'ref_penduduk_hamil':
+                return '22.02';
+
+            default:
+                return null;
+        }
     }
 
     public function perbaiki()

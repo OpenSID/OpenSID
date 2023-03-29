@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -119,20 +119,16 @@ class Bumindes_penduduk_sementara extends Admin_Controller
 
     public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
     {
-        $data = [
-            'aksi'           => $aksi,
-            'main'           => $this->penduduk_model->list_data($o, 0),
-            'config'         => $this->header['desa'],
-            'pamong_ketahui' => $this->pamong_model->get_ttd(),
-            'pamong_ttd'     => $this->pamong_model->get_ub(),
-            'bulan'          => $this->session->filter_bulan ?: date('m'),
-            'tahun'          => $this->session->filter_tahun ?: date('Y'),
-            'tgl_cetak'      => $_POST['tgl_cetak'],
-            // pengaturan data untuk format cetak/unduh
-            'file'      => 'Buku Penduduk Sementara',
-            'isi'       => 'bumindes/penduduk/sementara/content_sementara_cetak',
-            'letak_ttd' => ['2', '2', '9'],
-        ];
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['main']      = $this->penduduk_model->list_data($o, 0);
+        $data['config']    = $this->header['desa'];
+        $data['bulan']     = $this->session->filter_bulan ?: date('m');
+        $data['tahun']     = $this->session->filter_tahun ?: date('Y');
+        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
+        $data['file']      = 'Buku Penduduk Sementara';
+        $data['isi']       = 'bumindes/penduduk/sementara/content_sementara_cetak';
+        $data['letak_ttd'] = ['2', '2', '9'];
 
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;

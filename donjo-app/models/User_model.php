@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -249,7 +249,7 @@ class User_model extends CI_Model
 
     private function list_data_sql()
     {
-        $sql = ' FROM user u, user_grup g WHERE u.id_grup = g.id ';
+        $sql = ' FROM user u LEFT JOIN tweb_desa_pamong p ON u.pamong_id = p.pamong_id, user_grup g WHERE u.id_grup = g.id ';
         $sql .= $this->search_sql();
         $sql .= $this->filter_sql();
 
@@ -290,7 +290,7 @@ class User_model extends CI_Model
         // Paging sql
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
         // Query utama
-        $sql = 'SELECT u.*, g.nama as grup ' . $this->list_data_sql();
+        $sql = 'SELECT u.*, p.pamong_status, g.nama as grup ' . $this->list_data_sql();
         $sql .= $order_sql;
         $sql .= $paging_sql;
 
@@ -328,8 +328,10 @@ class User_model extends CI_Model
         $data['password'] = $pwHash;
         $data['session']  = md5(now());
 
-        $data['foto'] = $this->urusFoto();
-        $data['nama'] = strip_tags($data['nama']);
+        $data['foto']           = $this->urusFoto();
+        $data['nama']           = strip_tags($data['nama']);
+        $data['notif_telegram'] = (int) $data['notif_telegram'];
+        $data['id_telegram']    = (int) $data['id_telegram'];
 
         if (! $this->db->insert('user', $data)) {
             $this->session->success   = -1;
@@ -363,6 +365,14 @@ class User_model extends CI_Model
             $data['foto'] = $post['foto'];
         }
 
+        if (isset($post['notif_telegram'])) {
+            $data['notif_telegram'] = (int) $post['notif_telegram'];
+        }
+
+        if (isset($post['id_telegram'])) {
+            $data['id_telegram'] = (int) $post['id_telegram'];
+        }
+
         return $data;
     }
 
@@ -391,7 +401,7 @@ class User_model extends CI_Model
 
         if (
             empty($data['username']) || empty($data['password'])
-            || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())
+                                     || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())
         ) {
             session_error(' -> Nama, Username dan Kata Sandi harus diisi');
             redirect('man_user');
@@ -569,11 +579,12 @@ class User_model extends CI_Model
     {
         $data = $this->periksa_input_password($id);
 
-        $data['nama'] = alfanumerik_spasi($this->input->post('nama'));
+        $data['nama']           = alfanumerik_spasi($this->input->post('nama'));
+        $data['notif_telegram'] = (int) $this->input->post('notif_telegram');
+        $data['id_telegram']    = alfanumerik($this->input->post('id_telegram'));
         // Update foto
         $data['foto'] = $this->urusFoto($id);
-        $hasil        = $this->db->where('id', $id)
-            ->update('user', $data);
+        $hasil        = $this->db->where('id', $id)->update('user', $data);
 
         // Untuk Blade
         $this->session->isAdmin = User::whereId($id)->first();
@@ -619,8 +630,6 @@ class User_model extends CI_Model
      * - fail: nama berkas lama, kalau ada
      *
      * @param mixed $idUser
-     *
-     * @return
      */
     private function urusFoto($idUser = '')
     {
@@ -669,8 +678,6 @@ class User_model extends CI_Model
      * @param mixed $upload_path
      * @param mixed $lokasi
      * @param mixed $redirect
-     *
-     * @return
      */
     private function uploadFoto($allowed_types, $upload_path, $lokasi, $redirect)
     {
