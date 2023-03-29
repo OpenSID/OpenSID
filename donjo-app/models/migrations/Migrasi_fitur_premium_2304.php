@@ -52,7 +52,7 @@ class Migrasi_fitur_premium_2304 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2303');
         $hasil = $hasil && $this->migrasi_2023030271($hasil);
         $hasil = $hasil && $this->migrasi_2023031551($hasil);
-        // $hasil = $hasil && $this->tambah_kolom_kecamatan($hasil);
+        $hasil = $hasil && $this->tambah_kolom_kecamatan($hasil);
         $hasil = $hasil && $this->suratPermohonanAktaLahir($hasil);
         $hasil = $hasil && $this->suratKeteranganBepergian($hasil);
         $hasil = $hasil && $this->migrasi_2023032851($hasil);
