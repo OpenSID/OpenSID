@@ -61,6 +61,7 @@ class Pelanggan extends Admin_Controller
 
     public function index()
     {
+        unset($this->header['perbaharui_langganan']);
         $response = $this->notif_model->api_pelanggan_pemesanan();
 
         kirim_versi_opensid();
@@ -77,6 +78,8 @@ class Pelanggan extends Admin_Controller
 
     public function peringatan()
     {
+        // hapus auto perbarui
+        unset($this->header['perbaharui_langganan']);
         if (empty($this->session->error_premium)) {
             redirect('hom_sid');
         }
@@ -139,6 +142,7 @@ class Pelanggan extends Admin_Controller
 
     public function pemesanan()
     {
+        $this->load->helper('file');
         if ($this->input->is_ajax_request()) {
             if (config_item('demo_mode')) {
                 $this->cache->hapus_cache_untuk_semua('status_langganan');
@@ -162,6 +166,16 @@ class Pelanggan extends Admin_Controller
                         'status'  => false,
                         'message' => ucwords($this->setting->sebutan_desa . ' ' . $this->header['desa']['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan') . ' atau Token yang di input tidak sesuai dengan kode desa',
                     ]);
+                }
+
+                // periksa file config dan ganti token jika tersedia
+                if (config_item('token_layanan') != null) {
+                    file_put_contents(LOKASI_CONFIG_DESA . '/config.php', implode(
+                        '',
+                        array_map(function ($data) {
+                            return stristr($data, 'token_layanan') ? "\$config['token_layanan']  = '" . $this->request['body']['token'] . "';\n" : $data;
+                        }, file(LOKASI_CONFIG_DESA . '/config.php'))
+                    ));
                 }
 
                 $post['layanan_opendesa_token'] = $this->request['body']['token'];
