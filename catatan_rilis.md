@@ -22,6 +22,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 16. [#6510](https://github.com/OpenSID/OpenSID/issues/6510) Perbaikan modul keuangan laporan bidang semester 1 tidak sesuai.
 17. [#6521](https://github.com/OpenSID/OpenSID/issues/6521) Perbaikan install awal menggunakan config kode_desa memiliki perbedaan dengan manual.
 18. [#6486](https://github.com/OpenSID/OpenSID/issues/6486) Perbaikan anjungan tidak dapat digunakan padahal fitur premium sudah aktif.
+19. [#6508](https://github.com/OpenSID/OpenSID/issues/6508) Perbaikan migrasi yang hilang pada surat keterangan kematian.
 
 #### Perubahan Teknis
 

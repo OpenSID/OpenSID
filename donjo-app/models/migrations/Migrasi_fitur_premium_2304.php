@@ -51,6 +51,7 @@ class Migrasi_fitur_premium_2304 extends MY_model
         $hasil = $hasil && $this->migrasi_2023030271($hasil);
         $hasil = $hasil && $this->migrasi_2023031551($hasil);
         $hasil = $hasil && $this->migrasi_2023032351($hasil);
+        $hasil = $hasil && $this->migrasi_2023032851($hasil);
 
         return $hasil && true;
     }
@@ -94,13 +95,25 @@ class Migrasi_fitur_premium_2304 extends MY_model
         $config = DB::table('config')->first();
 
         if ($config) {
-            $hasil = $hasil && DB::table('config')->update([
-                'kode_desa'      => bilangan($config->kode_desa),
-                'kode_kecamatan' => bilangan($config->kode_kecamatan),
-                'kode_kabupaten' => bilangan($config->kode_kabupaten),
-                'kode_propinsi'  => bilangan($config->kode_propinsi),
-            ]);
+            try {
+                DB::table('config')->update([
+                    'kode_desa'      => bilangan($config->kode_desa),
+                    'kode_kecamatan' => bilangan($config->kode_kecamatan),
+                    'kode_kabupaten' => bilangan($config->kode_kabupaten),
+                    'kode_propinsi'  => bilangan($config->kode_propinsi),
+                ]);
+            } catch (Exception $e) {
+                $hasil = false;
+            }
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023032851($hasil)
+    {
+        // Ganti lampiran f-2.29.php menjadi f-2.01.php
+        DB::table('tweb_surat_format')->where('lampiran', 'f-2.29.php')->update(['lampiran' => 'f-2.01.php']);
 
         return $hasil;
     }
