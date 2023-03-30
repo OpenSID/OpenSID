@@ -23,11 +23,12 @@
                         <td>Data Kategori</td>
                         <td>Pilihan</td>
                     </tr>
+
                     <tr>
                         <td>Data Individu</td>
                         <td>
                             @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
-                            <select class="form-control input-sm select2" name="data_utama">
+                            <select id="data_utama" class="form-control input-sm select2" name="data_utama">
                                 <option value="1" @selected(1 == $suratMaster->form_isian->data)>PENDUDUK {{ $desa_pend }}
                                 </option>
                                 <option value="2" @selected(2 == $suratMaster->form_isian->data)>PENDUDUK LUAR {{ $desa_pend }}
@@ -35,7 +36,8 @@
                             </select>
                         </td>
                     </tr>
-                    <tr>
+
+                    <tr class="warga_desa">
                         <td>Jenis Kelamin</td>
                         <td>
                             <select class="form-control input-sm select2" name="individu_sex">
@@ -48,7 +50,7 @@
                         </td>
                     </tr>
 
-                    <tr>
+                    <tr class="warga_desa">
                         <td>Jenis Peristiwa</td>
                         <td>
                             <select class="form-control input-sm select2" name="individu_status_dasar">
@@ -61,10 +63,11 @@
                         </td>
                     </tr>
 
-                    <tr>
+                    <tr class="warga_desa">
                         <td>Status Hubungan Dalam Keluarga (SHDK)</td>
                         <td>
-                            <select class="form-control input-sm select2" name="individu_kk_level">
+                            <select id="individu_kk_level" class="form-control input-sm select2"
+                                name="individu_kk_level">
                                 <option value="">SEMUA</option>
                                 @foreach ($form_isian['daftar_shdk'] as $key => $data)
                                     <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->individu->kk_level)>{{ $data }}
@@ -78,8 +81,28 @@
         </div>
         <hr>
 
-        {{-- include kode isian --}}
         @include('admin.pengaturan_surat.kode_isian')
 
     </div>
 </div>
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var utama = `{{ $suratMaster->form_isian->data }}`;
+
+            data_utama(utama);
+
+            $('#data_utama').on('select2:select', function(e) {
+                data_utama(e.params.data.id)
+            });
+        });
+
+        function data_utama(tipe) {
+            if (tipe == 2) {
+                $('.warga_desa').hide();
+            } else {
+                $('.warga_desa').show();
+            }
+        }
+    </script>
+@endpush

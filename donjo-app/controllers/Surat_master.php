@@ -271,12 +271,16 @@ class Surat_master extends Admin_Controller
 
         $formIsian = [
             'data'     => $request['data_utama'] ?? 1,
-            'individu' => [
+            'individu' => null,
+        ];
+
+        if ($request['data_utama'] != 2) {
+            $formIsian['individu'] = [
                 'sex'          => $request['individu_sex'] ?? null,
                 'status_dasar' => $request['individu_status_dasar'] ?? null,
                 'kk_level'     => $request['individu_kk_level'] ?? null,
-            ],
-        ];
+            ];
+        }
 
         $data = [
             'nama'                => nama_terbatas($request['nama']),

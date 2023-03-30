@@ -48,57 +48,59 @@
             <input type="hidden" id="url_surat" name="url_surat" value="{{ $url }}">
             <input type="hidden" id="url_remote" name="url_remote" value="{{ site_url('surat/nomor_surat_duplikat') }}">
 
-            @if ($penduduk && $individu)
-                @include('admin.surat.konfirmasi_pemohon')
+            @if ($penduduk)
+                @if ($individu)
+                    @include('admin.surat.konfirmasi_pemohon')
 
-                @if ($anggota)
-                    <div class="form-group">
-                        <label for="keperluan" class="col-sm-3 control-label">Data Keluarga / KK</label>
-                        <div class="col-sm-8">
-                            <a id="showData" class="btn btn-social btn-danger btn-sm"><i class="fa fa-search-plus"></i>
-                                Tampilkan</a>
-                            <a id="hideData" class="btn btn-social btn-danger btn-sm"><i class="fa fa-search-minus"></i>
-                                Sembunyikan</a>
-                        </div>
-                    </div>
-
-                    <div id="kel" class="form-group hide">
-                        <label for="pengikut" class="col-sm-3 control-label"></label>
-                        <div class="col-sm-8">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover tabel-daftar">
-                                    <thead class="bg-gray disabled color-palette">
-                                        <tr>
-                                            <th>No</th>
-                                            <th>NIK</th>
-                                            <th>Nama</th>
-                                            <th>Jenis Kelamin</th>
-                                            <th>Tempat Tanggal Lahir</th>
-                                            <th>Hubungan</th>
-                                            <th>Status Kawin</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($anggota as $key => $data)
-                                            <tr>
-                                                <td class="padat">{{ $key + 1 }}</td>
-                                                <td class="padat">{{ $data->nik }}</td>
-                                                <td nowrap>{{ $data->nama }}</td>
-                                                <td nowrap>{{ $data->jenisKelamin->nama }}</td>
-                                                <td nowrap>{{ $data->tempatlahir }},
-                                                    {{ tgl_indo($data->tanggallahir) }}
-                                                </td>
-                                                <td nowrap>{{ $data->pendudukHubungan->nama }}</td>
-                                                <td nowrap>{{ $data->statusKawin->nama }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                    @if ($anggota)
+                        <div class="form-group">
+                            <label for="keperluan" class="col-sm-3 control-label">Data Keluarga / KK</label>
+                            <div class="col-sm-8">
+                                <a id="showData" class="btn btn-social btn-danger btn-sm"><i class="fa fa-search-plus"></i>
+                                    Tampilkan</a>
+                                <a id="hideData" class="btn btn-social btn-danger btn-sm"><i
+                                        class="fa fa-search-minus"></i>
+                                    Sembunyikan</a>
                             </div>
                         </div>
-                    </div>
-                @endif
 
+                        <div id="kel" class="form-group hide">
+                            <label for="pengikut" class="col-sm-3 control-label"></label>
+                            <div class="col-sm-8">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover tabel-daftar">
+                                        <thead class="bg-gray disabled color-palette">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>NIK</th>
+                                                <th>Nama</th>
+                                                <th>Jenis Kelamin</th>
+                                                <th>Tempat Tanggal Lahir</th>
+                                                <th>Hubungan</th>
+                                                <th>Status Kawin</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($anggota as $key => $data)
+                                                <tr>
+                                                    <td class="padat">{{ $key + 1 }}</td>
+                                                    <td class="padat">{{ $data->nik }}</td>
+                                                    <td nowrap>{{ $data->nama }}</td>
+                                                    <td nowrap>{{ $data->jenisKelamin->nama }}</td>
+                                                    <td nowrap>{{ $data->tempatlahir }},
+                                                        {{ tgl_indo($data->tanggallahir) }}
+                                                    </td>
+                                                    <td nowrap>{{ $data->pendudukHubungan->nama }}</td>
+                                                    <td nowrap>{{ $data->statusKawin->nama }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endif
 
                 <div class="row jar_form">
                     <label for="nomor" class="col-sm-3"></label>

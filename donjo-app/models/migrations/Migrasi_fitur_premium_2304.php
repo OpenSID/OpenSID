@@ -97,7 +97,7 @@ class Migrasi_fitur_premium_2304 extends MY_model
 
     protected function tambah_kolom_kecamatan($hasil)
     {
-        if (!$this->db->field_exists('kecamatan', 'log_surat')) {
+        if (! $this->db->field_exists('kecamatan', 'log_surat')) {
             $fields = [
                 'kecamatan' => [
                     'type'       => 'tinyint',

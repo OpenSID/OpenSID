@@ -334,7 +334,7 @@ class FormatSurat extends BaseModel
         }
 
         $kode_isian = json_decode($this->attributes['kode_isian']);
-        if ($this->getFormIsianAttribute()->data == '2') {
+        if ($this->getFormIsianAttribute()->data == '2' && null !== $kode_isian) {
             return [...json_decode(TinyMCE::getKodeIsianNonWarga()), ...$kode_isian];
         }
 
