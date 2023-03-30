@@ -118,16 +118,12 @@ class Migrasi_fitur_premium_2304 extends MY_model
         $config = DB::table('config')->first();
 
         if ($config) {
-            try {
-                DB::table('config')->update([
-                    'kode_desa'      => bilangan($config->kode_desa),
-                    'kode_kecamatan' => bilangan($config->kode_kecamatan),
-                    'kode_kabupaten' => bilangan($config->kode_kabupaten),
-                    'kode_propinsi'  => bilangan($config->kode_propinsi),
-                ]);
-            } catch (Exception $e) {
-                $hasil = false;
-            }
+            DB::table('config')->update([
+                'kode_desa'      => bilangan($config->kode_desa),
+                'kode_kecamatan' => bilangan($config->kode_kecamatan),
+                'kode_kabupaten' => bilangan($config->kode_kabupaten),
+                'kode_propinsi'  => bilangan($config->kode_propinsi),
+            ]);
         }
 
         return $hasil;
