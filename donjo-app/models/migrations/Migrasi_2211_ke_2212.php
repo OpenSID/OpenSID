@@ -34,6 +34,7 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 class Migrasi_2211_ke_2212 extends MY_model
 {
     public function up()

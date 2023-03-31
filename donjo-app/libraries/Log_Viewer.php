@@ -324,7 +324,8 @@ class Log_Viewer
      * This function will extract the logs in the supplied
      * fileName
      *
-     * @param bool $singleLine
+     * @param bool  $singleLine
+     * @param mixed $fileNameInBase64
      *
      * @return array|null
      *
@@ -415,7 +416,8 @@ class Log_Viewer
      * otherwise, it will return all file content as a single string with each line ending
      * in line break character "\n"
      *
-     * @param bool $singleLine
+     * @param bool  $singleLine
+     * @param mixed $fileName
      *
      * @return bool|string
      */
@@ -525,9 +527,11 @@ class Log_Viewer
      * name as sent from the browser/client
      * and append the LOG_FOLDER_PREFIX and decode it from base64
      *
-     * @return string|null
-     *
      * @internal param $fileName
+     *
+     * @param mixed $fileNameInBase64
+     *
+     * @return string|null
      */
     private function prepareRawFileName($fileNameInBase64)
     {
