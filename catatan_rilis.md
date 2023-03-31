@@ -1,4 +1,4 @@
-Di rilis ini, versi 23.03-pasca menyediakan fitur TTE dan penyesuaian alur pemeriksaan surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 23.04 menyediakan fitur TTE dan penyesuaian alur pemeriksaan surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Irvan1609 yang terus berkontribusi.
 
