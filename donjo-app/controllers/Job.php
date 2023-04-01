@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -109,11 +109,18 @@ class Job extends CI_Controller
         if (! is_cli()) {
             return;
         }
+        /*
+        variable status
+        0 = sedang dalam prosess
+        1 = selesai diproses
+        2 = selesai di download
+        3 = dibatalkan
+        */
 
         $lokasi      = ($lokasi == 'null') ? null : 'backup_inkremental';
         $last_backup = LogBackup::latest()->first()->created_at;
         $last_backup = ($last_backup != null) ? $last_backup->format('Y-m-d') : '1990-01-01';
-        $backup      = LogBackup::create(['permanen' => ($lokasi) ? 1 : 0]); // tandai backup sedang berlangsung
+        $backup      = LogBackup::create(['permanen' => ($lokasi) ? 1 : 0, 'pid_process' => getmypid()]); // tandai backup sedang berlangsung
 
         try {
             $za = new FlxZipArchive();

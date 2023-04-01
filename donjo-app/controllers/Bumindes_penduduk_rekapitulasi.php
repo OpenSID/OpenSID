@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -112,19 +112,17 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $data = [
-            'aksi'           => $aksi,
-            'config'         => $this->header['desa'],
-            'pamong_ketahui' => $this->pamong_model->get_ttd(),
-            'pamong_ttd'     => $this->pamong_model->get_ub(),
-            'main'           => $this->laporan_bulanan_model->rekapitulasi_list(null, null),
-            'bulan'          => $this->session->filter_bulan,
-            'tahun'          => $this->session->filter_tahun,
-            'tgl_cetak'      => $_POST['tgl_cetak'],
-            'file'           => 'Buku Rekapitulasi Jumlah Penduduk',
-            'isi'            => 'bumindes/penduduk/rekapitulasi/content_rekapitulasi_cetak',
-            'letak_ttd'      => ['1', '2', '28'],
-        ];
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['main']      = $this->laporan_bulanan_model->rekapitulasi_list(null, null);
+        $data['config']    = $this->header['desa'];
+        $data['bulan']     = $this->session->filter_bulan ?: date('m');
+        $data['tahun']     = $this->session->filter_tahun ?: date('Y');
+        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
+        $data['file']      = 'Buku Rekapitulasi Jumlah Penduduk';
+        $data['isi']       = 'bumindes/penduduk/rekapitulasi/content_rekapitulasi_cetak';
+        $data['letak_ttd'] = ['1', '2', '28'];
+
         if ($aksi == 'pdf') {
             $this->laporan_pdf($data);
         } else {

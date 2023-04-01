@@ -128,7 +128,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<?php endif; ?>
 
 		//Menampilkan BaseLayers Peta
-		var baseLayers = getBaseLayers(peta_lapak, '<?= $this->setting->mapbox_key; ?>');
+		var baseLayers = getBaseLayers(peta_lapak, MAPBOX_KEY, JENIS_PETA);
 
 		showCurrentPoint(posisi, peta_lapak);
 

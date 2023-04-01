@@ -166,7 +166,7 @@
 									<div class="form-group ibu_luar_desa">
 										<label for="nik_ibu" class="col-sm-3 control-label">NIK Ibu</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm required" type="text" placeholder="NIK Ibu" name="nik_ibu" value="<?= $_SESSION['post']['nik_ibu'] ?>">
+											<input class="form-control input-sm nik required" type="text" placeholder="NIK Ibu" name="nik_ibu" value="<?= $_SESSION['post']['nik_ibu'] ?>">
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
@@ -253,7 +253,7 @@
 									<div class="form-group ibu_luar_desa">
 										<label for="nik_ayah" class="col-sm-3 control-label">NIK Ayah</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm required" type="text" placeholder="NIK Ayah" name="nik_ayah" value="<?= $_SESSION['post']['nik_ayah'] ?>">
+											<input class="form-control input-sm nik required" type="text" placeholder="NIK Ayah" name="nik_ayah" value="<?= $_SESSION['post']['nik_ayah'] ?>">
 										</div>
 									</div>
 									<div class="form-group ibu_luar_desa">
@@ -612,7 +612,7 @@
 									<div class="form-group saksi1_luar_desa">
 										<label for="nik_saksi1" class="col-sm-3 control-label">NIK Saksi</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm required" type="text" placeholder="NIK Saksi" name="nik_saksi1" value="<?= $_SESSION['post']['nik_saksi1'] ?>">
+											<input class="form-control input-sm nik required" type="text" placeholder="NIK Saksi" name="nik_saksi1" value="<?= $_SESSION['post']['nik_saksi1'] ?>">
 										</div>
 									</div>
 									<div class="form-group saksi1_luar_desa">
@@ -727,7 +727,7 @@
 									<div class="form-group saksi2_luar_desa">
 										<label for="nik_saksi2" class="col-sm-3 control-label">NIK Saksi</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm required" type="text" placeholder="NIK Saksi" name="nik_saksi2" value="<?= $_SESSION['post']['nik_saksi2'] ?>">
+											<input class="form-control input-sm nik required" type="text" placeholder="NIK Saksi" name="nik_saksi2" value="<?= $_SESSION['post']['nik_saksi2'] ?>">
 										</div>
 									</div>
 									<div class="form-group saksi2_luar_desa">

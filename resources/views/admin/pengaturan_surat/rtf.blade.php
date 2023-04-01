@@ -13,9 +13,13 @@
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-info" id="file_browser"><i
                                 class="fa fa-search"></i>&nbsp;Browse</button>
-                        @if (($surat = SuratExport($suratMaster->url_surat)) != '')
-                            <a href="{{ base_url($surat) }}" class="btn btn-success" title="Unduh Template"
-                                target="_blank"><i class="fa fa-download"></i>&nbsp;Unduh Template</a>
+                        @if ($suratMaster->url_surat_sistem)
+                            <a href="{{ base_url($suratMaster->url_surat_sistem) }}" class="btn btn-success" title="Unduh Template Sistem"
+                                target="_blank"><i class="fa fa-download"></i>&nbsp;Template Sistem</a>
+                        @endif
+                        @if ($suratMaster->url_surat_desa)
+                            <a href="{{ base_url($suratMaster->url_surat_desa) }}" class="btn btn-warning" title="{{ SebutanDesa('Unduh Template [Desa]') }} "
+                                target="_blank"><i class="fa fa-download"></i>&nbsp;{{ SebutanDesa('Template [Desa]') }} </a>
                         @endif
                     </span>
                 </div>
@@ -23,7 +27,7 @@
         </div>
     </div>
 </div>
-<div class="tab-pane" id="kode-isian">
+<div class="tab-pane" id="form-isian">
 
     @include('admin.pengaturan_surat.kembali')
 
@@ -50,7 +54,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($kodeIsian as $kode => $keterangan)
+                        @forelse ($suratMaster->kode_isian as $kode => $keterangan)
                             <tr>
                                 <td style="padding-top : 10px;padding-bottom : 10px; ">[form_{{ $kode }}]</td>
                                 <td>{{ $keterangan }}</td>

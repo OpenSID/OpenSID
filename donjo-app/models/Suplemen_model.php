@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,20 +29,20 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use OpenSpout\Common\Entity\Style\Border;
+use OpenSpout\Common\Entity\Style\Color;
+use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
+use OpenSpout\Writer\Common\Creator\Style\BorderBuilder;
+use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
-use Box\Spout\Common\Entity\Style\Border;
-use Box\Spout\Common\Entity\Style\Color;
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
-use Box\Spout\Writer\Common\Creator\Style\BorderBuilder;
-use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Suplemen_model extends MY_Model
 {
@@ -534,7 +534,7 @@ class Suplemen_model extends MY_Model
                 break;
 
             default:
-            }
+        }
 
         return $data;
     }
@@ -595,7 +595,7 @@ class Suplemen_model extends MY_Model
                 break;
 
             default:
-            }
+        }
         if (! empty($list_suplemen)) {
             return ['daftar_suplemen' => $list_suplemen, 'profil' => $data_profil];
         }
@@ -963,14 +963,5 @@ class Suplemen_model extends MY_Model
             'sasaran_peserta' => $sasaran_peserta,
             'valid'           => array_column($data, 'no'), // untuk daftar valid anggota keluarga
         ];
-    }
-
-    public function slug($slug = null)
-    {
-        return $this->db
-            ->select('id')
-            ->get_where($this->table, ['slug' => $slug])
-            ->row()
-            ->id;
     }
 }

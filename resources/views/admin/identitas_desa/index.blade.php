@@ -42,6 +42,7 @@
 @section('content')
 
 @include('admin.layouts.components.notifikasi')
+@include('admin.identitas_desa.info_kades')
 
 <div class="box box-info">
   @if (can('u'))
@@ -80,11 +81,11 @@
           </tr>
           <tr>
             <td>Nama {{ ucwords($setting->sebutan_kepala_desa) }}</td><td>:</td>
-            <td>{{ $main['pamong']['id_pend'] ? $main['pamong']['penduduk']['nama'] : $main['pamong']['pamong_nama'] }}</td>
+            <td>{{ $main['nama_kepala_desa'] }}</td>
           </tr>
           <tr>
             <td>NIP {{ ucwords($setting->sebutan_kepala_desa) }}</td><td>:</td>
-            <td>{{ $main['pamong']['pamong_nip'] }}</td>
+            <td>{{ $main['nip_kepala_desa'] }}</td>
           </tr>
           <tr>
             <td>Alamat Kantor {{ ucwords($setting->sebutan_desa) }}</td><td>:</td>

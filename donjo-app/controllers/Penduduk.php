@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,7 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use App\Enums\StatusEnum;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Penduduk extends Admin_Controller
 {
@@ -405,7 +406,7 @@ class Penduduk extends Admin_Controller
         $data['list_warganegara']     = $this->referensi_model->list_data('tweb_penduduk_warganegara');
         $data['list_golongan_darah']  = $this->referensi_model->list_data('tweb_golongan_darah');
         $data['list_sakit_menahun']   = $this->referensi_model->list_data('tweb_sakit_menahun');
-        $data['list_tag_id_card']     = $this->referensi_model->list_ref(STATUS);
+        $data['list_tag_id_card']     = StatusEnum::DAFTAR;
         $data['form_action']          = site_url("{$this->controller}/adv_search_proses");
 
         $this->load->view('sid/kependudukan/ajax_adv_search_form', $data);
@@ -927,6 +928,13 @@ class Penduduk extends Admin_Controller
     public function program_bantuan_proses()
     {
         $id_program = $this->input->post('program_bantuan');
+
+        if ($id_program == JUMLAH) {
+            $id_program = JUMLAH;
+        } elseif ($id_program == BELUM_MENGISI) {
+            $id_program = BELUM_MENGISI;
+        }
+
         $this->statistik('bantuan_penduduk', $id_program, '0');
     }
 

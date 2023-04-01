@@ -66,6 +66,10 @@ class ComposerStaticInit709deddfed8f920363113911a6948e2f
             'Psr\\Cache\\' => 10,
             'ParagonIE\\ConstantTime\\' => 23,
         ),
+        'O' => 
+        array (
+            'OpenSpout\\' => 10,
+        ),
         'M' => 
         array (
             'Monolog\\' => 8,
@@ -109,10 +113,6 @@ class ComposerStaticInit709deddfed8f920363113911a6948e2f
         'C' => 
         array (
             'Carbon\\' => 7,
-        ),
-        'B' => 
-        array (
-            'Box\\Spout\\' => 10,
         ),
         'A' => 
         array (
@@ -218,6 +218,10 @@ class ComposerStaticInit709deddfed8f920363113911a6948e2f
         array (
             0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
         ),
+        'OpenSpout\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/openspout/openspout/src',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -312,10 +316,6 @@ class ComposerStaticInit709deddfed8f920363113911a6948e2f
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
-        ),
-        'Box\\Spout\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/box/spout/src/Spout',
         ),
         'App\\' => 
         array (

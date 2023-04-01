@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,12 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
+use App\Models\Config;
 use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -46,6 +47,7 @@ class User_setting extends Admin_Controller
         parent::__construct();
         $this->lang->load('passwords');
         $this->load->library('Reset/Password', '', 'password');
+        $this->load->library('OTP/OTP_manager', null, 'otp_library');
         $this->load->model('user_model');
     }
 
@@ -96,7 +98,7 @@ class User_setting extends Admin_Controller
     {
         $id             = $_SESSION['user'];
         $data['main']   = $this->user_model->get_user($id);
-        $data['header'] = $this->config_model->get_data();
+        $data['header'] = Config::first();
         $this->load->view('setting_pwd', $data);
     }
 
@@ -131,6 +133,76 @@ class User_setting extends Admin_Controller
         }
 
         return redirect('main');
+    }
+
+     public function kirim_otp_telegram()
+     {
+         // cek telegram sudah pernah terpakai atau belum
+         $id_telegram = (int) $this->input->post('id_telegram');
+         if (User::where('id_telegram', '=', $id_telegram)->where('id', '!=', $this->session->user)->exists()) {
+             return json([
+                 'status'  => false,
+                 'message' => 'Id telegram harus unik',
+             ]);
+         }
+
+         try {
+             $user  = User::find($this->session->user);
+             $token = hash('sha256', $raw_token = mt_rand(100000, 999999));
+
+             $user->id_telegram = $id_telegram;
+             $user->token       = $token;
+             $user->token_exp   = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +5 minutes'));
+             $user->save();
+
+             $this->otp_library->driver('telegram')->kirim_otp($user->id_telegram, $raw_token);
+
+             return json([
+                 'status'  => true,
+                 'message' => 'sucess',
+                 'data'    => $id_telegram,
+             ]);
+         } catch (Exception $e) {
+             return json([
+                 'status'   => false,
+                 'messages' => $e->getMessage(),
+             ]);
+         }
+     }
+
+    public function verifikasi_telegram()
+    {
+        $otp         = $this->input->post('otp');
+        $id_telegram = $this->input->post('id_telegram');
+        if ($otp == '') {
+            return json([
+                'status'  => false,
+                'message' => 'kode otp kosong',
+            ]);
+        }
+
+        $verifikasi_otp = User::where('id', '=', $this->session->user)
+            ->where('id_telegram', '=', $id_telegram)
+            ->where('token_exp', '>', date('Y-m-d H:i:s'))
+            ->where('token', '=', hash('sha256', $otp))
+            ->first();
+
+        if ($verifikasi_otp == null) {
+            return json([
+                'status'  => false,
+                'message' => 'kode otp Salah',
+            ]);
+        }
+
+        $verifikasi_otp->telegram_verified_at = date('Y-m-d H:i:s');
+        $verifikasi_otp->save();
+        $this->session->isAdmin->telegram_verified_at = date('Y-m-d H:i:s');
+        $this->session->isAdmin->id_telegram          = $id_telegram;
+
+        return json([
+            'status'  => true,
+            'message' => 'Verifikasi berhasil',
+        ]);
     }
 
     public function verifikasi(string $hash)

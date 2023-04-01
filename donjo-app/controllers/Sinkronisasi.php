@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -42,8 +42,8 @@ use App\Models\BantuanPeserta;
 use App\Models\LogSinkronisasi;
 use App\Models\Pembangunan;
 use App\Models\PembangunanDokumentasi;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use GuzzleHttp\Psr7;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Sinkronisasi extends Admin_Controller
 {
@@ -65,30 +65,30 @@ class Sinkronisasi extends Admin_Controller
         $modul = [
             'Program Bantuan' => [
                 [
-                    'path'  => 'kirim_program_bantuan',
-                    'modul' => 'program-bantuan',
-                    'model' => 'Bantuan',
-                    'inkremental' => 0
+                    'path'        => 'kirim_program_bantuan',
+                    'modul'       => 'program-bantuan',
+                    'model'       => 'Bantuan',
+                    'inkremental' => 0,
                 ],
                 [
-                    'path'  => 'kirim_peserta_program_bantuan',
-                    'modul' => 'program-bantuan-peserta',
-                    'model' => 'BantuanPeserta',
-                    'inkremental' => 0
+                    'path'        => 'kirim_peserta_program_bantuan',
+                    'modul'       => 'program-bantuan-peserta',
+                    'model'       => 'BantuanPeserta',
+                    'inkremental' => 0,
                 ],
             ],
             'Pembangunan' => [
                 [
-                    'path'  => 'kirim_pembangunan',
-                    'modul' => 'pembangunan',
-                    'model' => 'Pembangunan',
-                    'inkremental' => 1
+                    'path'        => 'kirim_pembangunan',
+                    'modul'       => 'pembangunan',
+                    'model'       => 'Pembangunan',
+                    'inkremental' => 1,
                 ],
                 [
-                    'path'  => 'kirim_dokumentasi_pembangunan',
-                    'modul' => 'pembangunan-dokumentasi',
-                    'model' => 'PembangunanDokumentasi',
-                    'inkremental' => 1 
+                    'path'        => 'kirim_dokumentasi_pembangunan',
+                    'modul'       => 'pembangunan-dokumentasi',
+                    'model'       => 'PembangunanDokumentasi',
+                    'inkremental' => 1,
                 ],
             ],
         ];
@@ -370,8 +370,8 @@ class Sinkronisasi extends Admin_Controller
     public function total()
     {
         if ($this->input->is_ajax_request()) {
-            $modul            = $this->input->post('modul');
-            $model            = $this->input->post('model');
+            $modul       = $this->input->post('modul');
+            $model       = $this->input->post('model');
             $inkremental = $this->input->post('inkremental');
             if ($inkremental == '0') {
                 return json(1); // tanpa inkremental
@@ -431,7 +431,7 @@ class Sinkronisasi extends Admin_Controller
 
     public function data_program_bantuan()
     {
-        $writer           = WriterEntityFactory::createCSVWriter();
+        $writer = WriterEntityFactory::createCSVWriter();
 
         // Buat data Program bantuan
         $bantuan_opendk = LOKASI_SINKRONISASI_ZIP . namafile('program bantuan') . '_opendk.csv';

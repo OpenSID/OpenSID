@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -105,7 +105,7 @@ class Bdt_model extends CI_Model
         $this->load->library('Spreadsheet_Excel_Reader');
         $data = new Spreadsheet_Excel_Reader($_FILES['bdt']['tmp_name'], false);
         // Baca jumlah baris berkas BDT
-        $this->jml_baris     = $data->rowcount($sheet_index     = 0);
+        $this->jml_baris     = $data->rowcount($sheet_index = 0);
         $this->baris_pertama = $this->cari_baris_pertama($data, $this->jml_baris);
         if ($this->baris_pertama <= 0) {
             $_SESSION['error_msg'] .= ' -> Tidak ada data';

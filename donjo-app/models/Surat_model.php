@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -38,7 +38,9 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Libraries\DateConv;
+use App\Models\Config;
 use App\Models\LogSurat;
+use App\Models\Pamong;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -290,9 +292,10 @@ class Surat_model extends CI_Model
     // TODO: ganti menggunakan pamong_model->list_data()
     public function list_pamong()
     {
-        $sql = 'SELECT u.*, p.nama as nama
+        $sql = 'SELECT u.*, p.nama AS nama, rj.id AS ref_jabatan_id, rj.nama AS jabatan
 			FROM tweb_desa_pamong u
 			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
+			LEFT JOIN ref_jabatan rj ON u.jabatan_id = rj.id
 			WHERE pamong_status = 1';
         $query = $this->db->query($sql);
         $data  = $query->result_array();
@@ -743,7 +746,7 @@ class Surat_model extends CI_Model
     */
     public function case_replace($dari, $ke, $str)
     {
-        $replacer    = static function ($matches) use ($ke) {
+        $replacer = static function ($matches) use ($ke) {
             $matches = array_map(static function ($match) {
                 return preg_replace('/[\\[\\]]/', '', $match);
             }, $matches);
@@ -757,37 +760,83 @@ class Surat_model extends CI_Model
             return strtolower($ke);
         };
         $dari = str_replace('[', '\\[', $dari);
-        $str  = preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
 
-        return $str;
+        return preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
     }
 
-    private function atas_nama($data)
+    private function atas_nama($data, $buffer = null)
     {
         //Data penandatangan
-        $input  = $data['input'];
-        $config = $data['config'];
-        $this->load->model('pamong_model');
-        $pamong_ttd = $this->pamong_model->get_ttd();
-        $atas_nama  = '';
-        if (! empty($input['pilih_atas_nama'])) {
-            $atas_nama = 'a.n ' . ucwords($pamong_ttd['jabatan'] . ' ' . $config['nama_desa']);
-            if (strpos($input['pilih_atas_nama'], 'u.b') !== false) {
-                $pamong_ub = $this->pamong_model->get_ub();
-                $atas_nama .= ' \par ' . $pamong_ub['jabatan'] . ' \par' . ' u.b';
-            }
-            $atas_nama .= ' \par ';
-            $atas_nama .= $input['jabatan'];
-        } else {
-            $atas_nama .= $input['jabatan'] . ' ' . $config['nama_desa'];
+        $input     = $data['input'];
+        $nama_desa = Config::select(['nama_desa'])->first()->nama_desa;
+
+        //Data penandatangan
+        $kades = Pamong::kepalaDesa()->first();
+
+        $ttd         = $input['pilih_atas_nama'];
+        $atas_nama   = $kades->pamong_jabatan . ' ' . $nama_desa;
+        $jabatan     = $kades->pamong_jabatan;
+        $nama_pamong = $kades->pamong_nama;
+        $nip_pamong  = $kades->pamong_nip;
+        $niap_pamong = $kades->pamong_niap;
+
+        $sekdes = Pamong::ttd('a.n')->first();
+        if (preg_match('/a.n/i', $ttd)) {
+            $atas_nama   = 'a.n ' . $atas_nama . ' \par ' . $sekdes->pamong_jabatan;
+            $jabatan     = $sekdes->pamong_jabatan;
+            $nama_pamong = $sekdes->pamong_nama;
+            $nip_pamong  = $sekdes->pamong_nip;
+            $niap_pamong = $sekdes->pamong_niap;
         }
 
-        return $atas_nama;
+        if (preg_match('/u.b/i', $ttd)) {
+            $pamong      = Pamong::ttd('u.b')->find($input['pamong_id']);
+            $atas_nama   = 'a.n ' . $atas_nama . ' \par ' . $sekdes->pamong_jabatan . ' \par  u.b  \par ' . $pamong->jabatan->nama;
+            $jabatan     = $pamong->pamong_jabatan;
+            $nama_pamong = $pamong->pamong_nama;
+            $nip_pamong  = $pamong->pamong_nip;
+            $niap_pamong = $pamong->pamong_niap;
+        }
+
+        // Untuk lampiran
+        if (null === $buffer) {
+            return [
+                'atas_nama' => $atas_nama,
+                'jabatan'   => $jabatan,
+                'nama'      => $nama_pamong,
+                'nip'       => $nip_pamong,
+                'niap'      => $niap_pamong,
+            ];
+        }
+
+        $buffer = str_replace('[penandatangan]', $atas_nama, $buffer);
+        $buffer = str_replace('[jabatan]', "{$jabatan}", $buffer);
+        $buffer = str_replace('[nama_pamong]', $nama_pamong, $buffer);
+
+        if (strlen($nip_pamong) > 10) {
+            $sebutan_nip_desa = 'NIP';
+            $nip              = $nip_pamong;
+            $pamong_nip       = $sebutan_nip_desa . ' : ' . $nip;
+        } else {
+            $sebutan_nip_desa = setting('sebutan_nip_desa');
+            if (! empty($niap_pamong)) {
+                $nip        = $niap_pamong;
+                $pamong_nip = $sebutan_nip_desa . ' : ' . $niap_pamong;
+            } else {
+                $pamong_nip = '';
+            }
+        }
+
+        $buffer = str_replace('[sebutan_nip_desa]', $sebutan_nip_desa, $buffer);
+        $buffer = str_replace('[pamong_nip]', $nip, $buffer);
+
+        return str_replace('[form_pamong_nip]', $pamong_nip, $buffer);
     }
 
+    // Fuction ini di include ke lampiran
     private function penandatangan_lampiran($data)
     {
-        return str_replace('\par', '<br>', $this->atas_nama($data));
+        return str_replace('\par', '<br>', $this->atas_nama($data)['atas_nama']);
     }
 
     public function surat_rtf($data)
@@ -855,7 +904,7 @@ class Surat_model extends CI_Model
             $buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
             //Data penandatangan
-            $buffer = str_replace('[penandatangan]', $this->atas_nama($data), $buffer);
+            $buffer = $this->atas_nama($data, $buffer);
 
             //DATA DARI KONFIGURASI DESA
             $buffer = $this->case_replace('[sebutan_kabupaten]', $this->setting->sebutan_kabupaten, $buffer);
@@ -976,22 +1025,6 @@ class Surat_model extends CI_Model
             } else {
                 $buffer = str_replace('[mulai_berlaku] s/d [tgl_akhir]', '-', $buffer);
             }
-
-            $buffer = str_replace('[jabatan]', "{$input['jabatan']}", $buffer);
-            $buffer = str_replace('[nama_pamong]', "{$input['pamong']}", $buffer);
-            $nip    = "{$input['pamong_nip']}";
-            if (strlen($nip) > 10) {
-                $pamong_nip = 'NIP: ' . $nip;
-            } else {
-                $sebutan_nip_desa = $this->setting->sebutan_nip_desa;
-                $pamong_niap      = "{$input['pamong_niap']}";
-                if (! empty($pamong_niap)) {
-                    $pamong_nip = $sebutan_nip_desa . ': ' . $pamong_niap;
-                } else {
-                    $pamong_nip = '';
-                }
-            }
-            $buffer = str_replace('NIP: [pamong_nip]', $pamong_nip, $buffer);
             $buffer = str_replace('[keterangan]', "{$input['keterangan']}", $buffer);
             if (isset($input['keperluan'])) {
                 $buffer = str_replace('[keperluan]', "{$input['keperluan']}", $buffer);
@@ -1069,10 +1102,11 @@ class Surat_model extends CI_Model
 
     public function lampiran($data, $nama_surat, &$lampiran)
     {
-        $surat    = $data['surat'];
-        $config   = $data['config'];
-        $individu = $data['individu'];
-        $input    = $data['input'];
+        $surat           = $data['surat'];
+        $config          = $data['config'];
+        $individu        = $data['individu'];
+        $input           = $data['input'];
+        $input['pamong'] = $this->atas_nama($data)['nama'];
 
         if (! $surat['lampiran']) {
             return;

@@ -107,7 +107,7 @@
 			<?php endif; ?>
 
 			//Menampilkan BaseLayers Peta
-			var baseLayers = getBaseLayers(peta_penduduk, '<?=$this->setting->mapbox_key?>');
+			var baseLayers = getBaseLayers(peta_penduduk, MAPBOX_KEY, JENIS_PETA);
 
 			//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS + Exim GPX/KML
 			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';

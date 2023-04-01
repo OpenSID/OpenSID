@@ -35,7 +35,7 @@
 
         @if (can('b', 'permohonan_surat_admin'))
           <li>
-            <a href="{{ route('permohonan_surat_admin.clear') }}">
+            <a href="{{ route('permohonan_surat_admin') }}">
               <span><i class="fa fa-print fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
               @if ($notif['surat'])
                 <span class="badge" id="b_permohonan_surat">{{ $notif['surat'] }}</span>
@@ -61,6 +61,17 @@
               <span><i class="fa fa-envelope-o fa-lg" title="Pesan Masuk"></i>&nbsp;</span>
               @if ($notif['inbox'])
                 <span class="badge" id="b_inbox">{{ $notif['inbox'] }}</span>
+              @endif
+            </a>
+          </li>
+        @endif
+
+        @if (can('b', 'keluar') && (setting('verifikasi_kades') || setting('verifikasi_sekdes')))
+          <li>
+            <a href="{{ route('keluar.clear.masuk') }}">
+              <span><i class="fa fa-bell-o fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
+              @if ($notif['permohonansurat'])
+                <span class="badge" id="permohonan">{{ $notif['permohonansurat'] }}</span>
               @endif
             </a>
           </li>

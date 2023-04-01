@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,11 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
+use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -179,6 +181,7 @@ class Surat_masuk_model extends MY_Model
         // ambil disposisi ke variabel lain karena
         // tidak lagi digunakan pada tabel surat masuk
         $jabatan = $data['disposisi_kepada'];
+
         // hapus data disposisi dari post
         // surat masuk
         unset($data['disposisi_kepada']);
@@ -240,7 +243,7 @@ class Surat_masuk_model extends MY_Model
 
         // insert ke tabel disposisi surat masuk
         if ($jabatan) {
-            $this->insert_disposisi_surat_masuk($insert_id, $jabatan);
+            $this->disposisi_surat_masuk($insert_id, $jabatan);
         }
 
         // transaction selesai
@@ -388,29 +391,6 @@ class Surat_masuk_model extends MY_Model
         return $this->db->where('id', $id)->get('surat_masuk')->row_array();
     }
 
-    // TODO: apakah perlu diambil dari tweb_desa_pamong?
-    public function get_pengolah_disposisi()
-    {
-        $this->load->model('wilayah_model');
-        $ref_disposisi[] = 'Sekretaris ' . ucwords($this->setting->sebutan_desa);
-        array_push(
-            $ref_disposisi,
-            'Kasi Pemerintahan',
-            'Kasi Kesejahteraan',
-            'Kasi Pelayanan',
-            'Kaur Keuangan',
-            'Kaur Tata Usaha dan Umum',
-            'Kaur Perencanaan'
-        );
-        $list_dusun = $this->wilayah_model->list_data();
-
-        foreach ($list_dusun as $dusun) {
-            $ref_disposisi[] = ucwords($this->setting->sebutan_singkatan_kadus) . ' ' . ucwords(strtolower($dusun['dusun']));
-        }
-
-        return $ref_disposisi;
-    }
-
     /**
      * Hapus record surat masuk beserta file lampirannya (jika ada)
      *
@@ -496,58 +476,20 @@ class Surat_masuk_model extends MY_Model
         return is_object($namaBerkas) ? $namaBerkas->berkas_scan : null;
     }
 
-    public function get_pamong($jabatan)
-    {
-        return $this->db
-            ->select('*')
-            ->from('tweb_desa_pamong')
-            ->where('jabatan', $jabatan)
-            ->get()
-            ->row();
-    }
-
-    public function insert_disposisi_surat_masuk($id_surat_masuk, array $jabatan)
-    {
-        foreach ($jabatan as $value) {
-            $pamong = $this->get_pamong($value);
-
-            $this->db->insert(
-                'disposisi_surat_masuk',
-                [
-                    'id_surat_masuk' => $id_surat_masuk,
-                    'id_desa_pamong' => $pamong->pamong_id,
-                    'disposisi_ke'   => $value,
-                ]
-            );
-        }
-    }
-
-    public function update_disposisi_surat_masuk($id_surat_masuk, array $jabatan)
+    public function disposisi_surat_masuk($id_surat_masuk, array $jabatan)
     {
         $this->delete_disposisi_surat($id_surat_masuk);
 
         foreach ($jabatan as $value) {
-            $pamong = $this->get_pamong($value);
-
             $this->db->insert(
                 'disposisi_surat_masuk',
                 [
                     'id_surat_masuk' => $id_surat_masuk,
-                    'id_desa_pamong' => $pamong->pamong_id,
+                    'id_desa_pamong' => Pamong::where('jabatan_id', $value)->first()->pamong_id,
                     'disposisi_ke'   => $value,
                 ]
             );
         }
-    }
-
-    public function get_disposisi_surat_masuk($id_surat_masuk)
-    {
-        return $this->db
-            ->select('*')
-            ->from('disposisi_surat_masuk')
-            ->where('id_surat_masuk', $id_surat_masuk)
-            ->get()
-            ->result_array();
     }
 
     public function delete_disposisi_surat($id_surat_masuk, $semua = false)

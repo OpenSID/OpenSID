@@ -54,6 +54,8 @@
 	 */
 
 	window.onload = function() {
+		var MAPBOX_KEY = '<?= $this->setting->mapbox_key ?>';
+	var JENIS_PETA = '<?= $this->setting->jenis_peta ?>';
 		<?php if (! empty($wil_ini['lat']) && ! empty($wil_ini['lng'])): ?>
 			var posisi = [<?=$wil_ini['lat'] . ', ' . $wil_ini['lng']?>];
 			var zoom = <?=$wil_ini['zoom']?>;
@@ -80,6 +82,7 @@
 		// OVERLAY WILAYAH DESA
 		<?php if (! empty($desa['path'])): ?>
 			set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa']?>", "<?= favico_desa()?>");
+			console.log('set_marker_desa');
 		<?php endif; ?>
 
 		// OVERLAY WILAYAH DUSUN
@@ -105,7 +108,7 @@
 		<?php endif; ?>
 
 		// Menampilkan BaseLayers Peta
-		var baseLayers = getBaseLayers(peta_kantor, '<?=$this->setting->mapbox_key?>');
+		var baseLayers = getBaseLayers(peta_kantor, MAPBOX_KEY, JENIS_PETA);
 
 		// Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS
 		showCurrentPoint(posisi, peta_kantor);

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -38,6 +38,7 @@
 use App\Models\Config;
 use App\Models\LogKeluarga;
 use App\Models\Pamong;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -53,6 +54,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
         $hasil = $hasil && $this->migrasi_2022070451($hasil);
         $hasil = $hasil && $this->migrasi_2022070751($hasil);
         $hasil = $hasil && $this->migrasi_2022071851($hasil);
+        $hasil = $hasil && $this->migrasi_2022070751($hasil);
         $hasil = $hasil && $this->migrasi_2022072751($hasil);
 
         return $hasil && $this->migrasi_2022073151($hasil);
@@ -60,10 +62,13 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
     protected function migrasi_2022070551($hasil)
     {
-        $config = Config::first();
+        // Hanya jalankan sebelum migrasi perubahan fungsi a.n dan u.b
+        if (! Schema::hasColumn('tweb_desa_pamong', 'jabatan_id')) {
+            $config = Config::first();
 
-        if ($config->pamong_id && Pamong::where('pamong_ttd', 1)->count() > 1) {
-            return $hasil && Pamong::whereNotIn('pamong_id', [$config->pamong_id])->update(['pamong_ttd' => 0]);
+            if ($config->pamong_id && Pamong::where('pamong_ttd', 1)->count() > 1) {
+                return $hasil && Pamong::whereNotIn('pamong_id', [$config->pamong_id])->update(['pamong_ttd' => 0]);
+            }
         }
 
         return $hasil;
@@ -94,7 +99,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
         return $hasil;
     }
 
-    public function migrasi_2022071851($hasil)
+    protected function migrasi_2022071851($hasil)
     {
         if (! $this->db->field_exists('permanen', 'log_backup')) {
             $fields = [
@@ -112,52 +117,8 @@ class Migrasi_fitur_premium_2208 extends MY_model
         return $hasil;
     }
 
-    public function migrasi_2022070751($hasil)
+    protected function migrasi_2022070751($hasil)
     {
-        // Buat tabel ref font Surat
-        if (! $this->db->table_exists('ref_font_surat')) {
-            $fields = [
-                'id' => [
-                    'type'           => 'INT',
-                    'constraint'     => 11,
-                    'auto_increment' => true,
-                    'unsigned'       => true,
-                ],
-                'font_family' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 50,
-                    'unique'     => true,
-                    'null'       => false,
-                ],
-            ];
-
-            $this->dbforge->add_key('id', true);
-            $this->dbforge->add_field($fields);
-            $hasil = $hasil && $this->dbforge->create_table('ref_font_surat', true);
-
-            // isi data font surat
-            $fonts = [
-                ['font_family' => 'Andale Mono'],
-                ['font_family' => 'Arial'],
-                ['font_family' => 'Arial Black'],
-                ['font_family' => 'Book Antiqua'],
-                ['font_family' => 'Comic Sans MS'],
-                ['font_family' => 'Courier New'],
-                ['font_family' => 'Georgia'],
-                ['font_family' => 'Helvetica'],
-                ['font_family' => 'Impact'],
-                ['font_family' => 'Symbol'],
-                ['font_family' => 'Tahoma'],
-                ['font_family' => 'Terminal'],
-                ['font_family' => 'Times New Roman'],
-                ['font_family' => 'Trebuchet MS'],
-                ['font_family' => 'Verdana'],
-                ['font_family' => 'Webdings'],
-                ['font_family' => 'Wingdings'],
-            ];
-            $hasil = $this->db->insert_batch('ref_font_surat', $fonts);
-        }
-
         // tambahkan pengaturan
         return $hasil && $this->tambah_setting([
             'key'        => 'font_surat',
@@ -167,7 +128,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
         ]);
     }
 
-    public function migrasi_2022072751($hasil)
+    protected function migrasi_2022072751($hasil)
     {
         if ($this->db->field_exists('updated_at', 'tweb_penduduk_mandiri')) {
             $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk_mandiri', 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
@@ -212,7 +173,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
         return $hasil;
     }
 
-    public function migrasi_2022073151($hasil)
+    protected function migrasi_2022073151($hasil)
     {
         // Cek duplikasi log_keluarga dengan id_peristiwa kematian (2) yang sama dalam 1 kk
         $cek_log = LogKeluarga::where('id_peristiwa', 2)

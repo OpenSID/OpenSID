@@ -23,8 +23,8 @@
                         <div class="col-sm-9">
                             <select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control input-sm">
                                 <?php foreach ($pamong as $data) : ?>
-                                    <option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?= selected($data['pamong_id'], $desa['pamong_id']) ?>>
-                                        <?= $data['nama'] ?> (<?= $data['jabatan'] ?>)
+                                    <option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['pamong_jabatan']) ?>" <?= selected($data['pamong_id'], $desa['pamong_id']) ?>>
+                                        <?= $data['pamong_nama'] ?> (<?= $data['pamong_jabatan'] ?>)
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+                    <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
                     <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_cetak" name="form_cetak" data-dismiss="modal"><i class='fa fa-check'></i> Cetak</button>
                 </div>
             </form>

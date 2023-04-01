@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -165,11 +165,9 @@ class Kelompok extends Admin_Controller
     // $aksi = cetak/unduh
     public function dialog($aksi = 'cetak')
     {
-        $data['aksi']           = ucwords($aksi);
-        $data['pamong']         = $this->pamong_model->list_data();
-        $data['pamong_ttd']     = $this->pamong_model->get_ub();
-        $data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-        $data['form_action']    = site_url("{$this->controller}/daftar/{$aksi}");
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = ucwords($aksi);
+        $data['form_action'] = site_url("{$this->controller}/daftar/{$aksi}");
 
         $this->load->view('global/ttd_pamong', $data);
     }
@@ -192,11 +190,9 @@ class Kelompok extends Admin_Controller
     // $aksi = cetak/unduh
     public function dialog_anggota($aksi = 'cetak', $id = 0)
     {
-        $data['aksi']           = ucwords($aksi);
-        $data['pamong']         = $this->pamong_model->list_data();
-        $data['pamong_ttd']     = $this->pamong_model->get_ub();
-        $data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-        $data['form_action']    = site_url("{$this->controller}/daftar_anggota/{$aksi}/{$id}");
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = ucwords($aksi);
+        $data['form_action'] = site_url("{$this->controller}/daftar_anggota/{$aksi}/{$id}");
 
         $this->load->view('global/ttd_pamong', $data);
     }

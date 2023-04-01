@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,9 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\LogKeluarga;
 use App\Models\Penduduk;
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Impor_model extends CI_Model
 {
@@ -484,7 +483,7 @@ class Impor_model extends CI_Model
 
             // Tulis Log Keluarga Baru
             $this->load->model('keluarga_model');
-            $this->keluarga_model->log_keluarga($isi_baris['id_kk'], $isi_baris['nik_kepala'], 1);
+            $this->keluarga_model->log_keluarga($isi_baris['id_kk'], 1);
         }
 
         return $keluarga_baru;
@@ -642,13 +641,6 @@ class Impor_model extends CI_Model
                     'id_cluster' => $isi_baris['id_cluster'],
                     'alamat'     => $isi_baris['alamat'],
                 ]);
-
-            // Update kk_sex pada log
-            $log = LogKeluarga::where('id_kk', $data['id_kk'])->first();
-            if ($log) {
-                $log->kk_sex = Penduduk::select('sex')->find($penduduk_baru)->sex;
-                $log->save();
-            }
         }
 
         return $penduduk_baru;

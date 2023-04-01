@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -228,10 +228,13 @@ class Kelompok_model extends MY_Model
 
         $data['id_master']  = bilangan($post['id_master']);
         $data['nama']       = nama_terbatas($post['nama']);
-        $data['slug']       = unique_slug($this->table, $data['nama'], $id);
         $data['keterangan'] = htmlentities($post['keterangan']);
         $data['kode']       = nomor_surat_keputusan($post['kode']);
         $data['tipe']       = $this->tipe;
+
+        if (null === $id) {
+            $data['slug'] = unique_slug($this->table, $data['nama']);
+        }
 
         return $data;
     }
@@ -241,8 +244,7 @@ class Kelompok_model extends MY_Model
         $data = $this->validasi($this->input->post());
 
         if ($this->get_kelompok(null, $data['kode'])) {
-            $this->session->success   = -1;
-            $this->session->error_msg = "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silahkan gunakan kode yang lain!";
+            session_error("<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silahkan gunakan kode yang lain!");
 
             return false;
         }
@@ -302,19 +304,18 @@ class Kelompok_model extends MY_Model
         }
 
         if ($validasi_anggota->id_penduduk == $data['id_penduduk']) {
-            $this->session->success   = -1;
-            $this->session->error_msg = 'Nama Anggota yang dipilih sudah masuk kelompok';
-            redirect("kelompok/form_anggota/{$validasi_anggota->id_kelompok}");
+            session_error('Nama Anggota yang dipilih sudah masuk kelompok');
 
-            return false;
+            redirect("kelompok/form_anggota/{$validasi_anggota->id_kelompok}");
         }
 
         $outp    = $this->db->insert('kelompok_anggota', $data);
+        $id      = $this->db->insert_id();
         $id_pend = $data['id_penduduk'];
         $nik     = $this->get_anggota($id, $id_pend);
 
         // Upload foto dilakukan setelah ada id, karena nama foto berisi nik
-        if ($foto = upload_foto_penduduk()) {
+        if ($foto = upload_foto_penduduk(time() . '-' . $id . '-' . mt_rand(10000, 999999))) {
             $this->db->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
         }
 
@@ -326,8 +327,7 @@ class Kelompok_model extends MY_Model
         $data = $this->validasi($this->input->post(), $id);
 
         if ($this->get_kelompok($id, $data['kode'])) {
-            $this->session->success   = -1;
-            $this->session->error_msg = '<br/>Kode ' . $this->tipe . ' sudah digunakan';
+            session_error("<br/>Kode {$this->tipe} sudah digunakan");
 
             return false;
         }
@@ -349,8 +349,7 @@ class Kelompok_model extends MY_Model
 
         $nik = $this->get_anggota($id, $id_a);
 
-        // Upload foto dilakukan setelah ada id, karena nama foto berisi nik
-        if ($foto = upload_foto_penduduk()) {
+        if ($foto = upload_foto_penduduk(time() . '-' . $id_a . '-' . mt_rand(10000, 999999))) {
             $this->db->where('id', $id_a)->update('tweb_penduduk', ['foto' => $foto]);
         }
 
@@ -436,17 +435,17 @@ class Kelompok_model extends MY_Model
     {
         $this->load->model('penduduk_model');
         $sql = "SELECT u.id, u.nik, u.nama, k.id as id_kelompok, k.nama as nama_kelompok, u.tempatlahir, u.tanggallahir, s.nama as sex,
-				DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 AS umur,
-				d.nama as pendidikan, f.nama as warganegara, a.nama as agama,
-				wil.rt, wil.rw, wil.dusun
-			FROM kelompok k
-			LEFT JOIN tweb_penduduk u ON u.id = k.id_ketua
-			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
-			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
-			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
-			LEFT JOIN tweb_penduduk_sex s ON s.id = u.sex
-			LEFT JOIN tweb_wil_clusterdesa wil ON wil.id = u.id_cluster
-			WHERE k.id = {$id} LIMIT 1";
+                DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 AS umur,
+                d.nama as pendidikan, f.nama as warganegara, a.nama as agama,
+                wil.rt, wil.rw, wil.dusun
+            FROM kelompok k
+            LEFT JOIN tweb_penduduk u ON u.id = k.id_ketua
+            LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
+            LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
+            LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
+            LEFT JOIN tweb_penduduk_sex s ON s.id = u.sex
+            LEFT JOIN tweb_wil_clusterdesa wil ON wil.id = u.id_cluster
+            WHERE k.id = {$id} LIMIT 1";
         $query                  = $this->db->query($sql);
         $data                   = $query->row_array();
         $data['alamat_wilayah'] = $this->penduduk_model->get_alamat_wilayah($data['id']);
@@ -504,18 +503,18 @@ class Kelompok_model extends MY_Model
         $this->db
             ->select('p.id, nik, nama')
             ->select("(
-				case when (p.id_kk IS NULL or p.id_kk = 0)
-					then
-						case when (cp.dusun = '-' or cp.dusun = '')
-							then CONCAT(COALESCE(p.alamat_sekarang, ''), ' RT ', cp.rt, ' / RW ', cp.rw)
-							else CONCAT(COALESCE(p.alamat_sekarang, ''), ' {$sebutan_dusun} ', cp.dusun, ' RT ', cp.rt, ' / RW ', cp.rw)
-						end
-					else
-						case when (ck.dusun = '-' or ck.dusun = '')
-							then CONCAT(COALESCE(k.alamat, ''), ' RT ', ck.rt, ' / RW ', ck.rw)
-							else CONCAT(COALESCE(k.alamat, ''), ' {$sebutan_dusun} ', ck.dusun, ' RT ', ck.rt, ' / RW ', ck.rw)
-						end
-				end) AS alamat")
+                case when (p.id_kk IS NULL or p.id_kk = 0)
+                    then
+                        case when (cp.dusun = '-' or cp.dusun = '')
+                            then CONCAT(COALESCE(p.alamat_sekarang, ''), ' RT ', cp.rt, ' / RW ', cp.rw)
+                            else CONCAT(COALESCE(p.alamat_sekarang, ''), ' {$sebutan_dusun} ', cp.dusun, ' RT ', cp.rt, ' / RW ', cp.rw)
+                        end
+                    else
+                        case when (ck.dusun = '-' or ck.dusun = '')
+                            then CONCAT(COALESCE(k.alamat, ''), ' RT ', ck.rt, ' / RW ', ck.rw)
+                            else CONCAT(COALESCE(k.alamat, ''), ' {$sebutan_dusun} ', ck.dusun, ' RT ', ck.rt, ' / RW ', ck.rw)
+                        end
+                end) AS alamat")
             ->from('penduduk_hidup p')
             ->join('tweb_wil_clusterdesa cp', 'p.id_cluster = cp.id', 'left')
             ->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
@@ -644,14 +643,5 @@ class Kelompok_model extends MY_Model
         }
 
         return $judul;
-    }
-
-    public function slug($slug = null)
-    {
-        return $this->db
-            ->select('id')
-            ->get_where($this->table, ['slug' => $slug])
-            ->row()
-            ->id;
     }
 }

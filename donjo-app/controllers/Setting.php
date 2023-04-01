@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,11 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
+use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -56,20 +58,29 @@ class Setting extends Admin_Controller
             'latar_website' => $this->theme_model->latar_website(),
             'latar_login'   => $this->theme_model->latar_login(),
             'list_tema'     => $this->theme_model->list_all(),
+            'bsre'          => SettingAplikasi::where('key', '=', 'logo_bsre')->first(),
         ];
         $this->setting_model->load_options();
 
         $this->render('setting/setting_form', $data);
     }
 
+    // Untuk view lama
     public function update()
     {
         $this->redirect_hak_akses_url('u');
         $this->setting_model->update_setting($this->input->post());
-        // Untuk notif blade
-        set_session('success', 'Berhasil Ubah Data');
-        //untuk notif view
         status_sukses(true, false, 'Berhasil Ubah Data');
+
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    // Untuk view menggunakan blade
+    public function new_update()
+    {
+        $this->redirect_hak_akses_url('u');
+        $this->setting_model->update_setting($this->input->post());
+        set_session('success', 'Berhasil Ubah Data');
 
         redirect($_SERVER['HTTP_REFERER']);
     }

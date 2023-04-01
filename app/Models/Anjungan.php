@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -51,13 +51,6 @@ class Anjungan extends Model
     protected $table = 'anjungan';
 
     /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -68,6 +61,11 @@ class Anjungan extends Model
         'keterangan',
         'status',
         'tipe',
+        'printer_ip',
+        'printer_port',
+        'keyboard',
+        'created_by',
+        'updated_by',
     ];
 
     /**
@@ -76,6 +74,37 @@ class Anjungan extends Model
      * @var array
      */
     protected $casts = [
-        'status' => 'boolean',
+        'status'   => 'boolean',
+        'keyboard' => 'boolean',
     ];
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = [
+        // 'createdBy',
+        // 'updatedBy',
+    ];
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function createdBy()
+    {
+        return $this->hasOne(User::class, 'id', 'created_by');
+    }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function updatedBy()
+    {
+        return $this->hasOne(User::class, 'id', 'updated_by');
+    }
 }

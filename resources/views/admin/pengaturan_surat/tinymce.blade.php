@@ -10,11 +10,51 @@
         </div>
     </div>
 </div>
-<div class="tab-pane" id="kode-isian">
+<div class="tab-pane" id="form-isian">
 
     @include('admin.pengaturan_surat.kembali')
 
     <div class="box-body">
+        <h5><b>Sumber Data</b></h5>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <tbody>
+                    <tr style="font-weight: bold;">
+                        <td>Data Penduduk Individu Berdasarkan</td>
+                        <td>Pilihan</td>
+                    </tr>
+                    <tr>
+                        <td>Jenis Kelamin</td>
+                        <td>
+                            <select class="form-control input-sm select2" name="individu_sex">
+                                <option value="">SEMUA</option>
+                                @foreach ($form_isian['daftar_jenis_kelamin'] as $key => $data):
+                                    <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->individu->sex)>{{ $data }}
+                                    </option>
+                                    <?php endforeach; ?>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Jenis Peristiwa</td>
+                        <td>
+                            <select class="form-control input-sm select2" name="individu_status_dasar">
+                                <option value="">SEMUA</option>
+                                @foreach ($form_isian['daftar_status_dasar'] as $key => $data):
+                                    <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->individu->status_dasar)>{{ $data }}
+                                    </option>
+                                    <?php endforeach; ?>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr>
+
+        <h5><b>Kode Isian</b></h5>
         <div class="table-responsive">
             <table class="table table-hover table-striped">
                 <tbody>
@@ -23,7 +63,7 @@
                         <td>Deskripsi</td>
                         <td>Aksi</td>
                     </tr>
-                    @forelse ($kodeIsian as $key => $value)
+                    @forelse ($suratMaster->kode_isian as $key => $value)
                         <tr class="duplikasi" id="gandakan-{{ $key }}">
                             @if ($value->tipe === 'text')
                                 <td><input type="text" name="nama_kode[]" class="form-control input-sm"

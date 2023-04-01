@@ -64099,8 +64099,7 @@ class Data_awal_seeder extends CI_Model
             [
                 "id" => 1,
                 "username" => "admin",
-                "password" =>
-                    '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.',
+                "password" => '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.',
                 "id_grup" => 1,
                 "email" => "info@opendesa.id",
                 "last_login" => "2022-02-28 19:55:01",

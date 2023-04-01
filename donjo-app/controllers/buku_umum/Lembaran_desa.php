@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -148,13 +148,12 @@ class Lembaran_desa extends Admin_Controller
 
     public function dialog_daftar($aksi = 'cetak', $o = 0)
     {
+        $data                    = $this->modal_penandatangan();
         $data['aksi']            = $aksi;
         $data['form_action']     = site_url("lembaran_desa/daftar/{$aksi}/{$o}");
         $data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
-        $data['pamong']          = $this->pamong_model->list_data();
-        $data['pamong_ttd']      = $this->pamong_model->get_ub();
-        $data['pamong_ketahui']  = $this->pamong_model->get_ttd();
-        $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat   = 3);
+        $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat = 3);
+
         $this->load->view('dokumen/dialog_cetak', $data);
     }
 
@@ -168,12 +167,12 @@ class Lembaran_desa extends Admin_Controller
     private function data_cetak($aksi)
     {
         $post                   = $this->input->post();
-        $data['main']           = $this->web_dokumen_model->data_cetak($kat           = 3, $post['tahun'], $post['jenis_peraturan']);
+        $data['main']           = $this->web_dokumen_model->data_cetak($kat = 3, $post['tahun'], $post['jenis_peraturan']);
         $data['input']          = $post;
         $data['pamong_ttd']     = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
         $data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
         $data['tahun']          = $post['tahun'];
-        $data['desa']           = $this->config_model->get_data();
+        $data['desa']           = $this->header['desa'];
         $data['aksi']           = $aksi;
         $data['template']       = 'lembaran_desa_print';
 

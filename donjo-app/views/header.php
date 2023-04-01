@@ -96,6 +96,9 @@
 		<script type="text/javascript">
 			var BASE_URL = "<?= base_url() ?>";
 			var SITE_URL = "<?= site_url() ?>";
+			var MAPBOX_KEY = '<?= setting('mapbox_key') ?>';
+			var JENIS_PETA = '<?= setting('jenis_peta') ?>';
+			var TAMPIL_LUAS = "<?= setting('tampil_luas_peta') ?>";
 		</script>
 
 		<!-- Highcharts JS -->
@@ -144,7 +147,7 @@
 							<?php endif ?>
 							<?php if (can('b', 'permohonan_surat_admin')): ?>
 								<li>
-									<a href="<?= site_url('permohonan_surat_admin/clear') ?>">
+									<a href="<?= site_url('permohonan_surat_admin') ?>">
 										<span><i class="fa fa-print fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
 										<?php if ($notif_permohonan_surat) : ?>
 											<span class="badge" id="b_permohonan_surat"><?= $notif_permohonan_surat ?></span>
@@ -172,6 +175,18 @@
 									</a>
 								</li>
 							<?php endif ?>
+
+							<?php if (can('b', 'keluar') && (setting('verifikasi_kades') || setting('verifikasi_sekdes'))): ?>
+								<li>
+									<a href="<?= site_url('keluar/clear/masuk') ?>">
+										<span><i class="fa fa-bell-o fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
+										<?php if ($notif_permohonan) : ?>
+											<span class="badge" id="b_inbox"><?= $notif_permohonan ?></span>
+										<?php endif ?>
+									</a>
+								</li>
+							<?php endif ?>
+
 							<li class="dropdown user user-menu">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									<img src="<?= AmbilFoto($foto) ?>" class="user-image" alt="User Image"/>
@@ -197,7 +212,7 @@
 							</li>
 							<li>
 								<a href="#" data-toggle="control-sidebar" title="Informasi">
-									<span><i class="fa fa-question-circle fa-lg""></i>&nbsp;</span>
+									<span><i class="fa fa-question-circle fa-lg"></i>&nbsp;</span>
 								</a>
 							</li>
 							<?php if ($this->header['kategori'] && can('u', $this->controller)): ?>

@@ -1,45 +1,3 @@
-<?php
-/**
- * File ini:
- *
- * Form penambahan dan perubahan Surat Masuk
- *
- * donjo-app/views/surat_masuk/form.php
- */
-
-/*
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- *
- * @see 	https://github.com/OpenSID/OpenSID
- */
-?>
-
 <div class="content-wrapper">
     <section class="content-header">
         <h1>Disposisi Surat Masuk</h1>
@@ -141,22 +99,18 @@
                             <textarea id="isi_singkat" name="isi_singkat" class="form-control input-sm required" placeholder="Isi Singkat/Perihal" rows="5"><?= $surat_masuk['isi_singkat']?></textarea>
                         </div>
                     </div>
-                    <div class="form-group" id="grp_disposisi">
+                    <div class="form-group">
                         <label class="col-sm-3 control-label" for="disposisi_kepada">Disposisi Kepada</label>
                         <div class="col-sm-8 col-lg-8">
-                            <div id="op_item" class="checkbox-group required">
+                            <div id="op_item">
                                 <?php foreach ($ref_disposisi as $id => $nama): ?>
                                     <div class="col-sm-12 col-lg-6 checkbox">
                                         <label style="padding: 5px;">
-                                            <input type="checkbox" name="disposisi_kepada[]" onclick="cek()" value="<?= $id ?>" <?= selected(in_array($id, $disposisi_surat_masuk), true, true) ?>><?= strtoupper($nama); ?>
+                                            <input name="disposisi_kepada[]" value="<?= $id ?>" type="checkbox" <?= selected(in_array($id, $disposisi_surat_masuk), true, true) ?>><?= strtoupper($nama); ?>
                                         </label>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
-                        </div>
-                        <label class="col-sm-3 control-label"></label>
-                        <div class="col-sm-8 col-lg-8">
-                            <label id="msg_disposisi" class="error">Kolom ini diperlukan.</label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -168,38 +122,18 @@
                 </div>
                 <div class='box-footer'>
                     <button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-                    <button type='button' class='btn btn-social btn-flat btn-info btn-sm pull-right' onclick="submit_form()" ><i class='fa fa-check'></i> Simpan</button>
+                    <button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
                 </div>
             </form>
         </div>
     </section>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(function() {
         var keyword = <?= $pengirim; ?> ;
         $("#pengirim").autocomplete({
             source: keyword,
             maxShowItems: 10,
         });
-
-        $("#msg_disposisi").hide();
     });
-
-    function submit_form() {
-		if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
-			$("#validasi").submit();
-		}
-
-        cek();
-	}
-
-    function cek() {
-        if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
-            $("#msg_disposisi").hide();
-            $("#grp_disposisi").closest(".form-group").removeClass("has-error");
-        } else {
-            $("#msg_disposisi").show();
-            $("#grp_disposisi").closest(".form-group").addClass("has-error");
-        }
-    }
 </script>
