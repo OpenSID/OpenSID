@@ -1,6 +1,4 @@
-Di rilis ini, versi 23.04-premium berisi penambahan fitur [isi disini] dan perbaikan lain yang diminta Komunitas SID.
-
-Terima kasih pada [isi disini] yang terus berkontribusi.
+Di rilis ini, versi 23.04-premium berisi penambahan fitur Menambahkan pengaturan form isian non warga pada surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
 
 #### Penambahan Fitur
 

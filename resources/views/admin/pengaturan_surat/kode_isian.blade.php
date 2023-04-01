@@ -10,8 +10,10 @@
                 <td class="isian-pilihan">PILIHAN</td>
                 <td>AKSI</td>
             </tr>
-            @forelse ($suratMaster->kode_isian as $key => $value)
+            @php $jumlah_isian = 0; @endphp
+            @foreach ($suratMaster->kode_isian as $key => $value)
                 @if (!$value->statis)
+                    @php $jumlah_isian++; @endphp
                     <tr class="duplikasi" id="gandakan-{{ $key }}" data-id="{{ $key }}">
                         <td>
                             <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
@@ -50,7 +52,8 @@
                         </td>
                     </tr>
                 @endif
-            @empty
+            @endforeach
+            @if ($jumlah_isian == 0)
                 <tr class="duplikasi" id="gandakan-0" data-id="0">
                     <td>
                         <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
@@ -85,7 +88,7 @@
                                 class="fa fa-trash-o"></i></button>
                     </td>
                 </tr>
-            @endforelse
+            @endif
             <tr>
                 <td colspan="5">
                     <button type="button" class="btn btn-success btn-sm btn-block tambah-kode"><i
