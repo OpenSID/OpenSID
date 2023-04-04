@@ -3,5 +3,6 @@ Di rilis ini, versi 23.04-premium-rev01 berisi penambahan fitur Menambahkan peng
 #### Perbaikan BUG
 
 1. [#6536](https://github.com/OpenSID/OpenSID/issues/6536) Perbaikan buku tamu yang mengakibatkan gagal migrasi rilis v23.04.
+2. [#6419](https://github.com/OpenSID/OpenSID/issues/6419) Perbaikan tidak bisa simpan identitas desa jika kolom operator belum tersedia.
 
 #### Perubahan Teknis

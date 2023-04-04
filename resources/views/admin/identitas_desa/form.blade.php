@@ -155,6 +155,7 @@
                                 value="{{ $main->telepon }}" />
                         </div>
                     </div>
+                    @if ($nomor_operator)
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="telepon">Nomor Ponsel
                             {{ ucwords($setting->sebutan_desa) }}</label>
@@ -164,6 +165,7 @@
                                 value="{{ $main->nomor_operator }}" />
                         </div>
                     </div>
+                    @endif
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="website">Website
                             {{ ucwords($setting->sebutan_desa) }}</label>

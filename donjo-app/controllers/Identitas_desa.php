@@ -91,6 +91,8 @@ class Identitas_desa extends Admin_Controller
             $main = Config::first();
         }
 
+        $nomor_operator = Schema::hasColumn('config', 'nomor_operator');
+
         if ($main) {
             $form_action = route('identitas_desa.update', $main->id);
         } else {
@@ -99,7 +101,7 @@ class Identitas_desa extends Admin_Controller
 
         $cek_kades = $this->cek_kades;
 
-        return view('admin.identitas_desa.form', compact('main', 'form_action', 'cek_kades'));
+        return view('admin.identitas_desa.form', compact('main', 'form_action', 'cek_kades', 'nomor_operator'));
     }
 
     /**
@@ -230,7 +232,7 @@ class Identitas_desa extends Admin_Controller
             $request['ukuran'] = 100;
         }
 
-        return [
+        $return = [
             'logo'              => static::unggah('logo', true, bilangan($request['ukuran'])) ?? $request['old_logo'],
             'kantor_desa'       => static::unggah('kantor_desa') ?? $request['old_kantor_desa'],
             'nama_desa'         => nama_desa($request['nama_desa']),
@@ -248,8 +250,13 @@ class Identitas_desa extends Admin_Controller
             'kode_kabupaten'    => bilangan($request['kode_kabupaten']),
             'nama_propinsi'     => nama_terbatas($request['nama_propinsi']),
             'kode_propinsi'     => bilangan($request['kode_propinsi']),
-            'nomor_operator'    => bilangan($request['nomor_operator']),
         ];
+
+        if (Schema::hasColumn('config', 'nomor_operator')) {
+            $return['nomor_operator'] = bilangan($request['nomor_operator']);
+        }
+
+        return $return;
     }
 
     // TODO : Ganti cara ini
