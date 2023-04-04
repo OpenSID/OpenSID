@@ -135,7 +135,7 @@ class Buku_tamu extends MY_Controller
             BukuKepuasan::create([
                 'id_nama'           => $tamu->id,
                 'id_pertanyaan'     => $pertanyaan->id,
-                'pertanyaan_statis' => $pertanyaan->pertanyaan_statis,
+                'pertanyaan_statis' => $pertanyaan->pertanyaan,
                 'id_jawaban'        => $jawaban,
             ]);
 
@@ -169,10 +169,10 @@ class Buku_tamu extends MY_Controller
             'nama'          => htmlentities($request['nama']),
             'telepon'       => htmlentities($request['telepon']),
             'instansi'      => htmlentities($request['instansi']),
-            'jenis_kelamin' => htmlentities($request['jenis_kelamin']),
+            'jenis_kelamin' => bilangan($request['jenis_kelamin']),
             'alamat'        => htmlentities($request['alamat']),
-            'id_bidang'     => htmlentities($request['id_bidang']),
-            'id_keperluan'  => htmlentities($request['id_keperluan']),
+            'bidang'        => bilangan($request['id_bidang']),
+            'keperluan'     => bilangan($request['id_keperluan']),
             'foto'          => $this->foto($request['foto']),
         ];
     }

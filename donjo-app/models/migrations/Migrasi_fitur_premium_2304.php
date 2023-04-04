@@ -37,7 +37,6 @@
 
 use App\Enums\StatusEnum;
 use App\Enums\StatusSuratKecamatanEnum;
-use App\Models\BukuKepuasan;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -51,7 +50,6 @@ class Migrasi_fitur_premium_2304 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2303');
         $hasil = $hasil && $this->migrasi_2023030271($hasil);
-        $hasil = $hasil && $this->migrasi_2023031551($hasil);
         $hasil = $hasil && $this->tambah_kolom_kecamatan($hasil);
         $hasil = $hasil && $this->suratPermohonanAktaLahir($hasil);
         $hasil = $hasil && $this->suratKeteranganBepergian($hasil);
@@ -73,26 +71,6 @@ class Migrasi_fitur_premium_2304 extends MY_model
         ];
 
         return $hasil && $this->dbforge->modify_column('user', $fields);
-    }
-
-    protected function migrasi_2023031551($hasil)
-    {
-        $data = BukuKepuasan::query()->has('pertanyaan')->get()->pluck('pertanyaan.pertanyaan', 'id');
-
-        if (count($data) !== 0) {
-            foreach ($data as $key => $value) {
-                $batch[] = [
-                    'id'                => $key,
-                    'pertanyaan_statis' => $value,
-                ];
-            }
-
-            if ($batch) {
-                $hasil = $hasil && $this->db->update_batch('buku_kepuasan', $batch, 'id');
-            }
-        }
-
-        return $hasil;
     }
 
     protected function tambah_kolom_kecamatan($hasil)

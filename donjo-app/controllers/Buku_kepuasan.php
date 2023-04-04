@@ -49,7 +49,7 @@ class Buku_kepuasan extends Anjungan_Controller
     public function index()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(BukuKepuasan::query()->with('tamu', 'pertanyaan'))
+            return datatables()->of(BukuKepuasan::query()->with('tamu'))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';

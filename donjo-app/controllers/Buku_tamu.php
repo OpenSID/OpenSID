@@ -62,7 +62,7 @@ class Buku_tamu extends Anjungan_Controller
             ];
 
             return datatables()->of(BukuTamu::query()
-                ->with('jk', 'bidang', 'keperluan')
+                ->with('jk')
                 ->filters($filters))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -114,8 +114,7 @@ class Buku_tamu extends Anjungan_Controller
             'tanggal' => $tanggal,
         ];
 
-        return BukuTamu::with(['keperluan'])
-            ->filters($filters)
+        return BukuTamu::filters($filters)
             ->latest()
             ->get();
     }
@@ -147,7 +146,7 @@ class Buku_tamu extends Anjungan_Controller
             ->build();
 
         // Cetak Header Tabel
-        $values        = ['NO', 'HARI / TANGGAL', 'NAMA', 'TELEPON', 'INSTANSI', 'JENIS KELAMIN', 'ALAMAT', 'KEPERLUAN'];
+        $values        = ['NO', 'HARI / TANGGAL', 'NAMA', 'TELEPON', 'INSTANSI', 'JENIS KELAMIN', 'ALAMAT', 'BERTEMU', 'KEPERLUAN'];
         $rowFromValues = WriterEntityFactory::createRowFromArray($values, $yellowBackgroundStyle);
         $writer->addRow($rowFromValues);
 
@@ -161,7 +160,8 @@ class Buku_tamu extends Anjungan_Controller
                 WriterEntityFactory::createCell($data->instansi),
                 WriterEntityFactory::createCell(JenisKelaminEnum::all()[$data->jenis_kelamin]),
                 WriterEntityFactory::createCell($data->alamat),
-                WriterEntityFactory::createCell($data->keperluan->keperluan),
+                WriterEntityFactory::createCell($data->bidang),
+                WriterEntityFactory::createCell($data->keperluan),
             ];
 
             $singleRow = WriterEntityFactory::createRow($cells);
