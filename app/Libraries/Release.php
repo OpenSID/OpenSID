@@ -37,9 +37,8 @@
 
 namespace App\Libraries;
 
-use Esyede\Curly;
 use Exception;
-use stdClass;
+use GuzzleHttp\Client;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -86,16 +85,16 @@ class Release
         }
 
         if (! $this->interval) {
-            $this->setInterval(7);
+            $this->setInterval(ENEVIRONMENT == 'development' ? 0 : 7);
         }
     }
 
     /**
      * Set URL endpoint API yang ingin di hit.
      *
-     * @param string $url
+     * return $this
      */
-    public function setApiUrl($url)
+    public function setApiUrl(string $url)
     {
         $this->api = $url;
 
@@ -107,11 +106,10 @@ class Release
      * Defaultnya 7 hari sekali akan dilakukan pembaruan cache.
      * Gunakan ini jika ingin mengumbah interval sinkronisasinya.
      *
-     * @param int $interval
+     * return $this
      */
-    public function setInterval($interval)
+    public function setInterval(int $interval)
     {
-        $interval       = (int) $interval;
         $this->interval = $interval * 86400; // N * 86400 detik (1 hari)
 
         return $this;
@@ -124,9 +122,9 @@ class Release
      * Jika folder tidak ditemuakan atau tidak writable
      * maka akan fallback ke path default (FCPATH/version.json)
      *
-     * @param string $folder
+     * return $this
      */
-    public function setCacheFolder($folder)
+    public function setCacheFolder(string $folder)
     {
         $folder = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $folder);
         $folder = str_replace(FCPATH, '', $folder);
@@ -151,19 +149,16 @@ class Release
      */
     public function isAvailable()
     {
-        $current = $this->fixVersioning($this->getCurrentVersion());
-        $latest  = $this->fixVersioning($this->getLatestVersion());
-
-        return $current < $latest;
+        return $this->fixVersioning($this->getCurrentVersion()) < $this->fixVersioning($this->getLatestVersion());
     }
 
     /**
      * Atur versi yang digunakan saat ini
-     * Contoh return value: 'v20.06-pasca'
+     * Contoh return value: 'v2304.0.0'
      *
-     * @param string $version
+     * return $this
      */
-    public function setCurrentVersion($version)
+    public function setCurrentVersion(?string $version = null)
     {
         $this->version = 'v' . ltrim($version ?? VERSION, 'v');
 
@@ -182,7 +177,7 @@ class Release
 
     /**
      * Ambil tag versi dari rilis terbaru.
-     * Contoh return value: 'v20.07-premium'
+     * Contoh return value: 'v2304.0.1'
      *
      * @return string
      */
@@ -234,15 +229,11 @@ class Release
      *
      * @see https://stackoverflow.com/questions/24985530/parsing-a-markdown-style-link-safely
      *
-     * @param string $body
-     *
      * @return string
      */
     protected function convertMarkdownLink(?string $body = null)
     {
-        return preg_replace_callback('/\[(.*?)\]\((.*?)\)/', static function ($matches) {
-            return '<a href="' . $matches[2] . '">' . $matches[1] . '</a>';
-        }, htmlspecialchars($body));
+        return preg_replace_callback('/\[(.*?)\]\((.*?)\)/', static fn ($matches) => '<a href="' . $matches[2] . '">' . $matches[1] . '</a>', htmlspecialchars($body));
     }
 
     /**
@@ -257,28 +248,22 @@ class Release
         }
 
         if ($this->cacheIsOutdated()) {
-            Curly::$certificate = FCPATH . 'cacert.pem';
+            try {
+                $client   = new Client();
+                $response = $client->get($this->api, [
+                    'headers' => [
+                        'Accept' => 'application/vnd.github.v3+json',
+                    ],
+                    'verify' => false,
+                ]);
 
-            $options  = [CURLOPT_HTTPHEADER => ['Accept' => 'application/vnd.github.v3+json']];
-            $response = Curly::get($this->api, [], $options);
-
-            if ($response instanceof stdClass) {
-                $response = [
-                    'tag_name'     => $response->body->tag_name,
-                    'name'         => $response->body->name,
-                    'zipball_url'  => $response->body->zipball_url,
-                    'tarball_url'  => $response->body->tarball_url,
-                    'html_url'     => $response->body->html_url,
-                    'body'         => $response->body->body,
-                    'created_at'   => $response->body->created_at,
-                    'published_at' => $response->body->published_at,
-                ];
-
-                $this->write(json_encode($response));
+                $this->write($response->getBody()->getContents());
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
             }
         }
 
-        return json_decode($this->read($this->cache));
+        return json_decode($this->read(), null, 512, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -297,30 +282,30 @@ class Release
 
     /**
      * Ubah versi rilis menjadi integer agar bisa dibandingkan
-     * versi rilis (tgl 1) > beta > rev
      *
-     * @param string $version
+     * Contoh : 2304.0.0 => 230400000000
      *
-     * @return float
+     * @return int
      */
-    public function fixVersioning($version)
+    public function fixVersioning(string $version)
     {
-        $version = preg_replace('/rev/', '05', $version); // 'v22.04-premium-rev01 -> 22.07.05.01
-        $version = preg_replace('/beta/', '07', $version); // 'v22.04-premium-beta01 -> 22.07.07.01
-        $version = preg_replace('/[^0-9]/', '', $version); // 'v20.07-premium' -> '20.07'
-        $patch   = (float) (strlen($version) > 4) ? ('0.' . substr($version, 4, 8)) : 0; // 2007.0501, 2007.0701, 2007
+        $version = str_replace('v', '', $version);
+        $version = explode('.', $version);
 
-        return (float) substr($version, 0, 4) + $patch;
+        // major, minor dan patch maksimal 4 digit
+        $major = (int) substr($version[0], 0, 4) * 100_000_000;
+        $minor = (int) substr($version[1], 0, 4) * 10000;
+        $patch = (int) substr($version[2], 0, 4);
+
+        return $major + $minor + $patch;
     }
 
     /**
      * Buat/timpa file cache jika sudah kadaluwarsa.
      *
-     * @param string $cache
-     *
      * @return void
      */
-    public function write($cache)
+    public function write(string $cache)
     {
         $file = $this->cache;
 
