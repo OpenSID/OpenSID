@@ -132,12 +132,10 @@ class TinyMCE
     public function getTemplateSurat()
     {
         return collect(FormatSurat::whereNotNull('template')->jenis(FormatSurat::TINYMCE)->get(['nama', 'template', 'template_desa']))
-            ->map(static function ($item, $key) {
-                return [
-                    'nama'     => 'Surat ' . $item->nama,
-                    'template' => $item->template_desa ?? $item->template,
-                ];
-            });
+            ->map(static fn ($item, $key) => [
+                'nama'     => 'Surat ' . $item->nama,
+                'template' => $item->template_desa ?? $item->template,
+            ]);
     }
 
     public function getFormatedKodeIsian($data = [], $withData = false)
@@ -248,6 +246,7 @@ class TinyMCE
 
     private function getIsianIdentitas($id_penduduk = null)
     {
+        $config              = null;
         $sebutan_dusun       = null;
         $sebutan_desa        = null;
         $sebutan_kecamatan   = null;
@@ -430,6 +429,8 @@ class TinyMCE
 
     private function getIsianPenduduk($id_penduduk = null, $prefix = '')
     {
+        $ortu     = null;
+        $penduduk = null;
         // Data Umum
         if (! empty($prefix)) {
             $ortu   = ' ' . ucwords($prefix);
@@ -664,9 +665,7 @@ class TinyMCE
                 'judul' => 'Urutan',
                 'isian' => '[Klgx_nO]',
                 'data'  => $anggota ? $anggota->pluck('id')
-                    ->map(static function ($item, $key) {
-                        return $key + 1;
-                    })
+                    ->map(static fn ($item, $key) => $key + 1)
                     ->values()->toArray() : '',
             ],
             [
@@ -693,27 +692,21 @@ class TinyMCE
                 'judul' => 'Tgl Lahir',
                 'isian' => '[Klgx_tanggallahiR]',
                 'data'  => $anggota ? $anggota->pluck('tanggallahir')
-                    ->map(static function ($item) {
-                        return tgl_indo($item);
-                    })
+                    ->map(static fn ($item) => tgl_indo($item))
                     ->toArray() : '',
             ],
             [
                 'judul' => 'Tempat Tgl Lahir',
                 'isian' => '[Klgx_tempat_tgl_lahiR]',
                 'data'  => $anggota ? $anggota->pluck('tempatlahir', 'tanggallahir')
-                    ->map(static function ($item, $key) {
-                        return $item . ', ' . tgl_indo($key);
-                    })
+                    ->map(static fn ($item, $key) => $item . ', ' . tgl_indo($key))
                     ->values()->toArray() : '',
             ],
             [
                 'judul' => 'Tempat Tgl Lahir (TTL)',
                 'isian' => '[Klgx_ttL]',
                 'data'  => $anggota ? $anggota->pluck('tempatlahir', 'tanggallahir')
-                    ->map(static function ($item, $key) {
-                        return $item . ', ' . tgl_indo($key);
-                    })
+                    ->map(static fn ($item, $key) => $item . ', ' . tgl_indo($key))
                     ->values()->toArray() : '',
             ],
             [
@@ -757,6 +750,11 @@ class TinyMCE
                 'data'  => $anggota ? $anggota->pluck('warganegara.nama')->toArray() : '',
             ],
             [
+                'judul' => 'Alamat',
+                'isian' => '[Klgx_alamat]',
+                'data'  => $anggota ? $anggota->pluck('alamat_wilayah')->toArray() : '',
+            ],
+            [
                 'judul' => 'Dokumen Pasport',
                 'isian' => '[Klgx_dokumen_pasporT]',
                 'data'  => $anggota ? $anggota->pluck('dokumen_pasport')->toArray() : '',
@@ -765,9 +763,7 @@ class TinyMCE
                 'judul' => 'Tgl Akhir Paspor',
                 'isian' => '[Klgx_tanggal_akhir_paspoR]',
                 'data'  => $anggota ? $anggota->pluck('tanggal_akhir_paspor')
-                    ->map(static function ($item) {
-                        return tgl_indo($item);
-                    })
+                    ->map(static fn ($item) => tgl_indo($item))
                     ->toArray() : '',
             ],
             [
@@ -813,13 +809,11 @@ class TinyMCE
             ];
 
             $postStatis = collect($postStatis)
-                ->map(static function ($item, $key) use ($input) {
-                    return [
-                        'judul' => $item['nama'],
-                        'isian' => '[' . ucfirst(uclast(str_replace(['[', ']'], '', $item['kode']))) . ']',
-                        'data'  => $input[underscore($item['nama'], true, true)],
-                    ];
-                })
+                ->map(static fn ($item, $key) => [
+                    'judul' => $item['nama'],
+                    'isian' => '[' . ucfirst(uclast(str_replace(['[', ']'], '', $item['kode']))) . ']',
+                    'data'  => $input[underscore($item['nama'], true, true)],
+                ])
                 ->toArray();
         }
 
@@ -950,8 +944,9 @@ class TinyMCE
 
         foreach ($newKodeIsian as $key => $value) {
             if (in_array($key, $kecuali)) {
-                $result = $result;
-            } elseif (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
+                continue;
+            }
+            if (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
                 $result = str_replace($key, $value, $result);
             } else {
                 $result = case_replace($key, $value, $result);
@@ -989,6 +984,7 @@ class TinyMCE
      */
     public function formPenandatangan()
     {
+        $atas_nama     = [];
         $config        = Config::first();
         $penandatangan = Pamong::penandaTangan()->get();
 
