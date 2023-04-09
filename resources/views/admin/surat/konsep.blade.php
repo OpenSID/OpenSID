@@ -1,4 +1,4 @@
-@include('admin.pengaturan_surat.asset_tinymce')
+@include('admin.pengaturan_surat.asset_tinymce', ['salin_template' => 'isi'])
 @include('admin.layouts.components.sweetalert2')
 
 @extends('admin.layouts.index')

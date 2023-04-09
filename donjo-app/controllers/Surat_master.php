@@ -502,9 +502,19 @@ class Surat_master extends Admin_Controller
         return json($this->tinymce->getFormatedKodeIsian($log_surat));
     }
 
-    public function salin_template()
+    public function salin_template($jenis = 'isi')
     {
-        return json($this->tinymce->getTemplate()->merge($this->tinymce->getTemplateSurat()));
+        if ($this->input->is_ajax_request()) {
+            if ($jenis == 'isi') {
+                $template = $this->tinymce->getTemplateSurat();
+            } else {
+                $template = $this->tinymce->getTemplate();
+            }
+
+            return json($template);
+        }
+
+        return show_404();
     }
 
     public function preview()

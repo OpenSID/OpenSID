@@ -2,9 +2,10 @@ Di rilis ini, versi 2304.1.0 berisi penambahan fitur [isi disini] dan perbaikan 
 
 #### Penambahan Fitur
 
-1. [#2203](https://github.com/OpenSID/premium/issues/2203) Select2 pamong infinite scroll.
-2. [#2210](https://github.com/OpenSID/premium/issues/2210) Select2 penduduk cetak surat Infinite scroll.
-3. [#6225](https://github.com/OpenSID/OpenSID/issues/6225) Konversi surat RTF - Permohonan Cerai.
+1. [#2203](https://github.com/OpenSID/premium/issues/2203) Penambahan select2 pamong infinite scroll.
+2. [#2210](https://github.com/OpenSID/premium/issues/2210) Penambahan select2 penduduk cetak surat Infinite scroll.
+3. [#6225](https://github.com/OpenSID/OpenSID/issues/6225) Penambahan surat TinyMCE permohonan cerai.
+4. [#6540](https://github.com/OpenSID/OpenSID/issues/6540) Penambahan modul pilihan template sistem atau desa saat buat tempate surat TinyMCE.
 
 #### Perbaikan BUG
 

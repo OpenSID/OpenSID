@@ -112,17 +112,26 @@ class TinyMCE
         $template = [
             [
                 'nama'     => 'Header',
-                'template' => static::HEADER,
+                'template' => [
+                    'sistem' => static::HEADER,
+                    'desa'   => setting('header_surat'),
+                ],
             ],
 
             [
                 'nama'     => 'Footer',
-                'template' => static::FOOTER,
+                'template' => [
+                    'sistem' => static::FOOTER,
+                    'desa'   => setting('footer_surat'),
+                ],
             ],
 
             [
                 'nama'     => 'Footer TTE',
-                'template' => static::FOOTER_TTE,
+                'template' => [
+                    'sistem' => static::FOOTER_TTE,
+                    'desa'   => setting('footer_surat_tte'),
+                ],
             ],
         ];
 
@@ -132,10 +141,15 @@ class TinyMCE
     public function getTemplateSurat()
     {
         return collect(FormatSurat::whereNotNull('template')->jenis(FormatSurat::TINYMCE)->get(['nama', 'template', 'template_desa']))
-            ->map(static fn ($item, $key) => [
-                'nama'     => 'Surat ' . $item->nama,
-                'template' => $item->template_desa ?? $item->template,
-            ]);
+            ->map(static function ($item, $key) {
+                return [
+                    'nama'     => 'Surat ' . $item->nama,
+                    'template' => [
+                        'sistem' => $item->template,
+                        'desa'   => $item->template_desa,
+                    ],
+                ];
+            });
     }
 
     public function getFormatedKodeIsian($data = [], $withData = false)
@@ -268,7 +282,7 @@ class TinyMCE
             $sebutan_kepala_desa = setting('sebutan_kepala_desa');
             $sebutan_camat       = setting('sebutan_camat');
 
-            if (! empty($config->email_desa)) {
+            if (!empty($config->email_desa)) {
                 $alamat_desa  = "{$config->alamat_kantor} Email: {$config->email_desa} Kode Pos: {$config->kode_pos}";
                 $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos} <br> Website: {$config->website} Email: {$config->email_desa}";
             } else {
@@ -276,7 +290,7 @@ class TinyMCE
                 $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos}";
             }
 
-            if (null === $config->pamong()->pamong_nip && (! empty($config->pamong()->pamong_niap))) {
+            if (null === $config->pamong()->pamong_nip && (!empty($config->pamong()->pamong_niap))) {
                 $sebutan_nip_desa = setting('sebutan_nip_desa');
             } else {
                 $sebutan_nip_desa = 'NIP';
@@ -432,7 +446,7 @@ class TinyMCE
         $ortu     = null;
         $penduduk = null;
         // Data Umum
-        if (! empty($prefix)) {
+        if (!empty($prefix)) {
             $ortu   = ' ' . ucwords($prefix);
             $prefix = '_' . uclast($prefix);
         }
@@ -871,7 +885,7 @@ class TinyMCE
             $pamong_nip       = $sebutan_nip_desa . ' : ' . $nip;
         } else {
             $sebutan_nip_desa = setting('sebutan_nip_desa');
-            if (! empty($niap_pamong)) {
+            if (!empty($niap_pamong)) {
                 $nip        = $niap_pamong;
                 $pamong_nip = $sebutan_nip_desa . ' : ' . $niap_pamong;
             } else {
