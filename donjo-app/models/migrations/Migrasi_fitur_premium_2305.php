@@ -118,12 +118,12 @@ class Migrasi_fitur_premium_2305 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2304');
 
-        $hasil = $hasil && $this->migrasi_2023040351($hasil);
+        $hasil = $hasil && $this->migrasi_2023041251($hasil);
 
         return $hasil && true;
     }
 
-    protected function migrasi_2023040351($hasil)
+    protected function migrasi_2023041251($hasil)
     {
         // Hapus kolom id_pertanyaan di tabel buku_kepuasan
         if ($this->db->field_exists('id_pertanyaan', 'buku_kepuasan')) {
@@ -150,7 +150,7 @@ class Migrasi_fitur_premium_2305 extends MY_model
         }
 
         // Tambahkan kolom bidang di tabel buku_tamu
-        if (! $this->db->field_exists('bidang', 'buku_tamu')) {
+        if (!$this->db->field_exists('bidang', 'buku_tamu')) {
             $hasil = $hasil && $this->dbforge->add_column('buku_tamu', [
                 'bidang' => [
                     'type'       => 'VARCHAR',
@@ -185,7 +185,7 @@ class Migrasi_fitur_premium_2305 extends MY_model
         }
 
         // Tambahkan kolom keperluan di tabel buku_tamu
-        if (! $this->db->field_exists('keperluan', 'buku_tamu')) {
+        if (!$this->db->field_exists('keperluan', 'buku_tamu')) {
             $hasil = $hasil && $this->dbforge->add_column('buku_tamu', [
                 'keperluan' => [
                     'type'       => 'VARCHAR',
