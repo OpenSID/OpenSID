@@ -287,7 +287,7 @@ class Release
      *
      * @return int
      */
-    public function fixVersioning(string $version)
+    public function fixVersioning(?string $version = null)
     {
         $version = str_replace('v', '', $version);
         $version = explode('.', $version);

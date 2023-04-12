@@ -145,6 +145,7 @@ class Notif_model extends CI_Model
         $aksi                = explode(',', $notif['aksi']);
         $notif['aksi_ya']    = $aksi[0];
         $notif['aksi_tidak'] = $aksi[1];
+        $notif['isi']        = str_replace(['\n', '\"SEBAGAIMANA ADANYA\"'], ['', '"SEBAGAIMANA ADANYA"'], $notif['isi']);
 
         return $notif;
     }
