@@ -21,7 +21,6 @@
 	<?php if (is_file('desa/pengaturan/siteman/siteman_mandiri.css')) : ?>
 		<link rel='Stylesheet' href="<?= base_url('desa/pengaturan/siteman/siteman_mandiri.css') ?>">
 	<?php endif; ?>
-	<link rel="stylesheet" href="<?= asset('css/mandiri_video.css') ?>">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="<?= asset('bootstrap/css/font-awesome.min.css') ?>">
 	<!-- Google Font -->
@@ -37,40 +36,16 @@
 	<?php endif; ?>
 
 	<?php $this->load->view('head_tags') ?>
-	<?php if ($latar_login_mandiri) : ?>
-		<style type="text/css">
-			body.login {
-				background: url('<?= base_url($latar_login_mandiri) ?>');
-			}
-		</style>
-	<?php endif; ?>
+	<style type="text/css">
+        body.login {
+            background-image: url('<?= default_file(LATAR_KEHADIRAN, DEFAULT_LATAR_KEHADIRAN) ?>');
+        }
+    </style>
 	<?php if (cek_koneksi_internet()): ?>
 	<!-- Form Wizard - smartWizard -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css">
 	<?php endif ?>
 </head>
-
-<?php if ($this->setting->tampilan_anjungan == 1 && ! empty($this->setting->tampilan_anjungan_slider)) : ?>
-	<div id="sliderv" class="video-internal" style="display: none;">
-		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-			<div class="carousel-inner">
-				<?php foreach ($daftar_album as $key => $data) : ?>
-					<div class="item <?= jecho($key, 0, 'active') ?> ">
-						<img src="<?= AmbilGaleri($data['gambar'], 'sedang') ?>" alt="Los Angeles" style="width:100%;">
-					</div>
-				<?php endforeach; ?>
-			</div>
-		</div>
-	</div>
-<?php endif; ?>
-
-<?php if ($this->setting->tampilan_anjungan == 2 && ! empty($this->setting->tampilan_anjungan_video)) : ?>
-	<div class="video-internal" id="videov" style="display: none;">
-		<video loop <?= jecho($this->setting->tampilan_anjungan_audio, 0, 'muted') ?> poster="<?= base_url($latar_login_mandiri) ?>" class="video-internal-bg" id="videona">
-			<source src="<?= $this->setting->tampilan_anjungan_video; ?>" type="video/mp4">
-		</video>
-	</div>
-<?php endif; ?>
 
 <body class="login">
 	<div class="top-content">
@@ -89,11 +64,12 @@
 									<br /><?= $header['alamat_kantor'] ?>
 									<br />Kodepos <?= $header['kode_pos'] ?>
 									<br /><br />Silakan hubungi operator desa untuk mendapatkan kode PIN anda.
-									<?php if (! $cek_anjungan) : ?>
-										<br /><br /><br />IP Address: <?= $this->input->ip_address() ?>
-									<?php else : ?>
-										<br /><br /><br />IP Address : <?= $cek_anjungan['ip_address'] ?>
-										<br />Mac Address : <?= $cek_anjungan['mac_address'] ?>
+									<br /><br /><br />IP Address: <?= $this->input->ip_address() ?>
+									<br />ID Pengunjung: <span class="pengunjung"><?= $_COOKIE['pengunjung'] ?></span> <span><a  href="#" class="copy" title="Copy" style="color: white"><i class="fa fa-copy"></i></a></span>
+									<?php if ($cek_anjungan) : ?>
+										<?php if ($cek_anjungan['mac_address']): ?>
+											<br />Mac Address : <?= $cek_anjungan['mac_address'] ?>
+										<?php endif; ?>
 										<br />Anjungan Mandiri
 										<?= jecho($cek_anjungan['keyboard'] == 1, true, ' | Virtual Keyboard : Aktif') ?>
 									<?php endif; ?>
@@ -202,6 +178,13 @@
 													<button type="button" class="btn btn-block bg-green"><b>LUPA PIN</b></button>
 												</a>
 											</div>
+											<?php if ($cek_anjungan['tipe'] == 1): ?>
+												<div class="form-group">
+													<a href="<?= site_url('layanan-mandiri') ?>">
+														<button type="button" class="btn btn-block bg-green"><b>ANJUNGAN</b></button>
+													</a>
+												</div>
+											<?php endif ?>
 										</form>
 									<?php endif; ?>
 								<?php endif; ?>
@@ -254,10 +237,6 @@
 
 			var ektp = '<?= $this->session->login_ektp ?>';
 			var anjungan = '<?= $cek_anjungan ?>';
-			var tampil_anjungan = '<?= $this->setting->tampilan_anjungan ?>';
-			var tampil_anjungan_video = '<?= $this->setting->tampilan_anjungan_video ?>';
-			var tampil_anjungan_slider = '<?= $this->setting->tampilan_anjungan_slider ?>';
-			var IDLE_TIMEOUT = '<?= $this->setting->tampilan_anjungan_waktu ?>';
 
 			$('#daftar_tgl_lahir').datetimepicker({
 				format: 'DD-MM-YYYY',
@@ -295,42 +274,6 @@
 					$(this).remove();
 				});
 			}, 5000);
-
-			var videona = document.getElementById("videona");
-			videona.pause();
-			var _idleSecondsCounter = 0;
-			document.onclick = function() {
-				_idleSecondsCounter = 0;
-			};
-			document.onmousemove = function() {
-				_idleSecondsCounter = 0;
-			};
-			document.onkeypress = function() {
-				_idleSecondsCounter = 0;
-			};
-			window.setInterval(CheckIdleTime, 500);
-
-			function CheckIdleTime() {
-				_idleSecondsCounter++;
-				var video = document.getElementById("videov");
-				var slider = document.getElementById("sliderv");
-
-				if (_idleSecondsCounter >= IDLE_TIMEOUT) {
-					if (tampil_anjungan == 2 && tampil_anjungan_video) {
-						videona.play();
-						video.style.display = "block";
-					} else if (tampil_anjungan == 1 && tampil_anjungan_slider) {
-						slider.style.display = "block";
-					}
-				} else {
-					if (tampil_anjungan == 2 && tampil_anjungan_video) {
-						videona.pause();
-						video.style.display = "none";
-					} else if (tampil_anjungan == 1 && tampil_anjungan_slider) {
-						slider.style.display = "none";
-					}
-				}
-			}
 		});
 
 		function start_countdown() {
@@ -375,7 +318,45 @@
 				$('#notif_telegram').modal('show');
 			});
 		<?php endif; ?>
+
+		// Initialize the agent at application startup.
+        const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3')
+            .then(FingerprintJS => FingerprintJS.load())
+        // Get the visitor identifier when you need it.
+        fpPromise
+            .then(fp => fp.get())
+            .then(result => {
+            // This is the visitor identifier:
+            const browserId = result.visitorId
+			createCookie("pengunjung", browserId, "1");
+            })
+
+        // Function to create the cookie
+        function createCookie(name, value, days) {
+			var expires;
+			if (days) {
+				var date = new Date();
+				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+				expires = "; expires=" + date.toGMTString();
+			}
+			else {
+				expires = "";
+			}
+			document.cookie = escape(name) + "=" +
+			escape(value) + expires + "; path=/";
+		}
+
+		$('.copy').on('click', function() {
+			var text = $(".pengunjung").get(0)
+			var selection = window.getSelection();
+			var range = document.createRange();
+			range.selectNodeContents(text);
+			selection.removeAllRanges();
+			selection.addRange(range);
+			document.execCommand('copy');
+		});
 	</script>
+</script>
 </body>
 
 </html>

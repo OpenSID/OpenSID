@@ -10,13 +10,22 @@
     </a>
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
-
+        @if ($is_mobile = $ci->agent->is_mobile())
+        <li class="dropdown notifications-menu">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Selengkapnya...</a>
+          <ul class="dropdown-menu">
+            <li>
+              <ul class="menu">
+        @endif
         @if ($notif['langganan'])
           <li>
             <a href="{{ route('pelanggan') }}">
-              <span><i class="fa {{ $notif['langganan']['ikon'] }} fa-lg" title="Status Langganan {{ $notif['langganan']['masa'] }} hari" style="color: {{ $notif['langganan']['warna'] }}"></i>&nbsp;</span>
+              <i class="fa {{ $notif['langganan']['ikon'] }} fa-lg" title="Status Langganan {{ $notif['langganan']['masa'] }} hari" style="color: {{ $notif['langganan']['warna'] }}"></i>&nbsp;
               @if ($notif['langganan']['status'] > 2)
                 <span class="badge" id="b_langganan"></span>
+              @endif
+              @if ($is_mobile)
+                <span>Status Langganan</span>
               @endif
             </a>
           </li>
@@ -25,9 +34,12 @@
         @if (in_array('343', array_column($modul, 'id')) && can('b', 'opendk_pesan'))
           <li class="komunikasi-opendk">
             <a href="{{ route('opendk_pesan.clear') }}">
-              <span><i class="fa fa-university fa-lg" title="Komunikasi OpenDk"></i>&nbsp;</span>
+              <i class="fa fa-university fa-lg" title="Komunikasi OpenDK"></i>&nbsp;
               @if ($notif['opendkpesan'])
                 <span class="badge" id="b_opendkpesan">{{ $notif['opendkpesan'] }}</span>
+              @endif
+              @if ($is_mobile)
+                <span>Komunikasi OpenDK</span>
               @endif
             </a>
           </li>
@@ -36,9 +48,12 @@
         @if (can('b', 'permohonan_surat_admin'))
           <li>
             <a href="{{ route('permohonan_surat_admin') }}">
-              <span><i class="fa fa-print fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
+              <i class="fa fa-print fa-lg" title="Cetak Surat"></i>&nbsp;
               @if ($notif['surat'])
                 <span class="badge" id="b_permohonan_surat">{{ $notif['surat'] }}</span>
+              @endif
+              @if ($is_mobile)
+                <span>Cetak Surat</span>
               @endif
             </a>
           </li>
@@ -47,9 +62,12 @@
         @if (can('b', 'komentar'))
           <li>
             <a href="{{ route('komentar') }}">
-              <span><i class="fa fa-commenting-o fa-lg" title="Komentar"></i>&nbsp;</span>
+              <i class="fa fa-commenting-o fa-lg" title="Komentar"></i>&nbsp;
               @if ($notif['komentar'])
                 <span class="badge" id="b_komentar">{{ $notif['komentar'] }}</span>
+              @endif
+              @if ($is_mobile)
+                <span>Komentar</span>
               @endif
             </a>
           </li>
@@ -58,9 +76,12 @@
         @if (can('b', 'mailbox'))
           <li>
             <a href="{{ route('mailbox') }}">
-              <span><i class="fa fa-envelope-o fa-lg" title="Pesan Masuk"></i>&nbsp;</span>
+              <i class="fa fa-envelope-o fa-lg" title="Pesan Masuk"></i>&nbsp;
               @if ($notif['inbox'])
                 <span class="badge" id="b_inbox">{{ $notif['inbox'] }}</span>
+              @endif
+              @if ($is_mobile)
+                <span>Pesan Masuk</span>
               @endif
             </a>
           </li>
@@ -73,10 +94,19 @@
               @if ($notif['permohonansurat'])
                 <span class="badge" id="permohonan">{{ $notif['permohonansurat'] }}</span>
               @endif
+              @if ($is_mobile)
+                <span>Permohonan Surat</span>
+              @endif
             </a>
           </li>
         @endif
-        
+        @if ($ci->agent->is_mobile())
+              </ul>
+            </li>
+          </ul>
+        </li>
+        @endif
+
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <img src="{{ AmbilFoto($auth->foto) }}" class="user-image" alt="User Image"/>

@@ -64,6 +64,15 @@ class Dokumen extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'attr' => 'json',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -77,6 +86,13 @@ class Dokumen extends Model
         'kategori',
         'id_syarat',
         'dok_warga',
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $with = [
+        'kategoriDokumen',
     ];
 
     /**
@@ -137,12 +153,53 @@ class Dokumen extends Model
      * Scope query untuk status dokumen
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
     public function scopeHidup($query)
     {
         return $query->where('deleted', '!=', 1);
+    }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function kategoriDokumen()
+    {
+        return $this->hasOne(RefDokumen::class, 'id', 'kategori');
+    }
+
+    /**
+     * Scope query untuk menyaring data dokumen berdasarkan parameter yang ditentukan
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopeFilters($query, array $filters = [])
+    {
+        foreach ($filters as $key => $value) {
+            $query->when($value ?? false, static function ($query) use ($value, $key) {
+                $query->where($key, $value);
+            });
+        }
+
+        return $query;
+    }
+
+    /**
+     * Scope query untuk kategori dokumen
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopeKategori($query, $value = 1)
+    {
+        return $query->where('kategori', $value);
     }
 }

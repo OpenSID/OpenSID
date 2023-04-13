@@ -95,7 +95,7 @@ $autoload['packages'] = [APPPATH . 'third_party/DevelBar'];
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 // $autoload['libraries'] = ['database', 'session'];
-$autoload['libraries'] = ['session'];
+$autoload['libraries'] = ['session', 'user_agent'];
 
 /*
 | -------------------------------------------------------------------

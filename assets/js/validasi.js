@@ -168,6 +168,11 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
 
+	jQuery.validator.addMethod("nama_desa", function(value, element) {
+		valid = /^[a-zA-Z '\.,`\-]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
+
 	jQuery.validator.addMethod("nama_suku", function(value, element) {
 		valid = /^[a-zA-Z ]+$/.test(value);
 		return this.optional(element) || valid;
@@ -275,7 +280,7 @@ $(document).ready(function() {
 	}, "Hanya boleh berisi 6 angka numerik");
 
 	jQuery.validator.addMethod("ip_address", function(value, element) {
-		valid = /^(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))$/.test(value);
+		valid = /^([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(\d{1,3}\.){3}\d{1,3}$/.test(value);
 		return this.optional(element) || valid;
 	}, "Isi IP address yang valid");
 

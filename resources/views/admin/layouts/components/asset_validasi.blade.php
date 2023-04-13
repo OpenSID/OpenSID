@@ -8,5 +8,4 @@
 <!-- Validasi -->
 <script src="{{ asset('js/validasi.js') }}"></script>
 <script src="{{ asset('js/localization/messages_id.js') }}"></script>
-<script src="{{ asset('js/script.js') }}"></script>
 @endpush

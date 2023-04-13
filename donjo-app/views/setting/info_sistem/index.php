@@ -12,7 +12,6 @@
 		display: flex;
 		align-items: self-end;
 	}
-
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -23,40 +22,40 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-	<?php if ($disk) : ?>
-	<div class="row">
-		<div class="col-md-6">
-			<div class="panel bg-yellow">
-				<div class="panel-heading">
-					<div class="row bottom">
-						<div class="col-xs-2">
-							<h1><i class="fa fa-hdd-o"></i></h1>
+		<?php if ($disk) : ?>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel bg-yellow">
+						<div class="panel-heading">
+							<div class="row bottom">
+								<div class="col-xs-2">
+									<h1><i class="fa fa-hdd-o"></i></h1>
+								</div>
+								<div class="col-xs-10 text-right">
+									<div class="huge"><small style="font-size:60%"><?= $total_space ?></small></div>
+									<div>Total Ruang Penyimpanan</div>
+								</div>
+							</div>
 						</div>
-						<div class="col-xs-10 text-right">
-							<div class="huge"><small style="font-size:60%"><?= $total_space ?></small></div>
-							<div>Total Ruang Penyimpanan</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="panel bg-green">
+						<div class="panel-heading">
+							<div class="row bottom">
+								<div class="col-xs-2">
+									<h1><i class="fa fa-hdd-o"></i></h1>
+								</div>
+								<div class="col-xs-10 text-right">
+									<div class="huge"><small style="font-size:60%"><?= $free_space ?></small></div>
+									<div>Sisa Ruang Penyimpanan</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="panel bg-green">
-				<div class="panel-heading">
-					<div class="row bottom">
-						<div class="col-xs-2">
-							<h1><i class="fa fa-hdd-o"></i></h1>
-						</div>
-						<div class="col-xs-10 text-right">
-							<div class="huge"><small style="font-size:60%"><?= $free_space ?></small></div>
-							<div>Sisa Ruang Penyimpanan</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<?php endif ?>
+		<?php endif ?>
 
 		<form id="mainform" name="mainform" method="post">
 			<div class="nav-tabs-custom">
@@ -75,7 +74,7 @@
 										<h3 class="box-title">File logs</h3>
 										<?php if ($files) : ?>
 											<div class="box-tools">
-												<span class="label pull-right"><input type="checkbox" id="checkall" class="checkall"/>
+												<span class="label pull-right"><input type="checkbox" id="checkall" class="checkall" />
 											</div>
 										<?php endif ?>
 									</div>
@@ -86,9 +85,9 @@
 											<?php else : ?>
 												<?php foreach ($files as $file) : ?>
 													<li <?= jecho($currentFile, $file, 'class="active"'); ?>><a href="?f=<?= base64_encode($file); ?>">
-														<?= $file; ?>
-														<span class="pull-right-container">
-															<span class="label pull-right"><input type="checkbox" class="checkbox" name="id_cb[]" value="<?= $file?>"/></a></span>
+															<?= $file; ?>
+															<span class="pull-right-container">
+																<span class="label pull-right"><input type="checkbox" class="checkbox" name="id_cb[]" value="<?= $file ?>" /></a></span>
 														</span>
 													</li>
 												<?php endforeach ?>
@@ -102,9 +101,9 @@
 									<div class="box-header with-border">
 										<?php if ($currentFile) : ?>
 											<a href="?dl=<?= base64_encode($currentFile) ?>" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block " title="Unduh file log"><i class="fa fa-download"></i> Unduh</a>
-											<?php if ($this->CI->cek_hak_akses_url('u')): ?>
+											<?php if ($this->CI->cek_hak_akses_url('u')) : ?>
 												<a href="#" data-href="?del=<?= base64_encode($currentFile) ?>" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block " title="Hapus log file" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i>Hapus log file</a>
-												<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url($this->controller . '/remove_log?f=' . base64_encode($currentFile))?>')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+												<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url($this->controller . '/remove_log?f=' . base64_encode($currentFile)) ?>')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 											<?php endif; ?>
 										<?php endif ?>
 									</div>
@@ -133,7 +132,9 @@
 																			<tbody>
 																				<?php foreach ($logs as $key => $log) : ?>
 																					<tr>
-																						<td class="padat"><h6><span class="label label-<?= $log['class'] ?>"><?= $log['level'] ?></span></h6></td>
+																						<td class="padat">
+																							<h6><span class="label label-<?= $log['class'] ?>"><?= $log['level'] ?></span></h6>
+																						</td>
 																						<td class="padat"><?= $log['date'] ?></td>
 																						<td class="text">
 																							<?php if (array_key_exists('extra', $log)) : ?>
@@ -216,11 +217,40 @@
 								<?php endforeach; ?>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<h4>KEBUTUHAN SISTEM</h4>
+								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="table-responsive">
+												<div class="table-responsive">
+													<table id="tabel-logs" class="table table-bordered dataTable table-striped table-hover tabel-daftar">
+														<tbody>
+															<?php
+                                                            foreach ($kebutuhan_sistem as $key => $val) : ?>
+																<tr>
+																	<td class="text"><?= "{$key} ({$val['v']})" ?></td>
+																	<td class="text"><?= $val[$key] ?></td>
+																	<td>
+																		<i class="fa fa-<?= $val['result'] ? 'check-circle-o' : 'times-circle-o' ?> fa-lg" style="color:<?= $val['result'] ? 'green' : 'red' ?>"></i>
+																	</td>
+																</tr>
+															<?php endforeach ?>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 
 					<div id="info_sistem" class="tab-pane fade in">
 						<?php
-                                                    ob_start();
+                        ob_start();
 			phpinfo();
 			$phpinfo = ['phpinfo' => []];
 			if (preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER)) :
@@ -267,30 +297,30 @@
 											</div>
 										<?php endforeach; ?>
 									<?php endif; ?>
-					</div>
+									</div>
 
-					<div id="optimasi" class="tab-pane fade in">
-						<div class="row">
-							<div class="col-sm-6">
-								<h5><b>CACHE</b></h5>
-								<div class="input-group">
-									<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('cache_path')) ?>*" readonly>
-									<span class="input-group-btn">
-										<a href="<?= site_url("{$this->controller}/cache_desa") ?>" class="btn btn-info btn-flat">Bersihkan</a>
-									</span>
-								</div>
-								<hr>
-								<div class="input-group">
-									<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('views_blade')) ?>*" readonly>
-									<span class="input-group-btn">
-										<a href="<?= site_url("{$this->controller}/cache_blade") ?>" class="btn btn-info btn-flat">Bersihkan</a>
-									</span>
-								</div>
-							</div>
-						</div>
+									<div id="optimasi" class="tab-pane fade in">
+										<div class="row">
+											<div class="col-sm-6">
+												<h5><b>CACHE</b></h5>
+												<div class="input-group">
+													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('cache_path')) ?>*" readonly>
+													<span class="input-group-btn">
+														<a href="<?= site_url("{$this->controller}/cache_desa") ?>" class="btn btn-info btn-flat">Bersihkan</a>
+													</span>
+												</div>
+												<hr>
+												<div class="input-group">
+													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('views_blade')) ?>*" readonly>
+													<span class="input-group-btn">
+														<a href="<?= site_url("{$this->controller}/cache_blade") ?>" class="btn btn-info btn-flat">Bersihkan</a>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
 					</div>
 				</div>
-			</div>
 		</form>
 	</section>
 </div>
@@ -301,8 +331,10 @@
 			"processing": true,
 			"autoWidth": false,
 			'pageLength': 10,
-			"order": [[1, "desc"]],
-			"columnDefs": [ {
+			"order": [
+				[1, "desc"]
+			],
+			"columnDefs": [{
 				"targets": [0, 2],
 				"orderable": false
 			}]
@@ -311,11 +343,11 @@
 		function checkAll(id = "#checkall") {
 			$('.box-header').on('click', id, function() {
 				if ($(this).is(':checked')) {
-					$(".nav input[type=checkbox]").each(function () {
+					$(".nav input[type=checkbox]").each(function() {
 						$(this).prop("checked", true);
 					});
 				} else {
-					$(".nav input[type=checkbox]").each(function () {
+					$(".nav input[type=checkbox]").each(function() {
 						$(this).prop("checked", false);
 					});
 				}
@@ -333,10 +365,10 @@
 		function enableHapusTerpilih() {
 			if ($("input[name='id_cb[]']:checked:not(:disabled)").length <= 0) {
 				$(".hapus-terpilih").addClass('disabled');
-				$(".hapus-terpilih").attr('href','#');
+				$(".hapus-terpilih").attr('href', '#');
 			} else {
 				$(".hapus-terpilih").removeClass('disabled');
-				$(".hapus-terpilih").attr('href','#confirm-delete');
+				$(".hapus-terpilih").attr('href', '#confirm-delete');
 			}
 		}
 	});

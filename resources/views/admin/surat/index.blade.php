@@ -19,8 +19,8 @@
         <div class="box-header with-border">
             <select class="form-control select2 " id="cetak_surat" name="cetak_surat" style="width: 100%;">
                 <option selected="selected">--- Cari Judul Surat Yang Akan Dicetak ---</option>
-                @foreach ($cetak_surat as $url => $nama)
-                    <option value="{{ $url }}">{{ $nama }}</option>
+                @foreach ($cetak_surat as $key => $value)
+                    <option value="{{ $value->url_surat }}">{{ '[' . (in_array($value->jenis, \App\Models\FormatSurat::RTF) ? 'RTF' : 'TinyMCE') . '] : ' . $value->nama }}</option>
                 @endforeach
             </select>
         </div>
@@ -33,9 +33,10 @@
                         <tr>
                             <th class="padat">NO</th>
                             <th class="aksi">AKSI</th>
-                            <th>Layanan Administrasi Surat</th>
-                            <th class="padat">Kode Surat</th>
-                            <th class="aksi">Lampiran</th>
+                            <th>NAMA SURAT</th>
+                            <th class="padat">JENIS</th>
+                            <th class="padat">KODE / KLASIFIKASI</th>
+                            <th class="padat">LAMPIRAN</th>
                         </tr>
                     </thead>
                 </table>
@@ -73,6 +74,13 @@
                         name: 'nama',
                         searchable: true,
                         orderable: true
+                    },
+                    {
+                        data: 'jenis',
+                        name: 'jenis',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
                     },
                     {
                         data: 'kode_surat',

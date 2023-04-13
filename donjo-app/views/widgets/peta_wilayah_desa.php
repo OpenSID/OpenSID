@@ -21,6 +21,11 @@
     var zoom = 10;
   <?php endif; ?>
 
+  var options = {
+      maxZoom: <?= setting('max_zoom_peta') ?>,
+      minZoom: <?= setting('min_zoom_peta') ?>,
+  };
+
   //Style polygon
   var style_polygon = {
     stroke: true,
@@ -30,7 +35,7 @@
     fillColor: '#8888dd',
     fillOpacity: 0.5
   };
-  var wilayah_desa = L.map('map_wilayah').setView(posisi, zoom);
+  var wilayah_desa = L.map('map_wilayah', options).setView(posisi, zoom);
 
   //Menampilkan BaseLayers Peta
   var baseLayers = getBaseLayers(wilayah_desa, "<?= setting('mapbox_key') ?>", "<?= setting('jenis_peta') ?>");

@@ -84,12 +84,17 @@
       var zoom = 18;
     <?php endif; ?>
 
+    var options = {
+      maxZoom: <?= setting('max_zoom_peta') ?>,
+      minZoom: <?= setting('min_zoom_peta') ?>,
+    };
+
     var jenis = "<?= $garis['jenis_garis']; ?>";
     var tebal = "<?= $garis['tebal']; ?>";
     var warna = "<?= $garis['color']; ?>";
 
   	//Inisialisasi tampilan peta
-    var peta_garis = L.map('map').setView(posisi, zoom);
+    var peta_garis = L.map('map', options).setView(posisi, zoom);
 
     //1. Menampilkan overlayLayers Peta Semua Wilayah
     var marker_desa = [];

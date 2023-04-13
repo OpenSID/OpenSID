@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\FormatSurat;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -68,70 +69,6 @@ class MY_Model extends CI_Model
 
         $this->load->driver('cache');
         $this->load->dbforge();
-    }
-
-    // Konversi url menu menjadi slug tanpa mengubah data
-    public function menu_slug($url)
-    {
-        $this->load->model('first_artikel_m');
-
-        $cut = explode('/', $url);
-
-        switch ($cut[0]) {
-            case 'artikel':
-                $data = $this->first_artikel_m->get_artikel_by_id($cut[1]);
-                $url  = ($data) ? ($cut[0] . '/' . buat_slug($data)) : ($url);
-                break;
-
-            case 'kategori':
-                $data = $this->first_artikel_m->get_kategori($cut[1]);
-                $url  = ($data) ? ('artikel/' . $cut[0] . '/' . $data['slug']) : ($url);
-                break;
-
-            case 'data-suplemen':
-                $this->load->model('suplemen_model');
-                $data = $this->suplemen_model->get_suplemen($cut[1]);
-                $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
-                break;
-
-            case 'data-kelompok':
-            case 'data-lembaga':
-                $this->load->model('kelompok_model');
-                $data = $this->kelompok_model->get_kelompok($cut[1]);
-                $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
-                break;
-
-                /*
-                 * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
-                 * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
-                 */
-
-            case 'arsip':
-            case 'peraturan_desa':
-            case 'data_analisis':
-            case 'ambil_data_covid':
-            case 'informasi_publik':
-            case 'load_aparatur_desa':
-            case 'load_apbdes':
-            case 'load_aparatur_wilayah':
-            case 'peta':
-            case 'data-wilayah':
-            case 'status-idm':
-            case 'status-sdgs':
-            case 'lapak':
-            case 'pembangunan':
-            case 'galeri':
-            case 'pengaduan':
-            case 'data-vaksinasi':
-            case 'pemerintah':
-                break;
-
-            default:
-                $url = 'first/' . $url;
-                break;
-        }
-
-        return site_url($url);
     }
 
     public function autocomplete_str($kolom, $tabel, $cari = '')
@@ -284,6 +221,26 @@ class MY_Model extends CI_Model
         $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
 
         return $hasil;
+    }
+
+    public function tambah_surat_tinymce($data)
+    {
+        $data['url_surat']    = 'surat-' . strtolower(str_replace([' ', '_'], '-', $data['nama']));
+        $data['jenis']        = FormatSurat::TINYMCE_SISTEM;
+        $data['syarat_surat'] = json_encode($data['syarat_surat']);
+        $data['created_by']   = auth()->id;
+        $data['updated_by']   = auth()->id;
+
+        // Tambah data baru dan update (hanya kolom template) jika ada sudah ada
+        $cek_surat = FormatSurat::where('url_surat', $data['url_surat'])->first();
+
+        if ($cek_surat) {
+            $cek_surat->update(['template' => $data['template']]);
+        } else {
+            FormatSurat::create($data);
+        }
+
+        return true;
     }
 
     // fungsi untuk format paginasi

@@ -41,9 +41,9 @@
             <label>Status Kehadiran</label>
             <select id="status" name="status" class="form-control input-sm select2">
               <option value="">Semua Status</option>
-              <option value="hadir">Hadir</option>
-              <option value="keluar">Keluar</option>
-              <option value="lupa melapor keluar">Lupa Melapor Keluar</option>
+              @foreach ($kehadiran as $item)
+                <option value="{{ $item->status_kehadiran }}">{{ ucwords($item->status_kehadiran) }}</option>
+              @endforeach
             </select>
         </div>
       </div>
@@ -153,7 +153,13 @@
           name: 'pamong.pamong_nama',
           searchable: true, orderable: true
         },
-        { data: 'pamong.jabatan.nama', name: 'pamong.jabatan.nama', searchable: true, orderable: true },
+         {
+          data: function (data) {
+            return (data.pamong.jabatan == null)? '-' : data.pamong.jabatan.nama;
+          },
+          name: 'pamong.jabatan.nama',
+          searchable: true, orderable: true
+        },
         { data: 'tanggal', name: 'tanggal', searchable: true, orderable: true },
         { data: 'jam_masuk', name: 'jam_masuk', searchable: true, orderable: true },
         { data: 'jam_keluar', name: 'jam_keluar', searchable: true, orderable: true },

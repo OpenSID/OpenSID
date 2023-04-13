@@ -25,18 +25,22 @@
             </div>
             <div class="col-xm-12 text-center">
                 {!! form_open_multipart(route('kehadiran.check-in-out'), 'name="check" id="validasi"') !!}
-                    <input type="hidden" name="status_kehadiran" value="{{ ($kehadiran) ? 'keluar' : 'hadir' }}" >
                     <div class="checkbox"> 
                         @if (! $kehadiran && ! $success)
-                        <label>
-                            <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="small" data-on="HADIR" data-off="-" name="cek" {{ ($success ) ? '' : 'checked' }} >
-                        </label>
+                            <input type="hidden" name="status_kehadiran" value="hadir" >
+                            <button id="hadir" class="btn btn-success btn-small">Rekam Masuk</button>
                         @endif
 
                         @if ($kehadiran && ! $success)
-                        <label>
-                            <input id="cek_keluar" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="small" data-on="-" data-off="KELUAR" name="cek" {{ ($success ) ? 'checked' : '' }} >
-                        </label>
+                            <div class="form-group">
+                                <select name="status_kehadiran">
+                                    <option value="keluar">Absen Keluar</option>
+                                    @foreach ($alasan as $item)
+                                        <option value="{{ strtolower($item->alasan) }}">{{ ucwords(strtolower($item->alasan)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button id="keluar" class="btn btn-danger btn-small">Keluar</button>
                         @endif
                     </div>
                 </form>
@@ -66,20 +70,16 @@
         var sekarang = "{{ date('H:i') }}";
         
         if (waktu < sekarang) {
-            $('input[name="cek"]').change(function() {
+            $('#hadir').click(function() {
                 $('form[name="check"]').submit();
             })
         } else {
-            $('#cek_keluar').change(function() {
-                if ($(this).checked == false) {
-                    return true;
-                } else {
+            $('#keluar').click(function() {
                 var box= confirm("Anda masuk kurang dari 1 menit, apakah anda yakin ingin keluar?");
-                    if (box==true)
-                        $('form[name="check"]').submit();
-                    else
-                    $(this).checked = false;
-                }
+                if (box==true)
+                    $('form[name="check"]').submit();
+                else
+                    return false;
             })
         }
     });

@@ -79,10 +79,10 @@ class FormatSurat extends Model
      * @var array
      */
     public const JENIS_SURAT = [
-        self::RTF_SISTEM     => 'Surat Sistem (lama/rtf)',
-        self::RTF_DESA       => 'Surat [Desa] (lama/rtf)',
-        self::TINYMCE_SISTEM => 'Surat Sistem (baru/tinymce)',
-        self::TINYMCE_DESA   => 'Surat [Desa] (baru/tinymce)',
+        self::RTF_SISTEM     => 'Surat Sistem RTF',
+        self::RTF_DESA       => 'Surat [Desa] RTF',
+        self::TINYMCE_SISTEM => 'Surat Sistem TinyMCE',
+        self::TINYMCE_DESA   => 'Surat [Desa] TinyMCE',
     ];
 
     /**
@@ -123,6 +123,21 @@ class FormatSurat extends Model
     ];
 
     /**
+     * Static data atribut surat.
+     *
+     * @var array
+     */
+    public const ATTRIBUTES = [
+        'text'     => 'Input Teks',
+        'number'   => 'Input Angka',
+        'email'    => 'Input Email',
+        'url'      => 'Input Url',
+        'date'     => 'Input Tanggal',
+        'time'     => 'Input Jam',
+        'textarea' => 'Text Area',
+    ];
+
+    /**
      * {@inheritDoc}
      */
     protected $table = 'tweb_surat_format';
@@ -155,6 +170,7 @@ class FormatSurat extends Model
         'margin',
         'header',
         'footer',
+        'format_nomor',
         'created_by',
         'updated_by',
     ];

@@ -64,44 +64,19 @@ class Pendaftaran_kerjasama extends Admin_Controller
 
     public function index()
     {
-        if (cek_koneksi_internet()) {
-            try {
-                $response = $this->client->get("{$this->server}/api/v1/pelanggan/terdaftar", [
-                    'headers' => [
-                        'X-Requested-With' => 'XMLHttpRequest',
-                        'Authorization'    => "Bearer {$this->setting->layanan_opendesa_token}",
-                    ],
-                    'query' => [
-                        'desa_id' => kode_wilayah($this->header['desa']['kode_desa']),
-                    ],
-                ])
-                    ->getBody();
-            } catch (ClientException $e) {
-                // log_message('error', $e);
-                $this->session->set_userdata(['response' => json_decode($e->getResponse()->getBody())]);
+        return view('admin.pendaftaran_kerjasama.pendaftaran', []);
+    }
 
-                redirect('pendaftaran_kerjasama/form');
-            }
-        }
-
-        $this->render('pendaftaran_kerjasama/index', ['response' => json_decode($response)]);
+    public function terdaftar()
+    {
+        $data = json_decode(json_encode($this->request));
+        $this->load->view('pendaftaran_kerjasama/terdaftar', $data, false);
     }
 
     public function form()
     {
-        try {
-            $response = $this->client->get("{$this->server}/api/v1/pelanggan/form-register", [
-                'headers' => [
-                    'X-Requested-With' => 'XMLHttpRequest',
-                    'Authorization'    => "Bearer {$this->setting->layanan_opendesa_token}",
-                ],
-            ])
-                ->getBody();
-        } catch (ClientException $cx) {
-            log_message('error', $cx);
-        }
-
-        $this->render('pendaftaran_kerjasama/form', ['response' => json_decode($response)]);
+        $data = json_decode(json_encode($this->request));
+        $this->load->view('pendaftaran_kerjasama/form', $data, false);
     }
 
     public function register()
@@ -132,7 +107,8 @@ class Pendaftaran_kerjasama extends Admin_Controller
                 ->getBody();
         } catch (ClientException $cx) {
             log_message('error', $cx);
-            $this->session->set_flashdata(['errors' => json_decode($cx->getResponse()->getBody())]);
+            $error = json_decode($cx->getResponse()->getBody());
+            $this->session->set_flashdata(['errors' => $error]);
             session_error();
 
             return redirect('pendaftaran_kerjasama/form');

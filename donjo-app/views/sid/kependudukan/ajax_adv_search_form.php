@@ -51,15 +51,24 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<label for="nama">Umur</label>
 			</div>
 			<?php if ($input_umur) : ?>
-				<div class="col-sm-6">
+				<div class="col-sm-5">
 					<div class="form-group">
 						<input class="form-control input-sm bilangan" maxlength="3" type="text" placeholder="Dari" id="umur_min" name="umur_min" value="<?= $umur_min ?>"></input>
 					</div>
 				</div>
 
-				<div class="col-sm-6">
+				<div class="col-sm-5">
 					<div class="form-group">
 						<input id="umur_max" class="form-control input-sm bilangan" maxlength="3" type="text" placeholder="Sampai" name="umur_max" value="<?= $umur_max ?>"></input>
+					</div>
+				</div>
+
+				<div class="col-sm-2">
+					<div class="form-group">
+					<select class="form-control input-sm select2" id="umur" name="umur">
+						<option value="tahun" <?= selected($umur, 'tahun') ?>>Tahun</option>
+						<option value="bulan" <?= selected($umur, 'bulan') ?>>Bulan</option>
+					</select>
 					</div>
 				</div>
 			<?php endif ?>
@@ -294,3 +303,29 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>
+
+<script>
+	$('#umur_min').on('input',function(e){
+		var min = $(this).val();
+		var max = $('#umur_max').val();
+
+		if (min) {
+			$('#umur_max').prop('class', 'required')
+		} else {
+			$('#umur_max').removeClass('required')
+		}
+		$(this).prop('max', max)
+	});
+
+	$('#umur_max').on('input',function(e){
+		var max = $(this).val();
+		var min = $('#umur_min').val();
+
+		if (max) {
+			$('#umur_min').prop('class', 'required')
+		} else {
+			$('#umur_min').removeClass('required')
+		}
+		$(this).prop('min', min)
+	});
+</script>

@@ -215,7 +215,7 @@ class Setting_model extends MY_Model
     public function update($key = 'enable_track', $value = 1)
     {
         if (in_array($key, ['latar_kehadiran'])) {
-            $value = $this->upload_img('latar_kehadiran', LATAR_KEHADIRAN);
+            $value = $this->upload_img('latar_kehadiran', LATAR_LOGIN);
         }
 
         if ($key == 'tte' && $value == 1) {
@@ -225,7 +225,7 @@ class Setting_model extends MY_Model
         $outp = $this->db->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
 
         // Hapus Cache
-        $this->cache->hapus_cache_untuk_semua('status_langganan');
+        // $this->cache->hapus_cache_untuk_semua('status_langganan');
         $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
@@ -288,6 +288,30 @@ class Setting_model extends MY_Model
             ->where('id_setting', $id)
             ->get('setting_aplikasi_options')
             ->result();
+    }
+
+    public function cekKebutuhanSistem()
+    {
+        $data = [];
+
+        $sistem = [
+            ['max_execution_time', '>=', '300'],
+            ['post_max_size', '>=', '10M'],
+            ['upload_max_filesize', '>=', '20M'],
+            ['memory_limit', '>=', '256M'],
+        ];
+
+        foreach ($sistem as $value) {
+            [$key, $kondisi, $val] = $value;
+
+            $data[$key] = [
+                'v'      => $val,
+                $key     => ini_get($key),
+                'result' => version_compare(ini_get($key), $val, $kondisi),
+            ];
+        }
+
+        return $data;
     }
 
     public function cekEkstensi()

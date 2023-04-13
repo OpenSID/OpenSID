@@ -35,18 +35,10 @@
                         <input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
                     </div>
                 </div>
-                <?php $this->load->view('surat/form/nomor_surat.php'); ?>
-                <?php foreach ($surat['kode_isian'] as $item): ?>
-                    <div class="form-group">
-                        <label for="<?= $item->nama ?>" class="col-sm-3 control-label"><?= $item->nama ?></label>
-                        <div class="col-sm-8">
-                            <textarea name="<?= underscore($item->nama, true, true) ?>" class="form-control required"
-                                placeholder="<?= $item->deskripsi ?>"></textarea>
-                        </div>
-                    </div>
-                <?php endforeach ?>
                 <?php
-                    $this->load->view('surat/form/tgl_berlaku');
+                    $this->load->view('surat/form/nomor_surat');
+        $this->load->view('surat/kode_isian');
+        $this->load->view('surat/form/tgl_berlaku');
         $this->load->view('surat/form/_pamong');
         ?>
             </form>

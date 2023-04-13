@@ -58,6 +58,7 @@ class Anjungan extends Model
     protected $fillable = [
         'ip_address',
         'mac_address',
+        'id_pengunjung',
         'keterangan',
         'status',
         'tipe',
@@ -106,5 +107,10 @@ class Anjungan extends Model
     public function updatedBy()
     {
         return $this->hasOne(User::class, 'id', 'updated_by');
+    }
+
+    public function scopeTipe($query, $tipe = 1)
+    {
+        return $query->where('tipe', $tipe);
     }
 }

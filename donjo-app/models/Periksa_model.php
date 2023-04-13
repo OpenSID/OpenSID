@@ -111,6 +111,13 @@ class Periksa_model extends MY_Model
             $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
         }
 
+        $id_pengunjung = ($db_error_code == 1054 && strpos($db_error_message, 'id_pengunjung') !== false);
+        $tipe          = ($db_error_code == 1054 && strpos($db_error_message, 'tipe') !== false);
+
+        if ($id_pengunjung || $tipe) {
+            $this->perbaiki_anjungan();
+        }
+
         // id_cluster Keluarga beserta anggota keluarganya ada yg null
         if ($db_error_code == 1138) {
             $pos       = strpos($this->session->message_query, 'id_cluster');
@@ -945,5 +952,44 @@ class Periksa_model extends MY_Model
         }
 
         return $hasil;
+    }
+
+    private function perbaiki_anjungan()
+    {
+        if (! $this->db->field_exists('id_pengunjung', 'anjungan')) {
+            $fields_id_pengunjung = [
+                'id_pengunjung' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                    'default'    => null,
+                ],
+            ];
+            $this->dbforge->add_column('anjungan', $fields_id_pengunjung);
+        }
+
+        if (! $this->db->field_exists('tipe', 'anjungan')) {
+            $fields_tipe = [
+                'tipe' => [
+                    'type'       => 'TINYINT',
+                    'default'    => 1, // 1 => anjungan, 2 => gawai layanan
+                    'constraint' => 3,
+                ],
+            ];
+            $this->dbforge->add_column('anjungan', $fields_tipe);
+        }
+
+        if (! $this->db->field_exists('tipe', 'teks_berjalan')) {
+            $fields = [
+                'tipe' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 2,
+                    'null'       => true,
+                    'default'    => 1,
+                    'after'      => 'status',
+                ],
+            ];
+            $this->dbforge->add_column('teks_berjalan', $fields);
+        }
     }
 }

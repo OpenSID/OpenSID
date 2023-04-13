@@ -1,4 +1,4 @@
-<div class="content-wrapper">
+
     <section class="content-header">
         <h1>Pendaftaran Kerjasama</h1>
         <ol class="breadcrumb">
@@ -92,4 +92,3 @@
             </div>
         <?php endif ?>
     </section>
-</div>

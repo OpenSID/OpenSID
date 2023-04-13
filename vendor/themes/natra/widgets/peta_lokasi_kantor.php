@@ -104,7 +104,12 @@
 		var zoom = 10;
 	<?php endif; ?>
 
-	var lokasi_kantor = L.map('map_canvas').setView(posisi, zoom);
+	var options = {
+		maxZoom: <?= setting('max_zoom_peta') ?>,
+		minZoom: <?= setting('min_zoom_peta') ?>,
+	};
+
+	var lokasi_kantor = L.map('map_canvas', options).setView(posisi, zoom);
 
 	//Menampilkan BaseLayers Peta
 	var baseLayers = getBaseLayers(lokasi_kantor, "<?= setting('mapbox_key') ?>", "<?= setting('jenis_peta') ?>");

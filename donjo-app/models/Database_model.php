@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\SettingAplikasi;
+use DateTime;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Database_model extends MY_Model
@@ -115,6 +118,11 @@ class Database_model extends MY_Model
         '23.04'   => ['migrate' => 'migrasi_2304_ke_2305', 'nextVersion' => null],
     ];
 
+    // versi lain
+    private $otherVersions = [
+        '3.04',
+    ];
+
     public function __construct()
     {
         parent::__construct();
@@ -147,26 +155,44 @@ class Database_model extends MY_Model
     {
         $this->db->truncate('setting_aplikasi');
         $query = "
-			INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`,`kategori`) VALUES
-			(1, 'sebutan_kabupaten','kabupaten','Pengganti sebutan wilayah kabupaten','',''),
-			(2, 'sebutan_kabupaten_singkat','kab.','Pengganti sebutan singkatan wilayah kabupaten','',''),
-			(3, 'sebutan_kecamatan','kecamatan','Pengganti sebutan wilayah kecamatan','',''),
-			(4, 'sebutan_kecamatan_singkat','kec.','Pengganti sebutan singkatan wilayah kecamatan','',''),
-			(5, 'sebutan_desa','desa','Pengganti sebutan wilayah desa','',''),
-			(6, 'sebutan_dusun','dusun','Pengganti sebutan wilayah dusun','',''),
-			(7, 'sebutan_camat','camat','Pengganti sebutan jabatan camat','',''),
-			(8, 'website_title','Website Resmi','Judul tab browser modul web','','web'),
-			(9, 'login_title','OpenSID', 'Judul tab browser halaman login modul administrasi','',''),
-			(10, 'admin_title','Sistem Informasi Desa','Judul tab browser modul administrasi','',''),
-			(11, 'web_theme', 'default','Tema penampilan modul web','','web'),
-			(12, 'offline_mode',FALSE,'Apakah modul web akan ditampilkan atau tidak','boolean',''),
-			(13, 'enable_track',TRUE,'Apakah akan mengirimkan data statistik ke tracker','boolean',''),
-			(14, 'dev_tracker','','Host untuk tracker pada development','','development'),
-			(15, 'nomor_terakhir_semua_surat', FALSE,'Gunakan nomor surat terakhir untuk seluruh surat tidak per jenis surat','boolean',''),
-			(16, 'google_key','','Google API Key untuk Google Maps','','web'),
-			(17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','','')
-		";
+            INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`,`kategori`) VALUES
+            (1, 'sebutan_kabupaten','kabupaten','Pengganti sebutan wilayah kabupaten','',''),
+            (2, 'sebutan_kabupaten_singkat','kab.','Pengganti sebutan singkatan wilayah kabupaten','',''),
+            (3, 'sebutan_kecamatan','kecamatan','Pengganti sebutan wilayah kecamatan','',''),
+            (4, 'sebutan_kecamatan_singkat','kec.','Pengganti sebutan singkatan wilayah kecamatan','',''),
+            (5, 'sebutan_desa','desa','Pengganti sebutan wilayah desa','',''),
+            (6, 'sebutan_dusun','dusun','Pengganti sebutan wilayah dusun','',''),
+            (7, 'sebutan_camat','camat','Pengganti sebutan jabatan camat','',''),
+            (8, 'website_title','Website Resmi','Judul tab browser modul web','','web'),
+            (9, 'login_title','OpenSID', 'Judul tab browser halaman login modul administrasi','',''),
+            (10, 'admin_title','Sistem Informasi Desa','Judul tab browser modul administrasi','',''),
+            (11, 'web_theme', 'default','Tema penampilan modul web','','web'),
+            (12, 'offline_mode',FALSE,'Apakah modul web akan ditampilkan atau tidak','boolean',''),
+            (13, 'enable_track',TRUE,'Apakah akan mengirimkan data statistik ke tracker','boolean',''),
+            (14, 'dev_tracker','','Host untuk tracker pada development','','development'),
+            (15, 'nomor_terakhir_semua_surat', FALSE,'Gunakan nomor surat terakhir untuk seluruh surat tidak per jenis surat','boolean',''),
+            (16, 'google_key','','Google API Key untuk Google Maps','','web'),
+            (17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','','')
+        ";
         $this->db->query($query);
+    }
+
+    private function cekCurrentVersion()
+    {
+        $version = setting('current_version');
+
+        // Jalankan migrasi dari awal jika migrasi dari sid lain (misalnya SID CRI)
+        if (in_array($version, $this->otherVersions)) {
+            $version = null;
+        }
+
+        // Jika $version kosong atau tidak terdaftar di $versionMigrate,
+        // Gunakan versi terakhir dari $versionMigrate
+        elseif (empty($version) || ! array_key_exists($version, $this->versionMigrate)) {
+            $version = array_key_last($this->versionMigrate);
+        }
+
+        return $version;
     }
 
     public function migrasi_db_cri()
@@ -176,12 +202,13 @@ class Database_model extends MY_Model
             return;
         }
 
-        $_SESSION['daftar_migrasi'] = []; // Catat migrasi yg sdh dijalankan, supaya tidak diulang
+        // Catat migrasi yg sdh dijalankan, supaya tidak diulang
+        $this->session->daftar_migrasi = null;
+        $this->session->success        = 1;
 
-        $_SESSION['success'] = 1;
-        $versi               = $this->getCurrentVersion();
-        $nextVersion         = $versi;
-        $versionMigrate      = $this->versionMigrate;
+        $versi          = $this->cekCurrentVersion();
+        $nextVersion    = $versi;
+        $versionMigrate = $this->versionMigrate;
         if (isset($versionMigrate[$versi])) {
             while (! empty($nextVersion) && ! empty($versionMigrate[$nextVersion]['migrate'])) {
                 $migrate     = $versionMigrate[$nextVersion]['migrate'];
@@ -199,7 +226,7 @@ class Database_model extends MY_Model
 
         // Jalankan migrasi layanan
         $this->jalankan_migrasi('migrasi_layanan');
-        $this->db->where('id', 13)->update('setting_aplikasi', ['value' => true]);
+
         // Lengkapi folder desa
         folder_desa();
 
@@ -213,14 +240,7 @@ class Database_model extends MY_Model
             }
         }
 
-        /*
-         * Update current_version di db.
-         * 'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
-         */
-        $newVersion = [
-            'value' => currentVersion(),
-        ];
-        $this->db->where(['key' => 'current_version'])->update('setting_aplikasi', $newVersion);
+        SettingAplikasi::whereKey('current_version')->update(['value' => currentVersion()]);
         $this->catat_versi_database();
         $this->load->model('track_model');
         $this->track_model->kirim_data();
@@ -234,21 +254,6 @@ class Database_model extends MY_Model
         if (! $sudah) {
             $this->db->insert('migrasi', ['versi_database' => VERSI_DATABASE]);
         }
-    }
-
-    private function getCurrentVersion()
-    {
-        // Untuk kasus tabel setting_aplikasi belum ada
-        if (! $this->db->table_exists('setting_aplikasi')) {
-            return null;
-        }
-        $result  = null;
-        $_result = $this->db->where(['key' => 'current_version'])->get('setting_aplikasi')->row();
-        if (! empty($_result)) {
-            $result = $_result->value;
-        }
-
-        return $result;
     }
 
     private function versi_database_terbaru()
@@ -377,18 +382,18 @@ class Database_model extends MY_Model
 
         if (! $this->db->table_exists('teks_berjalan')) {
             $query = "
-			CREATE TABLE `teks_berjalan` (
-				`id` int(11) NOT NULL AUTO_INCREMENT,
-				`teks` text,
-				`urut` int(5),
-				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`updated_by` int(11),
-				`status` int(1) NOT NULL DEFAULT '0',
-				PRIMARY KEY (id)
-			)
-			";
+            CREATE TABLE `teks_berjalan` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `teks` text,
+                `urut` int(5),
+                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_by` int(11),
+                `status` int(1) NOT NULL DEFAULT '0',
+                PRIMARY KEY (id)
+            )
+            ";
             $this->db->query($query);
 
             $setting_teks_berjalan = $this->db->select('id, value')->where('key', 'isi_teks_berjalan')->get('setting_aplikasi')->row();
@@ -539,7 +544,7 @@ class Database_model extends MY_Model
             ->row()->jml;
         if ($jml == 0) {
             $terdata = $this->db->select('s.id as s_id, s.id_terdata, s.sasaran,
-	  		(case when s.sasaran = 1 then p.id else k.id end) as id')
+              (case when s.sasaran = 1 then p.id else k.id end) as id')
                 ->from('suplemen_terdata s')
                 ->join('tweb_keluarga k', 'k.no_kk = s.id_terdata', 'left')
                 ->join('tweb_penduduk p', 'p.nik = s.id_terdata', 'left')
@@ -563,10 +568,10 @@ class Database_model extends MY_Model
         ];
         $sql = $this->db->insert_string('tweb_surat_format', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
-				nama = VALUES(nama),
-				url_surat = VALUES(url_surat),
-				kode_surat = VALUES(kode_surat),
-				jenis = VALUES(jenis)';
+                nama = VALUES(nama),
+                url_surat = VALUES(url_surat),
+                kode_surat = VALUES(kode_surat),
+                jenis = VALUES(jenis)';
         $this->db->query($sql);
     }
 
@@ -623,10 +628,10 @@ class Database_model extends MY_Model
         }
         // Tambah tombol media sosial whatsapp
         $query = "
-			INSERT INTO media_sosial (id, gambar, link, nama, enabled) VALUES ('6', 'wa.png', '', 'WhatsApp', '1')
-			ON DUPLICATE KEY UPDATE
-				gambar = VALUES(gambar),
-				nama = VALUES(nama)";
+            INSERT INTO media_sosial (id, gambar, link, nama, enabled) VALUES ('6', 'wa.png', '', 'WhatsApp', '1')
+            ON DUPLICATE KEY UPDATE
+                gambar = VALUES(gambar),
+                nama = VALUES(nama)";
         $this->db->query($query);
         // Tambahkan setting aplikasi untuk mengubah warna tema komponen Admin
         $query = $this->db->select('1')->where('key', 'warna_tema_admin')->get('setting_aplikasi');
@@ -727,8 +732,8 @@ class Database_model extends MY_Model
         ];
         $sql = $this->db->insert_string('tweb_status_dasar', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
-				id = VALUES(id),
-				nama = VALUES(nama)';
+                id = VALUES(id),
+                nama = VALUES(nama)';
         $this->db->query($sql);
         // Tambah kolom tweb_desa_pamong
         if (! $this->db->field_exists('no_hp', 'komentar')) {
@@ -853,10 +858,10 @@ class Database_model extends MY_Model
         ];
         $sql = $this->db->insert_string('tweb_surat_format', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
-				nama = VALUES(nama),
-				url_surat = VALUES(url_surat),
-				kode_surat = VALUES(kode_surat),
-				jenis = VALUES(jenis)';
+                nama = VALUES(nama),
+                url_surat = VALUES(url_surat),
+                kode_surat = VALUES(kode_surat),
+                jenis = VALUES(jenis)';
         $this->db->query($sql);
 
         $query = $this->db->select('1')->where('key', 'web_artikel_per_page')->get('setting_aplikasi');
@@ -970,9 +975,9 @@ class Database_model extends MY_Model
         }
         //menambahkan constraint kolom tabel
         $sql = "SELECT *
-	    FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
-	    WHERE CONSTRAINT_NAME = 'id_pend_fk'
-			AND TABLE_NAME = 'tweb_penduduk_mandiri'";
+        FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+        WHERE CONSTRAINT_NAME = 'id_pend_fk'
+            AND TABLE_NAME = 'tweb_penduduk_mandiri'";
         $query = $this->db->query($sql);
         if ($query->num_rows() == 0) {
             $this->dbforge->add_column('tweb_penduduk_mandiri', [
@@ -995,19 +1000,19 @@ class Database_model extends MY_Model
         $this->db->where('id', 58)->update('setting_modul', ['url' => 'surat_keluar/clear', 'aktif' => '1']);
         if (! $this->db->table_exists('surat_keluar')) {
             $query = '
-				CREATE TABLE `surat_keluar` (
-					`id` int NOT NULL AUTO_INCREMENT,
-					`nomor_urut` smallint(5),
-					`nomor_surat` varchar(20),
-					`kode_surat` varchar(10),
-					`tanggal_surat` date NOT NULL,
-					`tanggal_catat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-					`tujuan` varchar(100),
-					`isi_singkat` varchar(200),
-					`berkas_scan` varchar(100),
-					PRIMARY KEY  (`id`)
-				);
-			';
+                CREATE TABLE `surat_keluar` (
+                    `id` int NOT NULL AUTO_INCREMENT,
+                    `nomor_urut` smallint(5),
+                    `nomor_surat` varchar(20),
+                    `kode_surat` varchar(10),
+                    `tanggal_surat` date NOT NULL,
+                    `tanggal_catat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    `tujuan` varchar(100),
+                    `isi_singkat` varchar(200),
+                    `berkas_scan` varchar(100),
+                    PRIMARY KEY  (`id`)
+                );
+            ';
             $this->db->query($query);
         }
 
@@ -1029,14 +1034,14 @@ class Database_model extends MY_Model
             $this->db->query($sql);
 
             $query = "
-			CREATE TABLE IF NOT EXISTS `klasifikasi_surat` (
-			  `id` int(4) NOT NULL AUTO_INCREMENT,
-			  `kode` varchar(50) NOT NULL,
-			  `nama` varchar(250) NOT NULL,
-			  `uraian` mediumtext NOT NULL,
-				`enabled` int(2) NOT NULL DEFAULT '1',
-			  PRIMARY KEY (`id`)
-			)";
+            CREATE TABLE IF NOT EXISTS `klasifikasi_surat` (
+              `id` int(4) NOT NULL AUTO_INCREMENT,
+              `kode` varchar(50) NOT NULL,
+              `nama` varchar(250) NOT NULL,
+              `uraian` mediumtext NOT NULL,
+                `enabled` int(2) NOT NULL DEFAULT '1',
+              PRIMARY KEY (`id`)
+            )";
             $this->db->query($query);
             // Impor klasifikasi dari berkas csv
             $this->load->model('klasifikasi_model');
@@ -1135,16 +1140,16 @@ class Database_model extends MY_Model
 
         // Siapkan warna polygon dan line supaya tampak di tampilan-admin baru
         $sql = "UPDATE polygon SET color = CONCAT('#', color)
-				WHERE color NOT LIKE '#%' AND color <> ''
-		";
+                WHERE color NOT LIKE '#%' AND color <> ''
+        ";
         $this->db->query($sql);
         $sql = "UPDATE line SET color = CONCAT('#', color)
-				WHERE color NOT LIKE '#%' AND color <> ''
-		";
+                WHERE color NOT LIKE '#%' AND color <> ''
+        ";
         $this->db->query($sql);
 
         // Tambahkan perubahan menu untuk tampilan-admin baru
-        if (! $this->db->field_exists('parent', 'setting_modul') || strpos($this->getCurrentVersion(), '18.08') !== false) {
+        if (! $this->db->field_exists('parent', 'setting_modul') || strpos($this->cekCurrentVersion(), '18.08') !== false) {
             if (! $this->db->field_exists('parent', 'setting_modul')) {
                 $fields           = [];
                 $fields['parent'] = [
@@ -1158,65 +1163,65 @@ class Database_model extends MY_Model
 
             $this->db->truncate('setting_modul');
             $query = "
-		INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
-		('1', 'Home', 'hom_sid', '1', 'fa-home', '1', '2', '0', '1', 'fa fa-home'),
-		('200', 'Info [Desa]', 'hom_desa', '1', 'fa-dashboard', '2', '2', '0', '1', 'fa fa-home'),
-		('2', 'Kependudukan', 'penduduk/clear', '1', 'fa-users', '3', '2', '0', '0', 'fa fa-users'),
-		('3', 'Statistik', 'statistik', '1', 'fa-line-chart', '4', '2', '0', '0', 'fa fa-line-chart'),
-		('4', 'Layanan Surat', 'surat', '1', 'fa-book', '5', '2', '0', '0', 'fa fa-book'),
-		('5', 'Analisis', 'analisis_master/clear', '1', '   fa-check-square-o', '6', '2', '0', '0', 'fa fa-check-square-o'),
-		('6', 'Bantuan', 'program_bantuan/clear', '1', 'fa-heart', '7', '2', '0', '0', 'fa fa-heart'),
-		('7', 'Pertanahan', 'data_persil/clear', '1', 'fa-map-signs', '8', '2', '0', '0', 'fa fa-map-signs'),
-		('8', 'Pengaturan Peta', 'plan', '1', 'fa-location-arrow', '9', '2', '9', '0', 'fa fa-location-arrow'),
-		('9', 'Pemetaan', 'gis', '1', 'fa-globe', '10', '2', '0', '0', 'fa fa-globe'),
-		('10', 'SMS', 'sms', '1', 'fa-envelope', '11', '2', '0', '0', 'fa fa-envelope'),
-		('11', 'Pengaturan', 'man_user/clear', '1', 'fa-users', '12', '1', '0', '1', 'fa-users'),
-		('13', 'Admin Web', 'web', '1', 'fa-desktop', '14', '4', '0', '0', 'fa fa-desktop'),
-		('14', 'Layanan Mandiri', 'lapor', '1', 'fa-inbox', '15', '2', '0', '0', 'fa fa-inbox'),
-		('15', 'Sekretariat', 'sekretariat', '1', 'fa-archive', '5', '2', '0', '0', 'fa fa-archive'),
-		('16', 'SID', 'hom_sid', '1', 'fa-globe', '1', '2', '1', '0', ''),
-		('17', 'Identitas [Desa]', 'hom_desa/konfigurasi', '1', 'fa-id-card', '2', '2', '200', '0', ''),
-		('18', 'Pemerintahan [Desa]', 'pengurus', '1', 'fa-sitemap', '3', '2', '200', '0', ''),
-		('19', 'Donasi', 'hom_sid/donasi', '1', 'fa-money', '4', '2', '1', '0', ''),
-		('20', 'Wilayah Administratif', 'sid_core', '1', 'fa-map', '2', '2', '200', '0', ''),
-		('21', 'Penduduk', 'penduduk/clear', '1', 'fa-user', '2', '2', '2', '0', ''),
-		('22', 'Keluarga', 'keluarga/clear', '1', 'fa-users', '3', '2', '2', '0', ''),
-		('23', 'Rumah Tangga', 'rtm/clear', '1', 'fa-venus-mars', '4', '2', '2', '0', ''),
-		('24', 'Kelompok', 'kelompok/clear', '1', 'fa-sitemap', '5', '2', '2', '0', ''),
-		('25', 'Data Suplemen', 'suplemen', '1', 'fa-slideshare', '6', '2', '2', '0', ''),
-		('26', 'Calon Pemilih', 'dpt/clear', '1', 'fa-podcast', '7', '2', '2', '0', ''),
-		('27', 'Statistik Kependudukan', 'statistik', '1', 'fa-bar-chart', '1', '2', '3', '0', ''),
-		('28', 'Laporan Bulanan', 'laporan/clear', '1', 'fa-file-text', '2', '2', '3', '0', ''),
-		('29', 'Laporan Kelompok Rentan', 'laporan_rentan/clear', '1', 'fa-wheelchair', '3', '2', '3', '0', ''),
-		('30', 'Pengaturan Surat', 'surat_master/clear', '1', 'fa-cog', '1', '2', '4', '0', ''),
-		('31', 'Cetak Surat', 'surat', '1', 'fa-files-o', '2', '2', '4', '0', ''),
-		('32', 'Arsip Layanan', 'keluar', '1', 'fa-folder-open', '3', '2', '4', '0', ''),
-		('33', 'Panduan', 'surat/panduan', '1', 'fa fa-book', '4', '2', '4', '0', ''),
-		('39', 'SMS', 'sms', '1', 'fa-envelope-open-o', '1', '2', '10', '0', ''),
-		('40', 'Daftar Kontak', 'sms/kontak', '1', 'fa-id-card-o', '2', '2', '10', '0', ''),
-		('41', 'Pengaturan SMS', 'sms/setting', '1', 'fa-gear', '3', '2', '10', '0', ''),
-		('42', 'Modul', 'modul', '1', 'fa-tags', '1', '1', '11', '0', ''),
-		('43', 'Aplikasi', 'setting', '1', 'fa-codepen', '2', '1', '11', '0', ''),
-		('44', 'Pengguna', 'man_user', '1', 'fa-users', '3', '1', '11', '0', ''),
-		('45', 'Database', 'database', '1', 'fa-database', '4', '1', '11', '0', ''),
-		('46', 'Info Sistem', 'setting/info_sistem', '1', 'fa-server', '5', '1', '11', '0', ''),
-		('47', 'Artikel', 'web/index/1', '1', 'fa-file-movie-o', '1', '4', '13', '0', ''),
-		('48', 'Widget', 'web_widget', '1', 'fa-windows', '2', '4', '13', '0', ''),
-		('49', 'Menu', 'menu/index/1', '1', 'fa-bars', '3', '4', '13', '0', ''),
-		('50', 'Komentar', 'komentar', '1', 'fa-comments', '4', '4', '13', '0', ''),
-		('51', 'Galeri', 'gallery', '1', 'fa-image', '5', '5', '13', '0', ''),
-		('52', 'Dokumen', 'dokumen', '1', 'fa-file-text', '6', '4', '13', '0', ''),
-		('53', 'Media Sosial', 'sosmed', '1', 'fa-facebook', '7', '4', '13', '0', ''),
-		('54', 'Slider', 'web/slider', '1', 'fa-film', '8', '4', '13', '0', ''),
-		('55', 'Laporan Masuk', 'lapor', '1', 'fa-wechat', '1', '2', '14', '0', ''),
-		('56', 'Pendaftar Layanan Mandiri', 'mandiri/clear', '1', 'fa-500px', '2', '2', '14', '0', ''),
-		('57', 'Surat Masuk', 'surat_masuk', '1', 'fa-sign-in', '1', '2', '15', '0', ''),
-		('58', 'Surat Keluar', '', '2', 'fa-sign-out', '2', '2', '15', '0', ''),
-		('59', 'SK Kades', 'dokumen_sekretariat/index/2', '1', 'fa-legal', '3', '2', '15', '0', ''),
-		('60', 'Perdes', 'dokumen_sekretariat/index/3', '1', 'fa-newspaper-o', '4', '2', '15', '0', ''),
-		('61', 'Inventaris', 'inventaris_tanah', '1', 'fa-cubes', '5', '2', '15', '0', ''),
-		('62', 'Peta', 'gis', '1', 'fa-globe', '1', '2', '9', '0', 'fa fa-globe');
-	  ";
+        INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
+        ('1', 'Home', 'hom_sid', '1', 'fa-home', '1', '2', '0', '1', 'fa fa-home'),
+        ('200', 'Info [Desa]', 'hom_desa', '1', 'fa-dashboard', '2', '2', '0', '1', 'fa fa-home'),
+        ('2', 'Kependudukan', 'penduduk/clear', '1', 'fa-users', '3', '2', '0', '0', 'fa fa-users'),
+        ('3', 'Statistik', 'statistik', '1', 'fa-line-chart', '4', '2', '0', '0', 'fa fa-line-chart'),
+        ('4', 'Layanan Surat', 'surat', '1', 'fa-book', '5', '2', '0', '0', 'fa fa-book'),
+        ('5', 'Analisis', 'analisis_master/clear', '1', '   fa-check-square-o', '6', '2', '0', '0', 'fa fa-check-square-o'),
+        ('6', 'Bantuan', 'program_bantuan/clear', '1', 'fa-heart', '7', '2', '0', '0', 'fa fa-heart'),
+        ('7', 'Pertanahan', 'data_persil/clear', '1', 'fa-map-signs', '8', '2', '0', '0', 'fa fa-map-signs'),
+        ('8', 'Pengaturan Peta', 'plan', '1', 'fa-location-arrow', '9', '2', '9', '0', 'fa fa-location-arrow'),
+        ('9', 'Pemetaan', 'gis', '1', 'fa-globe', '10', '2', '0', '0', 'fa fa-globe'),
+        ('10', 'SMS', 'sms', '1', 'fa-envelope', '11', '2', '0', '0', 'fa fa-envelope'),
+        ('11', 'Pengaturan', 'man_user/clear', '1', 'fa-users', '12', '1', '0', '1', 'fa-users'),
+        ('13', 'Admin Web', 'web', '1', 'fa-desktop', '14', '4', '0', '0', 'fa fa-desktop'),
+        ('14', 'Layanan Mandiri', 'lapor', '1', 'fa-inbox', '15', '2', '0', '0', 'fa fa-inbox'),
+        ('15', 'Sekretariat', 'sekretariat', '1', 'fa-archive', '5', '2', '0', '0', 'fa fa-archive'),
+        ('16', 'SID', 'hom_sid', '1', 'fa-globe', '1', '2', '1', '0', ''),
+        ('17', 'Identitas [Desa]', 'hom_desa/konfigurasi', '1', 'fa-id-card', '2', '2', '200', '0', ''),
+        ('18', 'Pemerintahan [Desa]', 'pengurus', '1', 'fa-sitemap', '3', '2', '200', '0', ''),
+        ('19', 'Donasi', 'hom_sid/donasi', '1', 'fa-money', '4', '2', '1', '0', ''),
+        ('20', 'Wilayah Administratif', 'sid_core', '1', 'fa-map', '2', '2', '200', '0', ''),
+        ('21', 'Penduduk', 'penduduk/clear', '1', 'fa-user', '2', '2', '2', '0', ''),
+        ('22', 'Keluarga', 'keluarga/clear', '1', 'fa-users', '3', '2', '2', '0', ''),
+        ('23', 'Rumah Tangga', 'rtm/clear', '1', 'fa-venus-mars', '4', '2', '2', '0', ''),
+        ('24', 'Kelompok', 'kelompok/clear', '1', 'fa-sitemap', '5', '2', '2', '0', ''),
+        ('25', 'Data Suplemen', 'suplemen', '1', 'fa-slideshare', '6', '2', '2', '0', ''),
+        ('26', 'Calon Pemilih', 'dpt/clear', '1', 'fa-podcast', '7', '2', '2', '0', ''),
+        ('27', 'Statistik Kependudukan', 'statistik', '1', 'fa-bar-chart', '1', '2', '3', '0', ''),
+        ('28', 'Laporan Bulanan', 'laporan/clear', '1', 'fa-file-text', '2', '2', '3', '0', ''),
+        ('29', 'Laporan Kelompok Rentan', 'laporan_rentan/clear', '1', 'fa-wheelchair', '3', '2', '3', '0', ''),
+        ('30', 'Pengaturan Surat', 'surat_master/clear', '1', 'fa-cog', '1', '2', '4', '0', ''),
+        ('31', 'Cetak Surat', 'surat', '1', 'fa-files-o', '2', '2', '4', '0', ''),
+        ('32', 'Arsip Layanan', 'keluar', '1', 'fa-folder-open', '3', '2', '4', '0', ''),
+        ('33', 'Panduan', 'surat/panduan', '1', 'fa fa-book', '4', '2', '4', '0', ''),
+        ('39', 'SMS', 'sms', '1', 'fa-envelope-open-o', '1', '2', '10', '0', ''),
+        ('40', 'Daftar Kontak', 'sms/kontak', '1', 'fa-id-card-o', '2', '2', '10', '0', ''),
+        ('41', 'Pengaturan SMS', 'sms/setting', '1', 'fa-gear', '3', '2', '10', '0', ''),
+        ('42', 'Modul', 'modul', '1', 'fa-tags', '1', '1', '11', '0', ''),
+        ('43', 'Aplikasi', 'setting', '1', 'fa-codepen', '2', '1', '11', '0', ''),
+        ('44', 'Pengguna', 'man_user', '1', 'fa-users', '3', '1', '11', '0', ''),
+        ('45', 'Database', 'database', '1', 'fa-database', '4', '1', '11', '0', ''),
+        ('46', 'Info Sistem', 'setting/info_sistem', '1', 'fa-server', '5', '1', '11', '0', ''),
+        ('47', 'Artikel', 'web/index/1', '1', 'fa-file-movie-o', '1', '4', '13', '0', ''),
+        ('48', 'Widget', 'web_widget', '1', 'fa-windows', '2', '4', '13', '0', ''),
+        ('49', 'Menu', 'menu/index/1', '1', 'fa-bars', '3', '4', '13', '0', ''),
+        ('50', 'Komentar', 'komentar', '1', 'fa-comments', '4', '4', '13', '0', ''),
+        ('51', 'Galeri', 'gallery', '1', 'fa-image', '5', '5', '13', '0', ''),
+        ('52', 'Dokumen', 'dokumen', '1', 'fa-file-text', '6', '4', '13', '0', ''),
+        ('53', 'Media Sosial', 'sosmed', '1', 'fa-facebook', '7', '4', '13', '0', ''),
+        ('54', 'Slider', 'web/slider', '1', 'fa-film', '8', '4', '13', '0', ''),
+        ('55', 'Laporan Masuk', 'lapor', '1', 'fa-wechat', '1', '2', '14', '0', ''),
+        ('56', 'Pendaftar Layanan Mandiri', 'mandiri/clear', '1', 'fa-500px', '2', '2', '14', '0', ''),
+        ('57', 'Surat Masuk', 'surat_masuk', '1', 'fa-sign-in', '1', '2', '15', '0', ''),
+        ('58', 'Surat Keluar', '', '2', 'fa-sign-out', '2', '2', '15', '0', ''),
+        ('59', 'SK Kades', 'dokumen_sekretariat/index/2', '1', 'fa-legal', '3', '2', '15', '0', ''),
+        ('60', 'Perdes', 'dokumen_sekretariat/index/3', '1', 'fa-newspaper-o', '4', '2', '15', '0', ''),
+        ('61', 'Inventaris', 'inventaris_tanah', '1', 'fa-cubes', '5', '2', '15', '0', ''),
+        ('62', 'Peta', 'gis', '1', 'fa-globe', '1', '2', '9', '0', 'fa fa-globe');
+      ";
             $this->db->query($query);
         }
 
@@ -1316,299 +1321,299 @@ class Database_model extends MY_Model
 
         if (! $this->db->table_exists('inventaris_tanah')) {
             $query = "
-			CREATE TABLE `inventaris_tanah` (
-				`id` int(11) NOT NULL AUTO_INCREMENT,
-				`nama_barang` varchar(255) NOT NULL,
-				`kode_barang` varchar(64) NOT NULL,
-				`register` varchar(64) NOT NULL,
-				`luas` int(64) NOT NULL,
-				`tahun_pengadaan` year(4) NOT NULL,
-				`letak` varchar(255) NOT NULL,
-				`hak` varchar(255) NOT NULL,
-				`no_sertifikat` varchar(255) NOT NULL,
-				`tanggal_sertifikat` date NOT NULL,
-				`penggunaan` varchar(255) NOT NULL,
-				`asal` varchar(255) NOT NULL,
-				`harga` double NOT NULL,
-				`keterangan` text NOT NULL,
-				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`updated_by` int(11) NOT NULL,
-				`status` int(1) NOT NULL DEFAULT '0',
-				`visible` int(1) NOT NULL DEFAULT '1',
-				PRIMARY KEY (id)
-			)
-			";
+            CREATE TABLE `inventaris_tanah` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `nama_barang` varchar(255) NOT NULL,
+                `kode_barang` varchar(64) NOT NULL,
+                `register` varchar(64) NOT NULL,
+                `luas` int(64) NOT NULL,
+                `tahun_pengadaan` year(4) NOT NULL,
+                `letak` varchar(255) NOT NULL,
+                `hak` varchar(255) NOT NULL,
+                `no_sertifikat` varchar(255) NOT NULL,
+                `tanggal_sertifikat` date NOT NULL,
+                `penggunaan` varchar(255) NOT NULL,
+                `asal` varchar(255) NOT NULL,
+                `harga` double NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_by` int(11) NOT NULL,
+                `status` int(1) NOT NULL DEFAULT '0',
+                `visible` int(1) NOT NULL DEFAULT '1',
+                PRIMARY KEY (id)
+            )
+            ";
             $this->db->query($query);
         }
 
         if (! $this->db->table_exists('mutasi_inventaris_tanah')) {
             $query = "
-			CREATE TABLE `mutasi_inventaris_tanah` (
-				`id` int(11) NOT NULL AUTO_INCREMENT,
-				`id_inventaris_tanah` int(11),
-				`jenis_mutasi` varchar(255) NOT NULL,
-				`tahun_mutasi` date NOT NULL,
-				`harga_jual` double NOT NULL,
-				`sumbangkan` varchar(255) NOT NULL,
-				`keterangan` text NOT NULL,
-				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`updated_by` int(11) NOT NULL,
-				`visible` int(1) NOT NULL DEFAULT '1',
-				PRIMARY KEY (id),
-				CONSTRAINT FK_mutasi_inventaris_tanah FOREIGN KEY (id_inventaris_tanah) REFERENCES inventaris_tanah(id)
-			)
-			";
+            CREATE TABLE `mutasi_inventaris_tanah` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_inventaris_tanah` int(11),
+                `jenis_mutasi` varchar(255) NOT NULL,
+                `tahun_mutasi` date NOT NULL,
+                `harga_jual` double NOT NULL,
+                `sumbangkan` varchar(255) NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_by` int(11) NOT NULL,
+                `visible` int(1) NOT NULL DEFAULT '1',
+                PRIMARY KEY (id),
+                CONSTRAINT FK_mutasi_inventaris_tanah FOREIGN KEY (id_inventaris_tanah) REFERENCES inventaris_tanah(id)
+            )
+            ";
             $this->db->query($query);
         }
 
         if (! $this->db->table_exists('inventaris_peralatan')) {
             $query = "
-			CREATE TABLE `inventaris_peralatan` (
-				`id` int(11) NOT NULL AUTO_INCREMENT,
-				`nama_barang` varchar(255) NOT NULL,
-				`kode_barang` varchar(64) NOT NULL,
-				`register` varchar(64) NOT NULL,
-				`merk` varchar(255) NOT NULL,
-				`ukuran`text NOT NULL,
-				`bahan` text NOT NULL,
-				`tahun_pengadaan` year(4) NOT NULL,
-				`no_pabrik` varchar(255) NULL,
-				`no_rangka` varchar(255) NULL,
-				`no_mesin` varchar(255) NULL,
-				`no_polisi` varchar(255) NULL,
-				`no_bpkb` varchar(255) NULL,
-				`asal` varchar(255) NOT NULL,
-				`harga` double NOT NULL,
-				`keterangan` text NOT NULL,
-				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`updated_by` int(11) NOT NULL,
-				`status` int(1) NOT NULL DEFAULT '0',
-				`visible` int(1) NOT NULL DEFAULT '1',
-				PRIMARY KEY (id)
-			)
-			";
+            CREATE TABLE `inventaris_peralatan` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `nama_barang` varchar(255) NOT NULL,
+                `kode_barang` varchar(64) NOT NULL,
+                `register` varchar(64) NOT NULL,
+                `merk` varchar(255) NOT NULL,
+                `ukuran`text NOT NULL,
+                `bahan` text NOT NULL,
+                `tahun_pengadaan` year(4) NOT NULL,
+                `no_pabrik` varchar(255) NULL,
+                `no_rangka` varchar(255) NULL,
+                `no_mesin` varchar(255) NULL,
+                `no_polisi` varchar(255) NULL,
+                `no_bpkb` varchar(255) NULL,
+                `asal` varchar(255) NOT NULL,
+                `harga` double NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_by` int(11) NOT NULL,
+                `status` int(1) NOT NULL DEFAULT '0',
+                `visible` int(1) NOT NULL DEFAULT '1',
+                PRIMARY KEY (id)
+            )
+            ";
             $this->db->query($query);
         }
 
         if (! $this->db->table_exists('mutasi_inventaris_peralatan')) {
             $query = "
-			CREATE TABLE `mutasi_inventaris_peralatan` (
-				`id` int(11) NOT NULL AUTO_INCREMENT,
-				`id_inventaris_peralatan` int(11),
-				`jenis_mutasi` varchar(255) NOT NULL,
-				`tahun_mutasi` date NOT NULL,
-				`harga_jual` double NOT NULL,
-				`sumbangkan` varchar(255) NOT NULL,
-				`keterangan` text NOT NULL,
-				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`updated_by` int(11) NOT NULL,
-				`visible` int(1) NOT NULL DEFAULT '1',
-				PRIMARY KEY (id),
-				CONSTRAINT FK_mutasi_inventaris_peralatan FOREIGN KEY (id_inventaris_peralatan) REFERENCES inventaris_peralatan(id)
-			)
-			";
+            CREATE TABLE `mutasi_inventaris_peralatan` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_inventaris_peralatan` int(11),
+                `jenis_mutasi` varchar(255) NOT NULL,
+                `tahun_mutasi` date NOT NULL,
+                `harga_jual` double NOT NULL,
+                `sumbangkan` varchar(255) NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_by` int(11) NOT NULL,
+                `visible` int(1) NOT NULL DEFAULT '1',
+                PRIMARY KEY (id),
+                CONSTRAINT FK_mutasi_inventaris_peralatan FOREIGN KEY (id_inventaris_peralatan) REFERENCES inventaris_peralatan(id)
+            )
+            ";
             $this->db->query($query);
         }
 
         if (! $this->db->table_exists('inventaris_gedung')) {
             $query = "
-			CREATE TABLE `inventaris_gedung` (
-				`id` int(11) NOT NULL AUTO_INCREMENT,
-				`nama_barang` varchar(255) NOT NULL,
-				`kode_barang` varchar(64) NOT NULL,
-				`register` varchar(64) NOT NULL,
-				`kondisi_bangunan` varchar(255) NOT NULL,
-				`kontruksi_bertingkat` varchar(255) NOT NULL,
-				`kontruksi_beton` int(1) NOT NULL,
-				`luas_bangunan` int(64) NOT NULL,
-				`letak` varchar(255) NOT NULL,
-				`tanggal_dokument`DATE NULL,
-				`no_dokument` varchar(255) NULL,
-				`luas` int(64) NULL,
-				`status_tanah` varchar(255) NULL,
-				`kode_tanah` varchar(255) NULL,
-				`asal` varchar(255) NOT NULL,
-				`harga` double NOT NULL,
-				`keterangan` text NOT NULL,
-				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`updated_by` int(11) NOT NULL,
-				`status` int(1) NOT NULL DEFAULT '0',
-				`visible` int(1) NOT NULL DEFAULT '1',
-				PRIMARY KEY (id)
-			)
-			";
+            CREATE TABLE `inventaris_gedung` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `nama_barang` varchar(255) NOT NULL,
+                `kode_barang` varchar(64) NOT NULL,
+                `register` varchar(64) NOT NULL,
+                `kondisi_bangunan` varchar(255) NOT NULL,
+                `kontruksi_bertingkat` varchar(255) NOT NULL,
+                `kontruksi_beton` int(1) NOT NULL,
+                `luas_bangunan` int(64) NOT NULL,
+                `letak` varchar(255) NOT NULL,
+                `tanggal_dokument`DATE NULL,
+                `no_dokument` varchar(255) NULL,
+                `luas` int(64) NULL,
+                `status_tanah` varchar(255) NULL,
+                `kode_tanah` varchar(255) NULL,
+                `asal` varchar(255) NOT NULL,
+                `harga` double NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_by` int(11) NOT NULL,
+                `status` int(1) NOT NULL DEFAULT '0',
+                `visible` int(1) NOT NULL DEFAULT '1',
+                PRIMARY KEY (id)
+            )
+            ";
             $this->db->query($query);
         }
 
         if (! $this->db->table_exists('mutasi_inventaris_gedung')) {
             $query = "
-			CREATE TABLE `mutasi_inventaris_gedung` (
-				`id` int(11) NOT NULL AUTO_INCREMENT,
-				`id_inventaris_gedung` int(11),
-				`jenis_mutasi` varchar(255) NOT NULL,
-				`tahun_mutasi` date NOT NULL,
-				`harga_jual` double NOT NULL,
-				`sumbangkan` varchar(255) NOT NULL,
-				`keterangan` text NOT NULL,
-				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`updated_by` int(11) NOT NULL,
-				`visible` int(1) NOT NULL DEFAULT '1',
-				PRIMARY KEY (id),
-				CONSTRAINT FK_mutasi_inventaris_gedung FOREIGN KEY (id_inventaris_gedung) REFERENCES inventaris_gedung(id)
-			)
-			";
+            CREATE TABLE `mutasi_inventaris_gedung` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_inventaris_gedung` int(11),
+                `jenis_mutasi` varchar(255) NOT NULL,
+                `tahun_mutasi` date NOT NULL,
+                `harga_jual` double NOT NULL,
+                `sumbangkan` varchar(255) NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_by` int(11) NOT NULL,
+                `visible` int(1) NOT NULL DEFAULT '1',
+                PRIMARY KEY (id),
+                CONSTRAINT FK_mutasi_inventaris_gedung FOREIGN KEY (id_inventaris_gedung) REFERENCES inventaris_gedung(id)
+            )
+            ";
             $this->db->query($query);
         }
 
         if (! $this->db->table_exists('inventaris_jalan')) {
             $query = "
-			CREATE TABLE `inventaris_jalan` (
-				`id` int(11) NOT NULL AUTO_INCREMENT,
-				`nama_barang` varchar(255) NOT NULL,
-				`kode_barang` varchar(64) NOT NULL,
-				`register` varchar(64) NOT NULL,
-				`kontruksi` varchar(255) NOT NULL,
-				`panjang` int(64) NOT NULL,
-				`lebar`int(64) NOT NULL,
-				`luas` int(64) NOT NULL,
-				`letak` text NULL,
-				`tanggal_dokument` date NOT NULL,
-				`no_dokument` varchar(255) DEFAULT NULL,
-				`status_tanah` varchar(255) DEFAULT NULL,
-				`kode_tanah` varchar(255) DEFAULT NULL,
-				`kondisi` varchar(255) NOT NULL,
-				`asal` varchar(255) NOT NULL,
-				`harga` double NOT NULL,
-				`keterangan` text NOT NULL,
-				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`updated_by` int(11) NOT NULL,
-				`status` int(1) NOT NULL DEFAULT '0',
-				`visible` int(1) NOT NULL DEFAULT '1',
-				PRIMARY KEY (id)
-			)
-			";
+            CREATE TABLE `inventaris_jalan` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `nama_barang` varchar(255) NOT NULL,
+                `kode_barang` varchar(64) NOT NULL,
+                `register` varchar(64) NOT NULL,
+                `kontruksi` varchar(255) NOT NULL,
+                `panjang` int(64) NOT NULL,
+                `lebar`int(64) NOT NULL,
+                `luas` int(64) NOT NULL,
+                `letak` text NULL,
+                `tanggal_dokument` date NOT NULL,
+                `no_dokument` varchar(255) DEFAULT NULL,
+                `status_tanah` varchar(255) DEFAULT NULL,
+                `kode_tanah` varchar(255) DEFAULT NULL,
+                `kondisi` varchar(255) NOT NULL,
+                `asal` varchar(255) NOT NULL,
+                `harga` double NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_by` int(11) NOT NULL,
+                `status` int(1) NOT NULL DEFAULT '0',
+                `visible` int(1) NOT NULL DEFAULT '1',
+                PRIMARY KEY (id)
+            )
+            ";
             $this->db->query($query);
         }
 
         if (! $this->db->table_exists('mutasi_inventaris_jalan')) {
             $query = "
-			CREATE TABLE `mutasi_inventaris_jalan` (
-				`id` int(11) NOT NULL AUTO_INCREMENT,
-				`id_inventaris_jalan` int(11),
-				`jenis_mutasi` varchar(255) NOT NULL,
-				`tahun_mutasi` date NOT NULL,
-				`harga_jual` double NOT NULL,
-				`sumbangkan` varchar(255) NOT NULL,
-				`keterangan` text NOT NULL,
-				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`updated_by` int(11) NOT NULL,
-				`visible` int(1) NOT NULL DEFAULT '1',
-				PRIMARY KEY (id),
-				CONSTRAINT FK_mutasi_inventaris_jalan FOREIGN KEY (id_inventaris_jalan) REFERENCES inventaris_jalan(id)
-			)
-			";
+            CREATE TABLE `mutasi_inventaris_jalan` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_inventaris_jalan` int(11),
+                `jenis_mutasi` varchar(255) NOT NULL,
+                `tahun_mutasi` date NOT NULL,
+                `harga_jual` double NOT NULL,
+                `sumbangkan` varchar(255) NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_by` int(11) NOT NULL,
+                `visible` int(1) NOT NULL DEFAULT '1',
+                PRIMARY KEY (id),
+                CONSTRAINT FK_mutasi_inventaris_jalan FOREIGN KEY (id_inventaris_jalan) REFERENCES inventaris_jalan(id)
+            )
+            ";
             $this->db->query($query);
         }
 
         if (! $this->db->table_exists('inventaris_asset')) {
             $query = "
-			CREATE TABLE `inventaris_asset` (
-				`id` int(11) AUTO_INCREMENT NOT NULL,
-				`nama_barang` varchar(255) NOT NULL,
-				`kode_barang` varchar(64) NOT NULL,
-				`register` varchar(64) NOT NULL,
-				`jenis` varchar(255) NOT NULL,
-				`judul_buku` varchar(255) NULL,
-				`spesifikasi_buku` varchar(255) NULL,
-				`asal_daerah` varchar(255) NULL,
-				`pencipta` varchar(255) NULL,
-				`bahan` varchar(255) NULL,
-				`jenis_hewan` varchar(255) NULL,
-				`ukuran_hewan` varchar(255) NULL,
-				`jenis_tumbuhan` varchar(255) NULL,
-				`ukuran_tumbuhan` varchar(255) NULL,
-				`jumlah` int(64) NOT NULL,
-				`tahun_pengadaan` year(4) NOT NULL,
-				`asal` varchar(255) NOT NULL,
-				`harga` double NOT NULL,
-				`keterangan` text NOT NULL,
-				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`updated_by` int(11) NOT NULL,
-				`status` int(1) NOT NULL DEFAULT '0',
-				`visible` int(1) NOT NULL DEFAULT '1',
-				PRIMARY KEY (id)
-			)
-			";
+            CREATE TABLE `inventaris_asset` (
+                `id` int(11) AUTO_INCREMENT NOT NULL,
+                `nama_barang` varchar(255) NOT NULL,
+                `kode_barang` varchar(64) NOT NULL,
+                `register` varchar(64) NOT NULL,
+                `jenis` varchar(255) NOT NULL,
+                `judul_buku` varchar(255) NULL,
+                `spesifikasi_buku` varchar(255) NULL,
+                `asal_daerah` varchar(255) NULL,
+                `pencipta` varchar(255) NULL,
+                `bahan` varchar(255) NULL,
+                `jenis_hewan` varchar(255) NULL,
+                `ukuran_hewan` varchar(255) NULL,
+                `jenis_tumbuhan` varchar(255) NULL,
+                `ukuran_tumbuhan` varchar(255) NULL,
+                `jumlah` int(64) NOT NULL,
+                `tahun_pengadaan` year(4) NOT NULL,
+                `asal` varchar(255) NOT NULL,
+                `harga` double NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_by` int(11) NOT NULL,
+                `status` int(1) NOT NULL DEFAULT '0',
+                `visible` int(1) NOT NULL DEFAULT '1',
+                PRIMARY KEY (id)
+            )
+            ";
             $this->db->query($query);
         }
 
         if (! $this->db->table_exists('mutasi_inventaris_asset')) {
             $query = "
-			CREATE TABLE `mutasi_inventaris_asset` (
-				`id` int(11) NOT NULL AUTO_INCREMENT,
-				`id_inventaris_asset` int(11),
-				`jenis_mutasi` varchar(255) NOT NULL,
-				`tahun_mutasi` date NOT NULL,
-				`harga_jual` double NOT NULL,
-				`sumbangkan` varchar(255) NOT NULL,
-				`keterangan` text NOT NULL,
-				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`updated_by` int(11) NOT NULL,
-				`visible` int(1) NOT NULL DEFAULT '1',
-				PRIMARY KEY (id),
-				CONSTRAINT FK_mutasi_inventaris_asset FOREIGN KEY (id_inventaris_asset) REFERENCES inventaris_asset(id)
-			)
-			";
+            CREATE TABLE `mutasi_inventaris_asset` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_inventaris_asset` int(11),
+                `jenis_mutasi` varchar(255) NOT NULL,
+                `tahun_mutasi` date NOT NULL,
+                `harga_jual` double NOT NULL,
+                `sumbangkan` varchar(255) NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_by` int(11) NOT NULL,
+                `visible` int(1) NOT NULL DEFAULT '1',
+                PRIMARY KEY (id),
+                CONSTRAINT FK_mutasi_inventaris_asset FOREIGN KEY (id_inventaris_asset) REFERENCES inventaris_asset(id)
+            )
+            ";
             $this->db->query($query);
         }
 
         if (! $this->db->table_exists('inventaris_kontruksi')) {
             $query = "
-			CREATE TABLE `inventaris_kontruksi` (
-				`id` int(11) AUTO_INCREMENT NOT NULL ,
-				`nama_barang` varchar(255) NOT NULL,
-				`kondisi_bangunan` varchar(255) NOT NULL,
-				`kontruksi_bertingkat` varchar(255) NOT NULL,
-				`kontruksi_beton` int(1) NOT NULL,
-				`luas_bangunan` int(64) NOT NULL,
-				`letak` varchar(255) NOT NULL,
-				`tanggal_dokument` date DEFAULT NULL,
-				`no_dokument` varchar(255) DEFAULT NULL,
-				`tanggal` date DEFAULT NULL,
-				`status_tanah` varchar(255) DEFAULT NULL,
-				`kode_tanah` varchar(255) DEFAULT NULL,
-				`asal` varchar(255) NOT NULL,
-				`harga` double NOT NULL,
-				`keterangan` text NOT NULL,
-				`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				`created_by` int(11) NOT NULL,
-				`updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`updated_by` int(11) NOT NULL,
-				`status` int(1) NOT NULL DEFAULT '0',
-				`visible` int(1) NOT NULL DEFAULT '1',
-				PRIMARY KEY (id)
-			)
-			";
+            CREATE TABLE `inventaris_kontruksi` (
+                `id` int(11) AUTO_INCREMENT NOT NULL ,
+                `nama_barang` varchar(255) NOT NULL,
+                `kondisi_bangunan` varchar(255) NOT NULL,
+                `kontruksi_bertingkat` varchar(255) NOT NULL,
+                `kontruksi_beton` int(1) NOT NULL,
+                `luas_bangunan` int(64) NOT NULL,
+                `letak` varchar(255) NOT NULL,
+                `tanggal_dokument` date DEFAULT NULL,
+                `no_dokument` varchar(255) DEFAULT NULL,
+                `tanggal` date DEFAULT NULL,
+                `status_tanah` varchar(255) DEFAULT NULL,
+                `kode_tanah` varchar(255) DEFAULT NULL,
+                `asal` varchar(255) NOT NULL,
+                `harga` double NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                `updated_by` int(11) NOT NULL,
+                `status` int(1) NOT NULL DEFAULT '0',
+                `visible` int(1) NOT NULL DEFAULT '1',
+                PRIMARY KEY (id)
+            )
+            ";
             $this->db->query($query);
         }
 
@@ -1788,37 +1793,37 @@ class Database_model extends MY_Model
         // Tambah tabel inventaris
         if (! $this->db->table_exists('jenis_barang')) {
             $query = '
-				CREATE TABLE jenis_barang (
-					id int NOT NULL AUTO_INCREMENT,
-					nama varchar(30),
-					keterangan varchar(100),
-					PRIMARY KEY (id)
-				);
-			';
+                CREATE TABLE jenis_barang (
+                    id int NOT NULL AUTO_INCREMENT,
+                    nama varchar(30),
+                    keterangan varchar(100),
+                    PRIMARY KEY (id)
+                );
+            ';
             $this->db->query($query);
         }
         if (! $this->db->table_exists('inventaris')) {
             $query = '
-				CREATE TABLE inventaris (
-					id int NOT NULL AUTO_INCREMENT,
-					id_jenis_barang int(6),
-					asal_sendiri int(6),
-					asal_pemerintah int(6),
-					asal_provinsi int(6),
-					asal_kab int(6),
-					asal_sumbangan int(6),
-					hapus_rusak int(6),
-					hapus_dijual int(6),
-					hapus_sumbangkan int(6),
-					tanggal_mutasi date NOT NULL,
-					jenis_mutasi int(6),
-					keterangan varchar(100),
-					PRIMARY KEY (id),
-					FOREIGN KEY (id_jenis_barang)
-						REFERENCES jenis_barang(id)
-						ON DELETE CASCADE
-				);
-			';
+                CREATE TABLE inventaris (
+                    id int NOT NULL AUTO_INCREMENT,
+                    id_jenis_barang int(6),
+                    asal_sendiri int(6),
+                    asal_pemerintah int(6),
+                    asal_provinsi int(6),
+                    asal_kab int(6),
+                    asal_sumbangan int(6),
+                    hapus_rusak int(6),
+                    hapus_dijual int(6),
+                    hapus_sumbangkan int(6),
+                    tanggal_mutasi date NOT NULL,
+                    jenis_mutasi int(6),
+                    keterangan varchar(100),
+                    PRIMARY KEY (id),
+                    FOREIGN KEY (id_jenis_barang)
+                        REFERENCES jenis_barang(id)
+                        ON DELETE CASCADE
+                );
+            ';
             $this->db->query($query);
         }
         // Perubahan pada pra-rilis
@@ -1859,20 +1864,20 @@ class Database_model extends MY_Model
         $this->dbforge->add_column('inventaris', $fields);
         if (! $this->db->table_exists('mutasi_inventaris')) {
             $query = '
-				CREATE TABLE mutasi_inventaris (
-					id int NOT NULL AUTO_INCREMENT,
-					id_barang int(6),
-					tanggal_mutasi date NOT NULL,
-					jenis_mutasi tinyint(2),
-					jenis_penghapusan tinyint(2),
-					jml_mutasi int(6),
-					keterangan varchar(100),
-					PRIMARY KEY (id),
-					FOREIGN KEY (id_barang)
-						REFERENCES inventaris(id)
-						ON DELETE CASCADE
-				);
-			';
+                CREATE TABLE mutasi_inventaris (
+                    id int NOT NULL AUTO_INCREMENT,
+                    id_barang int(6),
+                    tanggal_mutasi date NOT NULL,
+                    jenis_mutasi tinyint(2),
+                    jenis_penghapusan tinyint(2),
+                    jml_mutasi int(6),
+                    keterangan varchar(100),
+                    PRIMARY KEY (id),
+                    FOREIGN KEY (id_barang)
+                        REFERENCES inventaris(id)
+                        ON DELETE CASCADE
+                );
+            ';
             $this->db->query($query);
         }
         // Ubah url modul program_bantuan
@@ -1963,26 +1968,26 @@ class Database_model extends MY_Model
         $this->db->query($query);
 
         $query = '
-			CREATE TABLE tweb_status_ktp (
-				id tinyint(5) NOT NULL AUTO_INCREMENT,
-				nama varchar(50) NOT NULL,
-				ktp_el tinyint(4) NOT NULL,
-				status_rekam varchar(50) NOT NULL,
-				PRIMARY KEY (id)
-			) ENGINE=' . $this->engine . ' AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-		';
+            CREATE TABLE tweb_status_ktp (
+                id tinyint(5) NOT NULL AUTO_INCREMENT,
+                nama varchar(50) NOT NULL,
+                ktp_el tinyint(4) NOT NULL,
+                status_rekam varchar(50) NOT NULL,
+                PRIMARY KEY (id)
+            ) ENGINE=' . $this->engine . ' AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+        ';
         $this->db->query($query);
 
         $query = "
-			INSERT INTO tweb_status_ktp (id, nama, ktp_el, status_rekam) VALUES
-			(1, 'BELUM REKAM', 1, '2'),
-			(2, 'SUDAH REKAM', 2, '3'),
-			(3, 'CARD PRINTED', 2, '4'),
-			(4, 'PRINT READY RECORD', 2 ,'5'),
-			(5, 'CARD SHIPPED', 2, '6'),
-			(6, 'SENT FOR CARD PRINTING', 2, '7'),
-			(7, 'CARD ISSUED', 2, '8');
-		";
+            INSERT INTO tweb_status_ktp (id, nama, ktp_el, status_rekam) VALUES
+            (1, 'BELUM REKAM', 1, '2'),
+            (2, 'SUDAH REKAM', 2, '3'),
+            (3, 'CARD PRINTED', 2, '4'),
+            (4, 'PRINT READY RECORD', 2 ,'5'),
+            (5, 'CARD SHIPPED', 2, '6'),
+            (6, 'SENT FOR CARD PRINTING', 2, '7'),
+            (7, 'CARD ISSUED', 2, '8');
+        ";
         $this->db->query($query);
     }
 
@@ -1990,30 +1995,30 @@ class Database_model extends MY_Model
     {
         if (! $this->db->table_exists('suplemen')) {
             $query = '
-				CREATE TABLE suplemen (
-					id int NOT NULL AUTO_INCREMENT,
-					nama varchar(100),
-					sasaran tinyint(4),
-					keterangan varchar(300),
-					PRIMARY KEY (id)
-				);
-			';
+                CREATE TABLE suplemen (
+                    id int NOT NULL AUTO_INCREMENT,
+                    nama varchar(100),
+                    sasaran tinyint(4),
+                    keterangan varchar(300),
+                    PRIMARY KEY (id)
+                );
+            ';
             $this->db->query($query);
         }
         if (! $this->db->table_exists('suplemen_terdata')) {
             $query = '
-				CREATE TABLE suplemen_terdata (
-					id int NOT NULL AUTO_INCREMENT,
-					id_suplemen int(10),
-					id_terdata varchar(20),
-					sasaran tinyint(4),
-					keterangan varchar(100),
-					PRIMARY KEY (id),
-					FOREIGN KEY (id_suplemen)
-						REFERENCES suplemen(id)
-						ON DELETE CASCADE
-				);
-			';
+                CREATE TABLE suplemen_terdata (
+                    id int NOT NULL AUTO_INCREMENT,
+                    id_suplemen int(10),
+                    id_terdata varchar(20),
+                    sasaran tinyint(4),
+                    keterangan varchar(100),
+                    PRIMARY KEY (id),
+                    FOREIGN KEY (id_suplemen)
+                        REFERENCES suplemen(id)
+                        ON DELETE CASCADE
+                );
+            ';
             $this->db->query($query);
         }
         // Hapus surat permohonan perubahan kk (yang telah diubah menjadi kartu keluarga)
@@ -2031,11 +2036,11 @@ class Database_model extends MY_Model
             // Tambah surat permohonan perubahan kartu keluarga
             $sql = $this->db->insert_string('tweb_surat_format', $data);
             $sql .= ' ON DUPLICATE KEY UPDATE
-					nama = VALUES(nama),
-					url_surat = VALUES(url_surat),
-					kode_surat = VALUES(kode_surat),
-					lampiran = VALUES(lampiran),
-					jenis = VALUES(jenis)';
+                    nama = VALUES(nama),
+                    url_surat = VALUES(url_surat),
+                    kode_surat = VALUES(kode_surat),
+                    lampiran = VALUES(lampiran),
+                    jenis = VALUES(jenis)';
             $this->db->query($sql);
         }
     }
@@ -2045,36 +2050,36 @@ class Database_model extends MY_Model
         // Sesuaikan judul kelompok umur dengan SID 3.10 versi Okt 2017
         $this->db->truncate('tweb_penduduk_umur');
         $sql = '
-			INSERT INTO tweb_penduduk_umur VALUES
-			("1","BALITA","0","5","0"),
-			("2","ANAK-ANAK","6","17","0"),
-			("3","DEWASA","18","30","0"),
-			("4","TUA","31","120","0"),
-			("6","Di bawah 1 Tahun","0","1","1"),
-			("9","2 s/d 4 Tahun","2","4","1"),
-			("12","5 s/d 9 Tahun","5","9","1"),
-			("13","10 s/d 14 Tahun","10","14","1"),
-			("14","15 s/d 19 Tahun","15","19","1"),
-			("15","20 s/d 24 Tahun","20","24","1"),
-			("16","25 s/d 29 Tahun","25","29","1"),
-			("17","30 s/d 34 Tahun","30","34","1"),
-			("18","35 s/d 39 Tahun ","35","39","1"),
-			("19","40 s/d 44 Tahun","40","44","1"),
-			("20","45 s/d 49 Tahun","45","49","1"),
-			("21","50 s/d 54 Tahun","50","54","1"),
-			("22","55 s/d 59 Tahun","55","59","1"),
-			("23","60 s/d 64 Tahun","60","64","1"),
-			("24","65 s/d 69 Tahun","65","69","1"),
-			("25","70 s/d 74 Tahun","70","74","1"),
-			("26","Di atas 75 Tahun","75","99999","1");
-		';
+            INSERT INTO tweb_penduduk_umur VALUES
+            ("1","BALITA","0","5","0"),
+            ("2","ANAK-ANAK","6","17","0"),
+            ("3","DEWASA","18","30","0"),
+            ("4","TUA","31","120","0"),
+            ("6","Di bawah 1 Tahun","0","1","1"),
+            ("9","2 s/d 4 Tahun","2","4","1"),
+            ("12","5 s/d 9 Tahun","5","9","1"),
+            ("13","10 s/d 14 Tahun","10","14","1"),
+            ("14","15 s/d 19 Tahun","15","19","1"),
+            ("15","20 s/d 24 Tahun","20","24","1"),
+            ("16","25 s/d 29 Tahun","25","29","1"),
+            ("17","30 s/d 34 Tahun","30","34","1"),
+            ("18","35 s/d 39 Tahun ","35","39","1"),
+            ("19","40 s/d 44 Tahun","40","44","1"),
+            ("20","45 s/d 49 Tahun","45","49","1"),
+            ("21","50 s/d 54 Tahun","50","54","1"),
+            ("22","55 s/d 59 Tahun","55","59","1"),
+            ("23","60 s/d 64 Tahun","60","64","1"),
+            ("24","65 s/d 69 Tahun","65","69","1"),
+            ("25","70 s/d 74 Tahun","70","74","1"),
+            ("26","Di atas 75 Tahun","75","99999","1");
+        ';
         $this->db->query($sql);
         // Tambah tombol media sosial Instagram
         $query = "
-			INSERT INTO media_sosial (id, gambar, link, nama, enabled) VALUES ('5', 'ins.png', '', 'Instagram', '1')
-			ON DUPLICATE KEY UPDATE
-				gambar = VALUES(gambar),
-				nama = VALUES(nama)";
+            INSERT INTO media_sosial (id, gambar, link, nama, enabled) VALUES ('5', 'ins.png', '', 'Instagram', '1')
+            ON DUPLICATE KEY UPDATE
+                gambar = VALUES(gambar),
+                nama = VALUES(nama)";
         $this->db->query($query);
         // Ganti kelas sosial dengan tingkatan keluarga sejahtera dari BKKBN
         if ($this->db->table_exists('ref_kelas_sosial')) {
@@ -2082,21 +2087,21 @@ class Database_model extends MY_Model
         }
         if (! $this->db->table_exists('tweb_keluarga_sejahtera')) {
             $query = '
-				CREATE TABLE `tweb_keluarga_sejahtera` (
-					`id` int(10),
-					`nama` varchar(100),
-					PRIMARY KEY  (`id`)
-				);
-			';
+                CREATE TABLE `tweb_keluarga_sejahtera` (
+                    `id` int(10),
+                    `nama` varchar(100),
+                    PRIMARY KEY  (`id`)
+                );
+            ';
             $this->db->query($query);
             $query = "
-				INSERT INTO `tweb_keluarga_sejahtera` (`id`, `nama`) VALUES
-				(1,  'Keluarga Pra Sejahtera'),
-				(2,  'Keluarga Sejahtera I'),
-				(3,  'Keluarga Sejahtera II'),
-				(4,  'Keluarga Sejahtera III'),
-				(5,  'Keluarga Sejahtera III Plus')
-			";
+                INSERT INTO `tweb_keluarga_sejahtera` (`id`, `nama`) VALUES
+                (1,  'Keluarga Pra Sejahtera'),
+                (2,  'Keluarga Sejahtera I'),
+                (3,  'Keluarga Sejahtera II'),
+                (4,  'Keluarga Sejahtera III'),
+                (5,  'Keluarga Sejahtera III Plus')
+            ";
             $this->db->query($query);
         }
         // Tambah surat izin orang tua/suami/istri
@@ -2108,10 +2113,10 @@ class Database_model extends MY_Model
         ];
         $sql = $this->db->insert_string('tweb_surat_format', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
-				nama = VALUES(nama),
-				url_surat = VALUES(url_surat),
-				kode_surat = VALUES(kode_surat),
-				jenis = VALUES(jenis)';
+                nama = VALUES(nama),
+                url_surat = VALUES(url_surat),
+                kode_surat = VALUES(kode_surat),
+                jenis = VALUES(jenis)';
         $this->db->query($sql);
         // Tambah surat sporadik
         $data = [
@@ -2122,10 +2127,10 @@ class Database_model extends MY_Model
         ];
         $sql = $this->db->insert_string('tweb_surat_format', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
-				nama = VALUES(nama),
-				url_surat = VALUES(url_surat),
-				kode_surat = VALUES(kode_surat),
-				jenis = VALUES(jenis)';
+                nama = VALUES(nama),
+                url_surat = VALUES(url_surat),
+                kode_surat = VALUES(kode_surat),
+                jenis = VALUES(jenis)';
         $this->db->query($sql);
     }
 
@@ -2134,50 +2139,50 @@ class Database_model extends MY_Model
         // Tambah tabel provinsi
         if (! $this->db->table_exists('provinsi')) {
             $query = '
-				CREATE TABLE `provinsi` (
-					`kode` tinyint(2),
-					`nama` varchar(100),
-					PRIMARY KEY  (`kode`)
-				);
-			';
+                CREATE TABLE `provinsi` (
+                    `kode` tinyint(2),
+                    `nama` varchar(100),
+                    PRIMARY KEY  (`kode`)
+                );
+            ';
             $this->db->query($query);
             $query = "
-				INSERT INTO `provinsi` (`kode`, `nama`) VALUES
-				(11,  'Aceh'),
-				(12,  'Sumatera Utara'),
-				(13,  'Sumatera Barat'),
-				(14,  'Riau'),
-				(15,  'Jambi'),
-				(16,  'Sumatera Selatan'),
-				(17,  'Bengkulu'),
-				(18,  'Lampung'),
-				(19,  'Kepulauan Bangka Belitung'),
-				(21,  'Kepulauan Riau'),
-				(31,  'DKI Jakarta'),
-				(32,  'Jawa Barat'),
-				(33,  'Jawa Tengah'),
-				(34,  'DI Yogyakarta'),
-				(35,  'Jawa Timur'),
-				(36,  'Banten'),
-				(51,  'Bali'),
-				(52,  'Nusa Tenggara Barat'),
-				(53,  'Nusa Tenggara Timur'),
-				(61,  'Kalimantan Barat'),
-				(62,  'Kalimantan Tengah'),
-				(63,  'Kalimantan Selatan'),
-				(64,  'Kalimantan Timur'),
-				(65,  'Kalimantan Utara'),
-				(71,  'Sulawesi Utara'),
-				(72,  'Sulawesi Tengah'),
-				(73,  'Sulawesi Selatan'),
-				(74,  'Sulawesi Tenggara'),
-				(75,  'Gorontalo'),
-				(76,  'Sulawesi Barat'),
-				(81,  'Maluku'),
-				(82,  'Maluku Utara'),
-				(91,  'Papua'),
-				(92,  'Papua Barat')
-			";
+                INSERT INTO `provinsi` (`kode`, `nama`) VALUES
+                (11,  'Aceh'),
+                (12,  'Sumatera Utara'),
+                (13,  'Sumatera Barat'),
+                (14,  'Riau'),
+                (15,  'Jambi'),
+                (16,  'Sumatera Selatan'),
+                (17,  'Bengkulu'),
+                (18,  'Lampung'),
+                (19,  'Kepulauan Bangka Belitung'),
+                (21,  'Kepulauan Riau'),
+                (31,  'DKI Jakarta'),
+                (32,  'Jawa Barat'),
+                (33,  'Jawa Tengah'),
+                (34,  'DI Yogyakarta'),
+                (35,  'Jawa Timur'),
+                (36,  'Banten'),
+                (51,  'Bali'),
+                (52,  'Nusa Tenggara Barat'),
+                (53,  'Nusa Tenggara Timur'),
+                (61,  'Kalimantan Barat'),
+                (62,  'Kalimantan Tengah'),
+                (63,  'Kalimantan Selatan'),
+                (64,  'Kalimantan Timur'),
+                (65,  'Kalimantan Utara'),
+                (71,  'Sulawesi Utara'),
+                (72,  'Sulawesi Tengah'),
+                (73,  'Sulawesi Selatan'),
+                (74,  'Sulawesi Tenggara'),
+                (75,  'Gorontalo'),
+                (76,  'Sulawesi Barat'),
+                (81,  'Maluku'),
+                (82,  'Maluku Utara'),
+                (91,  'Papua'),
+                (92,  'Papua Barat')
+            ";
             $this->db->query($query);
         }
         // Konversi nama provinsi tersimpan di identitas desa
@@ -2227,11 +2232,11 @@ class Database_model extends MY_Model
             $this->db->where('id', $key)->update('setting_modul', ['urut' => $value]);
         }
         $query = "
-			INSERT INTO setting_modul (id, modul, url, aktif, ikon, urut, level, hidden, ikon_kecil) VALUES
-			('15','Sekretariat','sekretariat','1','applications-office-5.png','5','2','0','fa fa-print fa-lg')
-			ON DUPLICATE KEY UPDATE
-				modul = VALUES(modul),
-				url = VALUES(url)";
+            INSERT INTO setting_modul (id, modul, url, aktif, ikon, urut, level, hidden, ikon_kecil) VALUES
+            ('15','Sekretariat','sekretariat','1','applications-office-5.png','5','2','0','fa fa-print fa-lg')
+            ON DUPLICATE KEY UPDATE
+                modul = VALUES(modul),
+                url = VALUES(url)";
         $this->db->query($query);
         // Tambah kolom kode di tabel kelompok
         if (! $this->db->field_exists('kode', 'kelompok')) {
@@ -2319,8 +2324,8 @@ class Database_model extends MY_Model
         }
         // Buat id_pend menjadi primary key
         $sql = 'ALTER TABLE tweb_penduduk_mandiri
-							DROP PRIMARY KEY,
-							ADD PRIMARY KEY (id_pend)';
+                            DROP PRIMARY KEY,
+                            ADD PRIMARY KEY (id_pend)';
         $this->db->query($sql);
         // Tambah kolom kategori di tabel dokumen
         if (! $this->db->field_exists('kategori', 'dokumen')) {
@@ -2355,10 +2360,10 @@ class Database_model extends MY_Model
         ];
         $sql = $this->db->insert_string('tweb_surat_format', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
-				nama = VALUES(nama),
-				url_surat = VALUES(url_surat),
-				kode_surat = VALUES(kode_surat),
-				jenis = VALUES(jenis)';
+                nama = VALUES(nama),
+                url_surat = VALUES(url_surat),
+                kode_surat = VALUES(kode_surat),
+                jenis = VALUES(jenis)';
         $this->db->query($sql);
         // Tambah setting sebutan kepala dusun
         $setting = $this->db->where('key', 'sebutan_singkatan_kadus')->get('setting_aplikasi')->row()->id;
@@ -2378,21 +2383,21 @@ class Database_model extends MY_Model
         // Tambah tabel surat_masuk
         if (! $this->db->table_exists('surat_masuk')) {
             $query = '
-				CREATE TABLE `surat_masuk` (
-					`id` int NOT NULL AUTO_INCREMENT,
-					`nomor_urut` smallint(5),
-					`tanggal_penerimaan` date NOT NULL,
-					`nomor_surat` varchar(20),
-					`kode_surat` varchar(10),
-					`tanggal_surat` date NOT NULL,
-					`pengirim` varchar(100),
-					`isi_singkat` varchar(200),
-					`disposisi_kepada` varchar(50),
-					`isi_disposisi` varchar(200),
-					`berkas_scan` varchar(100),
-					PRIMARY KEY  (`id`)
-				);
-			';
+                CREATE TABLE `surat_masuk` (
+                    `id` int NOT NULL AUTO_INCREMENT,
+                    `nomor_urut` smallint(5),
+                    `tanggal_penerimaan` date NOT NULL,
+                    `nomor_surat` varchar(20),
+                    `kode_surat` varchar(10),
+                    `tanggal_surat` date NOT NULL,
+                    `pengirim` varchar(100),
+                    `isi_singkat` varchar(200),
+                    `disposisi_kepada` varchar(50),
+                    `isi_disposisi` varchar(200),
+                    `berkas_scan` varchar(100),
+                    PRIMARY KEY  (`id`)
+                );
+            ';
             $this->db->query($query);
         }
         // Artikel bisa di-comment atau tidak
@@ -2433,16 +2438,16 @@ class Database_model extends MY_Model
     {
         if (! $this->db->table_exists('widget')) {
             $query = '
-				CREATE TABLE `widget` (
-					`id` int NOT NULL AUTO_INCREMENT,
-					`isi` text,
-					`enabled` int(2),
-					`judul` varchar(100),
-					`jenis_widget` tinyint(2) NOT NULL DEFAULT 3,
-					`urut` int(5),
-					PRIMARY KEY  (`id`)
-				);
-			';
+                CREATE TABLE `widget` (
+                    `id` int NOT NULL AUTO_INCREMENT,
+                    `isi` text,
+                    `enabled` int(2),
+                    `judul` varchar(100),
+                    `jenis_widget` tinyint(2) NOT NULL DEFAULT 3,
+                    `urut` int(5),
+                    PRIMARY KEY  (`id`)
+                );
+            ';
             $this->db->query($query);
             // Pindahkan data widget dari tabel artikel ke tabel widget
             $widgets = $this->db->select('isi, enabled, judul, jenis_widget, urut')->where('id_kategori', 1003)->get('artikel')->result_array();
@@ -2500,16 +2505,16 @@ class Database_model extends MY_Model
     {
         if (! $this->db->table_exists('setting_aplikasi')) {
             $query = '
-				CREATE TABLE `setting_aplikasi` (
-					`id` int NOT NULL AUTO_INCREMENT,
-					`key` varchar(50),
-					`value` varchar(200),
-					`keterangan` varchar(200),
-					`jenis` varchar(30),
-					`kategori` varchar(30),
-					PRIMARY KEY  (`id`)
-				);
-			';
+                CREATE TABLE `setting_aplikasi` (
+                    `id` int NOT NULL AUTO_INCREMENT,
+                    `key` varchar(50),
+                    `value` varchar(200),
+                    `keterangan` varchar(200),
+                    `jenis` varchar(30),
+                    `kategori` varchar(30),
+                    PRIMARY KEY  (`id`)
+                );
+            ';
             $this->db->query($query);
 
             $this->reset_setting_aplikasi();
@@ -2563,14 +2568,14 @@ class Database_model extends MY_Model
         $this->db->query($query);
         // Tambah contoh surat non-warga
         $query = "
-			INSERT INTO tweb_surat_format(nama, url_surat, kode_surat, jenis) VALUES
-			('Domisili Usaha Non-Warga', 'surat_domisili_usaha_non_warga', 'S-37', 1)
-			ON DUPLICATE KEY UPDATE
-				nama = VALUES(nama),
-				url_surat = VALUES(url_surat),
-				kode_surat = VALUES(kode_surat),
-				jenis = VALUES(jenis);
-		";
+            INSERT INTO tweb_surat_format(nama, url_surat, kode_surat, jenis) VALUES
+            ('Domisili Usaha Non-Warga', 'surat_domisili_usaha_non_warga', 'S-37', 1)
+            ON DUPLICATE KEY UPDATE
+                nama = VALUES(nama),
+                url_surat = VALUES(url_surat),
+                kode_surat = VALUES(kode_surat),
+                jenis = VALUES(jenis);
+        ";
         $this->db->query($query);
     }
 
@@ -2672,78 +2677,78 @@ class Database_model extends MY_Model
     private function migrasi_03_ke_04()
     {
         $query = '
-			CREATE TABLE IF NOT EXISTS `tweb_penduduk_mandiri` (
-				`nik` decimal(16,0) NOT NULL,
-				`pin` char(32) NOT NULL,
-				`last_login` datetime,
-				`tanggal_buat` date NOT NULL,
-				PRIMARY KEY  (`nik`)
-			);
-		';
+            CREATE TABLE IF NOT EXISTS `tweb_penduduk_mandiri` (
+                `nik` decimal(16,0) NOT NULL,
+                `pin` char(32) NOT NULL,
+                `last_login` datetime,
+                `tanggal_buat` date NOT NULL,
+                PRIMARY KEY  (`nik`)
+            );
+        ';
         $this->db->query($query);
 
         $query = '
-			CREATE TABLE IF NOT EXISTS `program` (
-				`id` int NOT NULL AUTO_INCREMENT,
-				`nama` varchar(100) NOT NULL,
-				`sasaran` tinyint,
-				`ndesc` varchar(200),
-				`sdate` date NOT NULL,
-				`edate` date NOT NULL,
-				`userid` mediumint NOT NULL,
-				`status` int(10),
-				PRIMARY KEY  (`id`)
-			);
-		';
+            CREATE TABLE IF NOT EXISTS `program` (
+                `id` int NOT NULL AUTO_INCREMENT,
+                `nama` varchar(100) NOT NULL,
+                `sasaran` tinyint,
+                `ndesc` varchar(200),
+                `sdate` date NOT NULL,
+                `edate` date NOT NULL,
+                `userid` mediumint NOT NULL,
+                `status` int(10),
+                PRIMARY KEY  (`id`)
+            );
+        ';
         $this->db->query($query);
 
         $query = '
-			CREATE TABLE IF NOT EXISTS `program_peserta` (
-				`id` int NOT NULL AUTO_INCREMENT,
-				`peserta` decimal(16,0) NOT NULL,
-				`program_id` int NOT NULL,
-				`sasaran` tinyint,
-				PRIMARY KEY  (`id`)
-			);
-		';
+            CREATE TABLE IF NOT EXISTS `program_peserta` (
+                `id` int NOT NULL AUTO_INCREMENT,
+                `peserta` decimal(16,0) NOT NULL,
+                `program_id` int NOT NULL,
+                `sasaran` tinyint,
+                PRIMARY KEY  (`id`)
+            );
+        ';
         $this->db->query($query);
 
         $query = '
-			CREATE TABLE IF NOT EXISTS `data_persil` (
-				`id` int NOT NULL AUTO_INCREMENT,
-				`nik` decimal(16,0) NOT NULL,
-				`nama` varchar(100) NOT NULL,
-				`persil_jenis_id` int NOT NULL,
-				`id_clusterdesa` int NOT NULL,
-				`luas` int,
-				`no_sppt_pbb` int,
-				`kelas` varchar(50),
-				`persil_peruntukan_id` int NOT NULL,
-				`alamat_ext` varchar(100),
-				`userID` mediumint,
-				PRIMARY KEY  (`id`)
-			);
-		';
+            CREATE TABLE IF NOT EXISTS `data_persil` (
+                `id` int NOT NULL AUTO_INCREMENT,
+                `nik` decimal(16,0) NOT NULL,
+                `nama` varchar(100) NOT NULL,
+                `persil_jenis_id` int NOT NULL,
+                `id_clusterdesa` int NOT NULL,
+                `luas` int,
+                `no_sppt_pbb` int,
+                `kelas` varchar(50),
+                `persil_peruntukan_id` int NOT NULL,
+                `alamat_ext` varchar(100),
+                `userID` mediumint,
+                PRIMARY KEY  (`id`)
+            );
+        ';
         $this->db->query($query);
 
         $query = '
-			CREATE TABLE IF NOT EXISTS `data_persil_peruntukan` (
-				`id` int NOT NULL AUTO_INCREMENT,
-				`nama` varchar(100) NOT NULL,
-				`ndesc` varchar(200),
-				PRIMARY KEY  (`id`)
-			);
-		';
+            CREATE TABLE IF NOT EXISTS `data_persil_peruntukan` (
+                `id` int NOT NULL AUTO_INCREMENT,
+                `nama` varchar(100) NOT NULL,
+                `ndesc` varchar(200),
+                PRIMARY KEY  (`id`)
+            );
+        ';
         $this->db->query($query);
 
         $query = '
-			CREATE TABLE IF NOT EXISTS `data_persil_jenis` (
-				`id` int NOT NULL AUTO_INCREMENT,
-				`nama` varchar(100) NOT NULL,
-				`ndesc` varchar(200),
-				PRIMARY KEY  (`id`)
-			);
-		';
+            CREATE TABLE IF NOT EXISTS `data_persil_jenis` (
+                `id` int NOT NULL AUTO_INCREMENT,
+                `nama` varchar(100) NOT NULL,
+                `ndesc` varchar(200),
+                PRIMARY KEY  (`id`)
+            );
+        ';
         $this->db->query($query);
     }
 
@@ -2773,46 +2778,46 @@ class Database_model extends MY_Model
         $this->db->delete('tweb_surat_format');
 
         $query = "
-			INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`) VALUES
-			(1, 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01'),
-			(2, 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02'),
-			(3, 'Biodata Penduduk', 'surat_bio_penduduk', 'S-03'),
-			(5, 'Keterangan Pindah Penduduk', 'surat_ket_pindah_penduduk', 'S-04'),
-			(6, 'Keterangan Jual Beli', 'surat_ket_jual_beli', 'S-05'),
-			(7, 'Pengantar Pindah Antar Kabupaten/ Provinsi', 'surat_pindah_antar_kab_prov', 'S-06'),
-			(8, 'Pengantar Surat Keterangan Catatan Kepolisian', 'surat_ket_catatan_kriminal', 'S-07'),
-			(9, 'Keterangan KTP dalam Proses', 'surat_ket_ktp_dalam_proses', 'S-08'),
-			(10, 'Keterangan Beda Identitas', 'surat_ket_beda_nama', 'S-09'),
-			(11, 'Keterangan Bepergian / Jalan', 'surat_jalan', 'S-10'),
-			(12, 'Keterangan Kurang Mampu', 'surat_ket_kurang_mampu', 'S-11'),
-			(13, 'Pengantar Izin Keramaian', 'surat_izin_keramaian', 'S-12'),
-			(14, 'Pengantar Laporan Kehilangan', 'surat_ket_kehilangan', 'S-13'),
-			(15, 'Keterangan Usaha', 'surat_ket_usaha', 'S-14'),
-			(16, 'Keterangan JAMKESOS', 'surat_ket_jamkesos', 'S-15'),
-			(17, 'Keterangan Domisili Usaha', 'surat_ket_domisili_usaha', 'S-16'),
-			(18, 'Keterangan Kelahiran', 'surat_ket_kelahiran', 'S-17'),
-			(20, 'Permohonan Akta Lahir', 'surat_permohonan_akta', 'S-18'),
-			(21, 'Pernyataan Belum Memiliki Akta Lahir', 'surat_pernyataan_akta', 'S-19'),
-			(22, 'Permohonan Duplikat Kelahiran', 'surat_permohonan_duplikat_kelahiran', 'S-20'),
-			(24, 'Keterangan Kematian', 'surat_ket_kematian', 'S-21'),
-			(25, 'Keterangan Lahir Mati', 'surat_ket_lahir_mati', 'S-22'),
-			(26, 'Keterangan Untuk Nikah (N-1)', 'surat_ket_nikah', 'S-23'),
-			(27, 'Keterangan Asal Usul (N-2)', 'surat_ket_asalusul', 'S-24'),
-			(28, 'Persetujuan Mempelai (N-3)', 'surat_persetujuan_mempelai', 'S-25'),
-			(29, 'Keterangan Tentang Orang Tua (N-4)', 'surat_ket_orangtua', 'S-26'),
-			(30, 'Keterangan Izin Orang Tua(N-5)', 'surat_izin_orangtua', 'S-27'),
-			(31, 'Keterangan Kematian Suami/Istri(N-6)', 'surat_ket_kematian_suami_istri', 'S-28'),
-			(32, 'Pemberitahuan Kehendak Nikah (N-7)', 'surat_kehendak_nikah', 'S-29'),
-			(33, 'Keterangan Pergi Kawin', 'surat_ket_pergi_kawin', 'S-30'),
-			(34, 'Keterangan Wali', 'surat_ket_wali', 'S-31'),
-			(35, 'Keterangan Wali Hakim', 'surat_ket_wali_hakim', 'S-32'),
-			(36, 'Permohonan Duplikat Surat Nikah', 'surat_permohonan_duplikat_surat_nikah', 'S-33'),
-			(37, 'Permohonan Cerai', 'surat_permohonan_cerai', 'S-34'),
-			(38, 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35')
-			ON DUPLICATE KEY UPDATE
-				nama = VALUES(nama),
-				url_surat = VALUES(url_surat);
-		";
+            INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`) VALUES
+            (1, 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01'),
+            (2, 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02'),
+            (3, 'Biodata Penduduk', 'surat_bio_penduduk', 'S-03'),
+            (5, 'Keterangan Pindah Penduduk', 'surat_ket_pindah_penduduk', 'S-04'),
+            (6, 'Keterangan Jual Beli', 'surat_ket_jual_beli', 'S-05'),
+            (7, 'Pengantar Pindah Antar Kabupaten/ Provinsi', 'surat_pindah_antar_kab_prov', 'S-06'),
+            (8, 'Pengantar Surat Keterangan Catatan Kepolisian', 'surat_ket_catatan_kriminal', 'S-07'),
+            (9, 'Keterangan KTP dalam Proses', 'surat_ket_ktp_dalam_proses', 'S-08'),
+            (10, 'Keterangan Beda Identitas', 'surat_ket_beda_nama', 'S-09'),
+            (11, 'Keterangan Bepergian / Jalan', 'surat_jalan', 'S-10'),
+            (12, 'Keterangan Kurang Mampu', 'surat_ket_kurang_mampu', 'S-11'),
+            (13, 'Pengantar Izin Keramaian', 'surat_izin_keramaian', 'S-12'),
+            (14, 'Pengantar Laporan Kehilangan', 'surat_ket_kehilangan', 'S-13'),
+            (15, 'Keterangan Usaha', 'surat_ket_usaha', 'S-14'),
+            (16, 'Keterangan JAMKESOS', 'surat_ket_jamkesos', 'S-15'),
+            (17, 'Keterangan Domisili Usaha', 'surat_ket_domisili_usaha', 'S-16'),
+            (18, 'Keterangan Kelahiran', 'surat_ket_kelahiran', 'S-17'),
+            (20, 'Permohonan Akta Lahir', 'surat_permohonan_akta', 'S-18'),
+            (21, 'Pernyataan Belum Memiliki Akta Lahir', 'surat_pernyataan_akta', 'S-19'),
+            (22, 'Permohonan Duplikat Kelahiran', 'surat_permohonan_duplikat_kelahiran', 'S-20'),
+            (24, 'Keterangan Kematian', 'surat_ket_kematian', 'S-21'),
+            (25, 'Keterangan Lahir Mati', 'surat_ket_lahir_mati', 'S-22'),
+            (26, 'Keterangan Untuk Nikah (N-1)', 'surat_ket_nikah', 'S-23'),
+            (27, 'Keterangan Asal Usul (N-2)', 'surat_ket_asalusul', 'S-24'),
+            (28, 'Persetujuan Mempelai (N-3)', 'surat_persetujuan_mempelai', 'S-25'),
+            (29, 'Keterangan Tentang Orang Tua (N-4)', 'surat_ket_orangtua', 'S-26'),
+            (30, 'Keterangan Izin Orang Tua(N-5)', 'surat_izin_orangtua', 'S-27'),
+            (31, 'Keterangan Kematian Suami/Istri(N-6)', 'surat_ket_kematian_suami_istri', 'S-28'),
+            (32, 'Pemberitahuan Kehendak Nikah (N-7)', 'surat_kehendak_nikah', 'S-29'),
+            (33, 'Keterangan Pergi Kawin', 'surat_ket_pergi_kawin', 'S-30'),
+            (34, 'Keterangan Wali', 'surat_ket_wali', 'S-31'),
+            (35, 'Keterangan Wali Hakim', 'surat_ket_wali_hakim', 'S-32'),
+            (36, 'Permohonan Duplikat Surat Nikah', 'surat_permohonan_duplikat_surat_nikah', 'S-33'),
+            (37, 'Permohonan Cerai', 'surat_permohonan_cerai', 'S-34'),
+            (38, 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35')
+            ON DUPLICATE KEY UPDATE
+                nama = VALUES(nama),
+                url_surat = VALUES(url_surat);
+        ";
         $this->db->query($query);
         // surat_ubah_sesuaikan perlu ditangani berbeda, karena ada pengguna di mana
         // url surat_ubah_sesuaikan memiliki id yang bukan 39, sedangkan id 39 juga dipakai untuk surat lain
@@ -2857,11 +2862,11 @@ class Database_model extends MY_Model
     private function migrasi_010_ke_10()
     {
         $query = "
-			INSERT INTO tweb_penduduk_pekerjaan(id, nama) VALUES (89, 'LAINNYA')
-			ON DUPLICATE KEY UPDATE
-				id = VALUES(id),
-				nama = VALUES(nama);
-		";
+            INSERT INTO tweb_penduduk_pekerjaan(id, nama) VALUES (89, 'LAINNYA')
+            ON DUPLICATE KEY UPDATE
+                id = VALUES(id),
+                nama = VALUES(nama);
+        ";
         $this->db->query($query);
     }
 
@@ -2887,32 +2892,32 @@ class Database_model extends MY_Model
 
         if (! $this->db->table_exists('log_keluarga')) {
             $query = '
-				CREATE TABLE `log_keluarga` (
-					`id` int(10) NOT NULL AUTO_INCREMENT,
-					`id_kk` int(11) NOT NULL,
-					`kk_sex` tinyint(2) NOT NULL,
-					`id_peristiwa` int(4) NOT NULL,
-					`tgl_peristiwa` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-					PRIMARY KEY (`id`),
-					UNIQUE KEY `id_kk` (`id_kk`,`id_peristiwa`,`tgl_peristiwa`)
-				) ENGINE=' . $this->engine . ' AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-			';
+                CREATE TABLE `log_keluarga` (
+                    `id` int(10) NOT NULL AUTO_INCREMENT,
+                    `id_kk` int(11) NOT NULL,
+                    `kk_sex` tinyint(2) NOT NULL,
+                    `id_peristiwa` int(4) NOT NULL,
+                    `tgl_peristiwa` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    PRIMARY KEY (`id`),
+                    UNIQUE KEY `id_kk` (`id_kk`,`id_peristiwa`,`tgl_peristiwa`)
+                ) ENGINE=' . $this->engine . ' AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+            ';
             $this->db->query($query);
         }
 
         $query = '
-			DROP VIEW IF EXISTS data_surat;
-		';
+            DROP VIEW IF EXISTS data_surat;
+        ';
         $this->db->query($query);
 
         $query = '
-			DROP TABLE IF EXISTS data_surat;
-		';
+            DROP TABLE IF EXISTS data_surat;
+        ';
         $this->db->query($query);
 
         $query = "
-			CREATE ALGORITHM=UNDEFINED  SQL SECURITY DEFINER VIEW `data_surat` AS select `u`.`id` AS `id`,`u`.`nama` AS `nama`,`x`.`nama` AS `sex`,`u`.`tempatlahir` AS `tempatlahir`,`u`.`tanggallahir` AS `tanggallahir`,(select (date_format(from_days((to_days(now()) - to_days(`tweb_penduduk`.`tanggallahir`))),'%Y') + 0) from `tweb_penduduk` where (`tweb_penduduk`.`id` = `u`.`id`)) AS `umur`,`w`.`nama` AS `status_kawin`,`f`.`nama` AS `warganegara`,`a`.`nama` AS `agama`,`d`.`nama` AS `pendidikan`,`j`.`nama` AS `pekerjaan`,`u`.`nik` AS `nik`,`c`.`rt` AS `rt`,`c`.`rw` AS `rw`,`c`.`dusun` AS `dusun`,`k`.`no_kk` AS `no_kk`,(select `tweb_penduduk`.`nama` from `tweb_penduduk` where (`tweb_penduduk`.`id` = `k`.`nik_kepala`)) AS `kepala_kk` from ((((((((`tweb_penduduk` `u` left join `tweb_penduduk_sex` `x` on((`u`.`sex` = `x`.`id`))) left join `tweb_penduduk_kawin` `w` on((`u`.`status_kawin` = `w`.`id`))) left join `tweb_penduduk_agama` `a` on((`u`.`agama_id` = `a`.`id`))) left join `tweb_penduduk_pendidikan_kk` `d` on((`u`.`pendidikan_kk_id` = `d`.`id`))) left join `tweb_penduduk_pekerjaan` `j` on((`u`.`pekerjaan_id` = `j`.`id`))) left join `tweb_wil_clusterdesa` `c` on((`u`.`id_cluster` = `c`.`id`))) left join `tweb_keluarga` `k` on((`u`.`id_kk` = `k`.`id`))) left join `tweb_penduduk_warganegara` `f` on((`u`.`warganegara_id` = `f`.`id`)));
-		";
+            CREATE ALGORITHM=UNDEFINED  SQL SECURITY DEFINER VIEW `data_surat` AS select `u`.`id` AS `id`,`u`.`nama` AS `nama`,`x`.`nama` AS `sex`,`u`.`tempatlahir` AS `tempatlahir`,`u`.`tanggallahir` AS `tanggallahir`,(select (date_format(from_days((to_days(now()) - to_days(`tweb_penduduk`.`tanggallahir`))),'%Y') + 0) from `tweb_penduduk` where (`tweb_penduduk`.`id` = `u`.`id`)) AS `umur`,`w`.`nama` AS `status_kawin`,`f`.`nama` AS `warganegara`,`a`.`nama` AS `agama`,`d`.`nama` AS `pendidikan`,`j`.`nama` AS `pekerjaan`,`u`.`nik` AS `nik`,`c`.`rt` AS `rt`,`c`.`rw` AS `rw`,`c`.`dusun` AS `dusun`,`k`.`no_kk` AS `no_kk`,(select `tweb_penduduk`.`nama` from `tweb_penduduk` where (`tweb_penduduk`.`id` = `k`.`nik_kepala`)) AS `kepala_kk` from ((((((((`tweb_penduduk` `u` left join `tweb_penduduk_sex` `x` on((`u`.`sex` = `x`.`id`))) left join `tweb_penduduk_kawin` `w` on((`u`.`status_kawin` = `w`.`id`))) left join `tweb_penduduk_agama` `a` on((`u`.`agama_id` = `a`.`id`))) left join `tweb_penduduk_pendidikan_kk` `d` on((`u`.`pendidikan_kk_id` = `d`.`id`))) left join `tweb_penduduk_pekerjaan` `j` on((`u`.`pekerjaan_id` = `j`.`id`))) left join `tweb_wil_clusterdesa` `c` on((`u`.`id_cluster` = `c`.`id`))) left join `tweb_keluarga` `k` on((`u`.`id_kk` = `k`.`id`))) left join `tweb_penduduk_warganegara` `f` on((`u`.`warganegara_id` = `f`.`id`)));
+        ";
         $this->db->query($query);
 
         $system_widgets = [
@@ -2934,8 +2939,8 @@ class Database_model extends MY_Model
             $widget = $q->row_array();
             if (! $widget['id']) {
                 $query = "
-					INSERT INTO artikel (judul,isi,enabled,id_kategori,urut,jenis_widget)
-					VALUES ('{$key}','{$value}',1,1003,1,1);";
+                    INSERT INTO artikel (judul,isi,enabled,id_kategori,urut,jenis_widget)
+                    VALUES ('{$key}','{$value}',1,1003,1,1);";
                 $this->db->query($query);
             }
         }
@@ -2960,11 +2965,11 @@ class Database_model extends MY_Model
     private function migrasi_13_ke_14()
     {
         $query = "
-			INSERT INTO user_grup (id, nama) VALUES (4, 'Kontributor')
-			ON DUPLICATE KEY UPDATE
-				id = VALUES(id),
-				nama = VALUES(nama);
-		";
+            INSERT INTO user_grup (id, nama) VALUES (4, 'Kontributor')
+            ON DUPLICATE KEY UPDATE
+                id = VALUES(id),
+                nama = VALUES(nama);
+        ";
         $this->db->query($query);
 
         // Buat tanggalperkawinan dan tanggalperceraian boleh NULL
@@ -2993,35 +2998,35 @@ class Database_model extends MY_Model
         $this->db->query($query);
 
         $query = '
-			CREATE TABLE tweb_cara_kb (
-				id tinyint(5) NOT NULL AUTO_INCREMENT,
-				nama varchar(50) NOT NULL,
-				sex tinyint(2),
-				PRIMARY KEY (id)
-			) ENGINE=' . $this->engine . ' AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-		';
+            CREATE TABLE tweb_cara_kb (
+                id tinyint(5) NOT NULL AUTO_INCREMENT,
+                nama varchar(50) NOT NULL,
+                sex tinyint(2),
+                PRIMARY KEY (id)
+            ) ENGINE=' . $this->engine . ' AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+        ';
         $this->db->query($query);
 
         $query = "
-			INSERT INTO tweb_cara_kb (id, nama, sex) VALUES
-			(1, 'Pil', 2),
-			(2, 'IUD', 2),
-			(3, 'Suntik', 2),
-			(4, 'Kondom', 1),
-			(5, 'Susuk KB', 2),
-			(6, 'Sterilisasi Wanita', 2),
-			(7, 'Sterilisasi Pria', 1),
-			(99, 'Lainnya', 3);
-		";
+            INSERT INTO tweb_cara_kb (id, nama, sex) VALUES
+            (1, 'Pil', 2),
+            (2, 'IUD', 2),
+            (3, 'Suntik', 2),
+            (4, 'Kondom', 1),
+            (5, 'Susuk KB', 2),
+            (6, 'Sterilisasi Wanita', 2),
+            (7, 'Sterilisasi Pria', 1),
+            (99, 'Lainnya', 3);
+        ";
         $this->db->query($query);
 
         // Ubah tanggallahir supaya tidak tampil apabila kosong
         $query = 'ALTER TABLE tweb_penduduk CHANGE tanggallahir tanggallahir DATE NULL DEFAULT NULL;';
         $this->db->query($query);
         $query = "
-			UPDATE tweb_penduduk SET tanggallahir=NULL
-			WHERE tanggallahir='0000-00-00' OR tanggallahir='00-00-0000';
-		";
+            UPDATE tweb_penduduk SET tanggallahir=NULL
+            WHERE tanggallahir='0000-00-00' OR tanggallahir='00-00-0000';
+        ";
         $this->db->query($query);
     }
 
@@ -3160,12 +3165,12 @@ class Database_model extends MY_Model
             $this->db->query($query);
         }
         $query = "
-			INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
-			(5, 'surat_ket_pindah_penduduk', 'f-1.08.php')
-			ON DUPLICATE KEY UPDATE
-				url_surat = VALUES(url_surat),
-				lampiran = VALUES(lampiran);
-		";
+            INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
+            (5, 'surat_ket_pindah_penduduk', 'f-1.08.php')
+            ON DUPLICATE KEY UPDATE
+                url_surat = VALUES(url_surat),
+                lampiran = VALUES(lampiran);
+        ";
         $this->db->query($query);
     }
 
@@ -3174,15 +3179,15 @@ class Database_model extends MY_Model
         // Hapus index unik untuk kode_surat kalau sempat dibuat sebelumnya
         $db    = $this->db->database;
         $query = "
-			SELECT COUNT(1) IndexIsThere FROM INFORMATION_SCHEMA.STATISTICS
-			WHERE table_schema=? AND table_name='tweb_surat_format' AND index_name='kode_surat';
-		";
+            SELECT COUNT(1) IndexIsThere FROM INFORMATION_SCHEMA.STATISTICS
+            WHERE table_schema=? AND table_name='tweb_surat_format' AND index_name='kode_surat';
+        ";
         $hasil = $this->db->query($query, $db);
         $data  = $hasil->row_array();
         if ($data['IndexIsThere'] > 0) {
             $query = '
-				DROP INDEX kode_surat ON tweb_surat_format;
-			';
+                DROP INDEX kode_surat ON tweb_surat_format;
+            ';
             $this->db->query($query);
         }
 
@@ -3222,37 +3227,37 @@ class Database_model extends MY_Model
 
         if (! $this->db->table_exists('setting_modul')) {
             $query = "
-				CREATE TABLE `setting_modul` (
-					`id` int(11) NOT NULL AUTO_INCREMENT,
-					`modul` varchar(50) NOT NULL,
-					`url` varchar(50) NOT NULL,
-					`aktif` tinyint(1) NOT NULL DEFAULT '0',
-					`ikon` varchar(50) NOT NULL,
-					`urut` tinyint(4) NOT NULL,
-					`level` tinyint(1) NOT NULL DEFAULT '2',
-					`hidden` tinyint(1) NOT NULL DEFAULT '0',
-					PRIMARY KEY (`id`)
-					) ENGINE=" . $this->engine . ' AUTO_INCREMENT=15 DEFAULT CHARSET=utf8
-			';
+                CREATE TABLE `setting_modul` (
+                    `id` int(11) NOT NULL AUTO_INCREMENT,
+                    `modul` varchar(50) NOT NULL,
+                    `url` varchar(50) NOT NULL,
+                    `aktif` tinyint(1) NOT NULL DEFAULT '0',
+                    `ikon` varchar(50) NOT NULL,
+                    `urut` tinyint(4) NOT NULL,
+                    `level` tinyint(1) NOT NULL DEFAULT '2',
+                    `hidden` tinyint(1) NOT NULL DEFAULT '0',
+                    PRIMARY KEY (`id`)
+                    ) ENGINE=" . $this->engine . ' AUTO_INCREMENT=15 DEFAULT CHARSET=utf8
+            ';
             $this->db->query($query);
 
             $query = "
-				INSERT INTO setting_modul VALUES
-				('1','SID Home','hom_desa','1','go-home-5.png','1','2','1'),
-				('2','Penduduk','penduduk/clear','1','preferences-contact-list.png','2','2','0'),
-				('3','Statistik','statistik','1','statistik.png','3','2','0'),
-				('4','Cetak Surat','surat','1','applications-office-5.png','4','2','0'),
-				('5','Analisis','analisis_master/clear','1','analysis.png','5','2','0'),
-				('6','Bantuan','program_bantuan','1','program.png','6','2','0'),
-				('7','Persil','data_persil/clear','1','persil.png','7','2','0'),
-				('8','Plan','plan','1','plan.png','8','2','0'),
-				('9','Peta','gis','1','gis.png','9','2','0'),
-				('10','SMS','sms','1','mail-send-receive.png','10','2','0'),
-				('11','Pengguna','man_user/clear','1','system-users.png','11','1','1'),
-				('12','Database','database','1','database.png','12','1','0'),
-				('13','Admin Web','web','1','message-news.png','13','4','0'),
-				('14','Laporan','lapor','1','mail-reply-all.png','14','2','0');
-			";
+                INSERT INTO setting_modul VALUES
+                ('1','SID Home','hom_desa','1','go-home-5.png','1','2','1'),
+                ('2','Penduduk','penduduk/clear','1','preferences-contact-list.png','2','2','0'),
+                ('3','Statistik','statistik','1','statistik.png','3','2','0'),
+                ('4','Cetak Surat','surat','1','applications-office-5.png','4','2','0'),
+                ('5','Analisis','analisis_master/clear','1','analysis.png','5','2','0'),
+                ('6','Bantuan','program_bantuan','1','program.png','6','2','0'),
+                ('7','Persil','data_persil/clear','1','persil.png','7','2','0'),
+                ('8','Plan','plan','1','plan.png','8','2','0'),
+                ('9','Peta','gis','1','gis.png','9','2','0'),
+                ('10','SMS','sms','1','mail-send-receive.png','10','2','0'),
+                ('11','Pengguna','man_user/clear','1','system-users.png','11','1','1'),
+                ('12','Database','database','1','database.png','12','1','0'),
+                ('13','Admin Web','web','1','message-news.png','13','4','0'),
+                ('14','Laporan','lapor','1','mail-reply-all.png','14','2','0');
+            ";
             $this->db->query($query);
         }
 
@@ -3315,14 +3320,14 @@ class Database_model extends MY_Model
 
         // Tabel analisis_respon_bukti
         $query = '
-			CREATE TABLE IF NOT EXISTS `analisis_respon_bukti` (
-				`id_master` tinyint(4) NOT NULL,
-				`id_periode` tinyint(4) NOT NULL,
-				`id_subjek` int(11) NOT NULL,
-				`pengesahan` varchar(100) NOT NULL,
-				`tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-			) ENGINE=' . $this->engine . ' DEFAULT CHARSET=utf8;
-			';
+            CREATE TABLE IF NOT EXISTS `analisis_respon_bukti` (
+                `id_master` tinyint(4) NOT NULL,
+                `id_periode` tinyint(4) NOT NULL,
+                `id_subjek` int(11) NOT NULL,
+                `pengesahan` varchar(100) NOT NULL,
+                `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=' . $this->engine . ' DEFAULT CHARSET=utf8;
+            ';
         $this->db->query($query);
 
         // Tabel analisis_respon_hasil
@@ -3336,12 +3341,12 @@ class Database_model extends MY_Model
         }
         $db    = $this->db->database;
         $query = "
-			SELECT COUNT(1) ConstraintSudahAda
-			FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
-			WHERE TABLE_SCHEMA = ?
-			AND TABLE_NAME = 'analisis_respon_hasil'
-			AND CONSTRAINT_NAME = 'id_master'
-		";
+            SELECT COUNT(1) ConstraintSudahAda
+            FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+            WHERE TABLE_SCHEMA = ?
+            AND TABLE_NAME = 'analisis_respon_hasil'
+            AND CONSTRAINT_NAME = 'id_master'
+        ";
         $hasil = $this->db->query($query, $db);
         $data  = $hasil->row_array();
         if ($data['ConstraintSudahAda'] == 0) {
@@ -3401,12 +3406,12 @@ class Database_model extends MY_Model
 
         // Ubah surat keterangan pindah penduduk untuk bisa memilih format lampiran
         $query = "
-			INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
-			(5, 'surat_ket_pindah_penduduk', 'f-1.08.php,f-1.25.php')
-			ON DUPLICATE KEY UPDATE
-				url_surat = VALUES(url_surat),
-				lampiran = VALUES(lampiran);
-		";
+            INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
+            (5, 'surat_ket_pindah_penduduk', 'f-1.08.php,f-1.25.php')
+            ON DUPLICATE KEY UPDATE
+                url_surat = VALUES(url_surat),
+                lampiran = VALUES(lampiran);
+        ";
         $this->db->query($query);
     }
 
@@ -3414,12 +3419,12 @@ class Database_model extends MY_Model
     {
         // Ubah surat bio penduduk untuk menambah format lampiran
         $query = "
-			INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
-			(3, 'surat_bio_penduduk', 'f-1.01.php')
-			ON DUPLICATE KEY UPDATE
-				url_surat = VALUES(url_surat),
-				lampiran = VALUES(lampiran);
-		";
+            INSERT INTO `tweb_surat_format` (`id`, `url_surat`, `lampiran`) VALUES
+            (3, 'surat_bio_penduduk', 'f-1.01.php')
+            ON DUPLICATE KEY UPDATE
+                url_surat = VALUES(url_surat),
+                lampiran = VALUES(lampiran);
+        ";
         $this->db->query($query);
 
         // Tabel tweb_penduduk melengkapi data F-1.01
@@ -3435,10 +3440,10 @@ class Database_model extends MY_Model
         // Ketinggalan tabel gis_simbol
         if (! $this->db->table_exists('gis_simbol')) {
             $query = '
-				CREATE TABLE `gis_simbol` (
-					`simbol` varchar(40) DEFAULT NULL
-				) ENGINE=' . $this->engine . ' DEFAULT CHARSET=utf8;
-			';
+                CREATE TABLE `gis_simbol` (
+                    `simbol` varchar(40) DEFAULT NULL
+                ) ENGINE=' . $this->engine . ' DEFAULT CHARSET=utf8;
+            ';
             $this->db->query($query);
             // Isi dengan daftar icon yang ada di folder assets/images/gis/point
             $simbol_folder   = FCPATH . 'assets/images/gis/point';
@@ -3500,15 +3505,15 @@ class Database_model extends MY_Model
         // Tambah surat_permohonan_kartu_keluarga
         $this->db->where('url_surat', 'surat_ubah_sesuaikan')->update('tweb_surat_format', ['kode_surat' => 'P-01']);
         $query = "
-			INSERT INTO tweb_surat_format (nama, url_surat, lampiran, kode_surat, jenis) VALUES
-			('Permohonan Kartu Keluarga', 'surat_permohonan_kartu_keluarga', 'f-1.15.php', 'S-36', 1)
-			ON DUPLICATE KEY UPDATE
-				nama = VALUES(nama),
-				url_surat = VALUES(url_surat),
-				lampiran = VALUES(lampiran),
-				kode_surat = VALUES(kode_surat),
-				jenis = VALUES(jenis);
-		";
+            INSERT INTO tweb_surat_format (nama, url_surat, lampiran, kode_surat, jenis) VALUES
+            ('Permohonan Kartu Keluarga', 'surat_permohonan_kartu_keluarga', 'f-1.15.php', 'S-36', 1)
+            ON DUPLICATE KEY UPDATE
+                nama = VALUES(nama),
+                url_surat = VALUES(url_surat),
+                lampiran = VALUES(lampiran),
+                kode_surat = VALUES(kode_surat),
+                jenis = VALUES(jenis);
+        ";
         $this->db->query($query);
         // Tambah kolom no_kk_sebelumnya untuk penduduk yang pecah dari kartu keluarga
         if (! $this->db->field_exists('no_kk_sebelumnya', 'tweb_penduduk')) {
@@ -3538,31 +3543,36 @@ class Database_model extends MY_Model
         return array_column($data, 'TABLE_NAME');
     }
 
-    private function kirimVersi()
+    // TODO: Sederhanakan cara ini dengan membuat library
+    protected function validasi()
     {
-        if (empty($this->header['desa']['kode_desa'])) {
-            return;
+        if (empty($token = $this->setting->layanan_opendesa_token)) {
+            log_message('error', 'Token pelanggan kosong / tidak valid.');
+
+            return false;
         }
 
-        $this->load->driver('cache');
+        $tokenParts   = explode('.', $token);
+        $tokenPayload = base64_decode($tokenParts[1], true);
+        $jwtPayload   = json_decode($tokenPayload);
+        $date         = new DateTime('20' . str_replace('.', '-', currentVersion()) . '-01');
+        $version      = $date->format('Y-m-d');
 
-        $versi = AmbilVersi();
+        $berakhir   = $jwtPayload->tanggal_berlangganan->akhir;
+        $disarankan = 'v' . str_replace('-', '.', substr($berakhir, 2, 5)) . '-premium';
 
-        if ($versi != $this->cache->file->get('versi_app_cache')) {
-            try {
-                $client = new \GuzzleHttp\Client();
-                $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
-                    'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
-                    'form_params' => [
-                        'kode_desa' => kode_wilayah($this->header['desa']['kode_desa']),
-                        'versi'     => $versi,
-                    ],
-                ])
-                    ->getBody();
-                $this->cache->file->save('versi_app_cache', $versi);
-            } catch (Exception $e) {
-                log_message('error', $e);
-            }
+        if ($version > $berakhir) {
+            // Versi premium setara dengan umum adalah 6 bulan setelahnya + 1 bulan untuk versi pembaharuan
+            // Misalnya 21.05-premium setara dengan 21.12-umum, notifikasi tampil jika ada umum di atas 21.12-umum
+            $versi_setara = date('Y-m-d', strtotime('+7 month', strtotime($berakhir)));
+            $versi_setara = str_replace('-', '.', substr($versi_setara, 2, 5));
+
+            log_message('error', 'Masa aktif berlangganan fitur premium sudah berakhir.');
+            log_message('error', "Hanya diperbolehkan menggunakan {$disarankan} (maupun versi revisinya) atau menggunakan versi rilis {$versi_setara} umum.");
+
+            return false;
         }
+
+        return true;
     }
 }

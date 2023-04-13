@@ -1,75 +1,102 @@
-Di rilis ini, versi 23.04 menyediakan fitur TTE dan penyesuaian alur pemeriksaan surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.10-premium-beta03 [isi disini]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Irvan1609 yang terus berkontribusi.
+Terima kasih pada syahransaputra yang terus berkontribusi.
 
 #### Penambahan Fitur
 
-1. [#5232](https://github.com/OpenSID/OpenSID/issues/5232) Penambahan pengaturan default jenis peta yang digunakan.
-2. [#5308](https://github.com/OpenSID/OpenSID/issues/5308) Penambahan unduh template rtf bawaan sistem yang sudah di ubah.
-3. [#5266](https://github.com/OpenSID/OpenSID/issues/5266) Penambahan tampilan dan pencarian tag id card pada data pemilih.
-4. [#5304](https://github.com/OpenSID/OpenSID/issues/5304) Penambahan format surat TinyMCE kepermohonan surat layanan mandiri.
-5. [#5270](https://github.com/OpenSID/OpenSID/issues/5270) Sesuaikan alur pemeriksaan surat.
-6. [#5273](https://github.com/OpenSID/OpenSID/issues/5273) Penambahan notifikasi ketika ada surat permintaan surat untuk diperiksa atau ditandatangani.
-7. [#5412](https://github.com/OpenSID/OpenSID/issues/5412) Penambahan fitur untuk menentukan kepala desa dan sekdes hanya di pemerintah desa.
-8. [#5233](https://github.com/OpenSID/OpenSID/issues/5233) Penambahan menu tupoksi pada menu pemerintah desa.
-9. [#4962](https://github.com/OpenSID/OpenSID/issues/4962) Penambahan filter data pencarian pendudukan bukan peserta program bantuan.
-10. [#5301](https://github.com/OpenSID/OpenSID/issues/5301) Penambahan input ibu dengan status di kk selain istri tidak bisa ( menantu dll ) dan anak ( cucu dll) di menu kia.
-11. [#4464](https://github.com/OpenSID/OpenSID/issues/4464) Penambahan opsi sembunyikan luas area di map.
-12. [#5271](https://github.com/OpenSID/OpenSID/issues/5271) Penambahan penyesuaian alur pemeriksaan surat pada layanan mandiri.
-13. [#1161](https://github.com/OpenSID/premium/issues/1161) Penyesuaian fungsi tombol a.n dan u.b pada pengaturan perangkat desa.
-14. [#5480](https://github.com/OpenSID/OpenSID/issues/5480) Menyediakan fungsi untuk menghapus cache desa dan blade pada menu pengaturan info sistem diadmin.
-15. [#4838](https://github.com/OpenSID/OpenSID/issues/4838) Penambahan tidak menggunakan akseptor KB pada data penduduk.
-16. [#5495](https://github.com/OpenSID/OpenSID/issues/5495) Penambahan default orientasi kertas dan ukuran kertas pada tinymce.
-17. [#5295](https://github.com/OpenSID/OpenSID/issues/5295) Penambahan Form input hasil ukur berat & tinggi pada menu stunting.
-18. [#5324](https://github.com/OpenSID/OpenSID/issues/5324) Penambahan detail data alamat ibu saat menginput data kia.
-19. [#5489](https://github.com/OpenSID/OpenSID/issues/5489) Penambahan menu SDGS.
-20. [#5492](https://github.com/OpenSID/OpenSID/issues/5492) Penambahan alasan tolak ketika verifikasi surat.
-21. [#5319](https://github.com/OpenSID/OpenSID/issues/5319) Penambahan filter data anak berdasarkan nomor kk ibu.
-22. [#5424](https://github.com/OpenSID/OpenSID/issues/5424) Penambahan log keluarga pindah datang pada laporan bulanan.
-23. [#4835](https://github.com/OpenSID/OpenSID/issues/4835) Penambahan pengaturan untuk mengaktifkan / non aktifkan modul tte.
-24. [#5410](https://github.com/OpenSID/OpenSID/issues/5410) Penambahan pengisian passphrase yang hanya bisa dilakukan oleh kepala desa dan hanya saat tte aktif.
-25. [#5407](https://github.com/OpenSID/OpenSID/issues/5407) Penambahan template untuk penempatan kotak Info BSRE di surat TinyMCE.
-26. [#4853](https://github.com/OpenSID/OpenSID/issues/4853) Penambahan penanganan exception dalam proses TTE.
-27. [#5501](https://github.com/OpenSID/OpenSID/issues/5501) Penambahan validasi anjungan dari layanan.
-28. [#5448](https://github.com/OpenSID/OpenSID/issues/5448) Penambahan tombol memberhentikan proses backup inkremental.
-29. [#5503](https://github.com/OpenSID/OpenSID/issues/5503) Penambahan inputan waktu pemeriksaan dimenu stunting.
-30. [#5315](https://github.com/OpenSID/OpenSID/issues/5315) Penambahan pengaturan surat untuk menampilkan header dan footer surat TinyMCE.
-31. [#5302](https://github.com/OpenSID/OpenSID/issues/5302) Penambahan pilih data penduduk dinamis pada surat TinyMCE.
-32. [#4835](https://github.com/OpenSID/OpenSID/issues/4835) Penambahan fitur TTE versi demo.
+1. [#5718](https://github.com/OpenSID/OpenSID/issues/5718) Penambahan fungsi jarak antra baris (tools tinymce linehight).
+2. [#5578](https://github.com/OpenSID/OpenSID/issues/5578) Penambahan Capitalize Each Word pada kode isian surat TinyMCE.
+3. [#5775](https://github.com/OpenSID/OpenSID/issues/5775) Penyesuaian ukuran font di bagian footer tte.
+4. [#5764](https://github.com/OpenSID/OpenSID/issues/5764) Penambahan surat TinyMCE keterangan usaha.
+5. [#5754](https://github.com/OpenSID/OpenSID/issues/5754) Penambahan surat TinyMCE keterangan pengantar.
+6. [#5371](https://github.com/OpenSID/OpenSID/issues/5371) Penambahan popup untuk melihat foto pada galeri.
+7. [#5763](https://github.com/OpenSID/OpenSID/issues/5763) Penambahan surat TinyMCE pengantar laporan kehilangan.
+8. [#5755](https://github.com/OpenSID/OpenSID/issues/5755) Penambahan surat TinyMCE keterangan kenduduk.
+9. [#2663](https://github.com/OpenSID/OpenSID/issues/2663) Penambahan shortcut surat keterangan kematian pada log penduduk.
+10. [#5796](https://github.com/OpenSID/OpenSID/issues/5796) Penambahan validasi support ipv6 ketika nambah ip di anjungan.
+11. [#5706](https://github.com/OpenSID/OpenSID/issues/5706) Penambahan pengaturan waktu kadaluarsa token OTP.
+12. [#5349](https://github.com/OpenSID/OpenSID/issues/5349) Penambahan fitur batasi impor data penduduk pada pengguna admin.
+13. [#5829](https://github.com/OpenSID/OpenSID/issues/5829) Penambahan jenis surat RTF dan TinyMCE pada modul pengaturan dan cetak surat.
+14. [#5716](https://github.com/OpenSID/OpenSID/issues/5716) Penambahan pengaturan teks berjalan pada pengaturan anjungan.
+15. [#5721](https://github.com/OpenSID/OpenSID/issues/5721) Penambahan modul "Gawai Layanan" sebagai pengganti fitur anjungan.
+16. [#5826](https://github.com/OpenSID/OpenSID/issues/5826) Perubahan hapus wilayah RW atau Dusun hanya jika sudah berpenghuni.
+17. [#5717](https://github.com/OpenSID/OpenSID/issues/5717) Menampilkan keterangan hadir & tidak hadir pada menu perangkat desa.
+18. [#5762](https://github.com/OpenSID/OpenSID/issues/5762) Penambahan surat TinyMCE pengantar izin keramaian.
+19. [#5758](https://github.com/OpenSID/OpenSID/issues/5758) Penambahan surat TinyMCE pengantar surat keterangan catatan kepolisian.
+20. [#5773](https://github.com/OpenSID/OpenSID/issues/5773) Penambahan surat TinyMCE keterangan pergi kawin.
+21. [#5759](https://github.com/OpenSID/OpenSID/issues/5759) Penambahan surat TinyMCE keterangan KTP dalam proses.
+22. [#5677](https://github.com/OpenSID/OpenSID/issues/5677) Penyesuaian mengeluarkan secara otomatis perangkat lupa absen.
+23. [#5782](https://github.com/OpenSID/OpenSID/issues/5782) Perubahan tombol lihat document menjadi popup pada menu informasi publik.
+24. [#5628](https://github.com/OpenSID/OpenSID/issues/5628) Penambahan tools RFM untuk menambah gambar pada surat TinyMCE.
+25. [#5683](https://github.com/OpenSID/OpenSID/issues/5683) Penyesuaian lampiran surat TinyMCE.
+26. [#5774](https://github.com/OpenSID/OpenSID/issues/5774) Penambahan surat TinyMCE keterangan wali hakim.
+27. [#5769](https://github.com/OpenSID/OpenSID/issues/5769) Penambahan surat pernyataan belum memiliki akta lahir.
+28. [#5766](https://github.com/OpenSID/OpenSID/issues/5766) Penambahan surat keterangan domisili usaha.
+29. [#5802](https://github.com/OpenSID/OpenSID/issues/5802) Penambahan fungsi export & import surat TinyMCE.
+30. [#5848](https://github.com/OpenSID/OpenSID/issues/5848) Penambahan kode isian khusus kata -kata yang harus berupa huruf besar.
+31. [#5784](https://github.com/OpenSID/OpenSID/issues/5784) Penambahan pengaturan slide , video & url untuk ditampilkan dianjungan.
+32. [#5795](https://github.com/OpenSID/OpenSID/issues/5795) Penyesuaian akses pada menu anjungan jika tidak membeli lisensi anjungan.
+33. [#5776](https://github.com/OpenSID/OpenSID/issues/5776) Penambahan pengaturan visual tanda tangan TTE.
+34. [#5691](https://github.com/OpenSID/OpenSID/issues/5691) Penyesuaian status TTE demo jika menggunakan modul eSign demo / modul BSrE belum terpasang.
+35. [#5783](https://github.com/OpenSID/OpenSID/issues/5783) Penyesuaian pengaturan screenserver ke pengaturan anjungan.
+36. [#5788](https://github.com/OpenSID/OpenSID/issues/5788) Penyesuaian kode wilayah BPS yang diambil dari pantau.
+37. [#5728](https://github.com/OpenSID/OpenSID/issues/5728) Penyesuaian validasi hapus Aparat Desa.
+38. [#5580](https://github.com/OpenSID/OpenSID/issues/5580) Penyesuaian aturan penghapusan surat di halaman arsip.
+39. [#5715](https://github.com/OpenSID/OpenSID/issues/5715) Penambahan anggota rumah tangga bersumber dari daftar nama di kartu keluarga kepala rumah tangga.
+40. [#5358](https://github.com/OpenSID/OpenSID/issues/5358) Penambahan format nomor surat pada template surat.
+41. [#5025](https://github.com/OpenSID/OpenSID/issues/5025) Penambahan cetak surat di anjungan mandiri khusus surat TinyMCE.
+42. [#5765](https://github.com/OpenSID/OpenSID/issues/5765) Penambahan surat TinyMCE keterangan JAMKESOS.
+43. [#5757](https://github.com/OpenSID/OpenSID/issues/5757) Penambahan surat TinyMCE Keterangan Jual Beli
+44. [#5864](https://github.com/OpenSID/OpenSID/issues/5864) Penambahan pop up pada daftar perangkat desa di anjungan.
+45. [#5785](https://github.com/OpenSID/OpenSID/issues/5785) Penambahan pengaturan lanskap & potret terkait layout anjungan.
+46. [#5797](https://github.com/OpenSID/OpenSID/issues/5797) Penyesuaian hapus peserta duplikat.
+47. [#5673](https://github.com/OpenSID/OpenSID/issues/5673) Penambahan informasi kebutuhan sistem.
 
 #### Perbaikan BUG
 
-1. [#5452](https://github.com/OpenSID/OpenSID/issues/5452) Menghilangkan tampil tag ["desa"] pada halaman periksa.
-2. [#5457](https://github.com/OpenSID/OpenSID/issues/5457) Menambahkan inputan manual untuk nama desa jika tidak ada respon dari pantau.
-3. [#1188](https://github.com/OpenSID/premium/issues/1188) Menambahkan notifikasi beberapa modul gagal muat jika tidak terhubung ke internet.
-4. [#5472](https://github.com/OpenSID/OpenSID/issues/5472) Mengatasi data entri NIK warga luar desa tidak bisa input lebih dari satu kali di menu buku tanah.
-5. [#5471](https://github.com/OpenSID/OpenSID/issues/5471) Memperbaiki perintah group by pada Laporan rincian realisasi hasil dari impor siekudes.
-6. [#5456](https://github.com/OpenSID/OpenSID/issues/5456) Memperbaiki buat surat tinymce yang tidak berhasil generate pdf.
-7. [#1202](https://github.com/OpenSID/premium/issues/1202) Menghapus pengecekan url tidak valid di identitas desa.
-8. [#5475](https://github.com/OpenSID/OpenSID/issues/5475) Perbaiki last login tidak diperbarui setelah login.
-9. [#5478](https://github.com/OpenSID/OpenSID/issues/5478) Memperbaiki jJudul pada jumlah covid desa tidak tampil.
-10. [#5477](https://github.com/OpenSID/OpenSID/issues/5477) Memperbaiki notifikasi saat mengembalikan status dasar penduduk.
-11. [#5486](https://github.com/OpenSID/OpenSID/issues/5486) Memperbaiki pencarian nama ibu dari tambah anak ke 2 dari menu kia.
-12. [#5487](https://github.com/OpenSID/OpenSID/issues/5487) Memperbaiki tampilan konsisten infrastruktur desa yang ditampilkan pada web dan admin.
-13. [#5497](https://github.com/OpenSID/OpenSID/issues/5497) Memperbaiki tampilan inputan klasifikasi pindah pada form lampiran F-1.03.
-14. [#5504](https://github.com/OpenSID/OpenSID/issues/5504) Memperbaiki tampilan data pada tabel status gizi anak menjadi singkatan huruf.
-15. [#5513](https://github.com/OpenSID/OpenSID/issues/5513) Memperbaiki tampilan pengaturan margin.
-16. [#5498](https://github.com/OpenSID/OpenSID/issues/5498) Memperbaiki laporan analisis saat di unduh datanya tidak tampil.
-17. [#1187](https://github.com/OpenSID/premium/issues/1187) Cek koneksi saat memanggil asset external agar dapat opensid jalan tanpa internet.
-18. [#5476](https://github.com/OpenSID/OpenSID/issues/5476) Memperbaiki luas tanah tidak bisa tersimpan di menu bumindes tanah kas desa.
-19. [#5522](https://github.com/OpenSID/OpenSID/issues/5522) Memperbaiki footer surat mepet dengan isi surat.
-20. [#5482](https://github.com/OpenSID/OpenSID/issues/5482) Merubah nama file foto aparatur desa yang menampilkan NIK.
-21. [#5528](https://github.com/OpenSID/OpenSID/issues/5528) Memperbaiki pengaturan masa berlaku tidak berfungsi pada surat pengantar.
-22. [#5527](https://github.com/OpenSID/OpenSID/issues/5527) Memperbaiki edit sebelum cetak PDF tidak berfungsi.
-23. [#5505](https://github.com/OpenSID/OpenSID/issues/5505) Memperbaiki scorecard konvergensi pada tabel jumlah sasaran dan tabel hasil pengukuran tidak berfungsi dengan benar.
-24. [#5545](https://github.com/OpenSID/OpenSID/issues/5545) Memperbaiki judul peraturan desa tidak tersimpan / kosong.
-25. [#5541](https://github.com/OpenSID/OpenSID/issues/5541) Memperbaiki surat rtf mengganti masa berlaku menjadi "-" ketika pengaturan masa berlaku 0.
-26. [#1277](https://github.com/OpenSID/OpenSID/issues/1277) Perbaiki sinkronisasi program bantuan yang terhapus di opendk.
+1. [#5216](https://github.com/OpenSID/OpenSID/issues/5216) Perbaikan hasil ekspor surat keterangan beda indentitas KIS, data pertama tidak tampil/muncul.
+2. [#5779](https://github.com/OpenSID/OpenSID/issues/5779) Perbaikan tambah buku keputusan menjadi wajib diisi jika mengunggah dokumen.
+3. [#5749](https://github.com/OpenSID/OpenSID/issues/5749) Perbaikan penandatangan dari luar desa tidak muncul gelarnya.
+4. [#5781](https://github.com/OpenSID/OpenSID/issues/5781) Perbaikan link pembangunan tidak tampil dengan benar pada peta.
+5. [#1251](https://github.com/OpenSID/premium/issues/1251) Perbaikan lampiran surat dari layanan mandiri tidak muncul di details arsip layanan.
+6. [#5735](https://github.com/OpenSID/OpenSID/issues/5735) Perbaikan gagal migrasi v22.10-premium.
+7. [#5563](https://github.com/OpenSID/OpenSID/issues/5563) Perbaikan preview surat pada pengaturan surat tinymce.
+8. [#5787](https://github.com/OpenSID/OpenSID/issues/5787) Perbaikan modal pupup edit peserta form di program bantuan & tombol profil.
+9. [#5792](https://github.com/OpenSID/OpenSID/issues/5792) Perbaikan nama desa dengan tanda petik diidentitasa desa.
+10. [#5801](https://github.com/OpenSID/OpenSID/issues/5801) Perbaikan pilih gambar pada edit logo identitas desa.
+11. [#5793](https://github.com/OpenSID/OpenSID/issues/5793) Perbaikan pemanggilan images latar belakang login admin & layanan mandiri.
+12. [#5738](https://github.com/OpenSID/OpenSID/issues/5738) Perbaikan desimal dua digit tidak dapat ditampilkan pada transparansi APBDesa.
+13. [#5803](https://github.com/OpenSID/OpenSID/issues/5803) Perbaikan print pada pemetaan.
+14. [#5814](https://github.com/OpenSID/OpenSID/issues/5814) Perbaikan migrasi decimal keuangan rinci.
+15. [#5812](https://github.com/OpenSID/OpenSID/issues/5812) Perbaikan ubah status aktif & tidak aktif berdasarkan range tanggal.
+16. [#5820](https://github.com/OpenSID/OpenSID/issues/5820) Perbaikan kirim versi OpenSID ke layanan.
+17. [#5819](https://github.com/OpenSID/OpenSID/issues/5819) Perbaikan alert gagal pendaftaran kerjasama.
+18. [#5825](https://github.com/OpenSID/OpenSID/issues/5825) Perbaikan surat baru dengan nama yang sama.
+19. [#5837](https://github.com/OpenSID/OpenSID/issues/5837) Perbaikan daftar rekapitulasi kehadiran.
+20. [#5828](https://github.com/OpenSID/OpenSID/issues/5828) Memisahkan tabel pemesanan dan lainnya.
+21. [#5832](https://github.com/OpenSID/OpenSID/issues/5832) Perbaikan periksa surat tinymce permohonan warga yang tidak ada dokumen / persyaratan.
+22. [#5827](https://github.com/OpenSID/OpenSID/issues/5827) Menambahkan tombol informasi layanan selengkapnya pada menu layanan pelanggan.
+23. [#5847](https://github.com/OpenSID/OpenSID/issues/5847) Perbaikan gelar penandatangan surat tidak muncul pada permohonan dan arsip surat.
+24. [#5850](https://github.com/OpenSID/OpenSID/issues/5850) Menambahkan kolom f12 -f14 di table keuangan_ta_spp.
+25. [#5845](https://github.com/OpenSID/OpenSID/issues/5845) Perbaikan nama file terlalu panjang di peraturan desa.
+26. [#5855](https://github.com/OpenSID/OpenSID/issues/5855) Perbaikan kamera masih hidup walau modal sudah ditutup.
+27. [#5861](https://github.com/OpenSID/OpenSID/issues/5861) Perbaikan status surat setelah di TTD kepala desa layanan mandiri tidak berubah.
+28. [#5708](https://github.com/OpenSID/OpenSID/issues/5708) Perbaikan token tidak bisa update ke database & tidak respon ke kelayanan.
+29. [#5880](https://github.com/OpenSID/OpenSID/issues/5880) Perbaikan tulisan nomor urut tanah desa yang double N.
+30. [#5879](https://github.com/OpenSID/OpenSID/issues/5879) Perbaikan link api wa pada widget halaman depan.
+31. [#5868](https://github.com/OpenSID/OpenSID/issues/5868) Penyesuaian terkait pembaruan token di beberapa kondisi.
+32. [#5866](https://github.com/OpenSID/OpenSID/issues/5866) Perbaikan update dokumen penduduk.
+32. [#5886](https://github.com/OpenSID/OpenSID/issues/5886) Perbaikan dobel akta perceraian pada layanan mandiri & profile lengkap.
+33. [#5890](https://github.com/OpenSID/OpenSID/issues/5890) Penyesuaian API SDGS yang berubah lagi di website sumber.
+34. [#5894](https://github.com/OpenSID/OpenSID/issues/5894) Perbaikan panjang karakter pada kolom pada ID penerima bantuan.
+35. [#5895](https://github.com/OpenSID/OpenSID/issues/5895) Perbaikan maksimal foto produk pada menu lapak.
+36. [#5869](https://github.com/OpenSID/OpenSID/issues/5869) Perbaikan form kerjasama karena tidak bisa koneksi ke layanan.
+37. [#5902](https://github.com/OpenSID/OpenSID/issues/5902) Perbaikan identitas desa error 505 setelah melakukan restore database.
 
 #### Perubahan Teknis
 
-1. Teknis rapikan penulisan code seeder data awal.
-2. Merapikan select option pada pilih tahun id menu status desa.
-3. Menambahkan required pada form edit album.
-4. Mengembalikan fungsi pencarian cetak surat.
-5. Menambahkan penjelasan tambahan di impor analisis.
+1. Perbaikan cara simpan cache IDM dan SDGS.
+2. Perbaikan perubahan version saat ini.
+3. Interval release.
+4. Hapus duplikasi variabel.
+5. perbarui langganan

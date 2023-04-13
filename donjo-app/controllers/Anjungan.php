@@ -45,8 +45,8 @@ class Anjungan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 14;
-        $this->sub_modul_ini = 312;
+        $this->modul_ini     = 312;
+        $this->sub_modul_ini = 347;
     }
 
     public function index()
@@ -59,7 +59,7 @@ class Anjungan extends Admin_Controller
         $status = cek_anjungan();
 
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(AnjunganModel::query())
+            return datatables()->of(AnjunganModel::where('tipe', 1))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -175,20 +175,36 @@ class Anjungan extends Admin_Controller
     // Hanya filter inputan
     protected static function validated($request = [], $id = null)
     {
+        $anjungan      = AnjunganModel::find($id);
+        $ip_address    = AnjunganModel::tipe(1)->where('ip_address', $request['ip_address'])->first();
+        $mac_address   = AnjunganModel::tipe(1)->where('mac_address', $request['mac_address'])->first();
+        $id_pengunjung = AnjunganModel::tipe(1)->where('id_pengunjung', $request['id_pengunjung'])->first();
+
+        if ($ip_address && $anjungan->ip_address != $request['ip_address']) {
+            redirect_with('error', 'IP Address telah digunakan');
+        }
+
+        if ($mac_address && $anjungan->mac_address != $request['mac_address']) {
+            redirect_with('error', 'Mac Address telah digunakan');
+        }
+
+        if ($id_pengunjung && $anjungan->id_pengunjung != $request['id_pengunjung']) {
+            redirect_with('error', 'ID Pengunjung telah digunakan');
+        }
+
         $validated = [
-            'ip_address'   => bilangan_titik($request['ip_address']),
-            'mac_address'  => alfanumerik_kolon($request['mac_address']),
-            'printer_ip'   => bilangan_titik($request['printer_ip']),
-            'printer_port' => bilangan($request['printer_port']),
-            'keyboard'     => bilangan($request['keyboard']),
-            'keterangan'   => htmlentities($request['keterangan']),
+            'ip_address'    => strip_tags($request['ip_address']),
+            'mac_address'   => alfanumerik_kolon($request['mac_address']),
+            'id_pengunjung' => alfanumerik($request['id_pengunjung']),
+            'printer_ip'    => bilangan_titik($request['printer_ip']),
+            'printer_port'  => bilangan($request['printer_port']),
+            'keyboard'      => bilangan($request['keyboard']),
+            'keterangan'    => htmlentities($request['keterangan']),
         ];
 
         if ($id) {
             $validated['created_by'] = $validated['updated_by'] = auth()->id;
         } else {
-            // status selalu tidak aktif (0) saat tambah data
-            $validated['status']     = StatusEnum::TIDAK;
             $validated['created_by'] = auth()->id;
         }
 

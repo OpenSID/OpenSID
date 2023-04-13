@@ -66,6 +66,7 @@ class Pelanggan extends Admin_Controller
     {
         $response = $this->notif_model->api_pelanggan_pemesanan();
 
+        kirim_versi_opensid();
         // Ubah layanan_opendesa_token terbaru, jangan perbaharui jika token tersimpan di config (untuk developmen)
         if ((null !== $response && $response->body->token !== $this->setting->layanan_opendesa_token) && empty(config_item('token_layanan'))) {
             $post['layanan_opendesa_token'] = $response->body->token;
@@ -79,6 +80,7 @@ class Pelanggan extends Admin_Controller
 
     public function perbarui()
     {
+        kirim_versi_opensid();
         $this->cache->hapus_cache_untuk_semua('status_langganan');
         session_success();
         sleep(3);
@@ -127,5 +129,32 @@ class Pelanggan extends Admin_Controller
         session_success();
         sleep(3);
         redirect($this->controller);
+    }
+
+    public function pemesanan()
+    {
+        if ($this->input->is_ajax_request()) {
+            if (isset($this->request['body']['token'])) {
+                $this->cache->hapus_cache_untuk_semua('status_langganan');
+                $post['layanan_opendesa_token'] = $this->request['body']['token'];
+                $this->setting_model->update_setting($post);
+
+                $this->cache->pakai_cache(function () {
+                    // request ke api layanan.opendesa.id
+
+                    return json_decode(json_encode($this->request), false);
+                }, 'status_langganan', 24 * 60 * 60);
+
+                return json([
+                    'status'  => true,
+                    'message' => 'berhasil tersimpan',
+                ]);
+            }
+
+            return json([
+                'status'  => false,
+                'message' => 'token Tidak ada',
+            ]);
+        }
     }
 }

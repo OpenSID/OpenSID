@@ -80,9 +80,9 @@
 						</div>
 						<?php if ($this->CI->cek_hak_akses('u') && ! config_item('demo_mode')): ?>
 							<div class="col-md-12">
-							<div class="box-header with-border">
-								<h3 class="box-title"><strong>Restore Database SID</strong></h3>
-							</div>
+								<div class="box-header with-border">
+									<h3 class="box-title"><strong>Restore Database SID</strong></h3>
+								</div>
 							<div class="box-body">
 								<div class="row">
 									<div class="col-sm-12">
@@ -107,7 +107,7 @@
 																	</div>
 																</div>
 																<div class="col-sm-12 col-md-3 col-lg-2">
-																	<button type="submit" id="restore" class="btn btn-block btn-success btn-sm" disabled="disabled"><i class="fa fa-spin fa-refresh"></i>Restore</button>
+																	<button type="submit" id="restore" class="btn btn-block btn-success btn-sm " disabled="disabled"><i class="fa fa-spin fa-refresh"></i>Restore</button>
 																</div>
 															</div>
 														</td>
@@ -115,6 +115,47 @@
 												</tbody>
 											</table>
 										</form>
+									</div>
+								</div>
+							</div>
+							</div>
+
+
+							<div class="col-md-12">
+								<div class="box-header with-border">
+									<h3 class="box-title"><strong>Restore Folder Desa </strong></h3>
+								</div>
+							<div class="box-body">
+								<div class="row">
+									<div class="col-sm-12">
+										<p>Backup yang dibuat dapat dipergunakan untuk mengembalikan folder desa anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan folder desa dengan data hasil backup terdahulu.</p>
+										<p>Batas maksimal pengunggahan berkas <strong><?= max_upload() ?> MB.</strong></p>
+										<p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
+										<p></p>
+										<table class="table table-bordered table-hover" >
+											<tbody>
+												<tr>
+													<td style="padding-top:20px;padding-bottom:10px;">
+														<div class="form-group">
+															<label for="file"class="col-md-2 col-lg-3 control-label">Pilih File .zip:</label>
+															<div class="col-sm-12 col-md-5 col-lg-5">
+																<div class="input-group input-group-sm">
+																	<input type="text" class="form-control" id="file_path1" name="folder_desa">
+																	<input type="file" class="hidden" id="file1" name="folder_desa" data-submit="restore-desa" accept="zip,application/zip,application/x-zip,application/x-zip-compressed">
+																	<span class="input-group-btn">
+																		<button type="button" class="btn btn-info btn-flat" id="file_browser1"><i class="fa fa-search"></i> Browse</button>
+																	</span>
+																</div>
+															</div>
+															<div class="col-sm-12 col-md-3 col-lg-2">
+																<button type="button" id="restore-desa" class="btn btn-block btn-success btn-sm <?= jecho($restore, true, 'hidden') ?>" disabled="disabled"><i class="fa fa-spin fa-refresh"></i>Restore</button>
+																<a class="btn btn-block btn-warning btn-sm <?= jecho($restore, false, 'hidden') ?>" href="<?= site_url('database/batal_restore'); ?>"><i class="fa fa-spin fa-refresh"></i>Batalkan proses restore</a>
+															</div>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
 								</div>
 							</div>
@@ -196,6 +237,165 @@
 			.fail(function(e) {
 				notification('danger', e);
 			});
+		}
+
+		$('#restore-desa').click(function(event) {
+			Swal.fire({
+			  title: 'Kirim OTP',
+			  showDenyButton: true,
+			  showCancelButton: false,
+			  confirmButtonText: 'Email',
+			  cancelButtonText: 'Tutup',
+			  denyButtonText: `Telegram`,
+			  footer: `<div class="text-bold text-warning">Kode OTP hanya berlaku 5 menit</div>`,
+			}).then((result) => {
+
+				if (result.isConfirmed) {
+					Swal.fire({title: 'Mengirim OTP', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
+			 		$.ajax({
+			 			url: '<?= site_url("{$this->controller}/kirim_otp"); ?>',
+			 			type: 'POST',
+			 			data: {
+			 				sidcsrf : getCsrfToken(),
+			 				method : 'email'
+			 			},
+			 		})
+			 		.done(function() {
+			 			verifikasi()
+			 		})
+			 		.fail(function() {
+			 			Swal.showValidationMessage(
+				            `Request failed: ${error}`
+				          )
+			 		})
+			 	} else if (result.isDenied){
+			 		Swal.fire({title: 'Mengirim OTP', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
+			 		$.ajax({
+			 			url: '<?= site_url("{$this->controller}/kirim_otp"); ?>',
+			 			type: 'POST',
+			 			data: {
+			 				sidcsrf : getCsrfToken(),
+			 				method : 'telegram'
+			 			},
+			 		})
+			 		.done(function() {
+			 			verifikasi()
+			 		})
+			 		.fail(function() {
+			 			Swal.showValidationMessage(
+				            `Request failed: ${error}`
+				          )
+			 		})
+			 	}
+			});
+		});
+
+		var verifikasi = function () {
+			Swal.fire({
+			    title: 'Masukan Kode OTP',
+			    input: 'text',
+			    inputPlaceholder : 'Masukan Kode OTP',
+				  inputValidator: (value) => {
+				    if (isNaN(value)) {
+					    return 'Kode OTP harus berupa angka'
+					  }
+				  },
+			    showCancelButton: true,
+			    confirmButtonText: 'Kirim',
+			    cancelButtonText: 'Tutup',
+			    showLoaderOnConfirm: true,
+			    preConfirm: (otp) => {
+			      const formData = new FormData();
+			      formData.append('sidcsrf', getCsrfToken());
+			      formData.append('otp', otp);
+			      return fetch(`<?= site_url("{$this->controller}/verifikasi_otp") ?>`, {
+			              method: 'POST',
+			              body: formData,
+			      }).then(response => {
+			          if (!response.ok) {
+			              throw new Error(response.statusText)
+			          }
+			          return response.json()
+			      })
+			      .catch(error => {
+			          Swal.showValidationMessage(
+			            `Request failed: ${error}`
+			          )
+			      })
+			    }
+			}).then((result) => {
+			      if (result.isConfirmed) {
+			        if (result.value.status == true) {
+                   	    upload_desa()
+			        } else {
+			          	Swal.fire({ icon: 'error', title: result.value.message })
+			        }
+			      }
+			})
+		}
+
+		var upload_desa = function () {
+			let progress
+			const formData = new FormData();
+	        formData.append('sidcsrf', getCsrfToken());
+	        formData.append('file', $('#file1')[0].files[0]);
+			Swal.fire({
+			  title: 'Sedang mengunggah file',
+			  html: 'Progress : <b></b>%',
+			  timerProgressBar: true,
+			  didOpen: () => {
+			    Swal.showLoading()
+			    const b = Swal.getHtmlContainer().querySelector('b')
+			    $.ajax({
+				  xhr: function() {
+				    var xhr = new window.XMLHttpRequest();
+				    xhr.upload.addEventListener("progress", function(evt) {
+				      if (evt.lengthComputable) {
+				        var percentComplete = evt.loaded / evt.total;
+				        percentComplete = parseInt(percentComplete * 100);
+				        b.textContent = percentComplete;
+				      }
+				    }, false);
+
+				    return xhr;
+				  },
+				  url: `<?= site_url("{$this->controller}/upload_restore") ?>`,
+				  type: "POST",
+				  data: formData,
+				  processData: false,
+                  contentType: false,
+				  success: function(result) {
+				  	if (result.status == true) {
+				  		Swal.fire({
+						  title: 'Proses restore',
+						  html: 'Proses restore dilakukan melalui job background.',
+						});
+				  	} else {
+				  		Swal.fire({
+						  title: 'Proses restore gagal',
+						  icon: "error",
+						  html: result.messages,
+						});
+				  	}
+
+				  }
+				})
+				.fail(function(e) {
+					e.responseText
+					Swal.fire({
+					  title: 'Proses upload gagal',
+					  icon: "warning",
+					  html: e.responseText,
+					});
+
+				});
+
+
+			  }
+
+			})
+
+
 		}
 
 	});
