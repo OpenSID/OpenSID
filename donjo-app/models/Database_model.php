@@ -274,9 +274,6 @@ class Database_model extends MY_Model
         // Migrasi direkam di tabel migrasi
         if (! $this->versi_database_terbaru()) {
             $this->migrasi_db_cri();
-
-            // Kirim versi aplikasi ke layanan setelah migrasi selesai
-            $this->kirimVersi();
         }
 
         $this->jalankan_migrasi('migrasi_layanan');
