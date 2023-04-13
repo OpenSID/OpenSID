@@ -19,3 +19,4 @@ Di rilis ini, versi 2304.1.0 berisi penambahan fitur [isi disini] dan perbaikan 
 
 1. [#2234](https://github.com/OpenSID/premium/issues/2234) Penamaan versi aplikasi.
 2. [#2236](https://github.com/OpenSID/premium/issues/2236) Penyesuian instalasi awal database gabungan pada file general_helper.
+3. [#2249](https://github.com/OpenSID/premium/issues/2249) Penyesuaian migrasi agar bisa digunakan pada OpenSID Database Gabungan.

@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2304.0.1');
+define('VERSION', '2304.0.2');
 
 /**
  * PREMIUM
@@ -58,7 +58,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023040351');
+define('VERSI_DATABASE', '2023041351');
 
 // Website Demo OpenSID
 define('WEBSITE_DEMO', [
