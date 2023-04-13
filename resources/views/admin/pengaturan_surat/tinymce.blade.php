@@ -28,10 +28,10 @@
                         <td>
                             <select class="form-control input-sm select2" name="individu_sex">
                                 <option value="">SEMUA</option>
-                                @foreach ($form_isian['daftar_jenis_kelamin'] as $key => $data):
+                                @foreach ($form_isian['daftar_jenis_kelamin'] as $key => $data)
                                     <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->individu->sex)>{{ $data }}
                                     </option>
-                                    <?php endforeach; ?>
+                                @endforeach
                             </select>
                         </td>
                     </tr>
@@ -41,10 +41,10 @@
                         <td>
                             <select class="form-control input-sm select2" name="individu_status_dasar">
                                 <option value="">SEMUA</option>
-                                @foreach ($form_isian['daftar_status_dasar'] as $key => $data):
+                                @foreach ($form_isian['daftar_status_dasar'] as $key => $data)
                                     <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->individu->status_dasar)>{{ $data }}
                                     </option>
-                                    <?php endforeach; ?>
+                                @endforeach
                             </select>
                         </td>
                     </tr>
@@ -69,8 +69,10 @@
                         <tr class="duplikasi" id="gandakan-{{ $key }}">
                             <td>
                                 <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
-                                    @foreach ($attributes as $attr_key => $attr_value):
-                                        <option value="{{ $attr_key }}" @selected($attr_key == $value->tipe)>{{ $attr_value }}
+                                    @foreach ($attributes as $attr_key => $attr_value)
+                                        :
+                                        <option value="{{ $attr_key }}" @selected($attr_key == $value->tipe)>
+                                            {{ $attr_value }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -91,8 +93,10 @@
                         <tr class="duplikasi" id="gandakan-0">
                             <td>
                                 <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
-                                    @foreach ($attributes as $attr_key => $attr_value):
-                                        <option value="{{ $attr_key }}" @selected($attr_key == 1)>{{ $attr_value }}</option>
+                                    @foreach ($attributes as $attr_key => $attr_value)
+                                        :
+                                        <option value="{{ $attr_key }}" @selected($attr_key == 1)>
+                                            {{ $attr_value }}</option>
                                     @endforeach
                                 </select>
                             </td>
