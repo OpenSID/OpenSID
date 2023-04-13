@@ -146,7 +146,62 @@ define('STORAGEPATH', 'storage' . DIRECTORY_SEPARATOR);
 define('BACKUPPATH', 'backup_inkremental' . DIRECTORY_SEPARATOR);
 
 /**
- * Default file
+ * Folder dan file pada folder sistem.
  */
+// Folder
+define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
+define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
+define('PENDAPAT', 'assets/images/layanan_mandiri/');
+define('LOKASI_ICON_MENU_ANJUNGAN_DEFAULT', 'assets/images/anjungan/');
+define('LOKASI_SURAT_SISTEM', 'template-surat/');
+define('DEFAULT_LOKASI_LAMPIRAN_SURAT', 'template-surat/lampiran/');
+define('DEFAULT_LOKASI_TEMA', 'vendor/themes/');
+
+// File
+define('DEFAULT_LATAR_SITEMAN', 'assets/css/images/latar_login.jpg');
+define('DEFAULT_LATAR_KEHADIRAN', 'assets/css/images/latar_login_mandiri.jpg');
+define('GAMBAR_QRCODE', 'assets/images/opensid.png');
 define('LOGO_GARUDA', 'assets/images/garuda.png');
 define('LOGO_BSRE', 'assets/images/bsre.png');
+define('STEMPEL', 'assets/images/layanan/stempel.png');
+define('LAYANAN_LOGO', 'assets/images/layanan/logo.png');
+
+/**
+ * Folder dan file pada folder desa.
+ * Untuk folder yang ada di difine perlu didaftarkan juga di config/installer.php agar dibuat otomatis jika tidak ditemukan.
+ */
+// Folder
+define('LOKASI_LOGO_DESA', 'desa/logo/');
+define('LOKASI_ARSIP', 'desa/arsip/');
+define('LOKASI_CACHE', 'desa/cache/');
+define('LOKASI_CONFIG_DESA', 'desa/config/');
+define('LOKASI_SURAT_DESA', 'desa/template-surat/');
+define('LOKASI_LAMPIRAN_SURAT_DESA', 'desa/template-surat/lampiran/');
+define('LOKASI_SURAT_FORM_DESA', 'desa/template-surat/form/'); // TODO:: Cek ini!!!
+define('LOKASI_SURAT_EXPORT_DESA', 'desa/template-surat/export/'); // TODO:: Cek ini!!!
+define('LOKASI_TEMA_DESA', 'desa/themes/');
+define('LOKASI_UPLOAD', 'desa/upload/');
+define('LOKASI_USER_PICT', 'desa/upload/user_pict/');
+define('LOKASI_GALERI', 'desa/upload/galeri/');
+define('LOKASI_FOTO_ARTIKEL', 'desa/upload/artikel/');
+define('LOKASI_FOTO_LOKASI', 'desa/upload/gis/lokasi/');
+define('LOKASI_FOTO_AREA', 'desa/upload/gis/area/');
+define('LOKASI_FOTO_GARIS', 'desa/upload/gis/garis/');
+define('LOKASI_DOKUMEN', 'desa/upload/dokumen/');
+define('LOKASI_PENGESAHAN', 'desa/upload/pengesahan/');
+define('LOKASI_WIDGET', 'desa/widgets/');
+define('LOKASI_GAMBAR_WIDGET', 'desa/upload/widgets/');
+define('LOKASI_KEUANGAN_ZIP', 'desa/upload/keuangan/');
+define('LOKASI_MEDIA', 'desa/upload/media/');
+define('LOKASI_SIMBOL_LOKASI', 'desa/upload/gis/lokasi/point/');
+define('LOKASI_SINKRONISASI_ZIP', 'desa/upload/sinkronisasi/');
+define('LOKASI_PRODUK', 'desa/upload/produk/');
+define('LOKASI_PENGADUAN', 'desa/upload/pengaduan/');
+define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
+define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
+define('LOKASI_ICON_MENU_ANJUNGAN', 'desa/anjungan/menu/');
+define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
+
+// File
+define('LATAR_SITEMAN', 'desa/pengaturan/siteman/images/latar_login.jpg');
+define('LATAR_KEHADIRAN', 'desa/pengaturan/siteman/images/latar_login_mandiri.jpg');

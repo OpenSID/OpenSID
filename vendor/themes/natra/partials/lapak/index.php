@@ -129,7 +129,12 @@
 			$("#lat").val(link.data('lat'));
 			$("#lng").val(link.data('lng'));
 
-			pelapak = L.map('map').setView(posisi, zoom);
+			var options = {
+				maxZoom: <?= setting('max_zoom_peta') ?>,
+				minZoom: <?= setting('min_zoom_peta') ?>,
+			};
+
+			pelapak = L.map('map', options).setView(posisi, zoom);
 			getBaseLayers(pelapak, "<?= setting('mapbox_key') ?>", "<?= setting('jenis_peta') ?>");
 			pelapak.addLayer(new L.Marker(posisi, {icon:logo}));
 		});

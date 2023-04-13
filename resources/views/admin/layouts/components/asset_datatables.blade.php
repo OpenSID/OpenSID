@@ -7,7 +7,6 @@
     <!-- DataTables JS-->
     <script src="{{ asset('bootstrap/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/dataTables.bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/script.js') }}"></script>
     <script>
         var baca = "{{ can('b') }}";
         var ubah = "{{ can('u') }}";

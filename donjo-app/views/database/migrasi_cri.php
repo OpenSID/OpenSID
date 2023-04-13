@@ -25,7 +25,7 @@
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
 																						<div class="col-sm-5 col-md-4">
-																							<a href="#" class="btn btn-block btn-danger btn-sm ajax"  title="Migrasi DB" onclick="document.getElementById('excell').submit();" data-toggle="modal" data-target="#loading" data-backdrop="false" data-keyboard="false"> <i class="fa fa-spin fa-refresh"></i> Migrasi Database Ke OpenSID <?= AmbilVersi()?></a>
+																							<a href="#" class="btn btn-block btn-danger btn-sm ajax migrasi"  title="Migrasi DB"></i> Migrasi Database Ke OpenSID <?= AmbilVersi()?></a>
 																						</div>
 																					</div>
 																					<div class="ajax-content"></div>
@@ -65,3 +65,53 @@
 		</div>
 	</section>
 </div>
+
+<script type="text/javascript">
+	$(function() {
+		$('.migrasi').click(function(event) {
+			event.preventDefault();
+			$('#loading').modal({
+			  keyboard: false,
+			  backdrop	: false
+			})
+			$('#loading').modal('show');
+			// document.getElementById('excell').submit();
+
+			$.ajax({
+	             url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+	             headers: {
+	                "Authorization" : `Bearer <?= $this->setting->layanan_opendesa_token ?>`,
+	                "X-Requested-With" : `XMLHttpRequest`,
+	             },
+	             type: 'Post',
+	         })
+	         .done(function(response) {
+	            let data = {
+	                    body : response
+	                }
+	             $.ajax({
+	                 url: `${SITE_URL}pelanggan/pemesanan`,
+	                 type: 'Post',
+	                 dataType: 'json',
+	                 data: data,
+	             })
+	             .done(function() {
+	             	addCsrfField($('form#excell')[0]);
+	                document.getElementById('excell').submit();
+	             })
+	             .fail(function(e) {
+	                Swal.fire({
+	                    icon: 'error',
+	                    title: 'Request failed',
+	                })
+	             });
+	         })
+	         .fail(function() {
+	             Swal.fire({
+	                    icon: 'error',
+	                    title: 'gagal Migrasi, Cek log untuk detail error.',
+	                })
+	         });
+		});
+	});
+</script>

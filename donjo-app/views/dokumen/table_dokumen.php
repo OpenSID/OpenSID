@@ -130,7 +130,11 @@
 																					<a href="<?= site_url($this->controller . '/dokumen_unlock/' . $kat . '/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 	                                      <?php endif ?>
 	                                    <?php endif; ?>
-																			<a href='<?= site_url("dokumen/unduh_berkas/{$data[id]}") ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
+																		    <?php if ($data['tipe'] == 1): ?>
+																				<a href='<?= site_url("dokumen/unduh_berkas/{$data[id]}") ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
+																			<?php else: ?>
+																				<a href='<?= $data['url'] ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh" target="_blank"><i class="fa fa-download"></i></a>
+																			<?php endif ?>
 																			<?php if ($this->CI->cek_hak_akses('h')): ?>
 																				<a href="#" data-href="<?= site_url("{$this->controller}/delete/{$kat}/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																			<?php endif; ?>

@@ -79,7 +79,7 @@
 				</div>
 			<?php elseif ($setting->jenis == 'textarea') : ?>
 				<div class="col-sm-12 col-md-4">
-					<textarea <?= jecho($setting->kategori, 'readonly', 'disabled'); ?> class="form-control input-sm" name="<?= $setting->key ?>" placeholder="<?= $setting->keterangan ?>" rows="5"><?= $setting->value; ?> </textarea>
+					<textarea <?= jecho($setting->kategori, 'readonly', 'disabled'); ?> class="form-control input-sm" name="<?= $setting->key ?>" placeholder="<?= $setting->keterangan ?>" rows="7"><?= $setting->value; ?> </textarea>
 				</div>
 			<?php else : ?>
 				<div class="col-sm-12 col-md-4">

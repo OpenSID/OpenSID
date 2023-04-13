@@ -44,5 +44,6 @@ $route['status-idm/(:num)']    = WEB . '/idm/index/$1';
 $route['pemerintah']           = WEB . '/pemerintah';
 
 // SDGS
-$route['status-sdgs'] = WEB . '/sdgs/index';
-$route['peta']        = WEB . '/peta/index';
+$route['status-sdgs']    = WEB . '/sdgs/index';
+$route['peta']           = WEB . '/peta/index';
+$route['peraturan-desa'] = WEB . '/peraturan/index';

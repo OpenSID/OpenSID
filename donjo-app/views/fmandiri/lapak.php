@@ -222,6 +222,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		var MAPBOX_KEY = '<?= setting('mapbox_key') ?>';
 		var JENIS_PETA = '<?= setting('jenis_peta') ?>';
 
+        var options = {
+            maxZoom: <?= setting('max_zoom_peta') ?>,
+            minZoom: <?= setting('min_zoom_peta') ?>,
+        };
+
 		$(document).on('shown.bs.modal', '#map-modal', function(event) {
 			let link = $(event.relatedTarget);
 			let title = link.data('title');
@@ -238,7 +243,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			$("#lat").val(link.data('lat'));
 			$("#lng").val(link.data('lng'));
 
-			pelapak = L.map('map').setView(posisi, zoom);
+			pelapak = L.map('map', options).setView(posisi, zoom);
 			getBaseLayers(pelapak, MAPBOX_KEY, JENIS_PETA);
 
 			pelapak.addLayer(new L.Marker(posisi, {

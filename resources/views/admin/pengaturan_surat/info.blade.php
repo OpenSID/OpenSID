@@ -7,20 +7,28 @@
             </div>
             <div class="modal-body">
                 <h5><strong>KODE ISIAN:</strong></h5>
-                <ol>
+                <ul>
                     <li>
-                        Huruf pertama dan kedua huruf besar --> ganti dengan huruf besar semua.<br>
-                        Contoh : <b>[SEbutan_desa]</b> ==> <b>KAMPUNG</b>
-                    </li>
-                    <li>
-                        Huruf pertama besar dan kedua kecil --> ganti dengan huruf besar pertama saja.<br>
-                        Contoh : <b>[Sebutan_desa]</b> ==> <b>Kampung</b>
+                        Huruf pertama dan akhir huruf besar --> ganti dengan data normal.<br>
+                        Contoh : <b>[Sebutan_kepala_desA]</b> ==> <b>Kepala Desa</b>
                     </li>
                     <li>
                         Huruf pertama kecil --> ganti dengan huruf kecil semua.<br>
-                        Contoh : <b>[sebutan_desa]</b> ==> <b>kampung</b>
+                        Contoh : <b>[sebutan_kepala_desa]</b> ==> <b>kepala desa</b>
                     </li>
-                </ol>
+                    <li>
+                        Huruf pertama besar dan kedua kecil --> ganti dengan huruf besar pertama saja.<br>
+                        Contoh : <b>[Sebutan_kepala_desa]</b> ==> <b>Kepala desa</b>
+                    </li>
+                    <li>
+                        Huruf pertama dan ketiga huruf besar --> ganti dengan huruf besar pertama setiap kata.<br>
+                        Contoh : <b>[SeButan_kepala_desa]</b> ==> <b>Kepala Desa</b>
+                    </li>
+                    <li>
+                        Huruf pertama dan kedua huruf besar --> ganti dengan huruf besar semua.<br>
+                        Contoh : <b>[SEbutan_kepala_desa]</b> ==> <b>KEPALA DESA</b>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

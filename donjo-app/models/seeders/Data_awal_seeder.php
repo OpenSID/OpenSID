@@ -47,7 +47,7 @@ class Data_awal_seeder extends CI_Model
     {
         parent::__construct();
         ini_set("memory_limit", "512M");
-        set_time_limit(3600);
+        set_time_limit(5400);
     }
 
     public function run()

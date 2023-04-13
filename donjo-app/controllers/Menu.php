@@ -90,7 +90,6 @@ class Menu extends Admin_Controller
         $data['paging']     = $this->web_menu_model->paging($p);
         $data['main']       = $this->web_menu_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
         $data['keyword']    = $this->web_menu_model->autocomplete($data['cari']);
-
         $this->render('menu/table', $data);
     }
 

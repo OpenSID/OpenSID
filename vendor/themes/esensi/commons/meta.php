@@ -2,7 +2,7 @@
 
 <?php $nama_desa = ucwords($this->setting->sebutan_desa) .' '.ucwords($desa['nama_desa']) ?>
 
-<?php defined('THEME_VERSION') or define('THEME_VERSION', 'v22.06') ?>
+<?php defined('THEME_VERSION') or define('THEME_VERSION', 'v22.11') ?>
 <?php defined('NAMA_DESA') or define('NAMA_DESA', $nama_desa) ?>
 
 <?php $title = preg_replace("/[^A-Za-z0-9- ]/", '', trim(str_replace('-', ' ', get_dynamic_title_page_from_path())));

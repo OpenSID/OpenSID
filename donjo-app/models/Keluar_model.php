@@ -210,6 +210,7 @@ class Keluar_model extends CI_Model
             ->join('tweb_desa_pamong AS s', 'u.id_pamong = s.pamong_id', 'left')
             ->join('tweb_penduduk AS p', 's.id_pend = p.id', 'left')
             ->join('user AS w', 'u.id_user = w.id', 'left');
+        $this->db->where('deleted_at');
 
         $this->db->group_start();
         $this->search_sql();
@@ -226,6 +227,7 @@ class Keluar_model extends CI_Model
         return $this->db->get('log_surat u');
     }
 
+    // TODO:: Ganti cara ini, gunakan App/Models/Pamong.php
     // $limit = 0 mengambil semua
     public function list_data($o = 0, $offset = 0, $limit = null)
     {
@@ -254,7 +256,7 @@ class Keluar_model extends CI_Model
 
         // TODO : Sederhanakan, ini berulang
         $this->db
-            ->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend')
+            ->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.gelar_depan, s.gelar_belakang')
             ->select('(case when p.nama is not null then p.nama else s.pamong_nama end) as pamong_nama')
             ->select('k.url_surat, k.jenis')
             ->where('u.status !=', null)
@@ -277,6 +279,8 @@ class Keluar_model extends CI_Model
                     $this->rincian_file($data, $i);
                 }
             }
+
+            $data[$i]['pamong_nama'] = gelar($data[$i]['gelar_depan'], $data[$i]['pamong_nama'], $data[$i]['gelar_belakang']);
 
             $j++;
         }
@@ -472,21 +476,15 @@ class Keluar_model extends CI_Model
     public function delete($id = '')
     {
         $arsip = $this->db
-            ->select('nama_surat, lampiran, urls_id')
+            ->select('nama_surat, lampiran, urls_id, status')
             ->where('id', $id)
             ->get('log_surat')
             ->row_array();
-        $berkas_surat = pathinfo($arsip['nama_surat'], PATHINFO_FILENAME);
-        unlink(LOKASI_ARSIP . $berkas_surat . '.rtf');
-        unlink(LOKASI_ARSIP . $berkas_surat . '.pdf');
 
-        if (! empty($arsip['lampiran'])) {
-            unlink(LOKASI_ARSIP . $arsip['lampiran']);
-        }
-
-        if ($output = $this->db->where('id', $id)->delete('log_surat')) {	// Jika query delete terjadi error
-            // Hapus urls dari qrcode surat
-            $this->db->where('id', $arsip['urls_id'])->delete('urls');
+        if ($arsip['status'] == 0) { // jika masih draft maka hapus data
+            $output = $this->db->where('id', $id)->delete('log_surat');
+        } else {
+            $output = $this->db->where('id', $id)->update('log_surat', ['deleted_at' => date('Y-m-d')]);
         }
 
         status_sukses($output);

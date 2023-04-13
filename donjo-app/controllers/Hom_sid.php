@@ -69,7 +69,7 @@ class Hom_sid extends Admin_Controller
             'kelompok'    => Schema::hasColumn('kelompok', 'tipe') ? Kelompok::status()->tipe()->count() : 0,
             'dusun'       => Wilayah::dusun()->count(),
             'pendaftaran' => Schema::hasColumn('tweb_penduduk_mandiri', 'aktif') ? PendudukMandiri::status()->count() : 0,
-            'surat'       => LogSurat::count(),
+            'surat'       => (! $this->db->field_exists('deleted_at', 'log_surat')) ? 0 : LogSurat::whereNull('deleted_at')->count(), // jika kolom deleted_at tidak ada, kosongkan jumlah surat.
             'saas'        => $this->saas->peringatan(),
         ];
 

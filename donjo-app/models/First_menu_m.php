@@ -51,7 +51,7 @@ class First_menu_m extends MY_Model
         for ($i = 0; $i < count($data); $i++) {
             // 99 adalah link eksternal
             if ($data[$i]['link_tipe'] != 99) {
-                $data[$i]['link'] = $this->menu_slug($data[$i]['link']);
+                $data[$i]['link'] = menu_slug($data[$i]['link']);
             }
         }
 
@@ -65,7 +65,7 @@ class First_menu_m extends MY_Model
         for ($i = 0; $i < count($data); $i++) {
             // 99 adalah link eksternal
             if ($data[$i]['link_tipe'] != 99) {
-                $data[$i]['link'] = $this->menu_slug($data[$i]['link']);
+                $data[$i]['link'] = menu_slug($data[$i]['link']);
             }
             $data[$i]['submenu'] = $this->list_submenu($data[$i]['id']);
         }

@@ -121,7 +121,7 @@
                                       <?php endif; ?>
                                     </td>
                                     <td width="60%">
-																			<label data-rel="popover" data-content="<img width=200 height=134 src=<?= AmbilGaleri($data['gambar'], 'kecil') ?>>"><?= $data['nama']?></label>																		</td>
+																			<label style="cursor: pointer;" class="tampil" data-img="<?= AmbilGaleri($data['gambar'], 'sedang') ?>" data-rel="popover" data-content="<img width=200 height=134 src=<?= AmbilGaleri($data['gambar'], 'kecil') ?>>"><?= $data['nama']?></label>																		</td>
 																		<td><?= $data['aktif']?></td>
 																		<td nowrap><?= tgl_indo2($data['tgl_upload'])?></td>
 																	</tr>
@@ -183,3 +183,24 @@
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete'); ?>
+<script src="<?= asset('js/sweetalert2/sweetalert2.all.min.js') ?>"></script>
+<link rel="stylesheet" href="<?= asset('js/sweetalert2/sweetalert2.min.css') ?>">
+
+<script type="text/javascript">
+	$(function() {
+
+		$('.tampil').click(function(event) {
+				var gambar = $(this).data('img')
+				Swal.fire({
+	        customClass: {
+	            popup: 'swal-lg',
+	            input: 'swal-input-250'
+	        },
+	        html: `<img style="min-height: 150px;max-height: 70vh;" src="${gambar}">`,
+	        showCancelButton: true,
+	        showFonfirButton: false,
+	        CancelmButtonText: 'Tutup',
+    	})
+		});
+	});
+</script>

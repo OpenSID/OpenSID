@@ -209,7 +209,7 @@ class Penomoran_surat_model extends CI_Model
         $this->load->model('surat_model');
         $thn     = $data['surat']['cek_thn'] ?? date('Y');
         $bln     = $data['surat']['cek_bln'] ?? date('m');
-        $setting = $this->setting->format_nomor_surat;
+        $setting = ($data['surat']['format_nomor'] == '') ? $this->setting->format_nomor_surat : $data['surat']['format_nomor'];
         $this->surat_model->substitusi_nomor_surat($data['input']['nomor'], $setting);
         $array_replace = [
             '[kode_surat]'   => $data['surat']['kode_surat'],

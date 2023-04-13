@@ -71,16 +71,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-sm-3 control-label" for="status">Status</label>
-						<div class="col-sm-3">
-							<select class="form-control input-sm required" name="status" id="status">
-								<option value="1">Aktif</option>
-								<option value="0">Tidak Aktif</option>
-								<!-- Default Value Aktif -->
-							</select>
-						</div>
-					</div>
 				</div>
 				<div class='box-footer'>
 					<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>

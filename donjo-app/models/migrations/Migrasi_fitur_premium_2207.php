@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
@@ -611,14 +612,17 @@ class Migrasi_fitur_premium_2207 extends MY_model
         }
 
         // Update status untuk surat format rtf menjadi cetak karena tidak menggunakan konsep
-        if ($this->db->field_exists('status', $table)) {
-            LogSurat::whereIn('id_format_surat', static function ($query) {
-                $query->select('id')
-                    ->from('tweb_surat_format')
-                    ->whereIn('jenis', FormatSurat::RTF);
-            })
-                ->where('status', 0)
-                ->update(['status' => 1]);
+        try {
+            if ($this->db->field_exists('status', $table)) {
+                LogSurat::whereIn('id_format_surat', static function ($query) {
+                    $query->select('id')
+                        ->from('tweb_surat_format')
+                        ->whereIn('jenis', FormatSurat::RTF);
+                })
+                    ->where('status', 0)
+                    ->update(['status' => 1]);
+            }
+        } catch (Exception $e) {
         }
 
         return $hasil;
@@ -701,23 +705,18 @@ class Migrasi_fitur_premium_2207 extends MY_model
 
     protected function suratRawTinyMCE($hasil)
     {
-        $nama_surat = 'Raw TinyMCE';
-        $url_surat  = 'surat_raw_tinymce';
-
         $data = [
-            'nama'                => $nama_surat,
-            'url_surat'           => $url_surat,
+            'nama'                => 'Raw TinyMCE',
             'kode_surat'          => '000',
-            'jenis'               => 3,
             'masa_berlaku'        => 1,
             'satuan_masa_berlaku' => 'M',
             'orientasi'           => 'Potrait',
-            'ukuran'              => 'A4',
+            'ukuran'              => 'F4',
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
-            'qrcode'              => 1,
-            'kode_isian'          => '[{"kode":"[keterangan]","nama":"Keterangan","tipe":"text","deskripsi":"Masukkan keterangan"}]',
-            'created_by'          => auth()->id,
-            'updated_by'          => auth()->id,
+            'qr_code'              => StatusEnum::YA,
+            'kode_isian'          => '[{"kode":"[form_keterangan]","nama":"Keterangan","tipe":"text","deskripsi":"Masukkan keterangan"}]',
+            'mandiri'             => StatusEnum::YA,
+            'syarat_surat'        => ['13', '3'],
             'template'            => "
                 <h3 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]</span></h3>
                 <p style=\"margin: 0; text-align: center;\">Nomor : [format_nomor_surat]<br /><br /></p>
@@ -728,37 +727,37 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <td style=\"width: 5%; text-align: center; height: 18px;\">1.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Nama</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Nama]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\"><strong>[NAma]</strong></td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">2.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Tempat/tanggal lahir</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Ttl]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[TtL]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">3.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Umur</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Usia]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[UsIa]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">4.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Warga negara</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Warga_negara]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[WArga_negara]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">5.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Agama</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Agama]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[AgAma]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">6.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Jenis Kelamin</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Jenis_kelamin]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[JeNis_kelamin]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">7.</td>
@@ -770,7 +769,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <td style=\"width: 5%; text-align: center; height: 36px;\">8.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 36px;\">Tempat tinggal</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 36px;\">[Alamat] [Sebutan_desa] [Nama_desa], Kecamatan [Nama_kecamatan], [Sebutan_kabupaten] [Nama_kabupaten]</td>
+                <td style=\"width: 60%; text-align: left; height: 36px;\">[AlamaT] [Sebutan_desa] [Nama_desa], Kecamatan [Nama_kecamatan], [Sebutan_kabupaten] [Nama_kabupaten]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">9.</td>
@@ -782,19 +781,19 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <td style=\"width: 5%; text-align: center; height: 18px;\">\u{a0}</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">KTK</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[nik]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[Nik]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">\u{a0}</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">KK</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[no_kk]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[No_kk]</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">11.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Keterangan</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">Mohon keterangan yang akan dipergunakan untuk [Keterangan].</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">Mohon keterangan yang akan dipergunakan untuk [Form_keterangan].</td>
                 </tr>
                 <tr style=\"height: 18px;\">
                 <td style=\"width: 5%; text-align: center; height: 18px;\">12.</td>
@@ -806,7 +805,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <td style=\"width: 5%; text-align: center; height: 18px;\">13.</td>
                 <td style=\"width: 33.773%; text-align: left; height: 18px;\">Golongan Darah</td>
                 <td style=\"width: 1.22703%; text-align: center;\">:</td>
-                <td style=\"width: 60%; text-align: left; height: 18px;\">[Gol_darah]</td>
+                <td style=\"width: 60%; text-align: left; height: 18px;\">[GOl_darah]</td>
                 </tr>
                 </tbody>
                 </table>
@@ -836,14 +835,15 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <tr>
                 <td style=\"width: 35%;\">\u{a0}</td>
                 <td style=\"width: 30%;\">\u{a0}</td>
-                <td style=\"width: 35%; text-align: center;\">[Sebutan_nip_desa] : [nip_pamong]</td>
+                <td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]</td>
                 </tr>
                 </tbody>
                 </table>
-                <div style=\"text-align: center;\"><br />[qr_code]</div>",
+                <div style=\"text-align: center;\"><br />[qr_code]</div>
+            ",
         ];
 
-        return $hasil && FormatSurat::updateOrCreate(['nama' => $nama_surat, 'url_surat' => $url_surat], $data);
+        return $hasil && $this->tambah_surat_tinymce($data);
     }
 
     protected function migrasi_2022062951($hasil)

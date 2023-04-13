@@ -61,8 +61,24 @@
 								<label class="col-sm-4 control-label" for="pamong_nama">Nama Pegawai <?= ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-7">
 									<input type="hidden" name="nik" value="<?= $individu['nik']; ?>">
-									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Nama" value="<?= ($individu['nama'])?>" disabled="disabled"></input>
+									<input id="nama_penduduk" class="form-control input-sm pengurus-desa" type="text" placeholder="Nama" value="<?= ($individu['nama'])?>" disabled="disabled"></input>
 									<input id="pamong_nama" name="pamong_nama" class="form-control input-sm pengurus-luar-desa <?= ! empty($individu) ?: 'required'?>" type="text" placeholder="Nama" value="<?= ($pamong['pamong_nama'])?>" style="display: none;"></input>
+								</div>
+							</div>
+							<div class="form-group gelar">
+								<label class="col-sm-4 control-label"></label>
+								<div class="col-sm-3"></div>
+								<div class="col-sm-7">
+									<input id="nama_dengan_gelar" class="form-control input-sm" type="text" placeholder="Nama dengan gelar" disabled></input>
+								</div>
+							</div>
+							<div class="form-group gelar">
+								<label class="col-sm-4 control-label" for="gelar">Gelar</label>
+								<div class="col-sm-2">
+									<input id="gelar_depan" name="gelar_depan" class="form-control input-sm input-gelar" type="text" placeholder="Gelar Depan" value="<?= ($pamong['gelar_depan'])?>"></input>
+								</div>
+								<div class="col-sm-2">
+									<input id="gelar_belakang" name="gelar_belakang" class="form-control input-sm input-gelar" type="text" placeholder="Gelar Belakang" value="<?= ($pamong['gelar_belakang'])?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -272,11 +288,36 @@
 
 <script>
 	$('document').ready(function() {
+		gelar();
+
 		$("input[name='pengurus']:checked").change();
 		if ($("#validasi input[name='id_pend']").val() != '') {
 			$('#pamong_nama').removeClass('required');
 		}
+
+		$(".input-gelar").keyup(function() {
+			gelar();
+		});
 	});
+
+	function gelar() {
+		var nama = $("input[name='id_pend']").val() != ''
+			? $("#nama_penduduk").val()
+			: $("#pamong_nama").val();
+
+		var depan = $("#gelar_depan").val();
+		var belakang = $("#gelar_belakang").val();
+
+		if (depan) {
+			nama = depan + ' ' + nama;
+		}
+
+		if (belakang) {
+			nama = nama + ', ' + belakang;
+		}
+
+		$("#nama_dengan_gelar").val(nama);
+	}
 
 	function reset_form() {
 		<?php if ($pamong['pamong_status'] == '1' || $pamong['pamong_status'] == null): ?>

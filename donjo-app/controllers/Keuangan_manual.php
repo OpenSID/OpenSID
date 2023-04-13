@@ -234,8 +234,8 @@ class Keuangan_manual extends Admin_Controller
             'Kd_Akun'         => $post['Kd_Akun'],
             'Kd_Keg'          => $post['Kd_Keg'],
             'Kd_Rincian'      => $post['Kd_Rincian'],
-            'Nilai_Anggaran'  => ltrim(bilangan($post['Nilai_Anggaran']), '0'),
-            'Nilai_Realisasi' => ltrim(bilangan($post['Nilai_Realisasi']), '0'),
+            'Nilai_Anggaran'  => ltrim(bilangan_titik($post['Nilai_Anggaran']), '0'),
+            'Nilai_Realisasi' => ltrim(bilangan_titik($post['Nilai_Realisasi']), '0'),
         ];
     }
 }

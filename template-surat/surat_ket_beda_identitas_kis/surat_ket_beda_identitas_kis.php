@@ -100,7 +100,7 @@
 														<tr>
 															<td align="center" width="2"><?= $key+1?></td>
 															<td align="center" width="5">
-																<input id="check<?= $key+1?>" type="checkbox" name="id_cb[]" value="'<?= $data['nik']?>'" onchange="pilih_anggota($(this), <?= $key+1?>);" />
+																<input id="check<?= $key+1?>" type="checkbox" name="id_cb[]" value="<?= $data['nik']?>" onchange="pilih_anggota($(this), <?= $key+1?>);" />
 															</td>
 															<td><?= $data['nik']?></td>
 															<td><?= $data['nama']?></td>

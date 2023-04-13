@@ -169,8 +169,13 @@
         var zoom = 10;
       <?php endif; ?>
 
+      var options = {
+        maxZoom: <?= setting('max_zoom_peta') ?>,
+        minZoom: <?= setting('min_zoom_peta') ?>,
+      };
+
       //Inisialisasi tampilan peta
-      var mymap = L.map('map').setView(posisi, zoom);
+      var mymap = L.map('map', options).setView(posisi, zoom);
 
       <?php if (! empty($desa['path'])) : ?>
         mymap.fitBounds(<?= $desa['path'] ?>);
