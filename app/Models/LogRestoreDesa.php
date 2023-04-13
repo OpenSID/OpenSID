@@ -39,29 +39,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-<<<<<<<< HEAD:app/Models/Suplemen.php
-class Suplemen extends Model
-========
 class LogRestoreDesa extends Model
->>>>>>>> 075e75df0 (Rilis 2404.0.1):app/Models/LogRestoreDesa.php
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-<<<<<<<< HEAD:app/Models/Suplemen.php
-    protected $table = 'suplemen';
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-========
     protected $table = 'log_restore_desa';
->>>>>>>> 075e75df0 (Rilis 2404.0.1):app/Models/LogRestoreDesa.php
 
     /**
      * The attributes that are mass assignable.
