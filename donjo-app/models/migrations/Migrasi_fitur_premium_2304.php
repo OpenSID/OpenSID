@@ -53,7 +53,6 @@ class Migrasi_fitur_premium_2304 extends MY_model
         $hasil = $hasil && $this->tambah_kolom_kecamatan($hasil);
         $hasil = $hasil && $this->suratPermohonanAktaLahir($hasil);
         $hasil = $hasil && $this->suratKeteranganBepergian($hasil);
-        $hasil = $hasil && $this->migrasi_2023032851($hasil);
         $hasil = $hasil && $this->migrasi_2023032852($hasil);
 
         return $hasil && true;
@@ -86,22 +85,6 @@ class Migrasi_fitur_premium_2304 extends MY_model
                 ],
             ];
             $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
-        }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2023032851($hasil)
-    {
-        $config = DB::table('config')->first();
-
-        if ($config) {
-            DB::table('config')->update([
-                'kode_desa'      => bilangan($config->kode_desa),
-                'kode_kecamatan' => bilangan($config->kode_kecamatan),
-                'kode_kabupaten' => bilangan($config->kode_kabupaten),
-                'kode_propinsi'  => bilangan($config->kode_propinsi),
-            ]);
         }
 
         return $hasil;
