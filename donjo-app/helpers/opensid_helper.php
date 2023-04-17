@@ -1562,3 +1562,24 @@ if (! function_exists('ref')) {
         return get_instance()->db->get($alias)->result();
     }
 }
+
+/**
+ * Buat hash password (bcrypt) dari string sebuah password
+ *
+ * @param  [type]  $string  [description]
+ *
+ * @return  [type]  [description]
+ */
+function generatePasswordHash($string)
+{
+    // Pastikan inputnya adalah string
+    $string = is_string($string) ? $string : (string) $string;
+    // Buat hash password
+    $pwHash = password_hash($string, PASSWORD_BCRYPT);
+    // Cek kekuatan hash, regenerate jika masih lemah
+    if (password_needs_rehash($pwHash, PASSWORD_BCRYPT)) {
+        $pwHash = password_hash($string, PASSWORD_BCRYPT);
+    }
+
+    return $pwHash;
+}

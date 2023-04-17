@@ -115,7 +115,7 @@ class User_model extends CI_Model
 
         if ($pwMasihMD5) {
             // Ganti pass md5 jadi bcrypt
-            $pwBcrypt = $this->generatePasswordHash($password);
+            $pwBcrypt = generatePasswordHash($password);
 
             // Modifikasi panjang karakter di kolom user.password menjadi 100 untuk -
             // backward compatibility dengan kolom di database lama yang hanya 40 karakter.
@@ -351,7 +351,7 @@ class User_model extends CI_Model
             $data['pamong_id'] = null;
         }
 
-        $pwHash           = $this->generatePasswordHash($data['password']);
+        $pwHash           = generatePasswordHash($data['password']);
         $data['password'] = $pwHash;
         $data['session']  = md5(now());
 
@@ -441,7 +441,7 @@ class User_model extends CI_Model
             unset($data['username'], $data['password']);
         }
         if ($data['password']) {
-            $pwHash           = $this->generatePasswordHash($data['password']);
+            $pwHash           = generatePasswordHash($data['password']);
             $data['password'] = $pwHash;
         }
 
@@ -584,38 +584,13 @@ class User_model extends CI_Model
             else {
                 $this->session->success = 1;
                 // Buat hash password
-                $pwHash = $this->generatePasswordHash($pass_baru);
+                $pwHash = generatePasswordHash($pass_baru);
                 // Cek kekuatan hash lolos, simpan ke array data
                 $data['password'] = $pwHash;
             }
         }
 
         return $data;
-    }
-
-    /**
-     * Update user's settings
-     *
-     * @param int $id Id user di database
-     *
-     * @return void
-     */
-    public function update_setting($id = 0)
-    {
-        $data = $this->periksa_input_password($id);
-
-        $data['nama']           = alfanumerik_spasi($this->input->post('nama'));
-        $data['notif_telegram'] = (int) $this->input->post('notif_telegram');
-        $data['id_telegram']    = alfanumerik(empty($this->input->post('id_telegram')) ? 0 : $this->input->post('id_telegram'));
-
-        // Update foto
-        $data['foto'] = $this->urusFoto($id);
-        $hasil        = $this->db->where('id', $id)->update('user', $data);
-
-        // Untuk Blade
-        $this->session->isAdmin = User::findOrFail($id);
-
-        status_sukses($hasil, true);
     }
 
     public function list_grup()
@@ -631,33 +606,12 @@ class User_model extends CI_Model
     //!===========================================================
 
     /**
-     * Buat hash password (bcrypt) dari string sebuah password
-     *
-     * @param  [type]  $string  [description]
-     *
-     * @return  [type]  [description]
-     */
-    private function generatePasswordHash($string)
-    {
-        // Pastikan inputnya adalah string
-        $string = is_string($string) ? $string : (string) $string;
-        // Buat hash password
-        $pwHash = password_hash($string, PASSWORD_BCRYPT);
-        // Cek kekuatan hash, regenerate jika masih lemah
-        if (password_needs_rehash($pwHash, PASSWORD_BCRYPT)) {
-            $pwHash = password_hash($string, PASSWORD_BCRYPT);
-        }
-
-        return $pwHash;
-    }
-
-    /**
      * - success: nama berkas yang diunggah
      * - fail: nama berkas lama, kalau ada
      *
      * @param mixed $idUser
      */
-    private function urusFoto($idUser = '')
+    public function urusFoto($idUser = '')
     {
         if ($idUser) {
             $berkasLama       = $this->db->select('foto')->where('id', $idUser)->get('user')->row();

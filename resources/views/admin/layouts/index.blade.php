@@ -56,8 +56,6 @@
             @include('admin.layouts.components.pengumuman', $notif['pengumuman'])
         @endif
 
-        @include('admin.profil.pengaturan_pengguna')
-
         @include('admin.layouts.partials.footer')
 
         @include('admin.layouts.partials.control_sidebar')
