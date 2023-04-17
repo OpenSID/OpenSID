@@ -7,6 +7,7 @@ Di rilis ini, versi 2304.1.0 berisi penambahan fitur [isi disini] dan perbaikan 
 3. [#6225](https://github.com/OpenSID/OpenSID/issues/6225) Penambahan surat TinyMCE permohonan cerai.
 4. [#6540](https://github.com/OpenSID/OpenSID/issues/6540) Penambahan modul pilihan template sistem atau desa saat buat tempate surat TinyMCE.
 5. [#6537](https://github.com/OpenSID/OpenSID/issues/6537) Penambahan pilihan otomatis kode isian sesuai dengan format penulisan pada surat TinyMCE.
+6. [#6539](https://github.com/OpenSID/OpenSID/issues/6539) Penambahan untuk membedakan template isian dan header/footer pada surat TinyMCE.
 
 #### Perbaikan BUG
 
