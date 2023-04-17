@@ -6,6 +6,7 @@ Di rilis ini, versi 2304.1.0 berisi penambahan fitur [isi disini] dan perbaikan 
 2. [#2210](https://github.com/OpenSID/premium/issues/2210) Penambahan select2 penduduk cetak surat Infinite scroll.
 3. [#6225](https://github.com/OpenSID/OpenSID/issues/6225) Penambahan surat TinyMCE permohonan cerai.
 4. [#6540](https://github.com/OpenSID/OpenSID/issues/6540) Penambahan modul pilihan template sistem atau desa saat buat tempate surat TinyMCE.
+5. [#6537](https://github.com/OpenSID/OpenSID/issues/6537) Penambahan pilihan otomatis kode isian sesuai dengan format penulisan pada surat TinyMCE.
 
 #### Perbaikan BUG
 
