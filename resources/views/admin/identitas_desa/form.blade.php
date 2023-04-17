@@ -1,5 +1,7 @@
 @extends('admin.layouts.index')
 @include('admin.layouts.components.asset_validasi')
+@include('admin.layouts.components.sweetalert2')
+
 @section('title')
     <h1>
         {{ SebutanDesa('Identitas [Desa]') }}
@@ -156,15 +158,15 @@
                         </div>
                     </div>
                     @if ($nomor_operator)
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" for="telepon">Nomor Ponsel
-                            {{ ucwords($setting->sebutan_desa) }}</label>
-                        <div class="col-sm-8">
-                            <input id="telepon-operator" name="nomor_operator" class="form-control input-sm bilangan"
-                                type="text" maxlength="15" placeholder="Nomor Ponsel"
-                                value="{{ $main->nomor_operator }}" />
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="telepon">Nomor Ponsel
+                                {{ ucwords($setting->sebutan_desa) }}</label>
+                            <div class="col-sm-8">
+                                <input id="telepon-operator" name="nomor_operator" class="form-control input-sm bilangan"
+                                    type="text" maxlength="15" placeholder="Nomor Ponsel"
+                                    value="{{ $main->nomor_operator }}" />
+                            </div>
                         </div>
-                    </div>
                     @endif
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="website">Website

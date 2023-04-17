@@ -232,7 +232,7 @@ class Identitas_desa extends Admin_Controller
             $request['ukuran'] = 100;
         }
 
-        $return = [
+        $config = [
             'logo'              => static::unggah('logo', true, bilangan($request['ukuran'])) ?? $request['old_logo'],
             'kantor_desa'       => static::unggah('kantor_desa') ?? $request['old_kantor_desa'],
             'nama_desa'         => nama_desa($request['nama_desa']),
@@ -253,10 +253,26 @@ class Identitas_desa extends Admin_Controller
         ];
 
         if (Schema::hasColumn('config', 'nomor_operator')) {
-            $return['nomor_operator'] = bilangan($request['nomor_operator']);
+            $config['nomor_operator'] = bilangan($request['nomor_operator']);
         }
 
-        return $return;
+        if (Schema::hasColumn('config', 'nama_kepala_desa')) {
+            $config['nama_kepala_desa'] = '';
+        }
+
+        if (Schema::hasColumn('config', 'nip_kepala_desa')) {
+            $config['nip_kepala_desa'] = '';
+        }
+
+        if (Schema::hasColumn('config', 'g_analitic')) {
+            $config['g_analitic'] = '';
+        }
+
+        if (Schema::hasColumn('config', 'pamong_id')) {
+            $config['pamong_id'] = 0;
+        }
+
+        return $config;
     }
 
     // TODO : Ganti cara ini
