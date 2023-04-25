@@ -55,7 +55,7 @@
                 <a class="topright-icon radius-4 popup" title="Kehadiran Perangkat Desa" data-value="./kehadiran"><img src="{{ asset('images/anjungan/icon/absen.png') }}">
                     <p>Absen</p>
                 </a>
-                <a class="topright-icon radius-4 popup" data-value="./buku-tamu"><img src="{{ asset('images/anjungan/icon/bukutamu.png') }}">
+                <a class="topright-icon radius-4" href="./buku-tamu"><img src="{{ asset('images/anjungan/icon/bukutamu.png') }}">
                     <p>Buku<br />Tamu</p>
                 </a>
                 <a class="topright-icon radius-4" data-bs-toggle="modal" data-bs-target="#aparatur"><img src="{{ asset('images/anjungan/icon/aparatur.png') }}">

@@ -9,6 +9,7 @@ Di rilis ini, versi 2304.1.0 berisi penambahan fitur [isi disini] dan perbaikan 
 5. [#6537](https://github.com/OpenSID/OpenSID/issues/6537) Penambahan pilihan otomatis kode isian sesuai dengan format penulisan pada surat TinyMCE.
 6. [#6539](https://github.com/OpenSID/OpenSID/issues/6539) Penambahan untuk membedakan template isian dan header/footer pada surat TinyMCE.
 7. [#2169](https://github.com/OpenSID/premium/issues/2169) Penambahan tampilan anjungan yang baru.
+8. [#2261](https://github.com/OpenSID/premium/issues/2261) Penambahan tampilan buku tamu yang baru.
 
 #### Perbaikan BUG
 
