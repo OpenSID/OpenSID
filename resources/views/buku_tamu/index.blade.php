@@ -105,8 +105,7 @@
     var error = `{!! session('error') !!}`;
     console.log((success))
     if (success) {
-        console.log('sss')
-        Swal.fire({
+         Swal.fire({
             html: '<strong> ' + success + ' </strong>',
             icon: "success",
             timer: 2000,
@@ -152,7 +151,7 @@
             window.location.replace('{{ base_url('layanan-mandiri')}}');
         });
 
-        $('#layanan-registrasi').click(function(event) {
+        $('#registrasi').click(function(event) {
             window.location.replace('{{ site_url('buku-tamu') }}');
         });
         

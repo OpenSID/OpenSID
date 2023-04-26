@@ -30,7 +30,7 @@
                     </div>
                     <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
                         @foreach ($tamu_hari_ini as $i => $tamu)
-                            <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="col-md-6 col-lg-4 col-xl-3 mb-3">
                                 <a href="{{ site_url('buku-tamu/kepuasan/' . $tamu->id) }}"
                                     class="text-gray-800 text-hover-primary d-flex flex-column">
                                     <div class="card h-100" style="background-color: #f3f7f9">
