@@ -10,18 +10,19 @@
     <meta name="keywords" content="buku tamu, tamu, buku, opensid, desa">
     <title>Buku Tamu</title>
     
- <link rel="shortcut icon" href="{{ favico_desa() }}" />
+    <link rel="shortcut icon" href="{{ favico_desa() }}" />
     <link href="{{ asset('css/anjungan/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
     <link href="{{ asset('css/buku_tamu/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buku_tamu/screen.css') }}" rel="stylesheet">
-    
+    @stack('css')
+
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/flickity.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 
-
-
-    @stack('css')
+    
 </head>
 
 <body>
@@ -93,8 +94,43 @@
     
 </body>
 <script src="{{ asset('buku_tamu/plugins.bundle.js') }}"></script>
-    <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('js/validasi.js') }}"></script>
+<script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('js/validasi.js') }}"></script>
+@if (!setting('inspect_element'))
+    <script src="{{ asset('js/disabled.min.js') }}"></script>
+@endif
+
+<script>
+    var success = `{!! session('success') !!}`;
+    var error = `{!! session('error') !!}`;
+    console.log((success))
+    if (success) {
+        console.log('sss')
+        Swal.fire({
+            html: '<strong> ' + success + ' </strong>',
+            icon: "success",
+            timer: 2000,
+            buttonsStyling: false,
+            confirmButtonText: "OK",
+            customClass: {
+                confirmButton: "btn btn-primary"
+            },
+        });
+    }
+
+    if (error) {
+        Swal.fire({
+            html: '<strong> ' + error + ' </strong>',
+            icon: "error",
+            timer: 2000,
+            buttonsStyling: false,
+            confirmButtonText: "OK",
+            customClass: {
+                confirmButton: "btn btn-danger"
+            },
+        });
+    }
+</script>
 
  
 <style type="text/css">
@@ -113,15 +149,15 @@
 <script>
     $(document).ready(function() {
         $('#layanan-mandiri').click(function(event) {
-            window.open('{{ base_url('layanan-mandiri') }}', '_blank');
+            window.location.replace('{{ base_url('layanan-mandiri')}}');
         });
 
         $('#layanan-registrasi').click(function(event) {
-            window.open('{{ site_url('buku-tamu') }}');
+            window.location.replace('{{ site_url('buku-tamu') }}');
         });
         
         $('#kepuasan').click(function(event) {
-            window.open('{{ base_url('buku-tamu/kepuasan') }}');
+            window.location.replace('{{ base_url('buku-tamu/kepuasan') }}');
         });
     });
 </script>
