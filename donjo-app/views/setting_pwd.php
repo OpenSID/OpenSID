@@ -20,11 +20,9 @@
 				z-index: 2;
 			}
 
-			<?php if ($latar_login): ?>
-				body.login {
-					background-image: url('<?= base_url($latar_login) ?>');
-				}
-			<?php endif; ?>
+			body.login {
+				background-image: url('<?= default_file(LATAR_SITEMAN, DEFAULT_LATAR_SITEMAN) ?>');
+			}
 		</style>
 		<script src="<?= asset('bootstrap/js/jquery.min.js') ?>"></script>
 		<script src="<?= asset('js/jquery.validate.min.js') ?>"></script>

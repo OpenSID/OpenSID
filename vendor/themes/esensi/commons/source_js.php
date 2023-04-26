@@ -14,3 +14,16 @@
 <?php endif ?>
 
 <?php $this->load->view('head_tags_front') ?>
+
+<script>
+    $.extend($.fn.dataTable.defaults, {
+        lengthMenu: [
+        [10, 25, 50, 100, -1],
+        [10, 25, 50, 100, "Semua"]
+        ],
+        pageLength: 10,
+        language: {
+        url: "<?= base_url('assets/bootstrap/js/dataTables.indonesian.lang') ?>",
+        }
+    });
+</script>

@@ -91,6 +91,7 @@
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
     <!-- jquery validasi -->
     <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('js/admin.js') }}"></script>
     <!-- Modifikasi -->
     @if (config_item('demo_mode'))
         <!-- Website Demo -->
@@ -99,16 +100,44 @@
     @stack('scripts')
     <script>
         $(document).ready(function() {
-            $('ul.sidebar-menu').on('expanded.tree', function(e){
+            $('ul.sidebar-menu').on('expanded.tree', function(e) {
                 e.stopImmediatePropagation();
                 setTimeout(scrollTampil($('li.treeview.menu-open')[0]), 500);
             });
 
             function scrollTampil(elem) {
-                elem.scrollIntoView({behavior: 'smooth'});
+                elem.scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     </script>
+
+    @if ($perbaharui_langganan != null)
+        <!-- cek status langganan -->
+        <script type="text/javascript">
+            $.ajax({
+                    url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+                    headers: {
+                        "Authorization": `Bearer {{ $setting->layanan_opendesa_token }}`,
+                        "X-Requested-With": `XMLHttpRequest`,
+                    },
+                    type: 'Post',
+                })
+                .done(function(response) {
+                    let data = {
+                        body: response
+                    }
+                    $.ajax({
+                        url: `${SITE_URL}pelanggan/pemesanan`,
+                        type: 'Post',
+                        dataType: 'json',
+                        data: data,
+                    })
+
+                })
+        </script>
+    @endif
 </body>
 
 </html>

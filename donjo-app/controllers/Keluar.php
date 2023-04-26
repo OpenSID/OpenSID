@@ -37,6 +37,7 @@
 
 use App\Models\LogSurat;
 use App\Models\LogTolak;
+use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\User;
 
@@ -94,6 +95,7 @@ class Keluar extends Admin_Controller
             $data['widgets']  = $this->widget();
         }
 
+        $data['user_admin']  = (config_item('user_admin') == auth()->id) ? true : false;
         $data['title']       = 'Arsip Layanan Surat';
         $data['per_page']    = $this->session->per_pages;
         $data['paging']      = $this->keluar_model->paging($p, $o);
@@ -130,6 +132,7 @@ class Keluar extends Admin_Controller
         $data['per_page']   = $this->session->per_pages;
         $data['title']      = 'Permohonan Surat';
         $data['operator']   = (in_array($this->isAdmin->jabatan_id, ['1', '2'])) ? false : true;
+        $data['user_admin'] = (config_item('user_admin') == auth()->id) ? true : false;
         $ref_jabatan_kades  = setting('sebutan_kepala_desa');
         $ref_jabatan_sekdes = setting('sebutan_sekretaris_desa');
 
@@ -212,26 +215,35 @@ class Keluar extends Admin_Controller
         $ref_jabatan_kades  = setting('sebutan_kepala_desa');
         $ref_jabatan_sekdes = setting('sebutan_sekretaris_desa');
 
-        if ($this->isAdmin->jabatan_id == 1) {
-            $current = 'verifikasi_kades';
-            $next    = (setting('tte') && ! in_array($surat->formatSurat->jenis, ['1', '2'])) ? 'tte' : null;
-            $log     = (setting('tte')) ? 'TTE' : null;
-        } elseif ($this->isAdmin->jabatan_id == 2) {
-            $current = 'verifikasi_sekdes';
-            $next    = setting('verifikasi_kades') ? 'verifikasi_kades' : null;
-            $log     = 'Verifikasi ' . $ref_jabatan_kades;
-        } else {
-            $current = 'verifikasi_operator';
-            if (setting('verifikasi_sekdes')) {
-                $next = 'verifikasi_sekdes';
-                $log  = 'Verifikasi ' . $ref_jabatan_sekdes;
-            } elseif (setting('verifikasi_kades')) {
-                $next = 'verifikasi_kades';
-                $log  = 'Verifikasi ' . $ref_jabatan_kades;
-            } else {
-                $next = null;
-                $log  = null;
-            }
+        switch ($this->isAdmin->jabatan_id) {
+            // verifikasi kades
+            case 1:
+                $current = 'verifikasi_kades';
+                $next    = (setting('tte') && ! in_array($surat->formatSurat->jenis, ['1', '2'])) ? 'tte' : null;
+                $log     = (setting('tte')) ? 'TTE' : null;
+                break;
+
+                // verifikasi sekdes
+            case 2:
+                $current = 'verifikasi_sekdes';
+                $next    = setting('verifikasi_kades') ? 'verifikasi_kades' : null;
+                $log     = 'Verifikasi ' . $ref_jabatan_kades;
+                break;
+
+                // verifikasi operator
+            default:
+                $current = 'verifikasi_operator';
+                if (setting('verifikasi_sekdes')) {
+                    $next = 'verifikasi_sekdes';
+                    $log  = 'Verifikasi ' . $ref_jabatan_sekdes;
+                } elseif (setting('verifikasi_kades')) {
+                    $next = 'verifikasi_kades';
+                    $log  = 'Verifikasi ' . $ref_jabatan_kades;
+                } else {
+                    $next = null;
+                    $log  = null;
+                }
+                break;
         }
 
         if ($next == null) {
@@ -251,39 +263,35 @@ class Keluar extends Admin_Controller
                 if ($next == 'verifikasi_kades') {
                     return $query->where('pamong_ttd', '=', '1');
                 }
-            })
-                ->where('notif_telegram', '=', '1')
-                ->first();
+            })->where('notif_telegram', '=', '1')->first();
 
-            if ($kirim_telegram != null) {
-                $jenis_surat = $log_surat->formatSurat->nama;
-                $telegram    = new Telegram();
-                $pesan       = <<<EOD
-                    Permohonan Surat Baru,
+            if ($kirim_telegram != null && cek_koneksi_internet()) {
+                try {
+                    $telegram = new Telegram();
+                    // Data pesan telegram yang akan digantikan
+                    $pesanTelegram = [
+                        '[nama_penduduk]' => Penduduk::find($log_surat->id_pend)->nama,
+                        '[judul_surat]'   => $log_surat->formatSurat->nama,
+                        '[tanggal]'       => tgl_indo2(date('Y-m-d H:i:s')),
+                        '[melalui]'       => 'Halaman Admin',
+                    ];
 
-                    Jenis Surat : {$jenis_surat}
+                    $kirimPesan = setting('notifikasi_pengajuan_surat');
+                    $kirimPesan = str_replace(array_keys($pesanTelegram), array_values($pesanTelegram), $kirimPesan);
 
-                    TERIMA KASIH.
-                    EOD;
-                if ($next == 'tte') {
-                    $pesan = <<<EOD
-                        Surat siap untuk di tandatangani secara elektronik,
-
-                        Jenis Surat : {$jenis_surat}
-
-                        TERIMA KASIH.
-                        EOD;
+                    $telegram->sendMessage([
+                        'chat_id'      => $kirim_telegram->id_telegram,
+                        'text'         => $kirimPesan,
+                        'parse_mode'   => 'Markdown',
+                        'reply_markup' => json_encode([
+                            'inline_keyboard' => [[
+                                ['text' => 'Lihat detail', 'url' => site_url('keluar/clear/masuk')],
+                            ]],
+                        ]),
+                    ]);
+                } catch (\Exception $e) {
+                    log_message('error', $e->getMessage());
                 }
-                $telegram->sendMessage([
-                    'chat_id'      => $kirim_telegram->id_telegram,
-                    'text'         => $pesan,
-                    'parse_mode'   => 'Markdown',
-                    'reply_markup' => json_encode([
-                        'inline_keyboard' => [[
-                            ['text' => 'Lihat detail', 'url' => site_url('keluar/clear/masuk')],
-                        ]],
-                    ]),
-                ]);
             }
         }
     }
@@ -522,7 +530,7 @@ class Keluar extends Admin_Controller
     public function unduh($tipe, $id, $preview = false)
     {
         $berkas = $this->keluar_model->get_surat($id);
-        if ($tipe == 'tinymce' && $berkas->nama_surat == null) {
+        if ($tipe == 'tinymce') {
             redirect("surat/cetak/{$id}");
         } else {
             if ($tipe == 'pdf') {
@@ -574,7 +582,7 @@ class Keluar extends Admin_Controller
         }
 
         return [
-            'suratMasuk' => LogSurat::when($this->isAdmin->jabatan_id == '1', static function ($q) {
+            'suratMasuk' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == '1', static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
                 })
@@ -588,7 +596,7 @@ class Keluar extends Admin_Controller
                 ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, ['1', '2']), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '0');
                 })->count(),
-            'arsip' => LogSurat::when($this->isAdmin->jabatan_id == '1', static function ($q) {
+            'arsip' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == '1', static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('tte', '=', 1);
                 })
@@ -605,7 +613,7 @@ class Keluar extends Admin_Controller
                 ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, ['1', '2']), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
                 })->count(),
-            'tolak' => LogSurat::where('verifikasi_operator', '=', '-1')->count(),
+            'tolak' => LogSurat::whereNull('deleted_at')->where('verifikasi_operator', '=', '-1')->count(),
         ];
     }
 

@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Models\Config;
 use App\Models\Pamong;
 use App\Models\Wilayah;
+use Illuminate\Support\Facades\Schema;
 
 class Identitas_desa extends Admin_Controller
 {
@@ -50,7 +51,10 @@ class Identitas_desa extends Admin_Controller
         parent::__construct();
         $this->modul_ini     = 200;
         $this->sub_modul_ini = 17;
-        $this->cek_kades     = Pamong::kepalaDesa()->exists();
+
+        if (Schema::hasTable('ref_jabatan')) {
+            $this->cek_kades = Pamong::kepalaDesa()->exists();
+        }
     }
 
     /**
@@ -60,8 +64,14 @@ class Identitas_desa extends Admin_Controller
      */
     public function index()
     {
+        $main = null;
+
+        if (Schema::hasTable('ref_jabatan')) {
+            $main = Config::first();
+        }
+
         return view('admin.identitas_desa.index', [
-            'main'      => Config::first(),
+            'main'      => $main,
             'cek_kades' => $this->cek_kades,
         ]);
     }
@@ -75,7 +85,11 @@ class Identitas_desa extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $main = Config::first();
+        $main = null;
+
+        if (Schema::hasTable('ref_jabatan')) {
+            $main = Config::first();
+        }
 
         if ($main) {
             $form_action = route('identitas_desa.update', $main->id);
@@ -98,10 +112,14 @@ class Identitas_desa extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         if (Config::insert($this->validate($this->request))) {
-            redirect_with('success', 'Berhasil Tambah Data');
+            return json([
+                'status' => true,
+            ]);
         }
 
-        redirect_with('error', 'Gagal Tambah Data');
+        return json([
+            'status' => false,
+        ]);
     }
 
     /**
@@ -118,10 +136,14 @@ class Identitas_desa extends Admin_Controller
         $data = Config::find($id) ?? show_404();
 
         if ($data->update(static::validate($this->request))) {
-            redirect_with('success', 'Berhasil Ubah Data');
+            return json([
+                'status' => true,
+            ]);
         }
 
-        redirect_with('error', 'Gagal Ubah Data');
+        return json([
+            'status' => false,
+        ]);
     }
 
     /**
@@ -204,10 +226,14 @@ class Identitas_desa extends Admin_Controller
     // Hanya filter inputan
     protected static function validate($request = [])
     {
+        if ($request['ukuran'] == '') {
+            $request['ukuran'] = 100;
+        }
+
         return [
-            'logo'              => static::unggah('logo', true) ?? $request['old_logo'],
+            'logo'              => static::unggah('logo', true, bilangan($request['ukuran'])) ?? $request['old_logo'],
             'kantor_desa'       => static::unggah('kantor_desa') ?? $request['old_kantor_desa'],
-            'nama_desa'         => nama_terbatas($request['nama_desa']),
+            'nama_desa'         => nama_desa($request['nama_desa']),
             'kode_desa'         => bilangan($request['kode_desa']),
             'kode_pos'          => bilangan($request['kode_pos']),
             'alamat_kantor'     => alamat($request['alamat_kantor']),
@@ -226,7 +252,7 @@ class Identitas_desa extends Admin_Controller
     }
 
     // TODO : Ganti cara ini
-    protected static function unggah($jenis = '', $resize = false)
+    protected static function unggah($jenis = '', $resize = false, $ukuran = false)
     {
         $CI = &get_instance();
         $CI->load->library('upload');
@@ -267,7 +293,7 @@ class Identitas_desa extends Admin_Controller
         if (! empty($uploadData)) {
             if ($resize) {
                 $tipe_file = TipeFile($_FILES['logo']);
-                $dimensi   = ['width' => 100, 'height' => 100];
+                $dimensi   = ['width' => $ukuran, 'height' => $ukuran];
                 resizeImage(LOKASI_LOGO_DESA . $uploadData['file_name'], $tipe_file, $dimensi);
                 resizeImage(LOKASI_LOGO_DESA . $uploadData['file_name'], $tipe_file, ['width' => 16, 'height' => 16], LOKASI_LOGO_DESA . 'favicon.ico');
             }

@@ -61,22 +61,11 @@ class Status_desa extends Admin_Controller
 
     private function idm()
     {
-        $kode_desa = $this->header['desa']['kode_desa'];
-        $tahun     = session('tahun') ?? ($this->input->post('tahun') ?? ($this->setting->tahun_idm));
-        $cache     = 'idm_' . $tahun . '_' . $kode_desa;
-
-        $this->data_publik->set_api_url(config_item('api_idm') . "/{$kode_desa}/{$tahun}", $cache)
-            ->set_interval(7)
-            ->set_cache_folder(config_item('cache_path'));
-
-        $idm = $this->data_publik->get_url_content();
-        if (! $idm->body || $idm->body->error) {
-            $idm->body->mapData->error_msg = ($idm->body->message ? '<h5><a href="' . $idm->header->url . ' ">' . $idm->header->url . '</a>' : 'Tidak dapat mengambil data IDM') . '</h5><li>Periksa koneksi internet anda.</li><li>Periksa Kode Desa di ' . SebutanDesa('Identitas [Desa]') . ' dan masukkan kode lengkap. Contoh : 3507012006 </li>';
-        }
+        $tahun = session('tahun') ?? ($this->input->post('tahun') ?? ($this->setting->tahun_idm) ?? date('Y'));
 
         $data = [
             'tahun' => (int) $tahun,
-            'idm'   => $idm->body->mapData,
+            'idm'   => idm($this->header['desa']['kode_desa'], $tahun),
         ];
 
         return view('admin.status_desa.idm', $data);
@@ -107,9 +96,27 @@ class Status_desa extends Admin_Controller
     {
         set_session('navigasi', 'sdgs');
 
-        $sdgs = sdgs();
+        $sdgs      = sdgs();
+        $kode_desa = $this->header['desa']['kode_desa'];
 
-        return view('admin.status_desa.sdgs', compact('sdgs'));
+        return view('admin.status_desa.sdgs', compact('sdgs', 'kode_desa'));
+    }
+
+    public function perbarui_bps()
+    {
+        if ($this->input->is_ajax_request()) {
+            $kode_bps = $this->request['kode_bps'];
+            SettingAplikasi::where('key', 'kode_desa_bps')->update(['value' => $kode_bps]);
+
+            return json([
+                'status' => true,
+            ]);
+        }
+
+        return json([
+            'status'  => false,
+            'message' => 'Akses tidak di ijinkan',
+        ]);
     }
 
     public function perbarui_sdgs()

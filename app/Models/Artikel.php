@@ -106,6 +106,27 @@ class Artikel extends Model
     }
 
     /**
+     * Scope a query to only archive article.
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeArsip($query)
+    {
+        $kategori = json_decode(preg_replace('/\\\\/', '', setting('anjungan_artikel')));
+
+        $artikel = $query->select(Artikel::raw('*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri'))
+            ->where([['enabled', 1], ['tgl_upload', '<', date('Y-m-d H:i:s')]]);
+
+        if (null !== $kategori) {
+            return $artikel->whereIn('id_kategori', $kategori);
+        }
+
+        return $artikel;
+    }
+
+    /**
      * Define an inverse one-to-one or many relationship.
      *
      * @return BelongsTo

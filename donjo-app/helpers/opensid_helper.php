@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2304.0.1');
+define('VERSION', '2304.1.0');
 
 /**
  * VERSI_DATABASE
@@ -51,42 +51,7 @@ define('VERSION', '2304.0.1');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023040101');
-
-// Desa
-define('LOKASI_LOGO_DESA', 'desa/logo/');
-define('LOKASI_ARSIP', 'desa/arsip/');
-define('LOKASI_CONFIG_DESA', 'desa/config/');
-define('LOKASI_SURAT_SISTEM', 'template-surat/');
-define('LOKASI_SURAT_DESA', 'desa/template-surat/');
-define('LOKASI_SURAT_FORM_DESA', 'desa/template-surat/form/');
-define('LOKASI_SURAT_PRINT_DESA', 'desa/template-surat/print/');
-define('LOKASI_SURAT_EXPORT_DESA', 'desa/template-surat/export/');
-define('LOKASI_USER_PICT', 'desa/upload/user_pict/');
-define('LOKASI_GALERI', 'desa/upload/galeri/');
-define('LOKASI_FOTO_ARTIKEL', 'desa/upload/artikel/');
-define('LOKASI_FOTO_LOKASI', 'desa/upload/gis/lokasi/');
-define('LOKASI_FOTO_AREA', 'desa/upload/gis/area/');
-define('LOKASI_FOTO_GARIS', 'desa/upload/gis/garis/');
-define('LOKASI_DOKUMEN', 'desa/upload/dokumen/');
-define('LOKASI_PENGESAHAN', 'desa/upload/pengesahan/');
-define('LOKASI_WIDGET', 'desa/widgets/');
-define('LOKASI_GAMBAR_WIDGET', 'desa/upload/widgets/');
-define('LOKASI_KEUANGAN_ZIP', 'desa/upload/keuangan/');
-define('LOKASI_MEDIA', 'desa/upload/media/');
-define('LOKASI_SIMBOL_LOKASI', 'desa/upload/gis/lokasi/point/');
-define('LOKASI_SINKRONISASI_ZIP', 'desa/upload/sinkronisasi/');
-define('LOKASI_PRODUK', 'desa/upload/produk/');
-define('LOKASI_PENGADUAN', 'desa/upload/pengaduan/');
-define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
-define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
-define('LATAR_KEHADIRAN', 'desa/pengaturan/siteman/images/');
-define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
-
-// Sistem
-define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
-define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
-define('PENDAPAT', 'assets/images/layanan_mandiri/');
+define('VERSI_DATABASE', '2022103151');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -549,9 +514,9 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
     $CI->load->helper('download');
 
     // Batasi akses LOKASI_ARSIP hanya untuk admin
-    if ($lokasi == LOKASI_ARSIP && $CI->session->siteman != 1) {
-        redirect('/');
-    }
+    // if ($lokasi == LOKASI_ARSIP && $CI->session->siteman != 1) {
+    //     redirect('/');
+    // }
 
     // Tentukan path berkas (absolut)
     $pathBerkas = FCPATH . $lokasi . $nama_berkas;
@@ -836,6 +801,11 @@ function nama($str)
     return preg_replace("/[^a-zA-Z '\\.,\\-]/", '', strip_tags($str));
 }
 
+function nama_desa($str)
+{
+    return preg_replace("/[^a-zA-Z '\\.,`\\-]/", '', strip_tags($str));
+}
+
 // Cek  nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip
 function cekNama($str)
 {
@@ -1115,12 +1085,12 @@ function isLocalIPAddress($IPAddress)
     return ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 }
 
-function unique_slug($tabel = null, $judul = null, $id = null)
+function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug', $separator = '-')
 {
     if ($tabel && $judul) {
         $CI = &get_instance();
 
-        $slug      = url_title($judul, 'dash', true);
+        $slug      = url_title($judul, $separator, true);
         $cek_slug  = true;
         $n         = 1;
         $slug_unik = $slug;
@@ -1129,7 +1099,7 @@ function unique_slug($tabel = null, $judul = null, $id = null)
             if ($id) {
                 $CI->db->where('id !=', $id);
             }
-            $cek_slug = $CI->db->get_where($tabel, ['slug' => $slug_unik])->num_rows();
+            $cek_slug = $CI->db->get_where($tabel, [$field => $slug_unik])->num_rows();
             if ($cek_slug) {
                 $slug_unik = $slug . '-' . $n++;
             }
@@ -1260,36 +1230,200 @@ function getSizeDB()
     return $CI->db->query($query)->row();
 }
 
-function sdgs()
+function idm($kode_desa, $tahun)
 {
-    $CI = &get_instance();
-    $CI->load->library('data_publik');
+    $cache = 'idm_' . $tahun . '_' . $kode_desa . '.json';
 
-    $sdgs      = null;
-    $kode_desa = setting('kode_desa_bps');
-
-    if (null !== $kode_desa) {
-        $cache = 'sdgs_' . $kode_desa;
-
-        if (cek_koneksi_internet()) {
-            $CI->data_publik->set_api_url(config_item('api_sdgs') . "={$kode_desa}", $cache)
-                ->set_interval(7)
-                ->set_cache_folder(config_item('cache_path'));
-
-            $sdgs = $CI->data_publik->get_url_content();
-            $sdgs = $sdgs->body->data;
+    return get_instance()->cache->pakai_cache(static function () use ($kode_desa, $tahun) {
+        if (! cek_koneksi_internet()) {
+            return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
         }
-    }
 
-    return $sdgs;
+        try {
+            $client   = new \GuzzleHttp\Client();
+            $response = $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
+                'headers' => [
+                    'X-Requested-With' => 'XMLHttpRequest',
+                ],
+                'verify' => false,
+            ]);
+
+            return json_decode($response->getBody()->getContents())->mapData;
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+
+            return (object) ['error_msg' => 'Tidak dapat mengambil data IDM.'];
+        }
+    }, $cache, 604800);
 }
 
-function cek_anjungan()
+function sdgs()
+{
+    $kode_desa      = setting('kode_desa_bps');
+    $kode_kecamatan = substr($kode_desa, 0, 6);
+    $kode_kabupaten = substr($kode_desa, 0, 4);
+    $kode_provinsi  = substr($kode_desa, 0, 2);
+    $cache          = 'sdgs_' . $kode_desa . '.json';
+
+    if (! empty($kode_desa)) {
+        return get_instance()->cache->pakai_cache(static function () use ($kode_provinsi, $kode_kabupaten, $kode_kecamatan, $kode_desa) {
+            if (! cek_koneksi_internet()) {
+                return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
+            }
+
+            try {
+                $client   = new \GuzzleHttp\Client();
+                $response = $client->get(config_item('api_sdgs') . "province_code={$kode_provinsi}&city_code={$kode_kabupaten}&district_code={$kode_kecamatan}&village_code={$kode_desa}", [
+                    'headers' => [
+                        'X-Requested-With' => 'XMLHttpRequest',
+                    ],
+                    'verify' => false,
+                ]);
+
+                return (object) collect(json_decode($response->getBody()->getContents()))
+                    ->map(static function ($item, $key) {
+                        if ($key === 'data') {
+                            return collect($item)->map(static function ($item) {
+                                $item->image = last(explode('/', $item->image));
+
+                                return (object) $item;
+                            });
+                        }
+
+                        return $item;
+                    })
+                    ->toArray();
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+
+                return (object) ['error_msg' => 'Tidak dapat mengambil data SDGS.'];
+            }
+        }, $cache, 604800);
+    }
+
+    return (object) ['error_msg' => 'Kode Desa BPS belum ditentukan. Periksa pengaturan <a href="#" style="text-decoration:none;" data-remote="false" data-toggle="modal" data-target="#pengaturan"><strong>Kode Desa BPS&nbsp;(<i class="fa fa-gear"></i>)</a>'];
+}
+
+function menu_slug($url)
 {
     $CI = &get_instance();
-    $CI->load->model('notif_model');
+    $CI->load->model('first_artikel_m');
 
-    $status = $CI->notif_model->api_pelanggan_pemesanan();
+    $cut = explode('/', $url);
 
-    return $status->body->tanggal_berlangganan->anjungan != 'aktif' ? false : true;
+    switch ($cut[0]) {
+        case 'artikel':
+            $data = $CI->first_artikel_m->get_artikel_by_id($cut[1]);
+            $url  = ($data) ? ($cut[0] . '/' . buat_slug($data)) : ($url);
+            break;
+
+        case 'kategori':
+            $data = $CI->first_artikel_m->get_kategori($cut[1]);
+            $url  = ($data) ? ('artikel/' . $cut[0] . '/' . $data['slug']) : ($url);
+            break;
+
+        case 'data-suplemen':
+            $CI->load->model('suplemen_model');
+            $data = $CI->suplemen_model->get_suplemen($cut[1]);
+            $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
+            break;
+
+        case 'data-kelompok':
+        case 'data-lembaga':
+            $CI->load->model('kelompok_model');
+            $data = $CI->kelompok_model->get_kelompok($cut[1]);
+            $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
+            break;
+
+            /*
+                * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
+                * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
+                */
+        case 'arsip':
+        case 'data_analisis':
+        case 'ambil_data_covid':
+        case 'informasi_publik':
+        case 'load_aparatur_desa':
+        case 'load_apbdes':
+        case 'load_aparatur_wilayah':
+        case 'peta':
+        case 'data-wilayah':
+        case 'status-idm':
+        case 'status-sdgs':
+        case 'lapak':
+        case 'pembangunan':
+        case 'galeri':
+        case 'pengaduan':
+        case 'data-vaksinasi':
+        case 'peraturan-desa':
+        case 'pemerintah':
+        case 'layanan-mandiri':
+            break;
+
+        default:
+            $url = 'first/' . $url;
+            break;
+    }
+
+    return site_url($url);
+}
+
+function gelar($gelar_depan = null, $nama = null, $gelar_belakang = null)
+{
+    // Gelar depan
+    if ($gelar_depan) {
+        $nama = $gelar_depan . ' ' . $nama;
+    }
+
+    // Gelar belakang
+    if ($gelar_belakang) {
+        $nama = $nama . ', ' . $gelar_belakang;
+    }
+
+    return $nama;
+}
+
+function default_file($new_file = null, $default = null)
+{
+    return file_exists(FCPATH . $new_file) ? asset($new_file, false) : asset(str_replace('assets/', '', $default));
+}
+
+// https://stackoverflow.com/questions/6824002/capitalize-last-letter-of-a-string
+function uclast($str)
+{
+    return strrev(ucfirst(strrev($str)));
+}
+
+function kasus_lain($kategori = null, $str = null)
+{
+    $pendidikan = [
+        'Tk',
+        'Sd',
+        'Sltp',
+        'Slta',
+        'Slb',
+        'Iii/s',
+        'Iii',
+        'Ii',
+        'Iv',
+    ];
+
+    $pekerjaan = [
+        '(pns)',
+        '(tni)',
+        '(polri)',
+        ' Ri ',
+        'Dpr-ri',
+        'Dpd',
+        'Bpk',
+        'Dprd',
+    ];
+
+    $daftar_ganti = ${$kategori};
+
+    if (null === $kategori || count($daftar_ganti) <= 0) {
+        return $str;
+    }
+
+    return str_ireplace($daftar_ganti, array_map('strtoupper', $daftar_ganti), $str);
 }

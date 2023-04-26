@@ -77,10 +77,16 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-3 control-label">Umur</label>
+                        <div class="col-sm-9">
+                            <input disabled type="test" class="form-control input-sm" name="umur" value="{{ $umur->y . ' tahun ' . $umur->m . ' bulan' }}" />
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none">
                         <label class="col-sm-3 control-label">Umur (Bulan)</label>
                         <div class="col-sm-9">
                             <input type="number" class="form-control input-sm required" min="1" max="24"
-                                name="umur_bulan" placeholder="Masukkan umur" value="{{ $anak->umur_bulan }}" />
+                                name="umur_bulan" value="{{ $anak->umur_bulan }}" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -349,14 +355,6 @@
 
 @push('scripts')
     <script>
-        $('input[name=umur_bulan]').bind('keyup mouseup', function() {
-            if (this.value >= 6) {
-                $('#pemberian_imunisasi_campak').prop("disabled", false);
-            } else {
-                $('#pemberian_imunisasi_campak').prop("disabled", true);
-            }
-        });
-
         $('input[type=radio][name=pengukuran_berat_badan]').change(function() {
             if (this.value == 1) {
                 $('#berat_badan').prop("disabled", false);
@@ -373,6 +371,35 @@
             else {
                 $('#tinggi_badan').prop("disabled", true);
             }
+        });
+
+        $('select[name="id_kia"]').on('change', function() {
+            var id = this.value;
+            $.ajax({
+                type: "GET",
+                url: "{{ route('stunting.formAnak') }}",
+                data: {
+                    kia: id,
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data == null) {
+                        console.log('a');
+                    } else {
+                        if (data.m >= 6) {
+                            $('#pemberian_imunisasi_campak').prop("disabled", false);
+                        } else {
+                            $('#pemberian_imunisasi_campak').prop("disabled", true);
+                        }
+                        if (data.y == 1) {
+                            $('input[name=umur_bulan]').val(12 + data.m);
+                        } else {
+                            $('input[name=umur_bulan]').val(data.m);
+                        }
+                        $('input[name=umur]').val(data.y + ' tahun ' + data.m + ' bulan');
+                    }
+                }
+            });
         });
     </script>
 @endpush

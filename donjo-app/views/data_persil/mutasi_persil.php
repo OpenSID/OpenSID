@@ -206,10 +206,16 @@
         var zoom = 4;
     <?php endif; ?>
 
+    var options = {
+        maxZoom: <?= setting('max_zoom_peta') ?>,
+        minZoom: <?= setting('min_zoom_peta') ?>,
+    };
+
     $(document).ready(function() {
         $(document).on('shown.bs.modal','#map-modal', function(event) {
             if (L.DomUtil.get('map')._leaflet_id  == undefined) {
-                peta_area = L.map('map').setView(posisi, zoom);
+
+                peta_area = L.map('map', options).setView(posisi, zoom);
 
                 //Menampilkan BaseLayers Peta
                 var baseLayers = getBaseLayers(peta_area, MAPBOX_KEY, JENIS_PETA);

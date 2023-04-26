@@ -92,19 +92,9 @@ class Theme_model extends CI_Model
         return $folder;
     }
 
-    // Mengambil latar belakang login ubahan
-    public function latar_login()
-    {
-        $ubahan = LATAR_LOGIN . 'latar_login.jpg';
-
-        return is_file($ubahan) ? $ubahan : null;
-    }
-
     // Mengambil latar belakang login mandiri ubahan
     public function latar_login_mandiri()
     {
-        $ubahan = LATAR_LOGIN . 'latar_login_mandiri.jpg';
-
-        return is_file($ubahan) ? $ubahan : null;
+        return file_exists(FCPATH . LATAR_KEHADIRAN) ? LATAR_KEHADIRAN : DEFAULT_LATAR_KEHADIRAN;
     }
 }

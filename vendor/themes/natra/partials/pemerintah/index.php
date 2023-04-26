@@ -37,13 +37,17 @@
             <?php foreach ($pemerintah as $data): ?>
             <div class="col-sm-3 pamong">
                 <div class="card text-center">
-                <img width="auto" class="rounded-circle image" src="<?= $data['foto'] ?>" alt="Foto <?php $data['nama'] ?>"/>
+                <img width="auto" class="rounded-circle image" src="<?= $data['foto'] ?>" alt="Foto <? $data['nama'] ?>"/>
                 <hr class="line">
                 <b>
                     <?= $data['nama'] ?><br>
                     <?= $data['jabatan'] ?><br>
                     <?php if ($this->setting->tampilkan_kehadiran && $data['status_kehadiran'] == 'hadir') : ?>
                     <span class='label label-success'>Hadir</span>
+                    <?php elseif ($this->setting->tampilkan_kehadiran && $data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir') : ?>
+                    <span class='label label-danger'><?= ucwords($data['status_kehadiran']) ?></span>
+                    <?php elseif ($this->setting->tampilkan_kehadiran && $data['tanggal'] != date('Y-m-d')) : ?>
+                    <span class='label label-danger'>Belum Rekam Kehadiran</span>
                     <?php else: ?>
                     <br>
                     <?php endif ?>

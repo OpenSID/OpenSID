@@ -1,13 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');?>
 <?php
 	$id_cb = $this->input->post('id_cb');
-	$pilih="";
-	foreach ($id_cb as $nik)
-	{
-		$pilih .= $nik.',';
-	}
-	$pilih = rtrim($pilih,',');
-	$anggota = $this->keluarga_model->list_anggota($individu['id_kk'],array('pilih'=>$pilih));
+	$anggota = $this->keluarga_model->list_anggota($individu['id_kk'],array('pilih'=>$id_cb));
 	/*
 		Abaikan baris data keluarga yang tidak dipilih
 	*/

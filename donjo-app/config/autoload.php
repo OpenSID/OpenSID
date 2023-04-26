@@ -95,7 +95,7 @@ $autoload['packages'] = [APPPATH . 'third_party/DevelBar'];
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 // $autoload['libraries'] = ['database', 'session'];
-$autoload['libraries'] = ['session'];
+$autoload['libraries'] = ['session', 'user_agent'];
 
 /*
 | -------------------------------------------------------------------
@@ -126,7 +126,7 @@ $autoload['drivers'] = ['session'];
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = ['url', 'language', 'general', 'form', 'donjolib', 'date', 'pict', 'opensid', 'database', 'surat'];
+$autoload['helper'] = ['url', 'language', 'general', 'form', 'donjolib', 'date', 'pict', 'opensid', 'database', 'surat', 'cek'];
 
 /*
 | -------------------------------------------------------------------

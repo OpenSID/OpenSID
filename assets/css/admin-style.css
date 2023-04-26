@@ -772,3 +772,19 @@ div.form-surat .content-header {
 .info-box.active{
     border: 2px solid #0045ffb8;
 }
+
+.radius-3 {
+    border-radius: 3px;
+}
+
+.radius-5 {
+    border-radius: 5px;
+}
+
+.radius-3>.btn:first-child:not(:last-child) {
+    border-radius: 3px;
+}
+
+.radius-5>.btn:first-child:not(:last-child) {
+    border-radius: 3px;
+}

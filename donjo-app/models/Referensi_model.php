@@ -120,19 +120,20 @@ define('STAT_BANTUAN', serialize([
 
 // Statistik Lainnya
 define('STAT_LAINNYA', serialize([
-    'dpt'              => 'Calon Pemilih',
-    'data-wilayah'     => 'Wilayah Administratif',
-    'peraturan_desa'   => 'Produk Hukum',
-    'informasi_publik' => 'Informasi Publik',
-    'peta'             => 'Peta',
-    'data_analisis'    => 'Data Analisis',
-    'status-sdgs'      => 'SDGs [Desa]',
-    'lapak'            => 'Lapak [Desa]',
-    'pembangunan'      => 'Pembangunan',
-    'galeri'           => 'Galeri',
-    'pengaduan'        => 'Pengaduan',
-    'data-vaksinasi'   => 'Vaksin',
-    'pemerintah'       => 'Pemerintah [Desa]',
+    'dpt'                     => 'Calon Pemilih',
+    'data-wilayah'            => 'Wilayah Administratif',
+    'peraturan-desa'          => 'Produk Hukum',
+    'informasi_publik'        => 'Informasi Publik',
+    'peta'                    => 'Peta',
+    'data_analisis'           => 'Data Analisis',
+    'status-sdgs'             => 'SDGs [Desa]',
+    'lapak'                   => 'Lapak [Desa]',
+    'pembangunan'             => 'Pembangunan',
+    'galeri'                  => 'Galeri',
+    'pengaduan'               => 'Pengaduan',
+    'data-vaksinasi'          => 'Vaksin',
+    'pemerintah'              => 'Pemerintah [Desa]',
+    'layanan-mandiri/beranda' => 'Layanan Mandiri',
 ]));
 
 // Jabatan Kelompok
@@ -278,5 +279,13 @@ class Referensi_model extends CI_Model
         $data = array_flip(array_combine(array_column($data, 'id'), array_column($data, 'nama')));
 
         return array_change_key_case(array_merge($data, $tambahan));
+    }
+
+    public function jenis_peraturan_desa()
+    {
+        $dafault  = $this->list_ref(JENIS_PERATURAN_DESA);
+        $tambahan = collect(\App\Models\Dokumen::kategori(3)->pluck('attr'))->pluck('jenis_peraturan');
+
+        return collect($dafault)->merge($tambahan)->unique()->values();
     }
 }

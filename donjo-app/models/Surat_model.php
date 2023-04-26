@@ -305,12 +305,15 @@ class Surat_model extends CI_Model
                 // Dari database penduduk
                 $data[$i]['pamong_nama'] = $data[$i]['nama'];
             }
-            $data[$i]['no'] = $i + 1;
+
+            $data[$i]['nama'] = gelar($data[$i]['gelar_depan'], $data[$i]['nama'], $data[$i]['gelar_belakang']);
+            $data[$i]['no']   = $i + 1;
         }
 
         return $data;
     }
 
+    // TODO: Ganti cara mengambil data kk, pisahkan dalam variabel lain
     public function get_data_surat($id = 0)
     {
         $sql = "SELECT u.*,
@@ -321,6 +324,7 @@ class Surat_model extends CI_Model
 			w.nama AS status_kawin, u.status_kawin as status_kawin_id, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.alamat, m.nama as cacat,
 			(select tweb_penduduk.nik from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS nik_kk,
 			(select tweb_penduduk.telepon from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS telepon_kk,
+            (select tweb_penduduk.email from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS email_kk,
 			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk,
 			r.bdt
 			from tweb_penduduk u
@@ -358,14 +362,11 @@ class Surat_model extends CI_Model
             }
         }
         if (isset($data['pendidikan'])) {
-            $namaPendidikan = ['Tk' => 'TK', 'Sd' => 'SD', 'Sltp' => 'SLTP', 'Slta' => 'SLTA', 'Slb' => 'SLB', 'Iii/s' => 'III/S', 'Iii' => 'III', 'Ii' => 'II', 'Iv' => 'IV'];
-
-            foreach ($namaPendidikan as $key => $value) {
-                $data['pendidikan'] = str_replace($key, $value, $data['pendidikan']);
-            }
+            $data['pendidikan'] = kasus_lain('pendidikan', $data['pendidikan']);
         }
+
         if (isset($data['pekerjaan'])) {
-            $data['pekerjaan'] = $this->penduduk_model->normalkanPekerjaan($data['pekerjaan']);
+            $data['pekerjaan'] = kasus_lain('pekerjaan', $data['pekerjaan']);
         }
     }
 
@@ -733,37 +734,6 @@ class Surat_model extends CI_Model
         }
     }
 
-    /* Dipanggil untuk setiap kode isian ditemukan,
-       dan diganti dengan kata pengganti yang huruf besar/kecil mengikuti huruf kode isian.
-         Berdasarkan contoh di http://stackoverflow.com/questions/19317493/php-preg-replace-case-insensitive-match-with-case-sensitive-replacement
-
-         Huruf pertama dan kedua huruf besar --> ganti dengan huruf besar semua:
-                 [SEbutan_desa] ==> KAMPUNG
-         Huruf pertama besar dan kedua kecil --> ganti dengan huruf besar pertama saja:
-                 [Sebutan_desa] ==> Kampung
-         Huruf pertama kecil --> ganti dengan huruf kecil semua:
-                 [sebutan_desa] ==> kampung
-    */
-    public function case_replace($dari, $ke, $str)
-    {
-        $replacer = static function ($matches) use ($ke) {
-            $matches = array_map(static function ($match) {
-                return preg_replace('/[\\[\\]]/', '', $match);
-            }, $matches);
-            if (ctype_upper($matches[0][0]) && ctype_upper($matches[0][1])) {
-                return strtoupper($ke);
-            }
-            if (ctype_upper($matches[0][0])) {
-                return ucwords($ke);
-            }
-
-            return strtolower($ke);
-        };
-        $dari = str_replace('[', '\\[', $dari);
-
-        return preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
-    }
-
     private function atas_nama($data, $buffer = null)
     {
         //Data penandatangan
@@ -907,11 +877,11 @@ class Surat_model extends CI_Model
             $buffer = $this->atas_nama($data, $buffer);
 
             //DATA DARI KONFIGURASI DESA
-            $buffer = $this->case_replace('[sebutan_kabupaten]', $this->setting->sebutan_kabupaten, $buffer);
-            $buffer = $this->case_replace('[sebutan_kecamatan]', $this->setting->sebutan_kecamatan, $buffer);
-            $buffer = $this->case_replace('[sebutan_desa]', $this->setting->sebutan_desa, $buffer);
-            $buffer = $this->case_replace('[sebutan_dusun]', $this->setting->sebutan_dusun, $buffer);
-            $buffer = $this->case_replace('[sebutan_camat]', $this->setting->sebutan_camat, $buffer);
+            $buffer = case_replace('[sebutan_kabupaten]', $this->setting->sebutan_kabupaten, $buffer);
+            $buffer = case_replace('[sebutan_kecamatan]', $this->setting->sebutan_kecamatan, $buffer);
+            $buffer = case_replace('[sebutan_desa]', $this->setting->sebutan_desa, $buffer);
+            $buffer = case_replace('[sebutan_dusun]', $this->setting->sebutan_dusun, $buffer);
+            $buffer = case_replace('[sebutan_camat]', $this->setting->sebutan_camat, $buffer);
             if (! empty($config['email_desa'])) {
                 $alamat_desa  = "{$config['alamat_kantor']} Email: {$config['email_desa']} Kode Pos: {$config['kode_pos']}";
                 $alamat_surat = "{$config['alamat_kantor']} Telp. {$config['telepon']} Kode Pos: {$config['kode_pos']} \\par Website: {$config['website']} Email: {$config['email_desa']}";

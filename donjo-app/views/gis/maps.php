@@ -168,8 +168,8 @@
 			<?php endif; ?>
 
 			var options = {
-				maxZoom: 30,
-				minZoom: 1,
+				maxZoom: <?= setting('max_zoom_peta') ?>,
+				minZoom: <?= setting('min_zoom_peta') ?>,
 			};
 
 			//Inisialisasi tampilan peta
