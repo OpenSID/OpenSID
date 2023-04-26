@@ -143,7 +143,7 @@
         foreach ($main as $key => $data): ?>
                                                 <tr <?= jecho(in_array($data['jabatan_id'], [1, 2]), true, 'class="select-row"') ?>>
                                                     <td class="text-center">
-                                                        <input type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
+                                                        <input data-deletable="<?= $data['deletable'] ?>" type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
                                                     </td>
                                                     <td class="text-center"><?=$data['no']?></td>
                                                     <?php if (can('u')): ?>
@@ -158,7 +158,7 @@
                                                                 <a href="<?= site_url("pengurus/form/{$data['pamong_id']}")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
                                                             <?php endif; ?>
                                                             <?php if (can('h')): ?>
-                                                                <a href="#" data-href="<?= site_url("pengurus/delete/{$data['pamong_id']}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                                                                <a href="#" data-href="<?= site_url("pengurus/delete/{$data['pamong_id']}")?>" class="btn bg-maroon btn-flat btn-sm <?= jecho($data['deletable'], 0, 'disabled') ?>" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                                             <?php endif; ?>
                                                             <?php if (can('u')): ?>
                                                                 <?php if ($data['pamong_status'] == '1'): ?>

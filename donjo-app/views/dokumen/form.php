@@ -32,28 +32,45 @@
 							<input name="nama" class="form-control input-sm nomor_sk required" type="text" maxlength="200" value="<?= $dokumen['nama'] ?>"></input>
 						</div>
 					</div>
-					<?php if ($dokumen['satuan']) : ?>
+					<div class="form-group">
+						<label class="control-label col-sm-4" for="nama">Tipe Dokumen</label>
+						<div class="col-sm-6">
+							<select name="tipe" id="tipe" class="form-control input-sm required">
+								<option value="1" <?= $dokumen['tipe'] == 1 ? 'selected' : '' ?>>File</option>
+								<option value="2" <?= $dokumen['tipe'] == 2 ? 'selected' : '' ?>>URL</option>
+							</select>
+						</div>
+					</div>
+					<div id="d-dokumen" style="display: <?= $dokumen['tipe'] == 2 ? 'none' : '' ?>;">
+						<?php if ($dokumen['satuan']) : ?>
+							<div class="form-group">
+								<label class="col-sm-4 control-label">Dokumen</label>
+								<div class="col-sm-4">
+									<input type="hidden" name="old_file" value="">
+									<img class="attachment-img img-responsive img-circle" src="<?= site_url() . $this->controller . '/unduh_berkas/' . $dokumen['id'] ?>" alt="<?= $dokumen['nama'] ?>">
+								</div>
+							</div>
+						<?php endif; ?>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Dokumen</label>
-							<div class="col-sm-4">
-								<input type="hidden" name="old_file" value="">
-								<img class="attachment-img img-responsive img-circle" src="<?= site_url() . $this->controller . '/unduh_berkas/' . $dokumen['id'] ?>" alt="<?= $dokumen['nama'] ?>">
+							<label class="control-label col-sm-4" for="upload">Unggah Dokumen</label>
+							<div class="col-sm-6">
+								<div class="input-group input-group-sm">
+									<input type="text" class="form-control <?= $dokumen['tipe'] == 2 || $dokumen['tipe'] ? '' : 'required' ?>" id="file_path" name="satuan">
+									<input id="file" type="file" class="hidden" name="satuan">
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
+									</span>
+								</div>
+								<?php if ($dokumen) : ?>
+									<p class="small">(Kosongkan jika tidak ingin mengubah dokumen)</p>
+								<?php endif; ?>
 							</div>
 						</div>
-					<?php endif; ?>
-					<div class="form-group">
-						<label class="control-label col-sm-4" for="upload">Unggah Dokumen</label>
+					</div>
+					<div id="d-url" class="form-group" style="display: <?= $dokumen['tipe'] == 2 ? '' : 'none' ?>;">
+						<label class="control-label col-sm-4" for="nama">Link/URL Dokumen</label>
 						<div class="col-sm-6">
-							<div class="input-group input-group-sm">
-								<input type="text" class="form-control" id="file_path" name="satuan">
-								<input id="file" type="file" class="hidden" name="satuan">
-								<span class="input-group-btn">
-									<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
-								</span>
-							</div>
-							<?php if ($dokumen) : ?>
-								<p class="small">(Kosongkan jika tidak ingin mengubah dokumen)</p>
-							<?php endif; ?>
+							<input id="url" name="url" class="form-control input-sm <?= $dokumen['tipe'] == 2 ? 'required' : '' ?>" type="text" value="<?= $dokumen['url'] ?>"></input>
 						</div>
 					</div>
 					<input name="kategori" type="hidden" value="<?= $dokumen['kategori'] ?: $kat; ?>">
@@ -75,3 +92,19 @@
 		</form>
 	</section>
 </div>
+
+<script>
+	$('#tipe').on('change', function() {
+		if (this.value == 1) {
+			$('#d-dokumen').show();
+			$('#d-url').hide();
+			$("#file_path").addClass("required");
+			$("#url").removeClass("required");
+		} else {
+			$('#d-dokumen').hide();
+			$('#d-url').show();
+			$("#file_path").removeClass("required");
+			$("#url").addClass("required");
+		}
+	});
+</script>

@@ -45,26 +45,28 @@ class Anjungan_model extends CI_Model
         $this->load->model('notif_model');
     }
 
-    public function cek_anjungan($mac_address = null)
+    public function cek_anjungan()
     {
-        if (! cek_anjungan()) {
-            return null;
-        }
-
         $ip          = $this->input->ip_address();
         $mac_address = $mac_address ?: $this->session->mac_address;
 
-        $this->db
-            ->group_start()
-            ->where('ip_address', $ip);
-        if ($mac_address) {
-            $this->db->or_where('mac_address', $mac_address);
-        }
-        $data = $this->db
-            ->group_end()
-            ->where('status', 1)
-            ->get('anjungan');
+        try {
+            $this->db
+                ->group_start()
+                ->where('ip_address', $ip)
+                ->or_where('id_pengunjung', $_COOKIE['pengunjung']);
+            if ($mac_address) {
+                $this->db->or_where('mac_address', $mac_address);
+            }
 
-        return ($data->num_rows() > 0) ? $data->row_array() : null;
+            return $this->db
+                ->group_end()
+                ->where('status', 1)
+                ->order_by('tipe', 'asc')
+                ->get('anjungan')
+                ->row_array();
+        } catch (MY_Exceptions $e) {
+            return [];
+        }
     }
 }

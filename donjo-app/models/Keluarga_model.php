@@ -792,7 +792,7 @@ class Keluarga_model extends MY_Model
                         END
                 END) as status_kawin
             ")
-            ->select(['b.dusun', 'b.rw', 'b.rt', 'x.nama as sex', 'u.kk_level', 'a.nama as agama', 'd.nama as pendidikan', 'j.nama as pekerjaan', 'f.nama as warganegara', 'g.nama as golongan_darah', 'h.nama AS hubungan', 'k.alamat'])
+            ->select(['b.dusun', 'b.rw', 'b.rt', 'x.nama as sex', 'u.kk_level', 'a.nama as agama', 'd.nama as pendidikan', 'j.nama as pekerjaan', 'f.nama as warganegara', 'g.nama as golongan_darah', 'h.nama AS hubungan', 'k.alamat', 'tc.nama AS cacat'])
             ->from('tweb_penduduk u')
             ->join('tweb_penduduk_agama a', 'u.agama_id = a.id', 'left')
             ->join('tweb_penduduk_pekerjaan j', 'u.pekerjaan_id = j.id', 'left')
@@ -801,6 +801,7 @@ class Keluarga_model extends MY_Model
             ->join('tweb_golongan_darah g', 'u.golongan_darah_id = g.id', 'left')
             ->join('tweb_penduduk_kawin w', 'u.status_kawin = w.id', 'left')
             ->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
+            ->join('tweb_cacat tc', 'u.cacat_id = tc.id', 'left')
             ->join('tweb_penduduk_hubungan h', 'u.kk_level = h.id', 'left')
             ->join('tweb_wil_clusterdesa b', 'u.id_cluster = b.id', 'left')
             ->join('tweb_keluarga k', 'u.id_kk = k.id', 'left')

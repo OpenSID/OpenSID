@@ -339,7 +339,7 @@ $config['error_views_path'] = '';
 | application/cache/ directory.  Use a full server path with trailing slash.
 |
 */
-$config['cache_path'] = DESAPATH . 'cache/';
+$config['cache_path'] = FCPATH . LOKASI_CACHE;
 
 /*
 |--------------------------------------------------------------------------
@@ -499,7 +499,7 @@ $config['csrf_token_name']   = 'sidcsrf';
 $config['csrf_cookie_name']  = 'sidcsrf';
 $config['csrf_expire']       = 7200;
 $config['csrf_regenerate']   = true;
-$config['csrf_exclude_uris'] = ['api/tte'];
+$config['csrf_exclude_uris'] = ['api.*+'];
 
 /*
 |--------------------------------------------------------------------------
@@ -570,6 +570,18 @@ $config['proxy_ips'] = '';
 
 /*
 |--------------------------------------------------------------------------
+| APLIKASI
+|--------------------------------------------------------------------------
+|
+| - Nama Aplikasi
+| - Nama Lembaga
+|
+*/
+$config['nama_aplikasi'] = 'OpenSID';
+$config['nama_lembaga']  = 'OpenDesa';
+
+/*
+|--------------------------------------------------------------------------
 | PANTAU / TRACKSID
 |--------------------------------------------------------------------------
 |
@@ -612,7 +624,7 @@ $config['api_idm'] = 'https://idm.kemendesa.go.id/open/api/desa/rumusan';
 |--------------------------------------------------------------------------
 |
 */
-$config['api_sdgs'] = 'https://sdgsdev.kemendesa.go.id/SIDcutoff/goals?wilayah';
+$config['api_sdgs'] = 'https://sid.kemendesa.go.id/sdgs/searching/score-sdgs?';
 
 /*
 |--------------------------------------------------------------------------

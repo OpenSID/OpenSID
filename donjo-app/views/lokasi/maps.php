@@ -65,8 +65,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			var zoom = <?=$desa['zoom'] ?: 16?>;
 		<?php endif; ?>
 
+        var options = {
+            maxZoom: <?= setting('max_zoom_peta') ?>,
+            minZoom: <?= setting('min_zoom_peta') ?>,
+        };
+
 		//Inisialisasi tampilan peta
-		var peta_lokasi = L.map('tampil-map').setView(posisi, zoom);
+		var peta_lokasi = L.map('tampil-map', options).setView(posisi, zoom);
 
 		//1. Menampilkan overlayLayers Peta Semua Wilayah
 		var marker_desa = [];

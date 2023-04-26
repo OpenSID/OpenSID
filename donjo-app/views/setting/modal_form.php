@@ -61,6 +61,8 @@
 					</div>
 					<input class="form-control input-sm pull-right tgl_1" id="<?= $setting->key?>" name="<?= $setting->key?>" type="text" value="<?= $setting->value?>">
 				</div>
+			<?php elseif ($setting->key == 'banyak_foto_tiap_produk') : ?>
+				<input id="<?= $setting->key ?>" name="<?= $setting->key?>" class="form-control input-sm" type="number" value="<?= $setting->value?>" max="5"></input>
 			<?php elseif ($setting->jenis == 'textarea'): ?>
 				<textarea <?= jecho($setting->kategori, 'readonly', 'disabled') ?> class="form-control input-sm <?= in_array($setting->kategori, ['pelanggan']) ? 'required' : '' ?>" name="<?= $setting->key ?>" placeholder="<?= $setting->keterangan?>" rows="5"><?= $setting->value ?> </textarea>
 			<?php else : ?>

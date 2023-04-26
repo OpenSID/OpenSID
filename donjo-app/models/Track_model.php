@@ -81,6 +81,10 @@ class Track_model extends CI_Model
             return;
         }
 
+        if (! $this->db->field_exists('deleted_at', 'log_surat')) { // cegah error karena tabel belum ada
+            return;
+        }
+
         if (defined('ENVIRONMENT')) {
             switch (ENVIRONMENT) {
                 case 'development':
@@ -120,13 +124,15 @@ class Track_model extends CI_Model
             'version'             => AmbilVersi(),
             'jml_penduduk'        => Penduduk::status(1)->count(),
             'jml_artikel'         => Artikel::count(),
-            'jml_surat_keluar'    => LogSurat::count(),
+            'jml_surat_keluar'    => LogSurat::whereNull('deleted_at')->count(),
             'jml_peserta_bantuan' => BantuanPeserta::count(),
             'jml_mandiri'         => PendudukMandiri::count(),
             'jml_pengguna'        => User::count(),
             'jml_unsur_peta'      => $this->jml_unsur_peta(),
             'jml_persil'          => Persil::count(),
             'jml_dokumen'         => Dokumen::hidup()->count(),
+            'jml_surat_tte'       => LogSurat::whereNull('deleted_at')->where('tte', '=', 1)->count(), // jumlah surat terverifikasi secara tte
+            'modul_tte'           => (LogSurat::whereNull('deleted_at')->where('tte', '=', 1)->count() > 0 && setting('tte') == 1) ? 1 : 0, // cek modul tte
         ];
 
         if ($this->abaikan($desa)) {

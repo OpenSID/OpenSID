@@ -35,7 +35,9 @@
  *
  */
 
+use App\Models\Anjungan;
 use App\Models\Config;
+use App\Models\GrupAkses;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Pesan;
@@ -78,15 +80,30 @@ class MY_Controller extends CI_Controller
         if ($error['code'] == 1049 && ! $this->db) {
             return;
         }
+
         /*
         | Tambahkan model yg akan diautoload di sini.
         | donjo-app/config/autoload.php digunakan untuk autoload model untuk mengisi data awal
         | pada waktu install, di mana database masih kosong
         */
-        $this->load->model(['setting_model']);
+        $this->load->model(['setting_model', 'anjungan_model']);
         $this->controller = strtolower($this->router->fetch_class());
         $this->setting_model->init();
         $this->request = $this->input->post();
+
+        // Untuk anjungan
+        if (Schema::hasColumn('anjungan', 'tipe')) {
+            if (! cek_anjungan() && Anjungan::exists()) {
+                try {
+                    Anjungan::tipe(1)->update(['status' => 0]);
+                } catch (Exception $e) {
+                }
+            }
+            $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+        }
+
+        // Cek perangkat lupa absen keluar
+        cek_kehadiran();
     }
 
     // Bersihkan session cluster wilayah
@@ -102,6 +119,8 @@ class MY_Controller extends CI_Controller
 
 class Web_Controller extends MY_Controller
 {
+    public $cek_anjungan;
+
     // Constructor
     public function __construct()
     {
@@ -149,7 +168,6 @@ class Web_Controller extends MY_Controller
         $this->load->model('teks_berjalan_model');
         $this->load->model('first_artikel_m');
         $this->load->model('web_widget_model');
-        $this->load->model('anjungan_model');
         $this->load->model('keuangan_grafik_manual_model');
         $this->load->model('keuangan_grafik_model');
         $this->load->model('pengaduan_model');
@@ -164,11 +182,11 @@ class Web_Controller extends MY_Controller
         $data['desa']          = $this->header;
         $data['menu_atas']     = $this->first_menu_m->list_menu_atas();
         $data['menu_kiri']     = $this->first_menu_m->list_menu_kiri();
-        $data['teks_berjalan'] = $this->teks_berjalan_model->list_data(true);
+        $data['teks_berjalan'] = $this->teks_berjalan_model->list_data(true, 1);
         $data['slide_artikel'] = $this->first_artikel_m->slide_show();
         $data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
         $data['w_cos']         = $this->web_widget_model->get_widget_aktif();
-        $data['cek_anjungan']  = $this->anjungan_model->cek_anjungan();
+        $data['cek_anjungan']  = $this->cek_anjungan;
 
         $this->web_widget_model->get_widget_data($data);
         $data['data_config'] = $this->header;
@@ -209,16 +227,13 @@ class Web_Controller extends MY_Controller
 
 class Mandiri_Controller extends MY_Controller
 {
-    public $cek_anjungan;
     public $is_login;
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('anjungan_model');
-        $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-        $this->is_login     = $this->session->is_login;
-        $this->header       = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
+        $this->is_login = $this->session->is_login;
+        $this->header   = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
 
         if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) {
             show_404();
@@ -302,8 +317,8 @@ class Admin_Controller extends MY_Controller
         $this->header['notif_pengumuman']       = $this->cek_pengumuman();
         $isAdmin                                = $this->session->isAdmin->pamong;
         $this->header['notif_permohonan']       = 0;
-        if ($this->db->field_exists('verifikasi_operator', 'log_surat')) {
-            $this->header['notif_permohonan'] = LogSurat::when($isAdmin->jabatan_id == '1', static function ($q) {
+        if ($this->db->field_exists('verifikasi_operator', 'log_surat') && $this->db->field_exists('deleted_at', 'log_surat')) {
+            $this->header['notif_permohonan'] = LogSurat::whereNull('deleted_at')->when($isAdmin->jabatan_id == '1', static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
                 })->when(setting('tte') == 0, static function ($tte) {
@@ -317,6 +332,13 @@ class Admin_Controller extends MY_Controller
                     return $q->where('verifikasi_operator', '=', '0')->orWhere('verifikasi_operator', '=', '-1');
                 })
                 ->count();
+        }
+
+        // cek langganan premium
+        $info_langganan = $this->cache->file->get_metadata('status_langganan');
+
+        if ((strtotime('+1 day', $info_langganan['mtime']) < strtotime('now')) || ($this->cache->file->get_metadata('status_langganan') == false && $this->setting->layanan_opendesa_token != null)) {
+            $this->header['perbaharui_langganan'] = true;
         }
     }
 
@@ -356,13 +378,15 @@ class Admin_Controller extends MY_Controller
         }
     }
 
-    protected function redirect_hak_akses($akses, $redirect = '', $controller = '')
+    protected function redirect_hak_akses($akses, $redirect = '', $controller = '', $admin_only = false)
     {
         if (empty($controller)) {
             $controller = $this->controller;
         }
-        if (! $this->user_model->hak_akses($this->grup, $controller, $akses)) {
+
+        if (($admin_only && $this->grup != GrupAkses::ADMINISTRATOR) || ! $this->user_model->hak_akses($this->grup, $controller, $akses)) {
             session_error('Anda tidak mempunyai akses pada fitur ini');
+
             if (empty($this->grup)) {
                 redirect('siteman');
             }

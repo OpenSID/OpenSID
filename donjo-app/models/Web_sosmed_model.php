@@ -140,7 +140,7 @@ class Web_sosmed_model extends CI_Model
 
             case $id === '6' && $tipe === '1':
                 $link = ($valid_link !== false ? $link : 'https://api.whatsapp.com/send?phone=' . $link);
-                $link = str_replace('phone=0', 'phone=+62', $link);
+                $link = str_replace('phone=0', 'phone=62', $link);
                 break;
 
             case $id === '6' && $tipe === '2':

@@ -28,10 +28,10 @@
                         <td>
                             <select class="form-control input-sm select2" name="individu_sex">
                                 <option value="">SEMUA</option>
-                                @foreach ($form_isian['daftar_jenis_kelamin'] as $key => $data):
+                                @foreach ($form_isian['daftar_jenis_kelamin'] as $key => $data)
                                     <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->individu->sex)>{{ $data }}
                                     </option>
-                                    <?php endforeach; ?>
+                                @endforeach
                             </select>
                         </td>
                     </tr>
@@ -41,10 +41,10 @@
                         <td>
                             <select class="form-control input-sm select2" name="individu_status_dasar">
                                 <option value="">SEMUA</option>
-                                @foreach ($form_isian['daftar_status_dasar'] as $key => $data):
+                                @foreach ($form_isian['daftar_status_dasar'] as $key => $data)
                                     <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->individu->status_dasar)>{{ $data }}
                                     </option>
-                                    <?php endforeach; ?>
+                                @endforeach
                             </select>
                         </td>
                     </tr>
@@ -59,27 +59,52 @@
             <table class="table table-hover table-striped">
                 <tbody>
                     <tr style="font-weight: bold;">
+                        <td>Tipe</td>
                         <td>Nama</td>
                         <td>Deskripsi</td>
+                        <td>Atribut</td>
                         <td>Aksi</td>
                     </tr>
                     @forelse ($suratMaster->kode_isian as $key => $value)
                         <tr class="duplikasi" id="gandakan-{{ $key }}">
-                            @if ($value->tipe === 'text')
-                                <td><input type="text" name="nama_kode[]" class="form-control input-sm"
-                                        value="{{ $value->nama }}"></td>
-                                <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm"
-                                        value="{{ $value->deskripsi }}"></td>
-                                <td width="1%">
-                                    <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
-                                            class='fa fa-trash-o'></i></button>
-                                </td>
-                            @endif
+                            <td>
+                                <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
+                                    @foreach ($attributes as $attr_key => $attr_value)
+                                        :
+                                        <option value="{{ $attr_key }}" @selected($attr_key == $value->tipe)>
+                                            {{ $attr_value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td><input type="text" name="nama_kode[]" class="form-control input-sm"
+                                    value="{{ $value->nama }}"></td>
+                            <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm"
+                                    value="{{ $value->deskripsi }}"></td>
+                            <td>
+                                <textarea class="form-control input-sm" placeholder='minlength="5" maxlength="50"' name="atribut_kode[]" rows="5">{{ $value->atribut }}</textarea>
+                            </td>
+                            <td width="1%">
+                                <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
+                                        class='fa fa-trash-o'></i></button>
+                            </td>
                         </tr>
                     @empty
                         <tr class="duplikasi" id="gandakan-0">
+                            <td>
+                                <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
+                                    @foreach ($attributes as $attr_key => $attr_value)
+                                        :
+                                        <option value="{{ $attr_key }}" @selected($attr_key == 1)>
+                                            {{ $attr_value }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
                             <td><input type="text" name="nama_kode[]" class="form-control input-sm"></td>
                             <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm"></td>
+                            <td>
+                                <textarea class="form-control input-sm" placeholder='minlength="5" maxlength="50"' name="atribut_kode[]" rows="5">{{ $value->atribut }}</textarea>
+                            </td>
                             <td width="1%">
                                 <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
                                         class='fa fa-trash-o'></i></button>
@@ -87,7 +112,7 @@
                         </tr>
                     @endforelse
                     <tr>
-                        <td colspan="3">
+                        <td colspan="5">
                             <button type="button" class="btn btn-success btn-sm btn-block tambah-kode"><i
                                     class="fa fa-plus"></i></button>
                         </td>
@@ -130,6 +155,29 @@
 
             $('.hapus-kode').on('click', function() {
                 $(this).parents('.duplikasi').remove();
+            });
+
+            $('.pilih_tipe').on('change', function() {
+                var tipe = $(this).val();
+                var atribut = '{}';
+
+                if (tipe == 'text') {
+                    atribut = 'minlength="5" maxlength="50"';
+                } else if (tipe == 'number') {
+                    atribut = 'min="1" max="100" step="1"';
+                } else if (tipe == 'email') {
+                    atribut = 'minlength="5" maxlength="50"';
+                } else if (tipe == 'url') {
+                    atribut = 'minlength="5" maxlength="50"';
+                } else if (tipe == 'date') {
+                    atribut = 'min="2021-01-01" max="2021-12-31"';
+                } else if (tipe == 'time') {
+                    atribut = 'min="00:00" max="23:59"';
+                } else {
+                    atribut = 'minlength="5" maxlength="50" rows="5"';
+                }
+
+                $(this).parents('.duplikasi').find('textarea').attr("placeholder", atribut);
             });
         });
     </script>

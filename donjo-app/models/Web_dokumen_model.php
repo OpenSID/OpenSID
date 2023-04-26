@@ -353,7 +353,10 @@ class Web_dokumen_model extends MY_Model
             } else {
                 $nama_file = $nama . '_' . generator(6) . '_' . $nama_file;
             }
-            $nama_file = bersihkan_namafile($nama_file);
+            $pecah_nama   = explode('.', $nama_file);
+            $nama_akhiran = end($pecah_nama);
+            $nama_file    = str_replace(".{$nama_akhiran}", '', $nama_file);
+            $nama_file    = bersihkan_namafile(substr($nama_file, 0, 180) . ".{$nama_akhiran}");
             UploadDocument($nama_file, $file_lama);
         } elseif ($satuan) {
             if (! preg_match('/data:image\\/\\png/i', $satuan)) {
@@ -362,7 +365,7 @@ class Web_dokumen_model extends MY_Model
                 return null;
             }
 
-            $nama_file = $nama_file = $data['id_pend'] . '_' . $data['nama'] . '_' . generator(6) . '.png';
+            $nama_file = $nama_file = substr($data['id_pend'] . '_' . $data['nama'] . '_' . generator(6), 0, 180) . '.png';
             $satuan    = str_replace('data:image/png;base64,', '', $satuan);
             $satuan    = base64_decode($satuan, true);
 
@@ -386,7 +389,7 @@ class Web_dokumen_model extends MY_Model
             $data['satuan'] = $result = $this->upload_dokumen($post);
         }
 
-        if ($result === null) {
+        if ($result === null && $data['tipe'] == 1) {
             return false;
         }
 
@@ -411,7 +414,7 @@ class Web_dokumen_model extends MY_Model
         return $retval;
     }
 
-    private function validasi($post)
+    private function validasi($post, $id = null)
     {
         $data                         = [];
         $data['nama']                 = nomor_surat_keputusan($post['nama']);
@@ -419,6 +422,12 @@ class Web_dokumen_model extends MY_Model
         $data['kategori_info_publik'] = $post['kategori_info_publik'] ?: null;
         $data['id_syarat']            = $post['id_syarat'] ?: null;
         $data['id_pend']              = $post['id_pend'] ?: 0;
+        $data['tipe']                 = $post['tipe'];
+        $data['url']                  = $post['url'] ?: null;
+
+        if ($data['tipe'] == 1) {
+            $data['url'] = null;
+        }
 
         switch ($data['kategori']) {
             case 1: //Informsi Publik
@@ -467,7 +476,7 @@ class Web_dokumen_model extends MY_Model
         $retval = true;
 
         $post = $this->input->post();
-        $data = $this->validasi($post);
+        $data = $this->validasi($post, $id);
         // Jangan simpan dok_warga kalau dari Layanan Mandiri
         if (! $mandiri) {
             ! $data['dok_warga'] = isset($post['dok_warga']);
