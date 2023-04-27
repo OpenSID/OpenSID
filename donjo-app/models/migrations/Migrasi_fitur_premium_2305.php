@@ -81,7 +81,7 @@ class Migrasi_fitur_premium_2305 extends MY_model
         }
 
         // Tambahkan kolom bidang di tabel buku_tamu
-        if (!$this->db->field_exists('bidang', 'buku_tamu')) {
+        if (! $this->db->field_exists('bidang', 'buku_tamu')) {
             $hasil = $hasil && $this->dbforge->add_column('buku_tamu', [
                 'bidang' => [
                     'type'       => 'VARCHAR',
@@ -116,7 +116,7 @@ class Migrasi_fitur_premium_2305 extends MY_model
         }
 
         // Tambahkan kolom keperluan di tabel buku_tamu
-        if (!$this->db->field_exists('keperluan', 'buku_tamu')) {
+        if (! $this->db->field_exists('keperluan', 'buku_tamu')) {
             $hasil = $hasil && $this->dbforge->add_column('buku_tamu', [
                 'keperluan' => [
                     'type'       => 'VARCHAR',
