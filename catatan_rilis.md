@@ -13,6 +13,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 7. [#6528](https://github.com/OpenSID/OpenSID/issues/6528) Perbaikan query kependudukan pada mysql versi 8.
 8. [#6554](https://github.com/OpenSID/OpenSID/issues/6554) Perbaikan gagal setting telegram maupun upload gambar profil.
 9. [#6565](https://github.com/OpenSID/OpenSID/issues/6565) Perbaikan nama daerah kecamatan di surat keterangan nikah N1 sd N7.
+10. [#6569](https://github.com/OpenSID/OpenSID/issues/6569) Perbaikan Judul pratinjau surat tidak sesuai.
 
 #### Perubahan Teknis
 
