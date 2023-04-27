@@ -1,4 +1,6 @@
-Di rilis ini, versi 2304.1.0 berisi penambahan fitur [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2305.0.0 berisi penambahan fitur tampilan anjungan yang baru dan perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada @ruririzal yang terus berkontribusi.
 
 #### Penambahan Fitur
 
@@ -21,6 +23,9 @@ Di rilis ini, versi 2304.1.0 berisi penambahan fitur [isi disini] dan perbaikan 
 6. [#6557](https://github.com/OpenSID/OpenSID/issues/6557) Perbaikan gagal update identitas desa karena field kades yang diminta isi terdisable.
 7. [#6528](https://github.com/OpenSID/OpenSID/issues/6528) Perbaikan query kependudukan pada mysql versi 8.
 8. [#6554](https://github.com/OpenSID/OpenSID/issues/6554) Perbaikan gagal setting telegram maupun upload gambar profil.
+9. [#6565](https://github.com/OpenSID/OpenSID/issues/6565) Perbaikan nama daerah kecamatan di surat keterangan nikah N1 sd N7.
+10. [#6569](https://github.com/OpenSID/OpenSID/issues/6569) Perbaikan judul pratinjau surat tidak sesuai.
+11. [#6570](https://github.com/OpenSID/OpenSID/issues/6570) Perbaikan tombol perbaiki arsip layanan yang membuat duplikasi tombol ubah.
 
 #### Perubahan Teknis
 

@@ -606,6 +606,7 @@ class Surat_master extends Admin_Controller
 
         try {
             $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', [$this->request['kiri'] * 10, $this->request['atas'] * 10, $this->request['kanan'] * 10, $this->request['bawah'] * 10]);
+            $html2pdf->pdf->SetTitle($this->request['nama'] . ' (Pratinjau)');
             $html2pdf->setTestTdInOnePage(false);
             $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
             $html2pdf->writeHTML($gambar_qecode);

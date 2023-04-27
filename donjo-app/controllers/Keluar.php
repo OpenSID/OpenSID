@@ -637,7 +637,7 @@ class Keluar extends Admin_Controller
 
     public function perbaiki()
     {
-        $this->db->update('log_surat', ['verifikasi_operator' => 1, 'verifikasi_sekdes' => 1, 'verifikasi_kades' => 1]);
+        $this->db->update('log_surat', ['status' => LogSurat::CETAK, 'verifikasi_operator' => 1, 'verifikasi_sekdes' => 1, 'verifikasi_kades' => 1]);
         redirect('keluar');
     }
 

@@ -51,7 +51,7 @@ class Migrasi_fitur_premium_2305 extends MY_model
 
         $hasil = $hasil && $this->suratPermohonanCerai($hasil);
         $hasil = $hasil && $this->migrasi_2023041251($hasil);
-        $hasil = $hasil && $this->migrasi_2023041351($hasil);
+        $hasil = $hasil && $this->migrasi_2023041951($hasil);
 
         return $hasil && true;
     }
@@ -181,7 +181,7 @@ class Migrasi_fitur_premium_2305 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2023041351($hasil)
+    protected function migrasi_2023041951($hasil)
     {
         $config = DB::table('config')->get();
 

@@ -117,7 +117,9 @@
                                                                     <td class="aksi">
 
                                                                         <?php if ($this->tab_ini == 10 && can('u')) : ?>
-                                                                            <a href="<?= site_url("keluar/edit_keterangan/{$data['id']}") ?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+                                                                            <?php if (in_array($data['jenis'], [1, 2])) : ?>
+                                                                                <a href="<?= site_url("keluar/edit_keterangan/{$data['id']}") ?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+                                                                            <?php endif; ?>
                                                                             <?php if (! in_array($data['jenis'], [1, 2]) && $data['status'] == 0) : ?>
                                                                                 <a href="<?= site_url("surat/cetak/{$data['id']}"); ?>" class="btn btn-flat bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a>
                                                                                 <!-- hapus surat draft -->
