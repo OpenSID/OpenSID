@@ -301,7 +301,7 @@
                     </div>
                 </div>
                 <div class="runtext">
-                    <marquee onmouseover="this.stop()" onmouseout="this.start()">Selamat Datang Di Website Resmi Desa Taopa Kecamatan Taopa Kabupaten Parigi Moutong</marquee>
+                    <marquee onmouseover="this.stop()" onmouseout="this.start()">{{ $teks_berjalan }}</marquee>
                 </div>
             </div>
         </div>
