@@ -32,3 +32,4 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 1. [#2234](https://github.com/OpenSID/premium/issues/2234) Penamaan versi aplikasi.
 2. [#2236](https://github.com/OpenSID/premium/issues/2236) Penyesuian instalasi awal database gabungan pada file general_helper.
 3. [#2249](https://github.com/OpenSID/premium/issues/2249) Penyesuaian migrasi agar bisa digunakan pada OpenSID Database Gabungan.
+4. [#6571](https://github.com/OpenSID/OpenSID/issues/6571) Load assets sweetalert2 secara global.
