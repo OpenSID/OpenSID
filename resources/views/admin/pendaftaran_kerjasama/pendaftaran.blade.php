@@ -1,8 +1,6 @@
 @extends('admin.layouts.index')
 
-
 @section('content')
-    @include('admin.layouts.components.sweetalert2')
     <div class="content-wrapper"></div>
 @endsection
 @push('scripts')

@@ -1,6 +1,5 @@
 @extends('admin.layouts.index')
 @include('admin.layouts.components.asset_validasi')
-@include('admin.layouts.components.sweetalert2')
 
 @section('title')
     <h1>

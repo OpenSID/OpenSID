@@ -1,6 +1,5 @@
 @include('admin.pengaturan_surat.asset_tinymce')
 @include('admin.layouts.components.asset_datatables')
-@include('admin.layouts.components.sweetalert2')
 
 @extends('admin.layouts.index')
 
