@@ -35,35 +35,19 @@
  *
  */
 
-namespace App\Models;
+defined('BASEPATH') || exit('No direct script access allowed');
 
-use Illuminate\Database\Eloquent\Model;
-
-class Suplemen extends Model
+class Migrasi_2305_ke_2306 extends MY_Model
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'suplemen';
+    public function up()
+    {
+        $hasil = true;
 
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
+        // Migrasi fitur premium
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2211');
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'nama',
-        'slug',
-        'sasaran',
-        'keterangan',
-    ];
+        status_sukses($hasil);
+
+        return $hasil;
+    }
 }
