@@ -37,7 +37,6 @@
 
 use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
-use DateTime;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -3561,7 +3560,7 @@ class Database_model extends MY_Model
         $tokenParts   = explode('.', $token);
         $tokenPayload = base64_decode($tokenParts[1], true);
         $jwtPayload   = json_decode($tokenPayload);
-        $date         = new DateTime('20' . str_replace('.', '-', currentVersion()) . '-01');
+        $date         = new \DateTime('20' . str_replace('.', '-', currentVersion()) . '-01');
         $version      = $date->format('Y-m-d');
 
         $berakhir   = $jwtPayload->tanggal_berlangganan->akhir;

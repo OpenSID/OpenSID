@@ -328,7 +328,7 @@ class Surat extends Admin_Controller
                 $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
                 $html2pdf->writeHTML($logo_qrcode);
                 if ($preview) {
-                    $html2pdf->output(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'preview.pdf', 'FI');
+                    $html2pdf->output(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');
                 } else {
                     $html2pdf->output(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
 
