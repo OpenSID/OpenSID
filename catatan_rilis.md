@@ -1,4 +1,4 @@
-Di rilis ini, versi 2204.1.0 Menambahkan tampilan anjungan desain baru dan integrasi api TTE ke esign BSrE. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2305.0.0 Menambahkan tampilan anjungan desain baru dan integrasi api TTE ke esign BSrE. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Irvan1609 yang terus berkontribusi.
 
