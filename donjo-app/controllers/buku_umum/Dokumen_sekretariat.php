@@ -80,7 +80,7 @@ class Dokumen_sekretariat extends Admin_Controller
         $data['list_tahun']        = $this->web_dokumen_model->list_tahun($kat);
         $data['keyword']           = $this->web_dokumen_model->autocomplete();
         $data['submenu']           = $this->referensi_model->list_data('ref_dokumen');
-        $data['jenis_peraturan']   = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
+        $data['jenis_peraturan']   = $this->referensi_model->jenis_peraturan_desa();
         $data['sub_kategori']      = $_SESSION['sub_kategori'];
         $_SESSION['menu_kategori'] = true;
 
@@ -109,11 +109,14 @@ class Dokumen_sekretariat extends Admin_Controller
     public function form($kat = 2, $p = 1, $o = 0, $id = '')
     {
         $this->redirect_hak_akses('u');
-        $data['p']               = $p;
-        $data['o']               = $o;
-        $data['kat']             = $kat;
-        $data['list_kategori']   = $this->web_dokumen_model->list_kategori();
-        $data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
+        $data['p']             = $p;
+        $data['o']             = $o;
+        $data['kat']           = $kat;
+        $data['list_kategori'] = $this->web_dokumen_model->list_kategori();
+
+        if ($kat == 3) {
+            $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
+        }
 
         if ($id) {
             $data['dokumen']     = $this->web_dokumen_model->get_dokumen($id);

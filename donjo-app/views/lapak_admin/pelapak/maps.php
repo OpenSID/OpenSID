@@ -90,9 +90,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	window.onload = function() {
 		var posisi = [<?= $lokasi['lat'] . ',' . $lokasi['lng']; ?>];
 		var zoom = <?= $lokasi['zoom']; ?>;
+        var options = {
+            maxZoom: <?= setting('max_zoom_peta') ?>,
+            minZoom: <?= setting('min_zoom_peta') ?>,
+        };
 
 		//Inisialisasi tampilan peta
-		var peta_lapak = L.map('tampil-map').setView(posisi, zoom);
+		var peta_lapak = L.map('tampil-map', options).setView(posisi, zoom);
 
 		//1. Menampilkan overlayLayers Peta Semua Wilayah
 		var marker_desa = [];

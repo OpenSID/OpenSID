@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}" />
     <!-- AdminLTE Skins. -->
     <link rel="stylesheet" href="{{ asset('css/skins/_all-skins.min.css') }}" />
+    {{-- Sweetalert --}}
+    <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
     <!-- Modifikasi -->
     <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}" />
     @stack('css')
@@ -89,8 +91,11 @@
     <script src="{{ asset('bootstrap/js/fastclick.js') }}"></script>
     <!-- AdminLTE -->
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
+    {{-- Sweetalert --}}
+    <script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
     <!-- jquery validasi -->
     <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('js/admin.js') }}"></script>
     <!-- Modifikasi -->
     @if (config_item('demo_mode'))
         <!-- Website Demo -->
@@ -99,13 +104,15 @@
     @stack('scripts')
     <script>
         $(document).ready(function() {
-            $('ul.sidebar-menu').on('expanded.tree', function(e){
+            $('ul.sidebar-menu').on('expanded.tree', function(e) {
                 e.stopImmediatePropagation();
                 setTimeout(scrollTampil($('li.treeview.menu-open')[0]), 500);
             });
 
             function scrollTampil(elem) {
-                elem.scrollIntoView({behavior: 'smooth'});
+                elem.scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     </script>

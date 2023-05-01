@@ -27,6 +27,13 @@
                     <p class="text-center text-bold">Lambang {{ ucwords($setting->sebutan_desa) }}</p>
                     <p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
                     <br />
+                    <div class="form-group">
+                        <label class="col-sm-12 control-label" for="ukuran">Dimensi logo (persegi)</label>
+                        <div class="col-sm-12">
+                            <input id="ukuran" name="ukuran" class="form-control input-sm number" min="100"
+                                max="400" type="text" placeholder="Kosongkan jika ingin dimensi bawaan" />
+                        </div>
+                    </div>
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" id="file_path">
                         <input type="file" class="hidden" id="file" name="logo">
@@ -79,7 +86,7 @@
                                     data-token="{{ config_item('token_pantau') }}"
                                     data-tracker='{{ config_item('server_pantau') }}' style="display: none;"></select>
                             @endif
-                            <input type="hidden" id="nama_desa" class="form-control input-sm nama_terbatas required"
+                            <input type="hidden" id="nama_desa" class="form-control input-sm nama_desa required"
                                 minlength="3" maxlength="50" name="nama_desa" value="{{ $main->nama_desa }}">
                         </div>
                     </div>
@@ -99,7 +106,8 @@
                             {{ ucwords($setting->sebutan_desa) }}</label>
                         <div class="col-sm-2">
                             <input id="kode_pos" name="kode_pos" class="form-control input-sm number" minlength="5"
-                                maxlength="5" type="text" placeholder="Kode Pos {{ ucwords($setting->sebutan_desa) }}"
+                                maxlength="5" type="text"
+                                placeholder="Kode Pos {{ ucwords($setting->sebutan_desa) }}"
                                 value="{{ $main->kode_pos }}" />
                         </div>
                     </div>
@@ -234,7 +242,8 @@
                 <div class="box-footer">
                     <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
                         Batal</button>
-                    <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
+                    <button type="submit" class="btn btn-social btn-info btn-sm pull-right simpan"><i
+                            class="fa fa-check"></i>
                         Simpan</button>
                 </div>
             </div>
@@ -294,6 +303,42 @@
                 var nip = $("#kades option:selected").attr("data-nip");
                 $("#nip_kepala_desa").val(nip);
             });
+
+            // simpan
+            $(document).on("submit", "form#validasi", function(event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Sedang Menyimpan',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading()
+                    }
+                });
+                $.ajax({
+                        url: $(this).attr("action"),
+                        type: $(this).attr("method"),
+                        dataType: "JSON",
+                        data: new FormData(this),
+                        processData: false,
+                        contentType: false,
+                    })
+                    .done(function() {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'berhasil ubah data',
+                        })
+                        window.location.replace(`${SITE_URL}identitas_desa`);
+                    })
+                    .fail(function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal Ubah Data',
+                        })
+                    });
+            });
+
         });
 
         function tampil_kode_desa() {

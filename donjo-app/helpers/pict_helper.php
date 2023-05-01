@@ -924,3 +924,11 @@ function upload_foto_penduduk($nama_file = null)
 
     return $nama_file;
 }
+
+function to_base64($file)
+{
+    $type = pathinfo($file, PATHINFO_EXTENSION);
+    $data = file_get_contents($file);
+
+    return 'data:image/' . $type . ';base64,' . base64_encode($data);
+}

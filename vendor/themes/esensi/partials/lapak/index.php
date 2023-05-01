@@ -106,8 +106,13 @@
         $("#lat").val(link.data('lat'));
         $("#lng").val(link.data('lng'));
 
+        var options = {
+            maxZoom: <?= setting('max_zoom_peta') ?>,
+            minZoom: <?= setting('min_zoom_peta') ?>,
+        };
+
         // Inisialisasi tampilan peta
-        pelapak = L.map('map').setView(posisi, zoom);
+        pelapak = L.map('map', options).setView(posisi, zoom);
 
         // Menampilkan BaseLayers Peta
         getBaseLayers(pelapak, "<?= setting('mapbox_key') ?>", "<?= setting('jenis_peta') ?>");

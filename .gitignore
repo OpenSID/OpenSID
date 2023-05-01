@@ -11,6 +11,7 @@ info.php
 **/.DS_Store
 sftp-config.json
 .php-cs-fixer.cache
+rector.php
 .htaccess
 *.sql
 mitra

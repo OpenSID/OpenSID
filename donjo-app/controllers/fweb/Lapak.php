@@ -81,7 +81,5 @@ class Lapak extends Web_Controller
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
         $this->load->view($this->template, $data);
-
-        // return json($data['paging']);
     }
 }

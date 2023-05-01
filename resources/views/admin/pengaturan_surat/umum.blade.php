@@ -114,6 +114,30 @@
                 </div>
             @endif
 
+            @if (! in_array($suratMaster->jenis, [1, 2]))
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Lampiran</label>
+                    <div class="col-sm-7">
+                        <select class="form-control input-sm select2" name="lampiran">
+                            <option value="">Tidak Ada</option>
+                            @foreach ($daftar_lampiran as $value)
+                                <option value="{{ $value }}" @selected($suratMaster->lampiran === $value)>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            @endif
+
+            @if (isset($format_nomor))
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Format Nomor Surat</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control input-sm" name="format_nomor" placeholder="Format Nomor Surat" value="{{ $format_nomor }}">
+                    </div>
+                </div>
+            @endif
+
             @if ($qrCode)
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="mandiri">Tampilkan QR Code</label>

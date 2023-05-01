@@ -39,6 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\Config;
 use App\Models\FormatSurat;
+use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
@@ -50,7 +51,7 @@ class Surat extends Mandiri_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['keluar_model', 'permohonan_surat_model', 'surat_model', 'surat_master_model', 'lapor_model', 'penduduk_model']);
+        $this->load->model(['keluar_model', 'permohonan_surat_model', 'surat_model', 'surat_master_model', 'lapor_model', 'penduduk_model', 'anjungan_model']);
     }
 
     // Kat 1 = Permohonan
@@ -61,10 +62,11 @@ class Surat extends Mandiri_Controller
         $permohonan = $this->permohonan_surat_model->list_permohonan_perorangan($this->is_login->id_pend, 1);
 
         $data = [
-            'kat'     => $kat,
-            'judul'   => ($kat == 1) ? 'Permohonan Surat' : 'Arsip Surat',
-            'main'    => ($kat == 1) ? $permohonan : $arsip,
-            'printer' => $this->print_connector(),
+            'kat'          => $kat,
+            'judul'        => ($kat == 1) ? 'Permohonan Surat' : 'Arsip Surat',
+            'main'         => ($kat == 1) ? $permohonan : $arsip,
+            'printer'      => $this->print_connector(),
+            'cek_anjungan' => $this->cek_anjungan,
         ];
 
         $this->render('surat', $data);
@@ -209,8 +211,18 @@ class Surat extends Mandiri_Controller
 
             if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
                 try {
+                    // Data pesan telegram yang akan digantikan
+                    $pesanTelegram = [
+                        '[nama_penduduk]' => $this->is_login->nama,
+                        '[judul_surat]'   => FormatSurat::find($post['id_surat'])->nama,
+                        '[tanggal]'       => tgl_indo2(date('Y-m-d H:i:s')),
+                        '[melalui]'       => 'Layanan Mandiri',
+                    ];
+
+                    $kirimPesan = setting('notifikasi_pengajuan_surat');
+                    $kirimPesan = str_replace(array_keys($pesanTelegram), array_values($pesanTelegram), $kirimPesan);
                     $this->telegram->sendMessage([
-                        'text'       => sprintf('Segera cek Halaman Admin, penduduk atas nama %s telah mengajukan %s melalui Layanan Mandiri pada tanggal %s', $this->is_login->nama, str_replace('_', ' ', mb_convert_case($post['url_surat'], MB_CASE_TITLE)), tgl_indo2(date('Y-m-d H:i:s'))),
+                        'text'       => $kirimPesan,
                         'parse_mode' => 'Markdown',
                         'chat_id'    => $this->setting->telegram_user_id,
                     ]);
@@ -310,5 +322,16 @@ class Surat extends Mandiri_Controller
         }
 
         return $connector;
+    }
+
+    public function cetak($id)
+    {
+        $surat = LogSurat::find($id);
+
+        // Cek ada file
+        if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
+            return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
+        }
+        echo 'Berkas tidak ditemukan';
     }
 }

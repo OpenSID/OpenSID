@@ -60,16 +60,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($syarat_permohonan)
-                        @foreach ( $syarat_permohonan as $key => $syarat )
+                    @if ($mandiri->syarat_surat)
+                        @foreach ($mandiri->syarat_surat as $key => $syarat )
                             <tr>
                                 <td class="padat"><?= ($key + 1); ?></td>
-                                <td> {{  $syarat['ref_syarat_nama']  }}</td>
+                                <td> {{  $syarat['nama_syarat']  }}</td>
                                 <td class="padat">
-                                    @if ($syarat['dok_id'] == '-1')
+                                    @if ($syarat['id'] == '-1')
                                         <strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>
                                     @else
-                                        <a href="{{ route('permohonan_surat_admin.tampilkan',"{$syarat['dok_id']}/{$periksa['id_pemohon']}" ) }}" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tampilkan" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Tampilkan Dokumen"><i class="fa fa-eye"></i> Cek Dokumen</a>
+                                        <a href="{{ route('permohonan_surat_admin.tampilkan',"{$syarat['id']}/{$syarat['id_pend']}" ) }}" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block syarat" title="Tampilkan"><i class="fa fa-eye"></i> Cek Dokumen</a>
                                     @endif
                                 </td>
                             </tr>
@@ -252,6 +252,21 @@
               },
           title: 'Lihat',
               html:`<object data="{{ route('keluar.unduh/lampiran', $surat->id.'/true') }}" style="width: 100%;min-height: 400px;" type="application/pdf"></object>`,
+              showCancelButton: true,
+              cancelButtonText: 'tutup',
+              showConfirmButton: false,
+            })
+        });
+
+        $('a.syarat').click(function (e) {
+            e.preventDefault();
+            var attr = $(this).attr('href');
+            Swal.fire({
+              customClass:{
+                    popup: 'swal-lg',
+              },
+          title: 'Lihat',
+              html:`<object data="${attr}" style="width: 100%;min-height: 400px;" ></object>`,
               showCancelButton: true,
               cancelButtonText: 'tutup',
               showConfirmButton: false,
