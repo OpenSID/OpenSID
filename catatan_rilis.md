@@ -1,9 +1,10 @@
 Di rilis ini, versi 2305.0.1 berisi penambahan fitur [isi disini] dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada[isi disini] yang terus berkontribusi.
+Terima kasih pada [isi disini] yang terus berkontribusi.
 
 #### Perbaikan BUG
 
 1. [#6580](https://github.com/OpenSID/OpenSID/issues/6580) Perbaikan Salah menampilkan pilihan tipe persentase saat ubah data dokumnetasi pembangunan.
+2. [#6584](https://github.com/OpenSID/OpenSID/issues/6584) Perbaikan data apartur pada tampilan anjungan yang statis.
 
 #### Perubahan Teknis
