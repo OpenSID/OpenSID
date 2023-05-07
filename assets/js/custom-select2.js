@@ -106,4 +106,26 @@ $(document).ready(function()
 		$('.select2-ikon').trigger('change');
 	});
 
+	$('#terdata').select2({
+			ajax: {
+				url: SITE_URL + 'suplemen/apipenduduksuplemen',
+				dataType: 'json',
+				data: function(params) {
+					return {
+						q: params.term || '',
+						page: params.page || 1,
+					};
+				},
+				cache: true
+			},
+			placeholder: function() {
+				$(this).data('placeholder');
+			},
+			minimumInputLength: 0,
+			allowClear: true,
+			escapeMarkup: function(markup) {
+				return markup;
+			},
+		});
+
 });
