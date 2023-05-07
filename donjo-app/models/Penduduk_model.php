@@ -324,6 +324,23 @@ class Penduduk_model extends MY_Model
         return trim("{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . ikut_case($data['dusun'], $this->setting->sebutan_dusun) . " {$data['dusun']}");
     }
 
+    private function filter_bantuan()
+    {
+        $status = (string) $this->session->filter_global['status'];
+        if ($status != '') {
+            $this->db->where('rcb.status', $status);
+        }
+
+        $tahun = $this->session->filter_global['tahun'];
+        if ($tahun != '') {
+            $this->db
+                ->group_start()
+                ->where('YEAR(rcb.sdate) <=', $tahun)
+                ->where('YEAR(rcb.edate) >=', $tahun)
+                ->group_end();
+        }
+    }
+
     private function bantuan_penduduk_sql()
     {
         // Yg berikut hanya untuk menampilkan peserta bantuan
@@ -337,6 +354,8 @@ class Penduduk_model extends MY_Model
                 $this->db
                     ->join('program_peserta bt', 'bt.peserta = u.nik')
                     ->join('program rcb', 'bt.program_id = rcb.id', 'left');
+
+                $this->filter_bantuan();
             }
         }
         // Untuk BUKAN PESERTA program bantuan tertentu

@@ -222,6 +222,8 @@ class Laporan_penduduk_model extends MY_Model
 
     private function select_jml_penduduk_per_kategori($id_referensi, $tabel_referensi)
     {
+        $this->filter_wilayah();
+
         $this->db
             ->select('u.*, COUNT(p.id) AS jumlah')
             ->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
@@ -230,62 +232,48 @@ class Laporan_penduduk_model extends MY_Model
             ->join('penduduk_hidup p', "u.id = p.{$id_referensi}", 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->group_by('u.id');
-
-        if ($dusun = $this->session->userdata('dusun')) {
-            $this->db->where('a.dusun', $dusun);
-        }
-        if ($rw = $this->session->userdata('rw')) {
-            $this->db->where('a.rw', $rw);
-        }
-        if ($rt = $this->session->userdata('rt')) {
-            $this->db->where('a.rt', $rt);
-        }
     }
 
     protected function data_jml_semua_penduduk()
     {
-        $this->db
+        $this->filter_wilayah();
+
+        return $this->db
             ->select('COUNT(b.id) AS jumlah')
             ->select('COUNT(CASE WHEN b.sex = 1 THEN b.id END) AS laki')
             ->select('COUNT(CASE WHEN b.sex = 2 THEN b.id END) AS perempuan')
             ->from('penduduk_hidup b')
-            ->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left');
-
-        if ($dusun = $this->session->userdata('dusun')) {
-            $this->db->where('a.dusun', $dusun);
-        }
-        if ($rw = $this->session->userdata('rw')) {
-            $this->db->where('a.rw', $rw);
-        }
-        if ($rt = $this->session->userdata('rt')) {
-            $this->db->where('a.rt', $rt);
-        }
-
-        return $this->db->get()->row_array();
+            ->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left')
+            ->get()
+            ->row_array();
     }
 
     protected function data_jml_semua_keluarga()
     {
-        // Data jumlah
+        $this->filter_wilayah();
+
         return $this->db
             ->select('COUNT(k.id) as jumlah')
             ->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
             ->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
             ->from('keluarga_aktif k')
             ->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
+            ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->get()
             ->row_array();
     }
 
     protected function data_jml_semua_rtm()
     {
-        // Data jumlah
+        $this->filter_wilayah();
+
         return $this->db
             ->select('COUNT(r.id) as jumlah')
             ->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
             ->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
             ->from('tweb_rtm r')
             ->join('tweb_penduduk p', 'p.id = r.nik_kepala', 'left') //TODO : Ganti kolom no_kk jadi no_rtm
+            ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->get()
             ->row_array();
     }
@@ -357,15 +345,8 @@ class Laporan_penduduk_model extends MY_Model
 
     private function str_jml_penduduk($where, $sex = '')
     {
-        if ($dusun = $this->session->userdata('dusun')) {
-            $this->db->where('a.dusun', $dusun);
-        }
-        if ($rw = $this->session->userdata('rw')) {
-            $this->db->where('a.rw', $rw);
-        }
-        if ($rt = $this->session->userdata('rt')) {
-            $this->db->where('a.rt', $rt);
-        }
+        $this->filter_wilayah();
+
         if ($sex) {
             $this->db->where('b.sex', $sex);
         }
@@ -465,15 +446,8 @@ class Laporan_penduduk_model extends MY_Model
                     ->where('u.suku IS NOT NULL')
                     ->where('u.suku != ""')
                     ->join('tweb_wil_clusterdesa a', 'u.id_cluster = a.id', 'left');
-                if ($dusun = $this->session->userdata('dusun')) {
-                    $this->db->where('a.dusun', $dusun);
-                }
-                if ($rw = $this->session->userdata('rw')) {
-                    $this->db->where('a.rw', $rw);
-                }
-                if ($rt = $this->session->userdata('rt')) {
-                    $this->db->where('a.rt', $rt);
-                }
+
+                $this->filter_wilayah();
 
                 break;
 
@@ -666,6 +640,52 @@ class Laporan_penduduk_model extends MY_Model
 
         foreach ($id_cb as $id) {
             $this->delete_rentang($id, $semua = true);
+        }
+    }
+
+    public function filter()
+    {
+        $this->filter_status();
+        $this->filter_tahun();
+        $this->filter_wilayah();
+    }
+
+    public function filter_status()
+    {
+        $status = (string) $this->session->status;
+        if ($status != '') {
+            $this->db->where('u.status', $status);
+        }
+    }
+
+    public function filter_tahun()
+    {
+        $tahun = $this->session->tahun;
+        if ($tahun != '') {
+            $this->db
+                ->group_start()
+                ->where('YEAR(u.sdate) <=', $tahun)
+                ->where('YEAR(u.edate) >=', $tahun)
+                ->group_end();
+        }
+    }
+
+    public function filter_wilayah()
+    {
+        $dusun = $this->session->dusun;
+        $rw    = $this->session->rw;
+        $rt    = $this->session->rt;
+
+        if ($dusun) {
+            $this->db->group_start();
+            $this->db->where('a.dusun', $dusun);
+            if ($rw) {
+                $this->db->where('a.rw', $rw);
+                if ($rt) {
+                    $this->db->where('a.rt', $rt);
+                }
+            }
+            $this->db->group_end();
         }
     }
 }

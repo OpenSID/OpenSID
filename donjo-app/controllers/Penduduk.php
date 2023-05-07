@@ -596,6 +596,13 @@ class Penduduk extends Admin_Controller
     public function statistik($tipe = '0', $nomor = 0, $sex = null)
     {
         $this->clear_session();
+        // Set filter statistik
+        $filter_global = $this->session->filter_global;
+
+        $this->session->dusun = $filter_global['dusun'];
+        $this->session->rw    = $filter_global['rw'];
+        $this->session->rt    = $filter_global['rt'];
+
         // Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
         // kecuali untuk laporan wajib KTP
         if ($sex == null && $tipe != 18) {

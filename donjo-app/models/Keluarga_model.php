@@ -122,6 +122,23 @@ class Keluarga_model extends MY_Model
         $this->db->where_in('u.no_kk ', $kumpulan_kk);
     }
 
+    private function filter_bantuan()
+    {
+        $status = (string) $this->session->filter_global['status'];
+        if ($status != '') {
+            $this->db->where('rcb.status', $status);
+        }
+
+        $tahun = $this->session->filter_global['tahun'];
+        if ($tahun != '') {
+            $this->db
+                ->group_start()
+                ->where('YEAR(rcb.sdate) <=', $tahun)
+                ->where('YEAR(rcb.edate) >=', $tahun)
+                ->group_end();
+        }
+    }
+
     private function bantuan_keluarga_sql()
     {
         // Yg berikut hanya untuk menampilkan peserta bantuan
@@ -135,6 +152,8 @@ class Keluarga_model extends MY_Model
                 $this->db
                     ->join('program_peserta bt', 'bt.peserta = u.no_kk')
                     ->join('program rcb', 'bt.program_id = rcb.id', 'left');
+
+                $this->filter_bantuan();
             }
         }
         // Untuk BUKAN PESERTA program bantuan tertentu

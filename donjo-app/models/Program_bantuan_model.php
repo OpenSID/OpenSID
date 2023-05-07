@@ -980,6 +980,21 @@ class Program_bantuan_model extends MY_Model
 
     private function get_all_peserta_bantuan_query()
     {
+        $dusun = $this->session->dusun;
+        $rw    = $this->session->rw;
+        $rt    = $this->session->rt;
+        if ($dusun = $this->session->dusun) {
+            $this->db->group_start();
+            $this->db->where('a.dusun', $dusun);
+            if ($rw = $this->session->rw) {
+                $this->db->where('a.rw', $rw);
+                if ($rt = $this->session->rt) {
+                    $this->db->where('a.rt', $rt);
+                }
+            }
+            $this->db->group_end();
+        }
+
         $this->db
             ->select('p.nama as program, pp.kartu_nama as peserta, pp.kartu_alamat AS alamat')
             ->from('program p')
@@ -987,11 +1002,18 @@ class Program_bantuan_model extends MY_Model
 
         // keluarga
         if ($this->input->post('stat') == 'bantuan_keluarga') {
-            $this->db->where('p.sasaran', '2');
+            $this->db
+                ->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
+                ->join('tweb_penduduk pd', 'k.nik_kepala = pd.id', 'left')
+                ->join('tweb_wil_clusterdesa a', 'pd.id_cluster = a.id', 'left')
+                ->where('p.sasaran', '2');
         }
         // penduduk
         else {
-            $this->db->where('p.sasaran', '1');
+            $this->db
+                ->join('tweb_penduduk pd', 'pp.peserta = pd.nik', 'left')
+                ->join('tweb_wil_clusterdesa a', 'pd.id_cluster = a.id', 'left')
+                ->where('p.sasaran', '1');
         }
     }
 

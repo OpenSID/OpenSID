@@ -599,7 +599,8 @@ class Keluarga extends Admin_Controller
                 $this->session->program_bantuan = $program_id;
                 $nama                           = $this->db->select('nama')
                     ->where('id', $program_id)
-                    ->get('program')->row()
+                    ->get('program')
+                    ->row()
                     ->nama;
                 if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
