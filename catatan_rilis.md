@@ -8,5 +8,6 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. [#6584](https://github.com/OpenSID/OpenSID/issues/6584) Perbaikan data apartur pada tampilan anjungan yang statis.
 3. [#6583](https://github.com/OpenSID/OpenSID/issues/6583) Perbaikan error load datatables pada halaman home.
 4. [#6582](https://github.com/OpenSID/OpenSID/issues/6582) Perbaikan filter user grup admin yang aktif atau grup lainnya secara bersamaan.
+5. [#6579](https://github.com/OpenSID/OpenSID/issues/6579) Perbaikan paginasi tidak sesuai pada modul grup pengguna.
 
 #### Perubahan Teknis
