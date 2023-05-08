@@ -9,6 +9,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 3. [#6608](https://github.com/OpenSID/OpenSID/issues/6608) Menambahkan Infinite Scroll pada menu stunting tambah data kesehatan ibu & anak (KIA).
 4. [#6596](https://github.com/OpenSID/OpenSID/issues/6596) Menambahkan Infinite scroll tambah data rtm perpenduduk.
 5. [#6597](https://github.com/OpenSID/OpenSID/issues/6597) Menambahkan Infinite scroll pada tambah anggota rumah tangga.
+6. [#6598](https://github.com/OpenSID/OpenSID/issues/6598) Menambahkan Infinite scroll pada tambah anggota kelompok.
 
 #### Perbaikan BUG
 

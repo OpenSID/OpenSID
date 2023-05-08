@@ -106,26 +106,51 @@ $(document).ready(function()
 		$('.select2-ikon').trigger('change');
 	});
 
+	// suplemen terdata
 	$('#terdata').select2({
-			ajax: {
-				url: SITE_URL + 'suplemen/apipenduduksuplemen',
-				dataType: 'json',
-				data: function(params) {
-					return {
-						q: params.term || '',
-						page: params.page || 1,
-					};
-				},
-				cache: true
+		ajax: {
+			url: SITE_URL + 'suplemen/apipenduduksuplemen',
+			dataType: 'json',
+			data: function(params) {
+				return {
+					q: params.term || '',
+					page: params.page || 1,
+				};
 			},
-			placeholder: function() {
-				$(this).data('placeholder');
+			cache: true
+		},
+		placeholder: function() {
+			$(this).data('placeholder');
+		},
+		minimumInputLength: 0,
+		allowClear: true,
+		escapeMarkup: function(markup) {
+			return markup;
+		},
+	});
+
+	// anggota kelompok
+	$('#id_penduduk').select2({
+		ajax: {
+			url: SITE_URL + 'kelompok/apipendudukkelompok',
+			dataType: 'json',
+			data: function(params) {
+				return {
+					q: params.term || '',
+					page: params.page || 1,
+					kelompok: $(this).data('kelompok'),
+				};
 			},
-			minimumInputLength: 0,
-			allowClear: true,
-			escapeMarkup: function(markup) {
-				return markup;
-			},
-		});
+			cache: true
+		},
+		placeholder: function() {
+			$(this).data('placeholder');
+		},
+		minimumInputLength: 0,
+		allowClear: true,
+		escapeMarkup: function(markup) {
+			return markup;
+		},
+	});
 
 });
