@@ -176,4 +176,27 @@ $(document).ready(function()
 		},
 	});
 
+	// Covid Pemudik
+	$('#covid_pemudik').select2({
+		ajax: {
+			url: SITE_URL + 'covid19/apipendudukpemudik',
+			dataType: 'json',
+			data: function(params) {
+				return {
+					q: params.term || '',
+					page: params.page || 1,
+				};
+			},
+			cache: true
+		},
+		placeholder: function() {
+			$(this).data('placeholder');
+		},
+		minimumInputLength: 0,
+		allowClear: true,
+		escapeMarkup: function(markup) {
+			return markup;
+		},
+	});
+
 });
