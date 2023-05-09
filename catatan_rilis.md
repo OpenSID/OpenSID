@@ -11,5 +11,6 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 5. [#6579](https://github.com/OpenSID/OpenSID/issues/6579) Perbaikan paginasi tidak sesuai pada modul grup pengguna.
 6. [#6607](https://github.com/OpenSID/OpenSID/issues/6607) Perbaikan pagging pada menu vaksin Laporan Penduduk.
 7. [#6601](https://github.com/OpenSID/OpenSID/issues/6601) Perbaikan query data calon pemilih agar lebih cepat load halaman.
+8. [#6602](https://github.com/OpenSID/OpenSID/issues/6602) Perbaikan tampilan anjungan dan buku tamu pada tampilan baru.
 
 #### Perubahan Teknis

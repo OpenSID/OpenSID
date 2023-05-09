@@ -68,9 +68,9 @@
                     <div class="grider mlr-min1vh">
                         <div class="col-input">
                             <div class="form-group">
-                                <label>Berkunjung</label>
+                                <label>Bertemu</label>
                                 <select class="form-control select2 required" name="id_bidang" placeholder="Bertemu" required>
-                                    <option value="">Berkunjung</option>
+                                    <option label="Pilih" value="">Pilih</option>
                                     @foreach ($bertemu as $key => $value)
                                     <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach

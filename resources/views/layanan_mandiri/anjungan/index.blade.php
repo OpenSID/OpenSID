@@ -127,9 +127,7 @@
         <!-- Mulai Video/Slider, Artikel & Icon Link -->
         <div class="anjungan-middle">
             <div class="anjungan-middle-inner plr-master">
-
                 <div class="grider mainmargin">
-
                     <!-- Mulai Video/Slider -->
                     <div class="slider-area">
                         @if (setting('anjungan_profil') == 1)
@@ -194,15 +192,10 @@
                                     <div class="indicator"></div>
                                 </div>
                                 <div class="content">
-
                                     <section>
-
                                         <div class="article-box">
                                             <div id="slide-container">
                                                 <div id="slides">
-
-
-
                                                     <article class="featured-article animated">
                                                         <div class="mlr-10">
                                                             <div class="grider mlr-min5">
@@ -224,7 +217,7 @@
                                                                                         {{ tgl_indo($arsip['tgl_upload']) }}
                                                                                     </div>
                                                                                 </div>
-                                                                                <h2>{{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 25, $end = '...') }}
+                                                                                <h2>{{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 75, $end = '...') }}
                                                                                 </h2>
                                                                             </a>
                                                                         </div>
@@ -246,7 +239,7 @@
                                                         <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}"
                                                             class="popup">
                                                             <div class="article-row">
-                                                                <div class="relhid mlr-min10">
+                                                                <div class="relhid mlr-min5">
                                                                     <div class="article-image">
                                                                         <div class="imagecrop-artikel">
                                                                             <img src="images/artikel/artikel5.jpg">
@@ -261,7 +254,7 @@
                                                                     </div>
                                                                     <div class="article-title">
                                                                         <p>{{ hit($arsip['hit']) }} dilihat</p>
-                                                                        <h2> {{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 20, $end = '...') }}
+                                                                        <h2> {{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 65, $end = '...') }}
                                                                         </h2>
                                                                     </div>
                                                                 </div>
