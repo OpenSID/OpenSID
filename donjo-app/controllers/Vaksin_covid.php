@@ -184,13 +184,21 @@ class Vaksin_covid extends Admin_Controller
         }
     }
 
-    public function laporan_penduduk()
+    public function laporan_penduduk(int $p = 1)
     {
+        $per_page = $this->input->post('per_page');
+        if (isset($per_page)) {
+            $this->session->per_page = $per_page;
+        }
+
         $pamong = Pamong::penandaTangan()->get();
 
         $data = [
+            'func'         => 'laporan_penduduk',
             'selected_nav' => 'laporan',
-            'main'         => $this->vaksin_covid_model->list_penduduk(0),
+            'set_page'     => $this->_set_page,
+            'main'         => $this->vaksin_covid_model->list_penduduk(),
+            'paging'       => $this->vaksin_covid_model->paging($p),
             'kades'        => $data['sekdes'] = $pamong,
             'sekdes'       => $data['sekdes'] = $pamong,
             'isi'          => 'covid19/vaksin/cetak',

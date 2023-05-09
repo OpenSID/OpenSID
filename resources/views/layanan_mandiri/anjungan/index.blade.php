@@ -44,7 +44,8 @@
                     <img src="{{ gambar_desa($desa['logo']) }}" alt="logo">
                     <div>
                         <h1>Anjungan Desa Mandiri</h1>
-                        <p> {{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}</p>
+                        <p> {{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}
+                        </p>
                     </div>
                 </div>
             </a>
@@ -52,16 +53,20 @@
 
             <!-- Mulai Icon Kanan -->
             <div class="topright difle-l">
-                <a class="topright-icon radius-4 popup" title="Kehadiran Perangkat Desa" data-value="./kehadiran"><img src="{{ asset('images/anjungan/icon/absen.png') }}">
+                <a class="topright-icon radius-4 popup" title="Kehadiran Perangkat Desa" data-value="./kehadiran"><img
+                        src="{{ asset('images/anjungan/icon/absen.png') }}">
                     <p>Absen</p>
                 </a>
-                <a class="topright-icon radius-4" href="./buku-tamu"><img src="{{ asset('images/anjungan/icon/bukutamu.png') }}">
+                <a class="topright-icon radius-4" href="./buku-tamu"><img
+                        src="{{ asset('images/anjungan/icon/bukutamu.png') }}">
                     <p>Buku<br />Tamu</p>
                 </a>
-                <a class="topright-icon radius-4" data-bs-toggle="modal" data-bs-target="#aparatur"><img src="{{ asset('images/anjungan/icon/aparatur.png') }}">
+                <a class="topright-icon radius-4" data-bs-toggle="modal" data-bs-target="#aparatur"><img
+                        src="{{ asset('images/anjungan/icon/aparatur.png') }}">
                     <p>Aparatur<br />Desa</p>
                 </a>
-                <a class="topright-icon radius-4 popup" data-value="./layanan-mandiri/masuk"><img src="{{ asset('images/anjungan/icon/mandiri.png') }}">
+                <a class="topright-icon radius-4 popup" data-value="./layanan-mandiri/masuk"><img
+                        src="{{ asset('images/anjungan/icon/mandiri.png') }}">
                     <p>Layanan<br />Mandiri</p>
                 </a>
                 <div style="position:relative;">
@@ -97,7 +102,8 @@
                             </a>
                         </div>
                         <div class="darklight difle-l" onclick="setDarkMode(true)" id="darkBtn">
-                            <div class="darklight-icon radius-4 difle-c"><img src="{{ asset('images/anjungan/icon/dark.png') }}"></div>
+                            <div class="darklight-icon radius-4 difle-c"><img
+                                    src="{{ asset('images/anjungan/icon/dark.png') }}"></div>
                             <p>Gelapkan Layar</p>
                         </div>
                     </div>
@@ -127,26 +133,28 @@
                     <!-- Mulai Video/Slider -->
                     <div class="slider-area">
                         @if (setting('anjungan_profil') == 1)
-                        <div class="carousel js-flickity" data-flickity='{ "autoPlay": true, "cellAlign": "left", "fade": "true" }'>
-                            @foreach ($gambar as $item)
-                            <div class="carousel-col">
-                                <div class="image-slider">
-                                    <img src="{{ base_url() . LOKASI_GALERI . 'sedang_' . $item->gambar }}">
+                            <div class="carousel js-flickity"
+                                data-flickity='{ "autoPlay": true, "cellAlign": "left", "fade": "true" }'>
+                                @foreach ($gambar as $item)
+                                    <div class="carousel-col">
+                                        <div class="image-slider">
+                                            <img src="{{ base_url() . LOKASI_GALERI . 'sedang_' . $item->gambar }}">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @elseif (setting('anjungan_profil') == 2)
+                            <div class="video-container">
+                                <div class="video-view">
+                                    <source src="{{ setting('anjungan_video') }}" type="video/mp4">
                                 </div>
                             </div>
-                            @endforeach
-                        </div>
-
-                        @elseif (setting('anjungan_profil') == 2)
-                        <div class="video-container">
-                            <div class="video-view">
-                                <source src="{{ setting('anjungan_video') }}" type="video/mp4">
-                            </div>
-                        </div>
                         @else
-                        <div class="video-container">
-                            <iframe class="video-view" src="{{ setting('anjungan_youtube') }}?autoplay=1&controls=1&mute=1&loop=1" frameborder="0"></iframe>
-                        </div>
+                            <div class="video-container">
+                                <iframe class="video-view"
+                                    src="{{ setting('anjungan_youtube') }}?autoplay=1&controls=1&mute=1&loop=1"
+                                    frameborder="0"></iframe>
+                            </div>
 
                         @endif
 
@@ -166,7 +174,8 @@
                                     <li>
                                         <label for="tab1" role="button" class="difle-c">
                                             <svg viewBox="0 0 24 24">
-                                                <path d="M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L5,8.09V15.91L12,19.85L19,15.91V8.09L12,4.15Z" />
+                                                <path
+                                                    d="M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L5,8.09V15.91L12,19.85L19,15.91V8.09L12,4.15Z" />
                                             </svg>
                                             <span>Terbaru</span>
                                         </label>
@@ -174,7 +183,8 @@
                                     <li>
                                         <label for="tab2" role="button" class="difle-c">
                                             <svg viewBox="0 0 24 24">
-                                                <path d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z" />
+                                                <path
+                                                    d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z" />
                                             </svg>
                                             <span>Populer</span>
                                         </label>
@@ -197,28 +207,29 @@
                                                         <div class="mlr-10">
                                                             <div class="grider mlr-min5">
                                                                 @foreach ($arsip_terkini as $key => $arsip)
-                                                                @if($loop->odd)
-                                                                <div class="col-2">
-                                                                    <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}" class="popup">
-                                                                        <div class="imagecrop-grid">
-                                                                            @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']))
-                                                                            <img src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip[gambar]) }}">
-                                                                            @else
-                                                                            <img src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
-                                                                            @endif
+                                                                    @if ($loop->odd)
+                                                                        <div class="col-2">
+                                                                            <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}"
+                                                                                class="popup">
+                                                                                <div class="imagecrop-grid">
+                                                                                    @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']))
+                                                                                        <img
+                                                                                            src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip[gambar]) }}">
+                                                                                    @else
+                                                                                        <img
+                                                                                            src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
+                                                                                    @endif
 
-                                                                            <div class="posting">
-                                                                                {{ tgl_indo($arsip['tgl_upload']) }}
-                                                                            </div>
+                                                                                    <div class="posting">
+                                                                                        {{ tgl_indo($arsip['tgl_upload']) }}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <h2>{{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 25, $end = '...') }}
+                                                                                </h2>
+                                                                            </a>
                                                                         </div>
-                                                                        <h2>{{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 25, $end = '...') }}</h2>
-                                                                    </a>
-                                                                </div>
-                                                                @endif
+                                                                    @endif
                                                                 @endforeach
-
-
-
                                                             </div>
                                                         </div>
                                                     </article>
@@ -232,26 +243,30 @@
                                             <div class="marquee-top">
                                                 <div class="track-top">
                                                     @foreach ($arsip_populer as $arsip)
-                                                    <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}" class="popup">
-                                                        <div class="article-row">
-                                                            <div class="relhid mlr-min10">
-                                                                <div class="article-image">
-                                                                    <div class="imagecrop-artikel">
-                                                                        <img src="images/artikel/artikel5.jpg">
-                                                                        @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']))
-                                                                        <img src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip[gambar]) }}">
-                                                                        @else
-                                                                        <img src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
-                                                                        @endif
+                                                        <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}"
+                                                            class="popup">
+                                                            <div class="article-row">
+                                                                <div class="relhid mlr-min10">
+                                                                    <div class="article-image">
+                                                                        <div class="imagecrop-artikel">
+                                                                            <img src="images/artikel/artikel5.jpg">
+                                                                            @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']))
+                                                                                <img
+                                                                                    src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip[gambar]) }}">
+                                                                            @else
+                                                                                <img
+                                                                                    src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="article-title">
+                                                                        <p>{{ hit($arsip['hit']) }} dilihat</p>
+                                                                        <h2> {{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 20, $end = '...') }}
+                                                                        </h2>
                                                                     </div>
                                                                 </div>
-                                                                <div class="article-title">
-                                                                    <p>{{ hit($arsip['hit']) }} dilihat</p>
-                                                                    <h2> {{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 20, $end = '...') }}</h2>
-                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </a>
+                                                        </a>
                                                     @endforeach
                                                 </div>
                                             </div>
@@ -268,18 +283,19 @@
                 <!-- Mulai Icon Link -->
                 <div class="anjungan-bottom">
                     <div class="margin-carousel">
-                        <div class="carousel js-flickity" data-flickity='{"pageDots": false, "autoPlay": true, "cellAlign": "left", "wrapAround": true }'>
+                        <div class="carousel js-flickity"
+                            data-flickity='{"pageDots": false, "autoPlay": true, "cellAlign": "left", "wrapAround": true }'>
                             @foreach ($menu as $item)
-                            <div class="carousel-col">
-                                <a data-value="{{ $item->link }}" class="popup">
-                                    <div class="icon-stat">
-                                        <img src="{{ icon_menu_anjungan($item->icon) }}">
-                                        <div class="icon-stat-title difle-c">
-                                            <p>{{ $item->nama }}</p>
+                                <div class="carousel-col">
+                                    <a data-value="{{ $item->link }}" class="popup">
+                                        <div class="icon-stat">
+                                            <img src="{{ icon_menu_anjungan($item->icon) }}">
+                                            <div class="icon-stat-title difle-c">
+                                                <p>{{ $item->nama }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
                             @endforeach
 
                         </div>
@@ -321,75 +337,30 @@
                             <div class="modal-padding">
                                 <div class="grider mlr-min15">
                                     @if ($pamong)
-                                    @foreach ($pamong as $data)
-                                    <div class="aparatur-col">
-                                        <div class="aparatur-container">
-                                            <div class="aparatur-box"><img src="{{ $data['foto'] }}" alt="Foto {{ $data['nama'] }}"></div>
-                                        </div>
-                                        <h2>{{ $data['jabatan'] }}</h2>
-                                        <p>{{ $data['nama'] }}</p>
-                                        <div class="absensi absen difle-c">
-                                            @if (setting('tampilkan_kehadiran') && $data['status_kehadiran'] == 'hadir')
-                                            <span class='label label-success'>Hadir</span>
-                                            @elseif (setting('tampilkan_kehadiran') && $data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir')
-                                            <span class='label label-danger'><?= ucwords($data['status_kehadiran']) ?></span>
-                                            @else
-                                            <span class='label label-danger'>Belum Rekam Kehadiran</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    @endforeach
+                                        @foreach ($pamong as $data)
+                                            <div class="aparatur-col">
+                                                <div class="aparatur-container">
+                                                    <div class="aparatur-box"><img src="{{ $data['foto'] }}"
+                                                            alt="Foto {{ $data['nama'] }}"></div>
+                                                </div>
+                                                <h2>{{ $data['jabatan'] }}</h2>
+                                                <p>{{ $data['nama'] }}</p>
+                                                <div class="absensi absen difle-c">
+                                                    @if (setting('tampilkan_kehadiran') && $data['status_kehadiran'] == 'hadir')
+                                                        <span class='label label-success'>Hadir</span>
+                                                    @elseif (setting('tampilkan_kehadiran') && $data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir')
+                                                        <span
+                                                            class='label label-danger'><?= ucwords($data['status_kehadiran']) ?></span>
+                                                    @else
+                                                        <span class='label label-danger'>Belum Rekam Kehadiran</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     @else
-                                    <h5>Pemerintah {{ ucwords(setting('sebutan_desa') . ' ' . $nama_desa) }} tidak tersedia.</h5>
+                                        <h5>Pemerintah {{ ucwords(setting('sebutan_desa') . ' ' . $nama_desa) }} tidak
+                                            tersedia.</h5>
                                     @endif
-                                    <div class="aparatur-col">
-                                        <div class="aparatur-container">
-                                            <div class="aparatur-box"><img src="images/avatar.png"></div>
-                                        </div>
-                                        <h2>Kepala Desa</h2>
-                                        <p>Muhammad Ilham</p>
-                                        <div class="absensi absen difle-c">Sudah Rekap Kehadiran</div>
-                                    </div>
-                                    <div class="aparatur-col">
-                                        <div class="aparatur-container">
-                                            <div class="aparatur-box"><img src="images/avatar.png"></div>
-                                        </div>
-                                        <h2>Sekretaris Desa</h2>
-                                        <p>Mustahiq S.Adm</p>
-                                        <div class="absensi no-absen difle-c">Belum Rekap Kehadiran</div>
-                                    </div>
-                                    <div class="aparatur-col">
-                                        <div class="aparatur-container">
-                                            <div class="aparatur-box"><img src="images/avatar.png"></div>
-                                        </div>
-                                        <h2>Kaur Pemerintahan</h2>
-                                        <p>Syafruddin</p>
-                                        <div class="absensi no-absen difle-c">Belum Rekap Kehadiran</div>
-                                    </div>
-                                    <div class="aparatur-col">
-                                        <div class="aparatur-container">
-                                            <div class="aparatur-box"><img src="images/avatar.png"></div>
-                                        </div>
-                                        <h2>Kaur Umum</h2>
-                                        <p>Supardi Rustam</p>
-                                        <div class="absensi no-absen difle-c">Belum Rekap Kehadiran</div>
-                                    </div>
-                                    <div class="aparatur-col">
-                                        <div class="aparatur-container">
-                                            <div class="aparatur-box"><img src="images/avatar.png"></div>
-                                        </div>
-                                        <h2>Kaur Keuangan</h2>
-                                        <p>Mardiana</p>
-                                        <div class="absensi no-absen difle-c">Belum Rekap Kehadiran</div>
-                                    </div>
-                                    <div class="aparatur-col">
-                                        <div class="aparatur-container">
-                                            <div class="aparatur-box"><img src="images/avatar.png"></div>
-                                        </div>
-                                        <h2>Kaur Pembangunan</h2>
-                                        <p>Syafri Adi</p>
-                                        <div class="absensi no-absen difle-c">Belum Rekap Kehadiran</div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -397,7 +368,8 @@
                 </div>
                 <div class="footmodal difle-c">
                     <div class="close-modal difle-c" data-bs-dismiss="modal"><svg viewBox="0 0 24 24">
-                            <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                            <path
+                                d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
                         </svg>Tutup</div>
                 </div>
             </div>
