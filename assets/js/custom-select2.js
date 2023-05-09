@@ -199,4 +199,26 @@ $(document).ready(function()
 		},
 	});
 
+	// Vaksin Penerima
+	$('#vaksin_penerima').select2({
+		ajax: {
+			url: SITE_URL + 'vaksin_covid/apipendudukvaksin',
+			dataType: 'json',
+			data: function(params) {
+				return {
+					q: params.term || '',
+					page: params.page || 1,
+				};
+			},
+			cache: true
+		},
+		placeholder: function() {
+			$(this).data('placeholder');
+		},
+		minimumInputLength: 0,
+		allowClear: true,
+		escapeMarkup: function(markup) {
+			return markup;
+		},
+	});
 });
