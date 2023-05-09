@@ -41,6 +41,7 @@ use App\Enums\SasaranEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use App\Models\Config;
+use App\Models\Penduduk;
 use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
@@ -114,6 +115,38 @@ class Program_bantuan extends Admin_Controller
         $data['list_sasaran'] = SasaranEnum::all();
 
         $this->render('program_bantuan/form', $data);
+    }
+
+    public function apipendudukbantuan()
+    {
+        if ($this->input->is_ajax_request()) {
+            $cari    = $this->input->get('q');
+            $bantuan = $this->input->get('bantuan');
+            $peserta = BantuanPeserta::where('program_id', '=', $bantuan)->pluck('peserta');
+
+            $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
+                ->when($cari, static function ($query) use ($cari) {
+                    $query->orWhere('nik', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%");
+                })
+                ->whereNotIn('nik', $peserta)
+                ->paginate(10);
+
+            return json([
+                'results' => collect($penduduk->items())
+                    ->map(static function ($item) {
+                        return [
+                            'id'   => $item->id,
+                            'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                        ];
+                    }),
+                'pagination' => [
+                    'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+                ],
+            ]);
+        }
+
+        return show_404();
     }
 
     public function panduan()

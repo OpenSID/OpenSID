@@ -153,4 +153,27 @@ $(document).ready(function()
 		},
 	});
 
+	$('#nik_bantuan').select2({
+		ajax: {
+			url: SITE_URL + 'program_bantuan/apipendudukbantuan',
+			dataType: 'json',
+			data: function(params) {
+				return {
+					q: params.term || '',
+					page: params.page || 1,
+					bantuan: $(this).data('bantuan'),
+				};
+			},
+			cache: true
+		},
+		placeholder: function() {
+			$(this).data('placeholder');
+		},
+		minimumInputLength: 0,
+		allowClear: true,
+		escapeMarkup: function(markup) {
+			return markup;
+		},
+	});
+
 });
