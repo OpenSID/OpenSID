@@ -13,6 +13,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 7. [#6611](https://github.com/OpenSID/OpenSID/issues/6611) Menambahkan Infinite scroll bantuan penduduk.
 8. [#6603](https://github.com/OpenSID/OpenSID/issues/6603) Menambahkan Infinite scroll pada tambah warga pemudik.
 9. [#6606](https://github.com/OpenSID/OpenSID/issues/6606) Menambahkan Infinite scroll pada tambah data di menu vaksin data penerima.
+10. [#6628](https://github.com/OpenSID/OpenSID/issues/6628) Menambahkan Infinite scroll pada list ketua kelompok.
 
 #### Perbaikan BUG
 

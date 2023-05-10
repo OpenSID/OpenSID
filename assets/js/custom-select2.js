@@ -130,7 +130,7 @@ $(document).ready(function()
 	});
 
 	// anggota kelompok
-	$('#id_penduduk').select2({
+	$('#kelompok_penduduk').select2({
 		ajax: {
 			url: SITE_URL + 'kelompok/apipendudukkelompok',
 			dataType: 'json',
@@ -153,6 +153,7 @@ $(document).ready(function()
 		},
 	});
 
+	// peserta bantuan
 	$('#nik_bantuan').select2({
 		ajax: {
 			url: SITE_URL + 'program_bantuan/apipendudukbantuan',
