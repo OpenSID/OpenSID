@@ -37,12 +37,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\Author;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class HubungWarga extends Model
+class HubungWarga extends BaseModel
 {
+    use Author;
+
     /**
      * The table associated with the model.
      *

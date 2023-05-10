@@ -38,11 +38,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class PermohonanSurat extends Model
+class PermohonanSurat extends BaseModel
 {
     public const BELUM_LENGKAP         = 0;
     public const SEDANG_DIPERIKSA      = 1;

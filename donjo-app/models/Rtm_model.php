@@ -37,7 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\HubunganRTMEnum;
 use App\Models\Config;
+use App\Models\Rtm;
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Rtm_model extends MY_Model
@@ -50,7 +52,7 @@ class Rtm_model extends MY_Model
     public function insert()
     {
         $post = $this->input->post();
-        $nik  = bilangan($post['nik_kepala']);
+        $nik  = bilangan($post['nik']);
 
         $no_rtm = $this->db->select('no_kk')
             ->order_by('length(no_kk) DESC, no_kk DESC')->limit(1)
@@ -71,9 +73,10 @@ class Rtm_model extends MY_Model
             $rtm['no_kk'] = $kw . str_pad('1', 5, '0', STR_PAD_LEFT);
         }
 
-        $rtm['nik_kepala'] = $nik;
-        $rtm['bdt']        = ! empty($post['bdt']) ? bilangan($post['bdt']) : null;
-        $outp              = $this->db->insert('tweb_rtm', $rtm);
+        $rtm['nik_kepala']     = $nik;
+        $rtm['bdt']            = ! empty($post['bdt']) ? bilangan($post['bdt']) : null;
+        $rtm['terdaftar_dtks'] = ! empty($post['terdaftar_dtks']) ? 1 : 0;
+        $outp                  = $this->db->insert('tweb_rtm', $rtm);
 
         $default['id_rtm']     = $rtm['no_kk'];
         $default['rtm_level']  = 1;
@@ -81,6 +84,14 @@ class Rtm_model extends MY_Model
         $default['updated_by'] = $this->session->user;
         $this->db->where('id', $nik);
         $this->db->update('tweb_penduduk', $default);
+
+        // anggota
+        $default['rtm_level'] = 2;
+
+        foreach ($post['anggota_kk'] ?? [] as $anggota_id) {
+            $this->db->where('id', $anggota_id);
+            $this->db->update('tweb_penduduk', $default);
+        }
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -119,19 +130,24 @@ class Rtm_model extends MY_Model
 
     public function add_anggota($id)
     {
-        $data   = $this->input->post('id_cb');
-        $no_rtm = $this->db->select('no_kk')
-            ->where('id', $id)
-            ->get('tweb_rtm')
-            ->row()
-            ->no_kk;
+        $data = $this->input->post('id_cb');
+        $nik  = $this->input->post('nik');
+        if (! $data && ! $nik) {
+            return session_error('Tidak ada anggota yang dipilih');
+        }
 
-        $temp['id_rtm']     = $no_rtm;
-        $temp['rtm_level']  = 2;
+        // TODO :: Gunakan id pada tabel tweb_rtm agar memudahkan relasi
+        $temp['id_rtm']     = Rtm::findOrFail($id)->no_kk;
+        $temp['rtm_level']  = HubunganRTMEnum::ANGGOTA;
         $temp['updated_at'] = date('Y-m-d H:i:s');
-        $temp['updated_by'] = $this->session->user;
+        $temp['updated_by'] = auth()->id;
 
-        $this->db->where_in('id', $data);
+        if ($data) {
+            $this->db->where_in('id', $data);
+        } else {
+            $this->db->where('id', $nik);
+        }
+
         $outp = $this->db->update('tweb_penduduk', $temp);
 
         status_sukses($outp); //Tampilkan Pesan
@@ -244,12 +260,13 @@ class Rtm_model extends MY_Model
 
         $no = 0;
 
+        $no = 0;
+
         //Formating Output
         for ($i = 0; $i < count($data); $i++) {
             $no++;
             $data[$i]['no']     = $no;
             $data[$i]['alamat'] = 'Alamat :' . $data[$i]['nama'];
-            $data[$i]['nama']   = '' . $data[$i]['nama'] . ' - ' . $data[$i]['kk_level'] . '';
         }
 
         return $data;
@@ -258,18 +275,18 @@ class Rtm_model extends MY_Model
     public function list_anggota($id)
     {
         $sql = 'SELECT b.dusun, b.rw, b.rt, u.id, nik, x.nama as sex, k.no_kk, u.rtm_level, tempatlahir, tanggallahir, a.nama as agama, d.nama as pendidikan, j.nama as pekerjaan, w.nama as status_kawin, f.nama as warganegara, nama_ayah, nama_ibu, g.nama as golongan_darah, u.nama, status, h.nama AS hubungan
-			FROM penduduk_hidup u
-			LEFT JOIN keluarga_aktif k ON u.id_kk = k.id
-			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
-			LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id
-			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
-			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
-			LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id
-			LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id
-			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
-			LEFT JOIN tweb_rtm_hubungan h ON u.rtm_level = h.id
-			LEFT JOIN tweb_rtm r ON u.id_rtm = r.no_kk
-			LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id
+            FROM penduduk_hidup u
+            LEFT JOIN keluarga_aktif k ON u.id_kk = k.id
+            LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
+            LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id
+            LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
+            LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
+            LEFT JOIN tweb_golongan_darah g ON u.golongan_darah_id = g.id
+            LEFT JOIN tweb_penduduk_kawin w ON u.status_kawin = w.id
+            LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
+            LEFT JOIN tweb_rtm_hubungan h ON u.rtm_level = h.id
+            LEFT JOIN tweb_rtm r ON u.id_rtm = r.no_kk
+            LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id
             -- WHERE u.status_dasar = 1 AND
             WHERE r.id = ?
             ORDER BY rtm_level';
@@ -324,9 +341,10 @@ class Rtm_model extends MY_Model
 
     public function update_nokk($id)
     {
-        $post          = $this->input->post();
-        $data['no_kk'] = bilangan($post['no_kk']);
-        $data['bdt']   = ! empty($post['bdt']) ? bilangan($post['bdt']) : null;
+        $post                   = $this->input->post();
+        $data['no_kk']          = bilangan($post['no_kk']);
+        $data['bdt']            = ! empty($post['bdt']) ? bilangan($post['bdt']) : null;
+        $data['terdaftar_dtks'] = ! empty($post['terdaftar_dtks']) ? 1 : 0;
 
         if ($data['no_kk']) {
             $ada_nokk = $this->db
@@ -334,10 +352,7 @@ class Rtm_model extends MY_Model
                 ->where('no_kk', $data['no_kk'])
                 ->get('tweb_rtm')->row()->id;
             if ($ada_nokk && $ada_nokk != $id) {
-                $this->session->success   = 1;
-                $this->session->error_msg = 'Nomor RTM itu sudah ada';
-
-                return;
+                return session_error('Nomor RTM itu sudah ada. Silakan ganti dengan yang lain.');
             }
             $rtm = $this->db->where('id', $id)->get('tweb_rtm')->row();
             $this->db
@@ -376,7 +391,7 @@ class Rtm_model extends MY_Model
         $query_dasar = $this->db->select('u.*')->get_compiled_select();
 
         $this->db
-            ->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, t.status_dasar, t.sex as id_sex, k.alamat, c.dusun, c.rw, c.rt, u.tgl_daftar')
+            ->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, t.status_dasar, t.sex as id_sex, k.alamat, c.dusun, c.rw, c.rt, u.tgl_daftar, u.terdaftar_dtks')
             ->select('(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_rtm = u.no_kk ) AS jumlah_anggota')
             ->from("({$query_dasar}) as u")
             ->join('penduduk_hidup t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1', 'left')
@@ -571,6 +586,7 @@ class Rtm_model extends MY_Model
      */
     public function impor()
     {
+        // TODO : belum cek dtks
         $this->load->library('upload');
 
         $config['upload_path']   = sys_get_temp_dir();

@@ -58,7 +58,7 @@
                                     </a>
                                 </div>
                                 <div class="form-group captcha">
-                                    <input name="captcha_code" type="text" class="form-control" maxlength="6" placeholder="Isikan jawaban" required />
+                                    <input name="captcha_code" type="text" class="form-control" maxlength="6" placeholder="Isikan jawaban" autocomplete="off" required />
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn">Kirim Lupa Sandi</button>

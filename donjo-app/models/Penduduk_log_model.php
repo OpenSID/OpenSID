@@ -35,9 +35,12 @@
  *
  */
 
+use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
+use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -137,19 +140,20 @@ class Penduduk_log_model extends MY_Model
      */
     public function kembalikan_status($id_log)
     {
-        // Cek untuk kode_peristiwa mati (2) hanya boleh dikembalikan jika tgl(thn/bln) lapor masih sama dengan tgl(thn/bln) saat mau dikembalikan
-        $log = LogPenduduk::find($id_log) ?? show_404();
+        $log = LogPenduduk::findOrFail($id_log);
 
-        // Kembalikan status selain masuk dan lahir
-        if ($log->kode_peristiwa != 5 && $log->kode_peristiwa != 1) {
-            $data['status_dasar'] = 1; // status dasar hidup
-            $data['updated_at']   = date('Y-m-d H:i:s');
-            $data['updated_by']   = $this->session->user;
-            $outp                 = $this->db->where('id', $log->id_pend)->update('tweb_penduduk', $data);
+        // Kembalikan status selain lahir dan masuk
+        if (! in_array($log->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])) {
+            $outp = Penduduk::find($log->id_pend)
+                ->updated([
+                    'status_dasar' => StatusDasarEnum::HIDUP,
+                ]);
+
             // Hapus log_keluarga, jika terkait
-            $outp = $outp && $this->db->where('id_log_penduduk', $log->id)->delete('log_keluarga');
+            $outp = $outp && LogKeluarga::where('id_log_penduduk', $log->id)->delete();
+
             // Hapus log penduduk
-            $outp = $outp && $this->db->where('id', $id_log)->delete('log_penduduk');
+            $outp = $outp && LogPenduduk::find($id_log)->delete();
 
             return status_sukses($outp);
         }
@@ -166,13 +170,26 @@ class Penduduk_log_model extends MY_Model
      */
     public function kembalikan_status_pergi($id_log)
     {
-        $log = $this->db->where('id', $id_log)->get('log_penduduk')->row();
+        $log = LogPenduduk::findOrFail($id_log);
+
+        // Cek tgl lapor
+        // tampilkan hanya jika beda tanggal lapor
+        $tgl_lapor    = Carbon::parse($log['tgl_lapor'])->format('m-Y');
+        $tgl_sekarang = Carbon::now()->format('m-Y');
+        if ($tgl_lapor >= $tgl_sekarang) {
+            session_error('Tidak dapat mengubah status dasar penduduk, karena tanggal lapor masih sama dengan tanggal sekarang.');
+
+            return;
+        }
+
         // Kembalikan status_dasar hanya jika penduduk pindah keluar (3) atau tidak tetap pergi (6)
         if (in_array($log->kode_peristiwa, [LogPenduduk::PINDAH_KELUAR, LogPenduduk::TIDAK_TETAP_PERGI])) {
-            $data['status_dasar'] = 1; // status dasar hidup
-            $data['updated_at']   = date('Y-m-d H:i:s');
-            $data['updated_by']   = auth()->id;
-            if (! $this->db->where('id', $log->id_pend)->update('tweb_penduduk', $data)) {
+            $outp = Penduduk::find($log->id_pend)
+                ->updated([
+                    'status_dasar' => StatusDasarEnum::HIDUP,
+                ]);
+
+            if (! $outp) {
                 $this->session->success = -1;
             }
 
@@ -191,7 +208,7 @@ class Penduduk_log_model extends MY_Model
 
             // Log Keluarga jika kepala keluarga
             $penduduk = Penduduk::select(['id', 'id_kk', 'kk_level'])->find($log->id_pend);
-            if ($penduduk->kk_level == 1) {
+            if ($penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA) {
                 $logKeluarga = [
                     'id_kk'         => $penduduk->id_kk,
                     'id_peristiwa'  => LogKeluarga::KELUARGA_BARU_DATANG,
@@ -202,6 +219,8 @@ class Penduduk_log_model extends MY_Model
                 $sql = $this->db->insert_string('log_keluarga', $logKeluarga) . duplicate_key_update_str($logKeluarga);
                 $this->db->query($sql);
             }
+
+            session_success();
         }
     }
 
@@ -455,17 +474,19 @@ class Penduduk_log_model extends MY_Model
             }
 
             // Ambil Log Pergi Terakhir Penduduk
-            $log_pergi_terakhir = $this->db
-                ->select('lp.id')
-                ->from('log_penduduk lp')
-                ->where('lp.id_pend', $data[$i]['id'])
-                ->where_in('lp.kode_peristiwa', [3, 6])
-                ->order_by('lp.id', 'DESC')
-                ->get()
-                ->row();
+            $log_pergi_terakhir = LogPenduduk::select('id')
+                ->where('id_pend', $data[$i]['id'])
+                ->whereIn('kode_peristiwa', [LogPenduduk::PINDAH_KELUAR, LogPenduduk::TIDAK_TETAP_PERGI])
+                ->orderBy('id', 'desc')
+                ->first();
 
             $data[$i]['is_log_pergi_terakhir'] = ($log_pergi_terakhir->id == $data[$i]['id_log']);
             $data[$i]['no']                    = $j + 1;
+
+            // tampilkan hanya jika beda tanggal lapor
+            $tgl_lapor                  = Carbon::parse($data[$i]['tgl_lapor'])->format('m-Y');
+            $tgl_sekarang               = Carbon::now()->format('m-Y');
+            $data[$i]['kembali_datang'] = $tgl_lapor >= $tgl_sekarang ? false : true;
             $j++;
         }
 

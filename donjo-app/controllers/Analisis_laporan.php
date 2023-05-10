@@ -45,6 +45,14 @@ class Analisis_laporan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+
+        if (! $this->session->has_userdata('analisis_master')) {
+            $this->session->success   = -1;
+            $this->session->error_msg = 'Pilih master analisis terlebih dahulu';
+
+            redirect('analisis_master');
+        }
+
         $this->load->model(['pamong_model', 'wilayah_model', 'analisis_laporan_model', 'analisis_respon_model', 'analisis_master_model']);
         $this->session->submenu  = 'Laporan Analisis';
         $this->session->asubmenu = 'analisis_laporan';

@@ -10,6 +10,11 @@
 				<label for="bdt">BDT</label>
 				<input class="form-control input-sm angka" type="text" placeholder="BDT" name="bdt" value="<?= $kk['bdt']; ?>" minlength="16" maxlength="16"/>
 			</div>
+			<div class="form-group">
+				<label for="terdaftar_dtks">
+					<input type="checkbox" id="terdaftar_dtks" name="terdaftar_dtks" <?php $kk['terdaftar_dtks'] && print 'checked'; ?> class="form-checkbox"> Terdaftar di DTKS
+				</label>
+			</div>
 		</div>
 		<div class="modal-footer">
 			<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>

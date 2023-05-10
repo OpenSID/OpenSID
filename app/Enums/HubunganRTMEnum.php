@@ -37,21 +37,19 @@
 
 namespace App\Enums;
 
-class FontSuratEnum
+class HubunganRTMEnum extends BaseEnum
 {
-    public const DAFTAR = [
-        'Andale Mono',
-        'Arial',
-        'Arial Black',
-        'Bookman Old Style',
-        'Comic Sans MS',
-        'Courier New',
-        'Georgia',
-        'Helvetica',
-        'Impact',
-        'Tahoma',
-        'Times New Roman',
-        'Trebuchet MS',
-        'Verdana',
-    ];
+    public const KEPALA_RUMAH_TANGGA = 1;
+    public const ANGGOTA             = 2;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
+    {
+        return [
+            self::KEPALA_RUMAH_TANGGA => 'Kepala Rumah Tangga',
+            self::ANGGOTA             => 'Anggota',
+        ];
+    }
 }

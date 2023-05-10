@@ -1180,7 +1180,7 @@
 		</tr>
 		<tr>
 			<td colspan="4">&nbsp;</td>
-			<td colspan="16" style="text-align: center;"><?= $this->penandatangan_lampiran($data);?></td>
+			<td colspan="16" style="text-align: center;"><?= $penandatangan['atas_nama']?></td>
 			<td colspan="15">&nbsp;</td>
 			<td colspan="10" style="text-align: center;">&nbsp;</td>
 			<td colspan="3">&nbsp;</td>
@@ -1193,7 +1193,7 @@
 		</tr>
 		<tr>
 			<td colspan="4">&nbsp;</td>
-			<td colspan="16" style="text-align: center;"><strong>(&nbsp;<?= padded_string_center(strtoupper($input['pamong']),30)?>&nbsp;)</strong></td>
+			<td colspan="16" style="text-align: center;"><strong>(&nbsp;<?= padded_string_center(strtoupper($penandatangan['nama']),30)?>&nbsp;)</strong></td>
 			<td colspan="13">&nbsp;</td>
 			<td colspan="14" style="text-align: center;"><strong>(&nbsp;<?= padded_string_center(strtoupper($input['nama_pelapor']),30)?>&nbsp;)</strong></td>
 			<td colspan="1">&nbsp;</td>

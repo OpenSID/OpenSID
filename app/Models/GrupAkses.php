@@ -37,9 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+defined('BASEPATH') || exit('No direct script access allowed');
 
-class GrupAkses extends Model
+class GrupAkses extends BaseModel
 {
     public const ADMINISTRATOR = 1;
     public const OPERATOR      = 2;

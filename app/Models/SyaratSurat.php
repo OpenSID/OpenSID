@@ -37,11 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class SyaratSurat extends Model
+class SyaratSurat extends BaseModel
 {
     /**
      * The primary key for the model.

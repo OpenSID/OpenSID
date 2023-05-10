@@ -173,7 +173,7 @@ class Laporan_sinkronisasi_model extends MY_Model
             if (! $upload) {
                 session_error($this->upload->display_errors());
                 if (! $old_file) {
-                    redirect('laporan_penduduk');
+                    redirect($this->controller);
                 }
 
                 return $old_file;
@@ -189,7 +189,7 @@ class Laporan_sinkronisasi_model extends MY_Model
         } catch (Exception $e) {
             session_error($this->upload->display_errors());
 
-            return redirect('laporan_penduduk');
+            redirect($this->controller);
         }
     }
 

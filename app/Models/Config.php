@@ -37,12 +37,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\Author;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Config extends Model
+class Config extends BaseModel
 {
+    use Author;
+
     /**
      * The table associated with the model.
      *
@@ -116,21 +118,5 @@ class Config extends Model
     public function pamong()
     {
         return Pamong::kepalaDesa()->first();
-    }
-
-    public static function boot()
-    {
-        parent::boot();
-
-        $user_id = auth()->id ?? null;
-
-        static::creating(static function ($model) use ($user_id) {
-            $model->created_by = $user_id;
-            $model->updated_by = $user_id;
-        });
-
-        static::updating(static function ($model) use ($user_id) {
-            $model->updated_by = $user_id;
-        });
     }
 }

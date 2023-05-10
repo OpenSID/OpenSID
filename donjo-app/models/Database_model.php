@@ -35,7 +35,9 @@
  *
  */
 
+use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -203,7 +205,7 @@ class Database_model extends MY_Model
         }
 
         // Catat migrasi yg sdh dijalankan, supaya tidak diulang
-        $this->session->daftar_migrasi = null;
+        $this->session->daftar_migrasi = Schema::hasColumn('migrasi', 'premium') ? Migrasi::where('versi_database', '=', VERSI_DATABASE)->first()->premium : null;
         $this->session->success        = 1;
 
         $versi          = $this->cekCurrentVersion();
@@ -224,7 +226,7 @@ class Database_model extends MY_Model
             $this->_migrasi_db_cri();
         }
 
-        // Jalankan migrasi layanan
+        // Layanan
         $this->jalankan_migrasi('migrasi_layanan');
 
         // Lengkapi folder desa
@@ -240,43 +242,28 @@ class Database_model extends MY_Model
             }
         }
 
-        SettingAplikasi::whereKey('current_version')->update(['value' => currentVersion()]);
-        $this->catat_versi_database();
+        SettingAplikasi::where('key', '=', 'current_version')->update(['value' => currentVersion()]);
+        Migrasi::firstOrCreate(['versi_database' => VERSI_DATABASE]);
         $this->load->model('track_model');
         $this->track_model->kirim_data();
-    }
 
-    private function catat_versi_database()
-    {
-        // Catat migrasi ini telah dilakukan
-        $sudah = $this->db->where('versi_database', VERSI_DATABASE)
-            ->get('migrasi')->num_rows();
-        if (! $sudah) {
-            $this->db->insert('migrasi', ['versi_database' => VERSI_DATABASE]);
-        }
-    }
-
-    private function versi_database_terbaru()
-    {
-        $sudah = false;
-        if ($this->db->table_exists('migrasi')) {
-            $sudah = $this->db->where('versi_database', VERSI_DATABASE)
-                ->get('migrasi')->num_rows();
+        if (Schema::hasColumn('migrasi', 'premium')) {
+            Migrasi::where('versi_database', '=', VERSI_DATABASE)->update(['premium' => $this->session->daftar_migrasi]);
         }
 
-        return $sudah;
+        log_message('error', 'Versi database sudah terbaru');
     }
 
     // Cek apakah migrasi perlu dijalankan
     public function cek_migrasi()
     {
-        // Paksa menjalankan migrasi kalau belum
-        // Migrasi direkam di tabel migrasi
-        if (! $this->versi_database_terbaru()) {
-            $this->migrasi_db_cri();
+        if ($install) {
+            // Paksa menjalankan migrasi kalau belum
+            // Migrasi direkam di tabel migrasi
+            if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
+                $this->migrasi_db_cri();
+            }
         }
-
-        $this->jalankan_migrasi('migrasi_layanan');
     }
 
     // Migrasi dengan fuction
@@ -3538,38 +3525,5 @@ class Database_model extends MY_Model
         $data  = $query->result_array();
 
         return array_column($data, 'TABLE_NAME');
-    }
-
-    // TODO: Sederhanakan cara ini dengan membuat library
-    protected function validasi()
-    {
-        if (empty($token = $this->setting->layanan_opendesa_token)) {
-            log_message('error', 'Token pelanggan kosong / tidak valid.');
-
-            return false;
-        }
-
-        $tokenParts   = explode('.', $token);
-        $tokenPayload = base64_decode($tokenParts[1], true);
-        $jwtPayload   = json_decode($tokenPayload);
-        $date         = new DateTime('20' . str_replace('.', '-', currentVersion()) . '-01');
-        $version      = $date->format('Y-m-d');
-
-        $berakhir   = $jwtPayload->tanggal_berlangganan->akhir;
-        $disarankan = 'v' . str_replace('-', '.', substr($berakhir, 2, 5)) . '-premium';
-
-        if ($version > $berakhir) {
-            // Versi premium setara dengan umum adalah 6 bulan setelahnya + 1 bulan untuk versi pembaharuan
-            // Misalnya 21.05-premium setara dengan 21.12-umum, notifikasi tampil jika ada umum di atas 21.12-umum
-            $versi_setara = date('Y-m-d', strtotime('+7 month', strtotime($berakhir)));
-            $versi_setara = str_replace('-', '.', substr($versi_setara, 2, 5));
-
-            log_message('error', 'Masa aktif berlangganan fitur premium sudah berakhir.');
-            log_message('error', "Hanya diperbolehkan menggunakan {$disarankan} (maupun versi revisinya) atau menggunakan versi rilis {$versi_setara} umum.");
-
-            return false;
-        }
-
-        return true;
     }
 }

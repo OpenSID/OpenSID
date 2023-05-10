@@ -37,11 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class PendudukMandiri extends Model
+class PendudukMandiri extends BaseModel
 {
     /**
      * {@inheritDoc}

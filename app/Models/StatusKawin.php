@@ -37,11 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class StatusKawin extends Model
+class StatusKawin extends BaseModel
 {
     /**
      * {@inheritDoc}

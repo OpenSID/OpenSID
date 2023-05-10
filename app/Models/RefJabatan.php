@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\Author;
 
-class RefJabatan extends Model
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class RefJabatan extends BaseModel
 {
+    use Author;
+
     public const KADES          = 1;
     public const SEKDES         = 2;
     public const EXCLUDE_DELETE = [
@@ -76,20 +80,4 @@ class RefJabatan extends Model
     protected $casts = [
         'jenis' => 'boolean',
     ];
-
-    public static function boot()
-    {
-        parent::boot();
-
-        $user_id = auth()->id ?? null;
-
-        static::creating(static function ($model) use ($user_id) {
-            $model->created_by = $user_id;
-            $model->updated_by = $user_id;
-        });
-
-        static::updating(static function ($model) use ($user_id) {
-            $model->updated_by = $user_id;
-        });
-    }
 }

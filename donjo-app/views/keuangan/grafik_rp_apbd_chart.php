@@ -18,7 +18,7 @@
           <?php if ($subdata['judul'] != null && $key != 'laporan' && $subdata['realisasi'] != 0 || $subdata['anggaran'] != 0): ?>
             <div class="progress-group">
               <?= $subdata['judul']; ?><br>
-              <b>Rp. <?= rp($subdata['realisasi']); ?> | Rp. <?= rp($subdata['anggaran'] + ($subdata['realisasi_jurnal'] ?? 0)); ?></b>
+              <b><?= rupiah24($subdata['realisasi']); ?> | <?= rupiah24($subdata['anggaran'] + ($subdata['realisasi_jurnal'] ?? 0)); ?></b>
               <div class="progress progress-bar-striped" align="right" style="background-color: #FF0000"><small></small>
                 <div class="progress-bar progress-bar-info" role="progressbar" style="width: <?= $subdata['persen'] ?>%" aria-valuenow="<?= $subdata['persen'] ?>" aria-valuemin="0" aria-valuemax="100"><span><?= $subdata['persen'] ?> %</span></div>
               </div>

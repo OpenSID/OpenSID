@@ -56,10 +56,7 @@ class Pelanggan extends Admin_Controller
         $this->modul_ini          = 200;
         $this->sub_modul_ini      = 313;
         $this->header['kategori'] = 'pelanggan';
-
-        $this->load->model(['surat_model', 'pamong_model']);
-        $this->client = new Client();
-        $this->server = config_item('server_layanan');
+        $this->client             = new Client();
     }
 
     public function index()
@@ -76,6 +73,15 @@ class Pelanggan extends Admin_Controller
         }
 
         $this->render('pelanggan/index', ['response' => $response]);
+    }
+
+    public function peringatan()
+    {
+        if (empty($this->session->error_premium)) {
+            redirect('hom_sid');
+        }
+
+        $this->render('pelanggan/peringatan');
     }
 
     public function perbarui()
@@ -104,7 +110,7 @@ class Pelanggan extends Admin_Controller
 
         try {
             $this->upload->do_upload('permohonan');
-            $response = $this->client->post("{$this->server}/api/v1/pelanggan/perpanjang", [
+            $this->client->post(config_item('server_layanan') . '/api/v1/pelanggan/perpanjang', [
                 'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
                 'multipart' => [
                     ['name' => 'pemesanan_id', 'contents' => (int) $this->input->post('pemesanan_id')],
@@ -134,6 +140,13 @@ class Pelanggan extends Admin_Controller
     public function pemesanan()
     {
         if ($this->input->is_ajax_request()) {
+            if (config_item('demo_mode')) {
+                return json([
+                    'status'  => false,
+                    'message' => 'Tidak dapat menggati token pada wabsite demo.',
+                ]);
+            }
+
             if (isset($this->request['body']['token'])) {
                 $this->cache->hapus_cache_untuk_semua('status_langganan');
                 $post['layanan_opendesa_token'] = $this->request['body']['token'];
@@ -141,19 +154,18 @@ class Pelanggan extends Admin_Controller
 
                 $this->cache->pakai_cache(function () {
                     // request ke api layanan.opendesa.id
-
                     return json_decode(json_encode($this->request), false);
                 }, 'status_langganan', 24 * 60 * 60);
 
                 return json([
                     'status'  => true,
-                    'message' => 'berhasil tersimpan',
+                    'message' => 'Token berhasil tersimpan',
                 ]);
             }
 
             return json([
                 'status'  => false,
-                'message' => 'token Tidak ada',
+                'message' => 'Token tidak ada.',
             ]);
         }
     }

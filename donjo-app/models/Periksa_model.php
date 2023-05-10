@@ -35,10 +35,13 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Models\LogPenduduk;
 use App\Models\LogPerubahanPenduduk;
 use App\Models\PendudukMandiri;
+use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
+use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -218,6 +221,12 @@ class Periksa_model extends MY_Model
             $calon_ini                  = $this->deteksi_table_doesnt_exist($db_error_message);
             $this->periksa['masalah'][] = 'table_not_exist';
             $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        // Deteksi jabatan kades atau sekdes tidak ada
+        if (! empty($jabatan = $this->deteksi_jabatan())) {
+            $this->periksa['masalah'][]    = 'data_jabatan_tidak_ada';
+            $this->periksa['data_jabatan'] = $jabatan;
         }
 
         return $calon;
@@ -410,6 +419,36 @@ class Periksa_model extends MY_Model
         return $tabel;
     }
 
+    private function deteksi_jabatan()
+    {
+        $jabatan = [];
+        $user    = auth()->id ?? User::first()->id;
+
+        // Cek jabatan kades
+        if (! RefJabatan::find(RefJabatan::KADES)) {
+            $jabatan[] = [
+                'id'         => 1,
+                'nama'       => 'Kepala ' . ucwords($this->getSetting('sebutan_desa')),
+                'jenis'      => StatusEnum::YA,
+                'created_by' => $user,
+                'updated_by' => $user,
+            ];
+        }
+
+        // Cek jabatan sekdes
+        if (! RefJabatan::find(RefJabatan::SEKDES)) {
+            $jabatan[] = [
+                'id'         => 2,
+                'nama'       => 'Sekretaris',
+                'jenis'      => StatusEnum::YA,
+                'created_by' => $user,
+                'updated_by' => $user,
+            ];
+        }
+
+        return $jabatan;
+    }
+
     private function deteksi_table_doesnt_exist($table = null)
     {
         $database = $this->db->database;
@@ -488,6 +527,10 @@ class Periksa_model extends MY_Model
 
                 case 'tabel_invalid_date':
                     $this->perbaiki_invalid_date();
+                    break;
+
+                case 'data_jabatan_tidak_ada':
+                    $this->perbaiki_jabatan();
                     break;
 
                 default:
@@ -952,6 +995,15 @@ class Periksa_model extends MY_Model
         }
 
         return $hasil;
+    }
+
+    private function perbaiki_jabatan()
+    {
+        if ($jabatan = $this->periksa['data_jabatan']) {
+            RefJabatan::insert($jabatan);
+        }
+
+        return true;
     }
 
     private function perbaiki_anjungan()

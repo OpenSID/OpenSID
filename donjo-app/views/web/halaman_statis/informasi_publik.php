@@ -1,11 +1,12 @@
 <style type="text/css">
-  <!-- Bug? paksa kotak cari ke sisi kanan -->
-  #info_publik_wrapper .row .col-sm-6 { width: 50% !important; }
-  .swal-lg{
+  #info_publik_wrapper .row .col-sm-6 {
+    width: 50% !important;
+  }
+  .swal-lg {
     width: 1000px !important;
   }
   @media (max-width: 1000px) {
-    .swal-lg{
+    .swal-lg {
         width: 100%;
     }
 }
@@ -15,7 +16,6 @@
 	<div class="box-header with-border" style="margin-bottom: 15px;">
 		<h3 class="box-title"><?= $heading ?></h3>
 	</div>
-  <a id="pdf" href="first/tampilkan/1">Lihat b</a>
 	<div style="margin-right: 1rem; margin-left: 1rem;">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered" id="info_publik">

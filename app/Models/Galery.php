@@ -37,12 +37,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Exception;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Galery extends Model
+class Galery extends BaseModel
 {
+    public const PARRENT = 0;
+
     /**
      * {@inheritDoc}
      */

@@ -61,15 +61,21 @@ class Peraturan extends Web_Controller
     {
         if ($this->input->is_ajax_request()) {
             $filters = [
-                'tahun'    => $this->input->get('tahun'),
-                'kategori' => $this->input->get('kategori'),
+                'tahun'    => $this->input->get('tahun', true),
+                'kategori' => $this->input->get('kategori', true),
             ];
 
+            $query = Dokumen::select(['id', 'nama', 'tahun', 'satuan', 'kategori', 'attr', 'url'])
+                ->hidup()
+                ->aktif()
+                ->where('kategori', '!=', 1)
+                ->filters($filters);
+
             return datatables()
-                ->of(Dokumen::select(['id', 'nama', 'tahun', 'satuan', 'kategori'])->hidup()->where('kategori', '!=', 1)->filters($filters))
+                ->of($query)
                 ->addIndexColumn()
                 ->addColumn('kategori_dokumen', static function ($row) {
-                    return $row->kategoriDokumen->nama;
+                    return $row['attr']['jenis_peraturan'] ?? $row->kategoriDokumen->nama;
                 })
                 ->make();
         }

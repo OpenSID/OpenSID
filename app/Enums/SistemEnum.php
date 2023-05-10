@@ -37,14 +37,21 @@
 
 namespace App\Enums;
 
-class SistemEnum
+class SistemEnum extends BaseEnum
 {
     public const WEBSITE       = 1;
     public const ADMINISTRATOR = 2;
     public const KEHADIRAN     = 4;
-    public const DAFTAR        = [
-        self::WEBSITE       => 'Website',
-        self::ADMINISTRATOR => 'Administrator',
-        self::KEHADIRAN     => 'Kehadiran',
-    ];
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
+    {
+        return [
+            self::WEBSITE       => 'Website',
+            self::ADMINISTRATOR => 'Administrator',
+            self::KEHADIRAN     => 'Kehadiran',
+        ];
+    }
 }

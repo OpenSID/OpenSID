@@ -71,7 +71,7 @@ class Teks_berjalan extends Admin_Controller
             $data['form_action'] = site_url('teks_berjalan/insert');
         }
 
-        $data['daftar_tampil'] = SistemEnum::DAFTAR;
+        $data['daftar_tampil'] = SistemEnum::all();
 
         $this->render('web/teks_berjalan/form', $data);
     }

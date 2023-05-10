@@ -37,11 +37,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Dokumen extends Model
+class Dokumen extends BaseModel
 {
     public const DOKUMEN_WARGA = 1;
     public const ENABLE        = 1;
@@ -159,6 +160,19 @@ class Dokumen extends Model
     public function scopeHidup($query)
     {
         return $query->where('deleted', '!=', 1);
+    }
+
+    /**
+     * Scope query untuk status aktif
+     *
+     * @param Builder $query
+     * @param string  $status
+     *
+     * @return Builder
+     */
+    public function scopeAktif($query, $status = '1')
+    {
+        return $query->where('enabled', $status);
     }
 
     /**

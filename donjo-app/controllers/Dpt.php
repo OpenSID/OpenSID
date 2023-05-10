@@ -144,7 +144,7 @@ class Dpt extends Admin_Controller
         $data['list_pekerjaan']       = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
         $data['list_status_kawin']    = $this->referensi_model->list_data('tweb_penduduk_kawin');
         $data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
-        $data['list_tag_id_card']     = StatusEnum::DAFTAR;
+        $data['list_tag_id_card']     = StatusEnum::all();
         $data['form_action']          = site_url("{$this->controller}/adv_search_proses");
 
         $this->load->view('sid/kependudukan/ajax_adv_search_form', $data);

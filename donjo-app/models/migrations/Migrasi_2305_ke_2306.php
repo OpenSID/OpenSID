@@ -44,7 +44,8 @@ class Migrasi_2305_ke_2306 extends MY_Model
         $hasil = true;
 
         // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2211');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2212');
+        // $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2211');
 
         status_sukses($hasil);
 

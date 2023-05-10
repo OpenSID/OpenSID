@@ -23,6 +23,7 @@
                         </div>
                     <?php endif ?>
 
+
                     <div class="box-body">
                         <div class="row">
                             <div class="col-sm-12">
@@ -55,6 +56,9 @@
                                                             <option value="<?= $data['id'] ?>" <?php selected($jenis, $data['id']) ?>><?= $data['nama_surat'] ?></option>
                                                         <?php endforeach; ?>
                                                     </select>
+                                                </div>
+                                                 <div class="form-group">
+                                                     <button id="perbaiki" type="button" class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-cogs "></i>Perbaiki</button>
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
@@ -175,6 +179,7 @@
                                                                                 <!-- hapus surat -->
                                                                                 <a href="#" data-href="<?= site_url("keluar/delete/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                                                             <?php endif; ?>
+
                                                                         <?php endif; ?>
 
                                                                     </td>
@@ -333,7 +338,7 @@
                     <?php if (empty($this->setting->tte_api) || $this->setting->tte_api == base_url()) : ?>
                         <div class="alert alert-warning alert-dismissible">
                             <h4><i class="icon fa fa-warning"></i> Info Penting!</h4>
-                            Modul TTE ini hanya sebuah simulasi untuk persiapan penerapan TTE di OPENSID dan Hanya berlaku untuk Surat yang Menggunakan TinyMCE
+                            Modul TTE ini hanya sebuah simulasi untuk persiapan penerapan TTE di <?= config_item('nama_aplikasi') ?> dan Hanya berlaku untuk Surat yang Menggunakan TinyMCE
                         </div>
                     <?php endif; ?>
                     <object data="<?= site_url("{$this->controller}/unduh/tinymce"); ?>/${id}/true" style="width: 100%;min-height: 400px;" type="application/pdf"></object>
@@ -394,6 +399,21 @@
                     }
                 }
 
+            })
+        });
+
+        $('button#perbaiki').click(function(e) {
+            swal.fire({
+              title: 'Perbaiki Arsip Surat',
+              text: 'Surat yang ada sekarang, akan diverifikasi semua. Ingin Melanjutkan?',
+              showCancelButton: true,
+              confirmButtonText: 'Ya',
+              denyButtonText: `Batalkan`,
+               icon: 'warning',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "<?= site_url("{$this->controller}/perbaiki") ?>";
+              }
             })
         });
     });
