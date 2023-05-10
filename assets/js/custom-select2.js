@@ -163,6 +163,7 @@ $(document).ready(function()
 					q: params.term || '',
 					page: params.page || 1,
 					bantuan: $(this).data('bantuan'),
+					sasaran: $(this).data('sasaran'),
 				};
 			},
 			cache: true
