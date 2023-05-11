@@ -13,6 +13,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 7. [#6601](https://github.com/OpenSID/OpenSID/issues/6601) Perbaikan query data calon pemilih agar lebih cepat load halaman.
 8. [#6602](https://github.com/OpenSID/OpenSID/issues/6602) Perbaikan tampilan anjungan dan buku tamu pada tampilan baru.
 9. [#6636](https://github.com/OpenSID/OpenSID/issues/6636) Perbaikan timeout ketika cetak/unduh data penduduk jika jumlah penduduk cukup besar pada modul penduduk.
+10. [#6638](https://github.com/OpenSID/OpenSID/issues/6638) Perbaikan timeout ketika cetak/unduh data penduduk jika calon pemilih cukup besar.
 
 #### Perubahan Teknis
 

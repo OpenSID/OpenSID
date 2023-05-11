@@ -172,9 +172,9 @@ class Dpt extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
+    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0)
     {
-        $data['main'] = $this->dpt_model->list_data($o, 0);
+        $data['main'] = $this->dpt_model->list_data($o, $page)['main'];
         $data['aksi'] = $aksi;
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;
@@ -182,12 +182,12 @@ class Dpt extends Admin_Controller
         $this->load->view("dpt/dpt_{$aksi}", $data);
     }
 
-    public function ajax_cetak($o = 0, $aksi = '')
+    public function ajax_cetak($page = 1, $o = 0, $aksi = '')
     {
         $data['o']                   = $o;
         $data['aksi']                = $aksi;
-        $data['form_action']         = site_url("{$this->controller}/cetak/{$o}/{$aksi}");
-        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$o}/{$aksi}/1");
+        $data['form_action']         = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}");
+        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}/1");
 
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
     }
