@@ -55,10 +55,10 @@
 							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
-									<a href="<?= site_url("penduduk/ajax_cetak/{$o}/cetak"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data"><i class="fa fa-print"></i> Cetak</a>
+									<a id="cetak_id" href="<?= site_url("penduduk/ajax_cetak/{$p}/{$o}/cetak"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data"><i class="fa fa-print"></i> Cetak</a>
 								</li>
 								<li>
-									<a href="<?= site_url("penduduk/ajax_cetak/{$o}/unduh"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data"><i class="fa fa-download"></i> Unduh</a>
+									<a id="unduh_id" href="<?= site_url("penduduk/ajax_cetak/{$p}/{$o}/unduh"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data"><i class="fa fa-download"></i> Unduh</a>
 								</li>
 								<li>
 									<a href="<?= site_url('penduduk/ajax_adv_search'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Spesifik" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik"><i class="fa fa-search"></i> Pencarian Spesifik</a>
@@ -254,3 +254,14 @@
 </div>
 <?php $this->load->view('global/confirm_delete'); ?>
 <?php $this->load->view('global/konfirmasi'); ?>
+
+<script>
+	$("input[type=checkbox]").change(function () {
+		var id = $('input[name="id_cb[]"]:checked').map(function () {
+			return this.value;
+		}).get().join(',');
+
+		$("#cetak_id").attr("href", `<?= site_url("penduduk/ajax_cetak/{$p}/{$o}/cetak") ?>?id_cb=${id}`);
+		$("#unduh_id").attr("href", `<?= site_url("penduduk/ajax_cetak/{$p}/{$o}/unduh") ?>?id_cb=${id}`);
+	})
+</script>

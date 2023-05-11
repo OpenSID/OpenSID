@@ -360,6 +360,13 @@ class Penduduk_model extends MY_Model
         }
     }
 
+    private function filter_id()
+    {
+        if ($id = $this->input->get('id_cb')) {
+            $this->db->where_in('u.id', explode(',', $id));
+        }
+    }
+
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
     private function list_data_sql()
     {
@@ -536,13 +543,19 @@ class Penduduk_model extends MY_Model
         $this->db->from("#({$query_dasar}) AS u#");
         $this->lookup_ref_penduduk();
         $this->order_by_list($order_by);
+
+        // lakukan filter setelah final query
+        $this->filter_id();
+
         $sql = str_replace(['(#', '#)'], '', $this->db->get_compiled_select());
 
         $data = $this->db->query($sql)->result_array();
 
         //Formating Output
-        $j = $offset;
-
+        if(empty($this->input->get('id_cb'))){
+        $j = $paging->offset;
+        }
+        
         for ($i = 0; $i < count($data); $i++) {
             // Untuk penduduk mati atau hilang, gunakan umur pada tgl peristiwa
             if (in_array($data[$i]['status_dasar'], ['2', '4'])) {
