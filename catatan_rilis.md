@@ -15,6 +15,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 9. [#6606](https://github.com/OpenSID/OpenSID/issues/6606) Menambahkan Infinite scroll pada tambah data di menu vaksin data penerima.
 10. [#6628](https://github.com/OpenSID/OpenSID/issues/6628) Menambahkan Infinite scroll pada list ketua kelompok.
 11. [#6610](https://github.com/OpenSID/OpenSID/issues/6610) Menambahkan Infinite scroll pada tambah data peserta bantuan sasaran keluarga.
+12. [#6519](https://github.com/OpenSID/OpenSID/issues/6519) Menambahkan tampilan statistik bantuan di peta menurut wilayah.
 
 #### Perbaikan BUG
 

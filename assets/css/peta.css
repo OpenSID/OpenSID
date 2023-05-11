@@ -49,9 +49,10 @@
 }
 #content {
   height: auto !important;
+  width: auto !important;
 }
 #bodyContent p {
-  margin: 18px 0;
+  margin: 10px 0;
 }
 .form-group a
 {
@@ -410,4 +411,18 @@
   footer {
     display: none !important;
   }
+}
+
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 5px;
+    position: relative;
+}
+
+/* firstHeading text center dan bold*/
+.firstHeading {
+  text-align: center;
+  font-weight: bold;
 }

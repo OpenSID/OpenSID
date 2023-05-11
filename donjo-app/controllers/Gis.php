@@ -116,6 +116,7 @@ class Gis extends Admin_Controller
         $data['rw_gis']               = $this->wilayah_model->list_rw();
         $data['rt_gis']               = $this->wilayah_model->list_rt();
         $data['list_ref']             = $this->referensi_model->list_ref(STAT_PENDUDUK);
+        $data['list_bantuan']         = collect(unserialize(STAT_BANTUAN))->toArray() + collect($this->program_bantuan_model->list_program(0))->pluck('nama', 'lap')->toArray();
         $data['persil']               = $this->data_persil_model->list_data();
         $this->render('gis/maps', $data);
     }

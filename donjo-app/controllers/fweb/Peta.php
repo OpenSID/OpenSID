@@ -63,6 +63,7 @@ class Peta extends Web_Controller
         $data['area']               = $this->plan_area_model->list_area(1);
         $data['lokasi_pembangunan'] = $this->pembangunan_model->list_lokasi_pembangunan(1);
         $data['persil']             = $this->data_persil_model->list_data();
+        $data['list_bantuan']       = collect(unserialize(STAT_BANTUAN))->toArray() + collect($this->program_bantuan_model->list_program(0))->pluck('nama', 'lap')->toArray();
         $data['halaman_peta']       = 'web/halaman_statis/peta';
 
         $this->_get_common_data($data);

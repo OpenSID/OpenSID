@@ -1058,14 +1058,16 @@ class Program_bantuan_model extends MY_Model
     public function get_peserta_bantuan($filter = [])
     {
         if ($filter) {
-            if ($status = $filter['status'] != '') {
-                $this->db->where('p.status', $status);
+            if ($filter['status'] != '') {
+                $this->db->where('p.status', $filter['status']);
             }
 
-            $tahun = $this->session->tahun;
-            if (isset($tahun)) {
-                $this->db->where('YEAR(p.sdate)', $tahun);
-                $this->db->or_where('YEAR(p.edate)', $tahun);
+            if ($filter['tahun'] != '') {
+                $this->db
+                    ->group_start()
+                    ->where('YEAR(u.sdate) <=', $filter['tahun'])
+                    ->where('YEAR(u.edate) >=', $filter['tahun'])
+                    ->group_end();
             }
         }
 
