@@ -223,7 +223,7 @@ class Dpt_model extends Penduduk_model
         $data = $this->db->query($sql)->result_array();
 
         //Formating Output
-        $j = $offset;
+        $j = $paging->offset ?? $offset;
 
         for ($i = 0; $i < count($data); $i++) {
             // Ubah alamat penduduk lepas
