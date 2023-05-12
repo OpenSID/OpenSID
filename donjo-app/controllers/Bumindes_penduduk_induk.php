@@ -77,6 +77,7 @@ class Bumindes_penduduk_induk extends Admin_Controller
             'main_content' => 'bumindes/penduduk/induk/content_induk',
             'subtitle'     => 'Buku Induk Penduduk',
             'selected_nav' => 'induk',
+            'page'         => $page_number,
             'order_by'     => $order_by,
             'cari'         => $this->session->cari ?: '',
             'filter'       => $this->session->filter ?: '',
@@ -109,28 +110,28 @@ class Bumindes_penduduk_induk extends Admin_Controller
         redirect('bumindes_penduduk_induk');
     }
 
-    public function ajax_cetak($o = 0, $aksi = '')
+    public function ajax_cetak($page = 1, $o = 0, $aksi = '')
     {
         // pengaturan data untuk dialog cetak/unduh
         $data = [
             'o'                   => $o,
             'aksi'                => $aksi,
-            'form_action'         => site_url("bumindes_penduduk_induk/cetak/{$o}/{$aksi}"),
-            'form_action_privasi' => site_url("bumindes_penduduk_induk/cetak/{$o}/{$aksi}/1"),
+            'form_action'         => site_url("bumindes_penduduk_induk/cetak/{$page}/{$o}/{$aksi}"),
+            'form_action_privasi' => site_url("bumindes_penduduk_induk/cetak/{$page}/{$o}/{$aksi}/1"),
             'isi'                 => 'bumindes/penduduk/induk/ajax_dialog_induk',
         ];
 
         $this->load->view('global/dialog_cetak', $data);
     }
 
-    public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
+    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0)
     {
         $data = [
             'aksi'           => $aksi,
             'config'         => $this->header['desa'],
             'pamong_ttd'     => Pamong::sekretarisDesa()->first(),
             'pamong_ketahui' => Pamong::kepalaDesa()->first(),
-            'main'           => $this->penduduk_model->list_data($o, 0),
+            'main'           => $this->penduduk_model->list_data($o, $page)['main'],
             'bulan'          => $this->session->filter_bulan,
             'tahun'          => $this->session->filter_tahun,
             'tgl_cetak'      => $_POST['tgl_cetak'],

@@ -66,8 +66,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 </script>
 <div class="box box-info">
 	<div class="box-header with-border">
-		<a href="<?= site_url($this->controller . "/ajax_cetak/{$order_by}/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Induk Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Induk Penduduk"><i class="fa fa-print "></i> Cetak</a>
-		<a href="<?= site_url($this->controller . "/ajax_cetak/{$order_by}/unduh"); ?>" title="Unduh Buku Induk Penduduk" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Induk Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Induk Penduduk"><i class="fa fa-download"></i> Unduh</a>
+		<a href="<?= site_url($this->controller . "/ajax_cetak/{$page}/{$order_by}/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Induk Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Induk Penduduk"><i class="fa fa-print "></i> Cetak</a>
+		<a href="<?= site_url($this->controller . "/ajax_cetak/{$page}/{$order_by}/unduh"); ?>" title="Unduh Buku Induk Penduduk" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Induk Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Induk Penduduk"><i class="fa fa-download"></i> Unduh</a>
 		<a href="<?= site_url($this->controller . '/clear') ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
 	</div>
 	<div class="box-body">
