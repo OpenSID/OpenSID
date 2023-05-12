@@ -18,6 +18,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 12. [#6640](https://github.com/OpenSID/OpenSID/issues/6640) Perbaikan timeout ketika cetak/unduh jika jumlah data cukup besar pada modul Buku KTP dan KK.
 13. [#6637](https://github.com/OpenSID/OpenSID/issues/6637) Perbaikan timeout ketika cetak/unduh jika jumlah data cukup besar pada modul Keluarga.
 14. [#6627](https://github.com/OpenSID/OpenSID/issues/6627) Perbaikan penamaan sesuai dengan peraturan.
+15. [#6586](https://github.com/OpenSID/OpenSID/issues/6586) Perbaikan form input nama pada aparatur desa.
 
 #### Perubahan Teknis
 

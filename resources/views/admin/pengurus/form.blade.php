@@ -388,7 +388,7 @@
             gelar();
 
             $("input[name='pengurus']:checked").change();
-            if ($("#validasi input[name='id_pend']").val() != '') {
+            if ($("input[name='id_pend']").val() != '') {
                 $('#pamong_nama').removeClass('required');
             }
 
