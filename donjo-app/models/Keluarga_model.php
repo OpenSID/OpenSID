@@ -167,6 +167,13 @@ class Keluarga_model extends MY_Model
         }
     }
 
+    private function filter_id()
+    {
+        if ($id = $this->input->get('id_cb')) {
+            $this->db->where_in('u.id', explode(',', $id));
+        }
+    }
+
     private function list_data_sql()
     {
         $this->db
@@ -178,6 +185,7 @@ class Keluarga_model extends MY_Model
             $this->bantuan_keluarga_sql();
         }
 
+        $this->filter_id();
         $this->search_sql();
         $this->kumpulan_kk_sql();
         $this->status_dasar_sql();
@@ -276,7 +284,7 @@ class Keluarga_model extends MY_Model
         $this->db->select('u.*, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota')
             ->from('(' . $query_dasar . ') u');
 
-        if ($page > 0) {
+        if (! $this->input->get('id_cb')) {
             $jumlah_pilahan = $this->db->count_all_results('', false);
             $paging         = $this->paginasi($page, $jumlah_pilahan);
             $this->db->limit($paging->per_page, $paging->offset);

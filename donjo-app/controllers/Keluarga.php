@@ -121,9 +121,9 @@ class Keluarga extends Admin_Controller
         return json($this->keluarga_model->autocomplete($this->input->post('cari')));
     }
 
-    public function cetak($o = 0, $aksi = '', $privasi_kk = 0)
+    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_kk = 0)
     {
-        $data['main'] = $this->keluarga_model->list_data($o, -1);
+        $data['main'] = $this->keluarga_model->list_data($o, $page)['main'];
         if ($privasi_kk == 1) {
             $data['privasi_kk'] = true;
         }
@@ -642,12 +642,12 @@ class Keluarga extends Admin_Controller
         $this->load->view('sid/kependudukan/ajax_search_kumpulan_kk', $data);
     }
 
-    public function ajax_cetak($o = 0, $aksi = '')
+    public function ajax_cetak($page = 1, $o = 0, $aksi = '')
     {
         $data['o']                   = $o;
         $data['aksi']                = $aksi;
-        $data['form_action']         = site_url("{$this->controller}/cetak/{$o}/{$aksi}");
-        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$o}/{$aksi}/1");
+        $data['form_action']         = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}?id_cb={$this->input->get('id_cb')}");
+        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}/1?id_cb={$this->input->get('id_cb')}");
 
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
     }
