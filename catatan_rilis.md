@@ -22,3 +22,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 1. [#6605](https://github.com/OpenSID/OpenSID/issues/6605) Sesuaikan jumlah data tampailan pagging pada halaman Pendataan penerima vaksin covid-19.
 2. [#6609](https://github.com/OpenSID/OpenSID/issues/6609) Sesuaikan jumlah data tampailan pagging pada halaman input data sensus/survei.
+3. [#6456](https://github.com/OpenSID/OpenSID/issues/6456) Sesuaikan migrasi berulang pada pengubahan kolom id_telegram pada tabel user.
