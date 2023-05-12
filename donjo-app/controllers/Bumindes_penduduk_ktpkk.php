@@ -104,24 +104,24 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
         redirect('bumindes_penduduk_ktpkk');
     }
 
-    public function ajax_cetak($o = 0, $aksi = '')
+    public function ajax_cetak($page = 1, $o = 0, $aksi = '')
     {
         $data = [
             'o'                   => $o,
             'aksi'                => $aksi,
-            'form_action'         => site_url("bumindes_penduduk_ktpkk/cetak/{$o}/{$aksi}"),
-            'form_action_privasi' => site_url("bumindes_penduduk_ktpkk/cetak/{$o}/{$aksi}/1"),
+            'form_action'         => site_url("bumindes_penduduk_ktpkk/cetak/{$page}/{$o}/{$aksi}"),
+            'form_action_privasi' => site_url("bumindes_penduduk_ktpkk/cetak/{$page}/{$o}/{$aksi}/1"),
             'isi'                 => 'bumindes/penduduk/ktpkk/ajax_cetak_ktpkk',
         ];
 
         $this->load->view('global/dialog_cetak', $data);
     }
 
-    public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
+    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0)
     {
         $data              = $this->modal_penandatangan();
         $data['aksi']      = $aksi;
-        $data['main']      = $this->penduduk_model->list_data($o, 0);
+        $data['main']      = $this->penduduk_model->list_data($o, $page)['main'];
         $data['config']    = $this->header['desa'];
         $data['bulan']     = $this->session->filter_bulan ?: date('m');
         $data['tahun']     = $this->session->filter_tahun ?: date('Y');
