@@ -571,10 +571,10 @@ class Penduduk_model extends MY_Model
         $data = $this->db->query($sql)->result_array();
 
         //Formating Output
-        if(empty($this->input->get('id_cb'))){
-        $j = $paging->offset;
+        if (empty($this->input->get('id_cb'))) {
+            $j = $paging->offset;
         }
-        
+
         for ($i = 0; $i < count($data); $i++) {
             // Untuk penduduk mati atau hilang, gunakan umur pada tgl peristiwa
             if (in_array($data[$i]['status_dasar'], ['2', '4'])) {

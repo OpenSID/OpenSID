@@ -16,6 +16,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 10. [#6628](https://github.com/OpenSID/OpenSID/issues/6628) Menambahkan Infinite scroll pada list ketua kelompok.
 11. [#6610](https://github.com/OpenSID/OpenSID/issues/6610) Menambahkan Infinite scroll pada tambah data peserta bantuan sasaran keluarga.
 12. [#6519](https://github.com/OpenSID/OpenSID/issues/6519) Menambahkan tampilan statistik bantuan di peta menurut wilayah.
+13. [#6649](https://github.com/OpenSID/OpenSID/issues/6649) Menambahkan Infinite scroll pada tambah data peserta bantuan sasaran RTM.
 
 #### Perbaikan BUG
 

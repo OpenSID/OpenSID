@@ -98,6 +98,7 @@ class Program_bantuan extends Admin_Controller
 
     public function form($program_id = 0)
     {
+        // dd(Penduduk::whereHas('rtm')->get());
         $this->redirect_hak_akses('u');
         $this->session->unset_userdata('cari');
         $data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
@@ -134,9 +135,9 @@ class Program_bantuan extends Admin_Controller
                     $this->get_pilihan_kk($cari, $peserta);
                     break;
 
-                    // case 3:
-                //     $penduduk = $this->get_pilihan_rumah_tangga($cari, $peserta);
-                //     break;
+                case 3:
+                    $this->get_pilihan_rtm($cari, $peserta);
+                    break;
 
                     // case 4:
                 //     $penduduk = $this->get_pilihan_kelompok($cari, $peserta);
@@ -151,13 +152,17 @@ class Program_bantuan extends Admin_Controller
 
     private function get_pilihan_penduduk($cari, $peserta)
     {
-        $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
+        $penduduk = Penduduk::with('rtm')->whereHas('rtm')
+            ->select(['id', 'nik', 'nama', 'id_cluster'])
             ->when($cari, static function ($query) use ($cari) {
                 $query->orWhere('nik', 'like', "%{$cari}%")
                     ->orWhere('nama', 'like', "%{$cari}%");
             })
+
             ->whereNotIn('nik', $peserta)
             ->paginate(10);
+
+        return json($penduduk);
 
         return json([
             'results' => collect($penduduk->items())
@@ -199,6 +204,31 @@ class Program_bantuan extends Admin_Controller
                     return [
                         'id'   => $item->id,
                         'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    ];
+                }),
+            'pagination' => [
+                'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+            ],
+        ]);
+    }
+
+    private function get_pilihan_rtm($cari, $peserta)
+    {
+        $penduduk = Penduduk::select(['id', 'id_rtm', 'nama', 'id_cluster'])
+            ->when($cari, static function ($query) use ($cari) {
+                $query->orWhere('nama', 'like', "%{$cari}%");
+            })
+            ->whereHas('rtm', static function ($query) use ($peserta) {
+                $query->whereNotIn('no_kk', $peserta);
+            })
+            ->paginate(10);
+
+        return json([
+            'results' => collect($penduduk->items())
+                ->map(static function ($item) {
+                    return [
+                        'id'   => $item->rtm->no_kk,
+                        'text' => 'No KK : ' . $item->rtm->no_kk . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                     ];
                 }),
             'pagination' => [
