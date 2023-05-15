@@ -165,6 +165,37 @@ class Surat_master extends Admin_Controller
         return view('admin.pengaturan_surat.form', $data);
     }
 
+    public function apisurat()
+    {
+        if ($this->input->is_ajax_request()) {
+            $cari = $this->input->get('q');
+
+            $surat = KlasifikasiSurat::select(['kode', 'nama'])
+                ->when($cari, static function ($query) use ($cari) {
+                    $query->orWhere('kode', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%");
+                })
+                ->orderBy('kode')
+                ->enabled()
+                ->paginate(10);
+
+            return json([
+                'results' => collect($surat->items())
+                    ->map(static function ($item) {
+                        return [
+                            'id'   => $item->kode,
+                            'text' => $item->kode . ' - ' . $item->nama,
+                        ];
+                    }),
+                'pagination' => [
+                    'more' => $surat->currentPage() < $surat->lastPage(),
+                ],
+            ]);
+        }
+
+        return show_404();
+    }
+
     private function form_isian()
     {
         return [

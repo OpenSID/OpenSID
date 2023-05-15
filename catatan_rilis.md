@@ -18,6 +18,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 12. [#6519](https://github.com/OpenSID/OpenSID/issues/6519) Menambahkan tampilan statistik bantuan di peta menurut wilayah.
 13. [#6649](https://github.com/OpenSID/OpenSID/issues/6649) Menambahkan Infinite scroll pada tambah data peserta bantuan sasaran RTM.
 14. [#6648](https://github.com/OpenSID/OpenSID/issues/6648) Menambahkan Infinite scroll pada tambah data peserta bantuan sasaran kelompok / organisasi.
+15. [#6652](https://github.com/OpenSID/OpenSID/issues/6652) Menambahkan Infinite scroll klasifikasi surat.
 
 #### Perbaikan BUG
 
