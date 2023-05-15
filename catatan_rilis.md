@@ -21,6 +21,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 15. [#6586](https://github.com/OpenSID/OpenSID/issues/6586) Perbaikan form input nama pada aparatur desa.
 16. [#6650](https://github.com/OpenSID/OpenSID/issues/6650) Perbaikan muat halaman pengaturan aplikasi sangat lama ketika akses modul yang menggunakan based_64.
 17. [#6654](https://github.com/OpenSID/OpenSID/issues/6654) Perbaikan penyeragaman header agar konsisten.
+18. [#6658](https://github.com/OpenSID/OpenSID/issues/6658) Perbaikan session nama setelah login dan setelah perubahan profil.
 
 #### Perubahan Teknis
 
