@@ -41,6 +41,7 @@ use App\Enums\SasaranEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use App\Models\Config;
+use App\Models\Kelompok;
 use App\Models\Penduduk;
 use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Style\Color;
@@ -139,9 +140,9 @@ class Program_bantuan extends Admin_Controller
                     $this->get_pilihan_rtm($cari, $peserta);
                     break;
 
-                    // case 4:
-                //     $penduduk = $this->get_pilihan_kelompok($cari, $peserta);
-                //     break;
+                case 4:
+                    $this->get_pilihan_kelompok($cari, $peserta);
+                    break;
 
                 default:
             }
@@ -229,6 +230,33 @@ class Program_bantuan extends Admin_Controller
                     return [
                         'id'   => $item->rtm->no_kk,
                         'text' => 'No KK : ' . $item->rtm->no_kk . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    ];
+                }),
+            'pagination' => [
+                'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+            ],
+        ]);
+    }
+
+    private function get_pilihan_kelompok($cari, $peserta)
+    {
+        $penduduk = Kelompok::select(['kelompok.id', 'tweb_penduduk.nik', 'tweb_penduduk.nama as nama_penduduk', 'kelompok.nama as nama_kelompok', 'tweb_penduduk.id_cluster'])
+            ->leftJoin('tweb_penduduk', static function ($join) {
+                $join->on('kelompok.id_ketua', '=', 'tweb_penduduk.id');
+            })
+            ->when($cari, static function ($query) use ($cari) {
+                $query->orWhere('kelompok.nama', 'like', "%{$cari}%")
+                    ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
+            })
+            ->whereNotIn('kelompok.id', $peserta)
+            ->paginate(10);
+
+        return json([
+            'results' => collect($penduduk->items())
+                ->map(static function ($item) {
+                    return [
+                        'id'   => $item->id,
+                        'text' => $item->nama_penduduk . ' [' . $item->nama_kelompok . ']' . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                     ];
                 }),
             'pagination' => [
@@ -506,14 +534,14 @@ class Program_bantuan extends Admin_Controller
                             break;
                         }
 
-                        if (in_array($no_baris, [5, 6]) && ! validate_date($value, 'Y-m-d')) {
+                        if (in_array($no_baris, [5, 6]) && !validate_date($value, 'Y-m-d')) {
                             session_error(', Data program baris <b> Ke-' . ($no_baris) . '</b> berisi tanggal yang salah. Cek kembali data ' . $title . ' = ' . $value);
 
                             redirect($this->controller);
                         }
 
                         switch (true) {
-                            /**
+                                /**
                              * baris 1 == id
                              * id bernilai NULL/Kosong( )/Strip(-)/tdk valid, buat program baru dan tampilkan notifkasi tambah program
                              * id bernilai id dan valid, update data program dan tampilkan notifkasi update program
@@ -527,7 +555,7 @@ class Program_bantuan extends Admin_Controller
                                 }
                                 break;
 
-                            case $no_baris == 0 && ! in_array((int) $value, $daftar_program):
+                            case $no_baris == 0 && !in_array((int) $value, $daftar_program):
                                 $program_id = null;
                                 $pesan_program .= 'Data program dengan <b> id = ' . ($value) . '</b> tidak ditemukan, program baru ditambahkan secara otomatis) <br>';
                                 break;
@@ -575,7 +603,7 @@ class Program_bantuan extends Admin_Controller
 
                         // Cek valid data peserta sesuai sasaran
                         $cek_peserta = $this->program_bantuan_model->cek_peserta($peserta, $sasaran);
-                        if (! in_array($nik, $cek_peserta['valid'])) {
+                        if (!in_array($nik, $cek_peserta['valid'])) {
                             $no_gagal++;
                             $pesan_peserta .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / ' . $cek_peserta['sasaran_peserta'] . ' = ' . $peserta . '</b> tidak ditemukan <br>';
 
@@ -584,7 +612,7 @@ class Program_bantuan extends Admin_Controller
 
                         // Cek valid data penduduk sesuai nik
                         $cek_penduduk = $this->penduduk_model->get_penduduk_by_nik($nik);
-                        if (! $cek_penduduk['id']) {
+                        if (!$cek_penduduk['id']) {
                             $no_gagal++;
                             $pesan_peserta .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / NIK = ' . $nik . '</b> yang terdaftar tidak ditemukan <br>';
 
@@ -614,7 +642,7 @@ class Program_bantuan extends Admin_Controller
                         if (empty($kartu_tanggal_lahir)) {
                             $kartu_tanggal_lahir = $cek_penduduk['tanggallahir'];
                         } else {
-                            if (! validate_date($kartu_tanggal_lahir, 'Y-m-d')) {
+                            if (!validate_date($kartu_tanggal_lahir, 'Y-m-d')) {
                                 $no_gagal++;
                                 $pesan_peserta .= '- Data peserta baris <b> Ke-' . ($no_baris) . '</b> berisi tanggal yang salah<br>';
 
