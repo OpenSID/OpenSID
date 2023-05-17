@@ -23,6 +23,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 17. [#6654](https://github.com/OpenSID/OpenSID/issues/6654) Perbaikan penyeragaman header agar konsisten.
 18. [#6658](https://github.com/OpenSID/OpenSID/issues/6658) Perbaikan session nama setelah login dan setelah perubahan profil.
 19. [#6593](https://github.com/OpenSID/OpenSID/issues/6593) Perbaikan penanda tangan pada lampiran f2.01 tidak sesuai.
+20. [#6665](https://github.com/OpenSID/OpenSID/issues/6665) Penyesuaian validasi grup pengguna pada saat buat key opendk agar tidak membingungkan pengguna.
 
 #### Perubahan Teknis
 
