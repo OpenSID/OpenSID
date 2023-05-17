@@ -1,4 +1,4 @@
-Di rilis ini, versi 2305.0.1 berisi penambahan fitur [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2305.0.2 berisi penambahan fitur [isi disini] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
