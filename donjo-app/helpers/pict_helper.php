@@ -441,7 +441,7 @@ function ResizeGambar($filename, $path, $dimensi)
     $config['image_library'] = 'gd2';
     $config['source_image']  = $path;
 
-    switch($imgdata['Orientation']) {
+    switch ($imgdata['Orientation']) {
         case 3:
             $config['rotation_angle'] = '180';
             break;

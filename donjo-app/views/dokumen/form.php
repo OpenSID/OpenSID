@@ -1,6 +1,6 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan <?= $kat_nama ?></h1>
+		<h1>Pengaturan <?= $kat_nama ?> Di <?= ucwords(setting('sebutan_desa')) ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
 			<?php if (in_array($kat, ['2', '3'])) : ?>
@@ -17,11 +17,11 @@
 				<div class="box-header with-border">
 					<?php if (in_array($kat, ['2', '3'])) : ?>
 						<a href="<?= $kembali_ke ?: site_url("{$this->controller}/peraturan_desa/{$kat}"); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
-							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama ?>
+							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama ?> Di <?= ucwords(setting('sebutan_desa')) ?>
 						</a>
 					<?php else : ?>
 						<a href="<?= site_url("{$this->controller}/index/{$kat}"); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
-							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama ?>
+							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama ?> Di <?= ucwords(setting('sebutan_desa')) ?>
 						</a>
 					<?php endif; ?>
 				</div>

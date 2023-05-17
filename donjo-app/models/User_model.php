@@ -470,6 +470,12 @@ class User_model extends CI_Model
         if (! $this->db->where('id', $idUser)->update('user', $data)) {
             session_error(' -> Gagal memperbarui data di database');
         }
+
+        // perbaharui session login
+        if ((string) $idUser === (string) $this->session->isAdmin->id) {
+            $this->session->isAdmin = User::find($idUser);
+        }
+
         $this->cache->file->delete("{$idUser}_cache_modul");
     }
 
