@@ -171,12 +171,13 @@ class Pengaduan_model extends CI_Model
     private function validasi($post)
     {
         return [
-            'nik'     => bilangan($post['nik']),
-            'nama'    => alfanumerik_kolon($post['nama']),
-            'email'   => htmlentities($post['email']),
-            'telepon' => bilangan($post['telepon']),
-            'judul'   => htmlentities($post['judul']),
-            'isi'     => htmlentities($post['isi']),
+            'nik'        => bilangan($post['nik']),
+            'nama'       => nama($post['nama']),
+            'email'      => email($post['email']),
+            'telepon'    => bilangan($post['telepon']),
+            'judul'      => htmlentities($post['judul']),
+            'isi'        => htmlentities($post['isi']),
+            'ip_address' => $this->input->ip_address(),
         ];
     }
 
@@ -201,6 +202,7 @@ class Pengaduan_model extends CI_Model
             'nama'         => $this->session->nama,
             'isi'          => $post['isi'],
             'status'       => $post['status'],
+            'ip_address'   => $this->input->ip_address() ?? '',
         ];
     }
 

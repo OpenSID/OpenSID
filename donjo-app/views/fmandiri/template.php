@@ -292,7 +292,7 @@ endif;
 				<div class="pull-right hidden-xs">
 					<b>Versi</b> <?= AmbilVersi() ?>
 				</div>
-				<strong>Aplikasi <a href="https://github.com/OpenSID/OpenSID" target="_blank"> OpenSID</a>, dikembangkan oleh <a href="https://www.facebook.com/groups/OpenSID/" target="_blank">Komunitas OpenSID</a>.</strong>
+				<strong>Aplikasi <a href="https://github.com/OpenSID/OpenSID" target="_blank"> <?= config_item('nama_aplikasi') ?></a>, dikembangkan oleh <a href="https://www.facebook.com/groups/OpenSID/" target="_blank">Komunitas <?= config_item('nama_aplikasi') ?></a>.</strong>
 			</div>
 		</footer>
 	</div>
@@ -310,6 +310,7 @@ endif;
 	<!-- DataTables -->
 	<script src="<?= asset('bootstrap/js/jquery.dataTables.min.js') ?>"></script>
 	<script src="<?= asset('bootstrap/js/dataTables.bootstrap.min.js') ?>"></script>
+	<script src="<?= asset('bootstrap/js/dataTables.rowsgroup.min.js') ?>"></script>
 	<!-- bootstrap color picker -->
 	<script src="<?= asset('bootstrap/js/bootstrap-colorpicker.min.js') ?>"></script>
 	<!-- bootstrap Date time picker -->

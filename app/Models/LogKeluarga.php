@@ -37,11 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class LogKeluarga extends Model
+class LogKeluarga extends BaseModel
 {
     /**
      * KETERANGAN id_peristiwa di log_keluarga

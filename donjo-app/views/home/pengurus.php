@@ -130,10 +130,10 @@
                                                 <th>Pangkat / Golongan</th>
                                                 <th>Jabatan</th>
                                                 <th>Pendidikan Terakhir</th>
-                                                <th>Nomor SK Pengangkatan</th>
-                                                <th>Tanggal SK Pengangkatan</th>
-                                                <th>Nomor SK Pemberhentian</th>
-                                                <th>Tanggal SK Pemberhentian</th>
+                                                <th>Nomor Keputusan Pengangkatan</th>
+                                                <th>Tanggal Keputusan Pengangkatan</th>
+                                                <th>Nomor Keputusan Pemberhentian</th>
+                                                <th>Tanggal Keputusan Pemberhentian</th>
                                                 <th>Masa/Periode Jabatan</th>
                                             </tr>
                                         </thead>

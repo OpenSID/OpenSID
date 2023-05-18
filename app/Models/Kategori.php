@@ -38,11 +38,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Kategori extends Model
+class Kategori extends BaseModel
 {
     public const ENABLE = 1;
 

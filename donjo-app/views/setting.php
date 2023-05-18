@@ -81,7 +81,7 @@
 		                    </div>
 		                </div>
 		                <div class="form-group">
-		                    <label for="catatan">User ID Telegram</label>
+		                    <label for="id_telegram">User ID Telegram</label>
 		                    <input class="form-control input-sm" type="text" id="id_telegram" name="id_telegram" value="<?= $main['id_telegram'] ?>" <?= jecho(setting('telegram_token'), null, 'disabled') ?> />
 		                </div>
 					</div>

@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\Author;
 
-class AlasanKeluar extends Model
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class AlasanKeluar extends BaseModel
 {
+    use Author;
+
     /**
      * The table associated with the model.
      *

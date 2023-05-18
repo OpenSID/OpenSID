@@ -38,12 +38,19 @@
 namespace App\Enums;
 
 // Gunakan hanya jika kondisi hanya ada 2 yakni 1 (true) atau 0 (false)
-class StatusEnum
+class StatusEnum extends BaseEnum
 {
-    public const YA     = 1;
-    public const TIDAK  = 0;
-    public const DAFTAR = [
-        self::YA    => 'Ya',
-        self::TIDAK => 'Tidak',
-    ];
+    public const YA    = 1;
+    public const TIDAK = 0;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
+    {
+        return [
+            self::YA    => 'Ya',
+            self::TIDAK => 'Tidak',
+        ];
+    }
 }

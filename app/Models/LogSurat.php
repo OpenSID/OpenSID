@@ -38,11 +38,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class LogSurat extends Model
+class LogSurat extends BaseModel
 {
     public const KONSEP  = 0;
     public const CETAK   = 1;

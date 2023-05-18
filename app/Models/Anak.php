@@ -37,11 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Anak extends Model
+class Anak extends BaseModel
 {
     /**
      * Static data status gizi anak

@@ -10,8 +10,8 @@
             <div class="space-y-1">
               <span class="text-sm font-bold"><?= ucwords(strtolower($subdata['judul'])) ?></span>
               <div class="text-sm flex justify-between">
-                <span>Rp<?= number_format($subdata['realisasi']) ?></span>
-                <span>Rp<?= number_format($subdata['anggaran']) ?></span>
+                <span><?= rupiah24($subdata['realisasi']) ?></span>
+                <span><?= rupiah24($subdata['anggaran']) ?></span>
               </div>
               <div class="w-full bg-gray-200 rounded-full overflow-hidden">
                 <div class="bg-secondary-100 text-xs font-medium text-white text-center p-0.5 leading-none rounded-l-full" style="width: <?= $subdata['persen'] ?>%"><?= $subdata['persen'] ?>%</div>

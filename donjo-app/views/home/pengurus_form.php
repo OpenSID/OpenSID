@@ -168,13 +168,13 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="pamong_nosk">Nomor SK Pengangkatan</label>
+								<label class="col-sm-4 control-label" for="pamong_nosk">Nomor Keputusan Pengangkatan</label>
 								<div class="col-sm-7">
-									<input name="pamong_nosk" class="form-control input-sm" type="text" maxlength="30" placeholder="Nomor SK Pengangkatan" value="<?= $pamong['pamong_nosk']?>" ></input>
+									<input name="pamong_nosk" class="form-control input-sm" type="text" maxlength="30" placeholder="Nomor Keputusan Pengangkatan" value="<?= $pamong['pamong_nosk']?>" ></input>
 								</div>
 							</div>
 							<div class='form-group'>
-								<label class="col-sm-4 control-label" for="pamong_tglsk">Tanggal SK Pengangkatan</label>
+								<label class="col-sm-4 control-label" for="pamong_tglsk">Tanggal Keputusan Pengangkatan</label>
 								<div class="col-sm-7">
 									<div class="input-group input-group-sm date">
 										<div class="input-group-addon">
@@ -185,13 +185,13 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="pamong_nohenti">Nomor SK Pemberhentian</label>
+								<label class="col-sm-4 control-label" for="pamong_nohenti">Nomor Keputusan Pemberhentian</label>
 								<div class="col-sm-7">
-									<input name="pamong_nohenti" class="form-control input-sm" type="text" placeholder="Nomor SK Pemberhentian" value="<?= $pamong['pamong_nohenti']?>" ></input>
+									<input name="pamong_nohenti" class="form-control input-sm" type="text" placeholder="Nomor Keputusan Pemberhentian" value="<?= $pamong['pamong_nohenti']?>" ></input>
 								</div>
 							</div>
 							<div class='form-group'>
-								<label class="col-sm-4 control-label" for="pamong_tglhenti">Tanggal SK Pemberhentian</label>
+								<label class="col-sm-4 control-label" for="pamong_tglhenti">Tanggal Keputusan Pemberhentian</label>
 								<div class="col-sm-7">
 									<div class="input-group input-group-sm date">
 										<div class="input-group-addon">

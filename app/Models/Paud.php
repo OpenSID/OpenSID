@@ -37,11 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Paud extends Model
+class Paud extends BaseModel
 {
     /**
      * The table associated with the model.

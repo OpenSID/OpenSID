@@ -1,7 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 $this->load->model('keluarga_model');
-$this->load->model('pamong_model');
 if ($_SESSION['id_ibu']) {
 	$ibu 								= $this->get_data_surat($_SESSION['id_ibu']);
 	$input['nik_ibu'] 					= $ibu['nik'];
@@ -137,6 +136,3 @@ if ($_SESSION['id_saksi2']) {
 	$input['pekerjaanid_saksi2'] 		= str_pad($input['pekerjaanid_saksi2'], 2, "0", STR_PAD_LEFT);
 	$input['umur_saksi2']				= str_pad($input['umur_saksi2'], 3, " ", STR_PAD_LEFT);
 }
-
-$id = $this->input->post('pamong_id');
-$kepala_desa = $this->pamong_model->get_pamong($id);

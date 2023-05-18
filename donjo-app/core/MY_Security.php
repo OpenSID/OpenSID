@@ -44,7 +44,7 @@ class MY_Security extends CI_Security
      */
     public function csrf_show_error()
     {
-        // // ==== Uncomment berikut untuk debugging masalah CSRF
+        // ==== Uncomment berikut untuk debugging masalah CSRF
         // print("<pre>".print_r(getallheaders(),true)."</pre>");
         // print("<pre>".print_r($_POST, true)."</pre>");
         // die();

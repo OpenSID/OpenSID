@@ -35,8 +35,6 @@
  *
  */
 
-use App\Models\SettingAplikasi;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Setting extends Admin_Controller
@@ -52,16 +50,13 @@ class Setting extends Admin_Controller
     public function index()
     {
         $data = [
-            'judul'         => 'Pengaturan Aplikasi',
-            'kategori'      => [null, '', 'sistem', 'web_theme', 'readonly', 'web', 'mobile'],
-            'atur_latar'    => true,
-            'latar_website' => $this->theme_model->latar_website(),
-            'list_tema'     => $this->theme_model->list_all(),
-            'bsre'          => SettingAplikasi::where('key', '=', 'logo_bsre')->first(),
+            'judul'               => 'Pengaturan Aplikasi',
+            'pengaturan_kategori' => ['sistem', 'peta', 'web_theme', 'readonly', 'web', 'mobile'],
+            'atur_latar'          => true,
+            'latar_website'       => $this->theme_model->latar_website(),
         ];
-        $this->setting_model->load_options();
 
-        $this->render('setting/setting_form', $data);
+        return view('admin.pengaturan.index', $data);
     }
 
     // Untuk view lama
@@ -100,12 +95,12 @@ class Setting extends Admin_Controller
         $this->sub_modul_ini = 211;
 
         $data = [
-            'judul'           => 'Pengaturan Halaman Web',
-            'kategori'        => ['conf_web'],
-            'aksi_controller' => 'setting/web',
+            'judul'               => 'Pengaturan Halaman Web',
+            'pengaturan_kategori' => ['conf_web'],
+            'aksi_controller'     => 'setting/web',
         ];
 
-        $this->render('setting/setting_form', $data);
+        return view('admin.pengaturan.index', $data);
     }
 
     // Pengaturan mandiri
@@ -113,18 +108,15 @@ class Setting extends Admin_Controller
     {
         $this->modul_ini     = 14;
         $this->sub_modul_ini = 314;
-        $this->load->model('first_gallery_m');
 
         $data = [
-            'judul'           => 'Pengaturan Layanan Mandiri',
-            'kategori'        => ['setting_mandiri'],
-            'atur_latar'      => true,
-            'daftar_album'    => $this->first_gallery_m->gallery_show(),
-            'aksi_controller' => 'setting/mandiri',
+            'judul'               => 'Pengaturan Layanan Mandiri',
+            'pengaturan_kategori' => ['setting_mandiri'],
+            'atur_latar'          => true,
+            'aksi_controller'     => 'setting/mandiri',
         ];
-        $this->setting_model->load_options();
 
-        $this->render('setting/setting_form', $data);
+        return view('admin.pengaturan.index', $data);
     }
 
     // Pengaturan analisis
@@ -134,12 +126,12 @@ class Setting extends Admin_Controller
         $this->sub_modul_ini = 111;
 
         $data = [
-            'judul'           => 'Pengaturan Analisis',
-            'kategori'        => ['setting_analisis'],
-            'aksi_controller' => 'setting/analisis',
+            'judul'               => 'Pengaturan Analisis',
+            'pengaturan_kategori' => ['setting_analisis'],
+            'aksi_controller'     => 'setting/analisis',
         ];
 
-        $this->render('setting/setting_form', $data);
+        return view('admin.pengaturan.index', $data);
     }
 
     public function qrcode($aksi = '')

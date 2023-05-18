@@ -37,13 +37,17 @@
 
 namespace App\Models;
 
+use App\Traits\Author;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Penduduk extends Model
+class Penduduk extends BaseModel
 {
+    use Author;
+
     /**
      * Static data tempat lahir.
      *

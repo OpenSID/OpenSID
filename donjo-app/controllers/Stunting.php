@@ -37,6 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\JenisKelaminEnum;
+use App\Enums\StatusHubunganEnum;
 use App\Models\Anak;
 use App\Models\IbuHamil;
 use App\Models\KIA;
@@ -106,7 +108,7 @@ class Stunting extends Admin_Controller
         if ($id) {
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updatePosyandu', $id);
-            $data['posyandu']   = Posyandu::find($id) ?? show_404();
+            $data['posyandu']   = Posyandu::findOrFail($id);
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = route('stunting.insertPosyandu');
@@ -131,7 +133,7 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = Posyandu::find($id) ?? show_404();
+        $data = Posyandu::findOrFail($id);
 
         if ($data->update(static::validatePosyandu($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'stunting');
@@ -215,24 +217,24 @@ class Stunting extends Admin_Controller
         $data             = $this->widget();
         $data['navigasi'] = 'kia';
         $data['ibu']      = Penduduk::where(static function ($query) {
-            $query->where('kk_level', 1) // kepala keluarga
-                ->orWhere('kk_level', 3) // istri
-                ->orWhere('kk_level', 4) // anak
-                ->orWhere('kk_level', 5); // menantu
+            $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                ->orWhere('kk_level', StatusHubunganEnum::ISTRI)
+                ->orWhere('kk_level', StatusHubunganEnum::ANAK)
+                ->orWhere('kk_level', StatusHubunganEnum::MENANTU);
         })
-            ->where('sex', 2)
+            ->where('sex', JenisKelaminEnum::PEREMPUAN)
             ->get();
 
         $data['anak'] = Penduduk::select(['id', 'nik', 'nama'])
             ->whereNotIn('id', KIA::pluck('anak_id'))
-            ->where('kk_level', 4)
+            ->whereIn('kk_level', [StatusHubunganEnum::ANAK, StatusHubunganEnum::CUCU, StatusHubunganEnum::FAMILI_LAIN])
             ->where('tanggallahir', '>=', Carbon::now()->subYears(6))
             ->get();
 
         if ($id) {
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updateKia', $id);
-            $data['kia']        = KIA::find($id) ?? show_404();
+            $data['kia']        = KIA::findOrFail($id);
             $data['ibu']        = $data['ibu']->prepend(Penduduk::find($data['kia']->ibu_id));
             $data['anak']       = $data['anak']->where('id', '!=', $data['kia']->ibu_id)->prepend(Penduduk::find($data['kia']->anak_id));
         } else {
@@ -246,16 +248,18 @@ class Stunting extends Admin_Controller
 
     public function getAnak()
     {
-        $anakId = [];
-
         foreach (KiA::all() as $data) {
-            $ibuId[] = $data->ibu_id ?? 0;
+            $anakId[] = $data->anak_id ?? 0;
         }
 
         if ($this->input->is_ajax_request()) {
             $ibu      = $this->input->get('ibu');
             $penduduk = Penduduk::find($ibu);
-            $anak     = Penduduk::where('id_kk', $penduduk->id_kk)->where('id', '!=', $ibu)->whereNotIn('id', $anakId)->whereIn('kk_level', [4, 6, 9])->where('tanggallahir', '>=', Carbon::now()->subYears(6))->get();
+            $anak     = Penduduk::where('id_kk', $penduduk->id_kk)
+                ->where('id', '!=', $ibu)->whereNotIn('id', $anakId)
+                ->whereIn('kk_level', [StatusHubunganEnum::ANAK, StatusHubunganEnum::CUCU, StatusHubunganEnum::FAMILI_LAIN])->where('tanggallahir', '>=', Carbon::now()
+                ->subYears(6))
+                ->get();
 
             return json($anak);
         }
@@ -276,7 +280,7 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = KIA::find($id) ?? show_404();
+        $data = KIA::findOrFail($id);
 
         if ($data->update(static::validateKia($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'stunting/kia');
@@ -402,7 +406,7 @@ class Stunting extends Admin_Controller
         if ($id) {
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updateIbuHamil', $id);
-            $data['ibuHamil']   = IbuHamil::find($id) ?? show_404();
+            $data['ibuHamil']   = IbuHamil::findOrFail($id);
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = route('stunting.insertIbuHamil');
@@ -438,7 +442,7 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = IbuHamil::find($id) ?? show_404();
+        $data = IbuHamil::findOrFail($id);
 
         if ($data->update(static::validateIbuHamil($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'stunting/pemantauan_ibu_hamil');
@@ -623,7 +627,7 @@ class Stunting extends Admin_Controller
 
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updateAnak', $id);
-            $data['anak']       = Anak::find($id) ?? show_404();
+            $data['anak']       = Anak::findOrFail($id);
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = route('stunting.insertAnak');
@@ -657,7 +661,7 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = Anak::find($id) ?? show_404();
+        $data = Anak::findOrFail($id);
 
         if ($data->update(static::validateAnak($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'stunting/pemantauan_anak');
@@ -753,7 +757,7 @@ class Stunting extends Admin_Controller
             $data = [
                 $row->kia->no_kia,
                 $row->kia->anak->nama,
-                $row->kia->anak->sex == 1 ? 'LAKI-LAKI' : 'PEREMPUAN',
+                $row->kia->anak->sex == JenisKelaminEnum::LAKI_LAKI ? 'LAKI-LAKI' : 'PEREMPUAN',
                 tgl_indo($row->kia->anak->tanggallahir),
                 $row->status_gizi,
                 $row->umur_bulan,
@@ -844,7 +848,7 @@ class Stunting extends Admin_Controller
         if ($id) {
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updatePaud', $id);
-            $data['paud']       = Paud::find($id) ?? show_404();
+            $data['paud']       = Paud::findOrFail($id);
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = route('stunting.insertPaud');
@@ -878,7 +882,7 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = Paud::find($id) ?? show_404();
+        $data = Paud::findOrFail($id);
 
         if ($data->update(static::validatePaud($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'stunting/pemantauan_paud');
@@ -956,7 +960,7 @@ class Stunting extends Admin_Controller
             $data = [
                 $row->kia->no_kia,
                 $row->kia->anak->nama,
-                $row->kia->anak->sex == 1 ? 'LAKI-LAKI' : 'PEREMPUAN',
+                $row->kia->anak->sex == JenisKelaminEnum::LAKI_LAKI ? 'LAKI-LAKI' : 'PEREMPUAN',
                 $row->kategori_usia == 1 ? 'Anak Usia 2 - < 3 Tahun' : 'Anak Usia 3 - 6 Tahun',
                 $row->januari   = ($row->januari == 1) ? '-' : (($row->januari == 2) ? 'v' : 'x'),
                 $row->februari  = ($row->februari == 1) ? '-' : (($row->februari == 2) ? 'v' : 'x'),

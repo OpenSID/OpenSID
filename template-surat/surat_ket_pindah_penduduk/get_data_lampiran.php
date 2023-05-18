@@ -1,7 +1,5 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed');
 
-$this->load->model('pamong_model');
-
 /**
  * Kembalikan nama file lampiran yang akan digunakan, di mana
  * Surat Keterangan Pindah Penduduk ada beberapa pilihan format dan
@@ -39,5 +37,3 @@ if ($input['pakai_format'] == 'f127' && $input['status_kk_pindah_id'] == 2) {
 	$input['nik_kk_baru'] = $individu['nik_kk'];
 	$input['nama_kk_baru'] = $individu['kepala_kk'];
 }
-
-$kepala_desa = $this->pamong_model->get_pamong($this->input->post('pamong_id'));

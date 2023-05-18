@@ -194,12 +194,12 @@ class TinyMCE
                 'data'  => $data['surat']['judul_surat'],
             ],
             [
-                'judul' => 'Tgl',
+                'judul' => 'Tanggal',
                 'isian' => '[Tgl_suraT]',
                 'data'  => tgl_indo(date('Y m d')),
             ],
             [
-                'judul' => 'Tgl Hijri',
+                'judul' => 'Tanggal Hijri',
                 'isian' => '[Tgl_surat_hijrI]',
                 'data'  => $DateConv->HijriDateId('j F Y'),
             ],
@@ -442,7 +442,7 @@ class TinyMCE
                 'data'  => $penduduk->nama,
             ],
             [
-                'judul' => 'Tgl Lahir' . $ortu,
+                'judul' => 'Tanggal Lahir' . $ortu,
                 'isian' => '[Tanggallahir' . $prefix . ']',
                 'data'  => tgl_indo($penduduk->tanggallahir),
             ],
@@ -452,12 +452,12 @@ class TinyMCE
                 'data'  => $penduduk->tempatlahir,
             ],
             [
-                'judul' => 'Tempat Tgl Lahir' . $ortu,
+                'judul' => 'Tempat Tanggal Lahir' . $ortu,
                 'isian' => '[Tempat_tgl_lahir' . $prefix . ']',
                 'data'  => $penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir),
             ],
             [
-                'judul' => 'Tempat Tgl Lahit (TTL)' . $ortu,
+                'judul' => 'Tempat Tanggal Lahir (TTL)' . $ortu,
                 'isian' => '[Ttl' . $prefix . ']',
                 'data'  => $penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir),
             ],
@@ -541,12 +541,12 @@ class TinyMCE
                     'data'  => $penduduk->akta_perkawinan, // Cek ini
                 ],
                 [
-                    'judul' => 'Tgl Perkawinan',
+                    'judul' => 'Tanggal Perkawinan',
                     'isian' => '[TanggalperkawinaN]',
                     'data'  => tgl_indo($penduduk->tanggalperkawinan),
                 ],
                 [
-                    'judul' => 'Tgl Perceraian',
+                    'judul' => 'Tanggal Perceraian',
                     'isian' => '[TanggalperceraiaN]',
                     'data'  => tgl_indo($penduduk->tanggalperceraian),
                 ],
@@ -576,7 +576,7 @@ class TinyMCE
                     'data'  => $penduduk->dokumen_pasport,
                 ],
                 [
-                    'judul' => 'Tgl Akhir Paspor',
+                    'judul' => 'Tanggal Akhir Paspor',
                     'isian' => '[Tanggal_akhir_paspoR]',
                     'data'  => tgl_indo($penduduk->tanggal_akhir_paspor),
                 ],
@@ -614,38 +614,31 @@ class TinyMCE
             // Data Umum
             $data = array_merge($individu, $lainnya);
 
-            // Data Orang Tua
-            if ($penduduk->id_kk && $penduduk->kk_level != 4) {
-                $data_ortu = [
-                    [
-                        'judul' => 'NIK Ayah',
-                        'isian' => '[Nik_ayaH]',
-                        'data'  => $penduduk->ayah_nik,
-                    ],
-                    [
-                        'judul' => 'Nama Ayah',
-                        'isian' => '[Nama_ayaH]',
-                        'data'  => $penduduk->nama_ayah,
-                    ],
-                    [
-                        'judul' => 'NIK Ibu',
-                        'isian' => '[Nik_ibU]',
-                        'data'  => $penduduk->ibu_nik,
-                    ],
-                    [
-                        'judul' => 'Nama Ibu',
-                        'isian' => '[Nama_ibU]',
-                        'data'  => $penduduk->nama_ibu,
-                    ],
-                ];
+            // Data orang tua
+            $data_ortu = [
+                [
+                    'judul' => 'NIK Ayah',
+                    'isian' => '[Nik_ayaH]',
+                    'data'  => $penduduk->ayah_nik,
+                ],
+                [
+                    'judul' => 'Nama Ayah',
+                    'isian' => '[Nama_ayaH]',
+                    'data'  => $penduduk->nama_ayah,
+                ],
+                [
+                    'judul' => 'NIK Ibu',
+                    'isian' => '[Nik_ibU]',
+                    'data'  => $penduduk->ibu_nik,
+                ],
+                [
+                    'judul' => 'Nama Ibu',
+                    'isian' => '[Nama_ibU]',
+                    'data'  => $penduduk->nama_ibu,
+                ],
+            ];
 
-                return array_merge($data, $data_ortu);
-            }
-            // Data Ayah
-            $data = array_merge($data, $this->getIsianPenduduk($penduduk->id, 'ayah'));
-
-            // Data Ibu
-            return array_merge($data, $this->getIsianPenduduk($penduduk->id, 'ibu'));
+            return array_merge($data, $data_ortu);
         }
 
         return $individu;

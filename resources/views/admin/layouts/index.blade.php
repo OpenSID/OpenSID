@@ -52,7 +52,7 @@
             </section>
         </div>
 
-        @include('admin.layouts.components.pengaturan')
+        @include('admin.pengaturan.pengaturan_modal')
 
         @if ($notif['pengumuman'])
             @include('admin.layouts.components.pengumuman', $notif['pengumuman'])

@@ -38,11 +38,10 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class JamKerja extends Model
+class JamKerja extends BaseModel
 {
     /**
      * The table associated with the model.

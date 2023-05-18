@@ -77,6 +77,9 @@
                 },
                 {
                     data: function (data) {
+                        if (data.url != null) {
+                            return `<button onclick="window.location.href='${data.url}'" class="btn btn-primary btn-block" target="_blank" rel="noopener noreferrer">Lihat</button>`;
+                        }
                         return '<a href="<?= site_url('dokumen_web/unduh_berkas/') ?>' + data.id + '" class="btn btn-primary btn-block" target="_blank" rel="noopener noreferrer">Unduh</a>';
                     },
                     name: 'aksi',

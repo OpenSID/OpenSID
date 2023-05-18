@@ -201,6 +201,7 @@ define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
 define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
 define('LOKASI_ICON_MENU_ANJUNGAN', 'desa/anjungan/menu/');
 define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
+define('LOKASI_FOTO_DTKS', 'desa/upload/dtks/');
 
 // File
 define('LATAR_SITEMAN', 'desa/pengaturan/siteman/images/latar_login.jpg');

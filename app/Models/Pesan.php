@@ -37,11 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Pesan extends Model
+class Pesan extends BaseModel
 {
     protected $table    = 'pesan';
     protected $fillable = ['id', 'judul', 'jenis', 'sudah_dibaca', 'diarsipkan'];

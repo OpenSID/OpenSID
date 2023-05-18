@@ -37,9 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+defined('BASEPATH') || exit('No direct script access allowed');
 
-class RefDokumen extends Model
+class RefDokumen extends BaseModel
 {
     /**
      * The table associated with the model.

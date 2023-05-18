@@ -423,7 +423,7 @@ class Keluarga_model extends MY_Model
             if ($tipe_file != 'image/jpeg' && $tipe_file != 'image/pjpeg' && $tipe_file != 'image/png') {
                 unset($data['foto']);
             } else {
-                UploadFoto($nama_file, $old_foto, $tipe_file);
+                UploadFoto($nama_file, $old_foto);
                 $data['foto'] = $nama_file;
             }
         } else {
@@ -924,7 +924,7 @@ class Keluarga_model extends MY_Model
             if ($tipe_file != 'image/jpeg' && $tipe_file != 'image/pjpeg' && $tipe_file != 'image/png') {
                 unset($data['foto']);
             } else {
-                UploadFoto($nama_file, '', $tipe_file);
+                UploadFoto($nama_file, '');
                 $data['foto'] = $nama_file;
             }
         } else {

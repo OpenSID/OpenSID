@@ -331,7 +331,7 @@ class Pengurus extends Admin_Controller
         if ($id) {
             $action      = 'Ubah';
             $form_action = route('pengurus.jabatanupdate', $id);
-            $jabatan     = RefJabatan::find($id) ?? show_404();
+            $jabatan     = RefJabatan::findOrFail($id);
         } else {
             $action      = 'Tambah';
             $form_action = route('pengurus.jabataninsert');
@@ -357,8 +357,7 @@ class Pengurus extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        // TODO: Gunakan findOrFail
-        $data = RefJabatan::find($id) ?? show_404();
+        $data = RefJabatan::findOrFail($id);
 
         $requests = static::jabatanValidate($this->request);
 
@@ -372,7 +371,7 @@ class Pengurus extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
 
-        $data = RefJabatan::find($id) ?? show_404();
+        $data = RefJabatan::findOrFail($id);
         if (in_array($data->id, RefJabatan::EXCLUDE_DELETE)) {
             redirect_with('error', 'Gagal Hapus Data, ' . $data->jabatan, 'pengurus/jabatan');
         }

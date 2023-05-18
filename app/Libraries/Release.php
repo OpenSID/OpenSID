@@ -85,7 +85,7 @@ class Release
         }
 
         if (! $this->interval) {
-            $this->setInterval(ENEVIRONMENT == 'development' ? 0 : 7);
+            $this->setInterval(ENVIRONMENT == 'development' ? 0 : 7);
         }
     }
 

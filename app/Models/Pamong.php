@@ -37,11 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Pamong extends Model
+class Pamong extends BaseModel
 {
     /**
      * The table associated with the model.
@@ -234,7 +232,11 @@ class Pamong extends Model
      */
     public function getPamongNamaAttribute()
     {
-        $pamong_nama = $this->attributes['pamong_nama'];
+        if ($this->attributes['id_pend'] != null) {
+            $pamong_nama = $this->penduduk->nama;
+        } else {
+            $pamong_nama = $this->attributes['pamong_nama'];
+        }
 
         if ($this->gelar_depan) {
             $pamong_nama = $this->gelar_depan . ' ' . $pamong_nama;

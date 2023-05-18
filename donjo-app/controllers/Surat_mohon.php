@@ -92,8 +92,8 @@ class Surat_mohon extends Admin_Controller
         if ($id) {
             $action      = 'Ubah';
             $form_action = route('surat_mohon.update', $id);
-            // TODO: Gunakan findOrFail
-            $ref_syarat_surat = SyaratSurat::find($id) ?? show_404();
+
+            $ref_syarat_surat = SyaratSurat::findOrFail($id);
         } else {
             $action           = 'Tambah';
             $form_action      = route('surat_mohon.insert');
@@ -117,8 +117,7 @@ class Surat_mohon extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        // TODO: Gunakan findOrFail
-        $data = SyaratSurat::find($id) ?? show_404();
+        $data = SyaratSurat::findOrFail($id);
 
         if ($data->update(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data');

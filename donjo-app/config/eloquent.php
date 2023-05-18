@@ -105,3 +105,13 @@ Paginator::queryStringResolver(static function () {
 CursorPaginator::currentCursorResolver(static function ($cursorName = 'cursor') {
     return Cursor::fromEncoded(get_instance()->input->get($cursorName));
 });
+
+\Illuminate\Database\Query\Builder::macro('toRawSql', function () {
+    return array_reduce($this->getBindings(), static function ($sql, $binding) {
+        return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
+    }, $this->toSql());
+});
+
+\Illuminate\Database\Eloquent\Builder::macro('toRawSql', function () {
+    return $this->getQuery()->toRawSql();
+});

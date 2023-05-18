@@ -37,11 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class LogPenduduk extends Model
+class LogPenduduk extends BaseModel
 {
     /**
      * KETERANGAN kode_peristiwa di log_penduduk
@@ -75,7 +73,7 @@ class LogPenduduk extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'tgl_lapor'     => 'datetime:Y-m-d H:i:s',
-        'tgl_peristiwa' => 'datetime:Y-m-d H:i:s',
+        'tgl_lapor'     => 'datetime:Y-m-d',
+        'tgl_peristiwa' => 'datetime:Y-m-d',
     ];
 }

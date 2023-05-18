@@ -95,6 +95,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 <?php $this->load->view('global/confirm_delete'); ?>
 <script>
 	$(document).ready(function() {
+		var satuan_waktu = JSON.parse('<?= json_encode($satuan_waktu) ?>');
 		let tabelPembangunan = $('#tabel-pembangunan').DataTable({
 			'processing': true,
 			'serverSide': true,
@@ -105,7 +106,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			],
 			'columnDefs': [
 				{ 'orderable': false, 'targets': [0] },
-				{ 'className' : 'padat', 'targets': [0, 3, 4, 5, 6, 7] },
+				{ 'className' : 'padat', 'targets': [0, 3, 4, 5, 6, 7, 8] },
 			],
 			'ajax': {
 				'url': SITE_URL + 'bumindes_kegiatan_pembangunan',
@@ -145,7 +146,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					'render': $.fn.dataTable.render.number( '.', '.', 0, 'Rp ' )
 				},
 				{
-					'data': 'waktu'
+					'data': function(data) {
+						return (data.waktu + ' ' + satuan_waktu[data.satuan_waktu]);
+					}
 				},
 				{
 					'data': 'sifat_proyek_baru'

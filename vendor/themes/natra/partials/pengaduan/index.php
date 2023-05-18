@@ -388,8 +388,8 @@
 		<br />
 
 		<!-- Notifikasi -->
-		<?php if (($notif = session('notif')) && (!session('notif')['data'])) : ?>
-			<div id="notifikasi" class="alert alert-<?= $notif['status']; ?>" role="alert">
+		<?php if (($notif = session('notif')) && (! session('notif')['data'])) : ?>
+			<div id="notifikasi" class="alert alert-<?= $notif['status'] == 'error' ? 'danger' : 'success'; ?>" role="alert">
 				<?= $notif['pesan']; ?>
 			</div>
 		<?php endif; ?>
@@ -467,7 +467,7 @@
 				<?php endforeach; ?>
 			</ul>
 
-			<?php $this->load->view("$folder_themes/commons/page"); ?>
+			<?php $this->load->view("{$folder_themes}/commons/page"); ?>
 
 		<?php else : ?>
 			<div class="alert alert-info" role="alert">
@@ -528,7 +528,7 @@
 								<tr class="captcha">
 									<td>&nbsp;</td>
 									<td>
-										<a href="#" id="b-captcha" onclick="document.getElementById('captcha').src = '<?= base_url() . "securimage/securimage_show.php?" ?>' + Math.random(); return false" style="color: #000000;">
+										<a href="#" id="b-captcha" onclick="document.getElementById('captcha').src = '<?= base_url() . 'securimage/securimage_show.php?' ?>' + Math.random(); return false" style="color: #000000;">
 											<img id="captcha" src="<?= base_url('securimage/securimage_show'); ?>" alt="CAPTCHA Image" />
 										</a>
 									</td>
@@ -555,7 +555,7 @@
 			$("#notifikasi").fadeTo(500, 0).slideUp(500, function() {
 				$(this).remove();
 			});
-		}, 1000);
+		}, 2000);
 
 		var data = "<?= session('notif')['data'] ?>";
 		if (data) {

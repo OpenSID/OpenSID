@@ -345,7 +345,7 @@ class Web_artikel_model extends MY_Model
 
             if (! empty($lokasi_file)) {
                 $tipe_file = TipeFile($_FILES[$gambar]);
-                $hasil     = UploadArtikel($nama_file, $gambar, $fp, $tipe_file);
+                $hasil     = UploadArtikel($nama_file, $gambar);
                 if ($hasil) {
                     $data[$gambar] = $nama_file;
                     HapusArtikel($data['old_' . $gambar]);
@@ -530,9 +530,6 @@ class Web_artikel_model extends MY_Model
         }
 
         $data['judul'] = $this->security->xss_clean($data['judul']);
-        if (empty($this->setting->user_admin) || $data['id_user'] != $this->setting->user_admin) {
-            $data['isi'] = $this->security->xss_clean($data['isi']);
-        }
 
         // Digunakan untuk timepicker
         $tempTgl            = date_create_from_format('Y-m-d H:i:s', $data['tgl_upload']);

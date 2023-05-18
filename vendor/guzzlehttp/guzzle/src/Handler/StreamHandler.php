@@ -388,7 +388,7 @@ class StreamHandler
 
         $body = (string) $request->getBody();
 
-        if (!empty($body)) {
+        if ('' !== $body) {
             $context['http']['content'] = $body;
             // Prevent the HTTP handler from adding a Content-Type header.
             if (!$request->hasHeader('Content-Type')) {
@@ -470,6 +470,25 @@ class StreamHandler
         if ($value > 0) {
             $options['http']['timeout'] = $value;
         }
+    }
+
+    /**
+     * @param mixed $value as passed via Request transfer options.
+     */
+    private function add_crypto_method(RequestInterface $request, array &$options, $value, array &$params): void
+    {
+        if (
+            $value === \STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT
+            || $value === \STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT
+            || $value === \STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT
+            || (defined('STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT') && $value === \STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT)
+        ) {
+            $options['http']['crypto_method'] = $value;
+
+            return;
+        }
+
+        throw new \InvalidArgumentException('Invalid crypto_method request option: unknown version provided');
     }
 
     /**

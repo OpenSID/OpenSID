@@ -24,7 +24,7 @@ if (! isset($CI)) {
 			<div class="error-content">
 				<h3><i class="fa fa-warning text-danger"></i> <?= strip_tags($heading); ?></h3>
 				<p>
-					Versi OpenSID <?= AmbilVersi() ?>. PHP versi <?= preg_split('/-/', PHP_VERSION)[0] ?>.<br><br>
+					Versi <?= config_item('nama_aplikasi') . ' ' . AmbilVersi() ?>. PHP versi <?= preg_split('/-/', PHP_VERSION)[0]?>..<br><br>
 
 					Harap laporkan masalah ini, agar kami dapat mencarikan solusinya.
 					Untuk sementara Anda dapat kembali ke halaman <a href="<?= APP_URL ?>">awal</a>.

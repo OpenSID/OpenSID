@@ -21,11 +21,11 @@
         <?php else : ?>
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Pendaftaran Kerjasama OpenDesa</h3>
+                    <h3 class="box-title">Pendaftaran Kerjasama <?= config_item('nama_lembaga') ?></h3>
                 </div>
                 <div class="box-body">
-                    <p>OpenDesa (lembaga hukum dikukuhkan Keputusan Menteri Hukum dan Hak Asasi Manusia Nomor AHU-0001417.AH.01.08.Tahun 2021) menyediakan aplikasi dan layanan yang memerlukan kontribusi yang perlu dianggarkan Desa. Untuk memenuhi peraturan pengadaan yang berlaku, Desa perlu memiliki kerjasama pengadaan dengan OpenDesa sebelum dapat menggunakan aplikasi dan layanan OpenDesa berbayar tersebut.</p>
-                    <p>Gunakan fitur ini untuk mendaftarkan dan mengeksekusi kerjasama resmi dengan OpenDesa. Setelah Kesepakatan Kerjasama antara Desa dan OpenDesa berlaku, Desa akan terdaftar sebagai Desa Digital OpenDesa dan berhak mengakses aplikasi dan layanan OpenDesa berbayar dan program-program peningkatan desa digital lainnya.</p>
+                    <p><?= config_item('nama_lembaga') ?> (lembaga hukum dikukuhkan Keputusan Menteri Hukum dan Hak Asasi Manusia Nomor AHU-0001417.AH.01.08.Tahun 2021) menyediakan aplikasi dan layanan yang memerlukan kontribusi yang perlu dianggarkan Desa. Untuk memenuhi peraturan pengadaan yang berlaku, Desa perlu memiliki kerjasama pengadaan dengan <?= config_item('nama_lembaga') ?> sebelum dapat menggunakan aplikasi dan layanan <?= config_item('nama_lembaga') ?> berbayar tersebut.</p>
+                    <p>Gunakan fitur ini untuk mendaftarkan dan mengeksekusi kerjasama resmi dengan <?= config_item('nama_lembaga') ?>. Setelah Kesepakatan Kerjasama antara Desa dan <?= config_item('nama_lembaga') ?> berlaku, Desa akan terdaftar sebagai Desa Digital <?= config_item('nama_lembaga') ?> dan berhak mengakses aplikasi dan layanan <?= config_item('nama_lembaga') ?> berbayar dan program-program peningkatan desa digital lainnya.</p>
                     <p>Cetak dokumen Kesepakatan Kerjasama menggunakan tombol yang disediakan. Langkah untuk melengkapi pendaftaran adalah sebagai berikut:</p>
                     <p>
                     <ol>
@@ -36,7 +36,7 @@
                         <li>Unggah hasil scan menggunakan form pendaftaran.</li>
                         <li>Simpan dokumen asli di arsip kantor desa.</li>
                         <li>Cek email inbox/pesan yang Anda gunakan untuk memverifikasi.</li>
-                        <li>Setelah pendaftaran diverifikasi dan kerjasama diaktifkan oleh OpenDesa, email pemberitahuan akan dikirim ke alamat email terdaftar.</li>
+                        <li>Setelah pendaftaran diverifikasi dan kerjasama diaktifkan oleh <?= config_item('nama_lembaga') ?>, email pemberitahuan akan dikirim ke alamat email terdaftar.</li>
                     </ol>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="box-body">
                         <div class="callout callout-info">
-                            <h5>Dokumen permohonan kerjasama Desa anda sedang diperiksa oleh Pelaksana Layanan OpenDesa.</h5>
+                            <h5>Dokumen permohonan kerjasama Desa anda sedang diperiksa oleh Pelaksana Layanan <?= config_item('nama_lembaga') ?>.</h5>
                         </div>
                     </div>
                 </div>

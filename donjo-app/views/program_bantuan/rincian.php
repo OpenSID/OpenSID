@@ -10,7 +10,7 @@
 			<tr>
 				<td>Sasaran Peserta</td>
 				<td> : </td>
-				<td><?= $sasaran[$detail['sasaran']]?></td>
+				<td><?= $list_sasaran[$detail['sasaran']]?></td>
 			</tr>
 			<tr>
 				<td>Masa Berlaku</td>

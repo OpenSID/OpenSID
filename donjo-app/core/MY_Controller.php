@@ -125,6 +125,7 @@ class Web_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
+
         $this->header = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
 
         if ($this->setting->offline_mode == 2) {
@@ -212,7 +213,7 @@ class Web_Controller extends MY_Controller
         $this->load->model('pamong_model');
 
         $main         = $this->header;
-        $pamong_kades = Pamong::ttd('a.n')->first();
+        $pamong_kades = Pamong::ttd('a.n')->first()->toArray();
 
         // TODO : Gunakan view blade
         if (file_exists(DESAPATH . 'offline_mode.php')) {
