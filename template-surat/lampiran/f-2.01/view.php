@@ -1338,13 +1338,6 @@
         </tr>
         <tr>
             <td colspan="2">&nbsp;</td>
-            <td colspan="10" class="tengah">Kepala Desa/Lurah</td>
-            <td colspan="24">&nbsp;</td>
-            <td colspan="10" class="tengah">&nbsp;</td>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
             <td colspan="10" class="tengah">Pejabat Dukcapil Yang Membidangi</td>
             <td colspan="24">&nbsp;</td>
             <td colspan="10" class="tengah">&nbsp;</td>
