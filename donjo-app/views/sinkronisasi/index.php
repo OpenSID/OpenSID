@@ -397,12 +397,8 @@
                 'password': $('#api_opendk_password').val()
             }
         }).catch(function (error) {
-            if (error.response != undefined && error.response.statusText == "Unauthorized") {
-                Swal.fire('Api Opendk User dan Api Opendk Password tidak sesuai')
-            } else if(error.response != undefined && error.response.data.error == "User does not have the right roles") {
-                Swal.fire('Grup Pengguna Salah. Pastikan Grup Pengguna adalah admin-desa')
-            } else if(error.response != undefined) {
-                Swal.fire(error.response.statusText)
+            if(error.response != undefined) {
+                Swal.fire(error.response.data.message)
             } else {
                 Swal.fire(error.toJSON().message)
             }
