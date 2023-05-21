@@ -36,10 +36,10 @@
  */
 
 use App\Models\Config;
-use App\Models\GrupAkses;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Pesan;
+use App\Models\UserGrup;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -62,14 +62,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class MY_Controller extends CI_Controller
 {
     // Common data
-    public $user;
     public $settings;
     public $includes;
-    public $current_uri;
     public $theme;
     public $template;
-    public $error;
     public $header;
+    public $request;
+    public $cek_anjungan;
 
     // Constructor
     public function __construct()
@@ -79,6 +78,8 @@ class MY_Controller extends CI_Controller
         if ($error['code'] == 1049 && ! $this->db) {
             return;
         }
+
+        $this->cek_config();
 
         /*
         | Tambahkan model yg akan diautoload di sini.
@@ -108,6 +109,28 @@ class MY_Controller extends CI_Controller
             $this->session->unset_userdata($session);
         }
     }
+
+    private function cek_config()
+    {
+        if (! Config::appKey()->first()) {
+            // Tambahkan data sementara
+            Config::create([
+                'nama_desa'         => '',
+                'kode_desa'         => '',
+                'nama_kecamatan'    => '',
+                'kode_kecamatan'    => '',
+                'nama_kabupaten'    => '',
+                'kode_kabupaten'    => '',
+                'nama_propinsi'     => '',
+                'kode_propinsi'     => '',
+                'nama_kepala_camat' => '',
+                'nip_kepala_camat'  => '',
+            ]);
+
+            $this->load->model('migrations/data_awal', 'data_awal');
+            $this->data_awal->up();
+        }
+    }
 }
 
 class Web_Controller extends MY_Controller
@@ -119,8 +142,7 @@ class Web_Controller extends MY_Controller
     {
         parent::__construct();
 
-        $this->header = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') && Schema::hasColumn('config', 'nomor_operator') ? Config::first() : null;
-
+        $this->header = identitas();
         if ($this->setting->offline_mode == 2) {
             $this->view_maintenance();
         } elseif ($this->setting->offline_mode == 1) {
@@ -156,21 +178,20 @@ class Web_Controller extends MY_Controller
 
     public function _get_common_data(&$data)
     {
-        $this->load->library('statistik_pengunjung');
-
+        $this->load->model('statistik_pengunjung_model');
         $this->load->model('first_menu_m');
         $this->load->model('teks_berjalan_model');
         $this->load->model('first_artikel_m');
         $this->load->model('web_widget_model');
         $this->load->model('keuangan_grafik_manual_model');
         $this->load->model('keuangan_grafik_model');
-        $this->load->model('pengaduan_model');
+        $this->load->model('pengaduan_model'); // TODO: Cek digunakan halaman apa saja
 
         // Counter statistik pengunjung
-        $this->statistik_pengunjung->counter_visitor();
+        $this->statistik_pengunjung_model->counter_visitor();
 
         // Data statistik pengunjung
-        $data['statistik_pengunjung'] = $this->statistik_pengunjung->get_statistik();
+        $data['statistik_pengunjung'] = $this->statistik_pengunjung_model->get_statistik();
 
         $data['latar_website'] = default_file($this->theme_model->lokasi_latar_website() . $this->setting->latar_website, DEFAULT_LATAR_WEBSITE);
         $data['desa']          = $this->header;
@@ -203,8 +224,6 @@ class Web_Controller extends MY_Controller
 
     private function view_maintenance()
     {
-        $this->load->model('pamong_model');
-
         $main         = $this->header;
         $pamong_kades = Pamong::ttd('a.n')->first()->toArray();
 
@@ -227,7 +246,7 @@ class Mandiri_Controller extends MY_Controller
     {
         parent::__construct();
         $this->is_login = $this->session->is_login;
-        $this->header   = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
+        $this->header   = identitas();
 
         if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) {
             show_404();
@@ -411,13 +430,26 @@ class Admin_Controller extends Premium
 {
     public $grup;
     public $CI;
-    public $pengumuman;
+    public $modul_ini;
+    public $sub_modul_ini;
 
     public function __construct()
     {
         parent::__construct();
-        $this->validasi();
         $this->CI = CI_Controller::get_instance();
+        $this->cek_identitas_desa();
+    }
+
+    private function cek_identitas_desa()
+    {
+        if (empty(Config::appKey()->first()->kode_desa) && $this->controller != 'identitas_desa') {
+            set_session('error', 'Identitas ' . ucwords(setting('sebutan_desa')) . ' masih kosong, silakan isi terlebih dahulu');
+
+            redirect('identitas_desa');
+        }
+
+        $this->validasi();
+
         $this->load->model(['user_model', 'notif_model', 'referensi_model']);
 
         // Kalau sehabis periksa data, paksa harus login lagi
@@ -425,7 +457,7 @@ class Admin_Controller extends Premium
             $this->user_model->logout();
         }
 
-        $this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
+        $this->grup = $this->user_model->sesi_grup($this->session->sesi);
         $this->load->model('modul_model');
         if (! $this->modul_model->modul_aktif($this->controller) && $this->controller != 'pengguna') {
             session_error('Fitur ini tidak aktif');
@@ -483,7 +515,7 @@ class Admin_Controller extends Premium
         }
 
         // Hanya untuk user administrator
-        if ($this->grup == 1) {
+        if ($this->grup == $this->user_model->id_grup(UserGrup::ADMINISTRATOR)) {
             $notifikasi = $this->notif_model->get_semua_notif();
 
             foreach ($notifikasi as $notif) {
@@ -518,7 +550,7 @@ class Admin_Controller extends Premium
             $controller = $this->controller;
         }
 
-        if (($admin_only && $this->grup != GrupAkses::ADMINISTRATOR) || ! $this->user_model->hak_akses($this->grup, $controller, $akses)) {
+        if (($admin_only && $this->grup != $this->user_model->id_grup(UserGrup::ADMINISTRATOR)) || ! $this->user_model->hak_akses($this->grup, $controller, $akses)) {
             session_error('Anda tidak mempunyai akses pada fitur ini');
 
             if (empty($this->grup)) {

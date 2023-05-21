@@ -35,11 +35,10 @@
  *
  */
 
-use App\Models\Config;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Shortcode_model extends CI_Model
+// TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
+class Shortcode_model extends MY_Model
 {
     public function __construct()
     {
@@ -122,7 +121,7 @@ class Shortcode_model extends CI_Model
     private function tabel_rp_apbd($type, $thn, $smt1)
     {
         $data              = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1);
-        $desa              = Config::first();
+        $desa              = identitas();
         $pendapatan        = $data['pendapatan'];
         $belanja           = $data['belanja'];
         $belanja_bidang    = $data['belanja_bidang'];
@@ -141,7 +140,7 @@ class Shortcode_model extends CI_Model
     private function tabel_rp_apbd_bidang($type, $thn, $smt1)
     {
         $data              = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1);
-        $desa              = Config::first();
+        $desa              = identitas();
         $pendapatan        = $data['pendapatan'];
         $belanja           = $data['belanja'];
         $belanja_bidang    = $data['belanja_bidang'];
@@ -173,7 +172,7 @@ class Shortcode_model extends CI_Model
     private function tabel_rp_apbd_bidang_manual($type, $thn)
     {
         $data              = $this->keuangan_grafik_manual_model->lap_rp_apbd($thn);
-        $desa              = Config::first();
+        $desa              = identitas();
         $pendapatan        = $data['pendapatan'];
         $belanja           = $data['belanja'];
         $belanja_bidang    = $data['belanja_bidang'];
@@ -251,7 +250,7 @@ class Shortcode_model extends CI_Model
 
     private function sotk_w_bpd()
     {
-        $desa    = Config::first();
+        $desa    = identitas();
         $bagan   = $this->pamong_model->list_bagan();
         $ada_bpd = true;
 
@@ -264,7 +263,7 @@ class Shortcode_model extends CI_Model
 
     private function sotk_wo_bpd()
     {
-        $desa    = Config::first();
+        $desa    = identitas();
         $bagan   = $this->pamong_model->list_bagan();
         $ada_bpd = false;
 

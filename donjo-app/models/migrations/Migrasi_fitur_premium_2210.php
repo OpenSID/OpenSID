@@ -449,7 +449,6 @@ class Migrasi_fitur_premium_2210 extends MY_model
 
             $hasil = $hasil && AnjunganMenu::insert($menu);
 
-            folder(LOKASI_ICON_MENU_ANJUNGAN);
             $from  = FCPATH . LOKASI_ICON_MENU_ANJUNGAN_DEFAULT . 'contoh/';
             $to    = FCPATH . LOKASI_ICON_MENU_ANJUNGAN;
             $files = array_filter(glob("{$from}*"), 'is_file');

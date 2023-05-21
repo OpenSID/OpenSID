@@ -3,15 +3,15 @@
         <h1>Pengelolaan Data RW</h1>
         <ol class="breadcrumb">
             <li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="<?= site_url('sid_core') ?>"> Daftar <?= ucwords($this->setting->sebutan_dusun) ?></a></li>
-            <li><a href="<?= site_url("sid_core/sub_rw/{$id_dusun}") ?>"> Daftar RW</a></li>
+            <li><a href="<?= site_url('wilayah/clear') ?>"> Daftar <?= ucwords($this->setting->sebutan_dusun) ?></a></li>
+            <li><a href="<?= site_url("wilayah/sub_rw/{$id_dusun}") ?>"> Daftar RW</a></li>
             <li class="active">Data RW</li>
         </ol>
     </section>
     <section class="content" id="maincontent">
         <div class="box box-info">
             <div class="box-header with-border">
-                <a href="<?= site_url("sid_core/sub_rw/{$id_dusun}") ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RW">
+                <a href="<?= site_url("wilayah/sub_rw/{$id_dusun}") ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RW">
                     <i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar RW
                 </a>
             </div>
@@ -26,7 +26,7 @@
                             <input  id="rw" class="form-control input-sm digits required" maxlength="10" type="text" placeholder="Nama RW" name="rw" value="<?= $rw ?>">
                         </div>
                     </div>
-                    <?php if ($rw): ?>
+                    <?php if ($individu): ?>
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="kepala_lama">Kepala RW Sebelumnya</label>
                             <div class="col-sm-7">

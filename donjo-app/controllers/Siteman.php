@@ -35,8 +35,6 @@
  *
  */
 
-use App\Models\Config;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Siteman extends MY_Controller
@@ -65,7 +63,7 @@ class Siteman extends MY_Controller
             redirect('main');
         }
         unset($_SESSION['balik_ke']);
-        $data['header'] = Config::first();
+        $data['header'] = identitas();
 
         $data['form_action'] = site_url('siteman/auth');
         $data['logo_bsre']   = default_file(LOGO_BSRE, false);
@@ -126,7 +124,7 @@ class Siteman extends MY_Controller
 
     public function lupa_sandi()
     {
-        $data['header']      = Config::first();
+        $data['header']      = identitas();
         $data['latar_login'] = $this->latar_login;
 
         $this->load->view('lupa_sandi', $data);
@@ -167,7 +165,7 @@ class Siteman extends MY_Controller
             redirect('siteman');
         }
 
-        $data['header']      = Config::first();
+        $data['header']      = identitas();
         $data['email']       = $this->input->get('email', true);
         $data['token']       = $token;
         $data['latar_login'] = $this->latar_login;
@@ -189,7 +187,8 @@ class Siteman extends MY_Controller
             $status = $this->password->driver('email')->reset(
                 ['email' => $request->email, 'token' => $request->token, 'password' => $request->password],
                 function ($user, $password) {
-                    $this->db->where('id', $user->id)->update('user', ['password' => generatePasswordHash($password)]);
+                    // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
+                    $this->db->where('id', $user->id)->update('user', ['password' => $this->generatePasswordHash($password)]);
                 }
             );
         } catch (\Exception $e) {

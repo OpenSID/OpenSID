@@ -455,7 +455,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
     {
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
         // Hapus controller 'wilayah' yang boleh diakses oleh semua pengguna yg telah login
-        $hasil = $hasil && $this->db->where('url', 'wilayah')->delete('setting_modul');
+        $hasil = $hasil && $this->db->where('id !=', 21)->where('url', 'wilayah')->delete('setting_modul');
 
         $hasil = $hasil && $this->modul_tambahan($hasil);
         $hasil = $hasil && $this->ubah_grup($hasil);

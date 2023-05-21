@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Ekspor_model extends CI_Model
+class Ekspor_model extends MY_Model
 {
     public function __construct()
     {
@@ -68,7 +68,7 @@ class Ekspor_model extends CI_Model
     // Expor data penduduk ke format Impor Excel
     public function expor()
     {
-        $filter = $this->db
+        $filter = $this->config_id('p')
             ->select(['k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.status_dasar', 'p.suku', 'p.tag_id_card', 'p.id_asuransi as asuransi', 'p.no_asuransi'])
             ->from('tweb_penduduk p')
             ->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
@@ -149,6 +149,12 @@ class Ekspor_model extends CI_Model
     */
     public function backup()
     {
+        if (setting('multi_desa')) {
+            session_error('Backup database tidak diizinkan');
+
+            redirect('database');
+        }
+
         // Tabel dengan foreign key dan
         // semua views ditambah di belakang.
         $views = $this->database_model->get_views();
@@ -332,6 +338,12 @@ class Ekspor_model extends CI_Model
 
     public function restore()
     {
+        if (setting('multi_desa')) {
+            session_error('Restore database tidak diizinkan');
+
+            redirect('database');
+        }
+
         $this->load->library('MY_Upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),
@@ -468,17 +480,14 @@ class Ekspor_model extends CI_Model
      */
     public function hapus_penduduk_sinkronasi_opendk()
     {
-        $desa = $this->db
-            ->select('kode_desa')
-            ->get('config')
-            ->row();
-        $kode_desa = kode_wilayah($desa->kode_desa);
+        $kode_desa = kode_wilayah(identitas()->kode_desa);
 
-        $data_hapus = $this->db->select([
-            "CONCAT('{$kode_desa}') as desa_id",
-            'p.id_pend as id_pend_desa',
-            'p.foto',
-        ])
+        $data_hapus = $this->config_id('p')
+            ->select([
+                "CONCAT('{$kode_desa}') as desa_id",
+                'p.id_pend as id_pend_desa',
+                'p.foto',
+            ])
             ->from('log_hapus_penduduk p')
             ->get()
             ->result_array();
@@ -490,12 +499,14 @@ class Ekspor_model extends CI_Model
 
     public function tambah_penduduk_sinkronasi_opendk()
     {
-        $data = $this->db->select(['k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.status_dasar', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.created_at', 'p.updated_at'])
+        $data = $this->config_id('p')
+            ->select(['k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.status_dasar', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.created_at', 'p.updated_at'])
             ->from('tweb_penduduk p')
             ->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
             ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
             ->order_by('k.no_kk ASC', 'p.kk_level ASC')
-            ->get()->result();
+            ->get()
+            ->result();
 
         for ($i = 0; $i < count($data); $i++) {
             $baris = $data[$i];

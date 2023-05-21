@@ -127,7 +127,7 @@ class Rtm extends Admin_Controller
     public function edit_nokk($id = 0)
     {
         $this->redirect_hak_akses('u');
-        $data['kk']          = $this->rtm_model->get_rtm($id);
+        $data['kk']          = $this->rtm_model->get_rtm($id) ?? show_404();
         $data['form_action'] = site_url("{$this->controller}/update_nokk/{$id}");
 
         $this->load->view('rtm/ajax_edit_no_rtm', $data);
@@ -343,7 +343,7 @@ class Rtm extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $data['hubungan']    = $this->rtm_model->list_hubungan();
-        $data['main']        = $this->rtm_model->get_anggota($id);
+        $data['main']        = $this->rtm_model->get_anggota($id) ?? show_404();
         $data['form_action'] = site_url("{$this->controller}/update_anggota/{$id_rtm}/{$id}");
 
         $this->load->view('rtm/ajax_edit_anggota_rtm', $data);
@@ -445,10 +445,16 @@ class Rtm extends Admin_Controller
             case $tipe > 50:
                 $program_id                     = preg_replace('/^50/', '', $tipe);
                 $this->session->program_bantuan = $program_id;
-                $nama                           = $this->db->select('nama')
+
+                // TODO: Sederhanakan query ini, pindahkan ke model
+                $nama = $this->db
+                    ->select('nama')
+                    ->where('config_id', identitas('id'))
                     ->where('id', $program_id)
-                    ->get('program')->row()
+                    ->get('program')
+                    ->row()
                     ->nama;
+
                 if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;

@@ -100,7 +100,7 @@ class Pengaduan_admin extends Admin_Controller
     public function pengaduan_form_detail($id = '')
     {
         if ($id) {
-            $data['pengaduana'] = $this->pengaduan_model->pengaduan_detailna($id);
+            $data['pengaduana'] = $this->pengaduan_model->pengaduan_detailna($id) ?? show_404();
         }
 
         $this->load->view('pengaduan_admin/modal_detail', $data);

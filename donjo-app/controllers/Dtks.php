@@ -167,7 +167,8 @@ class Dtks extends Admin_Controller
                 ->join($penduduk . ' AS krt', 'rtm.nik_kepala', '=', 'krt.id')
                 ->join($penduduk . ' AS kk', 'keluarga.nik_kepala', '=', 'kk.id')
                 ->join($wilayah . ' AS wil_krt', 'krt.id_cluster', '=', 'wil_krt.id')
-                ->join($wilayah . ' AS wil_kk', 'kk.id_cluster', '=', 'wil_kk.id');
+                ->join($wilayah . ' AS wil_kk', 'kk.id_cluster', '=', 'wil_kk.id')
+                ->where('dtks.config_id', identitas('id'));
 
             $case_sql = static function (&$query, $keyword, $fields = [DtksEnum::REGSOS_EK2022_K => ''], $operator = 'LIKE') {
                 $sql     = '(versi_kuisioner = ' . DtksEnum::REGSOS_EK2022_K . ' AND ' . $fields[DtksEnum::REGSOS_EK2022_K] . ' ' . $operator . ' ?)';
@@ -404,8 +405,7 @@ class Dtks extends Admin_Controller
 
     public function form($id)
     {
-        $dtks = ModelDtks::where(['id' => $id])
-            ->first();
+        $dtks = ModelDtks::where(['id' => $id])->first();
 
         if (! $dtks) {
             return json(['message' => 'Formulir Tidak ditemukan'], 404);

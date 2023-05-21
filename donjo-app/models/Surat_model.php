@@ -38,31 +38,33 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Libraries\DateConv;
-use App\Models\Config;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
 
-class Surat_model extends CI_Model
+class Surat_model extends MY_Model
 {
     protected $awalan_qr = '89504e470d0a1a0a0000000d4948445200000084000000840802000000de';
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['penduduk_model', 'penomoran_surat_model', 'url_shortener_model']);
+        $this->load->model(['penomoran_surat_model', 'url_shortener_model']);
     }
 
     public function list_surat()
     {
-        $sql   = 'SELECT * FROM tweb_surat_format WHERE kunci = 0';
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
-        //Formating Output
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['nama'] = ($i + 1) . ') ' . $data[$i]['nama'];
+        $data = $this->config_id()
+            ->where('kunci', 0)
+            ->get('tweb_surat_format')
+            ->result_array();
+
+        if ($data) {
+            foreach ($data as $key => $value) {
+                $data[$key]['nama'] = ($key + 1) . ') ' . $value['nama'];
+            }
         }
 
         return $data;
@@ -70,7 +72,7 @@ class Surat_model extends CI_Model
 
     public function list_surat2()
     {
-        return $this->db
+        return $this->config_id()
             ->where('kunci', 0)
             ->get('tweb_surat_format')
             ->result_array();
@@ -78,7 +80,7 @@ class Surat_model extends CI_Model
 
     public function list_surat_mandiri()
     {
-        return $this->db
+        return $this->config_id()
             ->where('kunci', 0)
             ->where('mandiri', 1)
             ->get('tweb_surat_format')
@@ -87,7 +89,7 @@ class Surat_model extends CI_Model
 
     public function list_surat_fav()
     {
-        return $this->db
+        return $this->config_id()
             ->where('kunci', 0)
             ->where('favorit', 1)
             ->get('tweb_surat_format')
@@ -96,7 +98,7 @@ class Surat_model extends CI_Model
 
     private function list_penduduk_ajax_sql($cari = '', $filter = [])
     {
-        $this->db
+        $this->config_id('u')
             ->from('tweb_penduduk u')
             ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
             ->where('status_dasar', 1);
@@ -121,8 +123,11 @@ class Surat_model extends CI_Model
     {
         // Hitung jumlah total
         $this->list_penduduk_ajax_sql($cari, $filter);
-        $jml = $this->db->select('count(u.id) as jml')
-            ->get()->row()->jml;
+        $jml = $this->db
+            ->select('count(u.id) as jml')
+            ->get()
+            ->row()
+            ->jml;
 
         // Ambil penduduk sebatas paginasi
         $resultCount = 25;
@@ -171,12 +176,13 @@ class Surat_model extends CI_Model
      */
     public function list_penduduk()
     {
-        $this->db
+        $data = $this->config_id('u')
             ->select('u.id, nik, u.tag_id_card, nama, w.dusun, w.rw, w.rt, u.sex')
             ->from('tweb_penduduk u')
             ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
-            ->where('status_dasar', '1');
-        $data = $this->db->get()->result_array();
+            ->where('status_dasar', '1')
+            ->get()
+            ->result_array();
 
         //Formating Output untuk nilai variabel di javascript, di form surat
         foreach ($data as $i => $row) {
@@ -247,7 +253,7 @@ class Surat_model extends CI_Model
 		left join tweb_keluarga k on u.id_kk = k.id
 		left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
 		left join tweb_penduduk_status s on u.status = s.id
-		WHERE u.id = ?";
+		WHERE u.id = ? AND u.config_id = {$this->config_id}";
         $query                  = $this->db->query($sql, $id);
         $data                   = $query->row_array();
         $data['nama']           = $data['nama'];
@@ -281,7 +287,7 @@ class Surat_model extends CI_Model
 			LEFT JOIN tweb_wil_clusterdesa c on u.id_cluster = c.id
 			LEFT JOIN tweb_keluarga k on u.id_kk = k.id
 			LEFT JOIN tweb_penduduk_warganegara f on u.warganegara_id = f.id
-			WHERE u.nik IN({$outp})";
+			WHERE u.nik IN({$outp}) AND u.config_id = {$this->config_id}";
             $query = $this->db->query($sql);
             $data  = $query->result_array();
         }
@@ -292,13 +298,14 @@ class Surat_model extends CI_Model
     // TODO: ganti menggunakan pamong_model->list_data()
     public function list_pamong()
     {
-        $sql = 'SELECT u.*, p.nama AS nama, rj.id AS ref_jabatan_id, rj.nama AS jabatan
-			FROM tweb_desa_pamong u
-			LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
-			LEFT JOIN ref_jabatan rj ON u.jabatan_id = rj.id
-			WHERE pamong_status = 1';
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        $data = $this->config_id()
+            ->select('u.*, p.nama AS nama, rj.id AS ref_jabatan_id, rj.nama AS jabatan')
+            ->from('tweb_desa_pamong u')
+            ->join('tweb_penduduk p', 'u.id_pend = p.id', 'left')
+            ->join('ref_jabatan rj', 'u.jabatan_id = rj.id', 'left')
+            ->where('pamong_status', 1)
+            ->get()
+            ->result_array();
 
         for ($i = 0; $i < count($data); $i++) {
             if (! empty($data[$i]['id_pend'])) {
@@ -318,29 +325,29 @@ class Surat_model extends CI_Model
     {
         $sql = "SELECT u.*,
             case when substring(u.nik, 1, 1) = 0 then 0 ELSE u.nik END as nik,
-			case when substring(k.no_kk, 1, 1) = 0 then 0 ELSE k.no_kk END as no_kk,
-			g.nama AS gol_darah, x.nama AS sex, u.sex as sex_id,
-			(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-			w.nama AS status_kawin, u.status_kawin as status_kawin_id, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.alamat, m.nama as cacat,
-			(select tweb_penduduk.nik from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS nik_kk,
-			(select tweb_penduduk.telepon from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS telepon_kk,
+            case when substring(k.no_kk, 1, 1) = 0 then 0 ELSE k.no_kk END as no_kk,
+            g.nama AS gol_darah, x.nama AS sex, u.sex as sex_id,
+            (select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
+            w.nama AS status_kawin, u.status_kawin as status_kawin_id, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.alamat, m.nama as cacat,
+            (select tweb_penduduk.nik from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS nik_kk,
+            (select tweb_penduduk.telepon from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS telepon_kk,
             (select tweb_penduduk.email from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS email_kk,
-			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk,
-			r.bdt
-			from tweb_penduduk u
-			left join tweb_penduduk_sex x on u.sex = x.id
-			left join tweb_penduduk_kawin w on u.status_kawin = w.id
-			left join tweb_penduduk_hubungan h on u.kk_level = h.id
-			left join tweb_penduduk_agama a on u.agama_id = a.id
-			left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
-			left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
-			left join tweb_cacat m on u.cacat_id = m.id
-			left join tweb_wil_clusterdesa c on u.id_cluster = c.id
-			left join tweb_keluarga k on u.id_kk = k.id
-			left join tweb_rtm r on u.id_rtm = r.no_kk # TODO : ganti nilai tweb_penduduk id_rtm = id pd tweb_rtm dan ganti kolom no_kk menjadi no_rtm
-			left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
-			left join tweb_golongan_darah g on u.golongan_darah_id = g.id
-			WHERE u.id = ?";
+            (select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk,
+            r.bdt
+            from tweb_penduduk u
+            left join tweb_penduduk_sex x on u.sex = x.id
+            left join tweb_penduduk_kawin w on u.status_kawin = w.id
+            left join tweb_penduduk_hubungan h on u.kk_level = h.id
+            left join tweb_penduduk_agama a on u.agama_id = a.id
+            left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
+            left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
+            left join tweb_cacat m on u.cacat_id = m.id
+            left join tweb_wil_clusterdesa c on u.id_cluster = c.id
+            left join tweb_keluarga k on u.id_kk = k.id
+            left join tweb_rtm r on u.id_rtm = r.no_kk # TODO : ganti nilai tweb_penduduk id_rtm = id pd tweb_rtm dan ganti kolom no_kk menjadi no_rtm
+            left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
+            left join tweb_golongan_darah g on u.golongan_darah_id = g.id
+            WHERE u.id = ? AND u.config_id = {$this->config_id}";
         $query                  = $this->db->query($sql, $id);
         $data                   = $query->row_array();
         $data['alamat_wilayah'] = $this->get_alamat_wilayah($data);
@@ -372,30 +379,30 @@ class Surat_model extends CI_Model
 
     public function get_pamong($id = 0)
     {
-        $sql   = 'SELECT u.* FROM tweb_desa_pamong u WHERE pamong_id = ?';
-        $query = $this->db->query($sql, $id);
-
-        return $query->row_array();
+        return $this->config_id()
+            ->where('pamong_id', $id)
+            ->get('tweb_desa_pamong')
+            ->row_array();
     }
 
     public function get_data_pribadi($id = 0)
     {
         $sql = "SELECT u.*, h.nama as hubungan, p.nama as kepala_kk, g.nama as gol_darah, d.nama as pendidikan, s.nama as status, r.nama as pek, m.nama as men, w.nama as wn, n.nama as agama, c.rw, c.rt, c.dusun, (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( u.tanggallahir ) ) , '%Y' ) +0) as umur, sex.nama as sex, k.alamat,
-    	CONCAT('NIK: ', u.nik, ' - ', u.nama, '\nAlamat : RT-', c.rt, ', RW-', c.rw, ' ', c.dusun) AS info_pilihan_penduduk
-			FROM tweb_penduduk u
-			left join tweb_penduduk_hubungan h on u.kk_level = h.id
-			left join tweb_keluarga k on u.id_kk = k.id
-			left join tweb_penduduk p on k.nik_kepala = p.id
-			left join tweb_golongan_darah g on u.golongan_darah_id = g.id
-			left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
-			left join tweb_penduduk_pekerjaan r on u.pekerjaan_id = r.id
-			left join tweb_cacat m on u.cacat_id = m.id
-			left join tweb_wil_clusterdesa c on u.id_cluster = c.id
-			left join tweb_penduduk_warganegara w on u.warganegara_id = w.id
-			left join tweb_penduduk_agama n on u.agama_id = n.id
-			LEFT JOIN tweb_penduduk_sex sex ON u.sex = sex.id
-			left join tweb_penduduk_status s on u.status = s.id
-			WHERE u.id = ?";
+        CONCAT('NIK: ', u.nik, ' - ', u.nama, '\nAlamat : RT-', c.rt, ', RW-', c.rw, ' ', c.dusun) AS info_pilihan_penduduk
+            FROM tweb_penduduk u
+            left join tweb_penduduk_hubungan h on u.kk_level = h.id
+            left join tweb_keluarga k on u.id_kk = k.id
+            left join tweb_penduduk p on k.nik_kepala = p.id
+            left join tweb_golongan_darah g on u.golongan_darah_id = g.id
+            left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
+            left join tweb_penduduk_pekerjaan r on u.pekerjaan_id = r.id
+            left join tweb_cacat m on u.cacat_id = m.id
+            left join tweb_wil_clusterdesa c on u.id_cluster = c.id
+            left join tweb_penduduk_warganegara w on u.warganegara_id = w.id
+            left join tweb_penduduk_agama n on u.agama_id = n.id
+            LEFT JOIN tweb_penduduk_sex sex ON u.sex = sex.id
+            left join tweb_penduduk_status s on u.status = s.id
+            WHERE u.id = ? AND u.config_id = {$this->config_id}";
         $query                  = $this->db->query($sql, $id);
         $data                   = $query->row_array();
         $data['alamat_wilayah'] = $this->get_alamat_wilayah($data);
@@ -406,30 +413,30 @@ class Surat_model extends CI_Model
 
     public function get_data_kk($id = 0)
     {
-        $sql = 'SELECT b.nik_kepala, b.no_kk,b.id AS id_kk, c.nama as kepala_kk, d.*
-			FROM tweb_penduduk a
-			LEFT JOIN tweb_keluarga b ON a.id_kk = b.id
-			LEFT JOIN tweb_penduduk c ON b.nik_kepala = c.id
-			LEFT JOIN tweb_wil_clusterdesa d ON c.id_cluster = d.id
-			WHERE a.id = ? ';
-        $query = $this->db->query($sql, $id);
-
-        return $query->row_array();
+        return $this->config_id()
+            ->select('b.nik_kepala, b.no_kk,b.id AS id_kk, c.nama as kepala_kk, d.*')
+            ->from('tweb_penduduk a')
+            ->join('tweb_keluarga b', 'a.id_kk = b.id')
+            ->join('tweb_penduduk c', 'b.nik_kepala = c.id')
+            ->join('tweb_wil_clusterdesa d', 'c.id_cluster = d.id')
+            ->where('a.id', $id)
+            ->get()
+            ->row_array();
     }
 
     public function get_data_penduduk($id = 0)
     {
-        $sql   = 'SELECT u.* FROM tweb_penduduk u WHERE id = ?';
-        $query = $this->db->query($sql, $id);
-
-        return $query->row_array();
+        return $this->config_id()
+            ->where('id', $id)
+            ->get('tweb_penduduk')
+            ->row_array();
     }
 
     public function get_data_istri($id = 0)
     {
         $sql = "SELECT u.id
-			FROM tweb_penduduk u
-			WHERE u.id = (SELECT id FROM tweb_penduduk WHERE id_kk = (SELECT id_kk FROM tweb_penduduk WHERE id = {$id} AND kk_level = 1) AND kk_level = 3 limit 1)";
+            FROM tweb_penduduk u
+            WHERE u.id = (SELECT id FROM tweb_penduduk WHERE id_kk = (SELECT id_kk FROM tweb_penduduk WHERE id = {$id} AND kk_level = 1 AND config_id = u.config_id) AND kk_level = 3 AND config_id = u.config_id limit 1) AND u.config_id = {$this->config_id}";
         $query = $this->db->query($sql);
         $data  = $query->row_array();
 
@@ -443,7 +450,7 @@ class Surat_model extends CI_Model
     {
         $sql = "SELECT u.id
 			FROM tweb_penduduk u
-			WHERE u.id = (SELECT id FROM tweb_penduduk WHERE id_kk = (SELECT id_kk FROM tweb_penduduk WHERE id = {$id} AND kk_level = 3) AND kk_level = 1 limit 1 )";
+			WHERE u.id = (SELECT id FROM tweb_penduduk WHERE id_kk = (SELECT id_kk FROM tweb_penduduk WHERE id = {$id} AND kk_level = 3 AND config_id = u.config_id) AND kk_level = 1 limit 1 AND config_id = u.config_id) AND u.config_id = {$this->config_id}";
         $query = $this->db->query($sql);
         $data  = $query->row_array();
 
@@ -468,7 +475,7 @@ class Surat_model extends CI_Model
         //cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
         if ($penduduk['kk_level'] == 4) {
             $id_kk = $penduduk['id_kk'];
-            $data  = $this->db
+            $data  = $this->config_id('u')
                 ->select('u.id')
                 ->from('tweb_penduduk u')
                 ->where('u.id_kk', $id_kk)
@@ -487,11 +494,13 @@ class Surat_model extends CI_Model
 
         // jika tidak ada Cari berdasarkan ayah_nik
         if (empty($data['id']) && ! empty($penduduk['ayah_nik'])) {
-            $sql = 'SELECT u.id
-				FROM tweb_penduduk u
-				WHERE u.nik = ? limit 1';
-            $query = $this->db->query($sql, $penduduk['ayah_nik']);
-            $data  = $query->row_array();
+            $data = $this->config_id('u')
+                ->select('u.id')
+                ->from('tweb_penduduk u')
+                ->where('u.nik', $penduduk['ayah_nik'])
+                ->limit(1)
+                ->get()
+                ->row_array();
         }
         if (isset($data['id'])) {
             $ayah_id = $data['id'];
@@ -514,7 +523,7 @@ class Surat_model extends CI_Model
         // atau kepala keluarga perempuan
         if ($penduduk['kk_level'] == 4) {
             $id_kk = $penduduk['id_kk'];
-            $data  = $this->db
+            $data  = $this->config_id('u')
                 ->select('u.id')
                 ->from('tweb_penduduk u')
                 ->where('u.id_kk', $id_kk)
@@ -527,17 +536,19 @@ class Surat_model extends CI_Model
                 ->where('u.sex', 2)
                 ->group_end()
                 ->group_end()
-                ->limit(1)->get()
+                ->limit(1)
+                ->get()
                 ->row_array();
         }
 
         // Cari berdasarkan ibu_nik
         if (empty($data['id']) && ! empty($penduduk['ibu_nik'])) {
-            $data = $this->db
+            $data = $this->config_id('u')
                 ->select('u.id')
                 ->from('tweb_penduduk u')
                 ->where('nik', $penduduk['ibu_nik'])
-                ->limit(1)->get()
+                ->limit(1)
+                ->get()
                 ->row_array();
         }
         if (isset($data['id'])) {
@@ -555,9 +566,7 @@ class Surat_model extends CI_Model
 
     public function get_surat($url = '')
     {
-        $sql   = 'SELECT * FROM tweb_surat_format WHERE url_surat = ?';
-        $query = $this->db->query($sql, $url);
-        $data  = $query->row_array();
+        $data = $this->config_id()->get_where('tweb_surat_format', ['url_surat' => $url])->row_array();
         // Isi lokasi template surat
         // Pakai surat ubahan desa apabila ada
         $file = SuratExportDesa($url);
@@ -738,7 +747,7 @@ class Surat_model extends CI_Model
     {
         //Data penandatangan
         $input     = $data['input'];
-        $nama_desa = Config::select(['nama_desa'])->first()->nama_desa;
+        $nama_desa = identitas()->nama_desa;
 
         //Data penandatangan
         $kades = Pamong::kepalaDesa()->first();
@@ -1206,9 +1215,11 @@ class Surat_model extends CI_Model
 
     public function surat_total()
     {
-        return $this->db->select('COUNT(id) as jml')
+        return $this->config_id()
+            ->select('COUNT(id) as jml')
             ->get('log_surat')
-            ->row()->jml;
+            ->row()
+            ->jml;
     }
 
     private function sisipkan_qr($file_qr, $buffer)
@@ -1258,7 +1269,7 @@ class Surat_model extends CI_Model
 
     public function cek_surat_mandiri($id)
     {
-        return $this->db
+        return $this->config_id()
             ->get_where('tweb_surat_format', ['id' => $id])
             ->row_array();
     }

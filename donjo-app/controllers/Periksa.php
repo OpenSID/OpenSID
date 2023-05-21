@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use App\Models\UserGrup;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,7 +53,7 @@ class Periksa extends CI_Controller
         }
 
         $this->load->model(['periksa_model', 'user_model']);
-        $this->header = Config::first();
+        $this->header = Config::appKey()->first();
     }
 
     public function index()
@@ -112,7 +113,8 @@ class Periksa extends CI_Controller
             // Gagal otentifikasi atau bukan admin
             redirect('periksa');
         }
-        if ($this->session->grup != 1) {
+
+        if ($this->session->grup != UserGrup::getGrupId(UserGrup::ADMINISTRATOR)) {
             // Bukan admin
             $this->user_model->logout();
             redirect('periksa');

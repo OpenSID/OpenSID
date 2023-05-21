@@ -37,12 +37,15 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
 use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class JamKerja extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *

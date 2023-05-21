@@ -37,12 +37,15 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class AnggotaGrup extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *

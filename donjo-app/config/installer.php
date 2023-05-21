@@ -37,6 +37,7 @@
 
 $config = [
     'desa' => [
+        LOKASI_ICON_MENU_ANJUNGAN  => [0775, 'htaccess1'],
         LOKASI_ARSIP               => [0775, 'htaccess2'],
         LOKASI_CACHE               => [0775],
         LOKASI_CONFIG_DESA         => [0775],
@@ -93,6 +94,9 @@ $config = [
         // dapat membuat artikel berisi video yang aktif ditampilkan di Web.
         // Misalnya, ganti dengan id = 1 jika ingin membuat pengguna admin sebagai pengguna terpecaya.
         $config['user_admin'] = 0;
+
+        // Ijinkan agar bisa melakukan impor data penduduk dari OpenKAB
+        $config['impor_massal'] = false;
 
 
         // config email

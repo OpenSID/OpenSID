@@ -1,4 +1,4 @@
-Di rilis ini, versi 2305.1.0 berisi penambahan [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2305.2.0 berisi penambahan [isi disini] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
@@ -19,6 +19,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 13. [#6649](https://github.com/OpenSID/OpenSID/issues/6649) Menambahkan Infinite scroll pada tambah data peserta bantuan sasaran RTM.
 14. [#6648](https://github.com/OpenSID/OpenSID/issues/6648) Menambahkan Infinite scroll pada tambah data peserta bantuan sasaran kelompok / organisasi.
 15. [#6652](https://github.com/OpenSID/OpenSID/issues/6652) Menambahkan Infinite scroll klasifikasi surat.
+16. [#6251](https://github.com/OpenSID/OpenSID/issues/6251) Menggabungkan OpenSID database gabungan.
 
 #### Perbaikan BUG
 

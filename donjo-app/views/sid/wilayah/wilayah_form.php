@@ -3,32 +3,32 @@
     <h1>Pengelolaan Data <?= ucwords($this->setting->sebutan_dusun) ?></h1>
         <ol class="breadcrumb">
             <li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="<?= site_url('sid_core') ?>"> Daftar <?= ucwords($this->setting->sebutan_dusun) ?></a></li>
+            <li><a href="<?= site_url('wilayah/clear') ?>"> Daftar <?= ucwords($this->setting->sebutan_dusun) ?></a></li>
             <li class="active">Data <?= ucwords($this->setting->sebutan_dusun) ?></li>
         </ol>
     </section>
     <section class="content" id="maincontent">
         <div class="box box-info">
             <div class="box-header with-border">
-                <a href="<?= site_url('sid_core') ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
+                <a href="<?= site_url('wilayah/clear') ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
                     <i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar <?= ucwords($this->setting->sebutan_dusun) ?>
                 </a>
             </div>
-            <form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
+            <form id="validasi" action="<?= $form_action ?>" method="POST" class="form-horizontal">
                 <div class="box-body">
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="dusun">Nama  <?= ucwords($this->setting->sebutan_dusun) ?></label>
                         <div class="col-sm-7">
-                            <input id="dusun" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= ucwords($this->setting->sebutan_dusun) ?>" name="dusun" value="<?= $dusun ?>">
+                            <input id="dusun" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= ucwords($this->setting->sebutan_dusun) ?>" name="dusun" value="<?= $dusun['dusun'] ?>">
                         </div>
                     </div>
-                    <?php if ($dusun): ?>
+                    <?php if ($dusun->kepala): ?>
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="kepala_lama">Kepala  <?= ucwords($this->setting->sebutan_dusun) ?> Sebelumnya</label>
                             <div class="col-sm-7">
                                 <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-                                    <strong><?= $individu['nama'] ?></strong>
-                                    <br/>NIK - <?= $individu['nik'] ?>
+                                    <strong><?= $dusun->kepala->nama ?></strong>
+                                    <br/>NIK - <?= $dusun->kepala->nik ?>
                                 </p>
                             </div>
                         </div>

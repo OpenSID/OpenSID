@@ -97,7 +97,7 @@ class Point extends Admin_Controller
         $data['o'] = $o;
 
         if ($id) {
-            $data['point']       = $this->plan_point_model->get_point($id);
+            $data['point']       = $this->plan_point_model->get_point($id) ?? show_404();
             $data['form_action'] = site_url("point/update/{$id}/{$p}/{$o}");
         } else {
             $data['point']       = null;
@@ -113,7 +113,7 @@ class Point extends Admin_Controller
     public function sub_point($point = 1)
     {
         $data['subpoint'] = $this->plan_point_model->list_sub_point($point);
-        $data['point']    = $this->plan_point_model->get_point($point);
+        $data['point']    = $this->plan_point_model->get_point($point) ?? show_404();
         $data['tip']      = 0;
 
         $this->render('point/sub_point_table', $data);
@@ -122,7 +122,7 @@ class Point extends Admin_Controller
     public function ajax_add_sub_point($point = 0, $id = 0)
     {
         if ($id) {
-            $data['point']       = $this->plan_point_model->get_point($id);
+            $data['point']       = $this->plan_point_model->get_point($id) ?? show_404();
             $data['form_action'] = site_url("point/update_sub_point/{$point}/{$id}");
         } else {
             $data['point']       = null;

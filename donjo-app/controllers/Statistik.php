@@ -88,11 +88,18 @@ class Statistik extends Admin_Controller
     {
         if ($lap > 50) {
             $program_id = preg_replace('/^50/', '', $lap);
-            $sasaran    = $this->db
+
+            // TODO: Sederhanakan query ini, pindahkan ke model
+            $sasaran = $this->db
                 ->select('sasaran')
-                ->from('program')
+                ->group_start()
+                ->where('config_id', identitas('id'))
+                ->or_where('config_id', null)
+                ->group_end()
                 ->where('id', $program_id)
-                ->get()->row()->sasaran;
+                ->get('program')
+                ->row()
+                ->sasaran;
         }
 
         switch (true) {
@@ -228,7 +235,7 @@ class Statistik extends Admin_Controller
             $data['rentang']['sampai'] = '';
         } else {
             $data['form_action'] = site_url("statistik/rentang_update/{$id}");
-            $data['rentang']     = $this->laporan_penduduk_model->get_rentang($id);
+            $data['rentang']     = $this->laporan_penduduk_model->get_rentang($id) ?? show_404();
         }
         $this->load->view('statistik/ajax_rentang_form', $data);
     }

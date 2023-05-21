@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class LogBackup extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *
@@ -55,8 +59,26 @@ class LogBackup extends BaseModel
      */
     protected $guarded = [];
 
-    protected $fillable = ['ukuran', 'path', 'status', 'downloaded_at', 'permanen', 'pid_process'];
-    protected $casts    = [
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'ukuran',
+        'path',
+        'status',
+        'downloaded_at',
+        'permanen',
+        'pid_process',
+    ];
+
+    /**
+     * The casts with the model.
+     *
+     * @var array
+     */
+    protected $casts = [
         'created_at'    => 'datetime:Y-m-d H:i:s',
         'updated_at'    => 'datetime:Y-m-d H:i:s',
         'downloaded_at' => 'datetime:Y-m-d H:i:s',

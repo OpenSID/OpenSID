@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class LogKeluarga extends BaseModel
 {
+    use ConfigId;
+
     /**
      * KETERANGAN id_peristiwa di log_keluarga
      * 1 - keluarga baru

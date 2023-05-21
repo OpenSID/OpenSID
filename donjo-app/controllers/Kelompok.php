@@ -140,7 +140,7 @@ class Kelompok extends Admin_Controller
         $data['set_page'] = $this->_set_page;
         $data['paging']   = $this->kelompok_model->paging($p, $id);
         $data['func']     = 'anggota/' . $id;
-        $data['kelompok'] = $this->kelompok_model->get_kelompok($id);
+        $data['kelompok'] = $this->kelompok_model->get_kelompok($id) ?? show_404();
         $data['main']     = $this->kelompok_model->list_anggota($o, $data['paging']->offset, $data['paging']->per_page, $id);
 
         $this->render('kelompok/anggota/table', $data);
@@ -161,7 +161,7 @@ class Kelompok extends Admin_Controller
         }
 
         if ($id) {
-            $data['kelompok']    = $this->kelompok_model->get_kelompok($id);
+            $data['kelompok']    = $this->kelompok_model->get_kelompok($id) ?? show_404();
             $data['form_action'] = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
         } else {
             $data['kelompok']    = null;
@@ -194,7 +194,7 @@ class Kelompok extends Admin_Controller
             $data['pend']        = null;
             $data['form_action'] = site_url("{$this->controller}/insert_a/{$id}");
         } else {
-            $data['pend']        = $this->kelompok_model->get_anggota($id, $id_a);
+            $data['pend']        = $this->kelompok_model->get_anggota($id, $id_a) ?? show_404();
             $data['form_action'] = site_url("{$this->controller}/update_a/{$id}/{$id_a}");
         }
 
@@ -276,7 +276,7 @@ class Kelompok extends Admin_Controller
         $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
         $data['main']           = $this->kelompok_model->list_anggota(0, 0, 0, $id);
-        $data['kelompok']       = $this->kelompok_model->get_kelompok($id);
+        $data['kelompok']       = $this->kelompok_model->get_kelompok($id) ?? show_404();
         $data['file']           = "Laporan Data {$this->tipe} " . $data['kelompok']['nama']; // nama file
         $data['isi']            = 'kelompok/anggota/cetak';
         $data['letak_ttd']      = ['2', '3', '2'];
@@ -394,10 +394,16 @@ class Kelompok extends Admin_Controller
             case $tipe > 50:
                 $program_id                     = preg_replace('/^50/', '', $tipe);
                 $this->session->program_bantuan = $program_id;
-                $nama                           = $this->db->select('nama')
+
+                // TODO: Sederhanakan query ini, pindahkan ke model
+                $nama = $this->db
+                    ->select('nama')
                     ->where('id', $program_id)
-                    ->get('program')->row()
+                    ->where('config_id', identitas('id'))
+                    ->get('program')
+                    ->row()
                     ->nama;
+
                 if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;

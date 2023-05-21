@@ -36,7 +36,6 @@
  */
 
 use App\Libraries\TinyMCE;
-use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
@@ -152,7 +151,7 @@ class Permohonan_surat_admin extends Admin_Controller
     {
         // RTF
         if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
-            $data['config']    = $data['lokasi'] = Config::first();
+            $data['config']    = $data['lokasi'] = identitas();
             $data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
             $data['anggota']   = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
         }

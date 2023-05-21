@@ -38,12 +38,10 @@
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
-use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
-use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\Sex;
 use App\Models\StatusDasar;
@@ -62,7 +60,7 @@ class Surat_master extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['surat_master_model', 'lapor_model']);
+        $this->load->model(['surat_master_model']);
         $this->tinymce       = new TinyMCE();
         $this->modul_ini     = 'layanan-surat';
         $this->sub_modul_ini = 'pengaturan-surat';
@@ -269,7 +267,10 @@ class Surat_master extends Admin_Controller
         unset($_POST['id_cb'], $_POST['tabeldata_length'], $_POST['surat']);
 
         $id = $this->surat_master_model->update($id);
-        $this->lapor_model->update_syarat_surat($id, $syarat, $mandiri);
+
+        if (! empty($id) && $mandiri == 1) {
+            FormatSurat::where('id', $id)->update(['syarat_surat' => json_encode($syarat)]);
+        }
 
         redirect_with('success', 'Berhasil Ubah Data');
     }
@@ -459,10 +460,8 @@ class Surat_master extends Admin_Controller
         $data['sekdes'] = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
             return $query->where('jabatan_id', '=', sekdes()->id);
         })->exists();
-
-        $data['ref_jabatan'] = RefJabatan::all();
-        $data['aksi']        = route('surat_master.update');
-        $data['formAksi']    = route('surat_master.edit_pengaturan');
+        $data['aksi']     = route('surat_master.update');
+        $data['formAksi'] = route('surat_master.edit_pengaturan');
 
         return view('admin.pengaturan_surat.pengaturan', $data);
     }
@@ -620,7 +619,7 @@ class Surat_master extends Admin_Controller
         ';
 
         // Logo Surat
-        $file_logo = ($this->request['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(Config::select('logo')->first()->logo, false, true));
+        $file_logo = ($this->request['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(identitas()->logo, false, true));
 
         $logo      = (is_file($file_logo)) ? '<img src="' . $file_logo . '" width="90" height="90" alt="logo-surat" />' : '';
         $logo_bsre = str_replace('[logo]', $logo, $isi_cetak);

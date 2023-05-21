@@ -64,7 +64,7 @@ class Job extends CI_Controller
         }
 
         delete_files(config_item('log_path'), true);
-        log_message('error', '>_ Mulai');
+        log_message('notice', '>_ Mulai');
 
         // Kecuali folder
         $exclude = [
@@ -89,7 +89,7 @@ class Job extends CI_Controller
             log_message('error', 'Proses Restore Database Gagal');
         }
 
-        log_message('error', '>_ Selesai');
+        log_message('notice', '>_ Selesai');
     }
 
     private function cekDB($filename)

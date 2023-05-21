@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Mailbox_model extends CI_Model
+class Mailbox_model extends MY_Model
 {
     protected $table = 'komentar';
 
@@ -66,6 +66,7 @@ class Mailbox_model extends CI_Model
     public function insert($post)
     {
         $data               = [];
+        $data['config_id']  = $this->config_id;
         $data['email']      = $post['email'];
         $data['owner']      = $post['owner'];
         $data['tipe']       = $post['tipe'];
@@ -89,7 +90,7 @@ class Mailbox_model extends CI_Model
      */
     public function get_all_pesan($nik = '', $tipe = 1)
     {
-        return $this->db
+        return $this->config_id()
             ->where('email', $nik)
             ->where('tipe', $tipe)
             ->where('id_artikel', 775)
@@ -101,7 +102,7 @@ class Mailbox_model extends CI_Model
 
     public function get_pesan($nik = '', $id = '')
     {
-        return $this->db
+        return $this->config_id()
             ->where('email', $nik)
             ->where('id', $id)
             ->where('id_artikel', 775)
@@ -112,7 +113,7 @@ class Mailbox_model extends CI_Model
 
     public function ubah_status_pesan($nik = '', $id = '', $status = 1)
     {
-        return $this->db
+        return $this->config_id()
             ->where('email', $nik)
             ->where('id', $id)
             ->where('tipe', 2)
@@ -122,7 +123,7 @@ class Mailbox_model extends CI_Model
 
     public function count_inbox_pesan($nik = '')
     {
-        return $this->db
+        return $this->config_id()
             ->where('email', $nik)
             ->where('tipe', 2)
             ->where('status', 2)

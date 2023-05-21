@@ -39,7 +39,6 @@ use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Enums\StatusSuratKecamatanEnum;
 use App\Libraries\TinyMCE;
-use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\LogSurat;
@@ -297,7 +296,7 @@ class Surat extends Admin_Controller
             $surat = LogSurat::findOrFail($id);
 
             // Logo Surat
-            $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(Config::select('logo')->first()->logo, false, true));
+            $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(identitas()->logo, false, true));
 
             $logo      = (is_file($file_logo)) ? '<img src="' . $file_logo . '" width="90" height="90" alt="logo-surat" />' : '';
             $logo_bsre = str_replace('[logo]', $logo, $isi_cetak);
@@ -394,7 +393,7 @@ class Surat extends Admin_Controller
             // Kembalikan kode isian [format_nomor_surat]
             $format_surat = $this->tinymce->substitusiNomorSurat($cetak['input']['nomor'], setting('format_nomor_surat'));
             $format_surat = str_replace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
-            $format_surat = str_replace('[kode_desa]', Config::first()->kode_desa, $format_surat);
+            $format_surat = str_replace('[kode_desa]', identitas()->kode_desa, $format_surat);
             $format_surat = str_replace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
             $format_surat = str_replace('[tahun]', date('Y'), $format_surat);
 
@@ -435,7 +434,7 @@ class Surat extends Admin_Controller
             $cetak['surat'] = $surat->formatSurat;
 
             // Logo Surat
-            $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(Config::select('logo')->first()->logo, false, true));
+            $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(identitas()->logo, false, true));
 
             $logo      = (is_file($file_logo)) ? '<img src="' . $file_logo . '" width="90" height="90" alt="logo-surat" />' : '';
             $isi_cetak = str_replace('[logo]', $logo, $isi_cetak);
@@ -482,9 +481,9 @@ class Surat extends Admin_Controller
 
             $atas_nama = '';
             if ($pamong->pamong_ttd === 1) {
-                $atas_nama .= 'a.n ' . ucwords($pamong->pamong_jabatan . ' ' . Config::first()->nama_desa);
+                $atas_nama .= 'a.n ' . ucwords($pamong->pamong_jabatan . ' ' . identitas()->nama_desa);
             } elseif ($pamong->pamong_ub === 1) {
-                $atas_nama .= 'u.b ' . ucwords($pamong->pamong_jabatan . ' ' . Config::first()->nama_desa);
+                $atas_nama .= 'u.b ' . ucwords($pamong->pamong_jabatan . ' ' . identitas()->nama_desa);
             }
 
             $log_surat['no_surat'] = $this->surat_model->get_last_nosurat_log($surat->url_surat)['no_surat_berikutnya'];
@@ -608,7 +607,8 @@ class Surat extends Admin_Controller
 
         if ($id) {
             $log_surat['id_pend'] = $id;
-            $nik                  = $this->db->select('nik')->where('id', $id)->get('tweb_penduduk')->row()->nik;
+            // TODO: Sederhanakan query ini, pindahkan ke model
+            $nik = $this->db->select('nik')->where('config_id', identitas('id'))->where('id', $id)->get('tweb_penduduk')->row()->nik;
         } else {
             // Surat untuk non-warga
             $log_surat['nama_non_warga'] = $_POST['nama_non_warga'];
@@ -629,8 +629,9 @@ class Surat extends Admin_Controller
         $surat      = $this->surat_model->buat_surat($url, $nama_surat, $lampiran);
         $nama_surat = $surat['namaSurat'];
 
+        // TODO: Sederhanakan query ini, pindahkan ke model
         // Update urls_id log_surat (untuk link qrcode)
-        $this->db->where('nama_surat', $nama_surat)->update('log_surat', ['urls_id' => $surat['qrCode']['urls_id']]);
+        $this->db->where('config_id', identitas('id'))->where('nama_surat', $nama_surat)->update('log_surat', ['urls_id' => $surat['qrCode']['urls_id']]);
 
         if (function_exists('exec') && $this->input->post('submit_cetak') == 'cetak_pdf') {
             $nama_surat = $this->surat_model->rtf_to_pdf($nama_surat);
@@ -668,7 +669,7 @@ class Surat extends Admin_Controller
     {
         // RTF
         if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
-            $data['config']    = $data['lokasi'] = Config::first();
+            $data['config']    = $data['lokasi'] = identitas();
             $data['penduduk']  = $this->surat_model->list_penduduk();
             $data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
         } else {

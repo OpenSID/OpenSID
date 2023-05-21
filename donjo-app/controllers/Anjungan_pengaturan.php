@@ -53,7 +53,7 @@ class Anjungan_pengaturan extends Anjungan_Controller
     public function index()
     {
         $data['form_action']      = route('anjungan_pengaturan.update');
-        $data['daftar_kategori']  = Kategori::get();
+        $data['daftar_kategori']  = Kategori::configId()->get();
         $data['pengaturan']       = SettingAplikasi::whereKategori('anjungan')->pluck('value', 'key')->toArray();
         $data['anjungan_artikel'] = json_decode($data['pengaturan']['anjungan_artikel']);
         $data['slides']           = Galery::where('parrent', 0)->where('enabled', 1)->get();

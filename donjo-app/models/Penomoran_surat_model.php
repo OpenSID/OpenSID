@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Penomoran_surat_model extends CI_Model
+class Penomoran_surat_model extends MY_Model
 {
     public function __construct()
     {
@@ -55,8 +55,7 @@ class Penomoran_surat_model extends CI_Model
      */
     public function get_surat_terakhir($type, $url = null)
     {
-        $thn                 = date('Y');
-        $setting || $setting = $this->setting->penomoran_surat;
+        $setting = $this->setting->penomoran_surat;
 
         if ($setting == 3) {
             $last_sl = $this->get_surat_terakhir_type('log_surat', null, 1);
@@ -88,7 +87,8 @@ class Penomoran_surat_model extends CI_Model
                     if ($type == 'log_surat') {
                         $this->db->where('deleted_at');
                     }
-                    $this->db->from("{$type}")
+                    $this->config_id()
+                        ->from("{$type}")
                         ->where('YEAR(tanggal)', $thn)
                         ->where('status', 1)
                         ->order_by('CAST(no_surat as unsigned) DESC')
@@ -97,7 +97,7 @@ class Penomoran_surat_model extends CI_Model
                     if ($type == 'log_surat') {
                         $this->db->where('deleted_at');
                     }
-                    $this->db
+                    $this->config_id('l')
                         ->select('*, f.nama, l.id id_surat')
                         ->from("{$type} l")
                         ->join('tweb_surat_format f', 'f.id=l.id_format_surat', 'RIGHT')
@@ -111,14 +111,16 @@ class Penomoran_surat_model extends CI_Model
                 break;
 
             case 'surat_masuk':
-                $this->db->from("{$type}")
+                $this->config_id()
+                    ->from("{$type}")
                     ->where('YEAR(tanggal_surat)', $thn)
                     ->order_by('CAST(nomor_urut as unsigned) DESC')
                     ->limit(1);
                 break;
 
             case 'surat_keluar':
-                $this->db->from("{$type}")
+                $this->config_id()
+                    ->from("{$type}")
                     ->where('YEAR(tanggal_surat)', $thn)
                     ->order_by('CAST(nomor_urut as unsigned) DESC')
                     ->limit(1);
@@ -151,29 +153,31 @@ class Penomoran_surat_model extends CI_Model
         $setting = $this->setting->penomoran_surat;
         if ($setting == 3) {
             // Nomor urut gabungan surat layanan, surat masuk dan surat keluar
-            $sql   = [];
-            $sql[] = '(' . $this->db->from('log_surat')
+            $sql = [];
+
+            $sql[] = '(' . $this->config_id()
+                ->from('log_surat')
                 ->select('no_surat as nomor_urut')
                 ->where('YEAR(tanggal)', $thn)
                 ->where('deleted_at')
                 ->where('no_surat', $nomor_surat)
-                ->get_compiled_select()
-                                . ')';
-            $sql[] = '(' . $this->db->from('surat_masuk')
+                ->get_compiled_select() . ')';
+
+            $sql[] = '(' . $this->config_id()
+                ->from('surat_masuk')
                 ->select('nomor_urut')
                 ->where('YEAR(tanggal_surat)', $thn)
                 ->where('nomor_urut', $nomor_surat)
-                ->get_compiled_select()
-                                . ')';
-            $sql[] = '(' . $this->db->from('surat_keluar')
+                ->get_compiled_select() . ')';
+
+            $sql[] = '(' . $this->config_id()
+                ->from('surat_keluar')
                 ->select('nomor_urut')
                 ->where('YEAR(tanggal_surat)', $thn)
                 ->where('nomor_urut', $nomor_surat)
-                ->get_compiled_select()
-                                . ')';
-            $sql = implode('
-			UNION
-			', $sql);
+                ->get_compiled_select() . ')';
+
+            $sql       = implode('UNION', $sql);
             $jml_surat = $this->db->query($sql)->num_rows();
 
             return $jml_surat > 0;
@@ -188,14 +192,16 @@ class Penomoran_surat_model extends CI_Model
                     if ($type == 'log_surat') {
                         $this->db->where('deleted_at');
                     }
-                    $this->db->from("{$type}")
+                    $this->config_id()
+                        ->from("{$type}")
                         ->where('YEAR(tanggal)', $thn)
                         ->where('no_surat', $nomor_surat);
                 } else {
                     if ($type == 'log_surat') {
                         $this->db->where('deleted_at');
                     }
-                    $this->db->from("{$type} l")
+                    $this->config_id('l')
+                        ->from("{$type} l")
                         ->join('tweb_surat_format f', 'f.id=l.id_format_surat', 'RIGHT')
                         ->select('*, f.nama, l.id id_surat')
                         ->where('url_surat', $url)
@@ -205,13 +211,15 @@ class Penomoran_surat_model extends CI_Model
                 break;
 
             case 'surat_masuk':
-                $this->db->from("{$type}")
+                $this->config_id()
+                    ->from("{$type}")
                     ->where('YEAR(tanggal_surat)', $thn)
                     ->where('nomor_urut', $nomor_surat);
                 break;
 
             case 'surat_keluar':
-                $this->db->from("{$type}")
+                $this->config_id()
+                    ->from("{$type}")
                     ->where('YEAR(tanggal_surat)', $thn)
                     ->where('nomor_urut', $nomor_surat);
         }

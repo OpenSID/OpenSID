@@ -5,6 +5,7 @@ on:
     branches:
       - bug-fix
       - rilis-dev
+      - open-kab
 
 jobs:
   php-cs-fixer:

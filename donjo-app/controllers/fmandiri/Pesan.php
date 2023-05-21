@@ -97,7 +97,7 @@ class Pesan extends Mandiri_Controller
             $this->mailbox_model->ubah_status_pesan($nik, $id, 1);
         }
 
-        $pesan = $this->mailbox_model->get_pesan($nik, $id);
+        $pesan = $this->mailbox_model->get_pesan($nik, $id) ?? show_404();
         $data  = [
             'kat'        => $kat,
             'owner'      => ($kat == 2) ? 'Penerima' : 'Pengirim',

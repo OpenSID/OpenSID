@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2305.0.2');
+define('VERSION', '2305.2.0');
 
 /**
  * PREMIUM
@@ -58,7 +58,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023051751');
+define('VERSI_DATABASE', '2023052251');
 
 // Website Demo OpenSID
 define('WEBSITE_DEMO', [
@@ -174,6 +174,16 @@ function AmbilVersi()
 function currentVersion()
 {
     return substr_replace(substr(VERSION, 0, 4), '.', 2, 0);
+}
+
+function set_app_key()
+{
+    return 'base64:' . base64_encode(random_bytes(32));
+}
+
+function get_app_key()
+{
+    return file_get_contents(DESAPATH . 'app_key');
 }
 
 /**
@@ -438,7 +448,7 @@ function getKodeDesaFromTrackSID()
         return session('trackSID_bps_code');
     }
 
-    $config  = \App\Models\Config::first();
+    $config  = identitas();
     $tracker = config_item('server_pantau');
 
     $trackSID_bps_code = getUrlContent($tracker . '/index.php/api/wilayah/kodedesa?kode=' . $config->kode_desa . '&token=' . config_item('token_pantau'));
@@ -1113,6 +1123,10 @@ function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug', 
         while ($cek_slug) {
             if ($id) {
                 $CI->db->where('id !=', $id);
+
+                if ($CI->db->field_exists('config_id', $tabel)) {
+                    $CI->db->where('config_id', identitas('id'));
+                }
             }
             $cek_slug = $CI->db->get_where($tabel, [$field => $slug_unik])->num_rows();
             if ($cek_slug) {
@@ -1318,6 +1332,8 @@ function sdgs()
 
 function cek_anjungan()
 {
+    return true;
+
     // Lewati pengecekan jika web demo dan terdaftar sebagai pengecualian
     if (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
         return true;

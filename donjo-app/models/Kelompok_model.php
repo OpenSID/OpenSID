@@ -131,7 +131,8 @@ class Kelompok_model extends MY_Model
 
     private function list_data_sql()
     {
-        $this->db->from("{$this->table} u")
+        $this->config_id('u')
+            ->from("{$this->table} u")
             ->join('kelompok_master s', 'u.id_master = s.id', 'left')
             ->join('penduduk_hidup c', 'u.id_ketua = c.id', 'left')
             ->where('u.tipe', $this->tipe);
@@ -209,7 +210,7 @@ class Kelompok_model extends MY_Model
         }
 
         $data = $this->db
-            ->select('u.*, s.kelompok AS master, c.nama AS ketua, (SELECT COUNT(id) FROM kelompok_anggota WHERE id_kelompok = u.id) AS jml_anggota')
+            ->select('u.*, s.kelompok AS master, c.nama AS ketua, (SELECT COUNT(id) FROM kelompok_anggota WHERE config_id = u.config_id AND id_kelompok = u.id) AS jml_anggota')
             ->get()
             ->result_array();
 
@@ -233,7 +234,8 @@ class Kelompok_model extends MY_Model
         $data['tipe']       = $this->tipe;
 
         if (null === $id) {
-            $data['slug'] = unique_slug($this->table, $data['nama']);
+            $data['slug']      = unique_slug($this->table, $data['nama']);
+            $data['config_id'] = $this->config_id;
         }
 
         return $data;
@@ -255,6 +257,7 @@ class Kelompok_model extends MY_Model
         // TODO : Ubah cara penanganan penambahan ketua kelompok, simpan di bagian kelompok anggota
         $outpb = $this->db
             ->set('id_kelompok', $insert_id)
+            ->set('config_id', $this->config_id)
             ->set('id_penduduk', $data['id_ketua'])
             ->set('no_anggota', 1)
             ->set('jabatan', 1)
@@ -265,7 +268,7 @@ class Kelompok_model extends MY_Model
         status_sukses($outpa && $outpb);
     }
 
-    private function validasi_anggota($post)
+    private function validasi_anggota($post, $id = null)
     {
         if ($post['id_penduduk']) {
             $data['id_penduduk'] = bilangan($post['id_penduduk']);
@@ -285,6 +288,10 @@ class Kelompok_model extends MY_Model
             $data['periode']              = htmlentities($post['periode']);
         }
 
+        if (null === $id) {
+            $data['config_id'] = identitas('id');
+        }
+
         return $data;
     }
 
@@ -295,12 +302,14 @@ class Kelompok_model extends MY_Model
         $this->ubah_jabatan($data['id_kelompok'], $data['id_penduduk'], $data['jabatan'], null);
 
         if ($data['id_kelompok']) {
-            $validasi_anggota = $this->db
+            $validasi_anggota = $this->config_id()
                 ->select('id_penduduk, id_kelompok')
                 ->from('kelompok_anggota')
                 ->where('id_penduduk', $data['id_penduduk'])
                 ->where('id_kelompok', $data['id_kelompok'])
-                ->limit(1)->get()->row();
+                ->limit(1)
+                ->get()
+                ->row();
         }
 
         if ($validasi_anggota->id_penduduk == $data['id_penduduk']) {
@@ -316,7 +325,7 @@ class Kelompok_model extends MY_Model
 
         // Upload foto dilakukan setelah ada id, karena nama foto berisi nik
         if ($foto = upload_foto_penduduk(time() . '-' . $id . '-' . mt_rand(10000, 999999))) {
-            $this->db->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
+            $this->config_id()->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
         }
 
         status_sukses($outp); //Tampilkan Pesan
@@ -332,25 +341,24 @@ class Kelompok_model extends MY_Model
             return false;
         }
 
-        $this->db->where('id', $id);
-        $outp = $this->db->update($this->table, $data);
+        $outp = $this->config_id()->where('id', $id)->update($this->table, $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
 
     public function update_a($id = 0, $id_a = 0)
     {
-        $data = $this->validasi_anggota($this->input->post());
+        $data = $this->validasi_anggota($this->input->post(), $id_a);
         $this->ubah_jabatan($id, $id_a, $data['jabatan'], $this->input->post('jabatan_lama'));
 
-        $outp = $this->db
+        $outp = $this->config_id()
             ->where('id_penduduk', $id_a)
             ->update('kelompok_anggota', $data);
 
         $nik = $this->get_anggota($id, $id_a);
 
         if ($foto = upload_foto_penduduk(time() . '-' . $id_a . '-' . mt_rand(10000, 999999))) {
-            $this->db->where('id', $id_a)->update('tweb_penduduk', ['foto' => $foto]);
+            $this->config_id()->where('id', $id_a)->update('tweb_penduduk', ['foto' => $foto]);
         }
 
         status_sukses($outp); //Tampilkan Pesan
@@ -359,24 +367,26 @@ class Kelompok_model extends MY_Model
     // Hapus kelompok dengan tipe 'kelompok' saja
     public function delete($id = '', $semua = false)
     {
+        $this->get_kelompok($id) ?? show_404();
+
         if (! $semua) {
             $this->session->success = 1;
         }
 
-        $kelompok = $this->db
+        $kelompok = $this->config_id()
             ->where('id', $id)
             ->where('tipe', $this->tipe)
             ->get('kelompok')->num_rows();
 
         if ($kelompok) {
-            $outp = $this->db->where('id', $id)->where('tipe', $this->tipe)->delete($this->table);
+            $outp = $this->config_id()->where('id', $id)->where('tipe', $this->tipe)->delete($this->table);
             // Hapus peserta program bantuan sasaran kelompok, kalau ada
             $outp = $outp && $this->program_bantuan_model->hapus_peserta_dari_sasaran($id, 4);
         } else {
             $outp = false;
         }
 
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+        status_sukses($outp, true); //Tampilkan Pesan
     }
 
     public function delete_all()
@@ -386,7 +396,7 @@ class Kelompok_model extends MY_Model
         $id_cb = $_POST['id_cb'];
 
         foreach ($id_cb as $id) {
-            $this->delete($id, $semua = true);
+            $this->delete($id, true);
         }
     }
 
@@ -396,9 +406,9 @@ class Kelompok_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->where('tipe', $this->tipe)->delete('kelompok_anggota');
+        $outp = $this->config_id()->where('id', $id)->where('tipe', $this->tipe)->delete('kelompok_anggota');
 
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+        status_sukses($outp, true); //Tampilkan Pesan
     }
 
     public function delete_anggota_all()
@@ -418,7 +428,7 @@ class Kelompok_model extends MY_Model
             $this->db->where('k.id !=', $id);
         }
 
-        return $this->db
+        return $this->config_id('k')
             ->select('k.*, km.kelompok AS kategori, tp.nama AS nama_ketua')
             ->from('kelompok k')
             ->join('kelompok_master km', 'k.id_master = km.id', 'left')
@@ -455,7 +465,7 @@ class Kelompok_model extends MY_Model
 
     public function get_anggota($id = 0, $id_a = 0)
     {
-        return $this->db
+        return $this->config_id('ka')
             ->select('ka.*, tp.sex as id_sex, tp.foto, tp.nik')
             ->from('kelompok_anggota ka')
             ->join('tweb_penduduk tp', 'ka.id_penduduk = tp.id')
@@ -467,7 +477,7 @@ class Kelompok_model extends MY_Model
 
     public function list_master()
     {
-        return $this->db
+        return $this->config_id()
             ->where('tipe', $this->tipe)
             ->get('kelompok_master')
             ->result_array();
@@ -479,7 +489,7 @@ class Kelompok_model extends MY_Model
             $this->db->where_not_in('p.id', $id_pend);
         }
 
-        $anggota = $this->db
+        $anggota = $this->config_id('k')
             ->select('p.id')
             ->from('kelompok_anggota k')
             ->join('penduduk_hidup p', 'k.id_penduduk = p.id', 'left')
@@ -500,7 +510,7 @@ class Kelompok_model extends MY_Model
             }
         }
         $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
-        $this->db
+        $this->config_id('p')
             ->select('p.id, nik, nama')
             ->select("(
                 case when (p.id_kk IS NULL or p.id_kk = 0)
@@ -541,7 +551,7 @@ class Kelompok_model extends MY_Model
             $this->db->where('jabatan', 90); // Hanya anggota saja, tidak termasuk pengurus
         }
 
-        $data = $this->db
+        $data = $this->config_id('ka')
             ->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tp.sex AS id_sex, tpx.nama AS sex, tp.foto, tpp.nama as pendidikan, tpa.nama as agama')
             ->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = tp.id) AS umur")
             ->select('a.dusun,a.rw,a.rt')
@@ -581,20 +591,20 @@ class Kelompok_model extends MY_Model
         // jika ada orang lain yang sudah jabat KETUA ubah jabatan menjadi anggota
         // update id_ketua kelompok di tabel kelompok
         if ($jabatan == '1') { // Ketua
-            $this->db
+            $this->config_id()
                 ->set('jabatan', '90') // Anggota
                 ->set('no_sk_jabatan', '')
                 ->where('id_kelompok', $id_kelompok)
                 ->where('jabatan', '1')
                 ->update('kelompok_anggota');
 
-            $this->db
+            $this->config_id()
                 ->set('id_ketua', $id_penduduk)
                 ->where('id', $id_kelompok)
                 ->update($this->table);
         } elseif ($jabatan_lama == '1') { // Ketua
             // jika yang diubah adalah jabatan KETUA maka kosongkan id_ketua kelompok di tabel kelompok
-            $this->db
+            $this->config_id()
                 ->set('id_ketua', -9999) // kolom id_ketua di tabel kelompok tidak bisa NULL
                 ->where('id', $id_kelompok)
                 ->update($this->table);
@@ -603,7 +613,7 @@ class Kelompok_model extends MY_Model
 
     public function list_jabatan($id_kelompok = 0)
     {
-        return $this->db
+        return $this->config_id()
             ->distinct()
             ->select('UPPER(jabatan) as jabatan ')
             ->where("jabatan REGEXP '[a-zA-Z]+'")
@@ -633,7 +643,7 @@ class Kelompok_model extends MY_Model
                     break;
             }
 
-            $judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
+            $judul = $this->config_id()->get_where($table, ['id' => $nomor])->row_array();
         }
 
         if ($sex == 1) {

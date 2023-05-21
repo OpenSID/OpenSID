@@ -40,7 +40,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Enums\SasaranEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
-use App\Models\Config;
 use App\Models\Kelompok;
 use App\Models\Penduduk;
 use Illuminate\Support\Str;
@@ -82,7 +81,6 @@ class Program_bantuan extends Admin_Controller
     public function index($p = 1)
     {
         $this->session->unset_userdata('cari');
-
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
             $this->session->per_page = $per_page;
@@ -384,7 +382,8 @@ class Program_bantuan extends Admin_Controller
     public function edit_peserta_form($id = 0)
     {
         $this->redirect_hak_akses('u');
-        $data                = $this->program_bantuan_model->get_program_peserta_by_id($id);
+
+        $data                = $this->program_bantuan_model->get_program_peserta_by_id($id) ?? show_404();
         $data['form_action'] = site_url("program_bantuan/edit_peserta/{$id}");
         $this->load->view('program_bantuan/edit_peserta', $data);
     }
@@ -424,8 +423,9 @@ class Program_bantuan extends Admin_Controller
         $this->form_validation->set_rules('edate', 'Tanggal akhir', 'required');
         $this->form_validation->set_rules('asaldana', 'Asal Dana', 'required');
 
+        Bantuan::findOrFail($id);
         $data['asaldana']     = unserialize(ASALDANA);
-        $data['program']      = $this->program_bantuan_model->get_program(1, $id);
+        $data['program']      = $this->program_bantuan_model->get_program(1, $id) ?? show_404();
         $data['jml']          = $this->program_bantuan_model->jml_peserta_program($id);
         $data['nama_excerpt'] = Str::limit($data['program'][0]['nama'], 25);
 
@@ -461,7 +461,7 @@ class Program_bantuan extends Admin_Controller
             $this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
             $data['sasaran']         = unserialize(SASARAN);
 
-            $data['config']          = Config::first();
+            $data['config']          = identitas();
             $data['peserta']         = $this->program_bantuan_model->get_program(1, $program_id);
             $data['aksi']            = $aksi;
             $this->session->per_page = $temp;
@@ -534,14 +534,14 @@ class Program_bantuan extends Admin_Controller
                             break;
                         }
 
-                        if (in_array($no_baris, [5, 6]) && !validate_date($value, 'Y-m-d')) {
+                        if (in_array($no_baris, [5, 6]) && ! validate_date($value, 'Y-m-d')) {
                             session_error(', Data program baris <b> Ke-' . ($no_baris) . '</b> berisi tanggal yang salah. Cek kembali data ' . $title . ' = ' . $value);
 
                             redirect($this->controller);
                         }
 
                         switch (true) {
-                                /**
+                            /**
                              * baris 1 == id
                              * id bernilai NULL/Kosong( )/Strip(-)/tdk valid, buat program baru dan tampilkan notifkasi tambah program
                              * id bernilai id dan valid, update data program dan tampilkan notifkasi update program
@@ -555,7 +555,7 @@ class Program_bantuan extends Admin_Controller
                                 }
                                 break;
 
-                            case $no_baris == 0 && !in_array((int) $value, $daftar_program):
+                            case $no_baris == 0 && ! in_array((int) $value, $daftar_program):
                                 $program_id = null;
                                 $pesan_program .= 'Data program dengan <b> id = ' . ($value) . '</b> tidak ditemukan, program baru ditambahkan secara otomatis) <br>';
                                 break;
@@ -603,7 +603,7 @@ class Program_bantuan extends Admin_Controller
 
                         // Cek valid data peserta sesuai sasaran
                         $cek_peserta = $this->program_bantuan_model->cek_peserta($peserta, $sasaran);
-                        if (!in_array($nik, $cek_peserta['valid'])) {
+                        if (! in_array($nik, $cek_peserta['valid'])) {
                             $no_gagal++;
                             $pesan_peserta .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / ' . $cek_peserta['sasaran_peserta'] . ' = ' . $peserta . '</b> tidak ditemukan <br>';
 
@@ -612,7 +612,7 @@ class Program_bantuan extends Admin_Controller
 
                         // Cek valid data penduduk sesuai nik
                         $cek_penduduk = $this->penduduk_model->get_penduduk_by_nik($nik);
-                        if (!$cek_penduduk['id']) {
+                        if (! $cek_penduduk['id']) {
                             $no_gagal++;
                             $pesan_peserta .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / NIK = ' . $nik . '</b> yang terdaftar tidak ditemukan <br>';
 
@@ -642,7 +642,7 @@ class Program_bantuan extends Admin_Controller
                         if (empty($kartu_tanggal_lahir)) {
                             $kartu_tanggal_lahir = $cek_penduduk['tanggallahir'];
                         } else {
-                            if (!validate_date($kartu_tanggal_lahir, 'Y-m-d')) {
+                            if (! validate_date($kartu_tanggal_lahir, 'Y-m-d')) {
                                 $no_gagal++;
                                 $pesan_peserta .= '- Data peserta baris <b> Ke-' . ($no_baris) . '</b> berisi tanggal yang salah<br>';
 
@@ -663,6 +663,7 @@ class Program_bantuan extends Admin_Controller
 
                         // Simpan data peserta yg diimpor dalam bentuk array
                         $simpan = [
+                            'config_id'           => identitas('id'),
                             'peserta'             => $peserta,
                             'program_id'          => $program_id,
                             'no_id_kartu'         => $no_id_kartu,
@@ -729,6 +730,7 @@ class Program_bantuan extends Admin_Controller
         $writer->getCurrentSheet()->setName('Program');
         $data_program = [
             ['id', $tbl_program['id']],
+            ['config_id', identitas('id')],
             ['Nama Program', $tbl_program['nama']],
             ['Sasaran Program', $tbl_program['sasaran']],
             ['Keterangan', $tbl_program['ndesc']],
@@ -796,7 +798,10 @@ class Program_bantuan extends Admin_Controller
         $kartu_peserta = $this->db
             ->select('kartu_peserta')
             ->where('id', $id_peserta)
-            ->get('program_peserta')->row()->kartu_peserta;
+            ->where('config_id', identitas('id'))
+            ->get('program_peserta')
+            ->row()
+            ->kartu_peserta;
         ambilBerkas($kartu_peserta, $this->controller . '/detail/' . $id_peserta, null, LOKASI_DOKUMEN);
     }
 
@@ -827,6 +832,7 @@ class Program_bantuan extends Admin_Controller
     public function bersihkan_data_peserta()
     {
         $this->db
+            ->where('config_id', identitas('id'))
             ->where_in('id', $this->input->post('id_cb'))
             ->delete('program_peserta');
 

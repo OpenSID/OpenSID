@@ -35,18 +35,21 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Sitemap extends CI_Controller
 {
     public function index()
     {
-        $query = $this->db
+        // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
+        $data['artikel'] = $this->db
             ->select('a.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+            ->where('config_id', Config::appKey()->first()->id)
             ->from('artikel a')
-            ->get();
-
-        $data['artikel'] = $query->result_array();
+            ->get()
+            ->result_array();
 
         $this->output->set_content_type('text/xml', 'UTF-8');
         $this->load->view('sitemap', $data);

@@ -65,7 +65,7 @@ class Web_widget_model extends MY_Model
 
     public function get_widget($id = '')
     {
-        $data          = $this->db->where('id', $id)->get($this->tabel)->row_array();
+        $data          = $this->config_id()->where('id', $id)->get($this->tabel)->row_array();
         $data['judul'] = htmlentities($data['judul']);
         $data['isi']   = $this->security->xss_clean($data['isi']);
 
@@ -98,7 +98,8 @@ class Web_widget_model extends MY_Model
             $this->db->where('isi !=', 'layanan_mandiri.php');
         }
 
-        return $this->db->where('enabled', 1)
+        return $this->config_id_exist($this->tabel)
+            ->where('enabled', 1)
             ->order_by('urut')
             ->get($this->tabel)
             ->result_array();
@@ -106,31 +107,23 @@ class Web_widget_model extends MY_Model
 
     private function search_sql()
     {
-        if (isset($_SESSION['cari'])) {
-            $cari       = $_SESSION['cari'];
-            $kw         = $this->db->escape_like_str($cari);
-            $kw         = '%' . $kw . '%';
-            $search_sql = " AND (judul LIKE '{$kw}' OR isi LIKE '{$kw}')";
-
-            return $search_sql;
+        if ($search = $this->session->cari) {
+            $this->db->like('judul', $search)->or_like('isi', $search);
         }
     }
 
     private function filter_sql()
     {
-        if (isset($_SESSION['filter'])) {
-            $kf         = $_SESSION['filter'];
-            $filter_sql = " AND enabled = {$kf}";
-
-            return $filter_sql;
+        if ($filter = $this->session->cari) {
+            $this->db->where('enabled', $filter);
         }
     }
 
     public function paging($p = 1, $o = 0)
     {
-        $sql      = 'SELECT COUNT(*) as jml ' . $this->list_data_sql();
-        $query    = $this->db->query($sql);
-        $row      = $query->row_array();
+        $this->db->select('COUNT(*) as jml');
+        $this->list_data_sql();
+        $row      = $this->db->get('widget')->row_array();
         $jml_data = $row['jml'];
 
         $this->load->library('paging');
@@ -144,24 +137,19 @@ class Web_widget_model extends MY_Model
 
     private function list_data_sql()
     {
-        $sql = ' FROM widget WHERE 1';
-        $sql .= $this->search_sql();
-        $sql .= $this->filter_sql();
-
-        return $sql;
+        $this->config_id();
+        $this->search_sql();
+        $this->filter_sql();
     }
 
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
-        $order_sql  = ' ORDER BY urut';
-        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
-
-        $sql = 'SELECT * ' . $this->list_data_sql();
-        $sql .= $order_sql;
-        $sql .= $paging_sql;
-
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        $this->list_data_sql();
+        $data = $this->db
+            ->limit($limit, $offset)
+            ->order_by('urut')
+            ->get('widget')
+            ->result_array();
 
         $j = $offset;
 
@@ -207,14 +195,15 @@ class Web_widget_model extends MY_Model
      */
     public function lock($id = '', $val = 2)
     {
-        $outp = $this->db->where('id', $id)->update($this->tabel, ['enabled' => $val]);
+        $outp = $this->config_id()->where('id', $id)->update($this->tabel, ['enabled' => $val]);
         status_sukses($outp);
     }
 
     public function insert()
     {
-        $data            = $this->validasi($_POST);
-        $data['enabled'] = 2;
+        $data              = $this->validasi($this->input->post());
+        $data['enabled']   = 2;
+        $data['config_id'] = identitas('id');
         // Widget diberi urutan terakhir
         $data['urut'] = $this->urut_model->urut_max() + 1;
 
@@ -239,10 +228,8 @@ class Web_widget_model extends MY_Model
 
     public function update($id = 0)
     {
-        $data = $this->validasi($_POST);
-
-        $this->db->where('id', $id);
-        $outp = $this->db->update($this->tabel, $data);
+        $data = $this->validasi($this->input->post());
+        $outp = $this->config_id()->where('id', $id)->update($this->tabel, $data);
 
         status_sukses($outp);
     }
@@ -250,7 +237,8 @@ class Web_widget_model extends MY_Model
     public function get_setting($widget, $opsi = '')
     {
         // Data di kolom setting dalam format json
-        $setting = $this->db->select('setting')
+        $setting = $this->config_id_exist($this->tabel)
+            ->select('setting')
             ->where('isi', $widget . '.php')
             ->get($this->tabel)
             ->row_array();
@@ -336,7 +324,7 @@ class Web_widget_model extends MY_Model
         // Simpan semua setting di kolom setting sebagai json
         $setting = json_encode($setting);
         $data    = ['setting' => $setting];
-        $outp    = $this->db->where('isi', $widget . '.php')->update($this->tabel, $data);
+        $outp    = $this->config_id()->where('isi', $widget . '.php')->update($this->tabel, $data);
 
         status_sukses($outp);
     }
@@ -347,7 +335,7 @@ class Web_widget_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->where('jenis_widget <>', 1)->delete($this->tabel);
+        $outp = $this->config_id()->where('id', $id)->where('jenis_widget <>', 1)->delete($this->tabel);
 
         status_sukses($outp, true); //Tampilkan Pesan
     }
@@ -356,7 +344,7 @@ class Web_widget_model extends MY_Model
     {
         $this->session->success = 1;
 
-        $id_cb = $_POST['id_cb'];
+        $id_cb = $this->input->post('id_cb');
 
         foreach ($id_cb as $id) {
             $this->delete($id, true);
@@ -422,7 +410,7 @@ class Web_widget_model extends MY_Model
 
     private function list_widget_statis()
     {
-        $data = $this->db
+        $data = $this->config_id()
             ->select('isi')
             ->where('jenis_widget', 2)
             ->get($this->tabel)
@@ -433,7 +421,11 @@ class Web_widget_model extends MY_Model
 
     public function cekFileWidget()
     {
-        $data = $this->db->where('jenis_widget <>', 3)->where('enabled', 1)->get($this->tabel)->result_array();
+        $data = $this->config_id_exist($this->tabel)
+            ->where('jenis_widget <>', 3)
+            ->where('enabled', 1)
+            ->get($this->tabel)
+            ->result_array();
 
         if ($data) {
             foreach ($data as $widget) {

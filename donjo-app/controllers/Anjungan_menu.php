@@ -105,7 +105,7 @@ class Anjungan_menu extends Anjungan_Controller
 
         $data['link_tipe']                  = $tipe_link;
         $data['artikel_statis']             = Artikel::where('id_kategori', 999)->get();
-        $data['kategori_artikel']           = Kategori::where('enabled', 1)->get();
+        $data['kategori_artikel']           = Kategori::configId()->where('enabled', 1)->get();
         $data['statistik_penduduk']         = $this->referensi_model->list_ref(STAT_PENDUDUK);
         $data['statistik_keluarga']         = $this->referensi_model->list_ref(STAT_KELUARGA);
         $data['statistik_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);

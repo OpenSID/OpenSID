@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keluarga extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *
@@ -76,7 +80,7 @@ class Keluarga extends BaseModel
      */
     public function kepalaKeluarga()
     {
-        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala');
+        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     /**
@@ -86,7 +90,7 @@ class Keluarga extends BaseModel
      */
     public function anggota()
     {
-        return $this->hasMany(Penduduk::class, 'id_kk')->orderBy('kk_level');
+        return $this->hasMany(Penduduk::class, 'id_kk')->orderBy('kk_level')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     /**
@@ -96,7 +100,7 @@ class Keluarga extends BaseModel
      */
     public function Wilayah()
     {
-        return $this->belongsTo(Wilayah::class, 'id_cluster');
+        return $this->belongsTo(Wilayah::class, 'id_cluster')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     /**

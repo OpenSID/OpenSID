@@ -136,7 +136,7 @@ class Ekspedisi_model extends Surat_keluar_model
                 $data['tanda_terima'] = $berkas_direname ? $nama_file_unik : $upload_data['file_name'];
                 // Update database dengan `tanda_terima` berisi nama unik
                 $this->db->where('id', $id);
-                $hasil = $this->db->update('surat_keluar', $data);
+                $hasil = $this->config_id()->update('surat_keluar', $data);
                 if (! $hasil) {
                     $this->session->error_msg .= ' -> Gagal memperbarui data di database';
                 }
@@ -156,7 +156,7 @@ class Ekspedisi_model extends Surat_keluar_model
                 }
             }
             $this->db->where('id', $id);
-            $hasil = $this->db->update('surat_keluar', $data);
+            $hasil = $this->config_id()->update('surat_keluar', $data);
             if (! $hasil) {
                 $this->session->error_msg .= ' -> Gagal memperbarui data di database';
             }
@@ -177,7 +177,7 @@ class Ekspedisi_model extends Surat_keluar_model
 
     public function get_tanda_terima($id)
     {
-        return $this->db
+        return $this->config_id()
             ->select('tanda_terima')
             ->where('id', $id)
             ->get('surat_keluar')

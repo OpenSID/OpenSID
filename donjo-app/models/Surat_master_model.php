@@ -118,10 +118,10 @@ class Surat_master_model extends MY_Model
 
     public function update($id = 0)
     {
-        $data = $_POST;
+        $data = $this->input->post();
         $this->validasi_surat($data);
 
-        $outp = $this->db
+        $outp = $this->config_id()
             ->where('id', $id)
             ->update($this->table, $data);
 

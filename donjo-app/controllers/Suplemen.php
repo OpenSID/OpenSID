@@ -115,7 +115,7 @@ class Suplemen extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         if ($id) {
-            $data['suplemen']    = $this->suplemen_model->get_suplemen($id);
+            $data['suplemen']    = $this->suplemen_model->get_suplemen($id) ?? show_404();
             $data['form_action'] = site_url("{$this->controller}/ubah/{$id}");
         } else {
             $data['suplemen']    = null;
@@ -202,7 +202,7 @@ class Suplemen extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data                       = $this->suplemen_model->get_rincian($p, $id);
+        $data                       = $this->suplemen_model->get_rincian($p, $id) ?? show_404();
         $data['sasaran']            = unserialize(SASARAN);
         $data['func']               = "rincian/{$id}";
         $data['per_page']           = $this->session->per_page;
@@ -244,7 +244,7 @@ class Suplemen extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $data['sasaran']      = unserialize(SASARAN);
-        $data['suplemen']     = $this->suplemen_model->get_suplemen($id);
+        $data['suplemen']     = $this->suplemen_model->get_suplemen($id) ?? show_404();
         $sasaran              = $data['suplemen']['sasaran'];
         $data['list_sasaran'] = $this->suplemen_model->list_sasaran($id, $sasaran);
         if (isset($_POST['terdata'])) {
@@ -362,7 +362,7 @@ class Suplemen extends Admin_Controller
             $post                    = $this->input->post();
             $temp                    = $this->session->per_page;
             $this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
-            $data                    = $this->suplemen_model->get_rincian(1, $id);
+            $data                    = $this->suplemen_model->get_rincian(1, $id) ?? show_404();
             $data['sasaran']         = unserialize(SASARAN);
             $data['config']          = $this->header['desa'];
             $data['pamong_ttd']      = $this->pamong_model->get_data($post['pamong_ttd']);

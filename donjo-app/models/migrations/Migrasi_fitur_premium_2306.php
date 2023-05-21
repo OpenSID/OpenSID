@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2306 extends MY_model
@@ -45,12 +48,44 @@ class Migrasi_fitur_premium_2306 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2305');
+        $hasil = $hasil && $this->migrasi_tabel($hasil);
+        $hasil = $hasil && $this->migrasi_data($hasil);
 
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && true;
     }
 
-    protected function migrasi_xxxxxxxxxx($hasil)
+    protected function migrasi_tabel($hasil)
     {
         return $hasil;
+    }
+
+    // Migrasi perubahan data untuk semua data config
+    protected function migrasi_data($hasil)
+    {
+        $config_id = DB::table('config')->pluck('id')->toArray();
+
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2023052351($hasil, $id);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023052351($hasil, $id)
+    {
+        log_message('notice', __FUNCTION__);
+
+        $setting = [
+            'judul'      => 'Warna Tema',
+            'key'        => 'warna_tema',
+            'value'      => DB::table('setting_aplikasi')->where('config_id', $id)->where('key', 'warna_tema')->first()->value ?: config_item('warna_tema') ?: SettingAplikasi::WARNA_TEMA_DEFAULT,
+            'keterangan' => 'Warna tema untuk halaman website',
+            'jenis'      => 'color',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'hidden',
+        ];
+
+        return $hasil && $this->tambah_setting($setting, $id);
     }
 }

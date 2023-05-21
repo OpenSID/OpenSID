@@ -96,7 +96,7 @@ class Dpt_model extends Penduduk_model
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
     private function list_data_sql()
     {
-        $this->db
+        $this->config_id('u')
             ->from('tweb_penduduk u')
             ->join('tweb_keluarga d', 'u.id_kk = d.id', 'left')
             ->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left')
@@ -228,7 +228,8 @@ class Dpt_model extends Penduduk_model
         for ($i = 0; $i < count($data); $i++) {
             // Ubah alamat penduduk lepas
             if (! $data[$i]['id_kk'] || $data[$i]['id_kk'] == 0) {
-                $penduduk = $this->db->select('p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt')
+                $penduduk = $this->config_id('p')
+                    ->select('p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt')
                     ->from('tweb_penduduk p')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
                     ->where('p.id', $data[$i]['id'])
@@ -273,11 +274,12 @@ class Dpt_model extends Penduduk_model
 
     public function statistik_wilayah()
     {
-        $this->db->select([
-            'dusun', 'rw', "count('*') as jumlah_warga",
-            'SUM(CASE WHEN sex = 1 THEN 1 ELSE 0 END) as jumlah_warga_l',
-            'SUM(CASE WHEN sex = 2 THEN 1 ELSE 0 END) as jumlah_warga_p',
-        ])
+        $this->config_id('u')
+            ->select([
+                'dusun', 'rw', "count('*') as jumlah_warga",
+                'SUM(CASE WHEN sex = 1 THEN 1 ELSE 0 END) as jumlah_warga_l',
+                'SUM(CASE WHEN sex = 2 THEN 1 ELSE 0 END) as jumlah_warga_p',
+            ])
             ->from('tweb_penduduk u')
             ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left');
 
@@ -296,11 +298,12 @@ class Dpt_model extends Penduduk_model
 
     public function statistik_total()
     {
-        $this->db->select([
-            "count('*') as total_warga",
-            'SUM(CASE WHEN sex = 1 THEN 1 ELSE 0 END) as total_warga_l',
-            'SUM(CASE WHEN sex = 2 THEN 1 ELSE 0 END) as total_warga_p',
-        ])
+        $this->config_id('u')
+            ->select([
+                "count('*') as total_warga",
+                'SUM(CASE WHEN sex = 1 THEN 1 ELSE 0 END) as total_warga_l',
+                'SUM(CASE WHEN sex = 2 THEN 1 ELSE 0 END) as total_warga_p',
+            ])
             ->from('tweb_penduduk u');
 
         $this->syarat_dpt_sql();

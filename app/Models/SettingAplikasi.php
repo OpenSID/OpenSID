@@ -39,11 +39,16 @@ namespace App\Models;
 
 use App\Enums\StatusEnum;
 use App\Models\Galery as Galeri;
+use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class SettingAplikasi extends BaseModel
 {
+    use ConfigId;
+
+    public const WARNA_TEMA_DEFAULT = '#eab308';
+
     /**
      * The table associated with the model.
      *
@@ -71,8 +76,18 @@ class SettingAplikasi extends BaseModel
      * @var array
      */
     protected $fillable = [
+        'config_id',
         'key',
         'value',
+    ];
+
+    /**
+     * The hidden with the model.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'config_id',
     ];
 
     /**
@@ -83,6 +98,15 @@ class SettingAplikasi extends BaseModel
     protected $casts = [
         'option' => 'json',
     ];
+
+    // public function getValueAttribute()
+    // {
+    //     if ($this->attributes['key'] == 'web_theme') {
+    //         return config_item('web_theme');
+    //     }
+
+    //     return $this->attributes['value'];
+    // }
 
     public function getOptionAttribute()
     {

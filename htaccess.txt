@@ -36,7 +36,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </FilesMatch>
 
 # Restrict access to system files
-<FilesMatch "^(composer.json|composer.lock|mitra)">
+<FilesMatch "^(composer.json|composer.lock|mitra|app_key)">
     Order allow,deny
     Deny from all
 </FilesMatch>

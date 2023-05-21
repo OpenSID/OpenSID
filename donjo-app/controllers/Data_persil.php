@@ -134,7 +134,7 @@ class Data_persil extends Admin_Controller
     {
         $this->tab_ini  = 13;
         $data           = [];
-        $data['persil'] = $this->data_persil_model->get_persil($id);
+        $data['persil'] = $this->data_persil_model->get_persil($id) ?? show_404();
         $data['mutasi'] = $this->data_persil_model->get_list_mutasi($id);
         $this->render('data_persil/rincian_persil', $data);
     }
@@ -146,7 +146,7 @@ class Data_persil extends Admin_Controller
         $this->tab_ini = 13;
 
         if ($id) {
-            $data['persil'] = $this->data_persil_model->get_persil($id);
+            $data['persil'] = $this->data_persil_model->get_persil($id) ?? show_404();
         }
         if ($id_cdesa) {
             $data['id_cdesa'] = $id_cdesa;

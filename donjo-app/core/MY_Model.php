@@ -35,10 +35,13 @@
  *
  */
 
+use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\Migrasi;
+use App\Models\SettingAplikasi;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -61,15 +64,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 class MY_Model extends CI_Model
 {
-    /**
-     * Constructor
-     */
+    public $config_id;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->load->driver('cache');
         $this->load->dbforge();
+        $this->config_id = Config::appKey()->first()->id;
     }
 
     public function autocomplete_str($kolom, $tabel, $cari = '')
@@ -77,10 +80,14 @@ class MY_Model extends CI_Model
         if ($cari) {
             $this->db->like($kolom, $cari);
         }
-        $data = $this->db->distinct()->
-            select($kolom)->
-            order_by($kolom)->
-            get($tabel)->result_array();
+
+        $data = $this->config_id_exist($tabel)
+            ->distinct()
+            ->select($kolom)
+            ->order_by($kolom)
+            ->limit(15)
+            ->get($tabel)
+            ->result_array();
 
         return autocomplete_data_ke_str($data);
     }
@@ -120,7 +127,7 @@ class MY_Model extends CI_Model
 
             [$kolom, $table, $where, $cari] = $kode;
 
-            $sql[] = "({$this->db->select($kolom)->from($table)->where($where)->like($kolom, $cari)->order_by($kolom, 'desc')->get_compiled_select()})";
+            $sql[] = "({$this->config_id_exist($table, $table)->select($kolom)->from($table)->where($where)->like($kolom, $cari)->order_by($kolom, 'desc')->get_compiled_select()})";
         }
 
         $sql = implode('UNION', $sql);
@@ -137,14 +144,14 @@ class MY_Model extends CI_Model
         return true;
     }
 
-    public function tambahIndeks($tabel, $kolom, $index = 'UNIQUE')
+    public function tambahIndeks($tabel, $kolom, $index = 'UNIQUE', $multi = false)
     {
         if ($index == 'UNIQUE') {
             $duplikat = $this->db
-                ->select($kolom)
+                ->select("CONCAT({$kolom}) AS jmlh")
                 ->from($tabel)
-                ->group_by($kolom)
-                ->having("COUNT(`{$kolom}`) > 1")
+                ->group_by('jmlh')
+                ->having('COUNT(jmlh) > 1')
                 ->get()
                 ->num_rows();
 
@@ -154,7 +161,12 @@ class MY_Model extends CI_Model
             }
         }
 
-        if (! $this->cek_indeks($tabel, $kolom)) {
+        $unique_name = preg_replace('/[^a-zA-Z0-9_-]+/i', '', $kolom);
+        if (! $this->cek_indeks($tabel, $unique_name)) {
+            if ($multi == true && $index == 'UNIQUE') {
+                return $this->db->query("ALTER TABLE `{$tabel}` ADD UNIQUE INDEX `{$unique_name}` ({$kolom})");
+            }
+
             return $this->db->query("ALTER TABLE {$tabel} ADD {$index} {$kolom} (`{$kolom}`)");
         }
 
@@ -199,6 +211,7 @@ class MY_Model extends CI_Model
     }
 
     /**
+     * TODO:: OpenKAB - Cara ini perlu diganti untuk keperluan OpenKAB dengan menggunakan slug.
      * Ubah modul setting menu.
      *
      * @return bool
@@ -215,13 +228,28 @@ class MY_Model extends CI_Model
         return $hasil;
     }
 
-    public function tambah_setting($setting)
+    public function tambah_setting($setting, $config_id = null)
     {
-        $sql   = $this->db->insert_string('setting_aplikasi', $setting) . ' ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)';
-        $hasil = $this->db->query($sql);
-        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+        hapus_cache('identitas_desa');
 
-        return $hasil;
+        if (Schema::hasColumn('setting_aplikasi', 'config_id')) {
+            $cek = SettingAplikasi::withoutGlobalScope('App\Scopes\ConfigIdScope')->where('config_id', $config_id ?? $this->config_id)->where('key', $setting['key']);
+
+            if ($cek->exists()) {
+                unset($setting['value']);
+                $cek->update($setting);
+            } else {
+                $setting['config_id'] = $config_id ?? $this->config_id;
+                $cek->insert($setting);
+            }
+        } else {
+            $sql   = $this->db->insert_string('setting_aplikasi', $setting) . ' ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)';
+            $hasil = $this->db->query($sql);
+        }
+
+        hapus_cache('setting_aplikasi');
+
+        return true;
     }
 
     public function tambah_surat_tinymce($data)
@@ -233,12 +261,17 @@ class MY_Model extends CI_Model
         $data['updated_by']   = auth()->id;
 
         // Tambah data baru dan update (hanya kolom template) jika ada sudah ada
-        $cek_surat = FormatSurat::where('url_surat', $data['url_surat'])->first();
+        $cek_surat = DB::table('tweb_surat_format')->where('url_surat', $data['url_surat']);
 
-        if ($cek_surat) {
+        if (Schema::hasColumn('tweb_surat_format', 'config_id')) {
+            $cek_surat->where('config_id', $this->config_id);
+            $data['config_id'] = $this->config_id;
+        }
+
+        if ($cek_surat->exists()) {
             $cek_surat->update(['template' => $data['template']]);
         } else {
-            FormatSurat::create($data);
+            DB::table('tweb_surat_format')->insert($data);
         }
 
         return true;
@@ -293,8 +326,12 @@ class MY_Model extends CI_Model
         return $hasil;
     }
 
-    public function jalankan_migrasi($migrasi)
+    public function jalankan_migrasi($migrasi, $cek_app_key = true)
     {
+        if ($cek_app_key && $this->db->field_exists('app_key', 'config')) {
+            return true;
+        }
+
         if (is_array($this->session->daftar_migrasi) && in_array($migrasi, $this->session->daftar_migrasi)) {
             return true;
         }
@@ -362,5 +399,135 @@ class MY_Model extends CI_Model
         }
 
         return $hasil;
+    }
+
+    /**
+     * Tambah kolom config_id di tabel.
+     *
+     * @param string $tabel
+     * @param bool   $null
+     * @param string $after
+     *
+     * @return bool
+     */
+    public function tambah_config_id($tabel, $after = 'id')
+    {
+        $hasil = true;
+
+        if (! $this->db->field_exists('config_id', $tabel)) {
+            $hasil = $hasil && $this->dbforge->add_column($tabel, [
+                'config_id' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => true,
+                    'after'      => $after,
+                    'default'    => null,
+                ],
+            ]);
+        }
+
+        // Isi data tabel $tabel kolom config_id
+        if ($this->config_id) {
+            DB::table($tabel)->where('config_id', 0)->orWhere('config_id', null)->update(['config_id' => DB::table('config')->first()->id]);
+        } else {
+            // Hapus data dengan config_id = null
+            DB::table($tabel)->where('config_id', 0)->orWhere('config_id', null)->delete();
+        }
+
+        return $hasil && $this->tambahForeignKey("{$tabel}_config_fk", $tabel, 'config_id', 'config', 'id');
+
+        // return $hasil && $this->dbforge->modify_column($tabel, [
+        //     'config_id' => [
+        //         'type'       => 'INT',
+        //         'constraint' => 11,
+        //         'null'       => false,
+        //     ],
+        // ]);
+    }
+
+    // Buat ulang indexes di tabel $tabel
+    public function buat_ulang_index($tabel, $unique_name, $unique_colom, $index = 'UNIQUE')
+    {
+        $hasil = true;
+
+        // Hapus index nik pada tabel tweb_penduduk
+        // Tambahkan unique index pada kolom config_id dan nik pada tabel tweb_penduduk
+        if ($this->cek_indeks($tabel, $unique_name) && ! $this->cek_indeks($tabel, $unique_name . '_config')) {
+            $hasil = $hasil && $this->db->query("ALTER TABLE `{$tabel}` DROP INDEX `{$unique_name}`, ADD {$index} INDEX `{$unique_name}_config` {$unique_colom}");
+        }
+
+        return $hasil;
+    }
+
+    /**
+     * Scope config_id berdasarkan desa.
+     *
+     * @param mixed $fields_config_id
+     *
+     * @return CI_DB_query_builder
+     */
+    public function config_id(?string $alias = null, bool $boleh_null = false)
+    {
+        $this->db->group_start();
+        if ($alias) {
+            $this->db->where("{$alias}.config_id", $this->config_id);
+
+            if ($boleh_null) {
+                $this->db->or_where("{$alias}.config_id", null);
+            }
+        } else {
+            $this->db->where('config_id', $this->config_id);
+
+            if ($boleh_null) {
+                $this->db->or_where('config_id', null);
+            }
+        }
+        $this->db->group_end();
+
+        return $this->db;
+    }
+
+    /**
+     * Scope config_id exist
+     *
+     * @return CI_DB_query_builder
+     */
+    public function config_id_exist(string $table, ?string $alias = null, bool $boleh_null = false)
+    {
+        if ($this->db->field_exists('config_id', $table)) {
+            return $this->config_id($alias, $boleh_null);
+        }
+
+        return $this->db;
+    }
+
+    public function data_awal(?string $tabel = null, array $data = [], $berulang = false)
+    {
+        $config_id = $this->config_id;
+
+        // Cek apakah migrasi berulang dan sudah ada data sebelumnya
+        if ($berulang == false && DB::table($tabel)->where('config_id', $this->config_id)->count() > 0) {
+            return true;
+        }
+
+        if ($this->db->table_exists($tabel) && count($data) > 0) {
+            collect($data)
+                ->chunk(100)
+                // tambahkan config_id terlebih dahulu
+                ->map(static function ($chunk) use ($config_id) {
+                    return $chunk->map(static function ($item) use ($config_id) {
+                        $item['config_id'] = $config_id;
+
+                        return $item;
+                    });
+                })
+                ->each(static function ($chunk) use ($tabel) {
+                    DB::table($tabel)->insertOrIgnore($chunk->all());
+                });
+
+            return true;
+        }
+
+        return false;
     }
 }

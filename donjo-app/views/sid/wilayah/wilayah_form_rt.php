@@ -3,16 +3,16 @@
         <h1>Pengelolaan Data RT</h1>
         <ol class="breadcrumb">
             <li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="<?= site_url('sid_core')?>"> Daftar <?= ucwords($this->setting->sebutan_dusun)?></a></li>
-            <li><a href="<?= site_url("sid_core/sub_rw/{$id_dusun}")?>"> Daftar RW</a></li>
-            <li><a href="<?= site_url("sid_core/sub_rt/{$id_dusun}/{$id_rw}")?>"> Daftar RT</a></li>
+            <li><a href="<?= site_url('wilayah/clear')?>"> Daftar <?= ucwords($this->setting->sebutan_dusun)?></a></li>
+            <li><a href="<?= site_url("wilayah/sub_rw/{$id_dusun}")?>"> Daftar RW</a></li>
+            <li><a href="<?= site_url("wilayah/sub_rt/{$id_dusun}/{$id_rw}")?>"> Daftar RT</a></li>
             <li class="active">Data RT</li>
         </ol>
     </section>
     <section class="content" id="maincontent">
         <div class="box box-info">
             <div class="box-header with-border">
-                <a href="<?= site_url("sid_core/sub_rt/{$id_dusun}/{$id_rw}")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RT">
+                <a href="<?= site_url("wilayah/sub_rt/{$id_dusun}/{$id_rw}")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RT">
                     <i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar RT
                 </a>
             </div>
@@ -24,13 +24,13 @@
                             <input  id="rt" class="form-control input-sm digits required" type="text" placeholder="Nomor RT" name="rt" value="<?= $rt?>">
                         </div>
                     </div>
-                    <?php if ($rt): ?>
+                    <?php if ($individu): ?>
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="kepala_lama">Ketua RT Sebelumnya</label>
                             <div class="col-sm-7">
                                 <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-                                    <strong> <?= $individu['nama']?></strong>
-                                    <br />NIK - <?= $individu['nik']?>
+                                    <strong> <?= $individu['nama'] ?></strong>
+                                    <br />NIK - <?= $individu['nik'] ?>
                                 </p>
                             </div>
                         </div>

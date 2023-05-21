@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Aset_model extends CI_Model
+class Aset_model extends MY_Model
 {
     protected $table = 'tweb_aset';
 

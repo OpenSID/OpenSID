@@ -155,28 +155,8 @@ class Database_model extends MY_Model
 
     private function reset_setting_aplikasi()
     {
-        $this->db->truncate('setting_aplikasi');
-        $query = "
-            INSERT INTO setting_aplikasi (`id`, `key`, `value`, `keterangan`, `jenis`,`kategori`) VALUES
-            (1, 'sebutan_kabupaten','kabupaten','Pengganti sebutan wilayah kabupaten','',''),
-            (2, 'sebutan_kabupaten_singkat','kab.','Pengganti sebutan singkatan wilayah kabupaten','',''),
-            (3, 'sebutan_kecamatan','kecamatan','Pengganti sebutan wilayah kecamatan','',''),
-            (4, 'sebutan_kecamatan_singkat','kec.','Pengganti sebutan singkatan wilayah kecamatan','',''),
-            (5, 'sebutan_desa','desa','Pengganti sebutan wilayah desa','',''),
-            (6, 'sebutan_dusun','dusun','Pengganti sebutan wilayah dusun','',''),
-            (7, 'sebutan_camat','camat','Pengganti sebutan jabatan camat','',''),
-            (8, 'website_title','Website Resmi','Judul tab browser modul web','','web'),
-            (9, 'login_title','OpenSID', 'Judul tab browser halaman login modul administrasi','',''),
-            (10, 'admin_title','Sistem Informasi Desa','Judul tab browser modul administrasi','',''),
-            (11, 'web_theme', 'default','Tema penampilan modul web','','web'),
-            (12, 'offline_mode',FALSE,'Apakah modul web akan ditampilkan atau tidak','boolean',''),
-            (13, 'enable_track',TRUE,'Apakah akan mengirimkan data statistik ke tracker','boolean',''),
-            (14, 'dev_tracker','','Host untuk tracker pada development','','development'),
-            (15, 'nomor_terakhir_semua_surat', FALSE,'Gunakan nomor surat terakhir untuk seluruh surat tidak per jenis surat','boolean',''),
-            (16, 'google_key','','Google API Key untuk Google Maps','','web'),
-            (17, 'libreoffice_path','','Path tempat instal libreoffice di server SID','','')
-        ";
-        $this->db->query($query);
+        SettingAplikasi::delete();
+        $this->jalankan_migrasi('migrasi_multidb');
     }
 
     private function cekCurrentVersion()
@@ -223,15 +203,12 @@ class Database_model extends MY_Model
                     log_message('notice', 'Jalankan ' . $migrate);
                     call_user_func(__NAMESPACE__ . '\\Database_model::' . $migrate);
                 } else {
-                    $this->jalankan_migrasi($migrate);
+                    $this->jalankan_migrasi($migrate, false);
                 }
             }
         } else {
             $this->_migrasi_db_cri();
         }
-
-        // Layanan
-        $this->jalankan_migrasi('migrasi_layanan');
 
         // Lengkapi folder desa
         folder_desa();
@@ -246,7 +223,7 @@ class Database_model extends MY_Model
             }
         }
 
-        SettingAplikasi::where('key', '=', 'current_version')->update(['value' => currentVersion()]);
+        SettingAplikasi::withoutGlobalScope('App\Scopes\ConfigIdScope')->where('key', '=', 'current_version')->update(['value' => currentVersion()]);
         Migrasi::firstOrCreate(['versi_database' => VERSI_DATABASE]);
         $this->load->model('track_model');
         $this->track_model->kirim_data();

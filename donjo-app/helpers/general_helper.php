@@ -36,10 +36,11 @@
  */
 
 use App\Models\Config;
-use App\Models\GrupAkses;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
+use App\Models\UserGrup;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 if (! function_exists('asset')) {
@@ -102,7 +103,7 @@ if (! function_exists('view')) {
                 'ci'           => get_instance(),
                 'auth'         => $CI->session->isAdmin,
                 'controller'   => $CI->controller,
-                'desa'         => Config::first(),
+                'desa'         => identitas(),
                 'list_setting' => $CI->list_setting,
                 'modul'        => $CI->header['modul'],
                 'modul_ini'    => $CI->modul_ini,
@@ -152,7 +153,7 @@ if (! function_exists('can')) {
             $controller = $CI->controller;
         }
 
-        if ($admin_only && $CI->grup != GrupAkses::ADMINISTRATOR) {
+        if ($admin_only && $CI->grup != $CI->user_model->id_grup(UserGrup::ADMINISTRATOR)) {
             return false;
         }
 
@@ -221,6 +222,45 @@ if (! function_exists('setting')) {
         }
 
         return $getSetting;
+    }
+}
+
+// identitas('nama_desa');
+if (! function_exists('identitas')) {
+    /**
+     * Get identitas desa.
+     *
+     * @return object|string
+     */
+    function identitas(?string $params = null)
+    {
+        $cache = 'identitas_desa';
+
+        $identitas = get_instance()->cache->pakai_cache(static function () {
+            if (Schema::hasColumn('config', 'app_key') && DB::table('config')->where('app_key', get_app_key())->exists()) {
+                return Config::appKey()->first();
+            }
+
+            return null;
+        }, $cache, 24 * 60 * 60);
+
+        if ($params) {
+            return $identitas->{$params};
+        }
+
+        return $identitas;
+    }
+}
+
+// hapus_cache('cache_id');
+if (! function_exists('hapus_cache')) {
+    function hapus_cache($params = null)
+    {
+        if ($params) {
+            return get_instance()->cache->hapus_cache_untuk_semua($params);
+        }
+
+        return false;
     }
 }
 
@@ -384,6 +424,7 @@ if (! function_exists('folder_desa')) {
         write_file(DESAPATH . 'pengaturan/siteman/siteman.css', config_item('siteman_css'), 'x');
         write_file(DESAPATH . 'pengaturan/siteman/siteman_mandiri.css', config_item('siteman_mandiri_css'), 'x');
         write_file(DESAPATH . 'offline_mode.php', config_item('offline_mode'), 'x');
+        write_file(DESAPATH . 'app_key', set_app_key(), 'x');
 
         return true;
     }

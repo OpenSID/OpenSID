@@ -37,10 +37,16 @@
 
 namespace App\Models;
 
+use App\Traits\Author;
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class TeksBerjalan extends BaseModel
 {
+    use Author;
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *

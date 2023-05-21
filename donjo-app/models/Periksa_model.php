@@ -35,7 +35,6 @@
  *
  */
 
-use App\Enums\StatusEnum;
 use App\Models\InventarisAsset;
 use App\Models\LogPenduduk;
 use App\Models\LogPerubahanPenduduk;
@@ -69,137 +68,165 @@ class Periksa_model extends MY_Model
         $current_version  = $this->getSetting('current_version');
         $calon            = $current_version;
 
-        // tag_id_card belum ada
-        if ($db_error_code == 1054 && strpos($db_error_message, 'tag_id_card') !== false) {
-            $calon_ini                  = '19.04';
-            $this->periksa['masalah'][] = 'coloumn_tag_id_card_doesnt_exist';
-            $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
-
-        // Table tweb_penduduk no_kk ganda
-        if (! empty($kk_ganda = $this->deteksi_tweb_keluarga_no_kk_ganda())) {
-            $calon_ini                    = '19.11';
-            $this->periksa['masalah'][]   = 'no_kk_ganda';
-            $this->periksa['no_kk_ganda'] = $kk_ganda;
-            $calon                        = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
-
-        // Tabel ref_persil_kelas dan tabel ref inventaris lain terhapus isinya
-        if ($db_error_code == 99001 && preg_match('/ref_persil_kelas|ref_persil_mutasi|ref_peruntukan_tanah_kas/', $db_error_message)) {
-            $this->periksa['masalah'][] = 'ref_inventaris_kosong';
-        }
-
-        // pamong_id belum ada
-        if ($db_error_code == 1406) {
-            $pos       = strpos($this->session->message_query, "CONCAT_WS('_', kode, id)");
-            $calon_ini = $current_version;
-            if ($pos !== false) {
-                $calon_ini                     = '20.12';
-                $this->periksa['masalah'][]    = 'kode_kelompok';
-                $this->periksa['kode_panjang'] = $this->deteksi_kode_panjang();
+        // Hanya jalankan periksa model lama jika belum ada app_key di tabel config pada kasus tertentu
+        if (! $this->db->field_exists('app_key', 'config')) {
+            // tag_id_card belum ada
+            if ($db_error_code == 1054 && strpos($db_error_message, 'tag_id_card') !== false) {
+                $calon_ini                  = '19.04';
+                $this->periksa['masalah'][] = 'coloumn_tag_id_card_doesnt_exist';
+                $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
             }
-            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
 
-        // tag_id_ganda
-        $tag_id_ganda_1 = ($db_error_code == 1054 && strpos($db_error_message, 'pamong_id') !== false);
-        $tag_id_ganda_2 = ($db_error_code == 1062 && strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE tag_id_card'));
-        if ($tag_id_ganda_1 || $tag_id_ganda_2) {
-            $calon_ini                     = '21.04';
-            $this->periksa['masalah'][]    = 'tag_id_ganda';
-            $this->periksa['tag_id_ganda'] = $this->deteksi_tag_id_ganda();
-            $calon                         = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
-
-        // kartu_tempat_lahir atau kartu_alamat berisi null
-        if ($db_error_code == 1138) {
-            $pos1      = strpos($this->session->message_query, 'kartu_tempat_lahir');
-            $pos2      = strpos($this->session->message_query, 'kartu_alamat');
-            $calon_ini = $current_version;
-            if ($pos1 !== false && $pos2 !== false) {
-                $calon_ini                  = '21.05';
-                $this->periksa['masalah'][] = 'kartu_alamat';
+            // Table tweb_penduduk no_kk ganda
+            if (! empty($kk_ganda = $this->deteksi_tweb_keluarga_no_kk_ganda())) {
+                $calon_ini                    = '19.11';
+                $this->periksa['masalah'][]   = 'no_kk_ganda';
+                $this->periksa['no_kk_ganda'] = $kk_ganda;
+                $calon                        = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
             }
-            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
 
-        $id_pengunjung = ($db_error_code == 1054 && strpos($db_error_message, 'id_pengunjung') !== false);
-        $tipe          = ($db_error_code == 1054 && strpos($db_error_message, 'tipe') !== false);
-
-        if ($id_pengunjung || $tipe) {
-            $this->perbaiki_anjungan();
-        }
-
-        // id_cluster Keluarga beserta anggota keluarganya ada yg null
-        if ($db_error_code == 1138) {
-            $pos       = strpos($this->session->message_query, 'id_cluster');
-            $calon_ini = $current_version;
-            if ($pos !== false) {
-                $calon_ini                        = '21.07';
-                $this->periksa['masalah'][]       = 'id_cluster_null';
-                $this->periksa['id_cluster_null'] = $this->deteksi_id_cluster_null();
-                $this->periksa['wilayah_pertama'] = $this->wilayah_pertama();
+            // Tabel ref_persil_kelas dan tabel ref inventaris lain terhapus isinya
+            if ($db_error_code == 99001 && preg_match('/ref_persil_kelas|ref_persil_mutasi|ref_peruntukan_tanah_kas/', $db_error_message)) {
+                $this->periksa['masalah'][] = 'ref_inventaris_kosong';
             }
-            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
 
-        // NIK penduduk ganda
-        if ($db_error_code == 1062) {
-            $pos       = strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE nik');
-            $calon_ini = $current_version;
-            if ($pos !== false) {
-                $calon_ini                  = '21.09';
-                $this->periksa['masalah'][] = 'nik_ganda';
-                $this->periksa['nik_ganda'] = $this->deteksi_nik_ganda();
+            // pamong_id belum ada
+            if ($db_error_code == 1406) {
+                $pos       = strpos($this->session->message_query, "CONCAT_WS('_', kode, id)");
+                $calon_ini = $current_version;
+                if ($pos !== false) {
+                    $calon_ini                     = '20.12';
+                    $this->periksa['masalah'][]    = 'kode_kelompok';
+                    $this->periksa['kode_panjang'] = $this->deteksi_kode_panjang();
+                }
+                $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
             }
-            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
 
-        // No KK terlalu panjang
-        if ($db_error_code == 1265 || $db_error_code == 1406) {
-            $pos1 = strpos($db_error_message, "Data too long for column 'no_kk' ");
-            $pos2 = strpos($db_error_message, "Data truncated for column 'no_kk'");
-            log_message('error', $pos2);
-            $calon_ini = $current_version;
-            if ($pos1 !== false || $pos2 !== false) {
-                log_message('error', 'kk_panjang');
-                $calon_ini                   = '21.11';
-                $this->periksa['masalah'][]  = 'kk_panjang';
-                $this->periksa['kk_panjang'] = $this->deteksi_kk_panjang();
+            // tag_id_ganda
+            $tag_id_ganda_1 = ($db_error_code == 1054 && strpos($db_error_message, 'pamong_id') !== false);
+            $tag_id_ganda_2 = ($db_error_code == 1062 && strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE tag_id_card'));
+            if ($tag_id_ganda_1 || $tag_id_ganda_2) {
+                $calon_ini                     = '21.04';
+                $this->periksa['masalah'][]    = 'tag_id_ganda';
+                $this->periksa['tag_id_ganda'] = $this->deteksi_tag_id_ganda();
+                $calon                         = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
             }
-            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
 
-        // email user ganda
-        if ($db_error_code == 1062) {
-            $pos       = strpos($this->session->message_query, 'ALTER TABLE user ADD UNIQUE email');
-            $calon_ini = $current_version;
-            if ($pos !== false) {
-                $calon_ini                         = '22.02';
-                $this->periksa['masalah'][]        = 'email_user_ganda';
-                $this->periksa['email_user_ganda'] = $this->deteksi_email_user_ganda();
+            // kartu_tempat_lahir atau kartu_alamat berisi null
+            if ($db_error_code == 1138) {
+                $pos1      = strpos($this->session->message_query, 'kartu_tempat_lahir');
+                $pos2      = strpos($this->session->message_query, 'kartu_alamat');
+                $calon_ini = $current_version;
+                if ($pos1 !== false && $pos2 !== false) {
+                    $calon_ini                  = '21.05';
+                    $this->periksa['masalah'][] = 'kartu_alamat';
+                }
+                $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
             }
-            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
 
-        // username user ganda
-        if (! empty($username = $this->deteksi_username_user_ganda())) {
-            $calon_ini                            = '22.02';
-            $this->periksa['masalah'][]           = 'username_user_ganda';
-            $this->periksa['username_user_ganda'] = $username;
-            $calon                                = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
+            $id_pengunjung = ($db_error_code == 1054 && strpos($db_error_message, 'id_pengunjung') !== false);
+            $tipe          = ($db_error_code == 1054 && strpos($db_error_message, 'tipe') !== false);
 
-        // Email penduduk ganda, menyebabkan migrasi 22.02 gagal.
-        if ($db_error_code == 1062) {
-            $pos       = strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE email');
-            $calon_ini = '22.02';
-            if ($pos !== false) {
-                $calon_ini                    = '22.02';
-                $this->periksa['masalah'][]   = 'email_ganda';
-                $this->periksa['email_ganda'] = $this->deteksi_email_ganda();
+            if ($id_pengunjung || $tipe) {
+                $this->perbaiki_anjungan();
             }
-            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+
+            // id_cluster Keluarga beserta anggota keluarganya ada yg null
+            if ($db_error_code == 1138) {
+                $pos       = strpos($this->session->message_query, 'id_cluster');
+                $calon_ini = $current_version;
+                if ($pos !== false) {
+                    $calon_ini                        = '21.07';
+                    $this->periksa['masalah'][]       = 'id_cluster_null';
+                    $this->periksa['id_cluster_null'] = $this->deteksi_id_cluster_null();
+                    $this->periksa['wilayah_pertama'] = $this->wilayah_pertama();
+                }
+                $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+            }
+
+            // NIK penduduk ganda
+            if ($db_error_code == 1062) {
+                $pos       = strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE nik');
+                $calon_ini = $current_version;
+                if ($pos !== false) {
+                    $calon_ini                  = '21.09';
+                    $this->periksa['masalah'][] = 'nik_ganda';
+                    $this->periksa['nik_ganda'] = $this->deteksi_nik_ganda();
+                }
+                $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+            }
+
+            // No KK terlalu panjang
+            if ($db_error_code == 1265 || $db_error_code == 1406) {
+                $pos1 = strpos($db_error_message, "Data too long for column 'no_kk' ");
+                $pos2 = strpos($db_error_message, "Data truncated for column 'no_kk'");
+                log_message('error', $pos2);
+                $calon_ini = $current_version;
+                if ($pos1 !== false || $pos2 !== false) {
+                    log_message('error', 'kk_panjang');
+                    $calon_ini                   = '21.11';
+                    $this->periksa['masalah'][]  = 'kk_panjang';
+                    $this->periksa['kk_panjang'] = $this->deteksi_kk_panjang();
+                }
+                $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+            }
+
+            // email user ganda
+            if ($db_error_code == 1062) {
+                $pos       = strpos($this->session->message_query, 'ALTER TABLE user ADD UNIQUE email');
+                $calon_ini = $current_version;
+                if ($pos !== false) {
+                    $calon_ini                         = '22.02';
+                    $this->periksa['masalah'][]        = 'email_user_ganda';
+                    $this->periksa['email_user_ganda'] = $this->deteksi_email_user_ganda();
+                }
+                $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+            }
+
+            // username user ganda
+            if (! empty($username = $this->deteksi_username_user_ganda())) {
+                $calon_ini                            = '22.02';
+                $this->periksa['masalah'][]           = 'username_user_ganda';
+                $this->periksa['username_user_ganda'] = $username;
+                $calon                                = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+            }
+
+            // Email penduduk ganda, menyebabkan migrasi 22.02 gagal.
+            if ($db_error_code == 1062) {
+                $pos       = strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE email');
+                $calon_ini = '22.02';
+                if ($pos !== false) {
+                    $calon_ini                    = '22.02';
+                    $this->periksa['masalah'][]   = 'email_ganda';
+                    $this->periksa['email_ganda'] = $this->deteksi_email_ganda();
+                }
+                $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+            }
+
+            $zero_date_default_value = $this->deteksi_zero_date_default_value();
+            if (! empty($zero_date_default_value)) {
+                $this->periksa['masalah'][]               = 'zero_date_default_value';
+                $this->periksa['zero_date_default_value'] = $zero_date_default_value;
+            }
+
+            // Error invalid date
+            if (! empty($tabel_invalid_date = $this->deteksi_invalid_date())) {
+                $this->periksa['masalah'][]          = 'tabel_invalid_date';
+                $this->periksa['tabel_invalid_date'] = $tabel_invalid_date;
+            }
+
+            // Error table doesn't exist
+            if ($db_error_code === 1146) {
+                $calon_ini                  = $this->deteksi_table_doesnt_exist($db_error_message);
+                $this->periksa['masalah'][] = 'table_not_exist';
+                $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+            }
+
+            // Deteksi jabatan kades atau sekdes tidak ada
+            if (! empty($jabatan = $this->deteksi_jabatan())) {
+                $this->periksa['masalah'][]    = 'data_jabatan_tidak_ada';
+                $this->periksa['data_jabatan'] = $jabatan;
+            }
         }
 
         // Autoincrement hilang, mungkin karena proses backup/restore yang tidak sempurna
@@ -207,41 +234,27 @@ class Periksa_model extends MY_Model
         if ($db_error_code == 1364) {
             $pos = strpos($db_error_message, "Field 'id' doesn't have a default value");
             if ($pos !== false) {
+                $calon_ini                  = '23.04';
                 $this->periksa['masalah'][] = 'autoincrement';
+                $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
             }
-        }
-
-        $zero_date_default_value = $this->deteksi_zero_date_default_value();
-        if (! empty($zero_date_default_value)) {
-            $this->periksa['masalah'][]               = 'zero_date_default_value';
-            $this->periksa['zero_date_default_value'] = $zero_date_default_value;
-        }
-
-        // Error invalid date
-        if (! empty($tabel_invalid_date = $this->deteksi_invalid_date())) {
-            $this->periksa['masalah'][]          = 'tabel_invalid_date';
-            $this->periksa['tabel_invalid_date'] = $tabel_invalid_date;
-        }
-
-        // Error table doesn't exist
-        if ($db_error_code === 1146) {
-            $calon_ini                  = $this->deteksi_table_doesnt_exist($db_error_message);
-            $this->periksa['masalah'][] = 'table_not_exist';
-            $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
-
-        // Deteksi jabatan kades atau sekdes tidak ada
-        if (! empty($jabatan = $this->deteksi_jabatan())) {
-            $this->periksa['masalah'][]    = 'data_jabatan_tidak_ada';
-            $this->periksa['data_jabatan'] = $jabatan;
         }
 
         // Error collation table
         $collation_table = $this->deteksi_collation_table_tidak_sesuai();
         $error_msg       = strpos($this->session->message_query, 'Illegal mix of collations');
         if (! empty($collation_table) || $error_msg) {
+            $calon_ini                        = '23.04';
             $this->periksa['masalah'][]       = 'collation';
             $this->periksa['collation_table'] = $collation_table;
+            $calon                            = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        // error config_id
+        if ($db_error_code == 1054) {
+            $calon_ini                  = '23.04';
+            $this->periksa['masalah'][] = 'config_id';
+            $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
         }
 
         return $calon;
@@ -282,7 +295,7 @@ class Periksa_model extends MY_Model
 
     private function deteksi_tag_id_ganda()
     {
-        return $this->db
+        return $this->config_id_exist('tweb_penduduk')
             ->select('tag_id_card, COUNT(tag_id_card) as jml')
             ->from('tweb_penduduk')
             ->group_by('tag_id_card')
@@ -294,7 +307,7 @@ class Periksa_model extends MY_Model
     private function deteksi_kode_panjang()
     {
         // Jika di CONCAT akan melebihi panjang yg diperbolehkan untuk kode (16)
-        return $this->db
+        return $this->config_id_exist('kelompok')
             ->select('id, kode')
             ->from('kelompok')
             ->where('CHAR_LENGTH(kode) + CHAR_LENGTH(id) + 1 > 16')
@@ -305,7 +318,7 @@ class Periksa_model extends MY_Model
     private function deteksi_kk_panjang()
     {
         // No KK melebihi 16 karakter
-        return $this->db
+        return $this->config_id_exist('tweb_keluarga')
             ->select('id, no_kk, CHAR_LENGTH(no_kk) AS panjang')
             ->from('tweb_keluarga')
             ->where('CHAR_LENGTH(no_kk) > 16')
@@ -315,7 +328,7 @@ class Periksa_model extends MY_Model
 
     private function deteksi_id_cluster_null()
     {
-        return $this->db
+        return $this->config_id_exist('tweb_keluarga', 'k')
             ->select('no_kk, p.nama')
             ->from('tweb_keluarga k')
             ->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
@@ -326,7 +339,7 @@ class Periksa_model extends MY_Model
 
     private function deteksi_nik_ganda()
     {
-        return $this->db
+        return $this->config_id_exist('tweb_penduduk')
             ->select('nik, COUNT(id) as jml')
             ->from('tweb_penduduk')
             ->group_by('nik')
@@ -337,7 +350,7 @@ class Periksa_model extends MY_Model
 
     private function deteksi_email_ganda()
     {
-        $email = $this->db
+        $email = $this->config_id_exist('tweb_penduduk', 'p')
             ->select('email, COUNT(id) as jml')
             ->from('tweb_penduduk p')
             ->where('email IS NOT NULL')
@@ -358,7 +371,7 @@ class Periksa_model extends MY_Model
 
     private function deteksi_email_user_ganda()
     {
-        return $this->db
+        return $this->config_id_exist('user')
             ->select('email, COUNT(id) as jml')
             ->from('user')
             ->where('email IS NOT NULL')
@@ -370,7 +383,7 @@ class Periksa_model extends MY_Model
 
     private function deteksi_username_user_ganda()
     {
-        return $this->db
+        return $this->config_id_exist('user')
             ->select('username, COUNT(id) as jml')
             ->from('user')
             ->where('username IS NOT NULL')
@@ -382,7 +395,7 @@ class Periksa_model extends MY_Model
 
     private function deteksi_tweb_keluarga_no_kk_ganda()
     {
-        return $this->db
+        return $this->config_id_exist('tweb_keluarga')
             ->select('no_kk, COUNT(id) as jml')
             ->from('tweb_keluarga')
             ->group_by('no_kk')
@@ -400,9 +413,7 @@ class Periksa_model extends MY_Model
 
     private function deteksi_invalid_date()
     {
-        $tabel = [];
-        // Tabel log_penduduk
-
+        $tabel       = [];
         $logPenduduk = LogPenduduk::select('id')
             ->when(Schema::hasColumn('log_penduduk', 'updated_at'), static fn ($query) => $query->addSelect('updated_at'))
             ->when(Schema::hasColumn('log_penduduk', 'created_at'), static fn ($query) => $query->addSelect('created_at')->orWhereDate('created_at', '0000-00-00'))
@@ -449,9 +460,8 @@ class Periksa_model extends MY_Model
         // Cek jabatan kades
         if (Schema::hasTable('ref_jabatan') && ! RefJabatan::find(RefJabatan::KADES)) {
             $jabatan[] = [
-                'id'         => 1,
                 'nama'       => 'Kepala ' . ucwords($this->getSetting('sebutan_desa')),
-                'jenis'      => StatusEnum::YA,
+                'jenis'      => RefJabatan::KADES,
                 'created_by' => $user,
                 'updated_by' => $user,
             ];
@@ -460,9 +470,8 @@ class Periksa_model extends MY_Model
         // Cek jabatan sekdes
         if (Schema::hasTable('ref_jabatan') && ! RefJabatan::find(RefJabatan::SEKDES)) {
             $jabatan[] = [
-                'id'         => 2,
                 'nama'       => 'Sekretaris',
-                'jenis'      => StatusEnum::YA,
+                'jenis'      => RefJabatan::SEKDES,
                 'created_by' => $user,
                 'updated_by' => $user,
             ];
@@ -579,7 +588,7 @@ class Periksa_model extends MY_Model
         $this->session->db_error = null;
 
         // Ulangi migrasi mulai dari migrasi_utk_diulang
-        if (! $this->db->table_exists('migrasi')) {
+        if (! $this->db->table_exists('migrasi') && ! $this->field_exists('app_key', 'config')) {
             $this->dbforge->add_field([
                 'id' => [
                     'type'           => 'INT',

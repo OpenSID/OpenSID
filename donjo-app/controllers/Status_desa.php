@@ -44,7 +44,6 @@ class Status_desa extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('data_publik');
         $this->modul_ini          = 'info-desa';
         $this->sub_modul_ini      = 'status-desa';
         $this->header['kategori'] = 'status sdgs';
@@ -61,7 +60,7 @@ class Status_desa extends Admin_Controller
 
     private function idm()
     {
-        $tahun = session('tahun') ?? ($this->input->post('tahun') ?? ($this->setting->tahun_idm) ?? date('Y'));
+        $tahun = session('tahun') ?? ($this->input->post('tahun') ?? (setting('tahun_idm')) ?? date('Y'));
 
         $data = [
             'tahun' => (int) $tahun,
@@ -111,10 +110,12 @@ class Status_desa extends Admin_Controller
     {
         set_session('navigasi', 'sdgs');
 
-        $sdgs      = sdgs();
-        $kode_desa = $this->header['desa']['kode_desa'];
+        $data = [
+            'sdgs'      => sdgs(),
+            'kode_desa' => $this->header['desa']['kode_desa'],
+        ];
 
-        return view('admin.status_desa.sdgs', compact('sdgs', 'kode_desa'));
+        return view('admin.status_desa.sdgs', $data);
     }
 
     public function perbarui_bps()

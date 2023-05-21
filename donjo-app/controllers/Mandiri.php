@@ -103,7 +103,8 @@ class Mandiri extends Admin_Controller
         $data['penduduk'] = $this->mandiri_model->list_penduduk();
 
         if ($id_pend) {
-            $data['id_pend']     = $id_pend;
+            $cek                 = $this->mandiri_model->get_penduduk($id_pend) ?? show_404();
+            $data['id_pend']     = $cek['id'];
             $data['form_action'] = site_url("{$this->controller}/update/{$id_pend}");
         } else {
             $data['id_pend']     = null;
@@ -120,7 +121,7 @@ class Mandiri extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $data['form_action'] = site_url("{$this->controller}/ubah_hp/{$id_pend}");
-        $data['penduduk']    = $this->mandiri_model->get_penduduk($id_pend);
+        $data['penduduk']    = $this->mandiri_model->get_penduduk($id_pend) ?? show_404();
 
         $this->load->view('mandiri/ajax_hp', $data);
     }
@@ -142,7 +143,8 @@ class Mandiri extends Admin_Controller
 
         $post          = $this->input->post();
         $pilihan_kirim = $post['pilihan_kirim'];
-        $data          = $this->db->from('tweb_penduduk')->select('telegram, email, nama')->where('id', $id_pend)->get()->row();
+        // TODO: Sederhanakan query ini, pindahkan ke model
+        $data = $this->db->from('tweb_penduduk')->select('telegram, email, nama')->where('config_id', identitas('id'))->where('id', $id_pend)->get()->row();
 
         switch (true) {
             case $pilihan_kirim == 'kirim_telegram':
@@ -165,7 +167,8 @@ class Mandiri extends Admin_Controller
         $this->db->trans_begin();
 
         try {
-            $outp = $this->db->where('id_pend', $id_pend)->set('aktif', true)->update('tweb_penduduk_mandiri');
+            // TODO: Sederhanakan query ini, pindahkan ke model
+            $outp = $this->db->where('config_id', identitas('id'))->where('id_pend', $id_pend)->set('aktif', true)->update('tweb_penduduk_mandiri');
 
             $this->telegram->sendMessage([
                 'chat_id' => $data->telegram,
@@ -200,7 +203,8 @@ class Mandiri extends Admin_Controller
         $this->db->trans_begin();
 
         try {
-            $outp = $this->db->where('id_pend', $id_pend)->set('aktif', true)->update('tweb_penduduk_mandiri');
+            // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
+            $outp = $this->db->where('config_id', identitas('id'))->where('id_pend', $id_pend)->set('aktif', true)->update('tweb_penduduk_mandiri');
 
             $this->email->from($this->email->smtp_user, 'OpenSID')
                 ->to($data->email)
@@ -229,7 +233,10 @@ class Mandiri extends Admin_Controller
     public function ubah_hp($id_pend)
     {
         $this->redirect_hak_akses('u');
-        $outp = $this->db->where('id', $id_pend)
+        // TODO: Sederhanakan query ini, pindahkan ke model
+        $outp = $this->db
+            ->where('config_id', identitas('id'))
+            ->where('id', $id_pend)
             ->set('telepon', bilangan($this->input->post('telepon')))
             ->update('tweb_penduduk');
         status_sukses($outp);

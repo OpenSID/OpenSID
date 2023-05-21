@@ -100,16 +100,17 @@ class Lembaran_desa extends Admin_Controller
     public function form($p = 1, $o = 0, $id = '')
     {
         $this->redirect_hak_akses('u');
-        $data['kat']             = 3;
-        $data['list_kategori']   = $this->web_dokumen_model->list_kategori();
-        $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
-        $data['kat_nama']        = 'Lembaran Desa';
-        $data['kembali_ke']      = site_url("lembaran_desa/index/{$p}/{$o}");
 
         if ($id) {
-            $data['dokumen']     = $this->web_dokumen_model->get_dokumen($id);
+            $data['dokumen']     = $this->web_dokumen_model->get_dokumen($id) ?? show_404();
             $data['form_action'] = site_url("lembaran_desa/update/{$id}/{$p}/{$o}");
         }
+
+        $data['kat']             = 3;
+        $data['kat_nama']        = 'Lembaran Desa';
+        $data['kembali_ke']      = site_url("lembaran_desa/index/{$p}/{$o}");
+        $data['list_kategori']   = $this->web_dokumen_model->list_kategori();
+        $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
 
         $this->render('dokumen/form', $data);
     }

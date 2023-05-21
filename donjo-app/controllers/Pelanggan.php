@@ -186,6 +186,17 @@ class Pelanggan extends Admin_Controller
                     return json_decode(json_encode($this->request), false);
                 }, 'status_langganan', 24 * 60 * 60);
 
+                // TODO: Sederhanakan query ini, pindahkan ke model
+                if (cek_anjungan()) {
+                    $this->db
+                        ->set(['status' => '1'])
+                        ->where('config_id', identitas('id'))
+                        ->where('tipe', '1')
+                        ->where('status', '0')
+                        ->where('status_alasan', 'tidak berlangganan anjungan')
+                        ->update('anjungan');
+                }
+
                 return json([
                     'status'  => true,
                     'message' => 'Token berhasil tersimpan',

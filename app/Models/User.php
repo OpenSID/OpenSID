@@ -37,11 +37,15 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 // class User extends Authenticatable implements JWTSubject
 class User extends BaseModel
 {
+    use ConfigId;
+
     // use HasApiTokens;
     // use HasFactory;
     // use Notifiable;

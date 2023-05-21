@@ -256,7 +256,11 @@ class DTKSRegsosEk2022k
         ]);
         $this->splitDTKSForEachKeluarga($dtks);
 
-        $ids_anggota = $dtks->anggota_keluarga_in_rtm[$dtks->id_keluarga]->pluck('id');
+        if ($dtks->anggota_keluarga_in_rtm[$dtks->id_keluarga] == null) {
+            $ids_anggota = collect([]);
+        } else {
+            $ids_anggota = $dtks->anggota_keluarga_in_rtm[$dtks->id_keluarga]->pluck('id');
+        }
 
         // lepas anggota DTKS yg tidak ditemukan di tweb_penduduk status hidup
         $dtks_anggotas = DtksAnggota::whereNotIn('id_penduduk', $ids_anggota)
@@ -414,6 +418,7 @@ class DTKSRegsosEk2022k
 
         try {
             $kode_desa_bps = getKodeDesaFromTrackSID()['bps_kemendagri_desa']['kode_desa_bps'];
+
             if (! $dtks->kode_provinsi || ! $dtks->kode_kabupaten || ! $dtks->kode_kecamatan || ! $dtks->kode_desa) {
                 //  I. Keterangan Tempat
                 $dtks->kode_provinsi  = $kode_desa_bps ? substr($kode_desa_bps, 0, 2) : ''; // 101
@@ -433,6 +438,7 @@ class DTKSRegsosEk2022k
             $data['dtks_desa'] = '';
             log_message('error', $th);
         }
+
         $data['bulan']          = bulan();
         $data['tahun_awal']     = 2005; //dipakai: form Periode Terakhir Mendapatkan Program, dll
         $data['pilihan1']       = Regsosek2022kEnum::pilihanBagian1();

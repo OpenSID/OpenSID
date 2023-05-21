@@ -109,7 +109,7 @@ class Surat_masuk extends Admin_Controller
         $data['o']           = $o;
 
         if ($id) {
-            $data['surat_masuk']           = $this->surat_masuk_model->get_surat_masuk($id);
+            $data['surat_masuk']           = $this->surat_masuk_model->get_surat_masuk($id) ?? show_404();
             $data['form_action']           = site_url("surat_masuk/update/{$p}/{$o}/{$id}");
             $data['disposisi_surat_masuk'] = DisposisiSuratmasuk::where('id_surat_masuk', $id)->pluck('disposisi_ke')->toArray();
         } else {

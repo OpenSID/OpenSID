@@ -82,6 +82,10 @@ class MY_Form_validation extends CI_Form_validation
             $row = $row->where("{$ignoreField} !=", $ignoreValue);
         }
 
+        if ($this->CI->db->field_exists('config_id', $table)) {
+            $row = $row->where('config_id', identitas('id'));
+        }
+
         return $row->get()->row() === null;
     }
 }

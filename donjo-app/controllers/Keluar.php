@@ -36,6 +36,7 @@
  */
 
 use App\Models\Dokumen;
+use App\Models\FormatSurat;
 use App\Models\LogSurat;
 use App\Models\LogTolak;
 use App\Models\Penduduk;
@@ -223,14 +224,14 @@ class Keluar extends Admin_Controller
 
         switch ($this->isAdmin->jabatan_id) {
             // verifikasi kades
-            case 1:
+            case kades()->id:
                 $current = 'verifikasi_kades';
-                $next    = (setting('tte') && ! in_array($surat->formatSurat->jenis, ['1', '2'])) ? 'tte' : null;
+                $next    = (setting('tte') && ! in_array($surat->formatSurat->jenis, FormatSurat::RTF)) ? 'tte' : null;
                 $log     = (setting('tte')) ? 'TTE' : null;
                 break;
 
                 // verifikasi sekdes
-            case 2:
+            case sekdes()->id:
                 $current = 'verifikasi_sekdes';
                 $next    = setting('verifikasi_kades') ? 'verifikasi_kades' : null;
                 $log     = 'Verifikasi ' . $ref_jabatan_kades;
@@ -267,10 +268,10 @@ class Keluar extends Admin_Controller
 
             $kirim_telegram = User::whereHas('pamong', static function ($query) use ($next) {
                 if ($next == 'verifikasi_sekdes') {
-                    return $query->where('pamong_ub', '=', '1');
+                    return $query->where('jabatan_id', '=', sekdes()->id)->where('pamong_ttd', '=', '1');
                 }
                 if ($next == 'verifikasi_kades') {
-                    return $query->where('pamong_ttd', '=', '1');
+                    return $query->where('jabatan_id', '=', kades()->id);
                 }
             })->where('notif_telegram', '=', '1')->first();
 
@@ -322,6 +323,7 @@ class Keluar extends Admin_Controller
 
             // create log tolak
             LogTolak::create([
+                'config_id'  => identitas('id'),
                 'keterangan' => $alasan,
                 'id_surat'   => $id,
                 'created_by' => $this->session->user,
@@ -493,7 +495,7 @@ class Keluar extends Admin_Controller
         if ($this->input->post('nik')) {
             $id = $this->input->post('nik');
         } elseif ($nik) {
-            $id = $this->db->select('id')->get_where('penduduk_hidup', ['nik' => $nik])->row()->id;
+            $id = $this->db->select('id')->get_where('penduduk_hidup', ['nik' => $nik, 'config_id' => identitas('id')])->row()->id;
         }
 
         if ($id) {
@@ -563,8 +565,8 @@ class Keluar extends Admin_Controller
         $data['aksi']           = $aksi;
         $data['input']          = $this->input->post();
         $data['config']         = $this->header['desa'];
-        $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+        $data['pamong_ttd']     = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
         $data['desa']           = $this->header['desa'];
         $data['main']           = $this->keluar_model->list_data();
 
@@ -635,9 +637,11 @@ class Keluar extends Admin_Controller
         }
     }
 
+    // TODO: OpenKab - Cek ORM ini
     public function perbaiki()
     {
-        $this->db->update('log_surat', ['status' => LogSurat::CETAK, 'verifikasi_operator' => 1, 'verifikasi_sekdes' => 1, 'verifikasi_kades' => 1]);
+        LogSurat::where('config_id', identitas('id'))->update(['status' => LogSurat::CETAK, 'verifikasi_operator' => 1, 'verifikasi_sekdes' => 1, 'verifikasi_kades' => 1]);
+
         redirect('keluar');
     }
 

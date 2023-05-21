@@ -2,7 +2,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box-header with-border">
-                                <h3 class="box-title"><strong>Backup Database SID</strong></h3>
+                                <h3 class="box-title"><strong>Backup SID</strong></h3>
                             </div>
                             <div class="box-body">
                                 <div class="row">
@@ -27,12 +27,14 @@
                                         <form class="form-horizontal">
                                             <table class="table table-bordered">
                                                 <tbody>
+                                                    <?php if (! setting('multi_desa')): ?>
                                                     <tr>
                                                         <td class="col-sm-10"><b>Backup Seluruh Database SID (.sql)</b></td>
                                                         <td class="col-sm-2">
                                                             <a href="<?= site_url('database/exec_backup')?>" class="btn btn-social btn-flat btn-block btn-info btn-sm" title="Perkiraan ukuran file backup sql berdasarkan jumlah tabel dan baris data adalah <?= $size_sql ?>"><i class="fa fa-download"></i> Unduh Database <b><code><?= $size_sql ?></code></b></a>
                                                         </td>
                                                     </tr>
+                                                    <?php endif ?>
                                                     <tr>
                                                         <td class="col-sm-10"><b>Backup Seluruh Folder Desa SID (.zip)</b> </td>
                                                         <td class="col-sm-2">
@@ -78,6 +80,8 @@
                             </div>
                         </div>
                         <?php if (can('u') && ! config_item('demo_mode')): ?>
+
+                            <?php if (! setting('multi_desa')): ?>
                             <div class="col-md-12">
                                 <div class="box-header with-border">
                                     <h3 class="box-title"><strong>Restore Database SID</strong></h3>
@@ -118,7 +122,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <?php endif ?>
 
                             <div class="col-md-12">
                                 <div class="box-header with-border">

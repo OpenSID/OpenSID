@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class LogPenduduk extends BaseModel
 {
+    use ConfigId;
+
     /**
      * KETERANGAN kode_peristiwa di log_penduduk
      * 1 = insert penduduk baru dengan status lahir

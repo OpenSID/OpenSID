@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\Author;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -58,6 +59,7 @@ class Config extends BaseModel
      * @var array
      */
     protected $fillable = [
+        'app_key',
         'nama_desa',
         'kode_desa',
         'kode_pos',
@@ -105,6 +107,15 @@ class Config extends BaseModel
     ];
 
     /**
+     * The hidden with the model.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'app_key',
+    ];
+
+    /**
      * Getter untuk nip kepala desa dari pengurus
      *
      * @return string
@@ -126,7 +137,7 @@ class Config extends BaseModel
 
     public function pamong()
     {
-        return Pamong::kepalaDesa()->first();
+        return Pamong::select('pamong_nip', 'pamong_nama')->kepalaDesa()->first();
     }
 
     /**
@@ -159,5 +170,38 @@ class Config extends BaseModel
         }
 
         return $this->attributes['kantor_desa'];
+    }
+
+    public function scopeAppKey($query)
+    {
+        if (Schema::hasColumn($this->table, 'app_key')) {
+            $query->where('app_key', get_app_key());
+        }
+
+        return $query;
+    }
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(static function ($model) {
+            $model->app_key = get_app_key();
+        });
+
+        static::updating(static function ($model) {
+            static::clearCache();
+        });
+    }
+
+    // Hapus cache config dan modul
+    private static function clearCache()
+    {
+        hapus_cache('identitas_desa');
+        hapus_cache('_cache_modul');
     }
 }

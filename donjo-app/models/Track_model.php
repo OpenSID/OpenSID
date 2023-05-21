@@ -37,7 +37,6 @@
 
 use App\Models\Artikel;
 use App\Models\BantuanPeserta;
-use App\Models\Config;
 use App\Models\Dokumen;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
@@ -56,7 +55,7 @@ class Track_model extends CI_Model
 
     public function track_desa($dari)
     {
-        if ($this->setting->enable_track == false) {
+        if ($this->setting->enable_track == false || null === identitas()) {
             return;
         }
         // Track web dan admin masing2 maksimum sekali sehari
@@ -100,7 +99,7 @@ class Track_model extends CI_Model
             }
         }
 
-        $config = Config::first();
+        $config = identitas();
 
         $desa = [
             'nama_desa'           => $config->nama_desa,
@@ -160,6 +159,7 @@ class Track_model extends CI_Model
                 $notif['aksi']       = $notif['aksi_ya'] . ',' . $notif['aksi_tidak'];
 
                 $this->notif_model->insert_notif([
+                    'config_id'      => identitas('id'),
                     'kode'           => $notif['kode'],
                     'judul'          => $notif['judul'],
                     'jenis'          => $notif['jenis'],

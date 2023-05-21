@@ -108,8 +108,10 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
     {
         $this->filter();
 
+        // TODO: OpenKAB - Tambahkan config_id
         // Ambil data sasaran penduduk
-        $this->db->select('u.id, u.nama')
+        $this->db
+            ->select('u.id, u.nama')
             ->select('u.*, COUNT(pp.peserta) as jumlah')
             ->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
             ->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
@@ -118,6 +120,10 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('u.sasaran', '1')
+            ->group_start()
+            ->where('u.config_id', identitas('id'))
+            ->or_where('u.config_id', null)
+            ->group_end()
             ->group_by('u.id');
 
         return true;
@@ -145,6 +151,10 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('u.sasaran', '1')
+            ->group_start()
+            ->where('u.config_id', identitas('id'))
+            ->or_where('u.config_id', null)
+            ->group_end()
             ->get()
             ->row_array();
     }
@@ -175,6 +185,10 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('u.sasaran', '2')
+            ->group_start()
+            ->where('u.config_id', identitas('id'))
+            ->or_where('u.config_id', null)
+            ->group_end()
             ->group_by('u.id');
 
         return true;
@@ -202,6 +216,10 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('u.sasaran', '2')
+            ->group_start()
+            ->where('u.config_id', identitas('id'))
+            ->or_where('u.config_id', null)
+            ->group_end()
             ->get()
             ->row_array();
     }
@@ -249,6 +267,7 @@ class Bantuan_penduduk extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('pp.program_id', $this->program_id)
+            ->where('pp.config_id', identitas('id'))
             ->get()
             ->row_array();
     }
@@ -295,6 +314,7 @@ class Bantuan_keluarga extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('pp.program_id', $this->program_id)
+            ->where('pp.config_id', identitas('id'))
             ->get()
             ->row_array();
     }
@@ -327,6 +347,7 @@ class Bantuan_rumah_tangga extends Statistik_penduduk_model
             ->from('tweb_rtm r')
             ->join('penduduk_hidup p', 'r.nik_kepala = p.id')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
+            ->where('r.config_id', identitas('id'))
             ->get()
             ->row_array();
     }
@@ -343,6 +364,7 @@ class Bantuan_rumah_tangga extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'r.nik_kepala = p.id', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('pp.program_id', $this->program_id)
+            ->where('pp.config_id', identitas('id'))
             ->get()
             ->row_array();
     }
@@ -376,6 +398,7 @@ class Bantuan_kelompok extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'k.id_ketua = p.id', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('k.tipe', 'kelompok')
+            ->where('k.config_id', identitas('id'))
             ->get()
             ->row_array();
     }
@@ -393,6 +416,7 @@ class Bantuan_kelompok extends Statistik_penduduk_model
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('k.tipe', 'kelompok')
             ->where('pp.program_id', $this->program_id)
+            ->where('pp.config_id', identitas('id'))
             ->get()
             ->row_array();
     }

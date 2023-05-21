@@ -71,7 +71,7 @@ class Stunting extends Admin_Controller
     public function datatablesPosyandu()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(Posyandu::query())
+            return datatables()->of(Posyandu::withConfigId())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
