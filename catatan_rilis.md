@@ -45,10 +45,16 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 20. [#6665](https://github.com/OpenSID/OpenSID/issues/6665) Penyesuaian validasi grup pengguna pada saat buat key opendk agar tidak membingungkan pengguna.
 21. [#6635](https://github.com/OpenSID/OpenSID/issues/6635) Perbaikan timeout ketika import data penduduk jika jumlah penduduk cukup besar.
 22. [#6655](https://github.com/OpenSID/OpenSID/issues/6655) Hapus data palsu pada seeder pemasangan awal.
-23. [#6656](https://github.com/OpenSID/OpenSID/issues/6656) Perbaikan validasi simpan nama pengguna pada halaman profil penggu.
+23. [#6656](https://github.com/OpenSID/OpenSID/issues/6656) Perbaikan validasi simpan nama pengguna pada halaman profil pengguna.
+24. [#6585](https://github.com/OpenSID/OpenSID/issues/6585) Perbaikan data keperluan tidak tersimpan saat lakukan registrasi pada buku tamu.
+25. [#6672](https://github.com/OpenSID/OpenSID/issues/6672) Perbaikan input tanggal pada form modul pengurus.
+26. [#6671](https://github.com/OpenSID/OpenSID/issues/6671) Perbaikan kolom tahun pada lampiran F-2.01.
+27. [#6662](https://github.com/OpenSID/OpenSID/issues/6662) Perbaikan ambil data IDM yang tersimpan pada cache.
+28. [#6660](https://github.com/OpenSID/OpenSID/issues/6660) Penyesuaian tampilan detail kotak masuk dan keluar pada kotak pesan layanan mandiri.
 
 #### Perubahan Teknis
 
-1. [#6605](https://github.com/OpenSID/OpenSID/issues/6605) Sesuaikan jumlah data tampailan pagging pada halaman Pendataan penerima vaksin covid-19.
-2. [#6609](https://github.com/OpenSID/OpenSID/issues/6609) Sesuaikan jumlah data tampailan pagging pada halaman input data sensus/survei.
-3. [#6456](https://github.com/OpenSID/OpenSID/issues/6456) Sesuaikan migrasi berulang pada pengubahan kolom id_telegram pada tabel user.
+1. [#6605](https://github.com/OpenSID/OpenSID/issues/6605) Penyesuaian jumlah data tampailan pagging pada halaman Pendataan penerima vaksin covid-19.
+2. [#6609](https://github.com/OpenSID/OpenSID/issues/6609) Penyesuaian jumlah data tampailan pagging pada halaman input data sensus/survei.
+3. [#6456](https://github.com/OpenSID/OpenSID/issues/6456) Penyesuaian migrasi berulang pada pengubahan kolom id_telegram pada tabel user.
+4. [#6670](https://github.com/OpenSID/OpenSID/issues/6670) Penyesuaian informasi pada notifikasi error.

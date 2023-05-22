@@ -1,4 +1,5 @@
 @extends('admin.layouts.index')
+@include('admin.layouts.components.datetime_picker')
 @include('admin.layouts.components.asset_validasi')
 
 @php $pemerintah = 'Staf ' . ucwords(setting('sebutan_pemerintah_desa')) @endphp

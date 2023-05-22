@@ -293,7 +293,7 @@
             <?= kotak(date('mm', strtotime($input['tanggal_perkawinan'])), 2); ?>
             <td>Thn</td>
             <td class="kanan">:</td>
-            <?= kotak(date('Y', strtotime($input['tanggal_perkawinan'])), 2); ?>
+            <?= kotak(date('Y', strtotime($input['tanggal_perkawinan'])), 4); ?>
         </tr>
         <tr>
             <td colspan="21">Kewarganegaraan</td>
@@ -326,7 +326,7 @@
             <?= kotak(date('mm', strtotime($input['tanggal_lahir_ibu'])), 2); ?>
             <td>Thn</td>
             <td class="kanan">:</td>
-            <?= kotak(date('Y', strtotime($input['tanggal_lahir_ibu'])), 2); ?>
+            <?= kotak(date('Y', strtotime($input['tanggal_lahir_ibu'])), 4); ?>
         </tr>
         <tr>
             <td colspan="21">Kewarganegaraan</td>
@@ -394,7 +394,7 @@
             <?= kotak(date('mm', strtotime($input['tanggallahir'])), 2); ?>
             <td>Thn</td>
             <td class="kanan">:</td>
-            <?= kotak(date('Y', strtotime($input['tanggallahir'])), 2); ?>
+            <?= kotak(date('Y', strtotime($input['tanggallahir'])), 4); ?>
         </tr>
         <tr>
             <td>6.</td>

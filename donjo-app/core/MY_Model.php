@@ -70,7 +70,7 @@ class MY_Model extends CI_Model
     {
         parent::__construct();
 
-        $this->load->driver('cache');
+        $this->load->driver('cache', ['adapter' => 'file', 'backup' => 'dummy']);
         $this->load->dbforge();
         $this->config_id = Config::appKey()->first()->id;
     }
