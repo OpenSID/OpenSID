@@ -40,11 +40,8 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="id_kepala">NIK / Nama Kepala RW</label>
                         <div class="col-sm-7">
-                            <select class="form-control select2" style="width: 100%;" id="id_kepala" name="id_kepala">
+                            <select class="form-control select2 select2-infinite" data-url="wilayah/apipendudukwilayah" style="width: 100%;" id="id_kepala" name="id_kepala">
                                 <option selected="selected">-- Silakan Masukan NIK / Nama--</option>
-                                <?php foreach ($penduduk as $data): ?>
-                                    <option value="<?= $data['id']?>">NIK :<?= $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['dusun']?></option>
-                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>

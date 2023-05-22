@@ -234,7 +234,6 @@ class Wilayah extends Admin_Controller
         $data_dusun       = $this->wilayah_model->cluster_by_id($id_dusun);
         $data['dusun']    = $data_dusun['dusun'];
         $data['id_dusun'] = $id_dusun;
-        $data['penduduk'] = $this->wilayah_model->list_penduduk();
 
         if ($id_rw) {
             $data_rw             = $this->wilayah_model->cluster_by_id($id_rw);

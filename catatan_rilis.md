@@ -21,6 +21,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 15. [#6652](https://github.com/OpenSID/OpenSID/issues/6652) Menambahkan Infinite scroll klasifikasi surat.
 16. [#6251](https://github.com/OpenSID/OpenSID/issues/6251) Menggabungkan OpenSID database gabungan.
 17. [#6666](https://github.com/OpenSID/OpenSID/issues/6666) Menambahkan Infinite scroll pada tambah data dusun.
+18. [#6667](https://github.com/OpenSID/OpenSID/issues/6667) Menambahkan Infinite scroll pada tambah data RW.
 
 #### Perbaikan BUG
 
