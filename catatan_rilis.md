@@ -28,7 +28,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 22. [#6655](https://github.com/OpenSID/OpenSID/issues/6655) Hapus data palsu pada seeder pemasangan awal.
 23. [#6656](https://github.com/OpenSID/OpenSID/issues/6656) Perbaikan validasi simpan nama pengguna pada halaman profil pengguna.
 24. [#6585](https://github.com/OpenSID/OpenSID/issues/6585) Perbaikan data keperluan tidak tersimpan saat lakukan registrasi pada buku tamu.
-
+25. [#6672](https://github.com/OpenSID/OpenSID/issues/6672) Perbaikan input tanggal pada form modul pengurus.
 
 #### Perubahan Teknis
 
