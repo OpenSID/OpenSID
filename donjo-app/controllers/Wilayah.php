@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Penduduk;
 use App\Models\Wilayah as WilayahModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -106,7 +107,6 @@ class Wilayah extends Admin_Controller
     public function form($id_dusun = '')
     {
         $this->redirect_hak_akses('u');
-        $data['penduduk'] = $this->wilayah_model->list_penduduk();
 
         if ($id_dusun) {
             $data['dusun']       = WilayahModel::with('kepala')->find($id_dusun) ?? show_404();
@@ -117,6 +117,37 @@ class Wilayah extends Admin_Controller
         }
 
         $this->render('sid/wilayah/wilayah_form', $data);
+    }
+
+    public function apipendudukwilayah()
+    {
+        if ($this->input->is_ajax_request()) {
+            $cari   = $this->input->get('q');
+            $kepala = WilayahModel::pluck('id_kepala')->filter(static function ($value) { return null !== $value; });
+
+            $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
+                ->when($cari, static function ($query) use ($cari) {
+                    $query->orWhere('nik', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%");
+                })
+                ->whereNotIn('id', $kepala)
+                ->paginate(10);
+
+            return json([
+                'results' => collect($penduduk->items())
+                    ->map(static function ($item) {
+                        return [
+                            'id'   => $item->id,
+                            'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
+                        ];
+                    }),
+                'pagination' => [
+                    'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+                ],
+            ]);
+        }
+
+        return show_404();
     }
 
     public function search()

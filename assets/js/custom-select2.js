@@ -223,4 +223,29 @@ $(document).ready(function()
 			return markup;
 		},
 	});
+	
+	// Select2 infinite scroll
+	$('.select2-infinite').select2({
+		ajax: {
+			url: function () {
+				return SITE_URL + $(this).data('url');
+			},
+			dataType: 'json',
+			data: function(params) {
+				return {
+					q: params.term || '',
+					page: params.page || 1,
+				};
+			},
+			cache: true
+		},
+		placeholder: function() {
+			$(this).data('placeholder');
+		},
+		minimumInputLength: 0,
+		allowClear: true,
+		escapeMarkup: function(markup) {
+			return markup;
+		},
+	});
 });
