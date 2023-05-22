@@ -68,7 +68,7 @@ class MY_Model extends CI_Model
     {
         parent::__construct();
 
-        $this->load->driver('cache');
+        $this->load->driver('cache', ['adapter' => 'file', 'backup' => 'dummy']);
         $this->load->dbforge();
     }
 
@@ -77,10 +77,11 @@ class MY_Model extends CI_Model
         if ($cari) {
             $this->db->like($kolom, $cari);
         }
-        $data = $this->db->distinct()->
-            select($kolom)->
-            order_by($kolom)->
-            get($tabel)->result_array();
+        $data = $this->db->distinct()
+            ->select($kolom)
+            ->order_by($kolom)
+            ->get($tabel)
+            ->result_array();
 
         return autocomplete_data_ke_str($data);
     }
