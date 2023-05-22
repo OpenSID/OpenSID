@@ -76,7 +76,7 @@
                                     <td width="5%">
                                         {{ \App\Enums\JenisKelaminEnum::all()[$tamu->jenis_kelamin] }}</td>
                                     <td>{{ $tamu->alamat }}</td>
-                                    <td>{{ $tamu->keperluan->keperluan }}</td>
+                                    <td>{{ $tamu->keperluan }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

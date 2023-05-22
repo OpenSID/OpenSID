@@ -26,7 +26,9 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 20. [#6665](https://github.com/OpenSID/OpenSID/issues/6665) Penyesuaian validasi grup pengguna pada saat buat key opendk agar tidak membingungkan pengguna.
 21. [#6635](https://github.com/OpenSID/OpenSID/issues/6635) Perbaikan timeout ketika import data penduduk jika jumlah penduduk cukup besar.
 22. [#6655](https://github.com/OpenSID/OpenSID/issues/6655) Hapus data palsu pada seeder pemasangan awal.
-23. [#6656](https://github.com/OpenSID/OpenSID/issues/6656) Perbaikan validasi simpan nama pengguna pada halaman profil penggu.
+23. [#6656](https://github.com/OpenSID/OpenSID/issues/6656) Perbaikan validasi simpan nama pengguna pada halaman profil pengguna.
+24. [#6585](https://github.com/OpenSID/OpenSID/issues/6585) Perbaikan data keperluan tidak tersimpan saat lakukan registrasi pada buku tamu.
+
 
 #### Perubahan Teknis
 

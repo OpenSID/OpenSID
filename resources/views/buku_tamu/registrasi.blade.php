@@ -80,7 +80,7 @@
                         <div class="col-input">
                             <div class="form-group">
                                 <label>Keperluan</label>
-                                <select name="keperluan" class="form-control form-select select2" data-bs-placeholder="Keperluan" required>
+                                <select name="id_keperluan" class="form-control form-select select2" data-bs-placeholder="Keperluan" required>
                                     <option label="Pilih" value="">Keperluan</option>
                                     @foreach ($keperluan as $key => $value)
                                     <option value="{{ $key }}">{{ $value }}</option>
