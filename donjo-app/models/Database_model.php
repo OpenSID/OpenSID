@@ -3529,6 +3529,10 @@ class Database_model extends MY_Model
     // TODO: Sederhanakan cara ini dengan membuat library
     protected function validasi()
     {
+        if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {
+            return true;
+        }
+
         if (empty($token = $this->setting->layanan_opendesa_token)) {
             log_message('notice', 'Token pelanggan kosong / tidak valid.');
 
