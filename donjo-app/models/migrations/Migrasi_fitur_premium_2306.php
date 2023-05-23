@@ -46,11 +46,22 @@ class Migrasi_fitur_premium_2306 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2305');
 
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023052351($hasil);
     }
 
-    protected function migrasi_xxxxxxxxxx($hasil)
+    protected function migrasi_2023052351($hasil)
     {
-        return $hasil;
+        if (! $this->db
+            ->where('id', 63)
+            ->where('modul', 'Klasfikasi Surat')
+            ->get('setting_modul')
+            ->result()
+        ) {
+            return $hasil;
+        }
+
+        return $hasil && $this->ubah_modul(63, [
+            'modul' => 'Klasifikasi Surat',
+        ]);
     }
 }
