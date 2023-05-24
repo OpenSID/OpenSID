@@ -236,19 +236,26 @@ class Web_kategori_model extends MY_Model
 
     public function list_sub_kategori($kategori = 1)
     {
-        $data = $this->config_id(null, true)
-            ->where('parrent', $kategori)
-            ->order_by('urut')
-            ->get('kategori')
-            ->result_array();
+        // cek apakah parrent ada
+        $ada = $this->config_id(null, true)->where('id', $kategori)->get('kategori')->num_rows();
 
-        if (count($data) > 0) {
-            for ($i = 0; $i < count($data); $i++) {
-                $data[$i]['no']    = $i + 1;
-                $data[$i]['aktif'] = StatusEnum::valueOf($data[$i]['enabled']);
+        if ($ada > 0) {
+            $data = $this->config_id(null, true)
+                ->where('parrent', $kategori)
+                ->order_by('urut')
+                ->get('kategori')
+                ->result_array();
+
+            if (count($data) > 0) {
+                for ($i = 0; $i < count($data); $i++) {
+                    $data[$i]['no']    = $i + 1;
+                    $data[$i]['aktif'] = StatusEnum::valueOf($data[$i]['enabled']);
+                }
+
+                return $data;
             }
 
-            return $data;
+            return [];
         }
 
         return null;
