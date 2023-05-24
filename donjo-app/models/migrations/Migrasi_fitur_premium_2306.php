@@ -51,6 +51,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $hasil = $hasil && $this->migrasi_tabel($hasil);
         $hasil = $hasil && $this->migrasi_data($hasil);
         $hasil = $hasil && $this->migrasi_2023052451($hasil);
+        $hasil = $hasil && $this->migrasi_2023052452($hasil);
 
         return $hasil && true;
     }
@@ -103,5 +104,15 @@ class Migrasi_fitur_premium_2306 extends MY_model
         return $hasil && $this->ubah_modul(63, [
             'modul' => 'Klasifikasi Surat',
         ]);
+    }
+
+    protected function migrasi_2023052452($hasil)
+    {
+        // migrasi index log_penduduk
+        $hasil = $hasil && $this->tambahIndeks('log_penduduk', 'config_id', 'INDEX');
+        $hasil = $hasil && $this->tambahIndeks('log_penduduk', 'id_pend', 'INDEX');
+        $hasil = $hasil && $this->tambahIndeks('log_penduduk', 'kode_peristiwa', 'INDEX');
+
+        return $hasil && $this->tambahIndeks('log_penduduk', 'tgl_peristiwa', 'INDEX');
     }
 }
