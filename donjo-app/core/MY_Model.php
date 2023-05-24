@@ -211,21 +211,26 @@ class MY_Model extends CI_Model
     }
 
     /**
-     * TODO:: OpenKAB - Cara ini perlu diganti untuk keperluan OpenKAB dengan menggunakan slug.
      * Ubah modul setting menu.
+     *
+     * @param mixed $where
      *
      * @return bool
      */
-    public function ubah_modul(int $id, array $modul)
+    public function ubah_modul($where, array $modul)
     {
-        $hasil = $this->db
-            ->where('id', $id)
-            ->update('setting_modul', $modul);
+        if (is_array($where)) {
+            $this->db->where($where);
+        } else {
+            $this->db->where('id', $where);
+        }
+
+        $this->db->update('setting_modul', $modul);
 
         // Hapus cache menu navigasi
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
-        return $hasil;
+        return true;
     }
 
     public function tambah_setting($setting, $config_id = null)

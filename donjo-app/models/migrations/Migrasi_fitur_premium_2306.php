@@ -70,13 +70,13 @@ class Migrasi_fitur_premium_2306 extends MY_model
         }
 
         // Migrasi tanpa config_id
+        $hasil = $hasil && $this->migrasi_2023052451($hasil);
+
         return $hasil && $this->migrasi_2023052453($hasil);
     }
 
     protected function migrasi_2023052351($hasil, $id)
     {
-        log_message('notice', __FUNCTION__);
-
         $setting = [
             'judul'      => 'Warna Tema',
             'key'        => 'warna_tema',
@@ -93,18 +93,9 @@ class Migrasi_fitur_premium_2306 extends MY_model
 
     protected function migrasi_2023052451($hasil)
     {
-        if (! $this->db
-            ->where('slug', 'klasfikasi-surat')
-            ->where('modul', 'Klasfikasi Surat')
-            ->get('setting_modul')
-            ->result()) {
-            return $hasil;
-        }
+        $hasil && $this->ubah_modul(['modul' => 'Klasfikasi Surat'], ['modul' => 'Klasifikasi Surat']);
 
-        return $hasil && $this->ubah_modul(63, [
-            'modul' => 'Klasifikasi Surat',
-            'slug'  => 'klasifikasi-surat',
-        ]);
+        return $hasil && $this->ubah_modul(['slug' => 'klasfikasi-surat'], ['slug' => 'klasifikasi-surat']);
     }
 
     protected function migrasi_2023052452($hasil)

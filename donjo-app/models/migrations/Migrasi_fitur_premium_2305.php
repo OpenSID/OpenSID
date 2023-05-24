@@ -113,7 +113,7 @@ class Migrasi_fitur_premium_2305 extends MY_model
             58  => 'surat-keluar',
             61  => 'inventaris',
             62  => 'peta',
-            63  => 'klasfikasi-surat',
+            63  => 'klasifikasi-surat',
             64  => 'teks-berjalan',
             65  => 'kategori',
             66  => 'log-penduduk',
