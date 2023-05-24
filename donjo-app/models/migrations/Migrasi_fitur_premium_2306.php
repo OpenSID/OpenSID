@@ -72,22 +72,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2023052351($hasil)
-    {
-        if (!$this->db
-            ->where('id', 63)
-            ->where('modul', 'Klasfikasi Surat')
-            ->get('setting_modul')
-            ->result()) {
-            return $hasil;
-        }
-
-        return $hasil && $this->ubah_modul(63, [
-            'modul' => 'Klasifikasi Surat',
-        ]);
-    }
-
-    protected function migrasi_2023052451($hasil, $id)
+    protected function migrasi_2023052351($hasil, $id)
     {
         log_message('notice', __FUNCTION__);
 
@@ -103,5 +88,20 @@ class Migrasi_fitur_premium_2306 extends MY_model
         ];
 
         return $hasil && $this->tambah_setting($setting, $id);
+    }
+
+    protected function migrasi_2023052451($hasil)
+    {
+        if (!$this->db
+            ->where('id', 63)
+            ->where('modul', 'Klasfikasi Surat')
+            ->get('setting_modul')
+            ->result()) {
+            return $hasil;
+        }
+
+        return $hasil && $this->ubah_modul(63, [
+            'modul' => 'Klasifikasi Surat',
+        ]);
     }
 }
