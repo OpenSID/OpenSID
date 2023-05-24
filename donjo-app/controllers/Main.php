@@ -100,21 +100,19 @@ class Main extends CI_Controller
 
                     // no break
                 case $this->user_model->id_grup(UserGrup::OPERATOR):
-                    return json('OPERATOR');
                     redirect('hom_sid');
 
+                    // no break
                 case $this->user_model->id_grup(UserGrup::REDAKSI):
-                    return json('REDAKSI');
                     redirect('web/clear');
 
+                    // no break
                 case $this->user_model->id_grup(UserGrup::KONTRIBUTOR):
-                    return json('KONTRIBUTOR');
                     redirect('web/clear');
 
+                    // no break
                 default:
                     $modul_awal = $this->grup_model->modul_awal($grup);
-
-                    return json('Lainnya');
                     redirect($modul_awal);
             }
         } elseif ($this->setting->offline_mode > 0) {
