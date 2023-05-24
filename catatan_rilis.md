@@ -33,6 +33,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 27. [#6662](https://github.com/OpenSID/OpenSID/issues/6662) Perbaikan ambil data IDM yang tersimpan pada cache.
 28. [#6660](https://github.com/OpenSID/OpenSID/issues/6660) Penyesuaian tampilan detail kotak masuk dan keluar pada kotak pesan layanan mandiri.
 29. [#6641](https://github.com/OpenSID/OpenSID/issues/6641) Penyesuaian nama dan tampilan tabel pada modul klasifikasi surat.
+30. [#6661](https://github.com/OpenSID/OpenSID/issues/6661) Perbaikan hapus kategori yang memiliki sub kategori.
 
 #### Perubahan Teknis
 

@@ -46,7 +46,9 @@ class Migrasi_fitur_premium_2306 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2305');
 
-        return $hasil && $this->migrasi_2023052351($hasil);
+        $hasil = $hasil && $this->migrasi_2023052351($hasil);
+
+        return $hasil && $this->migrasi_2023052451($hasil);
     }
 
     protected function migrasi_2023052351($hasil)
@@ -63,5 +65,21 @@ class Migrasi_fitur_premium_2306 extends MY_model
         return $hasil && $this->ubah_modul(63, [
             'modul' => 'Klasifikasi Surat',
         ]);
+    }
+
+    protected function migrasi_2023052451($hasil)
+    {
+        $result = $this->db
+            ->select('id')
+            ->where('parrent !=', 0)
+            ->where('parrent not in (select id from kategori where parrent = 0)')
+            ->get('kategori')
+            ->result_array();
+
+        if ($result) {
+            $hasil = $hasil && $this->db->where_in('id', collect($result)->pluck('id')->all())->delete('kategori');
+        }
+
+        return $hasil;
     }
 }
