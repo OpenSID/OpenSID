@@ -141,6 +141,7 @@ define('NILAI_PENDAPAT', serialize([
 ]));
 
 use App\Models\RefJabatan;
+use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
@@ -1554,6 +1555,21 @@ if (! function_exists('sekdes')) {
     function sekdes()
     {
         return RefJabatan::getSekdes();
+    }
+}
+
+if (! function_exists('super_admin')) {
+    /**
+     * - Fungsi untuk mengambil id dengan grup superadmin.
+     *
+     * @return int
+     */
+    function super_admin()
+    {
+        $ci = &get_instance();
+        $ci->load->model('user_model');
+
+        return $ci->user_model->get_super_admin();
     }
 }
 

@@ -68,6 +68,7 @@ class UserGrup extends BaseModel
         return self::where('jenis', self::SISTEM)->pluck('id')->toArray();
     }
 
+    // TODO: Ganti nama menjadi slug dan unik
     public function getGrupId($grup_nama)
     {
         return self::where('nama', $grup_nama)->first()->id;

@@ -128,4 +128,18 @@ class User extends BaseModel
     {
         return $query->where('active', $status);
     }
+
+    /**
+     * Scope query untuk super admin
+     *
+     * Super admin tidak terikat dengan status (selalu aktif) dan hanya ada 1 untuk setiap desa
+     *
+     * @param mixed $query
+     *
+     * @return Builder
+     */
+    public function scopeSuperAdmin($query)
+    {
+        return $query->where('id_grup', UserGrup::getGrupId(UserGrup::ADMINISTRATOR))->first();
+    }
 }

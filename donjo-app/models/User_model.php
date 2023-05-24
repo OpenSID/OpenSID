@@ -886,4 +886,15 @@ class User_model extends MY_Model
             return LoginAttempts::where('username', $identity)->where('ip_address', $ip_address)->delete();
         }
     }
+
+    // get super admin
+    public function get_super_admin()
+    {
+        return $this->config_id()
+            ->select('id')
+            ->where('id_grup', $this->user_model->id_grup(UserGrup::ADMINISTRATOR))
+            ->get('user')
+            ->row()
+            ->id;
+    }
 }
