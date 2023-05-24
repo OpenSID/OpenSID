@@ -65,12 +65,9 @@
                 <b>Latar Login Mandiri</b>
             </div>
             <div class="box-body box-profile text-center">
-                <<<<<<< HEAD <img class="img-responsive" src="{{ $latar_mandiri }}" alt="Latar Halaman Login" width="100%">
-                    =======
                     <a href="<?= site_url("setting/ambil_foto?foto={$latar_mandiri[0]}&pengaturan={$latar_mandiri[1]}"); ?>" class="progressive replace">
                         <img class="preview" loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Latar Wesbite" width="100%" />
                     </a>
-                    >>>>>>> rilis-dev
                     <p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
                     <div class="input-group">
                         <input type="text" class="form-control input-sm" id="file_path2" name="latar_login_mandiri" />
