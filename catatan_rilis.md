@@ -54,6 +54,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 26. [#6671](https://github.com/OpenSID/OpenSID/issues/6671) Perbaikan kolom tahun pada lampiran F-2.01.
 27. [#6662](https://github.com/OpenSID/OpenSID/issues/6662) Perbaikan ambil data IDM yang tersimpan pada cache.
 28. [#6660](https://github.com/OpenSID/OpenSID/issues/6660) Penyesuaian tampilan detail kotak masuk dan keluar pada kotak pesan layanan mandiri.
+29. [#6641](https://github.com/OpenSID/OpenSID/issues/6641) Penyesuaian nama dan tampilan tabel pada modul klasifikasi surat.
 
 #### Perubahan Teknis
 
@@ -61,3 +62,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. [#6609](https://github.com/OpenSID/OpenSID/issues/6609) Penyesuaian jumlah data tampailan pagging pada halaman input data sensus/survei.
 3. [#6456](https://github.com/OpenSID/OpenSID/issues/6456) Penyesuaian migrasi berulang pada pengubahan kolom id_telegram pada tabel user.
 4. [#6670](https://github.com/OpenSID/OpenSID/issues/6670) Penyesuaian informasi pada notifikasi error.
+5. [#6631](https://github.com/OpenSID/OpenSID/issues/6631) Penyesuaian backup dan restore database agar konsisten.
