@@ -71,8 +71,9 @@ class Migrasi_fitur_premium_2306 extends MY_model
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023052451($hasil);
+        $hasil = $hasil && $this->migrasi_2023052453($hasil);
 
-        return $hasil && $this->migrasi_2023052453($hasil);
+        return $hasil && $this->migrasi_2023052454($hasil);
     }
 
     protected function migrasi_2023052351($hasil, $id)
@@ -120,6 +121,17 @@ class Migrasi_fitur_premium_2306 extends MY_model
         if ($result) {
             $hasil = $hasil && $this->db->where_in('id', collect($result)->pluck('id')->all())->delete('kategori');
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023052454($hasil)
+    {
+        DB::table('tweb_penduduk_asuransi')
+            ->updateOrInsert(
+                ['id' => 4],
+                ['nama' => 'BPJS Bantuan Daerah']
+            );
 
         return $hasil;
     }

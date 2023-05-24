@@ -24,6 +24,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 18. [#6667](https://github.com/OpenSID/OpenSID/issues/6667) Menambahkan Infinite scroll pada tambah data RW.
 19. [#6668](https://github.com/OpenSID/OpenSID/issues/6668) Menambahkan Infinite scroll pada tambah data RT.
 20. [#6681](https://github.com/OpenSID/OpenSID/issues/6681) Penyesuaian database untuk performa statistik lebih cepat.
+21. [#6644](https://github.com/OpenSID/OpenSID/issues/6644) Penambahan kode asuransi 4 (BPJS Bantuan Daerah).
 
 #### Perbaikan BUG
 

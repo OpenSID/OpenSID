@@ -38,6 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\Penduduk;
+use App\Models\PendudukAsuransi;
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Impor_model extends MY_Model
@@ -146,7 +147,7 @@ class Impor_model extends MY_Model
         $this->kode_cara_kb           = $this->referensi_model->impor_list_data('tweb_cara_kb');
         $this->kode_warganegara       = $this->referensi_model->impor_list_data('tweb_penduduk_warganegara');
         $this->kode_hamil             = $this->referensi_model->impor_list_data('ref_penduduk_hamil');
-        $this->kode_asuransi          = $this->referensi_model->impor_list_data('tweb_penduduk_asuransi');
+        $this->kode_asuransi          = PendudukAsuransi::pluck('id')->all();
     }
 
     /**
@@ -270,7 +271,7 @@ class Impor_model extends MY_Model
             return 'kode status_dasar ' . $isi_baris['status_dasar'] . ' tidak dikenal';
         }
 
-        if ($isi_baris['id_asuransi'] != '' && ! in_array($isi_baris['id_asuransi'], [1, 2, 3, 99])) {
+        if ($isi_baris['id_asuransi'] != '' && ! in_array($isi_baris['id_asuransi'], $this->kode_asuransi)) {
             return 'kode asuransi tidak dikenal';
         }
 
