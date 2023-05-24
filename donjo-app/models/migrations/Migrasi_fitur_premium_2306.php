@@ -50,27 +50,27 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2305');
         $hasil = $hasil && $this->migrasi_tabel($hasil);
         $hasil = $hasil && $this->migrasi_data($hasil);
-        $hasil = $hasil && $this->migrasi_2023052451($hasil);
-        $hasil = $hasil && $this->migrasi_2023052452($hasil);
 
         return $hasil && true;
     }
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil;
+        return $hasil && $this->migrasi_2023052452($hasil);
     }
 
-    // Migrasi perubahan data untuk semua data config
+    // Migrasi perubahan data
     protected function migrasi_data($hasil)
     {
+        // Migrasi berdasarkan config_id
         $config_id = DB::table('config')->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023052351($hasil, $id);
         }
 
-        return $hasil;
+        // Migrasi tanpa config_id
+        return $hasil && $this->migrasi_2023052453($hasil);
     }
 
     protected function migrasi_2023052351($hasil, $id)
@@ -93,8 +93,8 @@ class Migrasi_fitur_premium_2306 extends MY_model
 
     protected function migrasi_2023052451($hasil)
     {
-        if (!$this->db
-            ->where('id', 63)
+        if (! $this->db
+            ->where('slug', 'klasfikasi-surat')
             ->where('modul', 'Klasfikasi Surat')
             ->get('setting_modul')
             ->result()) {
@@ -103,6 +103,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
 
         return $hasil && $this->ubah_modul(63, [
             'modul' => 'Klasifikasi Surat',
+            'slug'  => 'klasifikasi-surat',
         ]);
     }
 
@@ -114,5 +115,21 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $hasil = $hasil && $this->tambahIndeks('log_penduduk', 'kode_peristiwa', 'INDEX');
 
         return $hasil && $this->tambahIndeks('log_penduduk', 'tgl_peristiwa', 'INDEX');
+    }
+
+    protected function migrasi_2023052453($hasil)
+    {
+        $result = $this->db
+            ->select('id')
+            ->where('parrent !=', 0)
+            ->where('parrent not in (select id from kategori where parrent = 0)')
+            ->get('kategori')
+            ->result_array();
+
+        if ($result) {
+            $hasil = $hasil && $this->db->where_in('id', collect($result)->pluck('id')->all())->delete('kategori');
+        }
+
+        return $hasil;
     }
 }

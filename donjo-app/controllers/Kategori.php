@@ -208,7 +208,7 @@ class Kategori extends Admin_Controller
     public function delete_sub_kategori($kategori = '', $id = 0)
     {
         $this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
-        $this->web_kategori_model->delete($id);
+        $this->web_kategori_model->delete_sub($id);
         redirect("kategori/sub_kategori/{$kategori}");
     }
 
