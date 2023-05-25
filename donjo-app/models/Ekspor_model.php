@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -423,13 +424,15 @@ class Ekspor_model extends MY_Model
         }
 
         // ganti isi file app_key dengan config yang baru sesuai dengan database yang di restore
-        $app_key = Config::first()->app_key;
-        if (empty($app_key)) {
-            $app_key = set_app_key();
-            Config::first()->update(['app_key' => $app_key]);
-        }
+        if (Schema::hasColumn('config', 'app_key')) {
+            $app_key = Config::first()->app_key;
+            if (empty($app_key)) {
+                $app_key = set_app_key();
+                Config::first()->update(['app_key' => $app_key]);
+            }
 
-        file_put_contents(DESAPATH . 'app_key', $app_key);
+            file_put_contents(DESAPATH . 'app_key', $app_key);
+        }
 
         session_destroy();
 
