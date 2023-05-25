@@ -238,7 +238,7 @@ class Database_model extends MY_Model
     // Cek apakah migrasi perlu dijalankan
     public function cek_migrasi($install = false)
     {
-        if ($this->validasi() || $install) {
+        if ($this->validasi($install) || $install) {
             // Paksa menjalankan migrasi kalau belum
             // Migrasi direkam di tabel migrasi
             if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
@@ -3527,9 +3527,9 @@ class Database_model extends MY_Model
     }
 
     // TODO: Sederhanakan cara ini dengan membuat library
-    protected function validasi()
+    protected function validasi($install = false)
     {
-        if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {
+        if ($install || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
             return true;
         }
 

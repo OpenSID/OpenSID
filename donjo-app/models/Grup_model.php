@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\UserGrup;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Grup_model extends MY_Model
@@ -175,7 +177,7 @@ class Grup_model extends MY_Model
         ];
         $outp = $this->config_id()
             ->where('id', $id)
-            ->where_not_in('id', static::KECUALI)
+            ->where_not_in('id', UserGrup::getGrupSistem())
             ->update($this->table, $data);
         $outp = $outp && $this->simpan_akses($id);
 
@@ -203,7 +205,7 @@ class Grup_model extends MY_Model
 
         $outp = $this->config_id()
             ->where('id', $id)
-            ->where_not_in('id', static::KECUALI)
+            ->where_not_in('id', UserGrup::getGrupSistem())
             ->delete($this->table);
 
         $this->cache->hapus_cache_untuk_semua('_cache_modul');

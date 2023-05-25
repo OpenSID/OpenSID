@@ -89,10 +89,10 @@ class Modul_model extends MY_Model
                 }
             } else {
                 // Modul yang tidak boleh diakses tidak dimasukkan
-                // if ($this->user_model->hak_akses($_SESSION['grup'], $data[$i]['url'], 'b')) {
-                $data[$i]['modul'] = str_replace('[Pemerintah Desa]', ucwords(setting('sebutan_pemerintah_desa')), SebutanDesa($data[$i]['modul']));
-                $aktif[]           = $data[$i];
-                // }
+                if ($this->user_model->hak_akses($_SESSION['grup'], $data[$i]['url'], 'b')) {
+                    $data[$i]['modul'] = str_replace('[Pemerintah Desa]', ucwords(setting('sebutan_pemerintah_desa')), SebutanDesa($data[$i]['modul']));
+                    $aktif[]           = $data[$i];
+                }
             }
         }
 
@@ -119,9 +119,9 @@ class Modul_model extends MY_Model
 
         foreach ($data as $sub_modul) {
             // Modul yang tidak boleh diakses tidak dimasukkan
-            // if ($this->user_model->hak_akses($this->session->grup, $sub_modul['url'], 'b', $pakai_url = true)) {
-            $aktif[] = $sub_modul;
-            // }
+            if ($this->user_model->hak_akses($this->session->grup, $sub_modul['url'], 'b', $pakai_url = true)) {
+                $aktif[] = $sub_modul;
+            }
         }
 
         return $aktif;
@@ -299,7 +299,7 @@ class Modul_model extends MY_Model
     }
 
     /**
-     * @param $id id
+     * @param $id  id
      * @param $val status : 1 = Unlock, 2 = Lock
      */
     public function lock($id, $val)

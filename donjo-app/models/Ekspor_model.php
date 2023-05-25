@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Ekspor_model extends MY_Model
@@ -408,6 +410,28 @@ class Ekspor_model extends MY_Model
         }
 
         $this->perbaiki_collation();
+
+        $this->load->helper('directory');
+
+        // Hapus isi folder desa/cache
+        $dir = config_item('cache_path');
+
+        foreach (directory_map($dir) as $file) {
+            if ($file !== 'index.html') {
+                unlink($dir . DIRECTORY_SEPARATOR . $file);
+            }
+        }
+
+        // ganti isi file app_key dengan config yang baru sesuai dengan database yang di restore
+        $app_key = Config::first()->app_key;
+        if (empty($app_key)) {
+            $app_key = set_app_key();
+            Config::first()->update(['app_key' => $app_key]);
+        }
+
+        file_put_contents(DESAPATH . 'app_key', $app_key);
+
+        session_destroy();
 
         return true;
     }

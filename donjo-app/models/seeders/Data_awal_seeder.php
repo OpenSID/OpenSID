@@ -61133,7 +61133,7 @@ class Data_awal_seeder extends CI_Model
                 'updated_at'     => '2021-12-01 04:16:23',
                 'updated_by'     => 1,
                 'frekuensi'      => 90,
-                'aksi'           => 'notif/update_pengumuman,siteman',
+                'aksi'           => 'notif/update_pengumuman,siteman/logout',
                 'aktif'          => 1,
             ],
             [

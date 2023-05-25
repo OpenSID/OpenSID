@@ -176,7 +176,14 @@ function set_app_key()
 
 function get_app_key()
 {
-    return file_get_contents(DESAPATH . 'app_key');
+    $app_key = file_get_contents(DESAPATH . 'app_key');
+
+    if (empty($app_key)) {
+        $app_key = set_app_key();
+        file_put_contents(DESAPATH . 'app_key', $app_key);
+    }
+
+    return $app_key;
 }
 
 /**

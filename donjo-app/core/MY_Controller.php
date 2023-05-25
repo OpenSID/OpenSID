@@ -442,7 +442,9 @@ class Admin_Controller extends Premium
 
     private function cek_identitas_desa()
     {
-        if (empty(Config::appKey()->first()->kode_desa) && $this->controller != 'identitas_desa') {
+        $kode_desa = empty(Config::appKey()->first()->kode_desa);
+
+        if ($kode_desa && $this->controller != 'identitas_desa') {
             set_session('error', 'Identitas ' . ucwords(setting('sebutan_desa')) . ' masih kosong, silakan isi terlebih dahulu');
 
             redirect('identitas_desa');
@@ -480,7 +482,7 @@ class Admin_Controller extends Premium
         $this->header['notif_komentar']         = $this->notif_model->komentar_baru();
         $this->header['notif_langganan']        = $this->notif_model->status_langganan();
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
-        $this->header['notif_pengumuman']       = $this->cek_pengumuman();
+        $this->header['notif_pengumuman']       = $kode_desa ? null : $this->cek_pengumuman();
         $isAdmin                                = $this->session->isAdmin->pamong;
         $this->header['notif_permohonan']       = 0;
         if ($this->db->field_exists('verifikasi_operator', 'log_surat') && $this->db->field_exists('deleted_at', 'log_surat')) {

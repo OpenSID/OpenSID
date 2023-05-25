@@ -50,7 +50,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Data_awal extends MY_Model
 {
-    // TODO: OpenKAB - hapus semua log_message('notice', __function__); setelah selesai.
     public function up()
     {
         $hasil = true;
@@ -20381,7 +20380,7 @@ class Data_awal extends MY_Model
                 'updated_at'     => '2021-12-01 04:16:23',
                 'updated_by'     => 1,
                 'frekuensi'      => 90,
-                'aksi'           => 'notif/update_pengumuman,siteman',
+                'aksi'           => 'notif/update_pengumuman,siteman/logout',
                 'aktif'          => 1,
             ],
             [
