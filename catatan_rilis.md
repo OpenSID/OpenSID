@@ -58,6 +58,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 28. [#6660](https://github.com/OpenSID/OpenSID/issues/6660) Penyesuaian tampilan detail kotak masuk dan keluar pada kotak pesan layanan mandiri.
 29. [#6641](https://github.com/OpenSID/OpenSID/issues/6641) Penyesuaian nama dan tampilan tabel pada modul klasifikasi surat.
 30. [#6661](https://github.com/OpenSID/OpenSID/issues/6661) Perbaikan hapus kategori yang memiliki sub kategori.
+31. [#6685](https://github.com/OpenSID/OpenSID/issues/6685) Perbaikan cara menampilkan icon baterai langganan sesuai akses modul pelanggan.
 
 #### Perubahan Teknis
 
