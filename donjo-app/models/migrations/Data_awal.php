@@ -53,8 +53,6 @@ class Data_awal extends MY_Model
     // TODO: OpenKAB - hapus semua log_message('notice', __function__); setelah selesai.
     public function up()
     {
-        log_message('notice', 'Data awal');
-
         $hasil = true;
 
         hapus_cache('identitas_desa');
@@ -113,8 +111,6 @@ class Data_awal extends MY_Model
 
             // Notifikasi
             $hasil = $hasil && $this->notifikasi($hasil);
-
-            log_message('notice', 'Selesai');
         }
 
         return $hasil && true;
@@ -122,8 +118,6 @@ class Data_awal extends MY_Model
 
     protected function isi_config($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         if (! Schema::hasTable('config') || ! identitas() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
             return $hasil;
         }
@@ -164,7 +158,6 @@ class Data_awal extends MY_Model
 
     protected function tambah_grup_pengguna($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $data = [
             [
                 'nama'       => 'Administrator',
@@ -213,7 +206,6 @@ class Data_awal extends MY_Model
 
     protected function tambah_pengguna($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $data = [
             [
                 'username'          => 'admin',
@@ -236,8 +228,6 @@ class Data_awal extends MY_Model
 
     protected function tambah_grup_akses($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $data = [
             [
                 'grup'  => 'Satgas Covid-19',
@@ -1161,7 +1151,6 @@ class Data_awal extends MY_Model
     // Tambah pengaturan aplikasi jika tidak ada
     protected function tambah_pengaturan_aplikasi($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $data = [
             [
                 'judul'      => 'Sebutan Kabupaten',
@@ -2258,7 +2247,6 @@ class Data_awal extends MY_Model
 
     protected function tambah_media_sosial($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $data = [
             [
                 'gambar'  => 'fb.png',
@@ -2309,7 +2297,6 @@ class Data_awal extends MY_Model
 
     protected function tambah_jam_kerja($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $data = [
             [
                 'nama_hari'  => 'Senin',
@@ -2360,7 +2347,6 @@ class Data_awal extends MY_Model
 
     protected function tambah_jabatan($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $data = [
             [
                 'nama'  => 'Kepala ' . ucwords(SettingAplikasi::where('key', 'sebutan_desa')->first()->value ?? 'desa'),
@@ -2377,7 +2363,6 @@ class Data_awal extends MY_Model
 
     protected function tambah_klasifikasi_surat($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $data = [
             [
                 'kode'    => '000',
@@ -16391,7 +16376,6 @@ class Data_awal extends MY_Model
     // Tambah menu anjungan
     protected function tambah_menu_anjungan($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $data = [
             [
                 'nama'      => 'Peta Desa',
@@ -16464,8 +16448,6 @@ class Data_awal extends MY_Model
 
     protected function tambah_gis_simbol($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $data = [
             ['simbol' => 'aa_bni.png'],
             ['simbol' => 'aa_bri.png'],
@@ -17113,7 +17095,6 @@ class Data_awal extends MY_Model
     // Tambah syarat surat pada tabel surat
     protected function tambah_syarat_surat($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $data = [
             [
                 'ref_syarat_nama' => 'Surat Pengantar RT/RW',
@@ -17159,7 +17140,6 @@ class Data_awal extends MY_Model
     // Tambah syarat surat pada tabel surat
     protected function tambah_widget($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $data = [
             [
                 'isi'          => '<p><iframe src=\"https://www.google.co.id/maps?f=q&source=s_q&hl=en&geocode=&q=Logandu,+Karanggayam&aq=0&oq=logan&sll=-2.550221,118.015568&sspn=52.267573,80.332031&t=h&ie=UTF8&hq=&hnear=Logandu,+Karanggayam,+Kebumen,+Central+Java&ll=-7.55854,109.634173&spn=0.052497,0.078449&z=14&output=embed\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\" width=\"100%\"></iframe></p> ',
@@ -17295,8 +17275,6 @@ class Data_awal extends MY_Model
     // Tambah template RTF dan Tinymce
     protected function tambah_template_surat($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $suratRTF = [
             [
                 'nama'                => 'Keterangan Pengantar',
@@ -18305,7 +18283,6 @@ class Data_awal extends MY_Model
     // Tambah rentang umum pada tabel tweb_penduduk_umur
     protected function tambah_rentang_umur($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $data = [
             [
                 'nama'   => 'BALITA',
@@ -18441,8 +18418,6 @@ class Data_awal extends MY_Model
     // Tambah syarat surat pada tabel surat
     public function tambah_modul($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $data = [
             [
                 'modul'      => 'Home',
@@ -20387,8 +20362,6 @@ class Data_awal extends MY_Model
 
     protected function impor_data_awal_analisis($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $this->load->model('database_model');
         $this->database_model->impor_data_awal_analisis();
 
@@ -20397,7 +20370,6 @@ class Data_awal extends MY_Model
 
     protected function notifikasi($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $data = [
             [
                 'kode'           => 'persetujuan_penggunaan',

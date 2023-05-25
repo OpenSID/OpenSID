@@ -75,6 +75,25 @@ class Seeder extends CI_Model
 
     public function run()
     {
+        $this->load->helper('directory');
+
+        log_message('notice', 'Mulai memasang data awal');
+
+        // Hapus isi folder desa/cache
+        $dir = config_item('cache_path');
+
+        foreach (directory_map($dir) as $file) {
+            if ($file !== 'index.html') {
+                unlink($dir . DIRECTORY_SEPARATOR . $file);
+            }
+        }
+
+        // Hapus file app_key
+        $file = DESAPATH . 'app_key';
+        if (file_exists($file)) {
+            unlink($file);
+        }
+
         $this->load->model('seeders/data_awal_seeder', 'data_awal_seeder');
         $this->data_awal_seeder->run();
 
@@ -85,6 +104,8 @@ class Seeder extends CI_Model
         $this->database_model->impor_data_awal_analisis();
         $this->database_model->cek_migrasi(true);
         $this->isi_config();
+        session_destroy();
+        log_message('notice', 'Selesai memasang data awal');
     }
 
     // Kalau belum diisi, buat identitas desa jika kode_desa ada di file desa/config/config.php

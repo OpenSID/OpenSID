@@ -278,8 +278,6 @@ class Data_awal_seeder extends CI_Model
             ['id' => 3, 'tipe' => 'sian Angka'],
             ['id' => 4, 'tipe' => 'sian Tulisan'],
         ]);
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_mandiri()
@@ -329,8 +327,6 @@ class Data_awal_seeder extends CI_Model
                 PRIMARY KEY (`id`)
             );
         ");
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_peta()
@@ -1076,8 +1072,6 @@ class Data_awal_seeder extends CI_Model
                 KEY `parrent` (`parrent`)
             );
         ');
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_web()
@@ -1438,8 +1432,6 @@ class Data_awal_seeder extends CI_Model
                 'setting'      => '',
             ],
         ]);
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_pertanahan()
@@ -1641,8 +1633,6 @@ class Data_awal_seeder extends CI_Model
                 PRIMARY KEY (`id`)
             );
         ');
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_desa()
@@ -1698,8 +1688,6 @@ class Data_awal_seeder extends CI_Model
                 KEY `id_kepala` (`id_kepala`)
             );
         ");
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_covid19()
@@ -1743,8 +1731,6 @@ class Data_awal_seeder extends CI_Model
             ['id' => 6, 'nama' => 'Discarded'],
             ['id' => 7, 'nama' => 'Selesai Isolasi'],
         ]);
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
 
     }
 
@@ -3403,8 +3389,6 @@ class Data_awal_seeder extends CI_Model
                 'status_rekam' => '8',
             ],
         ]);
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_dokumen()
@@ -3447,8 +3431,6 @@ class Data_awal_seeder extends CI_Model
             ['id' => 2, 'nama' => 'SK Kades'],
             ['id' => 3, 'nama' => 'Perdes'],
         ]);
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_hubung_warga()
@@ -3543,8 +3525,6 @@ class Data_awal_seeder extends CI_Model
         DB::table('setting_sms')->insert([
             ['autoreply_text' => 'Terima kasih pesan Anda telah kami terima.'],
         ]);
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
 
     }
 
@@ -42014,8 +41994,6 @@ class Data_awal_seeder extends CI_Model
                 'nama'             => 'KONSTRUKSI DALAM PENGERJAAN LAINNYA',
             ],
         ]);
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_buku_admin()
@@ -42030,8 +42008,6 @@ class Data_awal_seeder extends CI_Model
           PRIMARY KEY (`id`)
         );
       ');
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_keuangan()
@@ -43901,8 +43877,6 @@ class Data_awal_seeder extends CI_Model
           PRIMARY KEY (`id`)
         );
       ');
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_surat()
@@ -61052,8 +61026,6 @@ class Data_awal_seeder extends CI_Model
                 'qr_code'             => 0,
             ],
         ]);
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_sinkronisasi()
@@ -61126,8 +61098,6 @@ class Data_awal_seeder extends CI_Model
                 'tabel_hapus'  => 'log_hapus_penduduk',
             ],
         ]);
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_dashboard()
@@ -61181,8 +61151,6 @@ class Data_awal_seeder extends CI_Model
                 'aktif'          => 0,
             ],
         ]);
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_pembangunan()
@@ -61234,8 +61202,6 @@ class Data_awal_seeder extends CI_Model
                 KEY `id_pembangunan` (`id_pembangunan`)
             );
         ');
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_lapak()
@@ -61249,8 +61215,6 @@ class Data_awal_seeder extends CI_Model
                 PRIMARY KEY (`id`)
             );
         ');
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_bantuan()
@@ -61286,8 +61250,6 @@ class Data_awal_seeder extends CI_Model
                 PRIMARY KEY (`id`)
             );
         ");
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_sistem()
@@ -63495,8 +63457,6 @@ class Data_awal_seeder extends CI_Model
                 PRIMARY KEY (`Tanggal`)
             );
         ');
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_pamong()
@@ -63535,8 +63495,6 @@ class Data_awal_seeder extends CI_Model
                 PRIMARY KEY (`pamong_id`)
             );
         ");
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_keluarga()
@@ -63574,8 +63532,6 @@ class Data_awal_seeder extends CI_Model
             ['id' => 4, 'nama' => 'Keluarga Sejahtera III'],
             ['id' => 5, 'nama' => 'Keluarga Sejahtera III Plus'],
         ]);
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_pengguna()
@@ -63679,8 +63635,6 @@ class Data_awal_seeder extends CI_Model
                 'updated_by' => 0,
             ],
         ]);
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     // TODO: Pisahkan pembuatan tabel dengan pembuatan foreign key constraint
@@ -65527,8 +65481,6 @@ class Data_awal_seeder extends CI_Model
                 CONSTRAINT `cdesa_mutasi_fk` FOREIGN KEY (`id_cdesa_masuk`) REFERENCES `cdesa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
             );
         ');
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function buat_view()
@@ -65570,7 +65522,5 @@ class Data_awal_seeder extends CI_Model
         DB::statement(
             'CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)))'
         );
-
-        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 }

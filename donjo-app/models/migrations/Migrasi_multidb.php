@@ -43,11 +43,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_multidb extends MY_model
 {
-    // TODO: OpenKAB - hapus semua log_message('notice', __function__); setelah selesai.
     public function up()
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = true;
         $hasil = $hasil && $this->identitas_desa($hasil);
         $hasil = $hasil && $this->wilayah_administratif($hasil);
@@ -148,7 +145,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Identitas Desa
     protected function identitas_desa($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'config';
 
         // Tambah kolom app_key pada tabel config
@@ -212,8 +208,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Wilayah Administratif
     protected function wilayah_administratif($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $tabel = 'tweb_wil_clusterdesa';
 
         // Ubah url modul wilayah
@@ -229,7 +223,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Pengaturan Aplikasi
     protected function pengaturan_aplikasi($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $table = 'setting_aplikasi';
 
         // Tambah kolom config_id pada tabel setting_aplikasi
@@ -244,15 +237,12 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Teks Berjalan
     protected function teks_berjalan($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('teks_berjalan');
     }
 
     // OpenKAB - Pembagunan
     protected function pembangunan($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'pembangunan';
 
         $hasil = $hasil && $this->tambah_config_id($tabel);
@@ -263,16 +253,12 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Pembagunan Dokumentasi
     protected function pembangunan_dokumentasi($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('pembangunan_ref_dokumentasi');
     }
 
     // OpenKAB - Informasi Publik
     protected function informasi_publik($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('dokumen');
 
         return $hasil && $this->db->query('CREATE OR REPLACE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1');
@@ -281,24 +267,18 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - admin web - gallery
     protected function gallery($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('gambar_gallery');
     }
 
     // OpenKAB - Bumindes Pembangunan
     protected function bumindes_kader($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('kader_pemberdayaan_masyarakat');
     }
 
     // OpenKAB - Modul Web artikel
     protected function admin_artikel($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('agenda');
 
         return $hasil && $this->tambah_config_id('artikel');
@@ -307,7 +287,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Media Sosial
     protected function media_sosial($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'media_sosial';
 
         $hasil = $hasil && $this->tambah_config_id($tabel);
@@ -324,7 +303,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Kehadiran Jam Kerja
     protected function kehadiran_jam_kerja($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'kehadiran_jam_kerja';
 
         $hasil = $hasil && $this->tambah_config_id($tabel);
@@ -341,15 +319,12 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Kehadiran Alasan Keluar
     protected function kehadiran_alasan_keluar($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('kehadiran_alasan_keluar');
     }
 
     // OpenKAB - Kehadiran Hari Libur
     protected function kehadiran_hari_libur($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'kehadiran_hari_libur';
 
         $hasil = $hasil && $this->tambah_config_id($tabel);
@@ -360,23 +335,18 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Kehadiran Perangkat Desa
     protected function kehadiran_perangkat_desa($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('kehadiran_perangkat_desa');
     }
 
     // OpenKAB - Kehadiran Pengaduan
     protected function kehadiran_pengaduan($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('kehadiran_pengaduan');
     }
 
     // OpenKAB - Penduduk
     protected function penduduk($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $table = 'tweb_penduduk';
 
         // Tambah kolom config_id pada tabel tweb_penduduk
@@ -406,7 +376,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Log Penduduk
     protected function log_penduduk($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $table = 'log_penduduk';
 
         // Tambah kolom config_id pada tabel tweb_penduduk
@@ -425,8 +394,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Pemerintah Desa
     protected function pemerintah_desa($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $tabel = 'tweb_desa_pamong';
 
         $hasil = $hasil && $this->tambah_config_id($tabel, 'pamong_id');
@@ -437,24 +404,18 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Pemerintah Desa - Jabatan
     protected function ref_jabatan($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('ref_jabatan');
     }
 
     // OpenKAB - Klasisfikasi Surat
     protected function klasifikasi_surat($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('klasifikasi_surat');
     }
 
     // OpenKAB - Anjungan
     protected function anjungan($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('anjungan');
     }
 
@@ -474,8 +435,6 @@ class Migrasi_multidb extends MY_model
         $hasil = $hasil && $this->tambah_config_id('mutasi_inventaris_jalan');
         $hasil = $hasil && $this->tambah_config_id('mutasi_inventaris_asset');
 
-        // $hasil = $hasil && $this->tambah_config_id('tweb_aset', 'id_aset');
-
         $hasil = $hasil && $this->db->query("CREATE OR REPLACE VIEW `master_inventaris` AS SELECT 'inventaris_asset' AS asset, inventaris_asset.config_id, inventaris_asset.id, inventaris_asset.nama_barang, inventaris_asset.kode_barang, 'Baik' AS kondisi, inventaris_asset.keterangan, inventaris_asset.asal, inventaris_asset.tahun_pengadaan FROM inventaris_asset WHERE visible = 1 UNION ALL SELECT 'inventaris_gedung' AS asset, inventaris_gedung.config_id, inventaris_gedung.id, inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.kondisi_bangunan, inventaris_gedung.keterangan, inventaris_gedung.asal, YEAR(inventaris_gedung.tanggal_dokument) AS tahun_pengadaan FROM inventaris_gedung WHERE visible = 1 UNION ALL SELECT 'inventaris_jalan' AS asset, inventaris_jalan.config_id, inventaris_jalan.id, inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.kondisi, inventaris_jalan.keterangan, inventaris_jalan.asal, YEAR (inventaris_jalan.tanggal_dokument) AS tahun_pengadaan FROM inventaris_jalan WHERE visible = 1 UNION ALL SELECT 'inventaris_peralatan' AS asset, inventaris_peralatan.config_id, inventaris_peralatan.id, inventaris_peralatan.nama_barang, inventaris_peralatan.kode_barang, 'Baik', inventaris_peralatan.keterangan, inventaris_peralatan.asal, inventaris_peralatan.tahun_pengadaan FROM inventaris_peralatan WHERE visible = 1");
 
         return $hasil && $this->db->query("CREATE OR REPLACE VIEW `rekap_mutasi_inventaris` AS SELECT 'inventaris_asset' AS asset, config_id, id_inventaris_asset, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_asset WHERE visible = 1 UNION ALL SELECT 'inventaris_gedung', config_id, id_inventaris_gedung, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_gedung WHERE visible = 1 UNION ALL SELECT 'inventaris_jalan', config_id, id_inventaris_jalan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_jalan WHERE visible = 1 UNION ALL SELECT 'inventaris_peralatan', config_id, id_inventaris_peralatan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_peralatan WHERE visible = 1");
@@ -484,7 +443,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Anjungan Menu
     protected function anjungan_menu($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'anjungan_menu';
         $hasil = $hasil && $this->tambah_config_id($tabel);
 
@@ -499,21 +457,16 @@ class Migrasi_multidb extends MY_model
 
     protected function peta_lokasi($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('lokasi');
     }
 
     protected function peta_tipe_lokasi($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('point');
     }
 
     protected function peta_simbol_lokasi($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'gis_simbol';
 
         $hasil = $hasil && $this->tambah_config_id($tabel);
@@ -528,46 +481,34 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Dokumen Persyaratan Surat
     protected function syarat_surat($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('ref_syarat_surat', 'ref_syarat_id');
     }
 
     // OpenKAB - Layanan Mandiri Pesan
     protected function layanan_mandiri_pesan($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('komentar');
     }
 
     protected function peta_garis($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('garis');
     }
 
     protected function peta_line($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('line');
     }
 
     // OpenKAB - Layanan Mandiri Pendapat
     protected function layanan_mandiri_pendapat($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('pendapat');
     }
 
     // OpenKAB - Admin Web - Pengunjung
     protected function admin_pengunjung($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil && $this->tambah_config_id('sys_traffic', 'Tanggal');
 
         // hapus primary key
@@ -583,8 +524,6 @@ class Migrasi_multidb extends MY_model
 
     protected function covid19_pemudik($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('covid19_pemudik');
 
         return $hasil && $this->tambah_config_id('covid19_pantau');
@@ -592,44 +531,33 @@ class Migrasi_multidb extends MY_model
 
     protected function vaksin($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('covid19_vaksin', 'id_penduduk');
     }
 
     protected function peta_area($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('area');
     }
 
     protected function peta_tipe_area($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('polygon');
     }
 
     // OpenKAB - Admin Web - Widget
     protected function widget($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('widget');
     }
 
     // OpenKAB - Keuangan Master
     protected function keuangan_master($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('keuangan_master');
     }
 
     protected function keluarga($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'tweb_keluarga';
 
         $hasil = $hasil && $this->tambah_config_id($tabel);
@@ -639,7 +567,6 @@ class Migrasi_multidb extends MY_model
 
     protected function log_keluarga($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'log_keluarga';
 
         $hasil = $hasil && $this->tambah_config_id($tabel);
@@ -649,7 +576,6 @@ class Migrasi_multidb extends MY_model
 
     protected function rtm($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $table = 'tweb_rtm';
 
         $hasil = $hasil && $this->tambah_config_id($table);
@@ -664,32 +590,24 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Buku Tamu - Buku pertanyaan
     protected function buku_pertanyaan($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('buku_pertanyaan');
     }
 
     // OpenKAB - Buku Tamu - Buku Keperluan
     protected function buku_keperluan($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('buku_keperluan');
     }
 
     // OpenKAB - Buku Tamu - Buku Kepuasan
     protected function buku_kepuasan($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('buku_kepuasan');
     }
 
     // OpenKAB - Penduduk Mandiri
     protected function penduduk_mandiri($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $tabel = 'tweb_penduduk_mandiri';
 
         $hasil = $hasil && $this->tambah_config_id($tabel, 'pin');
@@ -700,15 +618,12 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Buku Tamu - Buku Tamu
     protected function buku_tamu($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('buku_tamu');
     }
 
     // OpenKAB - Lembaga Desa
     protected function lembaga_desa($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $hasil = $hasil && $this->tabel_kelompok($hasil);
         $hasil = $hasil && $this->tabel_kelompok_master($hasil);
         $hasil = $hasil && $this->tabel_kelompok_anggota($hasil);
@@ -726,7 +641,6 @@ class Migrasi_multidb extends MY_model
 
     protected function tabel_kelompok($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'kelompok';
 
         // Tambah kolom config_id pada tabel kelompok
@@ -741,15 +655,12 @@ class Migrasi_multidb extends MY_model
 
     protected function tabel_kelompok_master($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         // Tambah kolom config_id pada tabel kelompok_master
         return $hasil && $this->tambah_config_id('kelompok_master');
     }
 
     protected function tabel_kelompok_anggota($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'kelompok_anggota';
 
         // Tambah kolom config_id pada tabel kelompok_anggota
@@ -765,8 +676,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Bantuan
     protected function bantuan($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('program');
         $hasil = $hasil && $this->tambah_config_id('program_peserta');
 
@@ -776,8 +685,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Layanan Surat - Pengaturan Surat
     protected function tweb_surat_format($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('tweb_surat_format');
 
         // Sesuaikan ulang index id_kelompok pada tabel kelompok
@@ -786,51 +693,37 @@ class Migrasi_multidb extends MY_model
 
     protected function ref_syarat_surat($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('ref_syarat_surat');
     }
 
     protected function log_surat($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('log_surat');
     }
 
     protected function surat_masuk($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('surat_masuk');
     }
 
     protected function surat_keluar($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('surat_keluar');
     }
 
     protected function permohonan_surat($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('permohonan_surat');
     }
 
     protected function laporan_sinkronisasi($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('laporan_sinkronisasi');
     }
 
     // OpenKAB - Pengaduan
     protected function pengaduan($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         // Tambah kolom config_id pada tabel pengaduan
         return $hasil && $this->tambah_config_id('pengaduan');
     }
@@ -838,16 +731,12 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Admin web - menu
     protected function admin_web_menu($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         // Tambah kolom config_id pada tabel pengaduan
         return $hasil && $this->tambah_config_id('menu');
     }
 
     protected function kategori($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         // Tambah kolom config_id pada tabel pengaduan
         return $hasil && $this->tambah_config_id('kategori');
     }
@@ -855,8 +744,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Lapak
     protected function lapak($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         // Tambah kolom config_id pada tabel produk
         $hasil = $hasil && $this->tambah_config_id('produk');
 
@@ -869,8 +756,6 @@ class Migrasi_multidb extends MY_model
 
     protected function table_suplemen($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('suplemen');
         $hasil = $hasil && $this->tambah_config_id('suplemen_terdata');
 
@@ -880,23 +765,17 @@ class Migrasi_multidb extends MY_model
 
     protected function statistik($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('tweb_penduduk_umur');
     }
 
     // modul keuangan manual
     protected function keuangan_manual_rinci($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('keuangan_manual_rinci');
     }
 
     protected function posyandu($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('posyandu');
         $hasil = $hasil && $this->tambah_config_id('ibu_hamil', 'id_ibu_hamil');
         $hasil = $hasil && $this->tambah_config_id('bulanan_anak', 'id_bulanan_anak');
@@ -907,8 +786,6 @@ class Migrasi_multidb extends MY_model
 
     protected function hubung_warga_kontak($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $tabel = 'kontak';
 
         // Tambah kolom config_id pada tabel kontak
@@ -932,8 +809,6 @@ class Migrasi_multidb extends MY_model
 
     protected function tanah_kas_desa($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('tanah_kas_desa');
     }
 
@@ -1004,7 +879,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Modul
     protected function modul($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'setting_modul';
 
         // Tambah kolom config_id pada tabel setting_modul
@@ -1017,7 +891,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Pengguna
     protected function user($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'user';
 
         // Tambah kolom config_id pada tabel user
@@ -1036,7 +909,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Grup Pengguna
     protected function user_grup($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'user_grup';
 
         // Tambah kolom config_id pada tabel user
@@ -1057,8 +929,6 @@ class Migrasi_multidb extends MY_model
 
     protected function hubung_warga_kirim_pesan($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $tabel = 'outbox';
 
         // Tambah kolom config_id pada tabel outbox
@@ -1096,8 +966,6 @@ class Migrasi_multidb extends MY_model
 
     protected function database($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('log_restore_desa');
 
         return $hasil && $this->tambah_config_id('log_backup');
@@ -1106,8 +974,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Persil
     protected function persil($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         // Tambah kolom config_id pada tabel persil
         $hasil = $hasil && $this->tambah_config_id('persil');
 
@@ -1117,15 +983,12 @@ class Migrasi_multidb extends MY_model
 
     protected function tanah_desa($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('tanah_desa');
     }
 
     // OpenKAB - Log Sinkronisasi
     protected function sinkronisasi($hasil)
     {
-        log_message('notice', __FUNCTION__);
         $tabel = 'log_sinkronisasi';
 
         // Tambah kolom config_id pada tabel log_sinkronisasi
@@ -1138,8 +1001,6 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Pesan
     protected function pesan($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('pesan');
 
         return $hasil && $this->tambah_config_id('pesan_detail');
@@ -1147,15 +1008,11 @@ class Migrasi_multidb extends MY_model
 
     protected function disposisi_surat_masuk($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('disposisi_surat_masuk', 'id_disposisi');
     }
 
     protected function cdesa($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('cdesa_penduduk');
 
         return $hasil && $this->tambah_config_id('cdesa');
@@ -1163,15 +1020,11 @@ class Migrasi_multidb extends MY_model
 
     protected function urls($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('urls');
     }
 
     protected function notifikasi($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $tabel = 'notifikasi';
 
         $hasil = $hasil && $this->tambah_config_id('notifikasi');
@@ -1183,63 +1036,47 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Analisis Indikator
     protected function analisis_indikator($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('analisis_indikator');
     }
 
     // OpenKAB - Analisis Master
     protected function analisis_master($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('analisis_master');
     }
 
     // OpenKAB - Analisis Periode
     protected function analisis_periode($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('analisis_periode');
     }
 
     // OpenKAB - Analisis Periode
     protected function analisis_parameter($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('analisis_parameter');
     }
 
     protected function verifikasi_surat($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('statistics');
     }
 
     // OpenKAB - Analisis Kategori Indikator
     protected function analisis_kategori_indikator($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('analisis_kategori_indikator');
     }
 
     // OpenKAB - Analisis Klasisfikasi
     protected function analisis_klasifikasi($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         return $hasil && $this->tambah_config_id('analisis_klasifikasi');
     }
 
     // OpenKAB - Analisis Respon
     protected function analisis_respon($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('analisis_respon_bukti', 'id_master');
         $hasil = $hasil && $this->tambah_config_id('analisis_respon_hasil', 'id_master');
 
@@ -1248,8 +1085,6 @@ class Migrasi_multidb extends MY_model
 
     protected function tte($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('log_tolak');
 
         return $hasil && $this->tambah_config_id('log_tte');
@@ -1257,8 +1092,6 @@ class Migrasi_multidb extends MY_model
 
     protected function dtks($hasil)
     {
-        log_message('notice', __FUNCTION__);
-
         $hasil = $hasil && $this->tambah_config_id('dtks');
         $hasil = $hasil && $this->tambah_config_id('dtks_anggota');
         $hasil = $hasil && $this->tambah_config_id('dtks_pengaturan_program');
