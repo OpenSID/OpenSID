@@ -43,7 +43,6 @@ class Sitemap extends CI_Controller
 {
     public function index()
     {
-        // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
         $data['artikel'] = $this->db
             ->select('a.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
             ->where('config_id', Config::appKey()->first()->id)

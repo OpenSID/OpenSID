@@ -37,8 +37,6 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-// TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
-
 class Agenda_model extends MY_Model
 {
     public function insert($data)

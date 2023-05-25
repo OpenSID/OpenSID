@@ -108,7 +108,6 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
     {
         $this->filter();
 
-        // TODO: OpenKAB - Tambahkan config_id
         // Ambil data sasaran penduduk
         $this->db
             ->select('u.id, u.nama')

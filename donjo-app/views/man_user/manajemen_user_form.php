@@ -38,8 +38,7 @@
                                 <label class="col-sm-3 control-label" for="group">Group</label>
                                 <div class="col-sm-8">
                                     <select class="form-control input-sm required" id="id_grup" name="id_grup" onchange="cekKpm()">
-                                        <?php if ($user['id'] == '1') : ?>
-                                            <!-- TODO: OpenKAB - Ganti cara ini agar tidak statis -->
+                                        <?php if ($user['id'] === super_admin()) : ?>
                                             <option <?php selected($user['id_grup'], '1'); ?> value="1">Administrator</option>
                                         <?php else : ?>
                                             <?php foreach ($user_group as $item) : ?>
