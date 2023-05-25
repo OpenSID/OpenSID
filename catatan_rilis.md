@@ -43,3 +43,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 3. [#6456](https://github.com/OpenSID/OpenSID/issues/6456) Penyesuaian migrasi berulang pada pengubahan kolom id_telegram pada tabel user.
 4. [#6670](https://github.com/OpenSID/OpenSID/issues/6670) Penyesuaian informasi pada notifikasi error.
 5. [#6631](https://github.com/OpenSID/OpenSID/issues/6631) Penyesuaian backup dan restore database agar konsisten.
+6. [#2350](https://github.com/OpenSID/premium/issues/2350) Penyesuaian notifikasi rilis dan versi yg disarankan jika masa berlangganan sudah berakhir.

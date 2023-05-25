@@ -3569,13 +3569,13 @@ class Database_model extends MY_Model
         $version      = $date->format('Y-m-d');
 
         $berakhir   = $jwtPayload->tanggal_berlangganan->akhir;
-        $disarankan = 'v' . str_replace('-', '.', substr($berakhir, 2, 5)) . '-premium';
+        $disarankan = 'v' . str_replace('-', '', substr($berakhir, 2, 5)) . '.0.0-premium';
 
         if ($version > $berakhir) {
             // Versi premium setara dengan umum adalah 6 bulan setelahnya + 1 bulan untuk versi pembaharuan
-            // Misalnya 21.05-premium setara dengan 21.12-umum, notifikasi tampil jika ada umum di atas 21.12-umum
+            // Misalnya 2105.0.0-premium setara dengan 2105., notifikasi tampil jika ada umum di atas 2105.
             $versi_setara = date('Y-m-d', strtotime('+7 month', strtotime($berakhir)));
-            $versi_setara = str_replace('-', '.', substr($versi_setara, 2, 5));
+            $versi_setara = str_replace('-', '', substr($versi_setara, 2, 5)) . '.0.0';
 
             log_message('error', 'Masa aktif berlangganan fitur premium sudah berakhir.');
             log_message('error', "Hanya diperbolehkan menggunakan {$disarankan} (maupun versi revisinya) atau menggunakan versi rilis {$versi_setara} umum.");
