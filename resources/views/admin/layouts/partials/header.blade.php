@@ -18,7 +18,7 @@
                             <li>
                                 <ul class="menu">
                 @endif
-                @if ($notif['langganan'])
+                @if ($notif['langganan'] && can('b', 'layanan-pelanggan'))
                     <li>
                         <a href="{{ route('pelanggan') }}">
                             <i class="fa {{ $notif['langganan']['ikon'] }} fa-lg"
