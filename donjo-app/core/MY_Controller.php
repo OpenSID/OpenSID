@@ -342,12 +342,12 @@ class Premium extends MY_Controller
             return false;
         }
 
-        $berakhir = $jwtPayload->tanggal_berlangganan->akhir;
+        $berakhir   = $jwtPayload->tanggal_berlangganan->akhir;
         $disarankan = 'v' . str_replace('-', '', substr($berakhir, 2, 5)) . '.0.0-premium';
 
         if ($version > $berakhir) {
             // Versi premium setara dengan umum adalah 6 bulan setelahnya + 1 bulan untuk versi pembaharuan
-            // Misalnya 2105.0.0-premium setara dengan 2105., notifikasi tampil jika ada umum di atas 2105.
+            // Misalnya 2305.0.0-premium setara dengan 2312.0.0, notifikasi tampil jika ada umum di atas 2312.0.0
             $this->versi_setara = date('Y-m-d', strtotime('+7 month', strtotime($berakhir)));
             $this->versi_setara = str_replace('-', '', substr($this->versi_setara, 2, 5)) . '.0.0';
             $this->session->set_userdata('error_premium', 'Masa aktif berlangganan fitur premium sudah berakhir.');
