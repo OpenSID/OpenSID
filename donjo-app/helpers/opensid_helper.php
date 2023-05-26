@@ -1565,7 +1565,7 @@ if (! function_exists('sekdes')) {
     }
 }
 
-if (!function_exists('super_admin')) {
+if (! function_exists('super_admin')) {
     /**
      * - Fungsi untuk mengambil id dengan grup superadmin.
      *
@@ -1580,7 +1580,7 @@ if (!function_exists('super_admin')) {
     }
 }
 
-if (!function_exists('ref')) {
+if (! function_exists('ref')) {
     /**
      * - Fungsi untuk mengambil data tabel refrensi.
      *
