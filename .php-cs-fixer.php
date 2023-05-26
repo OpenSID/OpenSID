@@ -81,7 +81,10 @@ $finder = Symfony\Component\Finder\Finder::create()
         __DIR__ . '/app',
         __DIR__ . '/donjo-app',
     ])
-    ->exclude(__DIR__ . '/donjo-app/views')
+    ->exclude([
+        __DIR__ . '/donjo-app/views',
+        __DIR__ . '/donjo-app/third_party/*/views',
+    ])
     ->append([
         __DIR__ . '/index.php',
         __DIR__ . '/.php-cs-fixer.php',

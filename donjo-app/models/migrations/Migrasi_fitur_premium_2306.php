@@ -72,6 +72,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023052451($hasil);
         $hasil = $hasil && $this->migrasi_2023052453($hasil);
+        $hasil = $hasil && $this->migrasi_2023052551($hasil);
 
         return $hasil && $this->migrasi_2023052454($hasil);
     }
@@ -132,6 +133,24 @@ class Migrasi_fitur_premium_2306 extends MY_model
                 ['id' => 4],
                 ['nama' => 'BPJS Bantuan Daerah']
             );
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023052551($hasil)
+    {
+        $surat = FormatSurat::withoutGlobalScope('App\Scopes\ConfigIdScope')
+            ->select(['id', 'url_surat', 'kode_isian'])
+            ->whereRaw("kode_isian LIKE '%rquired%'")
+            ->where('jenis', FormatSurat::TINYMCE_SISTEM)
+            ->get();
+
+        foreach ($surat as $key => $value) {
+            FormatSurat::whereId($value->id)
+                ->update([
+                    'kode_isian' => str_replace('rquired', 'required', json_encode($value->kode_isian)),
+                ]);
+        }
 
         return $hasil;
     }

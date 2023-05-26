@@ -100,8 +100,8 @@ class Urut_model extends MY_Model
     }
 
     /**
-     * @param $id Id data yg akan digeser
-     * @param $arah Arah untuk menukar dengan unsur lain: 1) turun, 2) naik
+     * @param       $id     Id data yg akan digeser
+     * @param       $arah   Arah untuk menukar dengan unsur lain: 1) turun, 2) naik
      * @param mixed $subset
      *
      * @return int Nomer urut unsur lain yang ditukar

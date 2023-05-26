@@ -59,6 +59,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 29. [#6641](https://github.com/OpenSID/OpenSID/issues/6641) Penyesuaian nama dan tampilan tabel pada modul klasifikasi surat.
 30. [#6661](https://github.com/OpenSID/OpenSID/issues/6661) Perbaikan hapus kategori yang memiliki sub kategori.
 31. [#6685](https://github.com/OpenSID/OpenSID/issues/6685) Perbaikan cara menampilkan icon baterai langganan sesuai akses modul pelanggan.
+32. [#6686](https://github.com/OpenSID/OpenSID/issues/6686) Perbaikan kesalahan penulisan atribut rquired pada surat jenis tinymce.
 
 #### Perubahan Teknis
 
@@ -67,3 +68,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 3. [#6456](https://github.com/OpenSID/OpenSID/issues/6456) Penyesuaian migrasi berulang pada pengubahan kolom id_telegram pada tabel user.
 4. [#6670](https://github.com/OpenSID/OpenSID/issues/6670) Penyesuaian informasi pada notifikasi error.
 5. [#6631](https://github.com/OpenSID/OpenSID/issues/6631) Penyesuaian backup dan restore database agar konsisten.
+6. [#2350](https://github.com/OpenSID/premium/issues/2350) Penyesuaian notifikasi rilis dan versi yg disarankan jika masa berlangganan sudah berakhir.
