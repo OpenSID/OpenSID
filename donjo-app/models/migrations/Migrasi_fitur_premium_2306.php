@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\FormatSurat;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2306 extends MY_model
@@ -47,8 +49,9 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2305');
 
         $hasil = $hasil && $this->migrasi_2023052351($hasil);
+        $hasil = $hasil && $this->migrasi_2023052451($hasil);
 
-        return $hasil && $this->migrasi_2023052451($hasil);
+        return $hasil && $this->migrasi_2023052551($hasil);
     }
 
     protected function migrasi_2023052351($hasil)
@@ -78,6 +81,23 @@ class Migrasi_fitur_premium_2306 extends MY_model
 
         if ($result) {
             $hasil = $hasil && $this->db->where_in('id', collect($result)->pluck('id')->all())->delete('kategori');
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023052551($hasil)
+    {
+        $surat = FormatSurat::select(['id', 'url_surat', 'kode_isian'])
+            ->whereRaw("kode_isian LIKE '%rquired%'")
+            ->where('jenis', FormatSurat::TINYMCE_SISTEM)
+            ->get();
+
+        foreach ($surat as $key => $value) {
+            FormatSurat::whereId($value->id)
+                ->update([
+                    'kode_isian' => str_replace('rquired', 'required', json_encode($value->kode_isian)),
+                ]);
         }
 
         return $hasil;
