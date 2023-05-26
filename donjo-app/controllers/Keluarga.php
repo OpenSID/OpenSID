@@ -477,7 +477,7 @@ class Keluarga extends Admin_Controller
         $data['hubungan'] = $this->keluarga_model->list_hubungan();
         $data['main']     = $this->keluarga_model->list_anggota($id);
         $kk               = $this->keluarga_model->get_kepala_kk($id);
-        $data['desa']     = identitas();
+        $data['desa']     = $this->header['desa'];
 
         if ($kk) {
             $data['kepala_kk'] = $kk;

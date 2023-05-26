@@ -461,7 +461,7 @@ class Program_bantuan extends Admin_Controller
             $this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
             $data['sasaran']         = unserialize(SASARAN);
 
-            $data['config']          = identitas();
+            $data['config']          = $this->header['desa'];
             $data['peserta']         = $this->program_bantuan_model->get_program(1, $program_id);
             $data['aksi']            = $aksi;
             $this->session->per_page = $temp;

@@ -151,7 +151,7 @@ class Permohonan_surat_admin extends Admin_Controller
     {
         // RTF
         if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
-            $data['config']    = $data['lokasi'] = identitas();
+            $data['config']    = $data['lokasi'] = $this->header['desa'];
             $data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
             $data['anggota']   = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
         }

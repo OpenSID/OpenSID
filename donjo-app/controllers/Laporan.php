@@ -97,7 +97,7 @@ class Laporan extends Admin_Controller
         }
         $this->session->tgl_lengkap = rev_tgl($this->setting->tgl_data_lengkap);
         $data['tahun_lengkap']      = (new DateTime($this->setting->tgl_data_lengkap))->format('Y');
-        $data['config']             = identitas();
+        $data['config']             = $this->header['desa'];
         $data['kelahiran']          = $this->laporan_bulanan_model->kelahiran();
         $data['kematian']           = $this->laporan_bulanan_model->kematian();
         $data['pendatang']          = $this->laporan_bulanan_model->pendatang();
@@ -145,7 +145,7 @@ class Laporan extends Admin_Controller
     private function data_cetak()
     {
         $data                   = [];
-        $data['config']         = identitas();
+        $data['config']         = $this->header['desa'];
         $data['bulan']          = $this->session->bulanku;
         $data['tahun']          = $this->session->tahunku;
         $data['bln']            = getBulan($data['bulan']);

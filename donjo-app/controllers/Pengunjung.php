@@ -76,7 +76,7 @@ class Pengunjung extends Admin_Controller
 
     public function cetak()
     {
-        $data['config'] = identitas();
+        $data['config'] = $this->header['desa'];
         $data['main']   = $this->statistik_pengunjung_model->get_pengunjung($this->session->id);
         $this->load->view('pengunjung/print', $data);
     }
@@ -84,7 +84,7 @@ class Pengunjung extends Admin_Controller
     public function unduh()
     {
         $data['aksi']     = 'unduh';
-        $data['config']   = identitas();
+        $data['config']   = $this->header['desa'];
         $data['filename'] = underscore('Laporan Data Statistik Pengunjung Website');
         $data['main']     = $this->statistik_pengunjung_model->get_pengunjung($this->session->id);
         $this->load->view('pengunjung/excel', $data);

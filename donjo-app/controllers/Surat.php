@@ -669,7 +669,7 @@ class Surat extends Admin_Controller
     {
         // RTF
         if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
-            $data['config']    = $data['lokasi'] = identitas();
+            $data['config']    = $data['lokasi'] = $this->header['desa'];
             $data['penduduk']  = $this->surat_model->list_penduduk();
             $data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
         } else {

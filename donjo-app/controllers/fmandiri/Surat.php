@@ -240,7 +240,7 @@ class Surat extends Mandiri_Controller
     {
         // RTF
         if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
-            $data['config']    = $data['lokasi'] = identitas();
+            $data['config']    = $data['lokasi'] = $this->header;
             $data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
         }
 

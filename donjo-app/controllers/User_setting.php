@@ -77,7 +77,7 @@ class User_setting extends Admin_Controller
     {
         $id                  = $_SESSION['user'];
         $data['main']        = $this->user_model->get_user($id);
-        $data['header']      = identitas();
+        $data['header']      = $this->header['desa'];
         $data['latar_login'] = to_base64(default_file(LATAR_SITEMAN, DEFAULT_LATAR_SITEMAN));
         $this->load->view('setting_pwd', $data);
     }

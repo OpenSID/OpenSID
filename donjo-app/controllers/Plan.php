@@ -135,8 +135,8 @@ class Plan extends Admin_Controller
             $data['lokasi'] = null;
         }
 
-        $data['desa']                   = identitas();
-        $data['wil_atas']               = identitas();
+        $data['desa']                   = $this->header['desa'];
+        $data['wil_atas']               = $this->header['desa'];
         $data['dusun_gis']              = $this->wilayah_model->list_dusun();
         $data['rw_gis']                 = $this->wilayah_model->list_rw();
         $data['rt_gis']                 = $this->wilayah_model->list_rt();

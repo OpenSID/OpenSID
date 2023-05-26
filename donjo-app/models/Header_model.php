@@ -42,7 +42,7 @@ class Header_model extends MY_Model
     public function get_data()
     {
         $this->load->model('modul_model');
-        $outp['desa']  = identitas();
+        $outp['desa']  = collect(identitas())->toArray();
         $outp['modul'] = $this->cache->pakai_cache(function () {
             $this->load->model('modul_model');
 
