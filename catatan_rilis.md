@@ -37,6 +37,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 31. [#6685](https://github.com/OpenSID/OpenSID/issues/6685) Perbaikan cara menampilkan icon baterai langganan sesuai akses modul pelanggan.
 32. [#6686](https://github.com/OpenSID/OpenSID/issues/6686) Perbaikan kesalahan penulisan atribut rquired pada surat jenis tinymce.
 33. [#6682](https://github.com/OpenSID/OpenSID/issues/6682) Perbaikan navigasi kategori pada artikel [Tidak Berkategori].
+34. [#6625](https://github.com/OpenSID/OpenSID/issues/6625) Perbaikan pencarian pada modul buku rekapitulasi jumlah penduduk.
+
 
 #### Perubahan Teknis
 
