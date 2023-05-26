@@ -8,7 +8,12 @@ on:
 
 jobs:
   php-cs-fixer:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.4']
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     # Check if contains [ci skip] will be skip github action
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     steps:
@@ -25,7 +30,7 @@ jobs:
             ${{ runner.OS }}-${{ github.repository }}-phpcsfixer-
 
       - name: Run PHP CS Fixer
-        uses: docker://oskarstark/php-cs-fixer-ga
+        uses: docker://oskarstark/php-cs-fixer-ga:3.16.0
         with:
           args: --config=.php-cs-fixer.php --allow-risky=yes
 

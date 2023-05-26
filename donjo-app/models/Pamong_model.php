@@ -496,7 +496,7 @@ class Pamong_model extends CI_Model
     //----------------------------------------------------------------------------------------------------
 
     /**
-     * @param $id id
+     * @param $id  id
      * @param $val status : 1 = Unlock, 2 = Lock
      */
     public function lock($id, $val)
@@ -514,7 +514,7 @@ class Pamong_model extends CI_Model
     }
 
     /**
-     * @param $id id
+     * @param $id  id
      * @param $val status : 1 = Aktif, 0 = Tidak aktif
      */
     public function kehadiran($id, $val)

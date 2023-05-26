@@ -55,7 +55,7 @@ class Penduduk_log_model extends MY_Model
     /**
      * Ambil data log penduduk
      *
-     * @param $id_log 					id log penduduk
+     * @param $id_log id log penduduk
      *
      * @return array(data log)
      */
@@ -77,7 +77,7 @@ class Penduduk_log_model extends MY_Model
     /**
      * Update log penduduk
      *
-     * @param $id_log 					id log penduduk
+     * @param $id_log id log penduduk
      *
      * @return void
      */
@@ -134,7 +134,7 @@ class Penduduk_log_model extends MY_Model
     /**
      * Kembalikan status dasar penduduk ke hidup
      *
-     * @param $id_log 			id log penduduk
+     * @param $id_log id log penduduk
      *
      * @return void
      */
@@ -167,7 +167,7 @@ class Penduduk_log_model extends MY_Model
     /**
      * Kembalikan status dasar penduduk dari PERGI ke HIDUP
      *
-     * @param $id_log 			id log penduduk
+     * @param $id_log id log penduduk
      *
      * @return void
      */
