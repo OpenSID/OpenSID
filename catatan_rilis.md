@@ -36,6 +36,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 30. [#6661](https://github.com/OpenSID/OpenSID/issues/6661) Perbaikan hapus kategori yang memiliki sub kategori.
 31. [#6685](https://github.com/OpenSID/OpenSID/issues/6685) Perbaikan cara menampilkan icon baterai langganan sesuai akses modul pelanggan.
 32. [#6686](https://github.com/OpenSID/OpenSID/issues/6686) Perbaikan kesalahan penulisan atribut rquired pada surat jenis tinymce.
+33. [#6682](https://github.com/OpenSID/OpenSID/issues/6682) Perbaikan navigasi kategori pada artikel [Tidak Berkategori].
 
 #### Perubahan Teknis
 
