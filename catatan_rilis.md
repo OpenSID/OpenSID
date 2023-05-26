@@ -40,6 +40,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 34. [#6625](https://github.com/OpenSID/OpenSID/issues/6625) Perbaikan pencarian pada modul buku rekapitulasi jumlah penduduk.
 35. [#6587](https://github.com/OpenSID/OpenSID/issues/6587) Perbaikan urutkan data pada modul buku administrasi pembangunan > buku kegiatan pembangunan.
 36. [#6588](https://github.com/OpenSID/OpenSID/issues/6588) Perbaikan urutkan data pada modul buku administrasi pembangunan > buku rencana kerja pembangunan.
+37. [#6589](https://github.com/OpenSID/OpenSID/issues/6589) Perbaikan urutkan data pada modul buku administrasi pembangunan > buku inventaris hasil-hasil pembangunan.
 
 
 #### Perubahan Teknis
