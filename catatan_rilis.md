@@ -60,6 +60,12 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 30. [#6661](https://github.com/OpenSID/OpenSID/issues/6661) Perbaikan hapus kategori yang memiliki sub kategori.
 31. [#6685](https://github.com/OpenSID/OpenSID/issues/6685) Perbaikan cara menampilkan icon baterai langganan sesuai akses modul pelanggan.
 32. [#6686](https://github.com/OpenSID/OpenSID/issues/6686) Perbaikan kesalahan penulisan atribut rquired pada surat jenis tinymce.
+33. [#6682](https://github.com/OpenSID/OpenSID/issues/6682) Perbaikan navigasi kategori pada artikel [Tidak Berkategori].
+34. [#6625](https://github.com/OpenSID/OpenSID/issues/6625) Perbaikan pencarian pada modul buku rekapitulasi jumlah penduduk.
+35. [#6587](https://github.com/OpenSID/OpenSID/issues/6587) Perbaikan urutkan data pada modul buku administrasi pembangunan > buku kegiatan pembangunan.
+36. [#6588](https://github.com/OpenSID/OpenSID/issues/6588) Perbaikan urutkan data pada modul buku administrasi pembangunan > buku rencana kerja pembangunan.
+37. [#6589](https://github.com/OpenSID/OpenSID/issues/6589) Perbaikan urutkan data pada modul buku administrasi pembangunan > buku inventaris hasil-hasil pembangunan.
+
 
 #### Perubahan Teknis
 

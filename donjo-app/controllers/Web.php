@@ -68,7 +68,7 @@ class Web extends Admin_Controller
 
     public function index($p = 1, $o = 0)
     {
-        $cat = $this->session->kategori ?: -1;
+        $cat = $this->session->kategori ?? -1;
 
         $data['p'] = $p;
         $data['o'] = $o;

@@ -616,6 +616,16 @@ class Laporan_bulanan_model extends MY_Model
         return $data;
     }
 
+    protected function search_sql()
+    {
+        if ($cari = $this->session->cari) {
+            $this->db
+                ->group_start()
+                ->like('a.dusun', $cari)
+                ->group_end();
+        }
+    }
+
     public function rekapitulasi_data()
     {
         $bln     = $this->session->filter_bulan;
@@ -655,6 +665,7 @@ class Laporan_bulanan_model extends MY_Model
             ->select("(sum(case when p.kk_level = 1 and kode_peristiwa in (1,5) and month(l.tgl_lapor) = {$bln} and year(l.tgl_lapor) = {$thn} then 1 else 0 end) - sum(case when p.kk_level = 1 and kode_peristiwa in (2,3,4) and month(l.tgl_lapor) = {$bln} and year(l.tgl_lapor) = {$thn} then 1 else 0 end)) AS KK_MASUK_JLH")
             ->select("(sum(case when p.kk_level != 1 and kode_peristiwa in (1,5) and month(l.tgl_lapor) = {$bln} and year(l.tgl_lapor) = {$thn} then 1 else 0 end) - sum(case when p.kk_level != 1 and kode_peristiwa in (2,3,4) and month(l.tgl_lapor) = {$bln} and year(l.tgl_lapor) = {$thn} then 1 else 0 end)) AS KK_MASUK_ANG_KEL");
 
+        $this->search_sql();
         $this->rekapitulasi_query_dasar();
     }
 
