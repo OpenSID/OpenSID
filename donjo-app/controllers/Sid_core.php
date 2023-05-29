@@ -254,18 +254,22 @@ class Sid_core extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data_rw          = $this->wilayah_model->cluster_by_id($id_rw);
-        $data['dusun']    = $data_rw['dusun'];
-        $data['id_dusun'] = $id_dusun;
-        $data['rw']       = $data_rw['rw'];
-        $data['id_rw']    = $id_rw;
+        $data = $this->cache->pakai_cache(function () use ($id_dusun, $id_rw, $p, $o) {
+            $data_rw          = $this->wilayah_model->cluster_by_id($id_rw);
+            $data['dusun']    = $data_rw['dusun'];
+            $data['id_dusun'] = $id_dusun;
+            $data['rw']       = $data_rw['rw'];
+            $data['id_rw']    = $id_rw;
 
-        $data['func']     = "sub_rt/{$id_dusun}/{$id_rw}";
-        $data['set_page'] = $this->_set_page;
+            $data['func']     = "sub_rt/{$id_dusun}/{$id_rw}";
+            $data['set_page'] = $this->_set_page;
 
-        $data['paging'] = $this->wilayah_model->paging_rt($p, $o, $data['dusun'], $data['rw']);
-        $data['main']   = $this->wilayah_model->list_data_rt($data['dusun'], $data['rw'], $data['paging']->offset, $data['paging']->per_page);
-        $data['total']  = $this->wilayah_model->total_rt($data['dusun'], $data['rw']);
+            $data['paging'] = $this->wilayah_model->paging_rt($p, $o, $data['dusun'], $data['rw']);
+            $data['main']   = $this->wilayah_model->list_data_rt($data['dusun'], $data['rw'], $data['paging']->offset, $data['paging']->per_page);
+            $data['total']  = $this->wilayah_model->total_rt($data['dusun'], $data['rw']);
+
+            return $data;
+        }, "{$this->session->per_page}_{$p}_{$id_dusun}_{$id_rw}_rt_wilayah", 24 * 60 * 60);
 
         $this->render('sid/wilayah/wilayah_rt', $data);
     }
