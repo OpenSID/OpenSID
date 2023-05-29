@@ -50,8 +50,9 @@ class Migrasi_fitur_premium_2306 extends MY_model
 
         $hasil = $hasil && $this->migrasi_2023052351($hasil);
         $hasil = $hasil && $this->migrasi_2023052451($hasil);
+        $hasil = $hasil && $this->migrasi_2023052551($hasil);
 
-        return $hasil && $this->migrasi_2023052551($hasil);
+        return $hasil && $this->migrasi_2023052951($hasil);
     }
 
     protected function migrasi_2023052351($hasil)
@@ -98,6 +99,26 @@ class Migrasi_fitur_premium_2306 extends MY_model
                 ->update([
                     'kode_isian' => str_replace('rquired', 'required', json_encode($value->kode_isian)),
                 ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023052951($hasil)
+    {
+        if (! $this->db->field_exists('No_RPJM', 'keuangan_ta_rpjm_visi')) {
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_rpjm_visi', [
+                'No_RPJM' => [
+                    'type'       => 'varchar',
+                    'constraint' => 100,
+                    'after'      => 'No_Visi',
+                ],
+                'Tgl_RPJM' => [
+                    'type'       => 'varchar',
+                    'constraint' => 100,
+                    'after'      => 'No_RPJM',
+                ],
+            ]);
         }
 
         return $hasil;
