@@ -539,7 +539,7 @@ class Keuangan_grafik_model extends MY_Model
         }
         $this->db->group_by('Akun');
 
-        return $this->config_id('keuangan_ta_spj_rinci' . 'keuangan_ta_spj_rinci')->get('keuangan_ta_spj_rinci')->result_array();
+        return $this->config_id('keuangan_ta_spj_rinci', 'keuangan_ta_spj_rinci')->get('keuangan_ta_spj_rinci')->result_array();
     }
 
     private function real_akun_belanja_bunga_bidang($akun, $thn, $smt1 = false)
@@ -568,7 +568,7 @@ class Keuangan_grafik_model extends MY_Model
         }
         $this->db->group_by('Akun');
 
-        return $this->config_id('keuangan_ta_spp_rinci' . 'keuangan_ta_spp_rinci')->get('keuangan_ta_spp_rinci')->result_array();
+        return $this->config_id('keuangan_ta_spp_rinci', 'keuangan_ta_spp_rinci')->get('keuangan_ta_spp_rinci')->result_array();
     }
 
     private function real_akun_pembiayaan_keluar($akun, $thn, $smt1 = false)
