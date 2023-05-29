@@ -112,6 +112,10 @@ class MY_Controller extends CI_Controller
 
     private function cek_config()
     {
+        if (! $this->db) {
+            $this->load->database();
+        }
+
         if (! Config::appKey()->first()) {
             // Tambahkan data sementara
             Config::create([
