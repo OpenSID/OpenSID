@@ -11,7 +11,7 @@
     <title>Buku Tamu</title>
 
     <link rel="shortcut icon" href="{{ favico_desa() }}" />
-    <link href="{{ asset('css/anjungan/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('anjungan/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
     <link href="{{ asset('css/buku_tamu/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buku_tamu/screen.css') }}" rel="stylesheet">
@@ -149,7 +149,7 @@
     }
 </style>
 
-<script src="{{ asset('js/support.js') }}"></script>
+<script src="{{ asset('anjungan/js/support.js') }}"></script>
 <script>
     $(document).ready(function() {
         $('#layanan-mandiri').click(function(event) {
