@@ -55,27 +55,31 @@ class Sid_core extends Admin_Controller
     {
         $this->session->unset_userdata('cari');
         $this->session->per_page = $this->_set_page[0];
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}");
     }
 
     public function index($p = 1, $o = 0)
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
-
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
             $this->session->per_page = $per_page;
         }
 
-        $data['cari']     = $this->session->cari ?: '';
-        $data['func']     = 'index';
-        $data['set_page'] = $this->_set_page;
-        $data['per_page'] = $this->session->per_page;
-        $data['paging']   = $this->wilayah_model->paging($p, $o);
-        $data['main']     = $this->wilayah_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']  = $this->wilayah_model->autocomplete();
-        $data['total']    = $this->wilayah_model->total();
+        $data = $this->cache->pakai_cache(function () use ($p, $o) {
+            $data['p']        = $p;
+            $data['o']        = $o;
+            $data['cari']     = $this->session->cari ?: '';
+            $data['func']     = 'index';
+            $data['set_page'] = $this->_set_page;
+            $data['per_page'] = $this->session->per_page;
+            $data['keyword']  = $this->wilayah_model->autocomplete();
+            $data['paging']   = json_decode(json_encode($this->wilayah_model->paging($p, $o)));
+            $data['main']     = $this->wilayah_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+            $data['total']    = $this->wilayah_model->total();
+
+            return $data;
+        }, "{$this->session->per_page}_{$p}_{$this->session->cari}_dusun_wilayah", 24 * 60 * 60);
 
         $this->render('sid/wilayah/wilayah', $data);
     }
@@ -134,6 +138,7 @@ class Sid_core extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->insert();
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}");
     }
 
@@ -141,6 +146,7 @@ class Sid_core extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update($id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}");
     }
 
@@ -149,6 +155,7 @@ class Sid_core extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
         $this->wilayah_model->delete($tipe, $id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect($_SERVER['HTTP_REFERER']);
     }
 
@@ -224,6 +231,7 @@ class Sid_core extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->insert_rw($id_dusun);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}/sub_rw/{$id_dusun}");
     }
 
@@ -231,6 +239,7 @@ class Sid_core extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update_rw($id_rw);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}/sub_rw/{$id_dusun}");
     }
 
@@ -316,6 +325,7 @@ class Sid_core extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->insert_rt($id_dusun, $id_rw);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}");
     }
 
@@ -323,6 +333,7 @@ class Sid_core extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update_rt($id_rt);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}");
     }
 

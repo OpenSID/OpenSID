@@ -359,6 +359,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $id = $this->penduduk_model->insert();
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         if ($_SESSION['success'] == -1) {
             $_SESSION['dari_internal'] = true;
             redirect("{$this->controller}/form");
@@ -371,6 +372,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->penduduk_model->update($id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         if ($_SESSION['success'] == -1) {
             $_SESSION['dari_internal'] = true;
             redirect("{$this->controller}/form/{$p}/{$o}/{$id}");
@@ -383,6 +385,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
         $this->penduduk_model->delete($id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
@@ -391,6 +394,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
         $this->penduduk_model->delete_all();
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
@@ -570,6 +574,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->penduduk_model->update_status_dasar($id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
@@ -578,6 +583,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->penduduk_model->kembalikan_status($id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
@@ -992,6 +998,7 @@ class Penduduk extends Admin_Controller
         $this->redirect_hak_akses('u', '', '', true);
         $hapus = isset($_POST['hapus_data']);
         $this->impor_model->impor_excel($hapus);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect('penduduk/impor');
     }
 

@@ -41,6 +41,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 35. [#6587](https://github.com/OpenSID/OpenSID/issues/6587) Perbaikan urutkan data pada modul buku administrasi pembangunan > buku kegiatan pembangunan.
 36. [#6588](https://github.com/OpenSID/OpenSID/issues/6588) Perbaikan urutkan data pada modul buku administrasi pembangunan > buku rencana kerja pembangunan.
 37. [#6589](https://github.com/OpenSID/OpenSID/issues/6589) Perbaikan urutkan data pada modul buku administrasi pembangunan > buku inventaris hasil-hasil pembangunan.
+38. [#6694](https://github.com/OpenSID/OpenSID/issues/6694) Penggunaan cache pada data wilayah dusun.
 
 
 #### Perubahan Teknis
