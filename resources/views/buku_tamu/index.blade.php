@@ -11,10 +11,10 @@
     <title>Buku Tamu</title>
 
     <link rel="shortcut icon" href="{{ favico_desa() }}" />
-    <link href="{{ asset('anjungan/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('buku_tamu/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
-    <link href="{{ asset('css/buku_tamu/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/buku_tamu/screen.css') }}" rel="stylesheet">
+    <link href="{{ asset('buku_tamu/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('buku_tamu/css/screen.css') }}" rel="stylesheet">
     @stack('css')
 
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
@@ -31,7 +31,7 @@
 
         <!-- Mulai Latar -->
         <div class="bg-image">
-            <img src="{{ asset('images/buku_tamu/background.jpg') }}">
+            <img src="{{ asset('buku_tamu/images/background.jpg') }}">
             <div class="bgload"></div>
             <div class="bgload bgload2"></div>
             <div class="bgload bgload3"></div>
@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="intro">
                                     <h3>BUKU TAMU</h3>
-                                    <img src="{{ asset('images/buku_tamu/intro.png') }}">
+                                    <img src="{{ asset('buku_tamu/images/intro.png') }}">
                                 </div>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
 
 
 </body>
-<script src="{{ asset('buku_tamu/plugins.bundle.js') }}"></script>
+<script src="{{ asset('buku_tamu/js/plugins.bundle.js') }}"></script>
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('js/validasi.js') }}"></script>
 @if (!setting('inspect_element'))
@@ -149,7 +149,7 @@
     }
 </style>
 
-<script src="{{ asset('anjungan/js/support.js') }}"></script>
+<script src="{{ asset('buku/js/support.js') }}"></script>
 <script>
     $(document).ready(function() {
         $('#layanan-mandiri').click(function(event) {

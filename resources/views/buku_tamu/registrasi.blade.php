@@ -97,7 +97,14 @@
 
                 <!-- Mulai Capture Foto -->
                 <div class="capture-box">
+                    <div class="capture-image" style="display:none"></div>
+                    <div class="capture-live"></div>
+                </div>
 
+                <div class="difle-c" id="capture">
+                    <div class="get-image difle-c">
+                    <svg viewBox="0 0 24 24"><path d="M4,4H7L9,2H15L17,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9Z"></path></svg>Capture
+                    </div>
                 </div>
 
                 <input type="hidden" id="foto" name="foto">
@@ -106,7 +113,7 @@
 
                 <div class="capture-bottom" style="align-self: end;">
                     <div class="d-grid" style="margin:0;padding:0;">
-                        <button class="btn knob bg-c1" type="submit" id="simpan"><svg viewBox="0 0 24 24">
+                        <button class="btn knob bg-c1" type="submit" id="simpan" disabled><svg viewBox="0 0 24 24">
                                 <path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
                             </svg>Simpan</button>
                         <button class="btn knob bg-c2" type="reset"><svg viewBox="0 0 24 24">
@@ -128,7 +135,6 @@
 <script>
     // konfigursi webcam
     Webcam.set({
-
         image_format: 'jpg',
         jpeg_quality: 100
     });
@@ -138,10 +144,17 @@
         $(".capture-image").hide();
     });
 
-    $("#simpan").click(function() {
-        Webcam.snap(function(data_uri) {
+    $("#capture").click(function () {
+        Webcam.snap( function(data_uri) {
+            let height = $('.capture-box').height()
+            let width = $('.capture-box').width()
             $("#foto").val(data_uri);
-        });
-    });
+            $('.capture-box').prepend('<img src="'+data_uri+'" style="position: absolute;height: '+height+'px;width:'+width+'px;padding: 10px;border-radius: 4px;"/>'); 
+            $('.capture-box').find('video').hide()
+            $("#simpan").prop("disabled", false);
+        } );
+        $(this).remove()
+    })
 </script>
 @endpush
+
