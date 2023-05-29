@@ -26,7 +26,7 @@ a:focus{outline:none; text-decoration:none !important ;color:#007b17 !important;
 	--bg-gradtop: linear-gradient(to top, var(--bg1), var(--bg2));
 	--bg-gradhor: linear-gradient(to right, var(--bg1), var(--bg2));
 }
-.bg-c1{background-color:var(--bg1);color:var(--c-white);}
+.bg-c1{background-color:var(--bg1) !important;color:var(--c-white) !important;}
 .bg-c1:hover{background-color:#8769b0;color:var(--c-white);}
 .bg-c2{background-color:var(--bg2);color:var(--c-white);}
 .bg-c2:hover{background-color:#009977;color:var(--c-white);}
