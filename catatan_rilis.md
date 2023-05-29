@@ -46,6 +46,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 40. [#6695](https://github.com/OpenSID/OpenSID/issues/6695) Penggunaan cache pada data wilayah rt.
 41. [#6591](https://github.com/OpenSID/OpenSID/issues/6591) Perbaikan pencarian data pada modul satu data > dtks.
 42. [#6689](https://github.com/OpenSID/OpenSID/issues/6689) Perbaikan impor data siskuedes.
+43. [#6696](https://github.com/OpenSID/OpenSID/issues/6696) Perbaikan lihat dokumen pada menu informasi publik halaman website.
 
 #### Perubahan Teknis
 
