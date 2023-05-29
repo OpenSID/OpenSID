@@ -44,6 +44,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 38. [#6645](https://github.com/OpenSID/OpenSID/issues/6645) Penggunaan cache pada data wilayah dusun.
 39. [#6694](https://github.com/OpenSID/OpenSID/issues/6694) Penggunaan cache pada data wilayah rw.
 40. [#6695](https://github.com/OpenSID/OpenSID/issues/6695) Penggunaan cache pada data wilayah rt.
+41. [#6591](https://github.com/OpenSID/OpenSID/issues/6591) Perbaikan pencarian data pada modul satu data > dtks.
+
 
 #### Perubahan Teknis
 
