@@ -513,9 +513,11 @@ class Penduduk_model extends MY_Model
         $this->order_by_list($order_by);
 
         if ($page > 0) {
-            $jumlah_pilahan = $this->db->count_all_results('', false);
-            $paging         = $this->paginasi($page, $jumlah_pilahan);
-            $this->db->limit($paging->per_page, $paging->offset);
+            if ($this->session->per_page > 0) {
+                $jumlah_pilahan = $this->db->count_all_results('', false);
+                $paging         = $this->paginasi($page, $jumlah_pilahan);
+                $this->db->limit($paging->per_page, $paging->offset);
+            }
         }
 
         $query_dasar = $this->db->select('u.*')->get_compiled_select();
