@@ -10,23 +10,23 @@
     <meta name="keywords" content="anjungan, opensid, mandiri, desa">
     <title>Anjungan OpenSID</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ favico_desa() }}">
 
-    <link href="{{ asset('css/anjungan/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/anjungan/default.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/anjungan/color/nature.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/anjungan/color/nature.css') }}" rel="stylesheet alternate" title="nature" />
-    <link href="{{ asset('css/anjungan/color/travel.css') }}" rel="stylesheet alternate" title="travel" />
-    <link href="{{ asset('css/anjungan/color/casual.css') }}" rel="stylesheet alternate" title="casual" />
-    <link href="{{ asset('css/anjungan/darkmode.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/anjungan/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/anjungan/screen.css') }}" rel="stylesheet">
+    <link href="{{ asset('anjungan/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('anjungan/css/default.css') }}" rel="stylesheet">
+    <link href="{{ asset('anjungan/css/color/nature.css') }}" rel="stylesheet">
+    <link href="{{ asset('anjungan/css/color/nature.css') }}" rel="stylesheet alternate" title="nature" />
+    <link href="{{ asset('anjungan/css/color/travel.css') }}" rel="stylesheet alternate" title="travel" />
+    <link href="{{ asset('anjungan/css/color/casual.css') }}" rel="stylesheet alternate" title="casual" />
+    <link href="{{ asset('anjungan/css/darkmode.css') }}" rel="stylesheet">
+    <link href="{{ asset('anjungan/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('anjungan/css/screen.css') }}" rel="stylesheet">
     @stack('css')
 
     <!-- jQuery 3 -->
-    <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/flickity.js') }}"></script>
+    <script src="{{ asset('anjungan/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('anjungan/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('anjungan/js/flickity.js') }}"></script>
 </head>
 
 <body>
@@ -54,24 +54,24 @@
             <!-- Mulai Icon Kanan -->
             <div class="topright difle-l">
                 <a class="topright-icon radius-4 popup" title="Kehadiran Perangkat Desa" data-value="./kehadiran"><img
-                        src="{{ asset('images/anjungan/icon/absen.png') }}">
+                        src="{{ asset('anjungan/images/icon/absen.png') }}">
                     <p>Absen</p>
                 </a>
                 <a class="topright-icon radius-4" href="./buku-tamu"><img
-                        src="{{ asset('images/anjungan/icon/bukutamu.png') }}">
+                        src="{{ asset('anjungan/images/icon/bukutamu.png') }}">
                     <p>Buku<br />Tamu</p>
                 </a>
                 <a class="topright-icon radius-4" data-bs-toggle="modal" data-bs-target="#aparatur"><img
-                        src="{{ asset('images/anjungan/icon/aparatur.png') }}">
+                        src="{{ asset('anjungan/images/icon/aparatur.png') }}">
                     <p>Aparatur<br />Desa</p>
                 </a>
                 <a class="topright-icon radius-4 popup" data-value="./layanan-mandiri/masuk"><img
-                        src="{{ asset('images/anjungan/icon/mandiri.png') }}">
+                        src="{{ asset('anjungan/images/icon/mandiri.png') }}">
                     <p>Layanan<br />Mandiri</p>
                 </a>
                 <div style="position:relative;">
                     <div class="topright-icon radius-4" data-bs-toggle="dropdown">
-                        <div><img src="{{ asset('images/anjungan/icon/warna.png') }}">
+                        <div><img src="{{ asset('anjungan/images/icon/warna.png') }}">
                             <p>Pilih<br />Warna</p>
                         </div>
                     </div>
@@ -103,18 +103,18 @@
                         </div>
                         <div class="darklight difle-l" onclick="setDarkMode(true)" id="darkBtn">
                             <div class="darklight-icon radius-4 difle-c"><img
-                                    src="{{ asset('images/anjungan/icon/dark.png') }}"></div>
+                                    src="{{ asset('anjungan/images/icon/dark.png') }}"></div>
                             <p>Gelapkan Layar</p>
                         </div>
                     </div>
                 </div>
                 <div class="topright-icon iconhid radius-4" id="openfull" onclick="openFullscreen();">
-                    <div><img src="{{ asset('images/anjungan/icon/maximize.png') }}">
+                    <div><img src="{{ asset('anjungan/images/icon/maximize.png') }}">
                         <p>Full<br />Screen</p>
                     </div>
                 </div>
                 <div class="topright-icon iconhid radius-4" id="exitfull" onclick="closeFullscreen();">
-                    <div><img src="{{ asset('images/anjungan/icon/minimize.png') }}">
+                    <div><img src="{{ asset('anjungan/images/icon/minimize.png') }}">
                         <p>Exit<br />Fullscreen</p>
                     </div>
                 </div>
@@ -196,37 +196,61 @@
                                         <div class="article-box">
                                             <div id="slide-container">
                                                 <div id="slides">
-                                                    <article class="featured-article animated">
+                                                    @for ($i = 0; $i < $arsip_terkini->count(); $i +=2)
+                                                     <article class="featured-article animated"> 
                                                         <div class="mlr-10">
                                                             <div class="grider mlr-min5">
-                                                                @foreach ($arsip_terkini as $key => $arsip)
-                                                                    @if ($loop->odd)
-                                                                        <div class="col-2">
-                                                                            <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}"
-                                                                                class="popup">
-                                                                                <div class="imagecrop-grid">
-                                                                                    @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']))
-                                                                                        <img
-                                                                                            src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip[gambar]) }}">
-                                                                                    @else
-                                                                                        <img
-                                                                                            src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
-                                                                                    @endif
+                                                                <div class="col-2">
+                                                                    <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i])) }}"
+                                                                        class="popup">
+                                                                        <div class="imagecrop-grid">
+                                                                            @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i]['gambar']))
+                                                                                <img
+                                                                                    src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i][gambar]) }}">
+                                                                            @else
+                                                                                <img
+                                                                                    src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
+                                                                            @endif
 
-                                                                                    <div class="posting">
-                                                                                        {{ tgl_indo($arsip['tgl_upload']) }}
-                                                                                    </div>
-                                                                                </div>
-                                                                                <h2>{{ \Illuminate\Support\Str::limit($arsip->judul, $limit = 75, $end = '...') }}
-                                                                                </h2>
-                                                                            </a>
+                                                                            <div class="posting">
+                                                                                {{ tgl_indo($arsip_terkini[$i]['tgl_upload']) }}
+                                                                            </div>
                                                                         </div>
-                                                                    @endif
-                                                                @endforeach
+                                                                        <h2>{{ \Illuminate\Support\Str::limit($arsip_terkini[$i]->judul, $limit = 75, $end = '...') }}
+                                                                        </h2>
+                                                                    </a>
+                                                                </div>
+
+                                                                @if ($arsip_terkini[$i+1])
+                                                                <div class="col-2">
+                                                                    <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i+1])) }}"
+                                                                        class="popup">
+                                                                        <div class="imagecrop-grid">
+                                                                            @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i+1]['gambar']))
+                                                                                <img
+                                                                                    src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i+1][gambar]) }}">
+                                                                            @else
+                                                                                <img
+                                                                                    src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
+                                                                            @endif
+
+                                                                            <div class="posting">
+                                                                                {{ tgl_indo($arsip_terkini[$i+1]['tgl_upload']) }}
+                                                                            </div>
+                                                                        </div>
+                                                                        <h2>{{ \Illuminate\Support\Str::limit($arsip_terkini[$i+1]->judul, $limit = 75, $end = '...') }}
+                                                                        </h2>
+                                                                    </a>
+                                                                </div>
+                                                                @endif
                                                             </div>
                                                         </div>
-                                                    </article>
-
+                                                     </article>
+                                                     <div class="button-slide difle-c">
+                                                        <button class="prev"><div class="slide-btn difle-c"><svg viewBox="0 0 24 24"><path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" /></svg></div></button>
+                                                        <button class="next"><div class="slide-btn difle-c"><svg viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg></div></button>
+                                                    </div>
+                                                    @endfor
                                                 </div>
                                             </div>
                                         </div>
@@ -372,8 +396,12 @@
 </body>
 
 </html>
+<script>
+    var light = '{{ asset('anjungan/images/icon/light.png') }}';
+    var dark = '{{ asset('anjungan/images/icon/dark.png') }}';
+</script>
 
-<script src="{{ asset('js/support.js') }}"></script>
+<script src="{{ asset('anjungan/js/support.js') }}"></script>
 
 <script>
     var count = -1;

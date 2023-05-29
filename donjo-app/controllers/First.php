@@ -366,12 +366,33 @@ class First extends Web_Controller
             $data['link_berkas'] = null;
         } else {
             $data = [
-                'link_berkas' => site_url("dokumen/tampilkan_berkas/{$id_dokumen}/{$id_pend}"),
+                'link_berkas' => site_url("first/dokumen_tampilkan_berkas/{$id_dokumen}/{$id_pend}"),
                 'tipe'        => get_extension($berkas),
-                'link_unduh'  => site_url("dokumen/unduh_berkas/{$id_dokumen}/{$id_pend}"),
+                'link_unduh'  => site_url("first/dokumen_unduh_berkas/{$id_dokumen}/{$id_pend}"),
             ];
         }
         $this->load->view('global/tampilkan', $data);
+    }
+
+    /**
+     * Unduh berkas berdasarkan kolom dokumen.id
+     *
+     * @param int        $id_dokumen Id berkas pada koloam dokumen.id
+     * @param mixed|null $id_pend
+     * @param mixed      $tampil
+     *
+     * @return void
+     */
+    public function dokumen_unduh_berkas($id_dokumen, $id_pend = null, $tampil = false)
+    {
+        // Ambil nama berkas dari database
+        $data = $this->web_dokumen_model->get_dokumen($id_dokumen, $id_pend);
+        ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN, $tampil);
+    }
+
+    public function dokumen_tampilkan_berkas($id_dokumen, $id_pend = null)
+    {
+        $this->dokumen_unduh_berkas($id_dokumen, $id_pend, $tampil = true);
     }
 
     public function kategori($id, $p = 1)

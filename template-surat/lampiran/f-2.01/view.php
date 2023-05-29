@@ -287,13 +287,13 @@
             <td class="kanan">:</td>
             <td>Tgl</td>
             <td class="kanan">:</td>
-            <?= kotak(date('dd', strtotime($input['tanggal_perkawinan'])), 2); ?>
+            <?= kotak(date('dd', strtotime($input['tanggal_lahir_ayah'])), 2); ?>
             <td>Bln</td>
             <td class="kanan">:</td>
-            <?= kotak(date('mm', strtotime($input['tanggal_perkawinan'])), 2); ?>
+            <?= kotak(date('mm', strtotime($input['tanggal_lahir_ayah'])), 2); ?>
             <td>Thn</td>
             <td class="kanan">:</td>
-            <?= kotak(date('Y', strtotime($input['tanggal_perkawinan'])), 4); ?>
+            <?= kotak(date('Y', strtotime($input['tanggal_lahir_ayah'])), 4); ?>
         </tr>
         <tr>
             <td colspan="21">Kewarganegaraan</td>
