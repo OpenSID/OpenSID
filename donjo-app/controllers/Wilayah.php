@@ -58,27 +58,31 @@ class Wilayah extends Admin_Controller
     {
         $this->session->unset_userdata('cari');
         $this->session->per_page = $this->_set_page[0];
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}");
     }
 
     public function index($p = 1, $o = 0)
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
-
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
             $this->session->per_page = $per_page;
         }
 
-        $data['cari']     = $this->session->cari ?: '';
-        $data['func']     = 'index';
-        $data['set_page'] = $this->_set_page;
-        $data['per_page'] = $this->session->per_page;
-        $data['paging']   = $this->wilayah_model->paging($p, $o);
-        $data['main']     = $this->wilayah_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']  = $this->wilayah_model->autocomplete();
-        $data['total']    = $this->wilayah_model->total();
+        $data = $this->cache->pakai_cache(function () use ($p, $o) {
+            $data['p']        = $p;
+            $data['o']        = $o;
+            $data['cari']     = $this->session->cari ?: '';
+            $data['func']     = 'index';
+            $data['set_page'] = $this->_set_page;
+            $data['per_page'] = $this->session->per_page;
+            $data['keyword']  = $this->wilayah_model->autocomplete();
+            $data['paging']   = json_decode(json_encode($this->wilayah_model->paging($p, $o)));
+            $data['main']     = $this->wilayah_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+            $data['total']    = $this->wilayah_model->total();
+
+            return $data;
+        }, "{$this->session->per_page}_{$p}_{$this->session->cari}_dusun_wilayah", 24 * 60 * 60);
 
         $this->render('sid/wilayah/wilayah', $data);
     }
@@ -122,9 +126,8 @@ class Wilayah extends Admin_Controller
     public function apipendudukwilayah()
     {
         if ($this->input->is_ajax_request()) {
-            $cari   = $this->input->get('q');
-            $kepala = WilayahModel::pluck('id_kepala')->filter(static function ($value) { return null !== $value; });
-
+            $cari     = $this->input->get('q');
+            $kepala   = WilayahModel::pluck('id_kepala')->filter(static function ($value) { return null !== $value; });
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
                 ->when($cari, static function ($query) use ($cari) {
                     $query->orWhere('nik', 'like', "%{$cari}%")
@@ -165,6 +168,7 @@ class Wilayah extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->insert();
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}");
     }
 
@@ -172,6 +176,7 @@ class Wilayah extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update($id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}");
     }
 
@@ -180,6 +185,7 @@ class Wilayah extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
         $this->wilayah_model->delete($tipe, $id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect($_SERVER['HTTP_REFERER']);
     }
 
@@ -190,16 +196,19 @@ class Wilayah extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $dusun            = $this->wilayah_model->cluster_by_id($id_dusun);
-        $nama_dusun       = $dusun['dusun'];
-        $data['dusun']    = $dusun['dusun'];
-        $data['id_dusun'] = $id_dusun;
-        $data['func']     = "sub_rw/{$id_dusun}";
-        $data['set_page'] = $this->_set_page;
+        $data = $this->cache->pakai_cache(function () use ($id_dusun, $p, $o) {
+            $dusun            = $this->wilayah_model->cluster_by_id($id_dusun);
+            $nama_dusun       = $dusun['dusun'];
+            $data['dusun']    = $dusun['dusun'];
+            $data['id_dusun'] = $id_dusun;
+            $data['func']     = "sub_rw/{$id_dusun}";
+            $data['set_page'] = $this->_set_page;
+            $data['paging']   = json_decode(json_encode($this->wilayah_model->paging_rw($p, $o, $nama_dusun)));
+            $data['main']     = $this->wilayah_model->list_data_rw($id_dusun, $data['paging']->offset, $data['paging']->per_page);
+            $data['total']    = $this->wilayah_model->total_rw($nama_dusun);
 
-        $data['paging'] = $this->wilayah_model->paging_rw($p, $o, $nama_dusun);
-        $data['main']   = $this->wilayah_model->list_data_rw($id_dusun, $data['paging']->offset, $data['paging']->per_page);
-        $data['total']  = $this->wilayah_model->total_rw($nama_dusun);
+            return $data;
+        }, "{$this->session->per_page}_{$p}_{$id_dusun}_rw_wilayah", 24 * 60 * 60);
 
         $this->render('sid/wilayah/wilayah_rw', $data);
     }
@@ -254,6 +263,7 @@ class Wilayah extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->insert_rw($id_dusun);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}/sub_rw/{$id_dusun}");
     }
 
@@ -261,6 +271,7 @@ class Wilayah extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update_rw($id_rw);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}/sub_rw/{$id_dusun}");
     }
 
@@ -271,18 +282,20 @@ class Wilayah extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data_rw          = $this->wilayah_model->cluster_by_id($id_rw);
-        $data['dusun']    = $data_rw['dusun'];
-        $data['id_dusun'] = $id_dusun;
-        $data['rw']       = $data_rw['rw'];
-        $data['id_rw']    = $id_rw;
+        $data = $this->cache->pakai_cache(function () use ($id_dusun, $id_rw, $p, $o) {
+            $data_rw          = $this->wilayah_model->cluster_by_id($id_rw);
+            $data['dusun']    = $data_rw['dusun'];
+            $data['id_dusun'] = $id_dusun;
+            $data['rw']       = $data_rw['rw'];
+            $data['id_rw']    = $id_rw;
+            $data['func']     = "sub_rt/{$id_dusun}/{$id_rw}";
+            $data['set_page'] = $this->_set_page;
+            $data['paging']   = $this->wilayah_model->paging_rt($p, $o, $data['dusun'], $data['rw']);
+            $data['main']     = $this->wilayah_model->list_data_rt($data['dusun'], $data['rw'], $data['paging']->offset, $data['paging']->per_page);
+            $data['total']    = $this->wilayah_model->total_rt($data['dusun'], $data['rw']);
 
-        $data['func']     = "sub_rt/{$id_dusun}/{$id_rw}";
-        $data['set_page'] = $this->_set_page;
-
-        $data['paging'] = $this->wilayah_model->paging_rt($p, $o, $data['dusun'], $data['rw']);
-        $data['main']   = $this->wilayah_model->list_data_rt($data['dusun'], $data['rw'], $data['paging']->offset, $data['paging']->per_page);
-        $data['total']  = $this->wilayah_model->total_rt($data['dusun'], $data['rw']);
+            return $data;
+        }, "{$this->session->per_page}_{$p}_{$id_dusun}_{$id_rw}_rt_wilayah", 24 * 60 * 60);
 
         $this->render('sid/wilayah/wilayah_rt', $data);
     }
@@ -345,6 +358,7 @@ class Wilayah extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->insert_rt($id_dusun, $id_rw);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}");
     }
 
@@ -352,6 +366,7 @@ class Wilayah extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update_rt($id_rt);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}");
     }
 
@@ -489,6 +504,7 @@ class Wilayah extends Admin_Controller
             $this->render('sid/wilayah/maps_kantor', $data);
         } else {
             session_error("Lokasi Kantor {$sebutan_dusun} {$dusun} Belum Dilengkapi");
+
             redirect("{$this->controller}/sub_rw/{$id_dusun}");
         }
     }
@@ -543,7 +559,7 @@ class Wilayah extends Admin_Controller
         $data['rt_gis']       = $this->wilayah_model->list_rt();
         $data['nama_wilayah'] = 'RT ' . $data['wil_ini']['rt'] . ' RW ' . $data['wil_ini']['rw'] . ' ' . ucwords($sebutan_dusun . ' ' . $data['wil_ini']['dusun']);
         $data['breadcrumb']   = [
-            ['link' => site_url('wilayah/clear'), 'judul' => 'Daftar ' . $sebutan_dusun],
+            ['link' => site_url("{$this->controller}/clear"), 'judul' => 'Daftar ' . $sebutan_dusun],
             ['link' => site_url("{$this->controller}/sub_rw/{$id_dusun}"), 'judul' => 'Daftar RW'],
             ['link' => site_url("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}"), 'judul' => 'Daftar RT'],
         ];
@@ -570,7 +586,7 @@ class Wilayah extends Admin_Controller
         $data['rt_gis']       = $this->wilayah_model->list_rt();
         $data['nama_wilayah'] = 'RT ' . $data['wil_ini']['rt'] . ' RW ' . $data['wil_ini']['rw'] . ' ' . ucwords($sebutan_dusun . ' ' . $data['wil_ini']['dusun']);
         $data['breadcrumb']   = [
-            ['link' => site_url('wilayah/clear'), 'judul' => 'Daftar ' . $sebutan_dusun],
+            ['link' => site_url("{$this->controller}/clear"), 'judul' => 'Daftar ' . $sebutan_dusun],
             ['link' => site_url("{$this->controller}/sub_rw/{$id_dusun}"), 'judul' => 'Daftar RW'],
             ['link' => site_url("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}"), 'judul' => 'Daftar RT'],
         ];
@@ -581,8 +597,7 @@ class Wilayah extends Admin_Controller
         if (! empty($data['wil_atas']['path'] && ! empty($data['wil_atas']['lat'] && ! empty($data['wil_atas']['lng'])))) {
             $this->render('sid/wilayah/maps_wilayah', $data);
         } else {
-            $this->session->success   = -1;
-            $this->session->error_msg = "Peta Lokasi/Wilayah {$sebutan_dusun} {$dusun} Belum Dilengkapi";
+            session_error("Peta Lokasi/Wilayah {$sebutan_dusun} {$dusun} Belum Dilengkapi");
             redirect("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}");
         }
     }
