@@ -59,9 +59,8 @@ class Migrasi_fitur_premium_2306 extends MY_model
     {
         $hasil = $hasil && $this->migrasi_2023052452($hasil);
         $hasil = $hasil && $this->migrasi_2023052951($hasil);
-        $hasil = $hasil && $this->migrasi_2023053051($hasil);
 
-        return $hasil && $this->migrasi_2023053052($hasil);
+        return $hasil && $this->migrasi_2023053051($hasil);
     }
 
     // Migrasi perubahan data
@@ -78,8 +77,9 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $hasil = $hasil && $this->migrasi_2023052451($hasil);
         $hasil = $hasil && $this->migrasi_2023052453($hasil);
         $hasil = $hasil && $this->migrasi_2023052551($hasil);
+        $hasil = $hasil && $this->migrasi_2023052454($hasil);
 
-        return $hasil && $this->migrasi_2023052454($hasil);
+        return $hasil && $this->migrasi_2023053052($hasil);
     }
 
     protected function migrasi_2023052351($hasil, $id)
