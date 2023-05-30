@@ -48,6 +48,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 42. [#6689](https://github.com/OpenSID/OpenSID/issues/6689) Perbaikan impor data siskuedes.
 43. [#6696](https://github.com/OpenSID/OpenSID/issues/6696) Perbaikan lihat dokumen pada menu informasi publik halaman website.
 44. [#6693](https://github.com/OpenSID/OpenSID/issues/6693) Perbaikan tampilan widget arsip layanan.
+45. [#6702](https://github.com/OpenSID/OpenSID/issues/6702) Perbaikan latar belakang halaman periksa.
 
 #### Perubahan Teknis
 
