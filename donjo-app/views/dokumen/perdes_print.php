@@ -41,8 +41,8 @@
 							<th>URAIAN SINGKAT</th>
 							<th>TANGGAL KESEPAKATAN PERATURAN DESA</th>
 							<th>NOMOR DAN TANGGAL DILAPORKAN</th>
-							<th>NOMOR DAN TANGGAL DIUNDANGKAN DALAM LEMBARAN DESA</th>
-							<th>NOMOR DAN TANGGAL DIUNDANGKAN DALAM BERITA DESA</th>
+							<th>NOMOR DAN TANGGAL DIUNDANGKAN DALAM LEMBARAN <?=strtoupper($this->setting->sebutan_desa)?></th>
+							<th>NOMOR DAN TANGGAL DIUNDANGKAN DALAM BERITA <?=strtoupper($this->setting->sebutan_desa)?></th>
 							<th>KET.</th>
 						</tr>
 						<tr class="border thick">

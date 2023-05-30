@@ -4,9 +4,9 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
 			<?php if (in_array($kat, ['2', '3'])) : ?>
-				<li><a href="<?= $kembali_ke ?: site_url("{$this->controller}/peraturan_desa/{$kat}"); ?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama ?></a></li>
+				<li><a href="<?= $kembali_ke ?: site_url("{$this->controller}/peraturan_desa/{$kat}"); ?>"> Daftar <?= $kat_nama ?></a></li>
 			<?php else : ?>
-				<li><a href="<?= site_url("{$this->controller}/index/{$kat}"); ?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama ?></a></li>
+				<li><a href="<?= site_url("{$this->controller}/index/{$kat}"); ?>"> Daftar <?= $kat_nama ?></a></li>
 			<?php endif; ?>
 			<li class="active">Pengaturan <?= $kat_nama ?></li>
 		</ol>

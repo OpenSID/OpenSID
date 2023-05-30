@@ -51,6 +51,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 45. [#6702](https://github.com/OpenSID/OpenSID/issues/6702) Perbaikan latar belakang halaman periksa.
 46. [#6705](https://github.com/OpenSID/OpenSID/issues/6705) Perbaikan API hari libur.
 47. [#6692](https://github.com/OpenSID/OpenSID/issues/6692) Perbaikan form tambah atau ubah data inventaris gedung dan bangunan.
+48. [#6663](https://github.com/OpenSID/OpenSID/issues/6663) Perbaikan penyebutan sebutan desa, kepala desa dan pemerintah desa pada mmodul bumindes administrasi umum.
 
 #### Perubahan Teknis
 
