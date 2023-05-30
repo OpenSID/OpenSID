@@ -182,14 +182,14 @@ class Kehadiran_hari_libur extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $kalender = file_get_contents('https://raw.githubusercontent.com/guangrei/Json-Indonesia-holidays/master/calendar.json');
+        $kalender = file_get_contents(config_item('api_hari_libur'));
         $tanggal  = json_decode($kalender, true);
 
         $batch = collect($tanggal)->map(static function ($item, $key) {
             return [
                 'config_id'  => identitas('id'),
                 'tanggal'    => date_format(date_create($key), 'Y-m-d'),
-                'keterangan' => $item['deskripsi'],
+                'keterangan' => $item['summary'][0],
             ];
         })->filter(static function ($value, $key) {
             return $value['tanggal'] > date('Y') . '-01-01';

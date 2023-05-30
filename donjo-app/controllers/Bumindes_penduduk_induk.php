@@ -53,7 +53,7 @@ class Bumindes_penduduk_induk extends Admin_Controller
         $this->modul_ini     = 'buku-administrasi-desa';
         $this->sub_modul_ini = 'administrasi-penduduk';
 
-        $this->_set_page = ['10', '20', '50', '100'];
+        $this->_set_page = ['10', '20', '50', '100', [0, 'Semua']];
 
         // Samakan dengan donjo-app/controllers/Penduduk.php, karena memanggil penduduk_model
         $this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
@@ -85,12 +85,10 @@ class Bumindes_penduduk_induk extends Admin_Controller
             'tahun'        => $this->session->filter_tahun,
             'func'         => 'index',
             'set_page'     => $this->_set_page,
+            'main'         => $list_data['main'],
             'paging'       => $list_data['paging'],
             'list_tahun'   => $this->penduduk_log_model->list_tahun(),
         ];
-
-        // TODO : Cari cara agar bisa digabungkan ke array $data = [] (tdk terpisah)
-        $data['main'] = $list_data['main'];
 
         $this->render('bumindes/penduduk/main', $data);
     }

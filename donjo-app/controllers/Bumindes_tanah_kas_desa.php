@@ -68,7 +68,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
         }
 
         $this->render('bumindes/umum/main', [
-            'subtitle'     => 'Buku Tanah Kas Desa',
+            'subtitle'     => 'Buku Tanah Kas ' . ucwords($this->setting->sebutan_desa),
             'selected_nav' => 'tanah_kas',
             'main_content' => 'bumindes/pembangunan/tanah_kas_desa/content_tanah_kas_desa',
         ]);

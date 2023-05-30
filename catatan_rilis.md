@@ -72,6 +72,12 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 42. [#6689](https://github.com/OpenSID/OpenSID/issues/6689) Perbaikan impor data siskuedes.
 43. [#6696](https://github.com/OpenSID/OpenSID/issues/6696) Perbaikan lihat dokumen pada menu informasi publik halaman website.
 44. [#6693](https://github.com/OpenSID/OpenSID/issues/6693) Perbaikan tampilan widget arsip layanan.
+45. [#6702](https://github.com/OpenSID/OpenSID/issues/6702) Perbaikan latar belakang halaman periksa.
+46. [#6705](https://github.com/OpenSID/OpenSID/issues/6705) Perbaikan API hari libur.
+47. [#6692](https://github.com/OpenSID/OpenSID/issues/6692) Perbaikan form tambah atau ubah data inventaris gedung dan bangunan.
+48. [#6663](https://github.com/OpenSID/OpenSID/issues/6663) Perbaikan penyebutan sebutan desa, kepala desa dan pemerintah desa pada modul bumindes administrasi umum.
+49. [#6701](https://github.com/OpenSID/OpenSID/issues/6701) Perbaikan notifikasi dan proses simpan artikel jika unggah gambar gagal.
+
 
 #### Perubahan Teknis
 
@@ -81,3 +87,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#6670](https://github.com/OpenSID/OpenSID/issues/6670) Penyesuaian informasi pada notifikasi error.
 5. [#6631](https://github.com/OpenSID/OpenSID/issues/6631) Penyesuaian backup dan restore database agar konsisten.
 6. [#2350](https://github.com/OpenSID/premium/issues/2350) Penyesuaian notifikasi rilis dan versi yg disarankan jika masa berlangganan sudah berakhir.
+7. [#6697](https://github.com/OpenSID/OpenSID/issues/6697) Penyesuaian cara menampilkan modul pada grup pengguna.

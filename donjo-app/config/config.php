@@ -630,6 +630,14 @@ $config['api_sdgs'] = 'https://sid.kemendesa.go.id/sdgs/searching/score-sdgs?loc
 
 /*
 |--------------------------------------------------------------------------
+| API Hari Libur
+|--------------------------------------------------------------------------
+|
+*/
+$config['api_hari_libur'] = 'https://raw.githubusercontent.com/guangrei/APIHariLibur_V2/main/calendar.min.json';
+
+/*
+|--------------------------------------------------------------------------
 | Path View Blade
 |--------------------------------------------------------------------------
 |
