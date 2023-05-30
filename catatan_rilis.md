@@ -23,16 +23,16 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 17. [#6654](https://github.com/OpenSID/OpenSID/issues/6654) Perbaikan penyeragaman header agar konsisten.
 18. [#6658](https://github.com/OpenSID/OpenSID/issues/6658) Perbaikan session nama setelah login dan setelah perubahan profil.
 19. [#6593](https://github.com/OpenSID/OpenSID/issues/6593) Perbaikan penanda tangan pada lampiran f2.01 tidak sesuai.
-20. [#6665](https://github.com/OpenSID/OpenSID/issues/6665) Penyesuaian validasi grup pengguna pada saat buat key opendk agar tidak membingungkan pengguna.
+20. [#6665](https://github.com/OpenSID/OpenSID/issues/6665) Perbaikan validasi grup pengguna pada saat buat key opendk agar tidak membingungkan pengguna.
 21. [#6635](https://github.com/OpenSID/OpenSID/issues/6635) Perbaikan timeout ketika import data penduduk jika jumlah penduduk cukup besar.
-22. [#6655](https://github.com/OpenSID/OpenSID/issues/6655) Hapus data palsu pada seeder pemasangan awal.
+22. [#6655](https://github.com/OpenSID/OpenSID/issues/6655) Perbaikan data pada seeder pemasangan awal.
 23. [#6656](https://github.com/OpenSID/OpenSID/issues/6656) Perbaikan validasi simpan nama pengguna pada halaman profil pengguna.
 24. [#6585](https://github.com/OpenSID/OpenSID/issues/6585) Perbaikan data keperluan tidak tersimpan saat lakukan registrasi pada buku tamu.
 25. [#6672](https://github.com/OpenSID/OpenSID/issues/6672) Perbaikan input tanggal pada form modul pengurus.
 26. [#6671](https://github.com/OpenSID/OpenSID/issues/6671) Perbaikan kolom tahun pada lampiran F-2.01.
 27. [#6662](https://github.com/OpenSID/OpenSID/issues/6662) Perbaikan ambil data IDM yang tersimpan pada cache.
-28. [#6660](https://github.com/OpenSID/OpenSID/issues/6660) Penyesuaian tampilan detail kotak masuk dan keluar pada kotak pesan layanan mandiri.
-29. [#6641](https://github.com/OpenSID/OpenSID/issues/6641) Penyesuaian nama dan tampilan tabel pada modul klasifikasi surat.
+28. [#6660](https://github.com/OpenSID/OpenSID/issues/6660) Perbaikan tampilan detail kotak masuk dan keluar pada kotak pesan layanan mandiri.
+29. [#6641](https://github.com/OpenSID/OpenSID/issues/6641) Perbaikan nama dan tampilan tabel pada modul klasifikasi surat.
 30. [#6661](https://github.com/OpenSID/OpenSID/issues/6661) Perbaikan hapus kategori yang memiliki sub kategori.
 31. [#6685](https://github.com/OpenSID/OpenSID/issues/6685) Perbaikan cara menampilkan icon baterai langganan sesuai akses modul pelanggan.
 32. [#6686](https://github.com/OpenSID/OpenSID/issues/6686) Perbaikan kesalahan penulisan atribut rquired pada surat jenis tinymce.
@@ -41,9 +41,9 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 35. [#6587](https://github.com/OpenSID/OpenSID/issues/6587) Perbaikan urutkan data pada modul buku administrasi pembangunan > buku kegiatan pembangunan.
 36. [#6588](https://github.com/OpenSID/OpenSID/issues/6588) Perbaikan urutkan data pada modul buku administrasi pembangunan > buku rencana kerja pembangunan.
 37. [#6589](https://github.com/OpenSID/OpenSID/issues/6589) Perbaikan urutkan data pada modul buku administrasi pembangunan > buku inventaris hasil-hasil pembangunan.
-38. [#6645](https://github.com/OpenSID/OpenSID/issues/6645) Penggunaan cache pada data wilayah dusun.
-39. [#6694](https://github.com/OpenSID/OpenSID/issues/6694) Penggunaan cache pada data wilayah rw.
-40. [#6695](https://github.com/OpenSID/OpenSID/issues/6695) Penggunaan cache pada data wilayah rt.
+38. [#6645](https://github.com/OpenSID/OpenSID/issues/6645) Perbaikan performa pada data wilayah dusun.
+39. [#6694](https://github.com/OpenSID/OpenSID/issues/6694) Perbaikan performa pada data wilayah rw.
+40. [#6695](https://github.com/OpenSID/OpenSID/issues/6695) Perbaikan performa pada data wilayah rt.
 41. [#6591](https://github.com/OpenSID/OpenSID/issues/6591) Perbaikan pencarian data pada modul satu data > dtks.
 42. [#6689](https://github.com/OpenSID/OpenSID/issues/6689) Perbaikan impor data siskuedes.
 43. [#6696](https://github.com/OpenSID/OpenSID/issues/6696) Perbaikan lihat dokumen pada menu informasi publik halaman website.
@@ -53,6 +53,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 47. [#6692](https://github.com/OpenSID/OpenSID/issues/6692) Perbaikan form tambah atau ubah data inventaris gedung dan bangunan.
 48. [#6663](https://github.com/OpenSID/OpenSID/issues/6663) Perbaikan penyebutan sebutan desa, kepala desa dan pemerintah desa pada modul bumindes administrasi umum.
 49. [#6701](https://github.com/OpenSID/OpenSID/issues/6701) Perbaikan notifikasi dan proses simpan artikel jika unggah gambar gagal.
+50. [#6664](https://github.com/OpenSID/OpenSID/issues/6664) Perbaikan gagal rekamm kehadiran saat jam pulang.
 
 
 #### Perubahan Teknis
