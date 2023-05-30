@@ -50,6 +50,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 44. [#6693](https://github.com/OpenSID/OpenSID/issues/6693) Perbaikan tampilan widget arsip layanan.
 45. [#6702](https://github.com/OpenSID/OpenSID/issues/6702) Perbaikan latar belakang halaman periksa.
 46. [#6705](https://github.com/OpenSID/OpenSID/issues/6705) Perbaikan API hari libur.
+47. [#6692](https://github.com/OpenSID/OpenSID/issues/6692) Perbaikan form tambah atau ubah data inventaris gedung dan bangunan.
 
 #### Perubahan Teknis
 
