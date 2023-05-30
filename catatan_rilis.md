@@ -53,6 +53,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 47. [#6692](https://github.com/OpenSID/OpenSID/issues/6692) Perbaikan form tambah atau ubah data inventaris gedung dan bangunan.
 48. [#6663](https://github.com/OpenSID/OpenSID/issues/6663) Perbaikan penyebutan sebutan desa, kepala desa dan pemerintah desa pada mmodul bumindes administrasi umum.
 
+
 #### Perubahan Teknis
 
 1. [#6605](https://github.com/OpenSID/OpenSID/issues/6605) Penyesuaian jumlah data tampailan pagging pada halaman Pendataan penerima vaksin covid-19.
@@ -61,3 +62,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#6670](https://github.com/OpenSID/OpenSID/issues/6670) Penyesuaian informasi pada notifikasi error.
 5. [#6631](https://github.com/OpenSID/OpenSID/issues/6631) Penyesuaian backup dan restore database agar konsisten.
 6. [#2350](https://github.com/OpenSID/premium/issues/2350) Penyesuaian notifikasi rilis dan versi yg disarankan jika masa berlangganan sudah berakhir.
+7. [#6697](https://github.com/OpenSID/OpenSID/issues/6697) Penyesuaian cara menampilkan modul pada grup pengguna.

@@ -52,8 +52,9 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $hasil = $hasil && $this->migrasi_2023052451($hasil);
         $hasil = $hasil && $this->migrasi_2023052551($hasil);
         $hasil = $hasil && $this->migrasi_2023052951($hasil);
+        $hasil = $hasil && $this->migrasi_2023053051($hasil);
 
-        return $hasil && $this->migrasi_2023053051($hasil);
+        return $hasil && $this->migrasi_2023053052($hasil);
     }
 
     protected function migrasi_2023052351($hasil)
@@ -138,5 +139,15 @@ class Migrasi_fitur_premium_2306 extends MY_model
                 'null' => true,
             ],
         ]);
+    }
+
+    protected function migrasi_2023053052($hasil)
+    {
+        $this->db->where('slug', 'administrasi-keuangan')->delete('setting_modul');
+
+        // Hapus cache menu navigasi
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        return $hasil;
     }
 }
