@@ -234,6 +234,8 @@ class Web_artikel_model extends MY_Model
                 $hasil     = UploadArtikel($nama_file, $gambar, $fp, $tipe_file);
                 if ($hasil) {
                     $data[$gambar] = $nama_file;
+                } else {
+                    redirect('web');
                 }
             }
         }
