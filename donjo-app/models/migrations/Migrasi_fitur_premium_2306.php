@@ -51,8 +51,9 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $hasil = $hasil && $this->migrasi_2023052351($hasil);
         $hasil = $hasil && $this->migrasi_2023052451($hasil);
         $hasil = $hasil && $this->migrasi_2023052551($hasil);
+        $hasil = $hasil && $this->migrasi_2023052951($hasil);
 
-        return $hasil && $this->migrasi_2023052951($hasil);
+        return $hasil && $this->migrasi_2023053051($hasil);
     }
 
     protected function migrasi_2023052351($hasil)
@@ -122,5 +123,20 @@ class Migrasi_fitur_premium_2306 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2023053051($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('inventaris_gedung', [
+            'kontruksi_bertingkat' => [
+                'type'       => 'varchar',
+                'constraint' => 255,
+                'null'       => true,
+            ],
+            'harga' => [
+                'type' => 'double',
+                'null' => true,
+            ],
+        ]);
     }
 }
