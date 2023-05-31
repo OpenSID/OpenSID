@@ -1,4 +1,4 @@
-Di rilis ini, versi 2305.1.0 menyediakan pengaturan visual tanda tangan TTE. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2306.0.0 menyediakan pengaturan visual tanda tangan TTE. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada syahransaputra yang terus berkontribusi.
 
@@ -86,12 +86,12 @@ Terima kasih pada syahransaputra yang terus berkontribusi.
 30. [#5879](https://github.com/OpenSID/OpenSID/issues/5879) Perbaikan link api wa pada widget halaman depan.
 31. [#5868](https://github.com/OpenSID/OpenSID/issues/5868) Penyesuaian terkait pembaruan token di beberapa kondisi.
 32. [#5866](https://github.com/OpenSID/OpenSID/issues/5866) Perbaikan update dokumen penduduk.
-32. [#5886](https://github.com/OpenSID/OpenSID/issues/5886) Perbaikan dobel akta perceraian pada layanan mandiri & profile lengkap.
-33. [#5890](https://github.com/OpenSID/OpenSID/issues/5890) Penyesuaian API SDGS yang berubah lagi di website sumber.
-34. [#5894](https://github.com/OpenSID/OpenSID/issues/5894) Perbaikan panjang karakter pada kolom pada ID penerima bantuan.
-35. [#5895](https://github.com/OpenSID/OpenSID/issues/5895) Perbaikan maksimal foto produk pada menu lapak.
-36. [#5869](https://github.com/OpenSID/OpenSID/issues/5869) Perbaikan form kerjasama karena tidak bisa koneksi ke layanan.
-37. [#5902](https://github.com/OpenSID/OpenSID/issues/5902) Perbaikan identitas desa error 505 setelah melakukan restore database.
+33. [#5886](https://github.com/OpenSID/OpenSID/issues/5886) Perbaikan dobel akta perceraian pada layanan mandiri & profile lengkap.
+34. [#5890](https://github.com/OpenSID/OpenSID/issues/5890) Penyesuaian API SDGS yang berubah lagi di website sumber.
+35. [#5894](https://github.com/OpenSID/OpenSID/issues/5894) Perbaikan panjang karakter pada kolom pada ID penerima bantuan.
+36. [#5895](https://github.com/OpenSID/OpenSID/issues/5895) Perbaikan maksimal foto produk pada menu lapak.
+37. [#5869](https://github.com/OpenSID/OpenSID/issues/5869) Perbaikan form kerjasama karena tidak bisa koneksi ke layanan.
+38. [#5902](https://github.com/OpenSID/OpenSID/issues/5902) Perbaikan identitas desa error 505 setelah melakukan restore database.
 
 #### Perubahan Teknis
 
