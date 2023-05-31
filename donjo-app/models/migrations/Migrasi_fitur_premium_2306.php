@@ -76,10 +76,11 @@ class Migrasi_fitur_premium_2306 extends MY_model
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023052451($hasil);
         $hasil = $hasil && $this->migrasi_2023052453($hasil);
-        $hasil = $hasil && $this->migrasi_2023052551($hasil);
         $hasil = $hasil && $this->migrasi_2023052454($hasil);
+        $hasil = $hasil && $this->migrasi_2023052551($hasil);
+        $hasil = $hasil && $this->migrasi_2023053052($hasil);
 
-        return $hasil && $this->migrasi_2023053052($hasil);
+        return $hasil && $this->migrasi_2023053053($hasil);
     }
 
     protected function migrasi_2023052351($hasil, $id)
@@ -203,5 +204,18 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         return $hasil;
+    }
+
+    protected function migrasi_2023053053($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'rentang_waktu_kehadiran',
+            'judul'      => 'Rentang Waktu Kehadiran',
+            'value'      => '10',
+            'jenis'      => 'text',
+            'attribute'  => 'class="bilangan" placeholder="10"',
+            'keterangan' => 'Rentang waktu kehadiran ketika keluar. (satuan: menit)',
+            'kategori'   => 'kehadiran',
+        ]);
     }
 }

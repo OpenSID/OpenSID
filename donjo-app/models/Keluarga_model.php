@@ -305,9 +305,11 @@ class Keluarga_model extends MY_Model
             ->from('(' . $query_dasar . ') u');
 
         if (! $this->input->get('id_cb')) {
-            $jumlah_pilahan = $this->db->count_all_results('', false);
-            $paging         = $this->paginasi($page, $jumlah_pilahan);
-            $this->db->limit($paging->per_page, $paging->offset);
+            if ($this->session->per_page > 0) {
+                $jumlah_pilahan = $this->db->count_all_results('', false);
+                $paging         = $this->paginasi($page, $jumlah_pilahan);
+                $this->db->limit($paging->per_page, $paging->offset);
+            }
         }
         $data = $this->db->get()->result_array();
         //Formating Output
