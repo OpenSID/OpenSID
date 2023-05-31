@@ -359,7 +359,7 @@ class Log_Viewer
      * extract the log level from the logLine
      *
      * @param $logLineStart - The single line that is the start of log line.
-     * extracted by getLogLineStart()
+     *                       extracted by getLogLineStart()
      *
      * @return log level e.g. ERROR, DEBUG, INFO
      */
@@ -436,7 +436,7 @@ class Log_Viewer
      * It will reverse the files fetched and
      * make sure the latest log file is in the first index
      *
-     * @param boolean. If true returns the basename of the files otherwise full path
+     * @param bool. If true returns the basename of the files otherwise full path
      * @param mixed $basename
      *
      * @returns array of file
@@ -505,7 +505,7 @@ class Log_Viewer
      * This should only be called if the file exists
      * hence, the file exist check has ot be done by the caller
      *
-     * @param $fileName the complete file path
+     * @param       $fileName the complete file path
      * @param mixed $file
      */
     private function downloadFile($file)
