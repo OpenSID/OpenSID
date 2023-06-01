@@ -299,10 +299,12 @@ class MY_Model extends CI_Model
     public function tambahForeignKey($nama_constraint, $di_tbl, $fk, $ke_tbl, $ke_kolom)
     {
         $query = $this->db
-            ->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
-            ->where('CONSTRAINT_NAME', $nama_constraint)
+            ->where('CONSTRAINT_SCHEMA', $this->db->database)
             ->where('TABLE_NAME', $di_tbl)
-            ->get();
+            ->where('CONSTRAINT_NAME', $nama_constraint)
+            ->where('REFERENCED_TABLE_NAME', $ke_tbl)
+            ->get('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS');
+
         $hasil = true;
         if ($query->num_rows() == 0) {
             $hasil = $hasil && $this->dbforge->add_column($di_tbl, [

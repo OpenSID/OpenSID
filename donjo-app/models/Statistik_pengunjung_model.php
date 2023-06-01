@@ -247,7 +247,7 @@ class Statistik_pengunjung_model extends MY_Model
      */
     public function insert_visitor()
     {
-        if ($this->db->field_exists('config_id', $this->table)) {
+        if (! $this->db->field_exists('config_id', $this->table)) {
             return false;
         }
 

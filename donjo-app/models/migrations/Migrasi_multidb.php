@@ -514,12 +514,10 @@ class Migrasi_multidb extends MY_model
         // hapus primary key
         $cek_pk = $this->db->field_data('sys_traffic');
         if ($cek_pk[0]->primary_key == 1 && $cek_pk[1]->primary_key != 1) {
-            $query = 'ALTER TABLE sys_traffic DROP PRIMARY KEY;';
-            $hasil && $this->db->query($query);
+            $this->db->query('ALTER TABLE sys_traffic DROP PRIMARY KEY;');
         }
-        $hasil && $this->tambahIndeks('sys_traffic', 'config_id, Tanggal', 'UNIQUE', true);
 
-        return $hasil;
+        return $hasil && $this->tambahIndeks('sys_traffic', 'config_id, Tanggal', 'UNIQUE', true);
     }
 
     protected function covid19_pemudik($hasil)
@@ -635,8 +633,6 @@ class Migrasi_multidb extends MY_model
 
         // Relasi antar tabel kelompok ke tabel kelompok_master
         return $hasil && $this->tambahForeignKey('kelompok_kelompok_master_fk', 'kelompok', 'id_master', 'kelompok_master', 'id');
-
-        return $hasil;
     }
 
     protected function tabel_kelompok($hasil)

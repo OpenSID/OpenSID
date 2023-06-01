@@ -47,7 +47,8 @@ class SettingAplikasi extends BaseModel
 {
     use ConfigId;
 
-    public const WARNA_TEMA_DEFAULT = '#eab308';
+    public const WARNA_TEMA              = '#eab308';
+    public const RENTANG_WAKTU_KEHADIRAN = 10;
 
     /**
      * The table associated with the model.
