@@ -354,21 +354,23 @@ class Web_widget_model extends MY_Model
     // pengambilan data yang akan ditampilkan di widget
     public function get_widget_data(&$data)
     {
-        $data['w_gal']           = $this->first_gallery_m->gallery_widget();
-        $data['hari_ini']        = $this->first_artikel_m->agenda_show('hari_ini');
-        $data['yad']             = $this->first_artikel_m->agenda_show('yad');
-        $data['lama']            = $this->first_artikel_m->agenda_show('lama');
-        $data['komen']           = $this->first_artikel_m->komentar_show();
-        $data['sosmed']          = $this->first_artikel_m->list_sosmed();
-        $data['arsip_terkini']   = $this->first_artikel_m->arsip_show('terkini');
-        $data['arsip_populer']   = $this->first_artikel_m->arsip_show('populer');
-        $data['arsip_acak']      = $this->first_artikel_m->arsip_show('acak');
-        $data['aparatur_desa']   = $this->pamong_model->list_aparatur_desa();
-        $data['stat_widget']     = $this->laporan_penduduk_model->list_data(4);
-        $data['sinergi_program'] = $this->get_setting('sinergi_program');
-        $data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
+        if ($this->db->field_exists('app_key', 'config')) {
+            $data['w_gal']           = $this->first_gallery_m->gallery_widget();
+            $data['hari_ini']        = $this->first_artikel_m->agenda_show('hari_ini');
+            $data['yad']             = $this->first_artikel_m->agenda_show('yad');
+            $data['lama']            = $this->first_artikel_m->agenda_show('lama');
+            $data['komen']           = $this->first_artikel_m->komentar_show();
+            $data['sosmed']          = $this->first_artikel_m->list_sosmed();
+            $data['arsip_terkini']   = $this->first_artikel_m->arsip_show('terkini');
+            $data['arsip_populer']   = $this->first_artikel_m->arsip_show('populer');
+            $data['arsip_acak']      = $this->first_artikel_m->arsip_show('acak');
+            $data['aparatur_desa']   = $this->pamong_model->list_aparatur_desa();
+            $data['stat_widget']     = $this->laporan_penduduk_model->list_data(4);
+            $data['sinergi_program'] = $this->get_setting('sinergi_program');
+            $data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
 
-        $data['jam_kerja'] = Schema::hasTable('kehadiran_jam_kerja') ? JamKerja::get() : new stdClass();
+            $data['jam_kerja'] = Schema::hasTable('kehadiran_jam_kerja') ? JamKerja::get() : new stdClass();
+        }
     }
 
     // widget statis di ambil dari folder desa/widget, vendor/themes/nama_tema/widgets dan desa/themes/nama_tema/widgets

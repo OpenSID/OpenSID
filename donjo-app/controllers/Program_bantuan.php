@@ -157,11 +157,8 @@ class Program_bantuan extends Admin_Controller
                 $query->orWhere('nik', 'like', "%{$cari}%")
                     ->orWhere('nama', 'like', "%{$cari}%");
             })
-
             ->whereNotIn('nik', $peserta)
             ->paginate(10);
-
-        return json($penduduk);
 
         return json([
             'results' => collect($penduduk->items())

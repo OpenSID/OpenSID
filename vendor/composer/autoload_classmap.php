@@ -12,7 +12,6 @@ return array(
     'Google_AccessToken_Revoke' => $vendorDir . '/google/apiclient/src/aliases.php',
     'Google_AccessToken_Verify' => $vendorDir . '/google/apiclient/src/aliases.php',
     'Google_AuthHandler_AuthHandlerFactory' => $vendorDir . '/google/apiclient/src/aliases.php',
-    'Google_AuthHandler_Guzzle5AuthHandler' => $vendorDir . '/google/apiclient/src/aliases.php',
     'Google_AuthHandler_Guzzle6AuthHandler' => $vendorDir . '/google/apiclient/src/aliases.php',
     'Google_AuthHandler_Guzzle7AuthHandler' => $vendorDir . '/google/apiclient/src/aliases.php',
     'Google_Client' => $vendorDir . '/google/apiclient/src/aliases.php',

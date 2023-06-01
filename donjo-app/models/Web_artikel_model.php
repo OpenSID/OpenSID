@@ -118,16 +118,14 @@ class Web_artikel_model extends MY_Model
             $this->db->where('id_kategori', $cat);
         } elseif ($cat == -1) {
             // Semua artikel dinamis (tidak termasuk artikel statis)
-            $this->db->where_in('id_kategori', ['999', '1000', '1001']);
+            $this->db->where_not_in('id_kategori', ['999', '1000', '1001']);
         } else {
             // Artikel dinamis tidak berkategori
-            $this->db->where_not_in('id_kategori', ['999', '1000', '1001'])->where('k.id');
+            $this->db->where_not_in('id_kategori', ['999', '1000', '1001'])->where('k.id', null);
         }
         $this->search_sql();
         $this->filter_sql();
         $this->grup_sql();
-
-        return $sql;
     }
 
     public function list_data($cat = 0, $o = 0, $offset = 0, $limit = 500)
@@ -297,9 +295,7 @@ class Web_artikel_model extends MY_Model
         } else {
             $outp = $this->db->insert('artikel', $data);
         }
-        if (! $outp) {
-            $_SESSION['success'] = -1;
-        }
+        status_sukses($outp);
     }
 
     private function ambil_data_agenda(&$data)

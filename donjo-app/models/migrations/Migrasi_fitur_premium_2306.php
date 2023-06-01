@@ -48,9 +48,12 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2305');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2305', false);
         $hasil = $hasil && $this->migrasi_tabel($hasil);
         $hasil = $hasil && $this->migrasi_data($hasil);
+
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+        $this->cache->hapus_cache_untuk_semua('identitas');
 
         return $hasil && true;
     }
@@ -71,6 +74,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023052351($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023053053($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -80,7 +84,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $hasil = $hasil && $this->migrasi_2023052551($hasil);
         $hasil = $hasil && $this->migrasi_2023053052($hasil);
 
-        return $hasil && $this->migrasi_2023053053($hasil);
+        return $hasil && true;
     }
 
     protected function migrasi_2023052351($hasil, $id)
@@ -88,7 +92,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $setting = [
             'judul'      => 'Warna Tema',
             'key'        => 'warna_tema',
-            'value'      => DB::table('setting_aplikasi')->where('config_id', $id)->where('key', 'warna_tema')->first()->value ?: config_item('warna_tema') ?: SettingAplikasi::WARNA_TEMA_DEFAULT,
+            'value'      => DB::table('setting_aplikasi')->where('config_id', $id)->where('key', 'warna_tema')->first()->value ?: config_item('warna_tema') ?: SettingAplikasi::WARNA_TEMA,
             'keterangan' => 'Warna tema untuk halaman website',
             'jenis'      => 'color',
             'option'     => null,
@@ -198,7 +202,9 @@ class Migrasi_fitur_premium_2306 extends MY_model
 
     protected function migrasi_2023053052($hasil)
     {
-        $this->db->where('slug', 'administrasi-keuangan')->delete('setting_modul');
+        $modul = DB::table('setting_modul')->where('slug', 'administrasi-keuangan')->pluck('id')->toArray();
+        DB::table('setting_modul')->whereIn('id', $modul)->delete();
+        DB::table('grup_akses')->whereIn('id_modul', $modul)->delete();
 
         // Hapus cache menu navigasi
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
@@ -206,7 +212,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2023053053($hasil)
+    protected function migrasi_2023053053($hasil, $id)
     {
         return $hasil && $this->tambah_setting([
             'key'        => 'rentang_waktu_kehadiran',

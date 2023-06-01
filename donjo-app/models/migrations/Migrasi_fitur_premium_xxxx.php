@@ -45,7 +45,27 @@ class Migrasi_fitur_premium_xxxx extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_xxxx');
+        $hasil = $hasil && $this->migrasi_tabel($hasil);
 
+        return $hasil && $this->migrasi_data($hasil);
+    }
+
+    protected function migrasi_tabel($hasil)
+    {
+        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+    }
+
+    // Migrasi perubahan data
+    protected function migrasi_data($hasil)
+    {
+        // Migrasi berdasarkan config_id
+        // $config_id = DB::table('config')->pluck('id')->toArray();
+
+        // foreach ($config_id as $id) {
+        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
+        // }
+
+        // Migrasi tanpa config_id
         return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
     }
 
