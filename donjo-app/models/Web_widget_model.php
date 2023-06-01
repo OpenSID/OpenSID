@@ -189,7 +189,7 @@ class Web_widget_model extends MY_Model
     }
 
     /**
-     * @param $id Id widget
+     * @param $id   Id widget
      * @param $arah Arah untuk menukar dengan widget: 1) bawah, 2) atas
      *
      * @return int Nomer urut widget lain yang ditukar

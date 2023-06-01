@@ -324,21 +324,29 @@
                         processData: false,
                         contentType: false,
                     })
-                    .done(function() {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'berhasil ubah data',
-                        })
-                        window.location.replace(`${SITE_URL}identitas_desa`);
+                    .done(function(response) {
+                        if (response.status) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil Ubah Data',
+                            })
+                            window.location.replace(`${SITE_URL}identitas_desa`);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal Ubah Data',
+                                text: response.message,
+                            })
+                        }
                     })
-                    .fail(function() {
+                    .fail(function(response) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal Ubah Data',
+                            text: response.message,
                         })
                     });
             });
-
         });
 
         function tampil_kode_desa() {

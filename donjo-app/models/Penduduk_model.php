@@ -1180,7 +1180,7 @@ class Penduduk_model extends MY_Model
     /**
      * Kembalikan status dasar penduduk ke hidup
      *
-     * @param $id 			id penduduk
+     * @param $id id penduduk
      *
      * @return void
      */

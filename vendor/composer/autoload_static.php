@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit46f0d80079335fc998f6d06d28eee677
+class ComposerStaticInit2a918b9445c4dab71be87b888ce83ef4
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -14,7 +14,6 @@ class ComposerStaticInit46f0d80079335fc998f6d06d28eee677
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
@@ -330,7 +329,6 @@ class ComposerStaticInit46f0d80079335fc998f6d06d28eee677
         'Google_AccessToken_Revoke' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_AccessToken_Verify' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_AuthHandler_AuthHandlerFactory' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
-        'Google_AuthHandler_Guzzle5AuthHandler' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_AuthHandler_Guzzle6AuthHandler' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_AuthHandler_Guzzle7AuthHandler' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_Client' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
@@ -376,9 +374,9 @@ class ComposerStaticInit46f0d80079335fc998f6d06d28eee677
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit46f0d80079335fc998f6d06d28eee677::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit46f0d80079335fc998f6d06d28eee677::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit46f0d80079335fc998f6d06d28eee677::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2a918b9445c4dab71be87b888ce83ef4::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2a918b9445c4dab71be87b888ce83ef4::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit2a918b9445c4dab71be87b888ce83ef4::$classMap;
 
         }, null, ClassLoader::class);
     }
