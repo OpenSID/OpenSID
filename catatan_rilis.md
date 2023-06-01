@@ -1,6 +1,6 @@
 Di rilis ini, versi 2306.0.0 menyediakan pengaturan visual tanda tangan TTE. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada syahransaputra yang terus berkontribusi.
+Terima kasih pada @syahransaputra yang terus berkontribusi.
 
 #### Penambahan Fitur
 
