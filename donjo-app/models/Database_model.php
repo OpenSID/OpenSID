@@ -258,12 +258,10 @@ class Database_model extends MY_Model
     // Cek apakah migrasi perlu dijalankan
     public function cek_migrasi()
     {
-        if ($install) {
-            // Paksa menjalankan migrasi kalau belum
-            // Migrasi direkam di tabel migrasi
-            if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
-                $this->migrasi_db_cri();
-            }
+        // Paksa menjalankan migrasi kalau belum
+        // Migrasi direkam di tabel migrasi
+        if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
+            $this->migrasi_db_cri();
         }
     }
 
