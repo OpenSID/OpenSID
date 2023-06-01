@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group">                                
+                            <div class="form-group">
                                 <select id="posyandu" name="posyandu" class="form-control input-sm">
                                     <option value="">Posyandu</option>
                                     @foreach ($posyandu as $data)
@@ -69,10 +69,10 @@
                                 onclick="deleteAllBox('mainform', '{{ route('stunting.deleteIbuHamil') }}')"
                                 class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                                     class='fa fa-trash-o'></i> Hapus</a>
-                        @endif    
+                        @endif
                         <a id="excel" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
                             class="fa fa-file"></i> Ekspor ke excel</a>
-                                
+
                     </div>
                 </div>
                 <!-- /.box-header -->
@@ -168,7 +168,7 @@
                     {
                         data: 'tanggal_periksa',
                         name: 'tanggal_periksa',
-                        searchable: true,
+                        searchable: false,
                         orderable: true
                     },
                     {

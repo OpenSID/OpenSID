@@ -37,6 +37,7 @@
 
 use App\Models\Kehadiran;
 use App\Models\Pamong;
+use Illuminate\Support\Facades\DB;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -68,8 +69,8 @@ class Kehadiran_rekapitulasi extends Admin_Controller
                 'pamong'  => $this->input->get('pamong'),
             ];
 
-            return datatables()->of(Kehadiran::with(['pamong.penduduk'])
-                ->select('*', Kehadiran::raw('TIMEDIFF( jam_keluar, jam_masuk ) as total'))
+            return datatables()->of(Kehadiran::with(['pamong', 'pamong.penduduk', 'pamong.jabatan'])
+                ->select('*', DB::raw('TIMEDIFF( jam_keluar, jam_masuk ) as total'))
                 ->filter($filters))
                 ->addIndexColumn()
                 ->editColumn('tanggal', static function ($row) {

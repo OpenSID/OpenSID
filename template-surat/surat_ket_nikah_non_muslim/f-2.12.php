@@ -2332,7 +2332,7 @@
 		<tr><td colspan="48">&nbsp;</td></tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td colspan="11" style="text-align: center;"><?= $this->penandatangan_lampiran($data);?></td>
+			<td colspan="11" style="text-align: center;"><?= $penandatangan['atas_nama']?></td>
 			<td>&nbsp;</td>
 			<td colspan="13" style="text-align: center;">Petugas Pencatat</td>
 			<td colspan="22">&nbsp;</td>
@@ -2341,7 +2341,7 @@
 		<tr><td colspan="48">&nbsp;</td></tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td colspan="11" style="text-align: center;"><strong>(<?= padded_string_center(strtoupper($kepala_desa['nama']), 30)?>)</strong></td>
+			<td colspan="11" style="text-align: center;"><strong>(<?= padded_string_center(strtoupper($penandatangan['nama']), 30)?>)</strong></td>
 			<td>&nbsp;</td>
 			<td colspan="13" style="text-align: center;"><strong>(<?= padded_string_center(strtoupper($individu['nama']), 30)?>)</strong></td>
 			<td colspan="9">&nbsp;</td>
@@ -2352,7 +2352,7 @@
 			<td>&nbsp;</td>
 			<td colspan="11" style="text-align: center;"><?= "NIP&nbsp;&nbsp;:&nbsp;".str_pad("",40*6,"&nbsp;",STR_PAD_LEFT)?></td>
 			<td>&nbsp;</td>
-			<td colspan="13" style="text-align: center;"><?= "NIP&nbsp;&nbsp;:&nbsp;".$kepala_desa['pamong_nip']?></td>
+			<td colspan="13" style="text-align: center;"><?= "NIP&nbsp;&nbsp;:&nbsp;".$penandatangan['nip']?></td>
 			<td colspan="22">&nbsp;</td>
 		</tr>
 		<tr><td colspan="48">&nbsp;</td></tr>

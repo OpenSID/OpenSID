@@ -42,6 +42,14 @@ class Analisis_klasifikasi extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+
+        if (! $this->session->has_userdata('analisis_master')) {
+            $this->session->success   = -1;
+            $this->session->error_msg = 'Pilih master analisis terlebih dahulu';
+
+            redirect('analisis_master');
+        }
+
         $this->load->model(['analisis_klasifikasi_model', 'analisis_master_model']);
         $this->session->submenu  = 'Data Klasifikasi';
         $this->session->asubmenu = "{$this->controller}";

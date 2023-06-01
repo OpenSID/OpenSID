@@ -88,10 +88,10 @@ class Gawai_layanan extends Admin_Controller
                     return $row->printer_ip ?: '-' . ':' . $row->printer_port ?: '-';
                 })
                 ->editColumn('keyboard', static function ($row) {
-                    return '<span class="label label-' . ($row->keyboard ? 'success' : 'danger') . '">' . StatusEnum::DAFTAR[$row->keyboard] . '</span>';
+                    return '<span class="label label-' . ($row->keyboard ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->keyboard) . '</span>';
                 })
                 ->editColumn('status', static function ($row) {
-                    return '<span class="label label-' . ($row->status ? 'success' : 'danger') . '">' . StatusEnum::DAFTAR[$row->status] . '</span>';
+                    return '<span class="label label-' . ($row->status ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->status) . '</span>';
                 })
                 ->rawColumns(['ceklist', 'aksi', 'keyboard', 'status'])
                 ->make();

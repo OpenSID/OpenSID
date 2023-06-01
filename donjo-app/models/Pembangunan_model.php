@@ -166,6 +166,7 @@ class Pembangunan_model extends MY_Model
             'slug'                    => unique_slug($this->table, $post['judul'], $id),
             'volume'                  => $post['volume'],
             'waktu'                   => $post['waktu'],
+            'satuan_waktu'            => bilangan($post['satuan_waktu']),
             'tahun_anggaran'          => $post['tahun_anggaran'],
             'pelaksana_kegiatan'      => $post['pelaksana_kegiatan'],
             'id_lokasi'               => $post['lokasi'] ? null : $post['id_lokasi'],

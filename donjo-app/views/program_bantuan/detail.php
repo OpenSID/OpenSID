@@ -1,11 +1,11 @@
 <?php $detail = $program[0]; ?>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Program Bantuan <?= $detail['nama']; ?></h1>
+		<h1>Program Bantuan <?= $nama_excerpt; ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
-			<li class="active">Program Bantuan <?= $detail['nama']; ?></li>
+			<li class="active">Program Bantuan <?= $nama_excerpt; ?></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">

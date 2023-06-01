@@ -37,9 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+defined('BASEPATH') || exit('No direct script access allowed');
 
-class DisposisiSuratmasuk extends Model
+class DisposisiSuratmasuk extends BaseModel
 {
     /**
      * The table associated with the model.

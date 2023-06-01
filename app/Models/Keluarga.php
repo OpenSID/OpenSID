@@ -37,11 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Keluarga extends Model
+class Keluarga extends BaseModel
 {
     /**
      * The table associated with the model.
@@ -88,7 +86,7 @@ class Keluarga extends Model
      */
     public function anggota()
     {
-        return $this->hasMany(Penduduk::class, 'id_kk');
+        return $this->hasMany(Penduduk::class, 'id_kk')->orderBy('kk_level');
     }
 
     /**

@@ -65,7 +65,7 @@
 									<br />Kodepos <?= $header['kode_pos'] ?>
 									<br /><br />Silakan hubungi operator desa untuk mendapatkan kode PIN anda.
 									<br /><br /><br />IP Address: <?= $this->input->ip_address() ?>
-									<br />ID Pengunjung: <span class="pengunjung"><?= $_COOKIE['pengunjung'] ?></span> <span><a  href="#" class="copy" title="Copy" style="color: white"><i class="fa fa-copy"></i></a></span>
+									<br />ID Pengunjung : <span id="pengunjung"></span>&nbsp;<span><a href="#" class="copy" title="Copy" style="color: white"><i class="fa fa-copy"></i></a></span>
 									<?php if ($cek_anjungan) : ?>
 										<?php if ($cek_anjungan['mac_address']): ?>
 											<br />Mac Address : <?= $cek_anjungan['mac_address'] ?>
@@ -232,6 +232,7 @@
 		<script src="<?= asset('js/jquery.keyboard.extension-all.min.js') ?>"></script>
 		<script src="<?= asset('front/js/mandiri-keyboard.js') ?>"></script>
 	<?php endif; ?>
+	<script src="<?= asset('js/id_browser.js') ?>"></script>
 	<script type="text/javascript">
 		$('document').ready(function() {
 
@@ -318,43 +319,6 @@
 				$('#notif_telegram').modal('show');
 			});
 		<?php endif; ?>
-
-		// Initialize the agent at application startup.
-        const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3')
-            .then(FingerprintJS => FingerprintJS.load())
-        // Get the visitor identifier when you need it.
-        fpPromise
-            .then(fp => fp.get())
-            .then(result => {
-            // This is the visitor identifier:
-            const browserId = result.visitorId
-			createCookie("pengunjung", browserId, "1");
-            })
-
-        // Function to create the cookie
-        function createCookie(name, value, days) {
-			var expires;
-			if (days) {
-				var date = new Date();
-				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-				expires = "; expires=" + date.toGMTString();
-			}
-			else {
-				expires = "";
-			}
-			document.cookie = escape(name) + "=" +
-			escape(value) + expires + "; path=/";
-		}
-
-		$('.copy').on('click', function() {
-			var text = $(".pengunjung").get(0)
-			var selection = window.getSelection();
-			var range = document.createRange();
-			range.selectNodeContents(text);
-			selection.removeAllRanges();
-			selection.addRange(range);
-			document.execCommand('copy');
-		});
 	</script>
 </script>
 </body>

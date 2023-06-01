@@ -563,7 +563,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
     protected function migrasi_2022092751($hasil)
     {
         // Hapus setting verifikasi_operator yang tidak digunakan
-        SettingAplikasi::whereKey('verifikasi_operator')->delete();
+        SettingAplikasi::where('key', '=', 'verifikasi_operator')->delete();
 
         // Sesuaikan log surat berdasarkan pengaturan alur surat saat ini
         // Jika verifikasi kades / sekdes tidak diaktifkan

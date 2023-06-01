@@ -79,7 +79,7 @@ class Teks_berjalan_model extends MY_Model
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']        = $i + 1;
             $data[$i]['tautan']    = menu_slug('artikel/' . $data[$i]['tautan']);
-            $data[$i]['tampilkan'] = SistemEnum::DAFTAR[$data[$i]['tipe']];
+            $data[$i]['tampilkan'] = SistemEnum::valueOf($data[$i]['tipe']);
         }
 
         return $data;
@@ -95,7 +95,7 @@ class Teks_berjalan_model extends MY_Model
     }
 
     /**
-     * @param $id Id teks
+     * @param $id   Id teks
      * @param $arah Arah untuk menukar dengan teks: 1) bawah, 2) atas
      *
      * @return int Nomer urut teks lain yang ditukar
@@ -106,7 +106,7 @@ class Teks_berjalan_model extends MY_Model
     }
 
     /**
-     * @param $id id
+     * @param $id  id
      * @param $val status : 1 = Unlock, 2 = Lock
      */
     public function lock($id, $val)

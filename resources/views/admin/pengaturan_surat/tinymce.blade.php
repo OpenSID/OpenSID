@@ -70,9 +70,7 @@
                             <td>
                                 <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
                                     @foreach ($attributes as $attr_key => $attr_value)
-                                        :
-                                        <option value="{{ $attr_key }}" @selected($attr_key == $value->tipe)>
-                                            {{ $attr_value }}
+                                        <option value="{{ $attr_key }}" @selected($attr_key == $value->tipe)>{{ $attr_value }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -94,9 +92,7 @@
                             <td>
                                 <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">
                                     @foreach ($attributes as $attr_key => $attr_value)
-                                        :
-                                        <option value="{{ $attr_key }}" @selected($attr_key == 1)>
-                                            {{ $attr_value }}</option>
+                                        <option value="{{ $attr_key }}" @selected($attr_key == 1)>{{ $attr_value }}</option>
                                     @endforeach
                                 </select>
                             </td>

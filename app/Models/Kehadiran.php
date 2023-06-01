@@ -38,11 +38,10 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Kehadiran extends Model
+class Kehadiran extends BaseModel
 {
     /**
      * The table associated with the model.

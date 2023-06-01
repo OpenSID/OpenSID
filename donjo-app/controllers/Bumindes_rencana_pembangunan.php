@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\SatuanWaktuEnum;
 use App\Models\Pembangunan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -74,6 +75,7 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
         $this->render('bumindes/pembangunan/main', [
             'tipe'         => ucwords($this->tipe),
             'list_tahun'   => $this->model->list_filter_tahun(),
+            'satuan_waktu' => SatuanWaktuEnum::all(),
             'selected_nav' => $this->tipe,
             'subtitle'     => 'Buku ' . ucwords($this->tipe) . ' Pembangunan',
             'main_content' => 'bumindes/pembangunan/' . $this->tipe . '/index',
@@ -104,10 +106,11 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
             $tahun_pembangunan = Pembangunan::selectRaw('MIN(CAST(tahun_anggaran AS CHAR)) as awal, MAX(CAST(tahun_anggaran AS CHAR)) as akhir ')->first();
             $data['tahun']     = ($tahun_pembangunan->awal == $tahun_pembangunan->akhir) ? $tahun_pembangunan->awal : "{$tahun_pembangunan->awal} -  {$tahun_pembangunan->akhir}";
         }
-        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
-        $data['file']      = 'Buku ' . ucwords($this->tipe) . ' Kerja Pembangunan';
-        $data['isi']       = 'bumindes/pembangunan/' . $this->tipe . '/cetak';
-        $data['letak_ttd'] = ['1', '1', '3'];
+        $data['satuan_waktu'] = SatuanWaktuEnum::all();
+        $data['tgl_cetak']    = $this->input->post('tgl_cetak');
+        $data['file']         = 'Buku ' . ucwords($this->tipe) . ' Kerja Pembangunan';
+        $data['isi']          = 'bumindes/pembangunan/' . $this->tipe . '/cetak';
+        $data['letak_ttd']    = ['1', '1', '3'];
 
         $this->load->view('global/format_cetak', $data);
     }

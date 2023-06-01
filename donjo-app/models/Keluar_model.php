@@ -136,13 +136,13 @@ class Keluar_model extends CI_Model
             $this->db->where('verifikasi_operator', '-1');
         } else {
             $isAdmin = $this->session->isAdmin->pamong;
-            if ($isAdmin->jabatan_id == 1) {
+            if ($isAdmin->jabatan_id == 1 && setting('verifikasi_kades') == 1) {
                 $this->db->where('verifikasi_kades', '1')
                     ->or_group_start()
                     ->where('verifikasi_operator')
                     ->where('verifikasi_sekdes')
                     ->group_end();
-            } elseif ($isAdmin->jabatan_id == 2) {
+            } elseif ($isAdmin->jabatan_id == 2 && setting('verifikasi_sekdes') == 1) {
                 $this->db->where('verifikasi_sekdes', '1')->or_where('verifikasi_operator');
             } else {
                 $this->db->where('verifikasi_operator', '1')->or_where('verifikasi_operator');
@@ -154,14 +154,14 @@ class Keluar_model extends CI_Model
     {
         // jika kepdesa
         $isAdmin = $this->session->isAdmin->pamong;
-        if ($isAdmin->jabatan_id == 1) {
+        if ($isAdmin->jabatan_id == 1 && setting('verifikasi_kades') == 1) {
             $this->db->group_start()
                 ->where_in('verifikasi_kades', ['1', '0'])
                 ->group_end();
             $this->db->select('verifikasi_kades as verifikasi');
             $raw_status_periksa = 'CASE when verifikasi_kades = 1 THEN IF(tte is null,verifikasi_kades,2) ELSE 0 end AS status_periksa';
             $this->db->select($raw_status_periksa);
-        } elseif ($isAdmin->jabatan_id == 2) {
+        } elseif ($isAdmin->jabatan_id == 2 && setting('verifikasi_sekdes') == 1) {
             $this->db->group_start()
                 ->where_in('verifikasi_sekdes', ['1', '0'])
                 ->or_where('verifikasi_operator')
@@ -338,6 +338,7 @@ class Keluar_model extends CI_Model
     {
         // TODO : Sederhanakan, ini berulang
         $this->db
+            ->where('deleted_at')
             ->join('tweb_penduduk AS n', 'u.id_pend = n.id', 'left')
             ->join('tweb_surat_format AS k', 'u.id_format_surat = k.id', 'left')
             ->join('tweb_desa_pamong AS s', 'u.id_pamong = s.pamong_id', 'left')
@@ -388,7 +389,7 @@ class Keluar_model extends CI_Model
         $j = $offset;
 
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['no'] = $j + 3;
+            $data[$i]['no'] = $j + 1;
             $this->rincian_file($data, $i);
             $j++;
         }

@@ -166,7 +166,6 @@ class Ekspor_model extends CI_Model
             'mutasi_inventaris_tanah',
             'disposisi_surat_masuk',
             'tweb_penduduk_mandiri',
-            'setting_aplikasi_options',
             'log_penduduk',
             'agenda',
             'covid19_pemudik',
@@ -236,6 +235,11 @@ class Ekspor_model extends CI_Model
             'cdesa_penduduk',
             'mutasi_cdesa',
             'hubung_warga',
+            'dtks',
+            'dtks_anggota',
+            'dtks_lampiran',
+            'dtks_pengaturan_program',
+            'dtks_ref_lampiran',
         ];
 
         $prefs = [

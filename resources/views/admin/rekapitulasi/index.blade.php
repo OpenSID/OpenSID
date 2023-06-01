@@ -163,7 +163,7 @@
         { data: 'tanggal', name: 'tanggal', searchable: true, orderable: true },
         { data: 'jam_masuk', name: 'jam_masuk', searchable: true, orderable: true },
         { data: 'jam_keluar', name: 'jam_keluar', searchable: true, orderable: true },
-        { data: 'total', name: 'total', searchable: true, orderable: true },
+        { data: 'total', name: 'total', searchable: false, orderable: false },
         { data: 'status_kehadiran', name: 'status_kehadiran', searchable: true, orderable: true },
       ],
       order: [[ 3, 'desc' ]]

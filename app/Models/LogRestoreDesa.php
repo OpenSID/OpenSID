@@ -37,9 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+defined('BASEPATH') || exit('No direct script access allowed');
 
-class LogRestoreDesa extends Model
+class LogRestoreDesa extends BaseModel
 {
     protected $table = 'log_restore_desa';
 

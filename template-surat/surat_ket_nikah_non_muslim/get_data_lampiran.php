@@ -2,11 +2,6 @@
 
 	defined('BASEPATH') or exit('No direct script access allowed');
 
-	$this->load->model('pamong_model');
-	$id = $this->input->post('pamong_id');
-	$kepala_desa = $this->pamong_model->get_data($id);
-	
-
 	$pria = $this->get_data_surat($_POST['id_pria']);
 	if ($pria)
 	{

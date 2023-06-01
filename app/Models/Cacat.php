@@ -37,11 +37,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Cacat extends Model
+class Cacat extends BaseModel
 {
     /**
      * {@inheritDoc}

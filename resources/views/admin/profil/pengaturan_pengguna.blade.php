@@ -86,7 +86,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="catatan">User ID Telegram</label>
+                    <label for="id_telegram">User ID Telegram</label>
                     <input class="form-control input-sm pwdLengthNist" type="text" id="id_telegram" name="id_telegram" value="{{ $auth->id_telegram }}" @disabled(setting('telegram_token') == null) />
                   </div>
 

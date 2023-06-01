@@ -35,7 +35,7 @@
  *
  */
 
-use App\Models\Keluarga;
+use App\Enums\SHDKEnum;
 use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -272,26 +272,35 @@ class Rtm extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data['main'] = $this->rtm_model->list_anggota($id);
-        $kk           = $this->rtm_model->get_kepala_rtm($id);
-        if ($kk) {
-            $data['kepala_kk'] = $kk;
-            $penduduk          = Penduduk::where('nik', $data['kepala_kk']['nik'])->first();
-            $data['keluarga']  = Keluarga::where('id', $penduduk->id_kk)->with(['anggota'])->first();
-        } else {
-            $data['kepala_kk'] = null;
-        }
-
-        $data['penduduk']    = $this->rtm_model->list_penduduk_lepas(null, $id);
+        $data['penduduk']    = $this->rtm_model->list_penduduk_lepas();
         $data['form_action'] = site_url("{$this->controller}/add_anggota/{$id}");
 
         $this->load->view('rtm/ajax_add_anggota_rtm_form', $data);
     }
 
-    public function datables_anggota($id_kk = null)
+    public function datables_anggota($id_pend = null)
     {
         if ($this->input->is_ajax_request()) {
-            return json(['data' => $this->rtm_model->list_penduduk_lepas($id_kk)]);
+            $penduduk = Penduduk::with(['keluarga', 'keluarga.anggota'])
+                ->where('kk_level', '=', 1)
+                ->find($id_pend);
+            $anggota = collect($penduduk->keluarga->anggota)->whereIn('id_rtm', ['0', null]);
+
+            if ($anggota->count() > 1) {
+                $keluarga = $anggota->map(static function ($item, $key) {
+                    return [
+                        'no'       => $key + 1,
+                        'id'       => $item->id,
+                        'nik'      => $item->nik,
+                        'nama'     => $item->nama,
+                        'kk_level' => SHDKEnum::valueOf($item->kk_level),
+                    ];
+                })->values();
+            }
+
+            return json([
+                'data' => $keluarga,
+            ]);
         }
 
         show_404();

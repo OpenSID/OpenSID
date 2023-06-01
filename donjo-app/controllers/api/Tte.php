@@ -105,7 +105,8 @@ class Tte extends Premium
         DB::beginTransaction();
 
         try {
-            $data = LogSurat::where('id', '=', $request['id'])->first();
+            $data    = LogSurat::where('id', '=', $request['id'])->first();
+            $mandiri = PermohonanSurat::where('id_surat', $data->id_format_surat)->where('isian_form->nomor', $data->no_surat)->first();
 
             $response = $this->client->post('api/sign/pdf', [
                 'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
@@ -158,9 +159,10 @@ class Tte extends Premium
             $mandiri = PermohonanSurat::where('id_surat', $data->id_format_surat)->where('isian_form->nomor', $data->no_surat)->first();
 
             if (setting('visual_tte') == 1) {
-                $width   = setting('visual_tte_weight') ?? 90;
-                $height  = setting('visual_tte_height') ?? 90;
-                $image   = setting('visual_tte_gambar') ?: asset('assets/images/bsre.png?v', false);
+                $width  = setting('visual_tte_weight') ?? 90;
+                $height = setting('visual_tte_height') ?? 90;
+                $image  = setting('visual_tte_gambar') ?: 'assets/images/bsre.png';
+
                 $visible = [
                     ['name' => 'tag_koordinat', 'contents' => '[ttd_bsre]'],
                     ['name' => 'image', 'contents' => true],
@@ -191,7 +193,9 @@ class Tte extends Premium
             ]);
 
             $data->update(['tte' => 1, 'log_verifikasi' => null]); // update log surat
-            $mandiri->update(['status' => 3]); // update status surat dari layanan mandiri
+            if ($mandiri) {
+                $mandiri->update(['status' => 3]); // update status surat dari layanan mandiri
+            }
 
             DB::commit();
 

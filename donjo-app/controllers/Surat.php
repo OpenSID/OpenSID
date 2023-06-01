@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
 use App\Models\Config;
 use App\Models\FormatSurat;
@@ -120,7 +121,7 @@ class Surat extends Admin_Controller
                     $data['individu'] = $this->surat_model->get_penduduk($nik);
                     $data['anggota']  = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => true], true);
                 } else {
-                    $data['individu'] = Penduduk::find($nik) ?? show_404();
+                    $data['individu'] = Penduduk::findOrFail($nik);
                     $data['anggota']  = null;
                 }
             } else {
@@ -181,10 +182,9 @@ class Surat extends Admin_Controller
 
             $log_surat['surat']     = $surat;
             $log_surat['input']     = $this->request;
-            $setting_footer         = $surat->footer == 0 ? '' : setting('footer_surat');
-            $setting_header         = $surat->header == 0 ? '' : setting('header_surat');
-            $footer                 = setting('tte') == 1 ? setting('footer_surat_tte') : $setting_footer;
-            $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?: $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $footer);
+            $setting_header         = $surat->header == StatusEnum::YA ? setting('header_surat') : '';
+            $setting_footer         = $surat->footer == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
+            $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?: $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
             // Lewati ganti kode_isian
             $isi_surat = $this->replceKodeIsian($log_surat);
@@ -261,7 +261,7 @@ class Surat extends Admin_Controller
 
             unset($log_surat['surat'], $log_surat['input']);
             $id    = LogSurat::updateOrCreate(['id' => $cetak['id']], $log_surat)->id;
-            $surat = LogSurat::find($id) ?? show_404();
+            $surat = LogSurat::findOrFail($id);
 
             // Logo Surat
             $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(Config::select('logo')->first()->logo, false, true));
@@ -500,10 +500,6 @@ class Surat extends Admin_Controller
             $result = str_replace('[mulai_berlaku] s/d [berlaku_sampai]', '-', $result);
         }
 
-        if ((int) $data['surat']['masa_berlaku'] == 0) {
-            $result = str_replace('[mulai_berlaku] s/d [berlaku_sampai]', '-', $result);
-        }
-
         foreach ($kodeIsian as $key => $value) {
             if (in_array($key, $kecuali)) {
                 $result = $result;
@@ -673,7 +669,7 @@ class Surat extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $favorit = FormatSurat::find($id) ?? show_404();
+        $favorit = FormatSurat::findOrFail($id);
         $favorit->update(['favorit' => ($val == 1) ? 0 : 1]);
 
         redirect_with('success', 'Berhasil Ubah Data');

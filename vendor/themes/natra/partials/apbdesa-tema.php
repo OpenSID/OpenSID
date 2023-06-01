@@ -15,7 +15,7 @@
 			<?php foreach ($subdatas as $key => $subdata): ?>
 				<?php if($subdata['judul'] != NULL and $key != 'laporan' and $subdata['realisasi'] != 0 or $subdata['anggaran'] != 0): ?>
 					<div class="progress-group"><?= $subdata['judul']; ?><br>
-						<b>Rp. <?= number_format($subdata['realisasi']); ?> | Rp. <?= number_format($subdata['anggaran']); ?></b>
+						<b><?= rupiah24($subdata['realisasi'], 'RP ') ?> | <?= rupiah24($subdata['anggaran']); ?></b>
 						<div class="progress progress-bar-striped" align="right" style="background-color: #27c8a2"><small></small>
 							<div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: <?= $subdata['persen'] ?>%" aria-valuenow="<?= $subdata['persen'] ?>" aria-valuemin="0" aria-valuemax="100"><span><?= $subdata['persen'] ?> %</span></div>
 						</div>

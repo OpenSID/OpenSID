@@ -37,12 +37,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class AnggotaGrup extends Model
+class AnggotaGrup extends BaseModel
 {
     /**
      * The table associated with the model.

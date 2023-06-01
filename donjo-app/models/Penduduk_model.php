@@ -1180,7 +1180,7 @@ class Penduduk_model extends MY_Model
     /**
      * Kembalikan status dasar penduduk ke hidup
      *
-     * @param $id 			id penduduk
+     * @param $id id penduduk
      *
      * @return void
      */
@@ -1421,15 +1421,6 @@ class Penduduk_model extends MY_Model
     public function list_pendidikan()
     {
         $sql   = 'SELECT * FROM tweb_penduduk_pendidikan WHERE 1';
-        $query = $this->db->query($sql);
-
-        return $query->result_array();
-    }
-
-    // TODO: tinjau apakah bisa digunakan atau perlu dihapus
-    public function list_pendidikan_telah()
-    {
-        $sql   = "SELECT * FROM tweb_penduduk_pendidikan WHERE left(nama, 6) <> 'SEDANG' ";
         $query = $this->db->query($sql);
 
         return $query->result_array();

@@ -91,7 +91,7 @@ class Kontak extends Admin_Controller
         if ($id) {
             $action      = 'Ubah';
             $form_action = route('kontak.update', $id);
-            $kontak      = DaftarKontak::find($id) ?? show_404();
+            $kontak      = DaftarKontak::findOrFail($id);
         } else {
             $action      = 'Tambah';
             $form_action = route('kontak.insert');
@@ -115,8 +115,7 @@ class Kontak extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        // TODO: Gunakan findOrFail
-        $data = DaftarKontak::find($id) ?? show_404();
+        $data = DaftarKontak::findOrFail($id);
 
         if ($data->update(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data');

@@ -41,16 +41,22 @@ use App\Models\Pamong;
 
 class Man_user extends Admin_Controller
 {
+    private $_set_page;
+    private $_list_session;
+
     public function __construct()
     {
         parent::__construct();
         $this->modul_ini     = 11;
         $this->sub_modul_ini = 44;
+        $this->_set_page     = ['5', '50', '100', '200'];
+        $this->_list_session = ['cari', 'filter'];
     }
 
     public function clear()
     {
-        unset($_SESSION['cari'], $_SESSION['filter']);
+        $this->session->unset_userdata($this->_list_session);
+        $this->session->per_page = $this->_set_page[0];
 
         redirect('man_user');
     }
@@ -61,27 +67,21 @@ class Man_user extends Admin_Controller
         $data['p']     = $p;
         $data['o']     = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
+        foreach ($this->_list_session as $list) {
+            $data[$list] = $this->session->{$list} ?: '';
         }
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
+        $per_page = $this->input->post('per_page');
+        if (isset($per_page)) {
+            $this->session->per_page = $per_page;
         }
 
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
-        }
-        $data['per_page'] = $_SESSION['per_page'];
-
-        $data['paging']  = $this->user_model->paging($p, $o);
-        $data['main']    = $this->user_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword'] = $this->user_model->autocomplete();
-
+        $data['func']       = 'index';
+        $data['set_page']   = $this->_set_page;
+        $data['per_page']   = $this->session->per_page;
+        $data['paging']     = $this->user_model->paging($p, $o);
+        $data['main']       = $this->user_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+        $data['keyword']    = $this->user_model->autocomplete();
         $data['user_group'] = $this->referensi_model->list_data('user_grup');
 
         $this->render('man_user/manajemen_user_table', $data);
@@ -136,7 +136,16 @@ class Man_user extends Admin_Controller
         $this->set_form_validation();
         $this->form_validation->set_rules('username', 'Username', 'is_unique[user.username]');
         $this->form_validation->set_rules('email', 'Email', 'is_unique[user.email]');
-        $this->form_validation->set_rules('pamong_id', 'Pamong', 'is_unique[user.pamong_id]');
+        $this->form_validation->set_rules([
+            [
+                'field'  => 'pamong_id',
+                'label'  => 'Pamong',
+                'rules'  => 'is_unique[user.pamong_id]',
+                'errors' => [
+                    'is_unique' => 'pengguna tersebut sudah ada',
+                ],
+            ],
+        ]);
 
         if ($this->form_validation->run() !== true) {
             session_error(trim(validation_errors()));
@@ -169,7 +178,16 @@ class Man_user extends Admin_Controller
         $this->set_form_validation();
         $this->form_validation->set_rules('username', 'Username', "is_unique[user.username,id,{$id}]");
         $this->form_validation->set_rules('email', 'Email', "is_unique[user.email,id,{$id}]");
-        $this->form_validation->set_rules('pamong_id', 'Pamong', "is_unique[user.pamong_id,id,{$id}]");
+        $this->form_validation->set_rules([
+            [
+                'field'  => 'pamong_id',
+                'label'  => 'Pamong',
+                'rules'  => "is_unique[user.pamong_id,id,{$id}]",
+                'errors' => [
+                    'is_unique' => 'pengguna tersebut sudah ada',
+                ],
+            ],
+        ]);
 
         if ($this->form_validation->run() !== true) {
             session_error(trim(validation_errors()));

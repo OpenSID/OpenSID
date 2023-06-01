@@ -157,7 +157,7 @@
                                                         <a href="<?= site_url("penduduk_log/edit/{$p}/{$o}/{$data['id_log']}")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Log Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Log Penduduk" ><i class="fa fa-edit"></i></a>
                                                         <?php if ($data['kode_peristiwa'] != 5 && $data['kode_peristiwa'] != 1 && $data['kode_peristiwa'] != 6 && $data['kode_peristiwa']): ?>
                                                             <a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/{$data['id_log']}")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status" data-body="<?= $pertanyaan; ?>"><i class="fa fa-undo"></i></a>
-                                                            <?php if ($data['is_log_pergi_terakhir'] && in_array($data['status_dasar'], [3, 6])): ?>
+                                                            <?php if ($data['kembali_datang'] && $data['is_log_pergi_terakhir'] && in_array($data['status_dasar'], [3, 6])): ?>
                                                                 <a href="<?= site_url("penduduk_log/ajax_kembalikan_status_pergi/{$data['id_log']}")?>" class="btn bg-purple btn-flat btn-sm" title="Datang Kembali"  data-remote="false"  data-toggle="modal" data-target="#modalBox" data-title="Kembalikan Penduduk"><i class="fa fa-angle-double-left"></i></a>
                                                             <?php endif ?>
                                                         <?php endif ?>

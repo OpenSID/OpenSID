@@ -122,15 +122,16 @@
 		if (anggaran == '100%' || anggaran == '100'){
 			$('#anggaran').fadeIn();
 			$("#ubahanggaran").attr('required', '');
-			$("#ubahanggaran").value('<?= $main->perubahan_anggaran ?? 0; ?>');
+			$("#ubahanggaran").val('<?= $perubahan ?? 0; ?>');
 		} else {
 			$('#anggaran').fadeOut();
 			$("#ubahanggaran").removeAttr('required', '');
-			$("#ubahanggaran").value(0);
+			$("#ubahanggaran").val("");
 		}
 	}
 
 	$(document).ready(function() {
 		pilih_persentase(<?= in_array($main->persentase, $persentase) ? 1 : 2 ?>);
+		show_hide_anggaran(`<?= $main->persentase ?>`);
 	});
 </script>

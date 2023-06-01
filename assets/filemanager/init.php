@@ -7,6 +7,8 @@ define('FMPATH', dirname(dirname(dirname(__FILE__))) . $ds);
 define('FCPATH', FMPATH . $ds);
 define('APPPATH', FMPATH . "donjo-app{$ds}");
 define('DESAPATH', FMPATH . "desa{$ds}");
+define('LOKASI_CACHE', FMPATH . "desa{$ds}cache{$ds}");
+
 define('RESOURCESPATH', FMPATH . "resources{$ds}");
 define('STORAGEPATH', FMPATH . "storage{$ds}");
 define('BASEPATH', FMPATH . "vendor{$ds}codeigniter{$ds}framework{$ds}system{$ds}");

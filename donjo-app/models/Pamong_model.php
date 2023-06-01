@@ -218,9 +218,8 @@ class Pamong_model extends CI_Model
 
     public function insert()
     {
-        $post         = $this->input->post();
-        $data         = $this->siapkan_data($post);
-        $data['urut'] = $this->urut_model->urut_max() + 1;
+        $post = $this->input->post();
+        $data = $this->siapkan_data($post);
 
         $data['pamong_tgl_terdaftar'] = date('Y-m-d');
 
@@ -339,10 +338,12 @@ class Pamong_model extends CI_Model
         $data['gelar_depan']        = strip_tags($post['gelar_depan']) ?: null;
         $data['gelar_belakang']     = strip_tags($post['gelar_belakang']) ?: null;
 
-        if ($data['jabatan_id'] == 1) {
+        if ($data['jabatan_id'] == RefJabatan::KADES) {
             $data['urut'] = 1;
-        } elseif ($data['jabatan_id'] == 2) {
+        } elseif ($data['jabatan_id'] == RefJabatan::SEKDES) {
             $data['urut'] = 2;
+        } else {
+            $data['urut'] = $this->urut_model->urut_max() + 1;
         }
 
         if (empty($data['id_pend'])) {
@@ -370,7 +371,7 @@ class Pamong_model extends CI_Model
      */
     public function ttd($jenis, $id, $val)
     {
-        $pamong = Pamong::find($id) ?? show_404();
+        $pamong = Pamong::findOrFail($id);
 
         if ($jenis == 'a.n') {
             if ($pamong->jabatan_id == '2') {
@@ -492,20 +493,25 @@ class Pamong_model extends CI_Model
     //----------------------------------------------------------------------------------------------------
 
     /**
-     * @param $id id
+     * @param $id  id
      * @param $val status : 1 = Unlock, 2 = Lock
      */
     public function lock($id, $val)
     {
-        $outp = $this->db
-            ->where('pamong_id', $id)
-            ->update('tweb_desa_pamong', ['pamong_status' => $val]);
+        $pamong        = Pamong::find($id);
+        $jabatan_aktif = Pamong::whereJabatanId($pamong->jabatan_id)->wherePamongStatus(1)->exists();
 
+        // Cek untuk kades atau sekdes apakah sudah ada yang aktif saat mengaktifkan
+        if ($val == 1 && $jabatan_aktif && in_array($pamong->jabatan_id, RefJabatan::EXCLUDE_DELETE)) {
+            return session_error('<br>Pamong ' . $pamong->jabatan->nama . ' sudah tersedia, silahakan non-aktifkan terlebih dahulu jika ingin menggantinya.');
+        }
+
+        $outp = $pamong->update(['pamong_status' => $val]);
         status_sukses($outp);
     }
 
     /**
-     * @param $id id
+     * @param $id  id
      * @param $val status : 1 = Aktif, 0 = Tidak aktif
      */
     public function kehadiran($id, $val)

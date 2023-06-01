@@ -1,7 +1,6 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed');
 
 	$this->load->model('keluarga_model');
-	$this->load->model('pamong_model');
 
 	$individu['umur'] = str_pad($individu['umur'], 3, "0", STR_PAD_LEFT);
 
@@ -122,8 +121,4 @@
 		$input['pekerjaanid_saksi2'] = str_pad($input['pekerjaanid_saksi2'], 2, "0", STR_PAD_LEFT);
 		$input['umur_saksi2']	= str_pad($input['umur_saksi2'], 3, "0", STR_PAD_LEFT);
 	}
-
-	$id = $this->input->post('pamong_id');
-	$kepala_desa = $this->pamong_model->get_pamong($id);
-	
 ?>

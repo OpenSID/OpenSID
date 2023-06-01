@@ -37,13 +37,16 @@
 
 namespace App\Models;
 
+use App\Traits\Author;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class FormatSurat extends Model
+class FormatSurat extends BaseModel
 {
+    use Author;
+
     public const MANDIRI               = 1;
     public const MANDIRI_DISABLE       = 0;
     public const KUNCI                 = 1;
@@ -464,21 +467,5 @@ class FormatSurat extends Model
     public function scopeCetak($query, $url = null)
     {
         return $this->scopeKunci($query, self::KUNCI_DISABLE)->where('url_surat', $url);
-    }
-
-    public static function boot()
-    {
-        parent::boot();
-
-        $user_id = auth()->id ?? null;
-
-        static::creating(static function ($model) use ($user_id) {
-            $model->created_by = $user_id;
-            $model->updated_by = $user_id;
-        });
-
-        static::updating(static function ($model) use ($user_id) {
-            $model->updated_by = $user_id;
-        });
     }
 }

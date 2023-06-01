@@ -848,9 +848,6 @@ class Migrasi_fitur_premium_2207 extends MY_model
 
     protected function migrasi_2022062951($hasil)
     {
-        $hasil = $hasil && FormatSurat::updateOrCreate(['nama' => 'raw'], ['url_surat' => 'surat_raw']);
-
-        // TODO :: Pindahkan pemanggilan migrasi ini di file Migrasi_2302_ke_2303.php yang akan datang
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
+        return $hasil && FormatSurat::updateOrCreate(['nama' => 'raw'], ['url_surat' => 'surat_raw']);
     }
 }

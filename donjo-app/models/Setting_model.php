@@ -36,6 +36,7 @@
  */
 
 use App\Models\RefJabatan;
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -67,27 +68,14 @@ class Setting_model extends MY_Model
 
     public function init()
     {
-        $pre = [];
-        $CI  = &get_instance();
+        $CI = &get_instance();
 
         if ($this->setting || ! $this->db->table_exists('setting_aplikasi')) {
             return;
         }
 
-        if ($this->config->item('useDatabaseConfig')) {
-            $pr = $this->db
-                ->order_by('key')
-                ->get('setting_aplikasi')
-                ->result();
-
-            foreach ($pr as $p) {
-                $pre[addslashes($p->key)] = trim(addslashes($p->value));
-            }
-        } else {
-            $pre = (object) $CI->config->config;
-        }
-        $CI->setting      = (object) $pre;
-        $CI->list_setting = $pr; // Untuk tampilan daftar setting
+        $CI->list_setting = SettingAplikasi::orderBy('key')->get();
+        $CI->setting      = (object) SettingAplikasi::pluck('value', 'key')->toArray();
 
         $this->apply_setting();
     }
@@ -103,15 +91,13 @@ class Setting_model extends MY_Model
             $this->setting->mapbox_key = config_item('mapbox_key');
         }
 
-        // Ganti token_layanan sesuai config untuk development untuk mempermudah rilis
+        // Ganti token_layanan sesuai config untuk mempermudah development
         if ((ENVIRONMENT == 'development') || config_item('token_layanan')) {
             $this->setting->layanan_opendesa_token = config_item('token_layanan');
         }
 
-        // Pengaturan sebutan sekdes
-        $this->setting->sebutan_sekretaris_desa = (Schema::hasTable('ref_jabatan')) ? RefJabatan::find(2)->nama : '';
-
         $this->setting->user_admin = config_item('user_admin');
+
         // Kalau folder tema ubahan tidak ditemukan, ganti dengan tema default
         $pos = strpos($this->setting->web_theme, 'desa/');
         if ($pos !== false) {
@@ -124,6 +110,9 @@ class Setting_model extends MY_Model
         // Sebutan kepala desa diambil dari tabel ref_jabatan dengan id = 1
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
         $this->setting->sebutan_kepala_desa = (Schema::hasTable('ref_jabatan')) ? RefJabatan::find(1)->nama : '';
+
+        // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan id = 2
+        $this->setting->sebutan_sekretaris_desa = (Schema::hasTable('ref_jabatan')) ? RefJabatan::find(2)->nama : '';
 
         $this->load->model('database_model');
         $this->database_model->cek_migrasi();
@@ -146,6 +135,10 @@ class Setting_model extends MY_Model
 
                 if ($key == 'id_pengunjung_kehadiran') {
                     $value = alfanumerik(trim($value));
+                }
+
+                if ($key == 'api_opendk_key' && (empty(setting('api_opendk_server')) || empty(setting('api_opendk_user')) || empty(setting('api_opendk_password')))) {
+                    $value = null;
                 }
 
                 $this->update($key, $value);
@@ -271,23 +264,6 @@ class Setting_model extends MY_Model
         if (! $out1 || ! $out2) {
             $_SESSION['success'] = -1;
         }
-    }
-
-    public function load_options()
-    {
-        foreach ($this->list_setting as $i => $set) {
-            if (in_array($set->jenis, ['option', 'option-value', 'option-kode'])) {
-                $this->list_setting[$i]->options = $this->get_options($set->id);
-            }
-        }
-    }
-
-    private function get_options($id)
-    {
-        return $this->db->select('id, kode, value')
-            ->where('id_setting', $id)
-            ->get('setting_aplikasi_options')
-            ->result();
     }
 
     public function cekKebutuhanSistem()

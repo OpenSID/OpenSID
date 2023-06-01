@@ -199,6 +199,7 @@ class Permohonan_surat_model extends CI_Model
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']     = $j + 1;
+            $data[$i]['nomor']  = $data[$i]['isian_form']['nomor'];
             $data[$i]['status'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN)[$data[$i]['status']];
             $data[$i]['id_log'] = LogSurat::where('id_format_surat', $data[$i]['id_surat'])->where('no_surat', $data[$i]['nomor'])->first()->id;
             $data[$i]['tte']    = LogSurat::where('id_format_surat', $data[$i]['id_surat'])->where('no_surat', $data[$i]['nomor'])->first()->tte;
@@ -262,7 +263,7 @@ class Permohonan_surat_model extends CI_Model
 
     public function get_syarat_permohonan($id)
     {
-        $permohonan   = PermohonanSurat::select(['syarat'])->find($id) ?? show_404();
+        $permohonan   = PermohonanSurat::select(['syarat'])->findOrFail($id);
         $syarat_surat = collect($permohonan->syarat)->map(static function ($item, $key) {
             $syaratSurat        = SyaratSurat::select(['ref_syarat_nama'])->find($key);
             $dokumenKelengkapan = Dokumen::select(['nama'])->find($item);

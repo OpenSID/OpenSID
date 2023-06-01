@@ -76,13 +76,12 @@ class Perangkat extends Web_Controller
         $this->cekLogin();
 
         $data = [
-            'masuk'         => $this->session->masuk,
-            'success'       => $this->session->kehadiran,
-            'ip_address'    => $this->ip,
-            'mac_address'   => $this->mac,
-            'id_pengunjung' => $this->pengunjung,
-            'kehadiran'     => Kehadiran::where('tanggal', '=', $this->tgl)->where('pamong_id', '=', $this->session->masuk['pamong_id'])->where('status_kehadiran', '=', 'hadir')->first(),
-            'alasan'        => AlasanKeluar::get(),
+            'masuk'       => $this->session->masuk,
+            'success'     => $this->session->kehadiran,
+            'ip_address'  => $this->ip,
+            'mac_address' => $this->mac,
+            'kehadiran'   => Kehadiran::where('tanggal', '=', $this->tgl)->where('pamong_id', '=', $this->session->masuk['pamong_id'])->where('status_kehadiran', '=', 'hadir')->first(),
+            'alasan'      => AlasanKeluar::get(),
         ];
 
         return view('kehadiran.index', $data);

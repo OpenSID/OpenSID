@@ -125,6 +125,7 @@ class Web_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
+
         $this->header = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
 
         if ($this->setting->offline_mode == 2) {
@@ -182,7 +183,7 @@ class Web_Controller extends MY_Controller
         $data['desa']          = $this->header;
         $data['menu_atas']     = $this->first_menu_m->list_menu_atas();
         $data['menu_kiri']     = $this->first_menu_m->list_menu_kiri();
-        $data['teks_berjalan'] = $this->teks_berjalan_model->list_data(true, 1);
+        $data['teks_berjalan'] = ($this->db->field_exists('tipe', 'teks_berjalan')) ? $this->teks_berjalan_model->list_data(true, 1) : null;
         $data['slide_artikel'] = $this->first_artikel_m->slide_show();
         $data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
         $data['w_cos']         = $this->web_widget_model->get_widget_aktif();
@@ -212,7 +213,7 @@ class Web_Controller extends MY_Controller
         $this->load->model('pamong_model');
 
         $main         = $this->header;
-        $pamong_kades = Pamong::ttd('a.n')->first();
+        $pamong_kades = Pamong::ttd('a.n')->first()->toArray();
 
         // TODO : Gunakan view blade
         if (file_exists(DESAPATH . 'offline_mode.php')) {

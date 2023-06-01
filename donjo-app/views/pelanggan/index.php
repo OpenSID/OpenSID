@@ -25,10 +25,10 @@
                 <div class="box-body">
                     <div class="callout callout-danger">
                         <h5>Data Gagal Dimuat, Harap Periksa Dibawah Ini</h5>
-                        <h5>Fitur ini khusus untuk pelanggan Layanan OpenDesa (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
+                        <h5>Fitur ini khusus untuk pelanggan Layanan <?= config_item('nama_lembaga') ?> (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
                         <li>Periksan koneksi anda, pastikan sudah terhubung dengan jaringan internet.</li>
                         <li>Periksa logs error terakhir di menu <strong><a href="<?= site_url('info_sistem#log_viewer'); ?>" style="text-decoration:none;">Pengaturan > Info Sistem > Logs</a></strong></li>
-                        <li>Token pelanggan tidak terontentikasi. Periksa [Layanan Opendesa Token] di <a href="#" style="text-decoration:none;" class="atur-token"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
+                        <li>Token pelanggan tidak terontentikasi. Periksa [Layanan <?= config_item('nama_lembaga') ?> Token] di <a href="#" style="text-decoration:none;" class="atur-token"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
                         <li>Jika masih mengalami masalah harap menghubungi pelaksana masing-masing.
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h4>MULAI BERLANGGANAN</h4>
-                            <h5><?= tgl_indo($response->body->tanggal_berlangganan->mulai); ?></h5>
+                            <h5><?= tgl_indo($response->body->tanggal_berlangganan->mulai); ?> (Premium)</h5>
                         </div>
                         <div class="icon">
                             <i class="ion ion-unlocked"></i>
@@ -83,7 +83,7 @@
                     <div class="small-box bg-red">
                         <div class="inner">
                             <h4>AKHIR BERLANGGANAN</h4>
-                            <h5><?= tgl_indo($response->body->tanggal_berlangganan->akhir); ?></h5>
+                            <h5><?= tgl_indo($response->body->tanggal_berlangganan->akhir); ?> (Premium)</h5>
                         </div>
                         <div class="icon">
                             <i class="ion ion-locked"></i>
@@ -107,6 +107,7 @@
                 <?php endif; ?>
             </div>
 
+
             <?php if ($response->body->status_langganan === 'menunggu verifikasi email') : ?>
                 <div class="box box-info">
                     <div class="box-header with-border">
@@ -127,7 +128,7 @@
                     </div>
                     <div class="box-body">
                         <div class="callout callout-info">
-                            <h5>Dokumen permohonan kerjasama Desa anda sedang diperiksa oleh Pelaksana Layanan OpenDesa.</h5>
+                            <h5>Dokumen permohonan kerjasama Desa anda sedang diperiksa oleh Pelaksana Layanan <?= config_item('nama_lembaga') ?>.</h5>
                         </div>
                     </div>
                 </div>
@@ -169,7 +170,7 @@
                                     <?php endforeach ?>
                                 </td>
                             </tr>
-                            <?php if ($response->body->token) : ?>
+                            <?php if (! config_item('demo_mode') && $response->body->token) : ?>
                             <tr>
                                 <td>Token</td>
                                 <td> : </td>
@@ -220,10 +221,10 @@
                                         $server = config_item('server_layanan');
                                 $token          = $this->setting->layanan_opendesa_token;
                                 ?>
-                                        <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran'): ?>
+                                        <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi'): ?>
                                             <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
                                         <?php endif; ?>
-                                        <?php if ($pemesanan->mitra_id == ''): ?>
+                                        <?php if ($pemesanan->mitra_id == '' || $pemesanan->mitra_id == null || $pemesanan->mitra_id == 0): ?>
                                             <a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
                                         <?php endif; ?>
                                         <?php if ($notif_langganan['warna'] == 'orange'): ?>
@@ -317,10 +318,10 @@
                                 $server = config_item('server_layanan');
                                 $token  = $this->setting->layanan_opendesa_token;
                                 ?>
-                                        <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran'): ?>
+                                        <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi'): ?>
                                             <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
                                         <?php endif; ?>
-                                        <?php if ($pemesanan->mitra_id == ''): ?>
+                                        <?php if ($pemesanan->mitra_id == '' || $pemesanan->mitra_id == null || $pemesanan->mitra_id == 0): ?>
                                             <a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
                                         <?php endif; ?>
                                         <?php if ($notif_langganan['warna'] == 'orange'): ?>
@@ -332,7 +333,7 @@
                                             <?php if($layanan->kategori_id != 4): ?>
 
                                                 <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?></a><br>
-                                                <?= '<style>#tbl-pemesanan-' . $number . ' { display:table-row;}</style>'; ?>
+                                                <?= '<style>#tbl-pemesanan-' . $number . ' { display:table-row!important;}</style>'; ?>
 
                                             <?php else: ?>
                                                 <?= '<style>#tbl-pemesanan-' . $number . ' { display:none;}</style>'; ?>
@@ -412,27 +413,26 @@
         <?php endif ?>
     </section>
 </div>
-<script>
-    $('#copy').on('click', function() {
-        $('#token').select();
-        document.execCommand('copy');
-    });
-</script>
-
 <script src="<?= asset('js/sweetalert2/sweetalert2.all.min.js') ?>"></script>
 <link rel="stylesheet" href="<?= asset('js/sweetalert2/sweetalert2.min.css') ?>">
 
 <script type="text/javascript">
+    $('#copy').on('click', function() {
+        $('#token').select();
+        document.execCommand('copy');
+    });
+
     $('.atur-token').click(function(event) {
         Swal.fire({
             title: 'Pengaturan Pelanggan',
-            text: 'Layanan Opendesa Token',
+            text: 'Layanan ' + `<?= config_item('nama_lembaga') ?>` + ' Token',
             customClass: {
                     popup: 'swal-lg',
                 },
             input: 'textarea',
+            inputValue: '<?= config_item('demo_mode') ? '' : setting('layanan_opendesa_token') ?>',
             inputAttributes: {
-                inputPlaceholder: 'Token pelanggan Layanan OpenDESA'
+                inputPlaceholder: 'Token pelanggan Layanan ' + `<?= config_item('nama_lembaga') ?>`,
             },
             showCancelButton: true,
             cancelButtonText: 'Tutup',
@@ -441,20 +441,20 @@
             preConfirm: (token) => {
                 return fetch(`<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`, {
                     headers: {
-                         "Authorization" : `Bearer ${token}`,
-                         "X-Requested-With" : `XMLHttpRequest`,
+                        "Authorization" : `Bearer ${token}`,
+                        "X-Requested-With" : `XMLHttpRequest`,
                     },
                     method: 'post',
                 })
-                  .then(response => {
+                .then(response => {
                     if (!response.ok) {
-                      throw new Error(response.statusText)
+                        throw new Error(response.statusText)
                     }
                     return response.json()
-                  })
-                  .catch(error => {
+                })
+                .catch(error => {
                     Swal.showValidationMessage(
-                      `Request failed: ${error}`
+                        `Request failed: ${error}`
                     )
                 })
             },
@@ -472,67 +472,79 @@
                         text: 'Verifikasi token Gagal',
                     })
                 } else {
-                     $.ajax({
-                         url: `${SITE_URL}pelanggan/pemesanan`,
-                         type: 'Post',
-                         dataType: 'json',
-                         data: data,
-                     })
-                     .done(function() {
-                         Swal.fire({
-                             title: 'Berhasil Tersimpan',
-                        })
-                         window.location.replace(`${SITE_URL}pelanggan`);
-
-                     })
-                     .fail(function(e) {
+                    $.ajax({
+                        url: `${SITE_URL}pelanggan/pemesanan`,
+                        type: 'Post',
+                        dataType: 'json',
+                        data: data,
+                    })
+                    .done(function(response) {
+                        if (response.status) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                timer: 2000,
+                                text: response.message,
+                            }).then((result) => {
+                                window.location.replace('pelanggan');
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                timer: 2000,
+                                text: response.message,
+                            });
+                        }
+                    })
+                    .fail(function(e) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Request failed',
                         })
-                     });
+                    });
                 }
             }
         })
     });
 
     $('.perbarui').click(function(event) {
-         Swal.fire({title: 'Sedang Memproses', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
-         $.ajax({
-             url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
-             headers: {
+        Swal.fire({title: 'Sedang Memproses', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
+        $.ajax({
+            url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+            headers: {
                 "Authorization" : `Bearer <?= setting('layanan_opendesa_token') ?>`,
                 "X-Requested-With" : `XMLHttpRequest`,
-             },
-             type: 'Post',
-         })
-         .done(function(response) {
+            },
+            type: 'Post',
+        })
+        .done(function(response) {
             let data = {
                     body : response
                 }
-             $.ajax({
-                 url: `${SITE_URL}pelanggan/pemesanan`,
-                 type: 'Post',
-                 dataType: 'json',
-                 data: data,
-             })
-             .done(function() {
-                 Swal.fire({
-                     title: 'Berhasil Tersimpan',
+            $.ajax({
+                url: `${SITE_URL}pelanggan/pemesanan`,
+                type: 'Post',
+                dataType: 'json',
+                data: data,
+            })
+            .done(function() {
+                Swal.fire({
+                    title: 'Berhasil Tersimpan',
                 })
-                 window.location.replace(`${SITE_URL}pelanggan`);
+                window.location.replace(`${SITE_URL}pelanggan`);
 
-             })
-             .fail(function(e) {
+            })
+            .fail(function(e) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Request failed',
                 })
-             });
-         })
-         .fail(function() {
-             console.log("error");
-         });
+            });
+        })
+        .fail(function() {
+            console.log("error");
+        });
     });
 
 </script>

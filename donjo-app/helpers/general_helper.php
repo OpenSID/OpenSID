@@ -35,11 +35,12 @@
  *
  */
 
-use App\Models\Config;
-use App\Models\GrupAkses;
-use App\Models\JamKerja;
-use App\Models\Kehadiran;
 use Carbon\Carbon;
+use App\Models\Config;
+use App\Models\JamKerja;
+use App\Models\GrupAkses;
+use App\Models\Kehadiran;
+use Illuminate\Support\Facades\Schema;
 
 if (! function_exists('asset')) {
     function asset($uri = '', $default = true)
@@ -419,12 +420,14 @@ if (! function_exists('cek_kehadiran')) {
      */
     function cek_kehadiran()
     {
-        $cek_libur = JamKerja::libur()->first();
-        $cek_jam   = JamKerja::jamKerja()->first();
-        $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
-        if ($kehadiran->count() > 0 && ($cek_jam != null || $cek_libur != null)) {
-            foreach ($kehadiran as $data) {
-                Kehadiran::lupaAbsen($data->tanggal);
+        if (Schema::hasTable('kehadiran_jam_kerja')) {
+            $cek_libur = JamKerja::libur()->first();
+            $cek_jam   = JamKerja::jamKerja()->first();
+            $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
+            if ($kehadiran->count() > 0 && ($cek_jam != null || $cek_libur != null)) {
+                foreach ($kehadiran as $data) {
+                    Kehadiran::lupaAbsen($data->tanggal);
+                }
             }
         }
     }

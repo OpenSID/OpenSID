@@ -172,6 +172,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 												<th><a href="<?= site_url('rtm/filter/order_by/3'); ?>">Kepala Rumah Tangga <i class='fa fa-sort fa-sm'></i></a></th>
 											<?php endif; ?>
 											<th width="10%">NIK</th>
+											<th>DTKS</th>
 											<th>Jumlah Anggota</th>
 											<th>Alamat</th>
 											<th><?= ucwords($this->setting->sebutan_dusun); ?></th>
@@ -201,6 +202,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 														<?php if (can('h')): ?>
 															<a href="#" data-href="<?= site_url("rtm/delete/{$data['no_kk']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 														<?php endif; ?>
+														<?php if ($data['terdaftar_dtks']) : ?>
+															<a href="<?= site_url("dtks/new/{$data['id']}"); ?>" onclick="show_confirm(this)" data-remote="false" data-toggle="modal" data-target="#show_confirm_modal" class="btn bg-purple btn-flat btn-sm" title="DTKS"><i class="fa fa-plus "></i> DTKS</a>
+														<?php endif; ?>
 													</td>
 													<td class="padat">
 														<img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
@@ -210,6 +214,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 													</td>
 													<td><?= strtoupper($data['kepala_kk']); ?></td>
 													<td><?= strtoupper($data['nik']); ?></td>
+													<td><?= ($data['terdaftar_dtks']) ? 'Terdaftar' : 'Tidak Terdaftar'; ?></td>
 													<td class="padat">
 														<a href="<?= site_url("rtm/anggota/{$data['id']}"); ?>"><?= $data['jumlah_anggota']?></a>
 													</td>
@@ -236,5 +241,43 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</section>
 	<?php endif; ?>
 </div>
+<div class='modal fade' id='show_confirm_modal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+	<div class='modal-dialog modal-lg'>
+		<div class='modal-content'>
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+				<h4 class='modal-title' id='myModalLabel'>
+					<i class='fa fa-exclamation-triangle text-blue'></i>&nbsp;&nbsp;&nbsp;Pemberitahuan
+				</h4>
+			</div>
+			<div class='modal-body'>
+				<div class="col-sm-12">
+					<div class="box" style="border-top:none">
+						<a href="#" id="tujuan" class="btn btn-social pull-right btn-flat btn-success btn-sm" >
+							<i class='fa fa-plus'></i> Ubah/Buat DTKS Baru
+						</a>
+						<div>
+						<?php
+                            view('admin.dtks.info_new_dtks');
+?>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='modal-footer'>
+				<button type="button" class="btn pull-left btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+			</div>
+		</div>
+	</div>
+</div>
 <?php $this->load->view('global/confirm_delete'); ?>
 <?php $this->load->view('rtm/impor'); ?>
+<script>
+	function show_confirm(el){
+		$('#versi')
+			.replaceWith("<?=\App\Enums\Dtks\DtksEnum::VERSION_LIST[\App\Enums\Dtks\DtksEnum::VERSION_CODE]?>")
+		$('#rtm_clear').attr('href', "<?=site_url('rtm/clear')?>");
+		$('#tujuan').attr('href', $(el).attr('href'))
+
+	}
+</script>

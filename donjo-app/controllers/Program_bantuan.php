@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Enums\SasaranEnum;
 use App\Models\BantuanPeserta;
 use App\Models\Config;
+use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
@@ -85,7 +86,7 @@ class Program_bantuan extends Admin_Controller
         }
 
         $data                 = $this->program_bantuan_model->get_program($p, false);
-        $data['list_sasaran'] = SasaranEnum::DAFTAR;
+        $data['list_sasaran'] = SasaranEnum::all();
         $data['func']         = 'index';
         $data['per_page']     = $this->session->per_page;
         $data['set_page']     = $this->_set_page;
@@ -108,7 +109,8 @@ class Program_bantuan extends Admin_Controller
             $data['individu'] = null;
         }
 
-        $data['form_action'] = site_url('program_bantuan/add_peserta/' . $program_id);
+        $data['form_action']  = site_url('program_bantuan/add_peserta/' . $program_id);
+        $data['list_sasaran'] = SasaranEnum::all();
 
         $this->render('program_bantuan/form', $data);
     }
@@ -133,14 +135,16 @@ class Program_bantuan extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data['cari']     = $this->session->cari ?: '';
-        $data['program']  = $this->program_bantuan_model->get_program($p, $program_id);
-        $data['keyword']  = $this->program_bantuan_model->autocomplete($program_id, $this->input->post('cari'));
-        $data['paging']   = $data['program'][0]['paging'];
-        $data['p']        = $p;
-        $data['func']     = "detail/{$program_id}";
-        $data['per_page'] = $this->session->per_page;
-        $data['set_page'] = $this->_set_page;
+        $data['cari']         = $this->session->cari ?: '';
+        $data['program']      = $this->program_bantuan_model->get_program($p, $program_id);
+        $data['keyword']      = $this->program_bantuan_model->autocomplete($program_id, $this->input->post('cari'));
+        $data['paging']       = $data['program'][0]['paging'];
+        $data['list_sasaran'] = SasaranEnum::all();
+        $data['p']            = $p;
+        $data['func']         = "detail/{$program_id}";
+        $data['per_page']     = $this->session->per_page;
+        $data['set_page']     = $this->_set_page;
+        $data['nama_excerpt'] = Str::limit($data['program'][0]['nama'], 25);
 
         $this->render('program_bantuan/detail', $data);
     }
@@ -270,9 +274,10 @@ class Program_bantuan extends Admin_Controller
         $this->form_validation->set_rules('edate', 'Tanggal akhir', 'required');
         $this->form_validation->set_rules('asaldana', 'Asal Dana', 'required');
 
-        $data['asaldana'] = unserialize(ASALDANA);
-        $data['program']  = $this->program_bantuan_model->get_program(1, $id);
-        $data['jml']      = $this->program_bantuan_model->jml_peserta_program($id);
+        $data['asaldana']     = unserialize(ASALDANA);
+        $data['program']      = $this->program_bantuan_model->get_program(1, $id);
+        $data['jml']          = $this->program_bantuan_model->jml_peserta_program($id);
+        $data['nama_excerpt'] = Str::limit($data['program'][0]['nama'], 25);
 
         if ($this->form_validation->run() === false) {
             $this->render('program_bantuan/edit', $data);
@@ -486,9 +491,9 @@ class Program_bantuan extends Admin_Controller
                         $no_id_kartu         = (string) $cells[1];
                         $kartu_nama          = (string) $cells[3];
                         $kartu_tempat_lahir  = (string) $cells[4];
-                        $kartu_tanggal_lahir = (string) $cells[5];
+                        $kartu_tanggal_lahir = $cells[5];
+                        $kartu_tanggal_lahir = $this->cek_is_date($kartu_tanggal_lahir);
                         $kartu_alamat        = (string) $cells[6];
-
                         if (empty($kartu_tanggal_lahir)) {
                             $kartu_tanggal_lahir = $cek_penduduk['tanggallahir'];
                         } else {
@@ -498,8 +503,6 @@ class Program_bantuan extends Admin_Controller
 
                                 continue;
                             }
-
-                            $kartu_tanggal_lahir = $this->cek_is_date($kartu_tanggal_lahir);
                         }
 
                         // Random no. kartu peserta

@@ -152,10 +152,6 @@ class First_artikel_m extends CI_Model
     {
         $data['judul'] = $this->security->xss_clean($data['judul']);
         $data['slug']  = $this->security->xss_clean($data['slug']);
-        // User terpecaya boleh menampilkan <iframe> dsbnya
-        if (empty($this->setting->user_admin) || $data['id_user'] != $this->setting->user_admin) {
-            $data['isi'] = $this->security->xss_clean($data['isi']);
-        }
     }
 
     private function icon_keuangan(&$data)
