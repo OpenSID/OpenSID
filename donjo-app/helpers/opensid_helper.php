@@ -51,7 +51,7 @@ define('VERSION', '2306.0.0');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023061051');
+define('VERSI_DATABASE', '2023060101');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
