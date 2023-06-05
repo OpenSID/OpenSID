@@ -446,11 +446,11 @@ class Migrasi_multidb extends MY_model
         $tabel = 'anjungan_menu';
         $hasil = $hasil && $this->tambah_config_id($tabel);
 
-        if (! $this->cek_indeks($tabel, 'anjungan_menu_config')) {
-            Schema::table($tabel, static function (Blueprint $table) {
-                $table->unique(['config_id', 'nama'], 'anjungan_menu_config');
-            });
-        }
+        // if (! $this->cek_indeks($tabel, 'anjungan_menu_config')) {
+        //     Schema::table($tabel, static function (Blueprint $table) {
+        //         $table->unique(['config_id', 'nama'], 'anjungan_menu_config');
+        //     });
+        // }
 
         return $hasil && true;
     }
@@ -629,7 +629,9 @@ class Migrasi_multidb extends MY_model
         // Buat relasi antar tabel kelompok, kelompok_master dan kelompok_anggota
         $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_config_fk', 'kelompok_anggota', 'config_id', 'config', 'id');
         $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_kelompok_fk', 'kelompok_anggota', 'id_kelompok', 'kelompok', 'id');
-        $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_penduduk_fk', 'kelompok_anggota', 'id_penduduk', 'tweb_penduduk', 'id');
+
+        // Bagian ini sering bermasalah dibeberapa desa
+        // $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_penduduk_fk', 'kelompok_anggota', 'id_penduduk', 'tweb_penduduk', 'id');
 
         // Relasi antar tabel kelompok ke tabel kelompok_master
         return $hasil && $this->tambahForeignKey('kelompok_kelompok_master_fk', 'kelompok', 'id_master', 'kelompok_master', 'id');

@@ -428,7 +428,7 @@ class Kelompok_model extends MY_Model
             $this->db->where('k.id !=', $id);
         }
 
-        return $this->config_id('k')
+        return $this->config_id_exist('kelompok', 'k')
             ->select('k.*, km.kelompok AS kategori, tp.nama AS nama_ketua')
             ->from('kelompok k')
             ->join('kelompok_master km', 'k.id_master = km.id', 'left')
