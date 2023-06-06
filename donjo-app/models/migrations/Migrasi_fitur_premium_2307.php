@@ -65,14 +65,14 @@ class Migrasi_fitur_premium_2307 extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2023061251($hasil, $id);
+        }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && true;
     }
 
     protected function migrasi_2023060451($hasil)
@@ -102,8 +102,16 @@ class Migrasi_fitur_premium_2307 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_xxxxxxxxxx($hasil)
+    protected function migrasi_2023061251($hasil, $id)
     {
-        return $hasil;
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Kunci Pilihan Tema',
+            'key'        => 'lock_theme',
+            'value'      => 1,
+            'keterangan' => '1. bisa ganti tema, 0. tidak bisa pilih tema',
+            'kategori'   => 'openkab',
+            'jenis'      => 'option',
+            'option'     => '{"0": "Kunci","1": "Bebas pilih"}',
+        ], $id);
     }
 }
