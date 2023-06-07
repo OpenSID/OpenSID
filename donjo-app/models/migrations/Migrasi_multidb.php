@@ -626,15 +626,17 @@ class Migrasi_multidb extends MY_model
         $hasil = $hasil && $this->tabel_kelompok_master($hasil);
         $hasil = $hasil && $this->tabel_kelompok_anggota($hasil);
 
+        return $hasil && true;
+
         // Buat relasi antar tabel kelompok, kelompok_master dan kelompok_anggota
-        $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_config_fk', 'kelompok_anggota', 'config_id', 'config', 'id');
-        $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_kelompok_fk', 'kelompok_anggota', 'id_kelompok', 'kelompok', 'id');
+        // $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_config_fk', 'kelompok_anggota', 'config_id', 'config', 'id');
+        // $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_kelompok_fk', 'kelompok_anggota', 'id_kelompok', 'kelompok', 'id');
 
         // Bagian ini sering bermasalah dibeberapa desa
         // $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_penduduk_fk', 'kelompok_anggota', 'id_penduduk', 'tweb_penduduk', 'id');
 
         // Relasi antar tabel kelompok ke tabel kelompok_master
-        return $hasil && $this->tambahForeignKey('kelompok_kelompok_master_fk', 'kelompok', 'id_master', 'kelompok_master', 'id');
+        // return $hasil && $this->tambahForeignKey('kelompok_kelompok_master_fk', 'kelompok', 'id_master', 'kelompok_master', 'id');
     }
 
     protected function tabel_kelompok($hasil)
