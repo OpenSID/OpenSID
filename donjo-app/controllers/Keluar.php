@@ -596,7 +596,9 @@ class Keluar extends Admin_Controller
         return [
             'suratMasuk' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == kades()->id, static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
-                    return $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
+                    return $tte->where(static function ($r) {
+                        return $r->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
+                    });
                 })
                     ->when(setting('tte') == 0, static function ($tte) {
                         return $tte->where('verifikasi_kades', '=', '0');
@@ -610,7 +612,7 @@ class Keluar extends Admin_Controller
                 })->count(),
             'arsip' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == kades()->id, static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
-                    return $tte->where('tte', '=', 1);
+                    return $tte->where('verifikasi_kades', '=', '1');
                 })
                     ->when(setting('tte') == 0, static function ($tte) {
                         return $tte->where('verifikasi_kades', '=', '1');

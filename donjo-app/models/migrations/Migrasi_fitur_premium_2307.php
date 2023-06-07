@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2307 extends MY_model
@@ -52,7 +54,11 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        // Data perlu dihapus karena ada perubahan struktur tabel
+        $hasil = $hasil && $this->migrasi_2023060451($hasil);
+        $hasil = $hasil && $this->migrasi_2023060452($hasil);
+
+        return $hasil && true;
     }
 
     // Migrasi perubahan data
@@ -67,6 +73,33 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
         // Migrasi tanpa config_id
         return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+    }
+
+    protected function migrasi_2023060451($hasil)
+    {
+        DB::table('log_penduduk')->whereNotIn('id_pend', static function ($q) {
+            return $q->select('id')->from('tweb_penduduk');
+        })->delete();
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023060452($hasil)
+    {
+        $db    = $this->db->database;
+        $query = "
+            SELECT COUNT(1) ConstraintSudahAda
+            FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+            WHERE TABLE_SCHEMA = ?
+            AND TABLE_NAME = 'log_penduduk'
+            AND CONSTRAINT_NAME = 'fk_tweb_penduduk'
+        ";
+        $checkConstraint = DB::select($query, [$db])[0];
+        if ($checkConstraint->ConstraintSudahAda <= 0) {
+            DB::statement('alter table log_penduduk add CONSTRAINT fk_tweb_penduduk foreign key (id_pend) REFERENCES tweb_penduduk(id) ON UPDATE CASCADE ON DELETE CASCADE');
+        }
+
+        return $hasil;
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
