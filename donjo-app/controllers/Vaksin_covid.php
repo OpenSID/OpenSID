@@ -204,6 +204,7 @@ class Vaksin_covid extends Admin_Controller
             'isi'          => 'covid19/vaksin/cetak',
             'list_dusun'   => $this->wilayah_model->list_dusun(),
             'list_vaksin'  => $this->vaksin_covid_model->jenis_vaksin(),
+            'sekdes_id'    => sekdes()->id,
         ];
 
         foreach ($this->_list_session as $list) {
@@ -245,6 +246,7 @@ class Vaksin_covid extends Admin_Controller
             'umur'         => $data['sekdes'] = $umur,
             'isi'          => 'covid19/vaksin/cetak_rekap',
             'aksi'         => 'Cetak',
+            'sekdes_id'    => sekdes()->id,
         ];
 
         $this->render('covid19/vaksin/laporan_rekap', $data);
