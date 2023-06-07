@@ -80,4 +80,12 @@ class LogPenduduk extends BaseModel
         'tgl_lapor'     => 'datetime:Y-m-d',
         'tgl_peristiwa' => 'datetime:Y-m-d',
     ];
+
+    /**
+     * Get the post that owns the comment.
+     */
+    public function penduduk()
+    {
+        return $this->belongsTo(Penduduk::class, 'id_pend', 'id');
+    }
 }

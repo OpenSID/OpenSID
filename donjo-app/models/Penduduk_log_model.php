@@ -41,6 +41,7 @@ use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -141,26 +142,78 @@ class Penduduk_log_model extends MY_Model
      */
     public function kembalikan_status($id_log)
     {
-        $log = LogPenduduk::findOrFail($id_log);
-
+        $log = LogPenduduk::with('penduduk')->findOrFail($id_log);
+        DB::beginTransaction();
         // Kembalikan status selain lahir dan masuk
         if (! in_array($log->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])) {
             $outp = Penduduk::where('id', $log->id_pend)
                 ->update([
                     'status_dasar' => StatusDasarEnum::HIDUP,
                 ]);
+            $penduduk = DB::table('tweb_penduduk')->where('nik', $log->penduduk->nik)->where('id', '!=', $log->id_pend)->where('status_dasar', StatusDasarEnum::HIDUP)->get();
 
-            // Hapus log_keluarga, jika terkait
-            $logKeluarga = LogKeluarga::where('id_log_penduduk', $log->id)->first();
-            if ($logKeluarga) {
-                $outp = $outp && $logKeluarga->delete();
+            if (count($penduduk) > 0) {
+                try {
+                    // tambah log penduduk datang
+                    DB::table('log_penduduk')->insert([
+                        'id_pend'        => $log->id_pend,
+                        'config_id'      => identitas('id'),
+                        'kode_peristiwa' => 1,
+                        'tgl_lapor'      => date('Y-m-d'),
+                        'tgl_peristiwa'  => date('Y-m-d'),
+                        'ref_pindah'     => $log->ref_pindah,
+                    ]);
+
+                    foreach ($penduduk as $pindah) {
+                        // ubah status Dasar selain $log->id_pend menjadi LogPenduduk::PINDAH_KELUAR
+                        DB::table('tweb_penduduk')->where('id', $pindah->id)->update([
+                            'status_dasar' => LogPenduduk::PINDAH_KELUAR,
+                        ]);
+
+                        // tambah log penduduk pindah
+                        $id_log = DB::table('log_penduduk')->insertGetId([
+                            'id_pend'        => $pindah->id,
+                            'config_id'      => $pindah->config_id,
+                            'kode_peristiwa' => 3,
+                            'tgl_lapor'      => date('Y-m-d'),
+                            'tgl_peristiwa'  => date('Y-m-d'),
+                            'ref_pindah'     => $log->ref_pindah,
+                        ]);
+
+                        if ($pindah->id_kk) {
+                            DB::table('log_keluarga')->insert([
+                                'id_kk'           => $pindah->id,
+                                'config_id'       => $pindah->config_id,
+                                'id_peristiwa'    => 3,
+                                'updated_by'      => auth()->id,
+                                'id_log_penduduk' => $id_log,
+                            ]);
+                        }
+                    }
+                    DB::commit();
+
+                    return status_sukses(true);
+                } catch (Exception $e) {
+                    DB::rollback();
+
+                    return session_error($e->getMessage());
+                }
+            } else {
+                // Hapus log_keluarga, jika terkait
+                $logKeluarga = LogKeluarga::where('id_log_penduduk', $log->id)->first();
+                if ($logKeluarga) {
+                    $outp = $outp && $logKeluarga->delete();
+                }
+
+                // Hapus log penduduk
+                $outp = $outp && LogPenduduk::find($id_log)->delete();
+                DB::commit();
+
+                return status_sukses($outp);
             }
-
-            // Hapus log penduduk
-            $outp = $outp && LogPenduduk::find($id_log)->delete();
-
-            return status_sukses($outp);
         }
+
+        DB::rollback();
 
         return session_error(', tidak dapat mengubah status dasar.');
     }
