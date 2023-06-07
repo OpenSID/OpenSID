@@ -37,9 +37,11 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\StatusHubunganEnum;
 use App\Libraries\DateConv;
 use App\Models\LogSurat;
 use App\Models\Pamong;
+use App\Models\Penduduk;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -434,11 +436,9 @@ class Surat_model extends MY_Model
 
     public function get_data_istri($id = 0)
     {
-        $sql = "SELECT u.id
-            FROM tweb_penduduk u
-            WHERE u.id = (SELECT id FROM tweb_penduduk WHERE id_kk = (SELECT id_kk FROM tweb_penduduk WHERE id = {$id} AND kk_level = 1 AND config_id = u.config_id) AND kk_level = 3 AND config_id = u.config_id limit 1) AND u.config_id = {$this->config_id}";
-        $query = $this->db->query($sql);
-        $data  = $query->row_array();
+        $id_kk    = Penduduk::where('id', $id)->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)->first('id_kk')->id_kk;
+        $penduduk = Penduduk::where('id_kk', $id_kk)->where('kk_level', StatusHubunganEnum::ISTRI)->first('id')->id;
+        $data     = Penduduk::where('id', $penduduk)->first('id');
 
         $istri_id = $data['id'];
         if ($istri_id) {
@@ -448,11 +448,9 @@ class Surat_model extends MY_Model
 
     public function get_data_suami($id = 0)
     {
-        $sql = "SELECT u.id
-			FROM tweb_penduduk u
-			WHERE u.id = (SELECT id FROM tweb_penduduk WHERE id_kk = (SELECT id_kk FROM tweb_penduduk WHERE id = {$id} AND kk_level = 3 AND config_id = u.config_id) AND kk_level = 1 limit 1 AND config_id = u.config_id) AND u.config_id = {$this->config_id}";
-        $query = $this->db->query($sql);
-        $data  = $query->row_array();
+        $id_kk    = Penduduk::where('id', $id)->where('kk_level', StatusHubunganEnum::ISTRI)->first('id_kk')->id_kk;
+        $penduduk = Penduduk::where('id_kk', $id_kk)->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)->first('id')->id;
+        $data     = Penduduk::where('id', $penduduk)->first('id');
 
         $suami_id = $data['id'];
         if ($suami_id) {
