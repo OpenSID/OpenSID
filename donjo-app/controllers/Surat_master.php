@@ -404,6 +404,17 @@ class Surat_master extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
+    public function delete_template_desa($url_surat = '')
+    {
+        $this->redirect_hak_akses('h');
+
+        if ($this->surat_master_model->delete_template_desa($url_surat)) {
+            redirect_with('success', 'Berhasil Hapus Template Desa');
+        }
+
+        redirect_with('error', 'Gagal Hapus Template Desa');
+    }
+
     // Tambahkan surat desa jika folder surat tidak ada di surat master
     public function perbarui()
     {

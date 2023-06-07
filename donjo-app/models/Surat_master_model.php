@@ -143,7 +143,7 @@ class Surat_master_model extends MY_Model
         $this->salin_lampiran($url, $folder_surat);
     }
 
-    // Lampiran surat perlu disalin ke folder surata di LOKASI_SURAT_DESA, karena
+    // Lampiran surat perlu disalin ke folder surat di LOKASI_SURAT_DESA, karena
     // file lampiran surat dianggap ada di folder yang sama dengan tempat template surat RTF
     private function salin_lampiran($url, $folder_surat)
     {
@@ -161,6 +161,33 @@ class Surat_master_model extends MY_Model
                 copy('template-surat/' . $url . '/' . $lampiran, $folder_surat . $lampiran);
             }
         }
+    }
+
+    public function delete_template_desa($url = '')
+    {
+        // Folder desa untuk surat ini
+        $folder_surat  = LOKASI_SURAT_DESA . $url . '/';
+        $nama_file_rtf = $url . '.rtf';
+        unlink($folder_surat . $nama_file_rtf);
+
+        return $this->hapus_lampiran($url, $folder_surat);
+    }
+
+    private function hapus_lampiran($url, $folder_surat)
+    {
+        $this->load->model('surat_model');
+        $surat = $this->surat_model->get_surat($url);
+        if (! $surat['lampiran']) {
+            return true;
+        }
+        // $lampiran_surat dalam bentuk seperti "f-1.08.php, f-1.25.php, f-1.27.php"
+        $daftar_lampiran = explode(',', $surat['lampiran']);
+
+        foreach ($daftar_lampiran as $lampiran) {
+            unlink($folder_surat . $lampiran);
+        }
+
+        return true;
     }
 
     public function delete($id = null)
