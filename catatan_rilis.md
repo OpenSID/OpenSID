@@ -4,6 +4,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 #### Perbaikan BUG
 1. [#6590](https://github.com/OpenSID/OpenSID/issues/6590) Perbaikan cara menampilkan area desa/dusun/rt/rw pada toolbox peta modul pertanahan.
+2. [#6651](https://github.com/OpenSID/OpenSID/issues/6651) Perbaikan cara menampilkan path peta yang tidak valid pada halaman admin.
+
 
 #### Perubahan Teknis
 

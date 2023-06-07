@@ -4,6 +4,8 @@ $(document).ready(function () {
   });
 });
 
+var error_message = "";
+var sebutan_dusun;
 var layers = {};
 
 function set_marker(marker, daftar_path, judul, nama_wil, favico_desa) {
@@ -14,53 +16,66 @@ function set_marker(marker, daftar_path, judul, nama_wil, favico_desa) {
     if (daftar[x].path) {
       daftar[x].path = JSON.parse(daftar[x].path);
       jml_path = daftar[x].path[0].length;
-      for (var y = 0; y < jml_path; y++) {
-        daftar[x].path[0][y].reverse();
-      }
+      if (isValidPolygonPath(daftar[x].path)) {
+        for (var y = 0; y < jml_path; y++) {
+          daftar[x].path[0][y].reverse();
+        }
 
-      var label = L.tooltip({
-        permanent: true,
-        direction: "center",
-        className: "text",
-      }).setContent(judul + " " + daftar[x][nama_wil]);
+        var label = L.tooltip({
+          permanent: true,
+          direction: "center",
+          className: "text",
+        }).setContent(judul + " " + daftar[x][nama_wil]);
 
-      var point_style = {
-        iconSize: [1, 1],
-        iconAnchor: [0.5, 0.5],
-        labelAnchor: [0.3, 0],
-        iconUrl: favico_desa,
-      };
+        var point_style = {
+          iconSize: [1, 1],
+          iconAnchor: [0.5, 0.5],
+          labelAnchor: [0.3, 0],
+          iconUrl: favico_desa,
+        };
 
-      var marker_style = {
-        stroke: true,
-        color: "white",
-        opacity: 1,
-        weight: 3,
-        fillColor: daftar[x].warna,
-        fillOpacity: 0.8,
-        dashArray: 4,
-      };
+        var marker_style = {
+          stroke: true,
+          color: "white",
+          opacity: 1,
+          weight: 3,
+          fillColor: daftar[x].warna,
+          fillOpacity: 0.8,
+          dashArray: 4,
+        };
 
-      daftar[x].path[0].push(daftar[x].path[0][0]);
-      if (daftar[x].lng) {
+        daftar[x].path[0].push(daftar[x].path[0][0]);
+        if (daftar[x].lng) {
+          marker.push(
+            turf.point([daftar[x].lng, daftar[x].lat], {
+              content: label,
+              style: L.icon(point_style),
+            })
+          );
+        }
         marker.push(
-          turf.point([daftar[x].lng, daftar[x].lat], {
-            content: label,
-            style: L.icon(point_style),
+          turf.polygon(daftar[x].path, {
+            content: daftar[x][nama_wil],
+            style: marker_style,
           })
         );
+      } else {
+        error_message += message(
+          null,
+          daftar[x].dusun,
+          daftar[x].rw,
+          daftar[x].rt
+        );
       }
-      marker.push(
-        turf.polygon(daftar[x].path, {
-          content: daftar[x][nama_wil],
-          style: marker_style,
-        })
-      );
     }
   }
 }
 
 function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa) {
+  if (nama_wil == "dusun") {
+    sebutan_dusun = judul;
+  }
+
   var daftar = JSON.parse(daftar_path);
   var jml = daftar.length;
   var jml_path;
@@ -68,54 +83,63 @@ function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa) {
     if (daftar[x].path) {
       daftar[x].path = JSON.parse(daftar[x].path);
       var jml_path_x = daftar[x].path.length;
-      for (var a = 0; a < jml_path_x; a++) {
-        for (var b = 0; b < daftar[x].path[a].length; b++) {
-          jml_path = daftar[x].path[a][0].length;
-          for (var z = 0; z < jml_path; z++) {
-            daftar[x].path[a][0][z].reverse();
-          }
+      if (isValidMultiPolygonPath(daftar[x].path)) {
+        for (var a = 0; a < jml_path_x; a++) {
+          for (var b = 0; b < daftar[x].path[a].length; b++) {
+            jml_path = daftar[x].path[a][0].length;
+            for (var z = 0; z < jml_path; z++) {
+              daftar[x].path[a][0][z].reverse();
+            }
 
-          var label = L.tooltip({
-            permanent: true,
-            direction: "center",
-            className: "text",
-          }).setContent(judul + " " + daftar[x][nama_wil]);
+            var label = L.tooltip({
+              permanent: true,
+              direction: "center",
+              className: "text",
+            }).setContent(judul + " " + daftar[x][nama_wil]);
 
-          var point_style = {
-            iconSize: [1, 1],
-            iconAnchor: [0.5, 0.5],
-            labelAnchor: [0.3, 0],
-            iconUrl: favico_desa,
-          };
+            var point_style = {
+              iconSize: [1, 1],
+              iconAnchor: [0.5, 0.5],
+              labelAnchor: [0.3, 0],
+              iconUrl: favico_desa,
+            };
 
-          var marker_style = {
-            stroke: true,
-            color: "white",
-            opacity: 1,
-            weight: 3,
-            fillColor: daftar[x].warna,
-            fillOpacity: 0.8,
-            dashArray: 4,
-          };
+            var marker_style = {
+              stroke: true,
+              color: "white",
+              opacity: 1,
+              weight: 3,
+              fillColor: daftar[x].warna,
+              fillOpacity: 0.8,
+              dashArray: 4,
+            };
 
-          daftar[x].path[a][0].push(daftar[x].path[a][0][0]);
+            daftar[x].path[a][0].push(daftar[x].path[a][0][0]);
 
-          if (daftar[x].lng) {
+            if (daftar[x].lng) {
+              marker.push(
+                turf.point([daftar[x].lng, daftar[x].lat], {
+                  content: label,
+                  style: L.icon(point_style),
+                })
+              );
+            }
+
             marker.push(
-              turf.point([daftar[x].lng, daftar[x].lat], {
-                content: label,
-                style: L.icon(point_style),
+              turf.polygon(daftar[x].path[a], {
+                content: daftar[x][nama_wil],
+                style: marker_style,
               })
             );
           }
-
-          marker.push(
-            turf.polygon(daftar[x].path[a], {
-              content: daftar[x][nama_wil],
-              style: marker_style,
-            })
-          );
         }
+      } else {
+        error_message += message(
+          null,
+          daftar[x].dusun,
+          daftar[x].rw,
+          daftar[x].rt
+        );
       }
     }
   }
@@ -125,34 +149,38 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa) {
   var daerah_desa = JSON.parse(desa["path"]);
   var jml = daerah_desa.length;
 
-  var style_polygon = {
-    stroke: true,
-    color: "#de2d26",
-    opacity: 1,
-    weight: 3,
-    fillColor: desa["warna"],
-    fillOpacity: 0.8,
-    dashArray: 4,
-  };
+  if (isValidMultiPolygonPath(desa["path"])) {
+    var style_polygon = {
+      stroke: true,
+      color: "#de2d26",
+      opacity: 1,
+      weight: 3,
+      fillColor: desa["warna"],
+      fillOpacity: 0.8,
+      dashArray: 4,
+    };
 
-  var point_style = stylePointLogo(favico_desa);
-  if (desa["lng"]) {
-    marker_desa.push(
-      turf.point([desa["lng"], desa["lat"]], {
-        content: desa,
-        style: L.icon(point_style),
-      })
-    );
-  }
-
-  for (var x = 0; x < jml; x++) {
-    for (var i = 0; i < daerah_desa[x][0].length; i++) {
-      daerah_desa[x][0][i].reverse();
+    var point_style = stylePointLogo(favico_desa);
+    if (desa["lng"]) {
+      marker_desa.push(
+        turf.point([desa["lng"], desa["lat"]], {
+          content: desa,
+          style: L.icon(point_style),
+        })
+      );
     }
-    daerah_desa[x][0].push(daerah_desa[x][0][0]);
-    marker_desa.push(
-      turf.polygon(daerah_desa[x], { content: desa, style: style_polygon })
-    );
+
+    for (var x = 0; x < jml; x++) {
+      for (var i = 0; i < daerah_desa[x][0].length; i++) {
+        daerah_desa[x][0][i].reverse();
+      }
+      daerah_desa[x][0].push(daerah_desa[x][0][0]);
+      marker_desa.push(
+        turf.polygon(daerah_desa[x], { content: desa, style: style_polygon })
+      );
+    }
+  } else {
+    error_message += message(judul);
   }
 }
 
@@ -412,56 +440,63 @@ function set_marker_multi_content(
 
 function getBaseLayers(peta, access_token, jenis_peta) {
   //Menampilkan BaseLayers Peta
-  var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik', {
-    attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'
+  var defaultLayer = L.tileLayer.provider("OpenStreetMap.Mapnik", {
+    attribution:
+      '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
   });
 
-  var OpenStreetMap = L.tileLayer.provider('OpenStreetMap.HOT', {
-    attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'
+  var OpenStreetMap = L.tileLayer.provider("OpenStreetMap.HOT", {
+    attribution:
+      '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
   });
 
   if (access_token) {
     mbGLstr = L.mapboxGL({
       accessToken: access_token,
-      style: 'mapbox://styles/mapbox/streets-v11',
-      attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
+      style: "mapbox://styles/mapbox/streets-v11",
+      attribution:
+        '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
     });
 
     mbGLsat = L.mapboxGL({
       accessToken: access_token,
-      style: 'mapbox://styles/mapbox/satellite-v9',
-      attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'
+      style: "mapbox://styles/mapbox/satellite-v9",
+      attribution:
+        '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
     });
 
     mbGLstrsat = L.mapboxGL({
       accessToken: access_token,
-      style: 'mapbox://styles/mapbox/satellite-streets-v11',
-      attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'
+      style: "mapbox://styles/mapbox/satellite-streets-v11",
+      attribution:
+        '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
     });
-
   } else {
-    mbGLstr = L.tileLayer.provider('OpenStreetMap.Mapnik', {
-      attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'
+    mbGLstr = L.tileLayer.provider("OpenStreetMap.Mapnik", {
+      attribution:
+        '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
     });
-    mbGLsat = L.tileLayer.provider('OpenStreetMap.Mapnik', {
-      attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'
+    mbGLsat = L.tileLayer.provider("OpenStreetMap.Mapnik", {
+      attribution:
+        '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
     });
-    mbGLstrsat = L.tileLayer.provider('OpenStreetMap.Mapnik', {
-      attribution: '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>'
+    mbGLstrsat = L.tileLayer.provider("OpenStreetMap.Mapnik", {
+      attribution:
+        '<a href="https://openstreetmap.org/copyright">© OpenStreetMap</a> | <a href="https://github.com/OpenSID/OpenSID">OpenSID</a>',
     });
   }
 
   switch (jenis_peta) {
-    case '1':
+    case "1":
       defaultLayer.addTo(peta);
       break;
-    case '2':
+    case "2":
       OpenStreetMap.addTo(peta);
       break;
-    case '3':
+    case "3":
       mbGLstr.addTo(peta);
       break;
-    case '4':
+    case "4":
       mbGLsat.addTo(peta);
       break;
     default:
@@ -469,11 +504,11 @@ function getBaseLayers(peta, access_token, jenis_peta) {
   }
 
   var baseLayers = {
-    'OpenStreetMap': defaultLayer,
-    'OpenStreetMap H.O.T.': OpenStreetMap,
-    'Mapbox Streets': mbGLstr,
-    'Mapbox Satellite': mbGLsat,
-    'Mapbox Satellite-Street': mbGLstrsat
+    OpenStreetMap: defaultLayer,
+    "OpenStreetMap H.O.T.": OpenStreetMap,
+    "Mapbox Streets": mbGLstr,
+    "Mapbox Satellite": mbGLsat,
+    "Mapbox Satellite-Street": mbGLstrsat,
   };
 
   return baseLayers;
@@ -1019,6 +1054,10 @@ function addPetaMultipoly(layerpeta) {
 }
 
 function showCurrentPolygon(wilayah, layerpeta, warna, tampil_luas) {
+  if (!isValidPolygonPath(wilayah)) {
+    return false;
+  }
+
   var daerah_wilayah = wilayah;
   daerah_wilayah[0].push(daerah_wilayah[0][0]);
   var poligon_wilayah = L.polygon(wilayah, {
@@ -1059,6 +1098,10 @@ function showCurrentPolygon(wilayah, layerpeta, warna, tampil_luas) {
 }
 
 function showCurrentMultiPolygon(wilayah, layerpeta, warna, tampil_luas) {
+  if (!isValidMultiPolygonPath(wilayah)) {
+    return false;
+  }
+
   var area_wilayah = JSON.parse(JSON.stringify(wilayah));
   var bounds = new Array();
 
@@ -1253,12 +1296,12 @@ function showCurrentArea(wilayah, layerpeta, tampil_luas) {
 
 function setMarkerCustom(marker, layercustom, tampil_luas) {
   if (marker.length != 0) {
-    if (tampil_luas == '1') {
+    if (tampil_luas == "1") {
       var geojson = L.geoJSON(turf.featureCollection(marker), {
         pmIgnore: true,
         showMeasurements: true,
         measurementOptions: {
-            showSegmentLength: false
+          showSegmentLength: false,
         },
         onEachFeature: function (feature, layer) {
           layer.bindPopup(feature.properties.content);
@@ -1280,7 +1323,7 @@ function setMarkerCustom(marker, layercustom, tampil_luas) {
         pmIgnore: true,
         showMeasurements: false,
         measurementOptions: {
-          showSegmentLength: false
+          showSegmentLength: false,
         },
         onEachFeature: function (feature, layer) {
           layer.bindPopup(feature.properties.content);
@@ -1294,7 +1337,7 @@ function setMarkerCustom(marker, layercustom, tampil_luas) {
         pointToLayer: function (feature, latlng) {
           if (feature.properties.style) {
             return L.marker(latlng, {
-              icon: feature.properties.style
+              icon: feature.properties.style,
             });
           } else return L.marker(latlng);
         },
@@ -1309,12 +1352,12 @@ function setMarkerCustom(marker, layercustom, tampil_luas) {
 
 function setMarkerCluster(marker, markersList, markers, tampil_luas) {
   if (marker.length != 0) {
-    if (tampil_luas == '1') {
+    if (tampil_luas == "1") {
       var geojson = L.geoJSON(turf.featureCollection(marker), {
         pmIgnore: true,
         showMeasurements: true,
         measurementOptions: {
-          showSegmentLength: false
+          showSegmentLength: false,
         },
         onEachFeature: function (feature, layer) {
           layer.bindPopup(feature.properties.content);
@@ -1328,7 +1371,7 @@ function setMarkerCluster(marker, markersList, markers, tampil_luas) {
         pointToLayer: function (feature, latlng) {
           if (feature.properties.style) {
             return L.marker(latlng, {
-              icon: feature.properties.style
+              icon: feature.properties.style,
             });
           } else return L.marker(latlng);
         },
@@ -1338,7 +1381,7 @@ function setMarkerCluster(marker, markersList, markers, tampil_luas) {
         pmIgnore: true,
         showMeasurements: false,
         measurementOptions: {
-          showSegmentLength: false
+          showSegmentLength: false,
         },
         onEachFeature: function (feature, layer) {
           layer.bindPopup(feature.properties.content);
@@ -1352,13 +1395,12 @@ function setMarkerCluster(marker, markersList, markers, tampil_luas) {
         pointToLayer: function (feature, latlng) {
           if (feature.properties.style) {
             return L.marker(latlng, {
-              icon: feature.properties.style
+              icon: feature.properties.style,
             });
           } else return L.marker(latlng);
         },
       });
     }
-    
 
     markersList.push(geojson);
     markers.addLayer(geojson);
@@ -1429,7 +1471,7 @@ function set_marker_garis(marker, daftar_path, foto_garis) {
       marker.push(
         turf.lineString(coords, {
           content: popUpContent(daftar[x], lokasi_gambar),
-          style: garis_style
+          style: garis_style,
         })
       );
     }
@@ -1542,7 +1584,9 @@ function set_marker_lokasi_pembangunan(
         "</tr>" +
         "</table>" +
         '<center><a href="' +
-        link_progress + '/' + daftar[x].slug +
+        link_progress +
+        "/" +
+        daftar[x].slug +
         '" target="_blank" class="btn btn-flat bg-red btn-sm"><i class="fa fa-info"></i> Selengkapnya</a>' +
         "</div>";
 
@@ -1704,7 +1748,12 @@ function tampilkan_layer_area_garis_lokasi_plus(
   setMarkerCustom(marker_area, layer_area, tampil_luas);
   setMarkerCustom(marker_garis, layer_garis, tampil_luas);
   setMarkerCluster(marker_lokasi, markersList, markers, tampil_luas);
-  setMarkerCluster(marker_lokasi_pembangunan, markersListP, markersP, tampil_luas);
+  setMarkerCluster(
+    marker_lokasi_pembangunan,
+    markersListP,
+    markersP,
+    tampil_luas
+  );
 
   peta.on("layeradd layerremove", function () {
     peta.eachLayer(function (layer) {
@@ -2019,23 +2068,99 @@ function popUpContent(daftar, lokasi_gambar) {
 
   content_area =
     '<div id="content">' +
-      '<div id="siteNotice">' +
-      '</div>' +
-        '<h4 id="firstHeading" class="firstHeading text-center">' + daftar.nama + '</h4>' +
-      '<div id="bodyContent"><center>' +
-        foto +
-        '</center>' + 
-        '<p style="white-space: pre-line">' + daftar.desk + '</p>' +
-      '</div>' +
-    '</div>';
+    '<div id="siteNotice">' +
+    "</div>" +
+    '<h4 id="firstHeading" class="firstHeading text-center">' +
+    daftar.nama +
+    "</h4>" +
+    '<div id="bodyContent"><center>' +
+    foto +
+    "</center>" +
+    '<p style="white-space: pre-line">' +
+    daftar.desk +
+    "</p>" +
+    "</div>" +
+    "</div>";
 
   return content_area;
 }
 
 function luas(map, tampil_luas) {
-  if (tampil_luas == '1') {
+  if (tampil_luas == "1") {
     return map.showMeasurements();
   }
 
   return map.hideMeasurements();
+}
+
+function isValidMultiPolygonPath(geojson) {
+  try {
+    const { type, coordinates } = turf.multiPolygon(geojson).geometry;
+
+    return (
+      type === "MultiPolygon" &&
+      Array.isArray(coordinates) &&
+      coordinates.every((polygon) =>
+        polygon.every((ring) => Array.isArray(ring) && ring.length >= 4)
+      )
+    );
+  } catch (error) {
+    return false;
+  }
+}
+
+function isValidPolygonPath(path) {
+  // Menambahkan titik awal sebagai titik akhir
+  path[0].push(path[0][0]);
+
+  try {
+    const { type, coordinates } = turf.polygon(path).geometry;
+
+    if (!coordinates[0].every((subPath) => subPath.length > 0)) {
+      return false;
+    }
+
+    return (
+      type === "Polygon" &&
+      Array.isArray(coordinates) &&
+      coordinates.length >= 1 &&
+      coordinates.every((ring) => Array.isArray(ring) && ring.length >= 4)
+    );
+  } catch (error) {
+    return false;
+  }
+}
+
+function view_error_path() {
+  if (error_message) {
+    $(".content").prepend(
+      '<div class="callout callout-danger id="error-path">' +
+        error_message +
+        "</div>"
+    );
+  } else {
+    $("#error-path").remove();
+  }
+}
+
+function message(desa = null, dusun = null, rw = null, rt = null) {
+  let message = "- Peta Wilayah <b>";
+
+  if (desa) {
+    message += " " + desa;
+  }
+
+  if (dusun) {
+    message += sebutan_dusun + " " + dusun;
+  }
+
+  if (rw && rw != "0") {
+    message += " RW " + rw;
+  }
+
+  if (rt && rt != "0") {
+    message += " RT " + rt;
+  }
+
+  return message + "</b> tidak valid.<br>";
 }
