@@ -9,6 +9,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#6720](https://github.com/OpenSID/OpenSID/issues/6720) Perbaikan data sumi gagal tampil pada surat keterangan kelahiran.
 5. [#6714](https://github.com/OpenSID/OpenSID/issues/6714) Perbaikan cara menampilkan data pada laporan penduduk dan laporan rekap penerima vaksin covid-19.
 6. [#6669](https://github.com/OpenSID/OpenSID/issues/6669) Perbaikan cara hapus penduduk dan log penduduk jika data dianggap sudah lengkap.
+7. [#6441](https://github.com/OpenSID/OpenSID/issues/6441) Perbaikan jumlah dan detail arsip layanan.
 
 
 #### Perubahan Teknis
