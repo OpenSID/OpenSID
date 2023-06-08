@@ -149,7 +149,7 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa) {
   var daerah_desa = JSON.parse(desa["path"]);
   var jml = daerah_desa.length;
 
-  if (isValidMultiPolygonPath(desa["path"])) {
+  if (isValidMultiPolygonPath(daerah_desa) || isValidPolygonPath(daerah_desa)) {
     var style_polygon = {
       stroke: true,
       color: "#de2d26",
@@ -180,6 +180,8 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa) {
       );
     }
   } else {
+    console.log(judul);
+    console.log(daerah_desa);
     error_message += message(judul);
   }
 }
@@ -1098,7 +1100,7 @@ function showCurrentPolygon(wilayah, layerpeta, warna, tampil_luas) {
 }
 
 function showCurrentMultiPolygon(wilayah, layerpeta, warna, tampil_luas) {
-  if (!isValidMultiPolygonPath(wilayah)) {
+  if (!isValidMultiPolygonPath(wilayah) && !isValidPolygonPath(wilayah)) {
     return false;
   }
 
