@@ -12,6 +12,12 @@
                             <option value="{{ $key }}" @selected($pengaturan->value == $key)>{{ $value }}</option>
                         @endforeach
                     </select>
+                @elseif ($pengaturan->jenis == 'multiple-option')
+                    <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
+                        @foreach ($pengaturan->option as $val)
+                            <option value="{{ $val }}" {{ in_array($val, json_decode($pengaturan->value)) ? 'selected' : '' }}>{{ $val }}</option>
+                        @endforeach
+                    </select>
                 @elseif ($pengaturan->jenis == 'datetime')
                     <div class="input-group input-group-sm date">
                         <div class="input-group-addon">

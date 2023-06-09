@@ -52,8 +52,9 @@ class Gis extends Admin_Controller
         $this->load->model('data_persil_model');
 
         $this->load->model('wilayah_model');
-        $this->modul_ini     = 'pemetaan';
-        $this->sub_modul_ini = 'peta';
+        $this->modul_ini          = 'pemetaan';
+        $this->sub_modul_ini      = 'peta';
+        $this->header['kategori'] = 'peta';
     }
 
     public function clear()

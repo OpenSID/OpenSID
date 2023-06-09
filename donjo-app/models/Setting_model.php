@@ -185,6 +185,10 @@ class Setting_model extends MY_Model
                     $value = null;
                 }
 
+                if (is_array($post = $this->input->post($key))) {
+                    $value = json_encode($post);
+                }
+
                 $hasil                 = $hasil && $this->update($key, $value);
                 $this->setting->{$key} = $value;
                 if ($key == 'enable_track') {

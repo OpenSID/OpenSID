@@ -65,14 +65,15 @@ class Migrasi_fitur_premium_2307 extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2023060571($hasil, $id);
+        }
+
+        return $hasil && $this->migrasi_2023060572($hasil);
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
     }
 
     protected function migrasi_2023060451($hasil)
@@ -102,8 +103,31 @@ class Migrasi_fitur_premium_2307 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_xxxxxxxxxx($hasil)
+    protected function migrasi_2023060571($hasil, $id)
     {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Tampilkan Tombol Peta',
+            'key'        => 'tampilkan_tombol_peta',
+            'value'      => $value = '["Statistik Penduduk", "Statistik Bantuan", "Aparatur Desa", "Kepala Wilayah"]',
+            'keterangan' => 'Tampilkan tombol di peta',
+            'jenis'      => 'multiple-option',
+            'option'     => $value,
+            'attribute'  => null,
+            'kategori'   => 'peta',
+        ], $id);
+    }
+
+    protected function migrasi_2023060572($hasil)
+    {
+        $this->db->where_in('key', [
+            'max_zoom_peta',
+            'min_zoom_peta',
+            'mapbox_key',
+            'tampil_luas_peta',
+        ])
+            ->where('kategori !=', 'peta')
+            ->update('setting_aplikasi', ['kategori' => 'peta']);
+
         return $hasil;
     }
 }

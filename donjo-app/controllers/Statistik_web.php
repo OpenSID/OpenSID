@@ -138,7 +138,10 @@ class Statistik_web extends Web_Controller
 
     public function load_chart_gis($lap = 0)
     {
-        $data['main']      = $this->laporan_penduduk_model->list_data($lap);
+        $this->cek_akses($lap);
+
+        $data['main'] = $this->laporan_penduduk_model->list_data($lap);
+
         $data['lap']       = $lap;
         $data['untuk_web'] = true;
         $this->get_data_stat($data, $lap);
@@ -163,6 +166,8 @@ class Statistik_web extends Web_Controller
 
     public function chart_gis_rw($lap = 0, $dusun = null, $rw = null)
     {
+        $this->cek_akses($lap);
+
         $this->session->dusun = $dusun;
         $this->session->rw    = $rw;
         $this->session->unset_userdata(['rt']);
@@ -172,6 +177,8 @@ class Statistik_web extends Web_Controller
 
     public function chart_gis_rt($lap = 0, $dusun = null, $rw = null, $rt = null)
     {
+        $this->cek_akses($lap);
+
         $this->session->dusun = $dusun;
         $this->session->rw    = $rw;
         $this->session->rt    = $rt;
@@ -181,6 +188,8 @@ class Statistik_web extends Web_Controller
 
     public function chart_gis_kadus($id_kepala = '')
     {
+        $this->cek_akses($lap);
+
         ($dusun) ? $this->session->set_userdata('dusun', $dusun) : $this->session->unset_userdata('dusun');
         $this->session->unset_userdata('rw');
         $this->session->unset_userdata('rt');
@@ -194,5 +203,22 @@ class Statistik_web extends Web_Controller
 
         $this->_get_common_data($data);
         $this->load->view('gis/kadus/', $data);
+    }
+
+    private function cek_akses($lap)
+    {
+        $pengaturan = setting('tampilkan_tombol_peta');
+
+        if (($lap > 50 || in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'])) && in_array('Statistik Bantuan', $pengaturan)) {
+            return true;
+        }
+        if (($lap > 20 || "{$lap}" == 'kelas_sosial') && in_array('Statistik Keluarga', $pengaturan)) {
+            return true;
+        }
+        if (($lap < 20) && in_array('Statistik Penduduk', $pengaturan)) {
+            return true;
+        }
+
+        show_404();
     }
 }
