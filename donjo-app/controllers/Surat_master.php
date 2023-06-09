@@ -155,6 +155,7 @@ class Surat_master extends Admin_Controller
         }
 
         $data['form_isian']       = $this->form_isian();
+        $data['simpan_sementara'] = site_url('surat_master/simpan_sementara');
         $data['masaBerlaku']      = FormatSurat::MASA_BERLAKU;
         $data['attributes']       = FormatSurat::ATTRIBUTES;
         $data['klasifikasiSurat'] = KlasifikasiSurat::orderBy('kode')->enabled()->get(['kode', 'nama']);
@@ -235,6 +236,17 @@ class Surat_master extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Tambah Data');
+    }
+
+    public function simpan_sementara()
+    {
+        $this->redirect_hak_akses('u');
+        $surat = FormatSurat::updateOrCreate(['id' => $this->request['id_surat']], static::validate($this->request));
+        if ($surat) {
+            redirect_with('success', 'Berhasil Simpan Data Sementara', 'surat_master/form/' . $surat->id);
+        }
+
+        redirect_with('error', 'Gagal Simpan Data');
     }
 
     public function update_baru($id = null)
