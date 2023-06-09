@@ -1306,45 +1306,62 @@ function idm($kode_desa, $tahun)
 function sdgs()
 {
     $kode_desa = setting('kode_desa_bps');
-    $cache     = 'sdgs_' . $kode_desa . '.json';
+    $cache     = "sdgs_{$kode_desa}.json";
 
-    if (! empty($kode_desa)) {
-        return get_instance()->cache->pakai_cache(static function () use ($kode_desa) {
-            if (! cek_koneksi_internet()) {
-                return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
-            }
-
-            try {
-                $client   = new \GuzzleHttp\Client();
-                $response = $client->get(config_item('api_sdgs') . $kode_desa, [
-                    'headers' => [
-                        'X-Requested-With' => 'XMLHttpRequest',
-                    ],
-                    'verify' => false,
-                ]);
-
-                return (object) collect(json_decode($response->getBody()->getContents()))
-                    ->map(static function ($item, $key) {
-                        if ($key === 'data') {
-                            return collect($item)->map(static function ($item) {
-                                $item->image = last(explode('/', $item->image));
-
-                                return (object) $item;
-                            });
-                        }
-
-                        return $item;
-                    })
-                    ->toArray();
-            } catch (Exception $e) {
-                log_message('error', $e->getMessage());
-
-                return (object) ['error_msg' => 'Tidak dapat mengambil data SDGS.'];
-            }
-        }, $cache, 604800);
+    if (empty($kode_desa)) {
+        return (object) ['error_msg' => 'Kode Desa BPS belum ditentukan. Periksa pengaturan <a href="#" style="text-decoration:none;" data-remote="false" data-toggle="modal" data-target="#pengaturan"><strong>Kode Desa BPS&nbsp;(<i class="fa fa-gear"></i>)</a>'];
     }
 
-    return (object) ['error_msg' => 'Kode Desa BPS belum ditentukan. Periksa pengaturan <a href="#" style="text-decoration:none;" data-remote="false" data-toggle="modal" data-target="#pengaturan"><strong>Kode Desa BPS&nbsp;(<i class="fa fa-gear"></i>)</a>'];
+    $ci = &get_instance();
+    // periksa apakah ada file sgds dalam bentuk .json dan periksa ketika cache sudah kadaluarsa
+    if (file_exists(DESAPATH . "/cache/{$cache}")) {
+        // perbaharui cache yg sudah kadaluarsa
+        $data = unserialize(file_get_contents(DESAPATH . "cache/{$cache}"));
+        $ci->cache->save($cache, $data['data'], YEAR); // ubah ke satu tahun
+    }
+
+    // ambil cache sdgs
+    if ($data = $ci->cache->get($cache)) {
+        return $data;
+    }
+
+    // periksa koneksi
+    if (! cek_koneksi_internet()) {
+        return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
+    }
+
+    try {
+        $client   = new \GuzzleHttp\Client();
+        $response = $client->get(config_item('api_sdgs') . $kode_desa, [
+            'headers' => [
+                'X-Requested-With' => 'XMLHttpRequest',
+            ],
+            'verify' => false,
+        ]);
+
+        if ($response->getStatusCode() === 200) {
+            $data = (object) collect(json_decode($response->getBody()->getContents()))
+                ->map(static function ($item, $key) {
+                    if ($key === 'data') {
+                        return collect($item)->map(static function ($item) {
+                            $item->image = last(explode('/', $item->image));
+
+                            return (object) $item;
+                        });
+                    }
+
+                    return $item;
+                })->toArray();
+
+            $ci->cache->save($cache, $data, YEAR);
+
+            return $ci->cache->get($cache);
+        }
+    } catch (Exception $e) {
+        log_message('error', $e->getMessage());
+    }
+
+    return (object) ['error_msg' => 'Tidak dapat mengambil data SDGS.<br>'];
 }
 
 function menu_slug($url)

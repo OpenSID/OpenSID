@@ -147,6 +147,7 @@ class Web_widget extends Admin_Controller
     public function insert()
     {
         $this->redirect_hak_akses('u');
+        $this->cek_tidy();
         $this->web_widget_model->insert();
 
         redirect($this->controller);
