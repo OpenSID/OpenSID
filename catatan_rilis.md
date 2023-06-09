@@ -12,6 +12,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 7. [#6441](https://github.com/OpenSID/OpenSID/issues/6441) Perbaikan jumlah dan detail arsip layanan.
 8. [#6737](https://github.com/OpenSID/OpenSID/issues/6737) Perbaikan notifikasi gagal simpan widget jika extention tidy yang diperlukan tidak aktif.
 9. [#6729](https://github.com/OpenSID/OpenSID/issues/6729) Perbaikan ambil data SDGS yang tersimpan pada cache.
+10. [#6718](https://github.com/OpenSID/OpenSID/issues/6718) Perbaikan validasi proses permohonan surat melalui layanan mandiri jika memiliki syarat.
 
 #### Perubahan Teknis
 
