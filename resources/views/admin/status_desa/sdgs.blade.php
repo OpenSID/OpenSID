@@ -87,12 +87,13 @@
     <div class="box box-info">
         <div class="box-header with-border">
             <a class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                {!! ! cek_koneksi_internet()
-                    ? 'disabled title="Perangkat tidak terhubung dengan jaringan"'
-                    : 'id="perbarui"' !!}><i class="fa fa-refresh"></i>Perbarui {{ $header }}</a>
+                {!! !cek_koneksi_internet() ? 'disabled title="Perangkat tidak terhubung dengan jaringan"' : 'id="perbarui"' !!}><i class="fa fa-refresh"></i>Perbarui {{ $header }}</a>
         </div>
         <div class="box-body">
-            @if ($error_msg = $sdgs->error_msg)
+            @if ($sdgs->error_msg)
+                <div class="alert alert-danger">
+                    {!! $sdgs->error_msg !!}
+                </div>
             @else
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -109,7 +110,8 @@
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="info-box info-box-sdgs">
                                 <span class="info-box-icon info-box-icon-sdgs">
-                                    <img class="sdgs-logo" src="{{ asset("images/sdgs/{$value->image}") }}" alt="{{ $value->image }}">
+                                    <img class="sdgs-logo" src="{{ asset("images/sdgs/{$value->image}") }}"
+                                        alt="{{ $value->image }}">
                                 </span>
                                 <div class="info-box-content info-box-sdgs-content">
                                     <span class="info-box-number info-box-sdgs-number total-bumds">{{ $value->score }}
@@ -133,29 +135,48 @@
 
             $('#perbarui').click(function(event) {
                 event.preventDefault;
-                Swal.fire({title: 'Sedang Memproses', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
+                Swal.fire({
+                    title: 'Sedang Memproses',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading()
+                    }
+                });
                 $.ajax({
-                    type: 'GET',
-                    url: server_pantau + '/index.php/api/wilayah/kodedesa?token=' + token_pantau + '&kode=' +kode_desa,
-                    dataType: 'json',
-                })
-                .done(function(response) {
-                    $.ajax({
-                        url: '{{ route('status_desa.perbarui_bps') }}',
-                        type: 'Post',
+                        type: 'GET',
+                        url: server_pantau + '/index.php/api/wilayah/kodedesa?token=' + token_pantau +
+                            '&kode=' + kode_desa,
                         dataType: 'json',
-                        data: {'kode_bps' : response.bps_kemendagri_desa.kode_desa_bps}
                     })
-                    .done(function(value) {
-                        if (value.status) {
-                            location.replace('{{ route('status_desa.perbarui_sdgs') }}')
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                text: value.message,
-                                showCloseButton: false
+                    .done(function(response) {
+                        $.ajax({
+                                url: '{{ route('status_desa.perbarui_bps') }}',
+                                type: 'Post',
+                                dataType: 'json',
+                                data: {
+                                    'kode_bps': response.bps_kemendagri_desa.kode_desa_bps
+                                }
                             })
-                        }
+                            .done(function(value) {
+                                if (value.status) {
+                                    location.replace('{{ route('status_desa.perbarui_sdgs') }}')
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        text: value.message,
+                                        showCloseButton: false
+                                    })
+                                }
+                            })
+                            .fail(function(e) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    text: e,
+                                    showCloseButton: false
+                                })
+                            });
                     })
                     .fail(function(e) {
                         Swal.fire({
@@ -164,14 +185,6 @@
                             showCloseButton: false
                         })
                     });
-                })
-                .fail(function(e) {
-                    Swal.fire({
-                        icon: 'error',
-                        text: e,
-                        showCloseButton: false
-                    })
-                });
             });
         });
     </script>

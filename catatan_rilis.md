@@ -11,7 +11,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 6. [#6669](https://github.com/OpenSID/OpenSID/issues/6669) Perbaikan cara hapus penduduk dan log penduduk jika data dianggap sudah lengkap.
 7. [#6441](https://github.com/OpenSID/OpenSID/issues/6441) Perbaikan jumlah dan detail arsip layanan.
 8. [#6737](https://github.com/OpenSID/OpenSID/issues/6737) Perbaikan notifikasi gagal simpan widget jika extention tidy yang diperlukan tidak aktif.
-
+9. [#6729](https://github.com/OpenSID/OpenSID/issues/6729) Perbaikan ambil data SDGS yang tersimpan pada cache.
 
 #### Perubahan Teknis
 
