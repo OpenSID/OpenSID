@@ -40,6 +40,7 @@ use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Pesan;
 use App\Models\UserGrup;
+use App\Models\Wilayah;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -612,6 +613,17 @@ class Admin_Controller extends Premium
             'pamong_ttd'     => Pamong::sekretarisDesa()->first(),
             'pamong_ketahui' => Pamong::kepalaDesa()->first(),
         ];
+    }
+
+    public function navigasi_peta()
+    {
+        return collect([
+            'desa'      => identitas(),
+            'wil_atas'  => identitas(),
+            'dusun_gis' => Wilayah::dusun()->get(),
+            'rw_gis'    => Wilayah::rw()->get(),
+            'rt_gis'    => Wilayah::rt()->get(),
+        ])->toArray();
     }
 }
 
