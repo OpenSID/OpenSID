@@ -103,6 +103,11 @@ class Keluarga extends BaseModel
         return $this->belongsTo(Wilayah::class, 'id_cluster')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
+    public function LogKeluarga()
+    {
+        return $this->hasMany(LogKeluarga::class, 'id_kk', 'id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+    }
+
     /**
      * Scope query untuk status keluarga
      *

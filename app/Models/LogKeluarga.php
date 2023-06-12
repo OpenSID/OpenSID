@@ -90,4 +90,9 @@ class LogKeluarga extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    public function Keluarga()
+    {
+        return $this->belongsTo(Keluarga::class, 'id_kk', 'id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+    }
 }
