@@ -212,30 +212,33 @@ class Surat_masuk_model extends MY_Model
             // Upload gagal
             else {
                 $uploadError = $this->upload->display_errors(null, null);
+                session_error($uploadError);
+                redirect('surat_masuk');
             }
         }
         // Berkas lampiran
         $data['berkas_scan'] = $adaLampiran && null !== $uploadData
         ? $uploadData['file_name'] : null;
 
-        // penerapan transcation karena insert ke 2 tabel
-        $this->db->trans_start();
+        try {
+            $this->db->trans_start();
+            $this->db->insert('surat_masuk', $data);
+            $insert_id = $this->db->insert_id();
 
-        $indikatorSukses = null === $uploadError && $this->db->insert('surat_masuk', $data);
+            // insert ke tabel disposisi surat masuk
+            if ($jabatan) {
+                $this->disposisi_surat_masuk($insert_id, $jabatan);
+            }
 
-        $insert_id = $this->db->insert_id();
+            // transaction selesai
+            $this->db->trans_complete();
+            session_success();
+        } catch (Exception $e) {
+            var_dump('fdsd');
 
-        // insert ke tabel disposisi surat masuk
-        if ($jabatan) {
-            $this->disposisi_surat_masuk($insert_id, $jabatan);
+            exit();
+            session_error($e->getMessage());
         }
-
-        // transaction selesai
-        $this->db->trans_complete();
-
-        // Set session berdasarkan hasil operasi
-        $_SESSION['success']   = $indikatorSukses ? 1 : -1;
-        $_SESSION['error_msg'] = $_SESSION['success'] === 1 ? null : ' -> ' . $uploadError;
     }
 
     private function validasi_surat_masuk(&$data)

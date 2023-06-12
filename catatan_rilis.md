@@ -16,6 +16,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 11. [#6740](https://github.com/OpenSID/OpenSID/issues/6740) Perjelas notifikasi hapus wilayah jika terdapat penduduk pada wilayah tersebut.
 12. [#6741](https://github.com/OpenSID/OpenSID/issues/6741) Perbaikan pengecekan ganti password default kehalaman admin.
 13. [#6717](https://github.com/OpenSID/OpenSID/issues/6717) Perbaikan menampilkan data anggota keluarga pada cetak surat tinymce.
+14. [#6728](https://github.com/OpenSID/OpenSID/issues/6728) Perbaikan unggah dokumen surat masuk.
 
 #### Perubahan Teknis
 1. [#6676](https://github.com/OpenSID/OpenSID/issues/6676) Penambahan migrasi pengaturan nonaktifkan tema untuk OpenKab.

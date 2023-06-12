@@ -416,7 +416,7 @@ function isPHP($file, $filename)
 
     $handle = fopen($file, 'rb');
     $buffer = stream_get_contents($handle);
-    if (preg_match('/<\?php|<script|function|__halt_compiler|<html/i', $buffer)) {
+    if (preg_match('/<\?php|<script|__halt_compiler|<html/i', $buffer)) {
         fclose($handle);
 
         return true;
