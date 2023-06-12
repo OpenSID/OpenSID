@@ -207,6 +207,12 @@ class Web_widget_model extends MY_Model
         // Widget diberi urutan terakhir
         $data['urut'] = $this->urut_model->urut_max() + 1;
 
+        if (empty($data['foto'])) {
+            unset($data['foto']);
+        }
+
+        unset($data['file_foto'], $data['old_foto']);
+
         $outp = $this->db->insert($this->tabel, $data);
 
         status_sukses($outp);
@@ -216,6 +222,7 @@ class Web_widget_model extends MY_Model
     {
         $data['judul']        = $post['judul'];
         $data['jenis_widget'] = $post['jenis_widget'];
+        $data['foto']         = $this->upload_gambar('foto');
         if ($data['jenis_widget'] == 2) {
             $data['isi'] = $post['isi-statis'];
         } elseif ($data['jenis_widget'] == 3) {
@@ -224,6 +231,58 @@ class Web_widget_model extends MY_Model
         }
 
         return $data;
+    }
+
+    private function upload_gambar($jenis)
+    {
+        // Inisialisasi library 'upload'
+        $this->load->library('MY_Upload', null, 'upload');
+        $uploadConfig = [
+            'upload_path'   => LOKASI_GAMBAR_WIDGET,
+            'allowed_types' => 'jpg|jpeg|png',
+            'max_size'      => 1024, // 1 MB
+        ];
+        $this->upload->initialize($uploadConfig);
+
+        $uploadData = null;
+        // Adakah berkas yang disertakan?
+        $adaBerkas = ! empty($_FILES[$jenis]['name']);
+        if ($adaBerkas !== true) {
+            // Jika hapus (ceklis)
+            if (isset($_POST['hapus_foto'])) {
+                unlink(LOKASI_GAMBAR_WIDGET . $this->input->post('old_foto'));
+
+                return null;
+            }
+
+            return $this->input->post('old_foto');
+        }
+
+        // Upload sukses
+        if ($this->upload->do_upload($jenis)) {
+            $uploadData = $this->upload->data();
+            // Buat nama file unik agar url file susah ditebak dari browser
+            $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+            // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
+            $fileRenamed = rename(
+                $uploadConfig['upload_path'] . $uploadData['file_name'],
+                $uploadConfig['upload_path'] . $namaFileUnik
+            );
+            // Ganti nama di array upload jika file berhasil di-rename --
+            // jika rename gagal, fallback ke nama asli
+            $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+
+            // Hapus file lama
+            unlink(LOKASI_GAMBAR_WIDGET . $this->input->post('old_foto'));
+        }
+        // Upload gagal
+        else {
+            session_error($this->upload->display_errors(null, null));
+
+            return redirect('web_widget');
+        }
+
+        return (! empty($uploadData)) ? $uploadData['file_name'] : null;
     }
 
     public function update($id = 0)

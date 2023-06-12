@@ -57,6 +57,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
         // Data perlu dihapus karena ada perubahan struktur tabel
         $hasil = $hasil && $this->migrasi_2023060451($hasil);
         $hasil = $hasil && $this->migrasi_2023060452($hasil);
+        $hasil = $hasil && $this->migrasi_2023061271($hasil);
 
         return $hasil && true;
     }
@@ -142,5 +143,20 @@ class Migrasi_fitur_premium_2307 extends MY_model
             'jenis'      => 'option',
             'option'     => '{"0": "Kunci","1": "Bebas pilih"}',
         ], $id);
+    }
+
+    protected function migrasi_2023061271($hasil)
+    {
+        if (! $this->db->field_exists('foto', 'widget')) {
+            $hasil = $hasil && $this->dbforge->add_column('widget', [
+                'foto' => [
+                    'type'       => 'varchar',
+                    'constraint' => 255,
+                    'null'       => true,
+                ],
+            ]);
+        }
+
+        return $hasil;
     }
 }
