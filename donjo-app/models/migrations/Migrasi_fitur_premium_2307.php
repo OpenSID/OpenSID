@@ -69,11 +69,11 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023060571($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023061251($hasil, $id);
         }
 
-        return $hasil && $this->migrasi_2023060572($hasil);
-
         // Migrasi tanpa config_id
+        return $hasil && $this->migrasi_2023060572($hasil);
     }
 
     protected function migrasi_2023060451($hasil)
@@ -129,5 +129,18 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ->update('setting_aplikasi', ['kategori' => 'peta']);
 
         return $hasil;
+    }
+
+    protected function migrasi_2023061251($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Kunci Pilihan Tema',
+            'key'        => 'lock_theme',
+            'value'      => 1,
+            'keterangan' => '1. bisa ganti tema, 0. tidak bisa pilih tema',
+            'kategori'   => 'openkab',
+            'jenis'      => 'option',
+            'option'     => '{"0": "Kunci","1": "Bebas pilih"}',
+        ], $id);
     }
 }
