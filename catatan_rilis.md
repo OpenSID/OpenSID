@@ -8,6 +8,7 @@ Di rilis ini, versi 2306.1.0 berisi penambahan [isi disini] dan perbaikan lain y
 4. [#6643](https://github.com/OpenSID/OpenSID/issues/6643) Penambahan tombol simpan sementara pada pembuatan template surat tinymce.
 5. [#6730](https://github.com/OpenSID/OpenSID/issues/6730) Penambahan unggah gambar pada data widget.
 6. [#6592](https://github.com/OpenSID/OpenSID/issues/6592) Penambahan kode isian data wilayah dusun pada surat tinymce.
+7. [#6542](https://github.com/OpenSID/OpenSID/issues/6542) Penambahan pengaturan margin global.
 
 #### Perbaikan BUG
 

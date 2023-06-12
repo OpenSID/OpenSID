@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\FormatSurat;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -70,6 +71,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023060571($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023060573($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023061251($hasil, $id);
         }
 
@@ -132,6 +134,20 @@ class Migrasi_fitur_premium_2307 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2023060573($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Margin Global',
+            'key'        => 'surat_margin',
+            'value'      => json_encode(FormatSurat::MARGINS),
+            'keterangan' => 'Margin Global untuk surat',
+            'jenis'      => null,
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'format_surat',
+        ], $id);
+    }
+
     protected function migrasi_2023061251($hasil, $id)
     {
         return $hasil && $this->tambah_setting([
@@ -147,7 +163,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
     protected function migrasi_2023061271($hasil)
     {
-        if (! $this->db->field_exists('foto', 'widget')) {
+        if (!$this->db->field_exists('foto', 'widget')) {
             $hasil = $hasil && $this->dbforge->add_column('widget', [
                 'foto' => [
                     'type'       => 'varchar',

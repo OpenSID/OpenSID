@@ -45,13 +45,13 @@
                     <button type="submit" name="action" class="btn btn-social btn-info btn-sm pull-right"><i
                             class="fa fa-check"></i>Simpan dan Keluar</button>
                     <a onclick="formAction('validasi', '{{ $simpan_sementara }}')" id="konsep"
-                        class="btn btn-social btn-warning btn-sm pull-right" style="margin: 0 5px 0 0;"><i
+                        class="btn btn-social btn-warning btn-sm pull-right" style="margin: 0 8px 0 0;"><i
                             class="fa fa-file-code-o"></i>
                         Simpan Sementara</a>
                     <button id="preview" name="action" value="preview"
                         class="btn btn-social btn-vk btn-success btn-sm pull-right" style="margin: 0 8px"><i
-                            class="fa fa-eye"></i>Tinjau PDF</button>
-                @endif
+                        class="fa fa-eye"></i>Tinjau PDF</button>
+                        @endif
             </div>
         </div>
     </div>

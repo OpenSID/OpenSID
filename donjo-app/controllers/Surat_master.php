@@ -142,7 +142,10 @@ class Surat_master extends Admin_Controller
         }
 
         if (in_array($suratMaster->jenis, [3, 4, null])) {
+            $margin = setting('surat_margin');
+            // $data['margins']              = $suratMaster->margin ? json_decode($suratMaster->margin) : ($margin->value ? json_decode($margin->value) : FormatSurat::MARGINS);
             $data['margins']              = json_decode($suratMaster->margin) ?? FormatSurat::MARGINS;
+            $data['is_global']            = $suratMaster->margin == $margin ? 1 : 0;
             $data['orientations']         = FormatSurat::ORIENTATAIONS;
             $data['sizes']                = FormatSurat::SIZES;
             $data['default_orientations'] = FormatSurat::DEFAULT_ORIENTATAIONS;
@@ -346,6 +349,7 @@ class Surat_master extends Admin_Controller
             'header'              => (int) $request['header'],
             'footer'              => (int) $request['footer'],
             'format_nomor'        => $request['format_nomor'],
+            // 'margin'              => $request['format_nomor']
         ];
 
         if (null === $id) {
@@ -357,12 +361,17 @@ class Surat_master extends Admin_Controller
         }
 
         // Margin
-        $data['margin'] = json_encode([
-            'kiri'  => (float) $request['kiri'],
-            'atas'  => (float) $request['atas'],
-            'kanan' => (float) $request['kanan'],
-            'bawah' => (float) $request['bawah'],
-        ]);
+        if (isset($request['global_margin']) && $request['global_margin'] == 1) {
+            $margin         = setting('surat_margin');
+            $data['margin'] = $margin;
+        } else {
+            $data['margin'] = json_encode([
+                'kiri'  => (float) $request['kiri'],
+                'atas'  => (float) $request['atas'],
+                'kanan' => (float) $request['kanan'],
+                'bawah' => (float) $request['bawah'],
+            ]);
+        }
 
         return $data;
     }
@@ -485,6 +494,8 @@ class Surat_master extends Admin_Controller
         })->exists();
         $data['aksi']     = route('surat_master.update');
         $data['formAksi'] = route('surat_master.edit_pengaturan');
+        $margin           = setting('surat_margin');
+        $data['margins']  = json_decode($margin) ?? FormatSurat::MARGINS;
 
         return view('admin.pengaturan_surat.pengaturan', $data);
     }
@@ -494,7 +505,6 @@ class Surat_master extends Admin_Controller
         $this->redirect_hak_akses('u');
         $this->load->model('setting_model');
         $data = $this->validasi_pengaturan($this->request);
-
         foreach ($data as $key => $value) {
             SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);
         }
@@ -529,6 +539,7 @@ class Surat_master extends Admin_Controller
             'visual_tte_weight'  => (int) $request['visual_tte_weight'],
             'visual_tte_height'  => (int) $request['visual_tte_height'],
             'format_nomor_surat' => $request['format_nomor_surat'],
+            'surat_margin'       => json_encode($request['surat_margin']),
         ];
 
         if ($validasi['tte'] == StatusEnum::YA) {

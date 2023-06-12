@@ -102,20 +102,31 @@
 
             @if ($margins)
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Margin Kertas</label>
-                    <div class="col-sm-7">
-                        <div class="row">
-                            @foreach ($margins as $key => $value)
+                    <label class="col-sm-3 control-label">Gunakan Margin Kertas Global</label>
+                    <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="margin: 0 0 5px 0">
+                        <label id="n1"
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($is_global)">
+                            <input id="m1" type="radio" name="global_margin" @checked($is_global)  class="form-check-input" type="radio" value="1" autocomplete="off">Ya
+                        </label>
+                        <label id="n2"
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$is_global)">
+                            <input id="m2" type="radio" name="global_margin" class="form-check-input" @checked(!$is_global) type="radio" value="0" autocomplete="off">Tidak
+                        </label>
+                    </div>
+                    <div id="manual_margin" style="display: none;">
+                        <div class="col-sm-7 col-sm-offset-3">
+                            <div class="row">
+                                @foreach ($margins as $key => $value)
                                 <div class="col-sm-6">
                                     <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
                                         <span class="input-group-addon input-sm">{{ ucwords($key) }}</span>
-                                        <input type="number" class="form-control input-sm required" min="0"
-                                            name="{{ $key }}" min="0" max="10" step="0.01" style="text-align:right;"
-                                            value="{{ $value }}">
+                                        <input type="number" class="form-control input-sm required" min="0" name="{{ $key }}"
+                                            min="0" max="10" step="0.01" style="text-align:right;" value="{{ $value }}">
                                         <span class="input-group-addon input-sm">cm</span>
                                     </div>
                                 </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -273,6 +284,22 @@
 
     @push('scripts')
         <script>
+            $(document).ready(function(){
+                var x = $("[name='global_margin']:checked").val()
+                console.log(x)
+                if (x == 0) {
+                    $('#manual_margin').show()
+                }
+            })
+            $("[name='global_margin']").change(function() {
+                var val = $(this).val()
+                if (val == 0) {
+                    $('#manual_margin').show()
+                } else {
+                    $('#manual_margin').hide()
+                }
+            })
+
             $('#kode_surat').select2({
                 ajax: {
                     url: SITE_URL + 'surat_master/apisurat',
