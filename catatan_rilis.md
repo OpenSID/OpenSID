@@ -17,6 +17,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 12. [#6741](https://github.com/OpenSID/OpenSID/issues/6741) Perbaikan pengecekan ganti password default kehalaman admin.
 13. [#6717](https://github.com/OpenSID/OpenSID/issues/6717) Perbaikan menampilkan data anggota keluarga pada cetak surat tinymce.
 14. [#6728](https://github.com/OpenSID/OpenSID/issues/6728) Perbaikan unggah dokumen surat masuk.
+15. [#6739](https://github.com/OpenSID/OpenSID/issues/6739) Perbaikan gagal migrasi penambahan relasi antar tabel karena menggunakan engine yang berbeda.
 
 #### Perubahan Teknis
 1. [#6676](https://github.com/OpenSID/OpenSID/issues/6676) Penambahan migrasi pengaturan nonaktifkan tema untuk OpenKab.

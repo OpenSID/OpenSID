@@ -306,6 +306,18 @@ class MY_Model extends CI_Model
             ->get('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS');
 
         $hasil = true;
+
+        //pastikan engine yang dipakai innoDB
+        $q_check = "SHOW TABLE STATUS WHERE Name in('{$di_tbl}', '{$ke_tbl}') and ENGINE != 'InnoDB'";
+
+        $cek_engine = $this->db->query($q_check)->result();
+        if ($cek_engine) {
+            foreach ($cek_engine as $table) {
+                $q_set_engine = 'ALTER TABLE ' . $table->Name . ' ENGINE = InnoDB'; //query untuk ubah ke innoDB;
+                $this->db->query($q_set_engine);
+            }
+        }
+
         if ($query->num_rows() == 0) {
             $hasil = $hasil && $this->dbforge->add_column($di_tbl, [
                 "CONSTRAINT `{$nama_constraint}` FOREIGN KEY (`{$fk}`) REFERENCES `{$ke_tbl}` (`{$ke_kolom}`) ON DELETE CASCADE ON UPDATE CASCADE",
