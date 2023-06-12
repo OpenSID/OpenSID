@@ -73,15 +73,6 @@ class User_setting extends Admin_Controller
         return (bool) (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/', $str));
     }
 
-    public function change_pwd()
-    {
-        $id                  = $_SESSION['user'];
-        $data['main']        = $this->user_model->get_user($id);
-        $data['header']      = $this->header['desa'];
-        $data['latar_login'] = to_base64(default_file(LATAR_SITEMAN, DEFAULT_LATAR_SITEMAN));
-        $this->load->view('setting_pwd', $data);
-    }
-
     public function kirim_verifikasi()
     {
         // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai

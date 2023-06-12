@@ -443,6 +443,12 @@ class Admin_Controller extends Premium
         parent::__construct();
         $this->CI = CI_Controller::get_instance();
         $this->cek_identitas_desa();
+
+        if ($this->session->force_change_password) {
+            if (! in_array($this->router->class, ['pengguna'])) {
+                redirect('pengguna#sandi');
+            }
+        }
     }
 
     private function cek_identitas_desa()
