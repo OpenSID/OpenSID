@@ -681,7 +681,10 @@ class Surat extends Admin_Controller
             } else {
                 $filters          = collect($data['surat']['form_isian']->individu)->toArray();
                 $data['penduduk'] = Penduduk::filters($filters)->get();
-                if ($filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
+                $kk_level         = $data['individu']['kk_level'];
+                $ada_anggota      = ($filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA || $kk_level == SHDKEnum::KEPALA_KELUARGA) ? true : false;
+
+                if ($ada_anggota) {
                     $data['anggota'] = Keluarga::find($data['individu']['id_kk'])->anggota;
                 } else {
                     $data['anggota'] = null;
