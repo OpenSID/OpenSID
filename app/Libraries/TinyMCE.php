@@ -43,6 +43,7 @@ use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\Pamong;
 use App\Models\Penduduk;
+use App\Models\Wilayah;
 use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -158,6 +159,9 @@ class TinyMCE
 
             // Data Identitas Desa
             'Identitas Desa' => $this->getIsianIdentitas($data['id_pend'] ?? $data['nik_non_warga']),
+
+            // Data Dusun
+            'Wilayah' => $this->getIsianWilayah(),
 
             // Data Penduduk Umum
             'Penduduk' => $this->getIsianPenduduk($data['id_pend']),
@@ -664,6 +668,28 @@ class TinyMCE
         }
 
         return $individu;
+    }
+
+    private function getIsianWilayah()
+    {
+        $wilayah = Wilayah::with('kepala')->dusun()->get();
+
+        $data = [];
+
+        foreach ($wilayah as $wil) {
+            $data[] = [
+                'judul' => ucwords(strtolower(setting('sebutan_dusun') . ' ' . $wil->dusun)),
+                'isian' => getFormatIsian(ucwords(strtolower(setting('sebutan_dusun') . '_' . $wil->dusun))),
+                'data'  => $wil->dusun,
+            ];
+            $data[] = [
+                'judul' => ucwords(strtolower('Kepala ' . setting('sebutan_dusun') . ' ' . $wil->dusun)),
+                'isian' => getFormatIsian(ucwords(strtolower('Kepala_' . setting('sebutan_dusun') . '_' . $wil->dusun))),
+                'data'  => $wil->kepala->nama,
+            ];
+        }
+
+        return $data;
     }
 
     private function getIsianAnggotaKeluarga($id_penduduk = null)
