@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Libraries\FlxZipArchive;
 use App\Models\LogBackup;
 use App\Models\LogRestoreDesa;
+use App\Models\SettingAplikasi;
 use App\Models\User;
 use Carbon\Carbon;
 use Symfony\Component\Process\Process;
@@ -154,6 +155,8 @@ class Database extends Admin_Controller
             redirect($this->controller);
         }
 
+        $token = $this->setting->layanan_opendesa_token;
+
         try {
             $this->session->success        = 1;
             $this->session->error_msg      = '';
@@ -163,6 +166,9 @@ class Database extends Admin_Controller
             $this->session->success   = -1;
             $this->session->error_msg = $e->getMessage();
         } finally {
+            if ($this->input->post('hapus_token') == 'N') {
+                SettingAplikasi::where('key', 'layanan_opendesa_token')->update(['value' => $token]);
+            }
             $this->session->sedang_restore = 0;
             redirect('database');
         }

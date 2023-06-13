@@ -112,6 +112,11 @@
                                                                     <div class="col-sm-12 col-md-3 col-lg-2">
                                                                         <button type="submit" id="restore" class="btn btn-block btn-success btn-sm " disabled="disabled"><i class="fa fa-spin fa-refresh"></i>Restore</button>
                                                                     </div>
+                                                                    <div class="col-md-2 col-lg-3"></div>
+                                                                    <div class="col-sm-12 col-md-5 col-lg-5"">
+                                                                        <input type="checkbox" id="hapus_token" name="hapus_token" value="N">
+                                                                        <label for="hapus_token">Amankan Token Layanan Saat Ini</label><br>
+                                                                    </div>
                                                                 </div>
                                                             </td>
                                                         </tr>
