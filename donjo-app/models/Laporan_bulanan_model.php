@@ -689,4 +689,13 @@ class Laporan_bulanan_model extends MY_Model
 
         return $this->paginasi($p, $jml);
     }
+
+    public function perbaikiLogKeluarga()
+    {
+        $configId = identitas('id');
+        $sql      = "insert into log_keluarga (config_id, id_kk, id_peristiwa, tgl_peristiwa, updated_by)
+                select {$configId} as config_id, id as id_kk, 1 as id_peristiwa, tgl_daftar as tgl_peristiwa, 1 as updated_by
+                from tweb_keluarga  where id not in ( select id_kk from log_keluarga where id_peristiwa = 1 ) ";
+        $this->db->query($sql);
+    }
 }
