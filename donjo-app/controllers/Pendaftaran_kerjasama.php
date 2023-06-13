@@ -54,6 +54,12 @@ class Pendaftaran_kerjasama extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+
+        // jangan aktifkan jika demo dan di domain whitelist
+        if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {
+            show_404();
+        }
+
         $this->modul_ini     = 'info-desa';
         $this->sub_modul_ini = 'pendaftaran-kerjasama';
 

@@ -23,3 +23,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 1. [#6676](https://github.com/OpenSID/OpenSID/issues/6676) Penambahan migrasi pengaturan nonaktifkan tema untuk OpenKab.
 2. [#6736](https://github.com/OpenSID/OpenSID/issues/6736) Penyesuaian backup dan restore database mengikuti perubahan OpenSID database gabungan.
 3. [#5870](https://github.com/OpenSID/OpenSID/issues/5870) Penambahan pilihan amankan token pengguna yang sedang digunakan sebelum restore database.
+4. [#2383](https://github.com/OpenSID/premium/issues/2383) Penyesuaian modul pelanggan dan pendaftaran kerjasama untuk website demo OpenSID tidak ditampilkan.
