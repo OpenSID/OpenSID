@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\CovidVaksin;
 use App\Models\InventarisAsset;
 use App\Models\LogPenduduk;
 use App\Models\LogPerubahanPenduduk;
@@ -209,12 +210,6 @@ class Periksa_model extends MY_Model
                 $this->periksa['zero_date_default_value'] = $zero_date_default_value;
             }
 
-            // Error invalid date
-            if (! empty($tabel_invalid_date = $this->deteksi_invalid_date())) {
-                $this->periksa['masalah'][]          = 'tabel_invalid_date';
-                $this->periksa['tabel_invalid_date'] = $tabel_invalid_date;
-            }
-
             // Error table doesn't exist
             if ($db_error_code === 1146) {
                 $calon_ini                  = $this->deteksi_table_doesnt_exist($db_error_message);
@@ -227,6 +222,12 @@ class Periksa_model extends MY_Model
                 $this->periksa['masalah'][]    = 'data_jabatan_tidak_ada';
                 $this->periksa['data_jabatan'] = $jabatan;
             }
+        }
+
+        // Error invalid date
+        if (! empty($tabel_invalid_date = $this->deteksi_invalid_date())) {
+            $this->periksa['masalah'][]          = 'tabel_invalid_date';
+            $this->periksa['tabel_invalid_date'] = $tabel_invalid_date;
         }
 
         // Autoincrement hilang, mungkin karena proses backup/restore yang tidak sempurna
@@ -447,6 +448,18 @@ class Periksa_model extends MY_Model
         $inventaris_asset = InventarisAsset::select(['id', 'updated_at'])->where('updated_at', '0000-00-00')->get();
         if ($inventaris_asset->count() > 0) {
             $tabel['inventaris_asset'] = $inventaris_asset;
+        }
+
+        $covidVaksin = CovidVaksin::select(['id_penduduk', 'tgl_vaksin_1', 'tgl_vaksin_2', 'tgl_vaksin_3'])->where(
+            static function ($q) {
+                return $q->where('tgl_vaksin_1', '0000-00-00')
+                    ->orwhere('tgl_vaksin_2', '0000-00-00')
+                    ->orwhere('tgl_vaksin_3', '0000-00-00');
+            }
+        )->get();
+
+        if ($covidVaksin->count() > 0) {
+            $tabel['covid19_vaksin'] = $covidVaksin;
         }
 
         return $tabel;
@@ -1070,6 +1083,23 @@ class Periksa_model extends MY_Model
             }
 
             log_message('error', 'Sesuaikan tanggal invalid pada kolom tanggal tabel mandiri_perubahan_penduduk pada data berikut ini : ' . print_r($pendudukMandiri->toArray(), true));
+        }
+
+        if ($covidVaksin = $this->periksa['tabel_invalid_date']['covid19_vaksin']) {
+            foreach ($covidVaksin as $vaksin) {
+                if ($vaksin->getRawOriginal('tgl_vaksin_1') == '0000-00-00') {
+                    $vaksin->tgl_vaksin_1 = null;
+                }
+                if ($vaksin->getRawOriginal('tgl_vaksin_2') == '0000-00-00') {
+                    $vaksin->tgl_vaksin_2 = null;
+                }
+                if ($vaksin->getRawOriginal('tgl_vaksin_3') == '0000-00-00') {
+                    $vaksin->tgl_vaksin_3 = null;
+                }
+                $hasil = $hasil && $vaksin->save();
+            }
+
+            log_message('error', 'Sesuaikan tanggal invalid pada kolom tgl_vaksin_1, tgl_vaksin_2, tgl_vaksin_3 tabel covid19_vaksin pada data berikut ini : ' . print_r($covidVaksin->toArray(), true));
         }
 
         return $hasil;

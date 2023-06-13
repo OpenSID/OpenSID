@@ -130,6 +130,14 @@ class Modul_model extends MY_Model
     // Menampilkan tabel sub modul
     public function list_sub_modul($modul_id)
     {
+        // jangan aktifkan jika demo dan di domain whitelist
+        if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {
+            $this->db->where_not_in('slug', [
+                'layanan-pelanggan',
+                'pendaftaran-kerjasama',
+            ]);
+        }
+
         $data = $this->config_id()
             ->where('parent', $modul_id)
             ->where('hidden <>', 2)

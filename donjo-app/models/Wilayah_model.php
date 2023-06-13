@@ -313,7 +313,7 @@ class Wilayah_model extends MY_Model
         $keluarga = Keluarga::whereIn('id_cluster', $in_id)->count();
 
         if (($penduduk + $keluarga) != 0) {
-            session_error('Data ' . $tipe . ' tidak dapat dihapus, data sudah tersedia di Penduduk atau Keluarga.<br> Silakan hapus data Penduduk atau Keluarga terlebih dahulu pada setiap status yang ada.');
+            session_error(', data ' . $tipe . ' tidak dapat dihapus karena hal berikut: <ol><li>Terdapat penduduk dengan status mati, pindah, hilang, pergi dan tidak valid </li><li>Terdapat kelurga dengan status KK Hilang/Pindah/Mati dan KK Kosong</li></ol>Silakan hapus data Penduduk atau Keluarga terlebih dahulu pada setiap status tersebut.');
             redirect($_SERVER['HTTP_REFERER']);
         }
 

@@ -39,7 +39,7 @@ namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class StatusHubunganEnum
+class StatusHubunganEnum extends BaseEnum
 {
     public const KEPALA_KELUARGA = 1;
     public const SUAMI           = 2;
