@@ -163,7 +163,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
     protected function migrasi_2023061271($hasil)
     {
-        if (!$this->db->field_exists('foto', 'widget')) {
+        if (! $this->db->field_exists('foto', 'widget')) {
             $hasil = $hasil && $this->dbforge->add_column('widget', [
                 'foto' => [
                     'type'       => 'varchar',

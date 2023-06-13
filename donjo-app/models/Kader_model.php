@@ -120,8 +120,7 @@ class Kader_model extends MY_Model
         }
 
         $kursus = array_column($this->referensi_model->list_data('ref_penduduk_kursus'), 'nama');
-
-        $new = [];
+        $new    = [];
         if ($list_data = $this->config_id()->select('kursus')->get($this->table)->result_array()) {
             $data = '';
 

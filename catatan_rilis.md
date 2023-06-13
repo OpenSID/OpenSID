@@ -9,6 +9,7 @@ Di rilis ini, versi 2306.1.0 berisi penambahan [isi disini] dan perbaikan lain y
 5. [#6730](https://github.com/OpenSID/OpenSID/issues/6730) Penambahan unggah gambar pada data widget.
 6. [#6592](https://github.com/OpenSID/OpenSID/issues/6592) Penambahan kode isian data wilayah dusun pada surat tinymce.
 7. [#6542](https://github.com/OpenSID/OpenSID/issues/6542) Penambahan pengaturan margin global.
+8. [#6600](https://github.com/OpenSID/OpenSID/issues/6600) Penambahan pilihan manual menggunakan select2-tag agar memudahkan.
 
 #### Perbaikan BUG
 

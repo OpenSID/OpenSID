@@ -292,7 +292,18 @@ class Surat_master extends Admin_Controller
 
     private function validate($request = [], $jenis = 4, $id = null)
     {
-        $kodeIsian = null;
+        $kodeIsian   = null;
+        $manual_data = array_values(array_filter($request['pilihan_kode']));
+        if (count($manual_data) > 0) {
+            $data = [];
+            $no   = 0;
+
+            for ($i = 0; $i < count($request['tipe_kode']); $i++) {
+                if ($request['tipe_kode'][$i] == 'select-manual') {
+                    $data[$i] = $manual_data[$no++];
+                }
+            }
+        }
 
         for ($i = 0; $i < count($request['tipe_kode']); $i++) {
             if (empty($request['tipe_kode'][$i])) {
@@ -310,7 +321,7 @@ class Surat_master extends Admin_Controller
             ];
 
             if ($request['tipe_kode'][$i] == 'select-manual') {
-                $kodeIsian[$i]['pilihan'] = json_decode(preg_replace('/[\r\n\t]/', '', $request['pilihan_kode'][$i]), true);
+                $kodeIsian[$i]['pilihan'] = $data[$i];
             } elseif ($request['tipe_kode'][$i] == 'select-otomatis') {
                 $kodeIsian[$i]['refrensi'] = $request['referensi_kode'][$i];
             }
@@ -505,6 +516,7 @@ class Surat_master extends Admin_Controller
         $this->redirect_hak_akses('u');
         $this->load->model('setting_model');
         $data = $this->validasi_pengaturan($this->request);
+
         foreach ($data as $key => $value) {
             SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);
         }
