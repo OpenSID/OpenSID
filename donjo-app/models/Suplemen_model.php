@@ -501,7 +501,7 @@ class Suplemen_model extends MY_Model
 
     public function hapus_terdata($id_terdata)
     {
-        $this->config_id()->db->where('id', $id_terdata)->delete('suplemen_terdata');
+        $this->config_id()->where('id', $id_terdata)->delete('suplemen_terdata');
     }
 
     public function hapus_terdata_all()
