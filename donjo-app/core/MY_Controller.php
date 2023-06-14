@@ -127,7 +127,7 @@ class MY_Controller extends CI_Controller
             $appKeyDb = Config::appKey()->first();
         }
 
-        if ($appKey !== $appKeyDb->app_key) {
+        if (! empty($appKeyDb->app_key) && $appKey !== $appKeyDb->app_key) {
             $this->session->cek_app_key = true;
             redirect('koneksi_database/config');
         }

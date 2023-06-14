@@ -331,10 +331,17 @@ class Grup_model extends MY_Model
     public function modul_awal($grup)
     {
         if (! $this->session->hak_akses_url) {
-            $hak_akses                    = $this->get_hak_akses($grup);
-            $this->session->hak_akses_url = $hak_akses;
+            $this->session->hak_akses_url = $this->get_hak_akses($grup);
         }
+
         $modul = array_keys($this->session->hak_akses_url);
+
+        if (empty($modul)) {
+            unset($this->session->hak_akses_url);
+            $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+            redirect('siteman/logout');
+        }
 
         return $this->config_id()
             ->select('url')
