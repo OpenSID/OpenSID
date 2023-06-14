@@ -100,6 +100,7 @@ class Siteman extends MY_Controller
 
         if (! $this->user_model->syarat_sandi() && ! ($this->session->user == super_admin() && (config_item('demo_mode') || ENVIRONMENT === 'development'))) {
             // Password tidak memenuhi syarat kecuali di website demo
+
             $this->session->force_change_password = true;
             redirect('pengguna#sandi');
         }

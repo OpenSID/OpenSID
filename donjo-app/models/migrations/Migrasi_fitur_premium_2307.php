@@ -59,6 +59,8 @@ class Migrasi_fitur_premium_2307 extends MY_model
         $hasil = $hasil && $this->migrasi_2023060451($hasil);
         $hasil = $hasil && $this->migrasi_2023060452($hasil);
         $hasil = $hasil && $this->migrasi_2023061271($hasil);
+        $hasil = $hasil && $this->migrasi_2023061351($hasil);
+        $hasil = $hasil && $this->migrasi_2023061451($hasil);
 
         return $hasil && true;
     }
@@ -76,7 +78,11 @@ class Migrasi_fitur_premium_2307 extends MY_model
         }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_2023060572($hasil);
+        $hasil = $hasil && $this->migrasi_2023060572($hasil);
+        $hasil = $hasil && $this->migrasi_2023061451($hasil);
+        $hasil = $hasil && $this->migrasi_2023061452($hasil);
+
+        return $hasil && true;
     }
 
     protected function migrasi_2023060451($hasil)
@@ -171,6 +177,144 @@ class Migrasi_fitur_premium_2307 extends MY_model
                     'null'       => true,
                 ],
             ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023061351($hasil)
+    {
+        $fields = [];
+
+        if (! $this->db->field_exists('Kd_Bank', 'keuangan_ta_spp')) {
+            $fields['Kd_Bank'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Nm_Bank', 'keuangan_ta_spp')) {
+            $fields['Nm_Bank'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Nm_Penerima', 'keuangan_ta_spp')) {
+            $fields['Nm_Penerima'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Ref_Bayar', 'keuangan_ta_spp')) {
+            $fields['Ref_Bayar'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
+            $fields['Rek_Bank'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
+            $fields['Rek_Bank'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spp')) {
+            $fields['Tgl_Bayar'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Validasi', 'keuangan_ta_spp')) {
+            $fields['Validasi'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023061451($hasil)
+    {
+        if (! $this->db->field_exists('slug', 'user_grup')) {
+            $hasil = $hasil && $this->dbforge->add_column('user_grup', [
+                'slug' => [
+                    'type'       => 'varchar',
+                    'constraint' => 255,
+                    'null'       => true,
+                    'after'      => 'nama',
+                ],
+            ]);
+
+            if ($this->cek_indeks('user_grup', 'nama_grup_config')) {
+                $hasil = $hasil && $this->db->query('ALTER TABLE `user_grup` DROP INDEX `nama_grup_config`, ADD UNIQUE INDEX `slug_config` (`config_id`, `slug`)');
+            }
+            $data = [];
+
+            foreach ($this->db->get('user_grup')->result() as $row) {
+                $data[] = [
+                    'id'   => $row->id,
+                    'slug' => unique_slug('user_grup', $row->nama),
+                ];
+            }
+
+            if ($data) {
+                $hasil = $hasil && $this->db->update_batch('user_grup', $data, 'id');
+            }
+        }
+
+        // Hapus cache menu navigasi
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023061452($hasil)
+    {
+        $check = $this->db
+            ->where_in('Nama_Bidang', [
+                'BIDANG PEMBINAAN KEMASYARAKATAN',
+                'BIDANG PEMBERDAYAAN MASYARAKAT',
+            ])
+            ->get('keuangan_manual_ref_bidang')
+            ->result_array();
+
+        if ($check) {
+            // keuangan manual ref bidang
+            foreach ([
+                ['3', 'BIDANG PEMBINAAN KEMASYARAKATAN DESA'],
+                ['4', 'BIDANG PEMBERDAYAAN MASYARAKAT DESA'],
+            ] as $value) {
+                [$id, $nama_bidang] = $value;
+
+                $hasil = $hasil && $this->db
+                    ->where('id', $id)
+                    ->set('Nama_Bidang', $nama_bidang)
+                    ->update('keuangan_manual_ref_bidang');
+            }
         }
 
         return $hasil;

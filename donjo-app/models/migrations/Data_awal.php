@@ -163,6 +163,7 @@ class Data_awal extends MY_Model
         $data = [
             [
                 'nama'       => 'Administrator',
+                'slug'       => 'administrator',
                 'jenis'      => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
@@ -171,6 +172,7 @@ class Data_awal extends MY_Model
             ],
             [
                 'nama'       => 'Operator',
+                'slug'       => 'operator',
                 'jenis'      => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
@@ -179,6 +181,7 @@ class Data_awal extends MY_Model
             ],
             [
                 'nama'       => 'Redaksi',
+                'slug'       => 'redaksi',
                 'jenis'      => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
@@ -187,6 +190,7 @@ class Data_awal extends MY_Model
             ],
             [
                 'nama'       => 'Kontributor',
+                'slug'       => 'kontributor',
                 'jenis'      => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
@@ -195,6 +199,7 @@ class Data_awal extends MY_Model
             ],
             [
                 'nama'       => 'Satgas Covid-19',
+                'slug'       => 'satgas-covid-19',
                 'jenis'      => 2,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
@@ -202,6 +207,13 @@ class Data_awal extends MY_Model
                 'updated_by' => 0,
             ],
         ];
+
+        if (!Schema::hasColumn('user_grup', 'slug')) {
+            $data = array_map(function ($item) {
+                unset($item['slug']);
+                return $item;
+            }, $data);
+        }
 
         return $hasil && $this->data_awal('user_grup', $data, false);
     }
@@ -20411,8 +20423,8 @@ class Data_awal extends MY_Model
             (16, '2020', '4.PENDAPATAN', '', '4.3.9. Lain-lain Pendapatan Desa Yang Sah', '0', '0'),
             (17, '2020', '5.BELANJA', '00.0000.01 BIDANG PENYELENGGARAN PEMERINTAHAN DESA', '5.0.0', '0', '0'),
             (18, '2020', '5.BELANJA', '00.0000.02 BIDANG PELAKSANAAN PEMBANGUNAN DESA', '5.0.0', '0', '0'),
-            (19, '2020', '5.BELANJA', '00.0000.03 BIDANG PEMBINAAN KEMASYARAKATAN', '5.0.0', '0', '0'),
-            (20, '2020', '5.BELANJA', '00.0000.04 BIDANG PEMBERDAYAAN MASYARAKAT', '5.0.0', '0', '0'),
+            (19, '2020', '5.BELANJA', '00.0000.03 BIDANG PEMBINAAN KEMASYARAKATAN DESA', '5.0.0', '0', '0'),
+            (20, '2020', '5.BELANJA', '00.0000.04 BIDANG PEMBERDAYAAN MASYARAKAT DESA', '5.0.0', '0', '0'),
             (21, '2020', '5.BELANJA', '00.0000.05 BIDANG PENANGGULANGAN BENCANA, DARURAT DAN MENDESAK DESA', '5.0.0', '0', '0'),
             (22, '2020', '6.PEMBIAYAAN', '', '6.1.1. SILPA Tahun Sebelumnya', '0', '0'),
             (23, '2020', '6.PEMBIAYAAN', '', '6.1.2. Pencairan Dana Cadangan', '0', '0'),

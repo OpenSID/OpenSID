@@ -123,7 +123,6 @@ class Identitas_desa extends Admin_Controller
         $validate = $this->validate($this->request, $id);
 
         $cek = $this->cek_kode_wilayah($validate);
-
         if ($cek['status'] && Config::find($id)->update($validate)) {
             return json(['status' => true]);
         }

@@ -30,7 +30,7 @@
     </div>
 @endif
 
-@if ($session->force_change_password)
+@if ($session->force_change_password && $controller === 'pengguna')
     <div class="callout callout-warning">
         <h4><i class="icon fa fa-warning"></i>&nbsp;&nbsp;Peringatan</h4>
         <p>Anda masih menggunakan user dan password bawaan, silakan ganti terlebih dahulu dengan yang lebih aman.</p>

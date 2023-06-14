@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,10 +47,10 @@ class UserGrup extends BaseModel
     use ConfigId;
 
     // UserGrup bawaan
-    public const ADMINISTRATOR = 'Administrator';
-    public const OPERATOR      = 'Operator';
-    public const REDAKSI       = 'Redaksi';
-    public const KONTRIBUTOR   = 'Kontributor';
+    public const ADMINISTRATOR = 'administrator';
+    public const OPERATOR      = 'operator';
+    public const REDAKSI       = 'redaksi';
+    public const KONTRIBUTOR   = 'kontributor';
 
     // Jenis UserGrup
     public const SISTEM = 1;
@@ -62,15 +63,13 @@ class UserGrup extends BaseModel
      */
     protected $table = 'user_grup';
 
-    // TODO: Ganti nama menjadi slug dan unik
     public function getGrupSistem()
     {
         return self::where('jenis', self::SISTEM)->pluck('id')->toArray();
     }
 
-    // TODO: Ganti nama menjadi slug dan unik
-    public function getGrupId($grup_nama)
+    public function getGrupId($slug)
     {
-        return self::where('nama', $grup_nama)->first()->id;
+        return self::where(Schema::hasColumn('user_grup', 'slug') ? 'slug' : 'nama', $slug)->value('id');
     }
 }

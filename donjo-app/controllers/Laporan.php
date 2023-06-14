@@ -238,4 +238,10 @@ class Laporan extends Admin_Controller
 
         $this->render('laporan/tabel_bulanan_detil', $data);
     }
+
+    public function perbaiki()
+    {
+        $this->laporan_bulanan_model->perbaikiLogKeluarga();
+        redirect('laporan');
+    }
 }

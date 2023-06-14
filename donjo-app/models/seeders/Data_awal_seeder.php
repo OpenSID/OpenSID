@@ -42033,12 +42033,12 @@ class Data_awal_seeder extends CI_Model
             [
                 'id'          => 3,
                 'Kd_Bid'      => '00.0000.03',
-                'Nama_Bidang' => 'BIDANG PEMBINAAN KEMASYARAKATAN',
+                'Nama_Bidang' => 'BIDANG PEMBINAAN KEMASYARAKATAN DESA',
             ],
             [
                 'id'          => 4,
                 'Kd_Bid'      => '00.0000.04',
-                'Nama_Bidang' => 'BIDANG PEMBERDAYAAN MASYARAKAT',
+                'Nama_Bidang' => 'BIDANG PEMBERDAYAAN MASYARAKAT DESA',
             ],
             [
                 'id'          => 5,
