@@ -257,8 +257,9 @@ class MY_Model extends CI_Model
         return true;
     }
 
-    public function tambah_surat_tinymce($data)
+    public function tambah_surat_tinymce($data, $config_id = null)
     {
+        $config_id            = $config_id ?? $this->config_id;
         $data['url_surat']    = 'surat-' . strtolower(str_replace([' ', '_'], '-', $data['nama']));
         $data['jenis']        = FormatSurat::TINYMCE_SISTEM;
         $data['syarat_surat'] = json_encode($data['syarat_surat']);
@@ -269,8 +270,8 @@ class MY_Model extends CI_Model
         $cek_surat = DB::table('tweb_surat_format')->where('url_surat', $data['url_surat']);
 
         if (Schema::hasColumn('tweb_surat_format', 'config_id')) {
-            $cek_surat->where('config_id', $this->config_id);
-            $data['config_id'] = $this->config_id;
+            $cek_surat->where('config_id', $config_id);
+            $data['config_id'] = $config_id;
         }
 
         if ($cek_surat->exists()) {
