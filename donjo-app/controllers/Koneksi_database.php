@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Koneksi_database extends CI_Controller
@@ -51,5 +53,21 @@ class Koneksi_database extends CI_Controller
         }
 
         return view('periksa.koneksi');
+    }
+
+    public function config()
+    {
+        $appKey   = get_app_key();
+        $appKeyDb = Config::first();
+
+        return view('periksa.config', ['appKey' => $appKey, 'appKeyDb' => $appKeyDb->app_key]);
+    }
+
+    public function updateKey()
+    {
+        $appKeyDb = Config::first();
+        resetCacheDesa();
+        updateAppKey($appKeyDb->app_key);
+        redirect('');
     }
 }

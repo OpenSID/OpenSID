@@ -28,3 +28,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#2383](https://github.com/OpenSID/premium/issues/2383) Penyesuaian modul pelanggan dan pendaftaran kerjasama untuk website demo OpenSID tidak ditampilkan.
 5. [#6748](https://github.com/OpenSID/OpenSID/issues/6748) Penambahan periksa database untuk kasus tanggal tidak valid pada tabel covid19_vaksin.
 6. [#6750](https://github.com/OpenSID/OpenSID/issues/6750) Penyesuaian query statistik dengan penambahan config_id pada tabel referensi yang dituju.
+7. [#6738](https://github.com/OpenSID/OpenSID/issues/6738) Penambahan peringatan jika app_key pada folder desa dan database tidak sesuai.

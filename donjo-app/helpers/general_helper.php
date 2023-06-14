@@ -234,9 +234,14 @@ if (! function_exists('identitas')) {
      */
     function identitas(?string $params = null)
     {
-        $cache = 'identitas_desa';
+        $cache    = 'identitas_desa';
+        $instance = get_instance();
 
-        $identitas = get_instance()->cache->pakai_cache(static function () {
+        if (null === $instance->cache) {
+            return null;
+        }
+
+        $identitas = $instance->cache->pakai_cache(static function () {
             if (Schema::hasColumn('config', 'app_key') && DB::table('config')->where('app_key', get_app_key())->exists()) {
                 return Config::appKey()->first();
             }

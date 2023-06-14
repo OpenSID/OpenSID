@@ -117,6 +117,16 @@ class MY_Controller extends CI_Controller
             $this->load->database();
         }
 
+        if (! $this->setting->multi_desa) {
+            $appKey   = get_app_key();
+            $appKeyDb = Config::first();
+            if ($appKeyDb) {
+                if ($appKey != $appKeyDb->app_key) {
+                    redirect('koneksi_database/config');
+                }
+            }
+        }
+
         if (! Config::appKey()->first()) {
             // Tambahkan data sementara
             Config::create([
