@@ -47,7 +47,8 @@
             <ol>
                 <li>AppKey pada file <b>{{ DESAPATH . 'app_key' }}</b> adalah <b>{{ $appKey }}</b></li>
                 <li>AppKey pada tabel <b>config</b> adalah <b>{{ $appKeyDb }}</b></li>
-                <li>Perbaiki dengan memastikan setiap baris terisi nilai sesuai dengan database di (1).</li>
+                <li>Perbarui AppKey (1) sesuai dengan yang ada di tabel config (2).</li>
+                <li>Atau buat desa baru dengan menambah AppKey baru tanpa menghapus AppKey lama.</li>
             </ol>
             <hr>
             <div class="text-center">
