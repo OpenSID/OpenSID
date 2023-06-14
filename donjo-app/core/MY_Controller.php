@@ -117,33 +117,19 @@ class MY_Controller extends CI_Controller
             $this->load->database();
         }
 
-        if (! $this->setting->multi_desa) {
-            $appKey   = get_app_key();
-            $appKeyDb = Config::first();
-            if ($appKeyDb) {
-                if ($appKey != $appKeyDb->app_key) {
-                    redirect('koneksi_database/config');
-                }
-            }
+        $appKey   = get_app_key();
+        $appKeyDb = Config::first();
+
+        if (Config::count() === 0) {
+            $this->session->cek_app_key = true;
+            redirect('koneksi_database/desaBaru');
+        } elseif (Config::count() > 1) {
+            $appKeyDb = Config::appKey()->first();
         }
 
-        if (! Config::appKey()->first()) {
-            // Tambahkan data sementara
-            Config::create([
-                'nama_desa'         => '',
-                'kode_desa'         => '',
-                'nama_kecamatan'    => '',
-                'kode_kecamatan'    => '',
-                'nama_kabupaten'    => '',
-                'kode_kabupaten'    => '',
-                'nama_propinsi'     => '',
-                'kode_propinsi'     => '',
-                'nama_kepala_camat' => '',
-                'nip_kepala_camat'  => '',
-            ]);
-
-            $this->load->model('migrations/data_awal', 'data_awal');
-            $this->data_awal->up();
+        if ($appKey !== $appKeyDb->app_key) {
+            $this->session->cek_app_key = true;
+            redirect('koneksi_database/config');
         }
     }
 }
