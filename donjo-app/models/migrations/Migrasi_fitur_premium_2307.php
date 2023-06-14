@@ -57,6 +57,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
         // Data perlu dihapus karena ada perubahan struktur tabel
         $hasil = $hasil && $this->migrasi_2023060451($hasil);
         $hasil = $hasil && $this->migrasi_2023060452($hasil);
+        $hasil = $hasil && $this->migrasi_2023061351($hasil);
 
         return $hasil && true;
     }
@@ -113,5 +114,80 @@ class Migrasi_fitur_premium_2307 extends MY_model
             'jenis'      => 'option',
             'option'     => '{"0": "Kunci","1": "Bebas pilih"}',
         ], $id);
+    }
+
+    protected function migrasi_2023061351($hasil)
+    {
+        $fields = [];
+
+        if (! $this->db->field_exists('Kd_Bank', 'keuangan_ta_spp')) {
+            $fields['Kd_Bank'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Nm_Bank', 'keuangan_ta_spp')) {
+            $fields['Nm_Bank'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Nm_Penerima', 'keuangan_ta_spp')) {
+            $fields['Nm_Penerima'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Ref_Bayar', 'keuangan_ta_spp')) {
+            $fields['Ref_Bayar'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
+            $fields['Rek_Bank'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
+            $fields['Rek_Bank'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spp')) {
+            $fields['Tgl_Bayar'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Validasi', 'keuangan_ta_spp')) {
+            $fields['Validasi'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
+        }
+
+        return $hasil;
     }
 }
