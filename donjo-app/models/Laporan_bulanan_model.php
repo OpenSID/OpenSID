@@ -119,7 +119,7 @@ class Laporan_bulanan_model extends MY_Model
         $penduduk_mutasi_sql = $this->config_id('l')
             ->select('p.*, l.kode_peristiwa')
             ->from('log_penduduk l')
-            ->join('tweb_penduduk p', 'l.id_pend = p.id')
+            ->join('tweb_penduduk p', 'l.id_pend = p.id and p.status_dasar = 1')
             ->where("DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}'")
             ->get_compiled_select();
 
@@ -141,7 +141,7 @@ class Laporan_bulanan_model extends MY_Model
             ->select('p.*, l.id_peristiwa')
             ->from('log_keluarga l')
             ->join('tweb_keluarga k', 'k.id = l.id_kk')
-            ->join('tweb_penduduk p', 'p.id = k.nik_kepala')
+            ->join('tweb_penduduk p', 'p.id = k.nik_kepala and p.status_dasar = 1')
             ->where("DATE_FORMAT(l.tgl_peristiwa, '%Y-%m') < '{$thn}-{$pad_bln}'")
             ->get_compiled_select();
 
@@ -186,7 +186,7 @@ class Laporan_bulanan_model extends MY_Model
                 $this->config_id('l')
                     ->select('p.*, l.kode_peristiwa')
                     ->from('log_penduduk l')
-                    ->join('tweb_penduduk p', 'l.id_pend = p.id')
+                    ->join('tweb_penduduk p', 'l.id_pend = p.id and p.status_dasar = 1')
                     ->where("DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}'");
                 break;
 
@@ -196,7 +196,7 @@ class Laporan_bulanan_model extends MY_Model
                     ->select('p.*, l.id_peristiwa')
                     ->from('log_keluarga l')
                     ->join('tweb_keluarga k', 'k.id = l.id_kk')
-                    ->join('tweb_penduduk p', 'p.id = k.nik_kepala')
+                    ->join('tweb_penduduk p', 'p.id = k.nik_kepala and p.status_dasar = 1')
                     ->where("DATE_FORMAT(l.tgl_peristiwa, '%Y-%m') < '{$thn}-{$pad_bln}'");
                 break;
         }
