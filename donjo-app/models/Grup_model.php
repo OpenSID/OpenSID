@@ -125,7 +125,8 @@ class Grup_model extends MY_Model
         // Ambil semua data dari var. global $_POST
         $data = [
             'config_id'  => $this->config_id,
-            'nama'       => $this->input->post('nama'),
+            'nama'       => $nama = $this->input->post('nama'),
+            'slug'       => unique_slug('user_grup', $nama),
             'jenis'      => 2, // grup tambahan
             'created_by' => auth()->id,
             'updated_by' => auth()->id,

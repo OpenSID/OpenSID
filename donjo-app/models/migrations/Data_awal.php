@@ -163,6 +163,7 @@ class Data_awal extends MY_Model
         $data = [
             [
                 'nama'       => 'Administrator',
+                'slug'       => 'administrator',
                 'jenis'      => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
@@ -171,6 +172,7 @@ class Data_awal extends MY_Model
             ],
             [
                 'nama'       => 'Operator',
+                'slug'       => 'operator',
                 'jenis'      => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
@@ -179,6 +181,7 @@ class Data_awal extends MY_Model
             ],
             [
                 'nama'       => 'Redaksi',
+                'slug'       => 'redaksi',
                 'jenis'      => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
@@ -187,6 +190,7 @@ class Data_awal extends MY_Model
             ],
             [
                 'nama'       => 'Kontributor',
+                'slug'       => 'kontributor',
                 'jenis'      => 1,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
@@ -195,6 +199,7 @@ class Data_awal extends MY_Model
             ],
             [
                 'nama'       => 'Satgas Covid-19',
+                'slug'       => 'satgas-covid-19',
                 'jenis'      => 2,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
@@ -202,6 +207,13 @@ class Data_awal extends MY_Model
                 'updated_by' => 0,
             ],
         ];
+
+        if (!Schema::hasColumn('user_grup', 'slug')) {
+            $data = array_map(function ($item) {
+                unset($item['slug']);
+                return $item;
+            }, $data);
+        }
 
         return $hasil && $this->data_awal('user_grup', $data, false);
     }

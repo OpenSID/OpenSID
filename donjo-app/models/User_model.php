@@ -217,7 +217,7 @@ class User_model extends MY_Model
     {
         return $this->config_id()
             ->select('id')
-            ->where('nama', $nama)
+            ->where('slug', $nama)
             ->get('user_grup')
             ->row()
             ->id;

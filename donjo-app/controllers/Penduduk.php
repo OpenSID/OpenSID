@@ -121,7 +121,7 @@ class Penduduk extends Admin_Controller
         $data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
         $data['list_jenis_kelamin']   = $this->referensi_model->list_data('tweb_penduduk_sex');
         $data['pesan_hapus']          = 'Hanya lakukan hapus penduduk hanya jika ada kesalahan saat pengisian data atau penduduk tersebut tidak akan ditambahkan kembali. Apakah Anda yakin ingin menghapus data ini?';
-        $data['akses']                = UserGrup::where('nama', UserGrup::ADMINISTRATOR)->first()->id;
+        $data['akses']                = UserGrup::getGrupId(UserGrup::ADMINISTRATOR);
         $data['data_lengkap']         = ($this->setting->tgl_data_lengkap_aktif && ! empty($this->setting->tgl_data_lengkap)) ? true : false;
 
         $this->render('sid/kependudukan/penduduk', $data);

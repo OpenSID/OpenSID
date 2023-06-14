@@ -58,6 +58,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
         $hasil = $hasil && $this->migrasi_2023060451($hasil);
         $hasil = $hasil && $this->migrasi_2023060452($hasil);
         $hasil = $hasil && $this->migrasi_2023061351($hasil);
+        $hasil = $hasil && $this->migrasi_2023061451($hasil);
 
         return $hasil && true;
     }
@@ -187,6 +188,41 @@ class Migrasi_fitur_premium_2307 extends MY_model
         if ($fields) {
             $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023061451($hasil)
+    {
+        if (! $this->db->field_exists('slug', 'user_grup')) {
+            $hasil = $hasil && $this->dbforge->add_column('user_grup', [
+                'slug' => [
+                    'type'       => 'varchar',
+                    'constraint' => 255,
+                    'null'       => true,
+                    'after'      => 'nama',
+                ],
+            ]);
+
+            if ($this->cek_indeks('user_grup', 'nama_grup_config')) {
+                $hasil = $hasil && $this->db->query('ALTER TABLE `user_grup` DROP INDEX `nama_grup_config`, ADD UNIQUE INDEX `slug_config` (`config_id`, `slug`)');
+            }
+            $data = [];
+
+            foreach ($this->db->get('user_grup')->result() as $row) {
+                $data[] = [
+                    'id'   => $row->id,
+                    'slug' => unique_slug('user_grup', $row->nama),
+                ];
+            }
+
+            if ($data) {
+                $hasil = $hasil && $this->db->update_batch('user_grup', $data, 'id');
+            }
+        }
+
+        // Hapus cache menu navigasi
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         return $hasil;
     }
