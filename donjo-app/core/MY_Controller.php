@@ -439,14 +439,15 @@ class Admin_Controller extends Premium
         parent::__construct();
         $this->CI = CI_Controller::get_instance();
         $this->cek_identitas_desa();
-
-        if ($this->session->force_change_password) {
-            if (! in_array($this->router->class, ['pengguna'])) {
-                redirect('pengguna#sandi');
-            }
-        }
     }
 
+    /*
+     * Urutan pengecakan :
+     *
+     * 1. Config desa sudah diisi
+     * 2. Validasi pelanggan premium
+     * 3. Password standard (sid304)
+     */
     private function cek_identitas_desa()
     {
         $kode_desa = empty(Config::appKey()->first()->kode_desa);
@@ -457,7 +458,12 @@ class Admin_Controller extends Premium
             redirect('identitas_desa');
         }
 
-        $this->validasi();
+        $validasi = $this->validasi();
+        $force    = $this->session->force_change_password;
+
+        if ($force && $validasi && ! $kode_desa && ! in_array($this->router->class, ['pengguna'])) {
+            redirect('pengguna#sandi');
+        }
 
         $this->load->model(['user_model', 'notif_model', 'referensi_model']);
 
@@ -489,7 +495,7 @@ class Admin_Controller extends Premium
         $this->header['notif_komentar']         = $this->notif_model->komentar_baru();
         $this->header['notif_langganan']        = $this->notif_model->status_langganan();
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
-        $this->header['notif_pengumuman']       = $kode_desa ? null : $this->cek_pengumuman();
+        $this->header['notif_pengumuman']       = ($kode_desa || $force) ? null : $this->cek_pengumuman();
         $isAdmin                                = $this->session->isAdmin->pamong;
         $this->header['notif_permohonan']       = 0;
         if ($this->db->field_exists('verifikasi_operator', 'log_surat') && $this->db->field_exists('deleted_at', 'log_surat')) {
