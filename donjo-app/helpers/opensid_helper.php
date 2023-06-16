@@ -1677,3 +1677,25 @@ if (! function_exists('updateAppKey')) {
         file_put_contents(DESAPATH . 'app_key', $app_key);
     }
 }
+
+if (! function_exists('nextVersion')) {
+    function nextVersion($version = null)
+    {
+        $migrasi = str_replace('.', '', $version ?? currentVersion());
+        $migrasi = substr($migrasi, 0, 4);
+        $tahun   = substr($migrasi, 0, 2);
+        $bulan   = substr($migrasi, -2);
+
+        if ($bulan > 12) {
+            $tahun++;
+            $bulan = 1;
+        } else {
+            $bulan++;
+            if ($bulan < 10) {
+                $bulan = '0' . $bulan;
+            }
+        }
+
+        return $tahun . $bulan;
+    }
+}

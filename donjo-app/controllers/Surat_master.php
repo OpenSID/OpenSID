@@ -733,4 +733,67 @@ class Surat_master extends Admin_Controller
 
         redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
     }
+
+    // Hanya untuk develpment
+    public function migrasi()
+    {
+        if (ENVIRONMENT !== 'development') {
+            redirect_with('error', 'Hanya untuk development');
+        }
+
+        $simpan = FormatSurat::updateOrCreate(['id' => $this->request['id_surat']], static::validate($this->request));
+
+        // Pilih surat yang akan dibuat migrasinya
+        $surat = FormatSurat::jenis(FormatSurat::TINYMCE)->find($simpan->id);
+
+        $nama_fuction = 'surat' . str_replace(' ', '', ucwords(str_replace('_', ' ', $surat->nama)));
+
+        $kode_isian     = json_encode($surat->kode_isian);
+        $form_isian     = json_encode($surat->form_isian);
+        $template_surat = json_encode($surat->template_desa ?? $surat->template);
+
+        $get_fuction = <<<EOS
+            \$hasil = \$hasil && \$this->{$nama_fuction}(\$hasil, \$id);
+                        // Jalankan Migrasi TinyMCE'
+            EOS;
+
+        $set_fuction = <<<EOS
+            protected function {$nama_fuction}(\$hasil, \$id)
+                {
+                    \$data = [
+                        'config_id'           => \$id,
+                        'nama'                => '{$surat->nama}',
+                        'kode_surat'          => '{$surat->kode_surat}',
+                        'masa_berlaku'        => '{$surat->masa_berlaku}',
+                        'satuan_masa_berlaku' => '{$surat->satuan_masa_berlaku}',
+                        'orientasi'           => '{$surat->orientasi}',
+                        'ukuran'              => '{$surat->ukuran}',
+                        'margin'              => '{$surat->margin}',
+                        'qr_code'             => '{$surat->qr_code}',
+                        'kode_isian'          => '{$kode_isian}',
+                        'form_isian'          => '{$form_isian}',
+                        'mandiri'             => '{$surat->mandiri}',
+                        'syarat_surat'        => '{$surat->syarat_surat}',
+                        'template'            => {$template_surat},
+                    ];
+
+                    return \$hasil && \$this->tambah_surat_tinymce(\$data);
+                }
+
+                // Function Migrasi TinyMCE
+            EOS;
+
+        $file_migrasi = nextVersion();
+
+        // tentukan migrasi
+        $migrasi = file_get_contents(APPPATH . 'models/migrations/Migrasi_fitur_premium_' . $file_migrasi . '.php');
+        $migrasi = str_replace(['// Jalankan Migrasi TinyMCE', '// Function Migrasi TinyMCE'], [$get_fuction, $set_fuction], $migrasi);
+        file_put_contents(APPPATH . 'models/migrations/Migrasi_fitur_premium_' . $file_migrasi . '.php', $migrasi);
+
+        if ($simpan) {
+            redirect_with('success', 'Berhasil Simpan Data Sementara', 'surat_master/form/' . $simpan->id);
+        }
+
+        redirect_with('error', 'Gagal Simpan Data');
+    }
 }

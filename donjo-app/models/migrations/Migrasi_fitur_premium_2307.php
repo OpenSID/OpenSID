@@ -71,6 +71,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023061251($hasil, $id);
+            // Jalankan Migrasi TinyMCE
         }
 
         // Migrasi tanpa config_id
@@ -268,4 +269,6 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
         return $hasil;
     }
+
+    // Function Migrasi TinyMCE
 }
