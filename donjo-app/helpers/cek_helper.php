@@ -59,9 +59,9 @@ if (! function_exists('cek_anjungan')) {
         }
 
         $CI = &get_instance();
-        $CI->load->model('notif_model');
+        $CI->load->model('pelanggan_model');
 
-        $status = $CI->notif_model->api_pelanggan_pemesanan();
+        $status = $CI->pelanggan_model->api_pelanggan_pemesanan();
 
         return $status->body->tanggal_berlangganan->anjungan != 'aktif' ? false : true;
     }
