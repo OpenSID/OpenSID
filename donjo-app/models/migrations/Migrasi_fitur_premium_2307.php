@@ -76,6 +76,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023061451($hasil);
         $hasil = $hasil && $this->migrasi_2023061452($hasil);
+        $hasil = $hasil && $this->migrasi_2023061552($hasil);
 
         return $hasil && true;
     }
@@ -254,6 +255,16 @@ class Migrasi_fitur_premium_2307 extends MY_model
                     ->update('keuangan_manual_ref_bidang');
             }
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023061552($hasil)
+    {
+        $sql = <<<'SQL'
+                    update tweb_surat_format set kode_isian = REPLACE (kode_isian, '"atribut":"required"', '"atribut":"class=\\"required\\""') where kode_isian like '%"atribut":"required"%'
+            SQL;
+        DB::statement($sql);
 
         return $hasil;
     }
