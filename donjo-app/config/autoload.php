@@ -75,7 +75,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
 |
 */
-$autoload['packages'] = [APPPATH . 'third_party/DevelBar'];
+$autoload['packages'] = [
+    APPPATH . 'third_party/DevelBar',
+    APPPATH . 'third_party/pelanggan',
+];
 
 /*
 | -------------------------------------------------------------------

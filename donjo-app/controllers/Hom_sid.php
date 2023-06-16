@@ -78,7 +78,7 @@ class Hom_sid extends Admin_Controller
             'pendaftaran'     => PendudukMandiri::status()->count(),
             'surat'           => $this->logSurat(),
             'saas'            => $this->saas->peringatan(),
-            'notif_langganan' => $this->notif_model->status_langganan(),
+            'notif_langganan' => $this->pelanggan_model->status_langganan(),
         ];
 
         return view('admin.home.index', $data);
