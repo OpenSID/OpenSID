@@ -79,12 +79,14 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->suratKetDomisili($hasil, $id);
             $hasil = $hasil && $this->suratLahirMati($hasil, $id);
             $hasil = $hasil && $this->suratKepemilikanKendaraan($hasil, $id);
+            // Jalankan Migrasi TinyMCE
         }
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023060572($hasil);
         $hasil = $hasil && $this->migrasi_2023061451($hasil);
         $hasil = $hasil && $this->migrasi_2023061452($hasil);
+        $hasil = $hasil && $this->migrasi_2023061552($hasil);
 
         return $hasil && true;
     }
@@ -392,4 +394,16 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
     }
+
+    protected function migrasi_2023061552($hasil)
+    {
+        $sql = <<<'SQL'
+                    update tweb_surat_format set kode_isian = REPLACE (kode_isian, '"atribut":"required"', '"atribut":"class=\\"required\\""') where kode_isian like '%"atribut":"required"%'
+            SQL;
+        DB::statement($sql);
+
+        return $hasil;
+    }
+
+    // Function Migrasi TinyMCE
 }

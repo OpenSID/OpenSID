@@ -50,8 +50,15 @@
                         Simpan Sementara</a>
                     <button id="preview" name="action" value="preview"
                         class="btn btn-social btn-vk btn-success btn-sm pull-right" style="margin: 0 8px"><i
-                        class="fa fa-eye"></i>Tinjau PDF</button>
-                        @endif
+                            class="fa fa-eye"></i>Tinjau PDF</button>
+                    @if (ENVIRONMENT === 'development')
+                        <a onclick="formAction('validasi', '{{ route('surat_master.migrasi') }}')" id="konsep"
+                            class="btn btn-social bg-navy btn-sm pull-right" style="margin: 0 5px 0 0;"><i
+                                class="fa fa-code-fork"></i>
+                            Buat Migrasi</a>
+                        </a>
+                    @endif
+                @endif
             </div>
         </div>
     </div>
@@ -64,7 +71,8 @@
     <script>
         $('#validasi').submit(function() {
             tinymce.triggerSave()
-        })
+        });
+
         $(document).ready(function() {
             syarat($('input[name=mandiri]:checked').val());
             $('input[name="mandiri"]').change(function() {

@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Kelompok;
+use App\Models\KelompokAnggota;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -622,21 +624,21 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Lembaga Desa
     protected function lembaga_desa($hasil)
     {
+        // cek data terlebih dahulu
+        $hasil = $hasil && $this->cek_data_kelompok($hasil);
         $hasil = $hasil && $this->tabel_kelompok($hasil);
         $hasil = $hasil && $this->tabel_kelompok_master($hasil);
         $hasil = $hasil && $this->tabel_kelompok_anggota($hasil);
 
-        return $hasil && true;
-
         // Buat relasi antar tabel kelompok, kelompok_master dan kelompok_anggota
-        // $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_config_fk', 'kelompok_anggota', 'config_id', 'config', 'id');
-        // $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_kelompok_fk', 'kelompok_anggota', 'id_kelompok', 'kelompok', 'id');
+        $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_config_fk', 'kelompok_anggota', 'config_id', 'config', 'id');
+        $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_kelompok_fk', 'kelompok_anggota', 'id_kelompok', 'kelompok', 'id');
 
         // Bagian ini sering bermasalah dibeberapa desa
-        // $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_penduduk_fk', 'kelompok_anggota', 'id_penduduk', 'tweb_penduduk', 'id');
+        $hasil = $hasil && $this->tambahForeignKey('kelompok_anggota_penduduk_fk', 'kelompok_anggota', 'id_penduduk', 'tweb_penduduk', 'id');
 
         // Relasi antar tabel kelompok ke tabel kelompok_master
-        // return $hasil && $this->tambahForeignKey('kelompok_kelompok_master_fk', 'kelompok', 'id_master', 'kelompok_master', 'id');
+        return $hasil && $this->tambahForeignKey('kelompok_kelompok_master_fk', 'kelompok', 'id_master', 'kelompok_master', 'id');
     }
 
     protected function tabel_kelompok($hasil)
@@ -1099,5 +1101,22 @@ class Migrasi_multidb extends MY_model
         $hasil = $hasil && $this->buat_ulang_index('dtks_pengaturan_program', 'kode', '(`config_id`, `kode`)');
 
         return $hasil && $this->tambah_config_id('dtks_lampiran');
+    }
+
+    protected function cek_data_kelompok($hasil)
+    {
+        Kelompok::whereNotIn('id_master', static function ($q) {
+            return $q->select('id')->from('kelompok_master');
+        })->delete();
+
+        KelompokAnggota::whereNotIn('id_kelompok', static function ($q) {
+            return $q->select('id')->from('kelompok');
+        })->delete();
+
+        KelompokAnggota::whereNotIn('id_penduduk', static function ($q) {
+            return $q->select('id')->from('tweb_penduduk');
+        })->delete();
+
+        return $hasil;
     }
 }

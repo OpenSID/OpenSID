@@ -465,7 +465,7 @@ class Admin_Controller extends Premium
             redirect('pengguna#sandi');
         }
 
-        $this->load->model(['user_model', 'notif_model', 'referensi_model']);
+        $this->load->model(['user_model', 'notif_model', 'pelanggan_model', 'referensi_model']);
 
         // Kalau sehabis periksa data, paksa harus login lagi
         if ($this->session->periksa_data == 1) {
@@ -493,7 +493,7 @@ class Admin_Controller extends Premium
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
         $this->header['notif_inbox']            = $this->notif_model->inbox_baru();
         $this->header['notif_komentar']         = $this->notif_model->komentar_baru();
-        $this->header['notif_langganan']        = $this->notif_model->status_langganan();
+        $this->header['notif_langganan']        = $this->pelanggan_model->status_langganan();
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
         $this->header['notif_pengumuman']       = ($kode_desa || $force) ? null : $this->cek_pengumuman();
         $isAdmin                                = $this->session->isAdmin->pamong;
