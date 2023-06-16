@@ -443,15 +443,15 @@ class MY_Model extends CI_Model
                     'default'    => null,
                 ],
             ]);
-        }
 
-        // Isi data tabel $tabel kolom config_id
-        if ($this->config_id) {
-            DB::table($tabel)->where('config_id', 0)->orWhere('config_id', null)->update(['config_id' => DB::table('config')->first()->id]);
-        }
+            // Isi data tabel $tabel kolom config_id
+            if ($this->config_id) {
+                DB::table($tabel)->where('config_id', 0)->orWhere('config_id', null)->update(['config_id' => DB::table('config')->first()->id]);
+            }
 
-        // Hapus data dengan config_id = null
-        DB::table($tabel)->where('config_id', 0)->orWhere('config_id', null)->delete();
+            // Hapus data dengan config_id = null
+            DB::table($tabel)->where('config_id', 0)->orWhere('config_id', null)->delete();
+        }
 
         return $hasil && $this->tambahForeignKey("{$tabel}_config_fk", $tabel, 'config_id', 'config', 'id');
 
