@@ -751,6 +751,12 @@ class Surat_master extends Admin_Controller
         $kode_isian     = json_encode($surat->kode_isian);
         $form_isian     = json_encode($surat->form_isian);
         $template_surat = json_encode($surat->template_desa ?? $surat->template);
+        $qr_code        = getVariableName(StatusEnum::class, $surat->qr_code);
+        $mandiri        = getVariableName(StatusEnum::class, $surat->mandiri);
+
+        $import = <<<'EOS'
+            use App\Enums\StatusEnum;
+            EOS;
 
         $get_fuction = <<<EOS
             \$hasil = \$hasil && \$this->{$nama_fuction}(\$hasil, \$id);
@@ -764,20 +770,20 @@ class Surat_master extends Admin_Controller
                         'config_id'           => \$id,
                         'nama'                => '{$surat->nama}',
                         'kode_surat'          => '{$surat->kode_surat}',
-                        'masa_berlaku'        => '{$surat->masa_berlaku}',
+                        'masa_berlaku'        => {$surat->masa_berlaku},
                         'satuan_masa_berlaku' => '{$surat->satuan_masa_berlaku}',
                         'orientasi'           => '{$surat->orientasi}',
                         'ukuran'              => '{$surat->ukuran}',
                         'margin'              => '{$surat->margin}',
-                        'qr_code'             => '{$surat->qr_code}',
+                        'qr_code'             => StatusEnum::{$qr_code},
                         'kode_isian'          => '{$kode_isian}',
                         'form_isian'          => '{$form_isian}',
-                        'mandiri'             => '{$surat->mandiri}',
-                        'syarat_surat'        => '{$surat->syarat_surat}',
+                        'mandiri'             => StatusEnum::{$mandiri},
+                        'syarat_surat'        => {$surat->syarat_surat},
                         'template'            => {$template_surat},
                     ];
 
-                    return \$hasil && \$this->tambah_surat_tinymce(\$data);
+                    return \$hasil && \$this->tambah_surat_tinymce(\$data, \$id);
                 }
 
                 // Function Migrasi TinyMCE
@@ -787,7 +793,15 @@ class Surat_master extends Admin_Controller
 
         // tentukan migrasi
         $migrasi = file_get_contents(APPPATH . 'models/migrations/Migrasi_fitur_premium_' . $file_migrasi . '.php');
-        $migrasi = str_replace(['// Jalankan Migrasi TinyMCE', '// Function Migrasi TinyMCE'], [$get_fuction, $set_fuction], $migrasi);
+        $migrasi = str_replace([
+            '// Import TinyMCE',
+            '// Jalankan Migrasi TinyMCE',
+            '// Function Migrasi TinyMCE',
+        ], [
+            $import,
+            $get_fuction,
+            $set_fuction,
+        ], $migrasi);
         file_put_contents(APPPATH . 'models/migrations/Migrasi_fitur_premium_' . $file_migrasi . '.php', $migrasi);
 
         if ($simpan) {
