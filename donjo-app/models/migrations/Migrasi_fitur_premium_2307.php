@@ -78,6 +78,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->migrasi_2023061251($hasil, $id);
             $hasil = $hasil && $this->suratKetDomisili($hasil, $id);
             $hasil = $hasil && $this->suratLahirMati($hasil, $id);
+            $hasil = $hasil && $this->suratPenerbitanBukuPas($hasil, $id);
             $hasil = $hasil && $this->suratKepemilikanKendaraan($hasil, $id);
             // Jalankan Migrasi TinyMCE
         }
@@ -395,6 +396,184 @@ class Migrasi_fitur_premium_2307 extends MY_model
         return $hasil && $this->tambah_surat_tinymce($data, $id);
     }
 
+    protected function suratPenerbitanBukuPas($hasil, $id)
+    {
+        $nama_surat = 'Pengantar Permohonan Penerbitan Buku Pas Lintas';
+        $template   = <<<HTML
+            <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">[JUdul_surat]</span></h4>
+            <p style="margin: 0; text-align: center;">Nomor : [Kode_suraT]/[Nomer_suraT]/437.103.09/[TahuN]<br /><br /></p>
+            <p style="text-align: justify; text-indent: 30px;">Yang bertanda tangan di bawah ini menerangkan bahwa:</p>
+            <table style="border-collapse: collapse; width: 100%; height: 289.336px;" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 19.7461px;">
+            <td style="width: 4.31044%; text-align: center; height: 19.7461px;">\u{a0}</td>
+            <td style="width: 3.91132%; height: 19.7461px; text-align: left;">1.</td>
+            <td style="width: 30.4923%; text-align: left; height: 19.7461px;">Nomor Induk Kependudukan (NIK)</td>
+            <td style="width: 1.27717%; text-align: center; height: 19.7461px;">:</td>
+            <td style="width: 60.0268%; height: 19.7461px; text-align: justify;">[Nik]</td>
+            </tr>
+            <tr style="height: 19.7461px;">
+            <td style="width: 4.31044%; text-align: center; height: 19.7461px;">\u{a0}</td>
+            <td style="width: 3.91132%; height: 19.7461px; text-align: left;">2.</td>
+            <td style="width: 30.4923%; text-align: left; height: 19.7461px;">Nama Lengkap Pemohon</td>
+            <td style="width: 1.27717%; text-align: center; height: 19.7461px;">:</td>
+            <td style="width: 60.0268%; height: 19.7461px; text-align: justify;">[NAma]</td>
+            </tr>
+            <tr style="height: 18.75px;">
+            <td style="width: 4.31044%; text-align: center; height: 18.75px;">\u{a0}</td>
+            <td style="width: 3.91132%; text-align: left; height: 18.75px;">3.</td>
+            <td style="width: 30.4923%; text-align: left; height: 18.75px;">Jenis Kelamin</td>
+            <td style="width: 1.27717%; text-align: center; height: 18.75px;">:</td>
+            <td style="width: 60.0268%; text-align: justify; height: 18.75px;">[Jenis_kelamiN]</td>
+            </tr>
+            <tr style="height: 19.7461px;">
+            <td style="width: 4.31044%; text-align: center; height: 19.7461px;">\u{a0}</td>
+            <td style="width: 3.91132%; height: 19.7461px; text-align: left;">4.</td>
+            <td style="width: 30.4923%; text-align: left; height: 19.7461px;">Tempat</td>
+            <td style="width: 1.27717%; text-align: center; height: 19.7461px;">:</td>
+            <td style="width: 60.0268%; height: 19.7461px; text-align: justify;">[TempatlahiR]</td>
+            </tr>
+            <tr style="height: 18.75px;">
+            <td style="width: 4.31044%; text-align: center; height: 18.75px;">\u{a0}</td>
+            <td style="width: 3.91132%; text-align: left; height: 18.75px;">5.</td>
+            <td style="width: 30.4923%; text-align: left; height: 18.75px;">Tanggal Lahir</td>
+            <td style="width: 1.27717%; text-align: center; height: 18.75px;">:</td>
+            <td style="width: 60.0268%; text-align: justify; height: 18.75px;">[TanggallahiR]</td>
+            </tr>
+            <tr style="height: 18.75px;">
+            <td style="width: 4.31044%; text-align: center; height: 18.75px;">\u{a0}</td>
+            <td style="width: 3.91132%; text-align: left; height: 18.75px;">6.</td>
+            <td style="width: 30.4923%; text-align: left; height: 18.75px;">Alamat</td>
+            <td style="width: 1.27717%; text-align: center; height: 18.75px;">:</td>
+            <td style="width: 60.0268%; text-align: justify; height: 18.75px;">[AlamaT]</td>
+            </tr>
+            <tr style="height: 18.75px;">
+            <td style="width: 4.31044%; text-align: center; height: 18.75px;">\u{a0}</td>
+            <td style="width: 3.91132%; text-align: left; height: 18.75px;">\u{a0}</td>
+            <td style="width: 30.4923%; text-align: left; height: 18.75px;">a.</td>
+            <td style="width: 1.27717%; text-align: center; height: 18.75px;">:</td>
+            <td style="width: 60.0268%; text-align: justify; height: 18.75px;">[Sebutan_desA] [Nama_desA] : [Kode_desA]</td>
+            </tr>
+            <tr style="height: 20.7422px;">
+            <td style="width: 4.31044%; text-align: center; height: 20.7422px;">\u{a0}</td>
+            <td style="width: 3.91132%; text-align: left; height: 20.7422px;">\u{a0} \u{a0} \u{a0}</td>
+            <td style="width: 30.4923%; text-align: left; height: 20.7422px;">b.</td>
+            <td style="width: 1.27717%; text-align: center; height: 20.7422px;">:</td>
+            <td style="width: 60.0268%; text-align: justify; height: 20.7422px;">[Sebutan_kecamataN] [Nama_kecamataN] : [Kode_kecamataN]</td>
+            </tr>
+            <tr style="height: 19.7461px;">
+            <td style="width: 4.31044%; text-align: center; height: 19.7461px;">\u{a0}</td>
+            <td style="width: 3.91132%; height: 19.7461px; text-align: left;">7.</td>
+            <td style="width: 30.4923%; text-align: left; height: 19.7461px;">Pekerjaan</td>
+            <td style="width: 1.27717%; text-align: center; height: 19.7461px;">:</td>
+            <td style="width: 60.0268%; height: 19.7461px; text-align: justify;">[PeKerjaan]</td>
+            </tr>
+            <tr style="height: 18.75px;">
+            <td style="width: 4.31044%; text-align: center; height: 18.75px;">\u{a0}</td>
+            <td style="width: 3.91132%; text-align: left; height: 18.75px;">8.</td>
+            <td style="width: 30.4923%; text-align: left; height: 18.75px;">Status Perkawinan</td>
+            <td style="width: 1.27717%; text-align: center; height: 18.75px;">:</td>
+            <td style="width: 60.0268%; text-align: justify; height: 18.75px;">[Status_kawiN]</td>
+            </tr>
+            <tr style="height: 19.8633px;">
+            <td style="width: 4.31044%; text-align: center; height: 19.8633px;">\u{a0}</td>
+            <td style="width: 3.91132%; height: 19.8633px; text-align: left;">9.</td>
+            <td style="width: 30.4923%; text-align: left; height: 19.8633px;">Kewarganegaraan</td>
+            <td style="width: 1.27717%; text-align: center; height: 19.8633px;">:</td>
+            <td style="width: 60.0268%; height: 19.8633px; text-align: justify;">[Warga_negarA]</td>
+            </tr>
+            <tr style="height: 18.75px;">
+            <td style="width: 4.31044%; text-align: center; height: 18.75px;">\u{a0}</td>
+            <td style="width: 3.91132%; text-align: left; height: 18.75px;">10.</td>
+            <td style="width: 30.4923%; text-align: left; height: 18.75px;">Agama</td>
+            <td style="width: 1.27717%; text-align: center; height: 18.75px;">:</td>
+            <td style="width: 60.0268%; text-align: justify; height: 18.75px;">[AgAma]</td>
+            </tr>
+            <tr style="height: 19.7461px;">
+            <td style="width: 4.31044%; text-align: center; height: 19.7461px;">\u{a0}</td>
+            <td style="width: 3.91132%; text-align: left; height: 19.7461px;">11.</td>
+            <td style="width: 30.4923%; text-align: left; height: 19.7461px;">Nomor Kartu Keluarga</td>
+            <td style="width: 1.27717%; text-align: center; height: 19.7461px;">:</td>
+            <td style="width: 60.0268%; text-align: justify; height: 19.7461px;">[No_kK]</td>
+            </tr>
+            <tr style="height: 18.75px;">
+            <td style="width: 4.31044%; text-align: center; height: 18.75px;">\u{a0}</td>
+            <td style="width: 3.91132%; text-align: left; height: 18.75px;">12.</td>
+            <td style="width: 30.4923%; text-align: left; height: 18.75px;">Nama Kepala Keluarga</td>
+            <td style="width: 1.27717%; text-align: center; height: 18.75px;">:</td>
+            <td style="width: 60.0268%; text-align: justify; height: 18.75px;">[Kepala_kK]</td>
+            </tr>
+            <tr style="height: 18.75px;">
+            <td style="width: 4.31044%; text-align: center; height: 18.75px;">\u{a0}</td>
+            <td style="width: 3.91132%; text-align: left; height: 18.75px;">13.</td>
+            <td style="width: 30.4923%; text-align: left; height: 18.75px;">Pengikut / Anggota Keluarga **)</td>
+            <td style="width: 1.27717%; text-align: center; height: 18.75px;">:</td>
+            <td style="width: 60.0268%; text-align: justify; height: 18.75px;">\u{a0}</td>
+            </tr>
+            <tr>
+            <td style="width: 4.31044%; text-align: center;">\u{a0}</td>
+            <td style="width: 3.91132%; text-align: left;">\u{a0}</td>
+            <td style="text-align: left; width: 91.7963%;" colspan="3">[Pengikut_suraT]</td>
+            </tr>
+            </tbody>
+            </table>
+            <br />
+            <p style="text-align: justify; text-indent: 30px;">Surat permohonan ini dipergunakan untuk pengurusan penerbitan Buku Pas Lintas Batas.<br /><br /></p>
+            <table style="border-collapse: collapse; width: 100%; height: 144px;" border="0">
+            <tbody>
+            <tr style="height: 18px;">
+            <td style="width: 35%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 30%; height: 18px;">\u{a0}</td>
+            <td style="width: 35%; text-align: center; height: 18px;">[NaMa_desa], [TgL_surat]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 35%; text-align: center; height: 18px;">Mengetahui :\u{a0}</td>
+            <td style="width: 30%; height: 18px;">\u{a0}</td>
+            <td style="width: 35%; text-align: center; height: 18px;">[Atas_namA]</td>
+            </tr>
+            <tr>
+            <td style="width: 35%; text-align: center;">[Sebutan_camaT] [Nama_kecamataN]</td>
+            <td style="width: 30%;">\u{a0}</td>
+            <td style="width: 35%; text-align: center;">\u{a0}</td>
+            </tr>
+            <tr style="height: 72px;">
+            <td style="width: 35%; text-align: center; height: 72px;">\u{a0}</td>
+            <td style="width: 30%; height: 72px;"><br /><br /><br /><br /></td>
+            <td style="width: 35%; height: 72px;">\u{a0}</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 35%; text-align: center; height: 18px;">[Nama_kepala_camaT]</td>
+            <td style="width: 30%; height: 18px;">\u{a0}</td>
+            <td style="width: 35%; text-align: center; height: 18px;">[Nama_pamonG]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 35%; height: 18px; text-align: center;">[Nip_kepala_camaT]</td>
+            <td style="width: 30%; height: 18px;">\u{a0}</td>
+            <td style="width: 35%; text-align: center; height: 18px;">[SEbutan_nip_desa] : [nip_pamong]</td>
+            </tr>
+            </tbody>
+            </table>
+            <div style="text-align: left;"><br /><span style="font-size: 9pt;">Surat Pengantar ini rangkap 3 (tiga) :<br /></span><span style="font-size: 9pt;">Lembar 1 : untuk Kantor Imigrasi di Pos Lintas Batas;<br />Lembar 2 : untuk Arsip Kecamatan;</span><br /><span style="font-size: 9pt;">Lembar 3 : untuk Arsip Desa/Kelurahan<br /><strong>*) diisi oleh petugas</strong><br /><strong>**) Hanya untuk anak dibawah 18 tahun atau belum memilki KTP dan terdaftar dalam Kartu Keluarga (KK) Pemohon (Pemohon sebagai orang tua atau wali)</strong><br /></span><br /><br /></div>
+            HTML;
+        $data = [
+            'nama'                => $nama_surat,
+            'kode_surat'          => 'S-43',
+            'masa_berlaku'        => 1,
+            'satuan_masa_berlaku' => 'M',
+            'orientasi'           => 'Potrait',
+            'ukuran'              => 'F4',
+            'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
+            'qr_code'             => StatusEnum::TIDAK,
+            'kode_isian'          => null,
+            'form_isian'          => '{"data":"1","individu":{"sex":"","status_dasar":"","kk_level":""}}',
+            'mandiri'             => StatusEnum::YA,
+            'syarat_surat'        => ['2', '3'],
+            'template'            => $template,
+        ];
+
+        return $hasil && $this->tambah_surat_tinymce($data, $id);
+    }
+
     protected function migrasi_2023061552($hasil)
     {
         $sql = <<<'SQL'
@@ -404,6 +583,4 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
         return $hasil;
     }
-
-    // Function Migrasi TinyMCE
 }

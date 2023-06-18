@@ -108,6 +108,8 @@
                             </div>
                         </div>
                     @endif
+                    
+                    @includeWhen(isset($pengikut), 'admin.surat.pengikut') 
                 @endif
 
                 <div class="row jar_form">

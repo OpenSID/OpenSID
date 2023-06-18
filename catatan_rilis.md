@@ -5,20 +5,21 @@ Di rilis ini, versi 2306.1.0 berisi penambahan [isi disini] dan perbaikan lain y
 1. [#6572](https://github.com/OpenSID/OpenSID/issues/6630) Penambahan tombol hapus pada template ubahan desa.
 2. [#6010](https://github.com/OpenSID/OpenSID/issues/6010) Penambahan pengaturan agar bisa menyesuaikan/menambahkan ukuran huruf 9pt 11pt 16pt 20pt 22pt pada template surat TinyMCE.
 3. [#6710](https://github.com/OpenSID/OpenSID/issues/6710) Penambahan pengaturan menampilkan data geospasial pada halaman peta wilayah.
-4. [#6643](https://github.com/OpenSID/OpenSID/issues/6643) Penambahan tombol simpan sementara pada pembuatan template surat tinymce.
+4. [#6643](https://github.com/OpenSID/OpenSID/issues/6643) Penambahan tombol simpan sementara pada pembuatan template surat TinyMCE.
 5. [#6730](https://github.com/OpenSID/OpenSID/issues/6730) Penambahan unggah gambar pada data widget.
-6. [#6592](https://github.com/OpenSID/OpenSID/issues/6592) Penambahan kode isian data wilayah dusun pada surat tinymce.
+6. [#6592](https://github.com/OpenSID/OpenSID/issues/6592) Penambahan kode isian data wilayah dusun pada surat TinyMCE.
 7. [#6542](https://github.com/OpenSID/OpenSID/issues/6542) Penambahan pengaturan margin global.
 8. [#6600](https://github.com/OpenSID/OpenSID/issues/6600) Penambahan pilihan manual menggunakan select2-tag agar memudahkan.
-9. [#6212](https://github.com/OpenSID/OpenSID/issues/6212) Penambahan surat tinymce keterangan domisili.
-10. [#5772](https://github.com/OpenSID/OpenSID/issues/5772) Penambahan surat tinymce keterangan lahir mati.
-11. [#6214](https://github.com/OpenSID/OpenSID/issues/6214) Penambahan surat tinymce keterangan kepemilikan kendaraan.
+9. [#6212](https://github.com/OpenSID/OpenSID/issues/6212) Penambahan surat TinyMCE keterangan domisili.
+10. [#5772](https://github.com/OpenSID/OpenSID/issues/5772) Penambahan surat TinyMCE keterangan lahir mati.
+11. [#6214](https://github.com/OpenSID/OpenSID/issues/6214) Penambahan surat TinyMCE keterangan kepemilikan kendaraan.
+12. [#6223](https://github.com/OpenSID/OpenSID/issues/6223) Penambahan surat TinyMCE pengantar permohonan penerbitan buku pas lintas.
 
 #### Perbaikan BUG
 
 1. [#6590](https://github.com/OpenSID/OpenSID/issues/6590) Perbaikan cara menampilkan area desa/dusun/rt/rw pada toolbox peta modul pertanahan.
 2. [#6651](https://github.com/OpenSID/OpenSID/issues/6651) Perbaikan cara menampilkan path peta yang tidak valid pada halaman admin.
-3. [#6733](https://github.com/OpenSID/OpenSID/issues/6733) Perbaikan cara menampilkan data permohonan surat tinymce dari layanan mandiri.
+3. [#6733](https://github.com/OpenSID/OpenSID/issues/6733) Perbaikan cara menampilkan data permohonan surat TinyMCE dari layanan mandiri.
 4. [#6720](https://github.com/OpenSID/OpenSID/issues/6720) Perbaikan data sumi gagal tampil pada surat keterangan kelahiran.
 5. [#6714](https://github.com/OpenSID/OpenSID/issues/6714) Perbaikan cara menampilkan data pada laporan penduduk dan laporan rekap penerima vaksin covid-19.
 6. [#6669](https://github.com/OpenSID/OpenSID/issues/6669) Perbaikan cara hapus penduduk dan log penduduk jika data dianggap sudah lengkap.
@@ -28,16 +29,15 @@ Di rilis ini, versi 2306.1.0 berisi penambahan [isi disini] dan perbaikan lain y
 10. [#6718](https://github.com/OpenSID/OpenSID/issues/6718) Perbaikan validasi proses permohonan surat melalui layanan mandiri jika memiliki syarat.
 11. [#6740](https://github.com/OpenSID/OpenSID/issues/6740) Perjelas notifikasi hapus wilayah jika terdapat penduduk pada wilayah tersebut.
 12. [#6741](https://github.com/OpenSID/OpenSID/issues/6741) Perbaikan pengecekan ganti password default kehalaman admin.
-13. [#6717](https://github.com/OpenSID/OpenSID/issues/6717) Perbaikan menampilkan data anggota keluarga pada cetak surat tinymce.
+13. [#6717](https://github.com/OpenSID/OpenSID/issues/6717) Perbaikan menampilkan data anggota keluarga pada cetak surat TinyMCE.
 14. [#6728](https://github.com/OpenSID/OpenSID/issues/6728) Perbaikan unggah dokumen surat masuk.
 15. [#6739](https://github.com/OpenSID/OpenSID/issues/6739) Perbaikan gagal migrasi penambahan relasi antar tabel karena menggunakan engine yang berbeda.
 16. [#6745](https://github.com/OpenSID/OpenSID/issues/6745) Sediakan tombol perbaikan log bulanan.
 17. [#6746](https://github.com/OpenSID/OpenSID/issues/6746) Pebaikan perhitungan dan detail log penduduk dan keluarga pada laporan bulanan.
 18. [#6749](https://github.com/OpenSID/OpenSID/issues/6749) Perbaikan nama bidang pada belanja laporan keuangan berdasarkan permendagri nomor 20 tahun 2018.
 19. [#6751](https://github.com/OpenSID/OpenSID/issues/6751) Perbaikan hapus data penduduk pada modul suplemen.
-20. [#6742](https://github.com/OpenSID/OpenSID/issues/6742) Perbaikan atribut required pada data awal surat tinymce.
+20. [#6742](https://github.com/OpenSID/OpenSID/issues/6742) Perbaikan atribut required pada data awal surat TinyMCE.
 21. [#6721](https://github.com/OpenSID/OpenSID/issues/6721) Perbaikan data kelompok/lembaga yang tidak valid.
-
 
 #### Perubahan Teknis
 

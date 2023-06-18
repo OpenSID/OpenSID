@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Enums\StatusSuratKecamatanEnum;
@@ -211,6 +212,17 @@ class Surat extends Admin_Controller
             $setting_header         = $surat->header == StatusEnum::YA ? setting('header_surat') : '';
             $setting_footer         = $surat->footer == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
             $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?: $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
+
+            if (isset($log_surat['input']['id_pengikut'])) {
+                $pengikut     = Penduduk::whereIn('id', $log_surat['input']['id_pengikut'])->get();
+                $keterangan[] = [];
+
+                foreach ($pengikut as $anak) {
+                    $keterangan[$anak->id] = $log_surat['input']['ket_' . $anak->id] ?? '';
+                }
+
+                $log_surat['pengikut_surat'] = generatePengikut($pengikut, $keterangan);
+            }
 
             // Lewati ganti kode_isian
             $isi_surat = $this->tinymce->replceKodeIsian($log_surat);
@@ -690,6 +702,13 @@ class Surat extends Admin_Controller
                     $data['anggota'] = null;
                 }
             }
+            $template = $data['surat']->template_desa ?: $data['surat']->template;
+            if (preg_match('/\[pengikut_surat\]/i', $template)) {
+                $pengikut = $this->pengikutDibawah18Tahun($data);
+                if ($pengikut) {
+                    $data['pengikut'] = $pengikut;
+                }
+            }
         }
 
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
@@ -816,5 +835,33 @@ class Surat extends Admin_Controller
         }
 
         return show_404();
+    }
+
+    private function pengikutDibawah18Tahun($data)
+    {
+        $pengikut = null;
+        $minUmur  = 18;
+        $kk_level = $data['individu']['kk_level'];
+        if ($kk_level == SHDKEnum::KEPALA_KELUARGA) {
+            if (! empty($data['anggota'])) {
+                $pengikut = $data['anggota']->filter(static function ($item) use ($minUmur) {
+                    return $item->umur < $minUmur;
+                });
+            }
+        } else {
+            // cek apakah ada penduduk yang nik_ayah atau nik_ibu = nik pemohon
+            $filterColumn = 'ibu_nik';
+            if ($data['individu']['jenis_kelamin'] == JenisKelaminEnum::LAKI_LAKI) {
+                $filterColumn = 'ayah_nik';
+            }
+            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope('App\Scopes\ConfigIdScope')->get();
+            if ($anak) {
+                $pengikut = $anak->filter(static function ($item) use ($minUmur) {
+                    return $item->umur < $minUmur;
+                });
+            }
+        }
+
+        return $pengikut;
     }
 }

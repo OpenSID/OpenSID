@@ -843,6 +843,10 @@ class TinyMCE
                     'nama' => 'Berlaku Sampai',
                     'kode' => '[berlaku_sampai]',
                 ],
+                [
+                    'nama' => 'Pengikut Surat',
+                    'kode' => '[pengikut_surat]',
+                ],
             ];
 
             $postStatis = collect($postStatis)
@@ -987,10 +991,17 @@ class TinyMCE
             }
             if (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
                 $result = str_replace($key, $value, $result);
+            } if (preg_match('/pengikut_surat/i', $key)) {
+                $result = str_replace($key, $data['pengikut_surat'] ?? '', $result);
             } else {
                 $result = case_replace($key, $value, $result);
             }
         }
+
+        // if (isset($data['pengikut_surat'])) {
+        //     log_message('error',"pengikut_surat ". $data['pengikut_surat']);
+        //     $result = str_ireplace('[Pengikut_suraT]', $data['pengikut_surat'], $result);
+        // }
 
         return $result;
     }

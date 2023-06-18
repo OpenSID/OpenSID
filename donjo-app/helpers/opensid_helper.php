@@ -1714,3 +1714,56 @@ if (! function_exists('getVariableName')) {
         return $variableName !== false ? $variableName : null;
     }
 }
+
+if (! function_exists('generatePengikut')) {
+    function generatePengikut($pengikut, $keterangan)
+    {
+        $html = '
+                <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">NO</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">NIK</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">Nama Lengkap</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">Jenis Kelamin</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">Tempat Lahir</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">Tanggal Lahir</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">SHDK</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">Keterangan</th>
+                        </tr>
+                        <tr>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">1</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">2</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">3</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">4</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">5</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">6</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">7</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">8</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+        $no = 1;
+
+        foreach ($pengikut as $key => $data) {
+            $html .= '
+                            <tr>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%">' . $data->nik . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data->nama . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:7%" nowrap>' . $data->jenisKelamin->nama . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:10%" nowrap>' . $data->tempatlahir . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:5%" nowrap>' . tgl_indo_out($data->tanggallahir) . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:8%" nowrap>' . $data->pendudukHubungan->nama . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:20%">' . ($keterangan[$data->id] ?? '') . '</td>
+                            </tr>
+                            ';
+        }
+        $html .= '
+                    </tbody>
+                </table>
+            ';
+
+        return $html;
+    }
+}
