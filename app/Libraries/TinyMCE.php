@@ -640,31 +640,42 @@ class TinyMCE
             // Data Umum
             $data = array_merge($individu, $lainnya);
 
-            // Data orang tua
-            $data_ortu = [
-                [
-                    'judul' => 'NIK Ayah',
-                    'isian' => getFormatIsian('Nik_ayaH'),
-                    'data'  => $penduduk->ayah_nik,
-                ],
-                [
-                    'judul' => 'Nama Ayah',
-                    'isian' => getFormatIsian('Nama_ayaH'),
-                    'data'  => $penduduk->nama_ayah,
-                ],
-                [
-                    'judul' => 'NIK Ibu',
-                    'isian' => getFormatIsian('Nik_ibU'),
-                    'data'  => $penduduk->ibu_nik,
-                ],
-                [
-                    'judul' => 'Nama Ibu',
-                    'isian' => getFormatIsian('Nama_ibU'),
-                    'data'  => $penduduk->nama_ibu,
-                ],
-            ];
+            // Data Orang Tua
+            if ($penduduk->id_kk && $penduduk->kk_level != 4) {
+                $data_ortu = [
+                    [
+                        'judul' => 'NIK Ayah',
+                        'isian' => '[Nik_ayaH]',
+                        'data'  => $penduduk->ayah_nik,
+                    ],
+                    [
+                        'judul' => 'Nama Ayah',
+                        'isian' => '[Nama_ayaH]',
+                        'data'  => $penduduk->nama_ayah,
+                    ],
+                    [
+                        'judul' => 'NIK Ibu',
+                        'isian' => '[Nik_ibU]',
+                        'data'  => $penduduk->ibu_nik,
+                    ],
+                    [
+                        'judul' => 'Nama Ibu',
+                        'isian' => '[Nama_ibU]',
+                        'data'  => $penduduk->nama_ibu,
+                    ],
+                ];
 
-            return array_merge($data, $data_ortu);
+                return array_merge($data, $data_ortu);
+            }
+
+            $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
+            $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
+
+            // Data Ayah
+            $data = array_merge($data, $this->getIsianPenduduk($id_ayah, 'ayah'));
+
+            // Data Ibu
+            return array_merge($data, $this->getIsianPenduduk($id_ibu, 'ibu'));
         }
 
         return $individu;
