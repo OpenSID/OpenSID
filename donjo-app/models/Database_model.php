@@ -37,7 +37,6 @@
 
 use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
-use DateTime;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');

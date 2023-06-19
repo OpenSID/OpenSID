@@ -44,8 +44,6 @@ use App\Models\Penduduk;
 use App\Models\PendudukMandiri;
 use App\Models\Persil;
 use App\Models\User;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

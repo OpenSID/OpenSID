@@ -2041,7 +2041,7 @@ class DTKSRegsosEk2022k
     {
         $pengaturan_programs = DtksPengaturanProgram::where('versi_kuisioner', '2')
             ->where('target_table', 'dtks_anggota');
-            // ->get()
+
         $pengaturan_programs = $this->cacheTemporaryModelGet($pengaturan_programs);
 
         if ($pengaturan_programs->count() > 0) {
