@@ -35,25 +35,6 @@
  *
  */
 
-<<<<<<<< HEAD:app/Enums/JenisKelaminEnum.php
-namespace App\Enums;
-
-class JenisKelaminEnum
-{
-    public const LAKI_LAKI = 1;
-    public const PEREMPUAN = 2;
-
-    /**
-     * Override method all()
-     */
-    public static function all(): array
-    {
-        return [
-            self::LAKI_LAKI => 'Laki-laki',
-            self::PEREMPUAN => 'Perempuan',
-        ];
-    }
-========
 class MY_Log extends CI_Log
 {
     /**
@@ -66,5 +47,4 @@ class MY_Log extends CI_Log
         'ALL'    => 4,
         'NOTICE' => 5,
     ];
->>>>>>>> 83eeb2c2d (Rilis v2306.1.0):donjo-app/core/MY_Log.php
 }
