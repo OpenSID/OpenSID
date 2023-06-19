@@ -37,6 +37,7 @@
 
 use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
+use DateTime;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -217,7 +218,7 @@ class Database_model extends MY_Model
                 $migrate     = $versionMigrate[$nextVersion]['migrate'];
                 $nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
                 if (method_exists($this, $migrate)) {
-                    log_message('error', 'Jalankan ' . $migrate);
+                    log_message('notice', 'Jalankan ' . $migrate);
                     call_user_func(__NAMESPACE__ . '\\Database_model::' . $migrate);
                 } else {
                     $this->jalankan_migrasi($migrate);
@@ -252,7 +253,7 @@ class Database_model extends MY_Model
             Migrasi::where('versi_database', '=', VERSI_DATABASE)->update(['premium' => $this->session->daftar_migrasi]);
         }
 
-        log_message('error', 'Versi database sudah terbaru');
+        log_message('notice', 'Versi database sudah terbaru');
     }
 
     // Cek apakah migrasi perlu dijalankan

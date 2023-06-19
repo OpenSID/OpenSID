@@ -9,35 +9,36 @@
     <meta name="robots" content="noindex">
     <link rel="shortcut icon" href="<?= favico_desa() ?>" />
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
     <!-- Jquery UI -->
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery-ui.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery-ui.min.css') }}" />
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/font-awesome.min.css') }}" />
     <!-- Ionicons -->
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/ionicons.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/ionicons.min.css') }}" />
     <!-- Select2 -->
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/select2.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/select2.min.css') }}" />
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}" />
     <!-- AdminLTE Skins. -->
-    <link rel="stylesheet" href="{{ asset('css/skins/_all-skins.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/skins/_all-skins.min.css') }}" />
     <!-- AdminLTE Modifikasi -->
-    <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}" />
     <!-- Plugins -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('css/kehadiran-style.css') }}"/>
-    @if ($setting->latar_kehadiran && file_exists(FCPATH . $setting->latar_kehadiran) )
-    <style type="text/css">
-        .form-left {
-            background-image: url('{{ asset($setting->latar_kehadiran, false) }}');
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/kehadiran-style.css') }}" />
+    @if ($setting->latar_kehadiran && file_exists(FCPATH . $setting->latar_kehadiran))
+        <style type="text/css">
+            .form-left {
+                background-image: url('{{ asset($setting->latar_kehadiran, false) }}');
+            }
+        </style>
     @endif
     @stack('css')
 
     <?php if (cek_koneksi_internet()): ?>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <?php endif ?>
 </head>
 
@@ -58,14 +59,18 @@
     <script src="{{ asset('bootstrap/js/fastclick.js') }}"></script>
     <!-- plugins -->
     <script src="{{ asset('js/bootstrap-toggle.min.js') }}"></script>
+    @if (!setting('inspect_element'))
+        <script src="{{ asset('js/disabled.min.js') }}"></script>
+    @endif
     @stack('scripts')
     <script>
-         // Notifikasi
+        // Notifikasi
         window.setTimeout(function() {
-            $("#notifikasi").fadeTo(500, 0).slideUp(500, function(){
+            $("#notifikasi").fadeTo(500, 0).slideUp(500, function() {
                 $(this).remove();
             });
         }, 1000);
     </script>
 </body>
+
 </html>

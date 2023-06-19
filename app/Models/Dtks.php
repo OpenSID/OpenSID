@@ -58,10 +58,6 @@ class Dtks extends BaseModel
     protected $guarded = [];
 
     protected $appends = [
-        'kepala_keluarga',
-        'jumlah_keluarga',
-        'jumlah_anggota_dtks',
-        'no_kk_art',
         'versi_kuisioner_name',
     ];
     protected $casts = [

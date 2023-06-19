@@ -8,7 +8,7 @@ Highcharts.chart('container', {
 	},
 
 	title: {
-		text: 'Struktur Organisasi Pemerintahan <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa'])?>'
+		text: 'Struktur Organisasi <?= ucwords(setting('sebutan_pemerintah_desa')) ?>'
 	},
 
 	accessibility: {
@@ -92,7 +92,7 @@ Highcharts.chart('container', {
 					id: <?= $pamong['pamong_id']?>,
 					title: '<?= $pamong['jabatan']?>',
 					name: `<?= $pamong['nama'] ?>`,
-					image: '<?= AmbilFoto($pamong['foto']) ?>',
+					image: '<?= AmbilFoto($pamong['foto'], '', $pamong['jenis_kelamin']) ?>',
 					<?php if (! empty($pamong['bagan_tingkat'])): ?>
 						column: <?= $pamong['bagan_tingkat'] ?: ''?>,
 					<?php endif; ?>

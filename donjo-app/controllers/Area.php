@@ -110,6 +110,7 @@ class Area extends Admin_Controller
 
         $data['list_polygon'] = $this->plan_area_model->list_polygon();
         $data['tip']          = 4;
+        $data['foto_area']    = to_base64(LOKASI_FOTO_AREA . 'kecil_' . $data['area']['foto']);
 
         $this->render('area/form', $data);
     }

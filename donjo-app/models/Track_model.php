@@ -144,25 +144,8 @@ class Track_model extends CI_Model
             return;
         }
 
-        try {
-            $response = (new Client())->post("{$tracker}/api/track/desa", [
-                'headers' => [
-                    'X-Requested-With' => 'XMLHttpRequest',
-                    'Authorization'    => 'Bearer ' . config_item('token_pantau'),
-                ],
-                'form_params' => $desa,
-            ]);
-        } catch (ClientException $cx) {
-            log_message('error', $cx);
-
-            return;
-        } catch (Exception $e) {
-            log_message('error', $e);
-
-            return;
-        }
-
-        $this->cek_notifikasi_TrackSID($response->getBody()->getContents());
+        $trackSID_output = httpPost($tracker . '/api/track/desa?token=' . config_item('token_pantau'), $desa); // kirim ke tracksid.
+        $this->cek_notifikasi_TrackSID($trackSID_output);
 
         if (strpos(current_url(), 'first') !== false) {
             $this->session->set_userdata('track_web', date('Y m d'));

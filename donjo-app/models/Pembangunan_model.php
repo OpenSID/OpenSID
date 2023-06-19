@@ -187,12 +187,16 @@ class Pembangunan_model extends MY_Model
 
     private function upload_gambar_pembangunan($jenis)
     {
-        $this->load->library('upload');
+        // Inisialisasi library 'upload'
+        $this->load->library('MY_Upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_GALERI,
-            'allowed_types' => 'gif|jpg|jpeg|png',
-            'max_size'      => max_upload() * 1024,
+            'allowed_types' => 'jpg|jpeg|png',
+            'max_size'      => 1024, // 1 MB
         ];
+        $this->upload->initialize($this->uploadConfig);
+
+        $uploadData = null;
         // Adakah berkas yang disertakan?
         $adaBerkas = ! empty($_FILES[$jenis]['name']);
         if ($adaBerkas !== true) {
@@ -205,16 +209,7 @@ class Pembangunan_model extends MY_Model
 
             return $this->input->post('old_foto');
         }
-        // Tes tidak berisi script PHP
-        if (isPHP($_FILES['logo']['tmp_name'], $_FILES[$jenis]['name'])) {
-            $this->session->success   = -1;
-            $this->session->error_msg = ' -> Jenis file ini tidak diperbolehkan ';
-            redirect('identitas_desa');
-        }
 
-        $uploadData = null;
-        // Inisialisasi library 'upload'
-        $this->upload->initialize($this->uploadConfig);
         // Upload sukses
         if ($this->upload->do_upload($jenis)) {
             $uploadData = $this->upload->data();
@@ -228,11 +223,15 @@ class Pembangunan_model extends MY_Model
             // Ganti nama di array upload jika file berhasil di-rename --
             // jika rename gagal, fallback ke nama asli
             $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+
+            // Hapus file lama
+            unlink(LOKASI_GALERI . $this->input->post('old_foto'));
         }
         // Upload gagal
         else {
-            $this->session->success   = -1;
-            $this->session->error_msg = $this->upload->display_errors(null, null);
+            session_error($this->upload->display_errors(null, null));
+
+            return redirect('admin_pembangunan');
         }
 
         return (! empty($uploadData)) ? $uploadData['file_name'] : null;
@@ -249,7 +248,14 @@ class Pembangunan_model extends MY_Model
 
     public function delete($id)
     {
-        return $this->db->where('id', $id)->delete($this->table);
+        $data = $this->find($id);
+
+        if ($outp = $this->db->where('id', $id)->delete($this->table)) {
+            // Hapus file
+            unlink(LOKASI_GALERI . $data->foto);
+        }
+
+        status_sukses($outp);
     }
 
     public function find($id)

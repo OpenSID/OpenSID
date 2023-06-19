@@ -36,6 +36,7 @@
  */
 
 defined('BASEPATH') || exit('No direct script access allowed');
+require_once './vendor/codeigniter/framework/system/libraries/Upload.php'; // This is not auto loaded
 
 class MY_Upload extends CI_Upload
 {
@@ -45,6 +46,13 @@ class MY_Upload extends CI_Upload
      * @var bool
      */
     public $cek_script = true;
+
+    /**
+     * Penambahan timestamp pada nama file
+     *
+     * @var bool
+     */
+    public $timestamp = true;
 
     public function __construct($config = [])
     {
@@ -144,9 +152,14 @@ class MY_Upload extends CI_Upload
             $this->_file_mime_type($_file);
         }
 
-        $this->file_type   = preg_replace('/^(.+?);.*$/', '\\1', $this->file_type);
-        $this->file_type   = strtolower(trim(stripslashes($this->file_type), '"'));
-        $this->file_name   = $this->_prep_filename($_file['name']);
+        $this->file_type = preg_replace('/^(.+?);.*$/', '\\1', $this->file_type);
+        $this->file_type = strtolower(trim(stripslashes($this->file_type), '"'));
+        $this->file_name = $this->_prep_filename($_file['name']);
+
+        if ($this->timestamp) {
+            $this->file_name = time() . '_' . $this->file_name;
+        }
+
         $this->file_ext    = $this->get_extension($this->file_name);
         $this->client_name = $this->file_name;
 

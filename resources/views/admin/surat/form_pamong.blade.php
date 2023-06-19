@@ -9,10 +9,10 @@
     </div>
 </div>
 <div class="form-group {{ setting('tte') ? 'hidden' : '' }}">
-    <label class="col-sm-3 control-label">{{ SebutanDesa('Staf Pemerintah [Desa]') }}</label>
+    <label class="col-sm-3 control-label">{{ 'Staf ' . ucwords(setting('sebutan_pemerintah_desa')) }}</label>
     <div class="col-sm-6 col-lg-4">
         <select class="form-control required input-sm" id="pamong" name="pamong_id">
-            <option value='' selected="selected">-- {{ SebutanDesa('Pilih Staf Pemerintah [Desa]') }} --
+            <option value='' selected="selected">-- {{ 'Pilih Staf ' . ucwords(setting('sebutan_pemerintah_desa')) }} --
             </option>
             @foreach ($pamong as $data)
                 <option value="{{ $data->pamong_id }}" data-jabatan-id="{{ $data->jabatan_id }}" data-jabatan="{{ trim($data->jabatan->nama) }}"

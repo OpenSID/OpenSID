@@ -37,14 +37,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\Authenticatable;
-
-// use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Illuminate\Foundation\Auth\User as Authenticatable;
-// use Illuminate\Notifications\Notifiable;
-// use Laravel\Sanctum\HasApiTokens;
-// use Tymon\JWTAuth\Contracts\JWTSubject;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 // class User extends Authenticatable implements JWTSubject

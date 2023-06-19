@@ -49,6 +49,7 @@ class Siteman extends MY_Controller
         $this->load->model('theme_model');
         $this->lang->load('passwords');
         $this->load->library('Reset/Password', '', 'password');
+        $this->latar_login = to_base64(default_file(LATAR_SITEMAN, DEFAULT_LATAR_SITEMAN));
     }
 
     public function index()
@@ -67,6 +68,8 @@ class Siteman extends MY_Controller
         $data['header'] = Config::first();
 
         $data['form_action'] = site_url('siteman/auth');
+        $data['logo_bsre']   = to_base64(default_file(LOGO_BSRE, false));
+        $data['latar_login'] = $this->latar_login;
         //Initialize Session ------------
         if (! isset($_SESSION['siteman'])) {
             // Belum ada session variable
@@ -125,7 +128,8 @@ class Siteman extends MY_Controller
 
     public function lupa_sandi()
     {
-        $data['header'] = Config::first();
+        $data['header']      = Config::first();
+        $data['latar_login'] = $this->latar_login;
 
         $this->load->view('lupa_sandi', $data);
     }
@@ -165,9 +169,10 @@ class Siteman extends MY_Controller
             redirect('siteman');
         }
 
-        $data['header'] = Config::first();
-        $data['email']  = $this->input->get('email', true);
-        $data['token']  = $token;
+        $data['header']      = Config::first();
+        $data['email']       = $this->input->get('email', true);
+        $data['token']       = $token;
+        $data['latar_login'] = $this->latar_login;
 
         $this->load->view('reset_kata_sandi', $data);
     }

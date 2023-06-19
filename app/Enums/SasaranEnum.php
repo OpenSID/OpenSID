@@ -37,6 +37,8 @@
 
 namespace App\Enums;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class SasaranEnum extends BaseEnum
 {
     public const PENDUDUK     = 1;

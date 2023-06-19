@@ -13,10 +13,10 @@
 					</select>
 				</div>
 				<div class="col-sm-10">
-					<a href="#" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Inventaris">
+					<a href="<?= site_url('laporan_inventaris/permendagri_47_dialog/cetak') ?>" target="_blank" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Inventaris">
 						<i class="fa fa-print"></i>Cetak
 					</a>
-					<a href="#" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#unduhBox" data-title="Unduh Inventaris">
+					<a href="<?= site_url('laporan_inventaris/permendagri_47_dialog/cetak') ?>" target="_blank" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Inventaris">
 						<i class="fa fa-download"></i>Unduh
 					</a>
 				</div>
@@ -111,19 +111,8 @@
 		</div>
 	</div>
 </form>
-<?php $this->load->view('bumindes/umum/permen47_cetak') ?>
-<?php $this->load->view('bumindes/umum/permen47_unduh') ?>
 
 <script>
-	$("#form_cetak").click(function(event) {
-		var link = '<?= site_url('laporan_inventaris/permendagri_47_cetak'); ?>' + '/' + $('#kades').val() + '/' + $('#sekdes').val();
-		window.open(link, '_blank');
-	});
-	$("#form_download").click(function(event) {
-		var link = '<?= site_url('laporan_inventaris/permendagri_47_excel'); ?>' + '/' + $('#kades_unduh').val() + '/' + $('#sekdes_unduh').val();
-		window.open(link, '_blank');
-	});
-
 	$(document).ready(function() {
 		$('#tabelpermendagri').DataTable({
 			lengthChange: false,

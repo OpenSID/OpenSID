@@ -183,43 +183,38 @@ class Surat_keluar extends Admin_Controller
 
     public function dialog_cetak($o = 0)
     {
-        $data                = $this->modal_penandatangan();
         $data['aksi']        = 'Cetak';
         $data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
-        $data['form_action'] = site_url("surat_keluar/cetak/{$o}");
+        $data['form_action'] = site_url("surat_keluar/dialog/cetak/{$o}");
 
         $this->load->view('surat_keluar/ajax_cetak', $data);
     }
 
     public function dialog_unduh($o = 0)
     {
-        $data                = $this->modal_penandatangan();
         $data['aksi']        = 'Unduh';
         $data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
-        $data['form_action'] = site_url("surat_keluar/unduh/{$o}");
+        $data['form_action'] = site_url("surat_keluar/dialog/unduh/{$o}");
         $this->load->view('surat_keluar/ajax_cetak', $data);
     }
 
-    public function cetak($o = 0)
+    public function dialog($aksi = 'unduh', $o = 0)
     {
-        $data['input']          = $this->input->post();
-        $this->session->filter  = $data['input']['tahun'];
-        $data['pamong_ttd']     = $this->pamong_model->get_data($data['input']['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($data['input']['pamong_ketahui']);
-        $data['desa']           = $this->header['desa'];
-        $data['main']           = $this->surat_keluar_model->list_data($o, 0, 10000);
-        $this->load->view('surat_keluar/surat_keluar_print', $data);
-    }
+        // TODO :: gunakan view global penandatangan
+        $ttd                    = $this->modal_penandatangan();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
 
-    public function unduh($o = 0)
-    {
-        $data['input']          = $this->input->post();
-        $this->session->filter  = $data['input']['tahun'];
-        $data['pamong_ttd']     = $this->pamong_model->get_data($data['input']['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($data['input']['pamong_ketahui']);
-        $data['desa']           = $this->header['desa'];
-        $data['main']           = $this->surat_keluar_model->list_data($o, 0, 10000);
-        $this->load->view('surat_keluar/surat_keluar_excel', $data);
+        $data['input']         = $this->input->post();
+        $this->session->filter = $data['input']['tahun'];
+        $data['desa']          = $this->header['desa'];
+        $data['main']          = $this->surat_keluar_model->list_data($o, 0, 10000);
+
+        if ($aksi == 'unduh') {
+            $this->load->view('surat_keluar/surat_keluar_excel', $data);
+        } else {
+            $this->load->view('surat_keluar/surat_keluar_print', $data);
+        }
     }
 
     /**

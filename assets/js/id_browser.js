@@ -16,7 +16,9 @@ $(document).ready(function() {
     document.getElementById("pengunjung").innerHTML = readCookie("pengunjung");
 
     if (readCookie("pengunjung") == null) {
-        location.reload();
+        setTimeout(function () {
+            location.reload();
+        }, 1000);
     }
 });
 

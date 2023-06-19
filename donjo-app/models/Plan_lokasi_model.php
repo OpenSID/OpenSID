@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Lokasi;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan_lokasi_model extends MY_Model
@@ -176,53 +178,37 @@ class Plan_lokasi_model extends MY_Model
 
     public function insert()
     {
-        $data        = $this->validasi($this->input->post());
-        $lokasi_file = $_FILES['foto']['tmp_name'];
-        $tipe_file   = $_FILES['foto']['type'];
-        $nama_file   = $_FILES['foto']['name'];
-        $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-        if (! empty($lokasi_file)) {
-            $upload = UploadPeta($nama_file, LOKASI_FOTO_LOKASI);
-            if (! $upload) {
-                return;
-            }
-            $data['foto'] = $nama_file;
-            $outp         = $this->db->insert('lokasi', $data);
+        $data       = $this->validasi($this->input->post());
+        $garis_file = $_FILES['foto']['tmp_name'];
+        $nama_file  = $_FILES['foto']['name'];
+        $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);
+        if (! empty($garis_file)) {
+            $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_LOKASI);
         } else {
             unset($data['foto']);
-            $outp = $this->db->insert('lokasi', $data);
         }
 
-        if ($outp) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $outp = $this->db->insert('lokasi', $data);
+
+        status_sukses($outp);
     }
 
     public function update($id = 0)
     {
-        $data        = $this->validasi($this->input->post());
-        $lokasi_file = $_FILES['foto']['tmp_name'];
-        $tipe_file   = $_FILES['foto']['type'];
-        $nama_file   = $_FILES['foto']['name'];
-        $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-        if (! empty($lokasi_file)) {
-            if ($tipe_file == 'image/jpg' || $tipe_file == 'image/jpeg') {
-                $upload = UploadPeta($nama_file, LOKASI_FOTO_LOKASI);
-                if (! $upload) {
-                    return;
-                }
-                $data['foto'] = $nama_file;
-                $this->db->where('id', $id);
-                $outp = $this->db->update('lokasi', $data);
-            }
+        $data       = $this->validasi($this->input->post());
+        $old_foto   = $this->input->post('old_foto');
+        $garis_file = $_FILES['foto']['tmp_name'];
+        $nama_file  = $_FILES['foto']['name'];
+        $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
+        if (! empty($garis_file)) {
+            $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_LOKASI, $old_foto);
         } else {
             unset($data['foto']);
-            $this->db->where('id', $id);
-            $outp = $this->db->update('lokasi', $data);
         }
-        status_sukses($outp); //Tampilkan Pesan
+
+        $outp = $this->db->where('id', $id)->update('lokasi', $data);
+
+        status_sukses($outp);
     }
 
     public function delete($id = '', $semua = false)
@@ -231,9 +217,17 @@ class Plan_lokasi_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete('lokasi');
+        $garis = Lokasi::findOrFail($id);
+        $outp  = $garis->delete();
 
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+        if ($outp) {
+            if ($garis->foto_kecil || $garis->foto_sedang) {
+                unlink(FCPATH . $garis->foto_kecil);
+                unlink(FCPATH . $garis->foto_sedang);
+            }
+        }
+
+        status_sukses($outp, true);
     }
 
     public function delete_all()
@@ -243,7 +237,7 @@ class Plan_lokasi_model extends MY_Model
         $id_cb = $_POST['id_cb'];
 
         foreach ($id_cb as $id) {
-            $this->delete($id, $semua = true);
+            $this->delete($id, true);
         }
     }
 
@@ -285,7 +279,7 @@ class Plan_lokasi_model extends MY_Model
         $sql  = 'UPDATE lokasi SET enabled = ? WHERE id = ?';
         $outp = $this->db->query($sql, [$val, $id]);
 
-        status_sukses($outp); //Tampilkan Pesan
+        status_sukses($outp);
     }
 
     public function get_lokasi($id = 0)
@@ -301,7 +295,7 @@ class Plan_lokasi_model extends MY_Model
         $this->db->where('id', $id);
         $outp = $this->db->update('lokasi', $data);
 
-        status_sukses($outp); //Tampilkan Pesan
+        status_sukses($outp);
     }
 
     public function list_lokasi($status = null)

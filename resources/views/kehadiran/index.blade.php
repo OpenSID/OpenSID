@@ -11,42 +11,42 @@
             <div class="col-xm-12 text-center" style="padding-top:100px; padding-left: 25px; padding-right: 25px;">
                 <img class="user-image" src="{{ AmbilFoto($masuk['foto'], '', $masuk['sex']) }}" alt="Foto Penduduk" height="120px">
                 @if ($success != 0)
-                <div class="alert alert-success alert-dismissible fade in" role="alert"> 
-                    <strong>{{ 'Rekam Kehadiran ' . ($kehadiran ? 'Masuk' : 'Keluar') . ' Berhasil' }}</strong>  
+                <div class="alert alert-success alert-dismissible fade in" role="alert">
+                    <strong>{{ 'Rekam Kehadiran ' . ($kehadiran ? 'Masuk' : 'Keluar') . ' Berhasil' }}</strong>
                 </div>
                 <div class="alert alert-warning alert-dismissible fade in" role="alert">
-                    Halaman akan keluar otomatis dalam 5 detik 
+                    Halaman akan keluar otomatis dalam 5 detik
                 </div>
                 @endif
             </div>
             <div class="col-xm-12 text-center">
-                <h2>{{ $masuk['pamong_nama'] }}</h2> 
+                <h2>{{ $masuk['pamong_nama'] }}</h2>
                 <h4>{{ $masuk['jabatan'] ['nama'] }}</h4>
             </div>
             <div class="col-xm-12 text-center">
                 {!! form_open_multipart(route('kehadiran.check-in-out'), 'name="check" id="validasi"') !!}
-                    <div class="checkbox"> 
-                        @if (! $kehadiran && ! $success)
-                            <input type="hidden" name="status_kehadiran" value="hadir" >
-                            <button id="hadir" class="btn btn-success btn-small">Rekam Masuk</button>
-                        @endif
+                <div class="checkbox">
+                    @if (! $kehadiran && ! $success)
+                    <input type="hidden" name="status_kehadiran" value="hadir">
+                    <button id="hadir" class="btn btn-success btn-small">Rekam Masuk</button>
+                    @endif
 
-                        @if ($kehadiran && ! $success)
-                            <div class="form-group">
-                                <select name="status_kehadiran">
-                                    <option value="keluar">Absen Keluar</option>
-                                    @foreach ($alasan as $item)
-                                        <option value="{{ strtolower($item->alasan) }}">{{ ucwords(strtolower($item->alasan)) }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <button id="keluar" class="btn btn-danger btn-small">Keluar</button>
-                        @endif
+                    @if ($kehadiran && ! $success)
+                    <div class="form-group">
+                        <select name="status_kehadiran">
+                            <option value="tidak berada di kantor">Absen Keluar</option>
+                            @foreach ($alasan as $item)
+                            <option value="{{ strtolower($item->alasan) }}">{{ ucwords(strtolower($item->alasan)) }}</option>
+                            @endforeach
+                        </select>
                     </div>
+                    <button id="keluar" class="btn btn-danger btn-small">Keluar</button>
+                    @endif
+                </div>
                 </form>
             </div>
             <div class="col-xm-12 text-center">
-                <a  class="btn bg-olive margin" href="{{ route('kehadiran.logout') }}">Selesai</a>
+                <a class="btn bg-olive margin" href="{{ route('kehadiran.logout') }}">Selesai</a>
             </div>
         </div>
     </div>
@@ -56,27 +56,27 @@
 
 @push('scripts')
 <script>
-    $(function () {
+    $(function() {
         var success = "{{ $success }}";
         var url = "{{ route('kehadiran.logout') }}";
-        
+
         if (success) {
-            setTimeout(function(){
+            setTimeout(function() {
                 location.href = url;
             }, 5000);
         }
 
         var waktu = "{{ $kehadiran->jam_masuk }}";
         var sekarang = "{{ date('H:i') }}";
-        
+
         if (waktu < sekarang) {
             $('#hadir').click(function() {
                 $('form[name="check"]').submit();
             })
         } else {
             $('#keluar').click(function() {
-                var box= confirm("Anda masuk kurang dari 1 menit, apakah anda yakin ingin keluar?");
-                if (box==true)
+                var box = confirm("Anda masuk kurang dari 1 menit, apakah anda yakin ingin keluar?");
+                if (box == true)
                     $('form[name="check"]').submit();
                 else
                     return false;
@@ -85,4 +85,3 @@
     });
 </script>
 @endpush
-

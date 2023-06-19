@@ -122,7 +122,6 @@ class Ekspedisi extends Admin_Controller
 
     public function dialog($aksi = 'cetak', $o = 0)
     {
-        $data                = $this->modal_penandatangan();
         $data['aksi']        = $aksi;
         $data['tahun_surat'] = $this->ekspedisi_model->list_tahun_surat();
         $data['form_action'] = site_url("ekspedisi/daftar/{$aksi}/{$o}");
@@ -132,10 +131,12 @@ class Ekspedisi extends Admin_Controller
 
     public function daftar($aksi = 'cetak', $o = 1)
     {
+        // TODO :: gunakan view global penandatangan
+        $ttd                    = $this->modal_penandatangan();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
         $data['input']          = $_POST;
         $_SESSION['filter']     = $data['input']['tahun'];
-        $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
         $data['desa']           = $this->header['desa'];
         $data['main']           = $this->ekspedisi_model->list_data($o, 0, 10000);
 

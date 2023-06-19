@@ -46,7 +46,7 @@ class Admin_pembangunan extends Admin_Controller
         parent::__construct();
         $this->modul_ini = 220;
         $this->load->library('zip');
-        $this->load->library('upload');
+        $this->load->library('MY_Upload', null, 'upload');
         $this->load->model('pembangunan_model', 'pembangunan');
         $this->load->model('pembangunan_dokumentasi_model', 'dokumentasi');
         $this->load->model('wilayah_model');
@@ -68,11 +68,18 @@ class Admin_pembangunan extends Admin_Controller
 
             $this->pembangunan->set_tipe(''); // Ambil semua pembangunan
 
+            $data = $this->pembangunan->get_data($search, $tahun)->order_by($order, $dir)->limit($length, $start)->get()->result();
+            $data = collect($data)->map(static function ($item) {
+                $item->url_foto = to_base64(LOKASI_GALERI . $item->foto);
+
+                return $item;
+            })->toArray();
+
             return json([
                 'draw'            => $this->input->post('draw'),
                 'recordsTotal'    => $this->pembangunan->get_data()->count_all_results(),
                 'recordsFiltered' => $this->pembangunan->get_data($search, $tahun)->count_all_results(),
-                'data'            => $this->pembangunan->get_data($search, $tahun)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+                'data'            => $data,
             ]);
         }
 
@@ -217,11 +224,18 @@ class Admin_pembangunan extends Admin_Controller
             $order  = $this->dokumentasi::ORDER_ABLE[$this->input->post('order[0][column]')];
             $dir    = $this->input->post('order[0][dir]');
 
+            $data = $this->dokumentasi->get_data($id, $search)->order_by($order, $dir)->limit($length, $start)->get()->result();
+            $data = collect($data)->map(static function ($item) {
+                $item->url_gambar = to_base64(LOKASI_GALERI . $item->gambar);
+
+                return $item;
+            })->toArray();
+
             return json([
                 'draw'            => $this->input->post('draw'),
                 'recordsTotal'    => $this->dokumentasi->get_data($id)->count_all_results(),
                 'recordsFiltered' => $this->dokumentasi->get_data($id, $search)->count_all_results(),
-                'data'            => $this->dokumentasi->get_data($id, $search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+                'data'            => $data,
             ]);
         }
 

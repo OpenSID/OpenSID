@@ -106,6 +106,7 @@ class Web extends Admin_Controller
 
     public function form($id = 0)
     {
+        $id = decrypt($id);
         $this->redirect_hak_akses('u');
         $cat = $this->session->kategori ?: 0;
 
@@ -173,7 +174,7 @@ class Web extends Admin_Controller
     public function delete($id = 0)
     {
         $this->redirect_hak_akses('h');
-        $this->web_artikel_model->delete($id);
+        $this->web_artikel_model->delete(decrypt($id));
         redirect('web');
     }
 
@@ -199,6 +200,7 @@ class Web extends Admin_Controller
     // TODO: Pindahkan ke controller kategoris
     public function ubah_kategori_form($id = 0)
     {
+        $id = decrypt($id);
         $this->redirect_hak_akses('u');
         if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
@@ -228,7 +230,7 @@ class Web extends Admin_Controller
         // Kontributor tidak boleh mengubah status aktif artikel
         $this->redirect_hak_akses('u');
 
-        $this->web_artikel_model->artikel_lock($id, $val);
+        $this->web_artikel_model->artikel_lock(decrypt($id), $val);
         redirect('web');
     }
 
@@ -237,7 +239,7 @@ class Web extends Admin_Controller
         // Kontributor tidak boleh mengubah status komentar artikel
         $this->redirect_hak_akses('u');
 
-        $this->web_artikel_model->komentar_lock($id, $val);
+        $this->web_artikel_model->komentar_lock(decrypt($id), $val);
         redirect('web');
     }
 
@@ -262,7 +264,7 @@ class Web extends Admin_Controller
         // Kontributor tidak boleh melakukan ini
         $this->redirect_hak_akses('u');
 
-        $this->web_artikel_model->headline($id);
+        $this->web_artikel_model->headline(decrypt($id));
         redirect('web');
     }
 
@@ -271,7 +273,7 @@ class Web extends Admin_Controller
         // Kontributor tidak boleh melakukan ini
         $this->redirect_hak_akses('u');
 
-        $this->web_artikel_model->slide($id);
+        $this->web_artikel_model->slide(decrypt($id));
         redirect('web');
     }
 

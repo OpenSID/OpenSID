@@ -21,7 +21,7 @@
         <div class="col-md-3">
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <img class="profile-user-img img-responsive img-circle" src="{{ gambar_desa($main->logo) }}"
+                    <img class="profile-user-img img-responsive img-circle" src="{{ to_base64($main->path_logo) }}"
                         alt="Logo">
                     <br />
                     <p class="text-center text-bold">Lambang {{ ucwords($setting->sebutan_desa) }}</p>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" id="file_path">
-                        <input type="file" class="hidden" id="file" name="logo">
+                        <input type="file" class="hidden" id="file" name="logo" accept=".gif,.jpg,.jpeg,.png">
                         <input type="hidden" name="old_logo" value="{{ $main->logo }}">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-flat" id="file_browser"><i
@@ -47,7 +47,7 @@
             </div>
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <img class="img-responsive" src="{{ gambar_desa($main->kantor_desa, true) }}"
+                    <img class="img-responsive" src="{{ to_base64($main->path_kantor_desa) }}"
                         alt="Kantor {{ ucwords($setting->sebutan_desa) }}">
                     <br />
                     <p class="text-center text-bold">Kantor {{ ucwords($setting->sebutan_desa) }}</p>
@@ -56,7 +56,8 @@
                     <br />
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" id="file_path2">
-                        <input type="file" class="hidden" id="file2" name="kantor_desa">
+                        <input type="file" class="hidden" id="file2" name="kantor_desa"
+                            accept=".gif,.jpg,.jpeg,.png">
                         <input type="hidden" name="old_kantor_desa" value="{{ $main->kantor_desa }}">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-flat" id="file_browser2"><i

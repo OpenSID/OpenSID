@@ -47,6 +47,10 @@ class Pembangunan extends Web_Controller
 
     public function index($p = 1)
     {
+        if (! $this->web_menu_model->menu_aktif('pembangunan')) {
+            show_404();
+        }
+
         $this->pembangunan_model->set_tipe(''); // Ambil semua pembangunan
 
         $data = $this->includes;

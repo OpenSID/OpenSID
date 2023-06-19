@@ -149,7 +149,7 @@
           'title' => 'Calon Pemilih'
         ],
         [
-          'slug' => 'data-wilayah',
+          'slug' => IS_PREMIUM ? 'data-wilayah' : 'first/wilayah',
           'title' => 'Wilayah Administratif'
         ]
       ]

@@ -141,7 +141,7 @@
 						<div id="qrcode">
 							<div class="panel-body-lg">
 								<a href="https://github.com/OpenSID/OpenSID">
-									<img src="<?= base_url() ?>assets/images/opensid.png" alt="OpenSID">
+									<img src="<?= to_base64(GAMBAR_QRCODE) ?>" alt="OpenSID">
 								</a>
 							</div>
 						</div>
@@ -387,12 +387,12 @@
 		//Jika tidak, pakai foto default
 		if (foto) {
 			ukuran_foto = ukuran || null
-			file_foto = '<?= base_url(LOKASI_USER_PICT) ?>' + ukuran_foto + foto;
+			file_foto = '<?= LOKASI_USER_PICT ?>' + ukuran_foto + foto;
 		} else {
 			file_foto = sex == '2' ? '<?= FOTO_DEFAULT_WANITA ?>' : '<?= FOTO_DEFAULT_PRIA ?>';
 		}
 
-		return file_foto;
+		return BASE_URL + file_foto;
 	}
 
 	function AmbilFotoLokasi(foto, ukuran = "kecil_") {

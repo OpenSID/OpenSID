@@ -37,6 +37,8 @@
 
 namespace App\Enums;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class JenisKelaminEnum
 {
     public const LAKI_LAKI = 1;

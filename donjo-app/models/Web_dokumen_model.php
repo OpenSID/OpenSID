@@ -300,38 +300,27 @@ class Web_dokumen_model extends MY_Model
         return array_diff($semua_mime_type, ['application/octet-stream']);
     }
 
-    private function semua_ext()
+    private function upload_dokumen()
     {
-        return array_merge(unserialize(EXT_DOKUMEN), unserialize(EXT_GAMBAR), unserialize(EXT_ARSIP));
-    }
-
-    private function upload_dokumen($data, $file_lama = '')
-    {
-        $satuan                  = $_POST['satuan'];
-        $old_satuan              = $_POST['old_satuan'];
-        $filename                = $_FILES['satuan']['name'];
-        $ext                     = get_extension($filename);
-        $nama_file               = str_replace(".{$nama_akhiran}", '', $filename);
-        $nama_file               = bersihkan_namafile(substr($nama_file, 0, 180) . ".{$ext}");
+        $old_file                = $this->input->post('old_file', true);
         $config['upload_path']   = LOKASI_DOKUMEN;
-        $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        $config['file_name']     = $nama_file;
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+        $config['file_name']     = namafile($this->input->post('nama', true));
 
         $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('satuan')) {
-            session_error($this->upload->display_errors());
+            session_error($this->upload->display_errors(null, null));
 
             return false;
         }
 
-        if ($old_satuan != '') {
-            // Hapus old_satuan
-            unlink(LOKASI_DOKUMEN . $old_satuan);
+        if (empty($old_file)) {
+            unlink(LOKASI_DOKUMEN . $old_file);
         }
 
-        return $nama_file;
+        return $this->upload->data()['file_name'];
     }
 
     public function insert($mandiri = false)
@@ -340,7 +329,7 @@ class Web_dokumen_model extends MY_Model
         $post   = $this->input->post();
         $data   = $this->validasi($post);
         if (! empty($post['satuan'])) {
-            $data['satuan'] = $result = $this->upload_dokumen($post);
+            $data['satuan'] = $result = $this->upload_dokumen();
             if ($result == false) {
                 return false;
             }
@@ -443,7 +432,7 @@ class Web_dokumen_model extends MY_Model
             ->get('dokumen')->row()->satuan;
         $data['satuan'] = $old_file;
         if (! empty($post['satuan'])) {
-            $data['satuan'] = $this->upload_dokumen($post, $old_file);
+            $data['satuan'] = $this->upload_dokumen();
             $retval &= ! (empty($data['satuan']));
             if (! $retval) {
                 return $retval;

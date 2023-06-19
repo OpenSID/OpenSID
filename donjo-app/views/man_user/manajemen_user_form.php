@@ -20,7 +20,7 @@
                             <br />
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control" id="file_path" name="foto">
-                                <input type="file" class="hidden" id="file" name="foto">
+                                <input type="file" class="hidden" id="file" name="foto" accept=".gif,.jpg,.jpeg,.png">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                 </span>
@@ -117,8 +117,8 @@
                             <div class="form-group">
                                 <label for="catatan" class="col-sm-3 control-label">User ID Telegram</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control input-sm" type="text" id="id_telegram" name="id_telegram" value="<?= $user['id_telegram'] ?>" maxlength="10" <?= jecho(setting('telegram_token'), null, 'disabled') ?>/>
-                                    <?php if (setting('telegram_token') == null): ?>
+                                    <input class="form-control input-sm" type="text" id="id_telegram" name="id_telegram" value="<?= $user['id_telegram'] ?>" maxlength="10" <?= jecho(setting('telegram_token'), null, 'disabled') ?> />
+                                    <?php if (setting('telegram_token') == null) : ?>
                                         <span class="help-block" style="color: #f39c12;">Untuk mengaktifkan notifikasi telegram, harap masukkan token telegram di modul setting aplikasi </span>
                                     <?php endif ?>
 
@@ -138,13 +138,14 @@
 </div>
 
 <script>
-    window.addEventListener("load", function(){
+    window.addEventListener("load", function() {
         cekKpm();
     });
+
     function cekKpm() {
         var x = document.getElementById("id_grup").value;
         var y = document.getElementById("posyandu");
-        if (x=="6") {
+        if (x == "6") {
             y.style.display = "block";
         } else {
             y.style.display = "none";
@@ -154,16 +155,16 @@
 
 <script type="text/javascript">
     $(function() {
-        $('#pamong_id').on('select2:select', function (e) {
+        $('#pamong_id').on('select2:select', function(e) {
             var data = $('#pamong_id :selected').data('nama')
             $('#nama').val(data);
         });
 
-        $('input[name="notif_telegram"]').change(function (e) {
+        $('input[name="notif_telegram"]').change(function(e) {
             e.preventDefault();
             if ($(this).val() == 1) {
                 $('input[name="id_telegram"]').addClass('required');
-            }else{
+            } else {
                 $('input[name="id_telegram"]').removeClass('required');
             }
         });
