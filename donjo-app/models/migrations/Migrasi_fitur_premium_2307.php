@@ -82,7 +82,8 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->suratLahirMati($hasil, $id);
             $hasil = $hasil && $this->suratPenerbitanBukuPas($hasil, $id);
             $hasil = $hasil && $this->suratKepemilikanKendaraan($hasil, $id);
-            // Jalankan Migrasi TinyMCE
+            $hasil = $hasil && $this->suratKeteranganPenghasilanOrangTua($hasil, $id);
+            // Jalankan Migrasi TinyMCE'
         }
 
         // Migrasi tanpa config_id
@@ -749,6 +750,268 @@ class Migrasi_fitur_premium_2307 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function suratKeteranganPenghasilanOrangTua($hasil, $id)
+    {
+        $template = <<<HTML
+            <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">[JUdul_surat]</span></h4>
+            <p style="margin: 0; text-align: center;">Nomor : [Format_nomor_suraT]<br /><br /></p>
+            <p style="text-align: justify; text-indent: 30px;">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :</p>
+            <table style="border-collapse: collapse; width: 100%; height: 90px;" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 18px;">
+            <td style="width: 4.31655%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.90545%; height: 18px; text-align: left;">1.</td>
+            <td style="width: 30.5242%; text-align: left; height: 18px;">Nama Lengkap</td>
+            <td style="width: 1.2333%; text-align: center; height: 18px;">:</td>
+            <td style="width: 60.0206%; height: 18px; text-align: justify;"><strong>[NAma]</strong></td>
+            </tr>
+            <tr>
+            <td style="width: 4.31655%; text-align: center;">\u{a0}</td>
+            <td style="width: 3.90545%; text-align: left;">2.</td>
+            <td style="width: 30.5242%; text-align: left;">Tempat / Tanggal Lahir</td>
+            <td style="width: 1.2333%; text-align: center;">:</td>
+            <td style="width: 60.0206%; text-align: justify;">[TtL]</td>
+            </tr>
+            <tr>
+            <td style="width: 4.31655%; text-align: center;">\u{a0}</td>
+            <td style="width: 3.90545%; text-align: left;">3.</td>
+            <td style="width: 30.5242%; text-align: left;">NIK</td>
+            <td style="width: 1.2333%; text-align: center;">:</td>
+            <td style="width: 60.0206%; text-align: justify;">[NiK]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.31655%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.90545%; height: 18px; text-align: left;">4.</td>
+            <td style="width: 30.5242%; text-align: left; height: 18px;">Jenis Kelamin</td>
+            <td style="width: 1.2333%; text-align: center; height: 18px;">:</td>
+            <td style="width: 60.0206%; height: 18px; text-align: justify;">[Jenis_kelamin]</td>
+            </tr>
+            <tr>
+            <td style="width: 4.31655%; text-align: center;">\u{a0}</td>
+            <td style="width: 3.90545%; text-align: left;">5.</td>
+            <td style="width: 30.5242%; text-align: left;">Nomor Induk Siswa/Mahasiswa</td>
+            <td style="width: 1.2333%; text-align: center;">:</td>
+            <td style="width: 60.0206%; text-align: justify;">[Form_nomor_induk_siswamahasiswA]</td>
+            </tr>
+            <tr>
+            <td style="width: 4.31655%; text-align: center;">\u{a0}</td>
+            <td style="width: 3.90545%; text-align: left;">6.</td>
+            <td style="width: 30.5242%; text-align: left;">Jurusan/Fakultas/Prodi</td>
+            <td style="width: 1.2333%; text-align: center;">:</td>
+            <td style="width: 60.0206%; text-align: justify;">[Form_jurusanfakultasprodI]</td>
+            </tr>
+            <tr>
+            <td style="width: 4.31655%; text-align: center;">\u{a0}</td>
+            <td style="width: 3.90545%; text-align: left;">7.</td>
+            <td style="width: 30.5242%; text-align: left;">Sekolah/Perguruan Tinggi</td>
+            <td style="width: 1.2333%; text-align: center;">:</td>
+            <td style="width: 60.0206%; text-align: justify;">[Form_sekolahperguruan_tinggI]</td>
+            </tr>
+            <tr>
+            <td style="width: 4.31655%; text-align: center;">\u{a0}</td>
+            <td style="width: 3.90545%; text-align: left;">8.</td>
+            <td style="width: 30.5242%; text-align: left;">Kelas/Semester</td>
+            <td style="width: 1.2333%; text-align: center;">:</td>
+            <td style="width: 60.0206%; text-align: justify;">[Form_kelassemesteR]</td>
+            </tr>
+            <tr>
+            <td style="width: 4.31655%; text-align: center;">\u{a0}</td>
+            <td style="width: 3.90545%; text-align: left;">9.</td>
+            <td style="width: 30.5242%; text-align: left;">Agama</td>
+            <td style="width: 1.2333%; text-align: center;">:</td>
+            <td style="width: 60.0206%; text-align: justify;">[AgamA]</td>
+            </tr>
+            <tr>
+            <td style="width: 4.31655%; text-align: center;">\u{a0}</td>
+            <td style="width: 3.90545%; text-align: left;">10.</td>
+            <td style="width: 30.5242%; text-align: left;">Pekerjaan</td>
+            <td style="width: 1.2333%; text-align: center;">:</td>
+            <td style="width: 60.0206%; text-align: justify;">[PekerjaaN]</td>
+            </tr>
+            <tr>
+            <td style="width: 4.31655%; text-align: center;">\u{a0}</td>
+            <td style="width: 3.90545%; text-align: left;">11.</td>
+            <td style="width: 30.5242%; text-align: left;">Alamat</td>
+            <td style="width: 1.2333%; text-align: center;">:</td>
+            <td style="width: 60.0206%; text-align: justify;">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], [Nama_provinsI]</td>
+            </tr>
+            </tbody>
+            </table>
+            <p style="text-align: justify; text-indent: 30px;">Adalah benar penduduk yang berdomisili di [AlamaT], [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], [Nama_provinsI], dan merupakan <strong>Anak\u{a0}</strong>dari:</p>
+            <table style="border-collapse: collapse; width: 100%; height: 310px;" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 18px;">
+            <td style="width: 4.3222%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.92927%; height: 18px; text-align: left;">1.</td>
+            <td style="width: 20.1703%; text-align: left; height: 18px;">Nama Ayah</td>
+            <td style="width: 1.04781%; text-align: center; height: 18px;">:</td>
+            <td style="width: 70.5959%; height: 18px; text-align: justify;">[Nama_ayaH]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.3222%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.92927%; height: 18px; text-align: left;">\u{a0}</td>
+            <td style="width: 20.1703%; text-align: left; height: 18px;">Tempat / Tanggal Lahir</td>
+            <td style="width: 1.04781%; text-align: center; height: 18px;">:</td>
+            <td style="width: 70.5959%; height: 18px; text-align: justify;">[Ttl_ayaH]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.3222%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.92927%; height: 18px; text-align: left;">\u{a0}</td>
+            <td style="width: 20.1703%; text-align: left; height: 18px;">NIK</td>
+            <td style="width: 1.04781%; text-align: center; height: 18px;">:</td>
+            <td style="width: 70.5959%; height: 18px; text-align: justify;">[Nik_ayaH]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.3222%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.92927%; text-align: left; height: 18px;">\u{a0}</td>
+            <td style="width: 20.1703%; text-align: left; height: 18px;">Jenis Kelamin</td>
+            <td style="width: 1.04781%; text-align: center; height: 18px;">:</td>
+            <td style="width: 70.5959%; text-align: justify; height: 18px;">[Jenis_kelamin_ayaH]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.3222%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.92927%; text-align: left; height: 18px;">\u{a0}</td>
+            <td style="width: 20.1703%; text-align: left; height: 18px;">Agama</td>
+            <td style="width: 1.04781%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 70.5959%; text-align: justify; height: 18px;">[Agama_ayaH]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.3222%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.92927%; text-align: left; height: 18px;">\u{a0}</td>
+            <td style="width: 20.1703%; text-align: left; height: 18px;">Pekerjaan</td>
+            <td style="width: 1.04781%; text-align: center; height: 18px;">:</td>
+            <td style="width: 70.5959%; text-align: justify; height: 18px;">[Pekerjaan_ayaH]</td>
+            </tr>
+            <tr style="height: 36px;">
+            <td style="width: 4.3222%; text-align: center; height: 36px;">\u{a0}</td>
+            <td style="width: 3.92927%; height: 36px; text-align: left;"><br /><br /></td>
+            <td style="width: 20.1703%; text-align: left; height: 36px;">Alamat<br /><br /></td>
+            <td style="width: 1.04781%; text-align: center; height: 36px;">:<br /><br /></td>
+            <td style="width: 70.5959%; height: 36px; text-align: justify;">[Alamat_ayaH] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], [Nama_provinsI]</td>
+            </tr>
+            <tr>
+            <td style="width: 4.3222%; text-align: center;">\u{a0}</td>
+            <td style="width: 3.92927%; text-align: left;">\u{a0}</td>
+            <td style="width: 20.1703%; text-align: left;">Penghasilan</td>
+            <td style="width: 1.04781%; text-align: center;">:</td>
+            <td style="width: 70.5959%; text-align: justify;">[Form_penghasilan_ayaH]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="text-align: center; width: 100.065%; height: 18px;" colspan="5">\u{a0}</td>
+            </tr>
+            <tr style="height: 22px;">
+            <td style="width: 4.3222%; text-align: center; height: 22px;">\u{a0}</td>
+            <td style="width: 3.92927%; height: 18px; text-align: left;">2.</td>
+            <td style="width: 20.1703%; text-align: left; height: 18px;">Nama Ibu</td>
+            <td style="width: 1.04781%; text-align: center; height: 18px;">:</td>
+            <td style="width: 70.5959%; height: 18px; text-align: justify;">[Nama_ibU]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.3222%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.92927%; height: 18px; text-align: left;">\u{a0}</td>
+            <td style="width: 20.1703%; text-align: left; height: 18px;">Tempat / Tanggal Lahir</td>
+            <td style="width: 1.04781%; text-align: center; height: 18px;">:</td>
+            <td style="width: 70.5959%; height: 18px; text-align: justify;">[Ttl_ibU]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.3222%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.92927%; height: 18px; text-align: left;">\u{a0}</td>
+            <td style="width: 20.1703%; text-align: left; height: 18px;">NIK</td>
+            <td style="width: 1.04781%; text-align: center; height: 18px;">:</td>
+            <td style="width: 70.5959%; height: 18px; text-align: justify;">[Nik_ibU]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.3222%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.92927%; text-align: left; height: 18px;">\u{a0}</td>
+            <td style="width: 20.1703%; text-align: left; height: 18px;">Jenis Kelamin</td>
+            <td style="width: 1.04781%; text-align: center; height: 18px;">:</td>
+            <td style="width: 70.5959%; text-align: justify; height: 18px;">[Jenis_kelamin_ibU]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.3222%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.92927%; text-align: left; height: 18px;">\u{a0}</td>
+            <td style="width: 20.1703%; text-align: left; height: 18px;">Agama</td>
+            <td style="width: 1.04781%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 70.5959%; text-align: justify; height: 18px;">[Agama_ibU]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.3222%; text-align: center; height: 18px;">\u{a0}</td>
+            <td style="width: 3.92927%; text-align: left; height: 18px;">\u{a0}</td>
+            <td style="width: 20.1703%; text-align: left; height: 18px;">Pekerjaan</td>
+            <td style="width: 1.04781%; text-align: center; height: 18px;">:</td>
+            <td style="width: 70.5959%; text-align: justify; height: 18px;">[Pekerjaan_ibU]</td>
+            </tr>
+            <tr style="height: 36px;">
+            <td style="width: 4.3222%; text-align: center; height: 36px;">\u{a0}</td>
+            <td style="width: 3.92927%; height: 36px; text-align: left;"><br /><br /></td>
+            <td style="width: 20.1703%; text-align: left; height: 36px;">Alamat<br /><br /></td>
+            <td style="width: 1.04781%; text-align: center; height: 36px;">:<br /><br /></td>
+            <td style="width: 70.5959%; height: 36px; text-align: justify;">[Alamat_ibU] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], [Nama_provinsI]</td>
+            </tr>
+            <tr>
+            <td style="width: 4.3222%; text-align: center;">\u{a0}</td>
+            <td style="width: 3.92927%; text-align: left;">\u{a0}</td>
+            <td style="width: 20.1703%; text-align: left;">Penghasilan</td>
+            <td style="width: 1.04781%; text-align: center;">:</td>
+            <td style="width: 70.5959%; text-align: justify;">[Form_penghasilan_ibU]</td>
+            </tr>
+            </tbody>
+            </table>
+            <p style="text-align: justify; text-indent: 30px;">Dengan penghasilan rata-rata <strong>Orang Tua [Form_penghasilan_orang_tua_ayah_ibU]</strong><strong> </strong>setiap bulannya.</p>
+            <p style="text-align: justify; text-indent: 30px;">Demikian Surat Keterangan Penghasilan Orangtua ini dibuat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya.</p>
+            <p>\u{a0}</p>
+            <table style="border-collapse: collapse; width: 100%;" border="0">
+            <tbody>
+            <tr>
+            <td style="width: 35%; text-align: center;">\u{a0}</td>
+            <td style="width: 30%;">\u{a0}</td>
+            <td style="width: 35%; text-align: center;">[NaMa_desa], [TgL_surat]</td>
+            </tr>
+            <tr>
+            <td style="width: 35%; text-align: center;">\u{a0}</td>
+            <td style="width: 30%;">\u{a0}</td>
+            <td style="width: 35%; text-align: center;">[Atas_namA]</td>
+            </tr>
+            <tr>
+            <td style="width: 35%; text-align: center;">\u{a0}</td>
+            <td style="width: 30%;"><br /><br /><br /><br /></td>
+            <td style="width: 35%;">\u{a0}</td>
+            </tr>
+            <tr>
+            <td style="width: 35%; text-align: center;">\u{a0}</td>
+            <td style="width: 30%;">\u{a0}</td>
+            <td style="width: 35%; text-align: center;">[Nama_pamonG]</td>
+            </tr>
+            <tr>
+            <td style="width: 35%;">\u{a0}</td>
+            <td style="width: 30%;">\u{a0}</td>
+            <td style="width: 35%; text-align: center;">[SEbutan_nip_desa] : [nip_pamong]</td>
+            </tr>
+            </tbody>
+            </table>
+            <div style="text-align: center;"><br />[qr_code]</div>
+            HTML;
+
+        $data = [
+            'nama'                => 'Keterangan Penghasilan Orang Tua',
+            'kode_surat'          => 'S-42',
+            'masa_berlaku'        => 1,
+            'satuan_masa_berlaku' => 'M',
+            'orientasi'           => 'Potrait',
+            'ukuran'              => 'F4',
+            'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
+            'qr_code'             => StatusEnum::TIDAK,
+            'kode_isian'          => '[{"tipe":"text","kode":"[form_nomor_induk_siswamahasiswa]","nama":"Nomor Induk Siswa\/Mahasiswa","deskripsi":"Masukkan Nomor Induk Siswa\/Mahasiswa","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_jurusanfakultasprodi]","nama":"Jurusan\/Fakultas\/Prodi","deskripsi":"Masukkan Jurusan\/Fakultas\/Prodi","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_sekolahperguruan_tinggi]","nama":"Sekolah\/Perguruan Tinggi","deskripsi":"Masukkan Sekolah\/Perguruan Tinggi","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_kelassemester]","nama":"Kelas\/Semester","deskripsi":"Masukkan Kelas\/Semester","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_penghasilan_ayah]","nama":"Penghasilan Ayah","deskripsi":"Masukkan Penghasilan Ayah","atribut":"class=\"required rupiah\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_penghasilan_ibu]","nama":"Penghasilan Ibu","deskripsi":"Masukkan Penghasilan Ibu","atribut":"class=\"required rupiah\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_penghasilan_orang_tua_ayah_ibu]","nama":"Penghasilan Orang Tua (Ayah + Ibu)","deskripsi":"Masukkan Penghasilan Orang Tua (Ayah + Ibu)","atribut":"class=\"required rupiah\"","pilihan":null,"refrensi":null}]',
+            'form_isian'          => '{"data":"1","individu":{"sex":"","status_dasar":"","kk_level":"4"}}',
+            'mandiri'             => StatusEnum::TIDAK,
+            'syarat_surat'        => null,
+            'lampiran'            => null,
+            'template'            => $template,
+        ];
+
+        return $hasil && $this->tambah_surat_tinymce($data, $id);
     }
 
     // Function Migrasi TinyMCE
