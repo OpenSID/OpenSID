@@ -61,6 +61,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
         $hasil = $hasil && $this->migrasi_2023061351($hasil);
         $hasil = $hasil && $this->migrasi_2023061451($hasil);
         $hasil = $hasil && $this->migrasi_2023061752($hasil);
+        $hasil = $hasil && $this->migrasi_2023061751($hasil);
 
         return $hasil && true;
     }
@@ -272,10 +273,20 @@ class Migrasi_fitur_premium_2307 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2023061751($hasil)
+    {
+        $sql = <<<'SQL'
+                    ALTER TABLE tweb_penduduk MODIFY COLUMN hubung_warga varchar(50) NULL
+            SQL;
+        DB::statement($sql);
+
+        return $hasil;
+    }
+
     protected function migrasi_2023061752($hasil)
     {
         $sql = <<<'SQL'
-                  SHOW TABLE STATUS WHERE ENGINE != 'InnoDB'
+                    SHOW TABLE STATUS WHERE ENGINE != 'InnoDB'
             SQL;
         $innoDb = DB::select($sql);
         if ($innoDb) {
