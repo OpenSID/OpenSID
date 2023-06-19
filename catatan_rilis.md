@@ -25,6 +25,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 19. [#6751](https://github.com/OpenSID/OpenSID/issues/6751) Perbaikan hapus data penduduk pada modul suplemen.
 20. [#6742](https://github.com/OpenSID/OpenSID/issues/6742) Perbaikan atribut required pada data awal surat tinymce.
 21. [#6721](https://github.com/OpenSID/OpenSID/issues/6721) Perbaikan data kelompok/lembaga yang tidak valid.
+22. [#6759](https://github.com/OpenSID/OpenSID/issues/6759) Perbaikan migrasi dtks.
 
 
 #### Perubahan Teknis
