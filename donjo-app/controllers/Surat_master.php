@@ -799,6 +799,8 @@ class Surat_master extends Admin_Controller
         $template_surat = json_encode($surat->template_desa ?? $surat->template);
         $qr_code        = getVariableName(StatusEnum::class, $surat->qr_code);
         $mandiri        = getVariableName(StatusEnum::class, $surat->mandiri);
+        $syarat_surat   = $surat->syarat_surat ?: 'null';
+        $lampiran       = $surat->lampiran ?: 'null';
 
         $import = <<<'EOS'
             use App\Enums\StatusEnum;
@@ -813,7 +815,6 @@ class Surat_master extends Admin_Controller
             protected function {$nama_fuction}(\$hasil, \$id)
                 {
                     \$data = [
-                        'config_id'           => \$id,
                         'nama'                => '{$surat->nama}',
                         'kode_surat'          => '{$surat->kode_surat}',
                         'masa_berlaku'        => {$surat->masa_berlaku},
@@ -825,7 +826,8 @@ class Surat_master extends Admin_Controller
                         'kode_isian'          => '{$kode_isian}',
                         'form_isian'          => '{$form_isian}',
                         'mandiri'             => StatusEnum::{$mandiri},
-                        'syarat_surat'        => {$surat->syarat_surat},
+                        'syarat_surat'        => {$syarat_surat},
+                        'lampiran'            => {$lampiran},
                         'template'            => {$template_surat},
                     ];
 

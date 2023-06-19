@@ -1097,8 +1097,12 @@ class Migrasi_multidb extends MY_model
         $hasil = $hasil && $this->tambah_config_id('dtks');
         $hasil = $hasil && $this->tambah_config_id('dtks_anggota');
         $hasil = $hasil && $this->tambah_config_id('dtks_pengaturan_program');
-        $hasil = $hasil && $this->buat_ulang_index('dtks_pengaturan_program', 'versi_kuisioner', '(`config_id`, `versi_kuisioner`)');
-        $hasil = $hasil && $this->buat_ulang_index('dtks_pengaturan_program', 'kode', '(`config_id`, `kode`)');
+
+        $hasil = $hasil && $this->hapus_indeks('dtks_pengaturan_program', 'versi_kuisioner');
+        $hasil = $hasil && $this->hapus_indeks('dtks_pengaturan_program', 'kode_config');
+        // buat dulu constraint yang baru, kalau tidak akan error karena sudah ada foreign key
+        $hasil = $hasil && $this->tambahIndeks('dtks_pengaturan_program', 'config_id,versi_kuisioner,kode', 'UNIQUE', true);
+        $hasil = $hasil && $this->hapus_indeks('dtks_pengaturan_program', 'versi_kuisioner_config');
 
         return $hasil && $this->tambah_config_id('dtks_lampiran');
     }

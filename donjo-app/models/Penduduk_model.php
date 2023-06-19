@@ -1002,9 +1002,10 @@ class Penduduk_model extends MY_Model
             unset($data['tanggalperceraian']);
         }
 
-        $data['config_id'] = $this->config_id;
-        $outp              = $this->db->insert('tweb_penduduk', $data);
-        $idku              = $this->db->insert_id();
+        $data['hubung_warga'] = empty($data['hubung_warga']) ? null : $data['hubung_warga'];
+        $data['config_id']    = $this->config_id;
+        $outp                 = $this->db->insert('tweb_penduduk', $data);
+        $idku                 = $this->db->insert_id();
 
         if ($foto = upload_foto_penduduk(time() . '-' . $idku . '-' . mt_rand(10000, 999999))) {
             $this->config_id()->where('id', $idku)->update('tweb_penduduk', ['foto' => $foto]);

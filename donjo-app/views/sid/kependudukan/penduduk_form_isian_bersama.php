@@ -489,7 +489,7 @@
 	<div class='col-sm-4'>
 		<div class='form-group'>
 			<label for="status_kawin"> Cara Hubung Warga </label>
-			<select class="form-control input-sm required" name="hubung_warga">
+			<select class="form-control input-sm" name="hubung_warga">
 				<option value="">Pilih Cara Hubungi</option>
 				<?php foreach (['SMS', 'Email', 'Telegram'] as $value) : ?>
 					<?php
