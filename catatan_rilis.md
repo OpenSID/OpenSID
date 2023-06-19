@@ -45,3 +45,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 9. [#6622](https://github.com/OpenSID/OpenSID/issues/6622) Pisahkan modul layanan pelanggan ke third_party agar mudah di pindahkan ke rilis umum.
 10. [#6754](https://github.com/OpenSID/OpenSID/issues/6754) Penyesuaian semua engine tabel menjadi InnoDB yang membuat migrasi gagal.
 11. [#6761](https://github.com/OpenSID/OpenSID/issues/6761) Penghapusan view tambah pengguna dengan untuk pilihan data posyandu yang tidak digunakan.
+12. [#6755](https://github.com/OpenSID/OpenSID/issues/6755) Pisahkan modul layanan pendaftaran kerjasama ke third_party agar mudah di pindahkan ke rilis umum.
