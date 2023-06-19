@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="group">Group</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control input-sm required" id="id_grup" name="id_grup" onchange="cekKpm()">
+                                    <select class="form-control input-sm required" id="id_grup" name="id_grup">
                                         <?php if ($user['id'] === super_admin()) : ?>
                                             <option <?php selected($user['id_grup'], '1'); ?> value="1">Administrator</option>
                                         <?php else : ?>
@@ -45,17 +45,6 @@
                                                 <option <?php selected($user['id_grup'], $item['id']); ?> value="<?= $item['id'] ?>"><?= $item['nama'] ?></option>
                                             <?php endforeach ?>
                                         <?php endif ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="posyandu" class="form-group" style="display: none;">
-                                <label class="col-sm-3 control-label" for="group">Posyandu</label>
-                                <div class="col-sm-8">
-                                    <select class="form-control input-sm" id="id_posyandu" name="id_posyandu">
-                                        <option value="">- Pilih Posyandu -</option>
-                                        <?php foreach ($posyandu as $item) : ?>
-                                            <option <?php selected($posyandu_id, $item->id_posyandu); ?> value="<?= $item->id_posyandu ?>"><?= $item->nama_posyandu ?></option>
-                                        <?php endforeach ?>
                                     </select>
                                 </div>
                             </div>
@@ -152,23 +141,6 @@
         </div>
     </section>
 </div>
-
-<script>
-    window.addEventListener("load", function() {
-        cekKpm();
-    });
-
-    function cekKpm() {
-        var grup = '<?= json_encode($akses) ?>';
-        var x = document.getElementById("id_grup").value;
-        var y = document.getElementById("posyandu");
-        if (grup.includes(x)) {
-            y.style.display = "none";
-        } else {
-            y.style.display = "block";
-        }
-    }
-</script>
 
 <script type="text/javascript">
     $(function() {
