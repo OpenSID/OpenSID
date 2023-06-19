@@ -60,6 +60,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
         $hasil = $hasil && $this->migrasi_2023060452($hasil);
         $hasil = $hasil && $this->migrasi_2023061351($hasil);
         $hasil = $hasil && $this->migrasi_2023061451($hasil);
+        $hasil = $hasil && $this->migrasi_2023061752($hasil);
 
         return $hasil && true;
     }
@@ -264,9 +265,24 @@ class Migrasi_fitur_premium_2307 extends MY_model
     protected function migrasi_2023061552($hasil)
     {
         $sql = <<<'SQL'
-                    update tweb_surat_format set kode_isian = REPLACE (kode_isian, '"atribut":"required"', '"atribut":"class=\\"required\\""') where kode_isian like '%"atribut":"required"%'
+                    update tweb_surat_format set kode_isian = REPLACE (kode_isian, '"atribut":"required"', '"atribut":"class=\"required\""') where kode_isian like '%"atribut":"required"%'
             SQL;
         DB::statement($sql);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023061752($hasil)
+    {
+        $sql = <<<'SQL'
+                  SHOW TABLE STATUS WHERE ENGINE != 'InnoDB'
+            SQL;
+        $innoDb = DB::select($sql);
+        if ($innoDb) {
+            foreach ($innoDb as $table) {
+                DB::statement('ALTER TABLE ' . $table->Name . ' ENGINE = InnoDB'); //query untuk ubah ke innoDB;
+            }
+        }
 
         return $hasil;
     }
