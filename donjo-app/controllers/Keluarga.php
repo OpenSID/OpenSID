@@ -694,7 +694,7 @@ class Keluarga extends Admin_Controller
     public function form_pecah_semua($id = 0)
     {
         $this->redirect_hak_akses('u');
-        $data['kk']             = $this->keluarga_model->get_keluarga($id) ?? show_404();
+        $data['kk']             = $this->keluarga_model->get_keluarga($id);
         $data['anggota']        = $this->keluarga_model->list_anggota($id, ['dengan_kk' => false]);
         $data['nokk_sementara'] = $this->keluarga_model->nokk_sementara();
         $data['form_action']    = site_url("{$this->controller}/pecah_semua/{$id}");

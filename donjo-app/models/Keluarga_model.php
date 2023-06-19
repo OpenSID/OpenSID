@@ -910,6 +910,7 @@ class Keluarga_model extends MY_Model
             $no_kk = $this->config_id()
                 ->select('no_kk')
                 ->from('tweb_keluarga')
+                ->where($kolom_id, $id)
                 ->get()->row()->no_kk;
             $data['no_kk'] = $no_kk;
             $data['id_kk'] = $id;
