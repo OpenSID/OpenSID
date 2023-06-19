@@ -392,7 +392,147 @@ class Migrasi_fitur_premium_2307 extends MY_model
             'form_isian'          => '{"data":"1","individu":{"sex":"","status_dasar":"","kk_level":""}}',
             'mandiri'             => StatusEnum::TIDAK,
             'syarat_surat'        => null,
-            'template'            => '<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]</span></h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br /><br /></p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan bahwa berdasarkan keterangan dari :</p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 141.25px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 19.75px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 19.75px;\">Nama</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 19.75px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 19.75px; text-align: justify;\"><strong>[NAma]</strong></td>\r\n</tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 19.75px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 19.75px;\">Tempat / Tanggal Lahir</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 19.75px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 19.75px; text-align: justify;\">[TtL]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 18px;\">Umur</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Usia]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 18px;\">Jenis Kelamin</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Jenis_kelamin]</td>\r\n</tr>\r\n<tr style=\"height: 10px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 10px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 10px;\">Pekerjaan</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 10px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 10px; text-align: justify;\">[Pekerjaan]</td>\r\n</tr>\r\n<tr style=\"height: 36px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 36px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 36px;\">Alamat<br /><br /></td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 36px;\">:<br /><br /></td>\r\n<td style=\"width: 62.4872%; height: 36px; text-align: justify;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Orang tersebut adalah penduduk [Sebutan_desa] [NaMa_desa], yang mempunyai kendaraan dengan rincian sebagai berikut, sesuai BPKB :</p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 180px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 18px;\">Merk / Type</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Form_merktypE]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 18px;\">Tahun Pembuatan</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Form_tahun_pembuataN]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 18px;\">Warna</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Form_warna_kendaraaN]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 18px;\">Nomor Polisi</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Form_nomor_polisI]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 18px;\">Nomor Mesin</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Form_nomor_mesiN]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 18px;\">Nomor Rangka</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Form_nomor_rangkA]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 18px;\">Nomor BPKB</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Form_nomor_bpkB]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 18px;\">Bahan Bakar</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Form_bahan_bakaR]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 18px;\">Isi Silinder</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Form_isi_silindeR]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.5221%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 31.7575%; text-align: left; height: 18px;\">Atas Nama</td>\r\n<td style=\"width: 1.33607%; text-align: center; height: 18px;\">:</td>\r\n<td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Form_atas_namA]</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Kendaraan tersebut di atas adalah milik <strong>[NAma]</strong> yang beralamat di <strong>[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten].</strong> Surat keterangan ini dipergunakan untuk : <strong>[Form_keperluaN]</strong>.</p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya, untuk dipergunakan sebagaimana mestinya.<br /><br /></p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 144px;\" border=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\"> </td>\r\n<td style=\"width: 30%; height: 18px;\"> </td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[NaMa_desa], [TgL_surat]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">Pemilik</td>\r\n<td style=\"width: 30%; height: 18px;\"> </td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[Atas_namA]</td>\r\n</tr>\r\n<tr style=\"height: 72px;\">\r\n<td style=\"width: 35%; text-align: center; height: 72px;\"> </td>\r\n<td style=\"width: 30%; height: 72px;\"><br /><br /><br /><br /></td>\r\n<td style=\"width: 35%; height: 72px;\"> </td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[NamA]</td>\r\n<td style=\"width: 30%; height: 18px;\"> </td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[Nama_pamonG]</td>\r\n</tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; height: 18px;\"> </td>\r\n<td style=\"width: 30%; height: 18px;\"> </td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[SEbutan_nip_desa] : [nip_pamong]</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<div style=\"text-align: center;\"> </div>',
+            'template'            => "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]</span></h4>
+            <p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br /><br /></p>
+            <p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan bahwa berdasarkan keterangan dari :</p>
+            <table style=\"border-collapse: collapse; width: 100%; height: 118px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+            <tbody>
+            <tr style=\"height: 10px;\">
+            <td style=\"width: 4.5221%; text-align: center; height: 10px;\">\u{a0}</td>
+            <td style=\"width: 31.7575%; text-align: left; height: 10px;\">Nama Lengkap</td>
+            <td style=\"width: 1.2333%; text-align: center; height: 10px;\">:</td>
+            <td style=\"width: 62.4872%; height: 10px; text-align: justify;\"><strong>[NAma]</strong></td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.5221%; text-align: center; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7575%; text-align: left; height: 18px;\">Tempat / Tanggal Lahir</td>
+            <td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>
+            <td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[TtL]</td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.5221%; text-align: center; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7575%; text-align: left; height: 18px;\">Umur</td>
+            <td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>
+            <td style=\"width: 62.4872%; text-align: justify; height: 18px;\">[UsIa]</td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.5221%; text-align: center; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7575%; text-align: left; height: 18px;\">Jenis Kelamin</td>
+            <td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>
+            <td style=\"width: 62.4872%; height: 18px; text-align: justify;\">[Jenis_kelamin]</td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.5221%; text-align: center; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7575%; text-align: left; height: 18px;\">Pekerjaan</td>
+            <td style=\"width: 1.2333%; text-align: center; height: 18px;\">:</td>
+            <td style=\"width: 62.4872%; text-align: justify; height: 18px;\">[PeKerjaan]</td>
+            </tr>
+            <tr style=\"height: 36px;\">
+            <td style=\"width: 4.5221%; text-align: center; height: 36px;\">\u{a0}</td>
+            <td style=\"width: 31.7575%; text-align: left; height: 36px;\">Alamat / Tempat Tinggal<br /><br /></td>
+            <td style=\"width: 1.2333%; text-align: center; height: 36px;\">:<br /><br /></td>
+            <td style=\"width: 62.4872%; height: 36px; text-align: justify;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]</td>
+            </tr>
+            </tbody>
+            </table>
+            <p style=\"text-align: justify; text-indent: 30px;\">Orang tersebut adalah penduduk [Sebutan_desa] [NaMa_desa], yang mempunyai kendaraan dengan rincian sebagai berikut, sesuai BPKB :<strong><br /></strong></p>
+            <table style=\"border-collapse: collapse; width: 100%; height: 180px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+            <tbody>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.53172%; text-align: center; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7221%; height: 18px;\">Merk / Type</td>
+            <td style=\"width: 1.20846%; text-align: center; height: 18px;\">:</td>
+            <td style=\"width: 62.5378%; height: 18px;\">[Form_merktypE]</td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.53172%; text-align: center; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7221%; height: 18px;\">Tahun Pembuatan</td>
+            <td style=\"width: 1.20846%; text-align: center; height: 18px;\">:</td>
+            <td style=\"width: 62.5378%; height: 18px;\">[Form_tahun_pembuataN]</td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.53172%; text-align: center; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7221%; height: 18px;\">Warna</td>
+            <td style=\"width: 1.20846%; text-align: center; height: 18px;\">:</td>
+            <td style=\"width: 62.5378%; height: 18px;\">[Form_warna_kendaraaN]</td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.53172%; text-align: center; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7221%; height: 18px;\">Nomor Polisi</td>
+            <td style=\"width: 1.20846%; text-align: center; height: 18px;\">:</td>
+            <td style=\"width: 62.5378%; height: 18px;\">[Form_nomor_polisI]</td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.53172%; text-align: center; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7221%; height: 18px;\">Nomor Mesin</td>
+            <td style=\"width: 1.20846%; text-align: center; height: 18px;\">:</td>
+            <td style=\"width: 62.5378%; height: 18px;\">[Form_nomor_mesiN]</td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.53172%; text-align: center; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7221%; height: 18px;\">Nomor Rangka</td>
+            <td style=\"width: 1.20846%; text-align: center; height: 18px;\">:</td>
+            <td style=\"width: 62.5378%; height: 18px;\">[Form_nomor_rangkA]</td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.53172%; text-align: center; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7221%; height: 18px;\">Nomor BPKB</td>
+            <td style=\"width: 1.20846%; text-align: center; height: 18px;\">:</td>
+            <td style=\"width: 62.5378%; height: 18px;\">[Form_nomor_bpkB]</td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.53172%; text-align: center; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7221%; height: 18px;\">Bahan Bakar</td>
+            <td style=\"width: 1.20846%; text-align: center; height: 18px;\">:</td>
+            <td style=\"width: 62.5378%; height: 18px;\">[Form_bahan_bakaR]</td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.53172%; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7221%; height: 18px;\">Isi Silinder</td>
+            <td style=\"width: 1.20846%; height: 18px;\">\u{a0}:</td>
+            <td style=\"width: 62.5378%; height: 18px;\">[Form_isi_silindeR]</td>
+            </tr>
+            <tr style=\"height: 18px;\">
+            <td style=\"width: 4.53172%; height: 18px;\">\u{a0}</td>
+            <td style=\"width: 31.7221%; height: 18px;\">Atas Nama</td>
+            <td style=\"width: 1.20846%; height: 18px;\">\u{a0}:</td>
+            <td style=\"width: 62.5378%; height: 18px;\">[Form_atas_namA]</td>
+            </tr>
+            </tbody>
+            </table>
+            <p style=\"text-align: justify; text-indent: 30px;\">Kendaraan tersebut di atas adalah milik <strong>[NAma]</strong> yang beralamat di <strong>[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten].</strong> Surat keterangan ini dipergunakan untuk : <strong>[Form_keperluan_pembuatan_suraT]</strong>.</p>
+            <p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya, untuk dipergunakan sebagaimana mestinya.</p>
+            <p style=\"text-align: justify; text-indent: 30px;\">\u{a0}</p>
+            <table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">
+            <tbody>
+            <tr>
+            <td style=\"width: 35%; text-align: center;\">\u{a0}</td>
+            <td style=\"width: 30%;\">\u{a0}</td>
+            <td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]</td>
+            </tr>
+            <tr>
+            <td style=\"width: 35%; text-align: center;\">Pemilik</td>
+            <td style=\"width: 30%;\">\u{a0}</td>
+            <td style=\"width: 35%; text-align: center;\">[Atas_namA]</td>
+            </tr>
+            <tr>
+            <td style=\"width: 35%; text-align: center;\">\u{a0}</td>
+            <td style=\"width: 30%;\"><br /><br /><br /><br /></td>
+            <td style=\"width: 35%;\">\u{a0}</td>
+            </tr>
+            <tr>
+            <td style=\"width: 35%; text-align: center;\">[NamA]</td>
+            <td style=\"width: 30%;\">\u{a0}</td>
+            <td style=\"width: 35%; text-align: center;\">[Nama_pamonG]</td>
+            </tr>
+            <tr>
+            <td style=\"width: 35%;\">\u{a0}</td>
+            <td style=\"width: 30%;\">\u{a0}</td>
+            <td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]</td>
+            </tr>
+            </tbody>
+            </table>
+            <div style=\"text-align: center;\">\u{a0}</div>",
         ];
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
