@@ -87,6 +87,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->suratPerintahPerjalananDinas($hasil, $id);
             $hasil = $hasil && $this->suratPermohonanDuplikatNikah($hasil, $id);
             $hasil = $hasil && $this->suratPenghasilanAyah($hasil, $id);
+            $hasil = $hasil && $this->suratKeteranganKepemilikanTanah($hasil, $id);
             // Jalankan Migrasi TinyMCE
         }
 
@@ -1989,6 +1990,156 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
         // Function Migrasi TinyMCE
+    }
+
+    protected function suratKeteranganKepemilikanTanah($hasil, $id)
+    {
+        $template = <<<HTML
+                    <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">[JUdul_surat]</span></h4>
+                    <p style="margin: 0; text-align: center;">Nomor : [Format_nomor_suraT]<br /><br /></p>
+                    <p style="text-indent: 30px; text-align: justify;">Yang bertanda tangan di bawah ini :</p>
+                    <table style="border-collapse: collapse; width: 100.114%; height: 42px;" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr style="height: 21px;">
+                    <td style="width: 30px; text-align: center; height: 21px;">\u{a0}</td>
+                    <td style="width: 20.5239%; text-align: left; height: 21px;">Nama</td>
+                    <td style="width: 1.14525%; height: 21px; text-align: left;">:</td>
+                    <td style="width: 76.445%; height: 21px; text-align: justify;"><strong>[NAma]</strong></td>
+                    </tr>
+                    <tr style="height: 21px;">
+                    <td style="width: 30px; text-align: center; height: 21px;">\u{a0}</td>
+                    <td style="width: 20.5239%; text-align: left; height: 21px;">Jabatan</td>
+                    <td style="width: 1.14525%; height: 21px; text-align: left;">:</td>
+                    <td style="width: 76.445%; text-align: justify; height: 21px;">[JabataN]</td>
+                    </tr>
+                    </tbody>
+                    </table>
+                    <p style="text-align: justify; text-indent: 30px;">Dengan ini menerangkan bahwa :</p>
+                    <table style="border-collapse: collapse; width: 100%; height: 118.922px;" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr style="height: 19.8125px;">
+                    <td style="width: 30px; text-align: center; height: 19.8125px;">\u{a0}</td>
+                    <td style="width: 20.6571%; text-align: left; height: 19.8125px;">Nama  </td>
+                    <td style="width: 1.03204%; height: 19.8125px; text-align: left;">:</td>
+                    <td style="width: 76.5364%; height: 19.8125px; text-align: justify;">[NamA]</td>
+                    </tr>
+                    <tr style="height: 19.8125px;">
+                    <td style="width: 30px; text-align: center; height: 19.8125px;">\u{a0}</td>
+                    <td style="width: 20.6571%; text-align: left; height: 19.8125px;">Tempat / Tanggal Lahir</td>
+                    <td style="width: 1.03204%; height: 19.8125px; text-align: left;">:</td>
+                    <td style="width: 76.5364%; height: 19.8125px; text-align: justify;">[TempatlahiR] / [TanggallahiR]</td>
+                    </tr>
+                    <tr style="height: 19.8125px;">
+                    <td style="width: 30px; text-align: center; height: 19.8125px;">\u{a0}</td>
+                    <td style="width: 20.6571%; text-align: left; height: 19.8125px;">Umur</td>
+                    <td style="width: 1.03204%; height: 19.8125px; text-align: left;">:</td>
+                    <td style="width: 76.5364%; text-align: justify; height: 19.8125px;">[UsiA]</td>
+                    </tr>
+                    <tr style="height: 19.8125px;">
+                    <td style="width: 30px; text-align: center; height: 19.8125px;">\u{a0}</td>
+                    <td style="width: 20.6571%; text-align: left; height: 19.8125px;">Jenis Kelamin</td>
+                    <td style="width: 1.03204%; height: 19.8125px; text-align: left;">:</td>
+                    <td style="width: 76.5364%; height: 19.8125px; text-align: justify;">[Jenis_kelamiN]</td>
+                    </tr>
+                    <tr style="height: 19.8125px;">
+                    <td style="width: 30px; text-align: center; height: 19.8125px;">\u{a0}</td>
+                    <td style="width: 20.6571%; text-align: left; height: 19.8125px;">Pekerjaan</td>
+                    <td style="width: 1.03204%; height: 19.8125px; text-align: left;">:</td>
+                    <td style="width: 76.5364%; text-align: justify; height: 19.8125px;">[PekerjaaN]</td>
+                    </tr>
+                    <tr style="height: 19.8594px;">
+                    <td style="width: 30px; text-align: center; height: 19.8594px;">\u{a0}</td>
+                    <td style="width: 20.6571%; text-align: left; height: 19.8594px;">Alamat</td>
+                    <td style="width: 1.03204%; height: 19.8594px; text-align: left;">:</td>
+                    <td style="width: 76.5364%; text-align: justify; height: 19.8594px;">[AlamaT]</td>
+                    </tr>
+                    </tbody>
+                    </table>
+                    <p style="text-indent: 30px; text-align: justify;">Adalah benar-benar penduduk [Sebutan_desA] [NaMa_desa], yang memiliki/menguasai tanah/lahan berupa <strong>[FOrm_jenis_tanah]</strong> atas nama <strong>[Form_atas_namA]</strong>, yang berada di [Sebutan_desA] [NaMa_desa]. Tercatat dalam <strong>[FOrm_bukti_kepemilikan]</strong>, Nomor : <strong>[Form_nomor_bukti_kepemilikaN]</strong>, Luas :<strong>[Form_luas_tanaH]</strong>M<sup>2</sup>, dengan batas-batas :</p>
+                    <table style="border-collapse: collapse; width: 100%; height: 72px;" border="0">
+                    <tbody>
+                    <tr style="height: 18px;">
+                    <td style="width: 30px; height: 18px;">\u{a0}</td>
+                    <td style="width: 20.2564%; height: 18px;">Sebelah Utara</td>
+                    <td style="width: 1.14646%; height: 18px;">:</td>
+                    <td style="width: 76.5937%; height: 18px;">[Form_batas_sebelah_utarA]</td>
+                    </tr>
+                    <tr style="height: 18px;">
+                    <td style="width: 30px; height: 18px;">\u{a0}</td>
+                    <td style="width: 20.2564%; height: 18px;">Sebelah Timur</td>
+                    <td style="width: 1.14646%; height: 18px;">:</td>
+                    <td style="width: 76.5937%; height: 18px;">[Form_batas_sebelah_timuR]</td>
+                    </tr>
+                    <tr style="height: 18px;">
+                    <td style="width: 30px; height: 18px;">\u{a0}</td>
+                    <td style="width: 20.2564%; height: 18px;">Sebelah Selatan</td>
+                    <td style="width: 1.14646%; height: 18px;">:</td>
+                    <td style="width: 76.5937%; height: 18px;">[Form_batas_sebelah_selataN]</td>
+                    </tr>
+                    <tr style="height: 18px;">
+                    <td style="width: 30px; height: 18px;">\u{a0}</td>
+                    <td style="width: 20.2564%; height: 18px;">Sebelah Barat</td>
+                    <td style="width: 1.14646%; height: 18px;">:</td>
+                    <td style="width: 76.5937%; height: 18px;">[Form_batas_sebelah_baraT]</td>
+                    </tr>
+                    </tbody>
+                    </table>
+                    <ol>
+                    <li style="text-align: justify;">Tanah tersebut benar-benar <em>MILIK</em> yang bersangkutan dan <strong>tidak dalam keadaan sengketa</strong>.</li>
+                    <li style="text-align: justify;">Tanah tersebut berasal dari <strong>[FOrm_asal_kepmilikan_tanah]</strong> dan sampai dengan sekarang belum terdaftar / didaftarkan Hak nya ke BPN (belumditerbitkan : SIIM / SIIGB / SIIGU / LAINNYA)</li>
+                    <li style="text-align: justify;">Bukti pendukung kepemilikan sementara ini berupa <strong>[Form_bukti_pendukung_kepemilikan]</strong>.</li>
+                    </ol>
+                    <p style="text-indent: 30px;">Demikian surat ini dibuat, untuk dipergunakan sebagaimana mestinya.</p>
+                    <p style="text-align: justify; text-indent: 30px;"><br /><br /></p>
+                    <table style="border-collapse: collapse; width: 100%;" border="0">
+                    <tbody>
+                    <tr>
+                    <td style="width: 35%; text-align: center;">\u{a0}</td>
+                    <td style="width: 30%;">\u{a0}</td>
+                    <td style="width: 35%; text-align: center;">[NaMa_desa], [TgL_surat]</td>
+                    </tr>
+                    <tr>
+                    <td style="width: 35%; text-align: center;">Pemilih</td>
+                    <td style="width: 30%;">\u{a0}</td>
+                    <td style="width: 35%; text-align: center;">[Atas_namA]</td>
+                    </tr>
+                    <tr>
+                    <td style="width: 35%; text-align: center;">\u{a0}</td>
+                    <td style="width: 30%;"><br /><br /><br /><br /></td>
+                    <td style="width: 35%;">\u{a0}</td>
+                    </tr>
+                    <tr>
+                    <td style="width: 35%; text-align: center;">[NAma]</td>
+                    <td style="width: 30%;">\u{a0}</td>
+                    <td style="width: 35%; text-align: center;">[Nama_pamonG]</td>
+                    </tr>
+                    <tr>
+                    <td style="width: 35%;">\u{a0}</td>
+                    <td style="width: 30%;">\u{a0}</td>
+                    <td style="width: 35%; text-align: center;">[SEbutan_nip_desa] : [nip_pamong]</td>
+                    </tr>
+                    </tbody>
+                    </table>
+                    <div style="text-align: center;"><br />[qr_code]</div>
+            HTML;
+        $data = [
+            'nama'                => 'Keterangan Kepemilikan Tanah',
+            'kode_surat'          => 'S-49',
+            'masa_berlaku'        => 1,
+            'satuan_masa_berlaku' => 'd',
+            'orientasi'           => 'Potrait',
+            'ukuran'              => 'F4',
+            'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
+            'qr_code'             => StatusEnum::TIDAK,
+            'kode_isian'          => '[{"tipe":"select-manual","kode":"[form_jenis_tanah]","nama":"Jenis Tanah","deskripsi":"- Pilih Jenis Tanah -","atribut":"class=\"required\"","pilihan":["Tanah Sawah","Tanah Darat","Tanah Bangunan"],"refrensi":null},{"tipe":"number","kode":"[form_luas_tanah]","nama":"Luas Tanah","deskripsi":"Luas Tanah (dalam M2)","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"select-manual","kode":"[form_bukti_kepemilikan]","nama":"Bukti Kepemilikan","deskripsi":"- Pilih Bukti Kepemilikan Tanah -","atribut":"class=\"required\"","pilihan":["Petok lama","Petok baru","Sit segel","Akta","Copy","Buku Krawangan Desa","Lainnya"],"refrensi":null},{"tipe":"text","kode":"[form_nomor_bukti_kepemilikan]","nama":"Nomor Bukti Kepemilikan","deskripsi":"- Nomor Bukti Kepemilikan -","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_atas_nama]","nama":"Atas Nama","deskripsi":"Atas Nama","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"select-manual","kode":"[form_asal_kepmilikan_tanah]","nama":"Asal Kepmilikan Tanah","deskripsi":"- Pilih Asal Kepemilikan Tanah -","atribut":"class=\"required\"","pilihan":["Yayasan","Warisan","Hibah","Jual Beli","Lainnya"],"refrensi":null},{"tipe":"text","kode":"[form_bukti_pendukung_kepemilikan]","nama":"Bukti Pendukung Kepemilikan","deskripsi":"Bukti Pendukung Kepemilikan","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_batas_sebelah_utara]","nama":"Batas Sebelah Utara","deskripsi":"Batas Sebelah Utara","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_batas_sebelah_timur]","nama":"Batas Sebelah Timur","deskripsi":"Batas Sebelah Timur","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_batas_sebelah_selatan]","nama":"Batas Sebelah Selatan","deskripsi":"Batas Sebelah Selatan","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_batas_sebelah_barat]","nama":"Batas Sebelah Barat","deskripsi":"Batas Sebelah Barat","atribut":"class=\"required\"","pilihan":null,"refrensi":null}]',
+            'form_isian'          => '{"data":"1","individu":{"sex":"","status_dasar":"","kk_level":""}}',
+            'mandiri'             => StatusEnum::TIDAK,
+            'syarat_surat'        => null,
+            'lampiran'            => null,
+            'template'            => $template,
+        ];
+
+        return $hasil && $this->tambah_surat_tinymce($data, $id);
     }
 
     // Function Migrasi TinyMCE
