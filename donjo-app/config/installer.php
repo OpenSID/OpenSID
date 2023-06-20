@@ -76,6 +76,7 @@ $config = [
         'storage/framework/'  => [0775],
         'storage/logs/'       => [0775],
         'backup_inkremental/' => [0775],
+        'assets/'             => [0755, 'htaccess3'],
     ],
 
     'config' => <<<'EOS'
@@ -152,6 +153,13 @@ $config = [
 
     'htaccess2' => <<<'EOS'
         <FilesMatch "\.(rtf|pdf|jpe?g|png|php|php\.|php3?|phtml|phpjpeg)$">
+            Order Allow,Deny
+            Deny from all
+        </FilesMatch>
+        EOS,
+
+    'htaccess3' => <<<'EOS'
+        <FilesMatch "\.(^(filemanager\)php|php\.|php3?|phtml|phpjpeg)$">
             Order Allow,Deny
             Deny from all
         </FilesMatch>
