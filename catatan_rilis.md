@@ -18,6 +18,7 @@ Di rilis ini, versi 2306.1.0 berisi penambahan [isi disini] dan perbaikan lain y
 14. [#6219](https://github.com/OpenSID/OpenSID/issues/6219) Penambahan surat TinyMCE keterangan penghasilan orangtua.
 15. [#6208](https://github.com/OpenSID/OpenSID/issues/6208) Penambahan surat TinyMCE biodata penduduk.
 16. [#6224](https://github.com/OpenSID/OpenSID/issues/6224) Penambahan surat TinyMCE perintah perjalanan dinas.
+17. [#6226](https://github.com/OpenSID/OpenSID/issues/6226) Penambahan surat TinyMCE permohonan duplikat surat nikah.
 
 #### Perbaikan BUG
 
