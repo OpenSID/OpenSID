@@ -84,7 +84,8 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->suratKepemilikanKendaraan($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPenghasilanOrangTua($hasil, $id);
             $hasil = $hasil && $this->suratBiodataPenduduk($hasil, $id);
-            // Jalankan Migrasi TinyMCE''''
+            $hasil = $hasil && $this->suratPerintahPerjalananDinas($hasil, $id);
+            // Jalankan Migrasi TinyMCE
         }
 
         // Migrasi tanpa config_id
@@ -180,7 +181,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
     protected function migrasi_2023061271($hasil)
     {
-        if (! $this->db->field_exists('foto', 'widget')) {
+        if (!$this->db->field_exists('foto', 'widget')) {
             $hasil = $hasil && $this->dbforge->add_column('widget', [
                 'foto' => [
                     'type'       => 'varchar',
@@ -197,7 +198,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
     {
         $fields = [];
 
-        if (! $this->db->field_exists('Kd_Bank', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Kd_Bank', 'keuangan_ta_spp')) {
             $fields['Kd_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -205,7 +206,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Nm_Bank', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Nm_Bank', 'keuangan_ta_spp')) {
             $fields['Nm_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -213,7 +214,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Nm_Penerima', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Nm_Penerima', 'keuangan_ta_spp')) {
             $fields['Nm_Penerima'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -221,7 +222,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Ref_Bayar', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Ref_Bayar', 'keuangan_ta_spp')) {
             $fields['Ref_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -229,7 +230,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
             $fields['Rek_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -237,7 +238,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
             $fields['Rek_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -245,7 +246,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spp')) {
             $fields['Tgl_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -253,7 +254,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Validasi', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Validasi', 'keuangan_ta_spp')) {
             $fields['Validasi'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -270,7 +271,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
     protected function migrasi_2023061451($hasil)
     {
-        if (! $this->db->field_exists('slug', 'user_grup')) {
+        if (!$this->db->field_exists('slug', 'user_grup')) {
             $hasil = $hasil && $this->dbforge->add_column('user_grup', [
                 'slug' => [
                     'type'       => 'varchar',
@@ -1270,6 +1271,672 @@ class Migrasi_fitur_premium_2307 extends MY_model
             </tbody>
             </table>
             <div style=\"text-align: center;\">\u{a0}</div>",
+        ];
+
+        return $hasil && $this->tambah_surat_tinymce($data, $id);
+    }
+
+    protected function suratPerintahPerjalananDinas($hasil, $id)
+    {
+        $nama_surat = 'Perintah Perjalanan Dinas';
+        $template   = <<<HTML
+                    <div>
+                <table style="border-collapse: collapse; width: 42.264%; height: 58px;" border="0" align="right">
+                    <tbody>
+                        <tr style="height: 18.75px;">
+                            <td style="width: 25.4998%; height: 18.75px;">Lembar Ke</td>
+                            <td style="width: 74.5527%; height: 18.75px;">:\u{a0}</td>
+                        </tr>
+                        <tr style="height: 18.75px;">
+                            <td style="width: 25.4998%; height: 18.75px;">Kode Ke</td>
+                            <td style="width: 74.5527%; height: 18.75px;">:\u{a0}</td>
+                        </tr>
+                        <tr style="height: 18.75px;">
+                            <td style="width: 25.4998%; height: 18.75px;">Nomor</td>
+                            <td style="width: 74.5527%; height: 18.75px;">: [Kode_suraT]/[Nomer_suraT]/437.103.09/[TahuN]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">[JUdul_surat]<br /><br /></span>
+            </h4>
+            <table style="border-collapse: collapse; width: 94.9743%; height: 803.203px; margin-left: auto; margin-right: auto;"
+                border="1">
+                <tbody>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">1. Pengguna Anggaran</td>
+                        <td style="width: 2.01724%; height: 18.75px;">:</td>
+                        <td style="width: 64.9718%; height: 18.75px;">[Sebutan_kepala_desA] [Nama_desA]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">2. Nama pegawai yang diperintah</td>
+                        <td style="width: 2.01724%; height: 18.75px;">:</td>
+                        <td style="width: 64.9718%; height: 18.75px;"><strong>[NamA]</strong></td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">3. a. Pangkat dan Golongan</td>
+                        <td style="width: 2.01724%; height: 18.75px;">a</td>
+                        <td style="width: 64.9718%; height: 18.75px;">[Form_pangkat_dan_golongaN]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">\u{a0} \u{a0} b. Jabatan/Instansi</td>
+                        <td style="width: 2.01724%; height: 18.75px;">b</td>
+                        <td style="width: 64.9718%; height: 18.75px;">[Form_jabataninstansI]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">\u{a0} \u{a0} c. Tingkat Biaya Perjalanan</td>
+                        <td style="width: 2.01724%; height: 18.75px;">c</td>
+                        <td style="width: 64.9718%; height: 18.75px;">[Form_tingkat_biaya_perjalanaN]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">4. Maksud Perjalanan Dinas</td>
+                        <td style="width: 2.01724%; height: 18.75px;">:</td>
+                        <td style="width: 64.9718%; height: 18.75px;"><strong>[Form_maksud_perjalanan_dinaS]</strong></td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">5. a. Tempat Berangkat</td>
+                        <td style="width: 2.01724%; height: 18.75px;">a.</td>
+                        <td style="width: 64.9718%; height: 18.75px;">Kantor [Sebutan_desA] [Nama_desA]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">\u{a0} \u{a0} b. Tempat Tujuan</td>
+                        <td style="width: 2.01724%; height: 18.75px;">b.</td>
+                        <td style="width: 64.9718%; height: 18.75px;">[Form_tempat_tujuaN]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">6. a. Tanggal Berangkat</td>
+                        <td style="width: 2.01724%; height: 18.75px;">a.</td>
+                        <td style="width: 64.9718%; height: 18.75px;">[Form_tanggal_berangkaT]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">b. Tanggal Kembali</td>
+                        <td style="width: 2.01724%; height: 18.75px;">b.</td>
+                        <td style="width: 64.9718%; height: 18.75px;">[Form_tanggal_kembalI]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">7. Alat angkut yang dipergunakan</td>
+                        <td style="width: 2.01724%; height: 18.75px;">:</td>
+                        <td style="width: 64.9718%; height: 18.75px;">[Form_alat_angkut_yang_digunakaN]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">8. Pengikut Nama</td>
+                        <td style="width: 2.01724%; height: 18.75px;">:</td>
+                        <td style="width: 64.9718%; height: 18.75px;">\u{a0}</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 35.0495%;" colspan="3">
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td width="50%">
+                                            <table>
+                                                <tbody>
+                                                    <tr style="height: 18.75px;">
+                                                        <td style="width: 8.4878%; height: 18.75px;" width="23">1.</td>
+                                                        <td style="width: 91.5091%; height: 18.75px;" width="283">
+                                                            [Form_nama_pengikut_I]</td>
+                                                    </tr>
+                                                    <tr style="height: 18.75px;">
+                                                        <td style="width: 8.4878%; height: 18.75px;" width="23">2.</td>
+                                                        <td style="width: 91.5091%; height: 18.75px;" width="283">
+                                                            [Form_nama_pengikut_iI]</td>
+                                                    </tr>
+                                                    <tr style="height: 18.75px;">
+                                                        <td style="width: 8.4878%; height: 18.75px;" width="23">3.</td>
+                                                        <td style="width: 91.5091%; height: 18.75px;" width="283">
+                                                            [Form_nama_pengikut_iiI]</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table>
+                                                <tbody>
+                                                    <tr style="height: 18.75px;">
+                                                        <td style="width: 8.19431%;" width="25">4.</td>
+                                                        <td style="width: 92.0655%;" width="262">[Form_nama_pengikut_iV]</td>
+                                                    </tr>
+                                                    <tr style="height: 18.75px;">
+                                                        <td style="width: 8.19431%;" width="25">5.</td>
+                                                        <td style="width: 92.0655%;" width="262">[Form_nama_pengikut_V]</td>
+                                                    </tr>
+                                                    <tr style="height: 18.75px;">
+                                                        <td style="width: 8.19431%;" width="25">6.</td>
+                                                        <td style="width: 92.0655%;" width="262">[Form_nama_pengikut_vI]</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">9. Pembebanan Anggaran</td>
+                        <td style="width: 2.01724%; height: 18.75px;">:</td>
+                        <td style="width: 64.9718%; height: 18.75px;">\u{a0}</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">a. Instansi</td>
+                        <td style="width: 2.01724%; height: 18.75px;">:</td>
+                        <td style="width: 64.9718%; height: 18.75px;">a. Kantor [Sebutan_desA] [Nama_desA]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">b. Mata Anggaran</td>
+                        <td style="width: 2.01724%; height: 18.75px;">:</td>
+                        <td style="width: 64.9718%; height: 18.75px;">b. APBKam\u{a0}\u{a0}Tahun [TahuN]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 33.0323%; height: 18.75px;">10. Keterangan lain-lain</td>
+                        <td style="width: 2.01724%; height: 18.75px;">:</td>
+                        <td style="width: 64.9718%; height: 18.75px;">[Form_keterangan_laiN]</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4 style="margin: 0; text-align: center;">\u{a0}</h4>
+            <table style="border-collapse: collapse; width: 97.4463%; height: 192px;" border="0">
+                <tbody>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 67.8329%; text-align: left;">\u{a0}</td>
+                        <td style="width: 32.1882%; text-align: left; height: 18.75px;">Ditetapkan di : [NaMa_desa]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 67.8329%; text-align: left;">\u{a0}</td>
+                        <td style="width: 32.1882%; text-align: left;">Pada Tanggal :\u{a0} [TgL_surat]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 67.8329%; text-align: left;">\u{a0}</td>
+                        <td style="width: 32.1882%; text-align: left; height: 18.75px;">[Sebutan_kepala_desA] [Nama_desA]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 67.8329%; text-align: center;">\u{a0}</td>
+                        <td style="width: 32.1882%; text-align: center; height: 18.75px;">\u{a0}</td>
+                    </tr>
+                    <tr style="height: 75px;">
+                        <td style="width: 67.8329%;">\u{a0}</td>
+                        <td style="width: 32.1882%; height: 75px;">\u{a0}</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 67.8329%; text-align: center;">\u{a0}</td>
+                        <td style="width: 32.1882%; text-align: center; height: 18.75px;">\u{a0}</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 67.8329%; text-align: left;"><strong>\u{a0}</strong></td>
+                        <td style="width: 32.1882%; text-align: left; height: 18.75px;"><strong>[Nama_pamonG]</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">\u{a0}</span></h4>
+            <table style="border-collapse: collapse; width: 95%; margin-left: auto; margin-right: auto; height: 977.29px;"
+                border="1">
+                <tbody>
+                    <tr style="height: 160.445px;">
+                        <td style="height: 160.445px;" colspan="2">
+                            <table style="width: 100.29%;" align="left">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 64.8654%;">
+                                            <table style="border-collapse: collapse; width: 48.2556%;" width="100%">
+                                                <tbody>
+                                                    <tr style="height: 18.5px;">
+                                                        <td style="width: 29.6649%; text-align: right; height: 18.5px;" width="105">
+                                                            I. Berangkat dari</td>
+                                                        <td style="text-align: left; width: 70.2443%; height: 18.5px;" width="304">:
+                                                            Kantor [Sebutan_desA] [Nama_desA]</td>
+                                                    </tr>
+                                                    <tr style="height: 18.75px;">
+                                                        <td style="width: 29.6649%; height: 18.75px; text-align: right;"
+                                                            width="105">Ke</td>
+                                                        <td style="text-align: left; width: 70.2443%; height: 18.75px;" width="304">
+                                                            : [Form_tempat_tujuaN]</td>
+                                                    </tr>
+                                                    <tr style="height: 18.75px;">
+                                                        <td style="width: 29.6649%; height: 18.75px; text-align: right;"
+                                                            width="105">Pada Tanggal</td>
+                                                        <td style="text-align: left; width: 70.2443%; height: 18.75px;" width="304">
+                                                            : [Form_tanggal_berangkaT]</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="width: 35.2169%;">
+                                            <div style="width: 200px;">\u{a0}</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 100.082%;" colspan="2">
+                                            <table style="border-collapse: collapse; height: 68.2422px;" width="100%"
+                                                align="center">
+                                                <tbody>
+                                                    <tr style="height: 68.2422px;">
+                                                        <td style="text-align: center; height: 68.2422px;">[Sebutan_kepala_desA]
+                                                            [Nama_desA]
+                                                            <p><br /><br /><strong>( [Nama_pamonG]</strong><strong>\u{a0})</strong></p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr style="height: 177.188px;">
+                        <td style="width: 47.3086%; height: 185.172px;" width="315">
+                            <table style="border-collapse: collapse; width: 100%; height: 177.188px;">
+                                <tbody>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">II.</td>
+                                        <td style="width: 31.335%; height: 18.75px;">Tiba di\u{a0}</td>
+                                        <td style="width: 63.765%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 31.335%; height: 18.75px;">Pada Tanggal</td>
+                                        <td style="width: 63.765%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 31.335%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 63.765%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 31.335%; height: 18.75px;">Kepala</td>
+                                        <td style="width: 63.765%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 31.335%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 63.765%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 31.335%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 63.765%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="height: 18.75px; width: 95.1%;" colspan="2">( ...................................
+                                            )</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="width: 52.6865%; height: 177.188px;" width="351">
+                            <table style="border-collapse: collapse; width: 100.85%; height: 177.188px;" border="0">
+                                <tbody>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 28.9707%; height: 18.75px;">Berangkat dari\u{a0}</td>
+                                        <td style="width: 66.5695%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 28.9707%; height: 18.75px;">Ke</td>
+                                        <td style="width: 66.5695%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 28.9707%; height: 18.75px;">Pada Tanggal</td>
+                                        <td style="width: 66.5695%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 28.9707%; height: 18.75px;">Kepala</td>
+                                        <td style="width: 66.5695%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 28.9707%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 66.5695%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 28.9707%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 66.5695%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="height: 18.75px; width: 95.5402%;" colspan="2">(
+                                            ................................... )</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr style="height: 177.188px;">
+                        <td style="width: 47.3086%; height: 177.188px;" width="315">
+                            <table style="border-collapse: collapse; width: 100%; height: 177.188px;">
+                                <tbody>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">III.</td>
+                                        <td style="width: 30.7993%; height: 18.75px;">Tiba di\u{a0}</td>
+                                        <td style="width: 64.3008%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 30.7993%; height: 18.75px;">Pada Tanggal</td>
+                                        <td style="width: 64.3008%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 30.7993%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 64.3008%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 30.7993%; height: 18.75px;">Kepala</td>
+                                        <td style="width: 64.3008%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 30.7993%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 64.3008%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 30.7993%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 64.3008%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="height: 18.75px; width: 95.1%;" colspan="2">( ...................................
+                                            )</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="width: 52.6865%; height: 177.188px;" width="351">
+                            <table style="border-collapse: collapse; width: 100.85%; height: 177.188px;" border="0">
+                                <tbody>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%;">\u{a0}</td>
+                                        <td style="width: 28.9805%; height: 18.75px;">Berangkat dari\u{a0}</td>
+                                        <td style="width: 66.5597%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%;">\u{a0}</td>
+                                        <td style="width: 28.9805%; height: 18.75px;">Ke</td>
+                                        <td style="width: 66.5597%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%;">\u{a0}</td>
+                                        <td style="width: 28.9805%; height: 18.75px;">Pada Tanggal</td>
+                                        <td style="width: 66.5597%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%;">\u{a0}</td>
+                                        <td style="width: 28.9805%; height: 18.75px;">Kepala</td>
+                                        <td style="width: 66.5597%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%;">\u{a0}</td>
+                                        <td style="width: 28.9805%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 66.5597%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%;">\u{a0}</td>
+                                        <td style="width: 28.9805%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 66.5597%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%;">\u{a0}</td>
+                                        <td style="height: 18.75px; width: 95.5402%;" colspan="2">(
+                                            ................................... )</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr style="height: 177.188px;">
+                        <td style="width: 47.3086%; height: 177.188px;" width="315">
+                            <table style="border-collapse: collapse; width: 100%; height: 177.188px;">
+                                <tbody>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">IV.</td>
+                                        <td style="width: 30.2693%; height: 18.75px;">Tiba di\u{a0}</td>
+                                        <td style="width: 64.6516%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 30.2693%; height: 18.75px;">Pada Tanggal</td>
+                                        <td style="width: 64.6516%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 30.2693%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 64.6516%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 30.2693%; height: 18.75px;">Kepala</td>
+                                        <td style="width: 64.6516%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 30.2693%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 64.6516%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 30.2693%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 64.6516%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 5.01469%; height: 18.75px;">\u{a0}</td>
+                                        <td style="height: 18.75px; width: 94.9209%;" colspan="2">(
+                                            ................................... )</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style="width: 52.6865%; height: 177.188px;" width="351">
+                            <table style="border-collapse: collapse; width: 100.85%; height: 177.188px;" border="0">
+                                <tbody>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 28.9805%; height: 18.75px;">Berangkat dari\u{a0}</td>
+                                        <td style="width: 66.5597%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 28.9805%; height: 18.75px;">Ke</td>
+                                        <td style="width: 66.5597%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 28.9805%; height: 18.75px;">Pada Tanggal</td>
+                                        <td style="width: 66.5597%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 28.9805%; height: 18.75px;">Kepala</td>
+                                        <td style="width: 66.5597%; height: 18.75px;">:</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 28.9805%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 66.5597%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 28.9805%; height: 18.75px;">\u{a0}</td>
+                                        <td style="width: 66.5597%; height: 18.75px;">\u{a0}</td>
+                                    </tr>
+                                    <tr style="height: 18.75px;">
+                                        <td style="width: 4.45854%; height: 18.75px;">\u{a0}</td>
+                                        <td style="height: 18.75px; width: 95.5402%;" colspan="2">(
+                                            ................................... )</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr style="height: 41.1133px;">
+                        <td style="width: 47.3086%; height: 41.1133px;" width="315">V. Tiba di : Kantor [Sebutan_desA] [Nama_desA]
+                            <br />Pada Tanggal : [Form_tanggal_kembalI]</td>
+                        <td style="width: 52.6865%; height: 41.1133px;" width="351"><em>Telah diperiksa dengan keterangan bahwa
+                                perjalan tersebut atas perintahnya dan semata-mata untuk kepentingan jabatan dalam waktu yang
+                                sesingkat-singkatnya</em></td>
+                    </tr>
+                    <tr style="height: 80.988px;">
+                        <td style="text-align: center; width: 99.9951%; height: 80.988px;" colspan="2" width="666">
+                            [Sebutan_kepala_desA] [Nama_desA] <br /><br /><br /><br /><strong>(
+                                [Nama_pamonG]</strong><strong>\u{a0})</strong></td>
+                    </tr>
+                    <tr style="height: 58.2422px;">
+                        <td style="width: 99.9951%; height: 58.2422px;" colspan="2" width="666">VI. <u>PERHATIAN </u> <br />Pengguna
+                            Anggaran yang menerbitkan SPD, pegawai yang melakukan perjalanan dinas, para pejabat yang mengesahkan
+                            tanggal berangkat/tiba, \u{a0}\u{a0}\u{a0}serta bendahara pengeluaran bertanggungjawab berdasarkan Peraturan Keuangan
+                            Negara. Apabila Negara menderita \u{a0}rugi akibat \u{a0}kesalahan, kelalaian dan kealpaannya.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br /><br />
+            <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;"><br /><br />[JUdul_surat]</span>
+            </h4>
+            <p style="margin: 0; text-align: center;">Nomor : [Kode_suraT]/[Nomer_suraT]/437.103.09/[TahuN]</p>
+            <p style="text-indent: 30px; text-align: center;"><strong>MEMERINTAHKAN</strong></p>
+            <table style="border-collapse: collapse; width: 95%; margin-left: auto; margin-right: auto;">
+                <tbody>
+                    <tr>
+                        <td width="20">1.</td>
+                        <td width="50">Nama</td>
+                        <td width="5">:</td>
+                        <td width="600"><strong>[NiK]</strong></td>
+                    </tr>
+                    <tr>
+                        <td width="20">\u{a0}</td>
+                        <td width="50">Jabatan</td>
+                        <td width="5">:</td>
+                        <td width="600">[Form_jabataninstansI]</td>
+                    </tr>
+                    <tr>
+                        <td width="20">\u{a0}</td>
+                        <td width="50">Alamat</td>
+                        <td width="5">:</td>
+                        <td width="600">[AlamaT] [Sebutan_desA] [Nama_desA] : [Kode_desA]</td>
+                    </tr>
+                    <tr>
+                        <td width="20">\u{a0}</td>
+                        <td width="50">\u{a0}</td>
+                        <td width="5">\u{a0}</td>
+                        <td width="600">[Sebutan_kecamataN] [Nama_kecamataN] : [Kode_kecamataN]</td>
+                    </tr>
+                    <tr>
+                        <td width="20">2.</td>
+                        <td width="50">Maksud Tugas</td>
+                        <td width="5">:</td>
+                        <td width="600"><strong>[Form_maksud_perjalanan_dinaS]</strong></td>
+                    </tr>
+                    <tr>
+                        <td width="20">\u{a0}</td>
+                        <td width="50">Tujuan</td>
+                        <td width="5">:</td>
+                        <td width="600">[Form_tempat_tujuaN]</td>
+                    </tr>
+                    <tr>
+                        <td width="20">\u{a0}</td>
+                        <td width="50">Tanggal</td>
+                        <td width="5">:</td>
+                        <td width="600">[Form_tanggal_berangkaT] s/d [Form_tanggal_kembalI]</td>
+                    </tr>
+                    <tr>
+                        <td width="20">\u{a0}</td>
+                        <td width="50">Pengikut</td>
+                        <td width="5">:</td>
+                        <td width="600">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <table width="100%">
+                                                <tbody>
+                                                    <tr>
+                                                        <td width="23">1.</td>
+                                                        <td width="283">[Form_nama_pengikut_I]</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="23">2.</td>
+                                                        <td width="283">[Form_nama_pengikut_iI]</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="23">3.</td>
+                                                        <td width="283">[Form_nama_pengikut_iiI]</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table style="width: 59.6213%;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width: 8.73963%;" width="25">4.</td>
+                                                        <td style="width: 91.258%;" width="262">[Form_nama_pengikut_iV]</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 8.73963%;" width="25">5.</td>
+                                                        <td style="width: 91.258%;" width="262">[Form_nama_pengikut_V]</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 8.73963%;" width="25">6.</td>
+                                                        <td style="width: 91.258%;" width="262">[Form_nama_pengikut_vI]</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <p style="text-align: justify; text-indent: 30px;">Demikian Surat Tugas ini dikeluarkan untuk dilaksanakan sebagaimana
+                mestinya.</p>
+            <p style="text-align: justify; text-indent: 30px;">.</p>
+            <table style="border-collapse: collapse; width: 32.5353%;" border="0" align="right">
+                <tbody>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 100%; text-align: left;">[Nama_desA], [TgL_surat]</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 100%; height: 18.75px; text-align: left;">[Sebutan_kepala_desA] [Nama_desA]</td>
+                    </tr>
+                    <tr style="height: 75px;">
+                        <td style="width: 100%; height: 75px;">\u{a0}</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 100%; text-align: center; height: 18.75px;">\u{a0}</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 100%; text-align: left; height: 18.75px;"><strong>[Nama_pamonG]</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">HASIL
+                    BIMTEK/PELATIHAN/KONSULTASI/MONEV/PENGIRIMAN DATA, DLL</span></h4>
+            <div><br />Sebagai berikut :<br /><br />1.<br />2.<br />3.</div>
+            HTML;
+        $data = [
+            'nama'                => $nama_surat,
+            'kode_surat'          => 'S-46',
+            'masa_berlaku'        => 1,
+            'satuan_masa_berlaku' => 'M',
+            'orientasi'           => 'Potrait',
+            'ukuran'              => 'F4',
+            'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
+            'qr_code'             => StatusEnum::TIDAK,
+            'kode_isian'          => '[{"tipe":"text","kode":"[form_pangkat_dan_golongan]","nama":"Pangkat dan Golongan","deskripsi":"Pangkat dan Golongan","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_jabataninstansi]","nama":"Jabatan\/Instansi","deskripsi":"Jabatan\/Instansi","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_tingkat_biaya_perjalanan]","nama":"Tingkat Biaya Perjalanan","deskripsi":"Tingkat Biaya Perjalanan","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"textarea","kode":"[form_maksud_perjalanan_dinas]","nama":"Maksud Perjalanan Dinas","deskripsi":"Maksud Perjalanan Dinas","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_tempat_tujuan]","nama":"Tempat Tujuan","deskripsi":"Tempat Tujuan","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_alat_angkut_yang_digunakan]","nama":"Alat Angkut Yang Digunakan","deskripsi":"Alat Angkut Yang Digunakan","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_nama_pengikut_i]","nama":"Nama Pengikut I","deskripsi":"Nama Pengikut I","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_nama_pengikut_ii]","nama":"Nama Pengikut II","deskripsi":"Nama Pengikut II","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_nama_pengikut_iii]","nama":"Nama Pengikut III","deskripsi":"Nama Pengikut III","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_nama_pengikut_iv]","nama":"Nama Pengikut IV","deskripsi":"Nama Pengikut IV","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_nama_pengikut_v]","nama":"Nama Pengikut V","deskripsi":"Nama Pengikut V","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_nama_pengikut_vi]","nama":"Nama Pengikut VI","deskripsi":"Nama Pengikut VI","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"textarea","kode":"[form_keterangan_lain]","nama":"Keterangan Lain","deskripsi":"Keterangan Lain","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"date","kode":"[form_tanggal_berangkat]","nama":"Tanggal Berangkat","deskripsi":"Tanggal Berangkat","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"date","kode":"[form_tanggal_kembali]","nama":"Tanggal Kembali","deskripsi":"Tanggal Kembali","atribut":"class=\"required\"","pilihan":null,"refrensi":null}]',
+            'form_isian'          => '{"data":"1","individu":{"sex":"","status_dasar":"","kk_level":""}}',
+            'mandiri'             => StatusEnum::TIDAK,
+            'syarat_surat'        => null,
+            'template'            => $template,
         ];
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
