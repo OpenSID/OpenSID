@@ -16,6 +16,7 @@ Di rilis ini, versi 2306.1.0 berisi penambahan [isi disini] dan perbaikan lain y
 12. [#6223](https://github.com/OpenSID/OpenSID/issues/6223) Penambahan surat TinyMCE pengantar permohonan penerbitan buku pas lintas.
 13. [#6766](https://github.com/OpenSID/OpenSID/issues/6766) Penambahan kode isian orang tua berdasarkan biodata penduduk.
 14. [#6219](https://github.com/OpenSID/OpenSID/issues/6219) Penambahan surat TinyMCE keterangan penghasilan orangtua.
+15. [#6208](https://github.com/OpenSID/OpenSID/issues/6208) Penambahan surat TinyMCE biodata penduduk.
 
 #### Perbaikan BUG
 
