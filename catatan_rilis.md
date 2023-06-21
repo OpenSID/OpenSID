@@ -25,6 +25,7 @@ Di rilis ini, versi 2306.1.0 berisi penambahan [isi disini] dan perbaikan lain y
 21. [#6541](https://github.com/OpenSID/OpenSID/issues/6541) Penambahan atribut required dengan checkbox pada pengaturan form isian surat.
 22. [#6293](https://github.com/OpenSID/OpenSID/issues/6293) Penambahan fungsi batasan memory limit yang memperbolehkan backup database.
 23. [#6779](https://github.com/OpenSID/OpenSID/issues/6779) Penambahan unduh surat TTE di layanan mandiri.
+24. [#6227](https://github.com/OpenSID/OpenSID/issues/6227) Penambahan surat TinyMCE permohonan kartu keluarga.
 
 #### Perbaikan BUG
 

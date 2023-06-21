@@ -330,7 +330,7 @@ class Surat extends Admin_Controller
             }
 
             // Lampiran
-            $logo_qrcode = $this->buatLampiran($id, $cetak, $logo_qrcode);
+            $logo_qrcode = $this->buatLampiran($surat->id_pend, $cetak, $logo_qrcode);
 
             // convert in PDF
             try {
