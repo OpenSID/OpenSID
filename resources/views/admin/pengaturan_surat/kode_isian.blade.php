@@ -6,6 +6,7 @@
                 <td>TIPE</td>
                 <td>NAMA</td>
                 <td>PLACEHOLDER</td>
+                <td class="padat">HARUS DIISI</td>
                 <td>ATRIBUT</td>
                 <td class="isian-pilihan">PILIHAN</td>
                 <td>AKSI</td>
@@ -29,7 +30,11 @@
                 </td>
                 <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm isian"
                         value="{{ $value->deskripsi }}" placeholder="Masukkan Placeholder" @disabled($value->tipe ==
-                    '')></td>
+                    '')>
+                </td>
+                <td class="text-center">
+                    <input class="isian-required" type="checkbox" value="1" @checked($value->required) @disabled($value->tipe == '') name="required_kode[{{$key}}]">
+                </td>
                 <td>
                     <textarea class="form-control input-sm isian isian-atribut" name="atribut_kode[]" rows="5"
                         placeholder="Masukkan Atribut" @disabled($value->tipe == '')>{{ $value->atribut }}</textarea>
@@ -79,6 +84,7 @@
                         placeholder="Masukkan Nama" @disabled($value->tipe == '')></td>
                 <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm isian"
                         placeholder="Masukkan Placeholder" @disabled($value->tipe == '')></td>
+                <td class="text-center"><input class="isian-required" type="checkbox" value="1" @checked($value->required) @disabled($value->tipe == '') name="required_kode[{{$jumlah_isian}}]"></td>
                 <td>
                     <textarea class="form-control input-sm isian isian-atribut" name="atribut_kode[]" rows="5"
                         placeholder="Masukkan Atribut" @disabled($value->tipe == '')>{{ $value->atribut }}</textarea>
@@ -123,6 +129,7 @@
 <script>
     $(document).ready(function() {
             var counter = $(".duplikasi:last").data("id");
+            // console.log(counter);
             $("#gandakan-" + counter).find("button").hide();
 
             $('.tambah-kode').on('click', function() {
@@ -162,6 +169,11 @@
                     $("#gandakan-" + counter).find('select').change(0);
                     $("#gandakan-" + counter).find('textarea').val('');
                     $("#gandakan-" + counter).find('.isian').prop("disabled", true);
+                    $("#gandakan-" + counter).find('.isian-required')
+                        .prop("checked", false)
+                        .prop("disabled", true)
+                        .attr('value', '1')
+                        .attr('name', `required_kode[${counter}]`);
 
                     $('.duplikasi').find("button").show();
                     $("#gandakan-" + counter).find("button").hide();
@@ -179,12 +191,14 @@
                 var isian_pilihan = parents.find('.isian-pilihan').not('.select-manual');
                 var isian_manual = parents.find('.select-manual');
                 var isian_referensi = parents.find('.isian-referensi');
+                var isian_required = parents.find('.isian-required');
                 var isian = parents.find('.isian');
 
                 if (tipe == '') {
                     atribut = 'Masukkan Atribut';
                     option = 'Masukkan Pilihan';
                     isian.prop("disabled", true);
+                    isian_required.prop("disabled", true);
                     isian.removeClass('required');
                     isian_referensi.addClass('hide');
                     
@@ -192,6 +206,7 @@
                     isian_manual.removeClass('required');
                 } else {
                     isian.prop("disabled", false);
+                    isian_required.prop("disabled", false);
                     isian.addClass('required');
                     isian_atribut.removeClass('required');
                     isian_referensi.addClass('hide');
@@ -246,7 +261,6 @@
                         isian_manual.removeClass('required');
                         isian_manual.removeClass('select2')
                         if (isian_manual[0].classList.contains('select2-hidden-accessible') == true) {
-                            console.log(isian_manual[0].nextElementSibling)
                             isian_manual.removeAttr("data-select2-id").removeClass("select2-hidden-accessible").removeAttr("aria-hidden")
                             isian_manual[0].nextElementSibling.remove()
                         }

@@ -96,6 +96,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
         $hasil = $hasil && $this->migrasi_2023061451($hasil);
         $hasil = $hasil && $this->migrasi_2023061452($hasil);
         $hasil = $hasil && $this->migrasi_2023061552($hasil);
+        $hasil = $hasil && $this->migrasi_2023061951($hasil);
 
         return $hasil && true;
     }
@@ -1041,6 +1042,31 @@ class Migrasi_fitur_premium_2307 extends MY_model
         ];
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
+    }
+
+    protected function migrasi_2023061951($hasil)
+    {
+        $surat = FormatSurat::whereIn('jenis', FormatSurat::TINYMCE)->get();
+
+        foreach ($surat as $surat_item) {
+            $kode = $surat_item->kode_isian;
+
+            foreach ($kode as $value) {
+                if (str_contains($value->atribut, 'required')) {
+                    $value->required = '1';
+                    if ($value->atribut == 'class="required"') {
+                        $value->atribut = trim(str_replace('class="required"', '', $value->atribut));
+                    } else {
+                        $value->atribut = trim(str_replace('required', '', $value->atribut));
+                    }
+                } else {
+                    $value->required = '0';
+                }
+            }
+            $hasil = $hasil && FormatSurat::find($surat_item->id)->update(['kode_isian' => $kode]);
+        }
+
+        return $hasil && true;
     }
 
     protected function suratBiodataPenduduk($hasil, $id)

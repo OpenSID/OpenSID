@@ -51,6 +51,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2305', false);
         $hasil = $hasil && $this->migrasi_tabel($hasil);
         $hasil = $hasil && $this->migrasi_data($hasil);
+        $hasil = $hasil && $this->migrasi_2023052551($hasil);
 
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
         $this->cache->hapus_cache_untuk_semua('identitas');

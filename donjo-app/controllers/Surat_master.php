@@ -261,6 +261,7 @@ class Surat_master extends Admin_Controller
         }
 
         $data = FormatSurat::findOrFail($id);
+
         if ($data->update(static::validate($this->request, $data->jenis, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
@@ -315,6 +316,7 @@ class Surat_master extends Admin_Controller
                 'kode'      => form_kode_isian($request['nama_kode'][$i]),
                 'nama'      => $request['nama_kode'][$i],
                 'deskripsi' => $request['deskripsi_kode'][$i],
+                'required'  => $request['required_kode'][$i] ?? '0',
                 'atribut'   => $request['atribut_kode'][$i] ?: null,
                 'pilihan'   => null,
                 'refrensi'  => null,
