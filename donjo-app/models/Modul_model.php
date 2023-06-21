@@ -123,7 +123,15 @@ class Modul_model extends CI_Model
     // Menampilkan tabel sub modul
     public function list_sub_modul($modul_id)
     {
-        $data = $this->db->select('*')
+        // jangan aktifkan jika demo dan di domain whitelist
+        if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {
+            $this->db->where_not_in('slug', [
+                'layanan-pelanggan',
+                'pendaftaran-kerjasama',
+            ]);
+        }
+
+        $data = $this->db
             ->where('parent', $modul_id)
             ->where('hidden <>', 2)
             ->order_by('urut')
