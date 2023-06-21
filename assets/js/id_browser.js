@@ -1,26 +1,55 @@
 $(document).ready(function() {
     // Initialize the agent at application startup.
-    const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3').then(FingerprintJS =>
+    const fpPromise = import('/assets/js/fingerprint/fingerprintjs_v3.js').then(FingerprintJS =>
         FingerprintJS.load());
 
     // Get the visitor identifier when you need it.
     fpPromise
         .then(fp => fp.get())
         .then(result => {
-            // This is the visitor identifier:
-            const browserId = result.visitorId
-            createCookie("pengunjung", browserId, "1");
-        });
-
-    // Tampilkan ke browser
-    document.getElementById("pengunjung").innerHTML = readCookie("pengunjung");
-
-    if (readCookie("pengunjung") == null) {
-        setTimeout(function () {
-            location.reload();
-        }, 1000);
-    }
+            if (navigator.cookieEnabled) {                
+                
+                if (readCookie("pengunjung") == null) {
+                    $('#konfirmasi-cookie').data('fingerprint', result.visitorId)
+                    $('#konfirmasi-cookie').modal('show');
+                } else {
+                    // Tampilkan ke browser
+                    document.getElementById("pengunjung").innerHTML = readCookie("pengunjung");
+                }
+                                
+              } else {                
+                $('#aktifkan-cookie').modal('show');         
+              }                        
+        });    
 });
+
+function rejectCookie() {
+$(`<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Peringatan</h4>
+            </div>
+            <div class="modal-body bg-danger">
+                Id pengujung tidak dapat digunakan karena tidak ada akses cookies dari browser
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>`).modal();
+}
+
+function buatPengunjungCookie(name) {
+    // This is the visitor identifier:
+    const browserId = $('#konfirmasi-cookie').data('fingerprint');
+    // Tampilkan ke browser
+    document.getElementById("pengunjung").innerHTML = browserId;
+    createCookie("pengunjung", browserId, "1");
+    $('#konfirmasi-cookie').modal('hide');
+}
 
 // Function to create the cookie 
 function createCookie(name, value, days) {
