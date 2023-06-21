@@ -778,27 +778,31 @@ class Surat extends Admin_Controller
         $surat    = $data['surat'];
         $config   = $this->header['desa'];
         $individu = $this->surat_model->get_data_surat($id);
-        $lampiran = strtolower($surat['lampiran']);
+        $lampiran = explode(',', strtolower($surat['lampiran']));
 
-        // Cek lampiran desa
-        $view_lampiran = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran . '/view.php';
+        for ($i = 0; $i < count($lampiran); $i++) {
+            // Cek lampiran desa
+            $view_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/view.php';
 
-        if (! file_exists($view_lampiran)) {
-            $view_lampiran = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran . '/view.php';
+            if (! file_exists($view_lampiran[$i])) {
+                $view_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/view.php';
+            }
+
+            $data_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/data.php';
+            if (! file_exists($data_lampiran[$i])) {
+                $data_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/data.php';
+            }
+
+            // Data lampiran
+            include $data_lampiran[$i];
         }
-
-        $data_lampiran = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran . '/data.php';
-        if (! file_exists($data_lampiran)) {
-            $data_lampiran = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran . '/data.php';
-        }
-
-        // Data lampiran
-        include $data_lampiran;
 
         ob_start();
 
-        // View Lampiran
-        include $view_lampiran;
+        for ($j = 0; $j < count($lampiran); $j++) {
+            // View Lampiran
+            include $view_lampiran[$j];
+        }
 
         $content = ob_get_clean();
 

@@ -356,7 +356,7 @@ class Surat_master extends Admin_Controller
             'kode_isian'          => json_encode($kodeIsian),
             'orientasi'           => $request['orientasi'],
             'ukuran'              => $request['ukuran'],
-            'lampiran'            => $request['lampiran'],
+            'lampiran'            => implode(',', $request['lampiran']),
             'header'              => (int) $request['header'],
             'footer'              => (int) $request['footer'],
             'format_nomor'        => $request['format_nomor'],
