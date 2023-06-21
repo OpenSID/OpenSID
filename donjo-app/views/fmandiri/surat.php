@@ -95,7 +95,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<?php if ($data['no_antrian'] && $this->cek_anjungan && $printer) : ?>
 											<a href="<?= site_url(MANDIRI . "/surat/cetak_no_antrian/{$data['no_antrian']}"); ?>" class="btn btn-social btn-sm bg-navy" title="Cetak No. Antrean"><i class="fa fa-print"></i>No. Antrean</a>
 										<?php endif ?>
-										<?php if ($cek_anjungan['tipe'] == 1 && $data['status_id'] == 3 && $data['tte']) : ?>
+										<?php if ($data['status_id'] == 3 && $data['tte']) : ?>
 											<a href="<?= site_url("layanan-mandiri/surat/cetak/{$data['id_log']}"); ?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
 										<?php endif ?>
 									</td>
@@ -125,7 +125,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<td class="padat"><?= $data['no_surat']; ?></td>
 								<td class="padat"><?= $data['format']; ?></td>
 								<td class="padat">
-									<?php if ($cek_anjungan['tipe'] == 1 && $data['tte']) : ?>
+									<?php if ($data['tte']) : ?>
 										<a href="<?= site_url("layanan-mandiri/surat/cetak/{$data['id']}"); ?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
 									<?php endif ?>
 								</td>

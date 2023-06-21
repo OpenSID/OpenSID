@@ -24,6 +24,7 @@ Di rilis ini, versi 2306.1.0 berisi penambahan [isi disini] dan perbaikan lain y
 20. [#6762](https://github.com/OpenSID/OpenSID/issues/6762) Penambahan pilih lampiran lebih dari 1 pada pengaturan TinyMCE.
 21. [#6541](https://github.com/OpenSID/OpenSID/issues/6541) Penambahan atribut required dengan checkbox pada pengaturan form isian surat.
 22. [#6293](https://github.com/OpenSID/OpenSID/issues/6293) Penambahan fungsi batasan memory limit yang memperbolehkan backup database.
+23. [#6779](https://github.com/OpenSID/OpenSID/issues/6779) Penambahan unduh surat TTE di layanan mandiri.
 
 #### Perbaikan BUG
 

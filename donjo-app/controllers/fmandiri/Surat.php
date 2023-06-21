@@ -50,7 +50,7 @@ class Surat extends Mandiri_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['keluar_model', 'permohonan_surat_model', 'surat_model', 'surat_master_model', 'lapor_model', 'penduduk_model', 'anjungan_model']);
+        $this->load->model(['keluar_model', 'permohonan_surat_model', 'surat_model', 'surat_master_model', 'lapor_model', 'penduduk_model']);
     }
 
     // Kat 1 = Permohonan
@@ -61,11 +61,10 @@ class Surat extends Mandiri_Controller
         $permohonan = $this->permohonan_surat_model->list_permohonan_perorangan($this->is_login->id_pend, 1);
 
         $data = [
-            'kat'          => $kat,
-            'judul'        => ($kat == 1) ? 'Permohonan Surat' : 'Arsip Surat',
-            'main'         => ($kat == 1) ? $permohonan : $arsip,
-            'printer'      => $this->print_connector(),
-            'cek_anjungan' => $this->cek_anjungan,
+            'kat'     => $kat,
+            'judul'   => ($kat == 1) ? 'Permohonan Surat' : 'Arsip Surat',
+            'main'    => ($kat == 1) ? $permohonan : $arsip,
+            'printer' => $this->print_connector(),
         ];
 
         $this->render('surat', $data);
