@@ -796,7 +796,7 @@ class Surat_master extends Admin_Controller
 
         $kode_isian     = json_encode($surat->kode_isian);
         $form_isian     = json_encode($surat->form_isian);
-        $template_surat = json_encode($surat->template_desa ?? $surat->template);
+        $template_surat = str_replace(['\/', '\u00a0'], ['/', ' '], json_encode($surat->template_desa ?? $surat->template));
         $qr_code        = getVariableName(StatusEnum::class, $surat->qr_code);
         $mandiri        = getVariableName(StatusEnum::class, $surat->mandiri);
         $syarat_surat   = $surat->syarat_surat ?: 'null';

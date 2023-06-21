@@ -363,7 +363,10 @@ class Keluarga extends Admin_Controller
     public function insert_a()
     {
         $this->redirect_hak_akses('u');
-        $id_kk = $this->input->post('id_kk');
+        $id_kk          = $this->input->post('id_kk');
+        $_POST['no_kk'] = $_POST['no_kk_keluarga'];
+        $_POST['id']    = $id_kk;
+        unset($_POST['no_kk_keluarga']);
         $this->keluarga_model->insert_a();
         $this->cache->hapus_cache_untuk_semua('_wilayah');
         if ($_SESSION['validation_error']) {

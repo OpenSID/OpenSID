@@ -3531,8 +3531,6 @@ class Database_model extends MY_Model
     protected function validasi($install = false)
     {
         // Cek bagian ini hanya untuk pelanggan premium
-        return true;
-
         if ($install || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
             return true;
         }

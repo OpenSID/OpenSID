@@ -913,6 +913,22 @@ class Migrasi_multidb extends MY_model
     {
         $tabel = 'user_grup';
 
+        if (! $this->cek_indeks($tabel, 'nama_grup_config')) {
+            $data_ganda = DB::table($tabel)
+                ->select('nama')
+                ->selectRaw('count(*) as jumlah')
+                ->groupBy('nama')
+                ->havingRaw('count(*) > 1')
+                ->get();
+
+            foreach ($data_ganda as $data) {
+                DB::table($tabel)
+                    ->where('nama', $data->nama)
+                    ->where('jenis', '<>', 1)
+                    ->update(['nama' => $data->nama . ' 1']);
+            }
+        }
+
         // Tambah kolom config_id pada tabel user
         $hasil = $hasil && $this->tambah_config_id($tabel);
 

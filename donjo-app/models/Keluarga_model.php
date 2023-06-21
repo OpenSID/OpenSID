@@ -997,7 +997,7 @@ class Keluarga_model extends MY_Model
         if (! $this->validasi_data_keluarga($data)) {
             return;
         }
-        unset($data['alamat']);
+        unset($data['alamat'], $data['no_kk'], $data['id']);
 
         $error_validasi = $this->penduduk_model->validasi_data_penduduk($data);
         if (! empty($error_validasi)) {
@@ -1010,35 +1010,50 @@ class Keluarga_model extends MY_Model
             return;
         }
 
-        $data['created_by'] = $this->session->user;
-        $data['config_id']  = $this->config_id;
-        $outp               = $this->db->insert('tweb_penduduk', $data);
-        if (! $outp) {
-            $_SESSION = -1;
-        }
+        $this->db->trans_begin();
 
-        $id_pend = $this->db->insert_id();
-        // Jika anggota yang ditambah adalah kepala keluarga untuk kk kosong
-        if ($tambah_kk) {
-            $this->config_id()
-                ->set('nik_kepala', $id_pend)
-                ->set('updated_by', $this->session->user)
-                ->where('id', $kel['id'])
-                ->update('tweb_keluarga');
-        }
+        try {
+            $data['created_by'] = $this->session->user;
+            $data['config_id']  = $this->config_id;
+            $outp               = $this->db->insert('tweb_penduduk', $data);
 
-        // Jenis peristiwa didapat dari form yang berbeda
-        // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
-        $x = [
-            'tgl_peristiwa'            => $tgl_peristiwa,
-            'kode_peristiwa'           => $this->session->jenis_peristiwa,
-            'tgl_lapor'                => $tgl_lapor,
-            'id_pend'                  => $id_pend,
-            'created_by'               => $this->session->user,
-            'maksud_tujuan_kedatangan' => $maksud_tujuan,
-            'config_id'                => $this->config_id,
-        ];
-        $this->penduduk_model->tulis_log_penduduk_data($x);
+            if (! $outp) {
+                $_SESSION = -1;
+            }
+
+            $id_pend = $this->db->insert_id();
+
+            if ($foto = upload_foto_penduduk(time() . '-' . $id_pend . '-' . mt_rand(10000, 999999))) {
+                $this->config_id()->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
+            }
+
+            // Jika anggota yang ditambah adalah kepala keluarga untuk kk kosong
+            if ($tambah_kk) {
+                $this->config_id()
+                    ->set('nik_kepala', $id_pend)
+                    ->set('updated_by', $this->session->user)
+                    ->where('id', $kel['id'])
+                    ->update('tweb_keluarga');
+            }
+
+            // Jenis peristiwa didapat dari form yang berbeda
+            // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
+            $x = [
+                'tgl_peristiwa'            => $tgl_peristiwa,
+                'kode_peristiwa'           => $this->session->jenis_peristiwa,
+                'tgl_lapor'                => $tgl_lapor,
+                'id_pend'                  => $id_pend,
+                'created_by'               => $this->session->user,
+                'maksud_tujuan_kedatangan' => $maksud_tujuan,
+                'config_id'                => $this->config_id,
+            ];
+
+            $this->penduduk_model->tulis_log_penduduk_data($x);
+            $this->db->trans_commit();
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            $this->db->trans_rollback();
+        }
     }
 
     public function get_raw_keluarga($id)

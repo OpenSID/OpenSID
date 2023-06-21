@@ -44,6 +44,9 @@
     </div>
 </div>
 
+@include('admin.layouts.components.konfirmasi_cookie')
+@include('admin.layouts.components.aktifkan_cookie')
+
 @push('scripts')
     <script src="{{ asset('js/id_browser.js') }}"></script>
     <script>
