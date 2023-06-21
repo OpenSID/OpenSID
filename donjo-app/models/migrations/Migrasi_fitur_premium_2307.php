@@ -1989,7 +1989,6 @@ class Migrasi_fitur_premium_2307 extends MY_model
         ];
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
-        // Function Migrasi TinyMCE
     }
 
     protected function suratKeteranganKepemilikanTanah($hasil, $id)
