@@ -327,7 +327,7 @@ class Setting_model extends MY_Model
             ['max_execution_time', '>=', '300'],
             ['post_max_size', '>=', '10M'],
             ['upload_max_filesize', '>=', '20M'],
-            ['memory_limit', '>=', '256M'],
+            ['memory_limit', '>=', '512M'],
         ];
 
         foreach ($sistem as $value) {

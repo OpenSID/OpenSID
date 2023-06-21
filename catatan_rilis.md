@@ -23,6 +23,7 @@ Di rilis ini, versi 2306.1.0 berisi penambahan [isi disini] dan perbaikan lain y
 19. [#6215](https://github.com/OpenSID/OpenSID/issues/6215) Penambahan surat TinyMCE keterangan kepemilikan tanah.
 20. [#6762](https://github.com/OpenSID/OpenSID/issues/6762) Penambahan pilih lampiran lebih dari 1 pada pengaturan TinyMCE.
 21. [#6541](https://github.com/OpenSID/OpenSID/issues/6541) Penambahan atribut required dengan checkbox pada pengaturan form isian surat.
+22. [#6293](https://github.com/OpenSID/OpenSID/issues/6293) Penambahan fungsi batasan memory limit yang memperbolehkan backup database.
 
 #### Perbaikan BUG
 

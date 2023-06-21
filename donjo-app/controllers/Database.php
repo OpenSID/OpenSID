@@ -43,6 +43,7 @@ use App\Models\LogRestoreDesa;
 use App\Models\SettingAplikasi;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Symfony\Component\Process\Process;
 
 class Database extends Admin_Controller
@@ -60,14 +61,15 @@ class Database extends Admin_Controller
     public function index()
     {
         $data = [
-            'act_tab'     => 1,
-            'content'     => 'database/backup',
-            'form_action' => site_url('database/restore'),
-            'size_folder' => byte_format(dirSize(DESAPATH)),
-            'size_sql'    => byte_format(getSizeDB()->size),
-            'act_tab'     => 1,
-            'inkremental' => LogBackup::where('status', '<', 2)->latest()->first(),
-            'restore'     => LogRestoreDesa::where('status', '=', 0)->exists(),
+            'act_tab'      => 1,
+            'content'      => 'database/backup',
+            'form_action'  => site_url('database/restore'),
+            'size_folder'  => byte_format(dirSize(DESAPATH)),
+            'size_sql'     => byte_format(getSizeDB()->size),
+            'act_tab'      => 1,
+            'inkremental'  => LogBackup::where('status', '<', 2)->latest()->first(),
+            'restore'      => LogRestoreDesa::where('status', '=', 0)->exists(),
+            'memory_limit' => Arr::get($this->setting_model->cekKebutuhanSistem(), 'memory_limit.result'),
         ];
 
         $this->load->view('database/database.tpl.php', $data);
@@ -92,6 +94,10 @@ class Database extends Admin_Controller
 
     public function exec_backup()
     {
+        if (! Arr::get($this->setting_model->cekKebutuhanSistem(), 'memory_limit.result')) {
+            return show_404();
+        }
+
         $this->ekspor_model->backup();
     }
 
