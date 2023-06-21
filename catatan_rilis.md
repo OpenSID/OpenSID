@@ -1,6 +1,7 @@
 Di rilis ini, versi 2306.0.3 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
-
 Terima kasih pada [isi disini] yang terus berkontribusi.
+
+Berkaitan dengan perubahan teknis pada poin 13 disarankan bagi pengguna yang sudah memiliki .htaccess pada folder assets sebelum rilis ini untuk dapat menghapus .htaccess sebelumnya dan akan digenerate ulang oleh rilis ini.
 
 #### Perbaikan BUG
 
