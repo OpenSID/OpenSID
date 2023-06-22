@@ -77,7 +77,7 @@ $config = [
         'storage/logs/'       => [0775],
         'backup_inkremental/' => [0775],
         'assets/'             => [0755, 'htaccess3'],
-        'assets/filemanager/'  => [0755, 'htaccess4'],
+        'assets/filemanager/' => [0755, 'htaccess4'],
     ],
 
     'config' => <<<'EOS'

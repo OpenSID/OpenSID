@@ -32,7 +32,7 @@ Berkaitan dengan perubahan teknis pada poin 13 disarankan bagi pengguna yang sud
 25. [#6756](https://github.com/OpenSID/OpenSID/issues/6756) Perbaikan menampilkan data keluarga tanpa kepala keluarga dengan no kk sementara.
 26. [#6758](https://github.com/OpenSID/OpenSID/issues/6758) Perbaikan unggah/ambil gambar di form penduduk melalui menu penduduk dan keluarga berbeda.
 27. [#6763](https://github.com/OpenSID/OpenSID/issues/6763) Perbaikan permission coookie browser.
-
+28. [#6771](https://github.com/OpenSID/OpenSID/issues/6771) Perbaikan pilih headline artikel.
 #### Perubahan Teknis
 
 1. [#6676](https://github.com/OpenSID/OpenSID/issues/6676) Penambahan migrasi pengaturan nonaktifkan tema untuk OpenKab.
