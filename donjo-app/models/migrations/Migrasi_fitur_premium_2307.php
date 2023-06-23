@@ -74,6 +74,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023061251($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023062251($hasil, $id);
             // Jalankan Migrasi TinyMCE
         }
 
@@ -297,6 +298,19 @@ class Migrasi_fitur_premium_2307 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2023062251($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Buku Tamu Kamera',
+            'key'        => 'buku_tamu_kamera',
+            'value'      => 1,
+            'keterangan' => 'Gunakan kamera untuk proses registrasi',
+            'kategori'   => 'buku-tamu',
+            'jenis'      => 'boolean',
+            'option'     => null,
+        ], $id);
     }
 
     // Function Migrasi TinyMCE

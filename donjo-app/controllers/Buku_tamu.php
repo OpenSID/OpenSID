@@ -50,8 +50,9 @@ class Buku_tamu extends Anjungan_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'buku-tamu';
-        $this->sub_modul_ini = 'data-tamu';
+        $this->modul_ini          = 'buku-tamu';
+        $this->sub_modul_ini      = 'data-tamu';
+        $this->header['kategori'] = 'buku-tamu';
     }
 
     public function index()
