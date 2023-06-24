@@ -67,6 +67,7 @@ class Buku_tamu extends MY_Controller
             'aksi'      => route('buku-tamu.registrasi'),
             'bertemu'   => RefJabatan::pluck('nama', 'id'),
             'keperluan' => BukuKeperluan::whereStatus(StatusEnum::YA)->pluck('keperluan', 'id'),
+            'kamera'    => $this->setting->buku_tamu_kamera,
         ]);
     }
 

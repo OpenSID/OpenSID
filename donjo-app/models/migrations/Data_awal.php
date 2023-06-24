@@ -20299,7 +20299,7 @@ class Data_awal extends MY_Model
                 'hidden'     => '0',
                 'ikon_kecil' => 'fa-send',
                 'parent'     => '354',
-            ],
+            ],            
             [
                 'modul'      => 'Optimasi Gambar',
                 'slug'       => 'optimasi-gambar',

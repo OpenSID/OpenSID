@@ -90,7 +90,8 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->suratKeteranganKepemilikanTanah($hasil, $id);
             $hasil = $hasil && $this->suratPermohonanKartuKeluarga($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPengantarRujukCerai($hasil, $id);
-            // Jalankan Migrasi TinyMCE''
+            // Jalankan Migrasi TinyMCE
+            $hasil = $hasil && $this->migrasi_2023062251($hasil, $id);
         }
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023060572($hasil);
@@ -2352,6 +2353,19 @@ class Migrasi_fitur_premium_2307 extends MY_model
         ];
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
+    }
+
+    protected function migrasi_2023062251($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Buku Tamu Kamera',
+            'key'        => 'buku_tamu_kamera',
+            'value'      => 1,
+            'keterangan' => 'Gunakan kamera untuk proses registrasi',
+            'kategori'   => 'buku-tamu',
+            'jenis'      => 'boolean',
+            'option'     => null,
+        ], $id);
     }
 
     // Function Migrasi TinyMCE

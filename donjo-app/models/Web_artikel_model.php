@@ -600,9 +600,8 @@ class Web_artikel_model extends MY_Model
 
     public function headline($id = 0)
     {
-        $outp = $this->config_id()->where('headline', 1)->update('artikel', ['headline' => 0]);
-
-        $outp = $this->config_id()->where('headline', 1)->update('artikel', ['id' => $id]);
+        $outp = $this->config_id()->update('artikel', ['headline' => 0]);
+        $outp = $this->config_id()->where('id', $id)->update('artikel', ['headline' => 1]);
 
         status_sukses($outp); //Tampilkan Pesan
     }

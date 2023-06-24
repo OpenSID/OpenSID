@@ -1,4 +1,7 @@
-Di rilis ini, versi 2306.1.0 berisi penambahan [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2306.2.0 berisi penambahan [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Terima kasih pada [isi disini] yang terus berkontribusi.
+
+Berkaitan dengan perubahan teknis pada poin 13 disarankan bagi pengguna yang sudah memiliki .htaccess pada folder assets sebelum rilis ini untuk dapat menghapus .htaccess sebelumnya dan akan digenerate ulang oleh rilis ini.
 
 #### Penambahan Fitur
 
@@ -58,6 +61,9 @@ Di rilis ini, versi 2306.1.0 berisi penambahan [isi disini] dan perbaikan lain y
 25. [#6756](https://github.com/OpenSID/OpenSID/issues/6756) Perbaikan menampilkan data keluarga tanpa kepala keluarga dengan no kk sementara.
 26. [#6758](https://github.com/OpenSID/OpenSID/issues/6758) Perbaikan unggah/ambil gambar di form penduduk melalui menu penduduk dan keluarga berbeda.
 27. [#6763](https://github.com/OpenSID/OpenSID/issues/6763) Perbaikan permission coookie browser.
+28. [#6771](https://github.com/OpenSID/OpenSID/issues/6771) Perbaikan pilih headline artikel.
+29. [#6784](https://github.com/OpenSID/OpenSID/issues/6784) Perbaikan ikon baca pesan yang tertukar pada kotak masuk layanan mandiri.
+30. [#6775](https://github.com/OpenSID/OpenSID/issues/6775) Perbaikan pendaftara pada buku tamu tanpa kamera.
 
 #### Perubahan Teknis
 

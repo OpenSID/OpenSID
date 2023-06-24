@@ -117,9 +117,9 @@
 																			<a href="<?=site_url("mailbox/baca_pesan/{$kat}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm" title="Lihat detail pesan"><i class="fa fa-list">&nbsp;</i></a>
 																			<?php if ($this->CI->cek_hak_akses('u') && $kat != 2 && $data['is_archived'] != 1) : ?>
 																				<?php if ($data['status'] == 1): ?>
-																					<a href="<?=site_url('mailbox/pesan_unread/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai belum dibaca"><i class="fa fa-envelope-o"></i></a>
+																					<a href="<?=site_url('mailbox/pesan_unread/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai belum dibaca"><i class="fa fa-envelope-open-o"></i></a>
 																					<?php else : ?>
-																						<a href="<?=site_url('mailbox/pesan_read/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai sudah dibaca"><i class="fa fa-envelope-open-o"></i></a>
+																						<a href="<?=site_url('mailbox/pesan_read/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai sudah dibaca"><i class="fa fa-envelope-o"></i></a>
 																				<?php endif; ?>
 																			<?php endif; ?>
 																		</td>
