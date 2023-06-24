@@ -72,4 +72,5 @@ Di rilis ini, versi 2306.1.0 berisi penambahan [isi disini] dan perbaikan lain y
 10. [#6754](https://github.com/OpenSID/OpenSID/issues/6754) Penyesuaian semua engine tabel menjadi InnoDB yang membuat migrasi gagal.
 11. [#6761](https://github.com/OpenSID/OpenSID/issues/6761) Penghapusan view tambah pengguna dengan untuk pilihan data posyandu yang tidak digunakan.
 12. [#6755](https://github.com/OpenSID/OpenSID/issues/6755) Pisahkan modul layanan pendaftaran kerjasama ke third_party agar mudah di pindahkan ke rilis umum.
-13. [#2466](https://github.com/OpenSID/premium/pull/2466) Pembatasan akses file .php pada folder assets.
+13. [#2464](https://github.com/OpenSID/premium/issues/2464) Pembatasan akses file .php pada folder assets.
+14. [#6780](https://github.com/OpenSID/OpenSID/issues/6780) Penyesuaian URL slug untuk symbol "/" di surat TinyMCE.

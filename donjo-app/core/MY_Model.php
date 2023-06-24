@@ -260,7 +260,7 @@ class MY_Model extends CI_Model
     public function tambah_surat_tinymce($data, $config_id = null)
     {
         $config_id            = $config_id ?? $this->config_id;
-        $data['url_surat']    = 'surat-' . strtolower(str_replace([' ', '_'], '-', $data['nama']));
+        $data['url_surat']    = 'surat-' . url_title($data['nama'], '-', true);
         $data['jenis']        = FormatSurat::TINYMCE_SISTEM;
         $data['syarat_surat'] = json_encode($data['syarat_surat']);
         $data['created_by']   = auth()->id;
