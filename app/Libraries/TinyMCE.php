@@ -37,7 +37,9 @@
 
 namespace App\Libraries;
 
+use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusHubunganEnum;
 use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
@@ -641,26 +643,26 @@ class TinyMCE
             $data = array_merge($individu, $lainnya);
 
             // Data Orang Tua
-            if ($penduduk->id_kk && $penduduk->kk_level != 4) {
+            if ($penduduk->id_kk && $penduduk->kk_level != StatusHubunganEnum::ANAK) {
                 $data_ortu = [
                     [
                         'judul' => 'NIK Ayah',
-                        'isian' => '[Nik_ayaH]',
+                        'isian' => getFormatIsian('Nik_ayaH'),
                         'data'  => $penduduk->ayah_nik,
                     ],
                     [
                         'judul' => 'Nama Ayah',
-                        'isian' => '[Nama_ayaH]',
+                        'isian' => getFormatIsian('Nama_ayaH'),
                         'data'  => $penduduk->nama_ayah,
                     ],
                     [
                         'judul' => 'NIK Ibu',
-                        'isian' => '[Nik_ibU]',
+                        'isian' => getFormatIsian('Nik_ibU'),
                         'data'  => $penduduk->ibu_nik,
                     ],
                     [
                         'judul' => 'Nama Ibu',
-                        'isian' => '[Nama_ibU]',
+                        'isian' => getFormatIsian('Nama_ibU'),
                         'data'  => $penduduk->nama_ibu,
                     ],
                 ];
@@ -670,6 +672,26 @@ class TinyMCE
 
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
             $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
+
+            if (! $id_ayah && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+                $id_ayah = Penduduk::where('id_kk', $penduduk->id_kk)
+                    ->where(static function ($query) {
+                        $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                            ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
+                    })
+                    ->where('sex', JenisKelaminEnum::LAKI_LAKI)
+                    ->first()->id;
+            }
+
+            if (! $id_ibu && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+                $id_ibu = Penduduk::where('id_kk', $penduduk->id_kk)
+                    ->where(static function ($query) {
+                        $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                            ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
+                    })
+                    ->where('sex', JenisKelaminEnum::PEREMPUAN)
+                    ->first()->id;
+            }
 
             // Data Ayah
             $data = array_merge($data, $this->getIsianPenduduk($id_ayah, 'ayah'));
