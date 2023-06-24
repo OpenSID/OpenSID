@@ -138,8 +138,8 @@
                     <div class="col-sm-7">
                         <select class="form-control input-sm lampiran-multiple" name="lampiran[]" multiple="multiple">
                             <option value="">Tidak Ada</option>
-                            @foreach ($daftar_lampiran as $i => $value)
-                                <option value="{{ $value }}" @selected(explode(',', $suratMaster->lampiran)[$i] === $value)>{{ $value }} </option>
+                            @foreach ($daftar_lampiran as $value)
+                                <option value="{{ $value }}" {{ in_array($value, explode(',', $suratMaster->lampiran)) ? 'selected' : '' }}>{{ $value }} </option>
                             @endforeach
                         </select>
                     </div>
