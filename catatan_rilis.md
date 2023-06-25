@@ -31,6 +31,7 @@ Berkaitan dengan perubahan teknis pada poin 13 disarankan bagi pengguna yang sud
 24. [#6227](https://github.com/OpenSID/OpenSID/issues/6227) Penambahan surat TinyMCE permohonan kartu keluarga.
 25. [#6216](https://github.com/OpenSID/OpenSID/issues/6216) Penambahan surat TinyMCE keterangan pengantar rujuk/cerai.
 26. [#6781](https://github.com/OpenSID/OpenSID/issues/6781) Penyesuaian jumlah lampiran sesuai pengaturan pada surat TinyMCE.
+27. [#6752](https://github.com/OpenSID/OpenSID/issues/6752) Penambahan kode isian hari dan tanggal untuk TinyMCE.
 
 #### Perbaikan BUG
 
