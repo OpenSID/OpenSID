@@ -467,62 +467,62 @@ class TinyMCE
             [
                 'judul' => 'NIK' . $ortu,
                 'isian' => getFormatIsian('nik' . $prefix . ''),
-                'data'  => $penduduk->nik,
+                'data'  => $penduduk->nik ?? '-',
             ],
             [
                 'judul' => 'Nama' . $ortu,
                 'isian' => getFormatIsian('Nama' . $prefix . ''),
-                'data'  => $penduduk->nama,
+                'data'  => $penduduk->nama ?? '-',
             ],
             [
                 'judul' => 'Tanggal Lahir' . $ortu,
                 'isian' => getFormatIsian('Tanggallahir' . $prefix . ''),
-                'data'  => tgl_indo($penduduk->tanggallahir),
+                'data'  => tgl_indo($penduduk->tanggallahir) ?? '-',
             ],
             [
                 'judul' => 'Tempat Lahir' . $ortu,
                 'isian' => getFormatIsian('Tempatlahir' . $prefix . ''),
-                'data'  => $penduduk->tempatlahir,
+                'data'  => $penduduk->tempatlahir ?? '-',
             ],
             [
                 'judul' => 'Tempat Tanggal Lahir' . $ortu,
                 'isian' => getFormatIsian('Tempat_tgl_lahir' . $prefix . ''),
-                'data'  => $penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir),
+                'data'  => ($penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir)) ?? '-',
             ],
             [
                 'judul' => 'Tempat Tanggal Lahir (TTL)' . $ortu,
                 'isian' => getFormatIsian('Ttl' . $prefix . ''),
-                'data'  => $penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir),
+                'data'  => ($penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir)) ?? '-',
             ],
             [
                 'judul' => 'Usia' . $ortu,
                 'isian' => getFormatIsian('Usia' . $prefix . ''),
-                'data'  => $penduduk->usia,
+                'data'  => $penduduk->usia ?? '-',
             ],
             [
                 'judul' => 'Jenis Kelamin' . $ortu,
                 'isian' => getFormatIsian('Jenis_kelamin' . $prefix . ''),
-                'data'  => $penduduk->jenisKelamin->nama,
+                'data'  => $penduduk->jenisKelamin->nama ?? '-',
             ],
             [
                 'judul' => 'Agama' . $ortu,
                 'isian' => getFormatIsian('Agama' . $prefix . ''),
-                'data'  => $penduduk->agama->nama,
+                'data'  => $penduduk->agama->nama ?? '-',
             ],
             [
                 'judul' => 'Pekerjaan' . $ortu,
                 'isian' => getFormatIsian('Pekerjaan' . $prefix . ''),
-                'data'  => $penduduk->pekerjaan->nama,
+                'data'  => $penduduk->pekerjaan->nama ?? '-',
             ],
             [
                 'judul' => 'Warga Negara' . $ortu,
                 'isian' => getFormatIsian('Warga_negara' . $prefix . ''),
-                'data'  => $penduduk->wargaNegara->nama,
+                'data'  => $penduduk->wargaNegara->nama ?? '-',
             ],
             [
                 'judul' => 'Alamat' . $ortu,
                 'isian' => getFormatIsian('Alamat' . $prefix . ''),
-                'data'  => $penduduk->alamat_wilayah,
+                'data'  => $penduduk->alamat_wilayah ?? '-',
             ],
         ];
 
@@ -648,32 +648,6 @@ class TinyMCE
             $data = array_merge($individu, $lainnya);
 
             // Data Orang Tua
-            if ($penduduk->id_kk && $penduduk->kk_level != StatusHubunganEnum::ANAK) {
-                $data_ortu = [
-                    [
-                        'judul' => 'NIK Ayah',
-                        'isian' => getFormatIsian('Nik_ayaH'),
-                        'data'  => $penduduk->ayah_nik,
-                    ],
-                    [
-                        'judul' => 'Nama Ayah',
-                        'isian' => getFormatIsian('Nama_ayaH'),
-                        'data'  => $penduduk->nama_ayah,
-                    ],
-                    [
-                        'judul' => 'NIK Ibu',
-                        'isian' => getFormatIsian('Nik_ibU'),
-                        'data'  => $penduduk->ibu_nik,
-                    ],
-                    [
-                        'judul' => 'Nama Ibu',
-                        'isian' => getFormatIsian('Nama_ibU'),
-                        'data'  => $penduduk->nama_ibu,
-                    ],
-                ];
-
-                return array_merge($data, $data_ortu);
-            }
 
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
             $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
@@ -702,7 +676,31 @@ class TinyMCE
             $data = array_merge($data, $this->getIsianPenduduk($id_ayah, 'ayah'));
 
             // Data Ibu
-            return array_merge($data, $this->getIsianPenduduk($id_ibu, 'ibu'));
+            $data = array_merge($data, $this->getIsianPenduduk($id_ibu, 'ibu'));
+
+            if ($penduduk->ayah_nik == null) {
+                $data_ortu = [
+                    [
+                        'judul' => 'Nama Ayah',
+                        'isian' => getFormatIsian('Nama_ayaH'),
+                        'data'  => $penduduk->nama_ayah,
+                    ],
+                ];
+                $data = array_merge($data, $data_ortu);
+            }
+
+            if ($penduduk->ibu_nik == null) {
+                $data_ortu = [
+                    [
+                        'judul' => 'Nama Ibu',
+                        'isian' => getFormatIsian('Nama_ibU'),
+                        'data'  => $penduduk->nama_ibu,
+                    ],
+                ];
+                $data = array_merge($data, $data_ortu);
+            }
+
+            return $data;
         }
 
         return $individu;

@@ -78,6 +78,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->migrasi_2023060571($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023060573($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023061251($hasil, $id);
+            // Jalankan Migrasi TinyMCE
             $hasil = $hasil && $this->suratKetDomisili($hasil, $id);
             $hasil = $hasil && $this->suratLahirMati($hasil, $id);
             $hasil = $hasil && $this->suratPenerbitanBukuPas($hasil, $id);
@@ -88,6 +89,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->suratPermohonanDuplikatNikah($hasil, $id);
             $hasil = $hasil && $this->suratPenghasilanAyah($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganKepemilikanTanah($hasil, $id);
+            $hasil = $hasil && $this->suratPermohonanDuplikatKelahiran($hasil, $id);
             $hasil = $hasil && $this->suratPermohonanKartuKeluarga($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPengantarRujukCerai($hasil, $id);
             // Jalankan Migrasi TinyMCE
@@ -2160,6 +2162,251 @@ class Migrasi_fitur_premium_2307 extends MY_model
             'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
             'qr_code'             => StatusEnum::TIDAK,
             'kode_isian'          => '[{"tipe":"select-manual","kode":"[form_jenis_tanah]","nama":"Jenis Tanah","deskripsi":"- Pilih Jenis Tanah -","atribut":"class=\"required\"","pilihan":["Tanah Sawah","Tanah Darat","Tanah Bangunan"],"refrensi":null},{"tipe":"number","kode":"[form_luas_tanah]","nama":"Luas Tanah","deskripsi":"Luas Tanah (dalam M2)","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"select-manual","kode":"[form_bukti_kepemilikan]","nama":"Bukti Kepemilikan","deskripsi":"- Pilih Bukti Kepemilikan Tanah -","atribut":"class=\"required\"","pilihan":["Petok lama","Petok baru","Sit segel","Akta","Copy","Buku Krawangan Desa","Lainnya"],"refrensi":null},{"tipe":"text","kode":"[form_nomor_bukti_kepemilikan]","nama":"Nomor Bukti Kepemilikan","deskripsi":"- Nomor Bukti Kepemilikan -","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_atas_nama]","nama":"Atas Nama","deskripsi":"Atas Nama","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"select-manual","kode":"[form_asal_kepmilikan_tanah]","nama":"Asal Kepmilikan Tanah","deskripsi":"- Pilih Asal Kepemilikan Tanah -","atribut":"class=\"required\"","pilihan":["Yayasan","Warisan","Hibah","Jual Beli","Lainnya"],"refrensi":null},{"tipe":"text","kode":"[form_bukti_pendukung_kepemilikan]","nama":"Bukti Pendukung Kepemilikan","deskripsi":"Bukti Pendukung Kepemilikan","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_batas_sebelah_utara]","nama":"Batas Sebelah Utara","deskripsi":"Batas Sebelah Utara","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_batas_sebelah_timur]","nama":"Batas Sebelah Timur","deskripsi":"Batas Sebelah Timur","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_batas_sebelah_selatan]","nama":"Batas Sebelah Selatan","deskripsi":"Batas Sebelah Selatan","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_batas_sebelah_barat]","nama":"Batas Sebelah Barat","deskripsi":"Batas Sebelah Barat","atribut":"class=\"required\"","pilihan":null,"refrensi":null}]',
+            'form_isian'          => '{"data":"1","individu":{"sex":"","status_dasar":"","kk_level":""}}',
+            'mandiri'             => StatusEnum::TIDAK,
+            'syarat_surat'        => null,
+            'lampiran'            => null,
+            'template'            => $template,
+        ];
+
+        return $hasil && $this->tambah_surat_tinymce($data, $id);
+    }
+
+    protected function suratPermohonanDuplikatKelahiran($hasil, $id)
+    {
+        $template = <<<HTML
+                <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">[JUdul_surat]</span></h4>
+                <p style="margin: 0; text-align: center;">Nomor : [Format_nomor_suraT]<br /><br /></p>
+                <p style="text-align: justify; text-indent: 30px;">YDengan ini kami mengajukan orang untuk mengadakan [Judul_suraT] seperti tersebut di bawah ini\u{a0} :</p>
+                <table style="border-collapse: collapse; width: 100%; height: 481.547px;" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                <tr style="height: 19.375px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.375px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 19.375px; text-align: left;">1.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.375px;">Nama Lengkap</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.375px;">:</td>
+                <td style="width: 59.9869%; height: 19.375px; text-align: justify;"><strong>[NAma]</strong></td>
+                </tr>
+                <tr style="height: 19.375px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.375px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 19.375px; text-align: left;">2.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.375px;">NIK / No KTP</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.375px;">:</td>
+                <td style="width: 59.9869%; height: 19.375px; text-align: justify;">[NiK]</td>
+                </tr>
+                <tr style="height: 19.375px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.375px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 19.375px; text-align: left;">3.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.375px;">Jenis Kelamin / Agama</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.375px;">:</td>
+                <td style="width: 59.9869%; height: 19.375px; text-align: justify;">[Jenis_kelamiN] / [AgamA]</td>
+                </tr>
+                <tr style="height: 19.375px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.375px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 19.375px; text-align: left;">4.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.375px;">Alamat/Tempat Tinggal</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.375px;">:</td>
+                <td style="width: 59.9869%; height: 19.375px; text-align: justify;">[AlamaT]</td>
+                </tr>
+                <tr style="height: 39.75px;">
+                <td style="width: 4.3222%; text-align: center; height: 39.75px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 39.75px; text-align: left;">\u{a0}</td>
+                <td style="width: 30.5174%; text-align: left; height: 39.75px;"><strong>Telah Lahir Pada :</strong></td>
+                <td style="width: 1.24427%; text-align: center; height: 39.75px;">\u{a0}</td>
+                <td style="width: 59.9869%; height: 39.75px; text-align: justify;">\u{a0}</td>
+                </tr>
+                <tr style="height: 19.375px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.375px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 19.375px; text-align: left;">5.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.375px;">Hari, Tanggal, Pukul</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.375px;">:</td>
+                <td style="width: 59.9869%; height: 19.375px; text-align: justify;">[Form_hari_lahiR], [TanggallahiR], [Form_jam_lahiR]</td>
+                </tr>
+                <tr style="height: 19.375px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.375px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 19.375px; text-align: left;">6.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.375px;">Bertempat di</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.375px;">:</td>
+                <td style="width: 59.9869%; height: 19.375px; text-align: justify;">[Form_tempat_lahiR]</td>
+                </tr>
+                <tr style="height: 19.375px;">
+                <td style="width: 4.3222%; text-align: center; height: 19.375px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 19.375px; text-align: left;">\u{a0}</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.375px;"><strong>Dengan orang tua</strong>:</td>
+                <td style="width: 1.24427%; height: 19.375px; text-align: center;">\u{a0}</td>
+                <td style="width: 59.9869%; height: 19.375px; text-align: justify;">\u{a0}</td>
+                </tr>
+                <tr style="height: 19.375px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.375px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 19.375px; text-align: left;">7.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.375px;">Nama Ibu</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.375px;">:</td>
+                <td style="width: 59.9869%; height: 19.375px; text-align: justify;">[Nama_ibU]</td>
+                </tr>
+                <tr style="height: 19.375px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.375px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 19.375px; text-align: left;">8.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.375px;">NIK / Tanggal Lahir Ibu</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.375px;">:</td>
+                <td style="width: 59.9869%; height: 19.375px; text-align: justify;">[Nik_ibU] / [Tempatlahir_ibU]</td>
+                </tr>
+                <tr style="height: 19.375px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.375px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 19.375px; text-align: left;">9.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.375px;">Pekerjaan Ibu</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.375px;">:</td>
+                <td style="width: 59.9869%; height: 19.375px; text-align: justify;">[Pekerjaan_ibU]</td>
+                </tr>
+                <tr style="height: 19.375px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.375px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 19.375px; text-align: left;">10.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.375px;">Alamat Ibu</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.375px;">:</td>
+                <td style="width: 59.9869%; height: 19.375px; text-align: justify;">[Alamat_ibU] [Sebutan_desA] [Nama_desA], [Sebutan_kecamataN] [Nama_kecamataN], [Sebutan_kabupateN] [Nama_kabupateN]</td>
+                </tr>
+                <tr style="height: 19.4219px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.4219px;">\u{a0}</td>
+                <td style="width: 3.92927%; height: 19.4219px; text-align: left;">11.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.4219px;">Nama Ayah</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.4219px;">:</td>
+                <td style="width: 59.9869%; height: 19.4219px; text-align: justify;">[Nama_ayaH]</td>
+                </tr>
+                <tr style="height: 19.2344px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.2344px;">\u{a0}</td>
+                <td style="width: 3.92927%; text-align: left; height: 19.2344px;">12.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.2344px;">NIK / Tanggal Lahir Ayah</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.2344px;">:</td>
+                <td style="width: 59.9869%; text-align: justify; height: 19.2344px;">[Nik_ayaH] / [Tanggallahir_ayaH]</td>
+                </tr>
+                <tr style="height: 19.2344px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.2344px;">\u{a0}</td>
+                <td style="width: 3.92927%; text-align: left; height: 19.2344px;">13.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.2344px;">Pekerjaan Ayah</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.2344px;">:</td>
+                <td style="width: 59.9869%; text-align: justify; height: 19.2344px;">[Pekerjaan_ayaH]\u{a0}</td>
+                </tr>
+                <tr style="height: 36px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 36px;">\u{a0}</td>
+                <td style="width: 3.92927%; text-align: left; height: 36px;">14.</td>
+                <td style="width: 30.5174%; text-align: left; height: 36px;">Alamat Ayah</td>
+                <td style="width: 1.24427%; text-align: center; height: 36px;">:</td>
+                <td style="width: 59.9869%; text-align: justify; height: 36px;">[Alamat_ayaH] [Sebutan_desA] [Nama_desA], [Sebutan_kecamataN] [Nama_kecamataN], [Sebutan_kabupateN] [Nama_kabupateN]</td>
+                </tr>
+                <tr style="height: 19.2344px;">
+                <td style="width: 4.3222%; text-align: center; height: 19.2344px;">\u{a0}</td>
+                <td style="width: 3.92927%; text-align: left; height: 19.2344px;">\u{a0}</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.2344px;">\u{a0}</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.2344px;">\u{a0}</td>
+                <td style="width: 59.9869%; text-align: justify; height: 19.2344px;">\u{a0}</td>
+                </tr>
+                <tr style="height: 19.2344px;">
+                <td style="width: 4.3222%; text-align: center; height: 19.2344px;">\u{a0}</td>
+                <td style="text-align: left; height: 19.2344px; width: 95.6778%;" colspan="4">Surat Keterangan ini dibuat berdasarkan keterangan pelapor:</td>
+                </tr>
+                <tr style="height: 19.2344px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.2344px;">\u{a0}</td>
+                <td style="width: 3.92927%; text-align: left; height: 19.2344px;">15.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.2344px;">Nama Lengkap</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.2344px;">:</td>
+                <td style="width: 59.9869%; text-align: justify; height: 19.2344px;">[Form_nama_pelapoR]</td>
+                </tr>
+                <tr style="height: 19.2344px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.2344px;">\u{a0}</td>
+                <td style="width: 3.92927%; text-align: left; height: 19.2344px;">16.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.2344px;">NIK / Jenis Kelamin</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.2344px;">:</td>
+                <td style="width: 59.9869%; text-align: justify; height: 19.2344px;">[Form_nik_pelapoR] / [Form_jenis_kelamin_pelapoR]</td>
+                </tr>
+                <tr style="height: 19.2344px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.2344px;">\u{a0}</td>
+                <td style="width: 3.92927%; text-align: left; height: 19.2344px;">17.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.2344px;">Tempat / Tanggal Lahir</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.2344px;">:</td>
+                <td style="width: 59.9869%; text-align: justify; height: 19.2344px;">[Form_tempat_lahiR] / [Form_tanggal_lahir_pelapoR]</td>
+                </tr>
+                <tr style="height: 19.2344px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.2344px;">\u{a0}</td>
+                <td style="width: 3.92927%; text-align: left; height: 19.2344px;">18.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.2344px;">Pekerjaan</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.2344px;">:</td>
+                <td style="width: 59.9869%; text-align: justify; height: 19.2344px;">[Form_pekerjaan_pelapoR]</td>
+                </tr>
+                <tr style="height: 19.375px;" valign="top">
+                <td style="width: 4.3222%; text-align: center; height: 19.375px;">\u{a0}</td>
+                <td style="width: 3.92927%; text-align: left; height: 19.375px;">19.</td>
+                <td style="width: 30.5174%; text-align: left; height: 19.375px;">Alamat</td>
+                <td style="width: 1.24427%; text-align: center; height: 19.375px;">:</td>
+                <td style="width: 59.9869%; text-align: justify; height: 19.375px;">[Form_alamat_pelapoR]</td>
+                </tr>
+                </tbody>
+                </table>
+                <p style="text-align: justify; text-indent: 30px;">Demikian surat keterangan ini dibuat dengan sebenarnya, atas perhatian dan terkabulnya diucapkan terima kasih.<br /><br /></p>
+                <table style="border-collapse: collapse; width: 100%; height: 415.985px;" border="0">
+                <tbody>
+                <tr style="height: 38.2344px;">
+                <td style="width: 35.0462%; text-align: center; height: 38.2344px;">\u{a0}</td>
+                <td style="width: 30.0103%; height: 38.2344px;">\u{a0}</td>
+                <td style="width: 35.0462%; text-align: center; height: 38.2344px;">\u{a0}</td>
+                </tr>
+                <tr style="height: 22.4688px;">
+                <td style="width: 35.0462%; text-align: center; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 30.0103%; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 35.0462%; text-align: center; height: 22.4688px;">[Nama_desA], [TgL_surat]</td>
+                </tr>
+                <tr style="height: 22.4688px;">
+                <td style="width: 35.0462%; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 30.0103%; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 35.0462%; text-align: center; height: 22.4688px;">[Sebutan_kepala_desA] [Nama_desA]</td>
+                </tr>
+                <tr style="height: 22.4688px;">
+                <td style="width: 35.0462%; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 30.0103%; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 35.0462%; text-align: center; height: 22.4688px;">\u{a0}</td>
+                </tr>
+                <tr style="height: 22.4688px;">
+                <td style="width: 35.0462%; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 30.0103%; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 35.0462%; text-align: left; height: 22.4688px;">\u{a0}</td>
+                </tr>
+                <tr style="height: 22.4688px;">
+                <td style="width: 35.0462%; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 30.0103%; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 35.0462%; text-align: left; height: 22.4688px;">\u{a0}</td>
+                </tr>
+                <tr style="height: 22.4688px;">
+                <td style="width: 35.0462%; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 30.0103%; text-align: center; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 35.0462%; height: 22.4688px; text-align: center;"><strong>Nama_pamonG</strong></td>
+                </tr>
+                <tr style="height: 22.4688px;">
+                <td style="width: 35.0462%; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 30.0103%; text-align: center; height: 22.4688px;">\u{a0}</td>
+                <td style="width: 35.0462%; height: 22.4688px; text-align: center;">NIP : [Nip_kepala_camaT]</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 35.0462%; height: 18px;">\u{a0}</td>
+                <td style="width: 30.0103%; text-align: center; height: 18px;">\u{a0}</td>
+                <td style="width: 35.0462%; text-align: center; height: 18px;">\u{a0}</td>
+                </tr>
+                <tr style="height: 92px;">
+                <td style="width: 35.0462%; height: 92px;">\u{a0}</td>
+                <td style="width: 30.0103%; text-align: center; height: 92px;">[qr_code]</td>
+                <td style="width: 35.0462%; text-align: center; height: 92px;">\u{a0}</td>
+                </tr>
+                </tbody>
+                </table>
+                <div style="text-align: center;">\u{a0}</div>
+            HTML;
+        $data = [
+            'nama'                => 'Permohonan Duplikat Kelahiran',
+            'kode_surat'          => 'S-20',
+            'masa_berlaku'        => 1,
+            'satuan_masa_berlaku' => 'd',
+            'orientasi'           => 'Potrait',
+            'ukuran'              => 'F4',
+            'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
+            'qr_code'             => StatusEnum::TIDAK,
+            'kode_isian'          => '[{"tipe":"text","kode":"[form_hari_lahir]","nama":"Hari Lahir","deskripsi":"Hari Lahir","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"time","kode":"[form_jam_lahir]","nama":"Jam Lahir","deskripsi":"Jam Lahir","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_tempat_lahir]","nama":"Tempat Lahir","deskripsi":"Tempat Lahir","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_nama_pelapor]","nama":"Nama Pelapor","deskripsi":"Nama Pelapor","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"date","kode":"[form_tanggal_lahir_pelapor]","nama":"Tanggal Lahir Pelapor","deskripsi":"Tanggal Lahir Pelapor","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_nik_pelapor]","nama":"Nik Pelapor","deskripsi":"Nik Pelapor","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"select-otomatis","kode":"[form_jenis_kelamin_pelapor]","nama":"Jenis Kelamin Pelapor","deskripsi":"Jenis Kelamin Pelapor","atribut":"class=\"required\"","pilihan":null,"refrensi":"tweb_penduduk_sex"},{"tipe":"text","kode":"[form_tempat_lahir_pelapor]","nama":"Tempat Lahir Pelapor","deskripsi":"Tempat Lahir Pelapor","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"date","kode":"[form_tanggal_lahir_pelapor]","nama":"Tanggal Lahir Pelapor","deskripsi":"Tanggal Lahir Pelapor","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_pekerjaan_pelapor]","nama":"Pekerjaan Pelapor","deskripsi":"Pekerjaan Pelapor","atribut":"class=\"required\"","pilihan":null,"refrensi":null},{"tipe":"textarea","kode":"[form_alamat_pelapor]","nama":"Alamat Pelapor","deskripsi":"Alamat Pelapor","atribut":"class=\"required\"","pilihan":null,"refrensi":null}]',
             'form_isian'          => '{"data":"1","individu":{"sex":"","status_dasar":"","kk_level":""}}',
             'mandiri'             => StatusEnum::TIDAK,
             'syarat_surat'        => null,
