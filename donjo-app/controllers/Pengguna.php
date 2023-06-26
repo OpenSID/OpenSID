@@ -52,17 +52,27 @@ class Pengguna extends Admin_Controller
 
     public function index()
     {
+        $userData = User::findOrFail(auth()->id);
+
         return view('admin.pengguna.index', [
             'form_action'     => 'pengguna/update',
             'password_action' => 'pengguna/update_password',
+            'userData'        => $userData,
         ]);
     }
 
     public function update()
     {
-        $data = User::findOrFail(auth()->id);
+        $data    = User::findOrFail(auth()->id);
+        $newData = $this->validate($this->request);
+        if ($data->email != $newData['email']) {
+            $newData['email_verified_at'] = null;
+        }
+        if ($data->id_telegram != $newData['id_telegram']) {
+            $newData['telegram_verified_at'] = null;
+        }
 
-        if ($data->update($this->validate($this->request))) {
+        if ($data->update($newData)) {
             $this->session->isAdmin = $data;
             redirect_with('success', 'Berhasil Ubah Data');
         }
@@ -74,10 +84,10 @@ class Pengguna extends Admin_Controller
     {
         return [
             'nama'           => nama($request['nama']),
+            'email'          => email($request['email']),
             'notif_telegram' => (int) $request['notif_telegram'],
             'id_telegram'    => alfanumerik(empty($request['id_telegram']) ? 0 : $request['id_telegram']),
             'foto'           => $this->user_model->urusFoto(Auth()->id),
-
         ];
     }
 

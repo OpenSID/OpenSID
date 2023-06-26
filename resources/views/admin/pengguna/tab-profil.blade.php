@@ -8,7 +8,7 @@
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input class="form-control input-sm" type="text" value="{{ auth()->email }}" readonly />
+            <input class="form-control input-sm" name="email" type="text" value="{{ auth()->email }}" />
         </div>
         <div class="form-group">
             <label for="nama_lengkap">Nama Lengkap</label>
@@ -27,30 +27,32 @@
                 </span>
             </div>
         </div>
+        @if (! empty(setting('telegram_token')))
         <div class="form-group">
             <label for="notif_telegram" class="control-label">Notifikasi Telegram</label>
             <div class="btn-group col-xs-12 col-sm-8 input-group" data-toggle="buttons">
                 <label
-                    class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho(auth()->notif_telegram, 1, 'active') }} {{ jecho(setting('telegram_token') == null || auth()->telegram_verified_at == null, true, 'disabled') }}">
+                    class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho(auth()->notif_telegram, 1, 'active') }}">
                     <input type="radio" name="notif_telegram" class="form-check-input" value="1"
                         autocomplete="off" {{ selected(auth()->notif_telegram, 1) }}
-                        {{ jecho(setting('telegram_token') == null || auth()->telegram_verified_at == null, true, 'disabled') }} />
+                    />
                     Ya
                 </label>
                 <label
-                    class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho(auth()->notif_telegram, 0, 'active') }}  {{ jecho(setting('telegram_token') == null || auth()->telegram_verified_at == null, true, 'disabled') }}">
+                    class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho(auth()->notif_telegram, 0, 'active') }}">
                     <input type="radio" name="notif_telegram" class="form-check-input" value="0"
                         autocomplete="off" {{ selected(auth()->notif_telegram, 0) }}
-                        {{ jecho(setting('telegram_token') == null || auth()->telegram_verified_at == null, true, 'disabled') }} />
+                    />
                     Tidak
                 </label>
             </div>
-        </div>
-        <div class="form-group">
+        </div>                
+        <div class="form-group {{ $userData->notif_telegram ? '' : 'hide'}}">
             <label for="id_telegram">User ID Telegram</label>
             <input class="form-control input-sm bilangan" type="text" id="id_telegram" name="id_telegram"
                 value="{{ auth()->id_telegram }}" {{ jecho(setting('telegram_token') == null, true, 'disabled') }} />
-        </div>
+        </div>        
+        @endif
     </div>
     <div class="box-footer">
         <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
