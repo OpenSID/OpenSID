@@ -635,3 +635,26 @@ if (! function_exists('checklist')) {
         return $view;
     }
 }
+
+if (! function_exists('create_tree_folder')) {
+    function create_tree_folder($arr, $baseDir)
+    {
+        if (! empty($arr)) {
+            $tmp = '<ul class="tree-folder">';
+
+            foreach ($arr as $i => $val) {
+                if (is_array($val)) {
+                    $permission     = decoct(fileperms($baseDir . DIRECTORY_SEPARATOR . $i) & 0777);
+                    $iconPermission = $permission == decoct(DESAPATHPERMISSION) ? '<i class="fa fa-check-circle-o fa-lg pull-right" style="color:green"></i>' : '<i class="fa fa-times-circle-o fa-lg pull-right" style="color:red"></i>';
+                    $liClass        = $permission == decoct(DESAPATHPERMISSION) ? 'text-green' : 'text-red';
+                    $tmp .= '<li class="' . $liClass . '"  data-path="' . preg_replace('/\/+/', '/', $baseDir . DIRECTORY_SEPARATOR . $i) . '">' . $i . '(' . $permission . ') ' . $iconPermission;
+                    $tmp .= create_tree_folder($val, $baseDir . $i);
+                    $tmp .= '</li>';
+                }
+            }
+            $tmp .= '</ul>';
+
+            return $tmp;
+        }
+    }
+}

@@ -41,6 +41,7 @@ Berkaitan dengan perubahan teknis pada poin 13 disarankan bagi pengguna yang sud
 34. [#6785](https://github.com/OpenSID/OpenSID/issues/6785) Perbaikan redirect setelah menulis pesan pada layanan mandiri.
 35. [#6788](https://github.com/OpenSID/OpenSID/issues/6788) Perbaikan halaman profil pengguna untuk data email dan telegram.
 36. [#6790](https://github.com/OpenSID/OpenSID/issues/6790) Perbaikan sebutan jabatan pada kirim pesan melalui whatsapp ganti pin penggun layanan mandiri.
+37. [#6777](https://github.com/OpenSID/OpenSID/issues/6777) Penambahan pengecekan hak akses folder desa.
 
 
 #### Perubahan Teknis
