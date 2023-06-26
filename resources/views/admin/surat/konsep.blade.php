@@ -1,4 +1,4 @@
-@include('admin.pengaturan_surat.asset_tinymce', ['salin_template' => 'isi'])
+@include('admin.pengaturan_surat.asset_tinymce')
 
 @extends('admin.layouts.index')
 
@@ -22,7 +22,9 @@
     <div class="box-body">
         <input type="hidden" id="id_surat" value="{{ $id_surat }}">
         <div class="form-group">
-            <textarea name="isi_surat" class="form-control input-sm editor required">{{ $isi_surat }}</textarea>
+            <textarea name="isi_surat" data-filemanager='<?= json_encode([ 'external_filemanager_path' => base_url().'assets/filemanager/',
+                'filemanager_title' => "Responsive Filemanager",
+                'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $isi_surat }}</textarea>
         </div>
     </div>
     <div class="box-footer text-center">

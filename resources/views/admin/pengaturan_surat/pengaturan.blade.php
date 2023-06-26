@@ -1,4 +1,4 @@
-@include('admin.pengaturan_surat.asset_tinymce', ['height' => 250, 'salin_template' => 'header-footer'])
+@include('admin.pengaturan_surat.asset_tinymce', ['height' => 250])
 
 @extends('admin.layouts.index')
 
@@ -42,7 +42,9 @@
                     </div>
                     <div class="form-group">
                         <label>Template Header Surat</label>
-                        <textarea name="header_surat" class="form-control input-sm editor required" data-jenis="header">{{ setting('header_surat') }}</textarea>
+                        <textarea name="header_surat" class="form-control input-sm editor required" data-filemanager='<?= json_encode([ 'external_filemanager_path' => base_url().'assets/filemanager/',
+                            'filemanager_title' => "Responsive Filemanager",
+                            'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="header-footer" data-jenis="header">{{ setting('header_surat') }}</textarea>
                     </div>
                 </div>
             </div>
@@ -62,7 +64,9 @@
                     <div class="form-group">
                         <label>Template Footer Surat</label>
                         <textarea name="{{ setting('tte') == '1' ? 'footer_surat_tte' : 'footer_surat' }}"
-                            class="form-control input-sm editor required" data-jenis="footer">{{ setting('tte') == '1' ? setting('footer_surat_tte') : setting('footer_surat') }}</textarea>
+                            class="form-control input-sm editor required" data-filemanager='<?= json_encode([ 'external_filemanager_path' => base_url().'assets/filemanager/',
+                            'filemanager_title' => "Responsive Filemanager",
+                            'filemanager_access_key' => $session->fm_key]) ?>'  data-salintemplate="header-footer" data-jenis="footer">{{ setting('tte') == '1' ? setting('footer_surat_tte') : setting('footer_surat') }}</textarea>
                     </div>
                 </div>
 
