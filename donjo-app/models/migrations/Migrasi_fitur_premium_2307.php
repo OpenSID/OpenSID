@@ -92,7 +92,8 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->suratPermohonanDuplikatKelahiran($hasil, $id);
             $hasil = $hasil && $this->suratPermohonanKartuKeluarga($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPengantarRujukCerai($hasil, $id);
-            // Jalankan Migrasi TinyMCE
+            $hasil = $hasil && $this->suratPermohonanPerubahanKartuKeluarga($hasil, $id);
+            // Jalankan Migrasi TinyMCE'
             $hasil = $hasil && $this->migrasi_2023062251($hasil, $id);
         }
         // Migrasi tanpa config_id
@@ -189,7 +190,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
     protected function migrasi_2023061271($hasil)
     {
-        if (! $this->db->field_exists('foto', 'widget')) {
+        if (!$this->db->field_exists('foto', 'widget')) {
             $hasil = $hasil && $this->dbforge->add_column('widget', [
                 'foto' => [
                     'type'       => 'varchar',
@@ -206,7 +207,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
     {
         $fields = [];
 
-        if (! $this->db->field_exists('Kd_Bank', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Kd_Bank', 'keuangan_ta_spp')) {
             $fields['Kd_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -214,7 +215,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Nm_Bank', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Nm_Bank', 'keuangan_ta_spp')) {
             $fields['Nm_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -222,7 +223,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Nm_Penerima', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Nm_Penerima', 'keuangan_ta_spp')) {
             $fields['Nm_Penerima'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -230,7 +231,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Ref_Bayar', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Ref_Bayar', 'keuangan_ta_spp')) {
             $fields['Ref_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -238,7 +239,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
             $fields['Rek_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -246,7 +247,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
             $fields['Rek_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -254,7 +255,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spp')) {
             $fields['Tgl_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -262,7 +263,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (! $this->db->field_exists('Validasi', 'keuangan_ta_spp')) {
+        if (!$this->db->field_exists('Validasi', 'keuangan_ta_spp')) {
             $fields['Validasi'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -279,7 +280,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
     protected function migrasi_2023061451($hasil)
     {
-        if (! $this->db->field_exists('slug', 'user_grup')) {
+        if (!$this->db->field_exists('slug', 'user_grup')) {
             $hasil = $hasil && $this->dbforge->add_column('user_grup', [
                 'slug' => [
                     'type'       => 'varchar',
@@ -2613,6 +2614,182 @@ class Migrasi_fitur_premium_2307 extends MY_model
             'jenis'      => 'boolean',
             'option'     => null,
         ], $id);
+    }
+
+    protected function suratPermohonanPerubahanKartuKeluarga($hasil, $id)
+    {
+        $template = <<<HTML
+                <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">[JUdul_surat]</span></h4>
+                <p style="margin: 0; text-align: center;">Nomor : [format_nomor_surat]<br /><br /></p>
+                <p style="text-align: justify;">\u{a0} \u{a0} \u{a0} Yang bertanda tangan di bawah ini [Jabatan] [Nama_desa], Kecamatan [Nama_kecamatan], [Sebutan_kabupaten] [Nama_kabupaten], Provinsi [Nama_provinsi] menerangkan dengan sebenarnya bahwa :</p>
+                <table style="border-collapse: collapse; width: 100%; height: 270px;" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">1.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Nama</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;"><strong>[NAma]</strong></td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">2.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Tempat/tanggal lahir</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[TtL]</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">3.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Umur</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[UsIa]</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">4.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Warga negara</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[WArga_negara]</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">5.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Agama</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[AgAma]</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">6.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Jenis Kelamin</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[JeNis_kelamin]</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">7.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Pekerjaan</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[Pekerjaan]</td>
+                </tr>
+                <tr style="height: 36px;">
+                <td style="width: 5%; text-align: center; height: 36px;">8.</td>
+                <td style="width: 33.773%; text-align: left; height: 36px;">Tempat tinggal</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 36px;">[AlamaT] [Sebutan_desa] [Nama_desa], Kecamatan [Nama_kecamatan], [Sebutan_kabupaten] [Nama_kabupaten]</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">9.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Surat bukti diri</td>
+                <td style="width: 1.22703%; text-align: left;">\u{a0}</td>
+                <td style="width: 60%; text-align: left; height: 18px;">\u{a0}</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">\u{a0}</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">KTK</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[Nik]</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">\u{a0}</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">KK</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[No_kk]</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">10.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Keperluan</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">Permohonan Perubahan Kartu Keluarga WNI.</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">11.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Keterangan lain-lain</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">Orang tersebut di atas adalah benar benar penduduk desa kami dan adat istiadat baik.</td>
+                </tr>
+                </tbody>
+                </table>
+                <p style="text-align: justify;">\u{a0} \u{a0} \u{a0} \u{a0} \u{a0} \u{a0} \u{a0}</p>
+                <p style="text-align: justify; text-indent: 30px;">Demikian surat ini dibuat, untuk dipergunakan sebagaimana mestinya.<br /><br /></p>
+                <table style="border-collapse: collapse; width: 100%; height: 324px;" border="0">
+                <tbody>
+                <tr style="height: 18px;">
+                <td style="width: 35.0462%; text-align: center; height: 18px;">\u{a0}</td>
+                <td style="width: 30.0103%; height: 18px;">\u{a0}</td>
+                <td style="width: 35.0462%; text-align: center; height: 18px;">[NaMa_desa], [TgL_surat]</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 35.0462%; text-align: center; height: 18px;">Pemegang Surat</td>
+                <td style="width: 30.0103%; height: 18px;">\u{a0}</td>
+                <td style="width: 35.0462%; text-align: center; height: 18px;">[Atas_namA]</td>
+                </tr>
+                <tr style="height: 72px;">
+                <td style="width: 35.0462%; text-align: center; height: 72px;">\u{a0}</td>
+                <td style="width: 30.0103%; height: 72px;"><br /><br /><br /><br /></td>
+                <td style="width: 35.0462%; height: 72px;">\u{a0}</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 35.0462%; text-align: center; height: 18px;"><strong>[NAma]</strong></td>
+                <td style="width: 30.0103%; height: 18px;">\u{a0}</td>
+                <td style="width: 35.0462%; text-align: center; height: 18px;">[Nama_pamonG]</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 35.0462%; height: 18px;">\u{a0}</td>
+                <td style="width: 30.0103%; height: 18px;">\u{a0}</td>
+                <td style="width: 35.0462%; text-align: center; height: 18px;">[SEbutan_nip_desa] : [nip_pamong]</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 35.0462%; height: 18px;">\u{a0}</td>
+                <td style="width: 30.0103%; height: 18px;">\u{a0}</td>
+                <td style="width: 35.0462%; text-align: center; height: 18px;">\u{a0}</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 35.0462%; height: 18px;">\u{a0}</td>
+                <td style="width: 30.0103%; height: 18px;">No</td>
+                <td style="width: 35.0462%; text-align: left; height: 18px;">:</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 35.0462%; height: 18px;">\u{a0}</td>
+                <td style="width: 30.0103%; height: 18px;">Tanggal</td>
+                <td style="width: 35.0462%; text-align: left; height: 18px;">:</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 35.0462%; height: 18px;">\u{a0}</td>
+                <td style="width: 30.0103%; text-align: center; height: 18px;">Mengetahui,</td>
+                <td style="width: 35.0462%; text-align: left; height: 18px;">\u{a0}</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 35.0462%; height: 18px;">\u{a0}</td>
+                <td style="width: 30.0103%; text-align: center; height: 18px;">Camat - [NaMa_kecamatan]</td>
+                <td style="width: 35.0462%; text-align: left; height: 18px;">\u{a0}</td>
+                </tr>
+                <tr style="height: 72px;">
+                <td style="height: 72px; width: 35.0462%;" rowspan="2">[qr_code]</td>
+                <td style="width: 30.0103%; height: 72px;"><br /><br /><br /></td>
+                <td style="width: 35.0462%; text-align: left; height: 72px;">\u{a0}</td>
+                </tr>
+                <tr style="height: 18px;">
+                <td style="width: 30.0103%; text-align: center; height: 18px;">..............................................</td>
+                <td style="width: 35.0462%; text-align: left; height: 18px;">\u{a0}</td>
+                </tr>
+                </tbody>
+                </table>
+                <div style="text-align: center;">\u{a0}</div>
+            HTML;
+
+        $data = [
+            'nama'                => 'Permohonan Perubahan Kartu Keluarga',
+            'kode_surat'          => 'S-41',
+            'masa_berlaku'        => 1,
+            'satuan_masa_berlaku' => 'M',
+            'orientasi'           => 'Potrait',
+            'ukuran'              => 'F4',
+            'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
+            'qr_code'             => StatusEnum::TIDAK,
+            'kode_isian'          => '[{"tipe":"select-manual","kode":"[form_alasan_permohonan]","nama":"Alasan Permohonan","deskripsi":"Pilih Alasan Permohonan","required":"1","atribut":"class=\"required\"","pilihan":["Karena Penambahan Anggota Keluarga (Kelahiran, Kedatangan)","Karena Pengurangan Anggota Keluarga (Kematian, Kepindahan)","Lainnya"],"refrensi":null},{"tipe":"textarea","kode":"[form_alasan_lainnya]","nama":"Alasan Lainnya","deskripsi":"Alasan Lainnya","required":"0","atribut":null,"pilihan":null,"refrensi":null}]',
+            'form_isian'          => '{"data":"1","individu":{"sex":"","status_dasar":"","kk_level":"1"}}',
+            'mandiri'             => StatusEnum::TIDAK,
+            'syarat_surat'        => null,
+            'lampiran'            => 'F-1.01,F-1.02,F-1.16',
+            'template'            => $template,
+        ];
+
+        return $hasil && $this->tambah_surat_tinymce($data, $id);
     }
 
     // Function Migrasi TinyMCE
