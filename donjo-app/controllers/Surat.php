@@ -338,11 +338,18 @@ class Surat extends Admin_Controller
             } catch (Html2PdfException $e) {
                 $html2pdf->clean();
                 $formatter = new ExceptionFormatter($e);
-                log_message('error', $formatter->getHtmlMessage());
+                log_message('error', trim(preg_replace('/\s\s+/', ' ', $formatter->getMessage())));
 
                 // Untuk surat yang sudah tersimpan sebagai draf, simpan isian suratnya yang belum jadi (hanya isian surat dari konversi template surat)
                 $surat->isi_surat = $isi[1];
                 $surat->status    = LogSurat::KONSEP;
+
+                return $this->output
+                    ->set_status_header(404, str_replace("\n", ' ', $formatter->getMessage()))
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode([
+                        'statusText' => $formatter->getMessage(),
+                    ]));
             }
 
             if ($preview) {

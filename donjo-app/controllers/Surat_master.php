@@ -645,9 +645,11 @@ class Surat_master extends Admin_Controller
             $html2pdf->clean();
             $formatter = new ExceptionFormatter($e);
             log_message('error', $formatter->getHtmlMessage());
-        }
+            log_message('error', 'belum redirect');
+            header('HTTP/1.0 404 ' . str_replace("\n", ' ', $formatter->getMessage()));
 
-        exit();
+            exit();
+        }
     }
 
     public function ekspor()

@@ -132,10 +132,12 @@
                         })
                     }
                 })
-                .fail(function(error) {
+                .fail(function(response, status, xhr) {
+                    
                     Swal.fire({
+                        title: xhr.statusText, 
                         icon: 'error',
-                        text: error.statusText,
+                        text: response.statusText,
                     })
                 });
         });
@@ -199,7 +201,14 @@
                         alert(ex); // This is an error
                     }
                 }
-            })
+            }).fail(function(response, status, xhr) {
+                    
+                    Swal.fire({
+                        title: xhr.statusText, 
+                        icon: 'error',
+                        text: response.statusText,
+                    })
+                })
         });
     });
 </script>
