@@ -1,6 +1,6 @@
 <h5><b>Kode Isian</b></h5>
 <div class="table-responsive">
-    <table class="table table-hover table-striped kode-isian">
+    <table class="table table-hover table-striped">
         <tbody>
             <tr style="font-weight: bold;">
                 <td>TIPE</td>
@@ -12,7 +12,7 @@
                 <td>AKSI</td>
             </tr>
             @php $jumlah_isian = 0; @endphp
-            @foreach ($kode_isian as $key => $value)
+            @foreach ($suratMaster->kode_isian as $key => $value)
             @if (!$value->statis)
             @php $jumlah_isian++; @endphp
             <tr class="duplikasi" id="gandakan-{{ $key }}" data-id="{{ $key }}">
@@ -46,8 +46,7 @@
                     </textarea>
                     <select
                         class="{{$value->tipe == 'select-manual' ? 'select2' : 'hide'}} form-control selectinput-sm isian select-manual"
-                        name="pilihan_kode[{{$jumlah_isian}}][]" multiple placeholder="Masukkan Pilihan"
-                        @disabled($value->tipe
+                        name="pilihan_kode[{{$jumlah_isian}}][]" multiple placeholder="Masukkan Pilihan" @disabled($value->tipe
                         == '')>
                         @foreach ($value->pilihan as $item)
                         <option value="{{ $item }}" selected>{{ $item }}</option>
@@ -96,8 +95,7 @@
                         name="pilihan_kode[]" rows="5" placeholder="Masukkan Pilihan"
                         @disabled($value->tipe == '')>{{ (string) $value->atribut }}</textarea>
                     <select class="form-control input-sm isian select-manual @display($value->tipe == 'select-manual')"
-                        name="pilihan_kode[{{$jumlah_isian}}][]" multiple placeholder="Masukkan Pilihan"
-                        @disabled($value->tipe
+                        name="pilihan_kode[{{$jumlah_isian}}][]" multiple placeholder="Masukkan Pilihan" @disabled($value->tipe
                         == '')>
                         {{-- @foreach (\App\Enums\ReferensiEnum::all() as $key => $value)
                         <option value="{{ $value }}">{{ $key }}</option>
@@ -118,119 +116,77 @@
                 </td>
             </tr>
             @endif
+            <tr>
+                <td colspan="5">
+                    <button type="button" class="btn btn-success btn-sm btn-block tambah-kode"><i
+                            class="fa fa-plus"></i></button>
+                </td>
+            </tr>
         </tbody>
     </table>
-    <button type="button" class="btn btn-success btn-sm btn-block tambah-kode" data-type="utama"><i
-            class="fa fa-plus"></i></button>
 </div>
 @push('scripts')
 <script>
     $(document).ready(function() {
-        // var counter = $(".duplikasi:last").data("id");
-        // $("#gandakan-" + counter).find("button").hide();
-            $('.tambah-kode').on('click', function(e) {
-                var type = this.dataset.type;
-                console.log(type);
-                var kategori = this.dataset.kategori;
-                var editElm;
-                if (type == 'utama') {
-                    var cloneTarget = 'gandakan'
-                    var trElements = document.querySelectorAll("#form-utama table tr.duplikasi");
-                    var lastTrElement = trElements[trElements.length - 1];
-                    var dataId = lastTrElement.getAttribute("data-id");
-                    var counter = dataId;
-                } else {
-                    var trElements = document.querySelectorAll(`#tab-${kategori} table tr.duplikasi`);
-                    var lastTrElement = trElements[trElements.length - 1];
-                    var dataId = lastTrElement.getAttribute("data-id");
-                    var counter = dataId;
-                    var cloneTarget = type
-                }
-                $("#gandakan-" + counter).find("button").hide();
-                console.log('before : ' + counter);
-                counter++;
-                // console.log(cloneTarget);
-                console.log('after : ' + counter);
-                $(`#${cloneTarget}-0`).clone(true)
+            var counter = $(".duplikasi:last").data("id");
+            // console.log(counter);
+            $("#gandakan-" + counter).find("button").hide();
+
+            $('.tambah-kode').on('click', function() {
+                    var editElm;
+                    counter++;
+                $("#gandakan-0").clone(true)
                     .map(function() {
-                        editElm = $(this)
-                            .attr('id', `${cloneTarget}-` + counter)
-                            .attr('data-id', counter)
-                            .find('select')
-                            .end();
-                        // Cek apakah elemen yang dikloning adalah Select2
+                    editElm = $(this)
+                        .attr('id', 'gandakan-' + counter)
+                        .attr('data-id', counter)
+                        .find('select')
+                        .end();
+
+                    // Cek apakah elemen yang dikloning adalah Select2
+                    if (editElm[0].querySelector('.select2-hidden-accessible') != null) {
                         var element = editElm[0]
-                        if (editElm[0].querySelector('.select2-hidden-accessible') != null) {
-                            var elselect2 = element.querySelector('.select2-hidden-accessible')
-                            var fullname = `pilihan_kode[${counter}][]`
-                            if (type != 'utama') {
-                                fullname = `kategori_pilihan_kode[${kategori}][${counter + 1}][]`
-                                console.log(fullname);
-                            }
-                            elselect2.innerHTML = ''
-                            elselect2.name = fullname
+                        var elselect2 = element.querySelector('.select2-hidden-accessible')
+                            elselect2.name = `pilihan_kode[${counter + 1}][]`
                             elselect2.disabled = true
                             elselect2.classList.remove('select2')
                             elselect2.classList.remove('select2-hidden-accessible')
                             elselect2.classList.remove('required')
                             elselect2.nextElementSibling.remove()
                             elselect2.removeAttribute('data-select2-id')
-                        } else if(editElm[0].querySelector('.select-manual') != null) {
-                            var elselect2 = element.querySelector('.select-manual')
-                            console.log(elselect2);
-                            var fullname = `pilihan_kode[${counter + 1}][]`
-                            if (type != 'utama') {
-                                fullname = `kategori_pilihan_kode[${kategori}][${counter + 1}][]`
-                                console.log(fullname);
-                            }
-                            elselect2.name = fullname
-                        }
-                        return editElm;
+                    }
+                    return editElm;
                     });
 
-                    // ketika row dihapus, tidak bisa tambah baru
-                    if ($(`#${cloneTarget}-` + (counter - 1)).length) {
-                        // stuck disini, maybe cek perkondisian
-                        console.log('disini');
-                        $(`#${cloneTarget}-` + (counter - 1)).after(editElm);
+                    if ($("#gandakan-" + (counter - 1)).length) {
+                        $("#gandakan-" + (counter - 1)).after(editElm);
                     } else {
-                        console.log($(`#${cloneTarget}-${counter}`));
-                        $(`#${cloneTarget}-${counter}`).after(editElm);
+                        $("#gandakan-0").after(editElm);
                     }
-                    var req_name = `required_kode[${counter}]`
-                    if (type != 'utama') {
-                            req_name = `kategori_required_kode[${kategori}][${counter}]`
-                            console.log(req_name);
-                        }
-                    $(`#${cloneTarget}-` + counter + " option:selected").removeAttr('selected');
-                    $(`#${cloneTarget}-` + counter).find('input').val('');
-                    $(`#${cloneTarget}-` + counter).find('select').change(0);
-                    $(`#${cloneTarget}-` + counter).find('textarea').val('');
-                    $(`#${cloneTarget}-` + counter).find('.isian').prop("disabled", true);
-                    $(`#${cloneTarget}-` + counter).find('.isian-required')
+
+                    $("#gandakan-" + counter + " option:selected").removeAttr('selected');
+                    $("#gandakan-" + counter).find('input').val('');
+                    $("#gandakan-" + counter).find('select').change(0);
+                    $("#gandakan-" + counter).find('textarea').val('');
+                    $("#gandakan-" + counter).find('.isian').prop("disabled", true);
+                    $("#gandakan-" + counter).find('.isian-required')
                         .prop("checked", false)
                         .prop("disabled", true)
                         .attr('value', '1')
-                        .attr('name', req_name);
+                        .attr('name', `required_kode[${counter}]`);
 
                     $('.duplikasi').find("button").show();
-                    $(`#${cloneTarget}-` + counter).find("button").hide();
+                    $("#gandakan-" + counter).find("button").hide();
             });
 
-            // pakai data-type selector
             $('.hapus-kode').on('click', function() {
                 $(this).parents('.duplikasi').remove();
             });
-
             $('.pilih_tipe').on('change', function() {
-                // if ($(this).hasClass('kategori')) {
-                    
-                // }
                 var tipe = $(this).val();
                 var atribut = '';
                 var option = '{}';
                 var parents = $(this).parents('.duplikasi');
-                console.log(parents);
                 var isian_atribut = parents.find('.isian-atribut');
                 var isian_pilihan = parents.find('.isian-pilihan').not('.select-manual');
                 var isian_manual = parents.find('.select-manual');
@@ -329,11 +285,6 @@
                             atribut = 'min="00:00" max="23:59"';
                         } else {
                             atribut = 'minlength="5" maxlength="50" rows="5"';
-                        }
-                        if(tipe == 'hari' || tipe == 'hari-tanggal') {
-                            atribut = 'Masukkan atribut';
-                            // isian_atribut.removeClass('required');
-                            // isian_atribut.prop("disabled", true);;
                         }
                         isian_pilihan.prop("disabled", true);
                         isian_pilihan.addClass('required');

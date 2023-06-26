@@ -124,12 +124,6 @@
 
             @include('admin.surat.kode_isian')
 
-            {{-- kategori form --}}
-            @if (isset($form_kategori))
-                @include('admin.surat.kategori_isian')
-                <hr>
-            @endif
-
             @include('admin.surat.form_tgl_berlaku')
 
             @include('admin.surat.form_pamong')

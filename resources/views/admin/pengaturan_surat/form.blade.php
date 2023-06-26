@@ -63,6 +63,8 @@
         </div>
     </div>
     </form>
+
+    @include('admin.pengaturan_surat.info')
 @endsection
 
 @push('scripts')

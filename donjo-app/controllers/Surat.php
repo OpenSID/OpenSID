@@ -156,31 +156,6 @@ class Surat extends Admin_Controller
                 $data['anggota']  = null;
             }
 
-            // cek apakah surat itu memiliki form kategori ( saksi etc )
-            $kategori = get_key_form_kategori($data['surat']['form_isian']);
-            // dd($kategori);
-            if (! empty($kategori)) {
-                $form_kategori   = [];
-                $kategori_isian  = [];
-                $filter_kategori = collect($data['surat']->kode_isian)->filter(static function ($item) use (&$kategori_isian) {
-                    $kategori_isian[$item->kategori][] = $item;
-
-                    return isset($item->kategori);
-                })->values();
-
-                foreach ($kategori as $ktg) {
-                    $form_kategori[$ktg]['form']       = $this->get_data_untuk_form($url, $data, $ktg);
-                    $form_kategori[$ktg]['kode_isian'] = $kategori_isian[$ktg];
-                }
-                // dd($form_kategori);
-                $filtered_kode_isian = collect($data['surat']->kode_isian)->reject(static function ($item) {
-                    return isset($item->kategori);
-                })->values();
-
-                $data['surat']['kode_isian'] = $filtered_kode_isian;
-                $data['form_kategori']       = $form_kategori;
-            }
-
             $this->get_data_untuk_form($url, $data);
 
             if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
@@ -250,13 +225,6 @@ class Surat extends Admin_Controller
             }
 
             // Lewati ganti kode_isian
-            // return json($log_surat);
-            $daftar_kategori = get_key_form_kategori($surat->form_isian);
-
-            foreach ($daftar_kategori as $kategori) {
-                $log_surat['kategori'][$kategori] = $this->request['id_pend_' . $kategori];
-            }
-
             $isi_surat = $this->tinymce->replceKodeIsian($log_surat);
 
             unset($log_surat['isi_surat']);
@@ -709,7 +677,7 @@ class Surat extends Admin_Controller
     }
 
     // Data yang digunakan surat jenis rtf dan tinymce
-    private function get_data_untuk_form($url, &$data, $kategori = 'individu')
+    private function get_data_untuk_form($url, &$data)
     {
         // RTF
         if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
@@ -723,11 +691,7 @@ class Surat extends Admin_Controller
                 $data['penduduk'] = null;
                 $data['anggota']  = null;
             } else {
-                // $key = $is_kategori
-                // dd($kategori);
-                $filters = collect($data['surat']['form_isian']->{$kategori})->toArray();
-                // dd($filters);
-                unset($filters['data']);
+                $filters          = collect($data['surat']['form_isian']->individu)->toArray();
                 $data['penduduk'] = Penduduk::filters($filters)->get();
                 $kk_level         = $data['individu']['kk_level'];
                 $ada_anggota      = ($filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA || $kk_level == SHDKEnum::KEPALA_KELUARGA) ? true : false;
@@ -736,9 +700,6 @@ class Surat extends Admin_Controller
                     $data['anggota'] = Keluarga::find($data['individu']['id_kk'])->anggota;
                 } else {
                     $data['anggota'] = null;
-                }
-                if ($kategori != 'individu') {
-                    return $data;
                 }
             }
             $template = $data['surat']->template_desa ?: $data['surat']->template;

@@ -30,7 +30,7 @@
     <div class="col-sm-8">
         <textarea name="<?= $nama ?>" class="form-control input-sm {{$required}}" {{ $item->atribut }} placeholder="<?= $item->deskripsi ?>"></textarea>
     </div>
-    <?php elseif ($item->tipe == 'date' || $item->tipe == 'hari' || $item->tipe == 'hari-tanggal'): ?>
+    <?php elseif ($item->tipe == 'date'): ?>
     <div class="col-sm-3 col-lg-2">
         <div class="input-group input-group-sm date">
             <div class="input-group-addon">

@@ -170,18 +170,13 @@ class TinyMCE
 
             // Data Anggota keluarga
             'Anggota Keluarga' => $this->getIsianAnggotaKeluarga($data['id_pend']),
+
+            // Data Dari Form Isian
+            'Input' => $this->getIsianPost($data),
+
+            // Penandatangan
+            'Penandatangan' => $this->getPenandatangan($data['input']),
         ];
-
-        // Penduduk Kategori
-        foreach ($data['kategori'] as $key => $value) {
-            $daftar_kode_isian[$key] = $this->getIsianPenduduk($value, $key);
-        }
-
-        // Data Dari Form Isian
-        $daftar_kode_isian['Input'] = $this->getIsianPost($data);
-
-        // Penandatangan
-        $daftar_kode_isian['Penandatangan'] = $this->getPenandatangan($data['input']);
 
         // Jika penduduk luar, hilangkan isian penduduk
         if ($data['surat']['form_isian']->data == 2) {
@@ -895,41 +890,21 @@ class TinyMCE
                 })
                 ->toArray();
         }
+
         // Dinamis
         $postDinamis = collect($data['surat']['kode_isian'])
             ->map(static function ($item, $key) use ($input) {
-                $input_data = $input[underscore($item->nama, true, true)];
-                if ($item->tipe == 'date') {
-                    $data = Carbon::parse($input_data)->format('Y-m-d');
-                } elseif ($item->tipe == 'hari-tanggal') {
-                    if ($input_data != '') {
-                        $day  = self::get_hari($input_data);
-                        $data = tgl_indo(Carbon::parse($input_data)->format('Y-m-d'), '', $day);
-                    }
-                } elseif ($item->tipe == 'hari') {
-                    if ($input_data != '') {
-                        $data = self::get_hari($input_data);
-                    }
-                } else {
-                    $data = $input_data;
-                }
+                $data = $input[underscore($item->nama, true, true)];
 
                 return [
                     'judul' => $item->nama,
                     'isian' => getFormatIsian(str_replace(['[', ']'], '', $item->kode)),
-                    'data'  => $data,
+                    'data'  => ($item->tipe == 'date') ? tgl_indo(Carbon::parse($data)->format('Y-m-d')) : $data,
                 ];
             })
             ->toArray();
 
         return array_merge($postStatis, $postDinamis);
-    }
-
-    public function get_hari($tanggal)
-    {
-        $hari = Carbon::createFromFormat('d-m-Y', $tanggal)->locale('id');
-
-        return $hari->dayName;
     }
 
     public function getPenandatangan($input = [])
@@ -1047,8 +1022,7 @@ class TinyMCE
             }
             if (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
                 $result = str_replace($key, $value, $result);
-            }
-            if (preg_match('/pengikut_surat/i', $key)) {
+            } if (preg_match('/pengikut_surat/i', $key)) {
                 $result = str_replace($key, $data['pengikut_surat'] ?? '', $result);
             } else {
                 $result = case_replace($key, $value, $result);

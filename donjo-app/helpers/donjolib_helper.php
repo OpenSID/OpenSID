@@ -359,7 +359,7 @@ function tgl_indo_dari_str($tgl_str, $kosong = '-')
     return $time ? tgl_indo(date('Y m d', strtotime($tgl_str))) : $kosong;
 }
 
-function tgl_indo($tgl, $replace_with = '-', $with_day = '')
+function tgl_indo($tgl, $replace_with = '-')
 {
     if (date_is_empty($tgl)) {
         return $replace_with;
@@ -367,9 +367,6 @@ function tgl_indo($tgl, $replace_with = '-', $with_day = '')
     $tanggal = substr($tgl, 8, 2);
     $bulan   = getBulan(substr($tgl, 5, 2));
     $tahun   = substr($tgl, 0, 4);
-    if ($with_day != '') {
-        $tanggal = $with_day . ', ' . date('j', strtotime($tgl));
-    }
 
     return $tanggal . ' ' . $bulan . ' ' . $tahun;
 }
