@@ -125,6 +125,33 @@ class Surat_master extends Admin_Controller
 
         if ($id) {
             $suratMaster = FormatSurat::findOrFail($id);
+            // dd($suratMaster->form_isian->Pelapor);
+            // $kategori_nama   = [];
+            $kategori_isian        = [];
+            $data['kategori_nama'] = get_key_form_kategori($suratMaster->form_isian);
+            $filter_kategori       = collect($suratMaster->kode_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
+                // $kategori_nama[]                   = $item->kategori;
+                $kategori_isian[$item->kategori][] = $item;
+
+                return isset($item->kategori);
+            })->values();
+            // dd($kategori_isian);
+            // dd($data);
+            $data['kategori_isian'] = $kategori_isian;
+
+            $kategori_form = [];
+            $filter_form   = collect($suratMaster->form_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
+                $kategori_nama[]                   = $item->kategori;
+                $kategori_isian[$item->kategori][] = $item;
+
+                return isset($item->kategori);
+            })->values();
+
+            $data['kategori_isian'] = $kategori_isian;
+
+            $data['kode_isian'] = collect($suratMaster->kode_isian)->reject(static function ($item) {
+                return isset($item->kategori);
+            })->values();
 
             $data['action']      = 'Ubah';
             $data['suratMaster'] = $suratMaster;
@@ -243,6 +270,7 @@ class Surat_master extends Admin_Controller
 
     public function simpan_sementara()
     {
+        // dd($this->request);
         $this->redirect_hak_akses('u');
         $surat = FormatSurat::updateOrCreate(['id' => $this->request['id_surat']], static::validate($this->request));
         if ($surat) {
@@ -293,6 +321,8 @@ class Surat_master extends Admin_Controller
 
     private function validate($request = [], $jenis = 4, $id = null)
     {
+        // dd($request);
+        // fix bagian key select-manual
         $kodeIsian   = null;
         $manual_data = array_values(array_filter($request['pilihan_kode']));
         if (count($manual_data) > 0) {
@@ -342,6 +372,60 @@ class Surat_master extends Admin_Controller
             ];
         }
 
+        // dd($request['kategori_required_kode']);
+        if (isset($request['kategori'])) {
+            foreach ($request['kategori'] as $kategori) {
+                // dd($request['kategori_required_kode'][$kategori]);
+                $formIsian[$kategori] = [
+                    'data'         => 1,
+                    'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
+                    'status_dasar' => $request['kategori_status_dasar'][$kategori] ?? null,
+                    'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
+                ];
+                $manual_data = array_values(array_filter($request['kategori_pilihan_kode'][$kategori]));
+                // dd($manual_data);
+                if (count($manual_data) > 0) {
+                    $data = [];
+                    $no   = 0;
+
+                    for ($i = 0; $i < count($request['kategori_tipe_kode'][$kategori]); $i++) {
+                        if ($request['kategori_tipe_kode'][$kategori][$i] == 'select-manual') {
+                            $data[$i] = $manual_data[$no];
+                            // benerin data key nya mungkin
+                            $no++;
+                        }
+                    }
+                }
+                // dd($data);
+                // dd($request['kategori_tipe_kode']);
+                for ($i = 0; $i < count($request['kategori_tipe_kode'][$kategori]); $i++) {
+                    if (empty($request['kategori_tipe_kode'][$kategori][$i])) {
+                        continue;
+                    }
+                    $kategori_isian = [
+                        'kategori'  => $kategori,
+                        'tipe'      => $request['kategori_tipe_kode'][$kategori][$i],
+                        'kode'      => form_kode_isian($request['kategori_nama_kode'][$kategori][$i]),
+                        'nama'      => $request['kategori_nama_kode'][$kategori][$i],
+                        'deskripsi' => $request['kategori_deskripsi_kode'][$kategori][$i],
+                        'required'  => $request['kategori_required_kode'][$kategori][$i] ?? '0',
+                        'atribut'   => $request['kategori_atribut_kode'][$kategori][$i] ?: null,
+                        'pilihan'   => null,
+                        'refrensi'  => null,
+                    ];
+
+                    if ($request['kategori_tipe_kode'][$kategori][$i] == 'select-manual') {
+                        $kategori_isian['pilihan'] = $data[$i];
+                    } elseif ($request['kategori_tipe_kode'][$kategori][$i] == 'select-otomatis') {
+                        $kategori_isian['refrensi'] = $request['kategori_referensi_kode'][$kategori][$i];
+                    }
+                    $kodeIsian[] = $kategori_isian;
+                }
+                unset($data);
+            }
+        }
+        // dd($formIsian, $kodeIsian);
+        // echo json_encode($kodeIsian);die;
         $data = [
             'nama'                => nama_terbatas($request['nama']),
             'kode_surat'          => $request['kode_surat'],
@@ -576,8 +660,15 @@ class Surat_master extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $log_surat['surat'] = FormatSurat::find($id);
-            $kode_isian         = $this->tinymce->getFormatedKodeIsian($log_surat);
+            $daftar_kategori    = get_key_form_kategori($log_surat['surat']->form_isian);
+            // dd($daftar_kategori);
 
+            foreach ($daftar_kategori as $kategori) {
+                $log_surat['kategori'][$kategori] = null;
+            }
+
+            $kode_isian = $this->tinymce->getFormatedKodeIsian($log_surat);
+            // dd($kode_isian);
             return json($kode_isian);
         }
 

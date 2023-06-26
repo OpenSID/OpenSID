@@ -142,6 +142,8 @@ class FormatSurat extends BaseModel
         'textarea'        => 'Text Area',
         'select-manual'   => 'Select (Manual)',
         'select-otomatis' => 'Select (Otomatis)',
+        'hari'            => 'Input Hari',
+        'hari-tanggal'    => 'Input Hari dan Tanggal',
     ];
 
     /**
