@@ -40,6 +40,7 @@ Berkaitan dengan perubahan teknis pada poin 13 disarankan bagi pengguna yang sud
 33. [#6594](https://github.com/OpenSID/OpenSID/issues/6594) Perbaikan arsip Layanan tidak tampil jika melakukan cetak surat yang sama yang telah dihapus.
 34. [#6785](https://github.com/OpenSID/OpenSID/issues/6785) Perbaikan redirect setelah menulis pesan pada layanan mandiri.
 35. [#6788](https://github.com/OpenSID/OpenSID/issues/6788) Perbaikan halaman profil pengguna untuk data email dan telegram.
+36. [#6790](https://github.com/OpenSID/OpenSID/issues/6790) Perbaikan sebutan jabatan pada kirim pesan melalui whatsapp ganti pin penggun layanan mandiri.
 
 
 #### Perubahan Teknis
