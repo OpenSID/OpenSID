@@ -38,6 +38,7 @@ Berkaitan dengan perubahan teknis pada poin 13 disarankan bagi pengguna yang sud
 31. [#6792](https://github.com/OpenSID/OpenSID/issues/6792) Perbaikan session cetak kelahiran dan kematian.
 32. [#6633](https://github.com/OpenSID/OpenSID/issues/6633) Perbaikan notifikasi jika terdapat gagal buat file pdf saat cetak surat tinymce.
 33. [#6594](https://github.com/OpenSID/OpenSID/issues/6594) Perbaikan arsip Layanan tidak tampil jika melakukan cetak surat yang sama yang telah dihapus.
+34. [#6785](https://github.com/OpenSID/OpenSID/issues/6785) Perbaikan redirect setelah menulis pesan pada layanan mandiri. 
 
 
 #### Perubahan Teknis
