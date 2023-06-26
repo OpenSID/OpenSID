@@ -133,7 +133,7 @@ class Surat extends Admin_Controller
         $nik = $this->input->post('nik') ?? $id;
 
         $this->session->unset_userdata('log_surat');
-
+        unset($_SESSION['id_ibu'], $_SESSION['id_bayi'], $_SESSION['id_pelapor'], $_SESSION['id_saksi1'], $_SESSION['id_saksi2']);
         $data['surat'] = FormatSurat::cetak($url)->first();
 
         if ($data['surat']) {
