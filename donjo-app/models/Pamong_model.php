@@ -277,8 +277,8 @@ class Pamong_model extends MY_Model
             $tabel = 'tweb_desa_pamong';
             $foto  = 'pamong_' . time() . '-' . $id . '-' . mt_rand(10000, 999999);
         }
-
-        if ($foto = upload_foto_penduduk($foto)) {
+        $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
+        if ($foto = upload_foto_penduduk($foto, $dimensi)) {
             $this->config_id()->where($field, $id)->update($tabel, ['foto' => $foto]);
         }
     }
