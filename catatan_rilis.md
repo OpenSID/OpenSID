@@ -1,12 +1,10 @@
-Di rilis ini, versi 2306.2.0 berisi penambahan [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2306.3.0 berisi penambahan [isi disini] dan perbaikan lain yang diminta Komunitas SID.
 Terima kasih pada [isi disini] yang terus berkontribusi.
-
-Berkaitan dengan perubahan teknis pada poin 13 disarankan bagi pengguna yang sudah memiliki .htaccess pada folder assets sebelum rilis ini untuk dapat menghapus .htaccess sebelumnya dan akan digenerate ulang oleh rilis ini.
 
 #### Penambahan Fitur
 
 1. [#6572](https://github.com/OpenSID/OpenSID/issues/6630) Penambahan tombol hapus pada template ubahan desa.
-2. [#6010](https://github.com/OpenSID/OpenSID/issues/6010) Penambahan pengaturan agar bisa menyesuaikan/menambahkan ukuran huruf 9pt 11pt 16pt 20pt 22pt pada template surat TinyMCE.
+2. [#6010](https://github.com/OpenSID/OpenSID/issues/6010) Penambahan pengaturan agar bisa menyesuaikan/menambahkan ukuran font secara dinamis surat TinyMCE.
 3. [#6710](https://github.com/OpenSID/OpenSID/issues/6710) Penambahan pengaturan menampilkan data geospasial pada halaman peta wilayah.
 4. [#6643](https://github.com/OpenSID/OpenSID/issues/6643) Penambahan tombol simpan sementara pada pembuatan template surat TinyMCE.
 5. [#6730](https://github.com/OpenSID/OpenSID/issues/6730) Penambahan unggah gambar pada data widget.
