@@ -39,9 +39,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Log_Viewer
 {
-    public const LOG_LINE_START_PATTERN = '/((INFO)|(ERROR)|(DEBUG)|(ALL))[\\s\\-\\d:\\.\\/]+(-->)/';
-    public const LOG_DATE_PATTERN       = ['/^((ERROR)|(INFO)|(DEBUG)|(ALL))\\s\\-\\s/', '/\\s(-->)/'];
-    public const LOG_LEVEL_PATTERN      = '/^((ERROR)|(INFO)|(DEBUG)|(ALL))/';
+    public const LOG_LINE_START_PATTERN = '/((INFO)|(ERROR)|(DEBUG)|(ALL)|(NOTICE))[\\s\\-\\d:\\.\\/]+(-->)/';
+    public const LOG_DATE_PATTERN       = ['/^((ERROR)|(INFO)|(DEBUG)|(ALL)|(NOTICE))\\s\\-\\s/', '/\\s(-->)/'];
+    public const LOG_LEVEL_PATTERN      = '/^((ERROR)|(INFO)|(DEBUG)|(ALL)|(NOTICE))/';
 
     //these are the config keys expected in the config.php
     public const LOG_FILE_PATTERN_CONFIG_KEY = 'clv_log_file_pattern';
@@ -66,16 +66,18 @@ class Log_Viewer
 
     private $CI;
     private static $levelsIcon = [
-        'INFO'  => 'glyphicon glyphicon-info-sign',
-        'ERROR' => 'glyphicon glyphicon-warning-sign',
-        'DEBUG' => 'glyphicon glyphicon-exclamation-sign',
-        'ALL'   => 'glyphicon glyphicon-minus',
+        'INFO'   => 'glyphicon glyphicon-info-sign',
+        'ERROR'  => 'glyphicon glyphicon-warning-sign',
+        'DEBUG'  => 'glyphicon glyphicon-exclamation-sign',
+        'ALL'    => 'glyphicon glyphicon-minus',
+        'NOTICE' => 'glyphicon glyphicon-info-sign',
     ];
     private static $levelClasses = [
-        'INFO'  => 'info',
-        'ERROR' => 'danger',
-        'DEBUG' => 'warning',
-        'ALL'   => 'muted',
+        'INFO'   => 'info',
+        'ERROR'  => 'danger',
+        'DEBUG'  => 'warning',
+        'ALL'    => 'muted',
+        'NOTICE' => 'success',
     ];
 
     //this is the path (folder) on the system where the log files are stored

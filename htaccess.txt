@@ -29,6 +29,18 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# Restrict access to DotFiles (like .htaccess, , .gitignore....)
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Restrict access to system files
+<FilesMatch "^(composer.json|composer.lock|mitra)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
 <FilesMatch "(?i)\.(zip|rar)$">
   Deny from all
 </FilesMatch>

@@ -24,10 +24,20 @@ if (! isset($CI)) {
 			<div class="error-content">
 				<h3><i class="fa fa-warning text-danger"></i> <?= strip_tags($heading); ?></h3>
 				<p>
-					Versi <?= config_item('nama_aplikasi') . ' ' . AmbilVersi() ?>. PHP versi <?= preg_split('/-/', PHP_VERSION)[0]?>..<br><br>
+					Versi <?= config_item('nama_aplikasi') . ' ' . AmbilVersi() ?>. PHP versi <?= preg_split('/-/', PHP_VERSION)[0]?>..<br>
 
-					Harap laporkan masalah ini, agar kami dapat mencarikan solusinya.
-					Untuk sementara Anda dapat kembali ke halaman <a href="<?= APP_URL ?>">awal</a>.
+					<br>
+						Harap laporkan masalah ini, agar kami dapat mencari solusinya dengan melampirkan file log terakhir atau saat masalah ini terjadi.
+						Untuk memperoleh file log ikuti langkah berikut:
+						<ol>
+							<li>Masuk ke modul pengaturan</li>
+							<li>Info sistem</li>
+							<li>Logs</li>
+							<li>Pilih log terakhir atau saat masalah ini terjadi</li>
+							<li>Klik unduh</li>
+						</ol>
+						<br>
+						Untuk sementara Anda dapat kembali ke halaman <a href="<?= APP_URL ?>">awal</a>.
 				</p>
 			</div>
 			<?php if (ENVIRONMENT == 'development') : ?>

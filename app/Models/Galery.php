@@ -37,10 +37,6 @@
 
 namespace App\Models;
 
-use Exception;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Galery extends BaseModel

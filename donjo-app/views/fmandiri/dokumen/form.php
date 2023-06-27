@@ -36,25 +36,25 @@ defined('BASEPATH') || exit('No direct script access allowed');
 ?>
 
 <div class="box box-solid">
-	<div class="box-header with-border bg-blue">
-		<h4 class="box-title">DOKUMEN</h4>
-	</div>
-	<div class="box-body box-line">
-		<div class="form-group">
-			<a href="<?= site_url('layanan-mandiri/dokumen'); ?>" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke Dokumen</a>
-		</div>
-	</div>
-	<div class="box-body box-line">
-		<h4><b><?= $aksi ?> DOKUMEN</b></h4>
-	</div>
+  <div class="box-header with-border bg-blue">
+    <h4 class="box-title">DOKUMEN</h4>
+  </div>
+  <div class="box-body box-line">
+    <div class="form-group">
+      <a href="<?= site_url('layanan-mandiri/dokumen'); ?>" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke Dokumen</a>
+    </div>
+  </div>
+  <div class="box-body box-line">
+    <h4><b><?= $aksi ?> DOKUMEN</b></h4>
+  </div>
 
-	<div class="box-body">
+  <div class="box-body">
     <?php $this->load->view('fmandiri/notifikasi') ?>
-		<form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data">
+    <form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data">
       <input type="number" class="hidden" name="id_pend" value="<?= $this->is_login->id_pend ?>" />
       <div class="form-group">
         <label for="nama_dokumen">Nama Dokumen</label>
-        <input id="nama_dokumen" name="nama" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen" value="<?= $dokumen['nama']?>"/>
+        <input id="nama_dokumen" name="nama" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen" value="<?= $dokumen['nama'] ?>" />
       </div>
       <div class="form-group">
         <label for="jenis">Jenis Dokumen</label>
@@ -68,9 +68,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
       <div class="form-group">
         <label for="file">File Dokumen</label>
         <div class="input-group">
-          <input type="text" class="form-control <?= jecho($dokumen['id'], false, 'required') ?>" id="file_path" name="satuan" readonly/>
-          <input type="file" class="hidden" id="file" name="satuan"/>
-          <input type="hidden" name="old_satuan" value="<?= $dokumen['satuan'] ?>"/>
+          <input type="text" class="form-control <?= jecho($dokumen['id'], false, 'required') ?>" id="file_path" name="satuan" readonly />
+          <input type="file" class="hidden" id="file" name="satuan" accept=".jpg,.jpeg,.png,.pdf" />
+          <input type="hidden" name="old_file" value="<?= $dokumen['satuan'] ?>" />
           <span class="input-group-btn">
             <button type="button" class="btn btn-danger btn-flat" onclick="kamera();" id="ambil_kamera"><i class="fa fa-camera"></i> Kamera</button>
             <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
@@ -106,8 +106,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
         </hr>
       <?php endif ?>
       <button type="submit" class="btn btn-social btn-info"><i class="fa fa-check"></i> Simpan</button>
-		</form>
-	</div>
+    </form>
+  </div>
 </div>
 
 <?php $this->load->view('global/capture') ?>

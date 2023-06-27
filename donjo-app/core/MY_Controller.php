@@ -284,7 +284,7 @@ class Admin_Controller extends MY_Controller
     {
         parent::__construct();
         $this->CI = CI_Controller::get_instance();
-        $this->load->model(['header_model', 'user_model', 'notif_model', 'referensi_model']);
+        $this->load->model(['header_model', 'user_model', 'notif_model', 'pelanggan_model', 'referensi_model']);
         $this->header = $this->header_model->get_data();
 
         // Kalau sehabis periksa data, paksa harus login lagi
@@ -313,7 +313,7 @@ class Admin_Controller extends MY_Controller
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
         $this->header['notif_inbox']            = $this->notif_model->inbox_baru();
         $this->header['notif_komentar']         = $this->notif_model->komentar_baru();
-        $this->header['notif_langganan']        = $this->notif_model->status_langganan();
+        $this->header['notif_langganan']        = $this->pelanggan_model->status_langganan();
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
         $this->header['notif_pengumuman']       = $this->cek_pengumuman();
         $isAdmin                                = $this->session->isAdmin->pamong;
@@ -438,7 +438,7 @@ class Admin_Controller extends MY_Controller
 
         return [
             'pamong'         => Pamong::penandaTangan()->get(),
-            'pamong_ttd'     => Pamong::ttd('a.n')->first(),
+            'pamong_ttd'     => Pamong::sekretarisDesa()->first(),
             'pamong_ketahui' => Pamong::kepalaDesa()->first(),
         ];
     }

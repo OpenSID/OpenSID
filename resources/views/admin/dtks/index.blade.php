@@ -33,18 +33,21 @@
                                 <th rowspan="2"><input type="checkbox" id="checkall" /></th>
                                 <th rowspan="2">No</th>
                                 <th rowspan="2" class="padat">Aksi</th>
-                                <th colspan="2" class="padat" kolom="3 & 4">Kepala Keluarga</th>
-                                <th rowspan="2" kolom="5">{{ ucwords($setting->sebutan_dusun) }}</th>
-                                <th rowspan="2">RW</th>
-                                <th rowspan="2">RT</th>
-                                <th rowspan="2" class="padat">Jumlah <br>ART</th>
-                                <th rowspan="2">Jumlah Keluarga</th>
+                                <th colspan="6" class="padat" kolom="3,4,5,6,7,8">Kepala Rumah Tangga</th>
+                                <th colspan="2" class="padat" kolom="9 & 10">Kepala Keluarga</th>
+                                <th rowspan="2" class="padat">Jumlah <br>Anggota</th>
                                 <th rowspan="2">Petugas</th>
                                 <th rowspan="2">Responden</th>
                                 <th rowspan="2">Versi Kuisioner</th>
                                 <th rowspan="2">Terakhir diubah</th>
                             </tr>
                             <tr>
+                                <th>NIK</th>
+                                <th nowrap>Nama</th>
+                                <th>Jumlah<br>Keluarga</th>
+                                <th kolom="5">{{ ucwords($setting->sebutan_dusun) }}</th>
+                                <th>RW</th>
+                                <th>RT</th>
                                 <th>NIK</th>
                                 <th nowrap>Nama</th>
                             </tr>
@@ -212,13 +215,19 @@
                 { data: 'ceklist', class: 'padat', searchable: false, orderable: false },
                 { data: 'DT_RowIndex', class: 'padat', searchable: false, orderable: false },
                 { data: 'aksi', class: 'aksi', searchable: false, orderable: false},
-                { data: 'nik', name: 'nik', searchable: true, orderable: true },
-                { data: 'nama', name: 'nama', searchable: true, orderable: true },
+                { data: 'nik_krt', name: 'nik_krt', searchable: true, orderable: true },
+                { data: 'nama_krt', name: 'nama_krt', searchable: true, orderable: true },
+                { data: 'keluarga_count', name: 'keluarga_count', searchable: false, orderable: true },
                 { data: 'dusun', name: 'dusun', searchable: true, orderable: true },
                 { data: 'rw', name: 'rw', searchable: true, orderable: true },
                 { data: 'rt', name: 'rt', searchable: true, orderable: true },
-                { data: 'anggota_count', name: 'anggota_count', searchable: false, orderable: true },
-                { data: 'keluarga_count', name: 'keluarga_count', searchable: false, orderable: true },
+                { data: 'nik_kk', name: 'nik_kk', searchable: true, orderable: true },
+                { data: 'nama_kk', name: 'nama_kk', searchable: true, orderable: true },
+                { data: function (data) {
+                        if (data.anggota_count != null) {
+                            return `<a href="{{ route('dtks.listAnggota') }}/${data.id}" title="Lihat Nama Anggota" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Daftar Anggota">${data.anggota_count}</a>`;
+                        }
+                    }, name: 'anggota_count', searchable: false, orderable: true },
                 { data: 'petugas', name: 'nama_petugas_pencacahan', searchable: true, orderable: true },
                 { data: 'responden', name: 'nama_responden', searchable: true, orderable: true },
                 { data: 'versi_kuisioner', name: 'versi_kuisioner', searchable: false, orderable: true },

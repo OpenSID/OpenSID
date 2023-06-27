@@ -32,7 +32,58 @@ $(document).ready(function()
 		$("html, body").animate({scrollTop: 0}, 500);
 		return false;
 	});
+	// Fungsi untuk filter menu
+    $('#cari-menu').on('keyup keypress', function(){
+		let hideParentMenu = $('.sidebar-menu li.treeview');
+		let search = $('#cari-menu').val();
 
+		if(search !== ''){
+		  hideParentMenu.removeClass('hidden');
+		  $('.sidebar-menu li').each(function(index, el) {
+			// abaikan header dan menu yg memiliki submenu
+			if($(el).hasClass('header') ){
+			  return;
+			}
+
+			if(el.innerText.trim().toUpperCase().includes($('#cari-menu').val().toUpperCase())){
+			  $(el).removeClass('hidden');
+			}else{
+			  $(el).addClass('hidden');
+			}
+			if($(el).parent().parent().hasClass('treeview')){
+				hideParentMenu.each(function(indexParent, elParent) {
+				  if(elParent === $(el).parent().parent()[0]){
+					hideParentMenu.splice(indexParent, 1);
+				  }
+				});
+				$(el).parent().parent().addClass('menu-open');
+				$(el).parent().show();
+			}
+		  });
+		  hideParentMenu.addClass('hidden');
+		  // untuk semua parent menu yg muncul
+		  $('.sidebar-menu li.treeview:not(.hidden)').each(function(index, el){
+			// jika jumlah semua parent menu yg muncul kurang dari 4, munculkan semua sub menu
+			if($('.sidebar-menu li.treeview:not(.hidden)').length < 4){
+			  $(el).find('li').removeClass('hidden');
+			}
+			// jika tidak memiliki sub menu yg dicari, tampilkan semua sub menu
+			else{
+			  if($(el).find('li:not(.hidden)').length == 0){
+				$(el).find('li').removeClass('hidden');
+			  }
+			}
+		  });
+		}else{
+		  $('.sidebar-menu li').each(function(index, el) {
+			$(el).removeClass('hidden');
+			if($(el).parent().parent().hasClass('treeview')){
+			  $(el).parent().parent().removeClass('menu-open');
+			  $(el).parent().hide();
+			}
+		  });
+		}
+	});
 	//CheckBox All Selected
 	checkAll();
 	$('table').on('click', "input[name='id_cb[]']", function() {
@@ -50,7 +101,7 @@ $(document).ready(function()
 	  var size = link.data('size') ?? '';
 	  var modal = $(this);
 	  // tampilkan halaman loading
-	
+
 	  modal.find('.modal-title').text(title)
 	  modal.find('.modal-dialog').addClass(size);
 	  $(this).find('.fetched-data').load(link.attr('href'));
@@ -356,7 +407,7 @@ function enableHapusTerpilih() {
 	var disable = $("input[name='id_cb[]']:checked:not(:disabled)").filter(function(index) {
 		return $(this).data('deletable') == 0;
 	});
-	 
+
 
 	if ($("input[name='id_cb[]']:checked:not(:disabled)").length <= 0) {
 		// cek disable hapus
@@ -369,7 +420,7 @@ function enableHapusTerpilih() {
 		$(".hapus-terpilih").attr('href','#confirm-delete');
 		if (disable.length != 0) {
 			$(".hapus-terpilih").addClass('disabled');
-		  $(".hapus-terpilih").attr('href','#');
+			$(".hapus-terpilih").attr('href','#');
 		}
 	}
 }
@@ -385,12 +436,13 @@ function deleteAllBox(idForm, action)
 	});
 	return false;
 }
+
 function aksiBorongan(idForm, action) {
 	$('#confirm-status').modal('show');
-	$('#ok-status').click(function ()
-	{
+	$('#ok-status').click(function () {
 		$('#' + idForm).attr('action', action);
-    $('#' + idForm).submit();
+		addCsrfField($("#" + idForm)[0]);
+		$('#' + idForm).submit();
 	});
 	return false;
 }

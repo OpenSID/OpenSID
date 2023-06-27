@@ -185,7 +185,7 @@ class Permohonan_surat_model extends CI_Model
         }
 
         $data = $this->db
-            ->select('u.*, u.status as status_id, n.nama AS nama, n.nik AS nik, s.nama as jenis_surat, JSON_VALUE(isian_form,"$.nomor") AS nomor')
+            ->select('u.*, u.status as status_id, n.nama AS nama, n.nik AS nik, s.nama as jenis_surat')
             ->where('id_pemohon', $id_pemohon)
             ->from('permohonan_surat u')
             ->join('tweb_penduduk n', 'u.id_pemohon = n.id', 'left')

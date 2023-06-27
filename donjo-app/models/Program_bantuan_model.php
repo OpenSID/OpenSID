@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\BantuanPeserta;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Program_bantuan_model extends MY_Model
@@ -795,41 +797,32 @@ class Program_bantuan_model extends MY_Model
 
     public function add_peserta($program_id)
     {
-        $this->session->success   = 1;
-        $this->session->error_msg = '';
-        $data                     = $this->validasi_peserta($this->input->post());
-        $data['program_id']       = $program_id;
-        $data['peserta']          = $this->input->post('peserta');
-
-        $file_gambar = $this->_upload_gambar();
-        if ($file_gambar) {
-            $data['kartu_peserta'] = $file_gambar;
+        $data               = $this->validasi_peserta($this->input->post());
+        $data['program_id'] = $program_id;
+        $data['peserta']    = $this->input->post('peserta');
+        if ($_FILES['file']['name']) {
+            $data['kartu_peserta'] = unggah_file(['upload_path' => LOKASI_DOKUMEN, 'allowed_types' => 'jpg|jpeg|png']);
         }
-        $outp = $this->db->insert('program_peserta', $data);
-        status_sukses($outp, true);
+
+        $outp = BantuanPeserta::insert($data);
+        status_sukses($outp);
     }
 
     // $id = program_peserta.id
     public function edit_peserta($id)
     {
-        $this->session->success   = 1;
-        $this->session->error_msg = '';
-        $data                     = $this->validasi_peserta($this->input->post());
-
-        if ($this->input->post('gambar_hapus')) {
-            unlink(LOKASI_DOKUMEN . $this->input->post('gambar_hapus'));
-            $data['kartu_peserta'] = '';
+        $peserta = BantuanPeserta::findOrFail($id);
+        if ($_FILES['file']['name']) {
+            $peserta->kartu_peserta = unggah_file(['upload_path' => LOKASI_DOKUMEN, 'allowed_types' => 'jpg|jpeg|png'], $peserta->kartu_peserta);
+        } else {
+            if ($this->input->post('gambar_hapus')) {
+                unlink(LOKASI_DOKUMEN . $peserta->kartu_peserta);
+                $peserta->kartu_peserta = null;
+            }
         }
+        $outp = $peserta->update($this->validasi_peserta($this->request));
 
-        unset($data['gambar_hapus']);
-        $file_gambar = $this->_upload_gambar($data['old_gambar']);
-        if ($file_gambar) {
-            $data['kartu_peserta'] = $file_gambar;
-        }
-        unset($data['old_gambar']);
-        $this->db->where('id', $id);
-        $outp = $this->db->update('program_peserta', $data);
-        status_sukses($outp, true);
+        status_sukses($outp);
     }
 
     public function validasi_peserta($post)
@@ -847,46 +840,30 @@ class Program_bantuan_model extends MY_Model
         return $data;
     }
 
-    private function _upload_gambar($old_document = '')
-    {
-        if ($_FILES['satuan']['error'] == UPLOAD_ERR_NO_FILE) {
-            return null;
-        }
-
-        $error = periksa_file('satuan', unserialize(MIME_TYPE_GAMBAR), unserialize(EXT_GAMBAR));
-        if ($error != '') {
-            $this->session->set_userdata('success', -1);
-            $this->session->set_userdata('error_msg', $error);
-
-            return null;
-        }
-        $nama_file = $_FILES['satuan']['name'];
-        $nama_file = time() . '-' . urlencode($nama_file);      // normalkan nama file
-        UploadDocument($nama_file, $old_document);
-
-        return $nama_file;
-    }
-
     public function hapus_peserta_program($peserta_id, $program_id)
     {
         $this->db->where(['peserta' => $peserta_id, 'program_id' => $program_id]);
         $this->db->delete('program_peserta');
     }
 
-    public function hapus_peserta($peserta_id = '', $semua = false)
+    public function hapus_peserta($peserta_id = '')
     {
-        $this->db->where('id', $peserta_id);
-        $this->db->delete('program_peserta');
+        $peserta = BantuanPeserta::findOrFail($peserta_id);
+        $outp    = $peserta->delete();
+
+        if ($outp && $peserta->kartu_peserta) {
+            unlink(LOKASI_DOKUMEN . $peserta->kartu_peserta);
+        }
+
+        status_sukses($outp);
     }
 
     public function delete_all()
     {
-        $this->session->success = 1;
-
         $id_cb = $_POST['id_cb'];
 
         foreach ($id_cb as $peserta_id) {
-            $this->hapus_peserta($peserta_id, $semua = true);
+            $this->hapus_peserta($peserta_id);
         }
     }
 

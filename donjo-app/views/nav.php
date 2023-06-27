@@ -26,6 +26,9 @@ $nam_kab                     = $desa['nama_kabupaten'];
                 <?php endif ?>
             </div>
         </div>
+
+        <?php include RESOURCESPATH . 'views/admin/layouts/partials/pencarian_sidebar.blade.php'; ?>
+
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MENU UTAMA</li>
 

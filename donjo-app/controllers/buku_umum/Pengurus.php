@@ -51,10 +51,11 @@ class Pengurus extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['pamong_model', 'penduduk_model', 'wilayah_model']);
-        $this->modul_ini     = 301;
-        $this->sub_modul_ini = 302;
-        $this->_set_page     = ['20', '50', '100'];
-        $this->_list_session = ['status', 'cari'];
+        $this->modul_ini          = 301;
+        $this->sub_modul_ini      = 302;
+        $this->_set_page          = ['20', '50', '100'];
+        $this->_list_session      = ['status', 'cari'];
+        $this->header['kategori'] = 'Pemerintah Desa';
     }
 
     public function clear()
@@ -83,7 +84,7 @@ class Pengurus extends Admin_Controller
         $data['main']            = $this->pamong_model->list_data($data['paging']->offset, $data['paging']->per_page);
         $data['keyword']         = $this->pamong_model->autocomplete();
         $data['main_content']    = 'home/pengurus';
-        $data['subtitle']        = 'Buku Aparat Pemerintah Desa';
+        $data['subtitle']        = 'Buku ' . ucwords(setting('sebutan_pemerintah_desa'));
         $data['selected_nav']    = 'aparat';
         $data['kecuali_jabatan'] = RefJabatan::EXCLUDE_DELETE;
 
@@ -231,22 +232,15 @@ class Pengurus extends Admin_Controller
         redirect('pengurus');
     }
 
-    // $aksi = cetak/unduh
-    public function dialog($aksi = 'cetak')
-    {
-        $data                = $this->modal_penandatangan();
-        $data['aksi']        = $aksi;
-        $data['form_action'] = site_url("pengurus/daftar/{$aksi}");
-        $this->load->view('global/ttd_pamong', $data);
-    }
-
-    // $aksi = cetak/unduh
     public function daftar($aksi = 'cetak')
     {
-        $data['pamong_ttd']     = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
-        $data['desa']           = $this->header['desa'];
-        $data['main']           = $this->pamong_model->list_data();
+        // TODO :: gunakan view global penandatangan
+        $ttd                    = $this->modal_penandatangan();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
+
+        $data['desa'] = $this->header['desa'];
+        $data['main'] = $this->pamong_model->list_data();
 
         $this->load->view('home/' . $aksi, $data);
     }

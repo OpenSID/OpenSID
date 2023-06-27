@@ -58,9 +58,8 @@
 				<div class="form-group">
 					<label class="control-label col-sm-4" for="nama"></label>
 					<div class="col-sm-6">
-						<input type="hidden" name="old_gambar" value="<?= $kartu_peserta?>">
-						<img class="attachment-img img-responsive img-circle" src="<?= site_url($this->controller . '/' . 'unduh_kartu_peserta/' . $id) ?>" alt="Kartu Peserta">
-						<p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $kartu_peserta?>" /> Hapus Gambar</label></p>
+						<img class="attachment-img img-responsive img-circle" src="<?= to_base64(LOKASI_DOKUMEN . $kartu_peserta) ?>" alt="Kartu Peserta">
+						<p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="1" /> Hapus Gambar</label></p>
 					</div>
 				</div>
 			<?php endif; ?>
@@ -69,7 +68,7 @@
 				<div class="col-sm-7">
 					<div class="input-group input-group-sm ">
 						<input type="text" class="form-control" id="file_path">
-						<input type="file" class="hidden" id="file" name="satuan">
+						<input type="file" class="hidden" id="file" name="file" accept=".jpg,.jpeg,.png">
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 						</span>

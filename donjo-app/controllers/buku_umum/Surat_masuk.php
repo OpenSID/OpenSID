@@ -205,45 +205,37 @@ class Surat_masuk extends Admin_Controller
     // TODO: Satukan dialog cetak dan unduh
     public function dialog_cetak($o = 0)
     {
-        $data                = $this->modal_penandatangan();
         $data['aksi']        = 'Cetak';
         $data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
-        $data['form_action'] = site_url("surat_masuk/cetak/{$o}");
+        $data['form_action'] = site_url("surat_masuk/dialog/cetak/{$o}");
         $this->load->view('surat_masuk/ajax_cetak', $data);
     }
 
     // TODO: Satukan dialog cetak dan unduh
     public function dialog_unduh($o = 0)
     {
-        $data                = $this->modal_penandatangan();
         $data['aksi']        = 'Unduh';
         $data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
-        $data['form_action'] = site_url("surat_masuk/unduh/{$o}");
+        $data['form_action'] = site_url("surat_masuk/dialog/unduh/{$o}");
         $this->load->view('surat_masuk/ajax_cetak', $data);
     }
 
-    // TODO: Satukan aksi cetak dan unduh
-    public function cetak($o = 0)
+    public function dialog($aksi = 'unduh', $o = 0)
     {
+        // TODO :: gunakan view global penandatangan
+        $ttd                    = $this->modal_penandatangan();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
         $data['input']          = $_POST;
         $_SESSION['filter']     = $data['input']['tahun'];
-        $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
         $data['desa']           = $this->header['desa'];
         $data['main']           = $this->surat_masuk_model->list_data($o, 0, 10000);
-        $this->load->view('surat_masuk/surat_masuk_print', $data);
-    }
 
-    // TODO: Satukan aksi cetak dan unduh
-    public function unduh($o = 0)
-    {
-        $data['input']          = $_POST;
-        $_SESSION['filter']     = $data['input']['tahun'];
-        $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-        $data['desa']           = $this->header['desa'];
-        $data['main']           = $this->surat_masuk_model->list_data($o, 0, 10000);
-        $this->load->view('surat_masuk/surat_masuk_excel', $data);
+        if ($aksi == 'unduh') {
+            $this->load->view('surat_masuk/surat_masuk_excel', $data);
+        } else {
+            $this->load->view('surat_masuk/surat_masuk_print', $data);
+        }
     }
 
     public function disposisi($id)

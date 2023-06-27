@@ -1,5 +1,7 @@
 <?php  defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+<?php $alt_slug = IS_PREMIUM ? 'artikel' : 'first'; ?>
+
 <section x-data="{catMenu: false}">
   <button 
     type="button"
@@ -26,14 +28,14 @@
       <ul class="w-full text-sm">
         <?php foreach($menu_kiri as $menu) : ?>
           <li class="lg:inline-block">
-            <a href="<?= site_url("artikel/kategori/{$menu['slug']}") ?>" class="block lg:inline-block py-2 px-3 hover:text-link">
+            <a href="<?= site_url("{$alt_slug}/kategori/{$menu['slug']}") ?>" class="block lg:inline-block py-2 px-3 hover:text-link">
               <?= $menu['kategori'] ?>
             </a>
           </li>
           <?php if(count($menu['submenu']) > 0) : ?>
             <?php foreach($menu['submenu'] as $submenu) : ?>
               <li class="lg:inline-block">
-                <a href="<?= site_url("artikel/kategori/{$submenu['slug']}") ?>" class="block lg:inline-block py-2 px-3 hover:text-link">
+                <a href="<?= site_url("{$alt_slug}/kategori/{$submenu['slug']}") ?>" class="block lg:inline-block py-2 px-3 hover:text-link">
                   <?= $submenu['kategori'] ?>
                 </a>
               </li>

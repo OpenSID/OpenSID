@@ -30,13 +30,11 @@
                 <a class="btn btn-social btn-flat bg-purple btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
                 <ul class="dropdown-menu" role="menu">
                     <li>
-                        <a href="<?= site_url('pengurus/dialog/cetak')?>" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print "></i> Cetak</a>
+                        <a href="<?= site_url('pengurus/daftar/cetak') ?>" target="_blank" title="Cetak Data" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print "></i> Cetak</a>
                     </li>
-                    <?php if (can('h')): ?>
-                        <li>
-                            <a href="<?= site_url('pengurus/dialog/unduh')?>" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-download"></i> Unduh</a>
-                        </li>
-                    <?php endif; ?>
+                    <li>
+                        <a href="<?= site_url('pengurus/daftar/unduh') ?>" target="_blank" title="Unduh Data" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-download"></i> Unduh</a>
+                    </li>
                 </ul>
             </div>
             <div class="btn-group btn-group-vertical">

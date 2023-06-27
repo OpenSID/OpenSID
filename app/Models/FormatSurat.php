@@ -39,7 +39,6 @@ namespace App\Models;
 
 use App\Traits\Author;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Log;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
