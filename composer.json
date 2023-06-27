@@ -25,7 +25,8 @@
 		"themes/natra": "dev-premium"
 	},
 	"require-dev": {
-		"mikey179/vfsstream": "1.1.*"
+		"mikey179/vfsstream": "1.1.*",
+		"tinymce/tinymce": "^6.5"
 	},
 	"repositories": [
 		{

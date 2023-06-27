@@ -446,7 +446,7 @@ class Keluar_model extends MY_Model
             lihat fungsi nama_surat_arsip (kolom nama_surat di tabel log_surat).
             Entri itu akan berisi timestamp (pencetakan) terakhir untuk file surat yang bersangkutan.
         */
-            $log_id = $this->config_id()->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->limit(1)->get()->row()->id;
+            $log_id = $this->config_id()->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->where('deleted_at is null')->limit(1)->get()->row()->id;
         } else { // Cetak:
             // Sama dengan aturan Ekspor Dok, hanya URL-NIK-nomor surat-tanggal diambil dari data kolom
             $log_id = $this->config_id()
@@ -456,6 +456,7 @@ class Keluar_model extends MY_Model
                 ->where('id_pend', $data['id_pend'])
                 ->where('no_surat', $data['no_surat'])
                 ->where('DATE_FORMAT(tanggal, "%Y-%m-%d") =', date('Y-m-d'))
+                ->where('deleted_at is null')
                 ->limit(1)
                 ->get()
                 ->row()

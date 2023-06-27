@@ -14,7 +14,9 @@
 					<div class="box box-info">
 						<div class="box-header with-border">
 							<?php if ($this->CI->cek_hak_akses('u')): ?>
-								<a href="<?= site_url('mailbox/form') ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tulis Pesan"><i class="fa fa-plus"></i> Tulis Pesan</a>
+								<?php if ($kat == 2): ?>
+									<a href="<?= site_url('mailbox/form') ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tulis Pesan"><i class="fa fa-plus"></i> Tulis Pesan</a>
+								<?php endif; ?>
 							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Arsipkan Data" <?php if (! $filter_archived) : ?>onclick="deleteAllBox('mainform','<?=site_url("mailbox/archive_all/{$kat}/{$p}/{$o}")?>')"<?php endif; ?> class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih" <?php $filter_archived && print 'disabled' ?>><i class='fa fa-file-archive-o'></i> Arsipkan Data Terpilih</a>

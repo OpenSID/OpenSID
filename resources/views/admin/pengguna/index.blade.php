@@ -22,7 +22,7 @@
                     <br>
                     <div class="input-group input-group-sm text-center">
                         <span class="input-group-btn">
-                            @if (auth()->email_verified_at === null)
+                            @if ($userData->email_verified_at === null && !empty($userData->email))
                                 {!! form_open(route('pengguna.kirim_verifikasi')) !!}
                                 <button type="submit" class="btn btn-sm btn-warning btn-block btn-mb-5"><i
                                         class="fa fa-share-square"></i>
@@ -30,7 +30,7 @@
                                 </form>
                                 <br />
                             @endif
-                            @if (auth()->telegram_verified_at === null && setting('telegram_token') != null)
+                            @if ($userData->telegram_verified_at === null && setting('telegram_token') != null && !empty($userData->id_telegram))
                                 <button type="button" id="verif_telegram"
                                     class="btn btn-sm btn-warning btn-block btn-mb-5"><i class="fa fa-share-square"></i>
                                     Verifikasi Telegram</button>
@@ -45,14 +45,14 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#profil" data-toggle="tab">Profil</a></li>
-                    @if (!config_item('demo_mode'))
+                    @if ($userData->id != super_admin() && config_item('demo_mode'))
                         <li><a href="#sandi" data-toggle="tab">Sandi</a></li>
                     @endif
                 </ul>
                 <div class="tab-content">
                     @include('admin.pengguna.tab-profil')
 
-                    @if (!config_item('demo_mode'))
+                    @if ($userData->id != super_admin() && config_item('demo_mode'))
                         @include('admin.pengguna.tab-sandi')
                     @endif
                 </div>
@@ -156,9 +156,14 @@
                     });
             });
 
-            $('#id_telegram').change(function(event) {
-                $('input[name="telegram_verified_at"]').val('')
-            });
+            $('input[name=notif_telegram]').change(function() {
+                let _val = parseInt($('input[name=notif_telegram]:checked').val())
+                if (_val) {
+                    $('#id_telegram').closest('.form-group').removeClass('hide')
+                } else {
+                    $('#id_telegram').closest('.form-group').addClass('hide')
+                }
+            })
         });
     </script>
 @endpush

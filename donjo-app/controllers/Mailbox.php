@@ -111,7 +111,7 @@ class Mailbox extends Admin_Controller
         $post['tipe']   = 2;
         $post['status'] = 2;
         $this->mailbox_model->insert($post);
-        redirect('mailbox');
+        redirect('mailbox/index/' . $post['tipe']);
     }
 
     public function baca_pesan($kat, $id)

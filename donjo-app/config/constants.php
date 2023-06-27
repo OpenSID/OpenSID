@@ -158,6 +158,7 @@ define('KEHADIRAN', 'kehadiran');
  * Custom path directory
  */
 define('DESAPATH', 'desa' . DIRECTORY_SEPARATOR);
+define('DESAPATHPERMISSION', 0755);
 define('RESOURCESPATH', 'resources' . DIRECTORY_SEPARATOR);
 define('STORAGEPATH', 'storage' . DIRECTORY_SEPARATOR);
 define('BACKUPPATH', 'backup_inkremental' . DIRECTORY_SEPARATOR);

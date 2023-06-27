@@ -1,41 +1,3 @@
-<script type="text/javascript" src="<?= base_url() ?>assets/js/tinymce/tinymce.min.js"></script>
-<script type="text/javascript">
-	tinymce.init({
-		selector: 'textarea',
-		height: 500,
-		theme: 'silver',
-		plugins: [
-			"advlist autolink link image lists charmap print preview hr anchor pagebreak",
-			"searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
-			"table contextmenu directionality emoticons paste textcolor responsivefilemanager code laporan_keuangan penerima_bantuan sotk"
-		],
-		toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
-		toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor | print preview code | fontselect fontsizeselect",
-		toolbar3: "| laporan_keuangan | penerima_bantuan | sotk",
-		image_advtab: true,
-		external_filemanager_path: "<?= base_url() ?>assets/filemanager/",
-		filemanager_title: "Responsive Filemanager",
-		filemanager_access_key: "<?= $this->session->fm_key; ?>",
-		external_plugins: {
-			"filemanager": "<?= base_url() ?>assets/filemanager/plugin.min.js"
-		},
-		templates: [{
-				title: 'Test template 1',
-				content: 'Test 1'
-			},
-			{
-				title: 'Test template 2',
-				content: 'Test 2'
-			}
-		],
-		content_css: [
-			'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-			'//www.tinymce.com/css/codepen.min.css'
-		],
-		relative_urls: false,
-		remove_script_host: false
-	});
-</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Form Artikel <?= $kategori['kategori']; ?></h1>
@@ -66,9 +28,7 @@
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="kode_desa">Isi Artikel</label>
-								<textarea name="isi" class="form-control input-sm required" style="height:350px;">
-									<?= $artikel['isi'] ?>
-								</textarea>
+								<textarea name="isi" data-filemanager='<?= json_encode(['external_filemanager_path' => base_url('assets/filemanager/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $this->session->fm_key]) ?>' class="form-control input-sm required" style="height:350px;"><?= $artikel['isi'] ?></textarea>
 							</div>
 						</div>
 					</div>
@@ -262,3 +222,45 @@
 		</form>
 	</section>
 </div>
+<script type="text/javascript" src="<?= asset('js/tinymce-651/tinymce.min.js') ?>"></script>
+<script type="text/javascript">
+	tinymce.init({
+		selector: 'textarea',
+		height: 700,
+		promotion: false,
+		theme: 'silver',
+		formats: {
+			menjorok: { block: 'p', styles: { 'text-indent': '30px' }}
+		},
+		block_formats: 'Paragraph=p; Header 1=h1; Header 2=h2; Header 3=h3; Header 4=h4; Header 5=h5; Header 6=h6; Div=div; Preformatted=pre; Blockquote=blockquote; Menjorok=menjorok',
+		style_formats_merge: true,
+		plugins: [
+			'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'print', 'preview', 'hr', 'anchor', 'pagebreak',
+			'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'media', 'nonbreaking',
+			'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'responsivefilemanager', 'code', 'laporan_keuangan', 'penerima_bantuan', 'sotk'
+		],
+		toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | blocks",
+		toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor | print preview code | fontfamily fontsizeinput",
+		toolbar3: "| laporan_keuangan | penerima_bantuan | sotk",
+		image_advtab: true,
+		external_plugins: {
+			"filemanager": "<?= asset('filemanager/plugin.min.js') ?>"
+		},
+		templates: [{
+				title: 'Test template 1',
+				content: 'Test 1'
+			},
+			{
+				title: 'Test template 2',
+				content: 'Test 2'
+			}
+		],
+		content_css: [
+			'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+			'//www.tinymce.com/css/codepen.min.css'
+		],
+		skin: 'tinymce-5',
+		relative_urls: false,
+		remove_script_host: false
+	});
+</script>

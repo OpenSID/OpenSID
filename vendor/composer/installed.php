@@ -1,13 +1,13 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => 'dev-23.01-rector',
-        'version' => 'dev-23.01-rector',
-        'reference' => 'dd45760d8b21366ea0be818e0731ce5e3dccf1e0',
+        'pretty_version' => 'dev-bug-fix-2463',
+        'version' => 'dev-bug-fix-2463',
+        'reference' => 'c6e2875c76a436f4545c40662e6a2a2c2df58adc',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => false,
+        'dev' => true,
     ),
     'versions' => array(
         'agungsugiarto/codeigniter-datables' => array(
@@ -235,6 +235,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'mikey179/vfsstream' => array(
+            'pretty_version' => 'v1.1.0',
+            'version' => '1.1.0.0',
+            'reference' => 'fc0fe8f4d0b527254a2dc45f0c265567c881d07e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mikey179/vfsstream',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'monolog/monolog' => array(
             'pretty_version' => '2.9.1',
             'version' => '2.9.1.0',
@@ -254,9 +263,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-23.01-rector',
-            'version' => 'dev-23.01-rector',
-            'reference' => 'dd45760d8b21366ea0be818e0731ce5e3dccf1e0',
+            'pretty_version' => 'dev-bug-fix-2463',
+            'version' => 'dev-bug-fix-2463',
+            'reference' => 'c6e2875c76a436f4545c40662e6a2a2c2df58adc',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -588,6 +597,15 @@
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'tinymce/tinymce' => array(
+            'pretty_version' => '6.5.1',
+            'version' => '6.5.1.0',
+            'reference' => '3212d377b2132acc89c4887941e946fb61b33ee6',
+            'type' => 'component',
+            'install_path' => __DIR__ . '/../tinymce/tinymce',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
         'voku/portable-ascii' => array(
             'pretty_version' => '1.6.1',

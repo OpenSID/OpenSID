@@ -67,6 +67,14 @@ Berkaitan dengan perubahan teknis pada poin 13 disarankan bagi pengguna yang sud
 28. [#6771](https://github.com/OpenSID/OpenSID/issues/6771) Perbaikan pilih headline artikel.
 29. [#6784](https://github.com/OpenSID/OpenSID/issues/6784) Perbaikan ikon baca pesan yang tertukar pada kotak masuk layanan mandiri.
 30. [#6775](https://github.com/OpenSID/OpenSID/issues/6775) Perbaikan pendaftara pada buku tamu tanpa kamera.
+31. [#6792](https://github.com/OpenSID/OpenSID/issues/6792) Perbaikan session cetak kelahiran dan kematian.
+32. [#6633](https://github.com/OpenSID/OpenSID/issues/6633) Perbaikan notifikasi jika terdapat gagal buat file pdf saat cetak surat tinymce.
+33. [#6594](https://github.com/OpenSID/OpenSID/issues/6594) Perbaikan arsip Layanan tidak tampil jika melakukan cetak surat yang sama yang telah dihapus.
+34. [#6785](https://github.com/OpenSID/OpenSID/issues/6785) Perbaikan redirect setelah menulis pesan pada layanan mandiri.
+35. [#6788](https://github.com/OpenSID/OpenSID/issues/6788) Perbaikan halaman profil pengguna untuk data email dan telegram.
+36. [#6790](https://github.com/OpenSID/OpenSID/issues/6790) Perbaikan sebutan jabatan pada kirim pesan melalui whatsapp ganti pin penggun layanan mandiri.
+37. [#6777](https://github.com/OpenSID/OpenSID/issues/6777) Penyesuaian pengecekan hak akses folder desa.
+38. [#6773](https://github.com/OpenSID/OpenSID/issues/6773) Penyesuaian dimensi pada saat unggah foto aparatur desa.
 
 #### Perubahan Teknis
 
@@ -84,3 +92,4 @@ Berkaitan dengan perubahan teknis pada poin 13 disarankan bagi pengguna yang sud
 12. [#6755](https://github.com/OpenSID/OpenSID/issues/6755) Pisahkan modul layanan pendaftaran kerjasama ke third_party agar mudah di pindahkan ke rilis umum.
 13. [#2464](https://github.com/OpenSID/premium/issues/2464) Pembatasan akses file .php pada folder assets.
 14. [#6780](https://github.com/OpenSID/OpenSID/issues/6780) Penyesuaian URL slug untuk symbol "/" di surat TinyMCE.
+15. [#2463](https://github.com/OpenSID/premium/issues/2463) Perbarui layanan tinymce 5.10.5 ke tinymce 6.5.1.
