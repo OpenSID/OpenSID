@@ -280,13 +280,18 @@ function httpPost($url, $params)
  */
 function cek_koneksi_internet($sCheckHost = 'www.google.com')
 {
-    $connected = @fsockopen($sCheckHost, 443);
+    if (! setting('notifikasi_koneksi')) {
+        return true;
+    }
+
+    $connected = @fsockopen($sCheckHost, 80, $errno, $errstr, 5);
 
     if ($connected) {
         fclose($connected);
 
         return true;
     }
+    log_message('error', 'Gagal menghubungi ' . $sCheckHost . ' dengan status error ' . $errno . ' - ' . $errstr);
 
     return false;
 }

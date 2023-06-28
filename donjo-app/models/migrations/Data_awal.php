@@ -1977,7 +1977,7 @@ class Data_awal extends MY_Model
             [
                 'judul'      => 'Notifikasi Koneksi',
                 'key'        => 'notifikasi_koneksi',
-                'value'      => '1',
+                'value'      => '0',
                 'keterangan' => 'Ingatkan jika aplikasi tidak terhubung dengan internet.',
                 'jenis'      => 'boolean',
                 'option'     => null,

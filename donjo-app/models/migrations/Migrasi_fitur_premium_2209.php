@@ -365,7 +365,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
     {
         return $hasil && $this->tambah_setting([
             'key'        => 'notifikasi_koneksi',
-            'value'      => 1,
+            'value'      => 0,
             'keterangan' => 'Ingatkan jika aplikasi tidak terhubung dengan internet.',
             'jenis'      => 'boolean',
         ]);
