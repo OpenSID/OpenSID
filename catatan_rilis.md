@@ -74,6 +74,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 37. [#6777](https://github.com/OpenSID/OpenSID/issues/6777) Penyesuaian pengecekan hak akses folder desa.
 38. [#6773](https://github.com/OpenSID/OpenSID/issues/6773) Penyesuaian dimensi pada saat unggah foto aparatur desa.
 39. [#6796](https://github.com/OpenSID/OpenSID/issues/6796) Perbaikan pengecekan koneksi internet.
+40. [#6801](https://github.com/OpenSID/OpenSID/issues/6801) Perbaikan mengambil data wilayah pada server pantau.
 
 #### Perubahan Teknis
 

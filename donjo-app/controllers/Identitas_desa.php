@@ -86,6 +86,7 @@ class Identitas_desa extends Admin_Controller
         $data['cek_kades']      = $this->cek_kades;
         $data['form_action']    = route('identitas_desa.update');
         $data['nomor_operator'] = Schema::hasColumn('config', 'nomor_operator');
+        $data['status_pantau']  = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
 
         return view('admin.identitas_desa.form', $data);
     }

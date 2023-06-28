@@ -141,7 +141,6 @@ define('NILAI_PENDAPAT', serialize([
 ]));
 
 use App\Models\RefJabatan;
-use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
@@ -1717,5 +1716,31 @@ if (! function_exists('getVariableName')) {
         $variableName = array_search($value, $constants);
 
         return $variableName !== false ? $variableName : null;
+    }
+}
+if (! function_exists('checkWebsiteAccessibility')) {
+    function checkWebsiteAccessibility($url)
+    {
+        $options = [
+            'http' => [
+                'method'  => 'GET',
+                'timeout' => 3,
+            ],
+        ];
+        $context = stream_context_create($options);
+        $headers = @get_headers($url, 0, $context);
+
+        if ($headers) {
+            $status = substr($headers[0], 9, 3);
+            if ($status == '200') {
+                log_message('notice', 'Website dapat diakses');
+
+                return true;
+            }
+        }
+
+        log_message('notice', "Website tidak dapat diakses (Status: {$status})");
+
+        return false;
     }
 }
