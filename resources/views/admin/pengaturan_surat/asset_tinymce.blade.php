@@ -43,7 +43,9 @@
                 relative_urls: false,
                 remove_script_host: false,
                 entity_encoding: 'raw',
-                forced_root_block: false,
+                // gak bisa pakai false
+                // forced_root_block: false, 
+                forced_root_block: ' ',
                 font_family_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black; Bookman Old Style=bookman old style; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Tahoma=tahoma,arial,helvetica,sans-serif; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva;",
                 setup: function(ed) {
                     ed.on('init', function(e) {

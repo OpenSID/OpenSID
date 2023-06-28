@@ -1338,26 +1338,25 @@ class Migrasi_fitur_premium_2307 extends MY_model
     {
         $nama_surat = 'Perintah Perjalanan Dinas';
         $template   = <<<HTML
-                    <div>
-                <table style="border-collapse: collapse; width: 42.264%; height: 58px;" border="0" align="right">
-                    <tbody>
-                        <tr style="height: 18.75px;">
-                            <td style="width: 25.4998%; height: 18.75px;">Lembar Ke</td>
-                            <td style="width: 74.5527%; height: 18.75px;">:\u{a0}</td>
-                        </tr>
-                        <tr style="height: 18.75px;">
-                            <td style="width: 25.4998%; height: 18.75px;">Kode Ke</td>
-                            <td style="width: 74.5527%; height: 18.75px;">:\u{a0}</td>
-                        </tr>
-                        <tr style="height: 18.75px;">
-                            <td style="width: 25.4998%; height: 18.75px;">Nomor</td>
-                            <td style="width: 74.5527%; height: 18.75px;">: [Kode_suraT]/[Nomer_suraT]/437.103.09/[TahuN]</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">[JUdul_surat]<br /><br /></span>
-            </h4>
+                    <table style="border-collapse: collapse; width: 42.264%; height: 58px;" border="0" align="right">
+                <tbody>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 25.4998%; height: 18.75px;">Lembar Ke</td>
+                        <td style="width: 74.5527%; height: 18.75px;">:\u{a0}</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 25.4998%; height: 18.75px;">Kode Ke</td>
+                        <td style="width: 74.5527%; height: 18.75px;">:\u{a0}</td>
+                    </tr>
+                    <tr style="height: 18.75px;">
+                        <td style="width: 25.4998%; height: 18.75px;">Nomor</td>
+                        <td style="width: 74.5527%; height: 18.75px;">: [Format_nomor_suraT]</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>\u{a0}</p>
+            <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">[JUdul_surat]</span></h4>
+            <p>\u{a0}</p>
             <table style="border-collapse: collapse; width: 94.9743%; height: 803.203px; margin-left: auto; margin-right: auto;"
                 border="1">
                 <tbody>
@@ -1570,7 +1569,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
                                                     <tr style="height: 68.2422px;">
                                                         <td style="text-align: center; height: 68.2422px;">[Sebutan_kepala_desA]
                                                             [Nama_desA]
-                                                            <p><br /><br /><strong>( [Nama_pamonG]</strong><strong>\u{a0})</strong></p>
+                                                            <p><br><br><strong>( [Nama_pamonG]</strong><strong>\u{a0})</strong></p>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -1835,28 +1834,30 @@ class Migrasi_fitur_premium_2307 extends MY_model
                     </tr>
                     <tr style="height: 41.1133px;">
                         <td style="width: 47.3086%; height: 41.1133px;" width="315">V. Tiba di : Kantor [Sebutan_desA] [Nama_desA]
-                            <br />Pada Tanggal : [Form_tanggal_kembalI]</td>
+                            <br>Pada Tanggal : [Form_tanggal_kembalI]</td>
                         <td style="width: 52.6865%; height: 41.1133px;" width="351"><em>Telah diperiksa dengan keterangan bahwa
                                 perjalan tersebut atas perintahnya dan semata-mata untuk kepentingan jabatan dalam waktu yang
                                 sesingkat-singkatnya</em></td>
                     </tr>
                     <tr style="height: 80.988px;">
                         <td style="text-align: center; width: 99.9951%; height: 80.988px;" colspan="2" width="666">
-                            [Sebutan_kepala_desA] [Nama_desA] <br /><br /><br /><br /><strong>(
-                                [Nama_pamonG]</strong><strong>\u{a0})</strong></td>
+                            [Sebutan_kepala_desA] [Nama_desA] <br><br><br><br><strong>( [Nama_pamonG]</strong><strong>\u{a0})</strong>
+                        </td>
                     </tr>
                     <tr style="height: 58.2422px;">
-                        <td style="width: 99.9951%; height: 58.2422px;" colspan="2" width="666">VI. <u>PERHATIAN </u> <br />Pengguna
+                        <td style="width: 99.9951%; height: 58.2422px;" colspan="2" width="666">VI. <u>PERHATIAN </u> <br>Pengguna
                             Anggaran yang menerbitkan SPD, pegawai yang melakukan perjalanan dinas, para pejabat yang mengesahkan
                             tanggal berangkat/tiba, \u{a0}\u{a0}\u{a0}serta bendahara pengeluaran bertanggungjawab berdasarkan Peraturan Keuangan
                             Negara. Apabila Negara menderita \u{a0}rugi akibat \u{a0}kesalahan, kelalaian dan kealpaannya.</td>
                     </tr>
                 </tbody>
             </table>
-            <br /><br />
-            <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;"><br /><br />[JUdul_surat]</span>
-            </h4>
-            <p style="margin: 0; text-align: center;">Nomor : [Kode_suraT]/[Nomer_suraT]/437.103.09/[TahuN]</p>
+            <h4 style="margin: 0; text-align: center;">\u{a0}</h4>
+            <h4 style="margin: 0; text-align: center;">\u{a0}</h4>
+            <h4 style="margin: 0; text-align: center;">\u{a0}</h4>
+            <h4 style="margin: 0; text-align: center;">\u{a0}</h4>
+            <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">[JUdul_surat]</span></h4>
+            <p style="margin: 0; text-align: center;">Nomor : [Format_nomor_suraT]</p>
             <p style="text-indent: 30px; text-align: center;"><strong>MEMERINTAHKAN</strong></p>
             <table style="border-collapse: collapse; width: 95%; margin-left: auto; margin-right: auto;">
                 <tbody>
@@ -1864,7 +1865,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
                         <td width="20">1.</td>
                         <td width="50">Nama</td>
                         <td width="5">:</td>
-                        <td width="600"><strong>[NiK]</strong></td>
+                        <td width="600"><strong>[NaMA]</strong></td>
                     </tr>
                     <tr>
                         <td width="20">\u{a0}</td>
@@ -1953,7 +1954,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
                     </tr>
                 </tbody>
             </table>
-            <br />
+            <p>\u{a0}</p>
             <p style="text-align: justify; text-indent: 30px;">Demikian Surat Tugas ini dikeluarkan untuk dilaksanakan sebagaimana
                 mestinya.</p>
             <p style="text-align: justify; text-indent: 30px;">.</p>
@@ -1976,10 +1977,12 @@ class Migrasi_fitur_premium_2307 extends MY_model
                     </tr>
                 </tbody>
             </table>
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            </p>
+            <p>\u{a0}</p>
             <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">HASIL
                     BIMTEK/PELATIHAN/KONSULTASI/MONEV/PENGIRIMAN DATA, DLL</span></h4>
-            <div><br />Sebagai berikut :<br /><br />1.<br />2.<br />3.</div>
+            <div><br>Sebagai berikut :<br><br>1.<br>2.<br>3.</div>
             HTML;
         $data = [
             'nama'                => $nama_surat,
