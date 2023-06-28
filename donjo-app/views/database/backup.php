@@ -180,3 +180,16 @@
 <script src="<?= asset('js/sweetalert2/sweetalert2.all.min.js') ?>"></script>
 <script src="<?= asset('js/backup.min.js') ?>"></script>
 
+<?php if (! $memory_limit) : ?>
+    <script>
+        $("#maincontent").prepend(
+            `
+            <div class="callout callout-warning">
+                <h4><i class="fa fa-warning"></i>&nbsp;&nbsp;Informasi</h4>
+                <p>Backup tidak dapat dilakukan karena keterbatasan memori belum sesuai, silahkan periksa <a href="<?= base_url('info_sistem#ekstensi') ?>">disini.</a></p>
+            </div>
+            `
+        );
+    </script>
+<?php endif ?>
+

@@ -400,6 +400,11 @@
 <?php $this->load->view('global/confirm_delete'); ?>
 <script>
 	$(function() {
+		var url = document.location.toString();
+		if (url.match('#')) {
+			$('[href="#ekstensi"]').click();
+		}
+
 		$('#tabel-logs').DataTable({
 			"processing": true,
 			"autoWidth": false,
