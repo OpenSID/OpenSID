@@ -155,7 +155,6 @@ class TinyMCE
 
     public function getFormatedKodeIsian($data = [], $withData = false)
     {
-        // dd($data);
         $daftar_kode_isian = [
             // Data Surat
             'Surat' => $this->getIsianSurat($data),
@@ -177,7 +176,6 @@ class TinyMCE
         foreach ($data['kategori'] as $key => $value) {
             $daftar_kode_isian[$key] = $this->getIsianPenduduk($value, $key);
         }
-        // dd($daftar_kode_isian);
 
         // Data Dari Form Isian dsd
         $isian_post = $this->getIsianPost($data);
@@ -877,7 +875,6 @@ class TinyMCE
 
     private function getIsianPost($data = [])
     {
-        // dd($data['surat']['kode_isian']);
         $input = $data['input'];
 
         // Statis Post

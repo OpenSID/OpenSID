@@ -1,5 +1,4 @@
 @foreach ($form_kategori as $key => $kategori)
-    {{-- @dd($kategori) --}}
     <div class="form-group subtitle_head" id="a_saksi2">
         <label class="col-sm-3 control-label" for="status">{{ strtoupper($key) }}</label>
         <input name="anchor" type="hidden" value="<?= $anchor ?>" />

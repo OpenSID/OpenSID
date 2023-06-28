@@ -131,6 +131,15 @@ class Setting_model extends MY_Model
         // Setting Multi Database untuk OpenKab
         $this->setting->multi_desa = (Config::count() > 1) ? true : false;
 
+        // Konversi nilai margin global dari cm ke mm
+        $margins                              = json_decode($this->setting->surat_margin, true);
+        $this->setting->surat_margin_cm_to_mm = [
+            $margins['kiri'] * 10,
+            $margins['atas'] * 10,
+            $margins['kanan'] * 10,
+            $margins['bawah'] * 10,
+        ];
+
         $this->load->model('database_model');
         $this->database_model->cek_migrasi();
     }

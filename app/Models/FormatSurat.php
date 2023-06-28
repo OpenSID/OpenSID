@@ -178,6 +178,7 @@ class FormatSurat extends BaseModel
         'orientasi',
         'ukuran',
         'margin',
+        'margin_global',
         'header',
         'footer',
         'format_nomor',

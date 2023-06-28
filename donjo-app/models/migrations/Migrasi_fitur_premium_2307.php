@@ -64,6 +64,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
         $hasil = $hasil && $this->migrasi_2023061451($hasil);
         $hasil = $hasil && $this->migrasi_2023061752($hasil);
         $hasil = $hasil && $this->migrasi_2023061751($hasil);
+        $hasil = $hasil && $this->migrasi_2023062871($hasil);
 
         return $hasil && true;
     }
@@ -78,7 +79,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->migrasi_2023060571($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023060573($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023061251($hasil, $id);
-            // Jalankan Migrasi TinyMCE
+            $hasil = $hasil && $this->migrasi_2023062251($hasil, $id);
             $hasil = $hasil && $this->suratKetDomisili($hasil, $id);
             $hasil = $hasil && $this->suratLahirMati($hasil, $id);
             $hasil = $hasil && $this->suratPenerbitanBukuPas($hasil, $id);
@@ -93,8 +94,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->suratPermohonanKartuKeluarga($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPengantarRujukCerai($hasil, $id);
             $hasil = $hasil && $this->suratPermohonanPerubahanKartuKeluarga($hasil, $id);
-            // Jalankan Migrasi TinyMCE'
-            $hasil = $hasil && $this->migrasi_2023062251($hasil, $id);
+            // Jalankan Migrasi TinyMCE
         }
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023060572($hasil);
@@ -190,7 +190,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
     protected function migrasi_2023061271($hasil)
     {
-        if (!$this->db->field_exists('foto', 'widget')) {
+        if (! $this->db->field_exists('foto', 'widget')) {
             $hasil = $hasil && $this->dbforge->add_column('widget', [
                 'foto' => [
                     'type'       => 'varchar',
@@ -207,7 +207,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
     {
         $fields = [];
 
-        if (!$this->db->field_exists('Kd_Bank', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Kd_Bank', 'keuangan_ta_spp')) {
             $fields['Kd_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -215,7 +215,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Nm_Bank', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Nm_Bank', 'keuangan_ta_spp')) {
             $fields['Nm_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -223,7 +223,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Nm_Penerima', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Nm_Penerima', 'keuangan_ta_spp')) {
             $fields['Nm_Penerima'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -231,7 +231,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Ref_Bayar', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Ref_Bayar', 'keuangan_ta_spp')) {
             $fields['Ref_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -239,7 +239,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
             $fields['Rek_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -247,7 +247,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
             $fields['Rek_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -255,7 +255,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spp')) {
             $fields['Tgl_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -263,7 +263,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Validasi', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Validasi', 'keuangan_ta_spp')) {
             $fields['Validasi'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -280,7 +280,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
     protected function migrasi_2023061451($hasil)
     {
-        if (!$this->db->field_exists('slug', 'user_grup')) {
+        if (! $this->db->field_exists('slug', 'user_grup')) {
             $hasil = $hasil && $this->dbforge->add_column('user_grup', [
                 'slug' => [
                     'type'       => 'varchar',
@@ -2790,6 +2790,23 @@ class Migrasi_fitur_premium_2307 extends MY_model
         ];
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
+    }
+
+    protected function migrasi_2023062871($hasil)
+    {
+        if (! $this->db->field_exists('margin_global', 'tweb_surat_format')) {
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', [
+                'margin_global' => [
+                    'type'       => 'tinyint',
+                    'constraint' => 1,
+                    'null'       => true,
+                    'default'    => 0,
+                    'after'      => 'margin',
+                ],
+            ]);
+        }
+
+        return $hasil;
     }
 
     // Function Migrasi TinyMCE

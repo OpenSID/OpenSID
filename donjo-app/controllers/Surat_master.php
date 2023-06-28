@@ -125,18 +125,14 @@ class Surat_master extends Admin_Controller
 
         if ($id) {
             $suratMaster = FormatSurat::findOrFail($id);
-            // dd($suratMaster->form_isian->Pelapor);
-            // $kategori_nama   = [];
+
             $kategori_isian        = [];
             $data['kategori_nama'] = get_key_form_kategori($suratMaster->form_isian);
             $filter_kategori       = collect($suratMaster->kode_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
-                // $kategori_nama[]                   = $item->kategori;
                 $kategori_isian[$item->kategori][] = $item;
 
                 return isset($item->kategori);
             })->values();
-            // dd($kategori_isian);
-            // dd($data);
             $data['kategori_isian'] = $kategori_isian;
 
             $kategori_form = [];
@@ -169,10 +165,8 @@ class Surat_master extends Admin_Controller
         }
 
         if (in_array($suratMaster->jenis, [3, 4, null])) {
-            $margin = setting('surat_margin');
-            // $data['margins']              = $suratMaster->margin ? json_decode($suratMaster->margin) : ($margin->value ? json_decode($margin->value) : FormatSurat::MARGINS);
             $data['margins']              = json_decode($suratMaster->margin) ?? FormatSurat::MARGINS;
-            $data['is_global']            = $suratMaster->margin == $margin ? 1 : 0;
+            $data['margin_global']        = $suratMaster->margin_global;
             $data['orientations']         = FormatSurat::ORIENTATAIONS;
             $data['sizes']                = FormatSurat::SIZES;
             $data['default_orientations'] = FormatSurat::DEFAULT_ORIENTATAIONS;
@@ -270,7 +264,6 @@ class Surat_master extends Admin_Controller
 
     public function simpan_sementara()
     {
-        // dd($this->request);
         $this->redirect_hak_akses('u');
         $surat = FormatSurat::updateOrCreate(['id' => $this->request['id_surat']], static::validate($this->request));
         if ($surat) {
@@ -321,7 +314,6 @@ class Surat_master extends Admin_Controller
 
     private function validate($request = [], $jenis = 4, $id = null)
     {
-        // dd($request);
         // fix bagian key select-manual
         $kodeIsian   = null;
         $manual_data = array_values(array_filter($request['pilihan_kode']));
@@ -372,10 +364,8 @@ class Surat_master extends Admin_Controller
             ];
         }
 
-        // dd($request['kategori_required_kode']);
         if (isset($request['kategori'])) {
             foreach ($request['kategori'] as $kategori) {
-                // dd($request['kategori_required_kode'][$kategori]);
                 $formIsian[$kategori] = [
                     'data'         => 1,
                     'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
@@ -383,7 +373,6 @@ class Surat_master extends Admin_Controller
                     'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
                 ];
                 $manual_data = array_values(array_filter($request['kategori_pilihan_kode'][$kategori]));
-                // dd($manual_data);
                 if (count($manual_data) > 0) {
                     $data = [];
                     $no   = 0;
@@ -396,8 +385,7 @@ class Surat_master extends Admin_Controller
                         }
                     }
                 }
-                // dd($data);
-                // dd($request['kategori_tipe_kode']);
+
                 for ($i = 0; $i < count($request['kategori_tipe_kode'][$kategori]); $i++) {
                     if (empty($request['kategori_tipe_kode'][$kategori][$i])) {
                         continue;
@@ -424,8 +412,6 @@ class Surat_master extends Admin_Controller
                 unset($data);
             }
         }
-        // dd($formIsian, $kodeIsian);
-        // echo json_encode($kodeIsian);die;
         $data = [
             'nama'                => nama_terbatas($request['nama']),
             'kode_surat'          => $request['kode_surat'],
@@ -458,17 +444,17 @@ class Surat_master extends Admin_Controller
         }
 
         // Margin
-        if (isset($request['global_margin']) && $request['global_margin'] == 1) {
-            $margin         = setting('surat_margin');
-            $data['margin'] = $margin;
+        if ($request['margin_global'] == 1) {
+            $data['margin_global'] = 1;
         } else {
-            $data['margin'] = json_encode([
-                'kiri'  => (float) $request['kiri'],
-                'atas'  => (float) $request['atas'],
-                'kanan' => (float) $request['kanan'],
-                'bawah' => (float) $request['bawah'],
-            ]);
+            $data['margin_global'] = 0;
         }
+        $data['margin'] = json_encode([
+            'kiri'  => (float) $request['kiri'],
+            'atas'  => (float) $request['atas'],
+            'kanan' => (float) $request['kanan'],
+            'bawah' => (float) $request['bawah'],
+        ]);
 
         return $data;
     }
@@ -661,14 +647,13 @@ class Surat_master extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $log_surat['surat'] = FormatSurat::find($id);
             $daftar_kategori    = get_key_form_kategori($log_surat['surat']->form_isian);
-            // dd($daftar_kategori);
 
             foreach ($daftar_kategori as $kategori) {
                 $log_surat['kategori'][$kategori] = null;
             }
 
             $kode_isian = $this->tinymce->getFormatedKodeIsian($log_surat);
-            // dd($kode_isian);
+
             return json($kode_isian);
         }
 
@@ -773,8 +758,19 @@ class Surat_master extends Admin_Controller
         $qrcode        = (is_file($file_qrcode)) ? '<img src="' . $file_qrcode . '" width="90" height="90" alt="logo-surat" />' : '';
         $gambar_qecode = str_replace('[qr_code]', $qrcode, $logo_qrcode);
 
+        if ($this->request['margin_global'] == 1) {
+            $margins = setting('surat_margin_cm_to_mm');
+        } else {
+            $margins = [
+                $this->request['kiri'] * 10,
+                $this->request['atas'] * 10,
+                $this->request['kanan'] * 10,
+                $this->request['bawah'] * 10,
+            ];
+        }
+
         try {
-            $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', [$this->request['kiri'] * 10, $this->request['atas'] * 10, $this->request['kanan'] * 10, $this->request['bawah'] * 10]);
+            $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', $margins);
             $html2pdf->pdf->SetTitle($this->request['nama'] . ' (Pratinjau)');
             $html2pdf->setTestTdInOnePage(false);
             $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));

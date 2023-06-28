@@ -5,10 +5,11 @@
             <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Surat
         </a>
         @if (setting('tte') && ($suratMaster->jenis == 3 || $suratMaster->jenis == 4))
-            <br/><br/>
+            <br /><br />
             <div class="alert alert-info alert-dismissible">
                 <h4><i class="icon fa fa-info"></i> Info !</h4>
-                Jika surat ingin dikirim ke kecamatan, letakan kode [qr_camat] pada tempat yang ingin ditempelkan QRCode Kecamatan.
+                Jika surat ingin dikirim ke kecamatan, letakan kode [qr_camat] pada tempat yang ingin ditempelkan QRCode
+                Kecamatan.
             </div>
         @endif
     </div>
@@ -20,12 +21,12 @@
                     @empty($suratMaster->kode_surat)
                         <option value="">-- Pilih Kode/Klasifikasi Surat --</option>
                     @else
-                    <option value="{{ $suratMaster->kode_surat }}">{{ $suratMaster->kode_surat }}</option>
-                    @endif
-                    @foreach ($klasifikasiSurat as $item)
-                        <option value="{{ $item->kode }}" @selected($item->kode === $suratMaster->kode_surat)>
-                            {{ $item->kode . ' - ' . $item->nama }}</option>
-                    @endforeach
+                        <option value="{{ $suratMaster->kode_surat }}">{{ $suratMaster->kode_surat }}</option>
+                        @endif
+                        @foreach ($klasifikasiSurat as $item)
+                            <option value="{{ $item->kode }}" @selected($item->kode === $suratMaster->kode_surat)>
+                                {{ $item->kode . ' - ' . $item->nama }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -105,26 +106,29 @@
                     <label class="col-sm-3 control-label">Gunakan Margin Kertas Global</label>
                     <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="margin: 0 0 5px 0">
                         <label id="n1"
-                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($is_global)">
-                            <input id="m1" type="radio" name="global_margin" @checked($is_global)  class="form-check-input" type="radio" value="1" autocomplete="off">Ya
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($margin_global)">
+                            <input id="m1" type="radio" name="margin_global" @checked($margin_global)
+                                class="form-check-input" type="radio" value="1" autocomplete="off">Ya
                         </label>
                         <label id="n2"
-                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$is_global)">
-                            <input id="m2" type="radio" name="global_margin" class="form-check-input" @checked(!$is_global) type="radio" value="0" autocomplete="off">Tidak
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$margin_global)">
+                            <input id="m2" type="radio" name="margin_global" class="form-check-input"
+                                @checked(!$margin_global) type="radio" value="0" autocomplete="off">Tidak
                         </label>
                     </div>
                     <div id="manual_margin" style="display: none;">
                         <div class="col-sm-7 col-sm-offset-3">
                             <div class="row">
                                 @foreach ($margins as $key => $value)
-                                <div class="col-sm-6">
-                                    <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
-                                        <span class="input-group-addon input-sm">{{ ucwords($key) }}</span>
-                                        <input type="number" class="form-control input-sm required" min="0" name="{{ $key }}"
-                                            min="0" max="10" step="0.01" style="text-align:right;" value="{{ $value }}">
-                                        <span class="input-group-addon input-sm">cm</span>
+                                    <div class="col-sm-6">
+                                        <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
+                                            <span class="input-group-addon input-sm">{{ ucwords($key) }}</span>
+                                            <input type="number" class="form-control input-sm required" min="0"
+                                                name="{{ $key }}" min="0" max="10" step="0.01"
+                                                style="text-align:right;" value="{{ $value }}">
+                                            <span class="input-group-addon input-sm">cm</span>
+                                        </div>
                                     </div>
-                                </div>
                                 @endforeach
                             </div>
                         </div>
@@ -132,14 +136,16 @@
                 </div>
             @endif
 
-            @if (! in_array($suratMaster->jenis, [1, 2]))
+            @if (!in_array($suratMaster->jenis, [1, 2]))
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Lampiran</label>
                     <div class="col-sm-7">
                         <select class="form-control input-sm lampiran-multiple" name="lampiran[]" multiple="multiple">
                             <option value="">Tidak Ada</option>
                             @foreach ($daftar_lampiran as $value)
-                                <option value="{{ $value }}" {{ in_array($value, explode(',', $suratMaster->lampiran)) ? 'selected' : '' }}>{{ $value }} </option>
+                                <option value="{{ $value }}"
+                                    {{ in_array($value, explode(',', $suratMaster->lampiran)) ? 'selected' : '' }}>
+                                    {{ $value }} </option>
                             @endforeach
                         </select>
                     </div>
@@ -150,7 +156,8 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Format Nomor Surat</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control input-sm" name="format_nomor" placeholder="Format Nomor Surat" value="{{ $format_nomor }}">
+                        <input type="text" class="form-control input-sm" name="format_nomor"
+                            placeholder="Format Nomor Surat" value="{{ $format_nomor }}">
                     </div>
                 </div>
             @endif
@@ -232,13 +239,13 @@
                     <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
                         <label id="n1"
                             class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($suratMaster->kecamatan)">
-                            <input id="q1" type="radio" name="kecamatan" class="form-check-input" type="radio"
-                                value="1" @checked($suratMaster->kecamatan) autocomplete="off">Ya
+                            <input id="q1" type="radio" name="kecamatan" class="form-check-input"
+                                type="radio" value="1" @checked($suratMaster->kecamatan) autocomplete="off">Ya
                         </label>
                         <label id="n2"
                             class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$suratMaster->kecamatan)">
-                            <input id="q2" type="radio" name="kecamatan" class="form-check-input" type="radio"
-                                value="0" @checked(!$suratMaster->kecamatan) autocomplete="off">Tidak
+                            <input id="q2" type="radio" name="kecamatan" class="form-check-input"
+                                type="radio" value="0" @checked(!$suratMaster->kecamatan) autocomplete="off">Tidak
                         </label>
                     </div>
                 </div>
@@ -260,8 +267,7 @@
                 </div>
             </div>
 
-            <div class="form-group" id="syarat"
-                {{ jecho($suratMaster->mandiri, false, 'style="display:none;"') }}>
+            <div class="form-group" id="syarat" {{ jecho($suratMaster->mandiri, false, 'style="display:none;"') }}>
                 <label class="col-sm-3 control-label" for="mandiri">Syarat Surat</label>
                 <div class="col-sm-7">
                     <div class="table-responsive">
@@ -287,14 +293,14 @@
                 $('.lampiran-multiple').select2();
             });
 
-            $(document).ready(function(){
-                var x = $("[name='global_margin']:checked").val()
+            $(document).ready(function() {
+                var x = $("[name='margin_global']:checked").val()
                 console.log(x)
                 if (x == 0) {
                     $('#manual_margin').show()
                 }
             })
-            $("[name='global_margin']").change(function() {
+            $("[name='margin_global']").change(function() {
                 var val = $(this).val()
                 if (val == 0) {
                     $('#manual_margin').show()

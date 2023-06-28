@@ -1,4 +1,3 @@
-@dd($item)
 <h5><b>Sumber Data</b></h5>
 <div class="table-responsive">
     <table class="table table-hover table-striped sumber-data">

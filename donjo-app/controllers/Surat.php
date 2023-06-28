@@ -158,7 +158,6 @@ class Surat extends Admin_Controller
 
             // cek apakah surat itu memiliki form kategori ( saksi etc )
             $kategori = get_key_form_kategori($data['surat']['form_isian']);
-            // dd($kategori);
             if (! empty($kategori)) {
                 $form_kategori   = [];
                 $kategori_isian  = [];
@@ -172,7 +171,6 @@ class Surat extends Admin_Controller
                     $form_kategori[$ktg]['form']       = $this->get_data_untuk_form($url, $data, $ktg);
                     $form_kategori[$ktg]['kode_isian'] = $kategori_isian[$ktg];
                 }
-                // dd($form_kategori);
                 $filtered_kode_isian = collect($data['surat']->kode_isian)->reject(static function ($item) {
                     return isset($item->kategori);
                 })->values();
@@ -730,10 +728,7 @@ class Surat extends Admin_Controller
                 $data['penduduk'] = null;
                 $data['anggota']  = null;
             } else {
-                // $key = $is_kategori
-                // dd($kategori);
                 $filters = collect($data['surat']['form_isian']->{$kategori})->toArray();
-                // dd($filters);
                 unset($filters['data']);
                 $data['penduduk'] = Penduduk::filters($filters)->get();
                 $kk_level         = $data['individu']['kk_level'];

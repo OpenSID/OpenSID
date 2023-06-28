@@ -115,7 +115,6 @@
             @forelse ($kategori_nama as $item)
             @php
             $kategori = $kategori_isian[$item];
-            // dd($kategori);
             @endphp
             <div class="tab-pane" id="tab-{{ $item }}">
                 <input type="hidden" name="kategori[]" value="{{ $item }}">

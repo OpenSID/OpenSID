@@ -12,7 +12,6 @@
             </tr>
             @php $jumlah_isian = 0; @endphp
             @foreach ($kategori as $key => $value)
-            {{-- @dd($value) --}}
             @if (!$value->statis)
             @php $jumlah_isian++; @endphp
             <tr class="duplikasi kategori" id="gandakan-{{$value->kategori}}-{{ $key }}" data-id="{{ $key }}">

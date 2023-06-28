@@ -97,7 +97,6 @@ class Program_bantuan extends Admin_Controller
 
     public function form($program_id = 0)
     {
-        // dd(Penduduk::whereHas('rtm')->get());
         $this->redirect_hak_akses('u');
         $this->session->unset_userdata('cari');
         $data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
