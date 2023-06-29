@@ -75,6 +75,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 38. [#6773](https://github.com/OpenSID/OpenSID/issues/6773) Penyesuaian dimensi pada saat unggah foto aparatur desa.
 39. [#6796](https://github.com/OpenSID/OpenSID/issues/6796) Perbaikan pengecekan koneksi internet.
 40. [#6801](https://github.com/OpenSID/OpenSID/issues/6801) Perbaikan mengambil data wilayah pada server pantau.
+41. [#6814](https://github.com/OpenSID/OpenSID/issues/6814) Perbaikan tidak bisa simpan saat ubah pengaturan surat rtf.
 
 #### Perubahan Teknis
 
