@@ -119,6 +119,7 @@ class Surat_master_model extends MY_Model
     public function update($id = 0)
     {
         $data = $this->input->post();
+        unset($data['id_surat']);
         $this->validasi_surat($data);
 
         $outp = $this->config_id()
