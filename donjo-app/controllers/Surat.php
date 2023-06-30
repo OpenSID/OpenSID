@@ -360,11 +360,14 @@ class Surat extends Admin_Controller
             }
 
             // Lampiran
-            $logo_qrcode = $this->buatLampiran($surat->id_pend, $cetak, $logo_qrcode);
-
+            $logo_qrcode     = $this->buatLampiran($surat->id_pend, $cetak, $logo_qrcode);
+            $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
+            if ($cetak['surat']['margin_global'] == '1') {
+                $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
+            }
             // convert in PDF
             try {
-                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $cetak['surat']['margin_cm_to_mm']);
+                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $margin_cm_to_mm);
                 $html2pdf->setTestTdInOnePage(true);
                 $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
                 $html2pdf->writeHTML($logo_qrcode);
@@ -505,9 +508,14 @@ class Surat extends Admin_Controller
             // Lampiran
             $isi_cetak = $this->buatLampiran($surat->id_pend, $cetak, $isi_cetak);
 
+            $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
+            if ($cetak['surat']['margin_global'] == '1') {
+                $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
+            }
+
             // convert in PDF
             try {
-                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $cetak['surat']['margin_cm_to_mm']);
+                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $margin_cm_to_mm);
                 $html2pdf->setTestTdInOnePage(false);
                 $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
                 $html2pdf->writeHTML($isi_cetak);
