@@ -92,7 +92,6 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 77. [#1709](https://github.com/OpenSID/premium/issues/1709) Perbaikan keamanan upload dokumen pada pendaftaran layanan mandiri.
 
 #### Perubahan Teknis
-
 1. Hapus coding tidak digunakan.
 2. BaseModel dan Observer.
 3. Penyesuaian Pengaturan aplikasi.
