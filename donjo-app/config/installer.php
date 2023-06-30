@@ -116,7 +116,7 @@ $config = [
         $db['default']['username'] = 'root';
         $db['default']['password'] = '';
         $db['default']['port']     = 3306;
-        $db['default']['database'] = 'premium';
+        $db['default']['database'] = 'umum';
 
         /*
         | Untuk setting koneksi database 'Strict Mode'
