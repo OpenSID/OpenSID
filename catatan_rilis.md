@@ -1,4 +1,4 @@
-Di rilis ini, versi 2306.1.0-premium ditambahkan fitur untuk modul DTKS & penambahan fitur kode isian anggota keluarga sesuai ID kepala keluarga. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2307.0.0-premium ditambahkan fitur untuk modul DTKS & penambahan fitur kode isian anggota keluarga sesuai ID kepala keluarga. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ruririzal yang terus berkontribusi.
 
