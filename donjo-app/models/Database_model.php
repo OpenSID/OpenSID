@@ -3537,8 +3537,8 @@ class Database_model extends MY_Model
 
         if (empty($token = $this->setting->layanan_opendesa_token)) {
             log_message('notice', 'Migrasi tidak dijalankan karena token pelanggan kosong / tidak valid.');
-
-            exit('Migrasi tidak dijalankan karena token pelanggan kosong / tidak valid.');
+            // bermasalah jika install baru
+            // exit('Migrasi tidak dijalankan karena token pelanggan kosong / tidak valid.');
 
             return false;
         }
