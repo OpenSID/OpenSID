@@ -35,10 +35,11 @@
  *
  */
 
-use App\Enums\HubunganRTMEnum;
 use App\Enums\StatusEnum;
-use App\Models\FormatSurat;
 use App\Models\RefJabatan;
+use App\Models\FormatSurat;
+use App\Enums\HubunganRTMEnum;
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -467,14 +468,19 @@ class Migrasi_fitur_premium_2212 extends MY_model
     {
         $hasil = $hasil && $this->tambah_setting([
             'key'        => 'sebutan_pemerintah_desa',
-            'value'      => 'Pemerintah ' . ucwords(setting('sebutan_desa')),
+            'value'      => 'Pemerintah ' . ucwords(SettingAplikasi::where('key', 'sebutan_desa')->first()->value),
             'keterangan' => 'Sebutan Pemerintah Desa',
             'kategori'   => 'Pemerintah Desa',
         ]);
 
-        return $hasil && $this->ubah_modul(18, [
+        $hasil = $hasil && $this->ubah_modul(18, [
             'modul' => '[Pemerintah Desa]',
         ]);
+
+        // Hapus cache menu navigasi
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        return $hasil;
     }
 
     protected function migrasi_2022112151($hasil)

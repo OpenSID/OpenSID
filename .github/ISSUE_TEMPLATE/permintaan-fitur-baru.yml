@@ -35,7 +35,7 @@ body:
     id: version
     attributes:
       label: Untuk versi OpenSID mana
-      description: Fitur ini diusulkan untuk versi Rilis Umum (mis. v21.03) atau Rilis Premium (mis v21.03-premium) yg mana?
+      description: Fitur ini diusulkan untuk versi Rilis Umum (mis. v2306.0.0) atau Rilis Premium (mis. v2306.0.0-premium) yg mana?
     validations:
       required: true
 

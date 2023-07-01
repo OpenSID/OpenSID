@@ -1,4 +1,4 @@
-Di rilis ini, versi 2306.1.0-premium ditambahkan fitur untuk modul DTKS & penambahan fitur kode isian anggota keluarga sesuai ID kepala keluarga. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2307.0.0 ditambahkan fitur untuk modul DTKS & penambahan fitur kode isian anggota keluarga sesuai ID kepala keluarga. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ruririzal yang terus berkontribusi.
 
@@ -92,7 +92,6 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 77. [#1709](https://github.com/OpenSID/premium/issues/1709) Perbaikan keamanan upload dokumen pada pendaftaran layanan mandiri.
 
 #### Perubahan Teknis
-
 1. Hapus coding tidak digunakan.
 2. BaseModel dan Observer.
 3. Penyesuaian Pengaturan aplikasi.

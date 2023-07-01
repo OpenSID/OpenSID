@@ -74,6 +74,8 @@ $config = [
         'storage/framework/'  => [0775],
         'storage/logs/'       => [0775],
         'backup_inkremental/' => [0775],
+        'assets/'             => [0755, 'htaccess3'],
+        'assets/filemanager/' => [0755, 'htaccess4'],
     ],
 
     'config' => <<<'EOS'
@@ -116,7 +118,7 @@ $config = [
         $db['default']['username'] = 'root';
         $db['default']['password'] = '';
         $db['default']['port']     = 3306;
-        $db['default']['database'] = 'premium';
+        $db['default']['database'] = 'umum';
 
         /*
         | Untuk setting koneksi database 'Strict Mode'
@@ -149,6 +151,21 @@ $config = [
         <FilesMatch "\.(rtf|pdf|jpe?g|png|php|php\.|php3?|phtml|phpjpeg)$">
             Order Allow,Deny
             Deny from all
+        </FilesMatch>
+        EOS,
+
+    'htaccess3' => <<<'EOS'
+        <FilesMatch "\.(php|php\.|php3?|phtml|phpjpeg|pl|py|jsp|asp|htm|shtml|sh|cgi)$">
+            order allow,deny
+            deny from all
+        </FilesMatch>
+
+        EOS,
+
+    'htaccess4' => <<<'EOS'
+        <FilesMatch "\.(php)$">
+            order allow,deny
+            allow from all
         </FilesMatch>
         EOS,
 
