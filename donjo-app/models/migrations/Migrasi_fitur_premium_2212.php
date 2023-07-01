@@ -473,12 +473,14 @@ class Migrasi_fitur_premium_2212 extends MY_model
             'kategori'   => 'Pemerintah Desa',
         ]);
 
+        $hasil = $hasil && $this->ubah_modul(18, [
+            'modul' => '[Pemerintah Desa]',
+        ]);
+
         // Hapus cache menu navigasi
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
-        return $hasil && $this->ubah_modul(18, [
-            'modul' => '[Pemerintah Desa]',
-        ]);
+        return $hasil;
     }
 
     protected function migrasi_2022112151($hasil)
