@@ -29,6 +29,7 @@ class UploadHandler
         'max_file_size' => 'File is too big',
         'min_file_size' => 'File is too small',
         'accept_file_types' => 'Filetype not allowed',
+        'file_dangerous' => 'File is dangerous',
         'max_number_of_files' => 'Maximum number of files exceeded',
         'max_width' => 'Image exceeds maximum width',
         'min_width' => 'Image requires a minimum width',
@@ -322,6 +323,20 @@ class UploadHandler
         return $this->fix_integer_overflow(filesize($file_path));
     }
 
+    protected function isPHP($file)
+    {
+        $handle = fopen($file, 'rb');
+        $buffer = stream_get_contents($handle);
+        if (preg_match('/<\?php|<script|function|__halt_compiler|<html/i', $buffer)) {
+            fclose($handle);
+
+            return true;
+        }
+        fclose($handle);
+
+        return false;
+    }
+
     protected function is_valid_file_object($file_name) {
         $file_path = $this->get_upload_path($file_name);
         if (is_file($file_path) && $file_name[0] !== '.') {
@@ -400,6 +415,10 @@ class UploadHandler
         $post_max_size = $this->get_config_bytes(ini_get('post_max_size'));
         if ($post_max_size && ($content_length > $post_max_size)) {
             $file->error = $this->get_error_message('post_max_size');
+            return false;
+        }
+        if ($uploaded_file && $this->isPHP($uploaded_file)) {
+            $file->error = $this->get_error_message('file_dangerous');
             return false;
         }
         if (!preg_match($this->options['accept_file_types'], $file->name)) {

@@ -47,11 +47,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<tbody>
 		<tr>
 			<td class="text-center">
-				<h4>BUKU TANAH DI DESA</h4>
-			</td>
-		</tr>
-		<tr>
-			<td class="text-center">
 				<h4>BUKU TANAH DESA BULAN <?= strtoupper(getBulan($bulan)) ?> TAHUN <?= $tahun ?></h4>
 			</td>
 		</tr>
@@ -132,13 +127,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					</thead>
 					<tbody>
 						<?php
-                            $count = 1;
+                        $count = 1;
 
-foreach ($main as $data):
+foreach ($main as $data) :
     ?>
 							<tr>
 								<td class="text-left"><?= $count ?></td>
-								<td><?= strtoupper($data['nama_pemilik_asal'] ?: $data['nama'])?></td>
+								<td><?= strtoupper($data['nama_pemilik_asal'] ?: $data['nama']) ?></td>
 								<td><?= $data['luas'] ?></td>
 								<td class="text-center"><?= $data['hak_milik'] ?: '' ?></td>
 								<td class="text-center"><?= $data['hak_guna_bangunan'] ?: '' ?></td>

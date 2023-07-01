@@ -546,6 +546,7 @@ class Pamong_model extends CI_Model
             ->select('p.pamong_id, rj.nama AS jabatan, p.bagan_tingkat, p.bagan_offset, p.bagan_layout, p.bagan_warna')
             ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.foto ELSE p.foto END) as foto')
             ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nama ELSE p.pamong_nama END) as nama')
+            ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.sex ELSE p.pamong_sex END) as jenis_kelamin')
             ->from('tweb_desa_pamong p')
             ->join('penduduk_hidup ph', 'ph.id = p.id_pend', 'left')
             ->join('ref_jabatan rj', 'rj.id = p.jabatan_id', 'left')

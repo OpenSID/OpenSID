@@ -1,10 +1,11 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></h1>
+		<?php $pemerintah = 'Staf ' . ucwords(setting('sebutan_pemerintah_desa')) ?>
+		<h1><?= $pemerintah ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('pengurus'); ?>">Daftar Staf Pemerintahan</a></li>
-			<li class="active">Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa); ?></li>
+			<li><a href="<?= site_url('pengurus'); ?>">Daftar <?= $pemerintah ?></a></li>
+			<li class="active"><?= $pemerintah ?></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">

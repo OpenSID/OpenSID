@@ -185,7 +185,6 @@ class Dokumen extends Admin_Controller
 
     public function dialog_cetak($kat = 1)
     {
-        $data                    = $this->modal_penandatangan();
         $data['form_action']     = site_url("dokumen/cetak/{$kat}");
         $data['kat']             = $kat;
         $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
@@ -202,14 +201,17 @@ class Dokumen extends Admin_Controller
 
     private function data_cetak($kat)
     {
-        $post                   = $this->input->post();
-        $data['main']           = $this->web_dokumen_model->data_cetak($kat, $post['tahun'], $post['jenis_peraturan']);
-        $data['input']          = $post;
-        $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-        $data['kat']            = $kat;
-        $data['tahun']          = $post['tahun'];
-        $data['desa']           = $this->header['desa'];
+        // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
+        $ttd                    = $this->modal_penandatangan();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
+
+        $post          = $this->input->post();
+        $data['main']  = $this->web_dokumen_model->data_cetak($kat, $post['tahun'], $post['jenis_peraturan']);
+        $data['input'] = $post;
+        $data['kat']   = $kat;
+        $data['tahun'] = $post['tahun'];
+        $data['desa']  = $this->header['desa'];
         if ($kat == 1) {
             $data['kategori'] = 'Informasi Publik';
         } else {
@@ -229,7 +231,6 @@ class Dokumen extends Admin_Controller
 
     public function dialog_excel($kat = 1)
     {
-        $data                    = $this->modal_penandatangan();
         $data['form_action']     = site_url("dokumen/excel/{$kat}");
         $data['kat']             = $kat;
         $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();

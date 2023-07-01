@@ -75,7 +75,7 @@ class Modul_model extends CI_Model
 
         for ($i = 0; $i < count($data); $i++) {
             if ($this->ada_sub_modul($data[$i]['id'])) {
-                $data[$i]['modul']    = SebutanDesa($data[$i]['modul']);
+                $data[$i]['modul']    = str_replace('[Pemerintah Desa]', ucwords(setting('sebutan_pemerintah_desa')), SebutanDesa($data[$i]['modul']));
                 $data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);
                 // Kelompok submenu yg kosong tidak dimasukkan
                 if (! empty($data[$i]['submodul']) || ! empty($data[$i]['url'])) {
@@ -84,7 +84,7 @@ class Modul_model extends CI_Model
             } else {
                 // Modul yang tidak boleh diakses tidak dimasukkan
                 if ($this->user_model->hak_akses($_SESSION['grup'], $data[$i]['url'], 'b')) {
-                    $data[$i]['modul'] = SebutanDesa($data[$i]['modul']);
+                    $data[$i]['modul'] = str_replace('[Pemerintah Desa]', ucwords(setting('sebutan_pemerintah_desa')), SebutanDesa($data[$i]['modul']));
                     $aktif[]           = $data[$i];
                 }
             }
@@ -123,7 +123,15 @@ class Modul_model extends CI_Model
     // Menampilkan tabel sub modul
     public function list_sub_modul($modul_id)
     {
-        $data = $this->db->select('*')
+        // jangan aktifkan jika demo dan di domain whitelist
+        if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {
+            $this->db->where_not_in('slug', [
+                'layanan-pelanggan',
+                'pendaftaran-kerjasama',
+            ]);
+        }
+
+        $data = $this->db
             ->where('parent', $modul_id)
             ->where('hidden <>', 2)
             ->order_by('urut')
@@ -132,7 +140,7 @@ class Modul_model extends CI_Model
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']    = $i + 1;
-            $data[$i]['modul'] = SebutanDesa($data[$i]['modul']);
+            $data[$i]['modul'] = str_replace('[Pemerintah Desa]', ucwords(setting('sebutan_pemerintah_desa')), SebutanDesa($data[$i]['modul']));
         }
 
         return $data;

@@ -37,8 +37,6 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use Symfony\Component\Process\Process;
-
 class Job_prosess
 {
     protected $os;
@@ -60,6 +58,3 @@ class Job_prosess
         }
     }
 }
-
-// End of file Job_prosess.php
-// Location: .//D/kerjoan/web/opendesa/premium/donjo-app/libraries/Job_prosess.php

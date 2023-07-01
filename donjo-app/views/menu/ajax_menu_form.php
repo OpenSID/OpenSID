@@ -110,7 +110,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<select id="statis_lainnya" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 5, 'link')?>" style="<?php ($menu['link_tipe'] != 5) && print 'display:none;'; ?>">
 				<option value="">-- Pilih Halaman Statis Lainnya --</option>
 				<?php foreach ($statis_lainnya as $id => $nama): ?>
-					<option value="<?= $id?>" <?= selected($menu['link'], $id) ?>><?= str_replace('[Desa]', ucwords($this->setting->sebutan_desa), $nama) ?></option>
+					<option value="<?= $id?>" <?= selected($menu['link'], $id) ?>><?= str_replace(['[Pemerintah Desa]', '[Desa]'], [ucwords(setting('sebutan_pemerintah_desa')), ucwords(setting('sebutan_desa'))], $nama) ?></option>
 				<?php endforeach; ?>
 			</select>
 			<select id="artikel_keuangan" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 6, 'link')?>" style="<?php ($menu['link_tipe'] != 6) && print 'display:none;'; ?>">

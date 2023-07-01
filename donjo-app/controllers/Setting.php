@@ -53,7 +53,8 @@ class Setting extends Admin_Controller
             'judul'               => 'Pengaturan Aplikasi',
             'pengaturan_kategori' => ['sistem', 'peta', 'web_theme', 'readonly', 'web', 'mobile'],
             'atur_latar'          => true,
-            'latar_website'       => $this->theme_model->latar_website(),
+            'latar_website'       => to_base64(default_file($this->theme_model->lokasi_latar_website() . $this->setting->latar_website, DEFAULT_LATAR_WEBSITE)),
+            'latar_siteman'       => to_base64(default_file(LATAR_LOGIN . $this->setting->latar_login, DEFAULT_LATAR_SITEMAN)),
         ];
 
         return view('admin.pengaturan.index', $data);
@@ -63,8 +64,8 @@ class Setting extends Admin_Controller
     public function update()
     {
         $this->redirect_hak_akses_url('u');
-        $this->setting_model->update_setting($this->input->post());
-        status_sukses(true, false, 'Berhasil Ubah Data');
+        $hasil = $this->setting_model->update_setting($this->input->post());
+        status_sukses($hasil, false, 'Berhasil Ubah Data');
 
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -73,8 +74,11 @@ class Setting extends Admin_Controller
     public function new_update()
     {
         $this->redirect_hak_akses_url('u');
-        $this->setting_model->update_setting($this->input->post());
-        set_session('success', 'Berhasil Ubah Data');
+        if ($this->setting_model->update_setting($this->input->post())) {
+            set_session('success', 'Berhasil Ubah Data');
+        } else {
+            set_session('error', 'Gagal Ubah Data. ' . session('flash_error_msg'));
+        }
 
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -114,6 +118,7 @@ class Setting extends Admin_Controller
             'pengaturan_kategori' => ['setting_mandiri'],
             'atur_latar'          => true,
             'aksi_controller'     => 'setting/mandiri',
+            'latar_mandiri'       => to_base64(default_file(LATAR_LOGIN . $this->setting->latar_login_mandiri, DEFAULT_LATAR_KEHADIRAN)),
         ];
 
         return view('admin.pengaturan.index', $data);

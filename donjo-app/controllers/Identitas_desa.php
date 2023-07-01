@@ -255,8 +255,8 @@ class Identitas_desa extends Admin_Controller
     protected static function unggah($jenis = '', $resize = false, $ukuran = false)
     {
         $CI = &get_instance();
-        $CI->load->library('upload');
-        $CI->uploadConfig = [
+        $CI->load->library('MY_Upload', null, 'upload');
+        $config = [
             'upload_path'   => LOKASI_LOGO_DESA,
             'allowed_types' => 'gif|jpg|jpeg|png',
             'max_size'      => max_upload() * 1024,
@@ -272,7 +272,7 @@ class Identitas_desa extends Admin_Controller
 
         $uploadData = null;
         // Inisialisasi library 'upload'
-        $CI->upload->initialize($CI->uploadConfig);
+        $CI->upload->initialize($config);
         // Upload sukses
         if ($CI->upload->do_upload($jenis)) {
             $uploadData = $CI->upload->data();

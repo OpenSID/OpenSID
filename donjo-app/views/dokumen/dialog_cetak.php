@@ -20,24 +20,26 @@
                     </select>
             </div>
         <?php endif; ?>
-        <div class="form-group">
-            <label class="control-label">Pamong Tertanda</label>
-            <select class="form-control input-sm jenis_link select2 required" name="pamong_ttd">
-                <option value="">Pilih Staf Penandatangan</option>
-                <?php foreach ($pamong as $data): ?>
-                    <option value="<?= $data['pamong_id']?>" <?= selected($pamong_ttd['pamong_id'], $data['pamong_id'])?>><?= $data['pamong_nama']?> (<?= $data['pamong_jabatan']?>)</option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="control-label">Pamong Mengetahui</label>
-            <select class="form-control input-sm jenis_link select2 required" name="pamong_ketahui">
-                <option value="">Pilih Staf Mengetahui</option>
-                <?php foreach ($pamong as $data): ?>
-                    <option value="<?= $data['pamong_id']?>" <?= selected($pamong_ketahui['pamong_id'], $data['pamong_id'])?>><?= $data['pamong_nama']?> (<?= $data['pamong_jabatan']?>)</option>
-                <?php endforeach; ?>
-            </select>
-        </div>
+        <?php if ($pamong): ?>
+            <div class="form-group">
+                <label class="control-label">Pamong Tertanda</label>
+                <select class="form-control input-sm jenis_link select2 required" name="pamong_ttd">
+                    <option value="">Pilih Staf Penandatangan</option>
+                    <?php foreach ($pamong as $data): ?>
+                        <option value="<?= $data['pamong_id']?>" <?= selected($pamong_ttd['pamong_id'], $data['pamong_id'])?>><?= $data['pamong_nama']?> (<?= $data['pamong_jabatan']?>)</option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Pamong Mengetahui</label>
+                <select class="form-control input-sm jenis_link select2 required" name="pamong_ketahui">
+                    <option value="">Pilih Staf Mengetahui</option>
+                    <?php foreach ($pamong as $data): ?>
+                        <option value="<?= $data['pamong_id']?>" <?= selected($pamong_ketahui['pamong_id'], $data['pamong_id'])?>><?= $data['pamong_nama']?> (<?= $data['pamong_jabatan']?>)</option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        <?php endif; ?>
     </div>
     <div class="modal-footer">
         <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>

@@ -54,38 +54,16 @@
 	}
 	</style>
 </head>
-
 <body>
 	<div id="container">
 		<!-- Print Body -->
 		<div id="body">
-			<div class="" align="center">
-				<h3> Buku Inventaris Dan Kekayaan <?= ucfirst($this->setting->sebutan_desa) . ' ' . ucfirst($header['nama_desa']) ?>
-					<br><?= 'Tahun ' . $tahun; ?>
-				</h3>
+			<div class="desa" align="center">
+				<h3>BUKU INVENTARIS DAN KEKAYAAN <?= strtoupper($this->setting->sebutan_desa . ' ' . $header['nama_desa'])?></h3>
+				<h3><?= strtoupper($this->setting->sebutan_kecamatan . ' ' . $header['nama_kecamatan'] . ' ' . $this->setting->sebutan_kabupaten . ' ' . $header['nama_kabupaten'])?></h3>
+				<h3><?= (! empty($tahun) && $tahun != 'semua') ? 'TAHUN ' . $tahun : '' ?></h3>
 				<br>
 			</div>
-			<div style="padding-bottom: 35px;">
-				<div class="pull-left" style="width: auto">
-					<table>
-						<tr>
-							<td><?= strtoupper($this->setting->sebutan_desa) ?></td>
-							<td style="padding-left: 10px"><?= strtoupper(' : ' . $header['nama_desa']) ?></td>
-						</tr>
-						<tr>
-							<td><?= strtoupper($this->setting->sebutan_kecamatan) ?></td>
-							<td style="padding-left: 10px"><?= strtoupper(' : ' . $header['nama_kecamatan']) ?></td>
-						</tr>
-						<tr>
-							<td><?= strtoupper($this->setting->sebutan_kabupaten) ?></td>
-							<td style="padding-left: 10px"><?= strtoupper(' : ' . $header['nama_kabupaten']) ?></td>
-						</tr>
-					</table>
-					<br>
-
-				</div>
-			</div>
-			<br>
 			<table id="example" class="list border thick">
 				<thead style="background-color:#f9f9f9;">
 					<tr>
@@ -168,9 +146,6 @@
 					<td colspan="14">&nbsp;</td>
 				</tr>
 				<tr>
-					<td colspan="14">&nbsp;</td>
-				</tr>
-				<tr>
 					<td colspan="2" width="10%">&nbsp;</td>
 					<td colspan="3" width="30%"></td>
 					<td colspan="5" width="55%"> </td>
@@ -185,13 +160,13 @@
 				<tr>
 					<td colspan="2" width="10%">&nbsp;</td>
 					<td colspan="3" width="30%">MENGETAHUI</td>
-					<td colspan="5" width="55%"></td>
+					<td colspan="5" width="55%"><?= strtoupper($header['nama_desa'] . ', ' . tgl_indo(date('Y m d'))) ?></td>
 					<td colspan="5" width="5%">&nbsp;</td>
 				</tr>
 				<tr>
 					<td colspan="2" width="10%">&nbsp;</td>
-					<td colspan="3" width="30%"><?= ucfirst($this->setting->sebutan_kepala_desa) . ' ' . ucfirst($header['nama_desa']) ?></td>
-					<td colspan="5" width="55%">Sekretaris <?= ucfirst($this->setting->sebutan_desa) . ' ' . ucfirst($header['nama_desa']) ?></td>
+					<td colspan="3" width="30%"><?= strtoupper($pamong_ketahui['jabatan'] . ' ' . $header['nama_desa']) ?></td>
+					<td colspan="5" width="55%"><?= strtoupper($pamong_ttd['jabatan'] . ' ' . $header['nama_desa']) ?></td>
 					<td colspan="5" width="5%">&nbsp;</td>
 				</tr>
 				<tr>
@@ -211,8 +186,8 @@
 				</tr>
 				<tr>
 					<td colspan="2" width="10%">&nbsp;</td>
-					<td colspan="3" width="30%">(<?= strtoupper($kades['nama'])?>)</td>
-					<td colspan="5" width="55%">(<?= strtoupper($sekdes['nama'])?>) </td>
+					<td colspan="3" width="30%"><?= strtoupper($pamong_ketahui['nama']) ?></td>
+					<td colspan="5" width="55%"><?= strtoupper($pamong_ttd['nama']) ?></td>
 					<td colspan="5" width="5%">&nbsp;</td>
 				</tr>
 			</table>

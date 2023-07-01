@@ -234,10 +234,10 @@
                                 </li>
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="<?= site_url('user_setting') ?>" data-remote="false" data-toggle="modal" data-title="Pengaturan Pengguna" data-target="#modalBox" class="btn bg-maroon btn-flat btn-sm">Profil</a>
+                                        <a href="<?= site_url('user_setting') ?>" data-remote="false" data-toggle="modal" data-title="Pengaturan Pengguna" data-target="#modalBox" class="btn bg-maroon btn-sm">Profil</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="<?= site_url('siteman/logout') ?>" class="btn bg-maroon btn-flat btn-sm">Keluar</a>
+                                        <a href="<?= site_url('siteman/logout') ?>" class="btn bg-maroon btn-sm">Keluar</a>
                                     </div>
                                 </li>
                             </ul>

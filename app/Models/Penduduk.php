@@ -39,8 +39,6 @@ namespace App\Models;
 
 use App\Traits\Author;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -115,6 +113,7 @@ class Penduduk extends BaseModel
         'jenisKelamin',
         'agama',
         'pendidikan',
+        'pendidikanKK',
         'pekerjaan',
         'wargaNegara',
         'golonganDarah',

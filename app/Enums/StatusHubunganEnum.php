@@ -37,6 +37,8 @@
 
 namespace App\Enums;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class StatusHubunganEnum
 {
     public const KEPALA_KELUARGA = 1;

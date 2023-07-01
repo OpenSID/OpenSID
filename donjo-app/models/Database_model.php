@@ -118,7 +118,8 @@ class Database_model extends MY_Model
         '23.03'   => ['migrate' => 'migrasi_2303_ke_2304', 'nextVersion' => '23.04'],
         '23.04'   => ['migrate' => 'migrasi_2304_ke_2305', 'nextVersion' => '23.05'],
         '23.05'   => ['migrate' => 'migrasi_2305_ke_2306', 'nextVersion' => '23.06'],
-        '23.06'   => ['migrate' => 'migrasi_2306_ke_2307', 'nextVersion' => null],
+        '23.06'   => ['migrate' => 'migrasi_2306_ke_2307', 'nextVersion' => '23.07'],
+        '23.07'   => ['migrate' => 'migrasi_2307_ke_2308', 'nextVersion' => null],
     ];
 
     // versi lain
@@ -217,7 +218,7 @@ class Database_model extends MY_Model
                 $migrate     = $versionMigrate[$nextVersion]['migrate'];
                 $nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
                 if (method_exists($this, $migrate)) {
-                    log_message('error', 'Jalankan ' . $migrate);
+                    log_message('notice', 'Jalankan ' . $migrate);
                     call_user_func(__NAMESPACE__ . '\\Database_model::' . $migrate);
                 } else {
                     $this->jalankan_migrasi($migrate);
@@ -252,7 +253,7 @@ class Database_model extends MY_Model
             Migrasi::where('versi_database', '=', VERSI_DATABASE)->update(['premium' => $this->session->daftar_migrasi]);
         }
 
-        log_message('error', 'Versi database sudah terbaru');
+        log_message('notice', 'Versi database sudah terbaru');
     }
 
     // Cek apakah migrasi perlu dijalankan
