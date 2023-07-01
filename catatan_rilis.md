@@ -1,5 +1,4 @@
-Di rilis ini, versi 2306.3.0 berisi penambahan [isi disini] dan perbaikan lain yang diminta Komunitas SID.
-Terima kasih pada [isi disini] yang terus berkontribusi.
+Di rilis ini, versi 2307.0.0 berisi penambahan surat tinymce dan perbaikan lain yang diminta Komunitas SID.
 
 #### Penambahan Fitur
 
@@ -31,7 +30,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 26. [#6781](https://github.com/OpenSID/OpenSID/issues/6781) Penyesuaian jumlah lampiran sesuai pengaturan pada surat TinyMCE.
 27. [#5770](https://github.com/OpenSID/OpenSID/issues/5770) Penambahan surat TinyMCE permohonan duplikat kelahiran.
 28. [#6092](https://github.com/OpenSID/OpenSID/issues/6092) Penambahan sumber data dinamis sebagai kode isian untuk TinyMCE.
-29. [#6228](https://github.com/OpenSID/OpenSID/issues/6228) Penmabahan surat TinyMCE permohonan perubahan kartu keluarga.
+29. [#6228](https://github.com/OpenSID/OpenSID/issues/6228) Penambahan surat TinyMCE permohonan perubahan kartu keluarga.
 
 #### Perbaikan BUG
 

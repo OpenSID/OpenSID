@@ -75,7 +75,7 @@ body:
       label: Versi OpenSID
       description: |
         Error ini terjadi di rilis/versi berapa? 
-        Rilis umum (mis. v21.03) atau premium (v21.03-premium)?
+        Rilis umum (mis. v2306.0.0) atau premium (mis. v2306.0.0-premium)?
     validations:
       required: true
 

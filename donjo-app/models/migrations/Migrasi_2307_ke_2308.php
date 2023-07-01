@@ -35,56 +35,19 @@
  *
  */
 
-use App\Models\UserGrup;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Main extends CI_Controller
+class Migrasi_2307_ke_2308 extends MY_Model
 {
-    public function __construct()
+    public function up()
     {
-        parent::__construct();
-        $this->load->model(['track_model', 'grup_model']);
-    }
+        $hasil = true;
 
-    public function index()
-    {
-        // Kalau sehabis periksa data, paksa harus login lagi
-        if ($this->session->periksa_data == 1) {
-            $this->user_model->logout();
-        }
+        // Migrasi fitur premium
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2308', false);
 
-        if (isset($_SESSION['siteman']) && $_SESSION['siteman'] == 1) {
-            $this->track_model->track_desa('main');
-            $this->load->model('user_model');
-            $grup = $this->user_model->sesi_grup($this->session->sesi);
+        status_sukses($hasil);
 
-            switch ($grup) {
-                case $this->user_model->id_grup(UserGrup::ADMINISTRATOR):
-                    redirect('hom_sid');
-
-                    // no break
-                case $this->user_model->id_grup(UserGrup::OPERATOR):
-                    redirect('hom_sid');
-
-                    // no break
-                case $this->user_model->id_grup(UserGrup::REDAKSI):
-                    redirect('web/clear');
-
-                    // no break
-                case $this->user_model->id_grup(UserGrup::KONTRIBUTOR):
-                    redirect('web/clear');
-
-                    // no break
-                default:
-                    $modul_awal = $this->grup_model->modul_awal($grup);
-                    redirect($modul_awal);
-            }
-        } elseif ($this->setting->offline_mode > 0) {
-            // Jika website hanya bisa diakses user, maka harus login dulu
-            redirect('siteman');
-        } else {
-            redirect('/');
-        }
+        return $hasil;
     }
 }

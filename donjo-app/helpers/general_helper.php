@@ -103,7 +103,7 @@ if (! function_exists('view')) {
                 'ci'           => get_instance(),
                 'auth'         => $CI->session->isAdmin,
                 'controller'   => $CI->controller,
-                'desa'         => identitas(),
+                'desa'         => $CI->header['desa'],
                 'list_setting' => $CI->list_setting,
                 'modul'        => $CI->header['modul'],
                 'modul_ini'    => $CI->modul_ini,

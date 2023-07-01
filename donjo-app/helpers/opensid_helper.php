@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2306.3.0');
+define('VERSION', '2307.0.0');
 
 /**
  * PREMIUM
@@ -58,7 +58,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023062571');
+define('VERSI_DATABASE', '2023073071');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1718,6 +1718,7 @@ if (! function_exists('getVariableName')) {
         return $variableName !== false ? $variableName : null;
     }
 }
+
 if (! function_exists('checkWebsiteAccessibility')) {
     function checkWebsiteAccessibility($url)
     {
@@ -1733,13 +1734,13 @@ if (! function_exists('checkWebsiteAccessibility')) {
         if ($headers) {
             $status = substr($headers[0], 9, 3);
             if ($status == '200') {
-                log_message('notice', 'Website dapat diakses');
-
                 return true;
             }
+
+            $status = "(Status: {$status})";
         }
 
-        log_message('notice', "Website tidak dapat diakses (Status: {$status})");
+        log_message('notice', "Website tidak dapat diakses {$status}");
 
         return false;
     }

@@ -35,56 +35,42 @@
  *
  */
 
-use App\Models\UserGrup;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Main extends CI_Controller
+class Migrasi_fitur_premium_2308 extends MY_model
 {
-    public function __construct()
+    public function up()
     {
-        parent::__construct();
-        $this->load->model(['track_model', 'grup_model']);
+        $hasil = true;
+
+        // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2307', false);
+        $hasil = $hasil && $this->migrasi_tabel($hasil);
+
+        return $hasil && $this->migrasi_data($hasil);
     }
 
-    public function index()
+    protected function migrasi_tabel($hasil)
     {
-        // Kalau sehabis periksa data, paksa harus login lagi
-        if ($this->session->periksa_data == 1) {
-            $this->user_model->logout();
-        }
+        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+    }
 
-        if (isset($_SESSION['siteman']) && $_SESSION['siteman'] == 1) {
-            $this->track_model->track_desa('main');
-            $this->load->model('user_model');
-            $grup = $this->user_model->sesi_grup($this->session->sesi);
+    // Migrasi perubahan data
+    protected function migrasi_data($hasil)
+    {
+        // Migrasi berdasarkan config_id
+        // $config_id = DB::table('config')->pluck('id')->toArray();
 
-            switch ($grup) {
-                case $this->user_model->id_grup(UserGrup::ADMINISTRATOR):
-                    redirect('hom_sid');
+        // foreach ($config_id as $id) {
+        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
+        // }
 
-                    // no break
-                case $this->user_model->id_grup(UserGrup::OPERATOR):
-                    redirect('hom_sid');
+        // Migrasi tanpa config_id
+        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+    }
 
-                    // no break
-                case $this->user_model->id_grup(UserGrup::REDAKSI):
-                    redirect('web/clear');
-
-                    // no break
-                case $this->user_model->id_grup(UserGrup::KONTRIBUTOR):
-                    redirect('web/clear');
-
-                    // no break
-                default:
-                    $modul_awal = $this->grup_model->modul_awal($grup);
-                    redirect($modul_awal);
-            }
-        } elseif ($this->setting->offline_mode > 0) {
-            // Jika website hanya bisa diakses user, maka harus login dulu
-            redirect('siteman');
-        } else {
-            redirect('/');
-        }
+    protected function migrasi_xxxxxxxxxx($hasil)
+    {
+        return $hasil;
     }
 }
