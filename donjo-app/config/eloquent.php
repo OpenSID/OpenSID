@@ -125,11 +125,17 @@ CursorPaginator::currentCursorResolver(static function ($cursorName = 'cursor') 
     return $this->getQuery()->toRawSql();
 });
 
-/**
- * Uncomment untuk listen semua query dari laravel database.
- */
-// \Illuminate\Support\Facades\Event::listen(\Illuminate\Database\Events\QueryExecuted::class, function ($query) {
-//     log_message('notice', $query->time . ' | ' . array_reduce($query->bindings, static function ($sql, $binding) {
-//         return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
-//     }, $query->sql));
-// });
+if (ENVIRONMENT == 'development') {
+    get_instance()->capsule  = $capsule;
+    get_instance()->queryOrm = [];
+
+    /**
+     * Uncomment untuk listen semua query dari laravel database.
+     */
+    \Illuminate\Support\Facades\Event::listen(\Illuminate\Database\Events\QueryExecuted::class, static function ($query) {
+        // log_message('error', array_reduce($query->bindings, static function ($sql, $binding) {
+        //     return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
+        // }, $query->sql));
+        get_instance()->queryOrm[] = $query;
+    });
+}
