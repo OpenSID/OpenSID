@@ -228,7 +228,7 @@ class Pamong extends BaseModel
      */
     public function scopeDaftar($query, $value = 1)
     {
-        return $query->where('pamong_status', StatusEnum::YA)
+        return $query->aktif()
             ->where('kehadiran', $value);
     }
 
@@ -254,5 +254,36 @@ class Pamong extends BaseModel
         }
 
         return $pamong_nama;
+    }
+
+    /**
+     * Scope query untuk pamong yang aktif
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeAktif($query)
+    {
+        return $query->where('pamong_status', StatusEnum::YA);
+    }
+
+    /**
+     * Scope query untuk pamong kecuali yang sudah digunakan di user
+     *
+     * @param Builder $query
+     * @param mixed   $id
+     *
+     * @return Builder
+     */
+    public function scopeBukanPengguna($query, $id = '')
+    {
+        return $query->whereNotIn('pamong_id', static function ($q) use ($id) {
+            if ($id) {
+                return $q->select(['pamong_id'])->where('id', '!=', $id)->whereNotNull('pamong_id')->from('user');
+            }
+
+            return $q->select(['pamong_id'])->whereNotNull('pamong_id')->from('user');
+        });
     }
 }

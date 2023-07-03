@@ -111,7 +111,7 @@ class Man_user extends Admin_Controller
 
         $data['user_group'] = UserGrup::get(['id', 'nama']);
         $data['akses']      = UserGrup::getGrupSistem();
-        $data['pamong']     = Pamong::selectData()->daftar()->get();
+        $data['pamong']     = Pamong::selectData()->aktif()->bukanPengguna($id)->get();
 
         $this->render('man_user/manajemen_user_form', $data);
     }
