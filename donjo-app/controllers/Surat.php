@@ -38,6 +38,7 @@
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
+use App\Enums\StatusHubunganEnum;
 use App\Enums\StatusSuratKecamatanEnum;
 use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
@@ -150,6 +151,33 @@ class Surat extends Admin_Controller
                 } else {
                     $data['individu'] = Penduduk::findOrFail($nik);
                     $data['anggota']  = null;
+                    if ($data['surat']->form_isian->data_orang_tua) {
+                        $data['ayah'] = Penduduk::where('nik', $data['individu']->ayah_nik)->first();
+                        $data['ibu']  = Penduduk::where('nik', $data['individu']->ibu_nik)->first();
+
+                        if (! $data['ayah'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
+                            $data['ayah'] = Penduduk::where('id_kk', $data['individu']->id_kk)
+                                ->where(static function ($query) {
+                                    $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                                        ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
+                                })
+                                ->where('sex', JenisKelaminEnum::LAKI_LAKI)
+                                ->first();
+                        }
+
+                        if (! $data['ibu'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
+                            $data['ibu'] = Penduduk::where('id_kk', $data['individu']->id_kk)
+                                ->where(static function ($query) {
+                                    $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                                        ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
+                                })
+                                ->where('sex', JenisKelaminEnum::PEREMPUAN)
+                                ->first();
+                        }
+
+                        $data['list_dokumen_ayah'] = empty($data['ayah']) ? null : $this->penduduk_model->list_dokumen($data['ayah']->id);
+                        $data['list_dokumen_ibu']  = empty($data['ibu']) ? null : $this->penduduk_model->list_dokumen($data['ibu']->id);
+                    }
                 }
             } else {
                 $data['individu'] = null;

@@ -125,6 +125,33 @@ class Surat_master extends Admin_Controller
 
         if ($id) {
             $suratMaster = FormatSurat::findOrFail($id);
+            // dd($suratMaster->form_isian->Pelapor);
+            // $kategori_nama   = [];
+            $kategori_isian        = [];
+            $data['kategori_nama'] = get_key_form_kategori($suratMaster->form_isian);
+            $filter_kategori       = collect($suratMaster->kode_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
+                // $kategori_nama[]                   = $item->kategori;
+                $kategori_isian[$item->kategori][] = $item;
+
+                return isset($item->kategori);
+            })->values();
+            // dd($kategori_isian);
+            // dd($data);
+            $data['kategori_isian'] = $kategori_isian;
+
+            $kategori_form = [];
+            $filter_form   = collect($suratMaster->form_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
+                $kategori_nama[]                   = $item->kategori;
+                $kategori_isian[$item->kategori][] = $item;
+
+                return isset($item->kategori);
+            })->values();
+
+            $data['kategori_isian'] = $kategori_isian;
+
+            $data['kode_isian'] = collect($suratMaster->kode_isian)->reject(static function ($item) {
+                return isset($item->kategori);
+            })->values();
 
             $kategori_isian        = [];
             $data['kategori_nama'] = get_key_form_kategori($suratMaster->form_isian);
@@ -264,6 +291,7 @@ class Surat_master extends Admin_Controller
 
     public function simpan_sementara()
     {
+        // dd($this->request);
         $this->redirect_hak_akses('u');
         $surat = FormatSurat::updateOrCreate(['id' => $this->request['id_surat']], static::validate($this->request));
         if ($surat) {
@@ -352,8 +380,9 @@ class Surat_master extends Admin_Controller
         }
 
         $formIsian = [
-            'data'     => $request['data_utama'] ?? 1,
-            'individu' => null,
+            'data'           => $request['data_utama'] ?? 1,
+            'individu'       => null,
+            'data_orang_tua' => $request['data_orang_tua'] ?? 0,
         ];
 
         if ($request['data_utama'] != 2) {
@@ -654,6 +683,12 @@ class Surat_master extends Admin_Controller
 
             $kode_isian = $this->tinymce->getFormatedKodeIsian($log_surat);
 
+            foreach ($daftar_kategori as $kategori) {
+                $log_surat['kategori'][$kategori] = null;
+            }
+
+            $kode_isian = $this->tinymce->getFormatedKodeIsian($log_surat);
+            // dd($kode_isian);
             return json($kode_isian);
         }
 

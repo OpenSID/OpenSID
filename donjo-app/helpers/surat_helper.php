@@ -307,7 +307,7 @@ function get_key_form_kategori($data)
     $result = [];
 
     foreach ($data as $key => $value) {
-        if ($key == 'data' || $key == 'individu') {
+        if ($key == 'data' || $key == 'individu' || $key == 'data_orang_tua') {
             continue;
         }
         $result[] = $key;

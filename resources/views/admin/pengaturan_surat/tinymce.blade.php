@@ -63,6 +63,16 @@
                                     </td>
                                 </tr>
 
+                                <tr id="orang-tua">
+                                    <td>Data Orang Tua</td>
+                                    <td>
+                                        <select id="data_orang_tua" class="form-control input-sm" name="data_orang_tua">
+                                            <option value="0" @selected(0 == $suratMaster->form_isian->data_orang_tua)>TIDAK</option>
+                                            <option value="1" @selected(1 == $suratMaster->form_isian->data_orang_tua)>YA</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
                                 <tr class="warga_desa">
                                     <td>Jenis Kelamin</td>
                                     <td>
@@ -263,6 +273,8 @@
                     console.log(utama_delete_btn);
                     var elsumberData = editElm[0].querySelector('.sumber-data')
                     var elkodeIsian = editElm[0].querySelector('.kode-isian')
+                    var elorangTua = editElm[0].querySelector('#orang-tua')
+                    elorangTua.remove()
                     // console.log(elkodeIsian);
                     if (elsumberData != null) {
                         // console.log(321);
