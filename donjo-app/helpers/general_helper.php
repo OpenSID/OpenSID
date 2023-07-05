@@ -628,7 +628,7 @@ if (! function_exists('checklist')) {
     {
         $view = '<td class="kotak padat tengah">';
         if ($kondisi_1 == $kondisi_2) {
-            $view .= '<img src="' . base_url('assets/images/check.png') . '" height="10" width="10"/>';
+            $view .= '<img src="' . FCPATH . 'assets/images/check.png' . '" height="10" width="10"/>';
         }
         $view .= '</td>';
 

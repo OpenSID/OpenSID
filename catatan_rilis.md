@@ -8,6 +8,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. [#6813](https://github.com/OpenSID/OpenSID/issues/6813) Perbaikan daftar pamong yang ditampilkan unik untuk pengaturan pengguna.
 3. [#6817](https://github.com/OpenSID/OpenSID/issues/6817) Perbaikan menampilkan data anak pada saat input KIA.
 4. [#6807](https://github.com/OpenSID/OpenSID/issues/6807) Perbaikan informasi kehadiran perangkat.
+5. [#6850](https://github.com/OpenSID/OpenSID/issues/6850) Tidak bisa cetak lampiran yang menggunakan gambar.
 
 #### Perubahan Teknis
 
