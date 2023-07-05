@@ -55,6 +55,8 @@ class Analisis_kategori extends Admin_Controller
         $this->session->asubmenu = 'analisis_kategori';
         $this->modul_ini         = 'analisis';
         $this->sub_modul_ini     = 'master-analisis';
+        $this->set_page          = ['20', '50', '100'];
+        $this->list_session      = ['cari', 'filter', 'state'];
     }
 
     public function clear()
@@ -70,19 +72,20 @@ class Analisis_kategori extends Admin_Controller
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
+        foreach ($this->list_session as $list) {
+            $data[$list] = $this->session->{$list} ?: '';
         }
 
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
+        $per_page = $this->input->post('per_page');
+        if (isset($per_page)) {
+            $this->session->per_page = $per_page;
         }
-        $data['per_page'] = $_SESSION['per_page'];
+        $data['func']     = 'index';
+        $data['set_page'] = $this->set_page;
+        $data['per_page'] = $this->session->per_page;
+        $data['paging']   = $this->analisis_kategori_model->paging($p, $o);
+        $data['main']     = $this->analisis_kategori_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 
-        $data['paging']          = $this->analisis_kategori_model->paging($p, $o);
-        $data['main']            = $this->analisis_kategori_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
         $data['keyword']         = $this->analisis_kategori_model->autocomplete();
         $data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 

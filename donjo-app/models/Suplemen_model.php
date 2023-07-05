@@ -111,7 +111,7 @@ class Suplemen_model extends MY_Model
             ->result_array();
     }
 
-    public function list_sasaran($id, $sasaran)
+    public function list_sasaran($id, $sasaran, $data = true)
     {
         $data = [];
 
@@ -119,13 +119,13 @@ class Suplemen_model extends MY_Model
             // Sasaran Penduduk
             case '1':
                 $data['judul'] = 'NIK / Nama Penduduk';
-                $data['data']  = $this->list_penduduk($id);
+                $data['data']  = $data ? $this->list_penduduk($id) : null;
                 break;
 
                 // Sasaran Keluarga
             case '2':
                 $data['judul'] = 'No.KK / Nama Kepala Keluarga';
-                $data['data']  = $this->list_kk($id);
+                $data['data']  = $data ? $this->list_kk($id) : null;
 
                 // no break
             default:

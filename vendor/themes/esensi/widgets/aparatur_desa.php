@@ -20,14 +20,16 @@
               <?php if ($data['pamong_niap']) : ?>
                 <span class="block"><?= $this->setting->sebutan_nip_desa ?> : <?= $data['pamong_niap'] ?></span>
               <?php endif ?>
-              <?php if ($data['status_kehadiran'] == 'hadir'): ?>
-                <span class="btn btn-primary w-auto mx-auto inline-block">Hadir</span>
-              <?php endif ?>
-              <?php if ($data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir'): ?>
+              <?php if ($data['kehadiran'] == 1) : ?>
+                <?php if ($data['status_kehadiran'] == 'hadir') : ?>
+                  <span class="btn btn-primary w-auto mx-auto inline-block">Hadir</span>
+                <?php endif ?>
+                <?php if ($data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir') : ?>
                   <span class="btn btn-danger w-auto mx-auto inline-block"><?= ucwords($data['status_kehadiran']); ?></span>
-              <?php endif ?>
-              <?php if ($data['tanggal'] != date('Y-m-d')): ?>
-                <span class="btn btn-danger w-auto mx-auto inline-block">Belum Rekam Kehadiran</span>
+                <?php endif ?>
+                <?php if ($data['tanggal'] != date('Y-m-d')) : ?>
+                  <span class="btn btn-danger w-auto mx-auto inline-block">Belum Rekam Kehadiran</span>
+                <?php endif ?>
               <?php endif ?>
             </div>
           <?php endif ?>

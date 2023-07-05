@@ -234,7 +234,8 @@ class Stunting extends Admin_Controller
         if ($id) {
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updateKia', $id);
-            $data['kia']        = KIA::findOrFail($id);
+            $data['kia']        = KIA::with('ibu')->findOrFail($id);
+            $data['ibu_text']   = 'NIK : ' . $data['kia']->ibu->nik . ' - ' . $data['kia']->ibu->nama . ' RT-' . $data['kia']->ibu->wilayah->rt . ', RW-' . $data['kia']->ibu->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $data['kia']->ibu->wilayah->dusun);
             $data['ibu']        = $data['ibu']->prepend(Penduduk::find($data['kia']->ibu_id));
             $data['anak']       = $data['anak']->where('id', '!=', $data['kia']->ibu_id)->prepend(Penduduk::find($data['kia']->anak_id));
         } else {
@@ -284,6 +285,8 @@ class Stunting extends Admin_Controller
 
     public function getAnak()
     {
+        $anakId = [];
+
         foreach (KiA::all() as $data) {
             $anakId[] = $data->anak_id ?? 0;
         }
@@ -291,13 +294,17 @@ class Stunting extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $ibu      = $this->input->get('ibu');
             $penduduk = Penduduk::find($ibu);
-            $anak     = Penduduk::where('id_kk', $penduduk->id_kk)
-                ->where('id', '!=', $ibu)->whereNotIn('id', $anakId)
-                ->whereIn('kk_level', [StatusHubunganEnum::ANAK, StatusHubunganEnum::CUCU, StatusHubunganEnum::FAMILI_LAIN])->where('tanggallahir', '>=', Carbon::now()
-                ->subYears(6))
-                ->get();
+            if ($penduduk) {
+                $anak = Penduduk::where('id_kk', $penduduk->id_kk)
+                    ->where('id', '!=', $ibu)->whereNotIn('id', $anakId)
+                    ->whereIn('kk_level', [StatusHubunganEnum::ANAK, StatusHubunganEnum::CUCU, StatusHubunganEnum::FAMILI_LAIN])->where('tanggallahir', '>=', Carbon::now()
+                    ->subYears(6))
+                    ->get();
 
-            return json($anak);
+                return json($anak);
+            }
+
+            return json(['tidak ada anak']);
         }
     }
 

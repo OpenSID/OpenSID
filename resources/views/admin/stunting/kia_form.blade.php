@@ -42,10 +42,10 @@
                                 placeholder="Masukkan nomor KIA" style="display: none" value="{{ $kia->no_kia }}" />
                         </div>
                     </div>
-                    <div class="form-group" style="display: {{ $kia->ibu_id == null ? '' : 'none'}}">
+                    <div class="form-group">
                         <label class="col-sm-3 control-label">Nama Ibu</label>
                         <div class="col-sm-9">
-                            <select class="form-control required input-sm select2" id="ibu" name="id_ibu" style="width:100%;">
+                            <select class="form-control required input-sm select2" id="ibu" name="id_ibu" style="width:100%;" data-placeholder="-- Cari NIK / Nama Ibu --">
                                 <option value="">-- Cari NIK / Nama Ibu --</option>
                             </select>
                         </div>
@@ -107,6 +107,26 @@
                 return markup;
             },
         });
+        
+        var idIbu = "{{$kia->ibu_id}}";
+        if(idIbu != undefined) {
+            var txtIbu = "{{$ibu_text}}";
+            var data = {
+                id: idIbu,
+                text: txtIbu
+            }
+            console.log(data);
+            var $select = $('#ibu');
+            var option = new Option(data.text, data.id, true, true);
+            $select.append(option).trigger('change');
+
+            $select.trigger({
+                type: 'select2:select',
+                params: {
+                    data: data
+                }
+            });
+        }
 
         $('#anak').on('change', function() {
             if (this.value == "") {
