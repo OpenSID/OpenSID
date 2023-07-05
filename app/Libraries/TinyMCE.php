@@ -541,6 +541,11 @@ class TinyMCE
                 'isian' => getFormatIsian('Alamat' . $prefix . ''),
                 'data'  => $penduduk->alamat_wilayah ?? '-',
             ],
+            [
+                'judul' => 'No KK' . $ortu,
+                'isian' => getFormatIsian('No_kK' . $prefix . ''),
+                'data'  => $penduduk->keluarga->no_kk,
+            ],
         ];
 
         if (empty($prefix)) {
