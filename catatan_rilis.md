@@ -12,3 +12,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 1. [#6744](https://github.com/OpenSID/OpenSID/issues/6744) Penambahan informasi query yang dihasilkan oleh eloquent pada develbar.
 2. [#1918](https://github.com/OpenSID/premium/issues/1918) Refaktor query pada Analisis_kategori_model.php
 3. [#1919](https://github.com/OpenSID/premium/issues/1919) Refaktor query pada Analisis_klasifikasi_model.php
+4. [#1916](https://github.com/OpenSID/premium/issues/1916) Refaktor query pada Analisis_periode_model.php
