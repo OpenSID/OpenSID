@@ -275,6 +275,18 @@ class Surat extends Admin_Controller
                 $log_surat['pengikut_surat'] = generatePengikut($pengikut, $keterangan);
             }
 
+            if (isset($log_surat['input']['id_pengikut_kis'])) {
+                $pengikut = Penduduk::whereIn('id', $log_surat['input']['id_pengikut_kis'])->get();
+                $kis      = [];
+
+                foreach ($pengikut as $anggota) {
+                    $kis[$anggota->id] = $log_surat['input']['kis'][$anggota->nik];
+                }
+
+                $log_surat['pengikut_kis']       = generatePengikutSuratKIS($pengikut);
+                $log_surat['pengikut_kartu_kis'] = generatePengikutKartuKIS($kis);
+            }
+
             // Lewati ganti kode_isian
             // return json($log_surat);
             $daftar_kategori = get_key_form_kategori($surat->form_isian);
@@ -786,6 +798,13 @@ class Surat extends Admin_Controller
                     $data['pengikut'] = $pengikut;
                 }
             }
+
+            if (preg_match('/\[pengikut_kis\]/i', $template)) {
+                $pengikut = $this->pengikutSuratKIS($data);
+                if ($pengikut) {
+                    $data['pengikut_kis'] = $pengikut;
+                }
+            }
         }
 
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
@@ -944,5 +963,10 @@ class Surat extends Admin_Controller
         }
 
         return $pengikut;
+    }
+
+    private function pengikutSuratKIS($data)
+    {
+        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
     }
 }

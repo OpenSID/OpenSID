@@ -896,6 +896,14 @@ class TinyMCE
                     'nama' => 'Pengikut Surat',
                     'kode' => '[pengikut_surat]',
                 ],
+                [
+                    'nama' => 'Pengikut KIS',
+                    'kode' => '[pengikut_kis]',
+                ],
+                [
+                    'nama' => 'Pengikut Kartu KIS',
+                    'kode' => '[pengikut_kartu_kis]',
+                ],
             ];
 
             $postStatis = collect($postStatis)
@@ -1085,6 +1093,12 @@ class TinyMCE
             }
             if (preg_match('/pengikut_surat/i', $key)) {
                 $result = str_replace($key, $data['pengikut_surat'] ?? '', $result);
+            }
+            if (preg_match('/pengikut_kartu_kis/i', $key)) {
+                $result = str_replace($key, $data['pengikut_kartu_kis'] ?? '', $result);
+            }
+            if (preg_match('/pengikut_kis/i', $key)) {
+                $result = str_replace($key, $data['pengikut_kis'] ?? '', $result);
             } else {
                 $result = case_replace($key, $value, $result);
             }

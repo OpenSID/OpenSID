@@ -109,7 +109,8 @@
                         </div>
                     @endif
                     
-                    @includeWhen(isset($pengikut), 'admin.surat.pengikut') 
+                    @includeWhen(isset($pengikut), 'admin.surat.pengikut')
+                    @includeWhen(isset($pengikut_kis), 'admin.surat.pengikut_kis') 
                 @endif
 
                 <div class="row jar_form">
