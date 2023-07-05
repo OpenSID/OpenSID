@@ -9,6 +9,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 3. [#6782](https://github.com/OpenSID/OpenSID/issues/6782) Penambahan kode isian perisitiwa kematian.
 4. [#5771](https://github.com/OpenSID/OpenSID/issues/5771) Penambahan surat TinyMCE keterangan kematian.
 5. [#6221](https://github.com/OpenSID/OpenSID/issues/6221) Penambahan surat TinyMCE keterangan untuk nikah warga non muslim.
+6. [#6218](https://github.com/OpenSID/OpenSID/issues/6218) Penambahan surat TinyMCE keterangan penghasilan ibu.
 
 #### Perbaikan BUG
 

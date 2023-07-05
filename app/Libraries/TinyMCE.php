@@ -307,7 +307,7 @@ class TinyMCE
             $sebutan_kepala_desa = setting('sebutan_kepala_desa');
             $sebutan_camat       = setting('sebutan_camat');
 
-            if (!empty($config->email_desa)) {
+            if (! empty($config->email_desa)) {
                 $alamat_desa  = "{$config->alamat_kantor} Email: {$config->email_desa} Kode Pos: {$config->kode_pos}";
                 $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos} <br> Website: {$config->website} Email: {$config->email_desa}";
             } else {
@@ -315,7 +315,7 @@ class TinyMCE
                 $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos}";
             }
 
-            if (null === $config->pamong()->pamong_nip && (!empty($config->pamong()->pamong_niap))) {
+            if (null === $config->pamong()->pamong_nip && (! empty($config->pamong()->pamong_niap))) {
                 $sebutan_nip_desa = setting('sebutan_nip_desa');
             } else {
                 $sebutan_nip_desa = 'NIP';
@@ -471,7 +471,7 @@ class TinyMCE
         $ortu     = null;
         $penduduk = null;
         // Data Umum
-        if (!empty($prefix)) {
+        if (! empty($prefix)) {
             $ortu   = ' ' . ucwords($prefix);
             $prefix = '_' . uclast($prefix);
         }
@@ -674,7 +674,7 @@ class TinyMCE
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
             $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
 
-            if (!$id_ayah && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+            if (! $id_ayah && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
                 $id_ayah = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where(static function ($query) {
                         $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
@@ -684,7 +684,7 @@ class TinyMCE
                     ->first()->id;
             }
 
-            if (!$id_ibu && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+            if (! $id_ibu && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
                 $id_ibu = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where(static function ($query) {
                         $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
@@ -1062,7 +1062,7 @@ class TinyMCE
             $pamong_nip       = $sebutan_nip_desa . ' : ' . $nip;
         } else {
             $sebutan_nip_desa = setting('sebutan_nip_desa');
-            if (!empty($niap_pamong)) {
+            if (! empty($niap_pamong)) {
                 $nip        = $niap_pamong;
                 $pamong_nip = $sebutan_nip_desa . ' : ' . $niap_pamong;
             } else {

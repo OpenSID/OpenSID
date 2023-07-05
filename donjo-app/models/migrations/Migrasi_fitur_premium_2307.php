@@ -192,7 +192,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
     protected function migrasi_2023061271($hasil)
     {
-        if (!$this->db->field_exists('foto', 'widget')) {
+        if (! $this->db->field_exists('foto', 'widget')) {
             $hasil = $hasil && $this->dbforge->add_column('widget', [
                 'foto' => [
                     'type'       => 'varchar',
@@ -209,7 +209,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
     {
         $fields = [];
 
-        if (!$this->db->field_exists('Kd_Bank', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Kd_Bank', 'keuangan_ta_spp')) {
             $fields['Kd_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -217,7 +217,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Nm_Bank', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Nm_Bank', 'keuangan_ta_spp')) {
             $fields['Nm_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -225,7 +225,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Nm_Penerima', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Nm_Penerima', 'keuangan_ta_spp')) {
             $fields['Nm_Penerima'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -233,7 +233,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Ref_Bayar', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Ref_Bayar', 'keuangan_ta_spp')) {
             $fields['Ref_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -241,7 +241,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
             $fields['Rek_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -249,7 +249,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Rek_Bank', 'keuangan_ta_spp')) {
             $fields['Rek_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -257,7 +257,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spp')) {
             $fields['Tgl_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -265,7 +265,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Validasi', 'keuangan_ta_spp')) {
+        if (! $this->db->field_exists('Validasi', 'keuangan_ta_spp')) {
             $fields['Validasi'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -282,7 +282,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
     protected function migrasi_2023061451($hasil)
     {
-        if (!$this->db->field_exists('slug', 'user_grup')) {
+        if (! $this->db->field_exists('slug', 'user_grup')) {
             $hasil = $hasil && $this->dbforge->add_column('user_grup', [
                 'slug' => [
                     'type'       => 'varchar',
@@ -2799,7 +2799,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
     protected function migrasi_2023062871($hasil)
     {
-        if (!$this->db->field_exists('margin_global', 'tweb_surat_format')) {
+        if (! $this->db->field_exists('margin_global', 'tweb_surat_format')) {
             $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', [
                 'margin_global' => [
                     'type'       => 'tinyint',
