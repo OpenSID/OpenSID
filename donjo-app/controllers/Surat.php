@@ -43,6 +43,7 @@ use App\Enums\StatusSuratKecamatanEnum;
 use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
+use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
@@ -144,18 +145,23 @@ class Surat extends Admin_Controller
             $data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], '/clear');
 
             // NIK => id
-            if (! empty($nik)) {
+            if (!empty($nik)) {
                 if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
                     $data['individu'] = $this->surat_model->get_penduduk($nik);
                     $data['anggota']  = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => true], true);
                 } else {
                     $data['individu'] = Penduduk::findOrFail($nik);
                     $data['anggota']  = null;
+
+                    if (in_array($data['surat']->form_isian->individu->status_dasar, LogPenduduk::PERISTIWA)) {
+                        $data['peristiwa'] = LogPenduduk::with('penduduk')->where('id_pend', $nik)->latest()->first();
+                    }
+
                     if ($data['surat']->form_isian->data_orang_tua) {
                         $data['ayah'] = Penduduk::where('nik', $data['individu']->ayah_nik)->first();
                         $data['ibu']  = Penduduk::where('nik', $data['individu']->ibu_nik)->first();
 
-                        if (! $data['ayah'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
+                        if (!$data['ayah'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
                             $data['ayah'] = Penduduk::where('id_kk', $data['individu']->id_kk)
                                 ->where(static function ($query) {
                                     $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
@@ -165,7 +171,7 @@ class Surat extends Admin_Controller
                                 ->first();
                         }
 
-                        if (! $data['ibu'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
+                        if (!$data['ibu'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
                             $data['ibu'] = Penduduk::where('id_kk', $data['individu']->id_kk)
                                 ->where(static function ($query) {
                                     $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
@@ -186,7 +192,7 @@ class Surat extends Admin_Controller
 
             // cek apakah surat itu memiliki form kategori ( saksi etc )
             $kategori = get_key_form_kategori($data['surat']['form_isian']);
-            if (! empty($kategori)) {
+            if (!empty($kategori)) {
                 $form_kategori   = [];
                 $kategori_isian  = [];
                 $filter_kategori = collect($data['surat']->kode_isian)->filter(static function ($item) use (&$kategori_isian) {
@@ -669,30 +675,30 @@ class Surat extends Admin_Controller
         switch ($url) {
             case 'surat_ket_kelahiran':
                 // surat_ket_kelahiran id-nya ibu atau bayi
-                if (! $id) {
+                if (!$id) {
                     $id = $_SESSION['id_ibu'];
                 }
-                if (! $id) {
+                if (!$id) {
                     $id = $_SESSION['id_bayi'];
                 }
                 break;
 
             case 'surat_ket_nikah':
                 // id-nya calon pasangan pria atau wanita
-                if (! $id) {
+                if (!$id) {
                     $id = $_POST['id_pria'];
                 }
-                if (! $id) {
+                if (!$id) {
                     $id = $_POST['id_wanita'];
                 }
                 break;
 
             case 'surat_kuasa':
                 // id-nya pemberi kuasa atau penerima kuasa
-                if (! $id) {
+                if (!$id) {
                     $id = $_POST['id_pemberi_kuasa'];
                 }
-                if (! $id) {
+                if (!$id) {
                     $id = $_POST['id_penerima_kuasa'];
                 }
                 break;
@@ -880,12 +886,12 @@ class Surat extends Admin_Controller
             // Cek lampiran desa
             $view_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/view.php';
 
-            if (! file_exists($view_lampiran[$i])) {
+            if (!file_exists($view_lampiran[$i])) {
                 $view_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/view.php';
             }
 
             $data_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/data.php';
-            if (! file_exists($data_lampiran[$i])) {
+            if (!file_exists($data_lampiran[$i])) {
                 $data_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/data.php';
             }
 
@@ -943,7 +949,7 @@ class Surat extends Admin_Controller
         $minUmur  = 18;
         $kk_level = $data['individu']['kk_level'];
         if ($kk_level == SHDKEnum::KEPALA_KELUARGA) {
-            if (! empty($data['anggota'])) {
+            if (!empty($data['anggota'])) {
                 $pengikut = $data['anggota']->filter(static function ($item) use ($minUmur) {
                     return $item->umur < $minUmur;
                 });

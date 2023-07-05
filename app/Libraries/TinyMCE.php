@@ -43,6 +43,7 @@ use App\Enums\StatusHubunganEnum;
 use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
+use App\Models\LogPenduduk;
 use App\Models\Pamong;
 use App\Models\Penduduk;
 use App\Models\Wilayah;
@@ -173,6 +174,10 @@ class TinyMCE
             'Anggota Keluarga' => $this->getIsianAnggotaKeluarga($data['id_pend']),
         ];
 
+        if (in_array($data['surat']->form_isian->individu->status_dasar, LogPenduduk::PERISTIWA)) {
+            $daftar_kode_isian['Peristiwa'] = $this->getIsianPeristiwa($data['id_pend']);
+        }
+
         // Penduduk Kategori
         foreach ($data['kategori'] as $key => $value) {
             $daftar_kode_isian[$key] = $this->getIsianPenduduk($value, $key);
@@ -302,7 +307,7 @@ class TinyMCE
             $sebutan_kepala_desa = setting('sebutan_kepala_desa');
             $sebutan_camat       = setting('sebutan_camat');
 
-            if (! empty($config->email_desa)) {
+            if (!empty($config->email_desa)) {
                 $alamat_desa  = "{$config->alamat_kantor} Email: {$config->email_desa} Kode Pos: {$config->kode_pos}";
                 $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos} <br> Website: {$config->website} Email: {$config->email_desa}";
             } else {
@@ -310,7 +315,7 @@ class TinyMCE
                 $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos}";
             }
 
-            if (null === $config->pamong()->pamong_nip && (! empty($config->pamong()->pamong_niap))) {
+            if (null === $config->pamong()->pamong_nip && (!empty($config->pamong()->pamong_niap))) {
                 $sebutan_nip_desa = setting('sebutan_nip_desa');
             } else {
                 $sebutan_nip_desa = 'NIP';
@@ -466,7 +471,7 @@ class TinyMCE
         $ortu     = null;
         $penduduk = null;
         // Data Umum
-        if (! empty($prefix)) {
+        if (!empty($prefix)) {
             $ortu   = ' ' . ucwords($prefix);
             $prefix = '_' . uclast($prefix);
         }
@@ -664,7 +669,7 @@ class TinyMCE
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
             $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
 
-            if (! $id_ayah && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+            if (!$id_ayah && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
                 $id_ayah = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where(static function ($query) {
                         $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
@@ -674,7 +679,7 @@ class TinyMCE
                     ->first()->id;
             }
 
-            if (! $id_ibu && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+            if (!$id_ibu && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
                 $id_ibu = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where(static function ($query) {
                         $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
@@ -874,6 +879,44 @@ class TinyMCE
         ];
     }
 
+    private function getIsianPeristiwa($id_penduduk = null)
+    {
+        $peristiwa = LogPenduduk::with('penduduk')->where('id_pend', $id_penduduk)->latest()->first();
+
+        return [
+            [
+                'judul' => 'Hari Kematian',
+                'isian' => getFormatIsian('Hari_kematiaN'),
+                'data'  => hari($peristiwa->tgl_peristiwa) ?? '-',
+            ],
+            [
+                'judul' => 'Tanggal Kematian',
+                'isian' => getFormatIsian('Tanggal_kematiaN'),
+                'data'  => tgl_indo($peristiwa->tgl_peristiwa) ?? '-',
+            ],
+            [
+                'judul' => 'Jam Kematian',
+                'isian' => getFormatIsian('Jam_kematiaN'),
+                'data'  => $peristiwa->jam_mati ?? '-',
+            ],
+            [
+                'judul' => 'Tempat Kematian',
+                'isian' => getFormatIsian('Tempat_kematiaN'),
+                'data'  => $peristiwa->meninggal_di ?? '-',
+            ],
+            [
+                'judul' => 'Penyebab Kematian',
+                'isian' => getFormatIsian('Penyebab_kematiaN'),
+                'data'  => $peristiwa->penyebab_kematian ?? '-',
+            ],
+            [
+                'judul' => 'Penolong Kematian',
+                'isian' => getFormatIsian('Penolong_kematiaN'),
+                'data'  => $peristiwa->yang_menerangkan ?? '-',
+            ],
+        ];
+    }
+
     private function getIsianPost($data = [])
     {
         // dd($data['surat']['kode_isian']);
@@ -1014,7 +1057,7 @@ class TinyMCE
             $pamong_nip       = $sebutan_nip_desa . ' : ' . $nip;
         } else {
             $sebutan_nip_desa = setting('sebutan_nip_desa');
-            if (! empty($niap_pamong)) {
+            if (!empty($niap_pamong)) {
                 $nip        = $niap_pamong;
                 $pamong_nip = $sebutan_nip_desa . ' : ' . $niap_pamong;
             } else {

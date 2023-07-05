@@ -61,6 +61,33 @@ class LogPenduduk extends BaseModel
     public const HILANG            = 4;
     public const BARU_PINDAH_MASUK = 5;
     public const TIDAK_TETAP_PERGI = 6;
+    public const PERISTIWA         = [2, 3, 4];
+
+    /**
+     * Static data penolong mati.
+     *
+     * @var array
+     */
+    public const PENOLONG_MATI = [
+        1 => 'Dokter',
+        2 => 'Tenaga Kesehatan',
+        3 => 'Kepolisian',
+        4 => 'Lainnya',
+    ];
+
+    /**
+     * Static data penyebab kematian.
+     *
+     * @var array
+     */
+    public const PENYEBAB_KEMATIAN = [
+        1 => 'Sakit biasa / tua',
+        2 => 'Wabah Penyakit',
+        3 => 'Kecelakaan',
+        4 => 'Kriminalitas',
+        5 => 'Bunuh Diri',
+        6 => 'Lainnya',
+    ];
 
     /**
      * The table associated with the model.
@@ -87,5 +114,25 @@ class LogPenduduk extends BaseModel
     public function penduduk()
     {
         return $this->belongsTo(Penduduk::class, 'id_pend', 'id');
+    }
+
+    /**
+     * Getter penolong mati.
+     *
+     * @return string
+     */
+    public function getYangMenerangkanAttribute()
+    {
+        return static::PENOLONG_MATI[$this->penolong_mati] ?? '';
+    }
+
+    /**
+     * Getter penolong mati.
+     *
+     * @return string
+     */
+    public function getPenyebabKematianAttribute()
+    {
+        return static::PENYEBAB_KEMATIAN[$this->sebab] ?? '';
     }
 }

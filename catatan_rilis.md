@@ -2,6 +2,12 @@ Di rilis ini, versi 2307.1.0 berisi [isi disini] dan perbaikan lain yang diminta
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
+#### Penambahan Fitur
+
+1. [#6783](https://github.com/OpenSID/OpenSID/issues/6783) Penambahan pengaturan dan tampilkan data orang tua.
+2. [#5903](https://github.com/OpenSID/OpenSID/issues/5903) Penambahan surat TinyMCE keterangan beda identitas KIS.
+3. [#6782](https://github.com/OpenSID/OpenSID/issues/6782) Penambahan kode isian perisitiwa kematian.
+
 #### Perbaikan BUG
 
 1. [#6567](https://github.com/OpenSID/OpenSID/issues/6567) Perbaikan font bookman old style tidak bisa rata kiri-kanan.
