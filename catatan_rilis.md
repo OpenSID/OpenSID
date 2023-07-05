@@ -7,6 +7,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 1. [#6783](https://github.com/OpenSID/OpenSID/issues/6783) Penambahan pengaturan dan tampilkan data orang tua.
 2. [#5903](https://github.com/OpenSID/OpenSID/issues/5903) Penambahan surat TinyMCE keterangan beda identitas KIS.
 3. [#6782](https://github.com/OpenSID/OpenSID/issues/6782) Penambahan kode isian perisitiwa kematian.
+4. [#5771](https://github.com/OpenSID/OpenSID/issues/5771) Penambahan surat TinyMCE keterangan kematian.
 
 #### Perbaikan BUG
 
