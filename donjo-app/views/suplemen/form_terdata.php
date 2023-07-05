@@ -24,13 +24,11 @@
 						<div class="form-group" >
 							<label for="terdata" class="col-sm-3 control-label"><?= $list_sasaran['judul']; ?></label>
 							<div class="col-sm-8">
-								<select class="form-control required" id="terdata" name="terdata" onchange="formAction('main')">
-									<?php foreach ($list_sasaran['data'] as $item): ?>
-										<?php if ($item['id'] !== ''): ?>
-											<option value="<?= $item['id']?>" <?= selected($individu['id'], $item['id']); ?>>Nama : <?= $item['nama'] . ' - ' . $item['info']; ?></option>
-										<?php endif; ?>
-									<?php endforeach; ?>
- 								</select>
+								<select class="form-control required" id="terdata" name="terdata" data-placeholder="-- Silahkan Masukkan <?= $list_sasaran['judul']; ?> --" onchange="formAction('main')">
+								<?php if ($individu): ?>
+									<option value="<?= $individu['id']?>" selected>Nama : <?= $individu['nama'] . ' - ' . strtoupper($individu['alamat'] . ' ' . 'RT/RW ' . $individu['rt'] . '/' . $individu['rw'] . ' - ' . setting('sebutan_dusun') . ' ' . $individu['dusun']); ?></option>
+								<?php endif; ?>
+								</select>
 							</div>
 						</div>
 					</form>
