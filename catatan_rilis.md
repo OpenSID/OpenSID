@@ -9,6 +9,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 3. [#6817](https://github.com/OpenSID/OpenSID/issues/6817) Perbaikan menampilkan data anak pada saat input KIA.
 4. [#6807](https://github.com/OpenSID/OpenSID/issues/6807) Perbaikan informasi kehadiran perangkat.
 5. [#6850](https://github.com/OpenSID/OpenSID/issues/6850) Tidak bisa cetak lampiran yang menggunakan gambar.
+6. [#6827](https://github.com/OpenSID/OpenSID/issues/6827) Perbaikan saat menambahkan kode/klasifikasi surat jika tidak tersedia pada daftar.
 
 #### Perubahan Teknis
 
