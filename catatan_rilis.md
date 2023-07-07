@@ -20,3 +20,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. [#1918](https://github.com/OpenSID/premium/issues/1918) Refaktor query pada Analisis_kategori_model.php
 3. [#1919](https://github.com/OpenSID/premium/issues/1919) Refaktor query pada Analisis_klasifikasi_model.php
 4. [#1916](https://github.com/OpenSID/premium/issues/1916) Refaktor query pada Analisis_periode_model.php
+5. [#6846](https://github.com/OpenSID/OpenSID/issues/6846) Penyesuian halaman periksa untuk OpenSID database gabungan.

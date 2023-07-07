@@ -86,11 +86,6 @@ class Periksa_model extends MY_Model
                 $calon                        = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
             }
 
-            // Tabel ref_persil_kelas dan tabel ref inventaris lain terhapus isinya
-            if ($db_error_code == 99001 && preg_match('/ref_persil_kelas|ref_persil_mutasi|ref_peruntukan_tanah_kas/', $db_error_message)) {
-                $this->periksa['masalah'][] = 'ref_inventaris_kosong';
-            }
-
             // pamong_id belum ada
             if ($db_error_code == 1406) {
                 $pos       = strpos($this->session->message_query, "CONCAT_WS('_', kode, id)");
@@ -204,24 +199,29 @@ class Periksa_model extends MY_Model
                 $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
             }
 
-            $zero_date_default_value = $this->deteksi_zero_date_default_value();
-            if (! empty($zero_date_default_value)) {
-                $this->periksa['masalah'][]               = 'zero_date_default_value';
-                $this->periksa['zero_date_default_value'] = $zero_date_default_value;
-            }
-
             // Error table doesn't exist
             if ($db_error_code === 1146) {
                 $calon_ini                  = $this->deteksi_table_doesnt_exist($db_error_message);
                 $this->periksa['masalah'][] = 'table_not_exist';
                 $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
             }
+        }
 
-            // Deteksi jabatan kades atau sekdes tidak ada
-            if (! empty($jabatan = $this->deteksi_jabatan())) {
-                $this->periksa['masalah'][]    = 'data_jabatan_tidak_ada';
-                $this->periksa['data_jabatan'] = $jabatan;
-            }
+        // Deteksi jabatan kades atau sekdes tidak ada
+        if (! empty($jabatan = $this->deteksi_jabatan())) {
+            $this->periksa['masalah'][]    = 'data_jabatan_tidak_ada';
+            $this->periksa['data_jabatan'] = $jabatan;
+        }
+
+        $zero_date_default_value = $this->deteksi_zero_date_default_value();
+        if (! empty($zero_date_default_value)) {
+            $this->periksa['masalah'][]               = 'zero_date_default_value';
+            $this->periksa['zero_date_default_value'] = $zero_date_default_value;
+        }
+
+        // Tabel ref_persil_kelas dan tabel ref inventaris lain terhapus isinya
+        if ($db_error_code == 99001 && preg_match('/ref_persil_kelas|ref_persil_mutasi|ref_peruntukan_tanah_kas/', $db_error_message)) {
+            $this->periksa['masalah'][] = 'ref_inventaris_kosong';
         }
 
         // Error invalid date
@@ -468,26 +468,33 @@ class Periksa_model extends MY_Model
     private function deteksi_jabatan()
     {
         $jabatan = [];
-        $user    = auth()->id ?? User::first()->id;
+        // perlu cek ketika insert ? apakah ada data jenis 1/2
+        // penggantian find ke where 'jenis'. cari data jabatan berdasarkan jenis. ?
 
-        // Cek jabatan kades
-        if (Schema::hasTable('ref_jabatan') && ! RefJabatan::find(RefJabatan::KADES)) {
-            $jabatan[] = [
-                'nama'       => 'Kepala ' . ucwords($this->getSetting('sebutan_desa')),
-                'jenis'      => RefJabatan::KADES,
-                'created_by' => $user,
-                'updated_by' => $user,
-            ];
-        }
+        if (Schema::hasTable('ref_jabatan')) {
+            $user = auth()->id ?? User::first()->id;
 
-        // Cek jabatan sekdes
-        if (Schema::hasTable('ref_jabatan') && ! RefJabatan::find(RefJabatan::SEKDES)) {
-            $jabatan[] = [
-                'nama'       => 'Sekretaris',
-                'jenis'      => RefJabatan::SEKDES,
-                'created_by' => $user,
-                'updated_by' => $user,
-            ];
+            // Cek jabatan kades
+            if (! kades()) {
+                $jabatan[] = [
+                    'config_id'  => identitas('id'),
+                    'nama'       => 'Kepala ' . ucwords($this->getSetting('sebutan_desa')),
+                    'jenis'      => RefJabatan::KADES,
+                    'created_by' => $user,
+                    'updated_by' => $user,
+                ];
+            }
+
+            // Cek jabatan sekdes
+            if (! sekdes()) {
+                $jabatan[] = [
+                    'config_id'  => identitas('id'),
+                    'nama'       => 'Sekretaris',
+                    'jenis'      => RefJabatan::SEKDES,
+                    'created_by' => $user,
+                    'updated_by' => $user,
+                ];
+            }
         }
 
         return $jabatan;
