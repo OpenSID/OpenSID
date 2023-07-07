@@ -12,6 +12,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 6. [#6827](https://github.com/OpenSID/OpenSID/issues/6827) Perbaikan saat menambahkan kode/klasifikasi surat jika tidak tersedia pada daftar.
 7. [#6838](https://github.com/OpenSID/OpenSID/issues/6838) Perbaikan ridirect stelah login dengan akses group home.
 8. [#6849](https://github.com/OpenSID/OpenSID/issues/6849) Perbaikan template surat tinymce keterangan penghasilan ayah.
+9. [#6815](https://github.com/OpenSID/OpenSID/issues/6815) Perbaikan sebutan pemerintah desa agar konsiten.
 
 #### Perubahan Teknis
 

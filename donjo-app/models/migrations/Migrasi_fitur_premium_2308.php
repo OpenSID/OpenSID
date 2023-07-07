@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -70,7 +71,7 @@ class Migrasi_fitur_premium_2308 extends MY_model
         }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023070651($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -98,6 +99,11 @@ class Migrasi_fitur_premium_2308 extends MY_model
         ];
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
+    }
+
+    protected function migrasi_2023070651($hasil)
+    {
+        return DB::table('widget')->where('judul', 'Aparatur Desa')->update(['judul' => '[Pemerintah Desa]']);
     }
 
     // Function Migrasi TinyMCE

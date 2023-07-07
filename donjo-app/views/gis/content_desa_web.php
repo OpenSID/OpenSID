@@ -32,7 +32,7 @@
 
 			<!-- statistik aparatur -->
 			<?php if (in_array('Aparatur Desa', $pengaturan)): ?>
-				<p><a href="<?= site_url('load_aparatur_desa'); ?>" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-title="Aparatur <?= ucwords($this->setting->sebutan_desa)?>" data-remote="false" data-toggle="modal" data-target="#modalKecil"><i class="fa fa-user"></i>&nbsp;&nbsp;Aparatur <?= ucwords($this->setting->sebutan_desa)?>&nbsp;&nbsp;</a></p>
+				<p><a href="<?= site_url('load_aparatur_desa'); ?>" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-title="<?= ucwords(setting('sebutan_pemerintah_desa')) ?>" data-remote="false" data-toggle="modal" data-target="#modalKecil"><i class="fa fa-user"></i>&nbsp;&nbsp;<?= ucwords(setting('sebutan_pemerintah_desa')) ?>&nbsp;&nbsp;</a></p>
 			<?php endif ?>
 		</div>
 	</div>
