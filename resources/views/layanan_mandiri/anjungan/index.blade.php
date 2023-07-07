@@ -359,7 +359,7 @@
         <div class="modal fade" id="aparatur" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="headmodal difle-c">
-                    <h1>Aparatur {{ setting('sebutan_desa') }}</h1>
+                    <h1>{{ ucwords(setting('sebutan_pemerintah_desa')) }}</h1>
                 </div>
                 <div class="modal-inner">
                     <div class="colscroll">
@@ -388,7 +388,7 @@
                                             </div>
                                         @endforeach
                                     @else
-                                        <h5>Pemerintah {{ ucwords(setting('sebutan_desa') . ' ' . $nama_desa) }} tidak
+                                        <h5>{{ ucwords(setting('sebutan_pemerintah_desa')) }} tidak
                                             tersedia.</h5>
                                     @endif
                                 </div>
