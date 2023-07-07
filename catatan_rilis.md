@@ -13,6 +13,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 7. [#6838](https://github.com/OpenSID/OpenSID/issues/6838) Perbaikan ridirect stelah login dengan akses group home.
 8. [#6849](https://github.com/OpenSID/OpenSID/issues/6849) Perbaikan template surat tinymce keterangan penghasilan ayah.
 9. [#6815](https://github.com/OpenSID/OpenSID/issues/6815) Perbaikan sebutan pemerintah desa agar konsiten.
+10. [#6840](https://github.com/OpenSID/OpenSID/issues/6840) Perbaikan pengaturan program DTKS.
 
 #### Perubahan Teknis
 
