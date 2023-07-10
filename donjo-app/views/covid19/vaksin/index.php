@@ -98,7 +98,7 @@
 															<th>Nama</th>
 															<th>No KK</th>
 															<th>Umur</th>
-															<th>Dusun</th>
+															<th><?= ucwords(setting('sebutan_dusun')) ?></th>
 															<th>Alamat</th>
 															<th>Keterangan</th>
 														</tr>

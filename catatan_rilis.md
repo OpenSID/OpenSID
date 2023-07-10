@@ -14,7 +14,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 8. [#6849](https://github.com/OpenSID/OpenSID/issues/6849) Perbaikan template surat tinymce keterangan penghasilan ayah.
 9. [#6815](https://github.com/OpenSID/OpenSID/issues/6815) Perbaikan sebutan pemerintah desa agar konsiten.
 10. [#6840](https://github.com/OpenSID/OpenSID/issues/6840) Perbaikan pengaturan program DTKS.
-11. [#6834](https://github.com/OpenSID/OpenSID/issues/6834) Perbaikan konsistensi penggunaan sebutan desa di beberapa modul.
+11. [#6834](https://github.com/OpenSID/OpenSID/issues/6834) Perbaikan sebutan desa agar konsiten.
+12. [#6835](https://github.com/OpenSID/OpenSID/issues/6835) Perbaikan sebutan dusun agar konsiten.
 
 
 #### Perubahan Teknis
