@@ -185,52 +185,6 @@
                 @include('admin.surat.konfirmasi_pemohon')
             @endif
 
-            @if ($ayah)
-                @php
-                    $individu = $ayah;
-                    $list_dokumen = $list_dokumen_ayah;
-                @endphp
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label text-red"><strong>DATA AYAH DARI DATABASE</strong></label>
-                </div>
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label">NIK</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control input-sm" value="{{ $ayah->nik }}" disabled>
-                    </div>
-                </div>
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label">Nama</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control input-sm" value="{{ $ayah->nama }}" disabled>
-                    </div>
-                </div>
-                @include('admin.surat.konfirmasi_pemohon')
-            @endif
-
-            @if ($ibu)
-                @php
-                    $individu = $ibu;
-                    $list_dokumen = $list_dokumen_ibu;
-                @endphp
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label text-red"><strong>DATA IBU DARI DATABASE</strong></label>
-                </div>
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label">NIK</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control input-sm" value="{{ $ibu->nik }}" disabled>
-                    </div>
-                </div>
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label">Nama</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control input-sm" value="{{ $ibu->nama }}" disabled>
-                    </div>
-                </div>
-                @include('admin.surat.konfirmasi_pemohon')
-            @endif
-
             {{-- kategori form --}}
             @if (isset($form_kategori))
                 @include('admin.surat.kategori_isian')
