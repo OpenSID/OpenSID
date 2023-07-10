@@ -157,27 +157,28 @@ class TinyMCE
 
     public function getFormatedKodeIsian($data = [], $withData = false)
     {
-        // dd($data);
+        $idPenduduk = $data['id_pend'];
+
         $daftar_kode_isian = [
             // Data Surat
             'Surat' => $this->getIsianSurat($data),
 
             // Data Identitas Desa
-            'Identitas Desa' => $this->getIsianIdentitas($data['id_pend'] ?? $data['nik_non_warga']),
+            'Identitas Desa' => $this->getIsianIdentitas($idPenduduk ?? $data['nik_non_warga']),
 
             // Data Dusun
             'Wilayah' => $this->getIsianWilayah(),
 
             // Data Penduduk Umum
-            'Penduduk' => $this->getIsianPenduduk($data['id_pend']),
+            'Penduduk' => $this->getIsianPenduduk($idPenduduk),
 
             // Data Anggota keluarga
-            'Anggota Keluarga' => $this->getIsianAnggotaKeluarga($data['id_pend']),
+            'Anggota Keluarga' => $this->getIsianAnggotaKeluarga($idPenduduk),
         ];
 
-        if (in_array($data['surat']->form_isian->individu->status_dasar, LogPenduduk::PERISTIWA)) {
-            $peristiwa                      = new KodeIsianPeristiwa($data['id_pend'], $data['surat']->form_isian->individu->status_dasar);
-            $daftar_kode_isian['Peristiwa'] = $peristiwa->get();
+        $perstiwa = $data['surat']->form_isian->individu->status_dasar;
+        if (in_array($perstiwa, LogPenduduk::PERISTIWA)) {
+            $daftar_kode_isian['Peristiwa'] = KodeIsianPeristiwa::get($idPenduduk, $perstiwa);
         }
 
         // Penduduk Kategori

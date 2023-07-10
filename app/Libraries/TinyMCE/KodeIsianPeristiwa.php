@@ -42,6 +42,7 @@ use App\Models\LogPenduduk;
 class KodeIsianPeristiwa
 {
     private $logPeristiwa;
+    private $statusDasar;
 
     public function __construct($idPenduduk, $statusDasar)
     {
@@ -49,11 +50,22 @@ class KodeIsianPeristiwa
         $this->logPeristiwa = LogPenduduk::where('id_pend', $idPenduduk)->latest()->first();
     }
 
-    public function get()
+    public static function get($idPenduduk, $statusDasar)
+    {
+        $kodeIsian = new self($idPenduduk, $statusDasar);
+
+        return $kodeIsian->kodeIsian();
+    }
+
+    public function kodeIsian()
     {
         switch ($this->statusDasar) {
             case LogPenduduk::MATI:
                 $data = $this->getKematian($this->logPeristiwa);
+                break;
+
+            case LogPenduduk::PINDAH_KELUAR:
+                $data = $this->getPindah($this->logPeristiwa);
                 break;
 
             case LogPenduduk::HILANG:
@@ -101,6 +113,27 @@ class KodeIsianPeristiwa
                 'judul' => 'Penolong Kematian',
                 'isian' => getFormatIsian('Penolong_kematiaN'),
                 'data'  => $peristiwa->yang_menerangkan,
+            ],
+        ];
+    }
+
+    private function getPindah($peristiwa)
+    {
+        return [
+            [
+                'judul' => 'Hari Pindah',
+                'isian' => getFormatIsian('Hari_pindaH'),
+                'data'  => hari($peristiwa->tgl_peristiwa),
+            ],
+            [
+                'judul' => 'Tanggal Pindah',
+                'isian' => getFormatIsian('Tanggal_pindaH'),
+                'data'  => tgl_indo($peristiwa->tgl_peristiwa),
+            ],
+            [
+                'judul' => 'Alamat Tujuan',
+                'isian' => getFormatIsian('Alamat_tujuaN'),
+                'data'  => $peristiwa->alamat_tujuan,
             ],
         ];
     }
