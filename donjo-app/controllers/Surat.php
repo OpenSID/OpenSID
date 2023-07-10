@@ -204,6 +204,14 @@ class Surat extends Admin_Controller
                 foreach ($kategori as $ktg) {
                     $form_kategori[$ktg]['form']       = $this->get_data_untuk_form($url, $data, $ktg);
                     $form_kategori[$ktg]['kode_isian'] = $kategori_isian[$ktg];
+                    $form_kategori[$ktg]['saksi']      = $this->input->post("id_pend_{$ktg}") ?? '';
+
+                    if (! empty($form_kategori[$ktg]['saksi'])) {
+                        $form_kategori[$ktg]["saksi_{$ktg}"] = Penduduk::findOrFail($form_kategori[$ktg]['saksi']);
+                    }
+
+                    $form_kategori[$ktg]["list_dokumen_{$ktg}"] = empty($form_kategori[$ktg]["saksi_{$ktg}"])
+                        ? null : $this->penduduk_model->list_dokumen($form_kategori[$ktg]["saksi_{$ktg}"]->id);
                 }
                 $filtered_kode_isian = collect($data['surat']->kode_isian)->reject(static function ($item) {
                     return isset($item->kategori);
