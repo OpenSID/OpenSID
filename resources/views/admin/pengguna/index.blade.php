@@ -45,16 +45,11 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#profil" data-toggle="tab">Profil</a></li>
-                    @if ($userData->id != super_admin() && config_item('demo_mode'))
-                        <li><a href="#sandi" data-toggle="tab">Sandi</a></li>
-                    @endif
+                    <li><a href="#sandi" data-toggle="tab">Sandi</a></li>
                 </ul>
                 <div class="tab-content">
                     @include('admin.pengguna.tab-profil')
-
-                    @if ($userData->id != super_admin() && config_item('demo_mode'))
-                        @include('admin.pengguna.tab-sandi')
-                    @endif
+                    @include('admin.pengguna.tab-sandi')
                 </div>
             </div>
         </div>
