@@ -35,11 +35,11 @@
 					<thead>
 						<tr class="border thick">
 							<th>NOMOR URUT</th>
-							<th>JENIS PERATURAN DI DESA</th>
+							<th>JENIS PERATURAN DI <?= strtoupper(setting('sebutan_desa')) ?></th>
 							<th>NOMOR DAN TANGGAL DITETAPKAN</th>
 							<th>TENTANG</th>
 							<th>URAIAN SINGKAT</th>
-							<th>TANGGAL KESEPAKATAN PERATURAN DESA</th>
+							<th>TANGGAL KESEPAKATAN PERATURAN <?= strtoupper(setting('sebutan_desa')) ?></th>
 							<th>NOMOR DAN TANGGAL DILAPORKAN</th>
 							<th>NOMOR DAN TANGGAL DIUNDANGKAN DALAM LEMBARAN <?=strtoupper($this->setting->sebutan_desa)?></th>
 							<th>NOMOR DAN TANGGAL DIUNDANGKAN DALAM BERITA <?=strtoupper($this->setting->sebutan_desa)?></th>
