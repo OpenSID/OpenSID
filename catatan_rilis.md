@@ -16,6 +16,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 10. [#6840](https://github.com/OpenSID/OpenSID/issues/6840) Perbaikan pengaturan program DTKS.
 11. [#6834](https://github.com/OpenSID/OpenSID/issues/6834) Perbaikan sebutan desa agar konsiten.
 12. [#6835](https://github.com/OpenSID/OpenSID/issues/6835) Perbaikan sebutan dusun agar konsiten.
+13. [#6833](https://github.com/OpenSID/OpenSID/issues/6833) Perbaikan sebutan kepala desa agar konsiten.
 
 
 #### Perubahan Teknis
