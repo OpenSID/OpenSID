@@ -40,6 +40,7 @@ namespace App\Libraries;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusHubunganEnum;
+use App\Libraries\TinyMCE\KodeIsianPeristiwa;
 use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
@@ -175,7 +176,8 @@ class TinyMCE
         ];
 
         if (in_array($data['surat']->form_isian->individu->status_dasar, LogPenduduk::PERISTIWA)) {
-            $daftar_kode_isian['Peristiwa'] = $this->getIsianPeristiwa($data['id_pend']);
+            $peristiwa                      = new KodeIsianPeristiwa($data['id_pend'], $data['surat']->form_isian->individu->status_dasar);
+            $daftar_kode_isian['Peristiwa'] = $peristiwa->get();
         }
 
         // Penduduk Kategori
@@ -880,44 +882,6 @@ class TinyMCE
                 'judul' => 'Nama Ibu',
                 'isian' => getFormatIsian('Klgx_nama_ibU'),
                 'data'  => $anggota ? $anggota->pluck('nama_ibu')->toArray() : '',
-            ],
-        ];
-    }
-
-    private function getIsianPeristiwa($id_penduduk = null)
-    {
-        $peristiwa = LogPenduduk::with('penduduk')->where('id_pend', $id_penduduk)->latest()->first();
-
-        return [
-            [
-                'judul' => 'Hari Kematian',
-                'isian' => getFormatIsian('Hari_kematiaN'),
-                'data'  => hari($peristiwa->tgl_peristiwa) ?? '-',
-            ],
-            [
-                'judul' => 'Tanggal Kematian',
-                'isian' => getFormatIsian('Tanggal_kematiaN'),
-                'data'  => tgl_indo($peristiwa->tgl_peristiwa) ?? '-',
-            ],
-            [
-                'judul' => 'Jam Kematian',
-                'isian' => getFormatIsian('Jam_kematiaN'),
-                'data'  => $peristiwa->jam_mati ?? '-',
-            ],
-            [
-                'judul' => 'Tempat Kematian',
-                'isian' => getFormatIsian('Tempat_kematiaN'),
-                'data'  => $peristiwa->meninggal_di ?? '-',
-            ],
-            [
-                'judul' => 'Penyebab Kematian',
-                'isian' => getFormatIsian('Penyebab_kematiaN'),
-                'data'  => $peristiwa->penyebab_kematian ?? '-',
-            ],
-            [
-                'judul' => 'Penolong Kematian',
-                'isian' => getFormatIsian('Penolong_kematiaN'),
-                'data'  => $peristiwa->yang_menerangkan ?? '-',
             ],
         ];
     }

@@ -15,6 +15,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 9. [#6222](https://github.com/OpenSID/OpenSID/issues/6222) Penambahan surat TinyMCE kuasa.
 10. [#5753](https://github.com/OpenSID/OpenSID/issues/5753) Penambahan surat TinyMCE pernyataan penguasaan fisik bidang tanah (SPORADIK).
 11. [#6825](https://github.com/OpenSID/OpenSID/issues/6825) Penambahan detail data penduduk pada surat TinyMCE untuk kasus data dinamis.
+12. [#6824](https://github.com/OpenSID/OpenSID/issues/6824) Penambahan kode isian surat TinyMCE untuk status penduduk hilang.
 
 #### Perbaikan BUG
 

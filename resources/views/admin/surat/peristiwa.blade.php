@@ -50,3 +50,20 @@
         </div>
     </div>
 @endif
+
+@if ($peristiwa->kode_peristiwa == 4)
+    <div class="form-group konfirmasi">
+        <label for="keperluan" class="col-sm-3 control-label">Hari / Tanggal Hilang</label>
+        <div class="col-sm-4">
+            <input class="form-control input-sm" type="text" value="{{ strtoupper(hari($peristiwa->tgl_peristiwa)) }}" disabled>
+        </div>
+        <div class="col-sm-2">
+            <div class="input-group input-group-sm date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input class="form-control input-sm" type="text" value="{{ strtoupper(tgl_indo($peristiwa->tgl_peristiwa)) }}" disabled>
+            </div>
+        </div>
+    </div>
+@endif
