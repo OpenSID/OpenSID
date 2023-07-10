@@ -224,6 +224,11 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alfanumerik, spasi dan strip");
 
+	jQuery.validator.addMethod("nama_surat", function(value, element) {
+		valid = /^[a-zA-Z0-9 ()\-]+$/i.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alfanumerik, spasi, strip, (, )");
+
 	jQuery.validator.addMethod("nama_produk", function(value, element) {
 		valid = /^[a-zA-Z0-9()&_:=°% \-]+$/i.test(value);
 		return this.optional(element) || valid;

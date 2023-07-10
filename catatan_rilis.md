@@ -12,7 +12,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 6. [#6218](https://github.com/OpenSID/OpenSID/issues/6218) Penambahan surat TinyMCE keterangan penghasilan ibu.
 7. [#6213](https://github.com/OpenSID/OpenSID/issues/6213) Penambahan surat TinyMCE keterangan izin orang tua/suami/istri.
 8. [#5922](https://github.com/OpenSID/OpenSID/issues/5922) Penambahan surat TinyMCE keterangan domisili untuk non-warga.
-9. [#6222](https://github.com/OpenSID/OpenSID/issues/6222) Penambahan surat TinyMCE Kuasa.
+9. [#6222](https://github.com/OpenSID/OpenSID/issues/6222) Penambahan surat TinyMCE kuasa.
+10. [#5753](https://github.com/OpenSID/OpenSID/issues/5753) Penambahan surat TinyMCE pernyataan penguasaan fisik bidang tanah (SPORADIK).
 
 #### Perbaikan BUG
 

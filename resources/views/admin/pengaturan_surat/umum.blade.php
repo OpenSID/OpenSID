@@ -35,7 +35,7 @@
                 <div class="col-sm-7">
                     <div class="input-group">
                         <span class="input-group-addon input-sm">Surat</span>
-                        <input type="text" class="form-control input-sm nama_terbatas required" id="nama"
+                        <input type="text" class="form-control input-sm nama_surat required" id="nama"
                             name="nama" placeholder="Nama Layanan" value="{{ $suratMaster->nama }}" />
                     </div>
                 </div>

@@ -58,7 +58,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023070571');
+define('VERSI_DATABASE', '2023070871');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -845,6 +845,12 @@ function cekNama($str)
 function nama_terbatas($str)
 {
     return preg_replace('/[^a-zA-Z0-9 \\-]/', '', $str);
+}
+
+// Nama surat hanya boleh berisi karakter alfanumerik, spasi, strip, (, )
+function nama_surat($str)
+{
+    return preg_replace('/[^a-zA-Z0-9 \\-\\(\\)]/', '', $str);
 }
 
 // Alamat hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, tanda petik, strip dan garis miring

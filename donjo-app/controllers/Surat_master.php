@@ -442,7 +442,7 @@ class Surat_master extends Admin_Controller
             }
         }
         $data = [
-            'nama'                => nama_terbatas($request['nama']),
+            'nama'                => nama_surat($request['nama']),
             'kode_surat'          => $request['kode_surat'],
             'masa_berlaku'        => $request['masa_berlaku'],
             'satuan_masa_berlaku' => $request['satuan_masa_berlaku'],
@@ -918,7 +918,7 @@ class Surat_master extends Admin_Controller
         // Pilih surat yang akan dibuat migrasinya
         $surat = FormatSurat::jenis(FormatSurat::TINYMCE)->find($simpan->id);
 
-        $nama_fuction = 'surat' . str_replace(' ', '', ucwords(str_replace('_', ' ', $surat->nama)));
+        $nama_fuction = 'surat' . str_replace(' ', '', ucwords(str_replace(['_', '(', ')'], ' ', $surat->nama)));
 
         $kode_isian     = json_encode($surat->kode_isian);
         $form_isian     = json_encode($surat->form_isian);
@@ -934,7 +934,7 @@ class Surat_master extends Admin_Controller
 
         $get_fuction = <<<EOS
             \$hasil = \$hasil && \$this->{$nama_fuction}(\$hasil, \$id);
-                        // Jalankan Migrasi TinyMCE'
+                        // Jalankan Migrasi TinyMCE
             EOS;
 
         $set_fuction = <<<EOS
