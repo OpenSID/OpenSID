@@ -19,7 +19,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 13. [#6833](https://github.com/OpenSID/OpenSID/issues/6833) Perbaikan sebutan kepala desa agar konsiten.
 14. [#6862](https://github.com/OpenSID/OpenSID/issues/6862) Perbaikan pengaturan rentang waktu kehadiran keluar.
 15. [#6873](https://github.com/OpenSID/OpenSID/issues/6873) Perbaikan pengecekan nama desa dengan karakter `/`, `(` dan `)`.
-
+16. [#6842](https://github.com/OpenSID/OpenSID/issues/6842) Perbaikan ambil data surat dari aplikasi OpenDK jika token belum ada.
 #### Perubahan Teknis
 
 1. [#6744](https://github.com/OpenSID/OpenSID/issues/6744) Penambahan informasi query yang dihasilkan oleh eloquent pada develbar.
