@@ -55,7 +55,7 @@ class Migrasi_fitur_premium_2308 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil;
     }
 
     // Migrasi perubahan data
@@ -65,18 +65,14 @@ class Migrasi_fitur_premium_2308 extends MY_model
         $config_id = DB::table('config')->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPenghasilanAyah($hasil, $id);
-            // Jalankan Migrasi TinyMCE''
+            // Jalankan Migrasi TinyMCE
         }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_2023070651($hasil);
-    }
+        $hasil = $hasil && $this->migrasi_2023070651($hasil);
 
-    protected function migrasi_xxxxxxxxxx($hasil)
-    {
-        return $hasil;
+        return $hasil && $this->migrasi_2023070652($hasil);
     }
 
     protected function suratKeteranganPenghasilanAyah($hasil, $id)
@@ -103,7 +99,19 @@ class Migrasi_fitur_premium_2308 extends MY_model
 
     protected function migrasi_2023070651($hasil)
     {
-        return DB::table('widget')->where('judul', 'Aparatur Desa')->update(['judul' => '[Pemerintah Desa]']);
+        DB::table('widget')->where('judul', 'Aparatur Desa')->update(['judul' => '[Pemerintah Desa]']);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023070652($hasil)
+    {
+        DB::table('setting_aplikasi')->where('key', 'rentang_waktu_kehadiran')->update([
+            'jenis'     => 'input',
+            'attribute' => 'class="bilangan required" placeholder="10" min="0" type="number"',
+        ]);
+
+        return $hasil;
     }
 
     // Function Migrasi TinyMCE
