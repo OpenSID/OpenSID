@@ -20,6 +20,9 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 14. [#6862](https://github.com/OpenSID/OpenSID/issues/6862) Perbaikan pengaturan rentang waktu kehadiran keluar.
 15. [#6873](https://github.com/OpenSID/OpenSID/issues/6873) Perbaikan pengecekan nama desa dengan karakter `/`, `(` dan `)`.
 16. [#6842](https://github.com/OpenSID/OpenSID/issues/6842) Perbaikan ambil data surat dari aplikasi OpenDK jika token belum ada.
+17. [#6863](https://github.com/OpenSID/OpenSID/issues/6863) Perbaikan validasi data keterangan pada data penduduk.
+
+
 #### Perubahan Teknis
 
 1. [#6744](https://github.com/OpenSID/OpenSID/issues/6744) Penambahan informasi query yang dihasilkan oleh eloquent pada develbar.
