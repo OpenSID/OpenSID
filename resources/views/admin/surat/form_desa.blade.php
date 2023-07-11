@@ -185,6 +185,29 @@
                 @include('admin.surat.konfirmasi_pemohon')
             @endif
 
+            @if ($pasangan)
+                @php
+                    $individu = $pasangan;
+                    $list_dokumen = $list_dokumen_pasangan;
+                @endphp
+                <div class="form-group ibu_desa">
+                    <label class="col-sm-3 control-label text-red"><strong>DATA {{ $pasangan->sex == 1 ? 'SUAMI' : 'ISTRI' }} DARI DATABASE</strong></label>
+                </div>
+                <div class="form-group ibu_desa">
+                    <label class="col-sm-3 control-label">NIK</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control input-sm" value="{{ $pasangan->nik }}" disabled>
+                    </div>
+                </div>
+                <div class="form-group ibu_desa">
+                    <label class="col-sm-3 control-label">Nama</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control input-sm" value="{{ $pasangan->nama }}" disabled>
+                    </div>
+                </div>
+                @include('admin.surat.konfirmasi_pemohon')
+            @endif
+
             {{-- kategori form --}}
             @if (isset($form_kategori))
                 @include('admin.surat.kategori_isian')

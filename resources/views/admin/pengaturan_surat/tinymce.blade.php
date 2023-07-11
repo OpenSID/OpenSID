@@ -73,6 +73,16 @@
                                     </td>
                                 </tr>
 
+                                <tr id="data-pasangan">
+                                    <td>Data Pasangan</td>
+                                    <td>
+                                        <select id="data_pasangan" class="form-control input-sm" name="data_pasangan">
+                                            <option value="0" @selected(0 == $suratMaster->form_isian->data_pasangan)>TIDAK</option>
+                                            <option value="1" @selected(1 == $suratMaster->form_isian->data_pasangan)>YA</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
                                 <tr class="warga_desa">
                                     <td>Jenis Kelamin</td>
                                     <td>
@@ -275,6 +285,8 @@
                     var elkodeIsian = editElm[0].querySelector('.kode-isian')
                     var elorangTua = editElm[0].querySelector('#orang-tua')
                     elorangTua.remove()
+                    var elpasangan = editElm[0].querySelector('#data-pasangan')
+                    elpasangan.remove()
                     // console.log(elkodeIsian);
                     if (elsumberData != null) {
                         // console.log(321);

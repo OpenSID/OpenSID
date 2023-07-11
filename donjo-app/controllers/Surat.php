@@ -184,6 +184,28 @@ class Surat extends Admin_Controller
                         $data['list_dokumen_ayah'] = empty($data['ayah']) ? null : $this->penduduk_model->list_dokumen($data['ayah']->id);
                         $data['list_dokumen_ibu']  = empty($data['ibu']) ? null : $this->penduduk_model->list_dokumen($data['ibu']->id);
                     }
+
+                    if ($data['surat']->form_isian->data_pasangan && in_array($data['individu']->kk_level, [1, 2, 3])) {
+                        $data['pasangan'] = Penduduk::where('id_kk', $data['individu']->id_kk)
+                            ->where(static function ($query) {
+                                $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                                    ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
+                            })
+                            ->where('sex', JenisKelaminEnum::PEREMPUAN)
+                            ->first();
+
+                        if ($data['individu']->sex == JenisKelaminEnum::PEREMPUAN) {
+                            $data['pasangan'] = Penduduk::where('id_kk', $data['individu']->id_kk)
+                                ->where(static function ($query) {
+                                    $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                                        ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
+                                })
+                                ->where('sex', JenisKelaminEnum::LAKI_LAKI)
+                                ->first();
+                        }
+
+                        $data['list_dokumen_pasangan'] = empty($data['pasangan']) ? null : $this->penduduk_model->list_dokumen($data['pasangan']->id);
+                    }
                 }
             } else {
                 $data['individu'] = null;
