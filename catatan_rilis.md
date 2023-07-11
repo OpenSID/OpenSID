@@ -18,7 +18,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 12. [#6835](https://github.com/OpenSID/OpenSID/issues/6835) Perbaikan sebutan dusun agar konsiten.
 13. [#6833](https://github.com/OpenSID/OpenSID/issues/6833) Perbaikan sebutan kepala desa agar konsiten.
 14. [#6862](https://github.com/OpenSID/OpenSID/issues/6862) Perbaikan pengaturan rentang waktu kehadiran keluar.
-
+15. [#6873](https://github.com/OpenSID/OpenSID/issues/6873) Perbaikan pengecekan nama desa dengan karakter `/`, `(` dan `)`.
 
 #### Perubahan Teknis
 
