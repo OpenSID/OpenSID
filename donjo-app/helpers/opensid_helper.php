@@ -1745,3 +1745,7 @@ if (! function_exists('checkWebsiteAccessibility')) {
         return false;
     }
 }
+
+function hapus_kab_kota($str) {
+  return preg_replace('/kab |kota /i', '', $str);
+}
