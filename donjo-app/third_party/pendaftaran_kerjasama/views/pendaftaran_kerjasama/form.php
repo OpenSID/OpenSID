@@ -167,7 +167,9 @@
                     </div>
                     <div class="box-footer">
                         <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-                        <button type="button" class="simpan btn btn-social btn-flat btn-info btn-sm pull-right" <?= in_array($status, [5, 6]) ? 'disabled' : '' ?>><i class="fa fa-check"></i> Simpan</button>
+                        <?php if (can('u')) : ?>
+                            <button type="button" class="simpan btn btn-social btn-flat btn-info btn-sm pull-right" <?= in_array($status, [5, 6]) ? 'disabled' : '' ?>><i class="fa fa-check"></i> Simpan</button>
+                        <?php endif ?>
                     </div>
                 </form>
             </div>

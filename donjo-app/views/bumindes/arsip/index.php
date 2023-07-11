@@ -77,7 +77,9 @@
                                                                 <a href="<?= site_url('bumindes_arsip/tindakan_lihat/') . $data['kategori'] . '/' . $data['id'] . '/lihat' ?>" target="_blank" class="btn bg-blue btn-flat btn-sm" title="Lihat Berkas"><i class="fa fa-eye">&nbsp;</i></a>
                                                                 <a href="<?= site_url('bumindes_arsip/tindakan_lihat/') . $data['kategori'] . '/' . $data['id'] . '/unduh' ?>" class="btn bg-black btn-flat btn-sm" title="Unduh Berkas"><i class="fa fa-download">&nbsp;</i></a>
                                                                 <?php endif ?>
-                                                                <a href="<?= site_url('bumindes_arsip/tindakan_ubah/') . $data['kategori'] . '/' . $data['id'] . '/' . $page . '/' . $o?>" class="btn bg-yellow btn-flat btn-sm" title="Ubah Lokasi Arsip" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Lokasi Arsip"><i class="fa fa-edit">&nbsp;</i></a>
+                                                                <?php if (can('u')) : ?>
+                                                                    <a href="<?= site_url('bumindes_arsip/tindakan_ubah/') . $data['kategori'] . '/' . $data['id'] . '/' . $page . '/' . $o?>" class="btn bg-yellow btn-flat btn-sm" title="Ubah Lokasi Arsip" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Lokasi Arsip"><i class="fa fa-edit">&nbsp;</i></a>
+                                                                <?php endif ?>
                                                                 <a href="<?= site_url($data['modul_asli'])?>" class="btn bg-green btn-flat btn-sm" title="Tampilkan di modul aslinya"><i class="fa fa-list">&nbsp;</i></a>
                                                             </td>
                                                             <td class="aksi"><?= $data['nomor_dokumen'] ?? '-' ?></td>

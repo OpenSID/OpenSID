@@ -119,7 +119,7 @@
 								<div class="box box-info">
 									<div class="box-header with-border">
 										<h3 class="box-title">File logs</h3>
-										<?php if ($files) : ?>
+										<?php if (can('h') && $files) : ?>
 											<div class="box-tools">
 												<span class="label pull-right"><input type="checkbox" id="checkall" class="checkall" />
 											</div>
@@ -132,10 +132,12 @@
 											<?php else : ?>
 												<?php foreach ($files as $file) : ?>
 													<li <?= jecho($currentFile, $file, 'class="active"'); ?>><a href="?f=<?= base64_encode($file); ?>">
-															<?= $file; ?>
+														<?= $file; ?>
+														<?php if (can('h')) : ?>
 															<span class="pull-right-container">
 																<span class="label pull-right"><input type="checkbox" class="checkbox" name="id_cb[]" value="<?= $file ?>" /></a></span>
-														</span>
+															</span>
+														<?php endif ?>
 													</li>
 												<?php endforeach ?>
 											<?php endif ?>
@@ -351,16 +353,20 @@
 												<h5><b>CACHE</b></h5>
 												<div class="input-group">
 													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('cache_path')) ?>*" readonly>
-													<span class="input-group-btn">
-														<a href="<?= site_url("{$this->controller}/cache_desa") ?>" class="btn btn-info btn-flat">Bersihkan</a>
-													</span>
+													<?php if (can('u')) : ?>
+														<span class="input-group-btn">
+															<a href="<?= site_url("{$this->controller}/cache_desa") ?>" class="btn btn-info btn-flat">Bersihkan</a>
+														</span>
+													<?php endif ?>
 												</div>
 												<hr>
 												<div class="input-group">
 													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('views_blade')) ?>*" readonly>
-													<span class="input-group-btn">
-														<a href="<?= site_url("{$this->controller}/cache_blade") ?>" class="btn btn-info btn-flat">Bersihkan</a>
-													</span>
+													<?php if (can('u')) : ?>
+														<span class="input-group-btn">
+															<a href="<?= site_url("{$this->controller}/cache_blade") ?>" class="btn btn-info btn-flat">Bersihkan</a>
+														</span>
+													<?php endif ?>
 												</div>
 											</div>
 										</div>
@@ -372,7 +378,9 @@
 												<div class="box-header">
 													<div>
 														<?php if ($check_permission): ?>
-															<a href="#" onclick="updatePermission(this)" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block " title="Set hak akses folder"><i class="fa fa-check"></i> Perbaiki hak akses folder</a>
+															<?php if (can('u')) : ?>
+																<a href="#" onclick="updatePermission(this)" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block " title="Set hak akses folder"><i class="fa fa-check"></i> Perbaiki hak akses folder</a>
+															<?php endif; ?>
 														<?php else: ?>
 															<div class="alert alert-info alert-dismissible">
 																<p>OS menggunakan Windows tidak membutuhkan cek permission</p>

@@ -37,7 +37,7 @@
     @include('admin.home.bantuan')
 
     <div class="row">
-        @if (can('u', 'wilayah'))
+        @if (can('b', 'wilayah'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-purple">
                     <div class="inner">
@@ -53,7 +53,7 @@
             </div>
         @endif
 
-        @if (can('u', 'penduduk'))
+        @if (can('b', 'penduduk'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-aqua">
                     <div class="inner">
@@ -69,7 +69,7 @@
             </div>
         @endif
 
-        @if (can('u', 'keluarga'))
+        @if (can('b', 'keluarga'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-green">
                     <div class="inner">
@@ -85,7 +85,7 @@
             </div>
         @endif
 
-        @if (can('u', 'keluar'))
+        @if (can('b', 'keluar'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-blue">
                     <div class="inner">
@@ -101,7 +101,7 @@
             </div>
         @endif
 
-        @if (can('u', 'kelompok'))
+        @if (can('b', 'kelompok'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-red">
                     <div class="inner">
@@ -117,7 +117,7 @@
             </div>
         @endif
 
-        @if (can('u', 'rtm'))
+        @if (can('b', 'rtm'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-gray">
                     <div class="inner">
@@ -133,7 +133,7 @@
             </div>
         @endif
 
-        @if (can('u', 'program_bantuan'))
+        @if (can('b', 'program_bantuan'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-yellow">
                     <div class="inner">
@@ -153,7 +153,7 @@
             </div>
         @endif
 
-        @if (can('u', 'mandiri'))
+        @if (can('b', 'mandiri'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box" style="background-color: #39CCCC;">
                     <div class="inner">

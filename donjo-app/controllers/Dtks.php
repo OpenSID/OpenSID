@@ -500,6 +500,8 @@ class Dtks extends Admin_Controller
      */
     public function delete($id)
     {
+        $this->redirect_hak_akses('h');
+
         $dtks = ModelDtks::find($id)->delete();
 
         return json(['message' => 'Berhasil'], 200);
