@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use App\Models\Migrasi;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -104,6 +105,7 @@ class Seeder extends CI_Model
         $this->database_model->impor_data_awal_analisis();
         $this->database_model->cek_migrasi(true);
         $this->isi_config();
+        Migrasi::latest('id')->first()->delete();
         session_destroy();
         log_message('notice', 'Selesai memasang data awal');
     }

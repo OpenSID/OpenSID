@@ -1342,7 +1342,7 @@ class Data_awal extends MY_Model
             [
                 'judul'      => 'Current Version',
                 'key'        => 'current_version',
-                'value'      => SettingAplikasi::where('key', 'current_version')->first()->value ?? '22.03',
+                'value'      => currentVersion(),
                 'keterangan' => 'Versi sekarang untuk migrasi',
                 'jenis'      => 'text',
                 'option'     => null,
