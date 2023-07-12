@@ -22,7 +22,6 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 16. [#6842](https://github.com/OpenSID/OpenSID/issues/6842) Perbaikan ambil data surat dari aplikasi OpenDK jika token belum ada.
 17. [#6863](https://github.com/OpenSID/OpenSID/issues/6863) Perbaikan validasi data keterangan pada data penduduk.
 18. [#6839](https://github.com/OpenSID/OpenSID/issues/6839) Perbaikan hak akses grup pada modul.
-19. [#2572](https://github.com/OpenSID/premium/issues/2572) Perbaikan sebutan kepala desa pada halaman maintenace.
 
 #### Perubahan Teknis
 
@@ -31,3 +30,5 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 3. [#1919](https://github.com/OpenSID/premium/issues/1919) Refaktor query pada Analisis_klasifikasi_model.php
 4. [#1916](https://github.com/OpenSID/premium/issues/1916) Refaktor query pada Analisis_periode_model.php
 5. [#6846](https://github.com/OpenSID/OpenSID/issues/6846) Penyesuian halaman periksa untuk OpenSID database gabungan.
+6. [#2572](https://github.com/OpenSID/premium/issues/2572) Penyesuian sebutan kepala desa pada halaman maintenace.
+7. [#6848](https://github.com/OpenSID/OpenSID/issues/6848) Penyesuian pasang baru melalui kode_desa melalui config.
