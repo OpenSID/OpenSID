@@ -131,7 +131,7 @@ class Seeder extends CI_Model
                 'kode_kecamatan'    => bilangan($desa->kode_kec),
                 'nama_kabupaten'    => ucwords(hapus_kab_kota(nama_terbatas($desa->nama_kab))),
                 'kode_kabupaten'    => bilangan($desa->kode_kab),
-                'nama_propinsi'     => nama_terbatas($desa->nama_prov),
+                'nama_propinsi'     => ucwords(nama_terbatas($desa->nama_prov)),
                 'kode_propinsi'     => bilangan($desa->kode_prov),
                 'nama_kepala_camat' => '',
                 'nip_kepala_camat'  => '',

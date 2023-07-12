@@ -1746,6 +1746,16 @@ if (! function_exists('checkWebsiteAccessibility')) {
     }
 }
 
-function hapus_kab_kota($str) {
-  return preg_replace('/kab |kota /i', '', $str);
+/**
+ * Hapus Kata 'Kab' atau 'Kota' dari nama kabupaten/kota
+ *
+ * Mengembalikan nama kabupaten/kota tanpa kata 'Kab' atau 'Kota'
+ *
+ * @return string
+ */
+if (! function_exists('hapus_kab_kota')) {
+    function hapus_kab_kota($str)
+    {
+        return preg_replace('/kab |kota /i', '', $str);
+    }
 }
