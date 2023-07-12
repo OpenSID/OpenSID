@@ -3531,19 +3531,17 @@ class Database_model extends MY_Model
     // TODO: Sederhanakan cara ini dengan membuat library
     protected function validasi($install = false)
     {
-        // Cek bagian ini hanya untuk pelanggan premium
-        if ($install || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
+        if (PREMIUM === false || $install || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
             return true;
         }
 
         if (empty($token = $this->setting->layanan_opendesa_token)) {
-            log_message('notice', 'Migrasi tidak dijalankan karena token pelanggan kosong / tidak valid.');
-            // bermasalah jika install baru
-            // exit('Migrasi tidak dijalankan karena token pelanggan kosong / tidak valid.');
+            $this->session->token_kosong = true;
 
-            return false;
+            redirect('token');
         }
 
+        $token        = $this->setting->layanan_opendesa_token;
         $tokenParts   = explode('.', $token);
         $tokenPayload = base64_decode($tokenParts[1], true);
         $jwtPayload   = json_decode($tokenPayload);
