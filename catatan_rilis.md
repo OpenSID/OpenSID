@@ -22,6 +22,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 16. [#6842](https://github.com/OpenSID/OpenSID/issues/6842) Perbaikan ambil data surat dari aplikasi OpenDK jika token belum ada.
 17. [#6863](https://github.com/OpenSID/OpenSID/issues/6863) Perbaikan validasi data keterangan pada data penduduk.
 18. [#6839](https://github.com/OpenSID/OpenSID/issues/6839) Perbaikan hak akses grup pada modul.
+19. [#2572](https://github.com/OpenSID/premium/issues/2572) Perbaikan sebutan kepala desa pada halaman maintenace.
 
 #### Perubahan Teknis
 
