@@ -1,4 +1,4 @@
-Di rilis ini, versi 2307.0.1 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2307.0.2 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
@@ -24,6 +24,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 18. [#6839](https://github.com/OpenSID/OpenSID/issues/6839) Perbaikan hak akses grup pada modul.
 19. [#6856](https://github.com/OpenSID/OpenSID/issues/6856) Perbaikan tidak bisa cetak surat TinyMCE yang menggunakan lampiran F-2.01.
 20. [#6851](https://github.com/OpenSID/OpenSID/issues/6851) Perbaikan duplikasi url_id setiap kali cetak surat yang sama.
+
 #### Perubahan Teknis
 
 1. [#6744](https://github.com/OpenSID/OpenSID/issues/6744) Penambahan informasi query yang dihasilkan oleh eloquent pada develbar.
