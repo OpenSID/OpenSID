@@ -829,6 +829,7 @@ class Surat extends Admin_Controller
         }
 
         $surat    = $data['surat'];
+        $input    = $data['input'];
         $config   = $this->header['desa'];
         $individu = $this->surat_model->get_data_surat($id);
         $lampiran = explode(',', strtolower($surat['lampiran']));
