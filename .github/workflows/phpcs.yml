@@ -15,7 +15,7 @@ jobs:
         php-versions: ['7.4']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     # Check if contains [ci skip] or Update catatan_rilis.md will be skip github action
-    if: "!contains(github.event.head_commit.message, '[ci skip]') || contains(github.event.head_commit.message, 'Update catatan_rilis.md')"
+    if: "!contains(github.event.head_commit.message, '[ci skip]') || !contains(github.event.head_commit.message, 'Update catatan_rilis.md')"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
