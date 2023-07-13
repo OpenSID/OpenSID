@@ -366,8 +366,8 @@
 			<td>:</td>
 			<?php for ($i=0; $i<1; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['sebab'][$i])): ?>
-						<?= $input['sebab'][$i];?>
+					<?php if (isset($input['alasan_permohonan'])): ?>
+						<?= $input['alasan_permohonan'];?>
 					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
