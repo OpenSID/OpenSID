@@ -28,6 +28,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 22. [#6871](https://github.com/OpenSID/OpenSID/issues/6871) Perbaikan input pada surat permohonan perubahan kk tidak muncul di lampiran F-1.16.
 23. [#6876](https://github.com/OpenSID/OpenSID/issues/6876) Perbaikan data umur pada log penduduk.
 24. [#6878](https://github.com/OpenSID/OpenSID/issues/6878) Perbaikan validasi ubah data modul.
+25. [#6877](https://github.com/OpenSID/OpenSID/issues/6877) Perbaikan validasi proses simpan yang menggunakan tombol enter.
 
 #### Perubahan Teknis
 
