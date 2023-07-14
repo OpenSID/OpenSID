@@ -26,7 +26,7 @@
     }
 </style>
 <div class="single_category wow fadeInDown">
-    <h2><span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Pemerintah <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']) ?></span></h2>
+    <h2><span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text"><?= ucwords(setting('sebutan_pemerintah_desa')) ?></span></h2>
 </div>
 
 <div class="box box-primary">
@@ -59,7 +59,7 @@
                     </div>
                 <?php endforeach ?>
             <?php else : ?>
-                <h5><?= ucwords(setting('sebutan_pemerintah_desa') . ' ' . $desa['nama_desa']) ?> tidak tersedia.</h5>
+                <h5><?= ucwords(setting('sebutan_pemerintah_desa')) ?> tidak tersedia.</h5>
             <?php endif ?>
         </div>
     </div>

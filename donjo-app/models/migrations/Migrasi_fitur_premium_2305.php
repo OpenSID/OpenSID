@@ -367,7 +367,9 @@ class Migrasi_fitur_premium_2305 extends MY_model
                         'kode_desa'      => $value->kode_desa ? bilangan($value->kode_desa) : '',
                         'kode_kecamatan' => $value->kode_kecamatan ? bilangan($value->kode_kecamatan) : '',
                         'kode_kabupaten' => $value->kode_kabupaten ? bilangan($value->kode_kabupaten) : '',
+                        'nama_kabupaten' => $value->nama_kabupaten ? ucwords(hapus_kab_kota(nama_terbatas($value->nama_kabupaten))) : '',
                         'kode_propinsi'  => $value->kode_propinsi ? bilangan($value->kode_propinsi) : '',
+                        'nama_propinsi'  => $value->nama_propinsi ? ucwords(nama_terbatas($value->nama_propinsi)) : '',
                     ]);
             }
         }

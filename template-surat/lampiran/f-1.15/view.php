@@ -122,8 +122,8 @@
 			<td>:</td>
 			<?php for ($i=0; $i<16; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['no_kk_semula'][$i])): ?>
-						<?= $input['no_kk_semula'][$i];?>
+					<?php if (isset($input['nomor_kartu_keluarga_semula'][$i])): ?>
+						<?= $input['nomor_kartu_keluarga_semula'][$i];?>
 					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
@@ -201,7 +201,7 @@
 		<tr>
 			<td colspan="10" class="kotak">5. Alasan Permohonan</td>
 			<td>:</td>
-			<td class="kotak"><?= $input['alasan_permohonan_id']?></td>
+			<td class="kotak"><?= $input['alasan_permohonan']?></td>
 			<td>&nbsp;</td>
 			<td colspan="16" class="left">1. Karena Membentuk Rumah Tangga Baru</td>
 			<td colspan="19" class="left">3. Lainnya</td>

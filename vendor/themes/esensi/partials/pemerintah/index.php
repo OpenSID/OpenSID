@@ -3,10 +3,10 @@
 <nav role="navigation" aria-label="navigation" class="breadcrumb">
     <ol>
         <li><a href="<?= site_url() ?>">Beranda</a></li>
-        <li aria-current="page">Pemerintah <?= NAMA_DESA ?></li>
+        <li aria-current="page"><?= ucwords(setting('sebutan_pemerintah_desa')) ?></li>
     </ol>
 </nav>
-<h1 class="text-h2">Pemerintah <?= NAMA_DESA ?></h1>
+<h1 class="text-h2"><?= ucwords(setting('sebutan_pemerintah_desa')) ?></h1>
 <?php if ($pemerintah) : ?>
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 py-5">
         <?php foreach ($pemerintah as $data) : ?>

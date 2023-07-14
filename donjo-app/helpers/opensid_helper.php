@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2307.1.0');
+define('VERSION', '2307.0.2');
 
 /**
  * PREMIUM
@@ -58,7 +58,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023070871');
+define('VERSI_DATABASE', '2023071251');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -832,7 +832,7 @@ function nama($str)
 
 function nama_desa($str)
 {
-    return preg_replace("/[^a-zA-Z '\\.,`\\-]/", '', strip_tags($str));
+    return preg_replace("/[^a-zA-Z '\\.,`\\-\\/\\(\\)]/", '', strip_tags($str));
 }
 
 // Cek  nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip
@@ -1749,5 +1749,19 @@ if (! function_exists('checkWebsiteAccessibility')) {
         log_message('notice', "Website tidak dapat diakses {$status}");
 
         return false;
+    }
+}
+
+/**
+ * Hapus Kata 'Kab' atau 'Kota' dari nama kabupaten/kota
+ *
+ * Mengembalikan nama kabupaten/kota tanpa kata 'Kab' atau 'Kota'
+ *
+ * @return string
+ */
+if (! function_exists('hapus_kab_kota')) {
+    function hapus_kab_kota($str)
+    {
+        return preg_replace('/kab |kota /i', '', $str);
     }
 }

@@ -111,13 +111,6 @@ class Pengguna extends Admin_Controller
         $pwMasihMD5 = (strlen(auth()->password) == 32) && (stripos(auth()->password, '$') === false) ? true : false;
 
         switch (true) {
-            case config_item('demo_mode'):
-                $respon = [
-                    'status' => false,
-                    'pesan'  => 'Sandi gagal diganti, <b>Demo</b> tidak bisa mengubah <b>Sandi</b>.',
-                ];
-                break;
-
             case empty($pass_lama) || empty($pass_baru) || empty($pass_baru1):
                 $respon = [
                     'status' => false,

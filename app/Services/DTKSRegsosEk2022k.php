@@ -1880,6 +1880,7 @@ class DTKSRegsosEk2022k
                 $pengaturan_program->update(['nilai_default' => $request[$form_input_name]]);
             } elseif ($request[$form_input_name] != '' && ! $pengaturan_program && (substr($form_input_name, -(strlen('default'))) !== 'default')) {
                 $to_be_inserted[] = [
+                    'config_id'       => identitas('id'),
                     'versi_kuisioner' => '2',
                     'kode'            => $form_input_name,
                     'target_table'    => $item[0],
@@ -1890,6 +1891,7 @@ class DTKSRegsosEk2022k
                 ];
             } elseif ($request[$form_input_name] != '' && ! $pengaturan_program && (substr($key, -(strlen('default'))) === 'default')) {
                 $to_be_inserted[] = [
+                    'config_id'       => identitas('id'),
                     'versi_kuisioner' => '2',
                     'kode'            => $form_input_name,
                     'target_table'    => $item[0],

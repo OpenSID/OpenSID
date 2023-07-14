@@ -225,15 +225,10 @@ class Web_Controller extends MY_Controller
 
     private function view_maintenance()
     {
-        $main         = $this->header;
-        $pamong_kades = Pamong::ttd('a.n')->first()->toArray();
+        $main                    = $this->header;
+        $pamong_kades['jabatan'] = kades()->nama;
 
-        // TODO : Gunakan view blade
-        if (file_exists(DESAPATH . 'offline_mode.php')) {
-            include DESAPATH . 'offline_mode.php';
-        } else {
-            include VIEWPATH . 'offline_mode.php';
-        }
+        include DESAPATH . 'offline_mode.php';
 
         exit();
     }

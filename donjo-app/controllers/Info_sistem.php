@@ -69,6 +69,8 @@ class Info_sistem extends Admin_Controller
 
     public function remove_log()
     {
+        $this->redirect_hak_akses('h');
+
         $path = config_item('log_path');
         $file = base64_decode($this->input->get('f'), true);
 
@@ -95,6 +97,8 @@ class Info_sistem extends Admin_Controller
 
     public function cache_desa()
     {
+        $this->redirect_hak_akses('u');
+
         $dir = config_item('cache_path');
 
         foreach (directory_map($dir) as $file) {
@@ -110,6 +114,8 @@ class Info_sistem extends Admin_Controller
 
     public function cache_blade()
     {
+        $this->redirect_hak_akses('u');
+
         $dir = config_item('cache_blade');
 
         foreach (directory_map($dir) as $file) {
@@ -125,6 +131,8 @@ class Info_sistem extends Admin_Controller
 
     public function set_permission_desa()
     {
+        $this->redirect_hak_akses('u');
+
         $dirs   = $_POST['folders'];
         $error  = [];
         $result = ['status' => 1, $message = 'Berhasil ubah permission folder desa'];

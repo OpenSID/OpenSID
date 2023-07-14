@@ -781,7 +781,7 @@ class User_model extends MY_Model
         }
         // Controller yang boleh diakses oleh semua pengguna yg telah login
 
-        if ($group && in_array($controller[0], ['user_setting', 'wilayah', 'notif', 'pengguna'])) {
+        if ($group && in_array($controller[0], ['notif', 'pengguna'])) {
             return true;
         }
 

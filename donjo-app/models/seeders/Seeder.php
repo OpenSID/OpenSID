@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use App\Models\Migrasi;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -104,6 +105,7 @@ class Seeder extends CI_Model
         $this->database_model->impor_data_awal_analisis();
         $this->database_model->cek_migrasi(true);
         $this->isi_config();
+        Migrasi::latest('id')->first()->delete();
         session_destroy();
         log_message('notice', 'Selesai memasang data awal');
     }
@@ -129,9 +131,9 @@ class Seeder extends CI_Model
                 'kode_desa'         => bilangan($kode_desa),
                 'nama_kecamatan'    => nama_terbatas($desa->nama_kec),
                 'kode_kecamatan'    => bilangan($desa->kode_kec),
-                'nama_kabupaten'    => nama_terbatas($desa->nama_kab),
+                'nama_kabupaten'    => ucwords(hapus_kab_kota(nama_terbatas($desa->nama_kab))),
                 'kode_kabupaten'    => bilangan($desa->kode_kab),
-                'nama_propinsi'     => nama_terbatas($desa->nama_prov),
+                'nama_propinsi'     => ucwords(nama_terbatas($desa->nama_prov)),
                 'kode_propinsi'     => bilangan($desa->kode_prov),
                 'nama_kepala_camat' => '',
                 'nip_kepala_camat'  => '',

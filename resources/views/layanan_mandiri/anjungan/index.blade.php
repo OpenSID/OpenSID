@@ -61,9 +61,10 @@
                         src="{{ asset('anjungan/images/icon/bukutamu.png') }}">
                     <p>Buku<br />Tamu</p>
                 </a>
+                <?php $pemerintah = explode(' ', ucwords(setting('sebutan_pemerintah_desa'))); ?>
                 <a class="topright-icon radius-4" data-bs-toggle="modal" data-bs-target="#aparatur"><img
                         src="{{ asset('anjungan/images/icon/aparatur.png') }}">
-                    <p>Aparatur<br />Desa</p>
+                    <p><?= $pemerintah[0] ?><br /><?= $pemerintah[1] ?></p>
                 </a>
                 <a class="topright-icon radius-4 popup" data-value="./layanan-mandiri/masuk"><img
                         src="{{ asset('anjungan/images/icon/mandiri.png') }}">
@@ -196,60 +197,72 @@
                                         <div class="article-box">
                                             <div id="slide-container">
                                                 <div id="slides">
-                                                    @for ($i = 0; $i < $arsip_terkini->count(); $i +=2)
-                                                     <article class="featured-article animated"> 
-                                                        <div class="mlr-10">
-                                                            <div class="grider mlr-min5">
-                                                                <div class="col-2">
-                                                                    <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i])) }}"
-                                                                        class="popup">
-                                                                        <div class="imagecrop-grid">
-                                                                            @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i]['gambar']))
-                                                                                <img
-                                                                                    src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i][gambar]) }}">
-                                                                            @else
-                                                                                <img
-                                                                                    src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
-                                                                            @endif
+                                                    @for ($i = 0; $i < $arsip_terkini->count(); $i += 2)
+                                                        <article class="featured-article animated">
+                                                            <div class="mlr-10">
+                                                                <div class="grider mlr-min5">
+                                                                    <div class="col-2">
+                                                                        <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i])) }}"
+                                                                            class="popup">
+                                                                            <div class="imagecrop-grid">
+                                                                                @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i]['gambar']))
+                                                                                    <img
+                                                                                        src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i][gambar]) }}">
+                                                                                @else
+                                                                                    <img
+                                                                                        src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
+                                                                                @endif
 
-                                                                            <div class="posting">
-                                                                                {{ tgl_indo($arsip_terkini[$i]['tgl_upload']) }}
+                                                                                <div class="posting">
+                                                                                    {{ tgl_indo($arsip_terkini[$i]['tgl_upload']) }}
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                        <h2>{{ \Illuminate\Support\Str::limit($arsip_terkini[$i]->judul, $limit = 75, $end = '...') }}
-                                                                        </h2>
-                                                                    </a>
-                                                                </div>
+                                                                            <h2>{{ \Illuminate\Support\Str::limit($arsip_terkini[$i]->judul, $limit = 75, $end = '...') }}
+                                                                            </h2>
+                                                                        </a>
+                                                                    </div>
 
-                                                                @if ($arsip_terkini[$i+1])
-                                                                <div class="col-2">
-                                                                    <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i+1])) }}"
-                                                                        class="popup">
-                                                                        <div class="imagecrop-grid">
-                                                                            @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i+1]['gambar']))
-                                                                                <img
-                                                                                    src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i+1][gambar]) }}">
-                                                                            @else
-                                                                                <img
-                                                                                    src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
-                                                                            @endif
+                                                                    @if ($arsip_terkini[$i + 1])
+                                                                        <div class="col-2">
+                                                                            <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i + 1])) }}"
+                                                                                class="popup">
+                                                                                <div class="imagecrop-grid">
+                                                                                    @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i + 1]['gambar']))
+                                                                                        <img
+                                                                                            src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i + 1][gambar]) }}">
+                                                                                    @else
+                                                                                        <img
+                                                                                            src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
+                                                                                    @endif
 
-                                                                            <div class="posting">
-                                                                                {{ tgl_indo($arsip_terkini[$i+1]['tgl_upload']) }}
-                                                                            </div>
+                                                                                    <div class="posting">
+                                                                                        {{ tgl_indo($arsip_terkini[$i + 1]['tgl_upload']) }}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <h2>{{ \Illuminate\Support\Str::limit($arsip_terkini[$i + 1]->judul, $limit = 75, $end = '...') }}
+                                                                                </h2>
+                                                                            </a>
                                                                         </div>
-                                                                        <h2>{{ \Illuminate\Support\Str::limit($arsip_terkini[$i+1]->judul, $limit = 75, $end = '...') }}
-                                                                        </h2>
-                                                                    </a>
+                                                                    @endif
                                                                 </div>
-                                                                @endif
                                                             </div>
+                                                        </article>
+                                                        <div class="button-slide difle-c">
+                                                            <button class="prev">
+                                                                <div class="slide-btn difle-c"><svg
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" />
+                                                                    </svg></div>
+                                                            </button>
+                                                            <button class="next">
+                                                                <div class="slide-btn difle-c"><svg
+                                                                        viewBox="0 0 24 24">
+                                                                        <path
+                                                                            d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                                                                    </svg></div>
+                                                            </button>
                                                         </div>
-                                                     </article>
-                                                     <div class="button-slide difle-c">
-                                                        <button class="prev"><div class="slide-btn difle-c"><svg viewBox="0 0 24 24"><path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" /></svg></div></button>
-                                                        <button class="next"><div class="slide-btn difle-c"><svg viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" /></svg></div></button>
-                                                    </div>
                                                     @endfor
                                                 </div>
                                             </div>
@@ -346,7 +359,7 @@
         <div class="modal fade" id="aparatur" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="headmodal difle-c">
-                    <h1>Aparatur {{ setting('sebutan_desa') }}</h1>
+                    <h1>{{ ucwords(setting('sebutan_pemerintah_desa')) }}</h1>
                 </div>
                 <div class="modal-inner">
                     <div class="colscroll">
@@ -375,7 +388,7 @@
                                             </div>
                                         @endforeach
                                     @else
-                                        <h5>Pemerintah {{ ucwords(setting('sebutan_desa') . ' ' . $nama_desa) }} tidak
+                                        <h5>{{ ucwords(setting('sebutan_pemerintah_desa')) }} tidak
                                             tersedia.</h5>
                                     @endif
                                 </div>

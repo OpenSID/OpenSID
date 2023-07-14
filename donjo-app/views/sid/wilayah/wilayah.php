@@ -20,7 +20,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<?php if ($this->CI->cek_hak_akses('u')): ?>
+						<?php if (can('u')): ?>
 							<a href="<?= site_url('wilayah/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Tambah <?= ucwords($this->setting->sebutan_dusun) ?></a>
 						<?php endif; ?>
 						<a href="<?= site_url("{$this->controller}/dialog/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data"><i class="fa fa-print "></i> Cetak</a>
@@ -77,15 +77,15 @@
 															<tr>
 																<td class="no_urut"><?= $data['no']?></td>
 																<td nowrap>
-																	<?php if ($this->CI->cek_hak_akses('u')): ?>
+																	<?php if (can('u')): ?>
 																		<a href="<?= site_url("wilayah/urut/dusun/{$paging->page}/{$data['id']}/1"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) && print 'disabled'; ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
 																		<a href="<?= site_url("wilayah/urut/dusun/{$paging->page}/{$data['id']}/2"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == 1 && $paging->page == $paging->start_link) && print 'disabled'; ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																	<?php endif; ?>
 																	<a href="<?= site_url("wilayah/sub_rw/{$data['id']}")?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Sub Wilayah"><i class="fa fa-list"></i></a>
-																	<?php if ($this->CI->cek_hak_akses('u')): ?>
+																	<?php if (can('u')): ?>
 																		<a href="<?= site_url("wilayah/form/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
 																	<?php endif; ?>
-																	<?php if ($this->CI->cek_hak_akses('h')): ?>
+																	<?php if (can('h')): ?>
 																		<a href="#" data-href="<?= site_url("wilayah/delete/dusun/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm <?= jecho($data['deletable'], 0, 'disabled') ?>" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif; ?>
 																	<div class="btn-group">

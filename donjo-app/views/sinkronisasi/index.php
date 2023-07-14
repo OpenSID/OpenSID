@@ -92,8 +92,10 @@
                                         <div class="form-group">
                                             <label for="token" class="col-sm-3 control-label"></label>
                                             <div class="col-sm-4">
+                                                <?php if(can('u')): ?>
                                                 <a class="btn btn-social btn-success btn-sm" id="btn_buat_key"><i class='fa fa-key'></i>Buat Key</a>
                                                 <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan Pengaturan</button>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </td>

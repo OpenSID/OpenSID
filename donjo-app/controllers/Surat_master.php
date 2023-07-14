@@ -171,8 +171,9 @@ class Surat_master extends Admin_Controller
                 return isset($item->kategori);
             })->values();
 
-            $data['action']      = 'Ubah';
-            $data['suratMaster'] = $suratMaster;
+            $data['action']           = 'Ubah';
+            $data['suratMaster']      = $suratMaster;
+            $data['klasifikasiSurat'] = KlasifikasiSurat::where('kode', $suratMaster->kode_surat)->first();
 
             if (in_array($suratMaster->jenis, FormatSurat::RTF)) {
                 $data['formAction'] = route('surat_master.update', $id);
@@ -204,7 +205,6 @@ class Surat_master extends Admin_Controller
         $data['simpan_sementara'] = site_url('surat_master/simpan_sementara');
         $data['masaBerlaku']      = FormatSurat::MASA_BERLAKU;
         $data['attributes']       = FormatSurat::ATTRIBUTES;
-        $data['klasifikasiSurat'] = KlasifikasiSurat::orderBy('kode')->enabled()->get(['kode', 'nama']);
         $data['pengaturanSurat']  = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
 
         return view('admin.pengaturan_surat.form', $data);

@@ -280,7 +280,7 @@ class Vaksin_covid extends Admin_Controller
         $rekap = ['total_v1' => 0, 'total_v2' => 0, 'total_v3' => 0, 'total_belum' => 0, 'detail' => []];
 
         foreach ($penduduk as $key => $value) {
-            $value->dusun = $value->dusun ?? 'Data Dusun Tidak Ada';
+            $value->dusun = $value->dusun ?? 'Data ' . ucwords(setting('sebutan_dusun')) . ' Tidak Ada';
             if (! isset($rekap['detail'][$value->dusun])) {
                 $rekap['detail'][$value->dusun] = ['vaksin_1' => 0, 'vaksin_2' => 0, 'vaksin_3' => 0, 'belum' => 0];
             }

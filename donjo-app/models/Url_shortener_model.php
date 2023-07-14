@@ -41,14 +41,9 @@ class Url_shortener_model extends MY_Model
 {
     public function url_pendek($log_surat = [])
     {
-        $urls_id = $log_surat['urls_id'];
+        $url = site_url("c1/{$log_surat['id']}");
+        $id  = $this->add_url($url);
 
-        if ($urls_id) {
-            $id = $urls_id;
-        } else {
-            $url = site_url("c1/{$log_surat['id']}");
-            $id  = $this->add_url($url);
-        }
         $urlData = $this->getUrlById($id);
 
         return [

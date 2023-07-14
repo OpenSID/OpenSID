@@ -35,6 +35,34 @@
  *
  */
 
+namespace App\Models;
+
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-echo view('admin.layouts.partials.sidebar');
+class Urls extends BaseModel
+{
+    use ConfigId;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'urls';
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+}

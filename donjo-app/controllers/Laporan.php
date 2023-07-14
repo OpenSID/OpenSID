@@ -241,6 +241,7 @@ class Laporan extends Admin_Controller
 
     public function perbaiki()
     {
+        $this->redirect_hak_akses('u');
         $this->laporan_bulanan_model->perbaikiLogKeluarga();
         redirect('laporan');
     }

@@ -98,11 +98,17 @@ class Web_widget_model extends MY_Model
             $this->db->where('isi !=', 'layanan_mandiri.php');
         }
 
-        return $this->config_id_exist($this->tabel)
+        $widget = $this->config_id_exist($this->tabel)
             ->where('enabled', 1)
             ->order_by('urut')
             ->get($this->tabel)
             ->result_array();
+
+        return collect($widget)->map(static function ($item) {
+            $item['judul'] = SebutanDesa($item['judul']);
+
+            return $item;
+        })->toArray();
     }
 
     private function search_sql()
@@ -154,7 +160,8 @@ class Web_widget_model extends MY_Model
         $j = $offset;
 
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['no'] = $j + 1;
+            $data[$i]['no']    = $j + 1;
+            $data[$i]['judul'] = SebutanDesa($data[$i]['judul']);
 
             if ($data[$i]['enabled'] == 1) {
                 $data[$i]['aktif'] = 'Ya';

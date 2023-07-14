@@ -242,12 +242,16 @@ class Statistik extends Admin_Controller
 
     public function rentang_insert()
     {
+        $this->redirect_hak_akses('h');
+
         $data['insert'] = $this->laporan_penduduk_model->insert_rentang();
         redirect('statistik/rentang_umur');
     }
 
     public function rentang_update($id = 0)
     {
+        $this->redirect_hak_akses('u');
+
         $this->laporan_penduduk_model->update_rentang($id);
         redirect('statistik/rentang_umur');
     }

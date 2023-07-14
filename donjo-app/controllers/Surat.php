@@ -47,6 +47,7 @@ use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
+use App\Models\Urls;
 use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
@@ -474,6 +475,9 @@ class Surat extends Admin_Controller
             }
 
             if ($preview) {
+                // TODO: gunakan relasi
+                Urls::destroy($surat->urls_id);
+                log_message('error', 'Preview surat berhasil. ' . $surat->urls_id);
                 LogSurat::destroy($id);
             } else {
                 // Jika verifikasi sekdes atau verifikasi kades di non-aktifkan
@@ -908,6 +912,7 @@ class Surat extends Admin_Controller
         }
 
         $surat    = $data['surat'];
+        $input    = $data['input'];
         $config   = $this->header['desa'];
         $individu = $this->surat_model->get_data_surat($id);
         $lampiran = explode(',', strtolower($surat['lampiran']));

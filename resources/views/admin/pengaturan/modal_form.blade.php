@@ -13,9 +13,12 @@
                         @endforeach
                     </select>
                 @elseif ($pengaturan->jenis == 'multiple-option')
-                    <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
+                    <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]"
+                        multiple="multiple">
                         @foreach ($pengaturan->option as $val)
-                            <option value="{{ $val }}" {{ in_array($val, json_decode($pengaturan->value)) ? 'selected' : '' }}>{{ $val }}</option>
+                            <option value="{{ $val }}"
+                                {{ in_array($val, json_decode($pengaturan->value)) ? 'selected' : '' }}>
+                                {{ $val }}</option>
                         @endforeach
                     </select>
                 @elseif ($pengaturan->jenis == 'datetime')
@@ -50,7 +53,8 @@
                     <input {!! $pengaturan->attribute
                         ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute)
                         : 'class="form-control input-sm"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}"
-                        type="text" value="{{ $pengaturan->value }}" />
+                        {{ strpos($pengaturan->attribute, 'type=') ? '' : 'type="text"' }}
+                        value="{{ $pengaturan->value }}" />
                 @endif
                 <label><code>{!! $pengaturan->keterangan !!}</code></label>
             </div>

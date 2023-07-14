@@ -663,6 +663,9 @@ class Keluar extends Admin_Controller
 
     private function data_kecamatan()
     {
+        if (empty($this->setting->api_opendk_key)) {
+            return null;
+        }
         $desa = kode_wilayah($this->header['desa']['kode_desa']);
 
         try {

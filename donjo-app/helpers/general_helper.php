@@ -103,7 +103,7 @@ if (! function_exists('view')) {
                 'ci'           => get_instance(),
                 'auth'         => $CI->session->isAdmin,
                 'controller'   => $CI->controller,
-                'desa'         => $CI->header['desa'],
+                'desa'         => identitas(),
                 'list_setting' => $CI->list_setting,
                 'modul'        => $CI->header['modul'],
                 'modul_ini'    => $CI->modul_ini,
@@ -318,7 +318,11 @@ if (! function_exists('parsedown')) {
 if (! function_exists('SebutanDesa')) {
     function SebutanDesa($params = null)
     {
-        return str_replace(['[Desa]', '[desa]'], ucwords(setting('sebutan_desa')), $params);
+        return str_replace(
+            ['[Desa]', '[desa]', '[Pemerintah Desa]'],
+            [ucwords(setting('sebutan_desa')), ucwords(setting('sebutan_desa')), ucwords(setting('sebutan_pemerintah_desa'))],
+            $params
+        );
     }
 }
 
