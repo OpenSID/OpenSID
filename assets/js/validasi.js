@@ -254,6 +254,11 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter numerik dan titik");
 
+	jQuery.validator.addMethod("strip_tags", function(value, element) {
+		var strippedText = value.replace(/<\/?[^>]+(>|$)/g, "");
+		return strippedText === value;
+	}, "Tidak boleh mengandung tag HTML");
+
 	$('.bilangan_titik').each(function() {
 		$(this).rules("add",
 			{
