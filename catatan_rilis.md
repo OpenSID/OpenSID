@@ -32,6 +32,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 26. [#6889](https://github.com/OpenSID/OpenSID/issues/6889) Perbaikan tampilan datatables untuk jumlah kolom yang kurang.
 27. [#6881](https://github.com/OpenSID/OpenSID/issues/6881) Perbaikan login dengan username terlalu panjang.
 28. [#6888](https://github.com/OpenSID/OpenSID/issues/6888) Perbaikan detail data anggota keluarga yang tidak sesuai.
+29. [#6886](https://github.com/OpenSID/OpenSID/issues/6886) Perbaikan tidak melakukan pembaruan urutan pengurus ketika ubah data.
 
 
 #### Perubahan Teknis
