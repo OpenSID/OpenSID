@@ -35,6 +35,9 @@
  *
  */
 
+use App\Enums\SHDKEnum;
+use App\Models\Keluarga as ModelsKeluarga;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keluarga extends Admin_Controller
@@ -428,9 +431,15 @@ class Keluarga extends Admin_Controller
         $data['o']  = $o;
         $data['kk'] = $id;
 
-        $data['main']      = $this->keluarga_model->list_anggota($id);
-        $data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
-        $data['program']   = $this->program_bantuan_model->get_peserta_program(2, $data['kepala_kk']['no_kk']);
+        $kk            = ModelsKeluarga::with(['anggota'])->find($id) ?? show_404();
+        $data['no_kk'] = $kk->no_kk;
+        $data['main']  = $kk->anggota->map(static function ($item) {
+            $item->hubungan = $item->kk_level;
+
+            return $item;
+        })->toArray();
+        $data['kepala_kk'] = $kk->anggota->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->first();
+        $data['program']   = $this->program_bantuan_model->get_peserta_program(2, $kk->no_kk);
 
         $this->render('sid/kependudukan/keluarga_anggota', $data);
     }

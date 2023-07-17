@@ -30,7 +30,7 @@
 								<?php endif; ?>
 							<?php endif; ?>
 							<a href="<?= site_url("penduduk/cetak_biodata/{$penduduk['id']}")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Biodata" target="_blank"><i class="fa fa-print"></i>Cetak Biodata</a>
-							<?php if ($penduduk['status_dasar_id'] == 1 && ! empty($penduduk['id_kk'])): ?>
+							<?php if ($penduduk['no_kk'] && $penduduk['status_dasar_id'] == 1 && ! empty($penduduk['id_kk'])): ?>
 								<a href="<?= site_url("keluarga/anggota/{$p}/{$o}/{$penduduk['id_kk']}")?>" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Anggota Keluarga" ><i class="fa fa-users"></i> Anggota Keluarga</a>
 							<?php endif; ?>
 							<?php if (can('u')): ?>

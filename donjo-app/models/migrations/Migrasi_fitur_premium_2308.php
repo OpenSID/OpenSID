@@ -36,6 +36,9 @@
  */
 
 use App\Enums\StatusEnum;
+use App\Models\Config;
+use App\Models\Keluarga;
+use App\Models\Penduduk;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -66,6 +69,7 @@ class Migrasi_fitur_premium_2308 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->suratKeteranganPenghasilanAyah($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023071551($hasil, $id);
             // Jalankan Migrasi TinyMCE
         }
 
@@ -118,6 +122,70 @@ class Migrasi_fitur_premium_2308 extends MY_model
     protected function migrasi_2023070653($hasil)
     {
         return $this->db->query('ALTER TABLE login_attempts MODIFY COLUMN username VARCHAR(100) NOT NULL');
+    }
+
+    private function nokk_urutan($identitasDesa)
+    {
+        // buat jadi orm laravel
+        $digit = Keluarga::selectRaw('RIGHT(no_kk, 5) as digit')
+            ->withoutGlobalScope('App\Scopes\ConfigIdScope')
+            ->where('no_kk', 'like', '0' . $identitasDesa->kode_desa . '%')
+            ->where('no_kk', '!=', '0')
+            ->where('config_id', $identitasDesa->id)
+            ->orderByRaw('RIGHT(no_kk, 5) DESC')
+            ->first()->digit ?? 0;
+
+        return (int) $digit + 1;
+    }
+
+    private function nokk_sementara($digit, $kode_desa)
+    {
+        // No_kk Sementara menggunakan format 0[kode-desa][nomor-urut]
+        return '0' . $kode_desa . sprintf('%05d', $digit);
+    }
+
+    protected function migrasi_2023071551($hasil, $config_id)
+    {
+        $data_penduduk = Penduduk::select('id', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
+            ->withoutGlobalScope('App\Scopes\ConfigIdScope')
+            ->where('config_id', $config_id)
+            ->kepalaKeluarga()
+            ->whereNotNull('id_kk')
+            ->whereDoesntHave('keluarga', static function ($q) use ($config_id) {
+                return $q->where('config_id', $config_id);
+            })
+            ->get();
+
+        $identitasDesa = Config::find($config_id);
+        $digit         = $this->nokk_urutan($identitasDesa);
+        $idKKSementara = [];
+
+        foreach ($data_penduduk as $key => $value) {
+            if (isset($idKKSementara[$value->id_kk])) {
+                continue;
+            }
+            $hasil = Keluarga::create([
+                'id'         => $value->id_kk,
+                'config_id'  => $config_id,
+                'no_kk'      => $this->nokk_sementara($digit, $identitasDesa->kode_desa),
+                'nik_kepala' => $value->id,
+                'tgl_daftar' => $value->created_at,
+                'id_cluster' => $value->id_cluster,
+                'alamat'     => $value->alamat_sekarang,
+                'updated_at' => $value->created_at,
+                'updated_by' => 1,
+            ]);
+
+            $digit++;
+            $idKKSementara[$value->id_kk] = 1;
+            if ($hasil) {
+                log_message('notice', 'Berhasil. Penduduk ' . $value->id . ' sudah terdaftar di keluarga');
+            } else {
+                log_message('error', 'Gaggal. Penduduk ' . $value->id . ' belum terdaftar di keluarga');
+            }
+        }
+
+        return $hasil;
     }
 
     // Function Migrasi TinyMCE
