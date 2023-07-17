@@ -31,6 +31,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 25. [#6877](https://github.com/OpenSID/OpenSID/issues/6877) Perbaikan validasi proses simpan yang menggunakan tombol enter.
 26. [#6889](https://github.com/OpenSID/OpenSID/issues/6889) Perbaiki tampilan datatables untuk jumlah kolom yang kurang.
 
+
 #### Perubahan Teknis
 
 1. [#6744](https://github.com/OpenSID/OpenSID/issues/6744) Penambahan informasi query yang dihasilkan oleh eloquent pada develbar.
@@ -40,3 +41,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 5. [#6846](https://github.com/OpenSID/OpenSID/issues/6846) Penyesuian halaman periksa untuk OpenSID database gabungan.
 6. [#2572](https://github.com/OpenSID/premium/issues/2572) Penyesuian sebutan kepala desa pada halaman maintenace.
 7. [#6848](https://github.com/OpenSID/OpenSID/issues/6848) Penyesuian pasang baru melalui kode_desa melalui config.
+8. [#6880](https://github.com/OpenSID/OpenSID/issues/6880) Penyesuaian form inputan email pada ganti email. 

@@ -8,7 +8,7 @@
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input class="form-control input-sm" name="email" type="text" value="{{ auth()->email }}" />
+            <input class="form-control input-sm" name="email" type="email" value="{{ auth()->email }}" />
         </div>
         <div class="form-group">
             <label for="nama_lengkap">Nama Lengkap</label>
