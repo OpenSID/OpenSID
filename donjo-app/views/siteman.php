@@ -45,8 +45,6 @@
 									<br /><?= ucwords($this->setting->sebutan_kecamatan) ?> <?= $header['nama_kecamatan'] ?><br /><?= ucwords($this->setting->sebutan_kabupaten) ?> <?= $header['nama_kabupaten'] ?>
 								</h3>
 							</div>
-
-
 							<?php if ($notif = $this->session->flashdata('notif')) : ?>
 								<div class="alert alert-info">
 									<p><?= $notif ?></p>
@@ -61,10 +59,10 @@
 									</div>
 								<?php else: ?>
 									<div class="form-group">
-										<input name="username" type="text" autocomplete="off" placeholder="Nama pengguna" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> class="form-username form-control required">
+										<input name="username" type="text" autocomplete="off" placeholder="Nama pengguna" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> class="form-username form-control required" maxlength="100">
 									</div>
 									<div class="form-group">
-										<input id="password" name="password" type="password" autocomplete="off" placeholder="Kata sandi" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> class="form-username form-control required">
+										<input id="password" name="password" type="password" autocomplete="off" placeholder="Kata sandi" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> class="form-username form-control required" maxlength="100">
 									</div>
 									<div class="form-group">
 										<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan kata sandi
@@ -76,8 +74,8 @@
 									</div>
 									<?php if ($attempts_error = $this->session->flashdata('attempts_error')): ?>
 										<div class="error">
-									    	<p style="color:red; text-transform:uppercase"><?= $attempts_error ?> </p>
-									    </div>
+											<p style="color:red; text-transform:uppercase"><?= $attempts_error ?> </p>
+										</div>
 									<?php endif ?>
 								<?php endif ?>
 							</form>
@@ -104,7 +102,7 @@
 
 				if (menit <= 0 && detik <= 0) {
 					clearInterval(timer);
-					 location.reload();
+					location.reload();
 				} else {
 					document.getElementById("countdown").innerHTML = "<b>User telah diblokir karena gagal login 3 kali silakan coba kembali dalam " + menit + " MENIT " + detik + " DETIK </b>";
 				}
@@ -124,6 +122,7 @@
 			if ($('#countdown').length) {
 				start_countdown();
 			}
+
 		});
 	</script>
 </body>

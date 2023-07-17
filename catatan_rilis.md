@@ -30,6 +30,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 24. [#6878](https://github.com/OpenSID/OpenSID/issues/6878) Perbaikan validasi ubah data modul.
 25. [#6877](https://github.com/OpenSID/OpenSID/issues/6877) Perbaikan validasi proses simpan yang menggunakan tombol enter.
 26. [#6889](https://github.com/OpenSID/OpenSID/issues/6889) Perbaiki tampilan datatables untuk jumlah kolom yang kurang.
+27. [#6881](https://github.com/OpenSID/OpenSID/issues/6881) Perbaiki login dengan username terlalu panjang.
 
 
 #### Perubahan Teknis
