@@ -243,7 +243,7 @@
 												<?php endforeach; ?>
 											<?php else: ?>
 												<tr>
-													<td class="text-center" colspan="20">Data Tidak Tersedia</td>
+													<td class="text-center" colspan="21">Data Tidak Tersedia</td>
 												</tr>
 											<?php endif; ?>
 										</tbody>
