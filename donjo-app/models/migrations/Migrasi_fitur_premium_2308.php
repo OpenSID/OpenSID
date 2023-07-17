@@ -151,6 +151,7 @@ class Migrasi_fitur_premium_2308 extends MY_model
             ->where('config_id', $config_id)
             ->kepalaKeluarga()
             ->whereNotNull('id_kk')
+            ->where('id_kk', '!=', 0)
             ->whereDoesntHave('keluarga', static function ($q) use ($config_id) {
                 return $q->where('config_id', $config_id);
             })

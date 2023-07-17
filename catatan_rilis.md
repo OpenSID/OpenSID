@@ -29,8 +29,9 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 23. [#6876](https://github.com/OpenSID/OpenSID/issues/6876) Perbaikan data umur pada log penduduk.
 24. [#6878](https://github.com/OpenSID/OpenSID/issues/6878) Perbaikan validasi ubah data modul.
 25. [#6877](https://github.com/OpenSID/OpenSID/issues/6877) Perbaikan validasi proses simpan yang menggunakan tombol enter.
-26. [#6889](https://github.com/OpenSID/OpenSID/issues/6889) Perbaiki tampilan datatables untuk jumlah kolom yang kurang.
-27. [#6881](https://github.com/OpenSID/OpenSID/issues/6881) Perbaiki login dengan username terlalu panjang.
+26. [#6889](https://github.com/OpenSID/OpenSID/issues/6889) Perbaikan tampilan datatables untuk jumlah kolom yang kurang.
+27. [#6881](https://github.com/OpenSID/OpenSID/issues/6881) Perbaikan login dengan username terlalu panjang.
+28. [#6888](https://github.com/OpenSID/OpenSID/issues/6888) Perbaikan detail data anggota keluarga yang tidak sesuai.
 
 
 #### Perubahan Teknis
