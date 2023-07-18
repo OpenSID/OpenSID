@@ -33,6 +33,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 27. [#6881](https://github.com/OpenSID/OpenSID/issues/6881) Perbaikan login dengan username terlalu panjang.
 28. [#6888](https://github.com/OpenSID/OpenSID/issues/6888) Perbaikan detail data anggota keluarga yang tidak sesuai.
 29. [#6886](https://github.com/OpenSID/OpenSID/issues/6886) Perbaikan tidak melakukan pembaruan urutan pengurus ketika ubah data.
+30. [#6883](https://github.com/OpenSID/OpenSID/issues/6883) Perbaikan response gagal dari proses kirim ke OpenDK.
 
 
 #### Perubahan Teknis

@@ -791,16 +791,36 @@ if (! function_exists('opendk_api')) {
             $message = $e->getHandlerContext()['error'];
             $notif   = [
                 'status' => 'danger',
-                'pesan'  => "<br/>{$message}<br/>",
+                'pesan'  => messageResponseHTML($message),
             ];
         } catch (GuzzleHttp\Exception\ClientException $e) {
             $message = $e->getResponse()->getBody()->getContents();
             $notif   = [
                 'status' => 'danger',
-                'pesan'  => "<br/>{$message}<br/>",
+                'pesan'  => messageResponseHTML($message),
             ];
         }
 
         return $notif;
+    }
+}
+
+if (! function_exists('messageResponseHTML')) {
+    function messageResponseHTML($json_msg)
+    {
+        $msg  = json_decode($json_msg, 1);
+        $html = '<h5>' . $msg['message'] . '</h5>';
+        if ($msg['errors']) {
+            $html .= '<ul>';
+
+            foreach ($msg['errors'] as $errs) {
+                foreach ($errs as $value) {
+                    $html .= '<li>' . $value . '</li>';
+                }
+            }
+            $html .= '</ul>';
+        }
+
+        return $html;
     }
 }
