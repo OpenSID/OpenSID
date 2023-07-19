@@ -77,7 +77,7 @@
                 allowfullscreen></iframe>
         @endif
         <div class="berita">
-            <h4 class="tulisan-berita">Berita Desa</h4>
+            <h4 class="tulisan-berita">Berita {{ ucwords($setting->sebutan_desa) }}</h4>
             <div class="menu-berita">
                 <ul role="tablist" class="nav nav-tabs custom-tabs">
                     <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home"
