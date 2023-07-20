@@ -549,6 +549,11 @@ class TinyMCE
                 'isian' => getFormatIsian('No_kK' . $prefix . ''),
                 'data'  => $penduduk->keluarga->no_kk,
             ],
+            [
+                'judul' => 'Golongan Darah' . $ortu,
+                'isian' => getFormatIsian('Gol_daraH' . $prefix . ''),
+                'data'  => $penduduk->golonganDarah->nama,
+            ],
         ];
 
         if (empty($prefix)) {
@@ -612,11 +617,6 @@ class TinyMCE
                     'judul' => 'Cacat',
                     'isian' => getFormatIsian('CacaT'),
                     'data'  => $penduduk->cacat->nama,
-                ],
-                [
-                    'judul' => 'Golongan Darah',
-                    'isian' => getFormatIsian('Gol_daraH'),
-                    'data'  => $penduduk->golonganDarah->nama,
                 ],
                 [
                     'judul' => 'Pendidikan Sedang',
@@ -851,6 +851,11 @@ class TinyMCE
                 'judul' => 'Alamat',
                 'isian' => getFormatIsian('Klgx_alamat'),
                 'data'  => $anggota ? $anggota->pluck('alamat_wilayah')->toArray() : '',
+            ],
+            [
+                'judul' => 'Golongan Darah',
+                'isian' => getFormatIsian('Klgx_golongan_darah'),
+                'data'  => $anggota ? $anggota->pluck('golonganDarah.nama')->toArray() : '',
             ],
             [
                 'judul' => 'Dokumen Pasport',

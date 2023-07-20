@@ -1052,7 +1052,7 @@ class Migrasi_fitur_premium_2308 extends MY_model
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
     }
-    
+
     protected function migrasi_2023070652($hasil)
     {
         DB::table('setting_aplikasi')->where('key', 'rentang_waktu_kehadiran')->update([
