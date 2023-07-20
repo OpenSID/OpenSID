@@ -35,6 +35,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 29. [#6886](https://github.com/OpenSID/OpenSID/issues/6886) Perbaikan tidak melakukan pembaruan urutan pengurus ketika ubah data.
 30. [#6883](https://github.com/OpenSID/OpenSID/issues/6883) Perbaikan response gagal dari proses kirim ke OpenDK.
 31. [#6890](https://github.com/OpenSID/OpenSID/issues/6890) Perbaikan notifikasi tabel jika ada tidak ada.
+32. [#6904](https://github.com/OpenSID/OpenSID/issues/6904) Perbaikan pencarian saat tambah/ubah data anggota peserta bantuan.
 
 #### Perubahan Teknis
 
