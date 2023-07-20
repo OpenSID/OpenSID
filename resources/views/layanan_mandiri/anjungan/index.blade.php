@@ -163,7 +163,7 @@
                     <!-- Mulai Artikel -->
                     <div class="article-area">
                         <div class="article-head difle-c">
-                            <h1>Berita Desa</h1>
+                            <h1>Berita {{ ucwords($setting->sebutan_desa) }}</h1>
                         </div>
                         <div class="relhid">
                             <div class="tabs">
