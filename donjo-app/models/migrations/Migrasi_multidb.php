@@ -138,6 +138,7 @@ class Migrasi_multidb extends MY_model
         $hasil = $hasil && $this->analisis_respon($hasil);
         $hasil = $hasil && $this->tte($hasil);
         $hasil = $hasil && $this->dtks($hasil);
+        $hasil = $hasil && $this->password_reset($hasil);
 
         $hasil = $hasil && $this->jalankan_migrasi('data_awal');
 
@@ -380,7 +381,7 @@ class Migrasi_multidb extends MY_model
     protected function log_penduduk($hasil)
     {
         $table = 'log_penduduk';
-
+        $this->db->query('ALTER TABLE log_perubahan_penduduk MODIFY COLUMN tanggal timestamp DEFAULT current_timestamp() NOT NULL');
         // Tambah kolom config_id pada tabel tweb_penduduk
         $hasil = $hasil && $this->tambah_config_id($table);
 
@@ -578,12 +579,12 @@ class Migrasi_multidb extends MY_model
     protected function rtm($hasil)
     {
         $table = 'tweb_rtm';
-
+        $this->db->query('ALTER TABLE tweb_rtm MODIFY COLUMN tgl_daftar timestamp DEFAULT current_timestamp() NOT NULL');
         $hasil = $hasil && $this->tambah_config_id($table);
 
-        $hasil = $hasil && $this->hapus_indeks($tabel, 'no_kk_2');
+        $hasil = $hasil && $this->hapus_indeks($table, 'no_kk_2');
 
-        $hasil = $hasil && $this->buat_ulang_index($tabel, 'no_kk', '(`config_id`, `no_kk`)');
+        $hasil = $hasil && $this->buat_ulang_index($table, 'no_kk', '(`config_id`, `no_kk`)');
 
         return $hasil && $this->db->query('CREATE OR REPLACE VIEW keluarga_aktif AS SELECT k.* FROM tweb_keluarga k LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id WHERE p.status_dasar = 1');
     }
@@ -1045,7 +1046,7 @@ class Migrasi_multidb extends MY_model
     protected function notifikasi($hasil)
     {
         $tabel = 'notifikasi';
-
+        $this->db->query('ALTER TABLE notifikasi MODIFY COLUMN tgl_berikutnya timestamp DEFAULT current_timestamp() NOT NULL');
         $hasil = $hasil && $this->tambah_config_id('notifikasi');
 
         // Sesuaikan ulang index kode pada tabel notifikasi
@@ -1122,6 +1123,14 @@ class Migrasi_multidb extends MY_model
         $hasil = $hasil && $this->hapus_indeks('dtks_pengaturan_program', 'versi_kuisioner_config');
 
         return $hasil && $this->tambah_config_id('dtks_lampiran');
+    }
+
+    protected function password_reset($hasil)
+    {
+        $tabel = 'password_resets';
+        $this->db->query('ALTER TABLE password_resets MODIFY COLUMN created_at timestamp DEFAULT current_timestamp() NOT NULL');
+
+        return $hasil;
     }
 
     protected function cek_data_kelompok($hasil)
