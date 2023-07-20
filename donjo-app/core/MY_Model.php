@@ -451,7 +451,7 @@ class MY_Model extends CI_Model
             }
 
             // Hapus data dengan config_id = null
-            DB::table($tabel)->where('config_id', 0)->orWhere('config_id', null)->delete();
+            // DB::table($tabel)->where('config_id', 0)->orWhere('config_id', null)->delete();
         }
 
         return $hasil && $this->tambahForeignKey("{$tabel}_config_fk", $tabel, 'config_id', 'config', 'id');

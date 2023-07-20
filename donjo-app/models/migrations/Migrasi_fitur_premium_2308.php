@@ -69,7 +69,7 @@ class Migrasi_fitur_premium_2308 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->suratKeteranganPenghasilanAyah($hasil, $id);
-            $hasil = $hasil && $this->migrasi_2023071551($hasil, $id);
+            // $hasil = $hasil && $this->migrasi_2023071551($hasil, $id);
             // Jalankan Migrasi TinyMCE
         }
 

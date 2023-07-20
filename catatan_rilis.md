@@ -1,4 +1,4 @@
-Di rilis ini, versi 2307.0.2 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2307.0.3 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
@@ -31,9 +31,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 25. [#6877](https://github.com/OpenSID/OpenSID/issues/6877) Perbaikan validasi proses simpan yang menggunakan tombol enter.
 26. [#6889](https://github.com/OpenSID/OpenSID/issues/6889) Perbaikan tampilan datatables untuk jumlah kolom yang kurang.
 27. [#6881](https://github.com/OpenSID/OpenSID/issues/6881) Perbaikan login dengan username terlalu panjang.
-28. [#6888](https://github.com/OpenSID/OpenSID/issues/6888) Perbaikan detail data anggota keluarga yang tidak sesuai.
-29. [#6886](https://github.com/OpenSID/OpenSID/issues/6886) Perbaikan tidak melakukan pembaruan urutan pengurus ketika ubah data.
-30. [#6883](https://github.com/OpenSID/OpenSID/issues/6883) Perbaikan response gagal dari proses kirim ke OpenDK.
+28. [#6886](https://github.com/OpenSID/OpenSID/issues/6886) Perbaikan tidak melakukan pembaruan urutan pengurus ketika ubah data.
+29. [#6883](https://github.com/OpenSID/OpenSID/issues/6883) Perbaikan response gagal dari proses kirim ke OpenDK.
 
 
 #### Perubahan Teknis
