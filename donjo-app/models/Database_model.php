@@ -212,6 +212,9 @@ class Database_model extends MY_Model
             $this->_migrasi_db_cri();
         }
 
+        // Lakukan migrasi ini untuk memperbaiki collation
+        $this->jalankan_migrasi('migrasi_jalan');
+
         // Lengkapi folder desa
         folder_desa();
 
