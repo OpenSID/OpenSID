@@ -281,6 +281,7 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Modul Web artikel
     protected function admin_artikel($hasil)
     {
+        $this->db->query('ALTER TABLE agenda MODIFY COLUMN tgl_agenda timestamp DEFAULT current_timestamp() NOT NULL');
         $hasil = $hasil && $this->tambah_config_id('agenda');
 
         return $hasil && $this->tambah_config_id('artikel');
