@@ -715,3 +715,12 @@ if (! function_exists('generatePengikut')) {
         return $html;
     }
 }
+
+function tidak_ada_data($col = 12, $message = 'Data Tidak Tersedia')
+{
+    $html = '
+        <tr>
+            <td class="text-center" colspan="' . $col . '">' . $message . '</td>
+        </tr>';
+    echo $html;
+}

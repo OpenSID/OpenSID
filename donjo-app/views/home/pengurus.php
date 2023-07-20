@@ -136,9 +136,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $mulai = 1;
+                                            <?php if($main): ?>
+                                            <?php
+                                            $mulai = 1;
 
-        foreach ($main as $key => $data): ?>
+                                                foreach ($main as $key => $data): ?>
                                                 <tr <?= jecho(in_array($data['jabatan_id'], $jabatanKadesSekdes), true, 'class="select-row"') ?>>
                                                     <td class="text-center">
                                                         <input data-deletable="<?= $data['deletable'] ?>" type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
@@ -214,6 +216,7 @@
                                                     <td><?= $data['pamong_masajab']?></td>
                                                 </tr>
                                             <?php endforeach; ?>
+                                            <?php else: tidak_ada_data(20); endif; ?>
                                         </tbody>
                                     </table>
                                 </div>

@@ -88,6 +88,7 @@
 																</tr>
 															</thead>
 															<tbody>
+																<?php if($main) : ?>
 																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<?php $openKab = (null === $data['config_id']) ? 'disabled' : ''; ?>
@@ -119,6 +120,7 @@
                                     <td>-</td>
 																	</tr>
 																<?php endforeach; ?>
+																<?php else: tidak_ada_data(5); endif; ?>
 															</tbody>
 														</table>
 													</div>

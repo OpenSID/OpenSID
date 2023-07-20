@@ -149,6 +149,7 @@
 									</tr>
 								</thead>
 								<tbody>
+									<?php if($main): ?>
 									<?php foreach ($main as $data): ?>
 										<tr <?= jecho(get_nokk($data['no_kk']), '0', 'class="danger"') ?>>
 											<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
@@ -201,6 +202,7 @@
 											<td class="padat"><?= tgl_indo($data['tgl_cetak_kk'])?></td>
 										</tr>
 									<?php endforeach; ?>
+									<?php else: tidak_ada_data(16); endif; ?>
 								</tbody>
 							</table>
 						</div>

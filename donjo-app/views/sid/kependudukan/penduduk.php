@@ -241,11 +241,7 @@
 														<td><?= tgl_indo($data['created_at']); ?></td>
 													</tr>
 												<?php endforeach; ?>
-											<?php else: ?>
-												<tr>
-													<td class="text-center" colspan="21">Data Tidak Tersedia</td>
-												</tr>
-											<?php endif; ?>
+											<?php else: tidak_ada_data(21); endif; ?>
 										</tbody>
 									</table>
 								</div>
