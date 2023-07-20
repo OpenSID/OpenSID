@@ -828,11 +828,12 @@ class Surat extends Admin_Controller
             return $view_surat;
         }
 
-        $surat    = $data['surat'];
-        $input    = $data['input'];
-        $config   = $this->header['desa'];
-        $individu = $this->surat_model->get_data_surat($id);
-        $lampiran = explode(',', strtolower($surat['lampiran']));
+        $surat         = $data['surat'];
+        $input         = $data['input'];
+        $config        = $this->header['desa'];
+        $individu      = $this->surat_model->get_data_surat($id);
+        $penandatangan = $this->surat_model->atas_nama($data);
+        $lampiran      = explode(',', strtolower($surat['lampiran']));
 
         for ($i = 0; $i < count($lampiran); $i++) {
             // Cek lampiran desa
