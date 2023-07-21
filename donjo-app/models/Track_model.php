@@ -42,6 +42,7 @@ use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\PendudukMandiri;
 use App\Models\Persil;
+use App\Models\SettingAplikasi;
 use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -59,14 +60,9 @@ class Track_model extends CI_Model
             return;
         }
         // Track web dan admin masing2 maksimum sekali sehari
-        if (strpos(current_url(), 'first') !== false) {
-            if ($this->session->has_userdata('track_web') && $this->session->track_web == date('Y m d')) {
-                return;
-            }
-        } else {
-            if ($this->session->has_userdata('track_admin') && $this->session->track_admin == date('Y m d')) {
-                return;
-            }
+        $sudahKirimHariIni = $this->cache->get('tracksid_admin_web') == date('Y m d') ? 1 : 0;
+        if ($sudahKirimHariIni) {
+            return;
         }
 
         $this->session->set_userdata('balik_ke', $dari);
@@ -99,7 +95,9 @@ class Track_model extends CI_Model
             }
         }
 
-        $config = identitas();
+        $config     = identitas();
+        $suratTTE   = LogSurat::whereNull('deleted_at')->where('tte', '=', 1)->count();
+        $settingTTE = SettingAplikasi::where('key', 'tte')->first()->value ?? 0;
 
         $desa = [
             'nama_desa'           => $config->nama_desa,
@@ -129,8 +127,8 @@ class Track_model extends CI_Model
             'jml_unsur_peta'      => $this->jml_unsur_peta(),
             'jml_persil'          => Persil::count(),
             'jml_dokumen'         => Dokumen::hidup()->count(),
-            'jml_surat_tte'       => LogSurat::whereNull('deleted_at')->where('tte', '=', 1)->count(), // jumlah surat terverifikasi secara tte
-            'modul_tte'           => (LogSurat::whereNull('deleted_at')->where('tte', '=', 1)->count() > 0 && setting('tte') == 1) ? 1 : 0, // cek modul tte
+            'jml_surat_tte'       => $suratTTE, // jumlah surat terverifikasi secara tte
+            'modul_tte'           => ($suratTTE > 0 && $settingTTE == 1) ? 1 : 0, // cek modul tte
         ];
 
         if ($this->abaikan($desa)) {
@@ -138,12 +136,9 @@ class Track_model extends CI_Model
         }
 
         $trackSID_output = httpPost($tracker . '/api/track/desa?token=' . config_item('token_pantau'), $desa); // kirim ke tracksid.
-        $this->cek_notifikasi_TrackSID($trackSID_output);
-
-        if (strpos(current_url(), 'first') !== false) {
-            $this->session->set_userdata('track_web', date('Y m d'));
-        } else {
-            $this->session->set_userdata('track_admin', date('Y m d'));
+        if (! empty($trackSID_output)) {
+            $this->cache->save('tracksid_admin_web', date('Y m d'), DAY);
+            $this->cek_notifikasi_TrackSID($trackSID_output);
         }
     }
 
