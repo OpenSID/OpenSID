@@ -188,6 +188,16 @@ function jecho($a, $b, $str)
     }
 }
 
+function valid_nik_nokk($nik)
+{
+    $length = strlen($nik);
+    if ($length < 16) {
+        echo 'class="warning"';
+    } elseif (get_nik($nik) == 0) {
+        echo 'class="danger"';
+    }
+}
+
 function compared_return($a, $b, $retval = null)
 {
     ($a === $b) && print 'active';

@@ -151,7 +151,7 @@
 								<tbody>
 									<?php if($main): ?>
 									<?php foreach ($main as $data): ?>
-										<tr <?= jecho(get_nokk($data['no_kk']), '0', 'class="danger"') ?>>
+										<tr <?= valid_nik_nokk($data['no_kk']) ?>>
 											<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 											<td class="padat"><?= $data['no']?></td>
 											<td class="aksi">

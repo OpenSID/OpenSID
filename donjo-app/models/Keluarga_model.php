@@ -261,6 +261,8 @@ class Keluarga_model extends MY_Model
             ->select('u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.sex as id_sex, t.status_dasar, t.foto, t.id as id_pend, c.dusun, c.rw, c.rt');
         $this->list_data_sql();
 
+        $this->db->order_by('length(u.no_kk)');
+
         switch ($o) {
             case 1:
                 $this->db->order_by('u.no_kk');

@@ -166,7 +166,7 @@
 										<tbody>
 											<?php if ($main): ?>
 												<?php foreach ($main as $key => $data): ?>
-													<tr <?= jecho(get_nik($data['nik']), '0', 'class="danger"') ?>>
+													<tr <?= valid_nik_nokk($data['nik']) ?>>
 														<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
 														<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 														<td class="aksi">
