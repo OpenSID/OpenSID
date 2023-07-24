@@ -58,6 +58,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Surat extends Admin_Controller
 {
     private $tinymce;
+    private $logpenduduk;
 
     public function __construct()
     {
@@ -66,6 +67,7 @@ class Surat extends Admin_Controller
         $this->modul_ini     = 'layanan-surat';
         $this->sub_modul_ini = 'cetak-surat';
         $this->tinymce       = new TinyMCE();
+        $this->logpenduduk   = new LogPenduduk();
     }
 
     public function index()
@@ -154,8 +156,9 @@ class Surat extends Admin_Controller
                     $data['individu'] = Penduduk::findOrFail($nik);
                     $data['anggota']  = null;
 
-                    if (in_array($data['surat']->form_isian->individu->status_dasar, LogPenduduk::PERISTIWA)) {
-                        $data['peristiwa'] = LogPenduduk::with('penduduk')->where('id_pend', $nik)->latest()->first();
+                    if (in_array($data['surat']->form_isian->individu->status_dasar, $this->logpenduduk::PERISTIWA)) {
+                        $data['logpenduduk'] = $this->logpenduduk;
+                        $data['peristiwa']   = $this->logpenduduk::with('penduduk')->where('id_pend', $nik)->latest()->first();
                     }
 
                     if ($data['surat']->form_isian->data_orang_tua) {

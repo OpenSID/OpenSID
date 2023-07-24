@@ -61,7 +61,7 @@ class LogPenduduk extends BaseModel
     public const HILANG            = 4;
     public const BARU_PINDAH_MASUK = 5;
     public const TIDAK_TETAP_PERGI = 6;
-    public const PERISTIWA         = [2, 3, 4];
+    public const PERISTIWA         = [1, 2, 3, 4];
 
     /**
      * Static data penolong mati.

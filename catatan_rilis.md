@@ -19,6 +19,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 13. [#6823](https://github.com/OpenSID/OpenSID/issues/6823) Penambahan kode isian surat TinyMCE untuk status penduduk pindah.
 14. [#6860](https://github.com/OpenSID/OpenSID/issues/6860) Penambahan pengaturan data pasangan TinyMCE.
 15. [#6845](https://github.com/OpenSID/OpenSID/issues/6845) Penambahan kode isian golongan darah.
+16. [#6867](https://github.com/OpenSID/OpenSID/issues/6867) Penambahan kode isian surat TinyMCE untuk status penduduk lahir.
 
 #### Perbaikan BUG
 

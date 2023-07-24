@@ -176,9 +176,9 @@ class TinyMCE
             'Anggota Keluarga' => $this->getIsianAnggotaKeluarga($idPenduduk),
         ];
 
-        $perstiwa = $data['surat']->form_isian->individu->status_dasar;
-        if (in_array($perstiwa, LogPenduduk::PERISTIWA)) {
-            $daftar_kode_isian['Peristiwa'] = KodeIsianPeristiwa::get($idPenduduk, $perstiwa);
+        $peristiwa = $data['surat']->form_isian->individu->status_dasar;
+        if (in_array($peristiwa, LogPenduduk::PERISTIWA)) {
+            $daftar_kode_isian['Peristiwa'] = KodeIsianPeristiwa::get($idPenduduk, $peristiwa);
         }
 
         // Penduduk Kategori

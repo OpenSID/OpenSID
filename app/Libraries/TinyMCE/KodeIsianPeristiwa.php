@@ -60,6 +60,10 @@ class KodeIsianPeristiwa
     public function kodeIsian()
     {
         switch ($this->statusDasar) {
+            case LogPenduduk::BARU_LAHIR:
+                $data = $this->getLahir($this->logPeristiwa);
+                break;
+
             case LogPenduduk::MATI:
                 $data = $this->getKematian($this->logPeristiwa);
                 break;
@@ -79,6 +83,62 @@ class KodeIsianPeristiwa
         $lainnya = $this->getLainnya($this->logPeristiwa);
 
         return array_merge($data, $lainnya);
+    }
+
+    private function getLahir($peristiwa)
+    {
+        return [
+            [
+                'judul' => 'Hari Kelahiran',
+                'isian' => getFormatIsian('Hari_kelahiraN'),
+                'data'  => hari($peristiwa->tgl_peristiwa),
+            ],
+            [
+                'judul' => 'Tanggal Kelahiran',
+                'isian' => getFormatIsian('Tanggal_kelahiraN'),
+                'data'  => tgl_indo($peristiwa->tgl_peristiwa),
+            ],
+            [
+                'judul' => 'Jam Kelahiran',
+                'isian' => getFormatIsian('Jam_kelahiraN'),
+                'data'  => $peristiwa->penduduk->waktu_lahir,
+            ],
+            [
+                'judul' => 'Tempat Dilahirkan',
+                'isian' => getFormatIsian('Tempat_dilahirkaN'),
+                'data'  => $peristiwa->penduduk->dilahirkan,
+            ],
+            [
+                'judul' => 'Tempat Kelahiran',
+                'isian' => getFormatIsian('Tempat_kelahiraN'),
+                'data'  => $peristiwa->penduduk->tempatlahir,
+            ],
+            [
+                'judul' => 'Jenis Kelahiran',
+                'isian' => getFormatIsian('Jenis_kelahiraN'),
+                'data'  => $peristiwa->penduduk->jenisLahir,
+            ],
+            [
+                'judul' => 'Kelahiran Anak Ke',
+                'isian' => getFormatIsian('Kelahiran_anaK'),
+                'data'  => $peristiwa->penduduk->kelahiran_anak_ke,
+            ],
+            [
+                'judul' => 'Penolong Kelahiran',
+                'isian' => getFormatIsian('Penolong_kelahiraN'),
+                'data'  => $peristiwa->penduduk->penolongLahir,
+            ],
+            [
+                'judul' => 'Berat Bayi',
+                'isian' => getFormatIsian('Berat_bayI'),
+                'data'  => $peristiwa->penduduk->berat_lahir,
+            ],
+            [
+                'judul' => 'Panjang Bayi',
+                'isian' => getFormatIsian('Panjang_bayI'),
+                'data'  => $peristiwa->penduduk->panjang_lahir,
+            ],
+        ];
     }
 
     private function getKematian($peristiwa)
