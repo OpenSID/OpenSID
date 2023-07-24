@@ -352,10 +352,10 @@
             <td>2.</td>
             <td colspan="20">Jenis kelamin</td>
             <td class="kanan">:</td>
-            <?= checklist($input['sex'], 1); ?>
-            <td colspan="6">1. Laki-laki </td>
-            <?= checklist($input['sex'], 2); ?>
-            <td colspan="7">2. Perempuan </td>
+            <?= checklist($input['sex'], 'Laki-laki'); ?>
+            <td colspan="6">1. <?= $input['sex'] ?> </td>
+            <?= checklist($input['sex'], 'Perempuan'); ?>
+            <td colspan="7">2. <?= $input['sex'] ?> </td>
         </tr>
         <tr>
             <td>3.</td>

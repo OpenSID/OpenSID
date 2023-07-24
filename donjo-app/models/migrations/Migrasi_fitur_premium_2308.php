@@ -74,6 +74,7 @@ class Migrasi_fitur_premium_2308 extends MY_model
             $hasil = $hasil && $this->suratKeteranganBedaIdentitasKIS($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPenghasilanIbu($hasil, $id);
             $hasil = $hasil && $this->suratPernyataanPenguasaanFisikBidangTanahSPORADIK($hasil, $id);
+            $hasil = $hasil && $this->suratKeteranganKelahiran($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPindahPenduduk($hasil, $id);
             // Jalankan Migrasi TinyMCE
         }
@@ -1221,6 +1222,559 @@ class Migrasi_fitur_premium_2308 extends MY_model
             'mandiri'             => StatusEnum::YA,
             'syarat_surat'        => ["2", "3", "1"],
             'lampiran'            => 'F-1.03,F-1.08,F-1.25,F-1.27',
+            'template'            => $template,
+        ];
+
+        return $hasil && $this->tambah_surat_tinymce($data, $id);
+    }
+
+    protected function suratKeteranganKelahiran($hasil, $id)
+    {
+
+        $template = "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]</span></h4>
+        <p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br></p>
+        <p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan
+            [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa
+            :</p>
+        <table style=\"border-collapse: collapse; width: 100%; height: 156.771px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+            <tbody>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"width: 3.90545%; height: 22.3958px; text-align: left;\">1.</td>
+                    <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Hari</td>
+                    <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
+                    <td style=\"width: 60.0206%; height: 22.3958px; text-align: justify;\">[Hari_kelahiranN]</td>
+                </tr>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"width: 3.90545%; text-align: left; height: 22.3958px;\">2.</td>
+                    <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Tanggal</td>
+                    <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
+                    <td style=\"width: 60.0206%; text-align: justify; height: 22.3958px;\">[Tanggal_kelahiranN]</td>
+                </tr>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"width: 3.90545%; height: 22.3958px; text-align: left;\">3.</td>
+                    <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Pukul</td>
+                    <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
+                    <td style=\"width: 60.0206%; height: 22.3958px; text-align: justify;\">[Jam_kelahiranN]</td>
+                </tr>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"width: 3.90545%; height: 22.3958px; text-align: left;\">4.</td>
+                    <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Tempat</td>
+                    <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
+                    <td style=\"width: 60.0206%; height: 22.3958px; text-align: justify;\">[Tempat_dilahirkanN]</td>
+                </tr>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"width: 3.90545%; text-align: left; height: 22.3958px;\">5.</td>
+                    <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Telah lahir seorang anak</td>
+                    <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
+                    <td style=\"width: 60.0206%; text-align: justify; height: 22.3958px;\">[NamA]</td>
+                </tr>
+            </tbody>
+        </table>
+        <p style=\"text-align: justify; text-indent: 30px;\">Dari seorang ibu:</p>
+        <table style=\"border-collapse: collapse; width: 100%; height: 63px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+            <tbody>
+                <tr style=\"height: 22px;\">
+                    <td style=\"width: 4.3222%; text-align: center; height: 22px;\">\u{a0}</td>
+                    <td style=\"width: 3.92927%; height: 22px; text-align: left;\">6.</td>
+                    <td style=\"width: 30.5174%; text-align: left; height: 22px;\">Nama Lengkap</td>
+                    <td style=\"width: 1.24427%; text-align: center; height: 22px;\">:</td>
+                    <td style=\"width: 60.0524%; height: 22px; text-align: justify;\"><strong>[Nama_ibU]</strong></td>
+                </tr>
+                <tr style=\"height: 19px;\">
+                    <td style=\"width: 4.3222%; text-align: center; height: 19px;\">\u{a0}</td>
+                    <td style=\"width: 3.92927%; text-align: left; height: 19px;\">7.</td>
+                    <td style=\"width: 30.5174%; text-align: left; height: 19px;\">NIK / No KTP</td>
+                    <td style=\"width: 1.24427%; text-align: center; height: 19px;\">:</td>
+                    <td style=\"width: 60.0524%; text-align: justify; height: 19px;\">[Nik_ibU]</td>
+                </tr>
+                <tr style=\"height: 22px;\">
+                    <td style=\"width: 4.3222%; text-align: center; height: 22px;\">\u{a0}</td>
+                    <td style=\"width: 3.92927%; height: 22px; text-align: left;\">8.</td>
+                    <td style=\"width: 30.5174%; text-align: left; height: 22px;\">Umur</td>
+                    <td style=\"width: 1.24427%; text-align: center; height: 22px;\">:</td>
+                    <td style=\"width: 60.0524%; height: 22px; text-align: justify;\">[Usia_ibU]</td>
+                </tr>
+                <tr>
+                    <td style=\"width: 4.3222%; text-align: center;\">\u{a0}</td>
+                    <td style=\"width: 3.92927%; text-align: left;\">9.</td>
+                    <td style=\"width: 30.5174%; text-align: left;\">Pekerjaan</td>
+                    <td style=\"width: 1.24427%; text-align: center;\">:</td>
+                    <td style=\"width: 60.0524%; text-align: justify;\">[Pekerjaan_ibU]</td>
+                </tr>
+                <tr>
+                    <td style=\"width: 4.3222%; text-align: center;\">\u{a0}</td>
+                    <td style=\"width: 3.92927%; text-align: left;\">10.</td>
+                    <td style=\"width: 30.5174%; text-align: left;\">Alamat/Tempat Tinggal</td>
+                    <td style=\"width: 1.24427%; text-align: center;\">:</td>
+                    <td style=\"width: 60.0524%; text-align: justify;\">[Alamat_ibU]</td>
+                </tr>
+            </tbody>
+        </table>
+        <p style=\"text-align: justify; text-indent: 30px;\">Istri dari:</p>
+        <table style=\"border-collapse: collapse; width: 100%; height: 63px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+            <tbody>
+                <tr style=\"height: 22px;\">
+                    <td style=\"width: 4.3222%; text-align: center; height: 22px;\">\u{a0}</td>
+                    <td style=\"width: 3.92927%; height: 22px; text-align: left;\">11.</td>
+                    <td style=\"width: 30.5174%; text-align: left; height: 22px;\">Nama Lengkap</td>
+                    <td style=\"width: 1.24427%; text-align: center; height: 22px;\">:</td>
+                    <td style=\"width: 60.0524%; height: 22px; text-align: justify;\"><strong>[Nama_ayaH]</strong></td>
+                </tr>
+                <tr style=\"height: 19px;\">
+                    <td style=\"width: 4.3222%; text-align: center; height: 19px;\">\u{a0}</td>
+                    <td style=\"width: 3.92927%; text-align: left; height: 19px;\">12.</td>
+                    <td style=\"width: 30.5174%; text-align: left; height: 19px;\">NIK / No KTP</td>
+                    <td style=\"width: 1.24427%; text-align: center; height: 19px;\">:</td>
+                    <td style=\"width: 60.0524%; text-align: justify; height: 19px;\">[Nik_ayaH]</td>
+                </tr>
+                <tr style=\"height: 22px;\">
+                    <td style=\"width: 4.3222%; text-align: center; height: 22px;\">\u{a0}</td>
+                    <td style=\"width: 3.92927%; height: 22px; text-align: left;\">13.</td>
+                    <td style=\"width: 30.5174%; text-align: left; height: 22px;\">Umur</td>
+                    <td style=\"width: 1.24427%; text-align: center; height: 22px;\">:</td>
+                    <td style=\"width: 60.0524%; height: 22px; text-align: justify;\">[Usia_ayaH]</td>
+                </tr>
+                <tr>
+                    <td style=\"width: 4.3222%; text-align: center;\">\u{a0}</td>
+                    <td style=\"width: 3.92927%; text-align: left;\">14.</td>
+                    <td style=\"width: 30.5174%; text-align: left;\">Pekerjaan</td>
+                    <td style=\"width: 1.24427%; text-align: center;\">:</td>
+                    <td style=\"width: 60.0524%; text-align: justify;\">[Pekerjaan_ayaH]</td>
+                </tr>
+                <tr>
+                    <td style=\"width: 4.3222%; text-align: center;\">\u{a0}</td>
+                    <td style=\"width: 3.92927%; text-align: left;\">15.</td>
+                    <td style=\"width: 30.5174%; text-align: left;\">Alamat/Tempat Tinggal</td>
+                    <td style=\"width: 1.24427%; text-align: center;\">:</td>
+                    <td style=\"width: 60.0524%; text-align: justify;\">[Alamat_ayaH]</td>
+                </tr>
+            </tbody>
+        </table>
+        <p style=\"text-align: justify; text-indent: 30px;\">Surat keterangan ini dibuat berdasarkan keterangan pelapor:</p>
+        <table style=\"border-collapse: collapse; width: 100%; height: 134.375px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+            <tbody>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"width: 3.90545%; height: 22.3958px; text-align: left;\">16.</td>
+                    <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Nama Lengkap</td>
+                    <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
+                    <td style=\"width: 60.0206%; height: 22.3958px; text-align: justify;\"><strong>[NAma_pelapor]</strong></td>
+                </tr>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"width: 3.90545%; text-align: left; height: 22.3958px;\">17.</td>
+                    <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">NIK</td>
+                    <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
+                    <td style=\"width: 60.0206%; text-align: justify; height: 22.3958px;\">[Nik_pelapoR]</td>
+                </tr>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"width: 3.90545%; height: 22.3958px; text-align: left;\">18.</td>
+                    <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Umur</td>
+                    <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
+                    <td style=\"width: 60.0206%; height: 22.3958px; text-align: justify;\">[Usia_pelapoR]</td>
+                </tr>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"width: 3.90545%; text-align: left; height: 22.3958px;\">19.</td>
+                    <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Pekerjaan</td>
+                    <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
+                    <td style=\"width: 60.0206%; text-align: justify; height: 22.3958px;\">[Pekerjaan_pelapoR]</td>
+                </tr>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"width: 3.90545%; text-align: left; height: 22.3958px;\">20.</td>
+                    <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Alamat / Tempat Tinggal</td>
+                    <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
+                    <td style=\"width: 60.0206%; text-align: justify; height: 22.3958px;\">[Alamat_pelapoR]</td>
+                </tr>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"width: 3.90545%; text-align: left; height: 22.3958px;\">21.</td>
+                    <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Hubungan pelapor dengan bayi</td>
+                    <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
+                    <td style=\"width: 60.0206%; text-align: justify; height: 22.3958px;\">[Form_hubungan_pelapor_dengan_bayI]
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya agar dapat
+            dipergunakan sebagaimana mestinya.<br><br></p>
+        <table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">
+            <tbody>
+                <tr>
+                    <td style=\"width: 35%; text-align: center;\">\u{a0}</td>
+                    <td style=\"width: 30%;\">\u{a0}</td>
+                    <td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]</td>
+                </tr>
+                <tr>
+                    <td style=\"width: 35%; text-align: center;\">\u{a0}</td>
+                    <td style=\"width: 30%;\">\u{a0}</td>
+                    <td style=\"width: 35%; text-align: center;\">[Atas_namA]</td>
+                </tr>
+                <tr>
+                    <td style=\"width: 35%; text-align: center;\">\u{a0}</td>
+                    <td style=\"width: 30%;\"><br><br><br><br></td>
+                    <td style=\"width: 35%;\">\u{a0}</td>
+                </tr>
+                <tr>
+                    <td style=\"width: 35%; text-align: center;\">\u{a0}</td>
+                    <td style=\"width: 30%;\">\u{a0}</td>
+                    <td style=\"width: 35%; text-align: center;\">[Nama_pamonG]</td>
+                </tr>
+                <tr>
+                    <td style=\"width: 35%;\">\u{a0}</td>
+                    <td style=\"width: 30%;\">\u{a0}</td>
+                    <td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>\u{a0}</div>
+        <div>\u{a0}</div>
+        <div>\u{a0}</div>
+        <div>\u{a0}</div>
+        <div>\u{a0}</div>
+        <div>\u{a0}</div>
+        <table style=\"border-collapse: collapse; width: 99.9875%; height: 50.5832px;\" border=\"0\">
+            <tbody>
+                <tr style=\"height: 10.3958;\">
+                    <td style=\"width: 8.50757%;\">Perihal :</td>
+                    <td style=\"text-align: left; width: 40.6481%;\">Permohonan Penyelesaian</td>
+                    <td style=\"width: 4.91468%;\">\u{a0}</td>
+                    <td style=\"text-align: left; width: 45.9409%;\"><strong>Kepada</strong></td>
+                </tr>
+                <tr style=\"height: 10.3958;\">
+                    <td style=\"width: 8.50757%;\">\u{a0}</td>
+                    <td style=\"text-align: left; width: 40.6481%;\">Akta Kelahiran</td>
+                    <td style=\"width: 4.91468%;\"><strong>Yth,</strong></td>
+                    <td style=\"text-align: left; width: 45.9409%;\"><strong>Kepala Dinas Kependudukan dan Pencatatan</strong>
+                    </td>
+                </tr>
+                <tr style=\"height: 10.3958;\">
+                    <td style=\"width: 8.50757%;\">\u{a0}</td>
+                    <td style=\"text-align: left; width: 40.6481%;\">\u{a0}</td>
+                    <td style=\"width: 4.91468%;\">\u{a0}</td>
+                    <td style=\"text-align: left; width: 45.9409%;\"><strong>Sipil [Sebutan_kabupateN] [Nama_kabupateN]</strong>
+                    </td>
+                </tr>
+                <tr style=\"height: 10.3958;\">
+                    <td style=\"width: 8.50757%;\">\u{a0}</td>
+                    <td style=\"text-align: left; width: 40.6481%;\">\u{a0}</td>
+                    <td style=\"width: 4.91468%;\">\u{a0}</td>
+                    <td style=\"text-align: left; width: 45.9409%;\"><strong>Di [Nama_kabupateN]</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <div style=\"text-align: justify;\">Yang bertanda tangan di bawah ini :</div>
+        <table style=\"border-collapse: collapse; width: 99.9875%; height: 134.375px;\" border=\"0\" cellspacing=\"0\"
+            cellpadding=\"0\">
+            <tbody>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.274%; text-align: left; height: 14.3958px;\">NIK</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.3192%; height: 14.3958px; text-align: justify;\">[Nik_pelapoR]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.274%; text-align: left; height: 14.3958px;\">Nama Lengkap</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.3192%; text-align: justify; height: 14.3958px;\"><strong>[NAma_pelapor]</strong></td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.274%; text-align: left; height: 14.3958px;\">Tempat tanggal lahir / umur</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.3192%; height: 14.3958px; text-align: justify;\">[Tempat_tgl_lahir_pelapoR] /
+                        [Usia_pelapoR]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.274%; text-align: left; height: 14.3958px;\">Pekerjaan</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.3192%; text-align: justify; height: 14.3958px;\">[Pekerjaan_pelapoR]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.274%; text-align: left; height: 14.3958px;\">Alamat / Tempat Tinggal</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.3192%; text-align: justify; height: 14.3958px;\">[Alamat_pelapoR]</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style=\"text-align: left;\"><strong>Mohon dicatatkan kelahiran dalam register Akta Kelahiran dan diterbitkan kutipan
+                Akta Kelahiran :</strong></div>
+        <table style=\"border-collapse: collapse; width: 99.9875%; height: 77.1875px; border: 1px solid rgb(0, 0, 0);\"
+            border=\"1\">
+            <colgroup>
+                <col style=\"width: 3.87567%;\">
+                <col style=\"width: 24.861%;\">
+                <col style=\"width: 21.2689%;\">
+                <col style=\"width: 16.637%;\">
+                <col style=\"width: 16.637%;\">
+                <col style=\"width: 16.637%;\">
+            </colgroup>
+            <tbody>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\"><strong>No</strong></td>
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\"><strong>Nama / Jenis Kelamin</strong></td>
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\"><strong>Tempat Lahir</strong></td>
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\"><strong>Tanggal Lahir</strong></td>
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\"><strong>Anak Ke</strong></td>
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\"><strong>No dan Tanggal Pendaftaran</strong></td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\">1.</td>
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\"><strong>[NamA] </strong>/ [Jenis_kelamiN]</td>
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\">[Tempat_dilahirkanN]</td>
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\">[Tanggal_kelahiranN]</td>
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\">[Kelahiran_anaK]</td>
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\">\u{a0}</td>
+                </tr>
+            </tbody>
+        </table>
+        <table style=\"border-collapse: collapse; width: 99.9875%; height: 134.375px;\" border=\"0\" cellspacing=\"0\"
+            cellpadding=\"0\">
+            <tbody>
+                <tr>
+                    <td style=\"width: 33.1795%; text-align: left;\"><strong>Dari seorang ibu :</strong></td>
+                    <td style=\"width: 1.41793%; text-align: center;\">\u{a0}</td>
+                    <td style=\"width: 65.4137%; text-align: justify;\"><strong> </strong></td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Nama Lengkap</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; height: 14.3958px; text-align: justify;\"><strong>[Nama_ibU]</strong></td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">NIK / No KTP</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Nik_ibU]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Tempat dan tanggal lahir / Umur</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; height: 14.3958px; text-align: justify;\">[Tempat_tgl_lahir_ibU] / [Usia_ibU]
+                    </td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Kewarganegaraan</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Warga_negara_ibU]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Pekerjaan</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Pekerjaan_ibU]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Alamat/Tempat Tinggal</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Alamat_ibU]</td>
+                </tr>
+            </tbody>
+        </table>
+        <table style=\"border-collapse: collapse; width: 99.9875%; height: 111.979px;\" border=\"0\" cellspacing=\"0\"
+            cellpadding=\"0\">
+            <tbody>
+                <tr>
+                    <td style=\"width: 33.1795%; text-align: left;\"><strong>Istri dari :</strong></td>
+                    <td style=\"width: 1.41793%; text-align: center;\">\u{a0}</td>
+                    <td style=\"width: 65.4137%; text-align: justify;\"><strong> </strong></td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Nama Lengkap</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; height: 14.3958px; text-align: justify;\"><strong>[Nama_ayaH]</strong></td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">NIK / No KTP</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Nik_ayaH]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Tempat dan tanggal lahir / Umur</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; height: 14.3958px; text-align: justify;\">[Tempat_tgl_lahir_ayaH] / [Usia_ayaH]
+                    </td>
+                </tr>
+                <tr>
+                    <td style=\"width: 33.1795%; text-align: left;\">Kewarganegaraan</td>
+                    <td style=\"width: 1.41793%; text-align: center;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify;\">[Warga_negara_ayaH]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Pekerjaan</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Pekerjaan_ayaH]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Alamat/Tempat Tinggal</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Alamat_ayaH]</td>
+                </tr>
+            </tbody>
+        </table>
+        <table style=\"border-collapse: collapse; width: 99.9875%; height: 134.375px;\" border=\"0\" cellspacing=\"0\"
+            cellpadding=\"0\">
+            <tbody>
+                <tr>
+                    <td style=\"width: 33.1795%; text-align: left;\"><strong>Saksi 1:</strong></td>
+                    <td style=\"width: 1.41793%; text-align: center;\">\u{a0}</td>
+                    <td style=\"width: 65.4137%; text-align: justify;\"><strong> </strong></td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Nama Lengkap</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; height: 14.3958px; text-align: justify;\"><strong>[Nama_saksi_I]</strong></td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">NIK / No KTP</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Nik_saksi_I]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Tempat dan tanggal lahir / Umur</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; height: 14.3958px; text-align: justify;\">[Tempat_tgl_lahir_saksi_I] /
+                        [Usia_saksi_I]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Kewarganegaraan</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Warga_negara_saksi_I]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Pekerjaan</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Pekerjaan_saksi_I]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Alamat/Tempat Tinggal</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Alamat_saksi_I]</td>
+                </tr>
+            </tbody>
+        </table>
+        <table style=\"border-collapse: collapse; width: 99.9875%; height: 134.375px;\" border=\"0\" cellspacing=\"0\"
+            cellpadding=\"0\">
+            <tbody>
+                <tr>
+                    <td style=\"width: 33.1795%; text-align: left;\"><strong>Saksi 2:</strong></td>
+                    <td style=\"width: 1.41793%; text-align: center;\">\u{a0}</td>
+                    <td style=\"width: 65.4137%; text-align: justify;\"><strong> </strong></td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Nama Lengkap</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; height: 14.3958px; text-align: justify;\"><strong>[Nama_saksi_iI]</strong></td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">NIK / No KTP</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Nik_saksi_iI]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Tempat dan tanggal lahir / Umur</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; height: 14.3958px; text-align: justify;\">[Tempat_tgl_lahir_saksi_iI] /
+                        [Usia_saksi_iI]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Kewarganegaraan</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Warga_negara_saksi_iI]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Pekerjaan</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Pekerjaan_saksi_iI]</td>
+                </tr>
+                <tr style=\"height: 14.3958px;\">
+                    <td style=\"width: 33.1795%; text-align: left; height: 14.3958px;\">Alamat/Tempat Tinggal</td>
+                    <td style=\"width: 1.41793%; text-align: center; height: 14.3958px;\">:</td>
+                    <td style=\"width: 65.4137%; text-align: justify; height: 14.3958px;\">[Alamat_saksi_iI]</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style=\"text-align: center;\">\u{a0}</div>
+        <table style=\"width: 100%; height: 43.979px;\">
+            <tbody>
+                <tr style=\"height: 8.3958px;\">
+                    <td style=\"width: 94.4397%; height: 8.3958px;\"><span style=\"font-size: 10px;\"><strong>Terlampir persyaratan
+                                sebagai berikut :</strong></span></td>
+                </tr>
+                <tr style=\"height: 8.3958px;\">
+                    <td>
+                        <div style=\"font-size: 10px;\">1. Surat keterangan kelahiran dari penolong atau dari Desa/Lurah</div>
+                        <div style=\"font-size: 10px;\">2. Fotocopy KTP dan kartu keluarga orang tua</div>
+                        <div style=\"font-size: 10px;\">3. Fotocopy Buku Nikah / akta perkawinan orang tua yang telah dilegalisir
+                            (bagi yang memiliki)</div>
+                        <div style=\"font-size: 10px;\">4. Fotocopy KTP 2 orang saksi yang masih berlaku</div>
+                        <div style=\"font-size: 10px;\">5. Fotocopy Ijazah / Raport (bagi yang memiliki)</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table style=\"border-collapse: collapse; width: 99.9875%; height: 99.5833px;\">
+            <colgroup>
+                <col style=\"width: 32.8014%;\">
+                <col style=\"width: 33.9357%;\">
+                <col style=\"width: 33.274%;\">
+            </colgroup>
+            <tbody>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"text-align: center; height: 22.3958px;\">[NaMa_desa], [TgL_surat]</td>
+                </tr>
+                <tr style=\"height: 10px;\">
+                    <td style=\"height: 54.7917px;\" rowspan=\"2\">
+                        <table style=\"border-collapse: collapse; width: 100.415%; border: 1px solid rgb(0, 0, 0);\" border=\"1\">
+                            <colgroup>
+                                <col style=\"width: 33.6245%;\">
+                                <col style=\"width: 66.2547%;\">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td style=\"text-align: center; border-color: rgb(0, 0, 0);\" rowspan=\"2\">
+                                        <strong>Verifikasi</strong></td>
+                                    <td style=\"text-align: left; border-color: rgb(0, 0, 0);\"><strong>Kasi</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style=\"text-align: left; border-color: rgb(0, 0, 0);\"><strong>Kabid</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style=\"height: 54.7917px;\" rowspan=\"2\">\u{a0}</td>
+                    <td style=\"text-align: center; height: 10px;\">Pelapor</td>
+                </tr>
+                <tr style=\"height: 44.7917px;\">
+                    <td style=\"height: 44.7917px;\">\u{a0}</td>
+                </tr>
+                <tr style=\"height: 22.3958px;\">
+                    <td style=\"height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"height: 22.3958px;\">\u{a0}</td>
+                    <td style=\"text-align: center; height: 22.3958px;\"><strong>[Nama_pelapoR]</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <div style=\"text-align: center;\">\u{a0}</div>";
+        $data = [
+            'nama'                => 'Keterangan Kelahiran',
+            'kode_surat'          => 'S-17',
+            'masa_berlaku'        => 1,
+            'satuan_masa_berlaku' => 'M',
+            'orientasi'           => 'Potrait',
+            'ukuran'              => 'F4',
+            'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
+            'qr_code'             => StatusEnum::TIDAK,
+            'kode_isian'          => '[{"kategori":"Pelapor","tipe":"text","kode":"[form_hubungan_pelapor_dengan_bayi]","nama":"Hubungan Pelapor dengan Bayi","deskripsi":"Hubungan Pelapor dengan Bayi","required":"0","atribut":null,"pilihan":null,"refrensi":null}]',
+            'form_isian'          => '{"data":"1","individu":{"sex":"1","status_dasar":"1","kk_level":""},"data_orang_tua":"1","data_pasangan":"0","Pelapor":{"data":1,"sex":"","status_dasar":null,"kk_level":""},"Saksi_I":{"data":1,"sex":"","status_dasar":null,"kk_level":""},"Saksi_II":{"data":1,"sex":"","status_dasar":null,"kk_level":""}}',
+            'mandiri'             => StatusEnum::YA,
+            'syarat_surat'        => ['2', '3'],
+            'lampiran'            => 'F-2.01',
             'template'            => $template,
         ];
 
