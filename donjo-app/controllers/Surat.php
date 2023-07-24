@@ -327,6 +327,17 @@ class Surat extends Admin_Controller
                 $log_surat['pengikut_kartu_kis'] = generatePengikutKartuKIS($kis);
             }
 
+            if (isset($log_surat['input']['id_pengikut_pindah'])) {
+                $pengikut = Penduduk::with('pendudukHubungan')->whereIn('id', $log_surat['input']['id_pengikut_pindah'])->get();
+                $pindah   = [];
+
+                foreach ($pengikut as $anggota) {
+                    $pindah[$anggota->id] = $log_surat['input']['pindah'][$anggota->nik];
+                }
+
+                $log_surat['pengikut_pindah'] = generatePengikutPindah($pengikut);
+            }
+
             // Lewati ganti kode_isian
             // return json($log_surat);
             $daftar_kategori = get_key_form_kategori($surat->form_isian);
@@ -848,6 +859,13 @@ class Surat extends Admin_Controller
                     $data['pengikut_kis'] = $pengikut;
                 }
             }
+
+            if (preg_match('/\[pengikut_pindah\]/i', $template)) {
+                $pengikut = $this->pengikutPindah($data);
+                if ($pengikut) {
+                    $data['pengikut_pindah'] = $pengikut;
+                }
+            }
         }
 
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
@@ -920,6 +938,32 @@ class Surat extends Admin_Controller
         $individu      = $this->surat_model->get_data_surat($id);
         $penandatangan = $this->surat_model->atas_nama($data);
         $lampiran      = explode(',', strtolower($surat['lampiran']));
+
+        if (isset($input['gunakan_format'])) {
+            unset($lampiran);
+
+            switch (strtolower($input['gunakan_format'])) {
+                case 'f-1.08 (pindah pergi)':
+                    $lampiran[] = 'f-1.08';
+                    break;
+
+                case 'f-1.23, f-1.25, f-1.29, f-1.34 (sesuai tujuan)':
+                    $lampiran[] = 'f-1.25';
+                    break;
+
+                case 'f-1.03 (pindah datang)':
+                    $lampiran[] = 'f-1.03';
+                    break;
+
+                case 'f-1.27, f-1.31, f-1.39 (sesuai tujuan)':
+                    $lampiran[] = 'f-1.27';
+                    break;
+
+                default:
+                    $lampiran[] = null;
+                    break;
+            }
+        }
 
         for ($i = 0; $i < count($lampiran); $i++) {
             // Cek lampiran desa
@@ -1011,6 +1055,11 @@ class Surat extends Admin_Controller
     }
 
     private function pengikutSuratKIS($data)
+    {
+        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
+    }
+
+    private function pengikutPindah($data)
     {
         return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
     }

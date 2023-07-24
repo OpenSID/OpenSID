@@ -18,8 +18,15 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 12. [#6824](https://github.com/OpenSID/OpenSID/issues/6824) Penambahan kode isian surat TinyMCE untuk status penduduk hilang.
 13. [#6823](https://github.com/OpenSID/OpenSID/issues/6823) Penambahan kode isian surat TinyMCE untuk status penduduk pindah.
 14. [#6860](https://github.com/OpenSID/OpenSID/issues/6860) Penambahan pengaturan data pasangan TinyMCE.
-15. [#6845](https://github.com/OpenSID/OpenSID/issues/6845) Penambahan kode isian golongan darah.
-16. [#6867](https://github.com/OpenSID/OpenSID/issues/6867) Penambahan kode isian surat TinyMCE untuk status penduduk lahir.
+15. [#6819](https://github.com/OpenSID/OpenSID/issues/6819) Penambahan lampiran f-1.03 surat TinyMCE.
+16. [#6820](https://github.com/OpenSID/OpenSID/issues/6820) Penambahan lampiran f-1.08 surat TinyMCE.
+17. [#6821](https://github.com/OpenSID/OpenSID/issues/6821) Penambahan lampiran f-1.25 surat TinyMCE.
+18. [#6822](https://github.com/OpenSID/OpenSID/issues/6822) Penambahan lampiran f-1.27 surat TinyMCE.
+19. [#6896](https://github.com/OpenSID/OpenSID/issues/6896) Sediakan daftar ceklis keluarga pindah untuk surat pindah.
+20. [#5756](https://github.com/OpenSID/OpenSID/issues/5756) Penambahan surat TinyMCE keterangan pindah penduduk.
+21. [#6845](https://github.com/OpenSID/OpenSID/issues/6845) Penambahan kode isian golongan darah.
+22. [#6867](https://github.com/OpenSID/OpenSID/issues/6867) Penambahan kode isian surat TinyMCE untuk status penduduk lahir.
+23. [#6879](https://github.com/OpenSID/OpenSID/issues/6879) Sediakan pilihan format lampiran dari input pengguna surat TinyMCE keterangan pindah penduduk.
 
 #### Perbaikan BUG
 
@@ -68,7 +75,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 5. [#6846](https://github.com/OpenSID/OpenSID/issues/6846) Penyesuian halaman periksa untuk OpenSID database gabungan.
 6. [#2572](https://github.com/OpenSID/premium/issues/2572) Penyesuian sebutan kepala desa pada halaman maintenace.
 7. [#6848](https://github.com/OpenSID/OpenSID/issues/6848) Penyesuian pasang baru melalui kode_desa melalui config.
-8. [#6880](https://github.com/OpenSID/OpenSID/issues/6880) Penyesuaian form inputan email pada ganti email. 
+8. [#6880](https://github.com/OpenSID/OpenSID/issues/6880) Penyesuaian form inputan email pada ganti email.
 9. [#2600](https://github.com/OpenSID/premium/issues/2600) Penyesuaian migrasi perbaikan collation agar jalan terus diakhir migrasi.
 10. [#6901](https://github.com/OpenSID/OpenSID/issues/6901) Penyesuaian struktur kolom tgl_agenda pada tabel agenda.
 11. [#2639](https://github.com/OpenSID/premium/issues/2639) Penyesuaian struktur kolom yang menggunakan default urrent_timestamp() ON UPDATE current_timestamp() namun tidak sesuai kegunaannya.

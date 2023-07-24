@@ -74,6 +74,7 @@ class Migrasi_fitur_premium_2308 extends MY_model
             $hasil = $hasil && $this->suratKeteranganBedaIdentitasKIS($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPenghasilanIbu($hasil, $id);
             $hasil = $hasil && $this->suratPernyataanPenguasaanFisikBidangTanahSPORADIK($hasil, $id);
+            $hasil = $hasil && $this->suratKeteranganPindahPenduduk($hasil, $id);
             // Jalankan Migrasi TinyMCE
         }
 
@@ -1065,10 +1066,172 @@ class Migrasi_fitur_premium_2308 extends MY_model
         return $hasil;
     }
 
+    protected function suratKeteranganPindahPenduduk($hasil, $id)
+    {
+        $template = <<<HTML
+            <h4 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">[JUdul_surat]</span></h4>
+            <p style="margin: 0; text-align: center;">Nomor : [Format_nomor_suraT]<br><br></p>
+            <p style="text-align: justify; text-indent: 30px;">Yang bertanda tangan / cap jempol di bawah ini :</p>
+            <table style="border-collapse: collapse; width: 100%; height: 201.515px;" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 22.3906px;">
+            <td style="width: 4.31655%; text-align: center; height: 22.3906px;"> </td>
+            <td style="width: 3.90545%; height: 22.3906px; text-align: left;">1.</td>
+            <td style="width: 30.5242%; text-align: left; height: 22.3906px;">Nama Lengkap</td>
+            <td style="width: 1.2333%; text-align: center; height: 22.3906px;">:</td>
+            <td style="width: 60.0206%; height: 22.3906px; text-align: justify;"><strong>[NAma]</strong></td>
+            </tr>
+            <tr style="height: 22.3906px;">
+            <td style="width: 4.31655%; text-align: center; height: 22.3906px;"> </td>
+            <td style="width: 3.90545%; height: 22.3906px; text-align: left;">2.</td>
+            <td style="width: 30.5242%; text-align: left; height: 22.3906px;">Tempat / Tanggal Lahir</td>
+            <td style="width: 1.2333%; text-align: center; height: 22.3906px;">:</td>
+            <td style="width: 60.0206%; height: 22.3906px; text-align: justify;">[TtL]</td>
+            </tr>
+            <tr style="height: 22.3906px;">
+            <td style="width: 4.31655%; text-align: center; height: 22.3906px;"> </td>
+            <td style="width: 3.90545%; text-align: left; height: 22.3906px;">3.</td>
+            <td style="width: 30.5242%; text-align: left; height: 22.3906px;">Umur</td>
+            <td style="width: 1.2333%; text-align: center; height: 22.3906px;">:</td>
+            <td style="width: 60.0206%; text-align: justify; height: 22.3906px;">[UsiA]</td>
+            </tr>
+            <tr style="height: 22.3906px;">
+            <td style="width: 4.31655%; text-align: center; height: 22.3906px;"> </td>
+            <td style="width: 3.90545%; text-align: left; height: 22.3906px;">4.</td>
+            <td style="width: 30.5242%; text-align: left; height: 22.3906px;">Kewarganegaraan</td>
+            <td style="width: 1.2333%; text-align: center; height: 22.3906px;">:</td>
+            <td style="width: 60.0206%; text-align: justify; height: 22.3906px;">[WArga_negara]</td>
+            </tr>
+            <tr style="height: 22.3906px;">
+            <td style="width: 4.31655%; text-align: center; height: 22.3906px;"> </td>
+            <td style="width: 3.90545%; text-align: left; height: 22.3906px;">5.</td>
+            <td style="width: 30.5242%; text-align: left; height: 22.3906px;">Agama</td>
+            <td style="width: 1.2333%; text-align: center; height: 22.3906px;">:</td>
+            <td style="width: 60.0206%; text-align: justify; height: 22.3906px;">[AgAma]</td>
+            </tr>
+            <tr style="height: 22.3906px;">
+            <td style="width: 4.31655%; text-align: center; height: 22.3906px;"> </td>
+            <td style="width: 3.90545%; height: 22.3906px; text-align: left;">6.</td>
+            <td style="width: 30.5242%; text-align: left; height: 22.3906px;">Jenis Kelamin</td>
+            <td style="width: 1.2333%; text-align: center; height: 22.3906px;">:</td>
+            <td style="width: 60.0206%; height: 22.3906px; text-align: justify;">[Jenis_kelamiN]</td>
+            </tr>
+            <tr style="height: 22.3906px;">
+            <td style="width: 4.31655%; text-align: center; height: 22.3906px;"> </td>
+            <td style="width: 3.90545%; text-align: left; height: 22.3906px;">7.</td>
+            <td style="width: 30.5242%; text-align: left; height: 22.3906px;">Pekerjaan</td>
+            <td style="width: 1.2333%; text-align: center; height: 22.3906px;">:</td>
+            <td style="width: 60.0206%; text-align: justify; height: 22.3906px;">[PeKerjaan]</td>
+            </tr>
+            <tr>
+            <td style="width: 4.31655%; text-align: center;"> </td>
+            <td style="width: 3.90545%; text-align: left;">8.</td>
+            <td style="width: 30.5242%; text-align: left;">No. KTP</td>
+            <td style="width: 1.2333%; text-align: center;">:</td>
+            <td style="width: 60.0206%; text-align: justify;">[NiK]</td>
+            </tr>
+            <tr style="height: 44.7812px;">
+            <td style="width: 4.31655%; text-align: center; height: 44.7812px;"> </td>
+            <td style="width: 3.90545%; height: 44.7812px; text-align: left;">9.<br><br></td>
+            <td style="width: 30.5242%; text-align: left; height: 44.7812px;">Tempat Tinggal<br><br></td>
+            <td style="width: 1.2333%; text-align: center; height: 44.7812px;">:<br><br></td>
+            <td style="width: 60.0206%; height: 44.7812px; text-align: justify;">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]</td>
+            </tr>
+            </tbody>
+            </table>
+            <p style="text-align: justify; text-indent: 30px;">Akan pindah dengan keterangan sebagai berikut:</p>
+            <table style="border-collapse: collapse; width: 100%; height: 144px;" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 18px;">
+            <td style="width: 4.31655%; text-align: center; height: 18px;"> </td>
+            <td style="width: 3.90545%; height: 18px; text-align: left;">10.</td>
+            <td style="width: 30.5242%; text-align: left; height: 18px;">Alamat yang dituju</td>
+            <td style="width: 1.2333%; text-align: center; height: 18px;">:</td>
+            <td style="width: 60.0206%; height: 18px; text-align: justify;">RT [Form_rt_tujuaN], RW [Form_rw_tujuaN], [Sebutan_dusun] [Form_dusun_tujuaN], [Sebutan_desa] [Form_desa_atau_kelurahan_tujuan], Kecamatan [Form_kecamatan_tujuan], [Sebutan_kabupaten] [Form_kabupaten_tujuan]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.31655%; text-align: center; height: 18px;"> </td>
+            <td style="width: 3.90545%; height: 18px; text-align: left;">11.</td>
+            <td style="width: 30.5242%; text-align: left; height: 18px;">Alasan Pindah</td>
+            <td style="width: 1.2333%; text-align: center; height: 18px;">:</td>
+            <td style="width: 60.0206%; height: 18px; text-align: justify;">[Form_alasan_pindah]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.31655%; text-align: center; height: 18px;"> </td>
+            <td style="width: 3.90545%; text-align: left; height: 18px;">12.</td>
+            <td style="width: 30.5242%; text-align: left; height: 18px;">Tanggal Pindah</td>
+            <td style="width: 1.2333%; text-align: center; height: 18px;">:</td>
+            <td style="width: 60.0206%; text-align: justify; height: 18px;">[Form_tanggal_pindaH]</td>
+            </tr>
+            <tr style="height: 18px;">
+            <td style="width: 4.31655%; text-align: center; height: 18px;"> </td>
+            <td style="width: 3.90545%; text-align: left; height: 18px;">13.</td>
+            <td style="width: 30.5242%; text-align: left; height: 18px;">Jumlah Pengikut</td>
+            <td style="width: 1.2333%; text-align: center; height: 18px;">:</td>
+            <td style="width: 60.0206%; text-align: justify; height: 18px;">[Form_jumlah_pengikuT]</td>
+            </tr>
+            </tbody>
+            </table>
+            <p style="text-align: justify; text-indent: 30px;"><br>[Pengikut_pindaH]</p>
+            <p style="text-align: justify; text-indent: 30px;">Surat keterangan ini diterbitkan sebagai [Form_keterangaN].</p>
+            <p style="text-align: justify; text-indent: 30px;">Demikian surat ini dibuat, untuk dipergunakan sebagaimana mestinya.</p>
+            <table style="border-collapse: collapse; width: 100%;" border="0">
+            <tbody>
+            <tr>
+            <td style="width: 35%; text-align: center;"> </td>
+            <td style="width: 30%;"> </td>
+            <td style="width: 35%; text-align: center;">[NaMa_desa], [TgL_surat]</td>
+            </tr>
+            <tr>
+            <td style="width: 35%; text-align: center;">Pemegang Surat,</td>
+            <td style="width: 30%;"> </td>
+            <td style="width: 35%; text-align: center;">[AtAs_nama]</td>
+            </tr>
+            <tr>
+            <td style="width: 35%; text-align: center;"> </td>
+            <td style="width: 30%;"><br><br><br><br></td>
+            <td style="width: 35%;"> </td>
+            </tr>
+            <tr>
+            <td style="width: 35%; text-align: center;">[Nama]</td>
+            <td style="width: 30%;"> </td>
+            <td style="width: 35%; text-align: center;">[NaMa_pamong]</td>
+            </tr>
+            <tr>
+            <td style="width: 35%; text-align: center;"> </td>
+            <td style="width: 30%;"> </td>
+            <td style="width: 35%; text-align: center;">[Nip_pamonG]</td>
+            </tr>
+            </tbody>
+            </table>
+            <div style="text-align: center;"> </div>
+            <div style="text-align: center;"><br>[qr_code]</div>        
+        HTML;
+        $data = [
+            'nama'                => 'Keterangan Pindah Penduduk',
+            'kode_surat'          => 'S-04',
+            'masa_berlaku'        => 1,
+            'satuan_masa_berlaku' => 'd',
+            'orientasi'           => 'Potrait',
+            'ukuran'              => 'F4',
+            'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
+            'qr_code'             => StatusEnum::TIDAK,
+            'kode_isian'          => '[{"tipe":"text","kode":"[form_telepon_pemohon]","nama":"Telepon Pemohon","deskripsi":"Nomor Telepon Pemohon","required":"1","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"select-manual","kode":"[form_gunakan_format]","nama":"Gunakan Format","deskripsi":"Pilih Format Lampiran Surat","required":"1","atribut":null,"pilihan":["F-1.08 (pindah pergi)","F-1.23, F-1.25, F-1.29, F-1.34 (sesuai tujuan)","F-1.03 (pindah datang)","F-1.27, F-1.31, F-1.39 (sesuai tujuan)"],"refrensi":null},{"tipe":"select-manual","kode":"[form_jenis_permohonan]","nama":"Jenis Permohonan","deskripsi":"Pilih Jenis Permohonan","required":"0","atribut":null,"pilihan":["SURAT KETERANGAN KEPENDUDUKAN","SURAT KETERANGAN PINDAH","SURAT KETERANGAN PINDAH LUAR NEGERI (SKPLN)","SURAT KETERANGAN TEMPAT TINGGAL (SKTT)","BAGI ORANG ASING TINGGAL TERBATAS"],"refrensi":null},{"tipe":"select-manual","kode":"[form_alasan_pindah]","nama":"Alasan Pindah","deskripsi":"Pilih Alasan Pindah","required":"1","atribut":null,"pilihan":["PEKERJAAN","PENDIDIKAN","KEAMANAN","KESEHATAN","PERUMAHAN","KELUARGA","LAINNYA"],"refrensi":null},{"tipe":"select-manual","kode":"[form_klasifikasi_pindah]","nama":"Klasifikasi Pindah","deskripsi":"Pilih Klasifikasi Pindah","required":"1","atribut":null,"pilihan":["DALAM SATU DESA\/KELURAHAN","ANTAR DESA\/KELURAHAN","ANTAR KECAMATAN","ANTAR KAB\/KOTA","ANTAR PROVINSI"],"refrensi":null},{"tipe":"text","kode":"[form_alamat_tujuan]","nama":"Alamat Tujuan","deskripsi":"Alamat Tujuan","required":"1","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_rt_tujuan]","nama":"RT Tujuan","deskripsi":"RT Tujuan","required":"1","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_rw_tujuan]","nama":"RW Tujuan","deskripsi":"RW Tujuan","required":"1","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_dusun_tujuan]","nama":"Dusun Tujuan","deskripsi":"Dusun Tujuan","required":"1","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_desa_atau_kelurahan_tujuan]","nama":"Desa atau Kelurahan Tujuan","deskripsi":"Desa atau Kelurahan Tujuan","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_kecamatan_tujuan]","nama":"Kecamatan Tujuan","deskripsi":"Kecamatan Tujuan","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_kabupaten_tujuan]","nama":"Kabupaten Tujuan","deskripsi":"Kabupaten Tujuan","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_provinsi_tujuan]","nama":"Provinsi Tujuan","deskripsi":"Provinsi Tujuan","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_kode_pos_tujuan]","nama":"Kode Pos Tujuan","deskripsi":"Kode Pos Tujuan","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_telepon_tujuan]","nama":"Telepon Tujuan","deskripsi":"Telepon Tujuan","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"select-manual","kode":"[form_jenis_kepindahan]","nama":"Jenis Kepindahan","deskripsi":"Pilih Jenis Kepindahan","required":"1","atribut":null,"pilihan":["KEP. KELUARGA","KEP. KELUARGA DAN SELURUH ANGG. KELUARGA","KEP. KELUARGA DAN SBG. ANGG. KELUARGA","ANGG. KELUARGA"],"refrensi":null},{"tipe":"select-manual","kode":"[form_status_kk_bagi_yang_tidak_pindah]","nama":"Status KK Bagi Yang Tidak Pindah","deskripsi":"Pilih Status KK Bagi Yang Tidak Pindah","required":"1","atribut":null,"pilihan":["NUMPANG KK","MEMBUAT KK BARU","TIDAK ADA ANGG. KELUARGA YANG DITINGGAL","NOMOR KK TETAP"],"refrensi":null},{"tipe":"select-manual","kode":"[form_status_kk_bagi_yang_pindah]","nama":"Status KK Bagi Yang Pindah","deskripsi":"Pilih Status KK Bagi Yang Pindah","required":"1","atribut":null,"pilihan":["NUMPANG KK","MEMBUAT KK BARU","NOMOR KK TETAP"],"refrensi":null},{"tipe":"text","kode":"[form_negara_tujuan]","nama":"Negara Tujuan","deskripsi":"Negara Tujuan","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_kode_negara]","nama":"Kode Negara","deskripsi":"Kode Negara","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_alamat_tujuan_luar_negeri]","nama":"Alamat Tujuan (Luar Negeri)","deskripsi":"Alamat Tujuan (Luar Negeri)","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_penanggung_jawab]","nama":"Penanggung Jawab","deskripsi":"Penanggung Jawab","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_nama_sponsor]","nama":"Nama Sponsor","deskripsi":"Nama Sponsor","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"select-manual","kode":"[form_tipe_sponsor]","nama":"Tipe Sponsor","deskripsi":"Pilih Tipe Sponsor","required":"0","atribut":null,"pilihan":["ORGANISASI INTERNASIONAL","PERORANGAN","PEMERINTAH","TANPA SPONSOR","PERUSAHAAN"],"refrensi":null},{"tipe":"text","kode":"[form_alamat_sponsor]","nama":"Alamat Sponsor","deskripsi":"Alamat Sponsor","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_nomor_itas_&_itap]","nama":"Nomor ITAS & ITAP","deskripsi":"Nomor ITAS & ITAP","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"date","kode":"[form_tanggal_itas_&_itap]","nama":"Tanggal ITAS & ITAP","deskripsi":"Tanggal ITAS & ITAP","required":"0","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"date","kode":"[form_tanggal_pindah]","nama":"Tanggal Pindah","deskripsi":"Tanggal Pindah","required":"1","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_keterangan]","nama":"Keterangan","deskripsi":"Keterangan","required":"1","atribut":null,"pilihan":null,"refrensi":null},{"tipe":"text","kode":"[form_jumlah_pengikut]","nama":"Jumlah Pengikut","deskripsi":"Jumlah Pengikut","required":"0","atribut":null,"pilihan":null,"refrensi":null}]',
+            'form_isian'          => '{"data":"1","individu":{"sex":"","status_dasar":"","kk_level":""},"data_orang_tua":"0","data_pasangan":"0"}',
+            'mandiri'             => StatusEnum::YA,
+            'syarat_surat'        => ["2", "3", "1"],
+            'lampiran'            => 'F-1.03,F-1.08,F-1.25,F-1.27',
+            'template'            => $template,
+        ];
+
+        return $hasil && $this->tambah_surat_tinymce($data, $id);
+    }
+
     protected function migrasi_2023070653($hasil)
     {
         return $this->db->query('ALTER TABLE login_attempts MODIFY COLUMN username VARCHAR(100) NOT NULL');
     }
+
 
     // Function Migrasi TinyMCE
 }

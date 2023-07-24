@@ -121,6 +121,7 @@
 
                     @includeWhen(isset($pengikut), 'admin.surat.pengikut')
                     @includeWhen(isset($pengikut_kis), 'admin.surat.pengikut_kis')
+                    @includeWhen(isset($pengikut_pindah), 'admin.surat.pengikut_pindah')
                 @endif
 
                 <div class="row jar_form">
