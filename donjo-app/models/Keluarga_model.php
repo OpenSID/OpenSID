@@ -261,7 +261,11 @@ class Keluarga_model extends MY_Model
             ->select('u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.sex as id_sex, t.status_dasar, t.foto, t.id as id_pend, c.dusun, c.rw, c.rt');
         $this->list_data_sql();
 
-        $this->db->order_by('length(u.no_kk)');
+        $this->db->order_by("CASE
+            WHEN CHAR_LENGTH(u.no_kk) < 16 THEN 1
+            WHEN u.no_kk LIKE '0%' AND CHAR_LENGTH(u.no_kk) = 16 THEN 2
+            ELSE 3
+        END");
 
         switch ($o) {
             case 1:
