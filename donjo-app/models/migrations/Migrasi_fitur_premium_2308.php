@@ -36,6 +36,7 @@
  */
 
 use App\Enums\StatusEnum;
+use App\Models\Config;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -78,6 +79,7 @@ class Migrasi_fitur_premium_2308 extends MY_model
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023070651($hasil);
+        $hasil = $hasil && $this->migrasi_2023070653($hasil);
 
         return $hasil && $this->migrasi_2023070652($hasil);
     }
@@ -1061,6 +1063,11 @@ class Migrasi_fitur_premium_2308 extends MY_model
         ]);
 
         return $hasil;
+    }
+
+    protected function migrasi_2023070653($hasil)
+    {
+        return $this->db->query('ALTER TABLE login_attempts MODIFY COLUMN username VARCHAR(100) NOT NULL');
     }
 
     // Function Migrasi TinyMCE

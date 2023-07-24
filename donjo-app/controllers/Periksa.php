@@ -82,6 +82,17 @@ class Periksa extends CI_Controller
         redirect('/');
     }
 
+    public function perbaiki_sebagian($masalah)
+    {
+        if ($this->session->periksa_data != 1) {
+            redirect('periksa/login');
+        }
+        $this->periksa_model->perbaiki_sebagian($masalah);
+        $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+
+        redirect('/');
+    }
+
     // Login khusus untuk periksa
     public function login()
     {

@@ -462,6 +462,8 @@ class Penduduk_model extends MY_Model
     // Perlu di urut sebelum paging dan sesudah paging
     private function order_by_list($order_by)
     {
+        $this->db->order_by('length(u.nik)');
+
         //Urut data
         switch ($order_by) {
             case 1:
@@ -519,7 +521,7 @@ class Penduduk_model extends MY_Model
     }
 
     // $page = 0 mengambil semua
-    public function list_data($order_by = 1, $page = 1)
+    public function list_data($order_by = 0, $page = 1)
     {
         //Main Query
         $this->list_data_sql();
@@ -558,7 +560,7 @@ class Penduduk_model extends MY_Model
         // pada query "... FROM ({$query_dasar}) AS u" menjadi "... FROM (({$query_dasar}) AS u) ..."
         $this->db->from("#({$query_dasar}) AS u#");
         $this->lookup_ref_penduduk();
-        $this->order_by_list($order_by);
+        // $this->order_by_list($order_by);
 
         // lakukan filter setelah final query
         $this->filter_id();

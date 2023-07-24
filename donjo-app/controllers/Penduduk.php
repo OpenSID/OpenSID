@@ -73,7 +73,7 @@ class Penduduk extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 10)
+    public function index($p = 1, $o = 0)
     {
         $data['p'] = $p;
         $data['o'] = $o;
@@ -112,6 +112,7 @@ class Penduduk extends Admin_Controller
         }
 
         $data['func']                 = 'index';
+        $this->header['kategori']     = 'data_lengkap';
         $data['set_page']             = $this->_set_page;
         $list_data                    = $this->penduduk_model->list_data($o, $p);
         $data['paging']               = $list_data['paging'];
@@ -122,7 +123,6 @@ class Penduduk extends Admin_Controller
         $data['list_jenis_kelamin']   = $this->referensi_model->list_data('tweb_penduduk_sex');
         $data['pesan_hapus']          = 'Hanya lakukan hapus penduduk hanya jika ada kesalahan saat pengisian data atau penduduk tersebut tidak akan ditambahkan kembali. Apakah Anda yakin ingin menghapus data ini?';
         $data['akses']                = UserGrup::getGrupId(UserGrup::ADMINISTRATOR);
-        $data['data_lengkap']         = ($this->setting->tgl_data_lengkap_aktif && ! empty($this->setting->tgl_data_lengkap)) ? true : false;
 
         $this->render('sid/kependudukan/penduduk', $data);
     }
@@ -388,6 +388,12 @@ class Penduduk extends Admin_Controller
     public function delete($p = 1, $o = 0, $id = '')
     {
         $this->redirect_hak_akses('h');
+        if (data_lengkap()) {
+            session_error('error', 'Data tidak dapat proses karena sudah dinyatakan lengkap');
+
+            redirect("{$this->controller}/index/{$p}/{$o}");
+        }
+
         $this->penduduk_model->delete($id);
         $this->cache->hapus_cache_untuk_semua('_wilayah');
 
@@ -397,6 +403,13 @@ class Penduduk extends Admin_Controller
     public function delete_all($p = 1, $o = 0)
     {
         $this->redirect_hak_akses('h');
+
+        if (data_lengkap()) {
+            session_error('error', 'Data tidak dapat proses karena sudah dinyatakan lengkap');
+
+            redirect("{$this->controller}/index/{$p}/{$o}");
+        }
+
         $this->penduduk_model->delete_all();
         $this->cache->hapus_cache_untuk_semua('_wilayah');
 

@@ -188,6 +188,16 @@ function jecho($a, $b, $str)
     }
 }
 
+function valid_nik_nokk($nik)
+{
+    $length = strlen($nik);
+    if ($length < 16) {
+        echo 'class="warning"';
+    } elseif (get_nik($nik) == 0) {
+        echo 'class="danger"';
+    }
+}
+
 function compared_return($a, $b, $retval = null)
 {
     ($a === $b) && print 'active';
@@ -791,16 +801,36 @@ if (! function_exists('opendk_api')) {
             $message = $e->getHandlerContext()['error'];
             $notif   = [
                 'status' => 'danger',
-                'pesan'  => "<br/>{$message}<br/>",
+                'pesan'  => messageResponseHTML($message),
             ];
         } catch (GuzzleHttp\Exception\ClientException $e) {
             $message = $e->getResponse()->getBody()->getContents();
             $notif   = [
                 'status' => 'danger',
-                'pesan'  => "<br/>{$message}<br/>",
+                'pesan'  => messageResponseHTML($message),
             ];
         }
 
         return $notif;
+    }
+}
+
+if (! function_exists('messageResponseHTML')) {
+    function messageResponseHTML($json_msg)
+    {
+        $msg  = json_decode($json_msg, 1);
+        $html = '<h5>' . $msg['message'] . '</h5>';
+        if ($msg['errors']) {
+            $html .= '<ul>';
+
+            foreach ($msg['errors'] as $errs) {
+                foreach ($errs as $value) {
+                    $html .= '<li>' . $value . '</li>';
+                }
+            }
+            $html .= '</ul>';
+        }
+
+        return $html;
     }
 }

@@ -241,7 +241,7 @@ class Pamong_model extends MY_Model
     public function update($id = 0)
     {
         $post           = $this->input->post();
-        $data           = $this->siapkan_data($post);
+        $data           = $this->siapkan_data($post, $id);
         $jabatan_kades  = RefJabatan::getKades()->id;
         $jabatan_sekdes = RefJabatan::getSekdes()->id;
 
@@ -346,7 +346,9 @@ class Pamong_model extends MY_Model
         } elseif ($data['jabatan_id'] == sekdes()->id) {
             $data['urut'] = 2;
         } else {
-            $data['urut'] = $this->urut_model->urut_max() + 1;
+            if ($id == 0 || $id == null) {
+                $data['urut'] = $this->urut_model->urut_max() + 1;
+            }
         }
 
         if (empty($data['id_pend'])) {

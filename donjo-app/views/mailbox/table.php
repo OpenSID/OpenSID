@@ -64,8 +64,11 @@
 													<div class="table-responsive">
 														<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 															<thead class="bg-gray disabled color-palette">
+																<?php $jml_th = 7; ?>
 																<tr>
-																	<?php if ($this->CI->cek_hak_akses('h')): ?>
+																	<?php if ($this->CI->cek_hak_akses('h')):
+																	    $jml_th++;
+																	    ?>
 																		<th><input type="checkbox" id="checkall"/></th>
 																	<?php endif; ?>
 																	<th>No</th>
@@ -106,6 +109,7 @@
 																</tr>
 															</thead>
 															<tbody>
+																<?php if($main) : ?>
 																<?php foreach ($main as $data): ?>
 																	<tr <?php if ($data['status'] != 1): ?>style='background-color:#ffeeaa;'<?php endif; ?>>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
@@ -132,6 +136,7 @@
 																		<td nowrap><?=tgl_indo2($data['tgl_upload'])?></td>
 																	</tr>
 																<?php endforeach; ?>
+																<?php else: tidak_ada_data(22); endif; ?>
 															</tbody>
 														</table>
 													</div>

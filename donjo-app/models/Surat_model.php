@@ -741,7 +741,7 @@ class Surat_model extends MY_Model
         }
     }
 
-    private function atas_nama($data, $buffer = null)
+    public function atas_nama($data, $buffer = null)
     {
         //Data penandatangan
         $input     = $data['input'];

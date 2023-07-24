@@ -119,4 +119,16 @@ class Keluarga extends BaseModel
             $query->status()->where('kk_level', '1');
         });
     }
+
+    protected static function nomerKKSementara()
+    {
+        // buat jadi orm laravel
+        $digit = self::selectRaw('RIGHT(no_kk, 5) as digit')
+            ->where('no_kk', 'like', '0' . identitas('kode_desa') . '%')
+            ->where('no_kk', '!=', '0')
+            ->orderByRaw('RIGHT(no_kk, 5) DESC')
+            ->first()->digit ?? 0;
+
+        return (int) $digit + 1;
+    }
 }

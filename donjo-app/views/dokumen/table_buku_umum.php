@@ -104,6 +104,7 @@
 									</tr>
 								</thead>
 								<tbody>
+									<?php if($main): ?>
 									<?php foreach ($main as $data) : ?>
 										<tr>
 											<td><input type="checkbox" name="id_cb[]" value="<?= $data['id'] ?>" /></td>
@@ -143,6 +144,7 @@
 											<td nowrap><?= tgl_indo2($data['tgl_upload']) ?></td>
 										</tr>
 									<?php endforeach; ?>
+									<?php else: tidak_ada_data(16); endif; ?>
 								</tbody>
 							</table>
 						</div>

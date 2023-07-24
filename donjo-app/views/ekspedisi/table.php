@@ -64,6 +64,7 @@
 									</tr>
 								</thead>
 								<tbody>
+									<?php if($main) : ?>
 									<?php foreach ($main as $indeks => $data): ?>
 										<tr>
 											<td class="nostretch"><?= $indeks + 1?></td>
@@ -84,6 +85,7 @@
 											<td><?= $data['keterangan']?></td>
 										</tr>
 									<?php endforeach; ?>
+									<?php else: tidak_ada_data(8); endif; ?>
 								</tbody>
 							</table>
 						</div>
