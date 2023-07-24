@@ -52,6 +52,9 @@
 
 				<!-- numeral js -->
 				<script src="<?= asset('js/numeraljs/numeral.min.js') ?>"></script>
+
+				<!-- Sweet Alert -->
+				<script src="<?= asset('js/sweetalert2/sweetalert2.all.min.js') ?>"></script>
 				<script type="text/javascript">
 					numeral.register("locale", "id-id", {
 						delimiters: {

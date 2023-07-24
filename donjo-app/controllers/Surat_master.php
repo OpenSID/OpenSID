@@ -201,7 +201,7 @@ class Surat_master extends Admin_Controller
             $this->preview();
         }
 
-        if (FormatSurat::insert(static::validate($this->request))) {
+        if (FormatSurat::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 
@@ -279,6 +279,7 @@ class Surat_master extends Admin_Controller
             'syarat_surat'        => $request['mandiri'] ? json_encode($request['id_cb']) : null,
             'qr_code'             => $request['qr_code'],
             'logo_garuda'         => $request['logo_garuda'],
+            'kecamatan'           => (int) ((setting('tte') == StatusEnum::YA) ? $request['kecamatan'] : 0),
             'template_desa'       => $request['template_desa'],
             'form_isian'          => json_encode($formIsian),
             'kode_isian'          => json_encode($kodeIsian),
@@ -391,7 +392,7 @@ class Surat_master extends Admin_Controller
                         $data['nama']      = ucwords(trim(str_replace(['surat_', '_'], ' ', $surat_baru)));
                         $data['url_surat'] = $surat_baru;
 
-                        FormatSurat::insert($data);
+                        FormatSurat::create($data);
                     }
 
                     $daftarSurat[] = $url_surat;

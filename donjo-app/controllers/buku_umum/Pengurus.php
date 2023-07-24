@@ -341,7 +341,7 @@ class Pengurus extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (RefJabatan::insert(static::jabatanValidate($this->request))) {
+        if (RefJabatan::create(static::jabatanValidate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', 'pengurus/jabatan');
         }
         redirect_with('error', 'Gagal Tambah Data', 'pengurus/jabatan');

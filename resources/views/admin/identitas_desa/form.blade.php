@@ -21,7 +21,7 @@
         <div class="col-md-3">
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <img class="profile-user-img img-responsive img-circle" src="{{ to_base64($main->path_logo) }}"
+                    <img class="profile-user-img img-responsive img-circle" src="{{ gambar_desa($main->path_logo) }}"
                         alt="Logo">
                     <br />
                     <p class="text-center text-bold">Lambang {{ ucwords($setting->sebutan_desa) }}</p>
@@ -47,7 +47,7 @@
             </div>
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <img class="img-responsive" src="{{ to_base64($main->path_kantor_desa) }}"
+                    <img class="img-responsive" src="{{ gambar_desa($main->path_kantor_desa, true) }}"
                         alt="Kantor {{ ucwords($setting->sebutan_desa) }}">
                     <br />
                     <p class="text-center text-bold">Kantor {{ ucwords($setting->sebutan_desa) }}</p>
@@ -325,26 +325,52 @@
                         processData: false,
                         contentType: false,
                     })
-                    .done(function(response) {
-                        if (response.status) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil Ubah Data',
+                    .done(function() {
+                        $.ajax({
+                                url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+                                headers: {
+                                    "Authorization": `Bearer <?= setting('layanan_opendesa_token') ?>`,
+                                    "X-Requested-With": `XMLHttpRequest`,
+                                },
+                                type: 'Post',
                             })
-                            window.location.replace(`${SITE_URL}identitas_desa`);
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal Ubah Data',
-                                text: response.message,
+                            .done(function(response) {
+                                let data = {
+                                    body: response
+                                }
+                                $.ajax({
+                                        url: `${SITE_URL}pelanggan/pemesanan`,
+                                        type: 'Post',
+                                        dataType: 'json',
+                                        data: data,
+                                    })
+                                    .done(function() {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'berhasil ubah data',
+                                        })
+                                        window.location.replace(`${SITE_URL}identitas_desa`);
+                                    })
+                                    .fail(function(e) {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'berhasil ubah data',
+                                        })
+                                        window.location.replace(`${SITE_URL}identitas_desa`);
+                                    });
                             })
-                        }
+                            .fail(function() {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'berhasil ubah data',
+                                })
+                                window.location.replace(`${SITE_URL}identitas_desa`);
+                            });
                     })
-                    .fail(function(response) {
+                    .fail(function() {
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal Ubah Data',
-                            text: response.message,
                         })
                     });
             });

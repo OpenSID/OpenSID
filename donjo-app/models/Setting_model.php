@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\TinyMCE;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\Schema;
@@ -89,6 +90,18 @@ class Setting_model extends MY_Model
         // Ambil google api key dari desa/config/config.php kalau tidak ada di database
         if (empty($this->setting->mapbox_key)) {
             $this->setting->mapbox_key = config_item('mapbox_key');
+        }
+
+        if (empty($this->setting->header_surat)) {
+            $this->setting->header_surat = TinyMCE::HEADER;
+        }
+
+        if (empty($this->setting->footer_surat)) {
+            $this->setting->footer_surat = TinyMCE::FOOTER;
+        }
+
+        if (empty($this->setting->footer_surat_tte)) {
+            $this->setting->footer_surat_tte = TinyMCE::FOOTER_TTE;
         }
 
         // Ganti token_layanan sesuai config untuk mempermudah development

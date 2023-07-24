@@ -85,7 +85,7 @@ class Database extends Admin_Controller
     public function migrasi_db_cri()
     {
         $this->redirect_hak_akses('u');
-        $this->session->unset_userdata(['success, error_msg']);
+        $this->session->unset_userdata(['success', 'error_msg']);
         $this->database_model->migrasi_db_cri();
         redirect('database/migrasi_cri');
     }

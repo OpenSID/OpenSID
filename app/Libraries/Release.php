@@ -44,6 +44,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Release
 {
     /**

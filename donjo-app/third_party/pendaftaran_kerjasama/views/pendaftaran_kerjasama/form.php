@@ -67,6 +67,23 @@
             <?php endif ?>
             <div class="box box-info">
                 <div class="box-header with-border">
+                    <i class="icon fa fa-info"></i>
+                    <h3 class="box-title">Langkah-langkah melakukan pengecekan email untuk verifikasi
+                </div>
+                <div class="box-body">
+                    <div class="callout callout-info">
+                        <h5>1. Cek folder kotak masuk / inbox, jika ada, maka silahkan klik pesan tersebut lalu klik tombol verifikasi email. </h5>
+                        <h5>2. Cek folder spam, jika ada, maka:<br>
+                            - Klik pesan lalu hapus label spam pada pesan tersebut.<br>
+                            - Setelah label spam dihapus, pesan akan masuk ke folder inbox.<br>
+                            - Selanjutnya cek folder inbox, dan silahkan klik pesan dan klik tombol verifikasi.<br>
+                        </h5>
+                        <h5>3. Jika Anda tidak menerima pesan pada folder inbox dan folder spam, silahkan kirim ulang pendaftaran kerjasama menggunakan email aktif untuk menerima link verifikasi baru, pastikan email sudah benar.</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="box box-info">
+                <div class="box-header with-border">
                     <h3 class="box-title">Form Pendaftaran Kerjasama</h3>
                 </div>
                 <form id="validasi" action="<?= site_url('pendaftaran_kerjasama/register') ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
@@ -104,7 +121,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="domain">Domain <?= ucfirst($this->setting->sebutan_desa) ?></label>
                             <div class="col-sm-8">
-                                <input id="domain" class="form-control input-sm required" type="text" name="domain" value="<?= $response->data->domain ?? APP_URL ?>">
+                                <input id="domain" class="form-control input-sm" type="text" readonly name="domain" value="<?= $response->data->domain ?? APP_URL ?>">
                                 <?php if ($domain = $this->session->errors->messages->domain) : ?>
                                     <p class="error"><?= $domain ?></p>
                                 <?php endif ?>
@@ -113,7 +130,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="kontak_nama">Nama Kontak</label>
                             <div class="col-sm-8">
-                                <input id="kontak_nama" class="form-control input-sm nama required" type="text" name="kontak_nama" value="<?= $response->data->nama_kontak ?>">
+                                <input id="kontak_nama" class="form-control input-sm nama" readonly type="text" name="kontak_nama" value="<?= $response->data->nama_kontak ?>">
                                 <?php if ($kontak_nama = $this->session->errors->messages->kontak_nama) : ?>
                                     <p class="error"><?= $kontak_nama ?></p>
                                 <?php endif ?>
@@ -122,7 +139,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="email">No HP. Kontak</label>
                             <div class="col-sm-8">
-                                <input id="kontak_no_hp" class="form-control input-sm required" type="number" name="kontak_no_hp" value="<?= $response->data->no_hp_kontak ?>">
+                                <input id="kontak_no_hp" class="form-control input-sm" readonly type="number" name="kontak_no_hp" value="<?= $response->data->no_hp_kontak ?>">
                                 <?php if ($kontak_no_hp = $this->session->errors->messages->kontak_no_hp) : ?>
                                     <p class="error"><?= $kontak_no_hp ?></p>
                                 <?php endif ?>

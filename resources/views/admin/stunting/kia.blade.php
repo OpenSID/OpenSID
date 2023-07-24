@@ -100,8 +100,8 @@
                         orderable: true
                     },
                     {
-                        data: function(data) {
-                            return data.anak_id != null ? data.anak.nama : '-'
+                        data: function (data) {
+                            return data.anak_id != null ? data.anak.nama : '-' 
                         },
                         name: 'anak.nama',
                         searchable: true,

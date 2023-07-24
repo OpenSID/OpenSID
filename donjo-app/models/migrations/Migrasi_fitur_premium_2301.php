@@ -52,17 +52,20 @@ class Migrasi_fitur_premium_2301 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2212');
         $hasil = $hasil && $this->migrasi_2022120651($hasil);
-        $hasil = $hasil && $this->migrasi_2022121251($hasil);
+        $hasil = $hasil && $this->migrasi_2022120751($hasil);
+        $hasil = $hasil && $this->migrasi_2022121252($hasil);
         $hasil = $hasil && $this->migrasi_2022122151($hasil);
         $hasil = $hasil && $this->migrasi_2022122152($hasil);
         $hasil = $hasil && $this->migrasi_2022122153($hasil);
         $hasil = $hasil && $this->migrasi_2022122154($hasil);
+        $hasil = $hasil && $this->migrasi_2022122371($hasil);
         $hasil = $hasil && $this->migrasi_2022122751($hasil);
+        $hasil = $hasil && $this->migrasi_2022122552($hasil);
         $hasil = $hasil && $this->migrasi_2022122851($hasil);
         $hasil = $hasil && $this->migrasi_2022122852($hasil);
-        $hasil = $hasil && $this->migrasi_2022123051($hasil);
         $hasil = $hasil && $this->migrasi_2022123052($hasil);
         $hasil = $hasil && $this->migrasi_2022123053($hasil);
+        $hasil = $hasil && $this->migrasi_2022123171($hasil);
 
         return $hasil && true;
     }
@@ -81,7 +84,25 @@ class Migrasi_fitur_premium_2301 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022121251($hasil)
+    protected function migrasi_2022120751($hasil)
+    {
+        if (! $this->db->field_exists('kecamatan', 'tweb_surat_format')) {
+            $fields = [
+                'kecamatan' => [
+                    'type'       => 'tinyint',
+                    'constraint' => 1,
+                    'null'       => false,
+                    'default'    => 0,
+                    'after'      => 'logo_garuda',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022121252($hasil)
     {
         // Ubah panjang kolom judul 100 menjadi 200
         $fields = [
@@ -177,6 +198,236 @@ class Migrasi_fitur_premium_2301 extends MY_model
         return $hasil;
     }
 
+    public function migrasi_2022122552($hasil)
+    {
+        // Modul Buku Tamu
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 354,
+            'modul'      => 'Buku Tamu',
+            'url'        => '',
+            'aktif'      => 1,
+            'ikon'       => 'fa-book',
+            'urut'       => 180,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-book',
+            'parent'     => 0,
+        ]);
+
+        // Modul Data Tamu
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 355,
+            'modul'      => 'Data Tamu',
+            'url'        => 'buku_tamu',
+            'aktif'      => 1,
+            'ikon'       => 'fa-bookmark-o',
+            'urut'       => 1,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-bookmark-o',
+            'parent'     => 354,
+        ]);
+
+        // Modul Data Kepuasan
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 356,
+            'modul'      => 'Data Kepuasan',
+            'url'        => 'buku_kepuasan',
+            'aktif'      => 1,
+            'ikon'       => 'fa-smile-o',
+            'urut'       => 2,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-smile-o',
+            'parent'     => 354,
+        ]);
+
+        // Modul Data Pertanyaan
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 357,
+            'modul'      => 'Data Pertanyaan',
+            'url'        => 'buku_pertanyaan',
+            'aktif'      => 1,
+            'ikon'       => 'fa-question',
+            'urut'       => 3,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-question',
+            'parent'     => 354,
+        ]);
+
+        // Modul Data Keperluan
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 358,
+            'modul'      => 'Data Keperluan',
+            'url'        => 'buku_keperluan',
+            'aktif'      => 1,
+            'ikon'       => 'fa-send',
+            'urut'       => 4,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-send',
+            'parent'     => 354,
+        ]);
+
+        // Tabel buku_keperluan
+        if (! $this->db->table_exists('buku_keperluan')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'null'           => false,
+                    'auto_increment' => true,
+                ],
+                'keperluan' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => false,
+                ],
+                'status' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'default'    => 0,
+                    'null'       => false,
+                ],
+                'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP',
+                'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            ];
+
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('buku_keperluan', true);
+        }
+
+        // Tabel buku_pertanyaan
+        if (! $this->db->table_exists('buku_pertanyaan')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'null'           => false,
+                    'auto_increment' => true,
+                ],
+                'pertanyaan' => [
+                    'type'    => 'TEXT',
+                    'null'    => true,
+                    'default' => null,
+                ],
+                'status' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'default'    => 0,
+                    'null'       => false,
+                ],
+                'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP',
+                'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            ];
+
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('buku_pertanyaan', true);
+        }
+
+        // Tabel buku_kepuasan
+        if (! $this->db->table_exists('buku_kepuasan')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'null'           => false,
+                    'auto_increment' => true,
+                ],
+                'id_nama' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ],
+                'id_pertanyaan' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ],
+                'id_jawaban' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ],
+                'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP',
+                'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            ];
+
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('buku_kepuasan', true);
+        }
+
+        // Tabel buku_tamu
+        if (! $this->db->table_exists('buku_tamu')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'null'           => false,
+                    'auto_increment' => true,
+                ],
+                'nama' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 50,
+                    'null'       => false,
+                ],
+                'telepon' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 20,
+                    'null'       => false,
+                ],
+                'instansi' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => false,
+                ],
+                'jenis_kelamin' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'default'    => 1,
+                    'null'       => false,
+                ],
+                'alamat' => [
+                    'type'    => 'TEXT',
+                    'null'    => true,
+                    'default' => null,
+                ],
+                'id_bidang' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ],
+                'id_keperluan' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ],
+                'foto' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 50,
+                    'null'       => true,
+                    'default'    => null,
+                ],
+                'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP',
+                'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            ];
+
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('buku_tamu', true);
+        }
+
+        return $hasil;
+    }
+
     protected function migrasi_2022122851($hasil)
     {
         if ($this->db->where('nama', 'Keputusan Kades')->get('ref_dokumen')->row()) {
@@ -209,7 +460,18 @@ class Migrasi_fitur_premium_2301 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022123051($hasil)
+    protected function migrasi_2022122371($hasil)
+    {
+        return $hasil && $this->db
+            ->set([
+                'lampiran'   => 'F-1.06',
+                'updated_at' => date('Y-m-d H:i:s'),
+            ])
+            ->where('url_surat', 'surat-keterangan-beda-identitas')
+            ->update('tweb_surat_format');
+    }
+
+    protected function migrasi_2022123052($hasil)
     {
         return $hasil && $this->tambah_setting([
             'judul'      => 'Inspect Element',
@@ -221,7 +483,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         ]);
     }
 
-    protected function migrasi_2022123052($hasil)
+    protected function migrasi_2022123053($hasil)
     {
         // Ganti status kehadiran dari 'keluar' menjadi 'tidak berada di kantor'
         DB::table('kehadiran_perangkat_desa')
@@ -231,7 +493,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022123053($hasil)
+    protected function migrasi_2022123171($hasil)
     {
         if (! $this->db->field_exists('nama_jabatan', 'log_surat')) {
             $hasil = $hasil && $this->dbforge->add_column('log_surat', [

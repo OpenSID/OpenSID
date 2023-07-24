@@ -111,7 +111,7 @@ class Identitas_desa extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (Config::insert($this->validate($this->request))) {
+        if (Config::create($this->validate($this->request))) {
             return json([
                 'status' => true,
             ]);

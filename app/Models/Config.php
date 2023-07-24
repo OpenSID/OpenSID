@@ -135,7 +135,7 @@ class Config extends BaseModel
             return 'assets/files/logo/opensid_logo.png';
         }
 
-        return $logo;
+        return $this->attributes['logo'];
     }
 
     /**
@@ -151,6 +151,6 @@ class Config extends BaseModel
             return 'assets/files/logo/opensid_kantor.jpg';
         }
 
-        return $kantor_desa;
+        return $this->attributes['kantor_desa'];
     }
 }

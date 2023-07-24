@@ -109,7 +109,7 @@ class Kehadiran_hari_libur extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (HariLibur::insert($this->validate($this->request))) {
+        if (HariLibur::create($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 
