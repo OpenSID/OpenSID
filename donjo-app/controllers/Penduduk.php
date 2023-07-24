@@ -73,7 +73,7 @@ class Penduduk extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 1)
     {
         $data['p'] = $p;
         $data['o'] = $o;
