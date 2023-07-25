@@ -60,7 +60,7 @@ class Web extends Admin_Controller
 
     public function clear()
     {
-        $this->session->unset_userdata(['cari, status']);
+        $this->session->unset_userdata(['cari', 'status']);
         $this->session->per_page = $this->_set_page[0];
         $this->session->kategori = -1;
         redirect('web');

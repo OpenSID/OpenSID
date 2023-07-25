@@ -111,7 +111,7 @@ class Identitas_desa extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (Config::insert($this->validate($this->request))) {
+        if (Config::create($this->validate($this->request))) {
             return json([
                 'status' => true,
             ]);
@@ -240,7 +240,7 @@ class Identitas_desa extends Admin_Controller
             'email_desa'        => email($request['email_desa']),
             'telepon'           => bilangan($request['telepon']),
             'website'           => alamat_web($request['website']),
-            'nama_kecamatan'    => nama_terbatas($request['nama_kecamatan']),
+            'nama_kecamatan'    => nama_desa($request['nama_kecamatan']),
             'kode_kecamatan'    => bilangan($request['kode_kecamatan']),
             'nama_kepala_camat' => nama($request['nama_kepala_camat']),
             'nip_kepala_camat'  => nomor_surat_keputusan($request['nip_kepala_camat']),

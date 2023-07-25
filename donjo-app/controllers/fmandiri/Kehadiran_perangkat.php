@@ -73,7 +73,7 @@ class Kehadiran_perangkat extends Mandiri_Controller
             'id_pamong'   => $id,
         ];
 
-        if (KehadiranPengaduan::insert($data)) {
+        if (KehadiranPengaduan::create($data)) {
             redirect('layanan-mandiri/kehadiran');
         }
 

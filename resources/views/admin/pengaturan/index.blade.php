@@ -26,7 +26,9 @@
                             <b>Latar Website</b>
                         </div>
                         <div class="box-body box-profile text-center">
-                            <img class="img-responsive" src="{{ $latar_website }}" alt="Latar Halaman Website" width="100%">
+                            <img class="img-responsive"
+                                src="{{ $latar_website }}"
+                                alt="Latar Halaman Website" width="100%">
                             <p class="text-muted text-center text-red">(Kosongkan, jika latar website tidak berubah)</p>
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm" id="file_path" name="latar_website">
@@ -45,7 +47,8 @@
                             <b>Latar Login Admin</b>
                         </div>
                         <div class="box-body box-profile text-center">
-                            <img class="img-responsive" src="{{ $latar_siteman }}" alt="Latar Halaman Login" width="100%">
+                            <img class="img-responsive" src="{{ $latar_siteman }}"
+                                alt="Latar Halaman Login" width="100%">
                             <p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm" id="file_path1" name="latar_login" />
@@ -65,7 +68,8 @@
                             <b>Latar Login Mandiri</b>
                         </div>
                         <div class="box-body box-profile text-center">
-                            <img class="img-responsive" src="{{ $latar_mandiri }}" alt="Latar Halaman Login" width="100%">
+                            <img class="img-responsive" src="{{ $latar_mandiri }}"
+                                alt="Latar Halaman Login" width="100%">
                             <p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm" id="file_path2"

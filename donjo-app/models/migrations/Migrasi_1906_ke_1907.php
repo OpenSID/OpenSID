@@ -4316,6 +4316,14 @@ class Migrasi_1906_ke_1907 extends CI_model
             $this->db->query($query);
         }
 
+        //sebelum migrasi lakukan ubahan ke int
+        $penduduk_lahir = $this->db->get('tweb_penduduk')->result();
+        $this->dbforge->modify_column('tweb_penduduk', ['berat_lahir' => ['type' => 'VARCHAR', 'constraint' => 10, 'null' => true]]);
+
+        foreach ($penduduk_lahir as $key => $value) {
+            $this->db->where('id', $value->id)->update('tweb_penduduk', ['berat_lahir' => ($value->berat_lahir == '') ? null : (int) ($value->berat_lahir)]);
+        }
+
         $fields['berat_lahir'] = [
             'type'       => 'SMALLINT',
             'constraint' => 6,

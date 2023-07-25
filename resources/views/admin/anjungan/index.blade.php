@@ -3,149 +3,141 @@
 @extends('admin.layouts.index')
 
 @section('title')
-<h1>
-    Anjungan
-</h1>
+    <h1>
+        Anjungan
+    </h1>
 @endsection
 
 @section('breadcrumb')
-<li class="active">Anjungan</li>
+    <li class="active">Anjungan</li>
 @endsection
 
 @section('content')
-@include('admin.layouts.components.notifikasi')
-@if (!cek_anjungan())
-<div class="box box-danger">
-    <div class="box-header with-border">
-        <i class="icon fa fa-ban"></i>
-        <h3 class="box-title">Lisensi Anjungan Tidak Terdeteksi</h3>
-    </div>
-    <div class="box-body">
-        <div class="callout callout-danger">
-            <h5>Aktifkan lisensi anjungan untuk membuka modul ini dengan cara:</h5>
-            <li>Membeli box anjungan dari OpenDesa.</li>
-            <li>Membeli box anjungan dari pihak yang telah bekerja sama dengan OpenDesa.</li>
-            <li>Anjungan yang telah dibuat sendiri atau dibeli dari pihak lain tetap dapat digunakan dengan cara membeli lisensi anjungan dari OpenDesa.</li>
+    @include('admin.layouts.components.notifikasi')
+    @if (!cek_anjungan())
+        @include('admin.anjungan.peringatan')
+    @else
+        <div class="box box-info">
+            <div class="box-header with-border">
+                @if (can('u'))
+                    <a href="{{ route('anjungan.form') }}"
+                        class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
+                            class="fa fa-plus"></i> Tambah</a>
+                @endif
+                @if (can('h'))
+                    <a href="#confirm-delete" title="Hapus Data"
+                        onclick="deleteAllBox('mainform', '{{ route('anjungan.delete') }}')"
+                        class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                            class='fa fa-trash-o'></i> Hapus</a>
+                @endif
+            </div>
+            <div class="box-body">
+                {!! form_open(null, 'id="mainform" name="mainform"') !!}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="tabeldata">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="checkall" /></th>
+                                <th class="padat">NO</th>
+                                <th class="padat">AKSI</th>
+                                <th>IP ADDRESS</th>
+                                <th>MAC ADDRESS</th>
+                                <th>ID PENGUNJUNG</th>
+                                <th>IP ADDRESS PRINTER & PORT</th>
+                                <th>VIRTUAL KEYBOARD</th>
+                                <th>STATUS</th>
+                                <th>KETERANGAN</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                </form>
+            </div>
         </div>
-    </div>
-</div>
-@else
-<div class="box box-info">
-    <div class="box-header with-border">
-        @if (can('u'))
-        <a href="{{ route('anjungan.form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
-        @endif
-        @if (can('h'))
-        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('anjungan.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus</a>
-        @endif
-    </div>
-    <div class="box-body">
-        {!! form_open(null, 'id="mainform" name="mainform"') !!}
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="tabeldata">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" id="checkall" /></th>
-                        <th class="padat">NO</th>
-                        <th class="padat">AKSI</th>
-                        <th>IP ADDRESS</th>
-                        <th>MAC ADDRESS</th>
-                        <th>ID PENGUNJUNG</th>
-                        <th>IP ADDRESS PRINTER & PORT</th>
-                        <th>VIRTUAL KEYBOARD</th>
-                        <th>STATUS</th>
-                        <th>KETERANGAN</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        </form>
-    </div>
-</div>
-@endif
+    @endif
 
-@include('admin.layouts.components.konfirmasi_hapus')
+    @include('admin.layouts.components.konfirmasi_hapus')
 @endsection
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        var TableData = $('#tabeldata').DataTable({
-            responsive: true,
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('anjungan.datatables') }}",
-            columns: [{
-                    data: 'ceklist',
-                    class: 'padat',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'DT_RowIndex',
-                    class: 'padat',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'aksi',
-                    class: 'aksi',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'ip_address',
-                    name: 'ip_address',
-                    searchable: true,
-                    orderable: true
-                },
-                {
-                    data: 'mac_address',
-                    name: 'mac_address',
-                    searchable: true,
-                    orderable: true
-                },
-                {
-                    data: 'id_pengunjung',
-                    name: 'id_pengunjung',
-                    searchable: true,
-                    orderable: true
-                },
-                {
-                    data: 'ip_address_port_printer',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'keyboard',
-                    class: 'padat',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'status',
-                    class: 'padat',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'keterangan',
-                    name: 'keterangan',
-                    searchable: true,
-                    orderable: true
-                },
-            ],
-            order: [
-                [3, 'asc']
-            ]
+    <script>
+        $(document).ready(function() {
+            var TableData = $('#tabeldata').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('anjungan.datatables') }}",
+                columns: [{
+                        data: 'ceklist',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'aksi',
+                        class: 'aksi',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'ip_address',
+                        name: 'ip_address',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
+                        data: 'mac_address',
+                        name: 'mac_address',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
+                        data: 'id_pengunjung',
+                        name: 'id_pengunjung',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
+                        data: 'ip_address_port_printer',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'keyboard',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'status',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'keterangan',
+                        name: 'keterangan',
+                        searchable: true,
+                        orderable: true
+                    },
+                ],
+                order: [
+                    [3, 'asc']
+                ]
+            });
+
+            if (hapus == 0) {
+                TableData.column(0).visible(false);
+            }
+
+            if (ubah == 0) {
+                TableData.column(2).visible(false);
+            }
         });
-
-        if (hapus == 0) {
-            TableData.column(0).visible(false);
-        }
-
-        if (ubah == 0) {
-            TableData.column(2).visible(false);
-        }
-    });
-</script>
+    </script>
 @endpush

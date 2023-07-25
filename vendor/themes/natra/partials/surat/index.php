@@ -46,7 +46,7 @@
 					<tr>
 						<td></td>
 						<td></td>
-						<td><?= "a/n " . $surat->nama_penduduk ?? $surat->nama_non_warga; ?></td>
+						<td><?= "a/n " . $surat->nama_penduduk ?></td>
 					</tr>
 					<tr>
 						<td colspan="3"><u><b>Ditandatangani oleh :</b></u></td>

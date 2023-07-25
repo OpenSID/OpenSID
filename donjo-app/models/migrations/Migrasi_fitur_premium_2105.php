@@ -69,7 +69,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         $hasil = $hasil && $this->tambah_kolom_nik_tanah_di_desa();
         $hasil = $hasil && $this->tambah_kolom_tanah_kas_desa();
         $hasil = $hasil && $this->pengaturan_grup($hasil);
-        $hasil = $hasil && $this->bumindes_updates($hasil);		//harus setelah fungsi pengaturan grup
+        $hasil = $hasil && $this->bumindes_updates($hasil);        //harus setelah fungsi pengaturan grup
 
         return $hasil && $this->impor_google_form($hasil);
     }
@@ -474,10 +474,30 @@ class Migrasi_fitur_premium_2105 extends MY_model
         $hasil = $hasil && $this->dbforge->modify_column('user_grup', $fields);
         if (! $this->db->field_exists('created_by', 'user_grup')) {
             $hasil = $hasil && $this->dbforge->add_column('user_grup', [
-                'jenis' => ['type' => 'TINYINT', 'constraint' => 2, 'null' => false, 'default' => 1],
-                'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
                 'created_by' => ['type' => 'INT', 'constraint' => 11, 'null' => true],
+            ]);
+        }
+
+        if (! $this->db->field_exists('jenis', 'user_grup')) {
+            $hasil = $hasil && $this->dbforge->add_column('user_grup', [
+                'jenis' => ['type' => 'TINYINT', 'constraint' => 2, 'null' => false, 'default' => 1],
+            ]);
+        }
+
+        if (! $this->db->field_exists('created_at', 'user_grup')) {
+            $hasil = $hasil && $this->dbforge->add_column('user_grup', [
+                'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+            ]);
+        }
+
+        if (! $this->db->field_exists('updated_at', 'user_grup')) {
+            $hasil = $hasil && $this->dbforge->add_column('user_grup', [
                 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+            ]);
+        }
+
+        if (! $this->db->field_exists('updated_by', 'user_grup')) {
+            $hasil = $hasil && $this->dbforge->add_column('user_grup', [
                 'updated_by' => ['type' => 'INT', 'constraint' => 11, 'null' => false],
             ]);
         }

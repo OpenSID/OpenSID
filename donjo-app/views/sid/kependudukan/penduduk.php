@@ -207,7 +207,10 @@
 															</div>
 														</td>
 														<td class="padat">
-															<img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
+															<a href="<?= site_url("penduduk/ambil_foto?foto={$data['foto']}&sex={$data['id_sex']}"); ?>" class="progressive replace penduduk_kecil">
+																<img class="preview " loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Foto Penduduk"/>
+															</a>
+
 														</td>
 														<td>
 															<a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}"); ?>" id="test" name="<?= $data['id']; ?>"><?= $data['nik']; ?></a>

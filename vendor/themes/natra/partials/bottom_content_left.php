@@ -10,8 +10,8 @@
             <?php endif; ?>
         </div>
         <?php $this->load->view("$folder_themes/layouts/slider"); ?>
-		<?php if ($this->setting->covid_data) $this->load->view("$folder_themes/partials/corona-widget"); ?>
-		<?php if ($this->setting->covid_desa) $this->load->view("$folder_themes/partials/corona-local"); ?>
+        <?php if ($this->setting->covid_data) $this->load->view("$folder_themes/partials/corona-widget"); ?>
+        <?php if ($this->setting->covid_desa) $this->load->view("$folder_themes/partials/corona-local"); ?>
         <?php if ($headline): ?>
         <?php $abstrak_headline = potong_teks($headline['isi'], 550) ?>
             <div class="single_category wow fadeInDown">
@@ -27,14 +27,14 @@
                                         <a href="<?= site_url('artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
                                     </h5>
                                     <a href="<?= site_url('artikel/'.buat_slug($headline))?>">
-                                    <?php if ($headline["gambar"] != ""): ?>
-                                    <?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])): ?>
-                                    <img src="<?= AmbilFotoArtikel($headline['gambar'],'sedang') ?>" width="300" class="img-fluid img-thumbnail hidden-sm hidden-xs" style="float:left; margin:0 8px 4px 0;" />
-                                    <img src="<?= AmbilFotoArtikel($headline['gambar'],'sedang') ?>" width="100%" class="img-fluid img-thumbnail hidden-lg hidden-md" style="float:left; margin:0 8px 4px 0;" />
-                                    <?php else: ?>
-                                    <img src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>" width="300px" class="img-fluid img-thumbnail hidden-sm hidden-xs" style="float:left; margin:0 8px 4px 0;"/>
-                                    <img src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>" width="100%" class="img-fluid img-thumbnail hidden-lg hidden-md" style="float:left; margin:0 8px 4px 0;"/>
-                                    <?php endif; ?>
+                                     <?php if ($headline["gambar"] != "") : ?>
+                                        <?php if (is_file(LOKASI_FOTO_ARTIKEL . "sedang_" . $headline['gambar'])) : ?>
+                                            <img data-src="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" src="<?= base_url('assets/images/img-loader.gif') ?>" width="300" class="yall_lazy img-fluid img-thumbnail hidden-sm hidden-xs" style="float:left; margin:0 8px 4px 0;" />
+                                            <img data-src="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" src="<?= base_url('assets/images/img-loader.gif') ?>" width="100%" class="yall_lazy img-fluid img-thumbnail hidden-lg hidden-md" style="float:left; margin:0 8px 4px 0;" />
+                                        <?php else : ?>
+                                            <img src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>" width="300px" class="img-fluid img-thumbnail hidden-sm hidden-xs" style="float:left; margin:0 8px 4px 0;" />
+                                            <img src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>" width="100%" class="img-fluid img-thumbnail hidden-lg hidden-md" style="float:left; margin:0 8px 4px 0;" />
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                     </a>
                                     <div style="text-align: justify;" class="hidden-sm hidden-xs">
@@ -47,7 +47,7 @@
                 </div>
             </div>
         <?php endif; ?>
-	</div>
+    </div>
     <?php $title = (!empty($judul_kategori))? $judul_kategori : "Artikel Terkini" ?>
     <?php if (is_array($title)): ?>
         <?php foreach ($title as $item): ?>
@@ -79,8 +79,8 @@
                                 </div>
                                 <a href="<?= site_url('artikel/'.buat_slug($data))?>" title="Baca Selengkapnya" style="font-weight:bold">
                                 <?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_".$data['gambar'])): ?>
-                                <img src="<?= AmbilFotoArtikel($data['gambar'],'sedang') ?>" width="300" class="img-fluid img-thumbnail hidden-sm hidden-xs" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>"/>
-                                <img src="<?= AmbilFotoArtikel($data['gambar'],'sedang') ?>" width="100%" class="img-fluid img-thumbnail hidden-lg hidden-md" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>"/>
+                                    <img data-src="<?= AmbilFotoArtikel($data['gambar'], 'sedang') ?>" src="<?= base_url('assets/images/img-loader.gif') ?>" width="300" class="yall_lazy img-fluid img-thumbnail hidden-sm hidden-xs" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>" />
+                                            <img data-src="<?= AmbilFotoArtikel($data['gambar'], 'sedang') ?>" src="<?= base_url('assets/images/img-loader.gif') ?>" width="100%" class="yall_lazy img-fluid img-thumbnail hidden-lg hidden-md" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>" />
                                 <?php else: ?>
                                 <img src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>" width="300px" class="img-fluid img-thumbnail hidden-sm hidden-xs" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>" />
                                 <img src="<?= base_url("$this->theme_folder/$this->theme/images/noimage.png") ?>" width="100%" class="img-fluid img-thumbnail hidden-lg hidden-md" style="float:left; margin:0 8px 4px 0;" alt="<?= $data["judul"] ?>" />

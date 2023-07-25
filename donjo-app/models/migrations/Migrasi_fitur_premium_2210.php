@@ -59,7 +59,6 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $hasil = $hasil && $this->migrasi_2022090751($hasil);
         $hasil = $hasil && $this->migrasi_2022090851($hasil);
         $hasil = $hasil && $this->migrasi_2022091171($hasil);
-        $hasil = $hasil && $this->migrasi_2022091251($hasil);
         $hasil = $hasil && $this->migrasi_2022091271($hasil);
         $hasil = $hasil && $this->migrasi_2022091371($hasil);
         $hasil = $hasil && $this->migrasi_2022091372($hasil);
@@ -188,16 +187,6 @@ class Migrasi_fitur_premium_2210 extends MY_model
                 ],
             ];
             $hasil = $hasil && $this->dbforge->add_column('teks_berjalan', $fields);
-        }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2022091251($hasil)
-    {
-        // Hapus tabel ref_font_surat
-        if ($this->db->table_exists('ref_font_surat')) {
-            $hasil = $hasil && $this->dbforge->drop_table('ref_font_surat');
         }
 
         return $hasil;

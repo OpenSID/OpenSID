@@ -1,4 +1,4 @@
-<?php  defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php  defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <?php if (cek_koneksi_internet()): ?>
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -27,3 +27,7 @@
         }
     });
 </script>
+
+<?php if (! setting('inspect_element')): ?>
+    <script src="<?= asset('js/disabled.min.js') ?>"></script>
+<?php endif ?>

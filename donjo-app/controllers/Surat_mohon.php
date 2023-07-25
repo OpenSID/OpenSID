@@ -107,7 +107,7 @@ class Surat_mohon extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (SyaratSurat::insert(static::validate($this->request))) {
+        if (SyaratSurat::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
         redirect_with('error', 'Gagal Tambah Data');

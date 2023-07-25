@@ -358,6 +358,29 @@ $(document).ready(function()
 		}).draw();
 	}
 
+	$('.pop-up-images').on('click', function() {
+     Swal.fire({
+        title: $(this).data('title'),
+        imageUrl: $(this).data('url'),
+        imageAlt: $(this).data('title'),
+        customClass: {
+          popup: 'swal-lg',
+        },
+      })
+  });
+
+  $('.pop-up-pdf').on('click', function() {
+  	var url = $(this).data('url');
+    Swal.fire({
+      customClass: {
+      	popup: 'swal-lg',
+      },
+      title: $(this).data('title'),
+      html: `<object data="${url}" style="width: 100%;min-height: 400px;" type="application/pdf"></object>`,
+    })
+  });
+
+
 });
 
 /* Fungsi formatRupiah untuk form surat */
@@ -772,3 +795,12 @@ function swal2_question(url_ajax, redirect, message, data, tolak = false) {
   })
 }
 
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}

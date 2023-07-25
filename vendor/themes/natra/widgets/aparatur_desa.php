@@ -46,7 +46,7 @@
 				<?php endif; ?>
 
 				<?php foreach($aparatur_desa['daftar_perangkat'] as $data) : ?>
-					<img src="<?= $data['foto'] ?>"
+					<img data-src="<?= $data['foto'] ?>" src="<?= base_url('assets/images/img-loader.gif') ?>" class="yall_lazy"
 					data-cycle-title="<span class='cycle-overlay-title'><?= $data['nama'] ?></span>
 						<span class='label label-success'><?= $data['status_kehadiran'] == 'hadir' ? 'Hadir' : '' ?></span>
 						<span class='label label-danger'><?= $data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir' ? ucwords($data['status_kehadiran']) : '' ?></span>

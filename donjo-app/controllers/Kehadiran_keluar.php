@@ -105,7 +105,7 @@ class Kehadiran_keluar extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (AlasanKeluar::insert($this->validated($this->request))) {
+        if (AlasanKeluar::create($this->validated($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 

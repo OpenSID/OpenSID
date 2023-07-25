@@ -107,7 +107,7 @@ class Gawai_layanan extends Admin_Controller
         if ($id) {
             $data['action']        = 'Ubah';
             $data['form_action']   = route('gawai_layanan.update', $id);
-            $data['gawai_layanan'] = AnjunganModel::find($id) ?? show_404();
+            $data['gawai_layanan'] = AnjunganModel::findOrFail($id);
         } else {
             $data['action']        = 'Tambah';
             $data['form_action']   = route('gawai_layanan.insert');
@@ -121,7 +121,7 @@ class Gawai_layanan extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (AnjunganModel::insert(static::validated($this->request))) {
+        if (AnjunganModel::create(static::validated($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
         redirect_with('error', 'Gagal Tambah Data');
@@ -131,7 +131,7 @@ class Gawai_layanan extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = AnjunganModel::find($id) ?? show_404();
+        $data = AnjunganModel::findOrFail($id);
 
         if ($data->update(static::validated($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
@@ -153,7 +153,7 @@ class Gawai_layanan extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $kunci = AnjunganModel::find($id) ?? show_404();
+        $kunci = AnjunganModel::findOrFail($id);
         $kunci->update(['status' => ($val == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA]);
 
         redirect_with('success', 'Berhasil Ubah Data');

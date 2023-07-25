@@ -69,7 +69,7 @@ class Penduduk extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 10)
     {
         $data['p'] = $p;
         $data['o'] = $o;
@@ -118,6 +118,18 @@ class Penduduk extends Admin_Controller
         $data['list_jenis_kelamin']   = $this->referensi_model->list_data('tweb_penduduk_sex');
 
         $this->render('sid/kependudukan/penduduk', $data);
+    }
+
+    public function ambil_foto()
+    {
+        $foto = $this->input->get('foto');
+        $sex  = $this->input->get('sex');
+        if (empty($foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $foto)) {
+            $foto = ($sex == 1) ? 'kuser.png' : 'wuser.png';
+            ambilBerkas($foto, $this->controller, null, 'assets/images/pengguna/', $tampil = true);
+        } else {
+            ambilBerkas($foto, $this->controller, null, LOKASI_USER_PICT, $tampil = true);
+        }
     }
 
     public function form_peristiwa($peristiwa = '')
