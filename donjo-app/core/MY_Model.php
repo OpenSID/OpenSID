@@ -188,15 +188,19 @@ class MY_Model extends CI_Model
 
     public function tambah_modul($modul)
     {
-        // Modul
-        $sql = $this->db->insert_string('setting_modul', $modul) . ' ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), hidden = VALUES(hidden), urut = VALUES(urut), parent = VALUES(parent)';
+        if (isset($modul['slug']) && $this->config_id()->get_where('setting_modul', ['slug' => $modul['slug']])->result()) {
+            return true;
+        }
 
+        // Modul
+        $sql   = $this->db->insert_string('setting_modul', $modul) . ' ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), hidden = VALUES(hidden), urut = VALUES(urut), parent = VALUES(parent)';
         $hasil = $this->db->query($sql);
+        $id    = $this->db->insert_id();
 
         // Hak Akses Default Operator
         // Hanya lakukan jika tabel grup_akses sudah ada. Tabel ini belum ada sebelum Migrasi_fitur_premium_2105.php
         if ($this->db->table_exists('grup_akses')) {
-            $hasil = $hasil && $this->grupAkses(2, $modul['id'], 3);
+            $hasil = $hasil && $this->grupAkses(2, $modul['id'] ?? $id, 3, $modul['config_id'] ?? null);
         }
 
         // Hapus cache menu navigasi
@@ -205,9 +209,9 @@ class MY_Model extends CI_Model
         return $hasil;
     }
 
-    public function grupAkses($id_grup, $id_modul, $akses)
+    public function grupAkses($id_grup, $id_modul, $akses, $config_id = null)
     {
-        return $this->db->insert('grup_akses', ['id_grup' => $id_grup, 'id_modul' => $id_modul, 'akses' => $akses]);
+        return $this->db->insert('grup_akses', ['config_id' => $config_id, 'id_grup' => $id_grup, 'id_modul' => $id_modul, 'akses' => $akses]);
     }
 
     /**

@@ -62,7 +62,7 @@
 																<tr>
 																	<td class="padat"><?= $nomer ?></td>
 																	<td class="aksi">
-																		<a href="<?= site_url("program_bantuan/detail/{$item['id']}") ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian"><i class="fa fa-list"></i></a>
+																		<a href="<?= site_url("peserta_bantuan/detail/{$item['id']}") ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian"><i class="fa fa-list"></i></a>
 																		<?php if ($this->CI->cek_hak_akses('u')) : ?>
 																			<a href="<?= site_url("program_bantuan/edit/{$item['id']}") ?>" class="btn bg-orange btn-flat btn-sm <?= $openKab ?>" title="Ubah"><i class="fa fa-edit"></i></a>
 																		<?php endif ?>
@@ -85,7 +85,8 @@
 																	<td class="padat"><?= $item['status'] ?></td>
 																</tr>
 															<?php endforeach; ?>
-														<?php else: tidak_ada_data(8); endif; ?>
+														<?php else : tidak_ada_data(8);
+														endif; ?>
 													</tbody>
 												</table>
 											</div>
