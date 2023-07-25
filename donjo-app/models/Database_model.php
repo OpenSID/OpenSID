@@ -43,8 +43,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Database_model extends MY_Model
 {
-    private $user   = 1;
-    private $engine = 'InnoDB';
+    private $user         = 1;
+    private $engine       = 'InnoDB';
+    private $showProgress = 0;
 
     // define versi opensid dan script migrasi yang harus dijalankan
     private $versionMigrate = [
@@ -198,14 +199,26 @@ class Database_model extends MY_Model
         $versionMigrate = $this->versionMigrate;
 
         if (isset($versionMigrate[$versi])) {
-            while (! empty($nextVersion) && ! empty($versionMigrate[$nextVersion]['migrate'])) {
-                $migrate     = $versionMigrate[$nextVersion]['migrate'];
-                $nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
-                if (method_exists($this, $migrate)) {
-                    log_message('notice', 'Jalankan ' . $migrate);
-                    call_user_func(__NAMESPACE__ . '\\Database_model::' . $migrate);
-                } else {
-                    $this->jalankan_migrasi($migrate, false);
+            try {
+                while (! empty($nextVersion) && ! empty($versionMigrate[$nextVersion]['migrate'])) {
+                    $migrate     = $versionMigrate[$nextVersion]['migrate'];
+                    $nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
+                    if (method_exists($this, $migrate)) {
+                        log_message('notice', 'Jalankan ' . $migrate);
+                        call_user_func(__NAMESPACE__ . '\\Database_model::' . $migrate);
+                    } else {
+                        $this->jalankan_migrasi($migrate, false);
+                    }
+
+                    if ($this->getShowProgress()) {
+                        // sleep(1.5);
+                        echo json_encode(['message' => 'Jalankan ' . $migrate, 'status' => 0]);
+                    }
+                }
+            } catch (\Exception $e) {
+                log_message('error', $e->getMessage());
+                if ($this->getShowProgress()) {
+                    echo json_encode(['message' => $e->getMessage(), 'status' => 0]);
                 }
             }
         } else {
@@ -238,6 +251,10 @@ class Database_model extends MY_Model
         }
 
         log_message('notice', 'Versi database sudah terbaru');
+        if ($this->getShowProgress()) {
+            // sleep(1.5);
+            echo json_encode(['message' => 'Versi database sudah terbaru', 'status' => 0]);
+        }
     }
 
     // Cek apakah migrasi perlu dijalankan
@@ -3567,5 +3584,27 @@ class Database_model extends MY_Model
         }
 
         return true;
+    }
+
+    /**
+     * Get the value of showProgress
+     */
+    public function getShowProgress()
+    {
+        return $this->showProgress;
+    }
+
+    /**
+     * Set the value of showProgress
+     *
+     * @param mixed $showProgress
+     *
+     * @return self
+     */
+    public function setShowProgress($showProgress)
+    {
+        $this->showProgress = $showProgress;
+
+        return $this;
     }
 }

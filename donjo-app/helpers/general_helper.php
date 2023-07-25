@@ -43,7 +43,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-if (!function_exists('asset')) {
+if (! function_exists('asset')) {
     function asset($uri = '', $default = true)
     {
         if ($default) {
@@ -55,7 +55,7 @@ if (!function_exists('asset')) {
     }
 }
 
-if (!function_exists('view')) {
+if (! function_exists('view')) {
     /**
      * Get the evaluated view contents for the given view.
      *
@@ -129,21 +129,21 @@ if (!function_exists('view')) {
     }
 }
 
-if (!function_exists('set_session')) {
+if (! function_exists('set_session')) {
     function set_session($key = 'success', $value = '')
     {
         return get_instance()->session->set_flashdata($key, $value);
     }
 }
 
-if (!function_exists('session')) {
+if (! function_exists('session')) {
     function session($nama = '')
     {
         return get_instance()->session->flashdata($nama);
     }
 }
 
-if (!function_exists('can')) {
+if (! function_exists('can')) {
     function can($akses, $controller = '', $admin_only = false)
     {
         $CI = &get_instance();
@@ -162,7 +162,7 @@ if (!function_exists('can')) {
 }
 
 // response()->json(array_data);
-if (!function_exists('json')) {
+if (! function_exists('json')) {
     function json($content = [], $header = 200)
     {
         get_instance()->output
@@ -176,7 +176,7 @@ if (!function_exists('json')) {
 }
 
 // redirect()->route('example')->with('success', 'information');
-if (!function_exists('redirect_with')) {
+if (! function_exists('redirect_with')) {
     function redirect_with($key = 'success', $value = '', $to = '')
     {
         set_session($key, $value);
@@ -190,7 +190,7 @@ if (!function_exists('redirect_with')) {
 }
 
 // route('example');
-if (!function_exists('route')) {
+if (! function_exists('route')) {
     function route($to = null, $params = null)
     {
         if (in_array($to, [null, '', '/'])) {
@@ -208,12 +208,12 @@ if (!function_exists('route')) {
 }
 
 // setting('sebutan_desa');
-if (!function_exists('setting')) {
+if (! function_exists('setting')) {
     function setting($params = null)
     {
         $getSetting = get_instance()->setting;
 
-        if ($params && !empty($getSetting)) {
+        if ($params && ! empty($getSetting)) {
             if (property_exists($getSetting, $params)) {
                 return $getSetting->{$params};
             }
@@ -226,7 +226,7 @@ if (!function_exists('setting')) {
 }
 
 // identitas('nama_desa');
-if (!function_exists('identitas')) {
+if (! function_exists('identitas')) {
     /**
      * Get identitas desa.
      *
@@ -258,7 +258,7 @@ if (!function_exists('identitas')) {
 }
 
 // hapus_cache('cache_id');
-if (!function_exists('hapus_cache')) {
+if (! function_exists('hapus_cache')) {
     function hapus_cache($params = null)
     {
         if ($params) {
@@ -269,7 +269,7 @@ if (!function_exists('hapus_cache')) {
     }
 }
 
-if (!function_exists('calculate_days')) {
+if (! function_exists('calculate_days')) {
     /**
      * Calculate minute between 2 date.
      *
@@ -281,7 +281,7 @@ if (!function_exists('calculate_days')) {
     }
 }
 
-if (!function_exists('calculate_date_intervals')) {
+if (! function_exists('calculate_date_intervals')) {
     /**
      * Calculate list dates interval to minutes.
      *
@@ -301,7 +301,7 @@ if (!function_exists('calculate_date_intervals')) {
 }
 
 // Parsedown
-if (!function_exists('parsedown')) {
+if (! function_exists('parsedown')) {
     function parsedown($params = null)
     {
         $parsedown = new \App\Libraries\Parsedown();
@@ -315,7 +315,7 @@ if (!function_exists('parsedown')) {
 }
 
 // SebutanDesa('Surat [Desa]');
-if (!function_exists('SebutanDesa')) {
+if (! function_exists('SebutanDesa')) {
     function SebutanDesa($params = null)
     {
         return str_replace(
@@ -326,7 +326,7 @@ if (!function_exists('SebutanDesa')) {
     }
 }
 
-if (!function_exists('underscore')) {
+if (! function_exists('underscore')) {
     /**
      * Membuat spasi menjadi underscore atau sebaliknya
      *
@@ -359,7 +359,7 @@ if (!function_exists('underscore')) {
     }
 }
 
-if (!function_exists('akun_demo')) {
+if (! function_exists('akun_demo')) {
     /**
      * Membuat batasan agar akun demo tidak dapat dihapus pada demo_mode
      *
@@ -379,7 +379,7 @@ if (!function_exists('akun_demo')) {
     }
 }
 
-if (!function_exists('folder')) {
+if (! function_exists('folder')) {
     /**
      * Membuat folder jika tidak tersedia
      *
@@ -413,7 +413,7 @@ if (!function_exists('folder')) {
     }
 }
 
-if (!function_exists('folder_desa')) {
+if (! function_exists('folder_desa')) {
     /**
      * Membuat folder desa dan isinya
      */
@@ -439,7 +439,7 @@ if (!function_exists('folder_desa')) {
     }
 }
 
-if (!function_exists('auth')) {
+if (! function_exists('auth')) {
     /**
      * Ambil data user login
      *
@@ -457,14 +457,14 @@ if (!function_exists('auth')) {
     }
 }
 
-if (!function_exists('ci_db')) {
+if (! function_exists('ci_db')) {
     function ci_db()
     {
         return get_instance()->db;
     }
 }
 
-if (!function_exists('cek_kehadiran')) {
+if (! function_exists('cek_kehadiran')) {
     /**
      * Cek perangkat lupa absen
      */
@@ -494,7 +494,7 @@ if (!function_exists('cek_kehadiran')) {
  *
  * @return void
  */
-if (!function_exists('case_replace')) {
+if (! function_exists('case_replace')) {
     function case_replace($dari, $ke, $str)
     {
         $replacer = static function ($matches) use ($ke) {
@@ -542,7 +542,7 @@ if (!function_exists('case_replace')) {
     }
 }
 
-if (!function_exists('kirim_versi_opensid')) {
+if (! function_exists('kirim_versi_opensid')) {
     function kirim_versi_opensid()
     {
         $ci = get_instance();
@@ -608,7 +608,7 @@ if (!function_exists('kirim_versi_opensid')) {
  *
  */
 
-if (!function_exists('kotak')) {
+if (! function_exists('kotak')) {
     function kotak($data_kolom, $max_kolom = 26)
     {
         $view = '';
@@ -627,7 +627,7 @@ if (!function_exists('kotak')) {
     }
 }
 
-if (!function_exists('checklist')) {
+if (! function_exists('checklist')) {
     function checklist($kondisi_1, $kondisi_2)
     {
         $view = '<td class="kotak padat tengah">';
@@ -640,10 +640,10 @@ if (!function_exists('checklist')) {
     }
 }
 
-if (!function_exists('create_tree_folder')) {
+if (! function_exists('create_tree_folder')) {
     function create_tree_folder($arr, $baseDir)
     {
-        if (!empty($arr)) {
+        if (! empty($arr)) {
             $tmp = '<ul class="tree-folder">';
 
             foreach ($arr as $i => $val) {
@@ -663,7 +663,7 @@ if (!function_exists('create_tree_folder')) {
     }
 }
 
-if (!function_exists('generatePengikut')) {
+if (! function_exists('generatePengikut')) {
     function generatePengikut($pengikut, $keterangan)
     {
         $html = '
@@ -716,7 +716,7 @@ if (!function_exists('generatePengikut')) {
     }
 }
 
-if (!function_exists('generatePengikutSuratKIS')) {
+if (! function_exists('generatePengikutSuratKIS')) {
     function generatePengikutSuratKIS($pengikut)
     {
         $html = '
@@ -757,7 +757,7 @@ if (!function_exists('generatePengikutSuratKIS')) {
     }
 }
 
-if (!function_exists('generatePengikutKartuKIS')) {
+if (! function_exists('generatePengikutKartuKIS')) {
     function generatePengikutKartuKIS($kis)
     {
         $html = '
@@ -798,7 +798,7 @@ if (!function_exists('generatePengikutKartuKIS')) {
     }
 }
 
-if (!function_exists('generatePengikutPindah')) {
+if (! function_exists('generatePengikutPindah')) {
     function generatePengikutPindah($pengikut)
     {
         $html = '
@@ -843,7 +843,7 @@ function tidak_ada_data($col = 12, $message = 'Data Tidak Tersedia')
     echo $html;
 }
 
-if (!function_exists('data_lengkap')) {
+if (! function_exists('data_lengkap')) {
     function data_lengkap()
     {
         $CI               = &get_instance();
