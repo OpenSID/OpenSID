@@ -39,6 +39,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 33. [#6885](https://github.com/OpenSID/OpenSID/issues/6885) Perbaikan hapus data penduduk ketika data sudah dinyatakan lengkap.
 34. [#6900](https://github.com/OpenSID/OpenSID/issues/6900) Perbaikan penanda tangan lampiran F-1.15.
 35. [#6887](https://github.com/OpenSID/OpenSID/issues/6887) Perbaikan notifikasi untuk NIK dan No KK yang kurang dari 16 digit.
+36. [#6910](https://github.com/OpenSID/OpenSID/issues/6910) Perbaikan ambil rilis terbaru dari github jika terdapat batasan harian.
 
 #### Perubahan Teknis
 
