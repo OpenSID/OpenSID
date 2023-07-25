@@ -516,10 +516,17 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
     $CI = &get_instance();
     $CI->load->helper('download');
 
-    // Batasi akses LOKASI_ARSIP hanya untuk admin
-    // if ($lokasi == LOKASI_ARSIP && $CI->session->siteman != 1) {
-    //     redirect('/');
-    // }
+    if (! preg_match('/^(?:[a-z0-9_-]|\.(?!\.))+$/iD', $nama_berkas)) {
+        $pesan = 'Nama berkas tidak valid';
+        session_error($pesan);
+        set_session('error', $pesan);
+
+        if ($redirect_url) {
+            redirect($redirect_url);
+        } else {
+            show_404();
+        }
+    }
 
     // Tentukan path berkas (absolut)
     $pathBerkas = FCPATH . $lokasi . $nama_berkas;
@@ -817,6 +824,12 @@ function cekNama($str)
 function nama_terbatas($str)
 {
     return preg_replace('/[^a-zA-Z0-9 \\-]/', '', $str);
+}
+
+// Nama surat hanya boleh berisi karakter alfanumerik, spasi, strip, (, )
+function nama_surat($str)
+{
+    return preg_replace('/[^a-zA-Z0-9 \\-\\(\\)]/', '', $str);
 }
 
 // Alamat hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, tanda petik, strip dan garis miring
