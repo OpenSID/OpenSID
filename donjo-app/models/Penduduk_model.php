@@ -462,7 +462,11 @@ class Penduduk_model extends MY_Model
     // Perlu di urut sebelum paging dan sesudah paging
     private function order_by_list($order_by)
     {
-        $this->db->order_by('length(u.nik)');
+        $this->db->order_by("CASE
+                WHEN CHAR_LENGTH(u.nik) < 16 THEN 1
+                WHEN u.nik LIKE '0%' AND CHAR_LENGTH(u.nik) = 16 THEN 2
+                ELSE 3
+            END");
 
         //Urut data
         switch ($order_by) {
@@ -483,11 +487,11 @@ class Penduduk_model extends MY_Model
                 break;
 
             case 5:
-                $this->db->order_by('CONCAT(d.no_kk, u.id_kk, u.kk_level)');
+                $this->db->order_by('CONCAT(COALESCE(d.no_kk, 0), u.id_kk, u.kk_level)');
                 break;
 
             case 6:
-                $this->db->order_by('d.no_kk DESC, u.id_kk, u.kk_level');
+                $this->db->order_by('COALESCE(d.no_kk, 0) DESC, u.id_kk, u.kk_level');
                 break;
 
             case 7:

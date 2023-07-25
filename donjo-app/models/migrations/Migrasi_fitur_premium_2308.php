@@ -77,11 +77,13 @@ class Migrasi_fitur_premium_2308 extends MY_model
             $hasil = $hasil && $this->suratKeteranganKelahiran($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPindahPenduduk($hasil, $id);
             // Jalankan Migrasi TinyMCE
+            $hasil = $hasil && $this->migrasi_2023072451($hasil, $id);
         }
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023070651($hasil);
         $hasil = $hasil && $this->migrasi_2023070653($hasil);
+        $hasil = $hasil && $this->migrasi_2023072454($hasil);
 
         return $hasil && $this->migrasi_2023070652($hasil);
     }
@@ -1785,5 +1787,58 @@ class Migrasi_fitur_premium_2308 extends MY_model
         return $this->db->query('ALTER TABLE login_attempts MODIFY COLUMN username VARCHAR(100) NOT NULL');
     }
 
+    protected function migrasi_2023072451($hasil, $config_id)
+    {
+        $hasil = $hasil && $this->tambah_modul([
+            'config_id'  => $config_id,
+            'modul'      => 'Program Bantuan',
+            'slug'       => 'program-bantuan',
+            'url'        => 'program_bantuan/clear',
+            'aktif'      => 1,
+            'ikon'       => 'fa-heart',
+            'urut'       => 101,
+            'level'      => 0,
+            'hidden'     => 2,
+            'ikon_kecil' => 'fa-heart',
+            'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'bantuan'])->row()->id,
+        ]);
+
+        return $hasil && $this->tambah_modul([
+            'config_id'  => $config_id,
+            'modul'      => 'Peserta Bantuan',
+            'slug'       => 'peserta-bantuan',
+            'url'        => 'peserta_bantuan',
+            'aktif'      => 1,
+            'ikon'       => 'fa-picture-o',
+            'urut'       => 102,
+            'level'      => 0,
+            'hidden'     => 2,
+            'ikon_kecil' => 'fa-picture-o',
+            'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'bantuan'])->row()->id,
+        ]);
+    }
+
     // Function Migrasi TinyMCE
+
+    protected function migrasi_2023072454($hasil)
+    {
+        $id    = auth()->id ?? super_admin();
+        $table = 'tweb_keluarga';
+
+        $update['updated_by'] = [
+            'type'       => 'INT',
+            'constraint' => 11,
+            'null'       => true,
+        ];
+
+        if ($this->db->field_exists('updated_by', $table)) {
+            $this->dbforge->modify_column($table, $update);
+        } else {
+            $this->dbforge->add_column($table, $update);
+        }
+
+        DB::table($table)->whereNull('updated_by')->update(['updated_by' => $id]);
+
+        return $hasil;
+    }
 }

@@ -479,7 +479,8 @@ class Admin_Controller extends Premium
                 $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
                 redirect('siteman');
             } else {
-                session_error('Anda tidak mempunyai akses pada fitur itu');
+                // TODO:: cek masalah ini kenapa selalu muncul error di untuk can('u', 'pelanggan)
+                // session_error('Anda tidak mempunyai akses pada fitur itu');
                 unset($_SESSION['request_uri']);
                 redirect('main');
             }

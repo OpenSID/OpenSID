@@ -92,15 +92,19 @@ class Hom_sid extends Admin_Controller
             $release = new Release();
             $release->setApiUrl($url_rilis)->setCurrentVersion($this->versi_setara);
 
-            $info['update_available'] = $release->isAvailable();
-            $info['current_version']  = 'v' . AmbilVersi();
-            $info['latest_version']   = $release->getLatestVersion() . (PREMIUM ? '-premium' : '');
-            $info['release_name']     = $release->getReleaseName();
-            $info['release_body']     = $release->getReleaseBody();
-            $info['url_download']     = $release->getReleaseDownload();
+            if ($release->isAvailable()) {
+                $info['update_available'] = $release->isAvailable();
+                $info['current_version']  = 'v' . AmbilVersi();
+                $info['latest_version']   = $release->getLatestVersion() . (PREMIUM ? '-premium' : '');
+                $info['release_name']     = $release->getReleaseName();
+                $info['release_body']     = $release->getReleaseBody();
+                $info['url_download']     = $release->getReleaseDownload();
 
-            if ($this->versi_setara) {
-                $info['current_version'] .= '(' . $release->getCurrentVersion() . ')';
+                if ($this->versi_setara) {
+                    $info['current_version'] .= '(' . $release->getCurrentVersion() . ')';
+                }
+            } else {
+                $info['update_available'] = false;
             }
         }
 

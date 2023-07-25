@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
@@ -507,20 +506,6 @@ class Penduduk extends BaseModel
         }
 
         return $this->alamat_sekarang . ' RT ' . $this->wilayah->rt . ' / RW ' . $this->wilayah->rw . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->wilayah->dusun);
-    }
-
-    public function getHubunganAttribute()
-    {
-        $hubungan = SHDKEnum::all();
-
-        return $hubungan[$this->kk_level] ?? '-';
-    }
-
-    public function getSexAttribute()
-    {
-        $jk = JenisKelaminEnum::all();
-
-        return $jk[$this->attributes['sex']] ?? '-';
     }
 
     public function scopeKepalaKeluarga($query)

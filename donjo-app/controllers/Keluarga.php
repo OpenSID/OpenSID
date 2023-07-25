@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Models\Keluarga as ModelsKeluarga;
 
@@ -68,7 +69,7 @@ class Keluarga extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 1)
     {
         $data['p'] = $p;
         $data['o'] = $o;
@@ -434,7 +435,8 @@ class Keluarga extends Admin_Controller
         $kk            = ModelsKeluarga::with(['anggota'])->find($id) ?? show_404();
         $data['no_kk'] = $kk->no_kk;
         $data['main']  = $kk->anggota->map(static function ($item) {
-            $item->hubungan = $item->kk_level;
+            $item->hubungan = SHDKEnum::valueOf($item->kk_level);
+            $item->sex      = JenisKelaminEnum::valueOf($item->sex);
 
             return $item;
         })->toArray();

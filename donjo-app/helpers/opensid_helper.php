@@ -58,7 +58,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023072051');
+define('VERSI_DATABASE', '2023072651');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -544,10 +544,17 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
     $CI = &get_instance();
     $CI->load->helper('download');
 
-    // Batasi akses LOKASI_ARSIP hanya untuk admin
-    // if ($lokasi == LOKASI_ARSIP && $CI->session->siteman != 1) {
-    //     redirect('/');
-    // }
+    if (! preg_match('/^(?:[a-z0-9_-]|\.(?!\.))+$/iD', $nama_berkas)) {
+        $pesan = 'Nama berkas tidak valid';
+        session_error($pesan);
+        set_session('error', $pesan);
+
+        if ($redirect_url) {
+            redirect($redirect_url);
+        } else {
+            show_404();
+        }
+    }
 
     // Tentukan path berkas (absolut)
     $pathBerkas = FCPATH . $lokasi . $nama_berkas;

@@ -67,6 +67,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 33. [#6885](https://github.com/OpenSID/OpenSID/issues/6885) Perbaikan hapus data penduduk ketika data sudah dinyatakan lengkap.
 34. [#6900](https://github.com/OpenSID/OpenSID/issues/6900) Perbaikan penanda tangan lampiran F-1.15.
 35. [#6887](https://github.com/OpenSID/OpenSID/issues/6887) Perbaikan notifikasi untuk NIK dan No KK yang kurang dari 16 digit.
+36. [#6910](https://github.com/OpenSID/OpenSID/issues/6910) Perbaikan ambil rilis terbaru dari github jika terdapat batasan harian.
 
 #### Perubahan Teknis
 
@@ -82,4 +83,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 10. [#6901](https://github.com/OpenSID/OpenSID/issues/6901) Penyesuaian struktur kolom tgl_agenda pada tabel agenda.
 11. [#2639](https://github.com/OpenSID/premium/issues/2639) Penyesuaian struktur kolom yang menggunakan default urrent_timestamp() ON UPDATE current_timestamp() namun tidak sesuai kegunaannya.
 12. [#6894](https://github.com/OpenSID/OpenSID/issues/6894) Penyesuaian pengiriman data ke pantau.
-13. [#2573](https://github.com/OpenSID/premium/issues/2573) Penyesuaian tombol migrasi agar bisa melakukan migrasi ulang dari halaman admin.
+14. [#2573](https://github.com/OpenSID/premium/issues/2573) Penyesuaian tombol migrasi agar bisa melakukan migrasi ulang dari halaman admin.
+15. [#6704](https://github.com/OpenSID/OpenSID/issues/6704) Penyesuaian grup akses modul bantuan, bagi menjadi 2 bagian yaitu program dan peserta.
+16. [#6925](https://github.com/OpenSID/OpenSID/issues/6925) Penyesuaian kolom updated_by pada tabel tweb_keluarga bisa bernilai null.
+17. [#2624](https://github.com/OpenSID/premium/issues/2624) Pembatasan akses file metode LFI (Local File Inclusion).

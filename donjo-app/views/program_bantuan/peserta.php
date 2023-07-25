@@ -49,7 +49,7 @@
 								<tr>
 									<td class="padat"><?= ($key + 1); ?></td>
 									<td nowrap><?= fTampilTgl($item['sdate'], $item['edate']); ?></td>
-									<td nowrap><a href="<?= site_url("program_bantuan/detail/{$item['id']}")?>"><?= $item['nama'] ?></a></td>
+									<td nowrap><a href="<?= site_url("peserta_bantuan/detail/{$item['id']}")?>"><?= $item['nama'] ?></a></td>
 									<td><?= $item['ndesc']; ?></td>
 								</tr>
 							<?php endforeach; ?>
