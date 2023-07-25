@@ -74,6 +74,7 @@ class Migrasi_fitur_premium_2308 extends MY_model
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023070651($hasil);
         $hasil = $hasil && $this->migrasi_2023070653($hasil);
+        $hasil = $hasil && $this->migrasi_2023072454($hasil);
 
         return $hasil && $this->migrasi_2023070652($hasil);
     }
@@ -154,4 +155,26 @@ class Migrasi_fitur_premium_2308 extends MY_model
     }
 
     // Function Migrasi TinyMCE
+
+    protected function migrasi_2023072454($hasil)
+    {
+        $id    = auth()->id ?? super_admin();
+        $table = 'tweb_keluarga';
+
+        $update['updated_by'] = [
+            'type'       => 'INT',
+            'constraint' => 11,
+            'null'       => true,
+        ];
+
+        if ($this->db->field_exists('updated_by', $table)) {
+            $this->dbforge->modify_column($table, $update);
+        } else {
+            $this->dbforge->add_column($table, $update);
+        }
+
+        DB::table($table)->whereNull('updated_by')->update(['updated_by' => $id]);
+
+        return $hasil;
+    }
 }
