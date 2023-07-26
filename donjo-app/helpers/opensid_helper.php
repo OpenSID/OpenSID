@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2307.0.3');
+define('VERSION', '2307.0.4');
 
 /**
  * PREMIUM

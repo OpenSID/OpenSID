@@ -374,7 +374,7 @@ function tgl_indo($tgl, $replace_with = '-', $with_day = '')
     if (date_is_empty($tgl)) {
         return $replace_with;
     }
-    $tanggal = date('d', strtotime($tgl));
+    $tanggal = substr($tgl, 8, 2);
     $bulan   = getBulan(substr($tgl, 5, 2));
     $tahun   = substr($tgl, 0, 4);
     if ($with_day != '') {

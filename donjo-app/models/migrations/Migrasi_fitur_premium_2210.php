@@ -106,7 +106,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         if (! Pamong::find(1)) {
             // Jika tidak ada, ganti id_pamong = 1 pada log_surat dengan kepala desa yang aktif
             $pamongId = Pamong::kepalaDesa()->first()->pamong_id;
-            LogSurat::where('id_pamong', 1)->update(['id_pamong' => $pamongId]);
+            if ($pamongId) {
+                LogSurat::where('id_pamong', 1)->update(['id_pamong' => $pamongId]);
+            }
         }
 
         return $hasil;
