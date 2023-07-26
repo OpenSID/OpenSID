@@ -30,6 +30,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 24. [#5767](https://github.com/OpenSID/OpenSID/issues/5767) Penambahan surat TinyMCE Keterangan Kelahiran.
 25. [#6902](https://github.com/OpenSID/OpenSID/issues/6902) Penambahan lampiran f-2.01 surat TinyMCE.
 26. [#6857](https://github.com/OpenSID/OpenSID/issues/6857) Penambahan lampiran F-2.12.
+27. [#6220](https://github.com/OpenSID/OpenSID/issues/6220) Penambahan surat TinyMCE Keterangan Untuk Nikah.
 
 #### Perbaikan BUG
 

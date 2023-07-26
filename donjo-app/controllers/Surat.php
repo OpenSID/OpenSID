@@ -938,6 +938,11 @@ class Surat extends Admin_Controller
         $individu      = $this->surat_model->get_data_surat($id);
         $penandatangan = $this->surat_model->atas_nama($data);
         $lampiran      = explode(',', strtolower($surat['lampiran']));
+        $format_surat  = $this->tinymce->substitusiNomorSurat($input['nomor'], setting('format_nomor_surat'));
+        $format_surat  = str_replace('[kode_surat]', $surat['kode_surat'], $format_surat);
+        $format_surat  = str_replace('[kode_desa]', identitas()->kode_desa, $format_surat);
+        $format_surat  = str_replace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
+        $format_surat  = str_replace('[tahun]', date('Y'), $format_surat);
 
         if (isset($input['gunakan_format'])) {
             unset($lampiran);

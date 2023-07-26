@@ -174,6 +174,9 @@ class TinyMCE
 
             // Data Anggota keluarga
             'Anggota Keluarga' => $this->getIsianAnggotaKeluarga($idPenduduk),
+
+            // Data Pasangan
+            'Pasangan' => $this->getIsianPasangan($idPenduduk),
         ];
 
         $peristiwa = $data['surat']->form_isian->individu->status_dasar;
@@ -895,6 +898,24 @@ class TinyMCE
                 'judul' => 'Nama Ibu',
                 'isian' => getFormatIsian('Klgx_nama_ibU'),
                 'data'  => $anggota ? $anggota->pluck('nama_ibu')->toArray() : '',
+            ],
+        ];
+    }
+
+    private function getIsianPasangan($id_penduduk = null)
+    {
+        $penduduk = Penduduk::find($id_penduduk);
+
+        return [
+            [
+                'judul' => 'Jenis Kelamin Pasangan',
+                'isian' => getFormatIsian('Jenis_kelamin_pasangaN'),
+                'data'  => $penduduk->sex == JenisKelaminEnum::LAKI_LAKI ? 'Wanita' : 'Pria',
+            ],
+            [
+                'judul' => 'Bin Pasangan',
+                'isian' => getFormatIsian('Bin_pasangaN'),
+                'data'  => $penduduk->sex == JenisKelaminEnum::LAKI_LAKI ? 'Binti' : 'Bin',
             ],
         ];
     }
