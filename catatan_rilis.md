@@ -29,6 +29,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 23. [#6879](https://github.com/OpenSID/OpenSID/issues/6879) Sediakan pilihan format lampiran dari input pengguna surat TinyMCE keterangan pindah penduduk.
 24. [#5767](https://github.com/OpenSID/OpenSID/issues/5767) Penambahan surat TinyMCE Keterangan Kelahiran.
 25. [#6902](https://github.com/OpenSID/OpenSID/issues/6902) Penambahan lampiran f-2.01 surat TinyMCE.
+26. [#6857](https://github.com/OpenSID/OpenSID/issues/6857) Penambahan lampiran F-2.12.
 
 #### Perbaikan BUG
 
@@ -83,7 +84,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 10. [#6901](https://github.com/OpenSID/OpenSID/issues/6901) Penyesuaian struktur kolom tgl_agenda pada tabel agenda.
 11. [#2639](https://github.com/OpenSID/premium/issues/2639) Penyesuaian struktur kolom yang menggunakan default urrent_timestamp() ON UPDATE current_timestamp() namun tidak sesuai kegunaannya.
 12. [#6894](https://github.com/OpenSID/OpenSID/issues/6894) Penyesuaian pengiriman data ke pantau.
-14. [#2573](https://github.com/OpenSID/premium/issues/2573) Penyesuaian tombol migrasi agar bisa melakukan migrasi ulang dari halaman admin.
-15. [#6704](https://github.com/OpenSID/OpenSID/issues/6704) Penyesuaian grup akses modul bantuan, bagi menjadi 2 bagian yaitu program dan peserta.
-16. [#6925](https://github.com/OpenSID/OpenSID/issues/6925) Penyesuaian kolom updated_by pada tabel tweb_keluarga bisa bernilai null.
-17. [#2624](https://github.com/OpenSID/premium/issues/2624) Pembatasan akses file metode LFI (Local File Inclusion).
+13. [#2573](https://github.com/OpenSID/premium/issues/2573) Penyesuaian tombol migrasi agar bisa melakukan migrasi ulang dari halaman admin.
+14. [#6704](https://github.com/OpenSID/OpenSID/issues/6704) Penyesuaian grup akses modul bantuan, bagi menjadi 2 bagian yaitu program dan peserta.
+15. [#6925](https://github.com/OpenSID/OpenSID/issues/6925) Penyesuaian kolom updated_by pada tabel tweb_keluarga bisa bernilai null.
+16. [#2624](https://github.com/OpenSID/premium/issues/2624) Pembatasan akses file metode LFI (Local File Inclusion).
