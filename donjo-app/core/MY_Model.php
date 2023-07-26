@@ -211,7 +211,17 @@ class MY_Model extends CI_Model
 
     public function grupAkses($id_grup, $id_modul, $akses, $config_id = null)
     {
-        return $this->db->insert('grup_akses', ['config_id' => $config_id, 'id_grup' => $id_grup, 'id_modul' => $id_modul, 'akses' => $akses]);
+        $insert = [
+            'id_grup'   => $id_grup,
+            'id_modul'  => $id_modul,
+            'akses'     => $akses,
+        ];
+
+        if ($this->db->field_exists('config_id', 'grup_akses')) {
+            $insert['config_id'] = $config_id ?? $this->config_id;
+        }
+
+        return $this->db->insert('grup_akses', $insert);
     }
 
     /**
