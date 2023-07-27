@@ -90,7 +90,10 @@ class Keluarga extends BaseModel
      */
     public function anggota()
     {
-        return $this->hasMany(Penduduk::class, 'id_kk')->orderBy('kk_level')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+        return $this->hasMany(Penduduk::class, 'id_kk')
+            ->orderBy('kk_level')
+            ->orderBy('tanggallahir')
+            ->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     /**

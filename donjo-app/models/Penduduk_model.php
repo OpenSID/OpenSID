@@ -564,12 +564,13 @@ class Penduduk_model extends MY_Model
         // pada query "... FROM ({$query_dasar}) AS u" menjadi "... FROM (({$query_dasar}) AS u) ..."
         $this->db->from("#({$query_dasar}) AS u#");
         $this->lookup_ref_penduduk();
-        // $this->order_by_list($order_by);
+        $this->order_by_list($order_by);
 
         // lakukan filter setelah final query
         $this->filter_id();
 
         $sql = str_replace(['(#', '#)'], '', $this->db->get_compiled_select());
+        $sql = str_replace('`` LIMIT`', '` LIMIT', $sql);
 
         $data = $this->db->query($sql)->result_array();
 
