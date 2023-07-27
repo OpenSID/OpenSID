@@ -59,3 +59,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 13. [#6704](https://github.com/OpenSID/OpenSID/issues/6704) Penyesuaian grup akses modul bantuan, bagi menjadi 2 bagian yaitu program dan peserta.
 14. [#6925](https://github.com/OpenSID/OpenSID/issues/6925) Penyesuaian kolom updated_by pada tabel tweb_keluarga bisa bernilai null.
 15. [#2624](https://github.com/OpenSID/premium/issues/2624) Pembatasan akses file metode LFI (Local File Inclusion).
+16. [#2625](https://github.com/OpenSID/premium/issues/2625) Pembatasan akses unggah file berbahaya melalui RFM.
