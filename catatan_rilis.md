@@ -1,6 +1,4 @@
-Di rilis ini, versi 2307.0.4 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
-
-Terima kasih pada [isi disini] yang terus berkontribusi.
+Di rilis ini, versi 2308.0.0 berisi penambahan konversi surat rtf ke surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
 
 #### Penambahan Fitur
 
