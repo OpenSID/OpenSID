@@ -6,7 +6,12 @@
     $input['status_kk_bagi_yang_pindah'] = array_search(strtolower($input['status_kk_bagi_yang_pindah']), array_map('strtolower', $data["kode"]["status_kk_pindah"]));
 
     switch (strtoupper($input['klasifikasi_pindah'])) {
-        case 'DALAM SATU DESA/KELURAHAN' || 'ANTAR DESA/KELURAHAN':
+        case 'DALAM SATU DESA/KELURAHAN':
+            $input['judul_format'] = 'Antar Desa/Kelurahan Dalam Satu Kecamatan';
+            $input['kode_format'] = 'F-1.27';
+            break;
+
+        case 'ANTAR DESA/KELURAHAN':
             $input['judul_format'] = 'Antar Desa/Kelurahan Dalam Satu Kecamatan';
             $input['kode_format'] = 'F-1.27';
             break;
@@ -26,5 +31,4 @@
             $input['kode_format'] = null;
             break;
     }
-    
 ?>
