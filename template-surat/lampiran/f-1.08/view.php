@@ -420,7 +420,7 @@
 		<tr class="pendek">
 			<td>Camat</td>
 			<td>Pemohon</td>
-			<td><?= $data['nama_jabatan'] . ' ' . $config['nama_desa'] ?></td>
+			<td><?= $penandatangan['atas_nama']?></td>
 		</tr>
 		<tr class="pendek">
 			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20") ?></td>
@@ -435,12 +435,12 @@
 		<tr>
 			<td>(.........................................................)</td>
 			<td><strong>(<?= padded_string_center(strtoupper($individu['kepala_kk']), 30) ?>)</strong></td>
-			<td><strong>(<?= padded_string_center(strtoupper($data['nama_pamong']), 30) ?>)</strong></td>
+			<td><strong>(<?= padded_string_center(strtoupper($penandatangan['nama']), 30) ?>)</strong></td>
 		</tr>
 		<tr>
 			<td>NIP.</td>
 			<td>&nbsp;</td>
-			<td>NIP.</td>
+			<td>NIP. <?=$penandatangan['nip']?></td>
 		</tr>
 	</table>
 
