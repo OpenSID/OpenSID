@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 $dataCalonN5 = [
     'nama' => $input['nama_calon_pasangan'],
-    'nik' => $input['nama_calon_pasangan'],
+    'nik' => $input['no_ktp_calon_pasangan'],
     'tempatlahir' => $input['tempat_lahir_calon_pasangan'],
     'tanggallahir' => $input['tanggal_lahir_calon_pasangan'],
     'warganegara'  => $input['warga_negara_calon_pasangan'],
@@ -53,50 +53,35 @@ $dataCalonN5 = [
     'alamat_wilayah' => $input['tempat_tinggal_calon_pasangan'],
     'status_kawin'        => $individu['sex_id'] == JenisKelaminEnum::PEREMPUAN ? $input['status_kawin_calon_pasangan'] : $input['status_kawin'],
     'jumlah_pasangan_terdahulu' => $individu['sex_id'] == JenisKelaminEnum::PEREMPUAN ? $input['jumlah_pasangan_terdahulu_calon_pasangan'] : $input['jumlah_pasangan_terdahulu'],
-
-    'nama_ayah' => $input['nama_ayah_calon_pasangan'],
-    'ayah_nik' => $input['no_ktp_ayah_calon_pasangan'],
-    'bin_ayah' => $input['bin_ayah_calon_pasangan'],
-    'nik_ayah' => $input['no_ktp_ayah_calon_pasangan'],
-    'tempat_lahir_ayah' => $input['tempat_lahir_ayah_calon_pasangan'],
-    'tanggal_lahir_ayah' => $input['tanggal_lahir_ayah_calon_pasangan'],
-    'warga_negara_ayah' => $input['warga_negara_ayah_calon_pasangan'],
-    'agama_ayah' => $input['agama_ayah_calon_pasangan'],
-    'pekerjaan_ayah' => $input['pekerjaan_ayah_calon_pasangan'],
-    'alamat_ayah' => $input['tempat_tinggal_ayah_calon_pasangan'],
-    
-    'nama_ibu'  => $input['nama_ibu_calon_pasangan'],
-    'ibu_nik'  => $input['no_ktp_ibu_calon_pasangan'],
-    'warganegara_ibu' => $input['warga_negara_ibu_calon_pasangan'],
-    'agama_ibu' => $input['agama_ibu_calon_pasangan'],
-    'pekerjaan_ibu' => $input['pekerjaan_ibu_calon_pasangan'],
-    'alamat_ibu' => $input['tempat_tinggal_ibu_calon_pasangan'],
-    'tempat_lahir_ibu'   => $input['tempat_lahir_ibu_calon_pasangan'],
-    'tanggal_lahir_ibu'   => $input['tanggal_lahir_ibu_calon_pasangan'],
 ];
 
+$ayah = $this->surat_model->get_data_ayah($data['id_pend']);
+$ayah = $this->surat_model->get_data_surat($ayah['id']);
+$ibu = $this->surat_model->get_data_ibu($data['id_pend']);
+$ibu = $this->surat_model->get_data_surat($ibu['id']);
 
 $data_individu = [
-    'tempat_lahir_ayah' => $individu['tempat_lahir_ayah'] ?? '-',
-    'tanggal_lahir_ayah' => $individu['tanggal_lahir_ayah'] ?? '-',
-    'warga_negara_ayah' => $individu['warga_negara_ayah'] ?? '-',
-    'agama_ayah' => $individu['agama_ayah'] ?? '-',
-    'pekerjaan_ayah' => $individu['pekerjaan_ayah'] ?? '-',
-    'alamat_ayah' => $individu['alamat_ayah'],
+    'nama_ayah' => $ayah['nama'],
+    'bin_ayah' => $ayah['nama_ayah'],
+    'nik_ayah' => $ayah['nik'],
+    'tempat_lahir_ayah' => $ayah['tempatlahir'],
+    'tanggal_lahir_ayah' => $ayah['tanggallahir'],
+    'warga_negara_ayah' => $ayah['warganegara'],
+    'agama_ayah' => $ayah['agama'],
+    'pekerjaan_ayah' => $ayah['pekerjaan'],
+    'alamat_ayah' => $ayah['alamat_wilayah'],
     
-    'tempat_lahir_ibu' => $individu['tempat_lahir_ibu'] ?? '-',
-    'tanggal_lahir_ibu' => $individu['tanggal_lahir_ibu'] ?? '-',
-    'warga_negara_ibu' => $individu['warga_negara_ibu'] ?? '-',
-    'agama_ibu' => $individu['agama_ibu'] ?? '-',
-    'pekerjaan_ibu' => $individu['pekerjaan_ibu'] ?? '-',
-    'alamat_ibu' => $individu['alamat_ibu'],
-];
-
-$bin = [
-   'bin_ayah' =>  $input['bin_ayah_calon_pasangan'],
-   'binti_ayah' =>  $input['binti_ayah_calon_pasangan'],
+    'nama_ibu' => $ibu['nama'],
+    'binti_ibu' => $ibu['nama_ayah'],
+    'nik_ibu' => $ibu['nik'],
+    'tempat_lahir_ibu' => $ibu['tempatlahir'],
+    'tanggal_lahir_ibu' => $ibu['tanggallahir'],
+    'warga_negara_ibu' => $ibu['warganegara'],
+    'agama_ibu' => $ibu['agama'],
+    'pekerjaan_ibu' => $ibu['pekerjaan'],
+    'alamat_ibu' => $ibu['alamat_wilayah'],
 ];
  
-$dataIndividuN5 = array_merge($individu, $bin, $data_individu);;
+$dataIndividuN5 = array_merge($individu, $data_individu);;
 $dataCalonPasanganN5 = $dataCalonN5;
  
