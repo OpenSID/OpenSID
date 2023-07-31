@@ -153,8 +153,12 @@
                                     <td>Data Individu</td>
                                     <td>
                                         @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
-                                        <select id="data_utama" class="form-control input-sm kategori select2" name="kategori_data_utama[{{ $item }}]" disabled>
-                                            <option value="1" selected>PENDUDUK {{ $desa_pend }}
+                                        <select id="data_utama" class="form-control input-sm kategori select2" name="kategori_data_utama[{{ $item }}]">
+                                            <option value="1" @selected(1==$suratMaster->form_isian->$item->data)>PENDUDUK
+                                                {{ $desa_pend }}
+                                            </option>                        
+                                            <option value="2" @selected(2==$suratMaster->form_isian->$item->data)>PENDUDUK LUAR
+                                                {{ $desa_pend }}
                                             </option>
                                         </select>
                                     </td>
@@ -251,7 +255,7 @@
         var num = 0;
         $('#btn-new-tab').click(function(e) {
             var checkInput = validateInputCategory($('#nama_kategori').val())
-            console.log(checkInput);
+            // console.log(checkInput);
             if (checkInput == 'huruf') {
                 $('#error_category').show()
                 $('#error_category').text('Maksimal 20 huruf.')
@@ -269,6 +273,7 @@
             num++
             e.preventDefault()
             var newTabId = 'tab-' + nama_kategori
+            var oldname, newname
             $("#form-utama").clone(true)
                 .map(function() {
                     editElm = $(this)
@@ -280,7 +285,7 @@
                     var utama_delete_btn = editElm[0].querySelector('.utama-delete')
                     utama_delete_btn.dataset.kategori = nama_kategori
                     utama_delete_btn.classList.remove('hide')
-                    console.log(utama_delete_btn);
+                    // console.log(utama_delete_btn);
                     var elsumberData = editElm[0].querySelector('.sumber-data')
                     var elkodeIsian = editElm[0].querySelector('.kode-isian')
                     var elorangTua = editElm[0].querySelector('#orang-tua')
@@ -290,20 +295,17 @@
                     // console.log(elkodeIsian);
                     if (elsumberData != null) {
                         // console.log(321);
-                        var selects = editElm[0].querySelectorAll('.sumber-data select.select2');
-
-                        // Mengambil semua elemen <select> yang memiliki kelas "select2"
-                        const selectElements = selects;
-
+                        var selects = editElm[0].querySelectorAll('.sumber-data select');
+                        
                         // Menghapus semua atribut dan kelas "select2" dari setiap elemen <select>
-                        selectElements.forEach((elselect2) => {
-                            // console.log(elselect2);
-                            var oldname = elselect2.getAttribute('name')
-                            if (oldname == 'data_utama') elselect2.disabled = true
-                            elselect2.name = `kategori_${oldname}[${nama_kategori}]`
+                        selects.forEach((elselect2) => {                            
+                            oldname = elselect2.getAttribute('name')
+                            newname = `kategori_${oldname}[${nama_kategori}]`
+                            // if (oldname == 'data_utama') elselect2.disabled = true
+                            elselect2.name = newname
                             elselect2.classList.add('kategori')
                             if (elselect2.classList.contains('select2')) {
-                                console.log(123);
+                                
                                 elselect2.classList.remove('select2')
                                 elselect2.classList.remove('select2-hidden-accessible')
                                 elselect2.classList.remove('required')
@@ -317,36 +319,36 @@
                     }
                     if (elkodeIsian != null) {
                         var elganda = editElm[0].querySelector('#gandakan-0');
-                        console.log(elganda);
+                        // console.log(elganda);
                         // elganda.classList.remove('duplikasi');
                         elganda.classList.add('duplikasi-' + nama_kategori);
                         elganda.classList.add('kategori');
                         elganda.id = 'gandakan-' + nama_kategori + '-0';
-                        console.log(elkodeIsian.querySelectorAll('tr.duplikasi'));
+                        // console.log(elkodeIsian.querySelectorAll('tr.duplikasi'));
                         // use foreach tr, jika itu tr pertama maka sesuaikan dengan tab data, jika bukan delete
                         var trkode = elkodeIsian.querySelectorAll('tr.duplikasi');
                         trkode.forEach((tr, index) => {
                             var kategori_isian = tr.querySelectorAll(
                                 '.kode-isian input, .kode-isian textarea, .kode-isian select, .kode-isian'
                             );
-                            console.log(kategori_isian);
+                            //// console.log(kategori_isian);
                             if (index == 0) {
                                 kategori_isian.forEach((elselect2) => {
                                     // elselect2.name = `pilihan_kode[${counter + 1}][]`
                                     var oldname = elselect2.getAttribute('name')
-                                    console.log(oldname);
+                                    // console.log(oldname);
                                     if (oldname != null) {
                                         var fixname = oldname.replace(/[\[\]0]/g,
                                             "");
                                         var fullname =
                                             `kategori_${fixname}[${nama_kategori}][]`
-                                        console.log(elselect2.classList)
+                                        // console.log(elselect2.classList)
                                         if (oldname == 'pilihan_kode[0][]') {
                                             fullname =
                                                 `kategori_${fixname}[${nama_kategori}][0][]`
                                             if (elselect2.classList.contains(
                                                     'select2')) {
-                                                console.log(123);
+                                                // console.log(123);
                                                 elselect2.classList.remove(
                                                     'select2')
                                                 elselect2.classList.remove(
@@ -371,11 +373,11 @@
                     var elbutton = editElm[0].querySelector('.tambah-kode')
                     elbutton.dataset.type = 'gandakan-' + nama_kategori
                     elbutton.dataset.kategori = nama_kategori
-                    console.log(elbutton);
+                    // console.log(elbutton);
                     return editElm;
                 });
             // loadSelect()
-            console.log(editElm[0]);
+            //// console.log(editElm[0]);
             var newNavItem = $(`<li id="list-${nama_kategori}" data-name="${nama_kategori}"><a href="#${newTabId}" data-toggle="tab">${nama_kategori.replace(/_/g, ' ')}</a></li>`);
 
             var inputHidden = $('<input>').attr({
@@ -393,7 +395,7 @@
     });
 
     function loadSelect() {
-        console.log('load select');
+        // console.log('load select');
         $('.kategori').select2()
     }
 
@@ -411,11 +413,11 @@
 
     function deleteTab(event) {
         var clicked = event.target;
-        console.log(clicked.dataset.kategori);
+        // console.log(clicked.dataset.kategori);
         var id = clicked.dataset.kategori
         $(`#tab-${id}`).remove()
         var ulElement = document.getElementsByClassName('customized-tab')[0];
-        console.log(ulElement);
+        // console.log(ulElement);
         var liElements = ulElement.getElementsByTagName('li');
         var activeLiElement = ulElement.querySelector('.active');
         var activeLiIndex = Array.prototype.indexOf.call(liElements, activeLiElement);
@@ -425,7 +427,7 @@
             previousLiElement.classList.add('active');
         }
         var prevName = previousLiElement.dataset.name
-        console.log(previousLiElement.dataset.name);
+        // console.log(previousLiElement.dataset.name);
         $(`#list-${id}`).remove()
         if (prevName == 'utama') {
             $(`#tab-${id}`).removeClass('active')

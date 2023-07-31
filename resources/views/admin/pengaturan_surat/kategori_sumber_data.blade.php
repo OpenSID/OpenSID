@@ -12,7 +12,7 @@
                 <td>
                     @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
                     <select id="data_utama" class="form-control input-sm kategori select2"
-                        name="kategori_data_utama[{{$item}}]" disabled>
+                        name="kategori_data_utama[{{$item}}]">
                         <option value="1" selected>PENDUDUK {{
                             $desa_pend }}
                         </option>
