@@ -66,7 +66,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan Tanggal Lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonN4['tempatlahir_pria'] . ', ' . tgl_indo2(date('Y-m-d', strtotime($dataCalonN4['tanggallahir_pria']))); ?></td>
+            <td colspan="27"><?= $dataCalonN4['tempatlahir_pria'] . ', ' . tgl_indo2( !empty($dataCalonN4['tanggallahir_pria']) ? date('Y-m-d', strtotime($dataCalonN4['tanggallahir_pria'])) : ''); ?></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
@@ -122,7 +122,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan Tanggal Lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonN4['tempatlahir_wanita'] . ', ' . tgl_indo2(date('Y-m-d', strtotime($dataCalonN4['tanggallahir_wanita']))); ?></td>
+            <td colspan="27"><?= $dataCalonN4['tempatlahir_wanita'] . ', ' . tgl_indo2(!empty($dataCalonN4['tanggallahir_wanita']) ? date('Y-m-d', strtotime($dataCalonN4['tanggallahir_wanita'])) : ''); ?></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>

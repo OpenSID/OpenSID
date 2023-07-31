@@ -74,7 +74,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Hari/tanggal/jam</td>
             <td>: </td>
-            <td colspan="27"><?= $input['hari_pernikahan'] ?>/<?= tgl_indo2(date('Y-m-d', strtotime($input['tanggal_pernikahan']))) ?>/<?= $input['jam_pernikahan'] ?></td>
+            <td colspan="27"><?= $input['hari_pernikahan'] ?>/<?= tgl_indo2(!empty($input['tanggal_pernikahan']) ? date('Y-m-d', strtotime($input['tanggal_pernikahan'])) : '') ?>/<?= $input['jam_pernikahan'] ?></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>

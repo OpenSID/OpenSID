@@ -28,7 +28,7 @@
         <tr>
             <td colspan="20">Tempat dan Tanggal Lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $input['tempat_lahir_calon_pasangan'].', '. tgl_indo2(date('Y-m-d', strtotime($input['tanggal_lahir_calon_pasangan']))); ?></td>
+            <td colspan="27"><?= $input['tempat_lahir_calon_pasangan'].', '. tgl_indo2(!empty($input['tanggal_lahir_calon_pasangan']) ? date('Y-m-d', strtotime($input['tanggal_lahir_calon_pasangan'])) : ''); ?></td>
             
         </tr>
         <tr>

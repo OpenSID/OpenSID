@@ -67,7 +67,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan tanggal lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $dataIndividuN5['tempat_lahir_ayah'] . ', ' . tgl_indo2(date('Y-m-d', strtotime($dataIndividuN5['tanggal_lahir_ayah']))); ?></td>
+            <td colspan="27"><?= $dataIndividuN5['tempat_lahir_ayah'] . ', ' . tgl_indo2(!empty($dataIndividuN5['tanggal_lahir_ayah']) ? date('Y-m-d', strtotime($dataIndividuN5['tanggal_lahir_ayah'])) : ''); ?></td>
         </tr>
 
         <tr>
@@ -124,7 +124,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan tanggal lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $dataIndividuN5['tempat_lahir_ibu'] . ', ' . tgl_indo2(date('Y-m-d', strtotime($dataCalonPriaN5['tanggal_lahir_ibu'])));; ?></td>
+            <td colspan="27"><?= $dataIndividuN5['tempat_lahir_ibu'] . ', ' . tgl_indo2(!empty($dataCalonPriaN5['tanggal_lahir_ibu']) ? date('Y-m-d', strtotime($dataCalonPriaN5['tanggal_lahir_ibu'])) : ''); ?></td>
         </tr>
 
         <tr>
@@ -185,7 +185,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan tanggal lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $dataIndividuN5['tempatlahir'] . ', ' . tgl_indo2(date('Y-m-d', strtotime($dataIndividuN5['tanggallahir']))); ?></td>
+            <td colspan="27"><?= $dataIndividuN5['tempatlahir'] . ', ' . tgl_indo2(!empty($dataIndividuN5['tanggallahir']) ? date('Y-m-d', strtotime($dataIndividuN5['tanggallahir'])) : ''); ?></td>
         </tr>
 
         <tr>
@@ -248,7 +248,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan tanggal lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonPasanganN5['tempatlahir'] . ', ' . tgl_indo2(date('Y-m-d', strtotime($dataCalonPasanganN5['tanggallahir']))); ?></td>
+            <td colspan="27"><?= $dataCalonPasanganN5['tempatlahir'] . ', ' . tgl_indo2(!empty($dataCalonPasanganN5['tanggallahir']) ? date('Y-m-d', strtotime($dataCalonPasanganN5['tanggallahir'])) : ''); ?></td>
         </tr>
 
         <tr>

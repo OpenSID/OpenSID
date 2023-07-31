@@ -86,14 +86,14 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan tanggal lahir</td>
             <td>: </td>
-            <td colspan="27"><?= tgl_indo2(date('Y-m-d', strtotime($dataIndividuN6['tempat_lahir_pasangan_terdahulu']))); ?></td>            
+            <td colspan="27"><?= tgl_indo2( !empty($dataIndividuN6['tanggal_lahir_pasangan_terdahulu']) ? date('Y-m-d', strtotime($dataIndividuN6['tanggal_lahir_pasangan_terdahulu'])) : ''); ?></td>            
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">&nbsp;</td>
             <td>&nbsp;</td>
-            <td colspan="27"><?= $dataIndividuN6['tanggal_lahir_pasangan_terdahulu']; ?></td>            
+            <td colspan="27"><?= $dataIndividuN6['tempat_lahir_pasangan_terdahulu']; ?></td>            
         </tr>
 
          <tr>
@@ -128,7 +128,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Telah meninggal dunia pada tanggal</td>
             <td>: </td>
-            <td colspan="27"><?= tgl_indo2(date('Y-m-d', strtotime($dataIndividuN6['tanggal_meninggal_pasangan_terdahulu']))); ?></td>            
+            <td colspan="27"><?= tgl_indo2(!empty($dataIndividuN6['tanggal_meninggal_pasangan_terdahulu']) ? date('Y-m-d', strtotime($dataIndividuN6['tanggal_meninggal_pasangan_terdahulu'])) : ''); ?></td>            
         </tr>
 
         <tr>
@@ -176,7 +176,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan tanggal lahir</td>
             <td>&nbsp;</td>
-            <td colspan="27"><?= $dataIndividuN6['tempatlahir']; ?> <?= tgl_indo2($dataIndividuN6['tanggallahir']); ?></td>            
+            <td colspan="27"><?= $dataIndividuN6['tempatlahir']; ?> <?= tgl_indo2($dataIndividuN6['tanggallahir']); ?></td>
         </tr>
 
         <tr>

@@ -92,7 +92,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Tempat dan Tanggal Lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $dataWaliNikah['tempatlahir_wali'] . ', ' . tgl_indo2(date('Y-m-d', strtotime($dataWaliNikah['tanggallahir_wali']))); ?></td>
+            <td colspan="27"><?= $dataWaliNikah['tempatlahir_wali'] . ', ' . tgl_indo2(!empty($dataWaliNikah['tanggallahir_wali']) ? date('Y-m-d', strtotime($dataWaliNikah['tanggallahir_wali'])) : ''); ?></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
