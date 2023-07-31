@@ -39,11 +39,13 @@ use App\Enums\JenisKelaminEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+$ayah = $this->surat_model->get_data_ayah($data['id_pend']);
+
 if ($individu['sex_id'] == JenisKelaminEnum::LAKI_LAKI) {
     $dataCalonN4 = [
         // calon pria
         'nama_pria' => $individu['nama'],
-        'bin_pria'  => $individu['nama_ayah'],
+        'bin_pria'  => $individu['nama_ayah'] ?? $ayah['nama'],
         'nik_pria' => $individu['nik'],
         'tempatlahir_pria' => $individu['tempatlahir'],
         'tanggallahir_pria' => $individu['tanggallahir'],
@@ -61,7 +63,7 @@ if ($individu['sex_id'] == JenisKelaminEnum::LAKI_LAKI) {
         'warganegara_wanita' => $input['warga_negara_calon_pasangan'],
         'agama_wanita' => $input['agama_calon_pasangan'],
         'pekerjaan_wanita' => $input['pekerjaan_calon_pasangan'],
-        'alamat_wanita' => $input['alamat_calon_pasangan'],
+        'alamat_wanita' => $input['tempat_tinggal_calon_pasangan'],
     ];
 } else {
     $dataCalonN4 = [
@@ -74,11 +76,11 @@ if ($individu['sex_id'] == JenisKelaminEnum::LAKI_LAKI) {
         'warganegara_pria' => $input['warga_negara_calon_pasangan'],
         'agama_pria' => $input['agama_calon_pasangan'],
         'pekerjaan_pria' => $input['pekerjaan_calon_pasangan'],
-        'alamat_pria' => $input['alamat_calon_pasangan'],
+        'alamat_pria' => $input['tempat_tinggal_calon_pasangan'],
 
         // calon wanita
         'nama_wanita' => $individu['nama'],
-        'binti_wanita'  => $individu['nama_ayah'],
+        'binti_wanita'  => $individu['nama_ayah'] ?? $ayah['nama'],
         'nik_wanita' => $individu['nik'],
         'tempatlahir_wanita' => $individu['tempatlahir'],
         'tanggallahir_wanita' => $individu['tanggallahir'],
