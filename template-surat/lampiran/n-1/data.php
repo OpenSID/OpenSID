@@ -35,9 +35,10 @@
  *
  */
 
-use App\Enums\JenisKelaminEnum;
-use App\Libraries\TinyMCE;
 use App\Models\Penduduk;
+use App\Libraries\TinyMCE;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\StatusHubunganEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,6 +46,7 @@ $dataCalonSuamiN1 = [
     'nama' => $input['nama_calon_pasangan'],
     'nik'  => $input['no_ktp_calon_pasangan'],
     'nama_ayah' => $input['nama_ayah_calon_pasangan'],
+    'nama_ibu' => $input['nama_ibu_calon_pasangan'],
     'tempatlahir' => $input['tempat_lahir_calon_pasangan'],
     'tanggallahir' => $input['tanggal_lahir_calon_pasangan'],
     'warganegara'  => $input['warga_negara_calon_pasangan'],
@@ -74,6 +76,7 @@ $dataCalonIstriN1 = [
     'nama' => $input['nama_calon_pasangan'],
     'nik'  => $input['no_ktp_calon_pasangan'],
     'nama_ayah' => $input['nama_ayah_calon_pasangan'],
+    'nama_ibu' => $input['nama_ibu_calon_pasangan'],
     'tempatlahir' => $input['tempat_lahir_calon_pasangan'],
     'tanggallahir' => $input['tanggal_lahir_calon_pasangan'],
     'warganegara'  => $input['warga_negara_calon_pasangan'],
@@ -103,13 +106,27 @@ $dataCalonIstriN1 = [
 $individu['status_kawin'] = $input['status_kawin'];
 
 if (! isset($data['ayah'])) {
-    $data['ayah'] = Penduduk::where('nik', $individu['ayah_nik'])->first();    
+    $data['ayah'] = Penduduk::where('id_kk', $individu['id_kk'])
+                        ->where(static function ($query) {
+                            $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                                ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
+                        })
+                        ->where('sex', JenisKelaminEnum::LAKI_LAKI)
+                        ->first();
 }
+
 if (! isset($data['ibu'])) {    
-    $data['ibu']  = Penduduk::where('nik', $individu['ibu_nik'])->first();    
+    $data['ibu']  = Penduduk::where('id_kk', $individu['id_kk'])
+                        ->where(static function ($query) {
+                            $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                                ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
+                        })
+                        ->where('sex', JenisKelaminEnum::PEREMPUAN)
+                        ->first();
 }
 
 if ($data['ayah']) {
+    $individu['ayah_nik'] = $data['ayah']->nik;
     $individu['agama_ayah'] = $data['ayah']->agama->nama;
     $individu['pekerjaan_ayah'] = $data['ayah']->pekerjaan->nama;
     $individu['warganegara_ayah'] = $data['ayah']->wargaNegara->nama;
@@ -119,6 +136,7 @@ if ($data['ayah']) {
 }
 
 if ($data['ibu']) {
+    $individu['ibu_nik'] = $data['ibu']->nik;
     $individu['agama_ibu'] = $data['ibu']->agama->nama;
     $individu['pekerjaan_ibu'] = $data['ibu']->pekerjaan->nama;
     $individu['warganegara_ibu'] = $data['ibu']->wargaNegara->nama;

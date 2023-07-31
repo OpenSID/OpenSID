@@ -304,7 +304,7 @@
         </tr>
         <tr>
             <td colspan="37">&nbsp;</td>
-            <td colspan="10" class="tengah"><?= setting('sebutan_kepala_desa') . ' ' . setting('sebutan_desa') ?></td>
+            <td colspan="10" class="tengah"><?= $penandatangan['atas_nama'] ?></td>
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
@@ -314,7 +314,7 @@
         </tr>
         <tr>
             <td colspan="37">&nbsp;</td>
-            <td colspan="10" class="tengah"><strong><?= $config['nama_kepala_desa'] ?></strong></td>
+            <td colspan="10" class="tengah"><strong><?= $penandatangan['nama'] ?></strong></td>
             <td colspan="2">&nbsp;</td>
         </tr>
     </table>
