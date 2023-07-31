@@ -1,4 +1,4 @@
-Di rilis ini, versi 2307.1.0 ditambahkan fitur buku tamu dan melengkapi lampiran F-2.01, F-1.06 pada surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2308.0.0 ditambahkan fitur buku tamu dan melengkapi lampiran F-2.01, F-1.06 pada surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @Irvan1609 yang terus berkontribusi.
 
