@@ -41,6 +41,8 @@ use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+$ayah = $this->surat_model->get_data_ayah($data['id_pend']);
+
 $formatSuratN6 = (new TinyMCE())->substitusiNomorSurat($data['input']['nomor'], setting('format_nomor_surat'));
 $dataIndividu = [
     'nama_pasangan_terdahulu' => $input['nama_pasangan_terdahulu'],
@@ -54,7 +56,7 @@ $dataIndividu = [
     'tempat_tinggal_pasangan_terdahulu' => $input['tempat_tinggal_pasangan_terdahulu'],
     'tempat_meninggal_pasangan_terdahulu' => $input['tempat_meninggal_pasangan_terdahulu'],
     'tanggal_meninggal_pasangan_terdahulu' => $input['tanggal_meninggal_pasangan_terdahulu'],
-    'bin' => $individu['nama_ayah'],
+    'bin' => $individu['nama_ayah'] ?? $ayah['nama'],
 ];
 
 $dataIndividuN6 = array_merge($individu, $dataIndividu);

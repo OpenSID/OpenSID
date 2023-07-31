@@ -55,7 +55,7 @@
     </table>
 
     <p style="margin: 0; text-align: center;" class="title"><u>SURAT KETERANGAN KEMATIAN</u></p>
-    <p style="margin: 0; text-align: center;">Nomor : <?= $formatSuratN6 ?></p>
+    <p style="margin: 0; text-align: center;">Nomor : <?= $format_surat ?></p>
 
     <p>Yang bertanda tangan dibawah ini menjelaskan dengan sesungguhnya bahwa : </p>
     <table id="kop" class="disdukcapil">
@@ -93,7 +93,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">&nbsp;</td>
             <td>&nbsp;</td>
-            <td colspan="27"><?= $dataCalonPasanganN6['tanggal_lahir_pasangan_terdahulu']; ?></td>            
+            <td colspan="27"><?= tgl_indo2(date('Y-m-d', strtotime($dataCalonPasanganN6['tanggal_lahir_pasangan_terdahulu']))); ?></td>            
         </tr>
 
          <tr>
@@ -128,7 +128,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Telah meninggal dunia pada tanggal</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonPasanganN6['tanggal_meninggal_pasangan_terdahulu']; ?></td>            
+            <td colspan="27"><?= tgl_indo2(date('Y-m-d', strtotime($dataCalonPasanganN6['tanggal_meninggal_pasangan_terdahulu']))); ?></td>            
         </tr>
 
         <tr>
@@ -176,7 +176,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan tanggal lahir</td>
             <td>&nbsp;</td>
-            <td colspan="27"><?= $dataCalonPasanganN6['tempatlahir']; ?> <?= $dataCalonPasanganN6['tanggallahir']; ?></td>            
+            <td colspan="27"><?= $dataCalonPasanganN6['tempatlahir']; ?> <?= tgl_indo2(date('Y-m-d', strtotime($dataCalonPasanganN6['tanggallahir']))); ?></td>            
         </tr>
 
         <tr>
@@ -225,7 +225,7 @@ dipergunakan sebagaimana mestinya.</p>
         </tr>
         <tr>
             <td colspan="37">&nbsp;</td>
-            <td colspan="10" class="tengah"><?= setting('sebutan_kepala_desa').' '.setting('sebutan_desa') ?></td>
+            <td colspan="10" class="tengah"><?= $penandatangan['atas_nama'] ?></td>
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
@@ -235,7 +235,7 @@ dipergunakan sebagaimana mestinya.</p>
         </tr>        
         <tr>
             <td colspan="37">&nbsp;</td>            
-            <td colspan="10" class="tengah"><strong><?= $config['nama_kepala_desa'] ?></strong></td>
+            <td colspan="10" class="tengah"><strong><?= $penandatangan['nama'] ?></strong></td>
             <td colspan="2">&nbsp;</td>
         </tr>
     </table>        
