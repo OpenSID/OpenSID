@@ -832,7 +832,9 @@ class Surat extends Admin_Controller
             } else {
                 $filters = collect($data['surat']['form_isian']->{$kategori})->toArray();
                 unset($filters['data']);
-                $data['penduduk'] = Penduduk::filters($filters)->get();
+                // $data['penduduk'] = Penduduk::filters($filters)->get();
+                // pakai first saja, karena menggunakan select2 ajax
+                $data['penduduk'] = Penduduk::filters($filters)->first();
                 $kk_level         = $data['individu']['kk_level'];
                 $ada_anggota      = ($filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA || $kk_level == SHDKEnum::KEPALA_KELUARGA) ? true : false;
 
@@ -912,7 +914,16 @@ class Surat extends Admin_Controller
         $page          = $this->input->get('page');
         $filter_sex    = $this->input->get('filter_sex');
         $filter['sex'] = ($filter_sex == 'perempuan') ? 2 : $filter_sex;
-        $penduduk      = $this->surat_model->list_penduduk_ajax($cari, $filter, $page);
+        $kategori      = $this->input->get('kategori') ?? null;
+        if ($kategori) {
+            $filterPenduduk = collect(FormatSurat::select('form_isian')->find($this->input->get('surat'))->form_isian->{$kategori})->toArray();
+            if (isset($filterPenduduk['data'])) {
+                unset($filterPenduduk['data']);
+            }
+            $filter = array_merge($filter, $filterPenduduk);
+        }
+
+        $penduduk = $this->surat_model->list_penduduk_ajax($cari, $filter, $page);
         echo json_encode($penduduk);
     }
 

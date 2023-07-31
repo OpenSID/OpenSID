@@ -46,7 +46,7 @@
         <label for="saksi2_desa" class="col-sm-3 control-label"><strong>NIK / Nama</strong></label>
         <div class="col-sm-5">
             <select class="form-control select2 input-sm select2-nik-ajax" name="id_pend_{{ $key }}"
-                style="width:100%;" data-url="<?= site_url('surat/list_penduduk_ajax') ?>"
+                style="width:100%;" data-surat="{{ $surat->id }}" data-kategori="{{ $key }}" data-url="<?= site_url('surat/list_penduduk_ajax') ?>"
                 onchange="submit_form_ambil_data(this.id);">
                 <?php if ($kategori["saksi_{$key}"]) : ?>
                 <option value="<?= $kategori["saksi_{$key}"]['id'] ?>"
@@ -160,7 +160,9 @@
                     return {
                         q: params.term || '', // search term
                         page: params.page || 1,
-                        filter_sex: $(this).data('filter-sex')
+                        filter_sex: $(this).data('filter-sex'),
+                        surat: $(this).data('surat'),
+                        kategori: $(this).data('kategori'),
                     };
                 },
                 processResults: function(data, params) {
