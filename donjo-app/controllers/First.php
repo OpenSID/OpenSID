@@ -43,6 +43,10 @@ class First extends Web_Controller
     {
         parent::__construct();
         parent::clear_cluster_session();
+
+        $this->load->library('security/security_header', null, 'security_header');
+        $this->security_header->handle();
+
         $this->load->model('first_artikel_m');
         $this->load->model('first_penduduk_m');
         $this->load->model('penduduk_model');

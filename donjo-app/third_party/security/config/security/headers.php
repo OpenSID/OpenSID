@@ -37,48 +37,24 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class MY_Security extends CI_Security
-{
-    /**
-     * {@inheritDoc}
-     */
-    public function csrf_show_error()
-    {
-        // // ==== Uncomment berikut untuk debugging masalah CSRF
-        // print("<pre>".print_r(getallheaders(),true)."</pre>");
-        // print("<pre>".print_r($_POST, true)."</pre>");
-        // die();
+$config = [
+    'Strict-Transport-Security' => 'max-age=31536000; includeSubDomains',
 
-        show_error(
-            "Verifikasi CSRF Gagal. <br><br>
-            Kembali ke halaman sebelumnya di <a href='{$_SERVER['HTTP_REFERER']}'>sini</a>, dan ulangi.<br><br>
-            Kalau masih error, coba clear cache dan cookies di browser anda, dan login kembali.<br><br>
-            Kalau masih bermasalah, silakan laporkan.",
-            403,
-            'Bad Request'
-        );
-    }
+    'X-Frame-Options' => 'deny',
 
-    /**
-     * Do Never Allowed
-     *
-     * @used-by	CI_Security::xss_clean()
-     *
-     * @param 	string
-     * @param mixed $str
-     *
-     * @return string
-     */
-    protected function _do_never_allowed($str)
-    {
-        $str = htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+    'X-Content-Type-Options' => 'nosniff',
 
-        $str = str_replace(array_keys($this->_never_allowed_str), $this->_never_allowed_str, $str);
+    'Content-Security-Policy' => "default-src 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content",
 
-        foreach ($this->_never_allowed_regex as $regex) {
-            $str = preg_replace('#' . $regex . '#is', '[removed]', $str);
-        }
+    'X-Permitted-Cross-Domain-Policies' => 'none',
 
-        return $str;
-    }
-}
+    'Referrer-Policy' => 'no-referrer',
+
+    'Permissions-Policy' => 'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()',
+
+    'Cross-Origin-Embedder-Policy' => 'require-corp',
+
+    'Cross-Origin-Resource-Policy' => 'same-origin',
+
+    'Cross-Origin-Opener-Policy' => 'same-origin',
+];

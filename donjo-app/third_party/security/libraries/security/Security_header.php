@@ -35,50 +35,28 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class MY_Security extends CI_Security
+class Security_header
 {
     /**
-     * {@inheritDoc}
+     * @var \CI_Controller
      */
-    public function csrf_show_error()
-    {
-        // // ==== Uncomment berikut untuk debugging masalah CSRF
-        // print("<pre>".print_r(getallheaders(),true)."</pre>");
-        // print("<pre>".print_r($_POST, true)."</pre>");
-        // die();
+    protected $ci;
 
-        show_error(
-            "Verifikasi CSRF Gagal. <br><br>
-            Kembali ke halaman sebelumnya di <a href='{$_SERVER['HTTP_REFERER']}'>sini</a>, dan ulangi.<br><br>
-            Kalau masih error, coba clear cache dan cookies di browser anda, dan login kembali.<br><br>
-            Kalau masih bermasalah, silakan laporkan.",
-            403,
-            'Bad Request'
-        );
+    public function __construct()
+    {
+        $this->ci = &get_instance();
+
+        $this->ci->load->config('security/headers', true);
     }
 
-    /**
-     * Do Never Allowed
-     *
-     * @used-by	CI_Security::xss_clean()
-     *
-     * @param 	string
-     * @param mixed $str
-     *
-     * @return string
-     */
-    protected function _do_never_allowed($str)
+    public function handle()
     {
-        $str = htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+        foreach ($this->ci->config->item('security/headers') as $key => $value) {
+            if ($key === 'Strict-Transport-Security' && ! is_https()) {
+                continue;
+            }
 
-        $str = str_replace(array_keys($this->_never_allowed_str), $this->_never_allowed_str, $str);
-
-        foreach ($this->_never_allowed_regex as $regex) {
-            $str = preg_replace('#' . $regex . '#is', '[removed]', $str);
+            $this->ci->output->set_header("{$key}: {$value}");
         }
-
-        return $str;
     }
 }
