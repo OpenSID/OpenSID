@@ -1,10 +1,10 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<?php $is_premium = preg_match('/premium/', ambilVersi()) ?>
 <?php $nama_desa = ucwords($this->setting->sebutan_desa) .' '.ucwords($desa['nama_desa']) ?>
 
 <?php defined('THEME_VERSION') or define('THEME_VERSION', 'v22.11') ?>
-<?php defined('IS_PREMIUM') or define('IS_PREMIUM', $is_premium) ?>
+<!-- Catatan: tema 6 bulan lalu adalah umum saat ini -->
+<?php defined('IS_PREMIUM') or define('IS_PREMIUM', true) ?>
 <?php defined('NAMA_DESA') or define('NAMA_DESA', $nama_desa) ?>
 
 <?php $title = preg_replace("/[^A-Za-z0-9- ]/", '', trim(str_replace('-', ' ', get_dynamic_title_page_from_path())));
