@@ -124,7 +124,29 @@ class Surat_master extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         if ($id) {
-            $suratMaster = FormatSurat::findOrFail($id);
+            $suratMaster           = FormatSurat::findOrFail($id);
+            $kategori_isian        = [];
+            $data['kategori_nama'] = get_key_form_kategori($suratMaster->form_isian);
+            $filter_kategori       = collect($suratMaster->kode_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
+                $kategori_isian[$item->kategori][] = $item;
+
+                return isset($item->kategori);
+            })->values();
+            $data['kategori_isian'] = $kategori_isian;
+
+            $kategori_form = [];
+            $filter_form   = collect($suratMaster->form_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
+                $kategori_nama[]                   = $item->kategori;
+                $kategori_isian[$item->kategori][] = $item;
+
+                return isset($item->kategori);
+            })->values();
+
+            $data['kategori_isian'] = $kategori_isian;
+
+            $data['kode_isian'] = collect($suratMaster->kode_isian)->reject(static function ($item) {
+                return isset($item->kategori);
+            })->values();
 
             $kategori_isian        = [];
             $data['kategori_nama'] = get_key_form_kategori($suratMaster->form_isian);
@@ -352,8 +374,10 @@ class Surat_master extends Admin_Controller
         }
 
         $formIsian = [
-            'data'     => $request['data_utama'] ?? 1,
-            'individu' => null,
+            'data'           => $request['data_utama'] ?? 1,
+            'individu'       => null,
+            'data_orang_tua' => $request['data_orang_tua'] ?? 0,
+            'data_pasangan'  => $request['data_pasangan'] ?? 0,
         ];
 
         if ($request['data_utama'] != 2) {
@@ -367,7 +391,7 @@ class Surat_master extends Admin_Controller
         if (isset($request['kategori'])) {
             foreach ($request['kategori'] as $kategori) {
                 $formIsian[$kategori] = [
-                    'data'         => 1,
+                    'data'         => $request['kategori_data_utama'][$kategori] ?? 1,
                     'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
                     'status_dasar' => $request['kategori_status_dasar'][$kategori] ?? null,
                     'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
@@ -413,7 +437,8 @@ class Surat_master extends Admin_Controller
             }
         }
         $data = [
-            'nama'                => nama_terbatas($request['nama']),
+            'config_id'           => identitas('id'),
+            'nama'                => nama_surat($request['nama']),
             'kode_surat'          => $request['kode_surat'],
             'masa_berlaku'        => $request['masa_berlaku'],
             'satuan_masa_berlaku' => $request['satuan_masa_berlaku'],
@@ -654,6 +679,12 @@ class Surat_master extends Admin_Controller
 
             $kode_isian = $this->tinymce->getFormatedKodeIsian($log_surat);
 
+            foreach ($daftar_kategori as $kategori) {
+                $log_surat['kategori'][$kategori] = null;
+            }
+
+            $kode_isian = $this->tinymce->getFormatedKodeIsian($log_surat);
+
             return json($kode_isian);
         }
 
@@ -883,7 +914,7 @@ class Surat_master extends Admin_Controller
         // Pilih surat yang akan dibuat migrasinya
         $surat = FormatSurat::jenis(FormatSurat::TINYMCE)->find($simpan->id);
 
-        $nama_fuction = 'surat' . str_replace(' ', '', ucwords(str_replace('_', ' ', $surat->nama)));
+        $nama_fuction = 'surat' . str_replace(' ', '', ucwords(str_replace(['_', '(', ')'], ' ', $surat->nama)));
 
         $kode_isian     = json_encode($surat->kode_isian);
         $form_isian     = json_encode($surat->form_isian);
@@ -899,7 +930,7 @@ class Surat_master extends Admin_Controller
 
         $get_fuction = <<<EOS
             \$hasil = \$hasil && \$this->{$nama_fuction}(\$hasil, \$id);
-                        // Jalankan Migrasi TinyMCE'
+                        // Jalankan Migrasi TinyMCE
             EOS;
 
         $set_fuction = <<<EOS

@@ -37,7 +37,7 @@
     <div class="col-sm-8">
         <a href="#"
             class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            data-remote="false" data-toggle="modal" data-target="#daftar-dokumen" data-title="Daftar Dokumen"><i
+            data-remote="false" data-toggle="modal" data-target="#daftar-dokumen-{{ $individu->id }}" data-title="Daftar Dokumen"><i
                 class="fa fa-book"></i> Daftar Dokumen</a>
         <a href="{{ site_url("penduduk/dokumen/{$individu->id}") }}"
             class="@disabled(empty($individu->id)) btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<div class="modal fade in" id="daftar-dokumen">
+<div class="modal fade in" id="daftar-dokumen-{{ $individu->id }}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

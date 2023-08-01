@@ -1,6 +1,36 @@
-Di rilis ini, versi 2307.0.4 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2308.0.0 berisi penambahan konversi surat rtf ke surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [isi disini] yang terus berkontribusi.
+Terima kasih pada @ruririzal dan @syahransaputra yang terus berkontribusi.
+
+#### Penambahan Fitur
+
+1. [#6783](https://github.com/OpenSID/OpenSID/issues/6783) Penambahan pengaturan dan tampilkan data orang tua.
+2. [#5903](https://github.com/OpenSID/OpenSID/issues/5903) Penambahan surat TinyMCE keterangan beda identitas KIS.
+3. [#6782](https://github.com/OpenSID/OpenSID/issues/6782) Penambahan kode isian perisitiwa kematian.
+4. [#5771](https://github.com/OpenSID/OpenSID/issues/5771) Penambahan surat TinyMCE keterangan kematian.
+5. [#6221](https://github.com/OpenSID/OpenSID/issues/6221) Penambahan surat TinyMCE keterangan untuk nikah warga non muslim.
+6. [#6218](https://github.com/OpenSID/OpenSID/issues/6218) Penambahan surat TinyMCE keterangan penghasilan ibu.
+7. [#6213](https://github.com/OpenSID/OpenSID/issues/6213) Penambahan surat TinyMCE keterangan izin orang tua/suami/istri.
+8. [#5922](https://github.com/OpenSID/OpenSID/issues/5922) Penambahan surat TinyMCE keterangan domisili untuk non-warga.
+9. [#6222](https://github.com/OpenSID/OpenSID/issues/6222) Penambahan surat TinyMCE kuasa.
+10. [#5753](https://github.com/OpenSID/OpenSID/issues/5753) Penambahan surat TinyMCE pernyataan penguasaan fisik bidang tanah (SPORADIK).
+11. [#6825](https://github.com/OpenSID/OpenSID/issues/6825) Penambahan detail data penduduk pada surat TinyMCE untuk kasus data dinamis.
+12. [#6824](https://github.com/OpenSID/OpenSID/issues/6824) Penambahan kode isian surat TinyMCE untuk status penduduk hilang.
+13. [#6823](https://github.com/OpenSID/OpenSID/issues/6823) Penambahan kode isian surat TinyMCE untuk status penduduk pindah.
+14. [#6860](https://github.com/OpenSID/OpenSID/issues/6860) Penambahan pengaturan data pasangan TinyMCE.
+15. [#6819](https://github.com/OpenSID/OpenSID/issues/6819) Penambahan lampiran f-1.03 surat TinyMCE.
+16. [#6820](https://github.com/OpenSID/OpenSID/issues/6820) Penambahan lampiran f-1.08 surat TinyMCE.
+17. [#6821](https://github.com/OpenSID/OpenSID/issues/6821) Penambahan lampiran f-1.25 surat TinyMCE.
+18. [#6822](https://github.com/OpenSID/OpenSID/issues/6822) Penambahan lampiran f-1.27 surat TinyMCE.
+19. [#6896](https://github.com/OpenSID/OpenSID/issues/6896) Penambahan daftar centang keluarga pindah untuk surat pindah.
+20. [#5756](https://github.com/OpenSID/OpenSID/issues/5756) Penambahan surat TinyMCE keterangan pindah penduduk.
+21. [#6845](https://github.com/OpenSID/OpenSID/issues/6845) Penambahan kode isian golongan darah.
+22. [#6867](https://github.com/OpenSID/OpenSID/issues/6867) Penambahan kode isian surat TinyMCE untuk status penduduk lahir.
+23. [#6879](https://github.com/OpenSID/OpenSID/issues/6879) Penambahan pilihan format lampiran dari input pengguna surat TinyMCE keterangan pindah penduduk.
+24. [#5767](https://github.com/OpenSID/OpenSID/issues/5767) Penambahan surat TinyMCE Keterangan Kelahiran.
+25. [#6902](https://github.com/OpenSID/OpenSID/issues/6902) Penambahan lampiran f-2.01 surat TinyMCE.
+26. [#6857](https://github.com/OpenSID/OpenSID/issues/6857) Penambahan lampiran F-2.12 surat TinyMCE.
+27. [#6220](https://github.com/OpenSID/OpenSID/issues/6220) Penambahan surat TinyMCE Keterangan Untuk Nikah.
 
 #### Perbaikan BUG
 
@@ -8,9 +38,9 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 2. [#6813](https://github.com/OpenSID/OpenSID/issues/6813) Perbaikan daftar pamong yang ditampilkan unik untuk pengaturan pengguna.
 3. [#6817](https://github.com/OpenSID/OpenSID/issues/6817) Perbaikan menampilkan data anak pada saat input KIA.
 4. [#6807](https://github.com/OpenSID/OpenSID/issues/6807) Perbaikan informasi kehadiran perangkat.
-5. [#6850](https://github.com/OpenSID/OpenSID/issues/6850) Tidak bisa cetak lampiran yang menggunakan gambar.
+5. [#6850](https://github.com/OpenSID/OpenSID/issues/6850) Perbaikan cetak lampiran yang menggunakan gambar.
 6. [#6827](https://github.com/OpenSID/OpenSID/issues/6827) Perbaikan saat menambahkan kode/klasifikasi surat jika tidak tersedia pada daftar.
-7. [#6838](https://github.com/OpenSID/OpenSID/issues/6838) Perbaikan ridirect stelah login dengan akses group home.
+7. [#6838](https://github.com/OpenSID/OpenSID/issues/6838) Perbaikan ridirect setelah login dengan akses group home.
 8. [#6849](https://github.com/OpenSID/OpenSID/issues/6849) Perbaikan template surat tinymce keterangan penghasilan ayah.
 9. [#6815](https://github.com/OpenSID/OpenSID/issues/6815) Perbaikan sebutan pemerintah desa agar konsiten.
 10. [#6840](https://github.com/OpenSID/OpenSID/issues/6840) Perbaikan pengaturan program DTKS.
@@ -37,7 +67,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 31. [#6890](https://github.com/OpenSID/OpenSID/issues/6890) Perbaikan notifikasi tabel jika data tidak ada.
 32. [#6904](https://github.com/OpenSID/OpenSID/issues/6904) Perbaikan pencarian saat tambah/ubah data anggota peserta bantuan.
 33. [#6885](https://github.com/OpenSID/OpenSID/issues/6885) Perbaikan hapus data penduduk ketika data sudah dinyatakan lengkap.
-34. [#6900](https://github.com/OpenSID/OpenSID/issues/6900) Perbaikan penanda tangan lampiran F-1.15.
+34. [#6900](https://github.com/OpenSID/OpenSID/issues/6900) Perbaikan penandatangan lampiran F-1.15.
 35. [#6887](https://github.com/OpenSID/OpenSID/issues/6887) Perbaikan notifikasi untuk NIK dan No KK yang kurang dari 16 digit.
 36. [#6910](https://github.com/OpenSID/OpenSID/issues/6910) Perbaikan ambil rilis terbaru dari github jika terdapat batasan harian.
 37. [#6912](https://github.com/OpenSID/OpenSID/issues/6912) Perbaikan menampilkan foto penduduk pada halaman pemetaan.
@@ -56,7 +86,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 10. [#6901](https://github.com/OpenSID/OpenSID/issues/6901) Penyesuaian struktur kolom tgl_agenda pada tabel agenda.
 11. [#2639](https://github.com/OpenSID/premium/issues/2639) Penyesuaian struktur kolom yang menggunakan default urrent_timestamp() ON UPDATE current_timestamp() namun tidak sesuai kegunaannya.
 12. [#6894](https://github.com/OpenSID/OpenSID/issues/6894) Penyesuaian pengiriman data ke pantau.
-13. [#6704](https://github.com/OpenSID/OpenSID/issues/6704) Penyesuaian grup akses modul bantuan, bagi menjadi 2 bagian yaitu program dan peserta.
-14. [#6925](https://github.com/OpenSID/OpenSID/issues/6925) Penyesuaian kolom updated_by pada tabel tweb_keluarga bisa bernilai null.
-15. [#2624](https://github.com/OpenSID/premium/issues/2624) Pembatasan akses file metode LFI (Local File Inclusion).
-16. [#2625](https://github.com/OpenSID/premium/issues/2625) Pembatasan akses unggah file berbahaya melalui RFM.
+13. [#2573](https://github.com/OpenSID/premium/issues/2573) Penyesuaian tombol migrasi agar bisa melakukan migrasi ulang dari halaman admin.
+14. [#6704](https://github.com/OpenSID/OpenSID/issues/6704) Penyesuaian grup akses modul bantuan, bagi menjadi 2 bagian yaitu program dan peserta.
+15. [#6925](https://github.com/OpenSID/OpenSID/issues/6925) Penyesuaian kolom updated_by pada tabel tweb_keluarga bisa bernilai null.
+16. [#2624](https://github.com/OpenSID/premium/issues/2624) Pembatasan akses file metode LFI (Local File Inclusion).
+17. [#2625](https://github.com/OpenSID/premium/issues/2625) Pembatasan akses unggah file berbahaya melalui RFM.

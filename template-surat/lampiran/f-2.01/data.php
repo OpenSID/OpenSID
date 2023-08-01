@@ -91,6 +91,18 @@ if ($_SESSION['id_bayi']) {
     $input['sex']       = $bayi['sex_id'];
     $input['hari']      = hari(strtotime($bayi['tanggallahir']));
     $input['tanggal']   = $bayi['tanggallahir'];
+
+    switch ($input['sex']) {
+        case '1':
+            $input['sex'] = 'Laki-laki';
+            break;
+        case '2':
+            $input['sex'] = 'Perempuan';
+            break;
+        default:
+            $input['sex'] = null;
+            break;
+    }
 }
 
 // Tulis perubahan data kelahiran di form surat ke database

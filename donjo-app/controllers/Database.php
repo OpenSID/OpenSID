@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Libraries\FlxZipArchive;
 use App\Models\LogBackup;
 use App\Models\LogRestoreDesa;
+use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
 use App\Models\User;
 use Carbon\Carbon;
@@ -88,8 +89,17 @@ class Database extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         session_error_clear();
-        $this->database_model->migrasi_db_cri();
-        redirect('database/migrasi_cri');
+        set_time_limit(0);              // making maximum execution time unlimited
+        ob_implicit_flush(1);           // Send content immediately to the browser on every statement which produces output
+        ob_end_flush();
+        // Migrasi::where('versi_database', VERSI_DATABASE)->delete();
+        $migrasiTerakhir = Migrasi::orderBy('id', 'desc')->first();
+        if ($migrasiTerakhir) {
+            $migrasiTerakhir->delete();
+        }
+        echo json_encode(['message' => 'Ulangi migrasi database versi ' . VERSI_DATABASE, 'status' => 0]);
+        $this->database_model->setShowProgress(1)->cek_migrasi();
+        echo json_encode(['message' => 'Proses migrasi database telah berhasil', 'status' => 1]);
     }
 
     public function exec_backup()
