@@ -116,6 +116,42 @@
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/id_ID/sdk.js#xfbml=1&version=v3.2&appId=147912828718&autoLogAppEvents=1"></script>
 
+<!-- lazy load images -->
+<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/yall/yall.min.js") ?>"></script>
+
+<style>
+ 
+
+	img.yall_loaded {
+	    animation: progressiveReveal 0.2s linear;
+	}
+
+	@keyframes progressiveReveal {
+    0% {
+        opacity: 0;
+        transform: scale(1.05)
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1)
+    }
+}
+	
+</style>
+
+<script>
+	 let yall_option = {
+	    useLoading : true
+	}
+	var lazyload = new yall(yall_option);
+
+	window.addEventListener('DOMContentLoaded', (e) => {
+	  lazyload.run();
+	});
+</script>
+
+
 <!--[if lt IE 9]>
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/html5shiv.min.js") ?>"></script>
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/respond.min.js") ?>"></script>

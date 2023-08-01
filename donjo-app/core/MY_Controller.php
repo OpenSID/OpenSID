@@ -92,10 +92,10 @@ class MY_Controller extends CI_Controller
         $this->request = $this->input->post();
 
         // Untuk anjungan
-        if (Schema::hasColumn('anjungan', 'tipe')) {
+        if (Schema::hasColumn('anjungan', 'tipe') && Schema::hasColumn('anjungan', 'status_alasan')) {
             if (! cek_anjungan() && Anjungan::exists()) {
                 try {
-                    Anjungan::tipe(1)->update(['status' => 0]);
+                    Anjungan::tipe(1)->update(['status' => 0, 'status_alasan' => 'tidak berlangganan anjungan']);
                 } catch (Exception $e) {
                 }
             }
@@ -179,7 +179,7 @@ class Web_Controller extends MY_Controller
         // Data statistik pengunjung
         $data['statistik_pengunjung'] = $this->statistik_pengunjung->get_statistik();
 
-        $data['latar_website'] = $this->theme_model->latar_website();
+        $data['latar_website'] = default_file($this->theme_model->lokasi_latar_website() . $this->setting->latar_website, DEFAULT_LATAR_WEBSITE);
         $data['desa']          = $this->header;
         $data['menu_atas']     = $this->first_menu_m->list_menu_atas();
         $data['menu_kiri']     = $this->first_menu_m->list_menu_kiri();
@@ -441,5 +441,16 @@ class Admin_Controller extends MY_Controller
             'pamong_ttd'     => Pamong::sekretarisDesa()->first(),
             'pamong_ketahui' => Pamong::kepalaDesa()->first(),
         ];
+    }
+}
+
+class Anjungan_Controller extends Admin_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (! cek_anjungan()) {
+            redirect('anjungan');
+        }
     }
 }

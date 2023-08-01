@@ -45,7 +45,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<form id="validasi" action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<?= form_open_multipart($form_action, 'id="validasi-proses" class="form-horizontal"') ?>
 				<input type="hidden" name="id_pend" value="<?= $individu['id']?>">
 				<div class="col-md-3">
 					<?php

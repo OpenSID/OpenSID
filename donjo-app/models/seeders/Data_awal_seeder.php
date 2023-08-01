@@ -279,7 +279,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 4, 'tipe' => 'sian Tulisan'],
         ]);
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_mandiri()
@@ -330,7 +330,7 @@ class Data_awal_seeder extends CI_Model
             );
         ");
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_peta()
@@ -1077,7 +1077,7 @@ class Data_awal_seeder extends CI_Model
             );
         ');
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_web()
@@ -1439,7 +1439,7 @@ class Data_awal_seeder extends CI_Model
             ],
         ]);
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_pertanahan()
@@ -1642,7 +1642,7 @@ class Data_awal_seeder extends CI_Model
             );
         ');
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_desa()
@@ -1699,7 +1699,7 @@ class Data_awal_seeder extends CI_Model
             );
         ");
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_covid19()
@@ -1744,7 +1744,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 7, 'nama' => 'Selesai Isolasi'],
         ]);
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
 
     }
 
@@ -3404,7 +3404,7 @@ class Data_awal_seeder extends CI_Model
             ],
         ]);
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_dokumen()
@@ -3448,7 +3448,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 3, 'nama' => 'Perdes'],
         ]);
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_hubung_warga()
@@ -3544,7 +3544,7 @@ class Data_awal_seeder extends CI_Model
             ['autoreply_text' => 'Terima kasih pesan Anda telah kami terima.'],
         ]);
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
 
     }
 
@@ -42015,7 +42015,7 @@ class Data_awal_seeder extends CI_Model
             ],
         ]);
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_buku_admin()
@@ -42031,7 +42031,7 @@ class Data_awal_seeder extends CI_Model
         );
       ');
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_keuangan()
@@ -43902,7 +43902,7 @@ class Data_awal_seeder extends CI_Model
         );
       ');
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_surat()
@@ -61053,7 +61053,7 @@ class Data_awal_seeder extends CI_Model
             ],
         ]);
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_sinkronisasi()
@@ -61127,7 +61127,7 @@ class Data_awal_seeder extends CI_Model
             ],
         ]);
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_dashboard()
@@ -61182,7 +61182,7 @@ class Data_awal_seeder extends CI_Model
             ],
         ]);
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_pembangunan()
@@ -61235,7 +61235,7 @@ class Data_awal_seeder extends CI_Model
             );
         ');
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_lapak()
@@ -61250,7 +61250,7 @@ class Data_awal_seeder extends CI_Model
             );
         ');
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_bantuan()
@@ -61287,7 +61287,7 @@ class Data_awal_seeder extends CI_Model
             );
         ");
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_sistem()
@@ -63496,7 +63496,7 @@ class Data_awal_seeder extends CI_Model
             );
         ');
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_pamong()
@@ -63536,7 +63536,7 @@ class Data_awal_seeder extends CI_Model
             );
         ");
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_keluarga()
@@ -63575,7 +63575,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 5, 'nama' => 'Keluarga Sejahtera III Plus'],
         ]);
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_pengguna()
@@ -63680,7 +63680,7 @@ class Data_awal_seeder extends CI_Model
             ],
         ]);
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     // TODO: Pisahkan pembuatan tabel dengan pembuatan foreign key constraint
@@ -65528,7 +65528,7 @@ class Data_awal_seeder extends CI_Model
             );
         ');
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 
     private function buat_view()
@@ -65571,6 +65571,6 @@ class Data_awal_seeder extends CI_Model
             'CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)))'
         );
 
-        log_message('error', 'Jalankan ' . __FUNCTION__);
+        log_message('notice', 'Jalankan ' . __FUNCTION__);
     }
 }

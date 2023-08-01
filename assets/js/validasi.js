@@ -116,9 +116,50 @@ $(document).ready(function() {
 			}
 		},
 		invalidHandler: function(e, validator){
-			if(validator.errorList.length) {
+			if(validator.errorList.length && $('#tabs').length) {
 				$('#tabs a[href="#' + $(validator.errorList[0].element).closest(".tab-pane").attr('id') + '"]').tab('show');
 			}
+		},
+	});
+
+	$("#validasi-proses").validate({
+		ignore: ".ignore",
+		errorElement: "label",
+		errorClass: "error",
+		highlight:function (element){
+			$(element).closest(".form-group").addClass("has-error");
+		},
+		unhighlight:function (element){
+			$(element).closest(".form-group").removeClass("has-error");
+		},
+		errorPlacement: function (error, element) {
+			if (element.parent('.input-group').length) {
+				error.insertAfter(element.parent());
+				element.parent().focus();
+			} else if (element.hasClass('select2')) {
+				error.insertAfter(element.next('span'));
+				element.next('span').focus();
+			} else {
+				error.insertAfter(element);
+				element.focus();
+			}
+		},
+		invalidHandler: function(e, validator){
+			if(validator.errorList.length && $('#tabs').length) {
+				$('#tabs a[href="#' + $(validator.errorList[0].element).closest(".tab-pane").attr('id') + '"]').tab('show');
+			}
+		},
+		submitHandler: function(form) {
+			Swal.fire({
+				title: 'Sedang Menyimpan',
+				allowOutsideClick: false,
+				allowEscapeKey: false,
+				showConfirmButton: false,
+				didOpen: () => {
+					Swal.showLoading()
+				}
+			});
+			form.submit();
 		}
 	});
 
@@ -189,11 +230,11 @@ $(document).ready(function() {
 		valid = /^[a-zA-Z '\.,\-]+$/.test(value);
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
-
+	
 	jQuery.validator.addMethod("nama_desa", function(value, element) {
-		valid = /^[a-zA-Z '\.,`\-]+$/.test(value);
+		valid = /^[a-zA-Z0-9 '\.,`\-\/\(\)]+$/.test(value);
 		return this.optional(element) || valid;
-	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
+	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik, garis miring dan strip");
 
 	jQuery.validator.addMethod("nama_suku", function(value, element) {
 		valid = /^[a-zA-Z ]+$/.test(value);

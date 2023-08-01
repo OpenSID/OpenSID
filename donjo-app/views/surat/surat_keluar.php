@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-info">
-                    <?php if ($this->tab_ini == 10 && $operator) : ?>
+                    <?php if ($this->tab_ini == 10) : ?>
                         <div class="box-header with-border">
                             <a href="<?= site_url('keluar/perorangan_clear') ?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-archive"></i> Rekam Surat Perorangan</a>
                             <a href="<?= site_url('keluar/graph') ?>" class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Pie Surat Keluar</a>
@@ -116,18 +116,13 @@
                                                                     <td class="padat"><?= $data['no'] ?></td>
                                                                     <td class="aksi">
 
-                                                                        <?php if ($this->tab_ini == 10) : ?>
-                                                                            <?php if (can('u')) : ?>
-                                                                                <?php if (in_array($data['jenis'], [1, 2])) : ?>
-                                                                                    <a href="<?= site_url("keluar/edit_keterangan/{$data['id']}") ?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
-                                                                                <?php else : ?>
-                                                                                    <?php if ($data['status'] == 0) : ?>
-                                                                                        <a href="<?= site_url("surat/cetak/{$data['id']}"); ?>" class="btn btn-flat bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a>
-                                                                                        <!-- hapus surat draft -->
-                                                                                        <?php if (can('h')) : ?>
-                                                                                            <a href="#" data-href="<?= site_url("keluar/delete/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-                                                                                        <?php endif; ?>
-                                                                                    <?php endif; ?>
+                                                                        <?php if ($this->tab_ini == 10 && can('u')) : ?>
+                                                                            <a href="<?= site_url("keluar/edit_keterangan/{$data['id']}") ?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+                                                                            <?php if (! in_array($data['jenis'], [1, 2]) && $data['status'] == 0) : ?>
+                                                                                <a href="<?= site_url("surat/cetak/{$data['id']}"); ?>" class="btn btn-flat bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a>
+                                                                                <!-- hapus surat draft -->
+                                                                                <?php if (can('h')) : ?>
+                                                                                    <a href="#" data-href="<?= site_url("keluar/delete/{$data['id']}?redirect={$redirect}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                                                                 <?php endif; ?>
                                                                             <?php endif; ?>
                                                                         <?php endif; ?>
@@ -177,7 +172,7 @@
 
                                                                             <?php if (can('h') && $user_admin) : ?>
                                                                                 <!-- hapus surat -->
-                                                                                <a href="#" data-href="<?= site_url("keluar/delete/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                                                                                <a href="#" data-href="<?= site_url("keluar/delete/{$data['id']}?redirect={$redirect}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                                                             <?php endif; ?>
 
                                                                         <?php endif; ?>
@@ -342,7 +337,7 @@
                         </div>
                     <?php endif; ?>
                     <object data="<?= site_url("{$this->controller}/unduh/tinymce"); ?>/${id}/true" style="width: 100%;min-height: 400px;" type="application/pdf"></object>
-                    <input type="password" id="passphrase" class="swal2-input" placeholder="Masukkan Passphrase">
+                    <input type="password" id="passphrase" autocomplete="off" class="swal2-input" placeholder="Masukkan Passphrase">
                 `,
                 showCancelButton: true,
                 confirmButtonText: 'Kirim',

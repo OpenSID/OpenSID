@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2307.0.0');
+define('VERSION', '2308.0.0');
 
 /**
  * VERSI_DATABASE
@@ -51,7 +51,7 @@ define('VERSION', '2307.0.0');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023070101');
+define('VERSI_DATABASE', '2023080101');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -537,8 +537,6 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
     }
     // OK, berkas ada. Ambil konten berkasnya
 
-    $data = file_get_contents($pathBerkas);
-
     if (null !== $unique_id) {
         // Buang unique id pada nama berkas download
         $nama_berkas  = explode($unique_id, $nama_berkas);
@@ -586,13 +584,13 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
         header('Content-Disposition: inline; filename="' . $nama_berkas . '"');
         header('Expires: 0');
         header('Content-Transfer-Encoding: binary');
-        header('Content-Length: ' . strlen($data));
+        header('Content-Length: ' . filesize($pathBerkas));
         header('Cache-Control: private, no-transform, no-store, must-revalidate');
 
         return readfile($pathBerkas);
     }
 
-    force_download($nama_berkas, $data);
+    force_download($nama_berkas, file_get_contents($pathBerkas));
 }
 
 /**
@@ -807,7 +805,7 @@ function nama($str)
 
 function nama_desa($str)
 {
-    return preg_replace("/[^a-zA-Z '\\.,`\\-]/", '', strip_tags($str));
+    return preg_replace("/[^a-zA-Z '\\.,`\\-\\/\\(\\)]/", '', strip_tags($str));
 }
 
 // Cek  nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip
@@ -1263,21 +1261,18 @@ function idm($kode_desa, $tahun)
 
 function sdgs()
 {
-    $kode_desa      = setting('kode_desa_bps');
-    $kode_kecamatan = substr($kode_desa, 0, 6);
-    $kode_kabupaten = substr($kode_desa, 0, 4);
-    $kode_provinsi  = substr($kode_desa, 0, 2);
-    $cache          = 'sdgs_' . $kode_desa . '.json';
+    $kode_desa = setting('kode_desa_bps');
+    $cache     = 'sdgs_' . $kode_desa . '.json';
 
     if (! empty($kode_desa)) {
-        return get_instance()->cache->pakai_cache(static function () use ($kode_provinsi, $kode_kabupaten, $kode_kecamatan, $kode_desa) {
+        return get_instance()->cache->pakai_cache(static function () use ($kode_desa) {
             if (! cek_koneksi_internet()) {
                 return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
             }
 
             try {
                 $client   = new \GuzzleHttp\Client();
-                $response = $client->get(config_item('api_sdgs') . "province_code={$kode_provinsi}&city_code={$kode_kabupaten}&district_code={$kode_kecamatan}&village_code={$kode_desa}", [
+                $response = $client->get(config_item('api_sdgs') . $kode_desa, [
                     'headers' => [
                         'X-Requested-With' => 'XMLHttpRequest',
                     ],

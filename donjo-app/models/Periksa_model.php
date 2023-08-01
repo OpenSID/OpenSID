@@ -36,12 +36,14 @@
  */
 
 use App\Enums\StatusEnum;
+use App\Models\InventarisAsset;
 use App\Models\LogPenduduk;
 use App\Models\LogPerubahanPenduduk;
 use App\Models\PendudukMandiri;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\User;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -66,6 +68,13 @@ class Periksa_model extends MY_Model
         $db_error_message = $this->session->db_error['message'];
         $current_version  = $this->getSetting('current_version');
         $calon            = $current_version;
+
+        // tag_id_card belum ada
+        if ($db_error_code == 1054 && strpos($db_error_message, 'tag_id_card') !== false) {
+            $calon_ini                  = '19.04';
+            $this->periksa['masalah'][] = 'coloumn_tag_id_card_doesnt_exist';
+            $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
 
         // Table tweb_penduduk no_kk ganda
         if (! empty($kk_ganda = $this->deteksi_tweb_keluarga_no_kk_ganda())) {
@@ -202,12 +211,10 @@ class Periksa_model extends MY_Model
             }
         }
 
-        // Error collation table
-        $collation_table = $this->deteksi_collation_table_tidak_sesuai();
-        $error_msg       = strpos($this->session->message_query, 'Illegal mix of collations');
-        if (! empty($collation_table) || $error_msg) {
-            $this->periksa['masalah'][]       = 'collation';
-            $this->periksa['collation_table'] = $collation_table;
+        $zero_date_default_value = $this->deteksi_zero_date_default_value();
+        if (! empty($zero_date_default_value)) {
+            $this->periksa['masalah'][]               = 'zero_date_default_value';
+            $this->periksa['zero_date_default_value'] = $zero_date_default_value;
         }
 
         // Error invalid date
@@ -227,6 +234,14 @@ class Periksa_model extends MY_Model
         if (! empty($jabatan = $this->deteksi_jabatan())) {
             $this->periksa['masalah'][]    = 'data_jabatan_tidak_ada';
             $this->periksa['data_jabatan'] = $jabatan;
+        }
+
+        // Error collation table
+        $collation_table = $this->deteksi_collation_table_tidak_sesuai();
+        $error_msg       = strpos($this->session->message_query, 'Illegal mix of collations');
+        if (! empty($collation_table) || $error_msg) {
+            $this->periksa['masalah'][]       = 'collation';
+            $this->periksa['collation_table'] = $collation_table;
         }
 
         return $calon;
@@ -386,12 +401,13 @@ class Periksa_model extends MY_Model
     private function deteksi_invalid_date()
     {
         $tabel = [];
-
         // Tabel log_penduduk
-        $logPenduduk = LogPenduduk::select(['id', 'tgl_lapor', 'tgl_peristiwa', 'created_at', 'updated_at'])
-            ->whereDate('created_at', '0000-00-00')
-            ->orWhereDate('tgl_lapor', '0000-00-00')
-            ->orWhereDate('tgl_peristiwa', '0000-00-00')
+
+        $logPenduduk = LogPenduduk::select('id')
+            ->when(Schema::hasColumn('log_penduduk', 'updated_at'), static fn ($query) => $query->addSelect('updated_at'))
+            ->when(Schema::hasColumn('log_penduduk', 'created_at'), static fn ($query) => $query->addSelect('created_at')->orWhereDate('created_at', '0000-00-00'))
+            ->when(Schema::hasColumn('log_penduduk', 'tgl_lapor'), static fn ($query) => $query->addSelect('tgl_lapor')->orWhereDate('tgl_lapor', '0000-00-00'))
+            ->when(Schema::hasColumn('log_penduduk', 'tgl_peristiwa'), static fn ($query) => $query->addSelect('tgl_peristiwa')->orWhereDate('tgl_peristiwa', '0000-00-00'))
             ->get();
 
         if ($logPenduduk->count() > 0) {
@@ -408,12 +424,18 @@ class Periksa_model extends MY_Model
         }
 
         // Tabel penduduk_mandiri
-        $pendudukMandiri = PendudukMandiri::select(['id_pend', 'tanggal_buat', 'updated_at'])
-            ->whereDate('updated_at', '0000-00-00')
+        $pendudukMandiri = PendudukMandiri::select(['id_pend', 'tanggal_buat'])
+            ->when(Schema::hasColumn('tweb_penduduk_mandiri', 'updated_at'), static fn ($query) => $query->addSelect('updated_at')->orWhereDate('updated_at', '0000-00-00'))
             ->get();
 
         if ($pendudukMandiri->count() > 0) {
             $tabel['tweb_penduduk_mandiri'] = $pendudukMandiri;
+        }
+
+        //deteksi di modul inventaris
+        $inventaris_asset = InventarisAsset::select(['id', 'updated_at'])->where('updated_at', '0000-00-00')->get();
+        if ($inventaris_asset->count() > 0) {
+            $tabel['inventaris_asset'] = $inventaris_asset;
         }
 
         return $tabel;
@@ -425,7 +447,7 @@ class Periksa_model extends MY_Model
         $user    = auth()->id ?? User::first()->id;
 
         // Cek jabatan kades
-        if (! RefJabatan::find(RefJabatan::KADES)) {
+        if (Schema::hasTable('ref_jabatan') && ! RefJabatan::find(RefJabatan::KADES)) {
             $jabatan[] = [
                 'id'         => 1,
                 'nama'       => 'Kepala ' . ucwords($this->getSetting('sebutan_desa')),
@@ -436,7 +458,7 @@ class Periksa_model extends MY_Model
         }
 
         // Cek jabatan sekdes
-        if (! RefJabatan::find(RefJabatan::SEKDES)) {
+        if (Schema::hasTable('ref_jabatan') && ! RefJabatan::find(RefJabatan::SEKDES)) {
             $jabatan[] = [
                 'id'         => 2,
                 'nama'       => 'Sekretaris',
@@ -458,9 +480,22 @@ class Periksa_model extends MY_Model
             case 'ref_penduduk_hamil':
                 return '22.02';
 
+            case 'user_grup':
+                return '19.03';
+
+            case 'setting_aplikasi_options':
+                return '18.11';
+
             default:
                 return null;
         }
+    }
+
+    public function deteksi_zero_date_default_value()
+    {
+        return $this->db
+            ->query("SELECT table_schema, table_name, column_name, column_default, data_type FROM INFORMATION_SCHEMA.columns WHERE column_default IS NOT NULL  AND table_schema NOT IN ( 'information_schema', 'sys', 'performance_schema', 'mysql' ) and table_schema = '{$this->db->database}' and column_default = \"'0000-00-00 00:00:00'\"")
+            ->result_array();
     }
 
     public function perbaiki()
@@ -533,6 +568,10 @@ class Periksa_model extends MY_Model
                     $this->perbaiki_jabatan();
                     break;
 
+                case 'zero_date_default_value':
+                    $this->perbaiki_zero_date_default_value();
+                    break;
+
                 default:
                     break;
             }
@@ -540,6 +579,31 @@ class Periksa_model extends MY_Model
         $this->session->db_error = null;
 
         // Ulangi migrasi mulai dari migrasi_utk_diulang
+        if (! $this->db->table_exists('migrasi')) {
+            $this->dbforge->add_field([
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                ],
+                'versi_database' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 10,
+                    'null'       => false,
+                ],
+                'versi_database' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 10,
+                    'null'       => false,
+                ],
+                'premium' => [
+                    'type' => 'text',
+                    'null' => true,
+                ],
+            ]);
+            $this->dbforge->add_key('id', true);
+            $this->dbforge->create_table('migrasi', true);
+        }
         $this->db
             ->where('versi_database', VERSI_DATABASE)
             ->delete('migrasi');
@@ -907,7 +971,6 @@ class Periksa_model extends MY_Model
                     $key => [
                         'type'           => 'INT',
                         'constraint'     => 11,
-                        'unsigned'       => true,
                         'auto_increment' => true,
                     ],
                 ];
@@ -952,18 +1015,24 @@ class Periksa_model extends MY_Model
             foreach ($logPenduduk as $log) {
                 $update = LogPenduduk::find($log->id);
 
+                // cek kolom update_at
+                if ($log->updated_at == null) {
+                    $update->timestamps = false;
+                }
+
                 // created_at, ambil data dari updated_at
-                if ($log->created_at->format('Y-m-d H:i:s') == '-0001-11-30 00:00:00') {
+                if ($log->created_at != null && $log->created_at->format('Y-m-d H:i:s') == '-0001-11-30 00:00:00') {
                     $hasil = $hasil && $update->update(['created_at' => $log->updated_at->format('Y-m-d H:i:s')]);
                 }
 
                 // tgl_lapor, ambil data dari created_at
-                if ($log->tgl_lapor->format('Y-m-d H:i:s') == '-0001-11-30 00:00:00') {
+                if ($log->tgl_lapor != null && $log->tgl_lapor->format('Y-m-d H:i:s') == '-0001-11-30 00:00:00') {
                     $hasil = $hasil && $update->update(['tgl_lapor' => $log->created_at->format('Y-m-d H:i:s')]);
                 }
 
                 // tgl_peristiwa, ambil data dari default 1971-01-01 00:00:00 (agar tidak merusak laporan yg sudah ada)
-                if ($log->tgl_peristiwa->format('Y-m-d H:i:s') == '-0001-11-30 00:00:00') {
+
+                if ($log->tgl_peristiwa != null && $log->tgl_peristiwa->format('Y-m-d H:i:s') == '-0001-11-30 00:00:00') {
                     $hasil = $hasil && $update->update(['tgl_peristiwa' => '1971-01-01 00:00:00']);
                 }
             }
@@ -978,7 +1047,7 @@ class Periksa_model extends MY_Model
                     // Hapus data log yang tidak digunakan
                     $hasil = $hasil && LogPerubahanPenduduk::find($log->id)->delete();
                 } else {
-                    $hasil = $hasil && LogPerubahanPenduduk::where('id', $log->id)->update(['tanggal' => $log->penduduk->updated_at->format('Y-m-d H:i:s')]);
+                    $hasil = $hasil && LogPerubahanPenduduk::where('id', $log->id)->update(['tanggal' => ($log->penduduk->updated_at != null) ? $log->penduduk->updated_at->format('Y-m-d H:i:s') : $log->tanggal->format('Y-m-d H:i:s')]);
                 }
             }
 
@@ -992,6 +1061,28 @@ class Periksa_model extends MY_Model
             }
 
             log_message('error', 'Sesuaikan tanggal invalid pada kolom tanggal tabel mandiri_perubahan_penduduk pada data berikut ini : ' . print_r($pendudukMandiri->toArray(), true));
+        }
+
+        return $hasil;
+    }
+
+    public function perbaiki_zero_date_default_value()
+    {
+        $hasil = true;
+
+        if ($zero_date_default_value = $this->periksa['zero_date_default_value']) {
+            foreach ($zero_date_default_value as $key => $value) {
+                $fields = [
+                    $value['column_name'] => [
+                        'type'    => $value['data_type'],
+                        'null'    => false,
+                        'default' => 'CURRENT_TIMESTAMP',
+                    ],
+                ];
+
+                $hasil = $hasil && $this->dbforge->modify_column($value['table_name'], "{$value['column_name']} TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
+                log_message('error', 'Tabel ' . $value['TABLE_NAME'] . ' kolom ' . $value['column_name'] . ' default value menjadi CURRENT_TIMESTAMP.');
+            }
         }
 
         return $hasil;

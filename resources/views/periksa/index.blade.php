@@ -351,6 +351,31 @@
                                     </div>
                                 @endif
 
+                                @if (in_array('zero_date_default_value', $masalah))
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi zero date Default Value<code>(0000-00-00 00:00:00)</code>
+                                                pada tabel berikut : </strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Tabel</th>
+                                                    <th>Kolom</th>
+                                                </tr>
+                                                @foreach ($zero_date_default_value as $key => $value)
+                                                    <tr>
+                                                        <td>{{ $value['table_name'] }}</td>
+                                                        <td>{{ $value['column_name'] }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki semua data default table yang
+                                                tidak sesuai <code>(0000-00-00 00:00:00)</code>.</code>Untuk melihat
+                                                data tanggal yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                @endif
+
                                 @if (in_array('tabel_invalid_date', $masalah))
                                     <div class="panel panel-default">
                                         <div class="panel-body">

@@ -170,6 +170,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
     {
         $data              = $this->modal_penandatangan();
         $data['aksi']      = $aksi;
+        $data['headjs']    = false;
         $data['main']      = $this->tanah_kas_desa_model->cetak_tanah_kas_desa();
         $data['config']    = $this->header['desa'];
         $data['bulan']     = $this->session->filter_bulan ?: date('m');

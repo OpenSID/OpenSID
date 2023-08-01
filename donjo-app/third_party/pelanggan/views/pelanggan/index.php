@@ -41,14 +41,16 @@
                             <h4>PEMESANAN LAYANAN</h4>
                             <h6>
                                 <?php foreach ($response->body->pemesanan as $pemesanan) : ?>
-                                    <?php foreach ($pemesanan->layanan as $layanan) : ?>
-                                        <?php
-                                        if (preg_match('/Hosting|Domain/', $layanan->nama) && ! file_exists('mitra')) {
-                                            fopen('mitra', 'wb');
-                                        }
-                                        ?>
-                                        <li><?= $layanan->nama ?></li>
-                                    <?php endforeach ?>
+                                    <?php if ($pemesanan->status_pemesanan == 'aktif') : ?>
+                                        <?php foreach ($pemesanan->layanan as $layanan) : ?>
+                                            <?php
+                                            if (preg_match('/Hosting|Domain/', $layanan->nama) && ! file_exists('mitra')) {
+                                                fopen('mitra', 'wb');
+                                            }
+                                            ?>
+                                            <li><?= $layanan->nama ?></li>
+                                        <?php endforeach ?>
+                                    <?php endif ?>
                                 <?php endforeach ?>
                             </h6>
                         </div>
@@ -141,49 +143,51 @@
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover tabel-rincian">
                             <tbody>
-                            <tr>
-                                <td width="20%">ID Pelanggan</td>
-                                <td width="1">:</td>
-                                <td><?= $response->body->id ?></td>
-                            </tr>
-                            <tr>
-                                <td>KODE <?= strtoupper($this->setting->sebutan_desa) ?></td>
-                                <td> : </td>
-                                <td><?= $response->body->desa->kode_desa ?></td>
-                            </tr>
-                            <tr>
-                                <td><?= strtoupper($this->setting->sebutan_desa) ?></td>
-                                <td> : </td>
-                                <td><?= "Desa {$response->body->desa->nama_desa}, Kecamatan {$response->body->desa->nama_kec}, Kabupaten {$response->body->desa->nama_kab}, Provinsi {$response->body->desa->nama_prov}" ?></td>
-                            </tr>
-                            <tr>
-                                <td>Domain Desa</td>
-                                <td> : </td>
-                                <td><?= $response->body->domain ?></td>
-                            </tr>
-                            <tr>
-                                <td>Nama Kontak</td>
-                                <td> : </td>
-                                <td>
-                                    <?php foreach ($response->body->kontak as $kontak) : ?>
-                                        <li><?= $kontak->nama ?></li>
-                                    <?php endforeach ?>
-                                </td>
-                            </tr>
-                            <?php if (! config_item('demo_mode') && $response->body->token) : ?>
-                            <tr>
-                                <td>Token</td>
-                                <td> : </td>
-                                <td>
-                                    <table>
-                                        <tr>
-                                            <td><textarea id="token" rows="4" cols="180" type="text" class="form-control" readonly><?= $response->body->token ?></textarea></td>
-                                            <td><div class="input-group-text"><a  href="#" id="copy" title="Copy"><i class="fa fa-copy"></i></a></div></td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <?php endif ?>
+                                <tr>
+                                    <td width="20%">ID Pelanggan</td>
+                                    <td width="1">:</td>
+                                    <td><?= $response->body->id ?></td>
+                                </tr>
+                                <tr>
+                                    <td>KODE <?= strtoupper($this->setting->sebutan_desa) ?></td>
+                                    <td> : </td>
+                                    <td><?= $response->body->desa->kode_desa ?></td>
+                                </tr>
+                                <tr>
+                                    <td><?= strtoupper($this->setting->sebutan_desa) ?></td>
+                                    <td> : </td>
+                                    <td><?= "Desa {$response->body->desa->nama_desa}, Kecamatan {$response->body->desa->nama_kec}, Kabupaten {$response->body->desa->nama_kab}, Provinsi {$response->body->desa->nama_prov}" ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Domain Desa</td>
+                                    <td> : </td>
+                                    <td><?= $response->body->domain ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Nama Kontak</td>
+                                    <td> : </td>
+                                    <td>
+                                        <?php foreach ($response->body->kontak as $kontak) : ?>
+                                            <li><?= $kontak->nama ?></li>
+                                        <?php endforeach ?>
+                                    </td>
+                                </tr>
+                                <?php if (! config_item('demo_mode') && $response->body->token) : ?>
+                                    <tr>
+                                        <td>Token</td>
+                                        <td> : </td>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td><textarea id="token" rows="4" cols="180" type="text" class="form-control" readonly><?= $response->body->token ?></textarea></td>
+                                                    <td>
+                                                        <div class="input-group-text"><a href="#" id="copy" title="Copy"><i class="fa fa-copy"></i></a></div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                <?php endif ?>
                             </tbody>
                         </table>
                     </div>
@@ -202,85 +206,85 @@
                     <div class="table-responsive">
                         <table class="table table-bordered dataTable table-hover tabel-daftar">
                             <thead class="bg-gray">
-                            <tr>
-                                <th>No</th>
-                                <th>Aksi</th>
-                                <th>Layanan</th>
-                                <th>Tanggal Mulai</th>
-                                <th>Tanggal Berakhir</th>
-                                <th>Status Pemesanan</th>
-                                <th>Status Pembayaran</th>
-                            </tr>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Aksi</th>
+                                    <th>Layanan</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Berakhir</th>
+                                    <th>Status Pemesanan</th>
+                                    <th>Status Pembayaran</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($response->body->pemesanan as $number => $pemesanan) : ?>
-                                <tr id="tbl-premium-<?=$number?>">
-                                    <td class="padat"><?= ($number + 1) ?></td>
-                                    <td class="aksi">
-                                        <?php
-                                        $server = config_item('server_layanan');
-                                $token          = $this->setting->layanan_opendesa_token;
-                                ?>
-                                        <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi'): ?>
-                                            <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
-                                        <?php endif; ?>
-                                        <?php if ($pemesanan->mitra_id == '' || $pemesanan->mitra_id == null || $pemesanan->mitra_id == 0): ?>
-                                            <a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
-                                        <?php endif; ?>
-                                        <?php if ($notif_langganan['warna'] == 'orange'): ?>
-                                            <a href="<?= site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) ?>" class="btn btn-social bg-green btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perpanjang Layanan"><i class="fa fa-refresh"></i>Perpanjang</a>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
-                                            <?php if($layanan->kategori_id == 4): ?>
-
-                                                <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?><?= $layanan->number; ?></a><br>
-                                                <?= '<style>#tbl-premium-' . $number . ' { display:table-row!important;}</style>'; ?>
-
-                                            <?php else: ?>
-                                                <?= '<style>#tbl-premium-' . $number . ' { display:none;}</style>'; ?>
+                                <?php foreach ($response->body->pemesanan as $number => $pemesanan) : ?>
+                                    <tr id="tbl-premium-<?= $number ?>">
+                                        <td class="padat"><?= ($number + 1) ?></td>
+                                        <td class="aksi">
+                                            <?php
+                                            $server = config_item('server_layanan');
+                                    $token          = $this->setting->layanan_opendesa_token;
+                                    ?>
+                                            <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi') : ?>
+                                                <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
                                             <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </td>
-                                    <td class="padat"><?= tgl_indo($pemesanan->tgl_mulai); ?></td>
-                                    <td class="padat">
-                                        <?php
-                                        $a_date = $pemesanan->tgl_akhir;
-                                echo tgl_indo(date('Y-m-t', strtotime($a_date)));
-                                ?>
-                                    </td>
-                                    <td class="padat">
-                                        <?php if ($notif_langganan['warna'] == 'orange'): ?>
-                                            <span class="label label-warning">perlu diperpanjang</span>
-                                        <?php else: ?>
-                                            <span class="label label-<?= $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' ?>"><?= $pemesanan->status_pemesanan ?></span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td class="padat">
-                                        <span class="label label-<?= $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' ?>"><?= $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' ?></span>
-                                    </td>
-                                    <div class="modal fade" id="<?= $pemesanan->id ?>" style="display: none;">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                                    <h4 class="modal-title">Bukti Pembayaran</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <img class="img-thumbnail" src="<?= $pemesanan->bukti ?>" alt="<?= $pemesanan->bukti ?>">
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <a target="_blank" href="<?= $pemesanan->bukti ?>" role="button" class="btn btn-sm bg-navy" download="<?= $pemesanan->bukti ?>">Simpan</a>
-                                                    <button type="button" class="btn btn-sm btn-info" data-dismiss="modal">Tutup</button>
+                                            <?php if ($pemesanan->mitra_id == '' || $pemesanan->mitra_id == null || $pemesanan->mitra_id == 0) : ?>
+                                                <a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
+                                            <?php endif; ?>
+                                            <?php if ($notif_langganan['warna'] == 'orange') : ?>
+                                                <a href="<?= site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) ?>" class="btn btn-social bg-green btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perpanjang Layanan"><i class="fa fa-refresh"></i>Perpanjang</a>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
+                                                <?php if ($layanan->kategori_id == 4) : ?>
+
+                                                    <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?><?= $layanan->number; ?></a><br>
+                                                    <?= '<style>#tbl-premium-' . $number . ' { display:table-row!important;}</style>'; ?>
+
+                                                <?php else : ?>
+                                                    <?= '<style>#tbl-premium-' . $number . ' { display:none;}</style>'; ?>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </td>
+                                        <td class="padat"><?= tgl_indo($pemesanan->tgl_mulai); ?></td>
+                                        <td class="padat">
+                                            <?php
+                                    $a_date = $pemesanan->tgl_akhir;
+                                    echo tgl_indo(date('Y-m-t', strtotime($a_date)));
+                                    ?>
+                                        </td>
+                                        <td class="padat">
+                                            <?php if ($notif_langganan['warna'] == 'orange') : ?>
+                                                <span class="label label-warning">perlu diperpanjang</span>
+                                            <?php else : ?>
+                                                <span class="label label-<?= $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' ?>"><?= $pemesanan->status_pemesanan ?></span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="padat">
+                                            <span class="label label-<?= $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' ?>"><?= $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' ?></span>
+                                        </td>
+                                        <div class="modal fade" id="<?= $pemesanan->id ?>" style="display: none;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                        <h4 class="modal-title">Bukti Pembayaran</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img class="img-thumbnail" src="<?= $pemesanan->bukti ?>" alt="<?= $pemesanan->bukti ?>">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a target="_blank" href="<?= $pemesanan->bukti ?>" role="button" class="btn btn-sm bg-navy" download="<?= $pemesanan->bukti ?>">Simpan</a>
+                                                        <button type="button" class="btn btn-sm btn-info" data-dismiss="modal">Tutup</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </tr>
-                            <?php endforeach ?>
+                                    </tr>
+                                <?php endforeach ?>
                             </tbody>
                         </table>
                     </div>
@@ -299,80 +303,80 @@
                     <div class="table-responsive">
                         <table class="table table-bordered dataTable table-hover tabel-daftar">
                             <thead class="bg-gray">
-                            <tr>
-                                <th>No</th>
-                                <th>Aksi</th>
-                                <th>Layanan</th>
-                                <th>Tanggal Mulai</th>
-                                <th>Tanggal Berakhir</th>
-                                <th>Status Pemesanan</th>
-                                <th>Status Pembayaran</th>
-                            </tr>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Aksi</th>
+                                    <th>Layanan</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Berakhir</th>
+                                    <th>Status Pemesanan</th>
+                                    <th>Status Pembayaran</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ($response->body->pemesanan as $number => $pemesanan) : ?>
-                                <tr id="tbl-pemesanan-<?=$number?>">
-                                    <td class="padat"><?= ($number + 1) ?></td>
-                                    <td class="aksi">
-                                        <?php
-                                $server = config_item('server_layanan');
-                                $token  = $this->setting->layanan_opendesa_token;
-                                ?>
-                                        <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi'): ?>
-                                            <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
-                                        <?php endif; ?>
-                                        <?php if ($pemesanan->mitra_id == '' || $pemesanan->mitra_id == null || $pemesanan->mitra_id == 0): ?>
-                                            <a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
-                                        <?php endif; ?>
-                                        <?php if ($notif_langganan['warna'] == 'orange'): ?>
-                                            <a href="<?= site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) ?>" class="btn btn-social bg-green btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perpanjang Layanan"><i class="fa fa-refresh"></i>Perpanjang</a>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
-                                            <?php if($layanan->kategori_id != 4): ?>
-
-                                                <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?></a><br>
-                                                <?= '<style>#tbl-pemesanan-' . $number . ' { display:table-row!important;}</style>'; ?>
-
-                                            <?php else: ?>
-                                                <?= '<style>#tbl-pemesanan-' . $number . ' { display:none;}</style>'; ?>
+                                <?php foreach ($response->body->pemesanan as $number => $pemesanan) : ?>
+                                    <tr id="tbl-pemesanan-<?= $number ?>">
+                                        <td class="padat"><?= ($number + 1) ?></td>
+                                        <td class="aksi">
+                                            <?php
+                                    $server = config_item('server_layanan');
+                                    $token  = $this->setting->layanan_opendesa_token;
+                                    ?>
+                                            <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi') : ?>
+                                                <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
                                             <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </td>
-                                    <td class="padat"><?= tgl_indo($pemesanan->tgl_mulai); ?></td>
-                                    <td class="padat"><?= tgl_indo($pemesanan->tgl_akhir); ?></td>
-                                    <td class="padat">
-                                        <?php if ($notif_langganan['warna'] == 'orange'): ?>
-                                            <span class="label label-warning">perlu diperpanjang</span>
-                                        <?php else: ?>
-                                            <span class="label label-<?= $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' ?>"><?= $pemesanan->status_pemesanan ?></span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td class="padat">
-                                        <span class="label label-<?= $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' ?>"><?= $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' ?></span>
-                                    </td>
-                                    <div class="modal fade" id="<?= $pemesanan->id ?>" style="display: none;">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                                    <h4 class="modal-title">Bukti Pembayaran</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <img class="img-thumbnail" src="<?= $pemesanan->bukti ?>" alt="<?= $pemesanan->bukti ?>">
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <a target="_blank" href="<?= $pemesanan->bukti ?>" role="button" class="btn btn-sm bg-navy" download="<?= $pemesanan->bukti ?>">Simpan</a>
-                                                    <button type="button" class="btn btn-sm btn-info" data-dismiss="modal">Tutup</button>
+                                            <?php if ($pemesanan->mitra_id == '' || $pemesanan->mitra_id == null || $pemesanan->mitra_id == 0) : ?>
+                                                <a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
+                                            <?php endif; ?>
+                                            <?php if ($notif_langganan['warna'] == 'orange') : ?>
+                                                <a href="<?= site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) ?>" class="btn btn-social bg-green btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perpanjang Layanan"><i class="fa fa-refresh"></i>Perpanjang</a>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
+                                                <?php if ($layanan->kategori_id != 4) : ?>
+
+                                                    <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?></a><br>
+                                                    <?= '<style>#tbl-pemesanan-' . $number . ' { display:table-row!important;}</style>'; ?>
+
+                                                <?php else : ?>
+                                                    <?= '<style>#tbl-pemesanan-' . $number . ' { display:none;}</style>'; ?>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </td>
+                                        <td class="padat"><?= tgl_indo($pemesanan->tgl_mulai); ?></td>
+                                        <td class="padat"><?= tgl_indo($pemesanan->tgl_akhir); ?></td>
+                                        <td class="padat">
+                                            <?php if ($notif_langganan['warna'] == 'orange') : ?>
+                                                <span class="label label-warning">perlu diperpanjang</span>
+                                            <?php else : ?>
+                                                <span class="label label-<?= $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' ?>"><?= $pemesanan->status_pemesanan ?></span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="padat">
+                                            <span class="label label-<?= $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' ?>"><?= $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' ?></span>
+                                        </td>
+                                        <div class="modal fade" id="<?= $pemesanan->id ?>" style="display: none;">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                        <h4 class="modal-title">Bukti Pembayaran</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img class="img-thumbnail" src="<?= $pemesanan->bukti ?>" alt="<?= $pemesanan->bukti ?>">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a target="_blank" href="<?= $pemesanan->bukti ?>" role="button" class="btn btn-sm bg-navy" download="<?= $pemesanan->bukti ?>">Simpan</a>
+                                                        <button type="button" class="btn btn-sm btn-info" data-dismiss="modal">Tutup</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </tr>
-                            <?php endforeach ?>
+                                    </tr>
+                                <?php endforeach ?>
                             </tbody>
                         </table>
                     </div>
@@ -427,8 +431,8 @@
             title: 'Pengaturan Pelanggan',
             text: 'Layanan ' + `<?= config_item('nama_lembaga') ?>` + ' Token',
             customClass: {
-                    popup: 'swal-lg',
-                },
+                popup: 'swal-lg',
+            },
             input: 'textarea',
             inputValue: '<?= config_item('demo_mode') ? '' : setting('layanan_opendesa_token') ?>',
             inputAttributes: {
@@ -439,31 +443,41 @@
             confirmButtonText: 'Simpan',
             showLoaderOnConfirm: true,
             preConfirm: (token) => {
-                return fetch(`<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`, {
-                    headers: {
-                        "Authorization" : `Bearer ${token}`,
-                        "X-Requested-With" : `XMLHttpRequest`,
-                    },
-                    method: 'post',
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(response.statusText)
-                    }
-                    return response.json()
-                })
-                .catch(error => {
+                //cek token
+                var parse_token = parseJwt(token);
+                if (moment(parse_token.tanggal_berlangganan.akhir, 'YYYY-MM-DD').diff(moment()) < 0) { // jika perbedaanya minus
+
                     Swal.showValidationMessage(
-                        `Request failed: ${error}`
+                        `Token Berlangganan sudah berakhir. Tanggal berlangganan sampai : ${parse_token.tanggal_berlangganan.akhir}`
                     )
-                })
+                    return;
+                }
+
+                return fetch(`<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`, {
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "X-Requested-With": `XMLHttpRequest`,
+                        },
+                        method: 'post',
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText)
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(
+                            `Request failed: ${error}`
+                        )
+                    })
             },
             allowOutsideClick: () => !Swal.isLoading()
         }).then((result) => {
             if (result.isConfirmed) {
                 let response = result.value
                 let data = {
-                    body : response
+                    body: response
                 }
                 if (response.desa_id == undefined) {
                     Swal.fire({
@@ -473,29 +487,75 @@
                     })
                 } else {
                     $.ajax({
+                            url: `${SITE_URL}pelanggan/pemesanan`,
+                            type: 'Post',
+                            dataType: 'json',
+                            data: data,
+                        })
+                        .done(function(response) {
+                            if (response.status) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    timer: 2000,
+                                    text: response.message,
+                                }).then((result) => {
+                                    window.location.replace('pelanggan');
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal',
+                                    timer: 2000,
+                                    text: response.message,
+                                });
+                            }
+                        })
+                        .fail(function(e) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Request failed',
+                            })
+                        });
+                }
+            }
+        })
+    });
+
+    $('.perbarui').click(function(event) {
+        Swal.fire({
+            title: 'Sedang Memproses',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading()
+            }
+        });
+        $.ajax({
+                url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+                headers: {
+                    "Authorization": `Bearer <?= setting('layanan_opendesa_token') ?>`,
+                    "X-Requested-With": `XMLHttpRequest`,
+                },
+                type: 'Post',
+            })
+            .done(function(response) {
+                let data = {
+                    body: response
+                }
+                $.ajax({
                         url: `${SITE_URL}pelanggan/pemesanan`,
                         type: 'Post',
                         dataType: 'json',
                         data: data,
                     })
-                    .done(function(response) {
-                        if (response.status) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                timer: 2000,
-                                text: response.message,
-                            }).then((result) => {
-                                window.location.replace('pelanggan');
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                timer: 2000,
-                                text: response.message,
-                            });
-                        }
+                    .done(function() {
+                        Swal.fire({
+                            title: 'Berhasil Tersimpan',
+                        })
+                        window.location.replace(`${SITE_URL}pelanggan`);
+
                     })
                     .fail(function(e) {
                         Swal.fire({
@@ -503,48 +563,9 @@
                             title: 'Request failed',
                         })
                     });
-                }
-            }
-        })
-    });
-
-    $('.perbarui').click(function(event) {
-        Swal.fire({title: 'Sedang Memproses', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
-        $.ajax({
-            url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
-            headers: {
-                "Authorization" : `Bearer <?= setting('layanan_opendesa_token') ?>`,
-                "X-Requested-With" : `XMLHttpRequest`,
-            },
-            type: 'Post',
-        })
-        .done(function(response) {
-            let data = {
-                    body : response
-                }
-            $.ajax({
-                url: `${SITE_URL}pelanggan/pemesanan`,
-                type: 'Post',
-                dataType: 'json',
-                data: data,
             })
-            .done(function() {
-                Swal.fire({
-                    title: 'Berhasil Tersimpan',
-                })
-                window.location.replace(`${SITE_URL}pelanggan`);
-
-            })
-            .fail(function(e) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Request failed',
-                })
+            .fail(function() {
+                console.log("error");
             });
-        })
-        .fail(function() {
-            console.log("error");
-        });
     });
-
 </script>

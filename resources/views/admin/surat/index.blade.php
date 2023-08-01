@@ -20,13 +20,11 @@
             <select class="form-control select2 " id="cetak_surat" name="cetak_surat" style="width: 100%;">
                 <option selected="selected">--- Cari Judul Surat Yang Akan Dicetak ---</option>
                 @foreach ($cetak_surat as $key => $value)
-                    <option value="{{ $value->url_surat }}">
-                        {{ '[' . (in_array($value->jenis, \App\Models\FormatSurat::RTF) ? 'RTF' : 'TinyMCE') . '] : ' . $value->nama }}
-                    </option>
+                    <option value="{{ $value->url_surat }}">{{ '[' . (in_array($value->jenis, \App\Models\FormatSurat::RTF) ? 'RTF' : 'TinyMCE') . '] : ' . $value->nama }}</option>
                 @endforeach
             </select>
         </div>
-
+        
         {!! form_open($formAction, 'id="validasi"') !!}
         <div class="box-body">
             <div class="table-responsive">

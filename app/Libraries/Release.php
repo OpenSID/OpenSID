@@ -39,6 +39,9 @@ namespace App\Libraries;
 
 use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -259,13 +262,25 @@ class Release
                     'verify' => false,
                 ]);
 
-                $this->write($response->getBody()->getContents());
+                if ($response->getStatusCode() == 200) {
+                    $this->write($response->getBody()->getContents());
+                }
+
+                return json_decode($this->read(), null, 512, JSON_THROW_ON_ERROR);
+            } catch (ClientException $cx) {
+                log_message('error', $cx->getMessage());
             } catch (Exception $e) {
                 log_message('error', $e->getMessage());
             }
         }
 
-        return json_decode($this->read(), null, 512, JSON_THROW_ON_ERROR);
+        try {
+            return json_decode($this->read(), null, 512, JSON_THROW_ON_ERROR);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+
+            return false;
+        }
     }
 
     /**

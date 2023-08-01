@@ -49,6 +49,7 @@ $config = [
         LOKASI_TEMA_DESA           => [0775],
         LOKASI_UPLOAD              => [0775, 'htaccess1'],
         LOKASI_FOTO_ARTIKEL        => [0775, 'htaccess1'],
+        LOKASI_FOTO_BUKU_TAMU      => [0775, 'htaccess1'],
         LOKASI_DOKUMEN             => [0775, 'htaccess2'],
         LOKASI_GALERI              => [0775, 'htaccess1'],
         'desa/upload/gis/'         => [0775, 'htaccess1'],

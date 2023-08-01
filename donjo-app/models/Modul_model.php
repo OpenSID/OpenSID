@@ -125,9 +125,13 @@ class Modul_model extends CI_Model
     {
         // jangan aktifkan jika demo dan di domain whitelist
         if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {
-            $this->db->where_not_in('slug', [
-                'layanan-pelanggan',
-                'pendaftaran-kerjasama',
+            // $this->db->where_not_in('slug', [
+            //     'layanan-pelanggan',
+            //     'pendaftaran-kerjasama',
+            // ]);
+            $this->db->where_not_in('id', [
+                313,
+                331,
             ]);
         }
 

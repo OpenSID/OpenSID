@@ -115,7 +115,7 @@ class Seeder extends CI_Model
                 'nama_kepala_camat' => '',
                 'nip_kepala_camat'  => '',
             ];
-            if (Config::insert($data)) {
+            if (Config::create($data)) {
                 set_session('success', "Kode desa {$kode_desa} diambil dari desa/config/config.php");
             }
         }

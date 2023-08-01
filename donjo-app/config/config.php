@@ -625,7 +625,7 @@ $config['api_idm'] = 'https://idm.kemendesa.go.id/open/api/desa/rumusan';
 |--------------------------------------------------------------------------
 |
 */
-$config['api_sdgs'] = 'https://sid.kemendesa.go.id/sdgs/searching/score-sdgs?';
+$config['api_sdgs'] = 'https://sid.kemendesa.go.id/sdgs/searching/score-sdgs?location_code=';
 
 /*
 |--------------------------------------------------------------------------
@@ -642,3 +642,12 @@ $config['views_blade'] = RESOURCESPATH . 'views/';
 |
 */
 $config['cache_blade'] = STORAGEPATH . 'framework/views/';
+
+/*
+|--------------------------------------------------------------------------
+| failed login attempts
+|--------------------------------------------------------------------------
+|
+*/
+$config['maximum_login_attempts'] = 3;
+$config['lockout_time']           = 300;                 // The number of seconds to lockout an account due to exceeded attempts

@@ -458,7 +458,7 @@ class DTKSRegsosEk2022k
 
             // cari berkas dtks lama untuk dihapus
             foreach (glob(FCPATH . LOKASI_FOTO_DTKS . 'cetak_regsosek2022k_' . $dtks->kepala_keluarga->nik
-            . '_' . $dtks->id_rtm . '_*.pdf') as $file) {
+                . '_' . $dtks->id_rtm . '_*.pdf') as $file) {
                 if (file_exists($file)) {
                     unlink($file);
                     break;
@@ -1378,8 +1378,10 @@ class DTKSRegsosEk2022k
         $message = [];
 
         foreach ($request['pilihan']['4'] as $key => $input) {
-            if ($input != '' && in_array($key, ['404', '408', '409', '410'])
-                && ! array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
+            if (
+                $input != '' && in_array($key, ['404', '408', '409', '410'])
+                && ! array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])
+            ) {
                 $message[] = "No {$key}: Pilihan tidak ditemukan";
             }
             if ($input != '' && in_array($key, ['411'])) {
@@ -1820,7 +1822,7 @@ class DTKSRegsosEk2022k
         if ($is_for_anggota) {
             unset($relasi['501a'], $relasi['501b'], $relasi['501c'], $relasi['501d'], $relasi['501e'], $relasi['501f'], $relasi['501g'],);
         } else {
-            unset($relasi['431a1'], $relasi['431a2'], $relasi['431a3'], $relasi['431a4'], $relasi['431b'], $relasi['431c'], $relasi['431d'], $relasi['431e'], $relasi['431f1'], $relasi['431f2'], $relasi['431f3'], $relasi['431f4'], $relasi['431f5'], $relasi['431a1_431a4_default'],$relasi['431b_default'],$relasi['431c_default'],$relasi['431d_default'],$relasi['431e_default'],$relasi['431f1_431f5_default'],);
+            unset($relasi['431a1'], $relasi['431a2'], $relasi['431a3'], $relasi['431a4'], $relasi['431b'], $relasi['431c'], $relasi['431d'], $relasi['431e'], $relasi['431f1'], $relasi['431f2'], $relasi['431f3'], $relasi['431f4'], $relasi['431f5'], $relasi['431a1_431a4_default'], $relasi['431b_default'], $relasi['431c_default'], $relasi['431d_default'], $relasi['431e_default'], $relasi['431f1_431f5_default'],);
         }
 
         // Ambil pengaturan program dtks untuk versi ini
@@ -1864,8 +1866,12 @@ class DTKSRegsosEk2022k
                 ];
             }
         }
-        DtksPengaturanProgram::whereIn('id', $to_be_deleted)->delete();
-        DtksPengaturanProgram::insert($to_be_inserted);
+        if ($to_be_deleted) {
+            DtksPengaturanProgram::whereIn('id', $to_be_deleted)->delete();
+        }
+        if ($to_be_inserted) {
+            DtksPengaturanProgram::insert($to_be_inserted);
+        }
 
         return ['content' => ['message' => 'Berhasil disimpan'], 'header_code' => 200];
     }
@@ -2041,7 +2047,7 @@ class DTKSRegsosEk2022k
     {
         $pengaturan_programs = DtksPengaturanProgram::where('versi_kuisioner', '2')
             ->where('target_table', 'dtks_anggota');
-
+        // ->get()
         $pengaturan_programs = $this->cacheTemporaryModelGet($pengaturan_programs);
 
         if ($pengaturan_programs->count() > 0) {

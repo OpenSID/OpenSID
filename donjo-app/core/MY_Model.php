@@ -305,8 +305,6 @@ class MY_Model extends CI_Model
 
             $_SESSION['daftar_migrasi'][] = $migrasi;
 
-            $_SESSION['daftar_migrasi'][] = $migrasi;
-
             return true;
         }
 

@@ -38,6 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\SasaranEnum;
+use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use App\Models\Config;
 use Illuminate\Support\Str;
@@ -371,10 +372,8 @@ class Program_bantuan extends Admin_Controller
                 // Sheet Program
                 if ($sheet->getName() == 'Program') {
                     $pesan_program  = '';
-                    $ambil_program  = $this->program_bantuan_model->get_program(1, false);
-                    $daftar_program = array_column($ambil_program['program'], 'id');
-
-                    $field = ['id', 'nama', 'sasaran', 'ndesc', 'asaldana', 'sdate', 'edate'];
+                    $daftar_program = Bantuan::pluck('id')->toArray();
+                    $field          = ['id', 'nama', 'sasaran', 'ndesc', 'asaldana', 'sdate', 'edate'];
 
                     foreach ($sheet->getRowIterator() as $row) {
                         $cells = $row->getCells();
@@ -398,17 +397,16 @@ class Program_bantuan extends Admin_Controller
                              * id bernilai NULL/Kosong( )/Strip(-)/tdk valid, buat program baru dan tampilkan notifkasi tambah program
                              * id bernilai id dan valid, update data program dan tampilkan notifkasi update program
                              */
-                            case $no_baris == 0 && (in_array($value, $daftar_program) && $ganti_program == 1):
+                            case $no_baris == 0 && (in_array((int) $value, $daftar_program)):
                                 $program_id = $value;
-                                $pesan_program .= 'Data program dengan <b> id = ' . ($value) . '</b> ditemukan, data lama diganti dengan data baru <br>';
+                                if (null === $ganti_program) {
+                                    $pesan_program .= 'Data program dengan <b> id = ' . ($value) . '</b> ditemukan, data lama tetap digunakan <br>';
+                                } else {
+                                    $pesan_program .= 'Data program dengan <b> id = ' . ($value) . '</b> ditemukan, data lama diganti dengan data baru <br>';
+                                }
                                 break;
 
-                            case $no_baris == 0 && (in_array($value, $daftar_program) && $ganti_program != 1):
-                                $program_id = $value;
-                                $pesan_program .= 'Data program dengan <b> id = ' . ($value) . '</b> ditemukan, data lama tetap digunakan <br>';
-                                break;
-
-                            case $no_baris == 0 && ! in_array($value, $daftar_program):
+                            case $no_baris == 0 && ! in_array((int) $value, $daftar_program):
                                 $program_id = null;
                                 $pesan_program .= 'Data program dengan <b> id = ' . ($value) . '</b> tidak ditemukan, program baru ditambahkan secara otomatis) <br>';
                                 break;
@@ -426,10 +424,12 @@ class Program_bantuan extends Admin_Controller
 
                 // Sheet Peserta
                 else {
-                    $pesan_peserta     = '';
-                    $ambil_peserta     = $this->program_bantuan_model->get_program(1, $program_id);
-                    $sasaran           = $ambil_peserta[0]['sasaran'];
-                    $terdaftar_peserta = array_column($ambil_peserta[1], 'peserta');
+                    $pesan_peserta = '';
+                    $ambil_peserta = Bantuan::select('id', 'sasaran')->with(['peserta' => static function ($query) {
+                        $query->select('program_id', 'peserta');
+                    }])->find($program_id);
+                    $sasaran           = (int) $ambil_peserta->sasaran;
+                    $terdaftar_peserta = $ambil_peserta->peserta->pluck('peserta')->toArray();
 
                     if ($kosongkan_peserta == 1) {
                         $pesan_peserta .= '- Data peserta ' . ($ambil_peserta[0]['nama']) . ' sukses dikosongkan<br>';

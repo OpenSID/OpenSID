@@ -37,7 +37,7 @@
             <?php foreach ($pemerintah as $data): ?>
             <div class="col-sm-3 pamong">
                 <div class="card text-center">
-                <img width="auto" class="rounded-circle image" src="<?= $data['foto'] ?>" alt="Foto <? $data['nama'] ?>"/>
+                <img width="auto" class="rounded-circle image" src="<?= $data['foto'] ?>" alt="Foto <?= $data['nama'] ?>"/>
                 <hr class="line">
                 <b>
                     <?= $data['nama'] ?><br>
@@ -55,7 +55,7 @@
             </div>
             <?php endforeach ?>
         <?php else: ?>
-            <h5>Pemerintah <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']) ?> tidak tersedia.</h5>
+            <h5><?= ucwords(setting('sebutan_pemerintah_desa') . ' ' . $desa['nama_desa']) ?> tidak tersedia.</h5>
         <?php endif ?>
         </div>
     </div>
