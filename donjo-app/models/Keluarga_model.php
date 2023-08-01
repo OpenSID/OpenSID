@@ -380,7 +380,10 @@ class Keluarga_model extends MY_Model
         $default['config_id']  = $this->config_id;
         $outp                  = $outp && $this->config_id()->where('id', $data['nik_kepala'])->update('tweb_penduduk', $default);
 
-        $this->penduduk_model->tulis_log_penduduk($kk_id, '9', date('m'), date('Y'));
+        // TODO :: Tinjau ulang log penduduk ini, yang disimpan adalah kk_id, bukan id_pend
+        // karena pada log_penduduk sekarang menggunakan relasi akan menimbulkan gagal simpan.
+        // karena tidak ada kode_peristiwa 9 baik di log_penduduk maupun di log_keluarga
+        // $this->penduduk_model->tulis_log_penduduk($kk_id, '9', date('m'), date('Y'));
 
         $log['id_pend']    = 1;
         $log['id_cluster'] = 1;

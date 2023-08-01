@@ -543,7 +543,7 @@ class Ekspor_model extends MY_Model
         return true;
     }
 
-    protected function perbaiki_collation()
+    public function perbaiki_collation()
     {
         $list = $this->db
             ->select(

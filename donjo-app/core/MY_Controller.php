@@ -292,7 +292,7 @@ class Premium extends MY_Controller
      * Sehingga akan error saat login di awal, namun setelah di refresh akan kembali normal
      */
     protected $kecuali = [
-        'hom_sid', 'identitas_desa', 'pelanggan', 'pendaftaran_kerjasama', 'setting', 'notif', 'user_setting', 'main', 'info_sistem',
+        'hom_sid', 'identitas_desa', 'pelanggan', 'pengguna', 'pendaftaran_kerjasama', 'setting', 'notif', 'user_setting', 'main', 'info_sistem',
     ];
 
     public function __construct()
@@ -311,7 +311,7 @@ class Premium extends MY_Controller
     {
         // Jangan jalankan validasi akses untuk spesifik controller.
         if (in_array($this->router->class, $this->kecuali) || (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO)))) {
-            return;
+            return true;
         }
 
         // Validasi akses
@@ -320,6 +320,8 @@ class Premium extends MY_Controller
         }
 
         $this->session->unset_userdata(['error_premium', 'error_premium_pesan']);
+
+        return true;
     }
 
     /**
