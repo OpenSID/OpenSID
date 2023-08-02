@@ -460,7 +460,7 @@ class Keluarga extends Admin_Controller
         }
         $data['hubungan']    = $this->penduduk_model->list_hubungan($data['kepala_kk']['status_kawin_id'], $data['kepala_kk']['sex_id']);
         $data['main']        = $this->keluarga_model->list_anggota($id);
-        $data['penduduk']    = $this->keluarga_model->list_penduduk_lepas();
+        $data['penduduk']    = $this->keluarga_model->list_penduduk_lepas(true);
         $data['form_action'] = site_url("{$this->controller}/add_anggota/{$p}/{$o}/{$id}");
 
         $this->load->view('sid/kependudukan/ajax_add_anggota_form', $data);

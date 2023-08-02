@@ -806,16 +806,35 @@ class Keluarga_model extends MY_Model
             ->row_array();
     }
 
-    public function list_penduduk_lepas()
+    /**
+     * List penduduk lepas.
+     *
+     * @param bool $shdk Pilih berdasarkan kepala keluarga atau bukan.
+     *
+     * @return array
+     */
+    public function list_penduduk_lepas($shdk = false)
     {
-        return $this->config_id('u')
+        $this->config_id('u')
             ->select('u.id, u.nik, u.nama, u.alamat_sekarang as alamat, w.rt, w.rw, w.dusun')
             ->from('penduduk_hidup u')
             ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
             ->where('id_kk', 0)
-            ->where('status', 1)
-            ->get()
-            ->result_array();
+            ->where('status', 1);
+
+        if ($shdk) {
+            $this->db->group_start()
+                ->where('u.kk_level !=', SHDKEnum::KEPALA_KELUARGA)
+                ->or_where('u.kk_level is null')
+                ->group_end();
+        } else {
+            $this->db->group_start()
+                ->where('u.kk_level', SHDKEnum::KEPALA_KELUARGA)
+                ->or_where('u.kk_level is null')
+                ->group_end();
+        }
+
+        return $this->db->get()->result_array();
     }
 
     // $options['dengan_kk'] = false jika hanya perlu tanggungan keluarga tanpa kepala keluarga
