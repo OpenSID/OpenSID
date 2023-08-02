@@ -3,6 +3,7 @@ Di rilis ini, versi 2308.0.1 berisi [isi disini] dan perbaikan lain yang diminta
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
 #### Perbaikan BUG
+1. [#6882](https://github.com/OpenSID/OpenSID/issues/6882) Perbaikan luas peta tidak tampil mengikuti pengaturan pada modul pemetaan.
 
 
 
