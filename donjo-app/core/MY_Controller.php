@@ -442,6 +442,20 @@ class Admin_Controller extends MY_Controller
             'pamong_ketahui' => Pamong::kepalaDesa()->first(),
         ];
     }
+
+    protected function set_hak_akses_rfm()
+    {
+        // reset dulu session yang berkaitan hak akses ubah dan hapus
+        $this->session->hapus_gambar_rfm       = false;
+        $this->session->ubah_tambah_gambar_rfm = false;
+
+        if (can('h')) {
+            $this->session->hapus_gambar_rfm = true;
+        }
+        if (can('u')) {
+            $this->session->ubah_tambah_gambar_rfm = true;
+        }
+    }
 }
 
 class Anjungan_Controller extends Admin_Controller
