@@ -99,7 +99,7 @@ class Dokumen extends Mandiri_Controller
 
     public function hapus($id = '')
     {
-        $this->web_dokumen_model->get_dokumen($id) ?? show_404();
+        $this->web_dokumen_model->get_dokumen($id, $this->session->is_login->id_pend) ?? show_404();
 
         if ($this->web_dokumen_model->delete($id)) {
             redirect_with('success', 'Berhasil hapus dokumen');
