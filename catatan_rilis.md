@@ -14,3 +14,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#2684](https://github.com/OpenSID/premium/issues/2684) Pembatasan karakter pada input post halaman admin inventaris tanah.
 5. [#2686](https://github.com/OpenSID/premium/issues/2686) Pembatasan karakter pada input post halaman admin pembangunan.
 6. [#2685](https://github.com/OpenSID/premium/issues/2685) Pembatasan karakter pada input post halaman admin keuangan manual.
+6. [#2682](https://github.com/OpenSID/premium/issues/2682) Pembatasan karakter pada input post halaman kirim permohonan surat layanan mandiri web.
