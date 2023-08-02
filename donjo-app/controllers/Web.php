@@ -108,6 +108,7 @@ class Web extends Admin_Controller
     {
         $id = decrypt($id);
         $this->redirect_hak_akses('u');
+        $this->set_hak_akses_rfm();
         $cat = $this->session->kategori ?: 0;
 
         if ($id) {

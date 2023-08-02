@@ -123,6 +123,8 @@ class Surat_master extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
+        $this->set_hak_akses_rfm();
+
         if ($id) {
             $suratMaster           = FormatSurat::findOrFail($id);
             $kategori_isian        = [];
