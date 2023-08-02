@@ -289,7 +289,7 @@ class Surat_master extends Admin_Controller
     public function simpan_sementara()
     {
         $this->redirect_hak_akses('u');
-        $surat = FormatSurat::updateOrCreate(['id' => $this->request['id_surat']], static::validate($this->request));
+        $surat = FormatSurat::updateOrCreate(['id' => $this->request['id_surat'], 'config_id' => identitas('id')], static::validate($this->request));
         if ($surat) {
             redirect_with('success', 'Berhasil Simpan Data Sementara', 'surat_master/form/' . $surat->id);
         }
@@ -894,7 +894,7 @@ class Surat_master extends Admin_Controller
 
             if ($list_data) {
                 foreach ($list_data as $value) {
-                    FormatSurat::updateOrCreate(['url_surat' => $value['url_surat']], $value);
+                    FormatSurat::updateOrCreate(['config_id' => identitas('id'), 'url_surat' => $value['url_surat']], $value);
                 }
             }
 
@@ -911,7 +911,7 @@ class Surat_master extends Admin_Controller
             redirect_with('error', 'Hanya untuk development');
         }
 
-        $simpan = FormatSurat::updateOrCreate(['id' => $this->request['id_surat']], static::validate($this->request));
+        $simpan = FormatSurat::updateOrCreate(['id' => $this->request['id_surat'], 'config_id' => identitas('id')], static::validate($this->request));
 
         // Pilih surat yang akan dibuat migrasinya
         $surat = FormatSurat::jenis(FormatSurat::TINYMCE)->find($simpan->id);

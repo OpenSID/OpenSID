@@ -157,6 +157,7 @@ class FormatSurat extends BaseModel
      * @var array
      */
     protected $fillable = [
+        'config_id',
         'nama',
         'url_surat',
         'kode_surat',
