@@ -329,6 +329,7 @@ class Web_artikel_model extends MY_Model
         session_error_clear();
 
         $data = $_POST;
+
         if (empty($data['judul']) || empty($data['isi'])) {
             $_SESSION['error_msg'] .= ' -> Data harus diisi';
             $_SESSION['success'] = -1;
