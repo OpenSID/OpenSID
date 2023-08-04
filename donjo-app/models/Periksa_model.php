@@ -456,6 +456,7 @@ class Periksa_model extends MY_Model
             $tabel['inventaris_asset'] = $inventaris_asset;
         }
 
+        // Tabel covid19_vaksin
         $covidVaksin = CovidVaksin::select(['id_penduduk', 'tgl_vaksin_1', 'tgl_vaksin_2', 'tgl_vaksin_3'])->where(
             static function ($q) {
                 return $q->where('tgl_vaksin_1', '0000-00-00')
@@ -466,6 +467,13 @@ class Periksa_model extends MY_Model
 
         if ($covidVaksin->count() > 0) {
             $tabel['covid19_vaksin'] = $covidVaksin;
+        }
+
+        // tabel tweb_penduduk column tanggal_cetak_ktp
+        $tanggal_cetak_ktp = Penduduk::setEagerLoads([])->where('tanggal_cetak_ktp', '0000-00-00')->get();
+
+        if ($tanggal_cetak_ktp->count() > 0) {
+            $tabel['tweb_penduduk'] = $tanggal_cetak_ktp;
         }
 
         return $tabel;
@@ -1212,6 +1220,17 @@ class Periksa_model extends MY_Model
             }
 
             log_message('error', 'Sesuaikan tanggal invalid pada kolom tgl_vaksin_1, tgl_vaksin_2, tgl_vaksin_3 tabel covid19_vaksin pada data berikut ini : ' . print_r($covidVaksin->toArray(), true));
+        }
+
+        if ($twebPenduduk = $this->periksa['tabel_invalid_date']['tweb_penduduk']) {
+            foreach ($twebPenduduk as $penduduk) {
+                if ($penduduk->getRawOriginal('tanggal_cetak_ktp') == '0000-00-00') {
+                    $penduduk->tanggal_cetak_ktp = null;
+                }
+                $hasil = $hasil && $penduduk->save();
+            }
+
+            log_message('error', 'Sesuaikan tanggal invalid pada kolom tanggal_cetak_ktp tabel tweb_penduduk pada data berikut ini : ' . print_r($twebPenduduk->toArray(), true));
         }
 
         return $hasil;
