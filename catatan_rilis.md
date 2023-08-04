@@ -8,7 +8,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 3. [#6793](https://github.com/OpenSID/OpenSID/issues/6793) Perbaikan gagal buat surat atau update surat.
 4. [#6963](https://github.com/OpenSID/OpenSID/issues/6963) Perbaikan tambah data keluarga dari penduduk lepas.
 5. [#6956](https://github.com/OpenSID/OpenSID/issues/6956) Perbaikan tanggal tidak valid pada tgl_cetak_ktp modul penduduk.
-
+6. [#6955](https://github.com/OpenSID/OpenSID/issues/6955) Perbaikan form isian tinymce isian required.
 
 #### Perbaikan TEKNIS
 1. [#2677](https://github.com/OpenSID/premium/issues/2677) Pembatasan ubah permission file dan folder melalui RFM.

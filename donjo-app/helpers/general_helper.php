@@ -852,3 +852,26 @@ if (! function_exists('data_lengkap')) {
         return ($CI->setting->tgl_data_lengkap_aktif && $tgl_data_lengkap !== false) ? true : false;
     }
 }
+
+if (! function_exists('buat_class')) {
+    function buat_class($class1 = '', $class2 = '', $required = false)
+    {
+        $onlyClass = '';
+        preg_match('/class="([^"]+)"/', $class1, $match);
+        if ($match) {
+            $onlyClass = $match[1];
+        }
+
+        $onlyAttributes = preg_replace('/class="[^"]+"/', '', $class1);
+
+        if (empty($class2) || $class2 === null) {
+            $class2 = 'form-control input-sm';
+        }
+
+        if ($required) {
+            $onlyClass .= ' required';
+        }
+
+        return 'class="' . $class2 . ' ' . $onlyClass . '" ' . $onlyAttributes;
+    }
+}
