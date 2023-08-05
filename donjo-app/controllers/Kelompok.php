@@ -135,7 +135,6 @@ class Kelompok extends Admin_Controller
 
         $data['list_master']   = $list_master;
         $data['list_penduduk'] = $this->kelompok_model->list_penduduk();
-
         $this->render('kelompok/form', $data);
     }
 
@@ -186,7 +185,7 @@ class Kelompok extends Admin_Controller
                     ->map(static function ($item) {
                         return [
                             'id'   => $item->id,
-                            'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')),
+                            'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
                         ];
                     }),
                 'pagination' => [
