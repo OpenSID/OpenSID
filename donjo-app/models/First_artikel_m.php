@@ -553,7 +553,7 @@ class First_artikel_m extends MY_Model
     public function get_artikel_by_id($id)
     {
         return $this->config_id_exist('artikel')
-            ->select('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+            ->select('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, judul, tgl_upload')
             ->where(['id' => $id])
             ->get('artikel')
             ->row_array();

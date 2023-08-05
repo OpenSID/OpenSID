@@ -9,7 +9,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#6963](https://github.com/OpenSID/OpenSID/issues/6963) Perbaikan tambah data keluarga dari penduduk lepas.
 5. [#6956](https://github.com/OpenSID/OpenSID/issues/6956) Perbaikan tanggal tidak valid pada tgl_cetak_ktp modul penduduk.
 6. [#6955](https://github.com/OpenSID/OpenSID/issues/6955) Perbaikan form isian tinymce isian required.
-7. [#6965](https://github.com/OpenSID/OpenSID/issues/6965) Perbaikan informasi namma dusun pada pilih ketua dan anggota kelompok/lembaga.
+7. [#6965](https://github.com/OpenSID/OpenSID/issues/6965) Perbaikan nama dusun pada pilih ketua dan anggota kelompok/lembaga.
+8. [#6966](https://github.com/OpenSID/OpenSID/issues/6966) Perbaikan tauntan teks berjalan.
 
 #### Perbaikan TEKNIS
 1. [#2677](https://github.com/OpenSID/premium/issues/2677) Pembatasan ubah permission file dan folder melalui RFM.

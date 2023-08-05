@@ -1772,3 +1772,12 @@ if (! function_exists('hapus_kab_kota')) {
         return preg_replace('/kab |kota /i', '', $str);
     }
 }
+
+function artikel_get_id($id)
+{
+    $CI = &get_instance();
+    $CI->load->model('first_artikel_m');
+    $data = $CI->first_artikel_m->get_artikel_by_id($id);
+
+    return $data;
+}

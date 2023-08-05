@@ -60,9 +60,12 @@ class Teks_berjalan extends Admin_Controller
             ])
             ->get()
             ->map(static function ($teks, $key) {
-                $teks->no        = $key + 1;
-                $teks->tautan    = menu_slug('artikel/' . $teks->tautan);
-                $teks->tampilkan = SistemEnum::valueOf($teks->tipe);
+                $teks->no         = $key + 1;
+                $teks->judul      = artikel_get_id($teks->tautan)['judul'];
+                $teks->tgl_upload = artikel_get_id($teks->tautan)['tgl_upload'];
+                $teks->id_tautan  = $teks->tautan;
+                $teks->tautan     = menu_slug('artikel/' . $teks->tautan);
+                $teks->tampilkan  = SistemEnum::valueOf($teks->tipe);
 
                 return $teks;
             });
