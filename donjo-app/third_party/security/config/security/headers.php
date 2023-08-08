@@ -44,7 +44,7 @@ $config = [
 
     'X-Content-Type-Options' => 'nosniff',
 
-    'Content-Security-Policy' => "default-src 'self';form-action 'self';script-src 'self' platform.twitter.com unpkg.com *.cloudflare.com *.jsdelivr.net  'unsafe-inline' 'unsafe-eval';style-src 'self' fonts.googleapis.com unpkg.com *.cloudflare.com *.jsdelivr.net 'unsafe-inline';img-src 'self' * data:;font-src 'self' fonts.gstatic.com *.cloudflare.com *.jsdelivr.net data:;connect-src 'self';media-src 'self';object-src 'none';base-uri 'self';report-uri",
+    'Content-Security-Policy' => "default-src 'self';form-action 'self';script-src 'self' *.facebook.net platform.twitter.com unpkg.com *.cloudflare.com *.jsdelivr.net  'unsafe-inline' 'unsafe-eval';style-src 'self' fonts.googleapis.com unpkg.com *.cloudflare.com *.jsdelivr.net 'unsafe-inline';img-src 'self' * data:;font-src 'self' fonts.gstatic.com *.cloudflare.com *.jsdelivr.net data:;connect-src 'self';media-src 'self';object-src 'none';base-uri 'self';report-uri; frame-src 'self' *.google.com",
 
     'X-Permitted-Cross-Domain-Policies' => 'none',
 

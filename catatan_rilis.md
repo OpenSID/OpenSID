@@ -31,6 +31,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 7. [#2682](https://github.com/OpenSID/premium/issues/2682) Pembatasan karakter pada input post halaman kirim permohonan surat layanan mandiri web.
 8. [#2687](https://github.com/OpenSID/premium/issues/2687) Pembatasan karakter pada input post halaman informasi publik admin.
 9. [#2683](https://github.com/OpenSID/premium/issues/2683) Pembatasan karakter pada input post halaman artikel admin.
-10. [#2631](https://github.com/OpenSID/premium/issues/2631) Pembatasan hapus dokumen pada halaman dokumen layanan mandiri web.
-11. [#2678](https://github.com/OpenSID/premium/issues/2678) Pembatasan tambah/ubah/hapus berkas/folder pada RFM sesuai hak akses modul yang diberikan.
-12. [#2662](https://github.com/OpenSID/premium/issues/2662) Penyesuaian konfigurasi trusted host.
+10. [#2688](https://github.com/OpenSID/premium/issues/2688) Pembatasan karakter pada input post halaman artikel widget.
+11. [#2631](https://github.com/OpenSID/premium/issues/2631) Pembatasan hapus dokumen pada halaman dokumen layanan mandiri web.
+12. [#2678](https://github.com/OpenSID/premium/issues/2678) Pembatasan tambah/ubah/hapus berkas/folder pada RFM sesuai hak akses modul yang diberikan.
+13. [#2662](https://github.com/OpenSID/premium/issues/2662) Penyesuaian konfigurasi trusted host.

@@ -1781,3 +1781,15 @@ function artikel_get_id($id)
 
     return $data;
 }
+
+/**
+ * @param string
+ *
+ * @return string
+ */
+if (! function_exists('bersihkan_xss')) {
+    function bersihkan_xss($str)
+    {
+        return preg_replace('/script|prompt|onload/mi', '', $str);
+    }
+}
