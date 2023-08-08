@@ -17,6 +17,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 12. [#6969](https://github.com/OpenSID/OpenSID/issues/6969) Perbaikan hubungan dalam keluarga penduduk jika ditambahkan melalui modul keluarga.
 13. [#6999](https://github.com/OpenSID/OpenSID/issues/6999) Perbaikan pengecekan tanggal berakir dan versi aplikasi yang digunakan saat pemasangan awal.
 14. [#6987](https://github.com/OpenSID/OpenSID/issues/6987) Perbaikan data keluarga yang masih menampilkan penduduk status selain hidup.
+15. [#6979](https://github.com/OpenSID/OpenSID/issues/6979) Perbaikan kode isian orang tua pada surat tinymce.
+
 
 #### Perbaikan TEKNIS
 1. [#2677](https://github.com/OpenSID/premium/issues/2677) Pembatasan ubah permission file dan folder melalui RFM.

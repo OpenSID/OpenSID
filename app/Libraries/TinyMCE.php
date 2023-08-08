@@ -676,7 +676,6 @@ class TinyMCE
             $data = array_merge($individu, $lainnya);
 
             // Data Orang Tua
-
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
             $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
 
@@ -728,14 +727,7 @@ class TinyMCE
                 $data = array_merge($data, $data_ortu);
             }
 
-            $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
-            $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
-
-            // Data Ayah
-            $data = array_merge($data, $this->getIsianPenduduk($id_ayah, 'ayah'));
-
-            // Data Ibu
-            return array_merge($data, $this->getIsianPenduduk($id_ibu, 'ibu'));
+            return $data;
         }
 
         return $individu;
