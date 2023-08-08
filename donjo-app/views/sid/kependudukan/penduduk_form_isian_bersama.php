@@ -127,7 +127,12 @@
 			<select id="kk_level" class="form-control input-sm select2 required" name="kk_level">
 				<option value="">Pilih Hubungan Keluarga</option>
 				<?php foreach ($hubungan as $data) : ?>
-					<option value="<?= $data['id'] ?>" <?php selected($penduduk['kk_level'], $data['id']); ?> <?php $jenis_peristiwa == '1' ? selected(4, $data['id']) : ''; ?> <?= ($data['id'] == 1 && $keluarga['status_dasar'] == '2') ? 'disabled' : ''; ?>><?= strtoupper($data['nama']) ?></option>
+					<?php if ($this->session->has_userdata('jenis_peristiwa') && $this->session->jenis_peristiwa == '5' && $data['id'] == \App\Enums\SHDKEnum::KEPALA_KELUARGA) : ?>
+						<option selected value="<?= $data['id'] ?>"><?= strtoupper($data['nama']) ?></option>
+						<?php break ?>
+					<?php else : ?>
+						<option value="<?= $data['id'] ?>" <?php selected($penduduk['kk_level'], $data['id']); ?> <?= ($data['id'] == 1 && $keluarga['status_dasar'] == '2') ? 'disabled' : ''; ?>><?= strtoupper($data['nama']) ?></option>
+					<?php endif ?>
 				<?php endforeach; ?>
 			</select>
 		</div>
