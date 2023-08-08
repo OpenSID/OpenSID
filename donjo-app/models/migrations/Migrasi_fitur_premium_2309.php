@@ -52,7 +52,7 @@ class Migrasi_fitur_premium_2309 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil;
     }
 
     // Migrasi perubahan data
@@ -66,11 +66,19 @@ class Migrasi_fitur_premium_2309 extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_23080851($hasil);
     }
 
-    protected function migrasi_xxxxxxxxxx($hasil)
+    protected function migrasi_23080851($hasil)
     {
+        $periksa = ['setting_aplikasi', 'setting_modul', 'user_grup', 'user', 'grup_akses', 'media_sosial', 'kehadiran_jam_kerja', 'ref_jabatan', 'klasifikasi_surat', 'anjungan_menu', 'gis_simbol', 'ref_syarat_surat', 'widget', 'tweb_surat_format', 'tweb_penduduk_umur', 'notifikasi', 'analisis_indikator', 'analisis_kategori_indikator', 'analisis_master', 'analisis_parameter', 'analisis_periode'];
+
+        foreach ($periksa as $tabel) {
+            if ($this->db->where('config_id', null)->get($tabel)->num_rows() > 0) {
+                $hasil = $hasil && $this->db->where('config_id', null)->delete($tabel);
+            }
+        }
+
         return $hasil;
     }
 }

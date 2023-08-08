@@ -544,6 +544,11 @@ class MY_Model extends CI_Model
             return true;
         }
 
+        // ubah config id jika masih kosong, akibat seeder awal
+        if (DB::table($tabel)->where('config_id', null)->exists()) {
+            DB::table($tabel)->update(['config_id' => $config_id]);
+        }
+
         if ($this->db->table_exists($tabel) && count($data) > 0) {
             collect($data)
                 ->chunk(100)
@@ -556,7 +561,8 @@ class MY_Model extends CI_Model
                     });
                 })
                 ->each(static function ($chunk) use ($tabel) {
-                    DB::table($tabel)->insertOrIgnore($chunk->all());
+                    // upsert agar tidak duplikat
+                    DB::table($tabel)->upsert($chunk->all(), 'config_id');
                 });
 
             return true;

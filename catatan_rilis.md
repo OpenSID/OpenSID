@@ -13,6 +13,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 8. [#6966](https://github.com/OpenSID/OpenSID/issues/6966) Perbaikan tauntan teks berjalan.
 9. [#6967](https://github.com/OpenSID/OpenSID/issues/6967) Perbaikan default data penduduk status lahir.
 10. [#6962](https://github.com/OpenSID/OpenSID/issues/6962) Perbaikan pengisian lampiran F-1.01 menggunakan sesuai petunjuk pengisian.
+11. [#6997](https://github.com/OpenSID/OpenSID/issues/6997) Perbaikan contoh data awal yang duplikasi dengan isian config_id null saat pemasangan baru.
 
 #### Perbaikan TEKNIS
 1. [#2677](https://github.com/OpenSID/premium/issues/2677) Pembatasan ubah permission file dan folder melalui RFM.

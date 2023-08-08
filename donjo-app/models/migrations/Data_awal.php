@@ -226,6 +226,7 @@ class Data_awal extends MY_Model
                 'password'          => '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.',
                 'id_grup'           => UserGrup::where('nama', 'Administrator')->first()->id,
                 'email'             => null,
+                'id_telegram'       => '0',
                 'last_login'        => '2022-02-28 19:55:01',
                 'email_verified_at' => null,
                 'active'            => 1,
