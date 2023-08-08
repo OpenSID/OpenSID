@@ -10,7 +10,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 5. [#6956](https://github.com/OpenSID/OpenSID/issues/6956) Perbaikan tanggal tidak valid pada tgl_cetak_ktp modul penduduk.
 6. [#6955](https://github.com/OpenSID/OpenSID/issues/6955) Perbaikan form isian tinymce isian required.
 7. [#6965](https://github.com/OpenSID/OpenSID/issues/6965) Perbaikan nama dusun pada pilih ketua dan anggota kelompok/lembaga.
-8. [#6966](https://github.com/OpenSID/OpenSID/issues/6966) Perbaikan tauntan teks berjalan.
+8. [#6966](https://github.com/OpenSID/OpenSID/issues/6966) Perbaikan tautan teks berjalan.
 9. [#6967](https://github.com/OpenSID/OpenSID/issues/6967) Perbaikan default data penduduk status lahir.
 10. [#6962](https://github.com/OpenSID/OpenSID/issues/6962) Perbaikan pengisian lampiran F-1.01 menggunakan sesuai petunjuk pengisian.
 11. [#6997](https://github.com/OpenSID/OpenSID/issues/6997) Perbaikan contoh data awal yang duplikasi dengan isian config_id null saat pemasangan baru.
@@ -21,8 +21,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 
 #### Perbaikan TEKNIS
-1. [#2677](https://github.com/OpenSID/premium/issues/2677) Pembatasan ubah permission file dan folder melalui RFM.
-2. [#2661](https://github.com/OpenSID/premium/issues/2661) Penyesuaian konfigurasi security headers.
+1. [#2661](https://github.com/OpenSID/premium/issues/2661) Penyesuaian konfigurasi security headers.
+2. [#2677](https://github.com/OpenSID/premium/issues/2677) Pembatasan izin pengubahan pada berkas dan folder melalui RFM.
 3. [#2634](https://github.com/OpenSID/premium/issues/2634) Pembatasan karakter pada input get halaman pengaduan dan lapak.
 3. [#2681](https://github.com/OpenSID/premium/issues/2681) Pembatasan karakter pada input post halaman admin lapak.
 4. [#2684](https://github.com/OpenSID/premium/issues/2684) Pembatasan karakter pada input post halaman admin inventaris tanah.
@@ -30,7 +30,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 6. [#2685](https://github.com/OpenSID/premium/issues/2685) Pembatasan karakter pada input post halaman admin keuangan manual.
 7. [#2682](https://github.com/OpenSID/premium/issues/2682) Pembatasan karakter pada input post halaman kirim permohonan surat layanan mandiri web.
 8. [#2687](https://github.com/OpenSID/premium/issues/2687) Pembatasan karakter pada input post halaman informasi publik admin.
-9. [#2662](https://github.com/OpenSID/premium/issues/2662) Penyesuaian konfigurasi trusted host.
+9. [#2683](https://github.com/OpenSID/premium/issues/2683) Pembatasan karakter pada input post halaman artikel admin.
 10. [#2631](https://github.com/OpenSID/premium/issues/2631) Pembatasan hapus dokumen pada halaman dokumen layanan mandiri web.
-11. [#2683](https://github.com/OpenSID/premium/issues/2683) Pembatasan karakter pada input post halaman artikel admin.
-12. [#2678](https://github.com/OpenSID/premium/issues/2678) Pembatasan tambah/ubah/hapus file/folder pada RFM sesuai hak akses modul yang diberikan.
+11. [#2678](https://github.com/OpenSID/premium/issues/2678) Pembatasan tambah/ubah/hapus berkas/folder pada RFM sesuai hak akses modul yang diberikan.
+12. [#2662](https://github.com/OpenSID/premium/issues/2662) Penyesuaian konfigurasi trusted host.
