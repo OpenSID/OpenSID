@@ -35,12 +35,12 @@
  *
  */
 
-use App\Models\User;
 use App\Models\Config;
-use App\Models\Migrasi;
-use App\Models\UserGrup;
 use App\Models\FormatSurat;
+use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
+use App\Models\User;
+use App\Models\UserGrup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -202,7 +202,7 @@ class MY_Model extends CI_Model
         // Hanya lakukan jika tabel grup_akses sudah ada. Tabel ini belum ada sebelum Migrasi_fitur_premium_2105.php
         if ($this->db->table_exists('grup_akses')) {
             $grupOperator = UserGrup::getGrupId(UserGrup::OPERATOR);
-            $hasil = $hasil && $this->grupAkses($grupOperator, $modul['id'] ?? $id, 3, $modul['config_id'] ?? null);
+            $hasil        = $hasil && $this->grupAkses($grupOperator, $modul['id'] ?? $id, 3, $modul['config_id'] ?? null);
         }
 
         // Hapus cache menu navigasi

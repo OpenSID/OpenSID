@@ -46,9 +46,11 @@
             <hr>
             <div>
                 {!! form_open(route('token.update'), 'class="form-horizontal" id="validasi"') !!}
-                <div class="form-group">
-                    <textarea name="token" rows="5" id="token" autocomplete="off" placeholder="Masukkan token pelanggan"
-                        class="form-control required" required></textarea>
+                <div class="form-group <?= $ci->session->has_userdata('error') ? 'has-error' : '' ?>">
+                    <textarea name="token" rows="5" id="token" autocomplete="off" placeholder="Masukkan token pelanggan" class="form-control required" required></textarea>
+                    <?php if ($ci->session->has_userdata('error')) : ?>
+                        <span class="help-block"><?= $ci->session->error ?></span>
+                    <?php endif ?>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success btn-block btn-flat">Perbarui</button>

@@ -58,7 +58,13 @@ class Token extends CI_Controller
 
     public function update()
     {
-        if ($token = $this->input->post('token')) {
+        $jwtPayload = $this->decodeTokenPayload($token = $this->input->post('token'));
+
+        if ($this->isPremiumVersionExpired($akhir = $jwtPayload->tanggal_berlangganan->akhir)) {
+            return redirect_with('error', "Token Berlangganan sudah berakhir. Tanggal berlangganan sampai: {$akhir}", 'token');
+        }
+
+        if ($token) {
             DB::table('setting_aplikasi')
                 ->when(Schema::hasColumn('setting_aplikasi', 'config_id'), static function ($query) {
                     return $query->where('config_id', Config::appKey()->first()->id);
@@ -70,5 +76,32 @@ class Token extends CI_Controller
         }
 
         redirect('/');
+    }
+
+    private function decodeTokenPayload($token)
+    {
+        $tokenParts = explode('.', $token);
+
+        if (count($tokenParts) !== 3) {
+            return redirect_with('error', 'Jumlah segmen token salah', 'token');
+        }
+
+        $tokenParts = array_filter(array_map('trim', $tokenParts));
+
+        if (count($tokenParts) !== 3 || implode('.', $tokenParts) !== $token) {
+            return redirect_with('error', 'Token tidak sesuai', 'token');
+        }
+
+        $tokenPayload = base64_decode($tokenParts[1], true);
+
+        return json_decode($tokenPayload);
+    }
+
+    private function isPremiumVersionExpired($berakhir)
+    {
+        $date    = new DateTime('20' . str_replace('.', '-', currentVersion()) . '-01');
+        $version = $date->format('Y-m-d');
+
+        return version_compare($version, $berakhir) > 0;
     }
 }
