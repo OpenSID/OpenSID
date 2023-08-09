@@ -38,4 +38,5 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 12. [#2678](https://github.com/OpenSID/premium/issues/2678) Pembatasan tambah/ubah/hapus berkas/folder pada RFM sesuai hak akses modul yang diberikan.
 13. [#2662](https://github.com/OpenSID/premium/issues/2662) Penyesuaian konfigurasi trusted host.
 14. [#2663](https://github.com/OpenSID/premium/issues/2663) Pembatasan spesifik php info hanya untuk super admin.
-15. [#2746](https://github.com/OpenSID/premium/issues/2746) Peningkatan keamanan pada kerentatan LFI Modul Laporan Penduduk.
+15. [#2746](https://github.com/OpenSID/premium/issues/2746) Perbaikan uggah dokumen pada laporan penduduk.
+16. [#2747](https://github.com/OpenSID/premium/issues/2747) Perbaikan uggah dokumen pada laporan apbdes.
