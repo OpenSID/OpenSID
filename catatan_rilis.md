@@ -2,7 +2,7 @@ Di rilis ini, versi 2308.0.1 berisi [isi disini] dan perbaikan lain yang diminta
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
-#### Perbaikan BUG
+#### Perbaikan Bug
 1. [#6882](https://github.com/OpenSID/OpenSID/issues/6882) Perbaikan luas peta tidak tampil mengikuti pengaturan pada modul pemetaan.
 2. [#6957](https://github.com/OpenSID/OpenSID/issues/6957) Perbaikan daftar penduduk lepas saat menambah keluarga (kepala keluarga) baru dan anggota keluarga.
 3. [#6793](https://github.com/OpenSID/OpenSID/issues/6793) Perbaikan gagal buat surat atau update surat.
@@ -20,9 +20,11 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 15. [#6979](https://github.com/OpenSID/OpenSID/issues/6979) Perbaikan kode isian orang tua pada surat tinymce.
 
 
-#### Perbaikan TEKNIS
+#### Perubahan Teknis
+
+#### Peningkatan Keamanan
 1. [#2661](https://github.com/OpenSID/premium/issues/2661) Penyesuaian konfigurasi security headers.
-2. [#2677](https://github.com/OpenSID/premium/issues/2677) Pembatasan izin pengubahan pada berkas dan folder melalui RFM.
+2. [#2677](https://github.com/OpenSID/premium/issues/2677) Pembatasan ubah permission file dan folder melalui RFM.
 3. [#2634](https://github.com/OpenSID/premium/issues/2634) Pembatasan karakter pada input get halaman pengaduan dan lapak.
 3. [#2681](https://github.com/OpenSID/premium/issues/2681) Pembatasan karakter pada input post halaman admin lapak.
 4. [#2684](https://github.com/OpenSID/premium/issues/2684) Pembatasan karakter pada input post halaman admin inventaris tanah.
@@ -35,3 +37,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 11. [#2631](https://github.com/OpenSID/premium/issues/2631) Pembatasan hapus dokumen pada halaman dokumen layanan mandiri web.
 12. [#2678](https://github.com/OpenSID/premium/issues/2678) Pembatasan tambah/ubah/hapus berkas/folder pada RFM sesuai hak akses modul yang diberikan.
 13. [#2662](https://github.com/OpenSID/premium/issues/2662) Penyesuaian konfigurasi trusted host.
+14. [#2663](https://github.com/OpenSID/premium/issues/2663) Pembatasan spesifik php info hanya untuk super admin.
