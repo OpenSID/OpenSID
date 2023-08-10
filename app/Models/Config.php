@@ -118,7 +118,7 @@ class Config extends BaseModel
 
     /**
      * The casts with the model.
-     * 
+     *
      * @var array
      */
     protected $casts = [

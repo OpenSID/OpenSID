@@ -19,6 +19,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 14. [#6987](https://github.com/OpenSID/OpenSID/issues/6987) Perbaikan data keluarga yang masih menampilkan penduduk status selain hidup.
 15. [#6979](https://github.com/OpenSID/OpenSID/issues/6979) Perbaikan kode isian orang tua pada surat tinymce.
 16. [#6974](https://github.com/OpenSID/OpenSID/issues/6974) Perbaikan simpan data path kosong ([]) pada peta identitas desa.
+17. [#7015](https://github.com/OpenSID/OpenSID/issues/7015) Perbaikan title dan popover tambah anggota kelompok/lembaga.
 
 
 #### Perubahan Teknis
