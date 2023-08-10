@@ -34,10 +34,10 @@
 									</select>
 								</div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-12" id="box_judul_tautan" style="display: <?= $teks['tautan'] ? '' : 'none'; ?>">
 								<div class="form-group">
 									<label class="control-label">Judul tautan</label>
-									<input class="form-control input-sm required" placeholder="Judul tautan ke artikel atau url" name="judul_tautan" value="<?= $teks['judul_tautan'] ?>" maxlength="150"></input>
+									<input <?= $teks['tautan'] ? '' : 'disabled'; ?> class="form-control input-sm required" placeholder="Judul tautan ke artikel atau url" name="judul_tautan" id="input_judul_tautan" value="<?= $teks['judul_tautan'] ?>" maxlength="150"></input>
 								</div>
 							</div>
 							<div class="col-sm-12">
@@ -63,3 +63,18 @@
 		</form>
 	</section>
 </div>
+
+<script>
+	$(document).ready(function(){
+		$('#tautan').on('change', function() {
+			if (this.value == "") {
+				$('#box_judul_tautan').hide();
+				$('#input_judul_tautan').prop("disabled", true);
+			}
+			else {
+				$('#box_judul_tautan').show();
+				$('#input_judul_tautan').prop("disabled", false);
+			}
+		});
+	});
+</script>
