@@ -21,6 +21,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 16. [#6974](https://github.com/OpenSID/OpenSID/issues/6974) Perbaikan simpan data path kosong ([]) pada peta identitas desa.
 17. [#7015](https://github.com/OpenSID/OpenSID/issues/7015) Perbaikan title dan popover tambah anggota kelompok/lembaga.
 18. [#7014](https://github.com/OpenSID/OpenSID/issues/7014) Perbaikan tambah/ubah teks berjalan yang di tautkan ke artikel.
+19. [#6995](https://github.com/OpenSID/OpenSID/issues/6995) Perbaikan halaman laporan aset yang dihapus.
 
 
 #### Perubahan Teknis
