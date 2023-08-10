@@ -860,37 +860,40 @@ class Surat_master extends Admin_Controller
 
         if ($this->upload->do_upload('userfile')) {
             $list_data = file_get_contents($this->upload->data()['full_path']);
-
-            $list_data = collect(json_decode($list_data, true))->map(static function ($item) {
-                return [
-                    'nama'                => $item['nama'],
-                    'url_surat'           => $item['url_surat'],
-                    'kode_surat'          => $item['kode_surat'],
-                    'lampiran'            => $item['lampiran'],
-                    'kunci'               => $item['kunci'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                    'favorit'             => $item['favorit'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                    'jenis'               => $item['jenis'],
-                    'mandiri'             => $item['mandiri'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                    'masa_berlaku'        => $item['masa_berlaku'],
-                    'satuan_masa_berlaku' => $item['satuan_masa_berlaku'],
-                    'qr_code'             => $item['qr_code'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                    'logo_garuda'         => $item['logo_garuda'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                    'syarat_surat'        => json_decode($item['syarat_surat'], true),
-                    'template'            => $item['template'],
-                    'template_desa'       => $item['template_desa'],
-                    'form_isian'          => json_encode($item['form_isian']),
-                    'kode_isian'          => json_encode($item['kode_isian']),
-                    'orientasi'           => $item['orientasi'],
-                    'ukuran'              => $item['ukuran'],
-                    'margin'              => $item['margin'],
-                    'footer'              => $item['footer'],
-                    'header'              => $item['header'],
-                    'created_at'          => date('Y-m-d H:i:s'),
-                    'creted_by'           => auth()->id,
-                    'updated_at'          => date('Y-m-d H:i:s'),
-                    'updated_by'          => auth()->id,
-                ];
-            })->toArray();
+            $list_data = collect(json_decode($list_data, true))
+                ->map(static function ($item) {
+                    return [
+                        'nama'                => $item['nama'],
+                        'url_surat'           => $item['url_surat'],
+                        'kode_surat'          => $item['kode_surat'],
+                        'lampiran'            => $item['lampiran'],
+                        'kunci'               => $item['kunci'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                        'favorit'             => $item['favorit'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                        'jenis'               => $item['jenis'],
+                        'mandiri'             => $item['mandiri'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                        'masa_berlaku'        => $item['masa_berlaku'],
+                        'satuan_masa_berlaku' => $item['satuan_masa_berlaku'],
+                        'qr_code'             => $item['qr_code'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                        'logo_garuda'         => $item['logo_garuda'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                        'syarat_surat'        => json_decode($item['syarat_surat'], true),
+                        'template'            => $item['template'],
+                        'template_desa'       => $item['template_desa'],
+                        'form_isian'          => json_encode($item['form_isian']),
+                        'kode_isian'          => collect($item['kode_isian'])->filter(static function ($item) {
+                            return ! in_array($item['kode'], ['[form_nik_non_warga]', '[form_nama_non_warga]']);
+                        })->values()->toJson(),
+                        'orientasi'  => $item['orientasi'],
+                        'ukuran'     => $item['ukuran'],
+                        'margin'     => $item['margin'],
+                        'footer'     => $item['footer'],
+                        'header'     => $item['header'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'creted_by'  => auth()->id,
+                        'updated_at' => date('Y-m-d H:i:s'),
+                        'updated_by' => auth()->id,
+                    ];
+                })
+                ->toArray();
 
             if ($list_data) {
                 foreach ($list_data as $value) {
