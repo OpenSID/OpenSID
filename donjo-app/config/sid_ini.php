@@ -78,6 +78,9 @@ $config['demo_user'] = [
     'password' => 'sid304',
 ];
 
+// Delay kirim pesan layanan mandiri web, dalam satuan detik
+$config['rentang_kirim_pesan'] = 60;
+
 // ==========================================================================
 
 // Konfigurasi tambahan untuk aplikasi

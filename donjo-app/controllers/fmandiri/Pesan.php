@@ -60,9 +60,19 @@ class Pesan extends Mandiri_Controller
     // TODO: Ganti nik jadi id_pend
     public function kirim($kat = 2)
     {
+        $data = $this->input->post();
+
+        if ($this->mailbox_model->delay($this->is_login->nik)) {
+            $respon = [
+                'status' => 'error',
+                'pesan'  => 'Anda mencapai batasan pengiriman pesan. Silahkan kirim kembali pesan anda setelah 60 detik.',
+                'data'   => $data,
+            ];
+            redirect_with('notif', $respon, 'layanan-mandiri/pesan/tulis');
+        }
+
         $this->load->library('Telegram/telegram');
 
-        $data             = $this->input->post();
         $post['email']    = $this->is_login->nik; // kolom email diisi nik untuk pesan
         $post['owner']    = $this->is_login->nama;
         $post['subjek']   = $data['subjek'];
