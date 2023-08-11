@@ -32,9 +32,9 @@
             <br />
             <table width="10%">
                 <tr class="text-center">
-                    <td colspan="<?= $letak_ttd[0]; ?>" width=<?= $width ? '"' . (0.1 * $width) . 'mm;"' : '10%'?>>&nbsp;</td>
+                    <td colspan="<?= $letak_ttd[0]; ?>" width=<?= $width ? '"' . (0.1 * $width) . 'mm;"' : '5%'?>>&nbsp;</td>
                     <?php if (! empty($pamong_ketahui)) :?>
-                        <td colspan="<?= $letak_ttd[1]; ?>" width=<?= $width ? '"' . (0.2 * $width) . 'mm;"' : '20%'?>>
+                        <td colspan="<?= $letak_ttd[1]; ?>" width=<?= $width ? '"' . (0.2 * $width) . 'mm;"' : '40%'?>>
                             MENGETAHUI
                             <br><?= strtoupper($pamong_ketahui['pamong_jabatan'] . ' ' . $config['nama_desa']) ?>
                             <br><br><br><br>
@@ -42,15 +42,15 @@
                             <br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ketahui['pamong_nip']?>
                         </td>
                     <?php endif; ?>
-                    <td colspan="<?= $letak_ttd[2]; ?>" width=<?= $width ? '"' . (0.4 * $width) . 'mm;"' : '40%'?>>&nbsp;</td>
-                    <td width=<?= $width ? '"' . (0.2 * $width) . 'mm;"' : '20%'?> nowrap>
+                    <td colspan="<?= $letak_ttd[2]; ?>" width=<?= $width ? '"' . (0.4 * $width) . 'mm;"' : '10%'?>>&nbsp;</td>
+                    <td width=<?= $width ? '"' . (0.2 * $width) . 'mm;"' : '40%'?> nowrap>
                         <?= strtoupper($config['nama_desa'] . ', ' . tgl_indo($tgl_cetak ? date('Y m d', strtotime($tgl_cetak)) : date('Y m d'))) ?>
                         <br><?= strtoupper($pamong_ttd['pamong_jabatan'] . ' ' . $config['nama_desa']) ?>
                         <br><br><br><br>
                         <br><u><?= strtoupper($pamong_ttd['nama'] ?? $pamong_ttd['pamong_nama']) ?></u>
                         <br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ttd['pamong_nip']?>
                     </td>
-                    <td width=<?= $width ? '"' . (0.1 * $width) . 'mm;"' : '10%'?>>&nbsp;</td>
+                    <td width=<?= $width ? '"' . (0.1 * $width) . 'mm;"' : '5%'?>>&nbsp;</td>
                 </tr>
             </table>
         </div>

@@ -23,6 +23,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 18. [#7014](https://github.com/OpenSID/OpenSID/issues/7014) Perbaikan tambah/ubah teks berjalan yang di tautkan ke artikel.
 19. [#6995](https://github.com/OpenSID/OpenSID/issues/6995) Perbaikan halaman laporan aset yang dihapus.
 20. [#6939](https://github.com/OpenSID/OpenSID/issues/6939) Perbaikan impor surat tinymce non-warga.
+21. [#7012](https://github.com/OpenSID/OpenSID/issues/7012) Perbaikan penandatangan dengan nama dan jabatan yang panjang.
 
 #### Perubahan Teknis
 
