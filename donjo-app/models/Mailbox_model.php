@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\Komentar;
+use Carbon\Carbon;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Mailbox_model extends CI_Model
@@ -78,6 +81,21 @@ class Mailbox_model extends CI_Model
         $data['updated_at'] = date('Y-m-d H:i:s');
         $outp               = $this->db->insert('komentar', $data);
         status_sukses($outp);
+    }
+
+    /**
+     * Delay 60 detik
+     *
+     * @param mixed $nik
+     * @param mixed $tipe
+     * @param mixed $count
+     */
+    public function delay($nik = '', $tipe = 1)
+    {
+        return Komentar::where('email', $nik)
+            ->where('tipe', $tipe)
+            ->where('tgl_upload', '>', Carbon::now()->subSeconds(config_item('rentang_kirim_pesan')))
+            ->exists();
     }
 
     /**
