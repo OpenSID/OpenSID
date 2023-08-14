@@ -563,6 +563,10 @@ textarea {
     .btn-group-vertical {
         display: block;
     }
+
+    tbody .btn-group-vertical {
+        display: inline-block;
+    }
 }
 
 select.select2 {
