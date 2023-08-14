@@ -25,6 +25,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 20. [#6939](https://github.com/OpenSID/OpenSID/issues/6939) Perbaikan impor surat tinymce non-warga.
 21. [#7012](https://github.com/OpenSID/OpenSID/issues/7012) Perbaikan penandatangan dengan nama dan jabatan yang panjang.
 22. [#6968](https://github.com/OpenSID/OpenSID/issues/6968) Perbaikan tanggal pada lampiran F.2-01.
+23. [#6972](https://github.com/OpenSID/OpenSID/issues/6972) Perbaikan alur restore folder desa.
 
 #### Perubahan Teknis
 

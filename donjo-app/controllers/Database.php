@@ -264,7 +264,7 @@ class Database extends Admin_Controller
             return json([
                 'status'  => false,
                 'message' => 'Metode tidak ditemukan',
-            ]);
+            ], 400);
         }
 
         $user = User::when($method == 'telegram', static fn ($query) => $query->whereNotNull('telegram_verified_at'))
@@ -275,7 +275,7 @@ class Database extends Admin_Controller
             return json([
                 'status'  => false,
                 'message' => "{$method} belum terverifikasi",
-            ]);
+            ], 400);
         }
 
         try {
@@ -291,13 +291,13 @@ class Database extends Admin_Controller
 
             return json([
                 'status'  => true,
-                'message' => "OTP sudah Terkirim ke {$method}",
+                'message' => "Kode verifikasi sudah terkirim ke {$method}",
             ]);
         } catch (Exception $e) {
             return json([
                 'status'   => false,
                 'messages' => $e->getMessage(),
-            ]);
+            ], 400);
         }
     }
 
