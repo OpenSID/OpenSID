@@ -287,13 +287,13 @@
             <td class="kanan">:</td>
             <td>Tgl</td>
             <td class="kanan">:</td>
-            <?= kotak(date('dd', strtotime($input['tanggal_lahir_ayah'])), 2); ?>
+            <?= kotak(!empty($input['tanggal_lahir_ayah']) ? date('dd', strtotime($input['tanggal_lahir_ayah'])) : '', 2); ?>
             <td>Bln</td>
             <td class="kanan">:</td>
-            <?= kotak(date('mm', strtotime($input['tanggal_lahir_ayah'])), 2); ?>
+            <?= kotak(!empty($input['tanggal_lahir_ayah']) ? date('mm', strtotime($input['tanggal_lahir_ayah'])) : '', 2); ?>
             <td>Thn</td>
             <td class="kanan">:</td>
-            <?= kotak(date('Y', strtotime($input['tanggal_lahir_ayah'])), 4); ?>
+            <?= kotak(!empty($input['tanggal_lahir_ayah']) ? date('Y', strtotime($input['tanggal_lahir_ayah'])) : '', 4); ?>
         </tr>
         <tr>
             <td colspan="21">Kewarganegaraan</td>
@@ -320,13 +320,13 @@
             <td class="kanan">:</td>
             <td>Tgl</td>
             <td class="kanan">:</td>
-            <?= kotak(date('dd', strtotime($input['tanggal_lahir_ibu'])), 2); ?>
+            <?= kotak(!empty($input['tanggal_lahir_ibu']) ? date('dd', strtotime($input['tanggal_lahir_ibu'])) : '', 2); ?>
             <td>Bln</td>
             <td class="kanan">:</td>
-            <?= kotak(date('mm', strtotime($input['tanggal_lahir_ibu'])), 2); ?>
+            <?= kotak(!empty($input['tanggal_lahir_ibu']) ? date('mm', strtotime($input['tanggal_lahir_ibu'])) : '', 2); ?>
             <td>Thn</td>
             <td class="kanan">:</td>
-            <?= kotak(date('Y', strtotime($input['tanggal_lahir_ibu'])), 4); ?>
+            <?= kotak(!empty($input['tanggal_lahir_ibu']) ? date('Y', strtotime($input['tanggal_lahir_ibu'])) : '', 4); ?>
         </tr>
         <tr>
             <td colspan="21">Kewarganegaraan</td>
@@ -1099,13 +1099,13 @@
             <td class="kanan">:</td>
             <td>Tgl</td>
             <td class="kanan">:</td>
-            <?= kotak(date('dd', strtotime($input['tanggal_kematian'])), 2); ?>
+            <?= kotak(!empty($input['tanggal_kematian']) ? date('dd', strtotime($input['tanggal_kematian'])) : '', 2); ?>
             <td>Bln</td>
             <td class="kanan">:</td>
-            <?= kotak(date('mm', strtotime($input['tanggal_kematian'])), 2); ?>
+            <?= kotak(!empty($input['tanggal_kematian']) ? date('mm', strtotime($input['tanggal_kematian'])) : '', 2); ?>
             <td>Thn</td>
             <td class="kanan">:</td>
-            <?= kotak(date('Y', strtotime($input['tanggal_kematian'])), 2); ?>
+            <?= kotak(!empty($input['tanggal_kematian']) ? date('Y', strtotime($input['tanggal_kematian'])) : '', 4); ?>
         </tr>
         <tr>
             <td>4.</td>

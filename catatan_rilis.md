@@ -24,6 +24,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 19. [#6995](https://github.com/OpenSID/OpenSID/issues/6995) Perbaikan halaman laporan aset yang dihapus.
 20. [#6939](https://github.com/OpenSID/OpenSID/issues/6939) Perbaikan impor surat tinymce non-warga.
 21. [#7012](https://github.com/OpenSID/OpenSID/issues/7012) Perbaikan penandatangan dengan nama dan jabatan yang panjang.
+22. [#6968](https://github.com/OpenSID/OpenSID/issues/6968) Perbaikan tanggal pada lampiran F.2-01.
 
 #### Perubahan Teknis
 
