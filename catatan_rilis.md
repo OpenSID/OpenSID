@@ -28,7 +28,11 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 23. [#6972](https://github.com/OpenSID/OpenSID/issues/6972) Perbaikan alur restore folder desa.
 24. [#6985](https://github.com/OpenSID/OpenSID/issues/6985) Perbaikan hak akses bersihkan data peserta bantuan.
 25. [#7010](https://github.com/OpenSID/OpenSID/issues/7010) Perbaikan hapus kategori kelompok jika sudah terdaftar pada kelompok tertentu.
+
+
 #### Perubahan Teknis
+1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.
+
 
 #### Peningkatan Keamanan
 1. [#2661](https://github.com/OpenSID/premium/issues/2661) Penyesuaian konfigurasi security headers.

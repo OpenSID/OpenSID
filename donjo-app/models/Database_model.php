@@ -261,7 +261,9 @@ class Database_model extends MY_Model
     // Cek apakah migrasi perlu dijalankan
     public function cek_migrasi($install = false)
     {
-        if ($this->validasi($install) || $install) {
+        $this->load->library('pelanggan/premium', null, 'premium');
+
+        if ($this->premium->validasi_versi($install) || $install) {
             // Paksa menjalankan migrasi kalau belum
             // Migrasi direkam di tabel migrasi
             if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
@@ -3547,44 +3549,6 @@ class Database_model extends MY_Model
         $data  = $query->result_array();
 
         return array_column($data, 'TABLE_NAME');
-    }
-
-    // TODO: Sederhanakan cara ini dengan membuat library
-    protected function validasi($install = false)
-    {
-        if (PREMIUM === false || $install || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
-            return true;
-        }
-
-        if (empty($token = $this->setting->layanan_opendesa_token)) {
-            $this->session->token_kosong = true;
-
-            redirect('token');
-        }
-
-        $token        = $this->setting->layanan_opendesa_token;
-        $tokenParts   = explode('.', $token);
-        $tokenPayload = base64_decode($tokenParts[1], true);
-        $jwtPayload   = json_decode($tokenPayload);
-        $date         = new \DateTime('20' . str_replace('.', '-', currentVersion()) . '-01');
-        $version      = $date->format('Y-m-d');
-
-        $berakhir   = $jwtPayload->tanggal_berlangganan->akhir;
-        $disarankan = 'v' . str_replace('-', '', substr($berakhir, 2, 5)) . '.0.0-premium';
-
-        if ($version > $berakhir) {
-            // Versi premium setara dengan umum adalah 6 bulan setelahnya + 1 bulan untuk versi pembaharuan
-            // Misalnya 2305.0.0-premium setara dengan 2312.0.0, notifikasi tampil jika ada umum di atas 2312.0.0
-            $versi_setara = date('Y-m-d', strtotime('+7 month', strtotime($berakhir)));
-            $versi_setara = str_replace('-', '', substr($versi_setara, 2, 5)) . '.0.0';
-
-            log_message('error', 'Masa aktif berlangganan fitur premium sudah berakhir.');
-            log_message('error', "Hanya diperbolehkan menggunakan {$disarankan} (maupun versi revisinya) atau menggunakan versi rilis {$versi_setara} umum.");
-
-            return false;
-        }
-
-        return true;
     }
 
     /**

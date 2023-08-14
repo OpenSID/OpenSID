@@ -87,7 +87,7 @@ class Hom_sid extends Admin_Controller
     private function getUpdate()
     {
         if (cek_koneksi_internet() && ! config_item('demo_mode')) {
-            $url_rilis = ($this->validasi_akses() && PREMIUM) ? config_item('rilis_premium') : config_item('rilis_umum');
+            $url_rilis = ($this->premium->validasi_akses() && PREMIUM) ? config_item('rilis_premium') : config_item('rilis_umum');
 
             $release = new Release();
             $release->setApiUrl($url_rilis)->setCurrentVersion($this->versi_setara);
