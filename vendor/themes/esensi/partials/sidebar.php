@@ -22,7 +22,7 @@
             <h3 class="box-title"><?= strip_tags($widget['judul']) ?></h3>
           </div>
           <div class="box-body">
-              <?= html_entity_decode($widget['isi']) ?>
+              <?= htmlspecialchars_decode(html_entity_decode($widget['isi']), ENT_QUOTES) ?>
           </div>
       <?php endif ?>
       </div>
