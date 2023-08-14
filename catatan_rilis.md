@@ -27,7 +27,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 22. [#6968](https://github.com/OpenSID/OpenSID/issues/6968) Perbaikan lampiran F.2-01.
 23. [#6972](https://github.com/OpenSID/OpenSID/issues/6972) Perbaikan alur restore folder desa.
 24. [#6985](https://github.com/OpenSID/OpenSID/issues/6985) Perbaikan hak akses bersihkan data peserta bantuan.
-
+25. [#7010](https://github.com/OpenSID/OpenSID/issues/7010) Perbaikan hapus kategori kelompok jika sudah terdaftar pada kelompok tertentu.
 #### Perubahan Teknis
 
 #### Peningkatan Keamanan

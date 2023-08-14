@@ -142,6 +142,12 @@ class Kelompok_master_model extends MY_Model
     {
         $this->get_kelompok_master($id) ?? show_404();
 
+        if ($this->deleteJumlahNotNull($id)) {
+            session_error('tidak dapat dihapus karena masih terdapat data kelompok');
+
+            return false;
+        }
+
         $outp = $this->config_id()
             ->where('id', $id)
             ->where('tipe', $this->tipe)
@@ -169,6 +175,14 @@ class Kelompok_master_model extends MY_Model
                 'tipe' => $this->tipe,
             ])
             ->get($this->table)
+            ->row();
+    }
+
+    public function deleteJumlahNotNull($id = 0)
+    {
+        return $this->config_id()
+            ->where('id_master', $id)
+            ->get('kelompok')
             ->row();
     }
 }
