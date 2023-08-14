@@ -3,6 +3,7 @@ desa/*
 
 # Abaikan backup_inkremental
 backup_inkremental/*
+!backup_inkremental/index.html
 
 # Abaikan file
 *.log
@@ -12,7 +13,7 @@ info.php
 sftp-config.json
 .php-cs-fixer.cache
 rector.php
-.htaccess
+/.htaccess
 *.sql
 mitra
 .php-cs-fixer.php
@@ -60,5 +61,3 @@ tools/
 vendor/libreoffice/*
 vendor/mikey179/*
 
-# Struktur Laravel
-storage/framework/
