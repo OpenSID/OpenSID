@@ -39,6 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\StatusHubunganEnum;
 use App\Libraries\DateConv;
+use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
@@ -1297,5 +1298,10 @@ class Surat_model extends MY_Model
         $qrCode['viewqr'] = qrcode_generate($qrCode, true);
 
         return $qrCode;
+    }
+
+    public function get_data_mati($id = 0)
+    {
+        return LogPenduduk::where('id_pend', $id)->where('kode_peristiwa', '2')->first();
     }
 }
