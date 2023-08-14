@@ -26,6 +26,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 21. [#7012](https://github.com/OpenSID/OpenSID/issues/7012) Perbaikan penandatangan dengan nama dan jabatan yang panjang.
 22. [#6968](https://github.com/OpenSID/OpenSID/issues/6968) Perbaikan tanggal pada lampiran F.2-01.
 23. [#6972](https://github.com/OpenSID/OpenSID/issues/6972) Perbaikan alur restore folder desa.
+24. [#6985](https://github.com/OpenSID/OpenSID/issues/6985) Perbaikan hak akses bersihkan data peserta bantuan.
 
 #### Perubahan Teknis
 

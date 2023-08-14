@@ -656,6 +656,8 @@ class Program_bantuan extends Admin_Controller
     // TODO: ubah peserta menggunakan id untuk semua sasaran dan gunakan relasi database delete cascade
     public function bersihkan_data()
     {
+        $this->redirect_hak_akses('h');
+
         $invalid      = [];
         $list_sasaran = array_keys($this->referensi_model->list_ref(SASARAN));
 
@@ -678,6 +680,8 @@ class Program_bantuan extends Admin_Controller
 
     public function bersihkan_data_peserta()
     {
+        $this->redirect_hak_akses('h');
+
         $this->db
             ->where('config_id', identitas('id'))
             ->where_in('id', $this->input->post('id_cb'))
