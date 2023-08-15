@@ -180,6 +180,7 @@ class Lapak_model extends MY_Model
             'tipe_potongan'      => bilangan($post['tipe_potongan']),
             'deskripsi'          => $this->security->xss_clean($post['deskripsi']),
             'foto'               => ($foto == []) ? null : json_encode($foto),
+            'potongan'           => ($post['potongan'] == null) ? '0' : $post['potongan'],
         ];
 
         if ($post['tipe_potongan'] == 1 && ! empty($post['persen'])) {

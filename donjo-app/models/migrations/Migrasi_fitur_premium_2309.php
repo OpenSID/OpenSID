@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2309 extends MY_model
@@ -66,7 +68,9 @@ class Migrasi_fitur_premium_2309 extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_23080851($hasil);
+        $hasil = $hasil && $this->migrasi_23080851($hasil);
+
+        return $hasil && $this->migrasi_23081451($hasil);
     }
 
     protected function migrasi_23080851($hasil)
@@ -78,6 +82,15 @@ class Migrasi_fitur_premium_2309 extends MY_model
                 $hasil = $hasil && $this->db->where('config_id', null)->delete($tabel);
             }
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_23081451($hasil)
+    {
+        DB::table('produk')->whereNull('potongan')->update(['potongan' => '0']);
+
+        $this->db->query('ALTER TABLE produk MODIFY COLUMN potongan INTEGER(11) NOT NULL Default 0');
 
         return $hasil;
     }
