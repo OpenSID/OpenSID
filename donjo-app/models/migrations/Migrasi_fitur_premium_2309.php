@@ -69,8 +69,9 @@ class Migrasi_fitur_premium_2309 extends MY_model
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_23080851($hasil);
+        $hasil = $hasil && $this->migrasi_23081451($hasil);
 
-        return $hasil && $this->migrasi_23081451($hasil);
+        return $hasil && $this->migrasi_23081551($hasil);
     }
 
     protected function migrasi_23080851($hasil)
@@ -91,6 +92,19 @@ class Migrasi_fitur_premium_2309 extends MY_model
         DB::table('produk')->whereNull('potongan')->update(['potongan' => '0']);
 
         $this->db->query('ALTER TABLE produk MODIFY COLUMN potongan INTEGER(11) NOT NULL Default 0');
+
+        return $hasil;
+    }
+
+    protected function migrasi_23081551($hasil)
+    {
+        $this->db
+            ->where('key', 'rentang_waktu_kehadiran')
+            ->group_start()
+            ->where('value is null')
+            ->or_where("value = ''")
+            ->group_end()
+            ->update('setting_aplikasi', ['value' => 10]);
 
         return $hasil;
     }
