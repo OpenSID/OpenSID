@@ -30,7 +30,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 25. [#7010](https://github.com/OpenSID/OpenSID/issues/7010) Perbaikan hapus kategori kelompok jika sudah terdaftar pada kelompok tertentu.
 26. [#6911](https://github.com/OpenSID/OpenSID/issues/6911) Perbaikan tombol pada modul keluarga ukuran layar kecil.
 27. [#6977](https://github.com/OpenSID/OpenSID/issues/6977) Perbaikan data produk tidak tampil pada lapak.
-
+28. [#6989](https://github.com/OpenSID/OpenSID/issues/6989) Perbaikan detail produk jika gambar tidak tersedia pada admin.
 
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.
