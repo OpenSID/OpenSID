@@ -68,7 +68,7 @@ class UserGrup extends BaseModel
         return self::where('jenis', self::SISTEM)->pluck('id')->toArray();
     }
 
-    public function getGrupId($slug)
+    public static function getGrupId($slug)
     {
         return self::where(Schema::hasColumn('user_grup', 'slug') ? 'slug' : 'nama', $slug)->value('id');
     }
