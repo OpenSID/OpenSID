@@ -36,6 +36,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 31. [#7000](https://github.com/OpenSID/OpenSID/issues/7000) Perbaikan cetak surat layanan yang berstatus konsep.
 32. [#7030](https://github.com/OpenSID/OpenSID/issues/7030) Perbaikan tautan statistik kelas sosial.
 33. [#6988](https://github.com/OpenSID/OpenSID/issues/6988) Perbaikan urutan kepala desa dan sekretaris desa selalu diurutan pertama dan kedua.
+34. [#6975](https://github.com/OpenSID/OpenSID/issues/6975) Perbaikan gagal buka halaman periksa permmohonan surat dari layanan mandiri.
 
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.
