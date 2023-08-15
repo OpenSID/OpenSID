@@ -64,7 +64,7 @@
 																<tr>
 																	<td class="padat"><?= $nomer ?></td>
 																	<td class="aksi">
-																		<a href="<?= site_url("peserta_bantuan/detail/{$item['id']}") ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian"><i class="fa fa-list"></i></a>
+																		<a href="<?= site_url("peserta_bantuan/detail_clear/{$item['id']}") ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian"><i class="fa fa-list"></i></a>
 																		<?php if ($this->CI->cek_hak_akses('u')) : ?>
 																			<a href="<?= site_url("program_bantuan/edit/{$item['id']}") ?>" class="btn bg-orange btn-flat btn-sm <?= $openKab ?>" title="Ubah"><i class="fa fa-edit"></i></a>
 																		<?php endif ?>
@@ -79,7 +79,7 @@
 																			<?php endif ?>
 																		<?php endif ?>
 																	</td>
-																	<td><a href="<?= site_url("program_bantuan/detail_clear/{$item['id']}") ?>"><?= $item['nama'] ?></a></td>
+																	<td><?= $item['nama'] ?></td>
 																	<td class="padat"><?= $item['asaldana'] ?></td>
 																	<td class="padat"><?= $item['jml_peserta'] ?></td>
 																	<td class="padat"><?= fTampilTgl($item['sdate'], $item['edate']); ?></td>
