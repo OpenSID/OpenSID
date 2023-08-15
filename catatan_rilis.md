@@ -35,6 +35,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.
+2. [#7001](https://github.com/OpenSID/OpenSID/issues/7001) Penyesuaian tombol dan link agar tidak duplikasi pada modul suplemen.
 
 
 #### Peningkatan Keamanan
