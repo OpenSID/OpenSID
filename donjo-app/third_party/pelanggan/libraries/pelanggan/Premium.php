@@ -129,11 +129,11 @@ class Premium
         if (empty($token)) {
             if (Schema::hasColumn('config', 'app_key')) {
                 log_message('notice', 'Token pelanggan kosong');
+
                 return false;
-            } else {
-                $this->ci->session->token_kosong = true;
-                redirect('token');
             }
+            $this->ci->session->token_kosong = true;
+            redirect('token');
         }
 
         $jwtPayload = $this->decodeTokenPayload($token);
