@@ -70,6 +70,13 @@ class Pamong_model extends MY_Model
 
         $this->list_data_sql();
         $this->db
+            ->order_by(sprintf('
+                case
+                    when u.jabatan_id=%s then 1
+                    when u.jabatan_id=%s then 2
+                    else 3
+                end
+            ', kades()->id, sekdes()->id), '', false)
             ->order_by('u.urut')
             ->limit($limit, $offset);
 
