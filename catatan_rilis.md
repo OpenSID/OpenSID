@@ -1,4 +1,4 @@
-Di rilis ini, versi 2308.0.1 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2308.0.2 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
@@ -33,6 +33,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 28. [#6989](https://github.com/OpenSID/OpenSID/issues/6989) Perbaikan detail produk jika gambar tidak tersedia pada admin.
 29. [#7013](https://github.com/OpenSID/OpenSID/issues/7013) Perbaikan tombol detail peserta program bantuan.
 30. [#7020](https://github.com/OpenSID/OpenSID/issues/7020) Perbaikan tombol kunci tidak bisa digunakan jika tombol tampilkan slider aktif.
+31. [#7000](https://github.com/OpenSID/OpenSID/issues/7000) Perbaikan cetak surat layanan yang berstatus konsep.
 
 
 #### Perubahan Teknis

@@ -384,7 +384,7 @@ class Surat extends Admin_Controller
                 'tahun'           => date('Y'),
                 'no_surat'        => $cetak['input']['nomor'],
                 'keterangan'      => $cetak['keterangan'],
-                'kecamatan'       => $cetak['kecamatan'],
+                'kecamatan'       => $cetak['kecamatan'] ?? StatusSuratKecamatanEnum::TidakAktif,
             ];
 
             if ($nik = $cetak['input']['nik']) {
