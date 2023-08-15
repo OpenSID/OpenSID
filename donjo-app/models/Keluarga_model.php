@@ -1191,7 +1191,7 @@ class Keluarga_model extends MY_Model
         } else {
             switch ($tipe) {
                 case 'kelas_sosial':
-                    $tabel = 'tweb_keluarga_kelas';
+                    $tabel = 'tweb_keluarga_sejahtera';
                     break;
 
                 case 'bantuan_keluarga':
