@@ -32,6 +32,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 27. [#6977](https://github.com/OpenSID/OpenSID/issues/6977) Perbaikan data produk tidak tampil pada lapak.
 28. [#6989](https://github.com/OpenSID/OpenSID/issues/6989) Perbaikan detail produk jika gambar tidak tersedia pada admin.
 29. [#7013](https://github.com/OpenSID/OpenSID/issues/7013) Perbaikan tombol detail peserta program bantuan.
+30. [#7020](https://github.com/OpenSID/OpenSID/issues/7020) Perbaikan tombol kunci tidak bisa digunakan jika tombol tampilkan slider aktif.
+
 
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.
