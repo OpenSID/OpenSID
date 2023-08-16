@@ -35,6 +35,7 @@
  *
  */
 
+use Illuminate\Support\Facades\Schema;
 use GuzzleHttp\Exception\ClientException;
 
 defined('BASEPATH') || exit('No direct script access allowed');
