@@ -70,6 +70,7 @@ class Migrasi_fitur_premium_2309 extends MY_model
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_23080851($hasil);
         $hasil = $hasil && $this->migrasi_23081451($hasil);
+        $hasil = $hasil && $this->migrasi_23081452($hasil);
         $hasil = $hasil && $this->migrasi_23081551($hasil);
 
         return $hasil && $this->migrasi_23081651($hasil);
@@ -86,6 +87,26 @@ class Migrasi_fitur_premium_2309 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_23081452($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('pembangunan', [
+            'manfaat' => [
+                'type' => 'TEXT',
+                'null' => true,
+            ],
+
+            'keterangan' => [
+                'type' => 'TEXT',
+                'null' => true,
+            ],
+
+            'lokasi' => [
+                'type' => 'TEXT',
+                'null' => true,
+            ],
+        ]);
     }
 
     protected function migrasi_23081451($hasil)
