@@ -98,7 +98,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
             'jenis'      => 'color',
             'option'     => null,
             'attribute'  => null,
-            'kategori'   => 'hidden',
+            'kategori'   => 'openkab',
         ];
 
         return $hasil && $this->tambah_setting($setting, $id);

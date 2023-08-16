@@ -2243,7 +2243,7 @@ class Data_awal extends MY_Model
                 'jenis'      => 'color',
                 'option'     => null,
                 'attribute'  => null,
-                'kategori'   => 'hidden',
+                'kategori'   => 'openkab',
             ],
         ];
 

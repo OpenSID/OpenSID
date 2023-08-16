@@ -70,8 +70,9 @@ class Migrasi_fitur_premium_2309 extends MY_model
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_23080851($hasil);
         $hasil = $hasil && $this->migrasi_23081451($hasil);
+        $hasil = $hasil && $this->migrasi_23081551($hasil);
 
-        return $hasil && $this->migrasi_23081551($hasil);
+        return $hasil && $this->migrasi_23081651($hasil);
     }
 
     protected function migrasi_23080851($hasil)
@@ -107,5 +108,10 @@ class Migrasi_fitur_premium_2309 extends MY_model
             ->update('setting_aplikasi', ['value' => 10]);
 
         return $hasil;
+    }
+
+    protected function migrasi_23081651($hasil)
+    {
+        return $hasil && $this->db->where('key', 'warna_tema')->where('kategori !=', 'openkab')->update('setting_aplikasi', ['kategori' => 'openkab']);
     }
 }

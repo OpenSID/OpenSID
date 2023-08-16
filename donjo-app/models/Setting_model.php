@@ -176,7 +176,7 @@ class Setting_model extends MY_Model
         foreach ($data as $key => $value) {
             // Update setting yang diubah
             if ($this->setting->{$key} != $value) {
-                if (in_array($key, ['current_version', 'warna_tema'])) {
+                if (in_array($key, ['current_version', 'warna_tema', 'lock_theme'])) {
                     continue;
                 }
 

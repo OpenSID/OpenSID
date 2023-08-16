@@ -42,7 +42,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.
 2. [#7001](https://github.com/OpenSID/OpenSID/issues/7001) Penyesuaian tombol dan link agar tidak duplikasi pada modul suplemen.
 3. [#6976](https://github.com/OpenSID/OpenSID/issues/6976) Perbaikan data rentang waktu yang terisi kosong.
-
+4. [#2752](https://github.com/OpenSID/premium/issues/2752) Penyesuaian kategori openkab untuk pengaturan aplikasi database gabungan.
 
 #### Peningkatan Keamanan
 1. [#2661](https://github.com/OpenSID/premium/issues/2661) Penyesuaian konfigurasi security headers.
