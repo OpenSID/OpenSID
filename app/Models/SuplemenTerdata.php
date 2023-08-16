@@ -41,7 +41,7 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Suplemen extends BaseModel
+class SuplemenTerdata extends BaseModel
 {
     use ConfigId;
 
@@ -50,34 +50,29 @@ class Suplemen extends BaseModel
      *
      * @var string
      */
-    protected $table = 'suplemen';
+    protected $table = 'suplemen_terdata';
 
     /**
-     * The timestamps for the model.
+     * The guarded with the model.
      *
-     * @var bool
+     * @var array
      */
-    public $timestamps = false;
+    protected $guarded = [];
 
     /**
-     * The attributes that are mass assignable.
+     * The relations to eager load on every query.
      *
-     * @var array<int, string>
+     * @var array
      */
-    protected $fillable = [
-        'nama',
-        'slug',
-        'sasaran',
-        'keterangan',
-    ];
+    protected $with = ['suplemen, penduduk'];
 
-    /**
-     * Define a one-to-many relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function terdata()
+    public function suplemen()
     {
-        return $this->hasMany(SuplemenTerdata::class, 'id_suplemen');
+        return $this->belongsTo(Suplemen::class, 'id_suplemen');
+    }
+
+    public function penduduk()
+    {
+        return $this->belongsTo(Penduduk::class, 'id_terdata');
     }
 }

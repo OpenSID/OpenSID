@@ -118,6 +118,8 @@ $(document).ready(function()
 				return {
 					q: params.term || '',
 					page: params.page || 1,
+					suplemen: $(this).data('suplemen'),
+					sasaran: $(this).data('sasaran'),
 				};
 			},
 			cache: true

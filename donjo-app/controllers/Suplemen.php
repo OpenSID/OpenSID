@@ -36,6 +36,7 @@
  */
 
 use App\Models\Penduduk;
+use App\Models\SuplemenTerdata;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -226,30 +227,86 @@ class Suplemen extends Admin_Controller
     public function apipenduduksuplemen()
     {
         if ($this->input->is_ajax_request()) {
-            $cari = $this->input->get('q');
+            $cari     = $this->input->get('q');
+            $suplemen = $this->input->get('suplemen');
+            $sasaran  = $this->input->get('sasaran');
+            $terdata  = SuplemenTerdata::where('id_suplemen', $suplemen)->pluck('id_terdata');
 
-            $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'kk_level'])
-                ->when($cari, static function ($query) use ($cari) {
-                    $query->orWhere('nik', 'like', "%{$cari}%")
-                        ->orWhere('nama', 'like', "%{$cari}%");
-                })
-                ->paginate(10);
+            switch ($sasaran) {
+                case 1:
+                    $this->get_pilihan_penduduk($cari, $terdata);
+                    break;
 
-            return json([
-                'results' => collect($penduduk->items())
-                    ->map(static function ($item) {
-                        return [
-                            'id'   => $item->id,
-                            'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
-                        ];
-                    }),
-                'pagination' => [
-                    'more' => $penduduk->currentPage() < $penduduk->lastPage(),
-                ],
-            ]);
+                case 2:
+                    $this->get_pilihan_kk($cari, $terdata);
+                    break;
+
+                default:
+            }
         }
 
         return show_404();
+    }
+
+    private function get_pilihan_penduduk($cari, $terdata)
+    {
+        $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'kk_level'])
+            ->when($cari, static function ($query) use ($cari) {
+                $query->orWhere('nik', 'like', "%{$cari}%")
+                    ->orWhere('nama', 'like', "%{$cari}%");
+            })
+            ->whereNotIn('id', $terdata)
+            ->paginate(10);
+
+        return json([
+            'results' => collect($penduduk->items())
+                ->map(static function ($item) {
+                    return [
+                        'id'   => $item->id,
+                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    ];
+                }),
+            'pagination' => [
+                'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+            ],
+        ]);
+    }
+
+    private function get_pilihan_kk($cari, $terdata)
+    {
+        $penduduk = Penduduk::with('pendudukHubungan')
+            ->select(['tweb_penduduk.id', 'tweb_penduduk.nik', 'keluarga_aktif.no_kk', 'tweb_penduduk.kk_level', 'tweb_penduduk.nama', 'tweb_penduduk.id_cluster'])
+            ->leftJoin('tweb_penduduk_hubungan', static function ($join) {
+                $join->on('tweb_penduduk.kk_level', '=', 'tweb_penduduk_hubungan.id');
+            })
+            ->leftJoin('keluarga_aktif', static function ($join) {
+                $join->on('tweb_penduduk.id_kk', '=', 'keluarga_aktif.id');
+            })
+            ->when($cari, static function ($query) use ($cari) {
+                $query->where(static function ($q) use ($cari) {
+                    $q->where('tweb_penduduk.nik', 'like', "%{$cari}%")
+                        ->orWhere('keluarga_aktif.no_kk', 'like', "%{$cari}%")
+                        ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
+                });
+            })
+            ->whereIn('tweb_penduduk.kk_level', ['1'])
+            // ->whereIn('tweb_penduduk.kk_level', ['1', '2', '3', '4'])
+            ->whereNotIn('tweb_penduduk.id_kk', $terdata)
+            ->orderBy('tweb_penduduk.id_kk')
+            ->paginate(10);
+
+        return json([
+            'results' => collect($penduduk->items())
+                ->map(static function ($item) {
+                    return [
+                        'id'   => $item->id,
+                        'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    ];
+                }),
+            'pagination' => [
+                'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+            ],
+        ]);
     }
 
     public function terdata($sasaran = 0, $id = 0)

@@ -111,7 +111,7 @@ class Suplemen_model extends MY_Model
             ->result_array();
     }
 
-    public function list_sasaran($id, $sasaran, $data = true)
+    public function list_sasaran($id, $sasaran, $terdata = true)
     {
         $data = [];
 
@@ -119,13 +119,13 @@ class Suplemen_model extends MY_Model
             // Sasaran Penduduk
             case '1':
                 $data['judul'] = 'NIK / Nama Penduduk';
-                $data['data']  = $data ? $this->list_penduduk($id) : null;
+                $data['data']  = $terdata ? $this->list_penduduk($id) : null;
                 break;
 
                 // Sasaran Keluarga
             case '2':
                 $data['judul'] = 'No.KK / Nama Kepala Keluarga';
-                $data['data']  = $data ? $this->list_kk($id) : null;
+                $data['data']  = $terdata ? $this->list_kk($id) : null;
 
                 // no break
             default:
@@ -407,49 +407,57 @@ class Suplemen_model extends MY_Model
     }
 
     // Mengambil data individu terdata
-    public function get_terdata($id_terdata, $sasaran)
+    public function get_terdata($id_terdata, $sasaran, $terdata = false)
     {
         $this->load->model('surat_model');
 
         switch ($sasaran) {
             // Sasaran Penduduk
             case 1:
-                $sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.id_kk AS id_kk,
-                u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
-                (select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
-                from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-                w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
-                (select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
-                from tweb_penduduk u
-                left join tweb_penduduk_sex x on u.sex = x.id
-                left join tweb_penduduk_kawin w on u.status_kawin = w.id
-                left join tweb_penduduk_agama a on u.agama_id = a.id
-                left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
-                left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
-                left join tweb_wil_clusterdesa c on u.id_cluster = c.id
-                left join tweb_keluarga k on u.id_kk = k.id
-                left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
-                WHERE u.id = ? and u.config_id = {$this->config_id}";
-                $query                  = $this->db->query($sql, $id_terdata);
-                $data                   = $query->row_array();
-                $data['terdata_info']   = $data['nik'];
-                $data['terdata_plus']   = $data['no_kk'];
-                $data['terdata_nama']   = $data['nama'];
-                $data['alamat_wilayah'] = $this->surat_model->get_alamat_wilayah($data);
+                $data = $this->get_penduduk($id_terdata);
                 break;
 
                 // Sasaran Keluarga
             case 2:
-                $data                 = $this->keluarga_model->get_kepala_kk($id_terdata);
-                $data['terdata_info'] = $data['nik'];
-                $data['terdata_plus'] = $data['no_kk'];
-                $data['terdata_nama'] = $data['nama'];
-                $data['id']           = $data['id_kk']; // id_kk digunakan sebagai id terdata
+                $pend       = $this->get_penduduk($id_terdata);
+                $id_kk      = $terdata ? $id_terdata : $pend['id_kk'];
+                $data       = $this->keluarga_model->get_kepala_kk($id_kk);
+                $data['id'] = $data['id_kk']; // id_kk digunakan sebagai id terdata
                 break;
 
             default:
                 break;
         }
+
+        return $data;
+    }
+
+    //Ambil data yg dibutuhkan saja, ambil dr tabel penduduk_hidup
+    public function get_penduduk($id_terdata)
+    {
+        $sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.id_kk AS id_kk,
+        u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
+        (select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
+        from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
+        w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
+        (select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
+        from tweb_penduduk u
+        left join tweb_penduduk_sex x on u.sex = x.id
+        left join tweb_penduduk_kawin w on u.status_kawin = w.id
+        left join tweb_penduduk_agama a on u.agama_id = a.id
+        left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
+        left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
+        left join tweb_wil_clusterdesa c on u.id_cluster = c.id
+        left join tweb_keluarga k on u.id_kk = k.id
+        left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
+        WHERE u.id = ? and u.config_id = {$this->config_id}";
+        $query = $this->db->query($sql, $id_terdata);
+        $data  = $query->row_array();
+
+        $data['terdata_info']   = $data['nik'];
+        $data['terdata_plus']   = $data['no_kk'];
+        $data['terdata_nama']   = $data['nama'];
+        $data['alamat_wilayah'] = $this->surat_model->get_alamat_wilayah($data);
 
         return $data;
     }
@@ -525,7 +533,7 @@ class Suplemen_model extends MY_Model
     {
         $data = $this->config_id()->where('id', $id)->get('suplemen_terdata')->row_array();
         // Data tambahan untuk ditampilkan
-        $terdata = $this->get_terdata($data['id_terdata'], $data['sasaran']);
+        $terdata = $this->get_terdata($data['id_terdata'], $data['sasaran'], true);
 
         switch ($data['sasaran']) {
             case 1:

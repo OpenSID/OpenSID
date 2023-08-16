@@ -39,6 +39,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 34. [#6975](https://github.com/OpenSID/OpenSID/issues/6975) Perbaikan gagal buka halaman periksa permmohonan surat dari layanan mandiri.
 35. [#6982](https://github.com/OpenSID/OpenSID/issues/6982) Perbaikan autocomplete pencarian penduduk tidak sesuai.
 36. [#6986](https://github.com/OpenSID/OpenSID/issues/6986) Perbaikan input data manfaat, keterangan dan lokasi pembangunan lebih dari 100 karakter.
+37. [#7032](https://github.com/OpenSID/OpenSID/issues/7032) Perbaikan daftar penduduk/keluarga pada tambah warga terdata pada suplemen.
 
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.
