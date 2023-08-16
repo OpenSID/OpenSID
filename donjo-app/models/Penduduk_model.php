@@ -53,9 +53,9 @@ class Penduduk_model extends MY_Model
         $this->penolong_kelahiran = array_flip(unserialize(PENOLONG_KELAHIRAN));
     }
 
-    public function autocomplete($cari = '')
+    public function autocomplete($cari = '', $where = '')
     {
-        return $this->autocomplete_str('nama', 'tweb_penduduk', $cari);
+        return $this->autocomplete_str('nama', 'tweb_penduduk', $cari, $where);
     }
 
     protected function search_sql()

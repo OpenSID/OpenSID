@@ -76,10 +76,14 @@ class MY_Model extends CI_Model
         $this->config_id = Config::appKey()->first()->id;
     }
 
-    public function autocomplete_str($kolom, $tabel, $cari = '')
+    public function autocomplete_str($kolom, $tabel, $cari = '', $where = '')
     {
         if ($cari) {
             $this->db->like($kolom, $cari);
+        }
+
+        if ($where) {
+            $this->db->where($where);
         }
 
         $data = $this->config_id_exist($tabel)
