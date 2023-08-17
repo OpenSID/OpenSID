@@ -490,7 +490,29 @@
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['golongan_darah_id'] ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['agama_id'] ?></td>
                     <td class="tengah <?= $class ?>">-</td>
-                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['status_kawin_id'] ?></td>
+                    <td class="tengah <?= $class ?>"><?php switch (ucwords(strtolower($anggota[$i]['status_kawin']))) {
+                        case 'Belum Kawin':
+                            $status = 1;
+                            break;
+                        case 'Kawin Tercatat':
+                            $status = 2;
+                            break;
+                        case 'Kawin Belum Tercatat':
+                            $status = 3;
+                            break;
+                        case 'AB-Cerai Hidup Tercatat' || 'Cerai Hidup':
+                            $status = 4;
+                            break;
+                        case 'Cerai Hidup Belum Tercatat':
+                            $status = 5;
+                            break;
+                        case 'Cerai Mati':
+                            $status = 6;
+                            break;
+                        default:
+                            $status = '-';
+                            break;
+                    } ?><?= $status ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['akta_perkawinan'] ? '2' : '1' ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['akta_perkawinan'] ?: '-' ?></td>
                     <td class="tengah <?= $class ?>"><?= tgl_indo_out($anggota[$i]['tanggalperkawinan']) ?: '' ?></td>
