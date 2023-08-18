@@ -9,3 +9,5 @@ Disallow: /securimage/*
 Disallow: /storage/*
 Disallow: /template-surat/*
 Disallow: /vendor/*
+
+Allow: /desa/logo/favicon.ico
