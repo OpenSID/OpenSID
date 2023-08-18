@@ -53,9 +53,10 @@ class Migrasi_fitur_premium_2302 extends MY_model
         $hasil = $hasil && $this->migrasi_2023010171($hasil);
         $hasil = $hasil && $this->migrasi_2023010452($hasil);
         $hasil = $hasil && $this->migrasi_2023012451($hasil);
+        $hasil = $hasil && $this->migrasi_2023012571($hasil);
         $hasil = $hasil && $this->migrasi_2023012751($hasil);
         $hasil = $hasil && $this->migrasi_2023013051($hasil);
-        $hasil = $hasil && $this->migrasi_2023013052($hasil);
+        $hasil = $hasil && $this->migrasi_2023013152($hasil);
 
         return $hasil && true;
     }
@@ -206,6 +207,22 @@ class Migrasi_fitur_premium_2302 extends MY_model
         return $hasil;
     }
 
+    public function migrasi_2023012571($hasil)
+    {
+        if (! $this->db->field_exists('nomor_operator', 'config')) {
+            $hasil = $this->dbforge->add_column('config', [
+                'nomor_operator' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 20,
+                    'null'       => true,
+                    'after'      => 'telepon',
+                ],
+            ]);
+        }
+
+        return $hasil;
+    }
+
     protected function migrasi_2023012751($hasil)
     {
         return $hasil && $this->tambah_modul([
@@ -264,7 +281,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2023013052($hasil)
+    protected function migrasi_2023013152($hasil)
     {
         // Hapus unsigned pada kolom id di tabel ref_pindah
         if (! $this->cek_indeks('log_penduduk', 'id_ref_pindah')) {

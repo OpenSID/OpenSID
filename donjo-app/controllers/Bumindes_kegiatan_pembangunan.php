@@ -46,7 +46,7 @@ class Bumindes_kegiatan_pembangunan extends Bumindes_rencana_pembangunan
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 301;
-        $this->sub_modul_ini = 305;
+        $this->modul_ini     = 'buku-administrasi-desa';
+        $this->sub_modul_ini = 'administrasi-pembangunan';
     }
 }

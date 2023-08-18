@@ -134,5 +134,7 @@
 	$(document).ready(function() {
 		pilih_persentase(<?= in_array($main->persentase, $persentase) ? 1 : 2 ?>);
 		show_hide_anggaran(`<?= $main->persentase ?>`);
+        $("#manual").hide();
+        $("#pilih").show();
 	});
 </script>

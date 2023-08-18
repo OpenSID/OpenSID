@@ -47,8 +47,8 @@ class Kelompok extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['kelompok_model', 'pamong_model']);
-        $this->modul_ini     = 2;
-        $this->sub_modul_ini = 24;
+        $this->modul_ini     = 'kependudukan';
+        $this->sub_modul_ini = 'kelompok';
         $this->_set_page     = ['20', '50', '100'];
         $this->_list_session = ['cari', 'filter', 'penerima_bantuan', 'sex', 'status_dasar'];
         $this->kelompok_model->set_tipe($this->tipe);

@@ -35,23 +35,35 @@
  *
  */
 
+use App\Enums\JenisKelaminEnum;
 use App\Models\BukuKepuasan;
 use App\Models\BukuTamu;
 use Carbon\Carbon;
+use OpenSpout\Common\Entity\Style\Border;
+use OpenSpout\Common\Entity\Style\Color;
+use OpenSpout\Writer\Common\Creator\Style\BorderBuilder;
+use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Buku_tamu extends Anjungan_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 354;
-        $this->sub_modul_ini = 355;
+        $this->modul_ini     = 'buku-tamu';
+        $this->sub_modul_ini = 'data-tamu';
     }
 
     public function index()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(BukuTamu::query()->with('jk', 'bidang', 'keperluan'))
+            $filters = [
+                'tanggal' => $this->input->get('tanggal'),
+            ];
+
+            return datatables()->of(BukuTamu::query()
+                ->with('jk', 'bidang', 'keperluan')
+                ->filters($filters))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -89,10 +101,74 @@ class Buku_tamu extends Anjungan_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function cetak()
+    public function cetak($tanggal = null)
     {
         return view('admin.buku_tamu.tamu.cetak', [
-            'data_tamu' => BukuTamu::latest()->get(),
+            'data_tamu' => $this->data($this->input->get('tanggal')),
         ]);
+    }
+
+    private function data($tanggal = null)
+    {
+        $filters = [
+            'tanggal' => $tanggal,
+        ];
+
+        return BukuTamu::with(['keperluan'])
+            ->filters($filters)
+            ->latest()
+            ->get();
+    }
+
+    public function ekspor()
+    {
+        $tanggal = $this->input->get('tanggal');
+        $writer  = WriterEntityFactory::createXLSXWriter();
+        $writer->openToBrowser(namafile('Buku Tamu') . '.xlsx');
+        $sheet = $writer->getCurrentSheet();
+        $sheet->setName('Data Tamu');
+
+        // Deklarasi Style
+        $border = (new BorderBuilder())
+            ->setBorderTop(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+            ->setBorderBottom(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+            ->setBorderRight(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+            ->setBorderLeft(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+            ->build();
+
+        $borderStyle = (new StyleBuilder())
+            ->setBorder($border)
+            ->build();
+
+        $yellowBackgroundStyle = (new StyleBuilder())
+            ->setBackgroundColor(Color::YELLOW)
+            ->setFontBold()
+            ->setBorder($border)
+            ->build();
+
+        // Cetak Header Tabel
+        $values        = ['NO', 'HARI / TANGGAL', 'NAMA', 'TELEPON', 'INSTANSI', 'JENIS KELAMIN', 'ALAMAT', 'KEPERLUAN'];
+        $rowFromValues = WriterEntityFactory::createRowFromArray($values, $yellowBackgroundStyle);
+        $writer->addRow($rowFromValues);
+
+        // Cetak Data
+        foreach ($this->data($tanggal) as $no => $data) {
+            $cells = [
+                WriterEntityFactory::createCell($no + 1),
+                WriterEntityFactory::createCell(Carbon::parse($data->created_at)->dayName . ' / ' . tgl_indo($data->created_at) . ' - ' . Carbon::parse($data->created_at)->format('H:i:s')),
+                WriterEntityFactory::createCell($data->nama),
+                WriterEntityFactory::createCell($data->telepon),
+                WriterEntityFactory::createCell($data->instansi),
+                WriterEntityFactory::createCell(JenisKelaminEnum::all()[$data->jenis_kelamin]),
+                WriterEntityFactory::createCell($data->alamat),
+                WriterEntityFactory::createCell($data->keperluan->keperluan),
+            ];
+
+            $singleRow = WriterEntityFactory::createRow($cells);
+            $singleRow->setStyle($borderStyle);
+            $writer->addRow($singleRow);
+        }
+
+        $writer->close();
     }
 }

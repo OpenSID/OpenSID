@@ -1855,6 +1855,8 @@ class DTKSRegsosEk2022k
                     'target_table'    => $item[0],
                     'target_field'    => $item[1],
                     'id_bantuan'      => $request[$form_input_name],
+                    'created_at'      => Carbon::now(),
+                    'updated_at'      => Carbon::now(),
                 ];
             } elseif ($request[$form_input_name] != '' && ! $pengaturan_program && (substr($key, -(strlen('default'))) === 'default')) {
                 $to_be_inserted[] = [
@@ -1863,6 +1865,8 @@ class DTKSRegsosEk2022k
                     'target_table'    => $item[0],
                     'target_field'    => $item[1],
                     'nilai_default'   => $request[$form_input_name],
+                    'created_at'      => Carbon::now(),
+                    'updated_at'      => Carbon::now(),
                 ];
             }
         }
@@ -2047,7 +2051,7 @@ class DTKSRegsosEk2022k
     {
         $pengaturan_programs = DtksPengaturanProgram::where('versi_kuisioner', '2')
             ->where('target_table', 'dtks_anggota');
-        // ->get()
+            // ->get()
         $pengaturan_programs = $this->cacheTemporaryModelGet($pengaturan_programs);
 
         if ($pengaturan_programs->count() > 0) {

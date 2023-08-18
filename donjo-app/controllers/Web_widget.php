@@ -54,8 +54,8 @@ class Web_widget extends Admin_Controller
         }
 
         $this->load->model(['web_widget_model']);
-        $this->modul_ini     = 13;
-        $this->sub_modul_ini = 48;
+        $this->modul_ini     = 'admin-web';
+        $this->sub_modul_ini = 'widget';
         $this->set_page      = ['20', '50', '100'];
         $this->list_session  = ['cari', 'filter'];
     }

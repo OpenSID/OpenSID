@@ -11,7 +11,7 @@
                         <label for="penandatangan_pdf">Kepala Desa</label>
                         <select name="kades" id="kades" class="form-control input-sm select2">
                             <?php foreach ($kades as $data) : ?>
-                                <option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['pamong_jabatan']) ?>" <?= selected($data['jabatan_id'], 1) ?>>
+                                <option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['pamong_jabatan']) ?>" <?= selected($data['jabatan_id'], kades()->id) ?>>
                                     <?= $data['pamong_nama'] ?> (<?= $data['pamong_jabatan'] ?>)
                                 </option>
                             <?php endforeach; ?>
@@ -22,7 +22,7 @@
                         <label for="penandatangan_pdf">Sekretaris Desa</label>
                         <select name="sekdes" id="sekdes" class="form-control input-sm select2">
                             <?php foreach ($sekdes as $data) : ?>
-                                <option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['pamong_jabatan']) ?>" <?= selected($data['jabatan_id'], 2) ?>>
+                                <option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['pamong_jabatan']) ?>" <?= selected($data['jabatan_id'], sekdes()->id) ?>>
                                     <?= $data['pamong_nama'] ?> (<?= $data['pamong_jabatan'] ?>)
                                 </option>
                             <?php endforeach; ?>

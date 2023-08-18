@@ -56,8 +56,8 @@ class Stunting extends Admin_Controller
         parent::__construct();
         $this->load->library('rekap');
         $this->load->helper('tglindo_helper');
-        $this->modul_ini     = 206;
-        $this->sub_modul_ini = 346;
+        $this->modul_ini     = 'kesehatan';
+        $this->sub_modul_ini = 'stunting';
     }
 
     public function index()

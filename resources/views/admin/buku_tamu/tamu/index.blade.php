@@ -16,15 +16,27 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         <div class="box-header with-border">
-            @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data"
-                    onclick="deleteAllBox('mainform', '{{ route('buku_tamu.delete') }}')"
-                    class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                        class='fa fa-trash-o'></i> Hapus</a>
-            @endif
-            <a href="{{ route('buku_tamu.cetak') }}" target="_blank" title="Cetak Data"
-                class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                    class='fa fa-print'></i> Cetak</a>
+            <div class="form-inline">
+                @if (can('h'))
+                    <a href="#confirm-delete" title="Hapus Data"
+                        onclick="deleteAllBox('mainform', '{{ route('buku_tamu.delete') }}')"
+                        class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                            class='fa fa-trash-o'></i> Hapus</a>
+                @endif
+                <div class="input-group input-group-sm date">
+                    <div class="input-group-addon" style="border-radius: 5px 0 0 5px">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" name="tanggal" class="form-control input-sm" title="Rentang Tanggal"
+                        placeholder="Masukaan Rentang Tanggal" id="date-range" style="border-radius: 0 5px 5px 0">
+                </div>
+                <a id="cetak" title="Cetak Data"
+                    class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <i class='fa fa-print'></i> Cetak</a>
+                <a id="expor" title="Expor Data"
+                    class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <i class='fa fa-file'></i> Expor</a>
+            </div>
         </div>
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
         <div class="box-body">
@@ -53,15 +65,38 @@
     </div>
 
     @include('admin.layouts.components.konfirmasi_hapus')
+    @include('admin.layouts.components.datetime_picker')
 @endsection
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('#cetak, #expor').on('click', function() {
+                let url = $(this).attr('id') == 'cetak' ?
+                    "{{ route('buku_tamu.cetak') }}/" :
+                    "{{ route('buku_tamu.ekspor') }}/";
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    data: {
+                        tanggal: $('#date-range').val(),
+                    },
+                    success: function(data) {
+                        window.open(this.url, '_blank');
+                    },
+                })
+            });
+
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('buku_tamu') }}",
+                ajax: {
+                    url: "{{ route('buku_tamu') }}",
+                    data: function(req) {
+                        req.tanggal = $('#date-range').val();
+                    },
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',
@@ -147,6 +182,17 @@
             if (ubah == 0) {
                 TableData.column(2).visible(false);
             }
+
+            $('input[name="tanggal"]').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format(
+                    'YYYY-MM-DD'));
+                TableData.ajax.reload();
+            });
+
+            $('input[name="tanggal"]').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+                TableData.ajax.reload();
+            });
         });
     </script>
 @endpush

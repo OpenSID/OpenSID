@@ -44,8 +44,8 @@ class Kehadiran_keluar extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 337;
-        $this->sub_modul_ini      = 350;
+        $this->modul_ini          = 'kehadiran';
+        $this->sub_modul_ini      = 'alasan-keluar';
         $this->header['kategori'] = 'kehadiran';
     }
 

@@ -48,9 +48,10 @@ class Cdesa extends Admin_Controller
         $this->load->model('data_persil_model');
         $this->load->model('cdesa_model');
         $this->load->model('wilayah_model');
-        $this->modul_ini    = 7;
-        $this->set_page     = ['20', '50', '100'];
-        $this->list_session = ['cari'];
+        $this->modul_ini     = 'pertanahan';
+        $this->sub_modul_ini = 'c-desa';
+        $this->set_page      = ['20', '50', '100'];
+        $this->list_session  = ['cari'];
     }
 
     public function clear()

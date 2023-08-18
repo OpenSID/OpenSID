@@ -14,6 +14,50 @@
     <script src="{{ asset('js/validasi.js') }}"></script>
     <script>
         $('document').ready(function() {
+            $('.reveal-lama').on('click', function() {
+                var $pwd = $("#password-lama");
+                if ($pwd.attr('type') === 'password') {
+                    $pwd.attr('type', 'text');
+
+                    $(".reveal-lama i").removeClass("fa-eye-slash");
+                    $(".reveal-lama i").addClass("fa-eye");
+                } else {
+                    $pwd.attr('type', 'password');
+
+                    $(".reveal-lama i").addClass("fa-eye-slash");
+                    $(".reveal-lama i").removeClass("fa-eye");
+                }
+            });
+
+            $('.reveal-baru').on('click', function() {
+                var $pwd = $("#password-baru");
+                if ($pwd.attr('type') === 'password') {
+                    $pwd.attr('type', 'text');
+
+                    $(".reveal-baru i").removeClass("fa-eye-slash");
+                    $(".reveal-baru i").addClass("fa-eye");
+                } else {
+                    $pwd.attr('type', 'password');
+
+                    $(".reveal-baru i").addClass("fa-eye-slash");
+                    $(".reveal-baru i").removeClass("fa-eye");
+                }
+            });
+
+            $('.reveal-ulangi').on('click', function() {
+                var $pwd = $("#password-ulangi");
+                if ($pwd.attr('type') === 'password') {
+                    $pwd.attr('type', 'text');
+
+                    $(".reveal-ulangi i").removeClass("fa-eye-slash");
+                    $(".reveal-ulangi i").addClass("fa-eye");
+                } else {
+                    $pwd.attr('type', 'password');
+
+                    $(".reveal-ulangi i").addClass("fa-eye-slash");
+                    $(".reveal-ulangi i").removeClass("fa-eye");
+                }
+            });
 
             $("#validate_user").validate();
 

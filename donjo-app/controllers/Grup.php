@@ -44,8 +44,8 @@ class Grup extends Admin_Controller
         parent::__construct();
 
         $this->load->model('grup_model');
-        $this->modul_ini     = 11;
-        $this->sub_modul_ini = 44;
+        $this->modul_ini     = 'pengaturan';
+        $this->sub_modul_ini = 'pengguna';
         $this->set_page      = ['20', '50', '100'];
         $this->list_session  = ['jenis', 'cari'];
     }

@@ -44,7 +44,7 @@ class Kontak extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 10;
+        $this->modul_ini          = 'hubung-warga';
         $this->sub_modul_ini      = 40;
         $this->header['kategori'] = 'hubung warga';
     }

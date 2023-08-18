@@ -37,6 +37,8 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pamong extends BaseModel
@@ -103,7 +105,7 @@ class Pamong extends BaseModel
 
     public function scopeSelectData($query)
     {
-        $new_query = $query->select(['pamong_id', 'pamong_nama', 'jabatan_id', 'ref_jabatan.nama AS pamong_jabatan', 'pamong_nip', 'pamong_niap', 'pamong_ttd', 'pamong_ub', 'pamong_status', 'pamong_nik'])
+        $new_query = $query->select(['pamong_id', 'pamong_nama', 'jabatan_id', 'ref_jabatan.nama AS pamong_jabatan', 'ref_jabatan.jenis', 'pamong_nip', 'pamong_niap', 'pamong_ttd', 'pamong_ub', 'pamong_status', 'pamong_nik'])
             ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nama, tweb_penduduk.nama) AS pamong_nama')
             ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nik, tweb_penduduk.nik) AS pamong_nik')
             ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
@@ -140,8 +142,8 @@ class Pamong extends BaseModel
     public function scopeKepalaDesa($query)
     {
         return $this->scopeSelectData($query)
-            ->where('jabatan_id', 1)
-            ->where('pamong_status', 1);
+            ->where('jabatan_id', kades()->id)
+            ->where('pamong_status', StatusEnum::YA);
     }
 
     /**
@@ -155,7 +157,8 @@ class Pamong extends BaseModel
     public function scopeSekretarisDesa($query)
     {
         return $this->scopeSelectData($query)
-            ->where('jabatan_id', 2)->where('pamong_status', 1);
+            ->where('jabatan_id', sekdes()->id)
+            ->where('pamong_status', StatusEnum::YA);
     }
 
     /**
@@ -174,13 +177,13 @@ class Pamong extends BaseModel
     public function scopeTtd($query, $jenis = null)
     {
         if ($jenis === 'a.n') {
-            $query->where('pamong_ttd', 1)->where('jabatan_id', 2);
+            $query->where('pamong_ttd', 1)->where('jabatan_id', sekdes()->id);
         } elseif ($jenis === 'u.b') {
-            $query->where('pamong_ub', 1)->whereNotIn('jabatan_id', RefJabatan::EXCLUDE_DELETE);
+            $query->where('pamong_ub', 1)->whereNotIn('jabatan_id', RefJabatan::getKadesSekdes());
         }
 
         return $this->scopeSelectData($query)
-            ->where('pamong_status', 1);
+            ->where('pamong_status', StatusEnum::YA);
     }
 
     /**
@@ -195,12 +198,12 @@ class Pamong extends BaseModel
     {
         return $this->scopeSelectData($query)
             ->where(static function ($query) {
-                $query->whereIn('jabatan_id', RefJabatan::EXCLUDE_DELETE)
+                $query->whereIn('jabatan_id', RefJabatan::getKadesSekdes())
                     ->orWhere('pamong_ttd', '1')
                     ->orWhere('pamong_ub', '1');
             })
-            ->where('pamong_status', 1)
-            ->orderBy('jabatan_id')
+            ->where('pamong_status', StatusEnum::YA)
+            ->orderBy('jenis')
             ->orderBy('urut');
     }
 
@@ -221,7 +224,7 @@ class Pamong extends BaseModel
      */
     public function scopeDaftar($query, $value = 1)
     {
-        return $query->where('pamong_status', 1)
+        return $query->where('pamong_status', StatusEnum::YA)
             ->where('kehadiran', $value);
     }
 

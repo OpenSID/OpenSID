@@ -430,7 +430,7 @@ class Keluarga_model extends MY_Model
             unset($data['foto']);
         }
 
-        unset($data['file_foto'], $data['old_foto'], $data['nik_lama'], $data['kk_level_lama'], $data['dusun'], $data['rw'], $data['no_kk']);
+        unset($data['file_foto'], $data['old_foto'], $data['nik_lama'], $data['dusun'], $data['rw'], $data['no_kk']);
 
         $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
         unset($data['maksud_tujuan_kedatangan']);
@@ -619,11 +619,11 @@ class Keluarga_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update_kk_level($id, $id_kk, $kk_level, $kk_level_lama)
+    public function update_kk_level($id, $id_kk, $kk_level)
     {
         $outp              = true;
         $nik['updated_by'] = $this->session->user;
-        if ($kk_level == 1 && $kk_level_lama != 1) {
+        if ($kk_level == 1) {
             // Kalau ada penduduk lain yg juga Kepala Keluarga, ubah menjadi hubungan Lainnya
             $lvl['kk_level']   = 11;
             $lvl['updated_at'] = date('Y-m-d H:i:s');
@@ -635,7 +635,7 @@ class Keluarga_model extends MY_Model
             $nik['nik_kepala'] = $id;
             $this->db->where('id', $id_kk);
             $outp = $this->db->update('tweb_keluarga', $nik);
-        } elseif ($kk_level_lama == 1 && $kk_level != 1) {
+        } elseif ($kk_level != 1) {
             // Ubah kepala keluarga menjadi kosong
             $nik['nik_kepala'] = null;
             $this->db->where('id', $id_kk);
@@ -653,8 +653,7 @@ class Keluarga_model extends MY_Model
         $query = $this->db->query($sql, $id);
         $pend  = $query->row_array();
 
-        $this->update_kk_level($id, $pend['id_kk'], $data['kk_level'], $data['kk_level_lama']);
-        unset($data['kk_level_lama']);
+        $this->update_kk_level($id, $pend['id_kk'], $data['kk_level']);
 
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $this->session->user;

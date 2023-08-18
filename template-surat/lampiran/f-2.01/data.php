@@ -37,16 +37,6 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-// View untuk Permohonan Akta Kelahiran
-$tampil_data_orangtua  = true;
-$tampil_data_anak      = true;
-$tampil_data_pelapor   = true;
-$tampil_data_saksi     = true;
-$tampil_data_orang_tua = true;
-
-// Pilih model yang digunakan untuk menampilkan data
-$format_f201 = 1;
-
 $this->load->model('keluarga_model');
 if ($_SESSION['id_ibu']) {
     $ibu                            = $this->get_data_surat($_SESSION['id_ibu']);

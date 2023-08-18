@@ -57,7 +57,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         $this->session->asubmenu = 'analisis_statistik_jawaban';
         // TODO : Simpan di pengaturan aplikasi agar bisa disesuaikan oleh pengguna
         $this->_set_page     = ['20', '50', '100'];
-        $this->modul_ini     = 5;
+        $this->modul_ini     = 'analisis';
         $this->sub_modul_ini = 110;
     }
 

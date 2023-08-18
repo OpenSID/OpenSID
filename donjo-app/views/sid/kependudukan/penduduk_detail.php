@@ -31,6 +31,19 @@
 							<?php if ($penduduk['status_dasar_id'] == 1 && ! empty($penduduk['id_kk'])): ?>
 								<a href="<?= site_url("keluarga/anggota/{$p}/{$o}/{$penduduk['id_kk']}")?>" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Anggota Keluarga" ><i class="fa fa-users"></i> Anggota Keluarga</a>
 							<?php endif; ?>
+							<?php if (can('u')): ?>
+								<div class="btn-group btn-group-vertical">
+									<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Penduduk</a>
+									<ul class="dropdown-menu" role="menu">
+										<li>
+											<a href="<?= site_url('penduduk/form_peristiwa/1'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data Penduduk Lahir"><i class="fa fa-plus"></i>  Penduduk Lahir</a>
+										</li>
+										<li>
+											<a href="<?= site_url('penduduk/form_peristiwa/5'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data Penduduk Masuk"><i class="fa fa-plus"></i>  Penduduk Masuk</a>
+										</li>
+									</ul>
+								</div>
+							<?php endif; ?>
 							<a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Penduduk">
 								<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Penduduk
 							</a>
