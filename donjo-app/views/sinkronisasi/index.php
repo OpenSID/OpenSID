@@ -93,7 +93,7 @@
                                             <label for="token" class="col-sm-3 control-label"></label>
                                             <div class="col-sm-4">
                                                 <?php if(can('u')): ?>
-                                                <a class="btn btn-social btn-success btn-sm" id="btn_buat_key"><i class='fa fa-key'></i>Buat Key</a>
+                                                <a class="btn btn-social btn-success btn-sm btn-key" id="btn_buat_key"><i class='fa fa-key'></i>Buat Key</a>
                                                 <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan Pengaturan</button>
                                                 <?php endif; ?>
                                             </div>
@@ -151,6 +151,7 @@
 <script>
     $(document).ready(function() {
         cek_input();
+
         $('#response').modal({
             backdrop: 'static',
             keyboard: false
@@ -417,10 +418,12 @@
             $('#api_opendk_key').prop("readonly", true);
             $('#btn_buat_key').prop("readonly", true);
             $('#api_opendk_key').val("");
+            $(".btn-key").addClass('disabled');
         } else {
             $('#api_opendk_key').prop("readonly", false);
             $('#btn_buat_key').prop("readonly", false);
             $('#api_opendk_key').val("<?= setting('api_opendk_key') ?>");
+            $(".btn-key").removeClass('disabled');
         }
     }
 

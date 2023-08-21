@@ -44,6 +44,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 39. [#6983](https://github.com/OpenSID/OpenSID/issues/6983) Perbaikan pengaturan data lengkap untuk laporan.
 40. [#7038](https://github.com/OpenSID/OpenSID/issues/7038) Perbaikan wajib isi pada sumber data utama surat TinymCE.
 41. [#7028](https://github.com/OpenSID/OpenSID/issues/7028) Perbaikan pengurutan wilayah administratif.
+42. [#7017](https://github.com/OpenSID/OpenSID/issues/7017) Perbaikan input buat key OpenDK.
 
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.
