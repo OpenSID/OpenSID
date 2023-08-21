@@ -828,14 +828,12 @@ class Surat extends Admin_Controller
             // TinyMCE
             // Data penduduk diambil sesuai pengaturan surat
             if ($data['surat']['form_isian']->data == 2) {
-                $data['penduduk'] = null;
+                $data['penduduk'] = false;
                 $data['anggota']  = null;
             } else {
                 $filters = collect($data['surat']['form_isian']->{$kategori})->toArray();
                 unset($filters['data']);
-                // $data['penduduk'] = Penduduk::filters($filters)->get();
-                // pakai first saja, karena menggunakan select2 ajax
-                $data['penduduk'] = Penduduk::filters($filters)->first();
+                $data['penduduk'] = true;
                 $kk_level         = $data['individu']['kk_level'];
                 $ada_anggota      = ($filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA || $kk_level == SHDKEnum::KEPALA_KELUARGA) ? true : false;
 
