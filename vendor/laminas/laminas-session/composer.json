@@ -1,0 +1,89 @@
+{
+    "name": "laminas/laminas-session",
+    "description": "Object-oriented interface to PHP sessions and storage",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "session"
+    ],
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-session/",
+        "issues": "https://github.com/laminas/laminas-session/issues",
+        "source": "https://github.com/laminas/laminas-session",
+        "rss": "https://github.com/laminas/laminas-session/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "7.4.99"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ocramius/package-versions": true
+        }
+    },
+    "extra": {
+        "laminas": {
+            "component": "Laminas\\Session",
+            "config-provider": "Laminas\\Session\\ConfigProvider"
+        }
+    },
+    "require": {
+        "php": "^7.4 || ~8.0.0 || ~8.1.0",
+        "laminas/laminas-eventmanager": "^3.5",
+        "laminas/laminas-servicemanager": "^3.15.1",
+        "laminas/laminas-stdlib": "^3.10.1"
+    },
+    "require-dev": {
+        "laminas/laminas-cache": "^3.1.3",
+        "laminas/laminas-cache-storage-adapter-memory": "^2.0.0",
+        "laminas/laminas-coding-standard": "~2.3.0",
+        "laminas/laminas-db": "^2.13.4",
+        "laminas/laminas-http": "^2.15",
+        "laminas/laminas-validator": "^2.15",
+        "mongodb/mongodb": "~1.12.0",
+        "php-mock/php-mock-phpunit": "^1.1.2 || ^2.0",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpunit/phpunit": "^9.5.9",
+        "psalm/plugin-phpunit": "^0.17.0",
+        "vimeo/psalm": "^4.24.0"
+    },
+    "suggest": {
+        "laminas/laminas-cache": "Laminas\\Cache component",
+        "laminas/laminas-db": "Laminas\\Db component",
+        "laminas/laminas-http": "Laminas\\Http component",
+        "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
+        "laminas/laminas-validator": "Laminas\\Validator component",
+        "mongodb/mongodb": "If you want to use the MongoDB session save handler"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Session\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\Session\\": "test/"
+        },
+        "files": [
+            "autoload-dev/ReturnTypeWillChange.php"
+        ]
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "static-analysis": "psalm --shepherd --stats"
+    },
+    "conflict": {
+        "zendframework/zend-session": "*"
+    }
+}

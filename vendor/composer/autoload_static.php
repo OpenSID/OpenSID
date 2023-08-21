@@ -13,6 +13,7 @@ class ComposerStaticInit360d90d2e08228facb94015f401f836b
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
+        'c9d07b32a2e02bc0fc582d4f0c1b56cc' => __DIR__ . '/..' . '/laminas/laminas-servicemanager/src/autoload.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
@@ -62,6 +63,7 @@ class ComposerStaticInit360d90d2e08228facb94015f401f836b
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Container\\' => 14,
+            'Psr\\Clock\\' => 10,
             'Psr\\Cache\\' => 10,
             'ParagonIE\\ConstantTime\\' => 23,
         ),
@@ -73,6 +75,22 @@ class ComposerStaticInit360d90d2e08228facb94015f401f836b
         array (
             'Monolog\\' => 8,
             'Mike42\\' => 7,
+        ),
+        'L' => 
+        array (
+            'Laminas\\Validator\\' => 18,
+            'Laminas\\Uri\\' => 12,
+            'Laminas\\Text\\' => 13,
+            'Laminas\\Stdlib\\' => 15,
+            'Laminas\\Session\\' => 16,
+            'Laminas\\ServiceManager\\' => 23,
+            'Laminas\\ReCaptcha\\' => 18,
+            'Laminas\\Loader\\' => 15,
+            'Laminas\\Json\\' => 13,
+            'Laminas\\Http\\' => 13,
+            'Laminas\\EventManager\\' => 21,
+            'Laminas\\Escaper\\' => 16,
+            'Laminas\\Captcha\\' => 16,
         ),
         'J' => 
         array (
@@ -209,6 +227,10 @@ class ComposerStaticInit360d90d2e08228facb94015f401f836b
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
+        'Psr\\Clock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/clock/src',
+        ),
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
@@ -229,6 +251,58 @@ class ComposerStaticInit360d90d2e08228facb94015f401f836b
         array (
             0 => __DIR__ . '/..' . '/mike42/escpos-php/src/Mike42',
             1 => __DIR__ . '/..' . '/mike42/gfx-php/src/Mike42',
+        ),
+        'Laminas\\Validator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-validator/src',
+        ),
+        'Laminas\\Uri\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-uri/src',
+        ),
+        'Laminas\\Text\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-text/src',
+        ),
+        'Laminas\\Stdlib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-stdlib/src',
+        ),
+        'Laminas\\Session\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-session/src',
+        ),
+        'Laminas\\ServiceManager\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-servicemanager/src',
+        ),
+        'Laminas\\ReCaptcha\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-recaptcha/src',
+        ),
+        'Laminas\\Loader\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-loader/src',
+        ),
+        'Laminas\\Json\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-json/src',
+        ),
+        'Laminas\\Http\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-http/src',
+        ),
+        'Laminas\\EventManager\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-eventmanager/src',
+        ),
+        'Laminas\\Escaper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-escaper/src',
+        ),
+        'Laminas\\Captcha\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-captcha/src',
         ),
         'Jenssegers\\Blade\\' => 
         array (

@@ -1,0 +1,62 @@
+{
+    "name": "laminas/laminas-recaptcha",
+    "description": "OOP wrapper for the ReCaptcha web service",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "recaptcha"
+    ],
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-recaptcha/",
+        "issues": "https://github.com/laminas/laminas-recaptcha/issues",
+        "source": "https://github.com/laminas/laminas-recaptcha",
+        "rss": "https://github.com/laminas/laminas-recaptcha/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+    },
+    "require": {
+        "php": "^7.3 || ~8.0.0 || ~8.1.0",
+        "ext-json": "*",
+        "laminas/laminas-http": "^2.15",
+        "laminas/laminas-json": "^3.3",
+        "laminas/laminas-stdlib": "^3.6"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "~2.3.0",
+        "laminas/laminas-config": "^3.7",
+        "laminas/laminas-validator": "^2.15",
+        "phpunit/phpunit": "^9.5.4"
+    },
+    "suggest": {
+        "laminas/laminas-validator": "~2.0, if using ReCaptcha's Mailhide API"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\ReCaptcha\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\ReCaptcha\\": "test/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    },
+    "conflict": {
+        "zendframework/zendservice-recaptcha": "*"
+    }
+}

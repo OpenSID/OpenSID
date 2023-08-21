@@ -68,3 +68,4 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 15. [#2746](https://github.com/OpenSID/premium/issues/2746) Perbaikan uggah dokumen pada laporan penduduk.
 16. [#2747](https://github.com/OpenSID/premium/issues/2747) Perbaikan uggah dokumen pada laporan apbdes.
 17. [#2633](https://github.com/OpenSID/premium/issues/2633) Pembatasan pengiriman pesan pada layanan mandiri web dengan durasi 60 detik.
+18. [#2560](https://github.com/OpenSID/premium/issues/2560) Pembaruan librari captcha.

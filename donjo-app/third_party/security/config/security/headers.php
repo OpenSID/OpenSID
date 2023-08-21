@@ -40,7 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 $config = [
     'Strict-Transport-Security' => 'max-age=31536000; includeSubDomains',
 
-    'X-Frame-Options' => 'deny',
+    // 'X-Frame-Options' => 'deny',
 
     'X-Content-Type-Options' => 'nosniff',
 
@@ -48,7 +48,7 @@ $config = [
 
     'X-Permitted-Cross-Domain-Policies' => 'none',
 
-    'Referrer-Policy' => 'no-referrer',
+    // 'Referrer-Policy' => 'no-referrer',
 
     'Permissions-Policy' => 'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()',
 

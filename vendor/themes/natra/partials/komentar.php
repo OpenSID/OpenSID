@@ -42,11 +42,11 @@
             <tr class="captcha">
               <td>&nbsp;</td>
               <td>
-                <a href="#" onclick="document.getElementById('captcha').src = '<?= base_url() . "securimage/securimage_show.php?" ?>' + Math.random(); return false" style="color: #000000;">
-                  <img id="captcha" src="<?= base_url('securimage/securimage_show.php') ?>" alt="CAPTCHA Image" />
+                <a href="#" onclick="document.getElementById('captcha').src = '<?= site_url('captcha') ?>'; return false" style="color: #000000;">
+                  <img id="captcha" src="<?= site_url('captcha') ?>" alt="CAPTCHA Image" />
                 </a>
                 &nbsp;
-                <input type="text" name="captcha_code" class="required" maxlength="6" placeholder="Isikan jawaban"/>
+                <input type="text" name="captcha_code" class="required" maxlength="6" placeholder="Masukkan kode diatas"/>
               </td>
             </tr>
             <tr class="submit">

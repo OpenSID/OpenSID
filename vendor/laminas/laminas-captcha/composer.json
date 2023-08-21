@@ -1,0 +1,69 @@
+{
+    "name": "laminas/laminas-captcha",
+    "description": "Generate and validate CAPTCHAs using Figlets, images, ReCaptcha, and more",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "captcha"
+    ],
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-captcha/",
+        "issues": "https://github.com/laminas/laminas-captcha/issues",
+        "source": "https://github.com/laminas/laminas-captcha",
+        "rss": "https://github.com/laminas/laminas-captcha/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "7.4.99"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "extra": {},
+    "require": {
+        "php": "^7.4 || ~8.0.0 || ~8.1.0 || ~8.2.0",
+        "laminas/laminas-recaptcha": "^3.4.0",
+        "laminas/laminas-session": "^2.12",
+        "laminas/laminas-stdlib": "^3.10.1",
+        "laminas/laminas-text": "^2.9.0",
+        "laminas/laminas-validator": "^2.19.0"
+    },
+    "require-dev": {
+        "ext-gd": "*",
+        "laminas/laminas-coding-standard": "~2.4.0",
+        "phpunit/phpunit": "^9.5.26",
+        "psalm/plugin-phpunit": "^0.18.0",
+        "vimeo/psalm": "^4.29.0"
+    },
+    "suggest": {
+        "laminas/laminas-i18n-resources": "Translations of captcha messages"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Captcha\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\Captcha\\": "test/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    },
+    "conflict": {
+        "zendframework/zend-captcha": "*"
+    }
+}

@@ -15,6 +15,7 @@
 		"illuminate/database": "^8.78",
 		"illuminate/pagination": "^8.79",
 		"jenssegers/blade": "^1.4",
+		"laminas/laminas-captcha": "^2.14",
 		"mike42/escpos-php": "^3.0",
 		"openspout/openspout": "^3.7",
 		"simplehtmldom/simplehtmldom": "^2.0@RC",

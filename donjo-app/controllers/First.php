@@ -430,10 +430,8 @@ class First extends Web_Controller
 
         if ($this->form_validation->run() == true) {
             // Periksa isian captcha
-            include FCPATH . 'securimage/securimage.php';
-            $securimage = new Securimage();
-
-            if ($securimage->check($_POST['captcha_code']) == false) {
+            $captcha = new App\Libraries\Captcha();
+            if (! $captcha->check($this->input->post('captcha_code'))) {
                 $respon = [
                     'status' => -1, // Notif gagal
                     'pesan'  => 'Kode anda salah. Silakan ulangi lagi.',
