@@ -41,6 +41,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 36. [#6986](https://github.com/OpenSID/OpenSID/issues/6986) Perbaikan input data manfaat, keterangan dan lokasi pembangunan lebih dari 100 karakter.
 37. [#7032](https://github.com/OpenSID/OpenSID/issues/7032) Perbaikan daftar penduduk/keluarga pada tambah warga terdata pada suplemen.
 38. [#7019](https://github.com/OpenSID/OpenSID/issues/7019) Perbaikan tombol headline dan slider artikel.
+39. [#6983](https://github.com/OpenSID/OpenSID/issues/6983) Perbaikan pengaturan data lengkap untuk laporan.
 
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.

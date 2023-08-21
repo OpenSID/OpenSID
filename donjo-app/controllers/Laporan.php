@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\LogPenduduk;
 use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -49,6 +50,7 @@ class Laporan extends Admin_Controller
         $this->modul_ini          = 'statistik';
         $this->sub_modul_ini      = 'laporan-bulanan';
         $this->header['kategori'] = 'data_lengkap';
+        $this->logpenduduk        = new LogPenduduk();
     }
 
     public function clear()
@@ -82,21 +84,25 @@ class Laporan extends Admin_Controller
         $data['tahun']                = $data['tahunku'];
         $data['data_lengkap']         = true;
         $data['sesudah_data_lengkap'] = true;
-        if (! $this->setting->tgl_data_lengkap_aktif || empty($this->setting->tgl_data_lengkap)) {
+
+        $tanggal_lengkap = $this->logpenduduk::min('tgl_lapor');
+
+        if (! $this->setting->tgl_data_lengkap_aktif) {
             $data['data_lengkap'] = false;
             $this->render('laporan/bulanan', $data);
 
             return;
         }
-        $tahun_bulan = (new DateTime($this->setting->tgl_data_lengkap))->format('Y-m');
+
+        $tahun_bulan = (new DateTime($tanggal_lengkap))->format('Y-m');
         if ($tahun_bulan > $data['tahunku'] . '-' . $data['bulanku']) {
             $data['sesudah_data_lengkap'] = false;
             $this->render('laporan/bulanan', $data);
 
             return;
         }
-        $this->session->tgl_lengkap = rev_tgl($this->setting->tgl_data_lengkap);
-        $data['tahun_lengkap']      = (new DateTime($this->setting->tgl_data_lengkap))->format('Y');
+        $this->session->tgl_lengkap = $tanggal_lengkap;
+        $data['tahun_lengkap']      = (new DateTime($tanggal_lengkap))->format('Y');
         $data['config']             = $this->header['desa'];
         $data['kelahiran']          = $this->laporan_bulanan_model->kelahiran();
         $data['kematian']           = $this->laporan_bulanan_model->kematian();

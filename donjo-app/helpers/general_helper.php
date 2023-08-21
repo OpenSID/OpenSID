@@ -846,10 +846,9 @@ function tidak_ada_data($col = 12, $message = 'Data Tidak Tersedia')
 if (! function_exists('data_lengkap')) {
     function data_lengkap()
     {
-        $CI               = &get_instance();
-        $tgl_data_lengkap = time() >= strtotime($CI->setting->tgl_data_lengkap);
+        $CI = &get_instance();
 
-        return ($CI->setting->tgl_data_lengkap_aktif && $tgl_data_lengkap !== false) ? true : false;
+        return ($CI->setting->tgl_data_lengkap_aktif) ? true : false;
     }
 }
 

@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\LogPenduduk;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_penduduk_mutasi extends Admin_Controller
@@ -51,6 +53,7 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
         $this->header['kategori'] = 'data_lengkap';
         $this->_set_page          = ['10', '20', '50', '100'];
         $this->_list_session      = ['tgl_lengkap', 'filter_tahun', 'filter_bulan', 'filter', 'kode_peristiwa', 'status_dasar', 'cari', 'status', 'status_penduduk'];
+        $this->logpenduduk        = new LogPenduduk();
     }
 
     public function index($page_number = 1, $order_by = 0)
@@ -64,25 +67,25 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
         $this->session->kode_peristiwa = [2, 3, 5];
         // Menampilkan hanya status penduduk TETAP
         $this->session->status_penduduk = 1;
+        $tanggal_lengkap                = $this->logpenduduk::min('tgl_lapor');
 
         $data = [
-            'main_content'      => 'bumindes/penduduk/mutasi/content_mutasi',
-            'subtitle'          => 'Buku Mutasi Penduduk Desa',
-            'selected_nav'      => 'mutasi',
-            'p'                 => $page_number,
-            'o'                 => $order_by,
-            'cari'              => $this->session->cari ? $this->session->cari : '',
-            'filter'            => $this->session->filter ? $this->session->filter : '',
-            'per_page'          => $this->session->per_page,
-            'bulan'             => $this->session->filter_bulan ? $this->session->filter_bulan : null,
-            'tahun'             => $this->session->filter_tahun ? $this->session->filter_tahun : null,
-            'func'              => 'index',
-            'set_page'          => $this->_set_page,
-            'tgl_lengkap'       => $this->setting->tgl_data_lengkap ? rev_tgl($this->setting->tgl_data_lengkap) : null,
-            'tgl_lengkap_aktif' => $this->setting->tgl_data_lengkap_aktif,
-            'paging'            => $this->penduduk_log_model->paging($page_number),
-            'tahun_lengkap'     => (new DateTime($this->setting->tgl_data_lengkap))->format('Y'),
-            'data_hapus'        => $this->penduduk_log_model->list_data_hapus(),
+            'main_content'  => 'bumindes/penduduk/mutasi/content_mutasi',
+            'subtitle'      => 'Buku Mutasi Penduduk Desa',
+            'selected_nav'  => 'mutasi',
+            'p'             => $page_number,
+            'o'             => $order_by,
+            'cari'          => $this->session->cari ? $this->session->cari : '',
+            'filter'        => $this->session->filter ? $this->session->filter : '',
+            'per_page'      => $this->session->per_page,
+            'bulan'         => $this->session->filter_bulan ? $this->session->filter_bulan : null,
+            'tahun'         => $this->session->filter_tahun ? $this->session->filter_tahun : null,
+            'func'          => 'index',
+            'set_page'      => $this->_set_page,
+            'tgl_lengkap'   => $tanggal_lengkap,
+            'paging'        => $this->penduduk_log_model->paging($page_number),
+            'tahun_lengkap' => (new DateTime($tanggal_lengkap))->format('Y'),
+            'data_hapus'    => $this->penduduk_log_model->list_data_hapus(),
         ];
 
         $data['main'] = $this->penduduk_log_model->list_data($order_by, $data['paging']->offset, $data['paging']->per_page);

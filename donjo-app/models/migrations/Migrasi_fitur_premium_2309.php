@@ -72,8 +72,9 @@ class Migrasi_fitur_premium_2309 extends MY_model
         $hasil = $hasil && $this->migrasi_23081451($hasil);
         $hasil = $hasil && $this->migrasi_23081452($hasil);
         $hasil = $hasil && $this->migrasi_23081551($hasil);
+        $hasil = $hasil && $this->migrasi_23081651($hasil);
 
-        return $hasil && $this->migrasi_23081651($hasil);
+        return $hasil && $this->migrasi_23082151($hasil);
     }
 
     protected function migrasi_23080851($hasil)
@@ -134,5 +135,13 @@ class Migrasi_fitur_premium_2309 extends MY_model
     protected function migrasi_23081651($hasil)
     {
         return $hasil && $this->db->where('key', 'warna_tema')->where('kategori !=', 'openkab')->update('setting_aplikasi', ['kategori' => 'openkab']);
+    }
+
+    protected function migrasi_23082151($hasil)
+    {
+        // Hapus pengaturan tgl_data_lengkap
+        $this->db->delete('setting_aplikasi', ['key' => 'tgl_data_lengkap']);
+
+        return $hasil;
     }
 }
