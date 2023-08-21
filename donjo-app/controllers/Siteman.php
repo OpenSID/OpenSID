@@ -135,10 +135,8 @@ class Siteman extends MY_Controller
     public function kirim_lupa_sandi()
     {
         // Periksa isian captcha
-        include FCPATH . 'securimage/securimage.php';
-        $securimage = new Securimage();
-
-        if (! $securimage->check($this->input->post('captcha_code'))) {
+        $captcha = new App\Libraries\Captcha();
+        if (! $captcha->check($this->input->post('captcha_code'))) {
             set_session('notif', 'Kode captcha anda salah. Silakan ulangi lagi.');
 
             redirect('siteman/lupa_sandi');

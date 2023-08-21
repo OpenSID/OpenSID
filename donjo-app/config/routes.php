@@ -149,3 +149,6 @@ $route['koneksi-database'] = 'Koneksi_database/index';
 foreach (glob(APPPATH . '/config/routes/*.php') as $routes_file) {
     require_once $routes_file;
 }
+
+// securimage
+$route['captcha'] = 'Securimage/show';
