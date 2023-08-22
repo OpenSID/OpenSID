@@ -46,6 +46,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 41. [#7028](https://github.com/OpenSID/OpenSID/issues/7028) Perbaikan pengurutan wilayah administratif.
 42. [#7017](https://github.com/OpenSID/OpenSID/issues/7017) Perbaikan input buat key OpenDK.
 43. [#7018](https://github.com/OpenSID/OpenSID/issues/7018) Perbaikan notifikasi saat melakukan verifikasi email pengguna.
+44. [#7049](https://github.com/OpenSID/OpenSID/issues/7049) Perbaikan akses submodul stunting.
 
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.

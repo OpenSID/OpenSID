@@ -46,6 +46,7 @@ use App\Models\Paud;
 use App\Models\Penduduk;
 use App\Models\Posyandu;
 use App\Models\SasaranPaud;
+use App\Models\UserGrup;
 use Carbon\Carbon;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
@@ -1230,11 +1231,11 @@ class Stunting extends Admin_Controller
 
         $anak2sd6 = SasaranPaud::query();
 
-        if ($this->session->userdata('isAdmin')->id_grup !== '1') {
-            $anak2sd6->where('id', $this->session->userdata('id'));
+        if ($this->session->userdata('isAdmin')->id_grup !== UserGrup::getGrupId(UserGrup::ADMINISTRATOR)) {
+            $anak2sd6->where('posyandu_id', $this->session->userdata('id'));
         } else {
             if ($id != null) {
-                $anak2sd6->where('id', $id);
+                $anak2sd6->where('posyandu_id', $id);
             }
         }
         $anak2sd6->whereYear('sasaran_paud.created_at', $tahun)->get();

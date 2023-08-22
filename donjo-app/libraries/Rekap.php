@@ -36,6 +36,7 @@
  */
 
 use App\Models\Anak;
+use App\Models\UserGrup;
 use Illuminate\Support\Facades\DB;
 
 class Rekap
@@ -85,8 +86,8 @@ class Rekap
                 'tweb_penduduk.nama',
             ]);
 
-        if ($this->ci->session->userdata('isAdmin')->id_grup !== '1') {
-            $ibuHamil = $ibuHamil->where('id', $this->ci->session->userdata('id'));
+        if ($this->ci->session->userdata('isAdmin')->id_grup !== UserGrup::getGrupId(UserGrup::ADMINISTRATOR)) {
+            $ibuHamil = $ibuHamil->where('posyandu_id', $this->ci->session->userdata('id'));
         } else {
             if ($id != null) {
                 $ibuHamil = $ibuHamil->where('posyandu_id', $id);
@@ -383,8 +384,8 @@ class Rekap
                 'tweb_penduduk.sex',
             ]);
 
-        if ($this->ci->session->userdata('isAdmin')->id_grup !== '1') {
-            $bulananAnak = $bulananAnak->where('id', $this->ci->session->userdata('id'));
+        if ($this->ci->session->userdata('isAdmin')->id_grup !== UserGrup::getGrupId(UserGrup::ADMINISTRATOR)) {
+            $bulananAnak = $bulananAnak->where('posyandu_id', $this->ci->session->userdata('id'));
         } else {
             if ($id != null) {
                 $bulananAnak = $bulananAnak->where('posyandu_id', $id);
