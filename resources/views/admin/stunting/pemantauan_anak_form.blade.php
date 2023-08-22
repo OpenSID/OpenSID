@@ -124,8 +124,8 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Tinggi Badan (cm)</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control input-sm required angka" {{ $anak->pengukuran_tinggi_badan ? '' : 'disabled' }} min="1" id="tinggi_badan" name="tinggi_badan"
-                                placeholder="Masukkan berat badan" value="{{ $anak->tinggi_badan }}" />
+                            <input type="text" class="form-control input-sm required luas" {{ $anak->pengukuran_tinggi_badan ? '' : 'disabled' }} min="1" id="tinggi_badan" name="tinggi_badan"
+                                placeholder="Masukkan tinggi badan" value="{{ $anak->tinggi_badan }}" />
                         </div>
                     </div>
                     <div class="row">

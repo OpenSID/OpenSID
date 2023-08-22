@@ -1,7 +1,6 @@
 <?php if ($this->CI->cek_hak_akses('u')): ?>
 <?php $this->load->view('global/validasi_form'); ?>
 	<form action="<?= $form_action?>" method="post" id="validasi">
-		<input type="hidden" name="kk_level_lama" value="<?= $main['kk_level']?>">
 		<div class='modal-body'>
 			<div class="row">
 				<div class="col-sm-12">

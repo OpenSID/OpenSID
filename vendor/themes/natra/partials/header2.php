@@ -41,7 +41,7 @@
     	       </div>
     		<div class="visible-xs" style="margin-bottom: 5px;">
     			<form method=get action="<?= site_url('first'); ?>" class="form-inline">
-    				<table align="center"><tr><td><input type="text" name="cari" maxlength="50" class="form-control" value="<?= $cari ?>" placeholder="Cari Artikel"></td>
+    				<table align="center"><tr><td><input type="text" name="cari" maxlength="50" class="form-control" value="<?= html_escape($cari) ?>" placeholder="Cari Artikel"></td>
 					<td><button type="submit" class="btn btn-primary">Cari</button></td></tr></table>
 				</form>
 			</div>

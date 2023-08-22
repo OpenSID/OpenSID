@@ -229,7 +229,7 @@ class Pamong_model extends CI_Model
 
         $this->foto($post);
 
-        if ($data['jabatan_id'] == '1') {
+        if ($data['jabatan_id'] == kades()->id) {
             $this->ttd('pamong_ttd', $post['id'], 1);
         } else {
             $this->ttd('pamong_ub', $post['id'], 1);
@@ -243,7 +243,7 @@ class Pamong_model extends CI_Model
         $post = $this->input->post();
         $data = $this->siapkan_data($post);
 
-        if (! in_array($data['jabatan_id'], ['1', '2'])) {
+        if (! in_array($data['jabatan_id'], RefJabatan::getKadesSekdes())) {
             $data['pamong_ttd'] = $data['pamong_ub'] = 0;
         }
 
@@ -251,7 +251,7 @@ class Pamong_model extends CI_Model
         $post['id'] = $id;
         $this->foto($post);
 
-        if ($data['jabatan_id'] == '1') {
+        if ($data['jabatan_id'] == kades()->id) {
             $this->ttd('pamong_ttd', $post['id'], 1);
         } else {
             $this->ttd('pamong_ub', $post['id'], 1);
@@ -339,9 +339,9 @@ class Pamong_model extends CI_Model
         $data['gelar_depan']        = strip_tags($post['gelar_depan']) ?: null;
         $data['gelar_belakang']     = strip_tags($post['gelar_belakang']) ?: null;
 
-        if ($data['jabatan_id'] == RefJabatan::KADES) {
+        if ($data['jabatan_id'] == kades()->id) {
             $data['urut'] = 1;
-        } elseif ($data['jabatan_id'] == RefJabatan::SEKDES) {
+        } elseif ($data['jabatan_id'] == sekdes()->id) {
             $data['urut'] = 2;
         } else {
             $data['urut'] = $this->urut_model->urut_max() + 1;
@@ -375,23 +375,23 @@ class Pamong_model extends CI_Model
         $pamong = Pamong::findOrFail($id);
 
         if ($jenis == 'a.n') {
-            if ($pamong->jabatan_id == '2') {
-                $output = Pamong::where('jabatan_id', 2)->find($id)->update(['pamong_ttd' => $val]);
+            if ($pamong->jabatan_id == sekdes()->id) {
+                $output = Pamong::where('jabatan_id', sekdes()->id)->find($id)->update(['pamong_ttd' => $val]);
 
                 // Hanya 1 yang bisa jadi a.n dan harus sekretaris
                 if ($output) {
                     Pamong::where('pamong_ttd', 1)->where('pamong_id', '!=', $id)->update(['pamong_ttd' => 0]);
                 }
             } else {
-                $pesan = ', Penandatangan a.n harus ' . RefJabatan::whereId(2)->first(['nama'])->nama;
+                $pesan = ', Penandatangan a.n harus ' . RefJabatan::whereJenis(RefJabatan::SEKDES)->first(['nama'])->nama;
             }
         }
 
         if ($jenis == 'u.b') {
-            if (! in_array($pamong->jabatan_id, RefJabatan::EXCLUDE_DELETE)) {
-                $output = Pamong::whereNotIn('jabatan_id', RefJabatan::EXCLUDE_DELETE)->find($id)->update(['pamong_ub' => $val]);
+            if (! in_array($pamong->jabatan_id, RefJabatan::getKadesSekdes())) {
+                $output = Pamong::whereNotIn('jabatan_id', RefJabatan::getKadesSekdes())->find($id)->update(['pamong_ub' => $val]);
             } else {
-                $pesan = ', Penandatangan u.b harus pamong selain ' . RefJabatan::whereId(1)->first(['nama'])->nama . ' dan ' . RefJabatan::whereId(2)->first(['nama'])->nama;
+                $pesan = ', Penandatangan u.b harus pamong selain ' . RefJabatan::whereJenis(RefJabatan::KADES)->first(['nama'])->nama . ' dan ' . RefJabatan::whereJenis(RefJabatan::SEKDES)->first(['nama'])->nama;
             }
         }
 
@@ -505,7 +505,7 @@ class Pamong_model extends CI_Model
         $jabatan_aktif = Pamong::whereJabatanId($pamong->jabatan_id)->wherePamongStatus(1)->exists();
 
         // Cek untuk kades atau sekdes apakah sudah ada yang aktif saat mengaktifkan
-        if ($val == 1 && $jabatan_aktif && in_array($pamong->jabatan_id, RefJabatan::EXCLUDE_DELETE)) {
+        if ($val == 1 && $jabatan_aktif && in_array($pamong->jabatan_id, RefJabatan::getKadesSekdes())) {
             return session_error('<br>Pamong ' . $pamong->jabatan->nama . ' sudah tersedia, silahakan non-aktifkan terlebih dahulu jika ingin menggantinya.');
         }
 

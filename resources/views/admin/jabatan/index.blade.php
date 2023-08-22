@@ -63,7 +63,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('pengurus.jabatandatatables') }}",
+                ajax: "{{ route('pengurus.jabatan') }}",
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',
@@ -92,7 +92,7 @@
                 ],
                 pageLength: 10,
                 createdRow: function(row, data, dataIndex) {
-                    if (data.id == 1 || data.id == 2) {
+                    if (data.jenis == 1 || data.jenis == 2) {
                         $(row).addClass('select-row');
                     }
                 }

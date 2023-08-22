@@ -54,7 +54,7 @@
                         <thead>
                             <tr class="border thick">
                                 <th nowrap>NO</th>
-                                <th nowrap>HARI / TANGGAL</th>
+                                <th nowrap>HARI / TANGGAL </th>
                                 <th nowrap>NAMA</th>
                                 <th nowrap>TELEPON</th>
                                 <th nowrap>INSTANSI</th>
@@ -68,7 +68,7 @@
                                 <tr>
                                     <td width="1%"class="text-center">{{ $no + 1 }}</td>
                                     <td width="15%">
-                                        {{ \Carbon\Carbon::parse($tamu->created_at)->dayName . ' / ' . tgl_indo($tamu->created_at) }}
+                                        {{ \Carbon\Carbon::parse($tamu->created_at)->dayName . ' / ' . tgl_indo($tamu->created_at) . ' - ' . \Carbon\Carbon::parse($tamu->created_at)->format('H:i:s')}}
                                     </td>
                                     <td width="20%">{{ $tamu->nama }}</td>
                                     <td width="15%">{{ $tamu->telepon }}</td>

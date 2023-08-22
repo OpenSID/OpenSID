@@ -46,8 +46,8 @@ class Sid_core extends Admin_Controller
         parent::__construct();
         $this->load->model(['wilayah_model', 'pamong_model']);
         $this->load->library('form_validation');
-        $this->modul_ini     = 200;
-        $this->sub_modul_ini = 20;
+        $this->modul_ini     = 'info-desa';
+        $this->sub_modul_ini = 'wilayah-administratif';
         $this->_set_page     = ['20', '50', '100'];
     }
 

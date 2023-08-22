@@ -53,8 +53,8 @@ class Analisis_klasifikasi extends Admin_Controller
         $this->load->model(['analisis_klasifikasi_model', 'analisis_master_model']);
         $this->session->submenu  = 'Data Klasifikasi';
         $this->session->asubmenu = "{$this->controller}";
-        $this->modul_ini         = 5;
-        $this->sub_modul_ini     = 110;
+        $this->modul_ini         = 'analisis';
+        $this->sub_modul_ini     = 'master-analisis';
     }
 
     public function clear()

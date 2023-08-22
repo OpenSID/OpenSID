@@ -42,7 +42,7 @@
                                             <option <?php selected($user['id_grup'], '1'); ?> value="1">Administrator</option>
                                         <?php else : ?>
                                             <?php foreach ($user_group as $item) : ?>
-                                                <option <?php selected($user['id_grup'], $item['id']); ?> value="<?= $item[id] ?>"><?= $item['nama'] ?></option>
+                                                <option <?php selected($user['id_grup'], $item['id']); ?> value="<?= $item['id'] ?>"><?= $item['nama'] ?></option>
                                             <?php endforeach ?>
                                         <?php endif ?>
                                     </select>
@@ -79,7 +79,10 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="password">Kata Sandi</label>
                                 <div class="col-sm-8">
-                                    <input id="password" name="password" class="form-control input-sm required pwdLengthNist_atau_kosong" type="password" placeholder="Kata Sandi" <?php if ($user) : ?>value="radiisi" <?php endif ?> autocomplete="off"></input>
+                                    <div class="input-group">
+                                        <input id="password" name="password" class="form-control input-sm required pwdLengthNist_atau_kosong" type="password" placeholder="Kata Sandi" <?php if ($user) : ?>value="radiisi" <?php endif ?> autocomplete="off"></input>
+                                        <span class="input-group-addon input-sm reveal"><i class="fa fa-eye-slash"></i></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -166,6 +169,21 @@
                 $('input[name="id_telegram"]').addClass('required');
             } else {
                 $('input[name="id_telegram"]').removeClass('required');
+            }
+        });
+
+        $('.reveal').on('click', function() {
+            var $pwd = $("#password");
+            if ($pwd.attr('type') === 'password') {
+                $pwd.attr('type', 'text');
+
+                $(".reveal i").removeClass("fa-eye-slash");
+                $(".reveal i").addClass("fa-eye");
+            } else {
+                $pwd.attr('type', 'password');
+
+                $(".reveal i").addClass("fa-eye-slash");
+                $(".reveal i").removeClass("fa-eye");
             }
         });
     });

@@ -44,8 +44,8 @@ class Point extends Admin_Controller
         parent::__construct();
 
         $this->load->model('plan_point_model');
-        $this->modul_ini     = 9;
-        $this->sub_modul_ini = 8;
+        $this->modul_ini     = 'pemetaan';
+        $this->sub_modul_ini = 'pengaturan-peta';
     }
 
     public function clear()

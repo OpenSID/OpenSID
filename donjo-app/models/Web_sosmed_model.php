@@ -74,7 +74,12 @@ class Web_sosmed_model extends CI_Model
         $data = $this->input->post();
         $link = trim(strip_tags($this->input->post('link')));
 
-        $data['link'] = $link;
+        // untuk youtube validasi dilakukan khusus
+        if ($id === '4') {
+            $data['link'] = $this->link_sosmed($id, $link);
+        } else {
+            $data['link'] = $link;
+        }
 
         $this->db->where('id', $id);
         $outp = $this->db->update('media_sosial', $data);
@@ -109,6 +114,26 @@ class Web_sosmed_model extends CI_Model
             }
         }
 
+        // validasi nickname youtube
+        if ($id === '4' && str_contains($link, '@')) {
+            /**
+             * https://support.google.com/youtube/answer/11585688?hl=id&p=handles_info&rd=1
+             * 24 Januari 2023
+             * - Berisi antara 3-30 karakter
+             * - Terdiri atas karakter alfanumerik (A–Z, a–z, 0–9)
+             * - Nama sebutan channel Anda juga dapat menyertakan garis bawah (_), tanda hubung (-), dan titik (.)
+             * - Tidak menyerupai URL atau nomor telepon
+             */
+            $pattern = '/@[A-Za-z][A-Za-z0-9_\\-.]{2,29}/i';
+            if (preg_match_all($pattern, $link, $matches)) {
+                $nickname = array_shift(array_shift($matches));
+                $link     = 'https://www.youtube.com/' . $nickname;
+            } else {
+                $link = '';
+            }
+
+            return $link;
+        }
         // Remove all illegal characters from a url
         // remove `@` with ''
         $link = str_replace('@', '', $link);

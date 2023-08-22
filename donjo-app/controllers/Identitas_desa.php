@@ -49,8 +49,8 @@ class Identitas_desa extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 200;
-        $this->sub_modul_ini = 17;
+        $this->modul_ini     = 'info-desa';
+        $this->sub_modul_ini = 'identitas-desa';
 
         if (Schema::hasTable('ref_jabatan')) {
             $this->cek_kades = Pamong::kepalaDesa()->exists();
@@ -248,6 +248,7 @@ class Identitas_desa extends Admin_Controller
             'kode_kabupaten'    => bilangan($request['kode_kabupaten']),
             'nama_propinsi'     => nama_terbatas($request['nama_propinsi']),
             'kode_propinsi'     => bilangan($request['kode_propinsi']),
+            'nomor_operator'    => bilangan($request['nomor_operator']),
         ];
     }
 

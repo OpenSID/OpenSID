@@ -43,9 +43,8 @@ class Keuangan extends Admin_Controller
     {
         parent::__construct();
         $this->load->model('keuangan_model');
-
         $this->load->model('keuangan_grafik_model');
-        $this->modul_ini = 201;
+        $this->modul_ini = 'keuangan';
     }
 
     public function setdata_laporan($tahun, $semester)
@@ -73,7 +72,7 @@ class Keuangan extends Admin_Controller
 
     public function grafik($jenis)
     {
-        $this->sub_modul_ini = 203;
+        $this->sub_modul_ini = 'laporan';
 
         $data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
         $tahun                  = $this->session->userdata('set_tahun') ?: $data['tahun_anggaran'][0];
@@ -135,7 +134,8 @@ class Keuangan extends Admin_Controller
 
     public function impor_data()
     {
-        $this->sub_modul_ini = 202;
+        $this->sub_modul_ini = 'impor-data';
+
         $data['main']        = $this->keuangan_model->list_data();
         $data['form_action'] = site_url('keuangan/proses_impor');
 

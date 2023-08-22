@@ -43,8 +43,8 @@ class Setting extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['theme_model']);
-        $this->modul_ini     = 11;
-        $this->sub_modul_ini = 43;
+        $this->modul_ini     = 'pengaturan';
+        $this->sub_modul_ini = 'aplikasi';
     }
 
     public function index()
@@ -95,8 +95,8 @@ class Setting extends Admin_Controller
     // Pengaturan web
     public function web()
     {
-        $this->modul_ini     = 13;
-        $this->sub_modul_ini = 211;
+        $this->modul_ini     = 'admin-web';
+        $this->sub_modul_ini = 'pengaturan-web';
 
         $data = [
             'judul'               => 'Pengaturan Halaman Web',
@@ -110,8 +110,8 @@ class Setting extends Admin_Controller
     // Pengaturan mandiri
     public function mandiri()
     {
-        $this->modul_ini     = 14;
-        $this->sub_modul_ini = 314;
+        $this->modul_ini     = 'layanan-mandiri';
+        $this->sub_modul_ini = 'pengaturan-layanan-mandiri';
 
         $data = [
             'judul'               => 'Pengaturan Layanan Mandiri',
@@ -127,8 +127,8 @@ class Setting extends Admin_Controller
     // Pengaturan analisis
     public function analisis()
     {
-        $this->modul_ini     = 5;
-        $this->sub_modul_ini = 111;
+        $this->modul_ini     = 'analisis';
+        $this->sub_modul_ini = 'pengaturan-analisis';
 
         $data = [
             'judul'               => 'Pengaturan Analisis',
@@ -141,8 +141,8 @@ class Setting extends Admin_Controller
 
     public function qrcode($aksi = '')
     {
-        $this->modul_ini     = 11;
-        $this->sub_modul_ini = 212;
+        $this->modul_ini     = 'pengaturan';
+        $this->sub_modul_ini = 'qr-code';
 
         $data['qrcode']        = ['changeqr' => '1', 'sizeqr' => '6', 'foreqr' => '#000000']; // Default
         $data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Manual'];

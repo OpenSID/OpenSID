@@ -49,8 +49,8 @@ class Permohonan_surat_admin extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['permohonan_surat_model', 'penduduk_model', 'surat_model', 'keluarga_model', 'mailbox_model', 'surat_master_model']);
-        $this->modul_ini     = 4;
-        $this->sub_modul_ini = 98;
+        $this->modul_ini     = 'layanan-surat';
+        $this->sub_modul_ini = 'permohonan-surat';
     }
 
     public function index()
