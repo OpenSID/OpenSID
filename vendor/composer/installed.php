@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => 'dev-23.01-rector',
         'version' => 'dev-23.01-rector',
-        'reference' => '091e1d485fbd6c23524db9d8add1721b87885709',
+        'reference' => '683665a87a683bc4614e0debee6660b89bd29eb0',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -256,7 +256,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => 'dev-23.01-rector',
             'version' => 'dev-23.01-rector',
-            'reference' => '091e1d485fbd6c23524db9d8add1721b87885709',
+            'reference' => '683665a87a683bc4614e0debee6660b89bd29eb0',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -605,7 +605,7 @@
         'themes/esensi' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'e1408a346b1ee5e8a7cad5bb67feb6eef1577114',
+            'reference' => '7ff7b197ac7dfb8dd527d61a1e5668252906977c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/esensi',
             'aliases' => array(
@@ -616,7 +616,7 @@
         'themes/natra' => array(
             'pretty_version' => 'dev-premium',
             'version' => 'dev-premium',
-            'reference' => 'd1be4e773e920c7ac39aac0f972360edfd0432b6',
+            'reference' => '7ed93ac3749d9d40083312206d3037b4db5c5435',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),

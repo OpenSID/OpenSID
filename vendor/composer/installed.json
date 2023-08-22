@@ -4320,9 +4320,9 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-esensi",
-                "reference": "e1408a346b1ee5e8a7cad5bb67feb6eef1577114"
+                "reference": "7ff7b197ac7dfb8dd527d61a1e5668252906977c"
             },
-            "time": "2022-12-01T00:28:49+00:00",
+            "time": "2023-08-22T15:49:01+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "source",
@@ -4350,9 +4350,9 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-natra",
-                "reference": "d1be4e773e920c7ac39aac0f972360edfd0432b6"
+                "reference": "7ed93ac3749d9d40083312206d3037b4db5c5435"
             },
-            "time": "2022-12-01T00:29:01+00:00",
+            "time": "2023-08-22T16:21:13+00:00",
             "type": "library",
             "installation-source": "source",
             "license": [
