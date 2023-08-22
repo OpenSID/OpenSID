@@ -430,6 +430,8 @@ if (isset($_GET['action'])) {
             $_SESSION['RF']['clipboard_action'] = null;
             break;
         case 'chmod':
+            response(sprintf(trans('File_Permission_Not_Allowed'), (is_dir($path) ? trans('Folders') : trans('Files')), 403))->send();
+            exit;
             if ($ftp) {
                 $path = $config['ftp_base_url'] . $config['upload_dir'] . $_POST['path'];
                 if (
