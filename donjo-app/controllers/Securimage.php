@@ -46,7 +46,6 @@ class Securimage extends CI_Controller
 
     public function show()
     {
-        $capctha = new App\Libraries\Captcha();
-        $capctha->show();
+        App\Libraries\Captcha::make();
     }
 }
