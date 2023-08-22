@@ -35,6 +35,11 @@
  *
  */
 
+use App\Models\RefJabatan;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use voku\helper\AntiXSS;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
@@ -132,10 +137,6 @@ define('NILAI_PENDAPAT', serialize([
     3 => 'Cukup',
     4 => 'Buruk',
 ]));
-
-use App\Models\RefJabatan;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 
 /**
  * Ambil Versi
@@ -1516,5 +1517,20 @@ if (! function_exists('sekdes')) {
     function sekdes()
     {
         return RefJabatan::getSekdes();
+    }
+}
+
+/**
+ * @param string
+ *
+ * @return string
+ */
+if (! function_exists('bersihkan_xss')) {
+    function bersihkan_xss($str)
+    {
+        $antiXSS = new AntiXSS();
+        $antiXSS->removeEvilHtmlTags(['iframe']);
+
+        return $antiXSS->xss_clean($str);
     }
 }

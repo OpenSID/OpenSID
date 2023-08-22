@@ -98,10 +98,19 @@ class Web_widget_model extends MY_Model
             $this->db->where('isi !=', 'layanan_mandiri.php');
         }
 
-        return $this->db->where('enabled', 1)
+        $widget = $this->db->where('enabled', 1)
             ->order_by('urut')
             ->get($this->tabel)
             ->result_array();
+
+        return collect($widget)->map(static function ($item) {
+            if ($item['jenis_widget'] == 3) {
+                $item['isi'] = bersihkan_xss($item['isi']);
+            }
+            $item['judul'] = SebutanDesa($item['judul']);
+
+            return $item;
+        })->toArray();
     }
 
     private function search_sql()

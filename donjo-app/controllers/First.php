@@ -130,7 +130,7 @@ class First extends Web_Controller
         $id                     = $data['single_artikel']['id'];
 
         // replace isi artikel dengan shortcodify
-        $data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
+        $data['single_artikel']['isi'] = $this->shortcode_model->shortcode(bersihkan_xss($data['single_artikel']['isi']));
         $data['title']                 = ucwords($data['single_artikel']['judul']);
         $data['detail_agenda']         = $this->first_artikel_m->get_agenda($id); //Agenda
         $data['komentar']              = $this->first_artikel_m->list_komentar($id);
