@@ -105,6 +105,9 @@ class Web_widget_model extends MY_Model
             ->result_array();
 
         return collect($widget)->map(static function ($item) {
+            if ($item['jenis_widget'] == 3) {
+                $item['isi'] = bersihkan_xss($item['isi']);
+            }
             $item['judul'] = SebutanDesa($item['judul']);
 
             return $item;

@@ -223,7 +223,7 @@ class Web_artikel_model extends MY_Model
             return;
         }
 
-        $data['isi'] = preg_replace('/script|prompt|onload/mi', '', $data['isi']); // hapus potensi xss
+        $data['isi'] = bersihkan_xss($data['isi']); // hapus potensi xss
         // Batasi judul menggunakan teks polos
         $data['judul'] = strip_tags($data['judul']);
 
@@ -343,7 +343,7 @@ class Web_artikel_model extends MY_Model
             return;
         }
 
-        $data['isi'] = preg_replace('/script|prompt|onload/mi', '', $data['isi']); // hapus potensi xss
+        $data['isi'] = bersihkan_xss($data['isi']); // hapus potensi xss
         // Batasi judul menggunakan teks polos
         $data['judul'] = strip_tags($data['judul']);
 
