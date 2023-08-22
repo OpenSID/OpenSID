@@ -710,6 +710,7 @@ class Surat_master extends Admin_Controller
 
     public function preview()
     {
+        // TODO:: Sederhanakan cara ini, simpan di library TInymCE
         $setting_header    = $this->request['header'] == StatusEnum::YA ? setting('header_surat') : '';
         $setting_footer    = $this->request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
         $data['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
@@ -749,6 +750,30 @@ class Surat_master extends Admin_Controller
             $data = case_replace(form_kode_isian($kode), $kode_isian, $data);
         }
 
+        switch ($this->request['satuan_masa_berlaku']) {
+            case 'd':
+                $tanggal_akhir = Carbon\Carbon::now()->addDays($this->request['masa_berlaku']);
+                break;
+
+            case 'w':
+                $tanggal_akhir = Carbon\Carbon::now()->addWeeks($this->request['masa_berlaku']);
+                break;
+
+            case 'M':
+                $tanggal_akhir = Carbon\Carbon::now()->addMonths($this->request['masa_berlaku']);
+                break;
+
+            case 'y':
+                $tanggal_akhir = Carbon\Carbon::now()->addYears($this->request['masa_berlaku']);
+                break;
+
+            default:
+                $tanggal_akhir = Carbon\Carbon::now();
+                break;
+        }
+
+        $data      = str_replace('[Mulai_berlakU]', date('d-m-Y', strtotime(Carbon\Carbon::now())), $data);
+        $data      = str_replace('[Berlaku_sampaI]', date('d-m-Y', strtotime($tanggal_akhir)), $data);
         $data      = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
         $isi_surat = $this->tinymce->replceKodeIsian($data);
 
