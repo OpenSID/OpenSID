@@ -1,4 +1,4 @@
-Di rilis ini, versi 2308.0.2 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2308.0.3 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
