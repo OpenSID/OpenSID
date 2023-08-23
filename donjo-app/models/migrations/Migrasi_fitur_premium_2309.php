@@ -61,11 +61,11 @@ class Migrasi_fitur_premium_2309 extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_23082351($hasil, $id);
+        }
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_23080851($hasil);
@@ -143,5 +143,37 @@ class Migrasi_fitur_premium_2309 extends MY_model
         $this->db->delete('setting_aplikasi', ['key' => 'tgl_data_lengkap']);
 
         return $hasil;
+    }
+
+    private function update_parent_sub_modul(int $config_id, array $modul, string $parent, $hasil)
+    {
+        $parent_id = $this->db->select('id')->where('config_id', $config_id)->where('slug', $parent)->get('setting_modul')->row()->id;
+        $max_urut  = $this->db->select('urut')->where('config_id', $config_id)->where('parent', $parent_id)->order_by('urut', 'desc')->get('setting_modul')->row()->urut;
+
+        foreach ($modul as $slug) {
+            $hasil = $hasil && $this->db->where('config_id', $config_id)->where('slug', $slug)->where('parent !=', $parent_id)->update('setting_modul', [
+                'parent' => $parent_id,
+                'urut'   => $max_urut++,
+            ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_23082351($hasil, $config_id)
+    {
+        // sub modul pemeteaan
+        $modul = [
+            'peta',
+            'pengaturan-peta',
+            'plan',
+            'point',
+            'garis',
+            'line',
+            'area',
+            'polygon',
+        ];
+
+        return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'pemetaan', $hasil);
     }
 }
