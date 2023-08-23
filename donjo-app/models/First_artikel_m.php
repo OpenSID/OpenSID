@@ -108,7 +108,7 @@ class First_artikel_m extends MY_Model
             ->join('user u', 'a.id_user = u.id', 'LEFT')
             ->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
             ->where('a.enabled', 1)
-            ->where('a.headline <>', 1)
+            ->where('(a.headline = 2 or a.headline = 3)')
             ->where('a.id_kategori NOT IN (1000)')
             ->where('a.tgl_upload <', date('Y-m-d H:i:s'));
 
