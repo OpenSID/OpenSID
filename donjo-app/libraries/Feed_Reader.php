@@ -35,6 +35,8 @@
  *
  */
 
+use FeedParser;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Feed_Reader
