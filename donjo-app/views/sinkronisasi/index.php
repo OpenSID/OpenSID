@@ -439,11 +439,20 @@
                 'password': $('#api_opendk_password').val()
             }
         }).catch(function (error) {
-            if(error.response != undefined) {
-                Swal.fire(error.response.data.message)
+            if(error.response.statusText) {
+                $pesan = 'Pastikan <b>server</b>, <b>user</b> dan <b>password</b> sudah terisi dengan benar !!!';
+            } else if(error.response != undefined) {
+                $pesan = error.response.data.message;
             } else {
-                Swal.fire(error.toJSON().message)
+                $pesan = error.toJSON().message;
             }
+
+            Swal.fire({
+                title: 'Gagal terhubung ke server OpenDK',
+                html: $pesan,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
         });
 
         if (res.status == 200) {
@@ -455,7 +464,25 @@
 
     $('#btn_buat_key').on('click', function() {
         $('#api_opendk_key').val('');
-        get_token();
+        Swal.fire({
+            title: 'Menghubungkan ke server OpenDK',
+            icon: 'info',
+            timer: 5000,
+            showCancelButton: true,
+            didOpen: () => {
+                Swal.showLoading();
+                get_token();
+            },
+        }).then((result) => {
+            if (result.dismiss === Swal.DismissReason.timer) {
+                Swal.fire({
+                    title: 'Gagal terhubung ke server OpenDK',
+                    html: 'Pastikan <b>server</b>, <b>user</b> dan <b>password</b> sudah terisi dengan benar !!!',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                })
+            }
+        });
     });
 </script>
 
