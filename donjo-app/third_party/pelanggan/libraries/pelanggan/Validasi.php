@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Premium
+class Validasi
 {
     /**
      * @var \CI_Controller

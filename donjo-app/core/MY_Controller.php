@@ -296,7 +296,7 @@ class Admin_Controller extends MY_Controller
         $this->load->model('header_model');
         $this->header = $this->header_model->get_data();
 
-        $this->load->library('pelanggan/premium', null, 'premium');
+        $this->load->library('pelanggan/validasi', null, 'premium');
         $this->cek_identitas_desa();
     }
 

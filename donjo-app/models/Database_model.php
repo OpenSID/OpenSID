@@ -261,7 +261,7 @@ class Database_model extends MY_Model
     // Cek apakah migrasi perlu dijalankan
     public function cek_migrasi($install = false)
     {
-        $this->load->library('pelanggan/premium', null, 'premium');
+        $this->load->library('pelanggan/validasi', null, 'premium');
 
         if ($this->premium->validasi_versi($install) || $install) {
             // Paksa menjalankan migrasi kalau belum
