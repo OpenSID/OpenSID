@@ -174,7 +174,7 @@ class Pembangunan_model extends MY_Model
             'tahun_anggaran'          => bilangan($post['tahun_anggaran']),
             'pelaksana_kegiatan'      => $this->security->xss_clean($post['pelaksana_kegiatan']),
             'id_lokasi'               => $post['lokasi'] ? null : bilangan($post['id_lokasi']),
-            'lokasi'                  => $post['id_lokasi'] ? null : bilangan($post['lokasi']),
+            'lokasi'                  => $post['id_lokasi'] ? null : $this->security->xss_clean($post['lokasi']),
             'keterangan'              => $this->security->xss_clean($post['keterangan']),
             'foto'                    => $this->upload_gambar_pembangunan('foto'),
             'anggaran'                => bilangan($post['anggaran']),
