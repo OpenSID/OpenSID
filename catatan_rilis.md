@@ -50,7 +50,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 45. [#7047](https://github.com/OpenSID/OpenSID/issues/7047) Perbaikan migrasi hak akses modul.
 46. [#7062](https://github.com/OpenSID/OpenSID/issues/7062) Perbaikan sitemap.xml sesuai format www.sitemaps.org.
 47. [#7056](https://github.com/OpenSID/OpenSID/issues/7056) Perbaikan pengaturan TTE.
-
+48. [#7024](https://github.com/OpenSID/OpenSID/issues/7024) Perbaikan cetak laporan kelompok/lembaga.
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.
 2. [#7001](https://github.com/OpenSID/OpenSID/issues/7001) Penyesuaian tombol dan link agar tidak duplikasi pada modul suplemen.
