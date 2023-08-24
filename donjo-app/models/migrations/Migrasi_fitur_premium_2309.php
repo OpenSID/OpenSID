@@ -66,6 +66,7 @@ class Migrasi_fitur_premium_2309 extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_23082351($hasil, $id);
             $hasil = $hasil && $this->migrasi_23082352($hasil, $id);
+            $hasil = $hasil && $this->migrasi_23082353($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -203,5 +204,13 @@ class Migrasi_fitur_premium_2309 extends MY_model
         ];
 
         return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'buku-administrasi-desa', $hasil);
+    }
+
+    protected function migrasi_23082353($hasil, $config_id)
+    {
+        // sub modul kelompok
+        $modul = ['kategori-kelompok'];
+
+        return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'kependudukan', $hasil);
     }
 }
