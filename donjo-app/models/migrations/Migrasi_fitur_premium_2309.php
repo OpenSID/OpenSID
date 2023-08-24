@@ -70,6 +70,7 @@ class Migrasi_fitur_premium_2309 extends MY_model
             $hasil = $hasil && $this->migrasi_23082354($hasil, $id);
             $hasil = $hasil && $this->migrasi_23082355($hasil, $id);
             $hasil = $hasil && $this->migrasi_23082356($hasil, $id);
+            $hasil = $hasil && $this->migrasi_23082357($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -270,6 +271,16 @@ class Migrasi_fitur_premium_2309 extends MY_model
         ];
 
         return $hasil && $this->update_parent_sub_modul($hasil, $config_id, $modul, 'admin-web');
+    }
+
+    protected function migrasi_23082357($hasil, $config_id)
+    {
+        // sub modul kategori
+        $modul = [
+            'pengaturan-grup',
+        ];
+
+        return $hasil && $this->update_parent_sub_modul($hasil, $config_id, $modul, 'pengaturan');
     }
 
     protected function migrasi_23082456($hasil)
