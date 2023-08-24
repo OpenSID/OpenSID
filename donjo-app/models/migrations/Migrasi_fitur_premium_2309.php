@@ -69,6 +69,7 @@ class Migrasi_fitur_premium_2309 extends MY_model
             $hasil = $hasil && $this->migrasi_23082353($hasil, $id);
             $hasil = $hasil && $this->migrasi_23082354($hasil, $id);
             $hasil = $hasil && $this->migrasi_23082355($hasil, $id);
+            $hasil = $hasil && $this->migrasi_23082356($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -150,16 +151,22 @@ class Migrasi_fitur_premium_2309 extends MY_model
         return $hasil;
     }
 
-    private function update_parent_sub_modul(int $config_id, array $modul, string $parent, $hasil)
+    private function update_parent_sub_modul($hasil, int $config_id, array $modul, string $parent, $hidden = [])
     {
         $parent_id = $this->db->select('id')->where('config_id', $config_id)->where('slug', $parent)->get('setting_modul')->row()->id;
         $max_urut  = $this->db->select('urut')->where('config_id', $config_id)->where('parent', $parent_id)->order_by('urut', 'desc')->get('setting_modul')->row()->urut;
 
         foreach ($modul as $slug) {
-            $hasil = $hasil && $this->db->where('config_id', $config_id)->where('slug', $slug)->where('parent !=', $parent_id)->update('setting_modul', [
+            $update = [
                 'parent' => $parent_id,
                 'urut'   => $max_urut++,
-            ]);
+            ];
+
+            if (in_array($slug, $hidden)) {
+                $update['hidden'] = 2;
+            }
+
+            $hasil = $hasil && $this->db->where('config_id', $config_id)->where('slug', $slug)->where('parent !=', $parent_id)->update('setting_modul', $update);
         }
 
         return $hasil;
@@ -179,21 +186,21 @@ class Migrasi_fitur_premium_2309 extends MY_model
             'polygon',
         ];
 
-        return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'pemetaan', $hasil);
+        return $hasil && $this->update_parent_sub_modul($hasil, $config_id, $modul, 'pemetaan');
     }
 
     protected function migrasi_23082352($hasil, $config_id)
     {
         // sub modul buku administrasi umum
         $modul = [
-            'bumindes-kegiatan-pembangunan',
-            'bumindes-kader',
-            'bumindes-hasil-pembangunan',
             'administrasi-umum',
             'administrasi-penduduk',
-            'administrasi-keuangan',
             'administrasi-pembangunan',
+            'administrasi-keuangan',
             'arsip-desa',
+        ];
+
+        $hidden = [
             'buku-eskpedisi',
             'buku-lembaran-dan-berita-desa',
             'buku-tanah-kas-desa',
@@ -204,9 +211,12 @@ class Migrasi_fitur_premium_2309 extends MY_model
             'buku-penduduk-sementara',
             'buku-ktp-dan-kk',
             'buku-rencana-kerja-pembangunan',
+            'bumindes-kegiatan-pembangunan',
+            'bumindes-kader',
+            'bumindes-hasil-pembangunan',
         ];
 
-        return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'buku-administrasi-desa', $hasil);
+        return $hasil && $this->update_parent_sub_modul($hasil, $config_id, array_merge($modul, $hidden), 'buku-administrasi-desa', $hidden, $hasil);
     }
 
     protected function migrasi_23082353($hasil, $config_id)
@@ -214,7 +224,7 @@ class Migrasi_fitur_premium_2309 extends MY_model
         // sub modul kelompok
         $modul = ['kategori-kelompok'];
 
-        return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'kependudukan', $hasil);
+        return $hasil && $this->update_parent_sub_modul($hasil, $config_id, $modul, 'kependudukan');
     }
 
     protected function migrasi_23082354($hasil, $config_id)
@@ -222,7 +232,7 @@ class Migrasi_fitur_premium_2309 extends MY_model
         // sub modul lembaga
         $modul = ['kategori-lembaga'];
 
-        return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'info-desa', $hasil);
+        return $hasil && $this->update_parent_sub_modul($hasil, $config_id, $modul, 'info-desa');
     }
 
     protected function migrasi_23082355($hasil, $config_id)
@@ -245,7 +255,18 @@ class Migrasi_fitur_premium_2309 extends MY_model
             'laporan-inventaris',
         ];
 
-        return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'sekretariat', $hasil);
+        return $hasil && $this->update_parent_sub_modul($hasil, $config_id, $modul, 'sekretariat');
+    }
+
+    protected function migrasi_23082356($hasil, $config_id)
+    {
+        // sub modul kategori
+        $modul = [
+            'pengaturan-web',
+            'kategori',
+        ];
+
+        return $hasil && $this->update_parent_sub_modul($hasil, $config_id, $modul, 'admin-web');
     }
 
     protected function migrasi_23082456($hasil)
