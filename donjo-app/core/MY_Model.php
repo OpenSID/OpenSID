@@ -204,11 +204,21 @@ class MY_Model extends CI_Model
         // Hak Akses Default Operator
         // Hanya lakukan jika tabel grup_akses sudah ada. Tabel ini belum ada sebelum Migrasi_fitur_premium_2105.php
         if ($this->db->table_exists('grup_akses')) {
-            // cari id dari modul yang dibuat berdasarkan slug
-            $id = $this->db->select('id')->where('config_id', $modul['config_id'])->where('slug', $modul['slug'])->get('setting_modul')->row()->id;
+            if ($modul['id']) {
+                $id = $modul['id'];
+            } else {
+                // cari id dari modul yang dibuat berdasarkan slug
+                $query = $this->db->select('id');
+                
+                if (Schema::hasColumn('setting_modul', 'config_id')) {
+                    $query = $query->where('config_id', $modul['config_id'] ?? $this->config_id);
+                }
+
+                $id = $query->where('slug', $modul['slug'])->get('setting_modul')->row()->id;
+            }
 
             $grupOperator = UserGrup::getGrupId(UserGrup::OPERATOR);
-            $hasil        = $hasil && $this->grupAkses($grupOperator, $modul['id'] ?? $id, 3, $modul['config_id'] ?? null);
+            $hasil        = $hasil && $this->grupAkses($grupOperator, $id, 3, $modul['config_id'] ?? null);
         }
 
         // Hapus cache menu navigasi
