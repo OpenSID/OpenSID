@@ -67,6 +67,7 @@ class Migrasi_fitur_premium_2309 extends MY_model
             $hasil = $hasil && $this->migrasi_23082351($hasil, $id);
             $hasil = $hasil && $this->migrasi_23082352($hasil, $id);
             $hasil = $hasil && $this->migrasi_23082353($hasil, $id);
+            $hasil = $hasil && $this->migrasi_23082354($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -212,5 +213,13 @@ class Migrasi_fitur_premium_2309 extends MY_model
         $modul = ['kategori-kelompok'];
 
         return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'kependudukan', $hasil);
+    }
+
+    protected function migrasi_23082354($hasil, $config_id)
+    {
+        // sub modul lembaga
+        $modul = ['kategori-lembaga'];
+
+        return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'info-desa', $hasil);
     }
 }
