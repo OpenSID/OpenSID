@@ -222,7 +222,10 @@ class Migrasi_fitur_premium_2309 extends MY_model
     protected function migrasi_23082353($hasil, $config_id)
     {
         // sub modul kelompok
-        $modul = ['kategori-kelompok'];
+        $modul = [
+            'kategori-kelompok',
+            'log-penduduk',
+        ];
 
         return $hasil && $this->update_parent_sub_modul($hasil, $config_id, $modul, 'kependudukan');
     }
