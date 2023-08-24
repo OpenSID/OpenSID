@@ -68,6 +68,7 @@ class Migrasi_fitur_premium_2309 extends MY_model
             $hasil = $hasil && $this->migrasi_23082352($hasil, $id);
             $hasil = $hasil && $this->migrasi_23082353($hasil, $id);
             $hasil = $hasil && $this->migrasi_23082354($hasil, $id);
+            $hasil = $hasil && $this->migrasi_23082355($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -221,5 +222,28 @@ class Migrasi_fitur_premium_2309 extends MY_model
         $modul = ['kategori-lembaga'];
 
         return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'info-desa', $hasil);
+    }
+
+    protected function migrasi_23082355($hasil, $config_id)
+    {
+        // sub modul inventaris
+        $modul = [
+            'informasi-publik',
+            'inventaris-asset',
+            'inventaris-gedung',
+            'inventaris-jalan',
+            'inventaris-kontruksi',
+            'inventaris-peralatan',
+            'api-inventaris-asset',
+            'api-inventaris-gedung',
+            'api-inventaris-gedung-1',
+            'api-inventaris-jalan',
+            'api-inventaris-kontruksi',
+            'api-inventaris-peralatan',
+            'api-inventaris-tanah',
+            'laporan-inventaris',
+        ];
+
+        return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'sekretariat', $hasil);
     }
 }
