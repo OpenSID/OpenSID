@@ -77,8 +77,9 @@ class Migrasi_fitur_premium_2309 extends MY_model
         $hasil = $hasil && $this->migrasi_23081452($hasil);
         $hasil = $hasil && $this->migrasi_23081551($hasil);
         $hasil = $hasil && $this->migrasi_23081651($hasil);
+        $hasil = $hasil && $this->migrasi_23082151($hasil);
 
-        return $hasil && $this->migrasi_23082151($hasil);
+        return $hasil && $this->migrasi_23082456($hasil);
     }
 
     protected function migrasi_23080851($hasil)
@@ -245,5 +246,14 @@ class Migrasi_fitur_premium_2309 extends MY_model
         ];
 
         return $hasil && $this->update_parent_sub_modul($config_id, $modul, 'sekretariat', $hasil);
+    }
+
+    protected function migrasi_23082456($hasil)
+    {
+        // Perbaiki keterangan telegram
+        $this->db->where('key', 'telegram_token')->update('setting_aplikasi', ['keterangan' => 'Telegram token']);
+        $this->db->where('key', 'telegram_user_id')->update('setting_aplikasi', ['keterangan' => 'Telegram user id untuk notifikasi ke pengguna']);
+
+        return $hasil;
     }
 }
