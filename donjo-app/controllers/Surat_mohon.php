@@ -56,7 +56,9 @@ class Surat_mohon extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(SyaratSurat::query())
+            $query = SyaratSurat::formatSuratExist();
+
+            return datatables()->of($query)
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->ref_syarat_id . '"/>';
@@ -70,7 +72,7 @@ class Surat_mohon extends Admin_Controller
                         $aksi .= '<a href="' . route('surat_mohon.form', $row->ref_syarat_id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
-                    if (can('h')) {
+                    if (can('h') && $row->jumlah_format_surat == '0') {
                         $aksi .= '<a href="#" data-href="' . route('surat_mohon.delete', $row->ref_syarat_id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
@@ -127,7 +129,7 @@ class Surat_mohon extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
 
-        if (SyaratSurat::destroy($id)) {
+        if (SyaratSurat::deleteFormatSuratExist($id)) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
         redirect_with('error', 'Gagal Hapus Data');
@@ -137,10 +139,13 @@ class Surat_mohon extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
 
-        if (SyaratSurat::destroy($this->request['id_cb'])) {
-            redirect_with('success', 'Berhasil Hapus Data');
+        foreach ($this->request['id_cb'] as $id) {
+            if (! SyaratSurat::deleteFormatSuratExist($id)) {
+                redirect_with('error', 'Gagal Hapus Data');
+            }
         }
-        redirect_with('error', 'Gagal Hapus Data');
+
+        redirect_with('success', 'Berhasil Hapus Data');
     }
 
     // Hanya filter inputan

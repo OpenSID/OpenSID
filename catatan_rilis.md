@@ -53,6 +53,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 48. [#7024](https://github.com/OpenSID/OpenSID/issues/7024) Perbaikan cetak laporan kelompok/lembaga.
 49. [#7070](https://github.com/OpenSID/OpenSID/issues/7070) Perbaikan penulisan telegram pada pengaturan aplikasi.
 50. [#7011](https://github.com/OpenSID/OpenSID/issues/7011) Perbaikan format cetak statistik pengunjung website.
+51. [#6971](https://github.com/OpenSID/OpenSID/issues/6971) Perbaikan hapus syarat surat ketika sudah digunakan pada surat.
 
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.
