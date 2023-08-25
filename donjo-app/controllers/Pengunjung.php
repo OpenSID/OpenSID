@@ -74,19 +74,15 @@ class Pengunjung extends Admin_Controller
         redirect('pengunjung');
     }
 
-    public function cetak()
+    public function cetak($aksi = 'cetak')
     {
-        $data['config'] = $this->header['desa'];
-        $data['main']   = $this->statistik_pengunjung_model->get_pengunjung($this->session->id);
-        $this->load->view('pengunjung/print', $data);
-    }
-
-    public function unduh()
-    {
-        $data['aksi']     = 'unduh';
-        $data['config']   = $this->header['desa'];
-        $data['filename'] = underscore('Laporan Data Statistik Pengunjung Website');
-        $data['main']     = $this->statistik_pengunjung_model->get_pengunjung($this->session->id);
-        $this->load->view('pengunjung/excel', $data);
+        $data = [
+            'aksi'   => $aksi,
+            'config' => $this->header['desa'],
+            'main'   => $this->statistik_pengunjung_model->get_pengunjung($this->session->id),
+            'file'   => 'LAPORAN DATA STATISTIK PENGUNJUNG WEBSITE SETIAP TAHUN',
+            'isi'    => 'pengunjung/print',
+        ];
+        $this->load->view('global/format_cetak', $data);
     }
 }

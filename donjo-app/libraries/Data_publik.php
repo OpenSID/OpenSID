@@ -35,6 +35,8 @@
  *
  */
 
+use Esyede\Curly;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Data_publik
@@ -70,10 +72,6 @@ class Data_publik
      */
     public function __construct()
     {
-        if (! class_exists('Esyede\Curly')) {
-            require_once __DIR__ . DIRECTORY_SEPARATOR . 'Curly.php';
-        }
-
         if (! $this->cache) {
             $this->set_cache_folder(FCPATH);
         }
@@ -179,14 +177,14 @@ class Data_publik
     private function get_content($secure = true)
     {
         if ($secure) {
-            \Esyede\Curly::$certificate = FCPATH . 'cacert.pem';
+            Curly::$certificate = FCPATH . 'cacert.pem';
         } else {
-            \Esyede\Curly::$secure = false;
+            Curly::$secure = false;
         }
 
         $options = [];
 
-        return \Esyede\Curly::get($this->api, [], $options);
+        return Curly::get($this->api, [], $options);
     }
 
     /**

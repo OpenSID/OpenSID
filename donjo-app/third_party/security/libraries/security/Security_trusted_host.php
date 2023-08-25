@@ -35,9 +35,43 @@
  *
  */
 
-header('Content-type: application/xls');
-header("Content-Disposition: attachment; filename={$filename}.xls");
-header('Pragma: no-cache');
-header('Expires: 0');
+class Security_trusted_host
+{
+    /**
+     * List of all loaded config values
+     *
+     * @var array
+     */
+    public $config = [];
 
-include 'donjo-app/views/pengunjung/print.php';
+    public function __construct()
+    {
+        $this->config = &get_config();
+    }
+
+    public function handle()
+    {
+        if (! isset($_SERVER['HTTP_HOST']) || empty($this->config['trusted_hosts'])) {
+            return;
+        }
+
+        $isValidHost = preg_match('/^((\[[0-9a-f:]+\])|(\d{1,3}(\.\d{1,3}){3})|[a-z0-9\-\.]+)(:\d+)?$/i', $_SERVER['HTTP_HOST']);
+
+        if (! $isValidHost) {
+            show_error(sprintf('Invalid Host "%s".', $_SERVER['HTTP_HOST']), 400);
+        }
+
+        $trustedHosts = $this->config['trusted_hosts'] ?? [];
+
+        foreach ($trustedHosts as $trustedHost) {
+            $parsedUrl       = parse_url(trim($trustedHost));
+            $realTrustedHost = trim($parsedUrl['host'] ?? '');
+
+            if ($realTrustedHost && preg_match('/^((.*?)\\.)?' . preg_quote($realTrustedHost) . '$/i', $_SERVER['HTTP_HOST'])) {
+                return;
+            }
+        }
+
+        show_error(sprintf('Untrusted Host "%s".', $_SERVER['HTTP_HOST']), 400);
+    }
+}

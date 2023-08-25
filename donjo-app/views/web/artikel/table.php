@@ -192,7 +192,7 @@
 																			<?php endif; ?>
 																			<a href="<?= site_url('artikel/' . buat_slug($data)); ?>" target="_blank" class="btn bg-green btn-flat btn-sm" title="Lihat Artikel"><i class="fa fa-eye"></i></a>
 																		</td>
-																		<td><?= $data['judul'] ?></td>
+																		<td><?= htmlspecialchars_decode($data['judul']) ?></td>
 																		<td nowrap><?= hit($data['hit']) ?></td>
 																		<td nowrap><?= tgl_indo2($data['tgl_upload']) ?></td>
 																	</tr>

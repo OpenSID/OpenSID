@@ -47,6 +47,9 @@ class First extends Web_Controller
         $this->load->library('security/security_header', null, 'security_header');
         $this->security_header->handle();
 
+        $this->load->library('security/security_trusted_host', null, 'security_trusted_host');
+        $this->security_trusted_host->handle();
+
         $this->load->model('first_artikel_m');
         $this->load->model('first_penduduk_m');
         $this->load->model('penduduk_model');

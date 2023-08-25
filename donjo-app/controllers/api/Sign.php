@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Sign extends Premium
+class Sign extends Admin_Controller
 {
     /**
      * Mock api untuk demo TTE BSrE.

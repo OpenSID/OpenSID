@@ -29,6 +29,7 @@
             <div id="body">
                 <?php $this->load->view($isi); ?>
             </div>
+            <?php if (count($letak_ttd) > 0): ?>
             <br />
             <table width="10%">
                 <tr class="text-center">
@@ -53,6 +54,7 @@
                     <td width=<?= $width ? '"' . (0.1 * $width) . 'mm;"' : '5%'?>>&nbsp;</td>
                 </tr>
             </table>
+            <?php endif; ?>
         </div>
     </body>
 </html>

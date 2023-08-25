@@ -54,6 +54,15 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 46. [#7062](https://github.com/OpenSID/OpenSID/issues/7062) Perbaikan sitemap.xml sesuai format www.sitemaps.org.
 47. [#7056](https://github.com/OpenSID/OpenSID/issues/7056) Perbaikan pengaturan TTE.
 48. [#7024](https://github.com/OpenSID/OpenSID/issues/7024) Perbaikan cetak laporan kelompok/lembaga.
+49. [#7070](https://github.com/OpenSID/OpenSID/issues/7070) Perbaikan penulisan telegram pada pengaturan aplikasi.
+50. [#7011](https://github.com/OpenSID/OpenSID/issues/7011) Perbaikan format cetak statistik pengunjung website.
+51. [#6971](https://github.com/OpenSID/OpenSID/issues/6971) Perbaikan hapus syarat surat ketika sudah digunakan pada surat.
+52. [#7075](https://github.com/OpenSID/OpenSID/issues/7075) Perbaiakan modul TTE desa dan kecamatan.
+53. [#7002](https://github.com/OpenSID/OpenSID/issues/7002) Perbaikan validasi pembangunan.
+54. [#7057](https://github.com/OpenSID/OpenSID/issues/7057) Perbaikan tampilan dan akses halaman acak data.
+55. [#7029](https://github.com/OpenSID/OpenSID/issues/7029) Perbaikan validasi judul artikel.
+
+
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.
 2. [#7001](https://github.com/OpenSID/OpenSID/issues/7001) Penyesuaian tombol dan link agar tidak duplikasi pada modul suplemen.
@@ -61,6 +70,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#2752](https://github.com/OpenSID/premium/issues/2752) Penyesuaian kategori openkab untuk pengaturan aplikasi database gabungan.
 5. [#2753](https://github.com/OpenSID/premium/issues/2753) Penyesuaian pertijau surat TinyMCE.
 6. [#7064](https://github.com/OpenSID/OpenSID/issues/7064) Penyesuaian direktori dari bot (crawl).
+7. [#2842](https://github.com/OpenSID/premium/issues/2842) Penyesuaian librari data_publik yang tidak digunakan pada web IDM.
+
 
 #### Peningkatan Keamanan
 1. [#2661](https://github.com/OpenSID/premium/issues/2661) Penyesuaian konfigurasi security headers.

@@ -209,7 +209,7 @@ class MY_Model extends CI_Model
             } else {
                 // cari id dari modul yang dibuat berdasarkan slug
                 $query = $this->db->select('id');
-                
+
                 if (Schema::hasColumn('setting_modul', 'config_id')) {
                     $query = $query->where('config_id', $modul['config_id'] ?? $this->config_id);
                 }
