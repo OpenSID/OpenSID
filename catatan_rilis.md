@@ -64,6 +64,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 4. [#2752](https://github.com/OpenSID/premium/issues/2752) Penyesuaian kategori openkab untuk pengaturan aplikasi database gabungan.
 5. [#2753](https://github.com/OpenSID/premium/issues/2753) Penyesuaian pertijau surat TinyMCE.
 6. [#7064](https://github.com/OpenSID/OpenSID/issues/7064) Penyesuaian direktori dari bot (crawl).
+7. [#2842](https://github.com/OpenSID/premium/issues/2842) Penyesuaian librari data_publik yang tidak digunakan pada web IDM.
 
 #### Peningkatan Keamanan
 1. [#2661](https://github.com/OpenSID/premium/issues/2661) Penyesuaian konfigurasi security headers.
