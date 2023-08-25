@@ -333,7 +333,7 @@ class Admin_Controller extends MY_Controller
 
         $this->grup = $this->user_model->sesi_grup($this->session->sesi);
         $this->load->model('modul_model');
-        if (! $this->modul_model->modul_aktif($this->controller) && $this->controller != 'pengguna') {
+        if (! $this->modul_model->modul_aktif($this->controller) && ! in_array($this->controller, ['pengguna', 'tte', 'surat_kecamatan', 'sign'])) {
             session_error('Fitur ini tidak aktif');
             redirect($_SERVER['HTTP_REFERER']);
         }
