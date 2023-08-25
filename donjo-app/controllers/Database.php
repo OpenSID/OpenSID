@@ -190,19 +190,21 @@ class Database extends Admin_Controller
         }
     }
 
-    // Dikhususkan untuk server yg hanya digunakan untuk web publik
     public function acak()
     {
         $this->redirect_hak_akses('u');
-        if ($this->setting->penggunaan_server != 6) {
+        if ($this->setting->penggunaan_server != 6 && ! super_admin()) {
             return;
         }
 
         $this->load->model('acak_model');
-        echo $this->load->view('database/hasil_acak', '', true);
-        $hasil = $this->acak_model->acak_penduduk();
-        $hasil = $hasil && $this->acak_model->acak_keluarga();
-        echo $this->load->view('database/hasil_acak', '', true);
+
+        $data = [
+            'penduduk' => $this->acak_model->acak_penduduk(),
+            'keluarga' => $this->acak_model->acak_keluarga(),
+        ];
+
+        return view('admin.database.acak.index', $data);
     }
 
     // Digunakan untuk server yg hanya digunakan untuk web publik
