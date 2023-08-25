@@ -57,6 +57,8 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 52. [#7075](https://github.com/OpenSID/OpenSID/issues/7075) Perbaiakan modul TTE desa dan kecamatan.
 53. [#7002](https://github.com/OpenSID/OpenSID/issues/7002) Perbaikan validasi pembangunan.
 54. [#7057](https://github.com/OpenSID/OpenSID/issues/7057) Perbaikan tampilan dan akses halaman acak data.
+55. [#7029](https://github.com/OpenSID/OpenSID/issues/7029) Perbaikan validasi judul artikel.
+
 
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.
@@ -66,6 +68,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 5. [#2753](https://github.com/OpenSID/premium/issues/2753) Penyesuaian pertijau surat TinyMCE.
 6. [#7064](https://github.com/OpenSID/OpenSID/issues/7064) Penyesuaian direktori dari bot (crawl).
 7. [#2842](https://github.com/OpenSID/premium/issues/2842) Penyesuaian librari data_publik yang tidak digunakan pada web IDM.
+
 
 #### Peningkatan Keamanan
 1. [#2661](https://github.com/OpenSID/premium/issues/2661) Penyesuaian konfigurasi security headers.

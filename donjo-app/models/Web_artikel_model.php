@@ -163,6 +163,7 @@ class Web_artikel_model extends MY_Model
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']         = $j + 1;
             $data[$i]['boleh_ubah'] = $this->boleh_ubah($data[$i]['id'], $this->session->user);
+            $data[$i]['judul']      = htmlspecialchars_decode($data[$i]['judul']);
             $j++;
         }
 
@@ -225,7 +226,7 @@ class Web_artikel_model extends MY_Model
 
         $data['isi'] = bersihkan_xss($data['isi']); // hapus potensi xss
         // Batasi judul menggunakan teks polos
-        $data['judul'] = strip_tags($data['judul']);
+        $data['judul'] = judul_artikel(strip_tags($data['judul']));
 
         $fp          = time();
         $list_gambar = ['gambar', 'gambar1', 'gambar2', 'gambar3'];
@@ -345,7 +346,7 @@ class Web_artikel_model extends MY_Model
 
         $data['isi'] = bersihkan_xss($data['isi']); // hapus potensi xss
         // Batasi judul menggunakan teks polos
-        $data['judul'] = strip_tags($data['judul']);
+        $data['judul'] = judul_artikel(strip_tags($data['judul']));
 
         $fp          = time();
         $list_gambar = ['gambar', 'gambar1', 'gambar2', 'gambar3'];
