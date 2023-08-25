@@ -55,6 +55,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 50. [#7011](https://github.com/OpenSID/OpenSID/issues/7011) Perbaikan format cetak statistik pengunjung website.
 51. [#6971](https://github.com/OpenSID/OpenSID/issues/6971) Perbaikan hapus syarat surat ketika sudah digunakan pada surat.
 52. [#7075](https://github.com/OpenSID/OpenSID/issues/7075) Perbaiakan modul TTE desa dan kecamatan.
+53. [#7002](https://github.com/OpenSID/OpenSID/issues/7002) Perbaikan validasi pembangunan.
 
 #### Perubahan Teknis
 1. [#2727](https://github.com/OpenSID/premium/issues/2727) Penyesuaian library layanan pelanggan premium.

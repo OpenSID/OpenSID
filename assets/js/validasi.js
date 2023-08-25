@@ -381,13 +381,13 @@ function validate(elementClassId) {
 		errorPlacement: function (error, element) {
 			if (element.parent('.input-group').length) {
 				error.insertAfter(element.parent());
-				element.parent().focus();
+				// element.parent().focus();
 			} else if (element.hasClass('select2')) {
 				error.insertAfter(element.next('span'));
-				element.next('span').focus();
+				// element.next('span').focus();
 			} else {
 				error.insertAfter(element);
-				element.focus();
+				// element.focus();
 			}
 		},
 		invalidHandler: function(e, validator){
