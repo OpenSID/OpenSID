@@ -2,6 +2,9 @@ Di rilis ini, versi 2308.0.3 berisi [isi disini] dan perbaikan lain yang diminta
 
 Terima kasih pada [isi disini] yang terus berkontribusi.
 
+### Penambahan Fitur
+1. [#6618](https://github.com/OpenSID/OpenSID/issues/6618) Pemasangan aplikasi dengan wizard.
+
 #### Perbaikan Bug
 1. [#6882](https://github.com/OpenSID/OpenSID/issues/6882) Perbaikan luas peta tidak tampil mengikuti pengaturan pada modul pemetaan.
 2. [#6957](https://github.com/OpenSID/OpenSID/issues/6957) Perbaikan daftar penduduk lepas saat menambah keluarga (kepala keluarga) baru dan anggota keluarga.
