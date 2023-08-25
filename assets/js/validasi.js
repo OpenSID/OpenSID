@@ -259,11 +259,15 @@ $(document).ready(function() {
 		return strippedText === value;
 	}, "Tidak boleh mengandung tag HTML");
 
+	jQuery.validator.addMethod("judul", function(value, element) {
+		valid = /^[a-zA-Z0-9()[]&_:;=°%'".,/ \-]+$/i.test(value);
+		return this.optional(element) || valid;
+	}, `Hanya boleh berisi karakter alfanumerik, spasi, strip, titik, koma (, ), [, ], &, :, ;, =, °, %, ', -, dan /`);
+
 	$('.bilangan_titik').each(function() {
-		$(this).rules("add",
-			{
-				bilangan_titik: true,
-			});
+		$(this).rules("add", {
+			bilangan_titik: true,
+		});
 	});
 
 	jQuery.validator.addMethod("bilangan_spasi", function(value, element) {

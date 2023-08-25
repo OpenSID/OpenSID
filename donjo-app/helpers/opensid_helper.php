@@ -855,6 +855,12 @@ function nama_terbatas($str)
     return preg_replace('/[^a-zA-Z0-9 \\-]/', '', $str);
 }
 
+// Judul artikel hanya boleh berisi a-zA-Z0-9()[]&_:=°%'.,/ \-
+function judul_artikel($str)
+{
+    return preg_replace('/[^a-zA-Z0-9()[]&_:;=°%\'".,\\/ \\-]/', '', $str);
+}
+
 // Nama surat hanya boleh berisi karakter alfanumerik, spasi, strip, (, )
 function nama_surat($str)
 {
