@@ -346,37 +346,37 @@
             <td>1.</td>
             <td colspan="20">Nama</td>
             <td class="kanan">:</td>
-            <?= kotak($input['nama_bayi']); ?>
+            <?= kotak($individu['nama']); ?>
         </tr>
         <tr>
             <td>2.</td>
             <td colspan="20">Jenis kelamin</td>
             <td class="kanan">:</td>
-            <?= checklist($input['sex'], 'Laki-laki'); ?>
-            <td colspan="6">1. <?= $input['sex'] ?> </td>
-            <?= checklist($input['sex'], 'Perempuan'); ?>
-            <td colspan="7">2. <?= $input['sex'] ?> </td>
+            <?= checklist($individu['sex'], 'Laki-laki'); ?>
+            <td colspan="6">1. <?= $individu['sex'] ?> </td>
+            <?= checklist($individu['sex'], 'Perempuan'); ?>
+            <td colspan="7">2. <?= $individu['sex'] ?> </td>
         </tr>
         <tr>
             <td>3.</td>
             <td colspan="20">Tempat dilahirkan</td>
             <td class="kanan">:</td>
-            <?= checklist($input['tempat_dilahirkan'], 1); ?>
+            <?= checklist($individu['tempat_dilahirkan'], 1); ?>
             <td colspan="4">1. RS/SB</td>
-            <?= checklist($input['tempat_dilahirkan'], 2); ?>
+            <?= checklist($individu['tempat_dilahirkan'], 2); ?>
             <td colspan="5">2. Puskesmas </td>
-            <?= checklist($input['tempat_dilahirkan'], 3); ?>
+            <?= checklist($individu['tempat_dilahirkan'], 3); ?>
             <td colspan="4">3. Polindes</td>
-            <?= checklist($input['tempat_dilahirkan'], 4); ?>
+            <?= checklist($individu['tempat_dilahirkan'], 4); ?>
             <td colspan="4">4. Rumah </td>
-            <?= checklist($input['tempat_dilahirkan'], 5); ?>
+            <?= checklist($individu['tempat_dilahirkan'], 5); ?>
             <td colspan="4">5. Lainnya &nbsp; </td>
         </tr>
         <tr>
             <td>4.</td>
             <td colspan="20">Tempat kelahiran </td>
             <td class="kanan">:</td>
-            <?= kotak($input['tempatlahir']); ?>
+            <?= kotak($individu['tempatlahir']); ?>
         </tr>
         <tr>
             <td>5.</td>
@@ -384,56 +384,56 @@
             <td class="kanan">:</td>
             <td>Hari</td>
             <td class="kanan">:</td>
-            <?= kotak($input['hari'], 6); ?>
+            <?= kotak(hari($individu['tanggallahir']), 6); ?>
             <td colspan="4">&nbsp;</td>
             <td>Tgl</td>
             <td class="kanan">:</td>
-            <?= kotak(date('dd', strtotime($input['tanggallahir'])), 2); ?>
+            <?= kotak(date('dd', strtotime($individu['tanggallahir'])), 2); ?>
             <td>Bln</td>
             <td class="kanan">:</td>
-            <?= kotak(date('mm', strtotime($input['tanggallahir'])), 2); ?>
+            <?= kotak(date('mm', strtotime($individu['tanggallahir'])), 2); ?>
             <td>Thn</td>
             <td class="kanan">:</td>
-            <?= kotak(date('Y', strtotime($input['tanggallahir'])), 4); ?>
+            <?= kotak(date('Y', strtotime($individu['tanggallahir'])), 4); ?>
         </tr>
         <tr>
             <td>6.</td>
             <td colspan="20">Pukul </td>
             <td class="kanan">:</td>
-            <?= kotak($input['waktu_lahir'], 5); ?>
+            <?= kotak($individu['waktu_lahir'], 5); ?>
         </tr>
         <tr>
             <td>7.</td>
             <td colspan="20">Jenis kelahiran </td>
             <td class="kanan">:</td>
-            <?= checklist($input['jenis_kelahiran'], 1); ?>
+            <?= checklist($individu['jenis_kelahiran'], 1); ?>
             <td colspan="4">1. Tunggal</td>
-            <?= checklist($input['jenis_kelahiran'], 2); ?>
+            <?= checklist($individu['jenis_kelahiran'], 2); ?>
             <td colspan="4">2. Kembar 2 </td>
-            <?= checklist($input['jenis_kelahiran'], 3); ?>
+            <?= checklist($individu['jenis_kelahiran'], 3); ?>
             <td colspan="5">3. Kembar 3</td>
-            <?= checklist($input['jenis_kelahiran'], 4); ?>
+            <?= checklist($individu['jenis_kelahiran'], 4); ?>
             <td colspan="4">4. Kembar 4 </td>
-            <?= checklist($input['jenis_kelahiran'], 5); ?>
+            <?= checklist($individu['jenis_kelahiran'], 5); ?>
             <td colspan="4">5. Lainnya &nbsp; </td>
         </tr>
         <tr>
             <td>8.</td>
             <td colspan="20">Kelahiran anak ke- </td>
             <td class="kanan">:</td>
-            <?= kotak(date('Y', strtotime($input['kelahiran_anak_ke'])), 1); ?>
+            <?= kotak(date('Y', strtotime($individu['kelahiran_anak_ke'])), 1); ?>
         </tr>
         <tr>
             <td>9.</td>
             <td colspan="20">Penolong kelahiran</td>
             <td class="kanan">:</td>
-            <?= checklist($input['penolong_kelahiran'], 1); ?>
+            <?= checklist($individu['penolong_kelahiran'], 1); ?>
             <td colspan="4">1. Dokter</td>
-            <?= checklist($input['penolong_kelahiran'], 2); ?>
+            <?= checklist($individu['penolong_kelahiran'], 2); ?>
             <td colspan="6">2. Bidan/Perawat</td>
-            <?= checklist($input['penolong_kelahiran'], 3); ?>
+            <?= checklist($individu['penolong_kelahiran'], 3); ?>
             <td colspan="4">3. Dukun</td>
-            <?= checklist($input['penolong_kelahiran'], 4); ?>
+            <?= checklist($individu['penolong_kelahiran'], 4); ?>
             <td colspan="4">4. Lainnya</td>
         </tr>
         <tr>
@@ -441,7 +441,7 @@
             <td colspan="20">Berat Bayi</td>
             <td class="kanan">:</td>
             <td colspan="2" class="kotak padat tengah">
-                <?= $input['berat_lahir'] ?>
+                <?= $individu['berat_lahir'] ?>
             </td>
             <td> gram</td>
         </tr>
@@ -450,7 +450,7 @@
             <td colspan="20">Panjang Bayi</td>
             <td class="kanan">:</td>
             <td colspan="2" class="kotak padat tengah">
-                <?= $input['panjang_lahir'] ?>
+                <?= $individu['panjang_lahir'] ?>
             </td>
             <td> cm</td>
         </tr>

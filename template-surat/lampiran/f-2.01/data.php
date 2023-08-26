@@ -2,14 +2,27 @@
 
     defined('BASEPATH') || exit('No direct script access allowed');
 
-    // View untuk Permohonan Akta Kematian
-    $tampil_data_kematian  = true;
-    $tampil_data_orang_tua = true;
-    $tampil_data_pelapor   = true;
-    $tampil_data_saksi     = true;
+    switch ($surat->url_surat) {
+        case 'surat-keterangan-kelahiran':
+            $format_f201           = 1;
+            $tampil_data_anak      = true;
+            $tampil_data_orang_tua = true;
+            $tampil_data_pelapor   = true;
+            $tampil_data_saksi     = true;
+            break;
 
-    // Pilih model yang digunakan untuk menampilkan data
-    $format_f201 = 7;
+        case 'surat-keterangan-kematian':
+            $format_f201           = 7;
+            $tampil_data_kematian  = true;
+            $tampil_data_orang_tua = true;
+            $tampil_data_pelapor   = true;
+            $tampil_data_saksi     = true;
+            break;
+        
+        default:
+            # code...
+            break;
+    }
 
     $individu['umur'] = str_pad($individu['umur'], 3, "0", STR_PAD_LEFT);
 
