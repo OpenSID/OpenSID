@@ -60,7 +60,7 @@ class Surat_master extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['surat_master_model']);
+        $this->load->model(['surat_master_model', 'surat_model']);
         $this->tinymce       = new TinyMCE();
         $this->modul_ini     = 'layanan-surat';
         $this->sub_modul_ini = 'pengaturan-surat';
@@ -782,6 +782,30 @@ class Surat_master extends Admin_Controller
         // Manual replace kode isian non warga
         $isi_surat = str_replace('[Form_nik_non_wargA]', $data['nik_non_warga'], $isi_surat);
         $isi_surat = str_replace('[Form_nama_non_wargA]', $data['nama_non_warga'], $isi_surat);
+
+        // Manual replace data izin orang tua suami istri
+        $data_penerima_izin['id_pend'] = Penduduk::filters([
+            'sex'          => $this->request['individu_sex'],
+            'status_dasar' => $this->request['individu_status_dasar'],
+            'kk_level'     => $this->request['individu_kk_level'],
+        ])->where('id', '!=', $data['id_pend'])->first('id')->id;
+
+        if (! $data_penerima_izin['id_pend']) {
+            redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+        }
+        $pend      = $this->surat_model->get_penduduk($data_penerima_izin['id_pend']);
+        $isi_surat = str_replace('[Form_hubungan_dengan_penerima_iziN]', 'Anak', $isi_surat);
+        $isi_surat = str_replace('[Nama_penerima_iziN]', $pend['nama'], $isi_surat);
+        $isi_surat = str_replace('[Ttl_penerima_iziN]', $pend['tempatlahir'] . ', ' . $pend['tanggallahir'], $isi_surat);
+        $isi_surat = str_replace('[Agama_penerima_iziN]', $pend['agama'], $isi_surat);
+        $isi_surat = str_replace('[Warga_negara_penerima_iziN]', $pend['warganegara'], $isi_surat);
+        $isi_surat = str_replace('[Pekerjaan_penerima_iziN]', $pend['pekerjaan'], $isi_surat);
+        $isi_surat = str_replace('[Alamat_penerima_iziN]', $pend['alamat'], $isi_surat);
+        $isi_surat = str_replace('[Form_negara_tujuaN]', 'Malaysia', $isi_surat);
+        $isi_surat = str_replace('[Form_nama_pptkiS]', 'ABDI BELA PERSADA', $isi_surat);
+        $isi_surat = str_replace('[Form_status_pekerjaan_tki_tkW]', 'Tenaga Kerja Indonesia (TKI)', $isi_surat);
+        $isi_surat = str_replace('[Form_masa_kontrak_tahuN]', '5', $isi_surat);
+        $isi_surat = str_replace('[Nama_penerima_iziN]', $pend['nama'], $isi_surat);
 
         // Pisahkan isian surat
         $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);
