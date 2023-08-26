@@ -58,6 +58,7 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 53. [#7002](https://github.com/OpenSID/OpenSID/issues/7002) Perbaikan validasi pembangunan.
 54. [#7057](https://github.com/OpenSID/OpenSID/issues/7057) Perbaikan tampilan dan akses halaman acak data.
 55. [#7029](https://github.com/OpenSID/OpenSID/issues/7029) Perbaikan validasi judul artikel.
+56. [#7009](https://github.com/OpenSID/OpenSID/issues/7009) Perbaikan validasi unik pada nomor anggota suatu kelompok/lembaga.
 
 
 #### Perubahan Teknis
