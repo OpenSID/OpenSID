@@ -187,8 +187,10 @@
                         </div>
                         <div class="form-group">
                             <label>Password Login TTE</label>
-                            <input type="password" name="tte_password" class="form-control input-sm"
-                                value="{{ setting('tte_password') }}" @disabled(!$kades)>
+                            <input type="password" name="tte_password" class="form-control input-sm" @disabled(!$kades)>
+                            @if(setting('tte_password'))
+                                <p id="info-tte-password" class="help-block small text-red">Kosongkan jika tidak ingin mengubah Password Login TTE.</p>
+                            @endif
                         </div>
 
                         <div class="form-group">
@@ -320,11 +322,16 @@
             $('input[name="tte"]').on('change', function(e) {
                 ganti_tte()
             });
-
             function ganti_tte() {
+                var tte_password = "{{ setting('tte_password') }}";
                 if ($('input[name="tte"]').filter(':checked').val() == 1) {
                     $('input[name="tte_api"]');
-                    $('input[name="tte_password"]').attr("required", true);
+                    if(tte_password == ""){
+                        $('input[name="tte_password"]').attr("required", true);
+                        $('#info-tte-password').hide();
+                    } else {
+                        $('#info-tte-password').show();
+                    }
                     $('input[name="tte_username"]').attr("required", true);
                     $('#modul-tte').show();
                 } else {

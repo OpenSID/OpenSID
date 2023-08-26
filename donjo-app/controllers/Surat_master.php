@@ -657,7 +657,9 @@ class Surat_master extends Admin_Controller
             $validasi['footer_surat_tte'] = $request['footer_surat_tte'];
             $validasi['tte_api']          = alamat_web($request['tte_api']);
             $validasi['tte_username']     = $request['tte_username'];
-            $validasi['tte_password']     = $request['tte_password'];
+            if ($request['tte_password'] != '') {
+                $validasi['tte_password'] = $request['tte_password'];
+            }
         } else {
             $validasi['footer_surat'] = $request['footer_surat'];
         }
