@@ -38,6 +38,7 @@
 									<label class="col-sm-3 control-label" for="no_anggota">Nomor Anggota</label>
 									<div class="col-sm-5">
 										<input id="no_anggota" class="form-control input-sm number" type="text" placeholder="Nomor Anggota" name="no_anggota" value="<?= $pend['no_anggota']; ?>">
+										<p><code>*Pastikan nomor anggota belum pernah dipakai.</code></p>
 									</div>
 								</div>
 								<div class="form-group">

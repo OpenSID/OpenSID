@@ -57,10 +57,11 @@ Terima kasih pada [isi disini] yang terus berkontribusi.
 49. [#7070](https://github.com/OpenSID/OpenSID/issues/7070) Perbaikan penulisan telegram pada pengaturan aplikasi.
 50. [#7011](https://github.com/OpenSID/OpenSID/issues/7011) Perbaikan format cetak statistik pengunjung website.
 51. [#6971](https://github.com/OpenSID/OpenSID/issues/6971) Perbaikan hapus syarat surat ketika sudah digunakan pada surat.
-52. [#7075](https://github.com/OpenSID/OpenSID/issues/7075) Perbaiakan modul TTE desa dan kecamatan.
+52. [#7075](https://github.com/OpenSID/OpenSID/issues/7075) Perbaikan modul TTE desa dan kecamatan.
 53. [#7002](https://github.com/OpenSID/OpenSID/issues/7002) Perbaikan validasi pembangunan.
 54. [#7057](https://github.com/OpenSID/OpenSID/issues/7057) Perbaikan tampilan dan akses halaman acak data.
 55. [#7029](https://github.com/OpenSID/OpenSID/issues/7029) Perbaikan validasi judul artikel.
+56. [#7009](https://github.com/OpenSID/OpenSID/issues/7009) Perbaikan validasi unik pada nomor anggota suatu kelompok/lembaga.
 
 
 #### Perubahan Teknis

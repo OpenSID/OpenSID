@@ -289,7 +289,7 @@ class Kelompok_model extends MY_Model
         }
 
         if (null === $id) {
-            $data['config_id'] = identitas('id');
+            $data['config_id'] = $this->config_id;
         }
 
         return $data;
@@ -302,20 +302,20 @@ class Kelompok_model extends MY_Model
         $this->ubah_jabatan($data['id_kelompok'], $data['id_penduduk'], $data['jabatan'], null);
 
         if ($data['id_kelompok']) {
-            $validasi_anggota = $this->config_id()
-                ->select('id_penduduk, id_kelompok')
-                ->from('kelompok_anggota')
-                ->where('id_penduduk', $data['id_penduduk'])
-                ->where('id_kelompok', $data['id_kelompok'])
-                ->limit(1)
-                ->get()
-                ->row();
+            $validasi_anggota  = $this->validasi_anggota_terdaftar('id_penduduk', $data['id_penduduk'], $data['id_kelompok']);
+            $validasi_anggota1 = $this->validasi_anggota_terdaftar('no_anggota', $data['no_anggota'], $data['id_kelompok']);
         }
 
         if ($validasi_anggota->id_penduduk == $data['id_penduduk']) {
             session_error('Nama Anggota yang dipilih sudah masuk kelompok');
 
             redirect("kelompok/form_anggota/{$validasi_anggota->id_kelompok}");
+        }
+
+        if ($validasi_anggota1->no_anggota == $data['no_anggota']) {
+            session_error("<br/>Nomor anggota ini {$data['no_anggota']} tidak bisa digunakan. Silahkan gunakan nomor anggota yang lain!");
+
+            return false;
         }
 
         $outp    = $this->db->insert('kelompok_anggota', $data);
@@ -329,6 +329,18 @@ class Kelompok_model extends MY_Model
         }
 
         status_sukses($outp); //Tampilkan Pesan
+    }
+
+    public function validasi_anggota_terdaftar($validasi = null, $data = null, $id_kelompok = 0)
+    {
+        return $this->config_id()
+            ->select($validasi, 'id_kelompok')
+            ->from('kelompok_anggota')
+            ->where($validasi, $data)
+            ->where('id_kelompok', $id_kelompok)
+            ->limit(1)
+            ->get()
+            ->row();
     }
 
     public function update($id = 0)
@@ -348,8 +360,19 @@ class Kelompok_model extends MY_Model
 
     public function update_a($id = 0, $id_a = 0)
     {
-        $data = $this->validasi_anggota($this->input->post(), $id_a);
+        $data                = $this->validasi_anggota($this->input->post(), $id_a);
+        $data['id_kelompok'] = $id;
         $this->ubah_jabatan($id, $id_a, $data['jabatan'], $this->input->post('jabatan_lama'));
+
+        if ($data['id_kelompok']) {
+            $validasi_anggota1 = $this->validasi_anggota_terdaftar('no_anggota', $data['no_anggota'], $data['id_kelompok']);
+        }
+
+        if ($this->get_anggota($id, $id_a)['no_anggota'] != $data['no_anggota'] && $validasi_anggota1->no_anggota == $data['no_anggota']) {
+            session_error("<br/>Nomor anggota ini {$data['no_anggota']} tidak bisa digunakan. Silahkan gunakan nomor anggota yang lain!");
+
+            return false;
+        }
 
         $outp = $this->config_id()
             ->where('id_penduduk', $id_a)
