@@ -170,7 +170,7 @@ class Install extends CI_Controller
         try {
             $connection = new \PDO(
                 sprintf(
-                    'mysql:host=%s:%s;dbname=%s',
+                    'mysql:host=%s;port=%s;dbname=%s',
                     $this->input->post('database_hostname'),
                     $this->input->post('database_port'),
                     $this->input->post('database_name')
@@ -181,7 +181,7 @@ class Install extends CI_Controller
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
             log_message('error', $e);
-            $this->session->set_flashdata('errors', "Database {$this->input->post('database_name')} masih belum tersedia.");
+            $this->session->set_flashdata('errors', 'Tidak berhasil terkoneksi ke database, mohon periksa konfigurasi database di server Anda!');
 
             return redirect('install/database');
         }
@@ -333,6 +333,9 @@ class Install extends CI_Controller
         ) {
             return redirect('install/migrations');
         }
+
+        // load driver cache sesudah ada folder desa
+        $this->load->driver('cache', ['adapter' => 'file', 'backup' => 'dummy']);
 
         // disable install jika sudah mengubah password default
         if (! password_verify('sid304', $this->db->where('config_id', identitas('id'))->get('user')->row()->password)) {
