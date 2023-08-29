@@ -59,10 +59,8 @@ class Pelanggan_Controller extends Admin_Controller
             show_404();
         }
 
-        // $this->modul_ini          = 'info-desa';
-        // $this->sub_modul_ini      = 'layanan-pelanggan';
-        $this->modul_ini          = 200;
-        $this->sub_modul_ini      = 313;
+        $this->modul_ini          = 'info-desa';
+        $this->sub_modul_ini      = 'layanan-pelanggan';
         $this->header['kategori'] = 'pelanggan';
         $this->client             = new Client();
     }
