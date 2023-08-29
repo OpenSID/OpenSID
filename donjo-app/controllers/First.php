@@ -105,7 +105,7 @@ class First extends Web_Controller
         $cari = trim($this->input->get('cari', true));
         if (! empty($cari)) {
             // Judul artikel bisa digunakan untuk serangan XSS
-            $data['judul_kategori'] = htmlentities('Hasil pencarian : ' . substr(html_escape($cari), 0, 50));
+            $data['judul_kategori'] = 'Hasil pencarian : ' . substr(e($cari), 0, 50);
         }
 
         $this->_get_common_data($data);

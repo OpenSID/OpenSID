@@ -66,7 +66,7 @@ class Web_widget_model extends MY_Model
     public function get_widget($id = '')
     {
         $data          = $this->config_id()->where('id', $id)->get($this->tabel)->row_array();
-        $data['judul'] = htmlentities($data['judul']);
+        $data['judul'] = e($data['judul']);
         $data['isi']   = htmlentities($data['isi']);
 
         return $data;
@@ -230,7 +230,7 @@ class Web_widget_model extends MY_Model
 
     private function validasi($post)
     {
-        $data['judul']        = bersihkan_xss($post['judul']);
+        $data['judul']        = judul($post['judul']);
         $data['jenis_widget'] = (int) $post['jenis_widget'];
         $data['foto']         = $this->upload_gambar('foto');
         if ($data['jenis_widget'] == 2) {

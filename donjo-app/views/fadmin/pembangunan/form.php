@@ -21,11 +21,11 @@
 						<div class="box-body">
 							<div class="form-group">
 								<label class="control-label" style="text-align:left;">Nama Kegiatan</label>
-								<input id="judul" name="judul" class="form-control input-sm required" value="<?= $main->judul ?>" type="text" maxlength="50" minlength="5" maxlength="100" placeholder="Nama Kegiatan Pembangunan" />
+								<input id="judul" name="judul" class="form-control input-sm strip_tags judul required" value="<?= e($main->judul) ?>" type="text" maxlength="50" minlength="5" maxlength="100" placeholder="Nama Kegiatan Pembangunan" />
 							</div>
 							<div class="form-group">
 								<label class="control-label" style="text-align:left;">Volume</label>
-								<input maxlength="50" class="form-control input-sm required" name="volume" id="volume" value="<?= $main->volume ?>" type="text" placeholder="Volume Pembangunan" />
+								<input maxlength="50" class="form-control input-sm strip_tags required" name="volume" id="volume" value="<?= $main->volume ?>" type="text" placeholder="Volume Pembangunan" />
 							</div>
 							<div class="form-group">
 								<label class="control-label" style="text-align:left;">Waktu</label>
@@ -106,7 +106,7 @@
 							</div>
 							<div class="form-group">
 								<label class="control-label" style="text-align:left;">Pelaksana Kegiatan</label>
-								<input maxlength="50" class="form-control input-sm required" name="pelaksana_kegiatan" id="pelaksana_kegiatan" value="<?= $main->pelaksana_kegiatan ?>" type="text" placeholder="Pelaksana Kegiatan Pembangunan" />
+								<input maxlength="50" class="form-control input-sm strip_tags required" name="pelaksana_kegiatan" id="pelaksana_kegiatan" value="<?= $main->pelaksana_kegiatan ?>" type="text" placeholder="Pelaksana Kegiatan Pembangunan" />
 							</div>
 							<div class="form-group">
 								<label for="jenis_lokasi" class="control-label">Lokasi Pembangunan</label>
@@ -131,17 +131,17 @@
 										</select>
 									</div>
 									<div id="manual">
-										<textarea id="lokasi" class="form-control input-sm required" type="text" placeholder="Lokasi" name="lokasi" rows="3"><?= $main->lokasi ?></textarea>
+										<textarea id="lokasi" class="form-control input-sm strip_tags required" type="text" placeholder="Lokasi" name="lokasi" rows="3"><?= e($main->lokasi) ?></textarea>
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="manfaat">Manfaat</label>
-								<textarea id="manfaat" name="manfaat" class="form-control input-sm required" name="manfaat" placeholder="Manfaat" rows="3"><?= $main->manfaat; ?></textarea>
+								<textarea id="manfaat" name="manfaat" class="form-control input-sm strip_tags required" name="manfaat" placeholder="Manfaat" rows="3"><?= e($main->manfaat); ?></textarea>
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="keterangan">Keterangan</label>
-								<textarea id="keterangan" class="form-control input-sm required" name="keterangan" placeholder="Keterangan" rows="3"><?= $main->keterangan ?></textarea>
+								<textarea id="keterangan" class="form-control input-sm strip_tags required" name="keterangan" placeholder="Keterangan" rows="3"><?= e($main->keterangan) ?></textarea>
 							</div>
 						</div>
 						<div class="box-footer">

@@ -127,11 +127,11 @@
 			<select id="kk_level" class="form-control input-sm select2 required" name="kk_level">
 				<option value="">Pilih Hubungan Keluarga</option>
 				<?php foreach ($hubungan as $data) : ?>
-					<?php if ($this->session->has_userdata('jenis_peristiwa') && $this->session->jenis_peristiwa == '5' && $data['id'] == \App\Enums\SHDKEnum::KEPALA_KELUARGA) : ?>
+					<?php if ($this->session->has_userdata('jenis_peristiwa') && $this->session->jenis_peristiwa == '5' && $data['id'] == \App\Enums\SHDKEnum::KEPALA_KELUARGA && $this->controller === 'keluarga') : ?>
 						<option selected value="<?= $data['id'] ?>"><?= strtoupper($data['nama']) ?></option>
 						<?php break ?>
 					<?php else : ?>
-						<option value="<?= $data['id'] ?>" <?php selected($penduduk['kk_level'], $data['id']); ?> <?= ($data['id'] == 1 && $keluarga['status_dasar'] == '2') ? 'disabled' : ''; ?>><?= strtoupper($data['nama']) ?></option>
+						<option value="<?= $data['id'] ?>" <?= selected($penduduk['kk_level'], $data['id']); ?> <?= ($data['id'] == 1 && $keluarga['status_dasar'] == '2') ? 'disabled' : ''; ?>><?= strtoupper($data['nama']) ?></option>
 					<?php endif ?>
 				<?php endforeach; ?>
 			</select>

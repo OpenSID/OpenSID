@@ -58,7 +58,8 @@ class Security_trusted_host
         $isValidHost = preg_match('/^((\[[0-9a-f:]+\])|(\d{1,3}(\.\d{1,3}){3})|[a-z0-9\-\.]+)(:\d+)?$/i', $_SERVER['HTTP_HOST']);
 
         if (! $isValidHost) {
-            show_error(sprintf('Invalid Host "%s".', $_SERVER['HTTP_HOST']), 400);
+            log_message('error', sprintf('Untrusted Host "%s".', htmlspecialchars($_SERVER['HTTP_HOST'], ENT_QUOTES, 'UTF-8')));
+            show_error(null, 400);
         }
 
         $trustedHosts = $this->config['trusted_hosts'] ?? [];
@@ -72,6 +73,7 @@ class Security_trusted_host
             }
         }
 
-        show_error(sprintf('Untrusted Host "%s".', $_SERVER['HTTP_HOST']), 400);
+        log_message('error', sprintf('Untrusted Host "%s".', htmlspecialchars($_SERVER['HTTP_HOST'], ENT_QUOTES, 'UTF-8')));
+        show_error(null, 400);
     }
 }

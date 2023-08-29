@@ -91,7 +91,6 @@ class Web extends Admin_Controller
         $data['keyword']       = $this->web_artikel_model->autocomplete($cat);
         $data['list_kategori'] = $this->web_artikel_model->list_kategori();
         $data['kategori']      = $this->web_artikel_model->get_kategori($cat);
-        $data                  = $this->security->xss_clean($data);
         $data['paging']        = $paging;
 
         $this->render('web/artikel/table', $data);
