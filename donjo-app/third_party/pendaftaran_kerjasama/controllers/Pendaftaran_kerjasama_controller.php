@@ -60,10 +60,8 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
             show_404();
         }
 
-        // $this->modul_ini     = 'info-desa';
-        // $this->sub_modul_ini = 'pendaftaran-kerjasama';
-        $this->modul_ini     = 200;
-        $this->sub_modul_ini = 331;
+        $this->modul_ini     = 'info-desa';
+        $this->sub_modul_ini = 'pendaftaran-kerjasama';
 
         $this->load->model(['surat_model', 'pamong_model']);
         $this->client = new Client();
@@ -89,6 +87,8 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
 
     public function register()
     {
+        $this->redirect_hak_akses('u');
+
         $this->load->library('upload');
         $config['upload_path']   = LOKASI_DOKUMEN;
         $config['file_name']     = 'dokumen-permohonan.pdf';

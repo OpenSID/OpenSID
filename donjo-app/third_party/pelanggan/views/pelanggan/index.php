@@ -136,9 +136,11 @@
                 </div>
             <?php endif ?>
             <div class="box box-info">
-                <div class="box-header with-border">
-                    <b>Rincian Pelanggan <a href="javascript:;" title="Perbarui" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block perbarui"><i class="fa fa-refresh"></i> Perbarui</a></b>
-                </div>
+                <?php if (can('u')): ?>
+                    <div class="box-header with-border">
+                        <b>Rincian Pelanggan <a href="javascript:;" title="Perbarui" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block perbarui"><i class="fa fa-refresh"></i> Perbarui</a></b>
+                    </div>
+                <?php endif ?>
                 <div class="box-body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover tabel-rincian">
@@ -200,7 +202,7 @@
                         <p class="error"><?= $permohonan ?></p>
                     <?php endif ?>
                     <br><br>
-                    <span class="text-danger">Info: Nota faktur dapat dicetak hanya untuk pembayaran yang sudah lunas.</span>
+                    <span class="text-danger">Info: Nota faktur dapat dicetak hanya untuk pembayaran yang sudah lunas dan telah melakukan pendaftaran kerjasama sampai verifikasi email.</span>
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">
@@ -297,7 +299,7 @@
                         <p class="error"><?= $permohonan ?></p>
                     <?php endif ?>
                     <br><br>
-                    <span class="text-danger">Info: Nota faktur dapat dicetak hanya untuk pembayaran yang sudah lunas.</span>
+                    <span class="text-danger">Info: Nota faktur dapat dicetak hanya untuk pembayaran yang sudah lunas dan telah melakukan pendaftaran kerjasama sampai verifikasi email.</span>
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">
@@ -445,12 +447,16 @@
             preConfirm: (token) => {
                 //cek token
                 var parse_token = parseJwt(token);
-                if (moment(parse_token.tanggal_berlangganan.akhir, 'YYYY-MM-DD').diff(moment()) < 0) { // jika perbedaanya minus
+                var ambilversi = "<?=substr(str_replace('.', '', AmbilVersi()), 0, 4)?>";
+                var ambiltanggal = ((parse_token.tanggal_berlangganan.akhir).replace('-', '')).substr(2,4);
+                if (ambilversi != ambiltanggal){
+                    if (moment(parse_token.tanggal_berlangganan.akhir, 'YYYY-MM-DD').diff(moment()) < 0) { // jika perbedaanya minus
 
-                    Swal.showValidationMessage(
-                        `Token Berlangganan sudah berakhir. Tanggal berlangganan sampai : ${parse_token.tanggal_berlangganan.akhir}`
-                    )
-                    return;
+                        Swal.showValidationMessage(
+                            `Token Berlangganan sudah berakhir. Tanggal berlangganan sampai : ${parse_token.tanggal_berlangganan.akhir}`
+                        )
+                        return;
+                    }
                 }
 
                 return fetch(`<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`, {
@@ -550,7 +556,14 @@
                         dataType: 'json',
                         data: data,
                     })
-                    .done(function() {
+                    .done(function(result) {
+                        if (result.status == false) {
+                            Swal.fire({
+                                title: 'Token Gagal',
+                                text : result.message
+                            })
+                            return
+                        }
                         Swal.fire({
                             title: 'Berhasil Tersimpan',
                         })
