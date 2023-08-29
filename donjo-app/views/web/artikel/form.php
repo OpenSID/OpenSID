@@ -61,7 +61,7 @@
 						<div class="box-body">
 							<div class="form-group">
 								<label class="control-label" for="judul">Judul Artikel</label>
-								<input id="judul" name="judul" class="form-control input-sm required" type="text" placeholder="Judul Artikel" minlength="5" maxlength="200" value="<?= htmlspecialchars($artikel['judul']) ?>"></input>
+								<input id="judul" name="judul" class="form-control input-sm required strip_tags judul" type="text" placeholder="Judul Artikel" minlength="5" maxlength="200" value="<?= $artikel['judul'] ?>"></input>
 								<span class="help-block"><code>Judul artikel minimal 5 karakter dan maksimal 200 karakter</code></span>
 							</div>
 							<div class="form-group">

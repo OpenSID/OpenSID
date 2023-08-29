@@ -761,8 +761,7 @@ class User_model extends CI_Model
             return true;
         }
         // Controller yang boleh diakses oleh semua pengguna yg telah login
-
-        if ($group && in_array($controller[0], ['user_setting', 'wilayah', 'notif'])) {
+        if ($group && in_array($controller[0], ['user_setting', 'wilayah', 'notif', 'pengguna', 'tte', 'sign', 'surat_kecamatan'])) {
             return true;
         }
 

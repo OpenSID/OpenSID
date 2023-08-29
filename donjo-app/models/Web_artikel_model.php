@@ -161,6 +161,7 @@ class Web_artikel_model extends MY_Model
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']         = $j + 1;
             $data[$i]['boleh_ubah'] = $this->boleh_ubah($data[$i]['id'], $this->session->user);
+            $data[$i]['judul']      = e($data[$i]['judul']);
             $j++;
         }
 
@@ -223,7 +224,7 @@ class Web_artikel_model extends MY_Model
 
         $data['isi'] = bersihkan_xss($data['isi']); // hapus potensi xss
         // Batasi judul menggunakan teks polos
-        $data['judul'] = strip_tags($data['judul']);
+        $data['judul'] = judul($data['judul']);
 
         $fp          = time();
         $list_gambar = ['gambar', 'gambar1', 'gambar2', 'gambar3'];
@@ -339,7 +340,7 @@ class Web_artikel_model extends MY_Model
 
         $data['isi'] = bersihkan_xss($data['isi']); // hapus potensi xss
         // Batasi judul menggunakan teks polos
-        $data['judul'] = strip_tags($data['judul']);
+        $data['judul'] = judul($data['judul']);
 
         $fp          = time();
         $list_gambar = ['gambar', 'gambar1', 'gambar2', 'gambar3'];
@@ -534,7 +535,7 @@ class Web_artikel_model extends MY_Model
             return false;
         }
 
-        $data['judul'] = $this->security->xss_clean($data['judul']);
+        $data['judul'] = e($data['judul']);
 
         // Digunakan untuk timepicker
         $tempTgl            = date_create_from_format('Y-m-d H:i:s', $data['tgl_upload']);

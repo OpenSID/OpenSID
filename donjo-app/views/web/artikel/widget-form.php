@@ -22,7 +22,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="judul">Judul Widget</label>
 								<div class="col-sm-6">
-									<input id="judul" name="judul" class="form-control input-sm required" type="text" placeholder="Judul Widget" value="<?= $widget['judul']?>"></input>
+									<input id="judul" name="judul" class="form-control input-sm strip_tags judul required" type="text" placeholder="Judul Widget" value="<?= $widget['judul'] ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">

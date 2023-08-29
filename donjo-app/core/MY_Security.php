@@ -58,27 +58,4 @@ class MY_Security extends CI_Security
             'Bad Request'
         );
     }
-
-    /**
-     * Do Never Allowed
-     *
-     * @used-by	CI_Security::xss_clean()
-     *
-     * @param 	string
-     * @param mixed $str
-     *
-     * @return string
-     */
-    protected function _do_never_allowed($str)
-    {
-        $str = htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-
-        $str = str_replace(array_keys($this->_never_allowed_str), $this->_never_allowed_str, $str);
-
-        foreach ($this->_never_allowed_regex as $regex) {
-            $str = preg_replace('#' . $regex . '#is', '[removed]', $str);
-        }
-
-        return $str;
-    }
 }

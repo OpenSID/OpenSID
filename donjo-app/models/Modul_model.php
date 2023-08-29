@@ -288,7 +288,7 @@ class Modul_model extends CI_Model
 
     public function modul_aktif($controller)
     {
-        $selalu_aktif = ['hom_sid', 'user_setting', 'notif', 'wilayah'];
+        $selalu_aktif = ['hom_sid', 'user_setting', 'notif', 'wilayah', 'pengguna', 'tte', 'sign', 'surat_kecamatan'];
         if (in_array($controller, $selalu_aktif)) {
             return true;
         }

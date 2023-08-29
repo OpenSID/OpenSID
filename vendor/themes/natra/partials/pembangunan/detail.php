@@ -23,12 +23,12 @@
 								<tr>
 									<th width="150px">Nama Kegiatan</th>
 									<td width="20px">:</td>
-									<td><?= $pembangunan->judul ?></td>
+									<td><?= d($pembangunan->judul) ?></td>
 								</tr>
 								<tr>
 									<th>Alamat</th>
 									<td width="20px">:</td>
-									<td><?= $pembangunan->alamat ?></td>
+									<td><?= d($pembangunan->alamat) ?></td>
 								</tr>
 								<tr>
 									<th>Sumber Dana</th>
@@ -58,7 +58,7 @@
 								<tr>
 									<th>Keterangan</th>
 									<td width="20px">:</td>
-									<td><?= $pembangunan->keterangan ?></td>
+									<td><?= d($pembangunan->keterangan) ?></td>
 								</tr>
 							</table>
 						</div>
