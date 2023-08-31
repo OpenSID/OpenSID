@@ -468,14 +468,3 @@ class Anjungan_Controller extends Admin_Controller
         }
     }
 }
-
-class Anjungan_Controller extends Admin_Controller
-{
-    public function __construct()
-    {
-        parent::__construct();
-        if (! cek_anjungan()) {
-            redirect('anjungan');
-        }
-    }
-}
