@@ -82,12 +82,10 @@ class MY_Controller extends CI_Controller
 
         $this->cek_config();
 
-        /*
-        | Tambahkan model yg akan diautoload di sini.
-        | donjo-app/config/autoload.php digunakan untuk autoload model untuk mengisi data awal
-        | pada waktu install, di mana database masih kosong
-        */
-        $this->load->model(['setting_model', 'anjungan_model']);
+        // Tambahkan model yg akan diautoload di sini. Seeder di load disini setelah
+        // installer berhasil dijalankan dengan kondisi folder desa sudah ada.
+        $this->load->model(['seeders/seeder', 'setting_model', 'anjungan_model']);
+
         $this->controller = strtolower($this->router->fetch_class());
         $this->setting_model->init();
         $this->request = $this->input->post();
