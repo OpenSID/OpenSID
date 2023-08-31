@@ -54,6 +54,7 @@
                 id="database_hostname"
                 type="text"
                 name="database_hostname"
+                placeholder="Masukkan host database Anda"
                 value="{{ set_value('database_hostname', 'localhost') }}"
                 required
             >
@@ -74,6 +75,7 @@
                 id="database_port"
                 type="text"
                 name="database_port"
+                placeholder="Masukkan port database Anda"
                 value="{{ set_value('database_port', '3306') }}"
                 required
             >
@@ -94,6 +96,7 @@
                 id="database_name"
                 type="text"
                 name="database_name"
+                placeholder="Masukkan nama database Anda"
                 value="{{ set_value('database_name') }}"
                 required
             >
@@ -114,6 +117,7 @@
                 id="database_username"
                 type="text"
                 name="database_username"
+                placeholder="Masukkan user database Anda"
                 value="{{ set_value('database_username', 'root') }}"
                 required
             >
@@ -133,6 +137,7 @@
                 id="database_password"
                 type="password"
                 name="database_password"
+                placeholder="Masukkan password database Anda"
                 value="{{ set_value('database_password') }}"
             >
         </div>
@@ -148,6 +153,7 @@
                 id="database_prefix"
                 type="text"
                 name="database_prefix"
+                placeholder="Masukkan prefix database Anda"
                 value="{{ set_value('database_prefix') }}"
             >
         </div>
