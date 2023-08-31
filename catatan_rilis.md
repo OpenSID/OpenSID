@@ -1,4 +1,4 @@
-Di rilis ini, versi 2308.1.0 Menambahkan lampiran F-2.01 pada format suket kematian. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2309.0.0 Menambahkan lampiran F-2.01 pada format suket kematian. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ruririzal yang terus berkontribusi.
 
