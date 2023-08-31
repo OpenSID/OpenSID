@@ -703,15 +703,6 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     public function __isset($name);
 
     /**
-     * Returns the values to dump on serialize() called on.
-     *
-     * Only used by PHP >= 7.4.
-     *
-     * @return array
-     */
-    public function __serialize(): array;
-
-    /**
      * Set a part of the Carbon object
      *
      * @param string                  $name
@@ -753,15 +744,6 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * @return string
      */
     public function __toString();
-
-    /**
-     * Set locale if specified on unserialize() called.
-     *
-     * Only used by PHP >= 7.4.
-     *
-     * @return void
-     */
-    public function __unserialize(array $data): void;
 
     /**
      * Add given units or interval to the current instance.
@@ -5138,8 +5120,10 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      *
      * /!\ Use this method for unit tests only.
      *
+     * @template T
+     *
      * @param DateTimeInterface|Closure|static|string|false|null $testNow  real or mock Carbon instance
-     * @param Closure|null                                       $callback
+     * @param Closure(): T                                       $callback
      *
      * @return mixed
      * @phpstan-return T

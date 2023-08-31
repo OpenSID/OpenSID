@@ -26,37 +26,41 @@
     }
 </style>
 <div class="single_category wow fadeInDown">
-    <h2><span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Pemerintah <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']) ?></span></h2>
+    <h2><span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text"><?= ucwords(setting('sebutan_pemerintah_desa')) ?></span></h2>
 </div>
 
 <div class="box box-primary">
     <div class="box-body">
         <br>
         <div class="row">
-        <?php if ($pemerintah): ?>
-            <?php foreach ($pemerintah as $data): ?>
-            <div class="col-sm-3 pamong">
-                <div class="card text-center">
-                <img width="auto" class="rounded-circle image" src="<?= $data['foto'] ?>" alt="Foto <?= $data['nama'] ?>"/>
-                <hr class="line">
-                <b>
-                    <?= $data['nama'] ?><br>
-                    <?= $data['jabatan'] ?><br>
-                    <?php if ($this->setting->tampilkan_kehadiran && $data['status_kehadiran'] == 'hadir') : ?>
-                    <span class='label label-success'>Hadir</span>
-                    <?php elseif ($this->setting->tampilkan_kehadiran && $data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir') : ?>
-                    <span class='label label-danger'><?= ucwords($data['status_kehadiran']) ?></span>
-                    <?php elseif ($this->setting->tampilkan_kehadiran && $data['tanggal'] != date('Y-m-d')) : ?>
-                    <span class='label label-danger'>Belum Rekam Kehadiran</span>
-                    <?php else: ?>
-                    <br>
-                    <?php endif ?>
-                </div>
-            </div>
-            <?php endforeach ?>
-        <?php else: ?>
-            <h5><?= ucwords(setting('sebutan_pemerintah_desa') . ' ' . $desa['nama_desa']) ?> tidak tersedia.</h5>
-        <?php endif ?>
+            <?php if ($pemerintah) : ?>
+                <?php foreach ($pemerintah as $data) : ?>
+                    <div class="col-sm-3 pamong">
+                        <div class="card text-center">
+                            <img width="auto" class="rounded-circle image" src="<?= $data['foto'] ?>" alt="Foto <?= $data['nama'] ?>" />
+                            <hr class="line">
+                            <b>
+                                <?= $data['nama'] ?><br>
+                                <?= $data['jabatan'] ?><br>
+                                <?php if ($data['kehadiran'] == 1) : ?>
+                                    <?php if ($this->setting->tampilkan_kehadiran && $data['status_kehadiran'] == 'hadir') : ?>
+                                        <span class='label label-success'>Hadir</span>
+                                    <?php elseif ($this->setting->tampilkan_kehadiran && $data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir') : ?>
+                                        <span class='label label-danger'><?= ucwords($data['status_kehadiran']) ?></span>
+                                    <?php elseif ($this->setting->tampilkan_kehadiran && $data['tanggal'] != date('Y-m-d')) : ?>
+                                        <span class='label label-danger'>Belum Rekam Kehadiran</span>
+                                    <?php else : ?>
+                                        <br>
+                                    <?php endif ?>
+                                <?php else : ?>
+                                    <br>
+                                <?php endif ?>
+                        </div>
+                    </div>
+                <?php endforeach ?>
+            <?php else : ?>
+                <h5><?= ucwords(setting('sebutan_pemerintah_desa')) ?> tidak tersedia.</h5>
+            <?php endif ?>
         </div>
     </div>
 </div>
