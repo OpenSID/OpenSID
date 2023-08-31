@@ -143,6 +143,7 @@ $(document).ready(function()
 				return {
 					q: params.term || '',
 					page: params.page || 1,
+					tipe: $(this).data('tipe'),
 					kelompok: $(this).data('kelompok'),
 				};
 			},

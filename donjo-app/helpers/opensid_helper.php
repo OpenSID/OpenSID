@@ -855,10 +855,10 @@ function nama_terbatas($str)
     return preg_replace('/[^a-zA-Z0-9 \\-]/', '', $str);
 }
 
-// Judul artikel hanya boleh berisi a-zA-Z0-9()[]&_:=°%'".,/ \-
-function judul_artikel($str)
+// Judul hanya boleh berisi a-zA-Z0-9()[]&_:=°%'".,/ \-
+function judul($str)
 {
-    return preg_replace('/[^a-zA-Z0-9()[]&_:;=°%\'".,\\/ \\-]/', '', $str);
+    return preg_replace('/[^a-zA-Z0-9()[]&_:;=°%\'".,\\/ \\-]/', '', strip_tags($str));
 }
 
 // Nama surat hanya boleh berisi karakter alfanumerik, spasi, strip, (, )

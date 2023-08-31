@@ -169,8 +169,9 @@ class Kelompok extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $cari     = $this->input->get('q');
+            $tipe     = $this->input->get('tipe');
             $kelompok = $this->input->get('kelompok');
-            $anggota  = KelompokAnggota::tipe()->where('id_kelompok', '=', $kelompok)->pluck('id_penduduk');
+            $anggota  = KelompokAnggota::tipe($tipe)->where('id_kelompok', '=', $kelompok)->pluck('id_penduduk');
 
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
                 ->when($cari, static function ($query) use ($cari) {
