@@ -1,6 +1,6 @@
-Di rilis ini, versi 2308.0.3 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2309.0.0 berisi penambahan instalasi aplikasi dengan wizard dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [isi disini] yang terus berkontribusi.
+Terima kasih pada @totoprayogo1916 yang terus berkontribusi.
 
 ### Penambahan Fitur
 1. [#6618](https://github.com/OpenSID/OpenSID/issues/6618) Pemasangan aplikasi dengan wizard.
