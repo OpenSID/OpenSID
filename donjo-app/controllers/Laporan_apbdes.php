@@ -45,8 +45,8 @@ class Laporan_apbdes extends Admin_Controller
     {
         parent::__construct();
         $this->load->model('Laporan_sinkronisasi_model', 'sinkronisasi');
-        $this->modul_ini     = 201;
-        $this->sub_modul_ini = 325;
+        $this->modul_ini     = 'keuangan';
+        $this->sub_modul_ini = 'laporan-apbdes';
         $this->sinkronisasi->set_tipe($this->tipe);
     }
 

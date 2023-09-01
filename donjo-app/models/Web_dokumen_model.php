@@ -364,12 +364,12 @@ class Web_dokumen_model extends MY_Model
     {
         $data                         = [];
         $data['nama']                 = nomor_surat_keputusan($post['nama']);
-        $data['kategori']             = $post['kategori'] ?: 1;
-        $data['kategori_info_publik'] = $post['kategori_info_publik'] ?: null;
-        $data['id_syarat']            = $post['id_syarat'] ?: null;
-        $data['id_pend']              = $post['id_pend'] ?: 0;
-        $data['tipe']                 = $post['tipe'];
-        $data['url']                  = $post['url'] ?: null;
+        $data['kategori']             = (int) $post['kategori'] ?: 1;
+        $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
+        $data['id_syarat']            = (int) $post['id_syarat'] ?: null;
+        $data['id_pend']              = (int) $post['id_pend'] ?: 0;
+        $data['tipe']                 = (int) $post['tipe'];
+        $data['url']                  = $this->security->xss_clean($post['url']) ?: null;
 
         if ($data['tipe'] == 1) {
             $data['url'] = null;
@@ -384,11 +384,11 @@ class Web_dokumen_model extends MY_Model
                 $data['tahun']                 = date('Y', strtotime($post['attr']['tgl_kep_kades']));
                 $data['kategori_info_publik']  = '3';
                 $data['attr']['tgl_kep_kades'] = $post['attr']['tgl_kep_kades'];
-                $data['attr']['uraian']        = htmlentities($post['attr']['uraian']);
+                $data['attr']['uraian']        = $this->security->xss_clean($post['attr']['uraian']);
                 $data['attr']['no_kep_kades']  = nomor_surat_keputusan($post['attr']['no_kep_kades']);
                 $data['attr']['no_lapor']      = nomor_surat_keputusan($post['attr']['no_lapor']);
                 $data['attr']['tgl_lapor']     = $post['attr']['tgl_lapor'];
-                $data['attr']['keterangan']    = htmlentities($post['attr']['keterangan']);
+                $data['attr']['keterangan']    = $this->security->xss_clean($post['attr']['keterangan']);
                 break;
 
             case 3: //Perdes
@@ -397,7 +397,7 @@ class Web_dokumen_model extends MY_Model
                 $data['attr']['tgl_ditetapkan']    = $post['attr']['tgl_ditetapkan'];
                 $data['attr']['tgl_lapor']         = $post['attr']['tgl_lapor'];
                 $data['attr']['tgl_kesepakatan']   = $post['attr']['tgl_kesepakatan'];
-                $data['attr']['uraian']            = htmlentities($post['attr']['uraian']);
+                $data['attr']['uraian']            = $this->security->xss_clean($post['attr']['uraian']);
                 $data['attr']['jenis_peraturan']   = htmlentities($post['attr']['jenis_peraturan']);
                 $data['attr']['no_ditetapkan']     = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
                 $data['attr']['no_lapor']          = nomor_surat_keputusan($post['attr']['no_lapor']);

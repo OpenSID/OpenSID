@@ -64,8 +64,8 @@ class Surat_master extends Admin_Controller
         parent::__construct();
         $this->load->model(['surat_master_model', 'lapor_model']);
         $this->tinymce       = new TinyMCE();
-        $this->modul_ini     = 4;
-        $this->sub_modul_ini = 30;
+        $this->modul_ini     = 'layanan-surat';
+        $this->sub_modul_ini = 'pengaturan-surat';
     }
 
     public function index()
@@ -124,6 +124,8 @@ class Surat_master extends Admin_Controller
     public function form($id = null)
     {
         $this->redirect_hak_akses('u');
+
+        $this->set_hak_akses_rfm();
 
         if ($id) {
             $suratMaster = FormatSurat::findOrFail($id);
@@ -411,10 +413,10 @@ class Surat_master extends Admin_Controller
         $data['font_option'] = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
         $data['tte_demo']    = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
         $data['kades']       = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
-            return $query->where('jabatan_id', '=', '1');
+            return $query->where('jabatan_id', '=', kades()->id);
         })->exists();
         $data['sekdes'] = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
-            return $query->where('jabatan_id', '=', '2');
+            return $query->where('jabatan_id', '=', sekdes()->id);
         })->exists();
 
         $data['ref_jabatan'] = RefJabatan::all();

@@ -44,6 +44,12 @@ class First extends Web_Controller
         parent::__construct();
         parent::clear_cluster_session();
 
+        $this->load->library('security/security_header', null, 'security_header');
+        $this->security_header->handle();
+
+        $this->load->library('security/security_trusted_host', null, 'security_trusted_host');
+        $this->security_trusted_host->handle();
+
         // Load library statistik pengunjung
         $this->load->library('statistik_pengunjung');
 
@@ -102,7 +108,7 @@ class First extends Web_Controller
         $cari = trim($this->input->get('cari', true));
         if (! empty($cari)) {
             // Judul artikel bisa digunakan untuk serangan XSS
-            $data['judul_kategori'] = htmlentities('Hasil pencarian : ' . substr($cari, 0, 50));
+            $data['judul_kategori'] = 'Hasil pencarian : ' . substr(e($cari), 0, 50);
         }
 
         $this->_get_common_data($data);
@@ -130,7 +136,7 @@ class First extends Web_Controller
         $id                     = $data['single_artikel']['id'];
 
         // replace isi artikel dengan shortcodify
-        $data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
+        $data['single_artikel']['isi'] = $this->shortcode_model->shortcode(bersihkan_xss($data['single_artikel']['isi']));
         $data['title']                 = ucwords($data['single_artikel']['judul']);
         $data['detail_agenda']         = $this->first_artikel_m->get_agenda($id); //Agenda
         $data['komentar']              = $this->first_artikel_m->list_komentar($id);
@@ -407,10 +413,8 @@ class First extends Web_Controller
 
         if ($this->form_validation->run() == true) {
             // Periksa isian captcha
-            include FCPATH . 'securimage/securimage.php';
-            $securimage = new Securimage();
-
-            if ($securimage->check($_POST['captcha_code']) == false) {
+            $captcha = new App\Libraries\Captcha();
+            if (! $captcha->check($this->input->post('captcha_code'))) {
                 $respon = [
                     'status' => -1, // Notif gagal
                     'pesan'  => 'Kode anda salah. Silakan ulangi lagi.',

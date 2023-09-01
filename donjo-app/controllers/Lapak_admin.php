@@ -42,7 +42,7 @@ class Lapak_admin extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini = 324;
+        $this->modul_ini = 'lapak';
         $this->load->model(['lapak_model', 'penduduk_model']);
     }
 
@@ -99,11 +99,19 @@ class Lapak_admin extends Admin_Controller
             $id_pend            = $this->input->post('id_pend');
             $id_produk_kategori = $this->input->post('id_produk_kategori');
 
+            $data = collect($this->lapak_model->get_produk($search, $status, $id_pend, $id_produk_kategori)->order_by($order, $dir)->limit($length, $start)->get()->result())
+                ->map(function ($item, $key) {
+                    $item->no = e($item->nama);
+                    $item->deskripsi = e($item->deskripsi);
+
+                    return $item;
+                });
+
             return json([
                 'draw'            => $this->input->post('draw'),
                 'recordsTotal'    => $this->lapak_model->get_produk('', $status)->count_all_results(),
                 'recordsFiltered' => $this->lapak_model->get_produk($search, $status, $id_pend, $id_produk_kategori)->count_all_results(),
-                'data'            => $this->lapak_model->get_produk($search, $status, $id_pend, $id_produk_kategori)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+                'data'            => $data,
             ]);
         }
 

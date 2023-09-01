@@ -43,7 +43,7 @@ class Keuangan_manual extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['keuangan_manual_model', 'keuangan_grafik_manual_model']);
-        $this->modul_ini = 201;
+        $this->modul_ini = 'keuangan';
     }
 
     public function index()
@@ -77,7 +77,7 @@ class Keuangan_manual extends Admin_Controller
 
     public function grafik_manual($jenis)
     {
-        $this->sub_modul_ini = 210;
+        $this->sub_modul_ini = 'laporan-manual';
 
         $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
         $tahun                  = $this->session->set_tahun ?: $data['tahun_anggaran'][0];
@@ -122,7 +122,7 @@ class Keuangan_manual extends Admin_Controller
 
     public function manual_apbdes()
     {
-        $this->sub_modul_ini      = 209;
+        $this->sub_modul_ini      = 'input-data';
         $data['tahun_anggaran']   = $this->keuangan_manual_model->list_tahun_anggaran_manual();
         $default_tahun            = ! empty($data['tahun_anggaran']) ? $data['tahun_anggaran'][0] : null;
         $this->session->set_tahun = $this->session->set_tahun ?? $default_tahun;
@@ -231,9 +231,9 @@ class Keuangan_manual extends Admin_Controller
     {
         return [
             'Tahun'           => bilangan($post['Tahun']),
-            'Kd_Akun'         => $post['Kd_Akun'],
-            'Kd_Keg'          => $post['Kd_Keg'],
-            'Kd_Rincian'      => $post['Kd_Rincian'],
+            'Kd_Akun'         => $this->security->xss_clean($post['Kd_Akun']),
+            'Kd_Keg'          => $this->security->xss_clean($post['Kd_Keg']),
+            'Kd_Rincian'      => $this->security->xss_clean($post['Kd_Rincian']),
             'Nilai_Anggaran'  => ltrim(bilangan_titik($post['Nilai_Anggaran']), '0'),
             'Nilai_Realisasi' => ltrim(bilangan_titik($post['Nilai_Realisasi']), '0'),
         ];

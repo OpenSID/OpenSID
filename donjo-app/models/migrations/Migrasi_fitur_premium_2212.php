@@ -421,6 +421,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         // Perbarui urutan pamong kades
         DB::table('tweb_desa_pamong')
             ->where('jabatan_id', RefJabatan::KADES)
+            ->orWhere('jabatan_id', kades()->id)
             ->update([
                 'urut' => 1,
             ]);
@@ -428,6 +429,7 @@ class Migrasi_fitur_premium_2212 extends MY_model
         // Perbarui urutan pamong sekdes
         DB::table('tweb_desa_pamong')
             ->where('jabatan_id', RefJabatan::SEKDES)
+            ->orWhere('jabatan_id', sekdes()->id)
             ->update([
                 'urut' => 2,
             ]);

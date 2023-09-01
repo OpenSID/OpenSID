@@ -56,8 +56,8 @@ class Stunting extends Admin_Controller
         parent::__construct();
         $this->load->library('rekap');
         $this->load->helper('tglindo_helper');
-        $this->modul_ini     = 206;
-        $this->sub_modul_ini = 346;
+        $this->modul_ini     = 'kesehatan';
+        $this->sub_modul_ini = 'stunting';
     }
 
     public function index()
@@ -1186,13 +1186,14 @@ class Stunting extends Admin_Controller
 
         $anak2sd6 = SasaranPaud::query();
 
-        if ($this->session->userdata('isAdmin')->id_grup !== '1') {
-            $anak2sd6->where('id', $this->session->userdata('id'));
-        } else {
-            if ($id != null) {
-                $anak2sd6->where('id', $id);
-            }
-        }
+        // if ($this->session->userdata('isAdmin')->id_grup !== UserGrup::getGrupId(UserGrup::ADMINISTRATOR)) {
+        //     $anak2sd6->where('posyandu_id', $this->session->userdata('id'));
+        // } else {
+        //     if ($id != null) {
+        //         $anak2sd6->where('posyandu_id', $id);
+        //     }
+        // }
+
         $anak2sd6->whereYear('sasaran_paud.created_at', $tahun)->get();
 
         foreach ($anak2sd6 as $datax) {

@@ -42,7 +42,7 @@ class Bumindes_umum extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini = 301;
+        $this->modul_ini = 'buku-administrasi-desa';
     }
 
     public function index()
@@ -53,7 +53,7 @@ class Bumindes_umum extends Admin_Controller
     // TABLES
     public function tables($page = 'peraturan', $page_number = 1, $offset = 0)
     {
-        $this->sub_modul_ini = 302;
+        $this->sub_modul_ini = 'administrasi-umum';
 
         // set session
         if (isset($_SESSION['cari'])) {
@@ -126,7 +126,7 @@ class Bumindes_umum extends Admin_Controller
     // FORM
     public function form($page = 'peraturan', $page_number = 1, $offset = 0, $key = null)
     {
-        $this->sub_modul_ini = 302;
+        $this->sub_modul_ini = 'administrasi-umum';
 
         $data = [];
         $data = array_merge($data, $this->load_form($page, $page_number, $offset, $key));

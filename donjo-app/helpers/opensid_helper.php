@@ -35,6 +35,11 @@
  *
  */
 
+use App\Models\RefJabatan;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use voku\helper\AntiXSS;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
@@ -42,7 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2308.0.0');
+define('VERSION', '2309.0.0');
 
 /**
  * VERSI_DATABASE
@@ -51,7 +56,7 @@ define('VERSION', '2308.0.0');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023080101');
+define('VERSI_DATABASE', '2023090101');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -133,9 +138,6 @@ define('NILAI_PENDAPAT', serialize([
     4 => 'Buruk',
 ]));
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-
 /**
  * Ambil Versi
  *
@@ -192,16 +194,13 @@ function favico_desa($favico = 'favicon.ico')
 function gambar_desa($nama_file, $type = false, $file = false)
 {
     if (is_file(FCPATH . LOKASI_LOGO_DESA . $nama_file)) {
-        $nama_file = LOKASI_LOGO_DESA . $nama_file;
-
-        return $file ? FCPATH . $nama_file : to_base64($nama_file);
+        return ($file ? FCPATH : base_url()) . LOKASI_LOGO_DESA . $nama_file;
     }
 
     // type FALSE = logo, TRUE = kantor
     $default = ($type) ? 'opensid_kantor.jpg' : 'opensid_logo.png';
-    $default = "assets/files/logo/{$default}";
 
-    return $file ? FCPATH . $default : to_base64($default);
+    return ($file ? FCPATH : base_url()) . "assets/files/logo/{$default}";
 }
 
 function session_error($pesan = '')
@@ -517,10 +516,17 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
     $CI = &get_instance();
     $CI->load->helper('download');
 
-    // Batasi akses LOKASI_ARSIP hanya untuk admin
-    // if ($lokasi == LOKASI_ARSIP && $CI->session->siteman != 1) {
-    //     redirect('/');
-    // }
+    if (! preg_match('/^(?:[a-z0-9_-]|\.(?!\.))+$/iD', $nama_berkas)) {
+        $pesan = 'Nama berkas tidak valid';
+        session_error($pesan);
+        set_session('error', $pesan);
+
+        if ($redirect_url) {
+            redirect($redirect_url);
+        } else {
+            show_404();
+        }
+    }
 
     // Tentukan path berkas (absolut)
     $pathBerkas = FCPATH . $lokasi . $nama_berkas;
@@ -818,6 +824,18 @@ function cekNama($str)
 function nama_terbatas($str)
 {
     return preg_replace('/[^a-zA-Z0-9 \\-]/', '', $str);
+}
+
+// Judul hanya boleh berisi a-zA-Z0-9()[]&_:=°%'".,/ \-
+function judul($str)
+{
+    return preg_replace('/[^a-zA-Z0-9()[]&_:;=°%\'".,\\/ \\-]/', '', strip_tags($str));
+}
+
+// Nama surat hanya boleh berisi karakter alfanumerik, spasi, strip, (, )
+function nama_surat($str)
+{
+    return preg_replace('/[^a-zA-Z0-9 \\-\\(\\)]/', '', $str);
 }
 
 // Alamat hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, tanda petik, strip dan garis miring
@@ -1494,5 +1512,44 @@ if (! function_exists('form_kode_isian')) {
     function form_kode_isian($str)
     {
         return '[form_' . preg_replace('/\s+/', '_', preg_replace('/[^A-Za-z0-9& ]/', '', strtolower($str))) . ']';
+    }
+}
+
+if (! function_exists('kades')) {
+    /**
+     * - Fungsi untuk mengambil data jabatan kades.
+     *
+     * @return array|object
+     */
+    function kades()
+    {
+        return RefJabatan::getKades();
+    }
+}
+
+if (! function_exists('sekdes')) {
+    /**
+     * - Fungsi untuk mengambil data jabatan sekdes.
+     *
+     * @return array|object
+     */
+    function sekdes()
+    {
+        return RefJabatan::getSekdes();
+    }
+}
+
+/**
+ * @param string
+ *
+ * @return string
+ */
+if (! function_exists('bersihkan_xss')) {
+    function bersihkan_xss($str)
+    {
+        $antiXSS = new AntiXSS();
+        $antiXSS->removeEvilHtmlTags(['iframe']);
+
+        return $antiXSS->xss_clean($str);
     }
 }

@@ -345,21 +345,21 @@ if ($_SESSION['fm_key']) {
 			//*************************
 			//Permissions configuration
 			//******************
-			'delete_files'									=> true,
-			'create_folders'								=> true,
-			'delete_folders'								=> true,
-			'upload_files'									=> true,
-			'rename_files'									=> false,
-			'rename_folders'								=> true,
-			'duplicate_files'								=> true,
-			'extract_files'									=> true,
-			'copy_cut_files'								=> true, // for copy/cut files
-			'copy_cut_dirs'									=> true, // for copy/cut directories
-			'chmod_files'										=> true, // change file permissions
-			'chmod_dirs'										=> true, // change folder permissions
-			'preview_text_files'						=> false, // eg.: txt, log etc.
+			'delete_files'									=> $_SESSION['hapus_gambar_rfm'] ?? false,
+			'create_folders'								=> $_SESSION['ubah_tambah_gambar_rfm'] ?? false,
+			'delete_folders'								=> $_SESSION['hapus_gambar_rfm'] ?? false,
+			'upload_files'									=> $_SESSION['ubah_tambah_gambar_rfm'] ?? false,
+			'rename_files'									=> $_SESSION['ubah_tambah_gambar_rfm'] ?? false,
+			'rename_folders'								=> $_SESSION['ubah_tambah_gambar_rfm'] ?? false,
+			'duplicate_files'								=> $_SESSION['ubah_tambah_gambar_rfm'] ?? false,
+			'extract_files'									=> $_SESSION['ubah_tambah_gambar_rfm'] ?? false,
+			'copy_cut_files'								=> $_SESSION['hapus_gambar_rfm'] ?? false, // for copy/cut files
+			'copy_cut_dirs'									=> $_SESSION['hapus_gambar_rfm'] ?? false, // for copy/cut directories
+			'chmod_files'									=> false, // change file permissions
+			'chmod_dirs'									=> false, // change folder permissions
+			'preview_text_files'							=> false, // eg.: txt, log etc.
 			'edit_text_files'								=> false, // eg.: txt, log etc.
-			'create_text_files'							=> false, // only create files with exts. defined in $config['editable_text_file_exts']
+			'create_text_files'								=> false, // only create files with exts. defined in $config['editable_text_file_exts']
 			'download_files'								=> true, // allow download files or just preview
 
 			// you can preview these type of files if $preview_text_files is true

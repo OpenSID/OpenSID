@@ -23,9 +23,6 @@
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control" id="file_path" name="satuan">
                 <input type="file" class="hidden <?= jecho($main, false, 'required'); ?>" id="file" name="nama_file" accept=".pdf" />
-                <?php if ($main): ?>
-                    <input type="hidden" name="old_file" id="old_file" value="<?= $main->nama_file; ?>">
-                <?php endif; ?>
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                 </span>

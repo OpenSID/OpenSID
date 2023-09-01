@@ -47,8 +47,8 @@ class Laporan extends Admin_Controller
         parent::__construct();
 
         $this->load->model(['laporan_bulanan_model', 'pamong_model']);
-        $this->modul_ini          = 3;
-        $this->sub_modul_ini      = 28;
+        $this->modul_ini          = 'statistik';
+        $this->sub_modul_ini      = 'laporan-bulanan';
         $this->header['kategori'] = 'data_lengkap';
     }
 

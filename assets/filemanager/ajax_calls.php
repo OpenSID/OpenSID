@@ -81,10 +81,24 @@ if (isset($_GET['action'])) {
 		case 'save_img':
 			$info = pathinfo($_POST['name']);
             $image_data = $_POST['url'];
+            $ext = strtolower($info['extension']);
 
             if (preg_match('/^data:image\/(\w+);base64,/', $image_data, $type)) {
                 $image_data = substr($image_data, strpos($image_data, ',') + 1);
                 $type = strtolower($type[1]); // jpg, png, gif
+                
+                // Images get some additional checks
+                if (!in_array($type, array('gif', 'jpg', 'jpeg', 'jpe', 'png', 'webp'), TRUE)) 
+                {
+                    response('File type not allowed')->send();
+                    exit;
+                }
+                
+                if (!in_array($ext, array('gif', 'jpg', 'jpeg', 'jpe', 'png', 'webp'), TRUE)) 
+                {
+                    response('Extension not allowed')->send();
+                    exit;
+                }                                
 
                 $image_data = base64_decode($image_data);
 
@@ -109,8 +123,13 @@ if (isset($_GET['action'])) {
             if ($ftp) {
                 $temp = tempnam('/tmp', 'RF');
                 unlink($temp);
-                $temp .=".".substr(strrchr($_POST['url'], '.'), 1);
+                $temp .=".".substr(strrchr($_POST['url'], '.'), 1);                
                 file_put_contents($temp, $image_data);
+                if (@getimagesize($temp) === FALSE) {                    
+                    unlink($temp);
+                    log_message('error', 'remove attacker file '.$temp);
+                    exit;
+                }
 
                 $ftp->put($config['ftp_base_folder'].$config['upload_dir'] . $_POST['path'] . $_POST['name'], $temp, FTP_BINARY);
 
@@ -119,8 +138,14 @@ if (isset($_GET['action'])) {
 
                 unlink($temp);
             } else {
-                file_put_contents($config['current_path'] . $_POST['path'] . $_POST['name'], $image_data);
-                create_img($config['current_path'] . $_POST['path'] . $_POST['name'], $config['thumbs_base_path'].$_POST['path'].$_POST['name'], 122, 91);
+                $pathFileName = $config['current_path'] . $_POST['path'] . $_POST['name'];
+                file_put_contents($pathFileName, $image_data);
+                if (@getimagesize($pathFileName) === FALSE) {
+                    log_message('error', 'remove attacker file '.$pathFileName);
+                    unlink($pathFileName);
+                    exit;
+                }
+                create_img($pathFileName, $config['thumbs_base_path'].$_POST['path'].$_POST['name'], 122, 91);
                 // TODO something with this function cause its blowing my mind
                 new_thumbnails_creation(
                     $config['current_path'].$_POST['path'],
@@ -405,6 +430,8 @@ if (isset($_GET['action'])) {
             $_SESSION['RF']['clipboard_action'] = null;
             break;
         case 'chmod':
+            response(sprintf(trans('File_Permission_Not_Allowed'), (is_dir($path) ? trans('Folders') : trans('Files')), 403))->send();
+            exit;
             if ($ftp) {
                 $path = $config['ftp_base_url'] . $config['upload_dir'] . $_POST['path'];
                 if (

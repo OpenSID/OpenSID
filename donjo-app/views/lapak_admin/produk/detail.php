@@ -33,7 +33,7 @@
 	</div>
 	<div class="form-group">
 		<label class="control-label" for="nama">Nama Produk</label>
-		<input name="nama" class="form-control input-sm" type="text" value="<?= $main->nama; ?>" disabled/>
+		<input name="nama" class="form-control input-sm" type="text" value="<?= e($main->nama); ?>" disabled/>
 	</div>
 	<div class="row">
 		<div class="col-md-6">
@@ -78,7 +78,7 @@
 	</div>
 	<div class="form-group">
 		<label class="control-label" for="kode_desa">Deskripsi Produk</label>
-		<textarea name="deskripsi" class="form-control input-sm" rows="5" disabled><?= $main->deskripsi; ?></textarea>
+		<textarea name="deskripsi" class="form-control input-sm" rows="5" disabled><?= e($main->deskripsi); ?></textarea>
 	</div>
 </div>
 <div class="modal-footer">

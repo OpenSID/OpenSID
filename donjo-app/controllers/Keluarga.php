@@ -48,8 +48,8 @@ class Keluarga extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['keluarga_model', 'penduduk_model', 'wilayah_model', 'program_bantuan_model']);
-        $this->modul_ini     = 2;
-        $this->sub_modul_ini = 22;
+        $this->modul_ini     = 'kependudukan';
+        $this->sub_modul_ini = 'keluarga';
         $this->_set_page     = ['20', '50', '100'];
         $this->_list_session = ['jenis_peristiwa', 'status_hanya_tetap', 'status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga', 'kumpulan_kk'];
     }

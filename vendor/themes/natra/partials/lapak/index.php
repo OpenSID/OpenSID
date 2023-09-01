@@ -15,9 +15,9 @@
 							<option value="<?= $kategori_item->id ?>" <?= selected($id_kategori, $kategori_item->id) ?>><?= $kategori_item->kategori ?></option>
 						<?php endforeach; ?>
 					</select>
-					<input type="text" name="keyword" maxlength="50" class="form-control" value="<?= $keyword; ?>" placeholder="Cari Produk">
+					<input type="text" name="keyword" maxlength="50" class="form-control" value="<?= e($keyword); ?>" placeholder="Cari Produk">
 					<button type="submit" class="btn btn-primary">Cari</button>
-					<?php if ($keyword): ?>
+					<?php if (e($keyword)): ?>
 						<a href="<?=site_url('lapak')?>" class="btn btn-info">Tampilkan Semua</a>
 					<?php endif ?>
 				</div>
@@ -65,7 +65,7 @@
 									<p class="card-text">
 										<b>Deskripsi :</b>
 										<br/>
-										<?= nl2br($pro->deskripsi); ?>
+										<?= nl2br(e($pro->deskripsi)); ?>
 									</p>
 									<div class="d-flex justify-content-between align-items-center">
 										<div class="btn-group">

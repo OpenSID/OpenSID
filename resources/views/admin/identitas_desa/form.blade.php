@@ -147,12 +147,21 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="telepon">Telpon
+                        <label class="col-sm-3 control-label" for="telepon">Nomor Telpon
                             {{ ucwords($setting->sebutan_desa) }}</label>
                         <div class="col-sm-8">
                             <input id="telepon" name="telepon" class="form-control input-sm bilangan" type="text"
                                 maxlength="15" placeholder="Telpon {{ ucwords($setting->sebutan_desa) }}"
                                 value="{{ $main->telepon }}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="telepon">Nomor Ponsel
+                            {{ ucwords($setting->sebutan_desa) }}</label>
+                        <div class="col-sm-8">
+                            <input id="telepon-operator" name="nomor_operator" class="form-control input-sm bilangan"
+                                type="text" maxlength="15" placeholder="Nomor Ponsel"
+                                value="{{ $main->nomor_operator }}" />
                         </div>
                     </div>
                     <div class="form-group">

@@ -59,8 +59,8 @@ class Surat extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['penduduk_model', 'keluarga_model', 'surat_model', 'keluar_model', 'penomoran_surat_model', 'permohonan_surat_model']);
-        $this->modul_ini     = 4;
-        $this->sub_modul_ini = 31;
+        $this->modul_ini     = 'layanan-surat';
+        $this->sub_modul_ini = 'cetak-surat';
         $this->tinymce       = new TinyMCE();
     }
 
@@ -154,6 +154,7 @@ class Surat extends Admin_Controller
 
     public function pratinjau($url, $id = null)
     {
+        $this->set_hak_akses_rfm();
         if ($id) {
             // Ganti status menjadi 'Menunggu Tandatangan'
             $this->permohonan_surat_model->proses($id, 2);

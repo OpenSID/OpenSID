@@ -35,8 +35,8 @@
  *
  */
 
-define('FOTO_DEFAULT_PRIA', 'assets/images/pengguna/kuser.png');
-define('FOTO_DEFAULT_WANITA', 'assets/images/pengguna/wuser.png');
+define('FOTO_DEFAULT_PRIA', base_url() . 'assets/images/pengguna/kuser.png');
+define('FOTO_DEFAULT_WANITA', base_url() . 'assets/images/pengguna/wuser.png');
 
 define('MIME_TYPE_SIMBOL', serialize([
     'image/png',  'image/x-png',
@@ -129,14 +129,14 @@ function AmbilFoto($foto, $ukuran = 'kecil_', $sex = '1')
 
     if ($foto == $file_foto) {
         $ukuran    = ($ukuran == 'kecil_') ? 'kecil_' : '';
-        $file_foto = LOKASI_USER_PICT . $ukuran . $foto;
+        $file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
 
         if (! file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto)) {
             $file_foto = Foto_Default(null, $sex);
         }
     }
 
-    return to_base64($file_foto);
+    return $file_foto;
 }
 
 function Foto_Default($foto, $sex = 1)

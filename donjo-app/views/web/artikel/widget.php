@@ -104,7 +104,7 @@
 																				<?php endif; ?>
 																			<?php endif; ?>
 																		</td>
-																		<td nowrap><?=$data['judul']?></td><td>
+																		<td nowrap><?= e($data['judul'])?></td><td>
 																			<?php if ($data['jenis_widget'] == 1): ?>
 																				Sistem
 																			<?php elseif ($data['jenis_widget'] == 2): ?>
@@ -114,7 +114,7 @@
 																			<?php endif; ?>
 																		</td>
 																		<td><?=$data['aktif']?></td>
-																		<td><?=$data['isi']?></td>
+																		<td><?=e($data['isi'])?></td>
 																	</tr>
 																<?php endforeach; ?>
 															</tbody>

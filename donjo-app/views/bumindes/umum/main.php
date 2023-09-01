@@ -1,9 +1,9 @@
 <style type="text/css">
-  .disabled
-	{
-     pointer-events: none;
-     cursor: default;
-  }
+	.disabled
+		{
+		pointer-events: none;
+		cursor: default;
+	}
 </style>
 <div class="content-wrapper">
 	<section class="content-header">

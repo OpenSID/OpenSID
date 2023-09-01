@@ -51,8 +51,8 @@ class Pengurus extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['pamong_model', 'penduduk_model', 'wilayah_model']);
-        $this->modul_ini          = 301;
-        $this->sub_modul_ini      = 302;
+        $this->modul_ini          = 'buku-administrasi-desa';
+        $this->sub_modul_ini      = 'administrasi-umum';
         $this->_set_page          = ['20', '50', '100'];
         $this->_list_session      = ['status', 'cari'];
         $this->header['kategori'] = 'Pemerintah Desa';
@@ -77,16 +77,17 @@ class Pengurus extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data['func']            = 'index';
-        $data['set_page']        = $this->_set_page;
-        $data['per_page']        = $this->session->per_page;
-        $data['paging']          = $this->pamong_model->paging($p);
-        $data['main']            = $this->pamong_model->list_data($data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']         = $this->pamong_model->autocomplete();
-        $data['main_content']    = 'home/pengurus';
-        $data['subtitle']        = 'Buku ' . ucwords(setting('sebutan_pemerintah_desa'));
-        $data['selected_nav']    = 'aparat';
-        $data['kecuali_jabatan'] = RefJabatan::EXCLUDE_DELETE;
+        $data['func']               = 'index';
+        $data['set_page']           = $this->_set_page;
+        $data['per_page']           = $this->session->per_page;
+        $data['paging']             = $this->pamong_model->paging($p);
+        $data['main']               = $this->pamong_model->list_data($data['paging']->offset, $data['paging']->per_page);
+        $data['keyword']            = $this->pamong_model->autocomplete();
+        $data['main_content']       = 'home/pengurus';
+        $data['subtitle']           = 'Buku ' . ucwords(setting('sebutan_pemerintah_desa'));
+        $data['selected_nav']       = 'aparat';
+        $data['jabatanSekdes']      = sekdes()->id;
+        $data['jabatanKadesSekdes'] = RefJabatan::getKadesSekdes();
 
         $this->render('bumindes/umum/main', $data);
     }
@@ -97,7 +98,7 @@ class Pengurus extends Admin_Controller
         $id_pend = $this->input->post('id_pend');
 
         if ($id) {
-            $data['pamong'] = $this->pamong_model->get_data($id);
+            $data['pamong'] = $this->pamong_model->get_data($id) ?? show_404();
             if (! isset($id_pend)) {
                 $id_pend = $data['pamong']['id_pend'];
             }
@@ -107,19 +108,21 @@ class Pengurus extends Admin_Controller
             $data['form_action'] = site_url('pengurus/insert');
         }
 
-        $kecuali = [];
+        $semua_jabatan = RefJabatan::urut()->latest()->pluck('nama', 'id');
 
         // Cek apakah kades
-        if (Pamong::where('jabatan_id', 1)->where('pamong_status', 1)->exists() && $data['pamong']['jabatan_id'] != 1) {
-            $kecuali[] = 1;
+        $jabatan_kades = kades()->id;
+        if (Pamong::where('jabatan_id', $jabatan_kades)->where('pamong_status', 1)->exists() && $data['pamong']['jabatan_id'] != $jabatan_kades) {
+            $semua_jabatan = $semua_jabatan->except($jabatan_kades);
         }
 
         // Cek apakah sekdes
-        if (Pamong::where('jabatan_id', 2)->where('pamong_status', 1)->exists() && $data['pamong']['jabatan_id'] != 2) {
-            $kecuali[] = 2;
+        $jabatan_sekdes = sekdes()->id;
+        if (Pamong::where('jabatan_id', $jabatan_sekdes)->where('pamong_status', 1)->exists() && $data['pamong']['jabatan_id'] != $jabatan_sekdes) {
+            $semua_jabatan = $semua_jabatan->except($jabatan_sekdes);
         }
 
-        $data['jabatan']       = RefJabatan::whereNotIn('id', $kecuali)->pluck('nama', 'id');
+        $data['jabatan']       = $semua_jabatan;
         $data['atasan']        = $this->pamong_model->list_atasan($id);
         $data['penduduk']      = $this->pamong_model->list_penduduk($id_pend ?? 0);
         $data['pendidikan_kk'] = PendidikanKK::pluck('nama', 'id');
@@ -283,17 +286,10 @@ class Pengurus extends Admin_Controller
     // Jabatan
     public function jabatan()
     {
-        return view('admin.jabatan.index', [
-            'selected_nav' => 'pengurus',
-        ]);
-    }
-
-    public function jabatandatatables()
-    {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(RefJabatan::query()->orderBy('id')->orderBy('jenis', 'desc'))
+            return datatables()->of(RefJabatan::query()->urut()->latest())
                 ->addColumn('ceklist', static function ($row) {
-                    if (can('h') && ! in_array($row->id, RefJabatan::EXCLUDE_DELETE)) {
+                    if (can('h') && ! in_array($row->id, RefJabatan::getKadesSekdes())) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
                 })
@@ -305,7 +301,7 @@ class Pengurus extends Admin_Controller
                         $aksi .= '<a href="' . route('pengurus.jabatanform', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
-                    if (can('h') && ! in_array($row->id, RefJabatan::EXCLUDE_DELETE)) {
+                    if (can('h') && ! in_array($row->id, RefJabatan::getKadesSekdes())) {
                         $aksi .= '<a href="#" data-href="' . route('pengurus.jabatandelete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
@@ -315,7 +311,9 @@ class Pengurus extends Admin_Controller
                 ->make();
         }
 
-        return show_404();
+        return view('admin.jabatan.index', [
+            'selected_nav' => 'pengurus',
+        ]);
     }
 
     public function jabatanform($id = '')
@@ -353,9 +351,7 @@ class Pengurus extends Admin_Controller
 
         $data = RefJabatan::findOrFail($id);
 
-        $requests = static::jabatanValidate($this->request);
-
-        if ($data->update($requests)) {
+        if ($data->update(static::jabatanValidate($this->request, $data->id))) {
             redirect_with('success', 'Berhasil Ubah Data', 'pengurus/jabatan');
         }
         redirect_with('error', 'Gagal Ubah Data', 'pengurus/jabatan');
@@ -366,8 +362,8 @@ class Pengurus extends Admin_Controller
         $this->redirect_hak_akses('h');
 
         $data = RefJabatan::findOrFail($id);
-        if (in_array($data->id, RefJabatan::EXCLUDE_DELETE)) {
-            redirect_with('error', 'Gagal Hapus Data, ' . $data->jabatan, 'pengurus/jabatan');
+        if (in_array($data->id, RefJabatan::getKadesSekdes())) {
+            redirect_with('error', 'Gagal Hapus Data, ' . $data->nama . ' Tidak Boleh Dihapus.', 'pengurus/jabatan');
         }
 
         if ($data->destroy($this->request['id_cb'] ?? $id)) {
@@ -378,7 +374,7 @@ class Pengurus extends Admin_Controller
     }
 
     // Hanya filter inputan
-    protected static function jabatanValidate($request = [])
+    protected static function jabatanValidate($request = [], $id = null)
     {
         return [
             'nama'    => nama_terbatas($request['nama']),

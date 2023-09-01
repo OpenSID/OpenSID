@@ -44,8 +44,8 @@ class Kehadiran_pengaduan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 337;
-        $this->sub_modul_ini      = 342;
+        $this->modul_ini          = 'kehadiran';
+        $this->sub_modul_ini      = 'kehadiran-pengaduan';
         $this->header['kategori'] = 'kehadiran';
     }
 

@@ -42,8 +42,9 @@
 								<input name="anchor" type="hidden" value="<?= $anchor; ?>"/>
 								<?php if ($individu): ?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
-								<?php	endif; ?>
+								<?php endif; ?>
 								<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
+								<?php if ($individu): ?>
 								<div class="form-group">
 									<label for="ttl"  class="col-sm-3 control-label">Hari / Tanggal / Jam Kematian </label>
 									<div class="col-sm-3 col-lg-4">
@@ -54,7 +55,7 @@
 											<div class="input-group-addon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input title="Pilih Tanggal" class="form-control input-sm required " name="tanggal_mati" type="text" value="<?= $log_penduduk['tgl_peristiwa'] ?>" readonly/>
+											<input title="Pilih Tanggal" class="form-control input-sm required " name="tanggal_kematian" type="text" value="<?= $log_penduduk['tgl_peristiwa'] ?>" readonly/>
 										</div>
 									</div>
 									<div class="col-sm-2">
@@ -62,32 +63,32 @@
 											<div class="input-group-addon">
 												<i class="fa fa-clock-o"></i>
 											</div>
-											<input class="form-control input-sm required" name="jam" id="jammenit_1" type="text" value="<?= $log_penduduk['jam_mati'] ?>" readonly/>
+											<input class="form-control input-sm required" name="jam_kematian" id="jammenit_1" type="text" value="<?= $log_penduduk['jam_mati'] ?>" readonly/>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="tempat_mati"  class="col-sm-3 control-label">Tempat Meninggal</label>
+									<label for="tempat_kematian"  class="col-sm-3 control-label">Tempat Meninggal</label>
 									<div class="col-sm-8">
-										<input type="text" name="tempat_mati" class="form-control input-sm required" placeholder="Tempat Meninggal" value="<?= $log_penduduk['meninggal_di'] ?>" readonly></input>
+										<input type="text" name="tempat_kematian" class="form-control input-sm required" placeholder="Tempat Meninggal" value="<?= $log_penduduk['meninggal_di'] ?>" readonly></input>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="sebab" class="col-sm-3 control-label" >Penyebab Kematian</label>
+									<label for="sebab_kematian" class="col-sm-3 control-label" >Penyebab Kematian</label>
 									<div class="col-sm-4">
 										<input name="sebab_nama" type="hidden" value="<?= $sebab[$log_penduduk['sebab']] ?>">
-										<select class="form-control input-sm required" name="sebab" onchange="$('input[name=sebab_nama]').val($(this).find(':selected').data('sebabnama'));" readonly> 
+										<select class="form-control input-sm required" name="sebab_kematian" onchange="$('input[name=sebab_nama]').val($(this).find(':selected').data('sebabnama'));" readonly>
 											<option value="<?= $log_penduduk['sebab']?>" data-sebabnama="<?= $nama; ?>" selected><?= $sebab[$log_penduduk['sebab']]; ?></option>
 										</select>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="sebab" class="col-sm-3 control-label"> Yang Menerangkan</label>
+									<label for="penolong_kematian" class="col-sm-3 control-label"> Yang Menerangkan</label>
 									<div class="col-sm-4">
-										<select class="form-control input-sm required" name="penolong_mati" readonly>
-											
+										<select class="form-control input-sm required" name="penolong_kematian" readonly>
+
 												<option value="<?= $log_penduduk['penolong_mati']?>" selected ><?= $penolong_mati[$log_penduduk['penolong_mati']]; ?></option>
-											
+
 										</select>
 									</div>
 								</div>
@@ -325,6 +326,7 @@
 										</select>
 									</div>
 								</div>
+								<?php endif; ?>
 								<?php if ($pelapor): ?>
 									<?php $individu = $pelapor;?>
 									<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
@@ -643,8 +645,8 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<div class="form-group">
-									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>PENANDA TANGAN</strong></label>
+								<div class="form-group subtitle_head">
+									<label class="col-xs-12 col-sm-3 col-lg-3 control-label"><strong>PENANDA TANGAN</strong></label>
 								</div>
 								<div class="form-group">
 										<label class="col-sm-3 control-label">Lokasi Disdukcapil <?= ucwords($this->setting->sebutan_kabupaten)?></label>
@@ -669,7 +671,7 @@
 								<h5><strong>Form ini menghasilkan:</strong></h5>
 								<ol>
 									<li>Surat Keterangan Kematian</li>
-									<li>Lampiran F-2.29 SURAT KETERANGAN KEMATIAN bagi warga yang meninggal</li>
+									<li>Lampiran F.201 Untuk Permohonan Akta Kematian<</li>
 								</ol>
 								<p>Sebelum membuat Surat Keterangan Kematian, ubah dulu status dasar warga yang meninggal di modul Penduduk.. </p>
 								<p>Juga pastikan semua biodata orang tua warga yang meninggal, pelapor dan saksi-saksi sudah lengkap sebelum mencetak surat dan lampiran.</p>
@@ -734,14 +736,14 @@
 		$('#'+'validasi').submit();
 	}
 
-	$('document').ready(function() {	
+	$('document').ready(function() {
 		/* set otomatis hari */
-		$('input[name=tanggal_mati]').change(function(e) {
+		$('input[name=tanggal_kematian]').change(function(e) {
 			$(this).closest('.form-group').find('[name=hari]').val(moment($(this).val(), "DD-MM-YYYY").format('dddd'));
 		});
 
 		/* pergi ke bagian halaman sesudah mengisi warga desa */
 		setTimeout(function() {location.hash = "#" + $('input[name=anchor]').val();}, 500);
-		$('input[name=tanggal_mati]').trigger('change');
+		$('input[name=tanggal_kematian]').trigger('change');
 	});
 </script>

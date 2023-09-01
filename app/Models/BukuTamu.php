@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Enums\JenisKelaminEnum;
+use Illuminate\Support\Facades\DB;
 
 class BukuTamu extends BaseModel
 {
@@ -114,5 +115,15 @@ class BukuTamu extends BaseModel
         }
 
         return $lokasi;
+    }
+
+    public function scopeFilters($query, array $filters)
+    {
+        if (! empty($filters['tanggal'])) {
+            [$awal, $akhir] = explode(' - ', $filters['tanggal']);
+            $query->whereBetween(DB::raw('DATE(created_at)'), [$awal, $akhir]);
+        }
+
+        return $query;
     }
 }

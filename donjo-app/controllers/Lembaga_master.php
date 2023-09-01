@@ -47,7 +47,7 @@ class Lembaga_master extends Kelompok_master
     {
         parent::__construct();
 
-        $this->modul_ini     = 200;
-        $this->sub_modul_ini = 327;
+        $this->modul_ini     = 'info-desa';
+        $this->sub_modul_ini = 'lembaga-desa';
     }
 }

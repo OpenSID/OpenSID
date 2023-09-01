@@ -45,7 +45,7 @@ class Covid19 extends Admin_Controller
         $this->load->model('covid19_model');
         $this->load->model('wilayah_model');
         $this->load->model('penduduk_model');
-        $this->modul_ini = 206;
+        $this->modul_ini = 'kesehatan';
     }
 
     public function index()
@@ -55,7 +55,7 @@ class Covid19 extends Admin_Controller
 
     public function data_pemudik($page = 1)
     {
-        $this->sub_modul_ini = 207;
+        $this->sub_modul_ini = 'pendataan';
 
         if (isset($_POST['per_page'])) {
             $this->session->set_userdata('per_page', $_POST['per_page']);
@@ -72,7 +72,7 @@ class Covid19 extends Admin_Controller
     public function form_pemudik()
     {
         $this->redirect_hak_akses('u');
-        $this->sub_modul_ini = 207;
+        $this->sub_modul_ini = 'pendataan';
 
         $d                      = new DateTime('NOW');
         $data['tanggal_datang'] = $d->format('Y-m-d H:i:s');
@@ -194,7 +194,7 @@ class Covid19 extends Admin_Controller
 
     public function pantau($page = 1, $filter_tgl = null, $filter_nik = null)
     {
-        $this->sub_modul_ini = 208;
+        $this->sub_modul_ini = 'pemantauan';
 
         if (isset($_POST['per_page'])) {
             $this->session->set_userdata('per_page', $_POST['per_page']);

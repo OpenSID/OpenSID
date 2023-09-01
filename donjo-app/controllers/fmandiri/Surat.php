@@ -194,12 +194,12 @@ class Surat extends Mandiri_Controller
 
         $post = $this->input->post();
         $data = [
-            'id_pemohon'  => $post['nik'],
-            'id_surat'    => $post['id_surat'],
+            'id_pemohon'  => bilangan($post['nik']),
+            'id_surat'    => (int) $post['id_surat'],
             'isian_form'  => json_encode($post),
             'status'      => 1, // Selalu 1 bagi penggun layanan mandiri
-            'keterangan'  => $data_permohonan['keterangan'],
-            'no_hp_aktif' => $data_permohonan['no_hp_aktif'],
+            'keterangan'  => $this->security->xss_clean($data_permohonan['keterangan']),
+            'no_hp_aktif' => bilangan($data_permohonan['no_hp_aktif']),
             'syarat'      => json_encode($data_permohonan['syarat']),
         ];
 

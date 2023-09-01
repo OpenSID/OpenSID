@@ -147,16 +147,19 @@ class Laporan_sinkronisasi_model extends MY_Model
     {
         $post = $this->input->post();
 
-        return [
-            'judul'     => alfanumerik_spasi($post['judul']),
-            'semester'  => bilangan(($this->tipe == 'laporan_apbdes') ? $post['semester'] : $post['bulan']),
-            'tahun'     => bilangan($post['tahun']),
-            'nama_file' => $this->upload($post['judul'], $post['old_file']),
-            'tipe'      => $this->tipe,
-        ];
+        $data['judul']    = alfanumerik_spasi($post['judul']);
+        $data['semester'] = bilangan(($this->tipe == 'laporan_apbdes') ? $post['semester'] : $post['bulan']);
+        $data['tahun']    = bilangan($post['tahun']);
+        $data['tipe']     = $this->tipe;
+
+        if (! empty($_FILES['nama_file']['name'])) {
+            $data['nama_file'] = $this->upload($post['judul']);
+        }
+
+        return $data;
     }
 
-    private function upload($nama_file, $old_file)
+    private function upload($nama_file)
     {
         $this->load->library('upload');
 
@@ -164,6 +167,7 @@ class Laporan_sinkronisasi_model extends MY_Model
         $config['allowed_types'] = 'pdf';
         $config['max_size']      = max_upload() * 1024;
         $config['file_name']     = namafile($nama_file);
+        $config['overwrite']     = true;
 
         $this->upload->initialize($config);
 
@@ -172,15 +176,8 @@ class Laporan_sinkronisasi_model extends MY_Model
 
             if (! $upload) {
                 session_error($this->upload->display_errors());
-                if (! $old_file) {
-                    redirect($this->controller);
-                }
 
-                return $old_file;
-            }
-
-            if ($old_file) {
-                unlink(LOKASI_DOKUMEN . $old_file);
+                redirect($this->controller);
             }
 
             $uploadData = $this->upload->data();

@@ -78,6 +78,7 @@ class Config extends BaseModel
         'alamat_kantor',
         'email_desa',
         'telepon',
+        'nomor_operator',
         'website',
         'kantor_desa',
         'warna',

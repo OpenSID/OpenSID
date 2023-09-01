@@ -22,7 +22,8 @@
 		"symfony/process": "^5.4",
 		"symfony/var-dumper": "^5.4",
 		"themes/esensi": "dev-main",
-		"themes/natra": "dev-premium"
+		"themes/natra": "dev-premium",
+		"voku/anti-xss": "^4.1"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.1.*"

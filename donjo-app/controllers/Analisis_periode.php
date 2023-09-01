@@ -53,8 +53,8 @@ class Analisis_periode extends Admin_Controller
         $this->load->model(['analisis_periode_model', 'analisis_master_model']);
         $this->session->submenu  = 'Data Periode';
         $this->session->asubmenu = 'analisis_periode';
-        $this->modul_ini         = 5;
-        $this->sub_modul_ini     = 110;
+        $this->modul_ini         = 'analisis';
+        $this->sub_modul_ini     = 'master-analisis';
     }
 
     public function clear()

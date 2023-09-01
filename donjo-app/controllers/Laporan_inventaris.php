@@ -48,7 +48,7 @@ class Laporan_inventaris extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['inventaris_laporan_model', 'pamong_model', 'surat_model']);
-        $this->modul_ini     = 15;
+        $this->modul_ini     = 'sekretariat';
         $this->sub_modul_ini = 61;
     }
 

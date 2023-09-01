@@ -50,8 +50,8 @@ class Vaksin_covid extends Admin_Controller
         $this->load->model(['vaksin_covid_model', 'wilayah_model', 'pamong_model']);
         $this->_list_session = ['cari', 'dusun', 'vaksin', 'jenis_vaksin', 'tanggal_vaksin', 'umur'];
         $this->_set_page     = ['50', '100', '200'];
-        $this->modul_ini     = 206;
-        $this->sub_modul_ini = 335;
+        $this->modul_ini     = 'kesehatan';
+        $this->sub_modul_ini = 'vaksin';
     }
 
     public function filter($filter, $return = '')

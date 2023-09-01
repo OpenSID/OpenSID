@@ -54,8 +54,8 @@ class Web extends Admin_Controller
 
         $this->load->model(['web_artikel_model', 'web_kategori_model']);
         $this->_set_page     = ['20', '50', '100'];
-        $this->modul_ini     = 13;
-        $this->sub_modul_ini = 47;
+        $this->modul_ini     = 'admin-web';
+        $this->sub_modul_ini = 'artikel';
     }
 
     public function clear()
@@ -91,7 +91,6 @@ class Web extends Admin_Controller
         $data['keyword']       = $this->web_artikel_model->autocomplete($cat);
         $data['list_kategori'] = $this->web_artikel_model->list_kategori();
         $data['kategori']      = $this->web_artikel_model->get_kategori($cat);
-        $data                  = $this->security->xss_clean($data);
         $data['paging']        = $paging;
 
         $this->render('web/artikel/table', $data);
@@ -108,6 +107,7 @@ class Web extends Admin_Controller
     {
         $id = decrypt($id);
         $this->redirect_hak_akses('u');
+        $this->set_hak_akses_rfm();
         $cat = $this->session->kategori ?: 0;
 
         if ($id) {
@@ -279,7 +279,7 @@ class Web extends Admin_Controller
 
     public function slider()
     {
-        $this->sub_modul_ini = 54;
+        $this->sub_modul_ini = 'slider';
 
         $this->render('slider/admin_slider.php');
     }
@@ -295,7 +295,7 @@ class Web extends Admin_Controller
 
     public function teks_berjalan()
     {
-        $this->sub_modul_ini = 64;
+        $this->sub_modul_ini = 'teks-berjalan';
 
         $this->render('web/admin_teks_berjalan.php');
     }

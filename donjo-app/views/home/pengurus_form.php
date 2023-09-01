@@ -165,7 +165,7 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_pangkat">Pangkat / Golongan</label>
 								<div class="col-sm-7">
-									<input name="pamong_pangkat" class="form-control input-sm" type="text" placeholder="Pangkat / Golongan" value="<?= $pamong['pamong_pangkat']?>" ></input>
+									<input name="pamong_pangkat" class="form-control input-sm" type="text" maxlength="20" placeholder="Pangkat / Golongan" value="<?= $pamong['pamong_pangkat']?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
