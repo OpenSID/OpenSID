@@ -80,8 +80,9 @@ class Migrasi_fitur_premium_2309 extends MY_model
         $hasil = $hasil && $this->migrasi_23081551($hasil);
         $hasil = $hasil && $this->migrasi_23081651($hasil);
         $hasil = $hasil && $this->migrasi_23082151($hasil);
+        $hasil = $hasil && $this->migrasi_23082456($hasil);
 
-        return $hasil && $this->migrasi_23082456($hasil);
+        return $hasil && $this->migrasi_23093151($hasil);
     }
 
     protected function migrasi_23080851($hasil)
@@ -290,5 +291,15 @@ class Migrasi_fitur_premium_2309 extends MY_model
         $this->db->where('key', 'telegram_user_id')->update('setting_aplikasi', ['keterangan' => 'Telegram user id untuk notifikasi ke pengguna']);
 
         return $hasil;
+    }
+
+    protected function migrasi_23093151($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('log_tte', [
+            'message' => [
+                'type' => 'TEXT',
+                'null' => true,
+            ],
+        ]);
     }
 }
