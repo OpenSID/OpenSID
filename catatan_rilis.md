@@ -7,3 +7,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 2. [#7078](https://github.com/OpenSID/OpenSID/issues/7078) Perbaikan daftar jabatan yang ditampilkan saat disposisi surat masuk.
 3. [#7058](https://github.com/OpenSID/OpenSID/issues/7058) Perbaikan modul yang selalu bisa di akases.
 4. [#6984](https://github.com/OpenSID/OpenSID/issues/6984) Perbaikan pencatatan laporan bulanan.
+5. [#7083](https://github.com/OpenSID/OpenSID/issues/7083) Perbaikan notifikasi web pengaduan.
