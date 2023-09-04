@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Modul;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Modul_model extends MY_Model
@@ -286,8 +288,7 @@ class Modul_model extends MY_Model
 
     public function modul_aktif($controller)
     {
-        $selalu_aktif = ['hom_sid', 'user_setting', 'notif', 'wilayah', 'pengguna', 'tte', 'sign', 'surat_kecamatan'];
-        if (in_array($controller, $selalu_aktif)) {
+        if (in_array($controller, Modul::SELALU_AKTIF)) {
             return true;
         }
 
