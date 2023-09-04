@@ -50,6 +50,16 @@
 									</select>
 								</div>
 							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="control-label">Status</label>
+									<select class="form-control select2" id="status" name="status">
+									<?php foreach (\App\Enums\StatusEnum::all() as $key => $data): ?>
+										<option value="<?= $key ?>" <?= selected($key, $teks['status']); ?>><?= $data ?></option>
+									<?php endforeach; ?>
+									</select>
+								</div>
+							</div>
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>

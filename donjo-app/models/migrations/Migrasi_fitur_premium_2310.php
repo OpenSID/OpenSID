@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\StatusEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2310 extends MY_model
@@ -66,11 +68,26 @@ class Migrasi_fitur_premium_2310 extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_23090451($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
     {
+        return $hasil;
+    }
+
+    protected function migrasi_23090451($hasil)
+    {
+        $this->db->where('status', '2')->update('teks_berjalan', ['status' => '0']);
+        $this->dbforge->modify_column('teks_berjalan', [
+            'status' => [
+                'type'       => 'TINYINT',
+                'null'       => false,
+                'constraint' => 1,
+                'default'    => StatusEnum::TIDAK,
+            ],
+        ]);
+
         return $hasil;
     }
 }
