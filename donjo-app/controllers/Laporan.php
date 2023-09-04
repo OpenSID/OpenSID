@@ -188,55 +188,58 @@ class Laporan extends Admin_Controller
 
     public function detail_penduduk($rincian, $tipe)
     {
-        $data     = [];
-        $keluarga = ['kk', 'kk_l', 'kk_p'];
+        $data         = [];
+        $keluarga     = ['kk', 'kk_l', 'kk_p'];
+        $tahun        = $this->session->tahunku;
+        $bulan        = $this->session->bulanku;
+        $titlePeriode = strtoupper(getBulan($bulan)) . ' ' . $tahun;
 
         switch (strtolower($rincian)) {
             case 'awal':
                 $data = [
-                    'title' => 'PENDUDUK/KELUARGA AWAL BULAN INI',
+                    'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
                     'main'  => $this->laporan_bulanan_model->penduduk_awal($rincian, $tipe),
                 ];
                 break;
 
             case 'lahir':
                 $data = [
-                    'title' => in_array($tipe, $keluarga) ? 'KELUARGA BARU BULAN INI' : 'KELAHIRAN BULAN INI',
+                    'title' => (in_array($tipe, $keluarga) ? 'KELUARGA BARU BULAN ' : 'KELAHIRAN BULAN ') . $titlePeriode,
                     'main'  => $this->laporan_bulanan_model->kelahiran($rincian, $tipe),
                 ];
                 break;
 
             case 'mati':
                 $data = [
-                    'title' => 'KEMATIAN BULAN INI',
+                    'title' => 'KEMATIAN BULAN ' . $titlePeriode,
                     'main'  => $this->laporan_bulanan_model->kematian($rincian, $tipe),
                 ];
                 break;
 
             case 'datang':
                 $data = [
-                    'title' => 'PENDATANG BULAN INI',
+                    'title' => 'PENDATANG BULAN ' . $titlePeriode,
                     'main'  => $this->laporan_bulanan_model->pendatang($rincian, $tipe),
                 ];
                 break;
 
             case 'pindah':
                 $data = [
-                    'title' => 'PINDAH/KELUAR PERGI BULAN INI',
+                    'title' => 'PINDAH/KELUAR PERGI BULAN ' . $titlePeriode,
                     'main'  => $this->laporan_bulanan_model->pindah($rincian, $tipe),
                 ];
                 break;
 
             case 'hilang':
                 $data = [
-                    'title' => 'PENDUDUK HILANG BULAN INI',
+                    'title' => 'PENDUDUK HILANG BULAN ' . $titlePeriode,
                     'main'  => $this->laporan_bulanan_model->hilang($rincian, $tipe),
                 ];
                 break;
 
             case 'akhir':
                 $data = [
-                    'title' => 'PENDUDUK/KELUARGA AKHIR BULAN INI',
+                    'title' => 'PENDUDUK/KELUARGA AKHIR BULAN ' . $titlePeriode,
                     'main'  => $this->laporan_bulanan_model->penduduk_akhir($rincian, $tipe),
                 ];
                 break;
