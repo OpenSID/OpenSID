@@ -119,7 +119,8 @@ class Surat_masuk extends Admin_Controller
             $data['disposisi_surat_masuk']     = null;
         }
 
-        $data['ref_disposisi'] = RefJabatan::urut()->latest()->pluck('nama', 'id')->except(kades()->id);
+        $non_aktif             = RefJabatan::nonAktif()->pluck('id', 'id');
+        $data['ref_disposisi'] = RefJabatan::with('pamongs')->urut()->latest()->pluck('nama', 'id')->except(kades()->id)->except($non_aktif);
 
         // Buang unique id pada link nama file
         $berkas                             = explode('__sid__', $data['surat_masuk']['berkas_scan']);
