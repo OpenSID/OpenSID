@@ -46,6 +46,9 @@ class Job extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+
+        $this->load->database();
+
         $this->load->helper(['number', 'file']);
         $this->load->model(['ekspor_model', 'database_model']);
     }

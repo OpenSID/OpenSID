@@ -46,7 +46,6 @@ class Token extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
         $this->load->database();
 
         if ($this->session->token_kosong === false) {
