@@ -86,7 +86,7 @@ class Modul_model extends MY_Model
                 $data[$i]['modul']    = str_replace('[Pemerintah Desa]', ucwords(setting('sebutan_pemerintah_desa')), SebutanDesa($data[$i]['modul']));
                 $data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);
                 // Kelompok submenu yg kosong tidak dimasukkan
-                if (! empty($data[$i]['submodul']) || ! empty($data[$i]['url'])) {
+                if (! empty($data[$i]['submodul']) || ! empty($this->user_model->hak_akses($_SESSION['grup'], $data[$i]['url'], 'b'))) {
                     $aktif[] = $data[$i];
                 }
             } else {
