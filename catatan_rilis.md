@@ -13,3 +13,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Penyesuaian Teknis
 1. [#2870](https://github.com/OpenSID/premium/issues/2870) Penyesuaian load database setelah penambahan wilzard installer.
+2. [#6935](https://github.com/OpenSID/OpenSID/issues/6935) Penyesuaian informasi jenis surat yang ditampilkan pada pencarian cetak surat.

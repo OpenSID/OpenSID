@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use App\Models\FormatSurat;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
 use App\Models\UserGrup;
@@ -872,5 +873,16 @@ if (! function_exists('buat_class')) {
         }
 
         return 'class="' . $class2 . ' ' . $onlyClass . '" ' . $onlyAttributes;
+    }
+}
+
+if (! function_exists('jenis_surat')) {
+    function jenis_surat($jenis)
+    {
+        if (in_array($jenis, FormatSurat::RTF)) {
+            return 'RTF';
+        }
+
+        return 'TinyMCE';
     }
 }
