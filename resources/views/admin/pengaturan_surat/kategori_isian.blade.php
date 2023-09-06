@@ -6,6 +6,7 @@
                 <td>TIPE</td>
                 <td>NAMA</td>
                 <td>PLACEHOLDER</td>
+                <td class="padat">HARUS DIISI</td>
                 <td>ATRIBUT</td>
                 <td class="isian-pilihan">PILIHAN</td>
                 <td>AKSI</td>
