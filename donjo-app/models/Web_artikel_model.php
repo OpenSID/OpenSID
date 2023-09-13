@@ -562,15 +562,11 @@ class Web_artikel_model extends MY_Model
 
     public function get_headline()
     {
-        // 0 => bukan slider atau headline
-        // 1 => headline
-        // 3 => slider
-        // 2 => headline dan slider
         $data = $this->config_id('a')
             ->select('a.*, u.nama AS owner')
             ->from('artikel a')
             ->join('user u', 'a.id_user = u.id', 'LEFT')
-            ->where('(headline = 2 or headline = 1)')
+            ->where('headline', 1)
             ->order_by('tgl_upload', 'DESC')
             ->limit(1)
             ->get()
@@ -608,25 +604,10 @@ class Web_artikel_model extends MY_Model
             ->result_array();
     }
 
-    // TODO:: Cara ini terlalu rumit, pisahkan di kolom yang berbeda (headline dan slider)
     public function headline($id = 0)
     {
-        $data = $this->config_id()->get_where('artikel', ['id' => $id])->row_array();
-
-        $outp = $this->config_id()->where('headline', '2')->update('artikel', ['headline' => 3]);
-        $outp = $this->config_id()->where('headline', '1')->update('artikel', ['headline' => 0]);
-
-        if ($data['headline'] == '3') {
-            $headline = 2;
-        } elseif ($data['headline'] == '2') {
-            $headline = 3;
-        } elseif ($data['headline'] == '1') {
-            $headline = 0;
-        } else {
-            $headline = 1;
-        }
-
-        $outp = $this->config_id()->where('id', $id)->update('artikel', ['headline' => $headline]);
+        $outp = $this->config_id()->update('artikel', ['headline' => 0]);
+        $outp = $this->config_id()->where('id', $id)->update('artikel', ['headline' => 1]);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -635,17 +616,13 @@ class Web_artikel_model extends MY_Model
     {
         $data = $this->config_id()->get_where('artikel', ['id' => $id])->row_array();
 
-        if ($data['headline'] == '3') {
-            $headline = 0;
-        } elseif ($data['headline'] == '2') {
-            $headline = 1;
-        } elseif ($data['headline'] == '1') {
-            $headline = 2;
+        if ($data['slider'] == '1') {
+            $slider = 0;
         } else {
-            $headline = 3;
+            $slider = 1;
         }
 
-        $outp = $this->config_id()->where('id', $id)->update('artikel', ['headline' => $headline]);
+        $outp = $this->config_id()->where('id', $id)->update('artikel', ['slider' => $slider]);
 
         status_sukses($outp); //Tampilkan Pesan
     }

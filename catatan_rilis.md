@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 6. [#7076](https://github.com/OpenSID/OpenSID/issues/7076) Perbaikan tambah / ubah data teks berjalan.
 7. [#7097](https://github.com/OpenSID/OpenSID/issues/7097) Perbaikan pilahan sumber data dinamis saat melakukan cetak surat tinymce.
 8. [#7093](https://github.com/OpenSID/OpenSID/issues/7093) Perbaikan hak akses modul bantuan.
+9. [#7103](https://github.com/OpenSID/OpenSID/issues/7103) Perbaikan headline dan slider website.
 
 #### Penyesuaian Teknis
 1. [#2870](https://github.com/OpenSID/premium/issues/2870) Penyesuaian load database setelah penambahan wilzard installer.

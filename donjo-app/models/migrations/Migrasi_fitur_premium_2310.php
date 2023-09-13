@@ -68,7 +68,9 @@ class Migrasi_fitur_premium_2310 extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_23090451($hasil);
+        $hasil = $hasil && $this->migrasi_23090451($hasil);
+
+        return $hasil && $this->migrasi_23090651($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -87,6 +89,38 @@ class Migrasi_fitur_premium_2310 extends MY_model
                 'default'    => StatusEnum::TIDAK,
             ],
         ]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_23090651($hasil)
+    {
+        $table = 'artikel';
+
+        $this->dbforge->modify_column($table, [
+            'headline' => [
+                'type'       => 'TINYINT',
+                'null'       => false,
+                'constraint' => 1,
+                'default'    => 0,
+            ],
+        ]);
+
+        $slider['slider'] = [
+            'type'       => 'TINYINT',
+            'null'       => false,
+            'constraint' => 1,
+            'default'    => 0,
+        ];
+
+        if ($this->db->field_exists('slider', $table)) {
+            $this->dbforge->modify_column($table, $slider);
+        } else {
+            $this->dbforge->add_column($table, $slider);
+        }
+
+        $this->db->where('headline', '3')->update($table, ['headline' => '0', 'slider' => '1']);
+        $this->db->where('headline', '2')->update($table, ['headline' => '1', 'slider' => '1']);
 
         return $hasil;
     }
