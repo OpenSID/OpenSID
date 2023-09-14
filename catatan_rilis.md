@@ -19,3 +19,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 1. [#2870](https://github.com/OpenSID/premium/issues/2870) Penyesuaian load database setelah penambahan wilzard installer.
 2. [#6935](https://github.com/OpenSID/OpenSID/issues/6935) Penyesuaian informasi jenis surat yang ditampilkan pada pencarian cetak surat.
 3. [#7096](https://github.com/OpenSID/OpenSID/issues/7096) Penyesuaian jenis format pengisian pada kode isian surat tinymcec menggunakan bahasa indonesia.
+4. [#2897](https://github.com/OpenSID/premium/issues/2897) Sederhanakan fungsi pada surat master.

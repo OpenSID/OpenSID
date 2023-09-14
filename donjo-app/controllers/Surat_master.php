@@ -122,85 +122,53 @@ class Surat_master extends Admin_Controller
     public function form($id = null)
     {
         $this->redirect_hak_akses('u');
-
         $this->set_hak_akses_rfm();
 
+        $data['action']      = $id ? 'Ubah' : 'Tambah';
+        $data['formAction']  = $id ? route('surat_master.update', $id) : route('surat_master.insert');
+        $data['suratMaster'] = $id ? FormatSurat::findOrFail($id) : null;
+
         if ($id) {
-            $suratMaster           = FormatSurat::findOrFail($id);
             $kategori_isian        = [];
-            $data['kategori_nama'] = get_key_form_kategori($suratMaster->form_isian);
-            $filter_kategori       = collect($suratMaster->kode_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
-                $kategori_isian[$item->kategori][] = $item;
+            $data['kategori_nama'] = get_key_form_kategori($data['suratMaster']->form_isian);
 
-                return isset($item->kategori);
-            })->values();
-            $data['kategori_isian'] = $kategori_isian;
+            collect($data['suratMaster']->kode_isian)->filter(static function ($item) use (&$kategori_isian) {
+                if (isset($item->kategori)) {
+                    $kategori_isian[$item->kategori][] = $item;
 
-            $kategori_form = [];
-            $filter_form   = collect($suratMaster->form_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
-                $kategori_nama[]                   = $item->kategori;
-                $kategori_isian[$item->kategori][] = $item;
+                    return true;
+                }
 
-                return isset($item->kategori);
+                return false;
             })->values();
 
             $data['kategori_isian'] = $kategori_isian;
-
-            $data['kode_isian'] = collect($suratMaster->kode_isian)->reject(static function ($item) {
+            $data['kode_isian']     = collect($data['suratMaster']->kode_isian)->reject(static function ($item) {
                 return isset($item->kategori);
             })->values();
 
-            $kategori_isian        = [];
-            $data['kategori_nama'] = get_key_form_kategori($suratMaster->form_isian);
-            $filter_kategori       = collect($suratMaster->kode_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
-                $kategori_isian[$item->kategori][] = $item;
+            $data['klasifikasiSurat'] = KlasifikasiSurat::where('kode', $data['suratMaster']->kode_surat)->first();
 
-                return isset($item->kategori);
-            })->values();
-            $data['kategori_isian'] = $kategori_isian;
-
-            $kategori_form = [];
-            $filter_form   = collect($suratMaster->form_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
-                $kategori_nama[]                   = $item->kategori;
-                $kategori_isian[$item->kategori][] = $item;
-
-                return isset($item->kategori);
-            })->values();
-
-            $data['kategori_isian'] = $kategori_isian;
-
-            $data['kode_isian'] = collect($suratMaster->kode_isian)->reject(static function ($item) {
-                return isset($item->kategori);
-            })->values();
-
-            $data['action']           = 'Ubah';
-            $data['suratMaster']      = $suratMaster;
-            $data['klasifikasiSurat'] = KlasifikasiSurat::where('kode', $suratMaster->kode_surat)->first();
-
-            if (in_array($suratMaster->jenis, FormatSurat::RTF)) {
+            if (in_array($data['suratMaster']->jenis, FormatSurat::RTF)) {
                 $data['formAction'] = route('surat_master.update', $id);
-                $data['qrCode']     = QRCodeExist($suratMaster->url_surat);
+                $data['qrCode']     = QRCodeExist($data['suratMaster']->url_surat);
             } else {
                 $data['formAction'] = route('surat_master.update_baru', $id);
             }
-        } else {
-            $data['action']      = 'Tambah';
-            $data['formAction']  = route('surat_master.insert');
-            $data['suratMaster'] = null;
         }
 
-        if (in_array($suratMaster->jenis, [3, 4, null])) {
-            $data['margins']              = json_decode($suratMaster->margin) ?? FormatSurat::MARGINS;
-            $data['margin_global']        = $suratMaster->margin_global;
+        if (in_array($data['suratMaster']->jenis, [3, 4, null])) {
+            $data['margins']              = json_decode($data['suratMaster']->margin) ?? FormatSurat::MARGINS;
+            $data['margin_global']        = $data['suratMaster']->margin_global;
             $data['orientations']         = FormatSurat::ORIENTATAIONS;
             $data['sizes']                = FormatSurat::SIZES;
             $data['default_orientations'] = FormatSurat::DEFAULT_ORIENTATAIONS;
             $data['default_sizes']        = FormatSurat::DEFAULT_SIZES;
             $data['qrCode']               = true;
-            $data['header']               = $suratMaster->header ?? 1;
-            $data['footer']               = $suratMaster->footer ?? 1;
+            $data['header']               = $data['suratMaster']->header ?? 1;
+            $data['footer']               = $data['suratMaster']->footer ?? 1;
             $data['daftar_lampiran']      = $this->tinymce->getDaftarLampiran();
-            $data['format_nomor']         = $suratMaster->format_nomor;
+            $data['format_nomor']         = $data['suratMaster']->format_nomor;
         }
 
         $data['form_isian']       = $this->form_isian();
