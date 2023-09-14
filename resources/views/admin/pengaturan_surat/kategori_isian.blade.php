@@ -121,6 +121,6 @@
             @endif
         </tbody>
     </table>
-    <button type="button" class="btn btn-success btn-sm btn-block tambah-kode" data-type="gandakan-{{$value->kategori}}" data-kategori="{{$value->kategori}}"><i
+    <button type="button" class="btn btn-success btn-sm btn-block tambah-kode" data-type="gandakan-{{ $item }}" data-kategori="{{ $item }}"><i
             class="fa fa-plus"></i></button>
 </div>
