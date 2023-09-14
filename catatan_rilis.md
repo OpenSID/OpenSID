@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 10. [#6996](https://github.com/OpenSID/OpenSID/issues/6996) Perbaikan menampilkan luas wilayah pada halaman peta.
 11. [#7127](https://github.com/OpenSID/OpenSID/issues/7127) Perbaikan fungsi tambah kode isian pada data dinamis TinyMCE.
 12. [#7106](https://github.com/OpenSID/OpenSID/issues/7106) Perbaikan kode isian ayah dan ibu untuk pengaturan dan cetak surat TinyMCE.
+13. [#7123](https://github.com/OpenSID/OpenSID/issues/7123) Perbaikan akses impor data penduduk berdasarkan pengaturan data lengkap.
 
 #### Penyesuaian Teknis
 1. [#2870](https://github.com/OpenSID/premium/issues/2870) Penyesuaian load database setelah penambahan wilzard installer.
