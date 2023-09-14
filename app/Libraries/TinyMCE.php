@@ -699,29 +699,39 @@ class TinyMCE
                     ->first()->id;
             }
 
-            // Data Ayah
-            $data = array_merge($data, $this->getIsianPenduduk($id_ayah, 'ayah'));
-
-            // Data Ibu
-            $data = array_merge($data, $this->getIsianPenduduk($id_ibu, 'ibu'));
-
-            if ($penduduk->ayah_nik == null) {
+            if ($id_ayah || empty($penduduk)) {
+                // Data Ayah
+                $data = array_merge($data, $this->getIsianPenduduk($id_ayah, 'ayah'));
+            } else {
                 $data_ortu = [
                     [
                         'judul' => 'Nama Ayah',
                         'isian' => getFormatIsian('Nama_ayaH'),
                         'data'  => $penduduk->nama_ayah,
                     ],
+                    [
+                        'judul' => 'NIK Ayah',
+                        'isian' => getFormatIsian('nik_ayah'),
+                        'data'  => $penduduk->ayah_nik,
+                    ],
                 ];
                 $data = array_merge($data, $data_ortu);
             }
 
-            if ($penduduk->ibu_nik == null) {
+            if ($id_ibu || empty($penduduk)) {
+                // Data Ibu
+                $data = array_merge($data, $this->getIsianPenduduk($id_ibu, 'ibu'));
+            } else {
                 $data_ortu = [
                     [
                         'judul' => 'Nama Ibu',
                         'isian' => getFormatIsian('Nama_ibU'),
                         'data'  => $penduduk->nama_ibu,
+                    ],
+                    [
+                        'judul' => 'NIK Ibu',
+                        'isian' => getFormatIsian('nik_ibu'),
+                        'data'  => $penduduk->ibu_nik,
                     ],
                 ];
                 $data = array_merge($data, $data_ortu);
