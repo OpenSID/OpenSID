@@ -351,7 +351,19 @@ class DTKSRegsosEk2022k
                     'rtm.kepalaKeluarga' => static function ($builder) {
                         $builder->select('id', 'nama');
                         // override all items within the $with property in Penduduk
-                        $builder->withOnly([]);
+                        $builder->without([
+                            'jenisKelamin',
+                            'agama',
+                            'pendidikan',
+                            'pendidikanKK',
+                            'pekerjaan',
+                            'wargaNegara',
+                            'golonganDarah',
+                            'cacat',
+                            'statusKawin',
+                            'pendudukStatus',
+                            'wilayah',
+                        ]);
                     },
                     'keluarga' => static function ($builder) {
                         $builder->select('id', 'nik_kepala', 'no_kk');
@@ -359,7 +371,19 @@ class DTKSRegsosEk2022k
                     'keluarga.kepalaKeluarga' => static function ($builder) {
                         $builder->select('id', 'nama');
                         // override all items within the $with property in Penduduk
-                        $builder->withOnly([]);
+                        $builder->without([
+                            'jenisKelamin',
+                            'agama',
+                            'pendidikan',
+                            'pendidikanKK',
+                            'pekerjaan',
+                            'wargaNegara',
+                            'golonganDarah',
+                            'cacat',
+                            'statusKawin',
+                            'pendudukStatus',
+                            'wilayah',
+                        ]);
                     },
                 ])
                 ->withCount('dtksAnggota')
@@ -376,6 +400,7 @@ class DTKSRegsosEk2022k
         $desa = SettingAplikasi::whereIn('key', [
             'sebutan_desa', 'sebutan_kecamatan', 'sebutan_kabupaten',
         ])->get();
+
         // echo json_encode($data['dtks']);
         // die();
         foreach ($desa as $item) {
@@ -664,6 +689,7 @@ class DTKSRegsosEk2022k
                 $dtks->kepala_keluarga->keluarga->no_kk,
                 $dtks->kd_kk,
             ];
+
             // dapatkan kode field di judul kolom 'index 2', kemudian gabung ke data
             foreach (array_column(array_slice($judul, 16, count($judul)), 2) as $field) {
                 if (in_array($field, ['tanggal_pendataan', 'tanggal_pemeriksaan'])) {
@@ -781,6 +807,7 @@ class DTKSRegsosEk2022k
                     $agt->kd_status_kehamilan,
                     $agt->kd_punya_kartuid,
                 ];
+
                 // dapatkan kode field di judul kolom 'index 2', kemudian gabung ke data
                 foreach (array_column(array_slice($judul, 19, count($judul)), 3) as $field) {
                     $data[] = $agt->{$field};
@@ -879,8 +906,7 @@ class DTKSRegsosEk2022k
     /**
      * Save Data in Form RegsosEk2022k
      *
-     * @param \App\Models\Dtks $dtks
-     * @param array            $request
+     * @param array $request
      *
      * @return array['content' => '', 'header_code' => '']
      */

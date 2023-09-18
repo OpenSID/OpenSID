@@ -73,6 +73,7 @@ class Migrasi_fitur_premium_2104 extends MY_model
         $hasil = $hasil && $this->analisis_indikator($hasil);
         // Sesuaikan data kartu peserta bantuan
         $hasil = $hasil && $this->kartu_bantuan($hasil);
+
         // Sesuaikan key offline mode
         return $hasil && $this->ubah_setting_offline_mode($hasil);
     }

@@ -179,6 +179,7 @@ class Statistik_pengunjung
                 $data['lblx']  = 'Tanggal';
                 $data['judul'] = 'Hari Ini ( ' . tgl_indo2($tgl) . ')';
                 break;
+
                 // Kemarin
             case 2:
                 $this->ci->db->select('Tanggal');
@@ -188,6 +189,7 @@ class Statistik_pengunjung
                 $data['lblx']  = 'Tanggal';
                 $data['judul'] = 'Kemarin ( ' . tgl_indo2($this->op_tgl('-1 days', $tgl)) . ')';
                 break;
+
                 // 7 Hari (Minggu Ini)
             case 3:
                 $this->ci->db->select('Tanggal');
@@ -197,6 +199,7 @@ class Statistik_pengunjung
                 $data['lblx']  = 'Tanggal';
                 $data['judul'] = 'Dari Tanggal ' . tgl_indo2($this->op_tgl('-6 days', $tgl)) . ' - ' . tgl_indo2($tgl);
                 break;
+
                 // 1 bulan(tgl 1 sampai akhir bulan)
             case 4:
                 $this->ci->db->select('Tanggal');
@@ -206,6 +209,7 @@ class Statistik_pengunjung
                 $data['lblx']  = 'Tanggal';
                 $data['judul'] = 'Bulan ' . ucwords(getBulan($bln)) . ' ' . $thn;
                 break;
+
                 // 1 tahun / 12 Bulan
             case 5:
                 $this->ci->db->select('MONTH(`Tanggal`) AS Tanggal');
@@ -215,6 +219,7 @@ class Statistik_pengunjung
                 $data['lblx']  = 'Bulan';
                 $data['judul'] = 'Tahun ' . $thn;
                 break;
+
                 // Semua Data
             default:
                 $this->ci->db->select('YEAR(`Tanggal`) AS Tanggal');
@@ -344,10 +349,12 @@ class Statistik_pengunjung
             case 1:
                 $this->ci->db->where('Tanggal', $tgl);
                 break;
+
                 // Kemarin
             case 2:
                 $this->ci->db->where('Tanggal', $this->op_tgl('-1 days', $tgl));
                 break;
+
                 // Minggu ini
             case 3:
                 $this->ci->db->where([
@@ -355,6 +362,7 @@ class Statistik_pengunjung
                     'Tanggal <=' => $tgl,
                 ]);
                 break;
+
                 // Bulan ini
             case 4:
                 $this->ci->db->where([
@@ -362,10 +370,12 @@ class Statistik_pengunjung
                     'YEAR(`Tanggal`)  = ' => $thn,
                 ]);
                 break;
+
                 // Tahun ini
             case 5:
                 $this->ci->db->where('YEAR(Tanggal) =', $thn);
                 break;
+
                 // Semua jumlah pengunjung
             default:
                 break;

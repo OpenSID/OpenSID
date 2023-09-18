@@ -233,8 +233,25 @@ class User_model extends CI_Model
     private function filter_sql()
     {
         if (isset($_SESSION['filter'])) {
-            $filter     = $_SESSION['filter'];
-            $filter_sql = " AND u.id_grup = {$filter}";
+            $filter = $_SESSION['filter'];
+
+            switch ($filter) {
+                case 'active':
+                    $filter_sql = ' AND u.active = 1';
+                    break;
+
+                case 'inactive':
+                    $filter_sql = ' AND u.active = 0';
+                    break;
+
+                case 'all':
+                    $filter_sql = ' AND (u.active = 0 OR u.active = 1)';
+                    break;
+
+                default:
+                    $filter_sql = " AND u.id_grup = {$filter}";
+                    break;
+            }
 
             return $filter_sql;
         }
@@ -302,7 +319,8 @@ class User_model extends CI_Model
         $sql = 'SELECT u.*, p.pamong_status, g.nama as grup ' . $this->list_data_sql();
         $sql .= $order_sql;
         $sql .= $paging_sql;
-
+        // var_dump ($sql);
+        // die();
         $query = $this->db->query($sql);
         $data  = $query->result_array();
 
@@ -352,6 +370,7 @@ class User_model extends CI_Model
     {
         $data             = [];
         $data['password'] = $post['password'];
+        $data['active']   = (int) $post['aktif'];
         if (isset($post['username']) && ! empty($post['username'])) {
             $data['username'] = alfanumerik($post['username']);
         }
@@ -408,16 +427,13 @@ class User_model extends CI_Model
             redirect('man_user');
         }
 
-        if (
-            empty($data['username']) || empty($data['password'])
-                                     || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())
-        ) {
+        if (empty($data['username']) || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())) {
             session_error(' -> Nama, Username dan Kata Sandi harus diisi');
             redirect('man_user');
         }
 
         // radiisi menandakan password tidak diubah
-        if ($data['password'] == 'radiisi') {
+        if ($data['password'] == '') {
             unset($data['password']);
         }
         // Untuk demo jangan ubah username atau password

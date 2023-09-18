@@ -271,6 +271,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
                 // Tidak ada data keluarga
                 continue;
             }
+
             // Import data sheet ini mulai baris pertama
             for ($i = 1; $i <= $baris; $i++) {
                 // Cari keluarga berikutnya
@@ -284,6 +285,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
                 $total_keluarga++;
                 // Pergi ke data anggota keluarga
                 $i = $i + 1;
+
                 // Proses setiap anggota keluarga
                 while (trim($data_sheet[$i][1]) > 0 && trim($data_sheet[$i][2]) != '' && $i <= $baris) {
                     $data_anggota   = $this->get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga);

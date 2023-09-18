@@ -3502,6 +3502,7 @@ class Database_model extends MY_Model
                 'surat_permohonan_cerai',
                 'surat_ket_rujuk_cerai',
             ];
+
             // Jenis surat yang bukan bagian rilis sistem sudah otomatis berisi nilai default (yaitu, 2)
             foreach ($surat_sistem as $url_surat) {
                 $this->db->where('url_surat', $url_surat)->update('tweb_surat_format', ['jenis' => 1]);

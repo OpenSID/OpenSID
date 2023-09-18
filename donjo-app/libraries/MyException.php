@@ -41,17 +41,12 @@
 class MyException extends Exception
 {
     /**
-     * Exception khusus untuk tabel referensi kosong
+     * Exception khusus untuk tabel referensi kosong.
      *
-     * @param message, berisi nama tabel yang kosong
-     * @param mixed $message
-     * @param mixed $code
+     * {@inheritDoc}
      */
-    public function __construct($message, $code = 99001, ?Throwable $previous = null)
+    public function __construct(string $message, int $code = 99001, ?Throwable $previous = null)
     {
-        $this->ci = get_instance();
-        $message  = 'Tabel referensi kosong: ' . $message;
-
-        parent::__construct('[PERIKSA] ' . $message, $code, $previous);
+        parent::__construct("[PERIKSA] Tabel referensi kosong: {$message}", $code, $previous);
     }
 }

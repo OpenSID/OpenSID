@@ -116,6 +116,7 @@ class Penduduk extends Admin_Controller
         $data['list_status_dasar']    = $this->referensi_model->list_data('tweb_status_dasar');
         $data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
         $data['list_jenis_kelamin']   = $this->referensi_model->list_data('tweb_penduduk_sex');
+        $data['pesan_hapus']          = 'Hanya lakukan hapus penduduk hanya jika ada kesalahan saat pengisian data atau penduduk tersebut tidak akan ditambahkan kembali. Apakah Anda yakin ingin menghapus data ini?';
 
         $this->render('sid/kependudukan/penduduk', $data);
     }
