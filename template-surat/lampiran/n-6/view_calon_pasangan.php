@@ -1,4 +1,4 @@
-<page orientation="portrait" format="210x330" style="font-size: 9pt">
+<page orientation="portrait" format="210x330" style="font-size: 10pt">
 
     <!-- Judul Lampiran -->
     <table align="right">
