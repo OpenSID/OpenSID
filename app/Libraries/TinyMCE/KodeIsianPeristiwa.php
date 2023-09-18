@@ -91,12 +91,12 @@ class KodeIsianPeristiwa
             [
                 'judul' => 'Hari Kelahiran',
                 'isian' => getFormatIsian('Hari_kelahiranN'),
-                'data'  => hari($peristiwa->tgl_peristiwa),
+                'data'  => hari($peristiwa->penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Tanggal Kelahiran',
                 'isian' => getFormatIsian('Tanggal_kelahiranN'),
-                'data'  => tgl_indo($peristiwa->tgl_peristiwa),
+                'data'  => tgl_indo($peristiwa->penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Jam Kelahiran',
