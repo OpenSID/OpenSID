@@ -48,8 +48,8 @@
                         name="kategori_pilihan_kode[{{$value->kategori}}][{{$jumlah_isian}}][]" multiple placeholder="Masukkan Pilihan"
                         @disabled($value->tipe
                         == '')>
-                        @foreach ($value->pilihan as $item)
-                        <option value="{{ $item }}" selected>{{ $item }}</option>
+                        @foreach ($value->pilihan as $pilihan)
+                        <option value="{{ $pilihan }}" selected>{{ $pilihan }}</option>
                         @endforeach
                     </select>
                     <select
