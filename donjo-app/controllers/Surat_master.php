@@ -742,6 +742,7 @@ class Surat_master extends Admin_Controller
                 break;
         }
 
+        // TODO:: Pindahkan kode isian untuk preview di library TinyMCE
         $mulaiBerlaku  = getFormatIsian('Mulai_berlakU');
         $berlakuSampai = getFormatIsian('Berlaku_sampaI');
         $data          = str_replace($mulaiBerlaku, date('d-m-Y', strtotime(Carbon\Carbon::now())), $data);
@@ -763,7 +764,9 @@ class Surat_master extends Admin_Controller
         if (! $data_penerima_izin['id_pend']) {
             redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
         }
-        $pend      = $this->surat_model->get_penduduk($data_penerima_izin['id_pend']);
+        $pend = $this->surat_model->get_penduduk($data_penerima_izin['id_pend']);
+
+        // TODO:: Pindahkan kode isian untuk preview di library TinyMCE
         $isi_surat = str_replace('[Form_hubungan_dengan_penerima_iziN]', 'Anak', $isi_surat);
         $isi_surat = str_replace('[Nama_penerima_iziN]', $pend['nama'], $isi_surat);
         $isi_surat = str_replace('[Ttl_penerima_iziN]', $pend['tempatlahir'] . ', ' . $pend['tanggallahir'], $isi_surat);
@@ -775,7 +778,9 @@ class Surat_master extends Admin_Controller
         $isi_surat = str_replace('[Form_nama_pptkiS]', 'ABDI BELA PERSADA', $isi_surat);
         $isi_surat = str_replace('[Form_status_pekerjaan_tki_tkW]', 'Tenaga Kerja Indonesia (TKI)', $isi_surat);
         $isi_surat = str_replace('[Form_masa_kontrak_tahuN]', '5', $isi_surat);
-        $isi_surat = str_replace('[Nama_penerima_iziN]', $pend['nama'], $isi_surat);
+        $isi_surat = str_replace('[Form_keperluaN]', 'pembuatan surat', $isi_surat);
+        $isi_surat = str_replace('[Pengikut_kiS]', $pend['nama'], $isi_surat);
+        $isi_surat = str_replace('[Pengikut_kartu_kiS]', 'NAMA ' . $pend['nama'], $isi_surat);
 
         // Pisahkan isian surat
         $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);
