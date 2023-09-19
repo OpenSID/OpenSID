@@ -36,8 +36,6 @@
  */
 
 use App\Models\RefJabatan;
-use App\Models\RefJabatan;
-use GuzzleHttp\Client;
 use GuzzleHttp\Client;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -138,7 +136,6 @@ define('NILAI_PENDAPAT', serialize([
     4 => 'Buruk',
 ]));
 
-use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ClientException;
 use voku\helper\AntiXSS;
 
