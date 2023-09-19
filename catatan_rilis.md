@@ -18,6 +18,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 13. [#7123](https://github.com/OpenSID/OpenSID/issues/7123) Perbaikan akses impor data penduduk berdasarkan pengaturan data lengkap.
 14. [#7126](https://github.com/OpenSID/OpenSID/issues/7126) Perbaikan hari pada surat keterangan lahir.
 15. [#7112](https://github.com/OpenSID/OpenSID/issues/7112) Perbaikan ukuran font surat nikah N1-N5.
+16. [#7122](https://github.com/OpenSID/OpenSID/issues/7122) Perbaikan sumber url feed agar bisa disesuaikan.
 
 #### Penyesuaian Teknis
 1. [#2870](https://github.com/OpenSID/premium/issues/2870) Penyesuaian load database setelah penambahan wilzard installer.

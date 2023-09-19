@@ -36,6 +36,7 @@
  */
 
 use App\Enums\StatusEnum;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -61,11 +62,11 @@ class Migrasi_fitur_premium_2310 extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2023091871($hasil, $id);
+        }
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_23090451($hasil);
@@ -123,5 +124,19 @@ class Migrasi_fitur_premium_2310 extends MY_model
         $this->db->where('headline', '2')->update($table, ['headline' => '1', 'slider' => '1']);
 
         return $hasil;
+    }
+
+    protected function migrasi_2023091871($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Link Feed',
+            'key'        => 'link_feed',
+            'value'      => 'https://www.covid19.go.id/feed/',
+            'keterangan' => 'Alamat Feed yang digunakan <code>(contoh: https://www.covid19.go.id/feed/)</code>',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'conf_web',
+        ], $id);
     }
 }
