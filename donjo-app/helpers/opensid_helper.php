@@ -36,9 +36,9 @@
  */
 
 use App\Models\RefJabatan;
+use App\Models\RefJabatan;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use voku\helper\AntiXSS;
+use GuzzleHttp\Client;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -56,15 +56,7 @@ define('VERSION', '2309.1.0');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023091851');
-
-// Website Demo OpenSID
-define('WEBSITE_DEMO', [
-    'beta.opendesa.id',
-    'beta2.opensid.or.id',
-    'berputar.opendesa.id',
-    'devpremium.opendesa.id',
-]);
+define('VERSI_DATABASE', '2023091801');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -146,9 +138,9 @@ define('NILAI_PENDAPAT', serialize([
     4 => 'Buruk',
 ]));
 
-use App\Models\RefJabatan;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ClientException;
+use voku\helper\AntiXSS;
 
 /**
  * Ambil Versi
