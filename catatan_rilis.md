@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 17. [#7098](https://github.com/OpenSID/OpenSID/issues/7098) Perbaikan pertinjau surat Keterangan Pergi Kawin TinyMCE.
 18. [#7125](https://github.com/OpenSID/OpenSID/issues/7125) Perbaikan data anak ke- pada lampiran Surat Keterangan Kelahiran TinyMCE.
 19. [#7115](https://github.com/OpenSID/OpenSID/issues/7115) Perbaikan periksa permohonan surat yang memiliki persyaratan.
+20. [#7120](https://github.com/OpenSID/OpenSID/issues/7120) Perbaikan urut data pemerintah desa tanpa kades atau sekdes.
 
 #### Penyesuaian Teknis
 1. [#2870](https://github.com/OpenSID/premium/issues/2870) Penyesuaian load database setelah penambahan wilzard installer.
