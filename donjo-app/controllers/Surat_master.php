@@ -742,10 +742,12 @@ class Surat_master extends Admin_Controller
                 break;
         }
 
-        $data      = str_replace('[Mulai_berlakU]', date('d-m-Y', strtotime(Carbon\Carbon::now())), $data);
-        $data      = str_replace('[Berlaku_sampaI]', date('d-m-Y', strtotime($tanggal_akhir)), $data);
-        $data      = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
-        $isi_surat = $this->tinymce->replceKodeIsian($data);
+        $mulaiBerlaku  = getFormatIsian('Mulai_berlakU');
+        $berlakuSampai = getFormatIsian('Berlaku_sampaI');
+        $data          = str_replace($mulaiBerlaku, date('d-m-Y', strtotime(Carbon\Carbon::now())), $data);
+        $data          = str_replace($berlakuSampai, date('d-m-Y', strtotime($tanggal_akhir)), $data);
+        $data          = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
+        $isi_surat     = $this->tinymce->replceKodeIsian($data);
 
         // Manual replace kode isian non warga
         $isi_surat = str_replace('[Form_nik_non_wargA]', $data['nik_non_warga'], $isi_surat);
