@@ -8,7 +8,10 @@
 	<div class="box box-primary">
 		<div class="box-header with-border">
 			<?php if (preg_match('/keluarga/i', $_SERVER['HTTP_REFERER'])): ?>
-				<a href="<?= $_SERVER['HTTP_REFERER']; ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Penduduk"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Anggota Keluarga</a>
+				<a href="<?= $_SERVER['HTTP_REFERER']; ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Anggota Keluarga"><i class="fa fa-arrow-circle-o-left"></i>Kembali Ke Daftar Anggota Keluarga</a>
+			<?php endif; ?>
+			<?php if (preg_match('/rtm/i', $_SERVER['HTTP_REFERER'])): ?>
+				<a href="<?= $_SERVER['HTTP_REFERER']; ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Anggota Rumah Tangga"><i class="fa fa-arrow-circle-o-left"></i>Kembali Ke Daftar Anggota Rumah Tangga</a>
 			<?php endif; ?>
 			<a href="<?= site_url('penduduk/clear'); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Penduduk"><i class="fa fa-arrow-circle-o-left"></i>Kembali Ke Daftar Penduduk</a>
 		</div>

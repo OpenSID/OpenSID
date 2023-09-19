@@ -131,6 +131,7 @@
 											<td class="padat"><?= ($key + 1); ?></td>
 											<td class="aksi">
 												<?php if ($this->CI->cek_hak_akses('u')): ?>
+													<a href="<?= site_url("penduduk/form/{$p}/{$kk}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
 													<a href="<?= site_url("rtm/edit_anggota/{$kk}/{$data['id']}")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Rumah Tangga" title="Ubah Hubungan Rumah Tangga" class="btn bg-navy btn-flat btn-sm"><i class="fa fa-link"></i></a>
 												<?php endif; ?>
 												<?php if ($this->CI->cek_hak_akses('h')): ?>

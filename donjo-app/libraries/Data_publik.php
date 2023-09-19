@@ -157,6 +157,7 @@ class Data_publik
         if (! $this->api) {
             throw new \Exception('Please specify the API endpoint URL.');
         }
+
         // Jika $no_cache paksa ambil baru
         return $no_cache ? $this->get_content($secure) : $this->resync($secure);
     }

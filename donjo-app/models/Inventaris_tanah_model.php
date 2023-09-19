@@ -55,6 +55,7 @@ class Inventaris_tanah_model extends CI_Model
     {
         $this->db->select($this->table . '.register');
         $this->db->from($this->table);
+
         // $this->db->where($this->table.'.visible',1);
         return $this->db->get()->result();
     }

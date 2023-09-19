@@ -107,8 +107,8 @@
 							cek_koneksi();
 						}
 
-						var success = '<?= addslashes($this->session->success) ?>';
-						var message = '<?= addslashes($this->session->error_msg) ?>';
+						var success = `<?= addslashes($this->session->success) ?>`;
+						var message = `<?= addslashes($this->session->error_msg) ?>`;
 
 						if (success == 1) {
 							notify = 'success';

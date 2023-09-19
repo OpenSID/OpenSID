@@ -295,7 +295,7 @@ class MY_Model extends CI_Model
 
     public function jalankan_migrasi($migrasi)
     {
-        if (in_array($migrasi, $this->session->daftar_migrasi)) {
+        if (is_array($this->session->daftar_migrasi) && in_array($migrasi, $this->session->daftar_migrasi)) {
             return true;
         }
 
