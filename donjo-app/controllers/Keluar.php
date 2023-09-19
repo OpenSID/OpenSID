@@ -427,7 +427,9 @@ class Keluar extends Admin_Controller
         $data['individu']     = $surat->penduduk;
         $data['operator']     = ($this->isAdmin->jabatan_id == kades()->id || $this->isAdmin->jabatan_id == sekdes()->id) ? false : true;
         $data['list_dokumen'] = Dokumen::hidup()->where('id_pend', $data['individu']->id)->get();
-
+        if ($data['mandiri']) {
+            $data['list_dokumen_syarat'] = $data['list_dokumen']->whereIn('id', $data['mandiri']->syarat);
+        }
         if ($this->isAdmin->jabatan_id == kades()->id) {
             $next = null;
         } elseif ($this->isAdmin->jabatan_id == sekdes()->id) {
