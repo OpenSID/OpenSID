@@ -421,7 +421,7 @@
             <td>8.</td>
             <td colspan="20">Kelahiran anak ke- </td>
             <td class="kanan">:</td>
-            <?= kotak(date('Y', strtotime($individu['kelahiran_anak_ke'])), 1); ?>
+            <?= kotak($individu['kelahiran_anak_ke'], 1); ?>
         </tr>
         <tr>
             <td>9.</td>
