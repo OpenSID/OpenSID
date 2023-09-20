@@ -24,6 +24,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 19. [#7115](https://github.com/OpenSID/OpenSID/issues/7115) Perbaikan periksa permohonan surat yang memiliki persyaratan.
 20. [#7120](https://github.com/OpenSID/OpenSID/issues/7120) Perbaikan urut data pemerintah desa tanpa kades atau sekdes.
 21. [#6990](https://github.com/OpenSID/OpenSID/issues/6990) Perbaikan pertinjau surat Keterangan Beda Identitas KIS TinyMCE.
+22. [#7131](https://github.com/OpenSID/OpenSID/issues/7131) Perbaikan redaksi berita kepala desa menjadi berita desa atau sesuai dengan pengaturan aplikasi.
+
 
 #### Penyesuaian Teknis
 1. [#2870](https://github.com/OpenSID/premium/issues/2870) Penyesuaian load database setelah penambahan wilzard installer.
