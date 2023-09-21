@@ -56,7 +56,7 @@ class Feed_Reader
     private function buka_feed($sumber_feed)
     {
         $this->parser = new FeedParser();
-        $this->parser->parse('https://www.covid19.go.id/feed/');
+        $this->parser->parse(setting('link_feed'));
         $this->channels = $this->parser->getChannels();
         $this->items    = $this->parser->getItems();
     }

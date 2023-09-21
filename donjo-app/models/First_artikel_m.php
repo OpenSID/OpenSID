@@ -65,7 +65,7 @@ class First_artikel_m extends MY_Model
 
     public function get_feed()
     {
-        $sumber_feed = 'https://www.covid19.go.id/feed/';
+        $sumber_feed = setting('link_feed');
         if (! cek_bisa_akses_site($sumber_feed)) {
             return null;
         }

@@ -82,21 +82,8 @@ class MY_Controller extends CI_Controller
 
         $this->cek_config();
 
-        // Tambahkan model yg akan diautoload di sini. Seeder di load disini setelah
-        // installer berhasil dijalankan dengan kondisi folder desa sudah ada.
-        $this->load->model(['seeders/seeder', 'setting_model', 'anjungan_model']);
-
         $this->controller = strtolower($this->router->fetch_class());
-        $this->setting_model->init();
-        $this->request = $this->input->post();
-
-        // Untuk anjungan
-        if (Schema::hasColumn('anjungan', 'tipe') && Schema::hasColumn('anjungan', 'status_alasan')) {
-            $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-        }
-
-        // Cek perangkat lupa absen keluar
-        cek_kehadiran();
+        $this->request    = $this->input->post();
     }
 
     // Bersihkan session cluster wilayah
@@ -116,9 +103,11 @@ class MY_Controller extends CI_Controller
             redirect('install');
         }
 
-        if (! $this->db) {
-            $this->load->database();
-        }
+        $this->load->database();
+
+        // Tambahkan model yg akan diautoload di sini. Seeder di load disini setelah
+        // installer berhasil dijalankan dengan kondisi folder desa sudah ada.
+        $this->load->model(['seeders/seeder', 'setting_model', 'anjungan_model']);
 
         $appKey   = get_app_key();
         $appKeyDb = Config::first();
@@ -134,6 +123,16 @@ class MY_Controller extends CI_Controller
             $this->session->cek_app_key = true;
             redirect('koneksi_database/config');
         }
+
+        $this->setting_model->init();
+
+        // Untuk anjungan
+        if (Schema::hasColumn('anjungan', 'tipe') && Schema::hasColumn('anjungan', 'status_alasan')) {
+            $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+        }
+
+        // Cek perangkat lupa absen keluar
+        cek_kehadiran();
     }
 }
 
@@ -508,6 +507,17 @@ class Admin_Controller extends MY_Controller
         }
         if (can('u')) {
             $this->session->ubah_tambah_gambar_rfm = true;
+        }
+    }
+}
+
+class Tte_Controller extends MY_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if ($this->session->siteman != 1) {
+            redirect('siteman');
         }
     }
 }

@@ -131,6 +131,11 @@ class Setting_model extends MY_Model
         // Setting Multi Database untuk OpenKab
         $this->setting->multi_desa = (Config::count() > 1) ? true : false;
 
+        // Feeds
+        if (empty($this->setting->link_feed)) {
+            $this->setting->link_feed = 'https://www.covid19.go.id/feed/';
+        }
+
         // Konversi nilai margin global dari cm ke mm
         $margins                              = json_decode($this->setting->surat_margin, true);
         $this->setting->surat_margin_cm_to_mm = [

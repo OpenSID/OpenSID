@@ -696,7 +696,7 @@ class Surat_master extends Admin_Controller
                 redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
             }
         } else {
-            $data['nik_non_warga']  = '1234567890123456';
+            $data['nik_non_warga']  = mt_rand(1000000000000000, 9999999999999999);
             $data['nama_non_warga'] = 'Nama Non Warga';
         }
 
@@ -742,10 +742,13 @@ class Surat_master extends Admin_Controller
                 break;
         }
 
-        $data      = str_replace('[Mulai_berlakU]', date('d-m-Y', strtotime(Carbon\Carbon::now())), $data);
-        $data      = str_replace('[Berlaku_sampaI]', date('d-m-Y', strtotime($tanggal_akhir)), $data);
-        $data      = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
-        $isi_surat = $this->tinymce->replceKodeIsian($data);
+        // TODO:: Pindahkan kode isian untuk preview di library TinyMCE
+        $mulaiBerlaku  = getFormatIsian('Mulai_berlakU');
+        $berlakuSampai = getFormatIsian('Berlaku_sampaI');
+        $data          = str_replace($mulaiBerlaku, date('d-m-Y', strtotime(Carbon\Carbon::now())), $data);
+        $data          = str_replace($berlakuSampai, date('d-m-Y', strtotime($tanggal_akhir)), $data);
+        $data          = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
+        $isi_surat     = $this->tinymce->replceKodeIsian($data);
 
         // Manual replace kode isian non warga
         $isi_surat = str_replace('[Form_nik_non_wargA]', $data['nik_non_warga'], $isi_surat);
@@ -761,7 +764,9 @@ class Surat_master extends Admin_Controller
         if (! $data_penerima_izin['id_pend']) {
             redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
         }
-        $pend      = $this->surat_model->get_penduduk($data_penerima_izin['id_pend']);
+        $pend = $this->surat_model->get_penduduk($data_penerima_izin['id_pend']);
+
+        // TODO:: Pindahkan kode isian untuk preview di library TinyMCE
         $isi_surat = str_replace('[Form_hubungan_dengan_penerima_iziN]', 'Anak', $isi_surat);
         $isi_surat = str_replace('[Nama_penerima_iziN]', $pend['nama'], $isi_surat);
         $isi_surat = str_replace('[Ttl_penerima_iziN]', $pend['tempatlahir'] . ', ' . $pend['tanggallahir'], $isi_surat);
@@ -773,7 +778,21 @@ class Surat_master extends Admin_Controller
         $isi_surat = str_replace('[Form_nama_pptkiS]', 'ABDI BELA PERSADA', $isi_surat);
         $isi_surat = str_replace('[Form_status_pekerjaan_tki_tkW]', 'Tenaga Kerja Indonesia (TKI)', $isi_surat);
         $isi_surat = str_replace('[Form_masa_kontrak_tahuN]', '5', $isi_surat);
-        $isi_surat = str_replace('[Nama_penerima_iziN]', $pend['nama'], $isi_surat);
+        $isi_surat = str_replace('[Form_keperluaN]', 'pembuatan surat', $isi_surat);
+
+        $pengikut_1    = Penduduk::where('id', $pend['id'])->get();
+        $pengikut_kis  = generatePengikutSuratKIS($pengikut_1);
+        $pengikut_2[0] = [
+            'kartu'        => mt_rand(1000000000000000, 9999999999999999),
+            'nama'         => $pengikut_1[0]->nama . ' A.',
+            'nik'          => substr($pengikut_1[0]->nik, 0, 15) . '1',
+            'alamat'       => 'INI ALAMAT YANG BENAR',
+            'tanggallahir' => date('d-m-Y', strtotime($pengikut_1[0]->tanggallahir . ' + 1 month')),
+            'faskes'       => 'RSUD',
+        ];
+        $pengikut_kartu_kis = generatePengikutKartuKIS($pengikut_2);
+        $isi_surat          = str_replace('[Pengikut_kiS]', $pengikut_kis, $isi_surat);
+        $isi_surat          = str_replace('[Pengikut_kartu_kiS]', $pengikut_kartu_kis, $isi_surat);
 
         // Pisahkan isian surat
         $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);

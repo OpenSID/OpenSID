@@ -69,6 +69,10 @@ class Pamong_model extends MY_Model
         );
 
         $this->list_data_sql();
+
+        $kades  = kades()->id ?: 0;
+        $sekdes = sekdes()->id ?: 0;
+
         $this->db
             ->order_by(sprintf('
                 case
@@ -76,7 +80,7 @@ class Pamong_model extends MY_Model
                     when u.jabatan_id=%s then 2
                     else 3
                 end
-            ', kades()->id, sekdes()->id), '', false)
+            ', $kades, $sekdes), '', false)
             ->order_by('u.urut')
             ->limit($limit, $offset);
 
