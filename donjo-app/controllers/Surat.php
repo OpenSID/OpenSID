@@ -451,6 +451,16 @@ class Surat extends Admin_Controller
                 $logo_qrcode = str_replace('[qr_code]', '', $logo_qrcode);
             }
 
+            // TODO:: Sederhanakan cara ini, seharusnya key dan value dari kode isian berada di 1 tempat yang sama
+            $foto = Penduduk::find($cetak['id_pend'])->foto;
+            if (file_exists(FCPATH . LOKASI_USER_PICT . $foto)) {
+                $file_foto     = FCPATH . LOKASI_USER_PICT . $foto;
+                $foto_penduduk = '<img src="' . $file_foto . '" width="90" height="auto" alt="foto-penduduk" />';
+                $logo_qrcode   = str_replace('[foto_penduduk]', $foto_penduduk, $logo_qrcode);
+            } else {
+                $logo_qrcode = str_replace('[foto_penduduk]', '', $logo_qrcode);
+            }
+
             // Lampiran
             $logo_qrcode     = $this->buatLampiran($surat->id_pend, $cetak, $logo_qrcode);
             $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];

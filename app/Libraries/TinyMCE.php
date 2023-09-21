@@ -562,6 +562,11 @@ class TinyMCE
         if (empty($prefix)) {
             $lainnya = [
                 [
+                    'judul' => 'Foto',
+                    'isian' => getFormatIsian('foto_penduduK'),
+                    'data'  => '[foto_penduduk]',
+                ],
+                [
                     'judul' => 'Alamat Jalan',
                     'isian' => getFormatIsian('Alamat_jalan'),
                     'data'  => $penduduk->keluarga->alamat, // alamat kk jika ada

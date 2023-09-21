@@ -3,7 +3,8 @@ Di rilis ini, versi 2309.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
-1. [6884](https://github.com/OpenSID/OpenSID/issues/6884) Penambahan fitur pengurutan kode isian TinyMCE.
+1. [#6884](https://github.com/OpenSID/OpenSID/issues/6884) Penambahan fitur pengurutan kode isian TinyMCE.
+2. [#6285](https://github.com/OpenSID/OpenSID/issues/6285) Penambahan kode isian foto penduduk untuk surat TinyMCE.
 
 #### Perbaikan Bug
 1. [#7073](https://github.com/OpenSID/OpenSID/issues/7073) Perbaikan menampilkan nomer surat ketika periksa surat permohonan.
