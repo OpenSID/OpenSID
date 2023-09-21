@@ -696,7 +696,7 @@ class Surat_master extends Admin_Controller
                 redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
             }
         } else {
-            $data['nik_non_warga']  = '1234567890123456';
+            $data['nik_non_warga']  = mt_rand(1000000000000000, 9999999999999999);
             $data['nama_non_warga'] = 'Nama Non Warga';
         }
 
@@ -779,8 +779,20 @@ class Surat_master extends Admin_Controller
         $isi_surat = str_replace('[Form_status_pekerjaan_tki_tkW]', 'Tenaga Kerja Indonesia (TKI)', $isi_surat);
         $isi_surat = str_replace('[Form_masa_kontrak_tahuN]', '5', $isi_surat);
         $isi_surat = str_replace('[Form_keperluaN]', 'pembuatan surat', $isi_surat);
-        $isi_surat = str_replace('[Pengikut_kiS]', $pend['nama'], $isi_surat);
-        $isi_surat = str_replace('[Pengikut_kartu_kiS]', 'NAMA ' . $pend['nama'], $isi_surat);
+
+        $pengikut_1    = Penduduk::where('id', $pend['id'])->get();
+        $pengikut_kis  = generatePengikutSuratKIS($pengikut_1);
+        $pengikut_2[0] = [
+            'kartu'        => mt_rand(1000000000000000, 9999999999999999),
+            'nama'         => $pengikut_1[0]->nama . ' A.',
+            'nik'          => substr($pengikut_1[0]->nik, 0, 15) . '1',
+            'alamat'       => 'INI ALAMAT YANG BENAR',
+            'tanggallahir' => date('d-m-Y', strtotime($pengikut_1[0]->tanggallahir . ' + 1 month')),
+            'faskes'       => 'RSUD',
+        ];
+        $pengikut_kartu_kis = generatePengikutKartuKIS($pengikut_2);
+        $isi_surat          = str_replace('[Pengikut_kiS]', $pengikut_kis, $isi_surat);
+        $isi_surat          = str_replace('[Pengikut_kartu_kiS]', $pengikut_kartu_kis, $isi_surat);
 
         // Pisahkan isian surat
         $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);
