@@ -221,6 +221,55 @@ class TinyMCE
         return $daftar_kode_isian;
     }
 
+    public function formatPdf($header, $footer, $isi)
+    {
+        // Pisahkan isian surat
+        $isi = str_replace('<p><!-- pagebreak --></p>', '', $isi);
+        $isi = explode('<!-- pagebreak -->', $isi);
+
+        // Pengaturan Header
+        switch ($header) {
+            case 0:
+                $backtop    = '0mm';
+                $isi_header = '<page_header>' . $isi[0] . '</page_header>';
+                $isi_surat  = $isi[1];
+                break;
+
+            case 1:
+                $backtop    = ((float) setting('tinggi_header')) * 10 . 'mm';
+                $isi_header = '<page_header>' . $isi[0] . '</page_header>';
+                $isi_surat  = $isi[1];
+                break;
+
+            default:
+                $backtop    = '0mm';
+                $isi_header = '';
+                $isi_surat  = $isi[0] . $isi[1];
+                break;
+        }
+
+        // Pengaturan Footer
+        switch ($footer) {
+            case 0:
+                $backbottom = '0mm';
+                $isi_footer = '';
+                break;
+
+            default:
+                $backbottom = (((float) setting('tinggi_footer')) * 10) . 'mm';
+                $isi_footer = '<page_footer>' . $isi[2] . '</page_footer>';
+                break;
+        }
+
+        return '
+            <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">
+            ' . $isi_header . '
+            ' . $isi_footer . '
+            ' . $isi_surat . '
+            </page>
+        ';
+    }
+
     private function getIsianSurat($data = [])
     {
         $DateConv = new DateConv();

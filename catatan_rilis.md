@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 #### Penambahan Fitur
 1. [#6884](https://github.com/OpenSID/OpenSID/issues/6884) Penambahan fitur pengurutan kode isian TinyMCE.
 2. [#6285](https://github.com/OpenSID/OpenSID/issues/6285) Penambahan kode isian foto penduduk untuk surat TinyMCE.
+3. [#7042](https://github.com/OpenSID/OpenSID/issues/7042) Penambahan pengaturan header surat TinyMCE untuk halaman utama saja.
 
 #### Perbaikan Bug
 1. [#7073](https://github.com/OpenSID/OpenSID/issues/7073) Perbaikan menampilkan nomer surat ketika periksa surat permohonan.

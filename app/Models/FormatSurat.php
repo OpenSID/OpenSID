@@ -211,6 +211,7 @@ class FormatSurat extends BaseModel
         'mandiri'      => 'boolean',
         'qr_code'      => 'boolean',
         'logo_garuda'  => 'boolean',
+        'header'       => 'integer',
         // 'syarat_surat' => 'json',
         // 'kode_isian'   => 'json',
         // 'margin'       => 'json',
