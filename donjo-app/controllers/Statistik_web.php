@@ -51,7 +51,7 @@ class Statistik_web extends Web_Controller
     {
         $list_session = ['dusun', 'rw', 'rt'];
 
-        foreach ($this->list_session as $list) {
+        foreach ($list_session as $list) {
             ${$list} = $this->session->{$list};
         }
 
