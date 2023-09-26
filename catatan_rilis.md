@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 4. [#7094](https://github.com/OpenSID/OpenSID/issues/7094) Penambahan pengaturan untuk kode isian surat TinyMCE dengan data null (kosong).
 5. [#7132](https://github.com/OpenSID/OpenSID/issues/7132) Penambahan notifikasi telegram pada surat TinyMCE yang menggunakan TTE.
 6. [#5026](https://github.com/OpenSID/OpenSID/issues/5026) Penambahan tools fullscreen pada wilayah peta.
+7. [#7031](https://github.com/OpenSID/OpenSID/issues/7031) Penambahan slug pada halaman web statistik.
 
 #### Perbaikan Bug
 1. [#7073](https://github.com/OpenSID/OpenSID/issues/7073) Menampilkan nomor surat ketika memeriksa surat permohonan.
