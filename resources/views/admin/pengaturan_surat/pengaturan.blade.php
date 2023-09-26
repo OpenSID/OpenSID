@@ -286,6 +286,14 @@
 
                 <div class="box-body">
                     <div class="form-group">
+                        <label>Kode Isian data kosong </label>
+                        <input type="text" name="ganti_data_kosong" class="form-control input-sm"
+                            value="{{ setting('ganti_data_kosong') }}">
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="form-group">
                         <label>Margin</label>
                         <div class="row">
                             @foreach ($margins as $key => $value)
