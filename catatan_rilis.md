@@ -27,6 +27,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 22. [#7131](https://github.com/OpenSID/OpenSID/issues/7131) Perbaikan redaksi berita kepala desa menjadi berita desa atau sesuai dengan pengaturan aplikasi.
 23. [#7133](https://github.com/OpenSID/OpenSID/issues/7133) Perbaikan tombol batal pada form pengaturan surat.
 24. [#7113](https://github.com/OpenSID/OpenSID/issues/7113) Perbaikan validasi isian artikel.
+25. [#7135](https://github.com/OpenSID/OpenSID/issues/7135) Perbaikan fungsi reset form untuk inputan select2 pada form modul pengurus.
 
 #### Penyesuaian Teknis
 1. [#2870](https://github.com/OpenSID/premium/issues/2870) Penyesuaian load database setelah penambahan wilzard installer.
