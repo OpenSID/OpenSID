@@ -5,7 +5,7 @@
 				<div class="col-sm-2">
 					<select class="form-control input-sm select2" name="tahun" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/tahun') ?>')">
 						<option value="semua" selected>Semua Tahun</option>
-						<?php if ($min_tahun): ?>
+						<?php if ($min_tahun) : ?>
 							<?php for ($i = date('Y'); $i >= $min_tahun; $i--) : ?>
 								<option value="<?= $i ?>" <?= selected($tahun, $i) ?>><?= $i ?></option>
 							<?php endfor; ?>
@@ -74,36 +74,37 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php if($main) : ?>
-									<?php $i = 1 ?>
-									<?php foreach ($data as $uraian => $asset) : ?>
-										<tr>
-											<td><?= $i ?></td>
-											<td><?= $uraian ?></td>
-											<td class="text-center"><?= count($asset['Pembelian Sendiri']) ?></td>
-											<td class="text-center"><?= count($asset['Bantuan Pemerintah']) ?></td>
-											<td class="text-center"><?= count($asset['Bantuan Provinsi']) ?></td>
-											<td class="text-center"><?= count($asset['Bantuan Kabupaten']) ?></td>
-											<td class="text-center"><?= count($asset['Sumbangan']) ?></td>
-											<td class="text-center"><?= count($asset['awal_baik']) ?></td>
-											<td class="text-center"><?= count($asset['awal_rusak']) ?></td>
-											<td class="text-center"><?= count($asset['hapus_rusak']) ?></td>
-											<td class="text-center"><?= count($asset['hapus_jual']) ?></td>
-											<td class="text-center"><?= count($asset['hapus_sumbang']) ?></td>
-											<td class="text-center"><?= tgl_indo($asset['tgl_hapus']) ?></td>
-											<td class="text-center"><?= count($asset['akhir_baik']) ?></td>
-											<td class="text-center"><?= count($asset['akhir_rusak']) ?></td>
-											<td>
-												<ul>
-													<?php foreach ($asset['keterangan'] as $ket) : ?>
-														<li><?= $ket ?></li>
-													<?php endforeach ?>
-												</ul>
-											</td>
-										</tr>
-										<?php $i++ ?>
-									<?php endforeach ?>
-									<?php else: tidak_ada_data(16); endif; ?>
+									<?php if ($data) : ?>
+										<?php $i = 1 ?>
+										<?php foreach ($data as $uraian => $asset) : ?>
+											<tr>
+												<td><?= $i ?></td>
+												<td><?= $uraian ?></td>
+												<td class="text-center"><?= count($asset['Pembelian Sendiri']) ?></td>
+												<td class="text-center"><?= count($asset['Bantuan Pemerintah']) ?></td>
+												<td class="text-center"><?= count($asset['Bantuan Provinsi']) ?></td>
+												<td class="text-center"><?= count($asset['Bantuan Kabupaten']) ?></td>
+												<td class="text-center"><?= count($asset['Sumbangan']) ?></td>
+												<td class="text-center"><?= count($asset['awal_baik']) ?></td>
+												<td class="text-center"><?= count($asset['awal_rusak']) ?></td>
+												<td class="text-center"><?= count($asset['hapus_rusak']) ?></td>
+												<td class="text-center"><?= count($asset['hapus_jual']) ?></td>
+												<td class="text-center"><?= count($asset['hapus_sumbang']) ?></td>
+												<td class="text-center"><?= tgl_indo($asset['tgl_hapus']) ?></td>
+												<td class="text-center"><?= count($asset['akhir_baik']) ?></td>
+												<td class="text-center"><?= count($asset['akhir_rusak']) ?></td>
+												<td>
+													<ul>
+														<?php foreach ($asset['keterangan'] as $ket) : ?>
+															<li><?= $ket ?></li>
+														<?php endforeach ?>
+													</ul>
+												</td>
+											</tr>
+											<?php $i++ ?>
+										<?php endforeach ?>
+									<?php else : tidak_ada_data(16);
+									endif; ?>
 								</tbody>
 							</table>
 						</div>

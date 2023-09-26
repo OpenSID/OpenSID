@@ -176,8 +176,8 @@ class Pengaduan_model extends MY_Model
             'nama'       => nama($post['nama']),
             'email'      => email($post['email']),
             'telepon'    => bilangan($post['telepon']),
-            'judul'      => htmlentities($post['judul']),
-            'isi'        => htmlentities($post['isi']),
+            'judul'      => bersihkan_xss($post['judul']),
+            'isi'        => bersihkan_xss($post['isi']),
             'ip_address' => $this->input->ip_address(),
         ];
     }

@@ -81,7 +81,7 @@ class Pesan extends Mandiri_Controller
         $post['status']   = 2;
         $this->mailbox_model->insert($post);
 
-        if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
+        if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
             try {
                 $this->telegram->sendMessage([
                     'text'       => sprintf('Warga RT. %s atas nama %s telah mengirim pesan melalui Layanan Mandiri pada tanggal %s', $this->is_login->rt, $this->is_login->nama, tgl_indo2(date('Y-m-d H:i:s'))),

@@ -136,6 +136,10 @@ $(document).ready(function() {
 		}
 	});
 
+	$('.select2').select2().change(function() {
+		$(this).valid();
+	});
+
 	$("#mainform").validate({
 		errorElement: "label",
 		errorClass: "error",

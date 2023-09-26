@@ -108,7 +108,7 @@ class Pengaduan extends Web_Controller
                 ];
             } else {
                 if ($this->pengaduan_model->insert()) {
-                    if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
+                    if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
                         try {
                             $this->telegram->sendMessage([
                                 'text'       => 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.',
