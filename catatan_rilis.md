@@ -48,6 +48,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 4. [#2897](https://github.com/OpenSID/premium/issues/2897) Sederhanakan fungsi pada surat master.
 5. [#2907](https://github.com/OpenSID/premium/issues/2907) Penyesuaian wizard instalasi tetap bisa menggunakan instalasi otomatis.
 6. [#7099](https://github.com/OpenSID/OpenSID/issues/7099) Penyesuaian aktif/nonaktifkan pengaturan telegram.
+7. [#7142](https://github.com/OpenSID/OpenSID/issues/7142) Penyesuaian sumber data hari libur nasional.
 
 
 #### Peningkatan Keamanan

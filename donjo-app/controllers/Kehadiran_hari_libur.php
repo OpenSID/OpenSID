@@ -189,7 +189,7 @@ class Kehadiran_hari_libur extends Admin_Controller
             return [
                 'config_id'  => identitas('id'),
                 'tanggal'    => date_format(date_create($key), 'Y-m-d'),
-                'keterangan' => $item['summary'][0],
+                'keterangan' => $item['summary'],
             ];
         })->filter(static function ($value, $key) {
             return $value['tanggal'] > date('Y') . '-01-01';
