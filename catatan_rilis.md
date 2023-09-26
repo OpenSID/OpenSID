@@ -28,6 +28,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 23. [#7133](https://github.com/OpenSID/OpenSID/issues/7133) Perbaikan tombol batal pada form pengaturan surat.
 24. [#7113](https://github.com/OpenSID/OpenSID/issues/7113) Perbaikan validasi isian artikel.
 25. [#7135](https://github.com/OpenSID/OpenSID/issues/7135) Perbaikan fungsi reset form untuk inputan select2 pada form modul pengurus.
+26. [#7137](https://github.com/OpenSID/OpenSID/issues/7137) Perbaikan kategori pada pengaturan anjungan mandiri.
 
 #### Penyesuaian Teknis
 1. [#2870](https://github.com/OpenSID/premium/issues/2870) Penyesuaian load database setelah penambahan wilzard installer.
