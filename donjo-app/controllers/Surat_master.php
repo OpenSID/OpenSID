@@ -607,19 +607,19 @@ class Surat_master extends Admin_Controller
     protected static function validasi_pengaturan($request)
     {
         $validasi = [
-            'tinggi_header'       => (float) $request['tinggi_header'],
-            'header_surat'        => $request['header_surat'],
-            'tinggi_footer'       => (float) $request['tinggi_footer'],
-            'verifikasi_sekdes'   => (int) $request['verifikasi_sekdes'],
-            'verifikasi_kades'    => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
-            'tte'                 => (int) $request['tte'],
-            'font_surat'          => alfanumerik_spasi($request['font_surat']),
-            'visual_tte'          => (int) $request['visual_tte'],
-            'visual_tte_weight'   => (int) $request['visual_tte_weight'],
-            'visual_tte_height'   => (int) $request['visual_tte_height'],
-            'format_nomor_surat'  => $request['format_nomor_surat'],
-            'ganti_data_kosong' => $request['ganti_data_kosong'],
-            'surat_margin'        => json_encode($request['surat_margin']),
+            'tinggi_header'      => (float) $request['tinggi_header'],
+            'header_surat'       => $request['header_surat'],
+            'tinggi_footer'      => (float) $request['tinggi_footer'],
+            'verifikasi_sekdes'  => (int) $request['verifikasi_sekdes'],
+            'verifikasi_kades'   => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
+            'tte'                => (int) $request['tte'],
+            'font_surat'         => alfanumerik_spasi($request['font_surat']),
+            'visual_tte'         => (int) $request['visual_tte'],
+            'visual_tte_weight'  => (int) $request['visual_tte_weight'],
+            'visual_tte_height'  => (int) $request['visual_tte_height'],
+            'format_nomor_surat' => $request['format_nomor_surat'],
+            'ganti_data_kosong'  => $request['ganti_data_kosong'],
+            'surat_margin'       => json_encode($request['surat_margin']),
         ];
 
         if ($validasi['tte'] == StatusEnum::YA) {
