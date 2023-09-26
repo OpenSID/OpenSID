@@ -207,7 +207,7 @@ class Surat extends Mandiri_Controller
         } else {
             $this->permohonan_surat_model->insert($data);
 
-            if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
+            if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
                 try {
                     // Data pesan telegram yang akan digantikan
                     $pesanTelegram = [

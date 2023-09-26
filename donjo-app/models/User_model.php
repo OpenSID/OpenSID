@@ -168,7 +168,7 @@ class User_model extends MY_Model
         $this->session->isAdmin      = $user;
         $this->last_login($user->id);
 
-        if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
+        if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
             $this->load->library('Telegram/telegram');
 
             try {

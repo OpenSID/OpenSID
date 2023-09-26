@@ -36,6 +36,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 3. [#7096](https://github.com/OpenSID/OpenSID/issues/7096) Penyesuaian jenis format pengisian pada kode isian surat tinymcec menggunakan bahasa indonesia.
 4. [#2897](https://github.com/OpenSID/premium/issues/2897) Sederhanakan fungsi pada surat master.
 5. [#2907](https://github.com/OpenSID/premium/issues/2907) Penyesuaian wizard instalasi tetap bisa menggunakan instalasi otomatis.
+6. [#7099](https://github.com/OpenSID/OpenSID/issues/7099) Penyesuaian aktif/nonaktifkan pengaturan telegram.
+
 
 #### Peningkatan Keamanan
 1. [#2917](https://github.com/OpenSID/premium/issues/2917) Pembatasan input terhadap serangan xss pada modul pengaduan admin.
