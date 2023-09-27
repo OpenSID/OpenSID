@@ -35,11 +35,11 @@
  *
  */
 
-use GuzzleHttp\Client;
-use voku\helper\AntiXSS;
-use App\Models\RefJabatan;
 use App\Enums\Statistik\StatistikEnum;
+use App\Models\RefJabatan;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use voku\helper\AntiXSS;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -1419,7 +1419,7 @@ function menu_slug($url)
             $data = $CI->kelompok_model->get_kelompok($cut[1]);
             $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
             break;
-        
+
         case 'statistik':
             $cek = StatistikEnum::slugFromKey($cut[1]);
             if ($cek) {

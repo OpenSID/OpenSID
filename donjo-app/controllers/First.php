@@ -292,7 +292,7 @@ class First extends Web_Controller
         $data['main']              = $this->dpt_model->statistik_wilayah();
         $data['total']             = $this->dpt_model->statistik_total();
         $data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
-        $data['daftar_statistik'] = StatistikEnum::allStatistik();
+        $data['daftar_statistik']  = StatistikEnum::allStatistik();
         $this->_get_common_data($data);
         $data['tipe'] = 4;
         $this->set_template('layouts/stat.tpl.php');
