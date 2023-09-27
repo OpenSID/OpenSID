@@ -186,17 +186,17 @@
                     <label id="lh1"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($header == 1)">
                         <input id="ih1" type="radio" name="header" class="form-check-input" type="radio"
-                            value="1" @checked($header != 1) autocomplete="off">Semua Halaman
+                            value="1" @checked($header == 1) autocomplete="off">Semua Halaman
                     </label>
                     <label id="lh2"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($header == 2)">
                         <input id="ih2" type="radio" name="header" class="form-check-input" type="radio"
-                            value="2" @checked($header != 2) autocomplete="off">Hanya Halaman Awal
+                            value="2" @checked($header == 2) autocomplete="off">Hanya Halaman Awal
                     </label>
                     <label id="lh3"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($header == 0)">
                         <input id="ih3" type="radio" name="header" class="form-check-input" type="radio"
-                            value="0" @checked($header != 0) autocomplete="off">Tidak
+                            value="0" @checked($header == 0) autocomplete="off">Tidak
                     </label>
                 </div>
             </div>

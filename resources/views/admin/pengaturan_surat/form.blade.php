@@ -204,9 +204,12 @@
             if (header == 1) {
                 $("#lh1").addClass('active');
                 $("#ih1").prop("checked", true);
-            } else {
+            } else if (header == 2) {
                 $("#lh2").addClass('active');
                 $("#ih2").prop("checked", true);
+            } else {
+                $("#lh3").addClass('active');
+                $("#ih3").prop("checked", true);
             }
 
             var logo_garuda = "{{ $suratMaster->logo_garuda }}";
