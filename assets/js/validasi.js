@@ -136,17 +136,17 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.select2').select2().change(function() {
-		$(this).valid();
-	});
-
 	$("#mainform").validate({
 		errorElement: "label",
 		errorClass: "error",
 		highlight:function (element){
 			$(element).closest(".form-group").addClass("has-error");
 		},
-		unhighlight:function (element){
+		unhighlight:function (element) {
+			$('.select2').select2().change(function() {
+				$(this).valid();
+			});
+
 			$(element).closest(".form-group").removeClass("has-error");
 		},
 		errorPlacement: function (error, element) {
