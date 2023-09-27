@@ -21,7 +21,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 7. [#7097](https://github.com/OpenSID/OpenSID/issues/7097) Perbaikan pilihan sumber data dinamis saat melakukan cetak surat TinyMCE.
 8. [#7093](https://github.com/OpenSID/OpenSID/issues/7093) Perbaikan hak akses modul bantuan.
 9. [#7103](https://github.com/OpenSID/OpenSID/issues/7103) Perbaikan headline dan slider website.
-10. [#6996](https://github.com/OpenSID/OpenSID/issues/6996) Perbaikan menampilkan luas wilayah pada halaman peta.
+10. [#6996](https://github.com/OpenSID/OpenSID/issues/6996) Perbaikan luas wilayah pada halaman peta.
 11. [#7127](https://github.com/OpenSID/OpenSID/issues/7127) Perbaikan fungsi tambah kode isian pada data dinamis TinyMCE.
 12. [#7106](https://github.com/OpenSID/OpenSID/issues/7106) Perbaikan kode isian ayah dan ibu untuk pengaturan dan cetak surat TinyMCE.
 13. [#7123](https://github.com/OpenSID/OpenSID/issues/7123) Perbaikan akses impor data penduduk berdasarkan pengaturan data lengkap.
