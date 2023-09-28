@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 #### Penambahan Fitur
 
 1. [#5026](https://github.com/OpenSID/OpenSID/issues/5026) Penambahan tools fullscreen pada peta lokasi.
+2. [#6110](https://github.com/OpenSID/OpenSID/issues/6110) Penambahan fungsi untuk menyalin grup akses yang sudah ada.
 
 #### Perbaikan Bug
 
