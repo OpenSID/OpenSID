@@ -24,13 +24,12 @@
                 content_style: `body { font-family: ${default_font}; }`,
                 toolbar1: "removeformat | bold italic underline subscript superscript | bullist numlist outdent indent lineheight | alignleft aligncenter alignright alignjustify | styleselect | fontselect fontsizeselect",
                 toolbar2: "responsivefilemanager | salintemplate | kodeisian",
-                image_advtab: true ,
-                external_filemanager_path:"{{ base_url('assets/filemanager/') }}",
-                filemanager_title:"Responsive Filemanager" ,
-                filemanager_access_key:"{{ $session->fm_key }}",
-                external_plugins:
-                {
-                    "filemanager" : "{{ base_url('assets/filemanager/plugin.min.js') }}"
+                image_advtab: true,
+                external_filemanager_path: "{{ base_url('assets/filemanager/') }}",
+                filemanager_title: "Responsive Filemanager",
+                filemanager_access_key: "{{ $session->fm_key }}",
+                external_plugins: {
+                    "filemanager": "{{ base_url('assets/filemanager/plugin.min.js') }}"
                 },
                 content_css: [
                     '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
@@ -45,7 +44,30 @@
                     ed.on('init', function(e) {
                         ed.execCommand("fontName", false, "${default_font}");
                     });
-                }
+                },
+                content_style: `
+                    body {
+                        background: #fff;
+                    }
+            
+                    @media (min-width: 840px) {
+                        html {
+                            background: #eceef4;
+                            min-height: 100%;
+                            padding: 0 .5rem;
+                        }
+                
+                        body {
+                            background-color: #fff;
+                            box-shadow: 0 0 4px rgba(0, 0, 0, .15);
+                            box-sizing: border-box;
+                            margin: 1rem auto 0;
+                            max-width: 820px;
+                            min-height: calc(100vh - 1rem);
+                            padding:4rem 6rem 6rem 6rem;
+                        }
+                    }
+                `
             });
         });
     </script>
