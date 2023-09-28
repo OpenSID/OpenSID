@@ -153,7 +153,7 @@ class User_model extends CI_Model
         $this->session->isAdmin      = $user;
         $this->last_login($user->id);
 
-        if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
+        if (!empty($this->setting->telegram_token) && cek_koneksi_internet()) {
             $this->load->library('Telegram/telegram');
 
             try {
@@ -360,7 +360,7 @@ class User_model extends CI_Model
         $data['notif_telegram'] = (int) $data['notif_telegram'];
         $data['id_telegram']    = (int) $data['id_telegram'];
 
-        if (! $this->db->insert('user', $data)) {
+        if (!$this->db->insert('user', $data)) {
             $this->session->success   = -1;
             $this->session->error_msg = ' -> Gagal memperbarui data di database';
         }
@@ -371,7 +371,7 @@ class User_model extends CI_Model
         $data             = [];
         $data['password'] = $post['password'];
         $data['active']   = (int) $post['aktif'];
-        if (isset($post['username']) && ! empty($post['username'])) {
+        if (isset($post['username']) && !empty($post['username'])) {
             $data['username'] = alfanumerik($post['username']);
         }
         if (isset($post['nama'])) {
@@ -380,7 +380,7 @@ class User_model extends CI_Model
         if (isset($post['email'])) {
             $data['phone'] = htmlentities($post['phone']);
         }
-        if (isset($post['email']) && ! empty($post['email'])) {
+        if (isset($post['email']) && !empty($post['email'])) {
             $data['email'] = htmlentities($post['email']);
         }
         if (isset($post['id_grup'])) {
@@ -427,7 +427,7 @@ class User_model extends CI_Model
             redirect('man_user');
         }
 
-        if (empty($data['username']) || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())) {
+        if (empty($data['username']) || empty($data['nama']) || !in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())) {
             session_error(' -> Nama, Username dan Kata Sandi harus diisi');
             redirect('man_user');
         }
@@ -455,7 +455,7 @@ class User_model extends CI_Model
         }
 
         $data['foto'] = $this->urusFoto($idUser);
-        if (! $this->db->where('id', $idUser)->update('user', $data)) {
+        if (!$this->db->where('id', $idUser)->update('user', $data)) {
             session_error(' -> Gagal memperbarui data di database');
         }
         $this->cache->file->delete("{$idUser}_cache_modul");
@@ -468,7 +468,7 @@ class User_model extends CI_Model
             return;
         }
 
-        if (! $semua) {
+        if (!$semua) {
             $this->session->success   = 1;
             $this->session->error_msg = '';
         }
@@ -482,7 +482,7 @@ class User_model extends CI_Model
                 // Ambil nama foto
                 $foto = basename(AmbilFoto($foto));
                 // Cek penghapusan foto pengguna
-                if (! unlink(LOKASI_USER_PICT . $foto)) {
+                if (!unlink(LOKASI_USER_PICT . $foto)) {
                     $this->session->error_msg = 'Gagal menghapus foto pengguna';
                     $this->session->success   = -1;
                 }
@@ -533,11 +533,12 @@ class User_model extends CI_Model
     public function update_password($id = 0)
     {
         $data = $this->periksa_input_password($id);
-        if (! empty($data)) {
+        if (!empty($data)) {
             $hasil = $this->db->where('id', $id)
                 ->update('user', $data);
             status_sukses($hasil, $gagal_saja = true);
         }
+        return true;
     }
 
     private function periksa_input_password($id)
@@ -577,7 +578,7 @@ class User_model extends CI_Model
                 $this->session->error_msg .= ' -> Kata sandi baru tidak cocok<br />';
             }
 
-            if (! empty($this->session->error_msg)) {
+            if (!empty($this->session->error_msg)) {
                 $this->session->success = -1;
             }
             // Cek input password lolos
@@ -670,7 +671,7 @@ class User_model extends CI_Model
 
         $nama_foto = $this->uploadFoto('gif|jpg|jpeg|png', LOKASI_USER_PICT, 'foto', 'man_user');
 
-        if (! empty($nama_foto)) {
+        if (!empty($nama_foto)) {
             // Ada foto yang berhasil diunggah --> simpan ukuran 100 x 100
             $tipe_file = TipeFile($_FILES['foto']);
             $dimensi   = ['width' => 100, 'height' => 100];
@@ -708,7 +709,7 @@ class User_model extends CI_Model
     private function uploadFoto($allowed_types, $upload_path, $lokasi, $redirect)
     {
         // Adakah berkas yang disertakan?
-        $adaBerkas = ! empty($_FILES[$lokasi]['name']);
+        $adaBerkas = !empty($_FILES[$lokasi]['name']);
         if ($adaBerkas !== true) {
             return null;
         }
@@ -749,7 +750,7 @@ class User_model extends CI_Model
             $this->session->error_msg = $this->upload->display_errors(null, null);
         }
 
-        return (! empty($uploadData)) ? $uploadData['file_name'] : null;
+        return (!empty($uploadData)) ? $uploadData['file_name'] : null;
     }
 
     // Hak akses setiap controller.

@@ -56,7 +56,7 @@
 							</div>
 						</div>
 						<div class="form-bottom">
-							<form action="<?= site_url("user_setting/update_password/{$main['id']}") ?>" method="POST" id="validasi" enctype="multipart/form-data">
+							<form action="<?= site_url("ganti_password/update/{$main['id']}") ?>" method="POST" id="validasi" enctype="multipart/form-data">
 								<div class="form-group">
 									<div class="input-group">
 										<input class="form-control input-sm required" type="password" name="pass_lama" autocomplete="off" placeholder="Kata Sandi Lama"></input>
