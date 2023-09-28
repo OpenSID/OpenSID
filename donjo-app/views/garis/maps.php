@@ -73,6 +73,7 @@
   </section>
 </div>
 <?php $this->load->view('global/konfirmasi'); ?>
+<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script>
   var infoWindow;
   window.onload = function() {
@@ -87,6 +88,9 @@
     var options = {
       maxZoom: <?= setting('max_zoom_peta') ?>,
       minZoom: <?= setting('min_zoom_peta') ?>,
+      fullscreenControl: {
+        position: 'topright' // Menentukan posisi tombol fullscreen
+      }
     };
 
     var jenis = "<?= $garis['jenis_garis']; ?>";

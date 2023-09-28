@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <div class="content-wrapper">
     <section class="content-header">
         <h1>Rincian C-DESA</h1>
@@ -131,7 +132,7 @@
         </div>
     </div>
 </div>
-
+<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script type="text/javascript">
     // deklarasi variable diluar fungsi agar terbaca di semua fungsi
     var peta_area;
@@ -146,6 +147,9 @@
     var options = {
         maxZoom: <?= setting('max_zoom_peta') ?>,
         minZoom: <?= setting('min_zoom_peta') ?>,
+        fullscreenControl: {
+            position: 'topright' // Menentukan posisi tombol fullscreen
+        }
     };
 
     $(document).ready(function() {

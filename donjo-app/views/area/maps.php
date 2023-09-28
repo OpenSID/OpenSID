@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <div class="content-wrapper">
     <section class="content-header">
         <h1>Peta <?= $area['nama']?></h1>
@@ -32,6 +33,7 @@
     </section>
 </div>
 <?php $this->load->view('global/konfirmasi'); ?>
+<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script>
     window.onload = function() {
         <?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
@@ -45,6 +47,9 @@
         var options = {
             maxZoom: <?= setting('max_zoom_peta') ?>,
             minZoom: <?= setting('min_zoom_peta') ?>,
+            fullscreenControl: {
+                position: 'topright' // Menentukan posisi tombol fullscreen
+            }
         };
 
         //Inisialisasi tampilan peta

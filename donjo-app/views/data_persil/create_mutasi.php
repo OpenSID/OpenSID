@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <div class="content-wrapper">
     <section class="content-header">
         <h1>Pengelolaan Data C-Desa <?= ucwords($this->setting->sebutan_desa) ?> <?= $desa['nama_desa']; ?></h1>
@@ -357,7 +358,7 @@
         </div>
     </section>
 </div>
-
+<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script>
     function pilih_lokasi(pilih) {
         if (pilih == 1) {
@@ -391,6 +392,9 @@
             var options = {
                 maxZoom: <?= setting('max_zoom_peta') ?>,
                 minZoom: <?= setting('min_zoom_peta') ?>,
+                fullscreenControl: {
+                    position: 'topright' // Menentukan posisi tombol fullscreen
+                }
             };
             var peta_area = L.map('map', options).setView(posisi, zoom);
 

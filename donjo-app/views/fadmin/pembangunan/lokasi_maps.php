@@ -1,5 +1,4 @@
-<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
-
+<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Lokasi <?= $data->judul ?></h1>
@@ -41,6 +40,7 @@
 		</div>
 	</section>
 </div>
+<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script>
 	window.onload = function() {
 		<?php if (! empty($data->lat) && ! empty($data->lng)) : ?>
@@ -54,6 +54,9 @@
         var options = {
             maxZoom: <?= setting('max_zoom_peta') ?>,
             minZoom: <?= setting('min_zoom_peta') ?>,
+            fullscreenControl: {
+                position: 'topright' // Menentukan posisi tombol fullscreen
+            }
         };
 
 		//Inisialisasi tampilan peta

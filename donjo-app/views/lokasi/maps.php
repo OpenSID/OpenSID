@@ -1,18 +1,4 @@
-<?php
-
-defined('BASEPATH') || exit('No direct script access allowed');
-
-/*
- * File ini:
- *
- * View di Modul Pemetaan
- *
- * /donjo-app/views/lokasi/maps.php
- */
-
-?>
-
-<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
+<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Lokasi <?= $lokasi['nama']?></h1>
@@ -54,7 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</div>
 	</section>
 </div>
-
+<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script>
 	window.onload = function() {
 		<?php if (! empty($lokasi['lat']) && ! empty($lokasi['lng'])): ?>
@@ -68,6 +54,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
         var options = {
             maxZoom: <?= setting('max_zoom_peta') ?>,
             minZoom: <?= setting('min_zoom_peta') ?>,
+			fullscreenControl: {
+                position: 'topright' // Menentukan posisi tombol fullscreen
+            }
         };
 
 		//Inisialisasi tampilan peta

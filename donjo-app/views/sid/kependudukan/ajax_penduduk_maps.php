@@ -1,5 +1,5 @@
 <?php if ($this->CI->cek_hak_akses('u')): ?>
-	<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
+	<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 	<div class="content-wrapper">
 		<section class="content-header">
 			<h1>Lokasi Tempat Tinggal <?= $penduduk['nama']?></h1>
@@ -57,7 +57,7 @@
 		</div>
 		</section>
 	</div>
-
+	<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 	<script>
 		window.onload = function() {
 			var mode = '<?= $edit ? true : false ?>';
@@ -73,6 +73,9 @@
 			var options = {
 				maxZoom: <?= setting('max_zoom_peta') ?>,
 				minZoom: <?= setting('min_zoom_peta') ?>,
+				fullscreenControl: {
+					position: 'topright' // Menentukan posisi tombol fullscreen
+				}
 			};
 
 			//Inisialisasi tampilan peta

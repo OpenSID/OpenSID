@@ -1,4 +1,3 @@
-<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 <link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <div class="content-wrapper">
 	<section class="content-header">
