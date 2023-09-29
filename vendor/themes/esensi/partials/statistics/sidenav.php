@@ -59,7 +59,7 @@
           'label' => 'Calon Pemilih'
         ],
         [
-          'slug' => IS_PREMIUM ? 'data-wilayah' : 'first/wilayah',
+          'slug' => 'data-wilayah',
           'label' => 'Wilayah Administratif'
         ]
       ]
@@ -73,7 +73,7 @@
       <?php $url_slug = str_replace([site_url(), 'data-statistik/'], '', current_url()) ?>
       <?php $is_active = array_search($url_slug, array_column($statistik['submenu'], 'slug')) !== false ? true : false ?>
       <div class="accordion-item bg-white border border-gray-200 overflow-hidden">
-        <h4 class="accordion-header mb-0" id="heading-<?= $statistik['label'] ?>">
+        <h4 class="accordion-header mb-0" id="heading-<?= $statistik['target'] ?>">
           <button
             class="accordion-button relative flex items-center w-full py-4 px-5 text-base text-left bg-white border-0 rounded-none transition focus:outline-none text-h5"
             type="button" data-bs-toggle="collapse" data-bs-target="#<?= $statistik['target']?>" aria-expanded="<?= $is_active ? 'true' : 'false' ?>"
