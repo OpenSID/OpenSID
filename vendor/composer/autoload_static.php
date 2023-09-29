@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238
+class ComposerStaticInit9002454735de25e8c3cf2dfc30a1d238
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -62,6 +62,7 @@ class ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Container\\' => 14,
+            'Psr\\Clock\\' => 10,
             'Psr\\Cache\\' => 10,
             'ParagonIE\\ConstantTime\\' => 23,
         ),
@@ -198,8 +199,8 @@ class ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -208,6 +209,10 @@ class ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Psr\\Clock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
         'Psr\\Cache\\' => 
         array (
@@ -240,8 +245,8 @@ class ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238
         ),
         'Illuminate\\Support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/illuminate/collections',
-            1 => __DIR__ . '/..' . '/illuminate/macroable',
+            0 => __DIR__ . '/..' . '/illuminate/macroable',
+            1 => __DIR__ . '/..' . '/illuminate/collections',
             2 => __DIR__ . '/..' . '/illuminate/support',
         ),
         'Illuminate\\Pipeline\\' => 
@@ -374,9 +379,9 @@ class ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9002454735de25e8c3cf2dfc30a1d238::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9002454735de25e8c3cf2dfc30a1d238::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit9002454735de25e8c3cf2dfc30a1d238::$classMap;
 
         }, null, ClassLoader::class);
     }

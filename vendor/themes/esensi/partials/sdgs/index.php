@@ -19,10 +19,10 @@
         </br>
         <span class="text-h6">Skor SDGs Desa</span>
     </div>
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 py-5">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 py-5">
         <?php foreach ($evaluasi->data as $key => $value): ?>
         <div class="space-y-3">
-            <img class="h-44 w-full object-cover object-center bg-gray-300 dark:bg-gray-600" src="<?= asset("images/sdgs/{$value->image}") ?>" alt="<?= $value->images ?>" />
+            <img class="w-full object-cover object-center" src="<?= asset("images/sdgs/{$value->image}") ?>" alt="<?= $value->images ?>" />
 
             <div class="space-y-1 text-sm text-center z-10">
                 <span class="text-h6">NILAI</span>
