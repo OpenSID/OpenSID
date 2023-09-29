@@ -140,14 +140,6 @@ class Suplemen extends Admin_Controller
         redirect("{$this->controller}/rincian/{$id_rincian}");
     }
 
-    public function aksi($aksi = '', $id_suplemen = 0)
-    {
-        $this->redirect_hak_akses('u');
-        $this->session->set_userdata('aksi', $aksi);
-
-        redirect("{$this->controller}/form_terdata/{$id_suplemen}");
-    }
-
     public function clear($id = 0)
     {
         $this->session->per_page = $this->_set_page[0];
@@ -258,14 +250,9 @@ class Suplemen extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $result = $this->suplemen_model->add_terdata($_POST, $id);
-
         status_sukses($result);
 
-        $redirect = ($this->session->userdata('aksi') != 1) ? $_SERVER['HTTP_REFERER'] : "{$this->controller}/rincian/{$id}";
-
-        $this->session->unset_userdata('aksi');
-
-        redirect($redirect);
+        redirect("{$this->controller}/rincian/{$id}");
     }
 
     public function edit_terdata($id)
