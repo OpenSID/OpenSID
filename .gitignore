@@ -31,9 +31,10 @@ Obfuscator.php
 make_obfuscate.php
 
 # Abaikan tema premium
-vendor/themes/*
-!vendor/themes/esensi/
-!vendor/themes/natra/
+vendor/themes/denatra/
+vendor/themes/silir/
+vendor/themes/batuah/
+vendor/themes/denava/
 
 # Abaikan isian folder vendor
 vendor/codeigniter/framework/*
