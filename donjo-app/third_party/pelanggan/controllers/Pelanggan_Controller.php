@@ -37,9 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7;
 
 class Pelanggan_Controller extends Admin_Controller
 {
@@ -196,7 +196,7 @@ class Pelanggan_Controller extends Admin_Controller
                 if (cek_anjungan()) {
                     $this->db
                         ->set(['status' => '1'])
-                        ->where('config_id', identitas('id'))
+                        // ->where('config_id', identitas('id'))
                         ->where('tipe', '1')
                         ->where('status', '0')
                         ->where('status_alasan', 'tidak berlangganan anjungan')
