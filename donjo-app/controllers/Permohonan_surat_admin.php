@@ -88,6 +88,10 @@ class Permohonan_surat_admin extends Admin_Controller
                         }
                     }
 
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . route('permohonan_surat_admin.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
                     return $aksi;
                 })
                 ->editColumn('no_antrian', static function ($row) {
@@ -108,7 +112,7 @@ class Permohonan_surat_admin extends Admin_Controller
         // Cek hanya status = 1 (sedang diperiksa) yg boleh di proses
         $periksa = PermohonanSurat::whereStatus(PermohonanSurat::SEDANG_DIPERIKSA)->findOrFail($id);
 
-        if (! $id || ! $periksa) {
+        if (!$id || !$periksa) {
             redirect('permohonan_surat_admin');
         }
         $url = $periksa->surat->url_surat;
@@ -182,6 +186,17 @@ class Permohonan_surat_admin extends Admin_Controller
         return $isian_form;
     }
 
+    public function delete($id = '')
+    {
+        $this->redirect_hak_akses('h');
+
+        if (PermohonanSurat::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
     public function konfirmasi($id_permohonan = 0, $tipe = 0)
     {
         $data['form_action'] = site_url("permohonan_surat_admin/kirim_pesan/{$id_permohonan}/{$tipe}");
@@ -216,7 +231,7 @@ class Permohonan_surat_admin extends Admin_Controller
         $this->load->model('Web_dokumen_model');
         $berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
 
-        if (! $id_dokumen || ! $id_pend || ! $berkas || ! file_exists(LOKASI_DOKUMEN . $berkas)) {
+        if (!$id_dokumen || !$id_pend || !$berkas || !file_exists(LOKASI_DOKUMEN . $berkas)) {
             $data['link_berkas'] = null;
         } else {
             $data = [
