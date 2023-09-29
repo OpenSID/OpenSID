@@ -2,6 +2,15 @@
 	/*
 		Jika saksi1 warga desa, ganti kolom isiannya dengan data dari database penduduk
 	*/
+
+	$array_replace = [
+		"[form_tanggal_mati]" => tgl_indo_dari_str($input['tanggal_kematian']),
+		"[form_jam]" => $input['jam_kematian'],
+		"[form_tempat_mati]" => $input['tempat_kematian'],
+	];
+
+	$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
+
 	if ($input['id_saksi1'])
 	{
 		$saksi1 = $this->get_data_surat($input['id_saksi1']);

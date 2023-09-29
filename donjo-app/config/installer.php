@@ -72,9 +72,9 @@ $config = [
     ],
 
     'lainnya' => [
-        'storage/framework/'  => [0775],
-        'storage/logs/'       => [0775],
-        'backup_inkremental/' => [0775],
+        'storage/framework/'  => [0775, 'htaccess3'],
+        'storage/logs/'       => [0775, 'htaccess3'],
+        'backup_inkremental/' => [0775, 'htaccess3'],
         'assets/'             => [0755, 'htaccess3'],
         'assets/filemanager/' => [0755, 'htaccess4'],
         'assets/filemanager/config/' => [0755, 'htaccess4'],
@@ -90,7 +90,7 @@ $config = [
         // Uncomment jika situs ini untuk demo. Pada demo, user admin tidak bisa dihapus
         // dan username/password tidak bisa diubah
 
-        // $config['demo_mode'] = false;
+        // $config['demo_mode'] = true;
 
         // Setting ini untuk menentukan user yang dipercaya. User dengan id di setting ini
         // dapat membuat artikel berisi video yang aktif ditampilkan di Web.

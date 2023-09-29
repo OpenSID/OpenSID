@@ -123,11 +123,8 @@
 	</div>
 	<div class='col-sm-4'>
 		<div class='form-group'>
-			<?php if (! empty($penduduk)) : ?>
-				<input type="hidden" name="kk_level_lama" value="<?= $penduduk['kk_level'] ?>">
-			<?php endif; ?>
 			<label for="kk_level">Hubungan Dalam Keluarga</label>
-			<select class="form-control input-sm select2 required" name="kk_level">
+			<select id="kk_level" class="form-control input-sm select2 required" name="kk_level">
 				<option value="">Pilih Hubungan Keluarga</option>
 				<?php foreach ($hubungan as $data) : ?>
 					<option value="<?= $data['id'] ?>" <?php selected($penduduk['kk_level'], $data['id']); ?> <?= ($data['id'] == 1 && $keluarga['status_dasar'] == '2') ? 'disabled' : ''; ?>><?= strtoupper($data['nama']) ?></option>
@@ -680,7 +677,6 @@
 	</div>
 </div>
 <script type="text/javascript">
-
 	$(document).ready(function() {
 		$('#tgl_lahir').datetimepicker({
 			format: 'DD-MM-YYYY',
@@ -706,6 +702,16 @@
 		$(".form-control").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
 
 		$('#tag_id_card').focus();
+
+		$("#kk_level").change(function() {
+			var selected = $(this).val();
+
+			if (selected == 2 || selected == 3) {
+				$("#status_perkawinan").val("2").change();
+			} else {
+				$("#status_perkawinan").val("").change();
+			}
+		});
 
 		$("#dusun").change(function() {
 			let dusun = $(this).val();
@@ -811,7 +817,7 @@
 			file_foto = sex == '2' ? '<?= FOTO_DEFAULT_WANITA ?>' : '<?= FOTO_DEFAULT_PRIA ?>';
 		}
 
-		return BASE_URL + file_foto;
+		return file_foto;
 	}
 
 	function disable_kawin_cerai(status) {

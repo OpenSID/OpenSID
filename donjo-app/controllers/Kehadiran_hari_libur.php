@@ -44,8 +44,8 @@ class Kehadiran_hari_libur extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 337;
-        $this->sub_modul_ini      = 340;
+        $this->modul_ini          = 'kehadiran';
+        $this->sub_modul_ini      = 'hari-libur';
         $this->header['kategori'] = 'kehadiran';
     }
 

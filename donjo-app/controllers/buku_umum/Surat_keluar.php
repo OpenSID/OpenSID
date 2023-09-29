@@ -46,8 +46,8 @@ class Surat_keluar extends Admin_Controller
         $this->load->helper('download');
         $this->load->model(['surat_keluar_model', 'klasifikasi_model', 'pamong_model', 'penomoran_surat_model']);
         $this->list_session  = ['cari', 'filter'];
-        $this->modul_ini     = 301;
-        $this->sub_modul_ini = 302;
+        $this->modul_ini     = 'buku-administrasi-desa';
+        $this->sub_modul_ini = 'administrasi-umum';
     }
 
     public function clear($id = 0)

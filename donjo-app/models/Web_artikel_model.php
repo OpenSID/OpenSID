@@ -161,6 +161,7 @@ class Web_artikel_model extends MY_Model
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']         = $j + 1;
             $data[$i]['boleh_ubah'] = $this->boleh_ubah($data[$i]['id'], $this->session->user);
+            $data[$i]['judul']      = e($data[$i]['judul']);
             $j++;
         }
 
@@ -220,8 +221,10 @@ class Web_artikel_model extends MY_Model
 
             return;
         }
+
+        $data['isi'] = bersihkan_xss($data['isi']); // hapus potensi xss
         // Batasi judul menggunakan teks polos
-        $data['judul'] = strip_tags($data['judul']);
+        $data['judul'] = judul($data['judul']);
 
         $fp          = time();
         $list_gambar = ['gambar', 'gambar1', 'gambar2', 'gambar3'];
@@ -326,15 +329,20 @@ class Web_artikel_model extends MY_Model
     {
         session_error_clear();
 
-        $data = $_POST;
+        $data           = $_POST;
+        $hapus_lampiran = $data['hapus_lampiran'];
+        unset($data['hapus_lampiran']);
+
         if (empty($data['judul']) || empty($data['isi'])) {
             $_SESSION['error_msg'] .= ' -> Data harus diisi';
             $_SESSION['success'] = -1;
 
             return;
         }
+
+        $data['isi'] = bersihkan_xss($data['isi']); // hapus potensi xss
         // Batasi judul menggunakan teks polos
-        $data['judul'] = strip_tags($data['judul']);
+        $data['judul'] = judul($data['judul']);
 
         $fp          = time();
         $list_gambar = ['gambar', 'gambar1', 'gambar2', 'gambar3'];
@@ -411,6 +419,10 @@ class Web_artikel_model extends MY_Model
         } else {
             $this->db->where('a.id', $id);
             $outp = $this->db->update('artikel a', $data);
+        }
+
+        if ($hapus_lampiran == 'true') {
+            $this->db->where('id', $id)->update('artikel', ['dokumen' => null, 'link_dokumen' => '']);
         }
 
         status_sukses($outp);
@@ -529,7 +541,7 @@ class Web_artikel_model extends MY_Model
             return false;
         }
 
-        $data['judul'] = $this->security->xss_clean($data['judul']);
+        $data['judul'] = e($data['judul']);
 
         // Digunakan untuk timepicker
         $tempTgl            = date_create_from_format('Y-m-d H:i:s', $data['tgl_upload']);

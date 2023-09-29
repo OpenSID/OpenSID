@@ -319,13 +319,14 @@ class Data_persil_model extends MY_Model
                 ->result_array();
             $data = array_combine(array_column($data, 'id'), $data);
         } else {
-            $data = $this->db->order_by('kode')
+            $data = $this->db
+                ->order_by('kode')
                 ->get('ref_persil_kelas')
                 ->result_array();
             $data = array_combine(array_column($data, 'id'), $data);
         }
         if (empty($data)) {
-            throw new Referensi_kosong('ref_persil_kelas');
+            throw new MyException('ref_persil_kelas');
         }
 
         return $data;

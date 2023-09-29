@@ -43,8 +43,8 @@ class Pendapat extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['pendapat_model']);
-        $this->modul_ini     = 14;
-        $this->sub_modul_ini = 321;
+        $this->modul_ini     = 'layanan-mandiri';
+        $this->sub_modul_ini = 'pendapat';
     }
 
     public function index()

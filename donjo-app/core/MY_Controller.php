@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\Anjungan;
 use App\Models\Config;
 use App\Models\GrupAkses;
 use App\Models\LogSurat;
@@ -93,12 +92,6 @@ class MY_Controller extends CI_Controller
 
         // Untuk anjungan
         if (Schema::hasColumn('anjungan', 'tipe') && Schema::hasColumn('anjungan', 'status_alasan')) {
-            if (! cek_anjungan() && Anjungan::exists()) {
-                try {
-                    Anjungan::tipe(1)->update(['status' => 0, 'status_alasan' => 'tidak berlangganan anjungan']);
-                } catch (Exception $e) {
-                }
-            }
             $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
         }
 
@@ -126,7 +119,7 @@ class Web_Controller extends MY_Controller
     {
         parent::__construct();
 
-        $this->header = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
+        $this->header = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') && Schema::hasColumn('config', 'nomor_operator') ? Config::first() : null;
 
         if ($this->setting->offline_mode == 2) {
             $this->view_maintenance();
@@ -319,17 +312,17 @@ class Admin_Controller extends MY_Controller
         $isAdmin                                = $this->session->isAdmin->pamong;
         $this->header['notif_permohonan']       = 0;
         if ($this->db->field_exists('verifikasi_operator', 'log_surat') && $this->db->field_exists('deleted_at', 'log_surat')) {
-            $this->header['notif_permohonan'] = LogSurat::whereNull('deleted_at')->when($isAdmin->jabatan_id == '1', static function ($q) {
+            $this->header['notif_permohonan'] = LogSurat::whereNull('deleted_at')->when($isAdmin->jabatan_id == kades()->id, static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
                 })->when(setting('tte') == 0, static function ($tte) {
                     return $tte->where('verifikasi_kades', '=', 0);
                 });
             })
-                ->when($isAdmin->jabatan_id == '2', static function ($q) {
+                ->when($isAdmin->jabatan_id == sekdes()->id, static function ($q) {
                     return $q->where('verifikasi_sekdes', '=', '0');
                 })
-                ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, ['1', '2']), static function ($q) {
+                ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, [kades()->id, sekdes()->id]), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '0')->orWhere('verifikasi_operator', '=', '-1');
                 })
                 ->count();
@@ -338,7 +331,7 @@ class Admin_Controller extends MY_Controller
         // cek langganan premium
         $info_langganan = $this->cache->file->get_metadata('status_langganan');
 
-        if ((strtotime('+1 day', $info_langganan['mtime']) < strtotime('now')) || ($this->cache->file->get_metadata('status_langganan') == false && $this->setting->layanan_opendesa_token != null)) {
+        if ((strtotime('+30 day', $info_langganan['mtime']) < strtotime('now')) || ($this->cache->file->get_metadata('status_langganan') == false && $this->setting->layanan_opendesa_token != null)) {
             $this->header['perbaharui_langganan'] = true;
         }
     }
@@ -441,6 +434,20 @@ class Admin_Controller extends MY_Controller
             'pamong_ttd'     => Pamong::sekretarisDesa()->first(),
             'pamong_ketahui' => Pamong::kepalaDesa()->first(),
         ];
+    }
+
+    protected function set_hak_akses_rfm()
+    {
+        // reset dulu session yang berkaitan hak akses ubah dan hapus
+        $this->session->hapus_gambar_rfm       = false;
+        $this->session->ubah_tambah_gambar_rfm = false;
+
+        if (can('h')) {
+            $this->session->hapus_gambar_rfm = true;
+        }
+        if (can('u')) {
+            $this->session->ubah_tambah_gambar_rfm = true;
+        }
     }
 }
 

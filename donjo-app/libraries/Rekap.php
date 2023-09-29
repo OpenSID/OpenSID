@@ -84,13 +84,13 @@ class Rekap
                 'tweb_penduduk.nama',
             ]);
 
-        if ($this->ci->session->userdata('isAdmin')->id_grup !== '1') {
-            $ibuHamil = $ibuHamil->where('id', $this->ci->session->userdata('id'));
-        } else {
-            if ($id != null) {
-                $ibuHamil = $ibuHamil->where('posyandu_id', $id);
-            }
-        }
+        // if ($this->ci->session->userdata('isAdmin')->id_grup !== UserGrup::getGrupId(UserGrup::ADMINISTRATOR)) {
+        //     $ibuHamil = $ibuHamil->where('posyandu_id', $this->ci->session->userdata('id'));
+        // } else {
+        //     if ($id != null) {
+        //         $ibuHamil = $ibuHamil->where('posyandu_id', $id);
+        //     }
+        // }
 
         $ibuHamil  = $ibuHamil->get()->toArray();
         $dataTahun = DB::table('ibu_hamil')
@@ -380,13 +380,13 @@ class Rekap
                 'tweb_penduduk.sex',
             ]);
 
-        if ($this->ci->session->userdata('isAdmin')->id_grup !== '1') {
-            $bulananAnak = $bulananAnak->where('id', $this->ci->session->userdata('id'));
-        } else {
-            if ($id != null) {
-                $bulananAnak = $bulananAnak->where('posyandu_id', $id);
-            }
-        }
+        // if ($this->ci->session->userdata('isAdmin')->id_grup !== UserGrup::getGrupId(UserGrup::ADMINISTRATOR)) {
+        //     $bulananAnak = $bulananAnak->where('posyandu_id', $this->ci->session->userdata('id'));
+        // } else {
+        //     if ($id != null) {
+        //         $bulananAnak = $bulananAnak->where('posyandu_id', $id);
+        //     }
+        // }
 
         $bulananAnak = $bulananAnak->get()->toArray();
         $dataTahun   = DB::table('bulanan_anak')

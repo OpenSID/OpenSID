@@ -247,7 +247,7 @@
 														<select name="penandatangan" id="penandatangan" class="form-control input-sm select2">
 															<?php foreach ($pamong as $data): ?>
 																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['pamong_jabatan'])?>"
-																	<?= selected($data['jabatan_id'], 1) ?>>
+																	<?= selected($data['jabatan_id'], kades()->id) ?>>
 																	<?= $data['pamong_nama']?>(<?= $data['pamong_jabatan']?>)
 																</option>
 															<?php endforeach; ?>

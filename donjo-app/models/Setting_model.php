@@ -36,7 +36,6 @@
  */
 
 use App\Libraries\TinyMCE;
-use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\Schema;
 
@@ -53,6 +52,7 @@ define('EKSTENSI_WAJIB', serialize([
     'mysqlnd',
     'tidy',
     'zip',
+    'exif',
 ]));
 define('minPhpVersion', '7.3.0');
 define('maxPhpVersion', '8.0.0');
@@ -120,12 +120,12 @@ class Setting_model extends MY_Model
             }
         }
 
-        // Sebutan kepala desa diambil dari tabel ref_jabatan dengan id = 1
+        // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
-        $this->setting->sebutan_kepala_desa = (Schema::hasTable('ref_jabatan')) ? RefJabatan::find(1)->nama : '';
+        $this->setting->sebutan_kepala_desa = Schema::hasTable('ref_jabatan') ? kades()->nama : null;
 
-        // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan id = 2
-        $this->setting->sebutan_sekretaris_desa = (Schema::hasTable('ref_jabatan')) ? RefJabatan::find(2)->nama : '';
+        // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan jenis = 2
+        $this->setting->sebutan_sekretaris_desa = Schema::hasTable('ref_jabatan') ? sekdes()->nama : null;
 
         $this->load->model('database_model');
         $this->database_model->cek_migrasi();

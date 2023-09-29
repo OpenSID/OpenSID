@@ -53,8 +53,8 @@ class Database extends Admin_Controller
         $this->load->model(['ekspor_model', 'database_model']);
         $this->load->helper('number');
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
-        $this->modul_ini     = 11;
-        $this->sub_modul_ini = 45;
+        $this->modul_ini     = 'pengaturan';
+        $this->sub_modul_ini = 'database';
     }
 
     public function index()

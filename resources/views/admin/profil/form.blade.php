@@ -50,18 +50,29 @@
                     </div>
                     <div class="form-group">
                         <label for="pass_lama">Kata Sandi Lama</label>
-                        <input class="form-control input-sm required" type="password" name="pass_lama"
-                            autocomplete="off" />
+                        <div class="input-group">
+                            <input id="password-lama" class="form-control input-sm required" type="password"
+                                name="pass_lama" autocomplete="off" />
+                            <span class="input-group-addon input-sm reveal-lama" id="reveal-lama"><i
+                                    class="fa fa-eye-slash"></i></span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="pass_baru">Kata Sandi Baru</label>
-                        <input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru"
-                            name="pass_baru" autocomplete="off" />
+                        <div class="input-group">
+                            <input id="password-baru" class="form-control input-sm required pwdLengthNist"
+                                type="password" id="pass_baru" name="pass_baru" autocomplete="off" />
+                            <span class="input-group-addon input-sm reveal-baru"><i class="fa fa-eye-slash"></i></span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="pass_baru1">Kata Sandi Baru (Ulangi)</label>
-                        <input class="form-control input-sm required pwdLengthNist" type="password" id="pass_baru1"
-                            name="pass_baru1" autocomplete="off" />
+                        <div class="input-group">
+                            <input id="password-ulangi" class="form-control input-sm required pwdLengthNist"
+                                type="password" id="pass_baru1" name="pass_baru1" autocomplete="off" />
+                            <span class="input-group-addon input-sm reveal-ulangi"><i
+                                    class="fa fa-eye-slash"></i></span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="foto">Ganti Foto</label>
@@ -96,7 +107,7 @@
                     </div>
                     <div class="form-group">
                         <label for="id_telegram">User ID Telegram</label>
-                        <input class="form-control input-sm" type="text" id="id_telegram" name="id_telegram"
+                        <input class="form-control input-sm bilangan" type="text" id="id_telegram" name="id_telegram"
                             value="<?= auth()->id_telegram ?>"
                             <?= jecho(setting('telegram_token') == null, true, 'disabled') ?> />
                     </div>

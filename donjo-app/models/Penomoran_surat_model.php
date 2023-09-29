@@ -101,8 +101,10 @@ class Penomoran_surat_model extends CI_Model
                         ->select('*, f.nama, l.id id_surat')
                         ->from("{$type} l")
                         ->join('tweb_surat_format f', 'f.id=l.id_format_surat', 'RIGHT')
+                        ->group_start()
                         ->where('url_surat', $url)
                         ->or_where("url_surat = REPLACE(REPLACE('{$url}', 'erangan', ''), '-', '_')")
+                        ->group_end()
                         ->where('YEAR(l.tanggal)', $thn)
                         ->order_by('CAST(l.no_surat as unsigned) DESC');
                 }

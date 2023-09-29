@@ -69,6 +69,8 @@ class Develbar
      */
     private $views = [];
 
+    private $orms = [];
+
     /**
      * List of helpers
      *
@@ -134,7 +136,6 @@ class Develbar
 
         // Load lang file if exists
         $this->load_lang_file();
-
         log_message('debug', 'DevelBar Class Initialized !');
     }
 
@@ -401,10 +402,10 @@ class Develbar
                 }
             }
         }
-
-        $data = [
+        $ormDbs = $this->list_db_eloquent();
+        $data   = [
             'icon' => image_base64_encode($this->assets_folder . 'images/database.png'),
-            'dbs'  => $dbs,
+            'dbs'  => array_merge($dbs, $ormDbs),
         ];
 
         if (! $return_view) {
@@ -605,5 +606,32 @@ class Develbar
         ];
 
         return $this->CI->load->view($this->view_folder . 'ajax', $data, true);
+    }
+
+    private function list_db_eloquent()
+    {
+        $dbs    = [];
+        $dbName = $this->CI->capsule->getDatabaseManager()->getDatabaseName();
+        $host   = $this->CI->capsule->getDatabaseManager()->getConfig('host') . '_ORM';
+        if (! empty($this->CI->queryOrm)) {
+            $database = [
+                'database'    => $dbName,
+                'hostname'    => $host,
+                'queries'     => [],
+                'query_times' => [],
+                'query_count' => 0,
+            ];
+
+            foreach ($this->CI->queryOrm as $query) {
+                $database['queries'][] = array_reduce($query->bindings, static function ($sql, $binding) {
+                    return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
+                }, $query->sql);
+                $database['query_times'][] = $query->time;
+                $database['query_count']++;
+            }
+            $dbs[get_class($this->CI) . ':$eloquent'] = $database;
+        }
+
+        return $dbs;
     }
 }

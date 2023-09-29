@@ -15,7 +15,7 @@
             <option value='' selected="selected">-- <?= 'Pilih ' . ucwords(setting('sebutan_pemerintah_desa')) ?> --
             </option>
             <?php foreach ($pamong as $data): ?>
-                <option value="<?= $data->pamong_id ?>" data-jabatan-id="<?= $data->jabatan_id ?>" data-jabatan="<?= trim($data->jabatan->nama) ?>"
+                <option value="<?= $data->pamong_id ?>" data-jenis="<?= $data->jenis ?>" data-jabatan="<?= trim($data->jabatan->nama) ?>"
                     data-nip="<?= $data->pamong_nip ?>" data-niap="<?= $data->pamong_niap ?>"
                     data-ttd="<?= $data->pamong_ttd ?>" data-ub="<?= $data->pamong_ub ?>">
                     <?= $data->pamong_nip ? 'NIP : ' . ($data->pamong_nip ?? '-') . ' | ' : setting('sebutan_nip_desa') . ' : ' . ($data->pamong_niap ?? '-') . ' | ' ?>
@@ -43,11 +43,11 @@
             $('#pamong').attr('disabled', true);
         } else if (atas_nama.includes('u.b')) {
             $('#pamong').val('');
-            $("#pamong option[data-jabatan-id='1']").hide();
+            $("#pamong option[data-jenis='1']").hide();
             $("#pamong option[data-ttd='1']").hide();
             $('#pamong').attr('disabled', false);
         } else {
-            $('#pamong').val($("#pamong option[data-jabatan-id='1']").val());
+            $('#pamong').val($("#pamong option[data-jenis='1']").val());
             $('#pamong').attr('disabled', true);
         }
 

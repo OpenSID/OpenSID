@@ -44,8 +44,8 @@ class Grup extends Admin_Controller
         parent::__construct();
 
         $this->load->model('grup_model');
-        $this->modul_ini     = 11;
-        $this->sub_modul_ini = 44;
+        $this->modul_ini     = 'pengaturan';
+        $this->sub_modul_ini = 'pengguna';
         $this->set_page      = ['20', '50', '100'];
         $this->list_session  = ['jenis', 'cari'];
     }
@@ -104,6 +104,7 @@ class Grup extends Admin_Controller
         $data['view']                = $view;
         $data['list_akses_modul']    = $this->grup_model->grup_akses((int) $id);
         $data['list_akses_submodul'] = $this->grup_model->akses_submodul((int) $id);
+
         // Centang modul jika ada akses submodul
         foreach ($data['list_akses_modul'] as $key => $akses_modul) {
             foreach ($data['list_akses_submodul'][$akses_modul['id']] as $akses_submodul) {

@@ -46,8 +46,8 @@ class Penduduk_log extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['penduduk_model', 'penduduk_log_model']);
-        $this->modul_ini     = 2;
-        $this->sub_modul_ini = 21;
+        $this->modul_ini     = 'kependudukan';
+        $this->sub_modul_ini = 'penduduk';
         $this->set_page      = ['20', '50', '100'];
         $this->list_session  = ['filter_tahun', 'filter_bulan', 'kode_peristiwa', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari'];
     }

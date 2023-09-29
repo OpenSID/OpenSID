@@ -46,8 +46,8 @@ class Surat_mohon extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 4;
-        $this->sub_modul_ini = 97;
+        $this->modul_ini     = 'layanan-surat';
+        $this->sub_modul_ini = 'daftar-persyaratan';
     }
 
     public function index()

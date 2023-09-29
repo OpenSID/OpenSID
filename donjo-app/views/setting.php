@@ -37,7 +37,7 @@
                 }
             });
             $.ajax({
-                    url: '{{ route('user_setting.kirim_otp_telegram') }}',
+                    url: `{{ route('user_setting.kirim_otp_telegram') }}`,
                     type: 'Post',
                     data: {
                         'sidcsrf': getCsrfToken(),
@@ -116,6 +116,51 @@
 
         $('#id_telegram').change(function(event) {
             $('input[name="telegram_verified_at"]').val('')
+        });
+
+        $('.reveal-lama').on('click', function() {
+            var $pwd = $("#password-lama");
+            if ($pwd.attr('type') === 'password') {
+                $pwd.attr('type', 'text');
+
+                $(".reveal-lama i").removeClass("fa-eye-slash");
+                $(".reveal-lama i").addClass("fa-eye");
+            } else {
+                $pwd.attr('type', 'password');
+
+                $(".reveal-lama i").addClass("fa-eye-slash");
+                $(".reveal-lama i").removeClass("fa-eye");
+            }
+        });
+
+        $('.reveal-baru').on('click', function() {
+            var $pwd = $("#password-baru");
+            if ($pwd.attr('type') === 'password') {
+                $pwd.attr('type', 'text');
+
+                $(".reveal-baru i").removeClass("fa-eye-slash");
+                $(".reveal-baru i").addClass("fa-eye");
+            } else {
+                $pwd.attr('type', 'password');
+
+                $(".reveal-baru i").addClass("fa-eye-slash");
+                $(".reveal-baru i").removeClass("fa-eye");
+            }
+        });
+
+        $('.reveal-ulangi').on('click', function() {
+            var $pwd = $("#password-ulangi");
+            if ($pwd.attr('type') === 'password') {
+                $pwd.attr('type', 'text');
+
+                $(".reveal-ulangi i").removeClass("fa-eye-slash");
+                $(".reveal-ulangi i").addClass("fa-eye");
+            } else {
+                $pwd.attr('type', 'password');
+
+                $(".reveal-ulangi i").addClass("fa-eye-slash");
+                $(".reveal-ulangi i").removeClass("fa-eye");
+            }
         });
     });
 </script>

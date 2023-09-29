@@ -61,7 +61,7 @@
 						<div class="box-body">
 							<div class="form-group">
 								<label class="control-label" for="judul">Judul Artikel</label>
-								<input id="judul" name="judul" class="form-control input-sm required" type="text" placeholder="Judul Artikel" minlength="5" maxlength="200" value="<?= htmlspecialchars($artikel['judul']) ?>"></input>
+								<input id="judul" name="judul" class="form-control input-sm required strip_tags judul" type="text" placeholder="Judul Artikel" minlength="5" maxlength="200" value="<?= $artikel['judul'] ?>"></input>
 								<span class="help-block"><code>Judul artikel minimal 5 karakter dan maksimal 200 karakter</code></span>
 							</div>
 							<div class="form-group">
@@ -212,7 +212,7 @@
 							<div class="col-sm-12">
 								<?php if ($artikel['dokumen']) : ?>
 									<div class="form-group">
-										<div class="mailbox-attachment-info">
+										<div class="mailbox-attachment-info bg-black">
 											<a href="<?= base_url() . LOKASI_DOKUMEN . $artikel['dokumen'] ?>" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> Unduh Dokumen</a>
 										</div>
 									</div>
@@ -223,7 +223,11 @@
 										<input type="text" class="form-control" id="file_path4">
 										<input type="file" class="hidden" id="file4" name="dokumen">
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-info btn-flat" id="file_browser4"><i class="fa fa-search"></i> Browse</button>
+											<button type="button" class="btn btn-info btn-flat" id="file_browser4"><i class="fa fa-search"></i></button>
+											<button type='button' class='btn btn-info btn-flat btn-danger' id="hapus_file"><i class='fa fa-stop'></i></button>
+											<?php if ($artikel) : ?>
+												<input type="text" hidden="" name="hapus_lampiran" value="" id="hapus_lampiran" />
+											<?php endif; ?>
 										</span>
 									</div>
 								</div>

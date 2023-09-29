@@ -48,8 +48,8 @@ class Dokumen_sekretariat extends Admin_Controller
 
         $this->load->model('web_dokumen_model');
         $this->_set_page     = ['50', '100', '200'];
-        $this->modul_ini     = 301;
-        $this->sub_modul_ini = 302;
+        $this->modul_ini     = 'buku-administrasi-desa';
+        $this->sub_modul_ini = 'administrasi-umum';
     }
 
     public function index($kat = 2, $p = 1, $o = 0)

@@ -39,6 +39,7 @@ use App\Models\AnggotaGrup;
 use App\Models\DaftarKontak;
 use App\Models\GrupKontak;
 use App\Models\Penduduk;
+use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,8 +48,8 @@ class Grup_kontak extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 10;
-        $this->sub_modul_ini      = 40;
+        $this->modul_ini          = 'hubung-warga';
+        $this->sub_modul_ini      = 'daftar-kontak';
         $this->header['kategori'] = 'hubung warga';
     }
 
@@ -195,7 +196,7 @@ class Grup_kontak extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (AnggotaGrup::create(static::anggotaValidate($this->request))) {
+        if (AnggotaGrup::insert(static::anggotaValidate($this->request))) {
             set_session('success', 'Berhasil Tambah Data');
         } else {
             set_session('error', 'Gagal Tambah Data');
@@ -223,18 +224,22 @@ class Grup_kontak extends Admin_Controller
         $penduduk = [];
         if ($request['id_penduduk']) {
             foreach ($request['id_penduduk'] as $key => $value) {
-                $penduduk[$key]['id_grup']     = bilangan($request['id_grup']);
+                $penduduk[$key]['id_grup']     = (int) bilangan($request['id_grup']);
                 $penduduk[$key]['id_kontak']   = null;
-                $penduduk[$key]['id_penduduk'] = bilangan($value);
+                $penduduk[$key]['id_penduduk'] = (int) bilangan($value);
+                $penduduk[$key]['created_at']  = Carbon::now();
+                $penduduk[$key]['updated_at']  = Carbon::now();
             }
         }
 
         $kontak = [];
         if ($request['id_kontak']) {
             foreach ($request['id_kontak'] as $key => $value) {
-                $kontak[$key]['id_grup']     = bilangan($request['id_grup']);
-                $kontak[$key]['id_kontak']   = bilangan($value);
+                $kontak[$key]['id_grup']     = (int) bilangan($request['id_grup']);
+                $kontak[$key]['id_kontak']   = (int) bilangan($value);
                 $kontak[$key]['id_penduduk'] = null;
+                $kontak[$key]['created_at']  = Carbon::now();
+                $kontak[$key]['updated_at']  = Carbon::now();
             }
         }
 

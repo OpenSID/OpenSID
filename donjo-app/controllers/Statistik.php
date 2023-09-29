@@ -48,8 +48,8 @@ class Statistik extends Admin_Controller
         parent::__construct();
         $this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model']);
         $this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt', 'status', 'tahun'];
-        $this->modul_ini     = 3;
-        $this->sub_modul_ini = 27;
+        $this->modul_ini     = 'statistik';
+        $this->sub_modul_ini = 'statistik-kependudukan';
     }
 
     public function index()
@@ -171,6 +171,7 @@ class Statistik extends Admin_Controller
         $data['aksi']        = $aksi;
         $data['lap']         = $this->session->lap;
         $data['pamong']      = Pamong::penandaTangan()->get();
+        $data['getKades']    = kades()->id;
         $data['form_action'] = site_url("statistik/daftar/{$aksi}/{$data['lap']}");
 
         $this->load->view('statistik/ajax_daftar', $data);

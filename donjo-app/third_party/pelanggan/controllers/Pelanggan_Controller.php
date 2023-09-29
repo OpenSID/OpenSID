@@ -37,9 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7;
 
 class Pelanggan_Controller extends Admin_Controller
 {
@@ -59,10 +59,8 @@ class Pelanggan_Controller extends Admin_Controller
             show_404();
         }
 
-        // $this->modul_ini          = 'info-desa';
-        // $this->sub_modul_ini      = 'layanan-pelanggan';
-        $this->modul_ini          = 200;
-        $this->sub_modul_ini      = 313;
+        $this->modul_ini          = 'info-desa';
+        $this->sub_modul_ini      = 'layanan-pelanggan';
         $this->header['kategori'] = 'pelanggan';
         $this->client             = new Client();
     }
@@ -198,7 +196,7 @@ class Pelanggan_Controller extends Admin_Controller
                 if (cek_anjungan()) {
                     $this->db
                         ->set(['status' => '1'])
-                        ->where('config_id', identitas('id'))
+                        // ->where('config_id', identitas('id'))
                         ->where('tipe', '1')
                         ->where('status', '0')
                         ->where('status_alasan', 'tidak berlangganan anjungan')

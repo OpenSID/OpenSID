@@ -104,14 +104,14 @@ class Seeder extends CI_Model
         } else {
             $desa = $data_desa->body;
             $data = [
-                'nama_desa'         => $desa->nama_desa,
-                'kode_desa'         => $kode_desa,
-                'nama_kecamatan'    => $desa->nama_kec,
-                'kode_kecamatan'    => $desa->kode_kec,
-                'nama_kabupaten'    => $desa->nama_kab,
-                'kode_kabupaten'    => $desa->kode_kab,
-                'nama_propinsi'     => $desa->nama_prov,
-                'kode_propinsi'     => $desa->kode_prov,
+                'nama_desa'         => nama_desa($desa->nama_desa),
+                'kode_desa'         => bilangan($kode_desa),
+                'nama_kecamatan'    => nama_terbatas($desa->nama_kec),
+                'kode_kecamatan'    => bilangan($desa->kode_kec),
+                'nama_kabupaten'    => nama_terbatas($desa->nama_kab),
+                'kode_kabupaten'    => bilangan($desa->kode_kab),
+                'nama_propinsi'     => nama_terbatas($desa->nama_prov),
+                'kode_propinsi'     => bilangan($desa->kode_prov),
                 'nama_kepala_camat' => '',
                 'nip_kepala_camat'  => '',
             ];

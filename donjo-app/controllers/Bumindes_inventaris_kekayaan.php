@@ -45,8 +45,8 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['pamong_model', 'inventaris_laporan_model']);
-        $this->modul_ini     = 301;
-        $this->sub_modul_ini = 302;
+        $this->modul_ini     = 'buku-administrasi-desa';
+        $this->sub_modul_ini = 'administrasi-umum';
     }
 
     public function index()

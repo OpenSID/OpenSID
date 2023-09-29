@@ -42,6 +42,7 @@ use App\Models\Keluarga;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\PendudukMandiri;
+use App\Models\RefJabatan;
 use App\Models\Rtm;
 use App\Models\Wilayah;
 use Illuminate\Support\Facades\Schema;
@@ -63,7 +64,7 @@ class Hom_sid extends Admin_Controller
     {
         get_pesan_opendk(); //ambil pesan baru di opendk
 
-        $this->modul_ini = 1;
+        $this->modul_ini = 'home';
 
         $this->load->library('saas');
 
@@ -121,7 +122,7 @@ class Hom_sid extends Admin_Controller
     protected function logSurat()
     {
         return LogSurat::whereNull('deleted_at')
-            ->when($this->isAdmin->jabatan_id == '1', static function ($q) {
+            ->when($this->isAdmin->jabatan_id == kades()->id, static function ($q) {
                 return $q->when(setting('tte') == 1, static function ($tte) {
                     return $tte->where('tte', '=', 1);
                 })
@@ -132,10 +133,10 @@ class Hom_sid extends Admin_Controller
                         $verifikasi->whereNull('verifikasi_operator');
                     });
             })
-            ->when($this->isAdmin->jabatan_id == '2', static function ($q) {
+            ->when($this->isAdmin->jabatan_id == sekdes()->id, static function ($q) {
                 return $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator');
             })
-            ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, ['1', '2']), static function ($q) {
+            ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static function ($q) {
                 return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
             })->count();
     }

@@ -176,7 +176,7 @@ class Lapak_model extends MY_Model
 
         $data = [
             'id_pelapak'         => bilangan($post['id_pelapak']),
-            'nama'               => $post['nama'],
+            'nama'               => judul($post['nama']),
             'id_produk_kategori' => alfanumerik_spasi($post['id_produk_kategori']),
             'harga'              => bilangan($post['harga']),
             'satuan'             => alfanumerik_spasi($post['satuan']),

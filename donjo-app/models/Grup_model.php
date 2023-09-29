@@ -92,6 +92,7 @@ class Grup_model extends MY_Model
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
         $this->list_data_sql();
+
         //Ordering
         switch ($o) {
             case 1: $order = 'g.nama ASC';

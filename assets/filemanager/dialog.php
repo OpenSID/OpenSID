@@ -1161,7 +1161,7 @@ $files = $sorted;
                 <div class="img-precontainer-mini <?php if($is_img) echo 'original-thumb' ?>">
                     <?php if($config['multiple_selection']){ ?>
                     <?php } ?>
-                    <div class="filetype <?php echo $file_array['extension'] ?> <?php if(in_array($file_array['extension'], $config['editable_text_file_exts'])) echo 'edit-text-file-allowed' ?> <?php if(!$is_icon_thumb){ echo "hide"; }?>"><?php echo $file_array['extension'] ?></div>
+                    <div class="filetype <?php echo ($_SESSION['ubah_tambah_gambar_rfm'] ? $file_array['extension'] : '') ?> <?php if(in_array($file_array['extension'], $config['editable_text_file_exts'])) echo 'edit-text-file-allowed' ?> <?php if(!$is_icon_thumb){ echo "hide"; }?>"><?php echo $file_array['extension'] ?></div>
                     <div class="img-container-mini">
                     <?php if($mini_src!=""){ ?>
                     <img class="<?php echo $show_original_mini ? "original" : "" ?><?php echo $is_icon_thumb_mini ? " icon" : "" ?>" data-src="<?php echo $mini_src;?>">
@@ -1208,12 +1208,15 @@ $files = $sorted;
                     <?php }else{ ?>
                     <a class="preview disabled"><i class="icon-eye-open icon-white"></i></a>
                     <?php } ?>
+                    <?php if($config['rename_files']): ?>
                     <a href="javascript:void('')" class="tip-left edit-button rename-file-paths <?php if($config['rename_files'] && !$file_prevent_rename) echo "rename-file";?>" title="<?php echo trans('Rename')?>" data-folder="0" data-permissions="<?php echo $file_array['permissions']; ?>">
                     <i class="icon-pencil <?php if(!$config['rename_files'] || $file_prevent_rename) echo 'icon-white';?>"></i></a>
-
+                    <?php endif ?>
+                    <?php if($config['delete_files']): ?>
                     <a href="javascript:void('')" class="tip-left erase-button <?php if($config['delete_files'] && !$file_prevent_delete) echo "delete-file";?>" title="<?php echo trans('Erase')?>" data-confirm="<?php echo trans('Confirm_del');?>">
                     <i class="icon-trash <?php if(!$config['delete_files'] || $file_prevent_delete) echo 'icon-white';?>"></i>
                     </a>
+                    <?php endif ?>
                     </form>
                 </figcaption>
             </figure>

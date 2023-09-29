@@ -238,6 +238,31 @@ $(document).ready(function()
 		$('#file_browser5').click();
 	});
 
+	$('#hapus_file').click(function(e)
+	{
+		var hapus_lampiran = document.getElementById("hapus_lampiran").value;
+		var icon = this.querySelector('i');
+		var link_dokumen = document.getElementById("link_dokumen").value;
+
+		if (link_dokumen) {
+			if (hapus_lampiran !== 'true') {
+				document.getElementById("hapus_lampiran").value = 'true';
+				document.getElementById("file_path4").disabled = true;
+				document.getElementById("file_browser4").disabled = true;
+				document.getElementById("link_dokumen").disabled = true;
+				icon.classList.remove('fa-stop');
+			    icon.classList.add('fa-check');
+			} else {
+				document.getElementById("hapus_lampiran").value = 'false';
+				document.getElementById("file_path4").disabled = false;
+				document.getElementById("file_browser4").disabled = false;
+				document.getElementById("link_dokumen").disabled = false;
+				icon.classList.remove('fa-check');
+			    icon.classList.add('fa-stop');
+			}
+		}
+	});
+
 	$('[data-rel="popover"]').popover(
 	{
 		html: true,

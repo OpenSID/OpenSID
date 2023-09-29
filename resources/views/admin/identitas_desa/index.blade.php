@@ -113,9 +113,14 @@
                             <td>{{ $main['email_desa'] }}</td>
                         </tr>
                         <tr>
-                            <td>Telpon {{ ucwords($setting->sebutan_desa) }}</td>
+                            <td>Nomor Telpon {{ ucwords($setting->sebutan_desa) }}</td>
                             <td>:</td>
                             <td>{{ $main['telepon'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Nomor Ponsel {{ ucwords($setting->sebutan_desa) }}</td>
+                            <td>:</td>
+                            <td>{{ $main['nomor_operator'] }}</td>
                         </tr>
                         <tr>
                             <td>Website {{ ucwords($setting->sebutan_desa) }}</td>

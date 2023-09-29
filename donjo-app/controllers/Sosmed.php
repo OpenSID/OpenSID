@@ -44,8 +44,8 @@ class Sosmed extends Admin_Controller
         parent::__construct();
 
         $this->load->model('web_sosmed_model');
-        $this->modul_ini     = 13;
-        $this->sub_modul_ini = 53;
+        $this->modul_ini     = 'admin-web';
+        $this->sub_modul_ini = 'media-sosial';
     }
 
     public function index()

@@ -47,10 +47,11 @@ class Data_persil extends Admin_Controller
         parent::__construct();
 
         $this->load->model(['data_persil_model', 'cdesa_model', 'pamong_model', 'wilayah_model']);
-        $this->controller   = 'data_persil';
-        $this->modul_ini    = 7;
-        $this->set_page     = ['20', '50', '100'];
-        $this->list_session = ['lokasi', 'tipe', 'kelas', 'dusun', 'rw', 'rt', 'cari'];
+        $this->controller    = 'data_persil';
+        $this->modul_ini     = 'pertanahan';
+        $this->sub_modul_ini = 'daftar-persil';
+        $this->set_page      = ['20', '50', '100'];
+        $this->list_session  = ['lokasi', 'tipe', 'kelas', 'dusun', 'rw', 'rt', 'cari'];
     }
 
     public function clear()
