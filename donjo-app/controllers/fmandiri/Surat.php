@@ -78,7 +78,7 @@ class Surat extends Mandiri_Controller
         if ($id) {
             $permohonan = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'id_pemohon' => $id_pend, 'status' => 0]);
 
-            if (! $permohonan) {
+            if (!$permohonan) {
                 redirect('layanan-mandiri/surat/buat');
             }
 
@@ -149,7 +149,7 @@ class Surat extends Mandiri_Controller
         if ($id) {
             $permohonan = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'id_pemohon' => $id_pend, 'status' => 0]);
 
-            if (! $permohonan || ! $post) {
+            if (!$permohonan || !$post) {
                 redirect('layanan-mandiri/surat/buat');
             }
 
@@ -157,7 +157,7 @@ class Surat extends Mandiri_Controller
             $data['isian_form'] = json_encode($this->permohonan_surat_model->ambil_isi_form($permohonan['isian_form']));
             $data['id_surat']   = $permohonan['id_surat'];
         } else {
-            if (! $post) {
+            if (!$post) {
                 redirect('layanan-mandiri/surat/buat');
             }
             $data['permohonan'] = null;
@@ -215,6 +215,7 @@ class Surat extends Mandiri_Controller
                         '[judul_surat]'   => FormatSurat::find($post['id_surat'])->nama,
                         '[tanggal]'       => tgl_indo2(date('Y-m-d H:i:s')),
                         '[melalui]'       => 'Layanan Mandiri',
+                        '[website]'       => APP_URL,
                     ];
 
                     $kirimPesan = setting('notifikasi_pengajuan_surat');

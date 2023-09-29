@@ -19,7 +19,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 13. [#7200](https://github.com/OpenSID/OpenSID/issues/7200) Penambahan pengaturan pemindahakan kode isian ke bagian form lainnya.
 14. [#5884](https://github.com/OpenSID/OpenSID/issues/5884) Penambahan fungsi ambil data orang tua dari keluarga saat tambah anggota keluarga lahir.
 15. [#6764](https://github.com/OpenSID/OpenSID/issues/6764) Penambahan fungsi tambah satu atau beberapa pada data suplemen.
-
+16. [#6875](https://github.com/OpenSID/OpenSID/issues/6875) Penambahan informasi link website pada notifikasi pengajuan surat.
 
 #### Perbaikan Bug
 
