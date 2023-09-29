@@ -45,7 +45,8 @@
 							<textarea id="ndesc" name="ndesc" class="form-control input-sm required" placeholder="Isi Keterangan" maxlength="500" rows="8"><?= $data['ndesc']; ?></textarea>
 						</div>
 					</div>
-					<?php $data = $program[0]; $val = $data['asaldana']; ?>
+					<?php $data = $program[0];
+					$val        = $data['asaldana']; ?>
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="asaldana">Asal Dana</label>
 						<div class="col-sm-3">

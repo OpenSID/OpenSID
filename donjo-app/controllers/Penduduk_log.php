@@ -245,7 +245,7 @@ class Penduduk_log extends Admin_Controller
     public function kembalikan_status_all()
     {
         $this->redirect_hak_akses('u');
-        
+
         if (! data_lengkap()) {
             show_404();
         }
