@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 2. [#7144](https://github.com/OpenSID/OpenSID/issues/7144) Perbaikan input data rentang waktu program bantuan.
 3. [#7146](https://github.com/OpenSID/OpenSID/issues/7146) Perbaikan batasan ubah status penduduk hanya jika data sudah dianggap lengkap.
 4. [#7148](https://github.com/OpenSID/OpenSID/issues/7148) Perbaikan alur pada proses pengaduan.
+5. [#7100](https://github.com/OpenSID/OpenSID/issues/7100) Perbaikan margin lampiran tidak mengikuti margin surat utama.
 
 #### Penyesuaian Teknis
 1. [#7149](https://github.com/OpenSID/OpenSID/issues/7149) Penghapusan duplikasi fungsi detail pada modul keluarga.
