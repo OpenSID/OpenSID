@@ -88,7 +88,7 @@ class Keluar extends Admin_Controller
             $this->session->per_page = $this->input->post('per_page');
         }
 
-        if (! isset($this->session->tahun)) {
+        if (!isset($this->session->tahun)) {
             $this->session->unset_userdata('bulan');
         }
 
@@ -128,7 +128,7 @@ class Keluar extends Admin_Controller
             $this->session->per_page = $this->input->post('per_page');
         }
 
-        if (! isset($this->session->tahun)) {
+        if (!isset($this->session->tahun)) {
             $this->session->unset_userdata('bulan');
         }
 
@@ -183,7 +183,7 @@ class Keluar extends Admin_Controller
             $this->session->per_page = $this->input->post('per_page');
         }
 
-        if (! isset($this->session->tahun)) {
+        if (!isset($this->session->tahun)) {
             $this->session->unset_userdata('bulan');
         }
 
@@ -222,10 +222,10 @@ class Keluar extends Admin_Controller
         $ref_jabatan_sekdes = setting('sebutan_sekretaris_desa');
 
         switch ($this->isAdmin->jabatan_id) {
-            // verifikasi kades
+                // verifikasi kades
             case 1:
                 $current = 'verifikasi_kades';
-                $next    = (setting('tte') && ! in_array($surat->formatSurat->jenis, ['1', '2'])) ? 'tte' : null;
+                $next    = (setting('tte') && !in_array($surat->formatSurat->jenis, ['1', '2'])) ? 'tte' : null;
                 $log     = (setting('tte')) ? 'TTE' : null;
                 break;
 
@@ -283,6 +283,7 @@ class Keluar extends Admin_Controller
                         '[judul_surat]'   => $log_surat->formatSurat->nama,
                         '[tanggal]'       => tgl_indo2(date('Y-m-d H:i:s')),
                         '[melalui]'       => 'Halaman Admin',
+                        '[website]'       => APP_URL,
                     ];
 
                     $kirimPesan = setting('notifikasi_pengajuan_surat');
@@ -587,7 +588,7 @@ class Keluar extends Admin_Controller
 
     public function widget()
     {
-        if (! setting('verifikasi_sekdes') && ! setting('verifikasi_kades')) {
+        if (!setting('verifikasi_sekdes') && !setting('verifikasi_kades')) {
             return null;
         }
 
@@ -603,7 +604,7 @@ class Keluar extends Admin_Controller
                 ->when($this->isAdmin->jabatan_id == sekdes()->id, static function ($q) {
                     return $q->where('verifikasi_sekdes', '=', '0');
                 })
-                ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static function ($q) {
+                ->when($this->isAdmin == null || !in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '0');
                 })->count(),
             'arsip' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == kades()->id, static function ($q) {
@@ -620,7 +621,7 @@ class Keluar extends Admin_Controller
                 ->when($this->isAdmin->jabatan_id == sekdes()->id, static function ($q) {
                     return $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator');
                 })
-                ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static function ($q) {
+                ->when($this->isAdmin == null || !in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
                 })->count(),
             'tolak' => LogSurat::whereNull('deleted_at')->where('verifikasi_operator', '=', '-1')->count(),
