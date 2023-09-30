@@ -212,6 +212,7 @@ class Config extends BaseModel
     private static function clearCache()
     {
         hapus_cache('identitas_desa');
+        hapus_cache('status_langganan');
         hapus_cache('_cache_modul');
     }
 }
