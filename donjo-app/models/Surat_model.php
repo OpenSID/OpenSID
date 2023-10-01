@@ -60,6 +60,7 @@ class Surat_model extends CI_Model
         $sql   = 'SELECT * FROM tweb_surat_format WHERE kunci = 0';
         $query = $this->db->query($sql);
         $data  = $query->result_array();
+
         //Formating Output
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['nama'] = ($i + 1) . ') ' . $data[$i]['nama'];

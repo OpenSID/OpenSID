@@ -124,35 +124,33 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     protected function migrasi_2022101571($hasil)
     {
-        $hasil && $this->tambah_setting([
+        $hasil = $hasil && $this->tambah_setting([
             'key'        => 'visual_tte',
             'value'      => '0',
             'keterangan' => 'Visual Tanda Tangan TTE',
             'kategori'   => 'tte',
         ]);
 
-        $hasil && $this->tambah_setting([
+        $hasil = $hasil && $this->tambah_setting([
             'key'        => 'visual_tte_gambar',
             'value'      => '',
             'keterangan' => 'Url Gambar Visual TTE',
             'kategori'   => 'tte',
         ]);
 
-        $hasil && $this->tambah_setting([
+        $hasil = $hasil && $this->tambah_setting([
             'key'        => 'visual_tte_weight',
             'value'      => '100',
             'keterangan' => 'Lebar Gambar Visual TTE',
             'kategori'   => 'tte',
         ]);
 
-        $hasil && $this->tambah_setting([
+        return $hasil && $this->tambah_setting([
             'key'        => 'visual_tte_height',
             'value'      => '100',
             'keterangan' => 'Tinggi Gambar Visual TTE',
             'kategori'   => 'tte',
         ]);
-
-        return $hasil;
     }
 
     protected function tambah_modul_gawai_layanan($hasil)
@@ -199,14 +197,12 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     protected function migrasi_2022101371($hasil)
     {
-        $hasil && $this->tambah_setting([
+        return $hasil && $this->tambah_setting([
             'key'        => 'anjungan_teks_berjalan',
             'value'      => '',
             'keterangan' => 'Pengaturan teks berjalan untuk anjungan',
             'kategori'   => 'anjungan',
         ]);
-
-        return $hasil;
     }
 
     protected function migrasi_2022101871($hasil)
@@ -268,11 +264,13 @@ class Migrasi_fitur_premium_2211 extends MY_model
         }
 
         if (DB::table('setting_aplikasi')->whereKey('tampilan_anjungan_audio')->exists()) {
-            return $hasil && $this->db->where('key', 'tampilan_anjungan_audio')
+            $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_audio')
                 ->update('setting_aplikasi', [
                     'kategori' => 'anjungan',
                 ]);
         }
+
+        return $hasil;
     }
 
     public function migrasi_2022102451($hasil)
@@ -348,14 +346,12 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     protected function migrasi_2022102671($hasil)
     {
-        $hasil && $this->tambah_setting([
+        return $hasil && $this->tambah_setting([
             'key'        => 'anjungan_layar',
             'value'      => 1, //1: landscape; 2: potrait
             'keterangan' => 'Pengaturan jenis layar anjungan',
             'kategori'   => 'anjungan',
         ]);
-
-        return $hasil;
     }
 
     protected function migrasi_2022103151($hasil)

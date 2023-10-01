@@ -80,8 +80,6 @@ class Tte extends Premium
     /**
      * Periksa status nik.
      *
-     * @param string $nik
-     *
      * @return object
      */
     public function periksa_status(?string $nik = '')

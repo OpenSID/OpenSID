@@ -73,6 +73,7 @@ class First_gallery_m extends CI_Model
 
         $query = $this->db->query($sql);
         $data  = $query->result_array();
+
         // Untuk album yang tidak ada gambar cover, cari gambar di sub-gallery
         for ($i = 0; $i < count($data); $i++) {
             if ($data[$i]['gambar'] == '') {

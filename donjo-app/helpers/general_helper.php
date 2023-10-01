@@ -224,6 +224,18 @@ if (! function_exists('setting')) {
     }
 }
 
+// hapus_cache('cache_id');
+if (! function_exists('hapus_cache')) {
+    function hapus_cache($params = null)
+    {
+        if ($params) {
+            return get_instance()->cache->hapus_cache_untuk_semua($params);
+        }
+
+        return false;
+    }
+}
+
 if (! function_exists('calculate_days')) {
     /**
      * Calculate minute between 2 date.

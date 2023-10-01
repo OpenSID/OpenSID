@@ -37,8 +37,6 @@
 
 use App\Models\RefJabatan;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use voku\helper\AntiXSS;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,7 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2309.0.0');
+define('VERSION', '2310.0.0');
 
 /**
  * VERSI_DATABASE
@@ -56,7 +54,7 @@ define('VERSION', '2309.0.0');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023090101');
+define('VERSI_DATABASE', '2023100101');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -137,6 +135,9 @@ define('NILAI_PENDAPAT', serialize([
     3 => 'Cukup',
     4 => 'Buruk',
 ]));
+
+use GuzzleHttp\Exception\ClientException;
+use voku\helper\AntiXSS;
 
 /**
  * Ambil Versi

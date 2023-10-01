@@ -96,7 +96,7 @@ class Pelanggan_Controller extends Admin_Controller
     public function perbarui()
     {
         kirim_versi_opensid();
-        $this->cache->hapus_cache_untuk_semua('status_langganan');
+        hapus_cache('status_langganan');
         session_success();
         sleep(3);
         redirect($this->controller);
@@ -140,7 +140,7 @@ class Pelanggan_Controller extends Admin_Controller
             return redirect('pelanggan');
         }
 
-        $this->cache->hapus_cache_untuk_semua('status_langganan');
+        hapus_cache('status_langganan');
         session_success();
         sleep(3);
         redirect($this->controller);
@@ -151,7 +151,8 @@ class Pelanggan_Controller extends Admin_Controller
         $this->load->helper('file');
         if ($this->input->is_ajax_request()) {
             if (config_item('demo_mode')) {
-                $this->cache->hapus_cache_untuk_semua('status_langganan');
+                hapus_cache('identitas_desa');
+                hapus_cache('status_langganan');
                 $this->cache->pakai_cache(function () {
                     // request ke api layanan.opendesa.id
                     return json_decode(json_encode($this->request), false);
@@ -164,9 +165,10 @@ class Pelanggan_Controller extends Admin_Controller
             }
 
             if (isset($this->request['body']['token'])) {
-                $this->cache->hapus_cache_untuk_semua('status_langganan');
+                hapus_cache('status_langganan');
+                hapus_cache('identitas_desa');
                 if ($this->request['body']['desa_id'] != kode_wilayah($this->header['desa']['kode_desa'])) {
-                    $this->setting_model->update_setting(['layanan_opendesa_token' => null]);
+                    // $this->setting_model->update_setting(['layanan_opendesa_token' => null]);
 
                     return json([
                         'status'  => false,
@@ -196,7 +198,7 @@ class Pelanggan_Controller extends Admin_Controller
                 if (cek_anjungan()) {
                     $this->db
                         ->set(['status' => '1'])
-                        ->where('config_id', identitas('id'))
+                        // ->where('config_id', identitas('id'))
                         ->where('tipe', '1')
                         ->where('status', '0')
                         ->where('status_alasan', 'tidak berlangganan anjungan')

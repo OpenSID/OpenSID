@@ -288,7 +288,7 @@ class Surat extends Admin_Controller
             $logo_qrcode    = str_replace('[logo_bsre]', $bsre, $logo_bsre);
 
             // QR_Code Surat
-            if ($cetak['surat']['qr_code']) {
+            if ($cetak['surat']['qr_code'] && ((setting('tte') == 1 && $surat->verifikasi_kades == LogSurat::TERIMA) || (setting('tte') == 0))) {
                 $cek = $this->surat_model->buatQrCode($surat->nama_surat);
 
                 $qrcode         = ($cek['viewqr']) ? '<img src="' . $cek['viewqr'] . '" width="90" height="90" alt="qrcode-surat" />' : '';
@@ -418,6 +418,11 @@ class Surat extends Admin_Controller
 
             $logo      = (is_file($file_logo)) ? '<img src="' . $file_logo . '" width="90" height="90" alt="logo-surat" />' : '';
             $isi_cetak = str_replace('[logo]', $logo, $isi_cetak);
+
+            // Logo BSrE
+            $file_logo_bsre = FCPATH . LOGO_BSRE;
+            $bsre           = (is_file($file_logo_bsre) && setting('tte') == 1) ? '<img src="' . $file_logo_bsre . '" height="90" alt="logo-bsre" />' : '';
+            $isi_cetak      = str_replace('[logo_bsre]', $bsre, $isi_cetak);
 
             // QR_Code Surat
             if ($cetak['surat']['qr_code']) {

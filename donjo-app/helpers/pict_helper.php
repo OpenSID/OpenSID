@@ -669,6 +669,7 @@ function bersihkan_namafile($nama)
     $nama = trim($nama, '-');
     // remove duplicate -
     $nama = preg_replace('~-+~', '-', $nama);
+
     // lowercase
     return strtolower($nama . $ext);
 }

@@ -88,6 +88,7 @@ class Analisis_laporan_model extends CI_Model
                     ->like('u.no_kk', $cari)
                     ->or_like('p.nama', $cari)
                     ->group_end();
+
                 // no break
             case 3:
                 $kw = $this->db->escape_like_str($cari);

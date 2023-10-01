@@ -121,6 +121,7 @@ namespace {
                             $salt = (string) $options['salt'];
                             break;
                         }
+
                         // no break
                     case 'array':
                     case 'resource':

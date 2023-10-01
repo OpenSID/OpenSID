@@ -100,8 +100,8 @@ class Lapak_admin extends Admin_Controller
             $id_produk_kategori = $this->input->post('id_produk_kategori');
 
             $data = collect($this->lapak_model->get_produk($search, $status, $id_pend, $id_produk_kategori)->order_by($order, $dir)->limit($length, $start)->get()->result())
-                ->map(function ($item, $key) {
-                    $item->no = e($item->nama);
+                ->map(static function ($item, $key) {
+                    $item->no        = e($item->nama);
                     $item->deskripsi = e($item->deskripsi);
 
                     return $item;

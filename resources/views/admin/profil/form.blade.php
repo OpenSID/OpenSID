@@ -107,7 +107,7 @@
                     </div>
                     <div class="form-group">
                         <label for="id_telegram">User ID Telegram</label>
-                        <input class="form-control input-sm" type="text" id="id_telegram" name="id_telegram"
+                        <input class="form-control input-sm bilangan" type="text" id="id_telegram" name="id_telegram"
                             value="<?= auth()->id_telegram ?>"
                             <?= jecho(setting('telegram_token') == null, true, 'disabled') ?> />
                     </div>

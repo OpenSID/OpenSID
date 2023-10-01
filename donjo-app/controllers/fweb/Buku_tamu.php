@@ -130,11 +130,13 @@ class Buku_tamu extends MY_Controller
         if (! $tamu || ! in_array($jawaban, JawabanKepuasanEnum::keys())) {
             set_session('error', 'Jawaban Gagal Disimpan');
         } else {
-            $pertanyaan = BukuKepuasan::whereIdNama($id)->pluck('id_pertanyaan');
+            $cek_pertanyaan = BukuKepuasan::whereIdNama($id)->pluck('id_pertanyaan');
+            $pertanyaan     = BukuPertanyaan::whereNotIn('id', $cek_pertanyaan)->whereStatus(StatusEnum::YA)->first();
             BukuKepuasan::create([
-                'id_nama'       => $tamu->id,
-                'id_pertanyaan' => BukuPertanyaan::whereNotIn('id', $pertanyaan)->whereStatus(StatusEnum::YA)->first()->id,
-                'id_jawaban'    => $jawaban,
+                'id_nama'           => $tamu->id,
+                'id_pertanyaan'     => $pertanyaan->id,
+                'pertanyaan_statis' => $pertanyaan->pertanyaan_statis,
+                'id_jawaban'        => $jawaban,
             ]);
 
             // jika masih ada pertanyaan
