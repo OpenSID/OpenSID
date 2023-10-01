@@ -1,6 +1,6 @@
-Di rilis ini, versi 2309.0.3 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2310.0.0 berisi penambahan pengurutan kode isian surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi.
+Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontribusi.
 
 #### Penambahan Fitur
 1. [#6884](https://github.com/OpenSID/OpenSID/issues/6884) Penambahan fitur pengurutan kode isian TinyMCE.
