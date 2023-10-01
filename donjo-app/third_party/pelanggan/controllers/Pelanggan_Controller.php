@@ -37,9 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7;
 
 class Pelanggan_Controller extends Admin_Controller
 {
