@@ -274,7 +274,7 @@ function httpPost($url, $params)
 
 /**
  * Ambil data desa dari pantau.opensid.my.id berdasarkan config_item('kode_desa')
- * 
+ *
  * @param string $kode_desa
  *
  * @return object|null
