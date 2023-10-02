@@ -207,7 +207,6 @@ class First extends Web_Controller
         $data['daftar_statistik'] = StatistikEnum::allStatistik();
 
         $this->_get_common_data($data);
-
         $this->set_template('layouts/stat.tpl.php');
         $this->load->view($this->template, $data);
     }
@@ -292,9 +291,10 @@ class First extends Web_Controller
         $data['main']              = $this->dpt_model->statistik_wilayah();
         $data['total']             = $this->dpt_model->statistik_total();
         $data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
+        $data['tipe']              = 4;
         $data['daftar_statistik']  = StatistikEnum::allStatistik();
+
         $this->_get_common_data($data);
-        $data['tipe'] = 4;
         $this->set_template('layouts/stat.tpl.php');
         $this->load->view($this->template, $data);
     }
@@ -308,13 +308,14 @@ class First extends Web_Controller
         $this->load->model('wilayah_model');
         $data = $this->includes;
 
-        $data['heading']      = 'Populasi Per Wilayah';
-        $data['tipe']         = 3;
-        $data['daftar_dusun'] = $this->wilayah_model->daftar_wilayah_dusun();
-        $data['total']        = $this->wilayah_model->total();
-        $data['st']           = 1;
-        $this->_get_common_data($data);
+        $data['heading']          = 'Populasi Per Wilayah';
+        $data['tipe']             = 3;
+        $data['daftar_dusun']     = $this->wilayah_model->daftar_wilayah_dusun();
+        $data['total']            = $this->wilayah_model->total();
+        $data['st']               = 1;
+        $data['daftar_statistik'] = StatistikEnum::allStatistik();
 
+        $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
         $this->load->view($this->template, $data);
     }
