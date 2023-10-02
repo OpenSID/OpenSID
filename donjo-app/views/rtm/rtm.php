@@ -215,9 +215,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 													<td><?= strtoupper($data['kepala_kk']); ?></td>
 													<td><?= strtoupper($data['nik']); ?></td>
 													<td><?= ($data['terdaftar_dtks']) ? 'Terdaftar' : 'Tidak Terdaftar'; ?></td>
-													<td class="padat">
-														<a href="<?= site_url("rtm/anggota/{$data['id']}"); ?>"><?= $data['jumlah_anggota']?></a>
-													</td>
+													<td class="padat"><?= $data['jumlah_anggota'] ?></td>
 													<td><?= strtoupper($data['alamat']); ?></td>
 													<td><?= strtoupper($data['dusun']); ?></td>
 													<td><?= strtoupper($data['rw']); ?></td>
