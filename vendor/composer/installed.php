@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => '2309.0.2.x-dev',
         'version' => '2309.0.2.9999999-dev',
-        'reference' => '6060b2576d6711269440b4ef9eb57c7e9f9944f5',
+        'reference' => 'f43bd007573f963dbfc00a6da7cd44f033310793',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -217,6 +217,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'karriere/pdf-merge' => array(
+            'pretty_version' => 'v2.1.0',
+            'version' => '2.1.0.0',
+            'reference' => '9228f2575b4ab82b09ca060ba97ba4ab9e9840f9',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../karriere/pdf-merge',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'mike42/escpos-php' => array(
             'pretty_version' => 'v3.0',
             'version' => '3.0.0.0',
@@ -256,7 +265,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => '2309.0.2.x-dev',
             'version' => '2309.0.2.9999999-dev',
-            'reference' => '6060b2576d6711269440b4ef9eb57c7e9f9944f5',
+            'reference' => 'f43bd007573f963dbfc00a6da7cd44f033310793',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -273,6 +273,38 @@ function httpPost($url, $params)
 }
 
 /**
+ * Ambil data desa dari pantau.opensid.my.id berdasarkan config_item('kode_desa')
+ * 
+ * @param string $kode_desa
+ *
+ * @return object|null
+ */
+function get_data_desa($kode_desa)
+{
+    try {
+        $response = (new Client())->get(config_item('server_pantau') . '/index.php/api/wilayah/kodedesa?kode=' . $kode_desa, [
+            'headers' => [
+                'X-Requested-With' => 'XMLHttpRequest',
+                'Authorization'    => 'Bearer ' . config_item('token_pantau'),
+            ],
+            'timeout'         => 5,
+            'connect_timeout' => 4,
+            // 'verify'          => false,
+        ]);
+    } catch (ClientException $cx) {
+        log_message('error', $cx);
+
+        return null;
+    } catch (Exception $e) {
+        log_message('error', $e);
+
+        return null;
+    }
+
+    return json_decode($response->getBody()->getContents());
+}
+
+/**
  * Cek ada koneksi internet.
  *
  * @param string $sCheckHost Default: www.google.com
