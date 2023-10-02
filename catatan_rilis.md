@@ -1,4 +1,4 @@
-Di rilis ini, versi 2309.1.0 berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2310.0.0 berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @yonathanrizky yang terus berkontribusi.
 
