@@ -295,7 +295,7 @@ class Keluar extends Admin_Controller
                         'parse_mode'   => 'Markdown',
                         'reply_markup' => json_encode([
                             'inline_keyboard' => [[
-                                ['text' => 'Lihat detail', 'url' => site_url('keluar/clear/masuk')],
+                                ['text' => 'Lihat detail', 'url' => site_url("keluar/periksa/{$id}")],
                             ]],
                         ]),
                     ]);

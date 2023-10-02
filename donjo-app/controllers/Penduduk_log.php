@@ -208,6 +208,11 @@ class Penduduk_log extends Admin_Controller
     public function kembalikan_status($id_log)
     {
         $this->redirect_hak_akses('u');
+
+        if (! data_lengkap()) {
+            show_404();
+        }
+
         unset($_SESSION['success']);
         $this->penduduk_log_model->kembalikan_status($id_log);
 
@@ -226,6 +231,11 @@ class Penduduk_log extends Admin_Controller
     public function kembalikan_status_pergi($id_log = 0)
     {
         $this->redirect_hak_akses('u');
+
+        if (! data_lengkap()) {
+            show_404();
+        }
+
         unset($_SESSION['success']);
         $this->penduduk_log_model->kembalikan_status_pergi($id_log);
 
@@ -235,6 +245,11 @@ class Penduduk_log extends Admin_Controller
     public function kembalikan_status_all()
     {
         $this->redirect_hak_akses('u');
+
+        if (! data_lengkap()) {
+            show_404();
+        }
+
         $this->penduduk_log_model->kembalikan_status_all();
 
         redirect($this->controller);

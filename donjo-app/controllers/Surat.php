@@ -51,7 +51,6 @@ use App\Models\Urls;
 use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
-use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -301,7 +300,7 @@ class Surat extends Admin_Controller
 
             $log_surat['surat']     = $surat;
             $log_surat['input']     = $this->request;
-            $setting_header         = $surat->header == StatusEnum::YA ? setting('header_surat') : '';
+            $setting_header         = $surat->header == StatusEnum::TIDAK ? '' : setting('header_surat');
             $setting_footer         = $surat->footer == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
             $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?: $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
@@ -402,24 +401,7 @@ class Surat extends Admin_Controller
 
             $isi_surat = $this->tinymce->replceKodeIsian($log_surat);
 
-            // Pisahkan isian surat
-            $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);
-            $isi        = explode('<!-- pagebreak -->', $isi_surat);
-            $backtop    = $cetak['surat']->header == 0 ? 0 : (((float) setting('tinggi_header')) * 10) . 'mm';
-            $backbottom = $cetak['surat']->footer == 0 ? 0 : (((float) setting('tinggi_footer')) * 10) . 'mm';
-
-            $isi_cetak = '
-                <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">
-                    <page_header>
-                    ' . $isi[0] . '
-                    </page_header>
-                    <page_footer>
-                    ' . $isi[2] . '
-                    </page_footer>
-
-                    ' . $isi[1] . '
-                </page>
-            ';
+            $isi_cetak = $this->tinymce->formatPdf($cetak['surat']->header, $cetak['surat']->footer, $isi_surat);
 
             $nama_surat = $this->nama_surat_arsip($cetak['surat']['url_surat'], $nik, $cetak['no_surat']);
 
@@ -451,29 +433,34 @@ class Surat extends Admin_Controller
                 $logo_qrcode = str_replace('[qr_code]', '', $logo_qrcode);
             }
 
-            // Lampiran
-            $logo_qrcode     = $this->buatLampiran($surat->id_pend, $cetak, $logo_qrcode);
+            // TODO:: Sederhanakan cara ini, seharusnya key dan value dari kode isian berada di 1 tempat yang sama
+            $foto = Penduduk::find($cetak['id_pend'])->foto;
+            if (file_exists(FCPATH . LOKASI_USER_PICT . $foto)) {
+                $file_foto     = FCPATH . LOKASI_USER_PICT . $foto;
+                $foto_penduduk = '<img src="' . $file_foto . '" width="90" height="auto" alt="foto-penduduk" />';
+                $logo_qrcode   = str_replace('[foto_penduduk]', $foto_penduduk, $logo_qrcode);
+            } else {
+                $logo_qrcode = str_replace('[foto_penduduk]', '', $logo_qrcode);
+            }
+
             $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
             if ($cetak['surat']['margin_global'] == '1') {
                 $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
             }
             // convert in PDF
             try {
-                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $margin_cm_to_mm);
-                $html2pdf->setTestTdInOnePage(true);
-                $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
-                $html2pdf->writeHTML($logo_qrcode);
-                if ($preview) {
-                    $html2pdf->output(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');
-                } else {
-                    $html2pdf->output(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
+                $this->tinymce->generateSurat($logo_qrcode, $cetak, $margin_cm_to_mm);
+                $this->tinymce->generateLampiran($surat->id_pend, $cetak);
 
-                    // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
-                    $surat->isi_surat = $isi_cetak;
-                    $surat->status    = LogSurat::CETAK;
+                if ($preview) {
+                    return $this->tinymce->pdfMerge->merge('document.pdf', 'I');
                 }
+                // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
+                $surat->isi_surat = $isi_cetak;
+                $surat->status    = LogSurat::CETAK;
+
+                return $this->tinymce->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
             } catch (Html2PdfException $e) {
-                $html2pdf->clean();
                 $formatter = new ExceptionFormatter($e);
                 log_message('error', trim(preg_replace('/\s\s+/', ' ', $formatter->getMessage())));
 
@@ -600,9 +587,6 @@ class Surat extends Admin_Controller
                 $isi_cetak = str_replace('[qr_code]', '', $isi_cetak);
             }
 
-            // Lampiran
-            $isi_cetak = $this->buatLampiran($surat->id_pend, $cetak, $isi_cetak);
-
             $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
             if ($cetak['surat']['margin_global'] == '1') {
                 $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
@@ -610,14 +594,11 @@ class Surat extends Admin_Controller
 
             // convert in PDF
             try {
-                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $margin_cm_to_mm);
-                $html2pdf->setTestTdInOnePage(false);
-                $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
-                $html2pdf->writeHTML($isi_cetak);
-                // $html2pdf->output($nama_surat, 'D');
-                $html2pdf->output(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
+                $this->tinymce->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm);
+                $this->tinymce->generateLampiran($surat->id_pend, $cetak);
+
+                return $this->tinymce->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
             } catch (Html2PdfException $e) {
-                $html2pdf->clean();
                 $formatter = new ExceptionFormatter($e);
                 log_message('error', $formatter->getHtmlMessage());
             }
@@ -933,80 +914,6 @@ class Surat extends Admin_Controller
         $page     = $this->input->get('page');
         $penduduk = $this->surat_model->list_penduduk_bersurat_ajax($cari, $page);
         echo json_encode($penduduk);
-    }
-
-    private function buatLampiran($id = null, $data = [], $view_surat = null)
-    {
-        // Catatan : untuk sekarang hanya bisa menggunakan 1 lampiran saja untuk surat TinyMCE
-        if (empty($data['surat']['lampiran'])) {
-            return $view_surat;
-        }
-
-        $surat         = $data['surat'];
-        $input         = $data['input'];
-        $config        = $this->header['desa'];
-        $individu      = $this->surat_model->get_data_surat($id);
-        $penandatangan = $this->surat_model->atas_nama($data);
-        $lampiran      = explode(',', strtolower($surat['lampiran']));
-        $format_surat  = $this->tinymce->substitusiNomorSurat($input['nomor'], setting('format_nomor_surat'));
-        $format_surat  = str_replace('[kode_surat]', $surat['kode_surat'], $format_surat);
-        $format_surat  = str_replace('[kode_desa]', identitas()->kode_desa, $format_surat);
-        $format_surat  = str_replace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
-        $format_surat  = str_replace('[tahun]', date('Y'), $format_surat);
-
-        if (isset($input['gunakan_format'])) {
-            unset($lampiran);
-
-            switch (strtolower($input['gunakan_format'])) {
-                case 'f-1.08 (pindah pergi)':
-                    $lampiran[] = 'f-1.08';
-                    break;
-
-                case 'f-1.23, f-1.25, f-1.29, f-1.34 (sesuai tujuan)':
-                    $lampiran[] = 'f-1.25';
-                    break;
-
-                case 'f-1.03 (pindah datang)':
-                    $lampiran[] = 'f-1.03';
-                    break;
-
-                case 'f-1.27, f-1.31, f-1.39 (sesuai tujuan)':
-                    $lampiran[] = 'f-1.27';
-                    break;
-
-                default:
-                    $lampiran[] = null;
-                    break;
-            }
-        }
-
-        for ($i = 0; $i < count($lampiran); $i++) {
-            // Cek lampiran desa
-            $view_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/view.php';
-
-            if (! file_exists($view_lampiran[$i])) {
-                $view_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/view.php';
-            }
-
-            $data_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/data.php';
-            if (! file_exists($data_lampiran[$i])) {
-                $data_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/data.php';
-            }
-
-            // Data lampiran
-            include $data_lampiran[$i];
-        }
-
-        ob_start();
-
-        for ($j = 0; $j < count($lampiran); $j++) {
-            // View Lampiran
-            include $view_lampiran[$j];
-        }
-
-        $content = ob_get_clean();
-
-        return $view_surat . $content;
     }
 
     public function apipenduduksurat()

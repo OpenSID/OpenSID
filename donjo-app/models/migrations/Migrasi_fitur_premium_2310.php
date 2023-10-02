@@ -66,6 +66,7 @@ class Migrasi_fitur_premium_2310 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023091851($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023092571($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023092951($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023092652($hasil, $id);
         }
@@ -149,6 +150,20 @@ class Migrasi_fitur_premium_2310 extends MY_model
         ]);
 
         return $hasil;
+    }
+
+    protected function migrasi_2023092571($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Kode Isian data kosong',
+            'key'        => 'ganti_data_kosong',
+            'value'      => '-',
+            'keterangan' => 'Bawaan jika kode isian memiliki data kosong',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'format_surat',
+        ], $id);
     }
 
     protected function migrasi_2023092951($hasil, $id)

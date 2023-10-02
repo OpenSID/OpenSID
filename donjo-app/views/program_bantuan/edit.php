@@ -46,7 +46,7 @@
 						</div>
 					</div>
 					<?php $data = $program[0];
-$val             = $data['asaldana']; ?>
+					$val        = $data['asaldana']; ?>
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="asaldana">Asal Dana</label>
 						<div class="col-sm-3">
@@ -65,7 +65,7 @@ $val             = $data['asaldana']; ?>
 								<div class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input class="form-control input-sm pull-right" id="tgl_1" name="sdate" placeholder="Tgl. Mulai" type="text" value="<?= date('d/m/Y', strtotime($data['sdate'])); ?>">
+								<input class="form-control input-sm pull-right" id="tgl_mulai" name="sdate" placeholder="Tgl. Mulai" type="text" value="<?= date('d/m/Y', strtotime($data['sdate'])); ?>">
 							</div>
 						</div>
 						<div class="col-sm-4">
@@ -73,7 +73,7 @@ $val             = $data['asaldana']; ?>
 								<div class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input class="form-control input-sm pull-right" id="tgl_2" name="edate" placeholder="Tgl. Akhir" type="text" value="<?= date('d/m/Y', strtotime($data['edate'])); ?>">
+								<input class="form-control input-sm pull-right" id="tgl_akhir" name="edate" placeholder="Tgl. Akhir" type="text" value="<?= date('d/m/Y', strtotime($data['edate'])); ?>">
 							</div>
 						</div>
 					</div>

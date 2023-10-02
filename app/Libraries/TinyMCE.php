@@ -49,6 +49,9 @@ use App\Models\Pamong;
 use App\Models\Penduduk;
 use App\Models\Wilayah;
 use Carbon\Carbon;
+use CI_Controller;
+use Karriere\PdfMerge\PdfMerge;
+use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -111,6 +114,24 @@ class TinyMCE
     ';
     public const TOP    = 3.5; // cm
     public const BOTTOM = 2; // cm
+
+    /**
+     * @var CI_Controller
+     */
+    protected $ci;
+
+    /**
+     * @var PdfMerge
+     */
+    public $pdfMerge;
+
+    public function __construct()
+    {
+        $this->ci = &get_instance();
+        $this->ci->load->model('surat_model');
+
+        $this->pdfMerge = new PdfMerge();
+    }
 
     public function getTemplate()
     {
@@ -219,6 +240,55 @@ class TinyMCE
         }
 
         return $daftar_kode_isian;
+    }
+
+    public function formatPdf($header, $footer, $isi)
+    {
+        // Pisahkan isian surat
+        $isi = str_replace('<p><!-- pagebreak --></p>', '', $isi);
+        $isi = explode('<!-- pagebreak -->', $isi);
+
+        // Pengaturan Header
+        switch ($header) {
+            case 0:
+                $backtop    = '0mm';
+                $isi_header = '<page_header>' . $isi[0] . '</page_header>';
+                $isi_surat  = $isi[1];
+                break;
+
+            case 1:
+                $backtop    = ((float) setting('tinggi_header')) * 10 . 'mm';
+                $isi_header = '<page_header>' . $isi[0] . '</page_header>';
+                $isi_surat  = $isi[1];
+                break;
+
+            default:
+                $backtop    = '0mm';
+                $isi_header = '';
+                $isi_surat  = $isi[0] . $isi[1];
+                break;
+        }
+
+        // Pengaturan Footer
+        switch ($footer) {
+            case 0:
+                $backbottom = '0mm';
+                $isi_footer = '';
+                break;
+
+            default:
+                $backbottom = (((float) setting('tinggi_footer')) * 10) . 'mm';
+                $isi_footer = '<page_footer>' . $isi[2] . '</page_footer>';
+                break;
+        }
+
+        return '
+            <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">
+            ' . $isi_header . '
+            ' . $isi_footer . '
+            ' . $isi_surat . '
+            </page>
+        ';
     }
 
     private function getIsianSurat($data = [])
@@ -489,78 +559,83 @@ class TinyMCE
         $individu = [
             [
                 'judul' => 'NIK' . $ortu,
-                'isian' => getFormatIsian('nik' . $prefix . ''),
-                'data'  => $penduduk->nik ?? '-',
+                'isian' => getFormatIsian('nik' . $prefix),
+                'data'  => $penduduk->nik,
             ],
             [
                 'judul' => 'Nama' . $ortu,
-                'isian' => getFormatIsian('Nama' . $prefix . ''),
-                'data'  => $penduduk->nama ?? '-',
+                'isian' => getFormatIsian('Nama' . $prefix),
+                'data'  => $penduduk->nama,
             ],
             [
                 'judul' => 'Tanggal Lahir' . $ortu,
-                'isian' => getFormatIsian('Tanggallahir' . $prefix . ''),
-                'data'  => tgl_indo($penduduk->tanggallahir) ?? '-',
+                'isian' => getFormatIsian('Tanggallahir' . $prefix),
+                'data'  => tgl_indo($penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Tempat Lahir' . $ortu,
-                'isian' => getFormatIsian('Tempatlahir' . $prefix . ''),
-                'data'  => $penduduk->tempatlahir ?? '-',
+                'isian' => getFormatIsian('Tempatlahir' . $prefix),
+                'data'  => $penduduk->tempatlahir,
             ],
             [
                 'judul' => 'Tempat Tanggal Lahir' . $ortu,
-                'isian' => getFormatIsian('Tempat_tgl_lahir' . $prefix . ''),
-                'data'  => ($penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir)) ?? '-',
+                'isian' => getFormatIsian('Tempat_tgl_lahir' . $prefix),
+                'data'  => ($penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir)),
             ],
             [
                 'judul' => 'Tempat Tanggal Lahir (TTL)' . $ortu,
-                'isian' => getFormatIsian('Ttl' . $prefix . ''),
-                'data'  => ($penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir)) ?? '-',
+                'isian' => getFormatIsian('Ttl' . $prefix),
+                'data'  => ($penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir)),
             ],
             [
                 'judul' => 'Usia' . $ortu,
-                'isian' => getFormatIsian('Usia' . $prefix . ''),
-                'data'  => $penduduk->usia ?? '-',
+                'isian' => getFormatIsian('Usia' . $prefix),
+                'data'  => $penduduk->usia,
             ],
             [
                 'judul' => 'Jenis Kelamin' . $ortu,
-                'isian' => getFormatIsian('Jenis_kelamin' . $prefix . ''),
-                'data'  => $penduduk->jenisKelamin->nama ?? '-',
+                'isian' => getFormatIsian('Jenis_kelamin' . $prefix),
+                'data'  => $penduduk->jenisKelamin->nama,
             ],
             [
                 'judul' => 'Agama' . $ortu,
-                'isian' => getFormatIsian('Agama' . $prefix . ''),
-                'data'  => $penduduk->agama->nama ?? '-',
+                'isian' => getFormatIsian('Agama' . $prefix),
+                'data'  => $penduduk->agama->nama,
             ],
             [
                 'judul' => 'Pekerjaan' . $ortu,
-                'isian' => getFormatIsian('Pekerjaan' . $prefix . ''),
-                'data'  => $penduduk->pekerjaan->nama ?? '-',
+                'isian' => getFormatIsian('Pekerjaan' . $prefix),
+                'data'  => $penduduk->pekerjaan->nama,
             ],
             [
                 'judul' => 'Warga Negara' . $ortu,
-                'isian' => getFormatIsian('Warga_negara' . $prefix . ''),
-                'data'  => $penduduk->wargaNegara->nama ?? '-',
+                'isian' => getFormatIsian('Warga_negara' . $prefix),
+                'data'  => $penduduk->wargaNegara->nama,
             ],
             [
                 'judul' => 'Alamat' . $ortu,
-                'isian' => getFormatIsian('Alamat' . $prefix . ''),
-                'data'  => $penduduk->alamat_wilayah ?? '-',
+                'isian' => getFormatIsian('Alamat' . $prefix),
+                'data'  => $penduduk->alamat_wilayah,
             ],
             [
                 'judul' => 'No KK' . $ortu,
-                'isian' => getFormatIsian('No_kK' . $prefix . ''),
+                'isian' => getFormatIsian('No_kK' . $prefix),
                 'data'  => $penduduk->keluarga->no_kk,
             ],
             [
                 'judul' => 'Golongan Darah' . $ortu,
-                'isian' => getFormatIsian('Gol_daraH' . $prefix . ''),
+                'isian' => getFormatIsian('Gol_daraH' . $prefix),
                 'data'  => $penduduk->golonganDarah->nama,
             ],
         ];
 
         if (empty($prefix)) {
             $lainnya = [
+                [
+                    'judul' => 'Foto',
+                    'isian' => getFormatIsian('foto_penduduK'),
+                    'data'  => '[foto_penduduk]',
+                ],
                 [
                     'judul' => 'Alamat Jalan',
                     'isian' => getFormatIsian('Alamat_jalan'),
@@ -1110,29 +1185,39 @@ class TinyMCE
     public function replceKodeIsian($data = [], $kecuali = [])
     {
         $result       = $data['isi_surat'];
-        $newKodeIsian = [];
-        $kodeIsian    = $this->getFormatedKodeIsian($data, true);
-
-        foreach ($kodeIsian as $key => $value) {
-            if (preg_match('/klg/i', $key)) {
-                for ($i = 1; $i <= 10; $i++) {
-                    $newKodeIsian[] = [
-                        'isian' => str_replace('x_', "{$i}_", $key),
-                        'data'  => $value[$i - 1] ?? '',
+        $gantiDengan  = setting('ganti_data_kosong');
+        $newKodeIsian = collect($this->getFormatedKodeIsian($data, true))
+            ->flatMap(static function ($value, $key) {
+                if (preg_match('/klg/i', $key)) {
+                    return collect(range(1, 10))->map(static function ($i) use ($key, $value) {
+                        return [
+                            'isian' => str_replace('x_', "{$i}_", $key),
+                            'data'  => $value[$i - 1] ?? '',
+                        ];
+                    });
+                } else {
+                    return [
+                        [
+                            'isian' => $key,
+                            'data'  => $value,
+                        ],
                     ];
                 }
-            } else {
-                $newKodeIsian[] = [
-                    'isian' => $key,
-                    'data'  => $value,
-                ];
-            }
-        }
+            })
+            ->mapWithKeys(static function ($item) {
+                return [$item['isian'] => $item['data']];
+            })
+            ->map(static function ($item) use ($gantiDengan) {
+                if (null === $item || $item == '/') {
+                    return $gantiDengan;
+                }
 
-        $newKodeIsian = array_combine(array_column($newKodeIsian, 'isian'), array_column($newKodeIsian, 'data'));
+                return $item;
+            })
+            ->toArray();
 
         if ((int) $data['surat']['masa_berlaku'] == 0) {
-            $result = str_replace('[mulai_berlaku] s/d [berlaku_sampai]', '-', $result);
+            $result = str_replace('[mulai_berlaku] s/d [berlaku_sampai]', $gantiDengan, $result);
         }
 
         foreach ($newKodeIsian as $key => $value) {
@@ -1261,5 +1346,120 @@ class TinyMCE
                 'statis'    => true,
             ],
         ]);
+    }
+
+    /**
+     * Generate surat menggunakan html2pdf, kemudian gabungakan ke pdfMerge.
+     *
+     * @param string $surat
+     * @param array  $margins
+     *
+     * @return PdfMerge
+     */
+    public function generateSurat($surat, array $data, $margins)
+    {
+        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
+            ->setTestTdInOnePage(true)
+            ->setDefaultFont(underscore(setting('font_surat'), true, true))
+            ->writeHTML($surat) // buat surat
+            ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
+
+        return $this->pdfMerge->add($out);
+    }
+
+    /**
+     * Generate lampiran menggunakan html2pdf, kemudian gabungakan ke pdfMerge.
+     *
+     * @param int|string|null $id
+     *
+     * @return PdfMerge|null
+     */
+    public function generateLampiran($id = null, array $data = [])
+    {
+        if (empty($data['surat']['lampiran'])) {
+            return;
+        }
+
+        $surat         = $data['surat'];
+        $input         = $data['input'];
+        $config        = $this->ci->header['desa'];
+        $individu      = $this->surat_model->get_data_surat($id);
+        $penandatangan = $this->surat_model->atas_nama($data);
+        $lampiran      = explode(',', strtolower($surat['lampiran']));
+        $format_surat  = $this->substitusiNomorSurat($input['nomor'], setting('format_nomor_surat'));
+        $format_surat  = str_replace('[kode_surat]', $surat['kode_surat'], $format_surat);
+        $format_surat  = str_replace('[kode_desa]', identitas()->kode_desa, $format_surat);
+        $format_surat  = str_replace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
+        $format_surat  = str_replace('[tahun]', date('Y'), $format_surat);
+
+        if (isset($input['gunakan_format'])) {
+            unset($lampiran);
+
+            switch (strtolower($input['gunakan_format'])) {
+                case 'f-1.08 (pindah pergi)':
+                    $lampiran[] = 'f-1.08';
+                    break;
+
+                case 'f-1.23, f-1.25, f-1.29, f-1.34 (sesuai tujuan)':
+                    $lampiran[] = 'f-1.25';
+                    break;
+
+                case 'f-1.03 (pindah datang)':
+                    $lampiran[] = 'f-1.03';
+                    break;
+
+                case 'f-1.27, f-1.31, f-1.39 (sesuai tujuan)':
+                    $lampiran[] = 'f-1.27';
+                    break;
+
+                default:
+                    $lampiran[] = null;
+                    break;
+            }
+        }
+
+        for ($i = 0; $i < count($lampiran); $i++) {
+            // Cek lampiran desa
+            $view_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/view.php';
+
+            if (! file_exists($view_lampiran[$i])) {
+                $view_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/view.php';
+            }
+
+            $data_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/data.php';
+            if (! file_exists($data_lampiran[$i])) {
+                $data_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/data.php';
+            }
+
+            // Data lampiran
+            include $data_lampiran[$i];
+        }
+
+        ob_start();
+
+        for ($j = 0; $j < count($lampiran); $j++) {
+            // View Lampiran
+            include $view_lampiran[$j];
+        }
+
+        $lampiran = ob_get_clean();
+
+        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
+            ->setTestTdInOnePage(true)
+            ->setDefaultFont(underscore(setting('font_surat'), true, true))
+            ->writeHTML($lampiran) // buat lampiran
+            ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
+
+        return $this->pdfMerge->add($out);
+    }
+
+    public function __get($name)
+    {
+        return $this->ci->{$name};
+    }
+
+    public function __call($method, $arguments)
+    {
+        return $this->ci->{$method}(...$arguments);
     }
 }

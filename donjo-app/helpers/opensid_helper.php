@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\Statistik\StatistikEnum;
 use App\Models\RefJabatan;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -63,7 +64,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023091951');
+define('VERSI_DATABASE', '2023092571');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -269,6 +270,38 @@ function httpPost($url, $params)
     }
 
     return $response->getBody()->getContents();
+}
+
+/**
+ * Ambil data desa dari pantau.opensid.my.id berdasarkan config_item('kode_desa')
+ *
+ * @param string $kode_desa
+ *
+ * @return object|null
+ */
+function get_data_desa($kode_desa)
+{
+    try {
+        $response = (new Client())->get(config_item('server_pantau') . '/index.php/api/wilayah/kodedesa?kode=' . $kode_desa, [
+            'headers' => [
+                'X-Requested-With' => 'XMLHttpRequest',
+                'Authorization'    => 'Bearer ' . config_item('token_pantau'),
+            ],
+            'timeout'         => 5,
+            'connect_timeout' => 4,
+            // 'verify'          => false,
+        ]);
+    } catch (ClientException $cx) {
+        log_message('error', $cx);
+
+        return null;
+    } catch (Exception $e) {
+        log_message('error', $e);
+
+        return null;
+    }
+
+    return json_decode($response->getBody()->getContents());
 }
 
 /**
@@ -1417,6 +1450,16 @@ function menu_slug($url)
             $CI->load->model('kelompok_model');
             $data = $CI->kelompok_model->get_kelompok($cut[1]);
             $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
+            break;
+
+        case 'statistik':
+            $cek = StatistikEnum::slugFromKey($cut[1]);
+            if ($cek) {
+                $url = "data-statistik/{$cek}";
+            } else {
+                $url = "first/{$url}";
+            }
+
             break;
 
             /*

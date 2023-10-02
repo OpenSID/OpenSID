@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\Statistik\StatistikEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class First extends Web_Controller
@@ -184,19 +186,25 @@ class First extends Web_Controller
         redirect('galeri' . $index);
     }
 
-    public function statistik($stat = 0, $tipe = 0)
+    // redirect ke halaman data-statistik
+    public function statistik($stat = null)
     {
+        if ($slug = StatistikEnum::slugFromKey($stat)) {
+            redirect('data-statistik/' . $slug);
+        }
+
         if (! $this->web_menu_model->menu_aktif('statistik/' . $stat)) {
             show_404();
         }
 
         $data = $this->includes;
 
-        $data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
-        $data['title']   = 'Statistik ' . $data['heading'];
-        $data['stat']    = $this->laporan_penduduk_model->list_data($stat);
-        $data['tipe']    = $tipe;
-        $data['st']      = $stat;
+        $data['heading']          = $this->laporan_penduduk_model->judul_statistik($stat);
+        $data['title']            = 'Statistik ' . $data['heading'];
+        $data['stat']             = $this->laporan_penduduk_model->list_data($stat);
+        $data['tipe']             = $tipe;
+        $data['st']               = $stat;
+        $data['daftar_statistik'] = StatistikEnum::allStatistik();
 
         $this->_get_common_data($data);
 
@@ -284,6 +292,7 @@ class First extends Web_Controller
         $data['main']              = $this->dpt_model->statistik_wilayah();
         $data['total']             = $this->dpt_model->statistik_total();
         $data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
+        $data['daftar_statistik']  = StatistikEnum::allStatistik();
         $this->_get_common_data($data);
         $data['tipe'] = 4;
         $this->set_template('layouts/stat.tpl.php');
