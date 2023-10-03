@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 2. [#2843](https://github.com/OpenSID/premium/issues/2843) Penghapusan librari curly digantikan dengan guzzle.
 3. [#7063](https://github.com/OpenSID/OpenSID/issues/7063) Penyesuaian .gitignore.
 4. [#7160](https://github.com/OpenSID/OpenSID/issues/7160) Penghapusan duplikasi fungsi detail pada modul keluarga.
+5. [#2867](https://github.com/OpenSID/premium/issues/2867) Penyesuaian syarat surat untuk kasus multidesa.
 
 
 #### Peningkatan Keamanan
