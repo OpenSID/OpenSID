@@ -73,8 +73,9 @@ class Migrasi_fitur_premium_2310 extends MY_model
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_23090451($hasil);
+        $hasil = $hasil && $this->migrasi_23090651($hasil);
 
-        return $hasil && $this->migrasi_23090651($hasil);
+        return $hasil && $this->migrasi_2023100351($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -196,5 +197,45 @@ class Migrasi_fitur_premium_2310 extends MY_model
             'attribute'  => null,
             'kategori'   => 'sistem',
         ], $id);
+    }
+
+    protected function migrasi_2023100351($hasil)
+    {
+        $surat = DB::table('tweb_surat_format')->where('syarat_surat', '!=', null)->get();
+
+        foreach ($surat as $data_surat) {
+            $cart = [];
+
+            foreach (json_decode($data_surat->syarat_surat) as $row) {
+                $cart[] = $this->cek_syarat_surat($row, $data_surat->config_id);
+            }
+            DB::table('tweb_surat_format')->where('id', $data_surat->id)->update(['syarat_surat' => json_encode($cart)]);
+        }
+
+        return $hasil;
+    }
+
+    protected function cek_syarat_surat($ref_syarat_id, $config_id)
+    {
+        $syarat_surat = [
+            '1'  => 'Surat Pengantar RT/RW',
+            '2'  => 'Fotokopi KK',
+            '3'  => 'Fotokopi KTP',
+            '4'  => 'Fotokopi Surat Nikah/Akta Nikah/Kutipan Akta Perkawinan',
+            '5'  => 'Fotokopi Akta Kelahiran/Surat Kelahiran bagi keluarga yang mempunyai anak',
+            '6'  => 'Surat Pindah Datang dari tempat asal',
+            '7'  => 'Surat Keterangan Kematian dari Rumah Sakit, Rumah Bersalin Puskesmas, atau visum Dokter',
+            '8'  => 'Surat Keterangan Cerai',
+            '9'  => 'Fotokopi Ijasah Terakhir',
+            '10' => 'SK. PNS/KARIP/SK. TNI – POLRI',
+            '11' => 'Surat Keterangan Kematian dari Kepala Desa/Kelurahan',
+            '12' => 'Surat imigrasi / STMD (Surat Tanda Melapor Diri)',
+        ];
+
+        $nama_awal = $syarat_surat[$ref_syarat_id];
+
+        $ambil_syarat_surat = DB::table('ref_syarat_surat')->where('ref_syarat_nama', $nama_awal)->where('config_id', $config_id)->get();
+
+        return $ambil_syarat_surat[0]->ref_syarat_id;
     }
 }
