@@ -46,7 +46,7 @@
 						</div>
 					</div>
 					<?php $data = $program[0];
-					$val        = $data['asaldana']; ?>
+$val             = $data['asaldana']; ?>
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="asaldana">Asal Dana</label>
 						<div class="col-sm-3">

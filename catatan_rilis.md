@@ -7,6 +7,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 1. [#5026](https://github.com/OpenSID/OpenSID/issues/5026) Penambahan tools fullscreen pada peta lokasi.
 2. [#6110](https://github.com/OpenSID/OpenSID/issues/6110) Penambahan fungsi untuk menyalin grup akses yang sudah ada.
 3. [#7041](https://github.com/OpenSID/OpenSID/issues/7041) Penambahan tampilan editor TinyMCE seperti Ms. Word.
+4. [#6068](https://github.com/OpenSID/OpenSID/issues/6068) Penambahan tools top align, midle align, bottom align.
 
 #### Perbaikan Bug
 

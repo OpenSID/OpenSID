@@ -13,8 +13,28 @@
                         styles: {
                             'text-indent': '30px'
                         }
+                    },
+                    aligntop: {
+                        title: 'Align Top',
+                        selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,td,img,audio,video',
+                        classes: 'aligntop'
+                    },
+                    alignmiddle: {
+                        title: 'Align Middle',
+                        selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,td,img,audio,video',
+                        classes: 'alignmiddle'
+                    },
+                    alignbottom: {
+                        title: 'Align Bottom',
+                        selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,td,img,audio,video',
+                        classes: 'alignbottom'
                     }
                 },
+                style_formats: [
+                    { title: 'Align Top', format: 'aligntop' },
+                    { title: 'Align Middle', format: 'alignmiddle' },
+                    { title: 'Align Bottom', format: 'alignbottom' }
+                ],
                 block_formats: 'Paragraph=p; Header 1=h1; Header 2=h2; Header 3=h3; Header 4=h4; Header 5=h5; Header 6=h6; Div=div; Preformatted=pre; Blockquote=blockquote; Menjorok=menjorok',
                 style_formats_merge: true,
                 table_sizing_mode: 'relative',
@@ -56,14 +76,12 @@
                     body {
                         background: #fff;
                     }
-            
                     @media (min-width: 840px) {
                         html {
                             background: #eceef4;
                             min-height: 100%;
                             padding: 0 .5rem;
                         }
-                
                         body {
                             background-color: #fff;
                             box-shadow: 0 0 4px rgba(0, 0, 0, .15);
@@ -73,6 +91,15 @@
                             min-height: calc(100vh - 1rem);
                             padding:4rem;
                         }
+                    }
+                    .aligntop {
+                        vertical-align: top;
+                    }
+                    .alignmiddle {
+                        vertical-align: middle;
+                    }
+                    .alignbottom {
+                        vertical-align: bottom;
                     }
                 `
             });
