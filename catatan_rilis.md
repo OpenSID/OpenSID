@@ -15,6 +15,10 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 3. [#7146](https://github.com/OpenSID/OpenSID/issues/7146) Perbaikan batasan ubah status penduduk hanya jika data sudah dianggap lengkap.
 4. [#7148](https://github.com/OpenSID/OpenSID/issues/7148) Perbaikan alur pada proses pengaduan.
 5. [#7100](https://github.com/OpenSID/OpenSID/issues/7100) Perbaikan margin lampiran tidak mengikuti margin surat utama.
+6. [#7145](https://github.com/OpenSID/OpenSID/issues/7145) Perbaikan ubah status dasar hanya bisa digunakan jika data sudah dinyatakan lengkap.
+7. [#7150](https://github.com/OpenSID/OpenSID/issues/7150) Perbaikan kode isian data dinamis agar tidak hilang saat memilih sumber data (penduduk) pada surat TinyMCE.
+8. [#7159](https://github.com/OpenSID/OpenSID/issues/7159) Perbaikan fungsi batal untuk data bertingkat (dusun/rw/rt).
+
 
 #### Penyesuaian Teknis
 
