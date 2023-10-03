@@ -241,8 +241,8 @@ class Penduduk_log_model extends MY_Model
 
         // Kembalikan status_dasar hanya jika penduduk pindah keluar (3) atau tidak tetap pergi (6)
         if (in_array($log->kode_peristiwa, [LogPenduduk::PINDAH_KELUAR, LogPenduduk::TIDAK_TETAP_PERGI])) {
-            $outp = Penduduk::find($log->id_pend)
-                ->updated([
+            $outp = Penduduk::where('id', $log->id_pend)
+                ->update([
                     'status_dasar' => StatusDasarEnum::HIDUP,
                 ]);
 

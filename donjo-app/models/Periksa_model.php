@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusDasarEnum;
 use App\Models\CovidVaksin;
 use App\Models\InventarisAsset;
 use App\Models\Keluarga;
@@ -45,6 +46,7 @@ use App\Models\PendudukMandiri;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -262,6 +264,18 @@ class Periksa_model extends MY_Model
         if (! $penduduk_tanpa_keluarga->isEmpty()) {
             $this->periksa['masalah'][]               = 'penduduk_tanpa_keluarga';
             $this->periksa['penduduk_tanpa_keluarga'] = $penduduk_tanpa_keluarga->toArray();
+        }
+
+        $log_penduduk_tidak_sinkron = $this->deteksi_log_penduduk_tidak_sinkron();
+        if (! $log_penduduk_tidak_sinkron->isEmpty()) {
+            $this->periksa['masalah'][]                  = 'log_penduduk_tidak_sinkron';
+            $this->periksa['log_penduduk_tidak_sinkron'] = $log_penduduk_tidak_sinkron->toArray();
+        }
+
+        $log_penduduk_null = $this->deteksi_log_penduduk_null();
+        if (! $log_penduduk_null->isEmpty()) {
+            $this->periksa['masalah'][]         = 'log_penduduk_null';
+            $this->periksa['log_penduduk_null'] = $log_penduduk_null->toArray();
         }
 
         return $calon;
@@ -555,6 +569,44 @@ class Periksa_model extends MY_Model
             ->get();
     }
 
+    // status dasar penduduk seharusnya mengikuti status terakhir dari log_penduduk
+    public function deteksi_log_penduduk_tidak_sinkron()
+    {
+        $config_id = identitas('id');
+
+        $sqlRaw                = "( SELECT MAX(id) max_id, id_pend FROM log_penduduk where config_id = {$config_id} GROUP BY  id_pend)";
+        $statusDasarBukanHidup = Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
+            ->where('status_dasar', '=', StatusDasarEnum::HIDUP)
+            ->join(DB::raw("({$sqlRaw}) as log"), 'log.id_pend', '=', 'tweb_penduduk.id')
+            ->join('log_penduduk', static function ($q) use ($config_id) {
+                $q->on('log_penduduk.id', '=', 'log.max_id')
+                    ->where('log_penduduk.config_id', $config_id)
+                    ->whereIn('kode_peristiwa', [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::HILANG, LogPenduduk::TIDAK_TETAP_PERGI]);
+            });
+
+        return Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
+            ->where('status_dasar', '!=', StatusDasarEnum::HIDUP)
+            ->join(DB::raw("({$sqlRaw}) as log"), 'log.id_pend', '=', 'tweb_penduduk.id')
+            ->join('log_penduduk', static function ($q) use ($config_id) {
+                $q->on('log_penduduk.id', '=', 'log.max_id')
+                    ->where('log_penduduk.config_id', $config_id)
+                    ->whereNotIn('kode_peristiwa', [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::HILANG, LogPenduduk::TIDAK_TETAP_PERGI]);
+            })->union(
+                $statusDasarBukanHidup
+            )
+            ->get();
+    }
+
+    public function deteksi_log_penduduk_null()
+    {
+        $config_id = identitas('id');
+
+        return LogPenduduk::select('log_penduduk.id', 'nama', 'nik', 'kode_peristiwa', 'log_penduduk.created_at')
+            ->whereNull('kode_peristiwa')
+            ->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'log_penduduk.id_pend')
+            ->get();
+    }
+
     public function perbaiki()
     {
         // TODO: login
@@ -749,6 +801,14 @@ class Periksa_model extends MY_Model
 
             case 'penduduk_tanpa_keluarga':
                 $this->perbaiki_penduduk_tanpa_keluarga();
+                break;
+
+            case 'log_penduduk_tidak_sinkron':
+                $this->perbaiki_log_penduduk_tidak_sinkron();
+                break;
+
+            case 'log_penduduk_null':
+                $this->perbaiki_log_penduduk_null();
                 break;
 
             default:
@@ -1348,5 +1408,18 @@ class Periksa_model extends MY_Model
                 log_message('error', 'Gagal. Penduduk ' . $value->id . ' belum terdaftar di keluarga');
             }
         }
+    }
+
+    private function perbaiki_log_penduduk_tidak_sinkron()
+    {
+        collect($this->periksa['log_penduduk_tidak_sinkron'])->groupBy('kode_peristiwa')->each(static function ($item, $key) {
+            $statusDasar = in_array($key, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK]) ? StatusDasarEnum::HIDUP : $key;
+            Penduduk::whereIn('id', $item->pluck('id'))->update(['status_dasar' => $statusDasar]);
+        });
+    }
+
+    private function perbaiki_log_penduduk_null()
+    {
+        LogPenduduk::whereIn('id', array_column($this->periksa['log_penduduk_null'], 'id'))->update(['kode_peristiwa' => LogPenduduk::BARU_PINDAH_MASUK]);
     }
 }
