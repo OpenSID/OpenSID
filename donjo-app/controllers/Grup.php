@@ -96,12 +96,12 @@ class Grup extends Admin_Controller
         if ($this->session->salin_id) {
             $id = $this->session->salin_id;
         } else {
-            if (!$view && in_array($id, UserGrup::getGrupSistem())) {
+            if (! $view && in_array($id, UserGrup::getGrupSistem())) {
                 session_error('Grup Pengguna Tidak Dapat Diubah');
                 redirect($this->controller);
             }
 
-            if (!$view) {
+            if (! $view) {
                 $this->redirect_hak_akses('u');
             }
         }
@@ -174,7 +174,7 @@ class Grup extends Admin_Controller
 
     public function syarat_nama($str)
     {
-        return !preg_match('/[^a-zA-Z0-9 \\-]/', $str);
+        return ! preg_match('/[^a-zA-Z0-9 \\-]/', $str);
     }
 
     public function update($p = 1, $o = 0, $id = '')
