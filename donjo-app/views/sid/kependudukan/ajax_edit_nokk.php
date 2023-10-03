@@ -130,5 +130,24 @@
 			$('#nokk_sementara').change();
 
 		});
+		$('#validasi').on('reset', function(e) {
+			var dusun = '<?=$kk['dusun']?>';
+			var rw = '<?=$kk['rw']?>';
+			var rt = '<?=$kk['id_cluster']?>';
+
+			if (dusun) {
+				$('#isi_rw').show();
+				$("#rw option[value='"+rw+"']").attr('selected', 'selected');
+			} else {
+				$('#isi_rw').hide();
+			}
+
+			if (dusun && rw) {
+				$('#isi_rt').show();
+				$("#id_cluster option[value='"+rt+"']").attr('selected', 'selected');
+			} else {
+				$('#isi_rt').hide();
+			}
+		});
 	</script>
 <?php endif; ?>
