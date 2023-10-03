@@ -27,7 +27,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 3. [#7063](https://github.com/OpenSID/OpenSID/issues/7063) Penyesuaian .gitignore.
 4. [#7160](https://github.com/OpenSID/OpenSID/issues/7160) Penghapusan duplikasi fungsi detail pada modul keluarga.
 5. [#2867](https://github.com/OpenSID/premium/issues/2867) Penyesuaian syarat surat untuk kasus multidesa.
-
+6. [#7102](https://github.com/OpenSID/OpenSID/issues/7102) Penyesuaian intalasi dengan wizard.
 
 #### Peningkatan Keamanan
 
