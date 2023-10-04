@@ -59,3 +59,4 @@ examples/
 
 vendor/libreoffice/*
 vendor/mikey179/*
+.vscode/settings.json

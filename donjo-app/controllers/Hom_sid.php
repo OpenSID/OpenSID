@@ -66,12 +66,12 @@ class Hom_sid extends Admin_Controller
         $this->modul_ini = 'home';
 
         $this->load->library('saas');
-
-        $data = [
+        $configId = identitas('id');
+        $data     = [
             'rilis'           => $this->getUpdate(),
             'bantuan'         => $this->bantuan(),
             'penduduk'        => Penduduk::status()->count(),
-            'keluarga'        => Keluarga::status()->count(),
+            'keluarga'        => Keluarga::status()->logTerakhir($configId, date('Y-m') . '-01')->count(),
             'rtm'             => Rtm::status()->count(),
             'kelompok'        => Kelompok::status()->tipe()->count(),
             'dusun'           => Wilayah::dusun()->count(),

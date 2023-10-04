@@ -20,6 +20,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 8. [#7159](https://github.com/OpenSID/OpenSID/issues/7159) Perbaikan fungsi batal untuk data bertingkat (dusun/rw/rt).
 9. [#7119](https://github.com/OpenSID/OpenSID/issues/7119) Perbaikan laporan penduduk bulanan.
 10. [#7174](https://github.com/OpenSID/OpenSID/issues/7174) Perbaikan statistik bantuan pada halaman web.
+11. [#7171](https://github.com/OpenSID/OpenSID/issues/7171) Perbaikan laporan keluarga bulanan.
 
 #### Penyesuaian Teknis
 

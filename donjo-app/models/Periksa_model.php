@@ -39,6 +39,7 @@ use App\Enums\StatusDasarEnum;
 use App\Models\CovidVaksin;
 use App\Models\InventarisAsset;
 use App\Models\Keluarga;
+use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
 use App\Models\LogPerubahanPenduduk;
 use App\Models\Penduduk;
@@ -276,6 +277,12 @@ class Periksa_model extends MY_Model
         if (! $log_penduduk_null->isEmpty()) {
             $this->periksa['masalah'][]         = 'log_penduduk_null';
             $this->periksa['log_penduduk_null'] = $log_penduduk_null->toArray();
+        }
+
+        $log_keluarga_bermasalah = $this->deteksi_log_keluarga_bermasalah();
+        if (! $log_keluarga_bermasalah->isEmpty()) {
+            $this->periksa['masalah'][]               = 'log_keluarga_bermasalah';
+            $this->periksa['log_keluarga_bermasalah'] = $log_keluarga_bermasalah->toArray();
         }
 
         return $calon;
@@ -607,6 +614,13 @@ class Periksa_model extends MY_Model
             ->get();
     }
 
+    public function deteksi_log_keluarga_bermasalah()
+    {
+        return Keluarga::whereDoesntHave('LogKeluarga', static function ($q) {
+            $q->where(['id_peristiwa' => LogKeluarga::KELUARGA_BARU]);
+        })->get();
+    }
+
     public function perbaiki()
     {
         // TODO: login
@@ -616,78 +630,7 @@ class Periksa_model extends MY_Model
         log_message('error', '========= Perbaiki masalah data =========');
 
         foreach ($this->periksa['masalah'] as $masalah_ini) {
-            switch ($masalah_ini) {
-                case 'kode_kelompok':
-                    $this->perbaiki_kode_kelompok();
-                    break;
-
-                case 'ref_inventaris_kosong':
-                    $this->perbaiki_referensi_kosong();
-                    break;
-
-                case 'id_cluster_null':
-                    $this->perbaiki_id_cluster_null();
-                    break;
-
-                case 'nik_ganda':
-                    $this->perbaiki_nik_ganda();
-                    break;
-
-                case 'email_ganda':
-                    $this->perbaiki_email();
-                    break;
-
-                case 'kk_panjang':
-                    $this->perbaiki_kk_panjang();
-                    break;
-
-                case 'no_kk_ganda':
-                    $this->perbaiki_no_kk_ganda();
-                    break;
-
-                case 'email_user_ganda':
-                    $this->perbaiki_email_user();
-                    break;
-
-                case 'username_user_ganda':
-                    $this->perbaiki_username_user();
-                    break;
-
-                case 'tag_id_ganda':
-                    $this->perbaiki_tag_id();
-                    break;
-
-                case 'kartu_alamat':
-                    $this->perbaiki_kartu_alamat();
-                    break;
-
-                case 'autoincrement':
-                    $this->perbaiki_autoincrement();
-                    break;
-
-                case 'collation':
-                    $this->perbaiki_collation_table();
-                    break;
-
-                case 'tabel_invalid_date':
-                    $this->perbaiki_invalid_date();
-                    break;
-
-                case 'data_jabatan_tidak_ada':
-                    $this->perbaiki_jabatan();
-                    break;
-
-                case 'zero_date_default_value':
-                    $this->perbaiki_zero_date_default_value();
-                    break;
-
-                case 'penduduk_tanpa_keluarga':
-                    $this->perbaiki_penduduk_tanpa_keluarga();
-                    break;
-
-                default:
-                    break;
-            }
+            $this->selesaikan_masalah($masalah_ini);
         }
         $this->session->db_error = null;
 
@@ -734,86 +677,7 @@ class Periksa_model extends MY_Model
         // TODO: login
         $this->session->user_id = $this->session->user_id ?: 1;
 
-        switch ($masalah_ini) {
-            case 'kode_kelompok':
-                $this->perbaiki_kode_kelompok();
-                break;
-
-            case 'ref_inventaris_kosong':
-                $this->perbaiki_referensi_kosong();
-                break;
-
-            case 'id_cluster_null':
-                $this->perbaiki_id_cluster_null();
-                break;
-
-            case 'nik_ganda':
-                $this->perbaiki_nik_ganda();
-                break;
-
-            case 'email_ganda':
-                $this->perbaiki_email();
-                break;
-
-            case 'kk_panjang':
-                $this->perbaiki_kk_panjang();
-                break;
-
-            case 'no_kk_ganda':
-                $this->perbaiki_no_kk_ganda();
-                break;
-
-            case 'email_user_ganda':
-                $this->perbaiki_email_user();
-                break;
-
-            case 'username_user_ganda':
-                $this->perbaiki_username_user();
-                break;
-
-            case 'tag_id_ganda':
-                $this->perbaiki_tag_id();
-                break;
-
-            case 'kartu_alamat':
-                $this->perbaiki_kartu_alamat();
-                break;
-
-            case 'autoincrement':
-                $this->perbaiki_autoincrement();
-                break;
-
-            case 'collation':
-                $this->perbaiki_collation_table();
-                break;
-
-            case 'tabel_invalid_date':
-                $this->perbaiki_invalid_date();
-                break;
-
-            case 'data_jabatan_tidak_ada':
-                $this->perbaiki_jabatan();
-                break;
-
-            case 'zero_date_default_value':
-                $this->perbaiki_zero_date_default_value();
-                break;
-
-            case 'penduduk_tanpa_keluarga':
-                $this->perbaiki_penduduk_tanpa_keluarga();
-                break;
-
-            case 'log_penduduk_tidak_sinkron':
-                $this->perbaiki_log_penduduk_tidak_sinkron();
-                break;
-
-            case 'log_penduduk_null':
-                $this->perbaiki_log_penduduk_null();
-                break;
-
-            default:
-                break;
-        }
+        $this->selesaikan_masalah($masalah_ini);
 
         $this->session->db_error = null;
     }
@@ -1421,5 +1285,103 @@ class Periksa_model extends MY_Model
     private function perbaiki_log_penduduk_null()
     {
         LogPenduduk::whereIn('id', array_column($this->periksa['log_penduduk_null'], 'id'))->update(['kode_peristiwa' => LogPenduduk::BARU_PINDAH_MASUK]);
+    }
+
+    private function perbaiki_log_keluarga_bermasalah()
+    {
+        $configId = identitas('id');
+        $userId   = auth()->id;
+        $sql      = "insert into log_keluarga (config_id, id_kk, id_peristiwa, tgl_peristiwa, updated_by)
+                select {$configId} as config_id, id as id_kk, 1 as id_peristiwa, tgl_daftar as tgl_peristiwa, {$userId} as updated_by
+                from tweb_keluarga  where id not in ( select id_kk from log_keluarga where id_peristiwa = 1 ) ";
+        DB::statement($sql);
+    }
+
+    private function selesaikan_masalah($masalah_ini)
+    {
+        switch ($masalah_ini) {
+            case 'kode_kelompok':
+                $this->perbaiki_kode_kelompok();
+                break;
+
+            case 'ref_inventaris_kosong':
+                $this->perbaiki_referensi_kosong();
+                break;
+
+            case 'id_cluster_null':
+                $this->perbaiki_id_cluster_null();
+                break;
+
+            case 'nik_ganda':
+                $this->perbaiki_nik_ganda();
+                break;
+
+            case 'email_ganda':
+                $this->perbaiki_email();
+                break;
+
+            case 'kk_panjang':
+                $this->perbaiki_kk_panjang();
+                break;
+
+            case 'no_kk_ganda':
+                $this->perbaiki_no_kk_ganda();
+                break;
+
+            case 'email_user_ganda':
+                $this->perbaiki_email_user();
+                break;
+
+            case 'username_user_ganda':
+                $this->perbaiki_username_user();
+                break;
+
+            case 'tag_id_ganda':
+                $this->perbaiki_tag_id();
+                break;
+
+            case 'kartu_alamat':
+                $this->perbaiki_kartu_alamat();
+                break;
+
+            case 'autoincrement':
+                $this->perbaiki_autoincrement();
+                break;
+
+            case 'collation':
+                $this->perbaiki_collation_table();
+                break;
+
+            case 'tabel_invalid_date':
+                $this->perbaiki_invalid_date();
+                break;
+
+            case 'data_jabatan_tidak_ada':
+                $this->perbaiki_jabatan();
+                break;
+
+            case 'zero_date_default_value':
+                $this->perbaiki_zero_date_default_value();
+                break;
+
+            case 'penduduk_tanpa_keluarga':
+                $this->perbaiki_penduduk_tanpa_keluarga();
+                break;
+
+            case 'log_penduduk_tidak_sinkron':
+                $this->perbaiki_log_penduduk_tidak_sinkron();
+                break;
+
+            case 'log_penduduk_null':
+                $this->perbaiki_log_penduduk_null();
+                break;
+
+            case 'log_keluarga_bermasalah':
+                $this->perbaiki_log_keluarga_bermasalah();
+                break;
+
+            default:
+                break;
+        }
     }
 }
