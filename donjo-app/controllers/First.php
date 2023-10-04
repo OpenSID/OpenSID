@@ -187,7 +187,7 @@ class First extends Web_Controller
     }
 
     // redirect ke halaman data-statistik
-    public function statistik($stat = null)
+    public function statistik($stat = '0', $tipe = '0')
     {
         if ($slug = StatistikEnum::slugFromKey($stat)) {
             redirect('data-statistik/' . $slug);
