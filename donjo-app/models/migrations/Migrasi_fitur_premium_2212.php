@@ -578,13 +578,13 @@ class Migrasi_fitur_premium_2212 extends MY_model
     protected function migrasi_2022113052($hasil)
     {
         $tables = $this->db
-            ->query("SELECT TABLE_NAME, TABLE_COLLATION FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '{$this->db->database}' AND TABLE_COLLATION != 'utf8_general_ci'")
+            ->query("SELECT TABLE_NAME, TABLE_COLLATION FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '{$this->db->database}' AND TABLE_COLLATION != '{$this->db->dbcollat}'")
             ->result_array();
 
         if ($tables) {
             foreach ($tables as $tbl) {
                 if ($this->db->table_exists($tbl['TABLE_NAME'])) {
-                    $hasil = $hasil && $this->db->query("ALTER TABLE {$tbl['TABLE_NAME']} CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci");
+                    $hasil = $hasil && $this->db->query("ALTER TABLE {$tbl['TABLE_NAME']} CONVERT TO CHARACTER SET utf8 COLLATE {$this->db->dbcollat}");
                 }
             }
         }

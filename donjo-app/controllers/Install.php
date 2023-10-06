@@ -232,6 +232,7 @@ class Install extends CI_Controller
                 {$db}['default']['password'] = '{$this->session->password}';
                 {$db}['default']['port']     = {$this->session->port};
                 {$db}['default']['database'] = '{$this->session->database}';
+                {$db}['default']['dbcollat'] = 'utf8_general_ci';
 
                 /*
                 | Untuk setting koneksi database 'Strict Mode'

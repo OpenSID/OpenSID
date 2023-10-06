@@ -22,8 +22,10 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 10. [#7174](https://github.com/OpenSID/OpenSID/issues/7174) Perbaikan statistik bantuan pada halaman web.
 11. [#7171](https://github.com/OpenSID/OpenSID/issues/7171) Perbaikan laporan keluarga bulanan.
 12. [#7161](https://github.com/OpenSID/OpenSID/issues/7161) Perbaikan validasi rentang umur minimal dan maksimal.
-13. [7167](https://github.com/OpenSID/OpenSID/issues/7167) Perbaikan url utama /first ke domain utama.
-14. [7165](https://github.com/OpenSID/OpenSID/issues/7165) Perbaikan akses url artikel.
+13. [#7167](https://github.com/OpenSID/OpenSID/issues/7167) Perbaikan url utama /first ke domain utama.
+14. [#7165](https://github.com/OpenSID/OpenSID/issues/7165) Perbaikan akses url artikel.
+15. [#2939](https://github.com/OpenSID/premium/issues/2939) Perbaikan default collation untuk migrasi, halaman periksa dan config data awal.
+
 
 #### Penyesuaian Teknis
 

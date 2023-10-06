@@ -1060,9 +1060,9 @@ class Periksa_model extends MY_Model
         if ($tables) {
             foreach ($tables as $tbl) {
                 if ($this->db->table_exists($tbl['TABLE_NAME'])) {
-                    $hasil = $hasil && $this->db->query("ALTER TABLE {$tbl['TABLE_NAME']} CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci");
+                    $hasil = $hasil && $this->db->query("ALTER TABLE {$tbl['TABLE_NAME']} CONVERT TO CHARACTER SET utf8 COLLATE {$this->db->dbcollat}");
 
-                    log_message('error', 'Tabel ' . $tbl['TABLE_NAME'] . ' collation diubah dari ' . $tbl['TABLE_COLLATION'] . ' menjadi utf8_general_ci.');
+                    log_message('error', 'Tabel ' . $tbl['TABLE_NAME'] . ' collation diubah dari ' . $tbl['TABLE_COLLATION'] . " menjadi {$this->db->dbcollat}.");
                 }
             }
         }
