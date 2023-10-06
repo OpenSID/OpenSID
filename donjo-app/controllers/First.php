@@ -551,4 +551,9 @@ class First extends Web_Controller
             header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $this->input->get('code', true) . '&formId=' . $this->session->google_form_id);
         }
     }
+
+    public function utama()
+    {
+        redirect('/');
+    }
 }
