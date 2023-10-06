@@ -37,6 +37,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 6. [#7102](https://github.com/OpenSID/OpenSID/issues/7102) Penyesuaian intalasi dengan wizard.
 7. [#7147](https://github.com/OpenSID/OpenSID/issues/7147) Penyesuaian tools template dan kode isian editor pada pratinjau surat TinyMCE.
 8. [#2938](https://github.com/OpenSID/premium/issues/2938) Pembatasan request ke server layanan untuk website demo.
+9. [#2940](https://github.com/OpenSID/premium/issues/2940) Penyesuaian notifikasi pada pengecekan pelanggan.
 
 #### Peningkatan Keamanan
 
