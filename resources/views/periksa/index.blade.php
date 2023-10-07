@@ -383,7 +383,7 @@
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <strong>Terdeteksi collation table bukan
-                                                <code>utf8_general_ci</code></strong>
+                                                <code>{{ $ci->db->dbcollat }}</code></strong>
                                             <table class="table">
                                                 <tr>
                                                     <th>Tabel</th>
@@ -397,7 +397,7 @@
                                                 @endforeach
                                             </table>
                                             <p>Klik tombol Perbaiki untuk memperbaiki semua collation table yang tidak
-                                                sesuai menjadi collation <code>utf8_general_ci</code>.<br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'collation') }}"
+                                                sesuai menjadi collation <code>{{ $ci->db->dbcollat }}</code>.<br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'collation') }}"
                                                 class="btn btn-sm btn-social btn-danger" role="button"
                                                 title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
                                                 data-body="Apakah sudah melakukan backup database/foder desa?"><i
