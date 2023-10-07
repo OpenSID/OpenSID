@@ -25,6 +25,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 13. [#7167](https://github.com/OpenSID/OpenSID/issues/7167) Perbaikan url utama /first ke domain utama.
 14. [#7165](https://github.com/OpenSID/OpenSID/issues/7165) Perbaikan akses url artikel.
 15. [#2939](https://github.com/OpenSID/premium/issues/2939) Perbaikan default collation untuk migrasi, halaman periksa dan config data awal.
+16. [#7176](https://github.com/OpenSID/OpenSID/issues/7176) Perbaikan simpan data path kosong ([]) pada peta wilayah administrasi desa.
 
 
 #### Penyesuaian Teknis
