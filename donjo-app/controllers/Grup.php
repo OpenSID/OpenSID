@@ -93,19 +93,14 @@ class Grup extends Admin_Controller
 
     public function form($p = 1, $o = 0, $id = '', $view = false)
     {
-        if ($this->session->salin_id) {
-            $id = $this->session->salin_id;
-        } else {
-            if (! $view && in_array($id, UserGrup::getGrupSistem())) {
-                session_error('Grup Pengguna Tidak Dapat Diubah');
-                redirect($this->controller);
-            }
-
-            if (! $view) {
-                $this->redirect_hak_akses('u');
-            }
+        if (! $view && in_array($id, UserGrup::getGrupSistem())) {
+            session_error('Grup Pengguna Tidak Dapat Diubah');
+            redirect($this->controller);
         }
 
+        if (! $view) {
+            $this->redirect_hak_akses('u');
+        }
         $data['p']                   = $p;
         $data['o']                   = $o;
         $data['view']                = $view;
@@ -119,12 +114,6 @@ class Grup extends Admin_Controller
                 }
             }
         }
-
-        if ($this->session->salin_id) {
-            $id = null;
-            $this->session->unset_userdata('salin_id');
-        }
-
         if ($id) {
             $data['grup']        = $this->grup_model->get_grup($id);
             $data['form_action'] = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
@@ -134,12 +123,6 @@ class Grup extends Admin_Controller
         }
 
         $this->render('grup/form', $data);
-    }
-
-    public function salin($p = 1, $o = 0, $id = '')
-    {
-        $this->session->salin_id = $id;
-        redirect("{$this->controller}/form/{$p}/{$o}");
     }
 
     public function search()

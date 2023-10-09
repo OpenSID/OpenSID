@@ -55,29 +55,6 @@
                         ed.execCommand("fontName", false, "${default_font}");
                     });
                 },
-                content_style: `
-                    body {
-                        background: #fff;
-                    }
-            
-                    @media (min-width: 840px) {
-                        html {
-                            background: #eceef4;
-                            min-height: 100%;
-                            padding: 0 .5rem;
-                        }
-                
-                        body {
-                            background-color: #fff;
-                            box-shadow: 0 0 4px rgba(0, 0, 0, .15);
-                            box-sizing: border-box;
-                            margin: 1rem auto 0;
-                            max-width: 820px;
-                            min-height: calc(100vh - 1rem);
-                            padding:4rem;
-                        }
-                    }
-                `
             });
 
             tinymce.init({
