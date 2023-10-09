@@ -1,9 +1,6 @@
 Di rilis ini, versi 2310.0.1 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontribusi.
-
-#### Penambahan Fitur
-
+Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 
 #### Perbaikan Bug
 1. [#7143](https://github.com/OpenSID/OpenSID/issues/7143) Perbaikan nama pemohon pada lampiran F-1.03 Surat Keterangan Pindah.
