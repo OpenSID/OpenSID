@@ -232,6 +232,7 @@ class Install extends CI_Controller
                 {$db}['default']['password'] = '{$this->session->password}';
                 {$db}['default']['port']     = {$this->session->port};
                 {$db}['default']['database'] = '{$this->session->database}';
+                {$db}['default']['dbcollat'] = 'utf8_general_ci';
 
                 /*
                 | Untuk setting koneksi database 'Strict Mode'
@@ -353,7 +354,8 @@ class Install extends CI_Controller
 
         $this->form_validation
             ->set_rules('username', 'Username', 'required')
-            ->set_rules('password', 'Password', 'required|callback_syarat_sandi');
+            ->set_rules('password', 'Password', 'required|callback_syarat_sandi')
+            ->set_rules('confirm_password', 'Konfirmasi Password', 'required|matches[password]');
 
         if (! $this->form_validation->run()) {
             return view('installer.steps.user');

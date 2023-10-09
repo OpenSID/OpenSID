@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Casts\Path;
 use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -65,6 +66,15 @@ class Wilayah extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * The casts with the model.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'path' => Path::class,
+    ];
 
     /**
      * Scope query untuk dusun

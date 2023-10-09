@@ -119,8 +119,12 @@ class First extends Web_Controller
     | Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. url artikel/:id
     | Kalau menggunakan slug, dipanggil menggunakan url artikel/:thn/:bln/:hri/:slug
     */
-    public function artikel($thn, $bln, $hr, $url)
+    public function artikel($thn = null, $bln = null, $hr = null, $url = null)
     {
+        if ($url == null || $thn == null || $bln == null || $hr == null) {
+            show_404();
+        }
+
         if (is_numeric($url)) {
             $data_artikel = $this->first_artikel_m->get_artikel_by_id($url);
             if ($data_artikel) {
@@ -187,7 +191,7 @@ class First extends Web_Controller
     }
 
     // redirect ke halaman data-statistik
-    public function statistik($stat = null)
+    public function statistik($stat = '0', $tipe = '0')
     {
         if ($slug = StatistikEnum::slugFromKey($stat)) {
             redirect('data-statistik/' . $slug);
@@ -550,5 +554,10 @@ class First extends Web_Controller
 
             header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $this->input->get('code', true) . '&formId=' . $this->session->google_form_id);
         }
+    }
+
+    public function utama()
+    {
+        redirect('/');
     }
 }

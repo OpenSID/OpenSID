@@ -1,4 +1,4 @@
-@include('admin.pengaturan_surat.asset_tinymce', ['height' => 350])
+@include('admin.pengaturan_surat.asset_tinymce', ['height' => 250])
 
 @extends('admin.layouts.index')
 

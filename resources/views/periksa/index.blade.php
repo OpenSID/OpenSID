@@ -383,7 +383,7 @@
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <strong>Terdeteksi collation table bukan
-                                                <code>utf8_general_ci</code></strong>
+                                                <code>{{ $ci->db->dbcollat }}</code></strong>
                                             <table class="table">
                                                 <tr>
                                                     <th>Tabel</th>
@@ -397,7 +397,7 @@
                                                 @endforeach
                                             </table>
                                             <p>Klik tombol Perbaiki untuk memperbaiki semua collation table yang tidak
-                                                sesuai menjadi collation <code>utf8_general_ci</code>.<br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'collation') }}"
+                                                sesuai menjadi collation <code>{{ $ci->db->dbcollat }}</code>.<br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'collation') }}"
                                                 class="btn btn-sm btn-social btn-danger" role="button"
                                                 title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
                                                 data-body="Apakah sudah melakukan backup database/foder desa?"><i
@@ -501,6 +501,86 @@
                                     </div>
                                 @endif
 
+                                @if (in_array('log_penduduk_tidak_sinkron', $masalah))
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi log penduduk dan status dasar penduduk tidak sesuai</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>NIK</th>
+                                                    <th>Nama</th>
+                                                    <th>Kode Peristiwa</th>
+                                                    <th>Status Dasar</th>                                                    
+                                                </tr>
+                                                @foreach ($log_penduduk_tidak_sinkron as $penduduk)
+                                                    <tr>
+                                                        <td>{{ $penduduk['nik'] }}</td>
+                                                        <td>{{ $penduduk['nama'] }}</td>
+                                                        <td>{{ \App\Models\LogPenduduk::kodePeristiwaAll($penduduk['kode_peristiwa']) }}</td>
+                                                        <td>{{ \App\Enums\StatusDasarEnum::all()[$penduduk['status_dasar']] ?? '-' }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </table>
+                                            <p>Klik tombol Perbaiki Data untuk memperbaiki status dasat penduduk mengikuti kode peristiwa log terakhir. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'log_penduduk_tidak_sinkron') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if (in_array('log_penduduk_null', $masalah))
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi log penduduk memiliki kode peristiwa null</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>NIK</th>
+                                                    <th>Nama</th>
+                                                    <th>Kode Peristiwa</th>                                                                         
+                                                </tr>
+                                                @foreach ($log_penduduk_null as $penduduk)
+                                                    <tr>
+                                                        <td>{{ $penduduk['nik'] }}</td>
+                                                        <td>{{ $penduduk['nama'] }}</td>
+                                                        <td>{{ $penduduk['kode_peristiwa'] }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </table>
+                                            <p>Klik tombol Perbaiki Data memperbaiki data, kode peristiwa akan diset default menjadi 5 (baru pindah masuk). <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'log_penduduk_null') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if (in_array('log_keluarga_bermasalah', $masalah))
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi keluarga tidak memiliki log keluarga baru</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>No KK</th>
+                                                    <th>Alamat</th>                                                    
+                                                </tr>
+                                                @foreach ($log_keluarga_bermasalah as $penduduk)
+                                                    <tr>
+                                                        <td>{{ $penduduk['no_kk'] }}</td>
+                                                        <td>{{ $penduduk['alamat'] }}</td>                                                        
+                                                    </tr>
+                                                @endforeach
+                                            </table>
+                                            <p>Klik tombol Perbaiki Data memperbaiki data, log keluarga dengan id peristiwa 1 (keluarga baru) akan dibuat otomatis <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'log_keluarga_bermasalah') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
+                                        </div>
+                                    </div>
+                                @endif
 
                                 <p>Setelah diperbaiki, migrasi akan otomatis diulangi mulai dari versi
                                     {{ $migrasi_utk_diulang }}.</p>

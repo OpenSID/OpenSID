@@ -8,7 +8,7 @@
         <select name="<?= $nama ?>" <?= $class ?>>
             <option value="">-- <?= $item->deskripsi ?> --</option>
             <?php foreach ($item->pilihan as $key => $pilih): ?>
-            <option value="<?= $pilih ?>"><?= $pilih ?></option>
+            <option @selected(set_value($nama) == $pilih) value="<?= $pilih ?>"><?= $pilih ?></option>
             <?php endforeach ?>
         </select>
     </div>
@@ -17,14 +17,14 @@
         <select name="<?= $nama ?>" <?= $class ?> placeholder="<?= $item->deskripsi ?>">
             <option value="">-- <?= $item->deskripsi ?> --</option>
             <?php foreach (ref($item->refrensi) as $key => $pilih): ?>
-            <option value="<?= $pilih->nama ?>"><?= $pilih->nama ?>
+            <option @selected(set_value($nama) == $pilih->nama) value="<?= $pilih->nama ?>"><?= $pilih->nama ?>
             </option>
             <?php endforeach ?>
         </select>
     </div>
     <?php elseif ($item->tipe == 'textarea'): ?>
     <div class="col-sm-8">
-        <textarea name="<?= $nama ?>" <?= $class ?> placeholder="<?= $item->deskripsi ?>"></textarea>
+        <textarea name="<?= $nama ?>" <?= $class ?> placeholder="<?= $item->deskripsi ?>"><?= set_value($nama) ?></textarea>
     </div>
     <?php elseif ($item->tipe == 'date' || $item->tipe == 'hari' || $item->tipe == 'hari-tanggal'): ?>
     <div class="col-sm-3 col-lg-2">
@@ -32,7 +32,7 @@
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
             </div>
-            <input type="text" <?= buat_class($item->atribut, 'form-control input-sm tgl', $item->required) ?> name="<?= $nama ?>" placeholder="<?= $item->deskripsi ?>" />
+            <input type="text" <?= buat_class($item->atribut, 'form-control input-sm tgl', $item->required) ?> name="<?= $nama ?>" placeholder="<?= $item->deskripsi ?>" value="<?= set_value($nama) ?>" />
         </div>
     </div>
     <?php elseif ($item->tipe == 'time'): ?>
@@ -41,7 +41,7 @@
             <div class="input-group-addon">
                 <i class="fa fa-clock-o"></i>
             </div>
-            <input type="text" <?= buat_class($item->atribut, 'form-control input-sm jam', $item->required) ?> name="<?= $nama ?>" placeholder="<?= $item->deskripsi ?>" />
+            <input type="text" <?= buat_class($item->atribut, 'form-control input-sm jam', $item->required) ?> name="<?= $nama ?>" placeholder="<?= $item->deskripsi ?>" value="<?= set_value($nama) ?>" />
         </div>
     </div>
     <?php elseif ($item->tipe == 'datetime'): ?>
@@ -50,12 +50,12 @@
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
             </div>
-            <input type="text" <?= buat_class($item->atribut, 'form-control input-sm tgl_jam', $item->required) ?> name="<?= $nama ?>" placeholder="<?= $item->deskripsi ?>" />
+            <input type="text" <?= buat_class($item->atribut, 'form-control input-sm tgl_jam', $item->required) ?> name="<?= $nama ?>" placeholder="<?= $item->deskripsi ?>" value="<?= set_value($nama) ?>" />
         </div>
     </div>
     <?php else: ?>
     <div class="col-sm-8">
-        <input type="<?= $item->tipe ?>" <?= $class ?> name="<?= $nama ?>" placeholder="<?= $item->deskripsi ?>" />
+        <input type="<?= $item->tipe ?>" <?= $class ?> name="<?= $nama ?>" placeholder="<?= $item->deskripsi ?>" value="<?= set_value($nama) ?>" />
     </div>
     <?php endif ?>
 </div>

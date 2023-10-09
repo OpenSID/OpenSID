@@ -128,6 +128,7 @@ $config = [
         $db['default']['password'] = '';
         $db['default']['port']     = 3306;
         $db['default']['database'] = 'premium';
+        $db['default']['dbcollat'] = 'utf8_general_ci';
 
         /*
         | Untuk setting koneksi database 'Strict Mode'

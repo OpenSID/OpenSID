@@ -90,7 +90,7 @@ class Validasi
         $jwtPayload = $this->decodeTokenPayload($token);
 
         if ($this->isDesaIdMismatch($jwtPayload)) {
-            $this->ci->session->set_userdata('error_premium', ucwords($this->ci->setting->sebutan_desa . ' ' . $this->ci->header['desa']['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan'));
+            $this->ci->session->set_userdata('error_premium', ucwords($this->ci->setting->sebutan_desa . ' ' . $this->ci->header['desa']['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan') . ' atau Token yang di input tidak sesuai dengan kode desa');
             $this->daftarHitam();
 
             return false;
@@ -207,37 +207,39 @@ class Validasi
 
     private function daftarHitam()
     {
-        $this->ci->load->library('user_agent');
-        if ($this->ci->agent->is_browser()) {
-            $browser = $this->ci->agent->browser() . ' ' . $this->ci->agent->version();
-        } elseif ($this->ci->agent->is_robot()) {
-            $browser = $this->ci->agent->robot();
-        } elseif ($this->ci->agent->is_mobile()) {
-            $browser = $this->ci->agent->mobile();
-        } else {
-            $browser = 'Unidentified User Agent';
-        }
+        if (! config_item('demo_mode')) {
+            $this->ci->load->library('user_agent');
+            if ($this->ci->agent->is_browser()) {
+                $browser = $this->ci->agent->browser() . ' ' . $this->ci->agent->version();
+            } elseif ($this->ci->agent->is_robot()) {
+                $browser = $this->ci->agent->robot();
+            } elseif ($this->ci->agent->is_mobile()) {
+                $browser = $this->ci->agent->mobile();
+            } else {
+                $browser = 'Unidentified User Agent';
+            }
 
-        $os = $this->ci->agent->platform();
+            $os = $this->ci->agent->platform();
 
-        try {
-            $client = new \GuzzleHttp\Client();
-            $client->post(config_item('server_layanan') . '/api/v1/pelanggan/daftarhitam', [
-                'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
-                'form_params' => [
-                    'kode_desa'  => kode_wilayah($this->ci->header['desa']['kode_desa']),
-                    'ip_address' => $this->ci->input->ip_address(),
-                    'token'      => $this->ci->setting->layanan_opendesa_token,
-                    'waktu'      => date('Y-m-d h:i:sa'),
-                    'browser'    => $browser,
-                    'os'         => $os,
-                    'domain'     => get_domain(APP_URL),
-                ],
-            ])->getBody();
-        } catch (ClientException $cx) {
-            log_message('error', $cx);
-        } catch (Exception $e) {
-            log_message('error', $e);
+            try {
+                $client = new \GuzzleHttp\Client();
+                $client->post(config_item('server_layanan') . '/api/v1/pelanggan/daftarhitam', [
+                    'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
+                    'form_params' => [
+                        'kode_desa'  => kode_wilayah($this->ci->header['desa']['kode_desa']),
+                        'ip_address' => $this->ci->input->ip_address(),
+                        'token'      => $this->ci->setting->layanan_opendesa_token,
+                        'waktu'      => date('Y-m-d h:i:sa'),
+                        'browser'    => $browser,
+                        'os'         => $os,
+                        'domain'     => get_domain(APP_URL),
+                    ],
+                ])->getBody();
+            } catch (ClientException $cx) {
+                log_message('error', $cx);
+            } catch (Exception $e) {
+                log_message('error', $e);
+            }
         }
     }
 }
