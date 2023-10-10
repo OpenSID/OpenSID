@@ -1738,6 +1738,26 @@ if (! function_exists('resetCacheDesa')) {
     }
 }
 
+if (! function_exists('kosongkanFolder')) {
+    function kosongkanFolder($directory = null, $except = [])
+    {
+        if (null === $directory) {
+            return;
+        }
+
+        $CI = &get_instance();
+        $CI->load->helper('directory');
+
+        $except = array_merge(['.htaccess', 'index.html', '.gitignore'], $except);
+
+        foreach (directory_map($directory) as $file) {
+            if (! in_array($file, $except)) {
+                unlink($directory . DIRECTORY_SEPARATOR . $file);
+            }
+        }
+    }
+}
+
 if (! function_exists('updateAppKey')) {
     function updateAppKey($app_key)
     {
