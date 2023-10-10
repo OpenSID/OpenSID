@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 15. [#2939](https://github.com/OpenSID/premium/issues/2939) Perbaikan default collation untuk migrasi, halaman periksa dan config data awal.
 16. [#7176](https://github.com/OpenSID/OpenSID/issues/7176) Perbaikan simpan data path kosong ([]) pada peta wilayah administrasi desa.
 17. [#7162](https://github.com/OpenSID/OpenSID/issues/7162) Perbaikan hak akses tambah dtks pada modul rumah tangga.
+18. [#7181](https://github.com/OpenSID/OpenSID/issues/7181) Perbaikan pencarian pada modul grup pengguna.
 
 
 #### Penyesuaian Teknis
