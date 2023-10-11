@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 17. [#7162](https://github.com/OpenSID/OpenSID/issues/7162) Perbaikan hak akses tambah dtks pada modul rumah tangga.
 18. [#7181](https://github.com/OpenSID/OpenSID/issues/7181) Perbaikan pencarian pada modul grup pengguna.
 19. [#7188](https://github.com/OpenSID/OpenSID/issues/7188) Perbaikan input data sensus/survey dengan jenis ppertanyaan isian angka pada modul analisis.
+20. [#7183](https://github.com/OpenSID/OpenSID/issues/7183) Perbaikan input select pada halaman buku tamu.
 
 
 #### Penyesuaian Teknis
