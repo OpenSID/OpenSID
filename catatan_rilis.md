@@ -36,5 +36,3 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 9. [#2940](https://github.com/OpenSID/premium/issues/2940) Penyesuaian notifikasi pada pengecekan pelanggan.
 10. [#2954](https://github.com/OpenSID/premium/issues/2954) Penyesuaian tombol ekspor impor dalam satu tombol grup.
 
-#### Peningkatan Keamanan
-
