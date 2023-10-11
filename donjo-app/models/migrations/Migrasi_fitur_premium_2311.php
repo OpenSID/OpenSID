@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2311 extends MY_model
@@ -52,18 +54,18 @@ class Migrasi_fitur_premium_2311 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023101151($hasil);
     }
 
     // Migrasi perubahan data
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2023101152($hasil, $id);
+        }
 
         // Migrasi tanpa config_id
         return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
@@ -72,5 +74,35 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_xxxxxxxxxx($hasil)
     {
         return $hasil;
+    }
+
+    protected function migrasi_2023101151($hasil)
+    {
+        if (! $this->db->field_exists('slug', 'program')) {
+            $fields = [
+                'slug' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 255,
+                    'after'      => 'nama',
+                    'unique'     => true,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('program', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023101152($hasil, $id)
+    {
+        if ($data_program = $this->db->where('config_id', $id)->get('program')->result_array()) {
+            foreach ($data_program as $program) {
+                $slug  = unique_slug('program', $program['nama'], $program['id'], 'slug', '-', $id);
+                $hasil = $hasil && $this->db->where('id', $program['id'])->where('config_id', $program['config_id'])->update('program', ['slug' => $slug]);
+            }
+        }
+
+        // Buat index setelah tambah data slug, karena harus ada nilai.
+        return $hasil && $this->buat_ulang_index('program', 'slug', '(`config_id`, `slug`)');
     }
 }

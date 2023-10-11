@@ -64,7 +64,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023100371');
+define('VERSI_DATABASE', '2023101151');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1167,7 +1167,7 @@ function isLocalIPAddress($IPAddress)
     return ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 }
 
-function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug', $separator = '-')
+function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug', $separator = '-', $config_id = null)
 {
     if ($tabel && $judul) {
         $CI = &get_instance();
@@ -1182,7 +1182,7 @@ function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug', 
                 $CI->db->where('id !=', $id);
 
                 if ($CI->db->field_exists('config_id', $tabel)) {
-                    $CI->db->where('config_id', identitas('id'));
+                    $CI->db->where('config_id', $config ?? identitas('id'));
                 }
             }
             $cek_slug = $CI->db->get_where($tabel, [$field => $slug_unik])->num_rows();
