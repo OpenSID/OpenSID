@@ -148,13 +148,7 @@
                                 <?= config_item('nama_aplikasi') ?> dan hanya berlaku
                                 untuk surat yang menggunakan TinyMCE
                             </div>
-                        @endif
-
-                        <div class="alert alert-info alert-dismissible">
-                            <h4><i class="icon fa fa-info"></i> Info !</h4>
-                            Jika pilihan Visual TTE aktif, Letakan kode [ttd_bsre] pada tempat yang ingin ditempelkan gambar
-                            TTD.
-                        </div>
+                        @endif                        
 
                         <label>Aktifkan Modul TTE</label>
                         <div class="input-group col-xs-12 col-sm-8">
