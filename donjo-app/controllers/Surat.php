@@ -919,17 +919,22 @@ class Surat extends Admin_Controller
     public function apipenduduksurat()
     {
         if ($this->input->is_ajax_request()) {
-            $cari    = $this->input->get('q');
-            $filters = collect(FormatSurat::select('form_isian')->find($this->input->get('surat'))->form_isian->individu)->toArray();
-
+            $cari     = $this->input->get('q');
+            $filters  = FormatSurat::select('form_isian')->find($this->input->get('surat'))->form_isian;
+            $individu = collect($filters->individu)->toArray();
+            $orangtua = collect($filters->orangtua);
             $penduduk = Penduduk::select(['id', 'nik', 'tag_id_card', 'nama', 'id_cluster'])
                 ->when($cari, static function ($query) use ($cari) {
                     $query->orWhere('nik', 'like', "%{$cari}%")
                         ->orWhere('tag_id_card', 'like', "%{$cari}%")
                         ->orWhere('nama', 'like', "%{$cari}%");
-                })
-                ->filters($filters)
-                ->paginate(10);
+                });
+
+            if ($orangtua == 1) {
+                $penduduk = $penduduk->where('id_kk', '>', '0');
+            }
+
+            $penduduk = $penduduk->filters($individu)->paginate(10);
 
             return json([
                 'results' => collect($penduduk->items())

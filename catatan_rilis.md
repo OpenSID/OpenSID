@@ -24,8 +24,8 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 19. [#7188](https://github.com/OpenSID/OpenSID/issues/7188) Perbaikan input data sensus/survey dengan jenis ppertanyaan isian angka pada modul analisis.
 20. [#7183](https://github.com/OpenSID/OpenSID/issues/7183) Perbaikan input select pada halaman buku tamu.
 21. [#7116](https://github.com/OpenSID/OpenSID/issues/7116) Perbaikan hasil surat dengan pengaturan visual TTE aktif.
-22. [7172](https://github.com/OpenSID/OpenSID/issues/7172) Perbaikan penandatangan yang tersimpan di arsip surat.
-
+22. [#7172](https://github.com/OpenSID/OpenSID/issues/7172) Perbaikan penandatangan yang tersimpan di arsip surat.
+23. [#7114](https://github.com/OpenSID/OpenSID/issues/7114) Perbaikan surat Keternagan Kelahiran TinyMCE.
 
 #### Penyesuaian Teknis
 1. [#7149](https://github.com/OpenSID/OpenSID/issues/7149) Penghapusan duplikasi fungsi detail pada modul keluarga.
