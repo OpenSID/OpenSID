@@ -8,6 +8,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 2. [#6110](https://github.com/OpenSID/OpenSID/issues/6110) Penambahan fungsi untuk menyalin grup akses yang sudah ada.
 3. [#7041](https://github.com/OpenSID/OpenSID/issues/7041) Penambahan tampilan editor TinyMCE seperti Ms. Word.
 4. [#6068](https://github.com/OpenSID/OpenSID/issues/6068) Penambahan tools top align, midle align, bottom align.
+5. [#7163](https://github.com/OpenSID/OpenSID/issues/7163) Penambahan pengaturan surat TinyMCE untuk pilihan sumber data lebih dari satu pilihan. 
 
 #### Perbaikan Bug
 

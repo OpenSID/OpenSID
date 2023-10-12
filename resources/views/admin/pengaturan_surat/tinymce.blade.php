@@ -54,11 +54,11 @@
                                     <td>Data Individu</td>
                                     <td>
                                         @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
-                                        <select id="data_utama" class="form-control input-sm" name="data_utama">
-                                            <option value="1" @selected(1 == $suratMaster->form_isian->data)>PENDUDUK
+                                        <select id="data_utama" class="form-control input-sm" name="data_utama[]" multiple>
+                                            <option value="1" @selected(is_array($suratMaster->form_isian->data) ? in_array(1, $suratMaster->form_isian->data) : 1 == $suratMaster->form_isian->data)>PENDUDUK
                                                 {{ $desa_pend }}
                                             </option>
-                                            <option value="2" @selected(2 == $suratMaster->form_isian->data)>PENDUDUK LUAR
+                                            <option value="2" @selected(is_array($suratMaster->form_isian->data) ? in_array(2, $suratMaster->form_isian->data) : 2 == $suratMaster->form_isian->data)>PENDUDUK LUAR
                                                 {{ $desa_pend }}
                                             </option>
                                         </select>
@@ -158,15 +158,19 @@
                                         <td>Data Individu</td>
                                         <td>
                                             @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
-                                            <select id="data_utama" class="form-control input-sm kategori select2"
-                                                name="kategori_data_utama[{{ $item }}]">
-                                                <option value="1" @selected(1 == $suratMaster->form_isian->$item->data)>PENDUDUK
+                                            <select id="data_utama_{{ $item }}" class="form-control input-sm kategori" name="kategori_data_utama[{{ $item }}][]" multiple>
+                                                <option value="1" @selected(is_array($suratMaster->form_isian->{$item}->data) ? in_array(1, $suratMaster->form_isian->{$item}->data) : 1 == $suratMaster->form_isian->{$item}->data)>PENDUDUK
                                                     {{ $desa_pend }}
                                                 </option>
-                                                <option value="2" @selected(2 == $suratMaster->form_isian->$item->data)>PENDUDUK LUAR
+                                                <option value="2" @selected(is_array($suratMaster->form_isian->{$item}->data) ? in_array(2, $suratMaster->form_isian->{$item}->data) : 2 == $suratMaster->form_isian->{$item}->data)>PENDUDUK LUAR
                                                     {{ $desa_pend }}
                                                 </option>
                                             </select>
+                                            @push('scripts')
+                                                <script>
+                                                    $("#data_utama_{{ $item }}").select2();
+                                                </script>
+                                            @endpush
                                         </td>
                                     </tr>
 
@@ -260,6 +264,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
             var utama = `{{ $suratMaster->form_isian->data }}`;
+
+            $("#data_utama").select2();
 
             data_utama(utama);
 
