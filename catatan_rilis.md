@@ -27,6 +27,8 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 22. [#7172](https://github.com/OpenSID/OpenSID/issues/7172) Perbaikan penandatangan yang tersimpan di arsip surat.
 23. [#7114](https://github.com/OpenSID/OpenSID/issues/7114) Perbaikan surat Keternagan Kelahiran TinyMCE.
 24. [#7179](https://github.com/OpenSID/OpenSID/issues/7179) Perbaikan form isian manual identitas desa untuk kode desa, kecamatan, kabupaten dan provinsi.
+25. [#7187](https://github.com/OpenSID/OpenSID/issues/7187) Perbaikan ubah data penduduk tanpa mengubah log tanggal peristiwa penduduk.
+
 
 #### Penyesuaian Teknis
 1. [#7149](https://github.com/OpenSID/OpenSID/issues/7149) Penghapusan duplikasi fungsi detail pada modul keluarga.

@@ -1100,8 +1100,6 @@ class Penduduk_model extends MY_Model
         $tgl_lapor = rev_tgl($_POST['tgl_lapor']);
         if ($_POST['tgl_peristiwa']) {
             $tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa']);
-        } else {
-            $tgl_peristiwa = rev_tgl($_POST['tanggallahir']);
         }
         unset($data['tgl_lapor'], $data['tgl_peristiwa']);
 
@@ -1125,11 +1123,12 @@ class Penduduk_model extends MY_Model
         if ($_POST['tgl_lapor']) {
             $log['tgl_lapor'] = $tgl_lapor;
         }
-
-        if ($get_pendudukId->status_dasar == 1) {
-            $this->config_id()->where('id_pend', $id)->where_in('kode_peristiwa', [1, 5])->update('log_penduduk', $log);
-        } else {
-            $this->config_id()->where('id_pend', $id)->where('kode_peristiwa', $get_pendudukId->status_dasar)->update('log_penduduk', $log);
+        if ($_POST['tgl_peristiwa']) {
+            if ($get_pendudukId->status_dasar == 1) {
+                $this->config_id()->where('id_pend', $id)->where_in('kode_peristiwa', [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])->update('log_penduduk', $log);
+            } else {
+                $this->config_id()->where('id_pend', $id)->where('kode_peristiwa', $get_pendudukId->status_dasar)->update('log_penduduk', $log);
+            }
         }
 
         // Reset data terkait kewarganegaarn dari WNA / Dua Kewarganegaraan menjadi WNI
