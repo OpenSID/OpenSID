@@ -26,6 +26,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 21. [#7116](https://github.com/OpenSID/OpenSID/issues/7116) Perbaikan hasil surat dengan pengaturan visual TTE aktif.
 22. [#7172](https://github.com/OpenSID/OpenSID/issues/7172) Perbaikan penandatangan yang tersimpan di arsip surat.
 23. [#7114](https://github.com/OpenSID/OpenSID/issues/7114) Perbaikan surat Keternagan Kelahiran TinyMCE.
+24. [#7179](https://github.com/OpenSID/OpenSID/issues/7179) Perbaikan form isian manual identitas desa untuk kode desa, kecamatan, kabupaten dan provinsi.
 
 #### Penyesuaian Teknis
 1. [#7149](https://github.com/OpenSID/OpenSID/issues/7149) Penghapusan duplikasi fungsi detail pada modul keluarga.

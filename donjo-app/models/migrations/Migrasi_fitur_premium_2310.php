@@ -48,6 +48,7 @@ class Migrasi_fitur_premium_2310 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2309', false);
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_afandi', false);
         $hasil = $hasil && $this->migrasi_tabel($hasil);
 
         return $hasil && $this->migrasi_data($hasil);
@@ -55,7 +56,7 @@ class Migrasi_fitur_premium_2310 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023101252($hasil);
     }
 
     // Migrasi perubahan data
@@ -237,5 +238,29 @@ class Migrasi_fitur_premium_2310 extends MY_model
         $ambil_syarat_surat = DB::table('ref_syarat_surat')->where('ref_syarat_nama', $nama_awal)->where('config_id', $config_id)->get();
 
         return $ambil_syarat_surat[0]->ref_syarat_id;
+    }
+
+    protected function migrasi_2023101251($hasil)
+    {
+        $query = 'update config set kode_desa = SUBSTRING(kode_desa,1, 10), kode_kecamatan = SUBSTRING(kode_kecamatan,1, 6), kode_kabupaten = SUBSTRING(kode_kabupaten,1, 4), kode_propinsi = SUBSTRING(kode_propinsi,1, 2) ';
+        DB::statement($query);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023101252($hasil)
+    {
+        $hasil && $this->migrasi_2023101251($hasil);
+
+        $queryKodeDesa      = 'alter table config MODIFY COLUMN kode_desa varchar(10)';
+        $queryKodeKecamatan = 'alter table config MODIFY COLUMN kode_kecamatan varchar(6)';
+        $queryKodeKabupaten = 'alter table config MODIFY COLUMN kode_kabupaten varchar(4)';
+        $queryKodePropinsi  = 'alter table config MODIFY COLUMN kode_propinsi varchar(2)';
+        DB::statement($queryKodeDesa);
+        DB::statement($queryKodeKecamatan);
+        DB::statement($queryKodeKabupaten);
+        DB::statement($queryKodePropinsi);
+
+        return $hasil;
     }
 }
