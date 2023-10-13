@@ -30,6 +30,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 25. [#7187](https://github.com/OpenSID/OpenSID/issues/7187) Perbaikan ubah data penduduk tanpa mengubah log tanggal peristiwa penduduk.
 26. [#7180](https://github.com/OpenSID/OpenSID/issues/7180) Perbaikan pengaturan aktif/nonaktifkan telegram pada masing-masing pengguna.
 27. [#7189](https://github.com/OpenSID/OpenSID/issues/7189) Perbaikan api TTE kirim surat ke OpenDK.
+28. [#7082](https://github.com/OpenSID/OpenSID/issues/7082) Perbaikan sebutan desa pada halaman wigdet grafik keuangan desa.
 
 
 #### Penyesuaian Teknis

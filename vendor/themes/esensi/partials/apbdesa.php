@@ -3,12 +3,30 @@
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 container px-3 lg:px-5">
   <?php foreach($data_widget as $subdata_name => $subdatas) : ?>
     <div class="shadow bg-white rounded-lg overflow-hidden">
-      <h3 class="bg-primary-100 text-white px-5 py-3 text-h5"><?= ($subdatas['laporan'])?></h3>
+      <h3 class="bg-primary-100 text-white px-5 py-3 text-h5">
+        <?=
+          \Illuminate\Support\Str::of($subdatas['laporan'])
+            ->when(setting('sebutan_desa') != 'desa', function (\Illuminate\Support\Stringable $string) {
+              return $string->replace('Des', \Illuminate\Support\Str::of(setting('sebutan_desa'))->substr(0, 1)->ucfirst());
+            });
+        ?>
+      </h3>
       <div class="px-5 py-4 text-xs lg:text-sm space-y-3">
           <?php foreach($subdatas as $key => $subdata) : ?>
-            <?php if($subdata['judul'] != NULL and $key != 'laporan' and $subdata['realisasi'] != 0 or $subdata['anggaran'] != 0): ?>
+            <?php if ($subdata['judul'] != null and $key != 'laporan' and $subdata['realisasi'] != 0 or $subdata['anggaran'] != 0): ?>
             <div class="space-y-1">
-              <span class="text-sm font-bold"><?= strpos($judul = ucwords(strtolower($subdata['judul'])), 'Desa') ? $judul : $judul . ' ' . ucwords(setting('sebutan_desa')) ?></span>
+              <span class="text-sm font-bold">
+                <?=
+                  \Illuminate\Support\Str::of($subdata['judul'])
+                    ->title()
+                    ->whenEndsWith('Desa', function (\Illuminate\Support\Stringable $string) {
+                      if (! in_array($string, ['Dana Desa'])) {
+                        return $string->replace('Desa', setting('sebutan_desa'));
+                      }
+                    })
+                    ->title();
+                ?>
+              </span>
               <div class="text-sm flex justify-between">
                 <span><?= rupiah24($subdata['realisasi']) ?></span>
                 <span><?= rupiah24($subdata['anggaran']) ?></span>
