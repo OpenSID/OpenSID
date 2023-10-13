@@ -90,6 +90,11 @@ class FormatSurat extends BaseModel
         self::TINYMCE_DESA   => 'Surat [Desa] TinyMCE',
     ];
 
+    public const JENIS_SURAT_TANPA_RTF = [
+        self::TINYMCE_SISTEM => 'Surat Sistem TinyMCE',
+        self::TINYMCE_DESA   => 'Surat [Desa] TinyMCE',
+    ];
+
     /**
      * Static data margin surat.
      *
@@ -216,6 +221,8 @@ class FormatSurat extends BaseModel
         // 'kode_isian'   => 'json',
         // 'margin'       => 'json',
     ];
+
+    private $nonAktifkanRTF = 0;
 
     /**
      * Define a many-to-many relationship.
@@ -439,6 +446,10 @@ class FormatSurat extends BaseModel
      */
     public function scopeKunci($query, $value = self::KUNCI)
     {
+        if ($this->getNonAktifkanRTF()) {
+            $query->whereNotIn('jenis', self::RTF);
+        }
+
         return $query->where('kunci', $value);
     }
 
@@ -465,6 +476,10 @@ class FormatSurat extends BaseModel
      */
     public function scopeJenis($query, $value)
     {
+        if ($this->getNonAktifkanRTF()) {
+            $query->whereNotIn('jenis', self::RTF);
+        }
+
         if (empty($value)) {
             return $query->whereNotNull('jenis');
         }
@@ -487,5 +502,27 @@ class FormatSurat extends BaseModel
     public function scopeCetak($query, $url = null)
     {
         return $this->scopeKunci($query, self::KUNCI_DISABLE)->where('url_surat', $url);
+    }
+
+    /**
+     * Get the value of nonAktifkanRTF
+     */
+    public function getNonAktifkanRTF()
+    {
+        return $this->nonAktifkanRTF;
+    }
+
+    /**
+     * Set the value of nonAktifkanRTF
+     *
+     * @param mixed $nonAktifkanRTF
+     *
+     * @return self
+     */
+    public function setNonAktifkanRTF($nonAktifkanRTF)
+    {
+        $this->nonAktifkanRTF = $nonAktifkanRTF;
+
+        return $this;
     }
 }

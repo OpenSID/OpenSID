@@ -48,7 +48,6 @@ class Migrasi_fitur_premium_2310 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2309', false);
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_afandi', false);
         $hasil = $hasil && $this->migrasi_tabel($hasil);
 
         return $hasil && $this->migrasi_data($hasil);

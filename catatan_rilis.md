@@ -44,3 +44,4 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 9. [#2940](https://github.com/OpenSID/premium/issues/2940) Penyesuaian notifikasi pada pengecekan pelanggan.
 10. [#2954](https://github.com/OpenSID/premium/issues/2954) Penyesuaian tombol ekspor impor dalam satu tombol grup.
 11. [#2953](https://github.com/OpenSID/premium/issues/2953) Penyesuaian penggunaan slug untuk program bantuan.
+12. [#2973](https://github.com/OpenSID/premium/issues/2973) Penyesuaian penggunaan rtf sesuai pengaturan untuk persiapan penghapusan. 

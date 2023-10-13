@@ -72,7 +72,9 @@ class Surat extends Admin_Controller
     public function index()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(FormatSurat::kunci(FormatSurat::KUNCI_DISABLE)->orderBy('favorit', 'desc')->latest('updated_at'))
+            $nonAktifkanRTF = setting('nonaktifkan_rtf');
+
+            return datatables()->of((new FormatSurat())->setNonAktifkanRTF($nonAktifkanRTF)->kunci(FormatSurat::KUNCI_DISABLE)->orderBy('favorit', 'desc')->latest('updated_at'))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     $aksi = '';
@@ -105,13 +107,14 @@ class Surat extends Admin_Controller
     public function apidaftarsurat()
     {
         if ($this->input->is_ajax_request()) {
-            $cari = $this->input->get('q');
-
-            $surat = FormatSurat::select(['id', 'nama', 'jenis', 'url_surat'])
+            $cari           = $this->input->get('q');
+            $nonAktifkanRTF = setting('nonaktifkan_rtf');
+            $surat          = FormatSurat::select(['id', 'nama', 'jenis', 'url_surat'])
                 ->when($cari, static function ($query) use ($cari) {
                     $query->orWhere('nama', 'like', "%{$cari}%");
-                })
-                ->kunci(FormatSurat::KUNCI_DISABLE)
+                })->when($nonAktifkanRTF, static function ($query) {
+                    $query->whereNotIn('jenis', FormatSurat::RTF);
+                })->kunci(FormatSurat::KUNCI_DISABLE)
                 ->latest('updated_at')
                 ->orderBy('favorit', 'desc')
                 ->paginate(10);
@@ -249,6 +252,10 @@ class Surat extends Admin_Controller
             $this->get_data_untuk_form($url, $data);
 
             if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
+                $nonAktifkanRTF = setting('nonaktifkan_rtf');
+                if ($nonAktifkanRTF) {
+                    redirect_with('error', 'Surat RTF sudah tidak digunakan');
+                }
                 $data['form_action'] = site_url("surat/doc/{$url}");
                 $data_form           = $this->surat_model->get_data_form($url);
                 if (is_file($data_form)) {

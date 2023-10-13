@@ -65,6 +65,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023101152($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023101351($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -104,5 +105,18 @@ class Migrasi_fitur_premium_2311 extends MY_model
 
         // Buat index setelah tambah data slug, karena harus ada nilai.
         return $hasil && $this->buat_ulang_index('program', 'slug', '(`config_id`, `slug`)');
+    }
+
+    protected function migrasi_2023101351($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'config_id'  => $id,
+            'key'        => 'nonaktifkan_rtf',
+            'judul'      => 'Non Aktifkan Surat RTF',
+            'value'      => 0,
+            'keterangan' => 'Aktif / Non-aktifkan Surat RTF',
+            'jenis'      => 'boolean',
+            'kategori'   => 'pengaturan-surat',
+        ]);
     }
 }

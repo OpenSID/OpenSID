@@ -61,22 +61,26 @@ class Surat_master extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['surat_master_model', 'surat_model']);
-        $this->tinymce       = new TinyMCE();
-        $this->modul_ini     = 'layanan-surat';
-        $this->sub_modul_ini = 'pengaturan-surat';
+        $this->tinymce            = new TinyMCE();
+        $this->modul_ini          = 'layanan-surat';
+        $this->sub_modul_ini      = 'pengaturan-surat';
+        $this->header['kategori'] = 'pengaturan-surat';
     }
 
     public function index()
     {
+        $nonAktifkanRTF = setting('nonaktifkan_rtf');
+
         return view('admin.pengaturan_surat.index', [
-            'jenisSurat' => FormatSurat::JENIS_SURAT,
+            'jenisSurat' => $nonAktifkanRTF ? FormatSurat::JENIS_SURAT_TANPA_RTF : FormatSurat::JENIS_SURAT,
         ]);
     }
 
     public function datatables()
     {
+        $nonAktifkanRTF = setting('nonaktifkan_rtf');
         if ($this->input->is_ajax_request()) {
-            return datatables(FormatSurat::jenis($this->input->get('jenis')))
+            return datatables((new FormatSurat())->setNonAktifkanRTF($nonAktifkanRTF)->jenis($this->input->get('jenis')))
                 ->addColumn('ceklist', static function ($row) {
                     return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                 })
