@@ -198,6 +198,9 @@ class TinyMCE
 
             // Data Pasangan
             'Pasangan' => $this->getIsianPasangan($idPenduduk),
+
+            // Aritmatika untuk penambahan, pengurangan, dan operasi lainnya serta terbilang
+            'Aritmatika' => $this->getIsianAritmatika(),
         ];
 
         $peristiwa = $data['surat']->form_isian->individu->status_dasar;
@@ -1093,6 +1096,28 @@ class TinyMCE
             ->toArray();
 
         return array_merge($postStatis, $postDinamis, $post2);
+    }
+
+    private function getIsianAritmatika()
+    {
+        return [
+            [
+                'judul' => 'Operasi Penambahan',
+                'isian' => getFormatIsian('Op+'),
+            ],
+            [
+                'judul' => 'Operasi Pengurangan',
+                'isian' => getFormatIsian('Op-'),
+            ],
+            [
+                'judul' => 'Proses Perhitungan',
+                'isian' => getFormatIsian('Hitung'),
+            ],
+            [
+                'judul' => 'Terbilang',
+                'isian' => getFormatIsian('TerbilanG'),
+            ],
+        ];
     }
 
     public function get_hari($tanggal)
