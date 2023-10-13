@@ -32,7 +32,6 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 27. [#7189](https://github.com/OpenSID/OpenSID/issues/7189) Perbaikan api TTE kirim surat ke OpenDK.
 28. [#7082](https://github.com/OpenSID/OpenSID/issues/7082) Perbaikan sebutan desa pada halaman wigdet grafik keuangan desa.
 
-
 #### Penyesuaian Teknis
 1. [#7149](https://github.com/OpenSID/OpenSID/issues/7149) Penghapusan duplikasi fungsi detail pada modul keluarga.
 2. [#2843](https://github.com/OpenSID/premium/issues/2843) Penghapusan librari curly digantikan dengan guzzle.
@@ -45,4 +44,5 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 9. [#2940](https://github.com/OpenSID/premium/issues/2940) Penyesuaian notifikasi pada pengecekan pelanggan.
 10. [#2954](https://github.com/OpenSID/premium/issues/2954) Penyesuaian tombol ekspor impor dalam satu tombol grup.
 11. [#2953](https://github.com/OpenSID/premium/issues/2953) Penyesuaian penggunaan slug untuk program bantuan.
-12. [#2973](https://github.com/OpenSID/premium/issues/2973) Penyesuaian penggunaan rtf sesuai pengaturan untuk persiapan penghapusan. 
+12. [#2973](https://github.com/OpenSID/premium/issues/2973) Penyesuaian penggunaan rtf sesuai pengaturan untuk persiapan penghapusan.
+13. [#2848](https://github.com/OpenSID/premium/issues/2848) Penyesuaian struktur tabel dan data kelompok_anggota melalui migrasi dan halaman periksa.

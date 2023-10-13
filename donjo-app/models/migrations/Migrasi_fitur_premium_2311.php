@@ -54,7 +54,9 @@ class Migrasi_fitur_premium_2311 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_2023101151($hasil);
+        $hasil = $hasil && $this->migrasi_2023101151($hasil);
+
+        return $hasil && $this->migrasi_2023101352($hasil);
     }
 
     // Migrasi perubahan data
@@ -118,5 +120,14 @@ class Migrasi_fitur_premium_2311 extends MY_model
             'jenis'      => 'boolean',
             'kategori'   => 'pengaturan-surat',
         ]);
+    }
+
+    protected function migrasi_2023101352($hasil)
+    {
+        if (! $this->cek_indeks('kelompok_anggota', 'no_anggota_config')) {
+            $hasil = $hasil && $this->db->query('ALTER TABLE `kelompok_anggota` ADD UNIQUE INDEX `no_anggota_config` (`config_id`, `id_kelompok`, `no_anggota`)');
+        }
+
+        return $hasil;
     }
 }

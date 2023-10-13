@@ -285,6 +285,13 @@ class Periksa_model extends MY_Model
             $this->periksa['log_keluarga_bermasalah'] = $log_keluarga_bermasalah->toArray();
         }
 
+        // deteksi no anggota ganda
+        $no_anggota_ganda = $this->deteksi_no_anggota_ganda();
+        if (! $no_anggota_ganda->isEmpty()) {
+            $this->periksa['masalah'][]        = 'no_anggota_ganda';
+            $this->periksa['no_anggota_ganda'] = $no_anggota_ganda->toArray();
+        }
+
         return $calon;
     }
 
@@ -621,6 +628,15 @@ class Periksa_model extends MY_Model
         })->get();
     }
 
+    private function deteksi_no_anggota_ganda()
+    {
+        return DB::table('kelompok_anggota')
+            ->selectRaw('count(id) as jml, config_id, id_kelompok, no_anggota')
+            ->groupBy('config_id', 'id_kelompok', 'no_anggota')
+            ->having('jml', '>', 1)
+            ->get();
+    }
+
     public function perbaiki()
     {
         // TODO: login
@@ -724,6 +740,35 @@ class Periksa_model extends MY_Model
             ->set('id_cluster', $this->periksa['wilayah_pertama']['id'])
             ->where('id_cluster IS NULL')
             ->update('tweb_keluarga');
+    }
+
+    // Migrasi 23.11 gagal jika ada no anggota ganda
+    private function perbaiki_no_anggota_ganda()
+    {
+        $no_anggota_ganda = $this->periksa['no_anggota_ganda'];
+        $hasil            = true;
+
+        if ($no_anggota_ganda) {
+            foreach ($no_anggota_ganda as $value) {
+                $duplikat = DB::table('kelompok_anggota')
+                    ->selectRaw('id, id_penduduk, config_id, id_kelompok, no_anggota')
+                    ->where('config_id', $value->config_id)
+                    ->where('id_kelompok', $value->id_kelompok)
+                    ->where('no_anggota', $value->no_anggota)
+                    ->get();
+
+                foreach ($duplikat as $item) {
+                    DB::table('kelompok_anggota')
+                        ->where('id', $item->id)
+                        ->where('config_id', $item->config_id)
+                        ->where('id_kelompok', $item->id_kelompok)
+                        ->where('no_anggota', $item->no_anggota)
+                        ->update(['no_anggota' => $item->id_penduduk]);
+
+                    log_message('notice', 'No Anggota berikut telah diubah sbb : ' . print_r(['No Anggota Lama' => $item->no_anggota, 'No Anggota Baru' => $item->id_penduduk], true));
+                }
+            }
+        }
     }
 
     // Migrasi 21.09 gagal jika ada NIK ganda
@@ -1378,6 +1423,10 @@ class Periksa_model extends MY_Model
 
             case 'log_keluarga_bermasalah':
                 $this->perbaiki_log_keluarga_bermasalah();
+                break;
+
+            case 'no_anggota_ganda':
+                $this->perbaiki_no_anggota_ganda();
                 break;
 
             default:
