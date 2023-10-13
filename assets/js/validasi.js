@@ -373,6 +373,11 @@ $(document).ready(function() {
 	jQuery.validator.addMethod("telepon", function(value, element) {
  		return this.optional(element) || value.length > 9;
 	}, `Minimal 10 dan maksimal 20 karakter`);
+
+	jQuery.validator.addMethod("id_telegram", function(value, element) {
+		valid = /^[0-9]{5,10}$/.test(value);
+		return this.optional(element) || valid;
+	},`Minimal 5 dan maksimal 10 karakter dan harus angka`);
 });
 
 function validate(elementClassId) {

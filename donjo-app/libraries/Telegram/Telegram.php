@@ -62,6 +62,8 @@ class Telegram
      */
     protected $token;
 
+    private $active;
+
     /**
      * @var string Telegram Bot API Base URI
      */
@@ -76,8 +78,9 @@ class Telegram
     {
         $this->ci = get_instance();
 
-        $this->token = $this->ci->setting->telegram_token;
-        $this->http  = new HttpClient();
+        $this->token  = $this->ci->setting->telegram_token;
+        $this->active = $this->ci->setting->telegram_notifikasi;
+        $this->http   = new HttpClient();
     }
 
     /**
@@ -161,7 +164,13 @@ class Telegram
      */
     public function sendMessage(array $params): ?ResponseInterface
     {
-        return $this->sendRequest('sendMessage', $params);
+        if (isset($params['chat_id'])) {
+            if (strlen($params['chat_id']) >= 6) {
+                return $this->active ? $this->sendRequest('sendMessage', $params) : null;
+            }
+        }
+
+        return null;
     }
 
     /**
