@@ -9,6 +9,7 @@
                 <td>PLACEHOLDER</td>
                 <td class="padat">HARUS DIISI</td>
                 <td>ATRIBUT</td>
+                <td>KOLOM</td>
                 <td class="isian-pilihan">PILIHAN</td>
                 <td>AKSI</td>
             </tr>
@@ -40,6 +41,14 @@
                             <input class="isian-required" type="checkbox" value="1" @checked($value->required)
                                 @disabled($value->tipe == '')
                                 name="kategori_required_kode[{{ $value->kategori }}][{{ $jumlah_isian - 1 }}]">
+                        </td>
+                        <td class="text-center">
+                            <select class="form-control input-sm" name="kategori_kolom[{{ $value->kategori }}][]">
+                                <option value="" selected>Pilihan lebar kolom</option>
+                                @foreach (range(1,12) as $itemKolom)
+                                    <option value="{{ $itemKolom }}" @selected($itemKolom == $value->kolom)>col-{{ $itemKolom }}</option>
+                                @endforeach
+                            </select>
                         </td>
                         <td>
                             <textarea class="form-control input-sm isian isian-atribut" name="kategori_atribut_kode[{{ $value->kategori }}][]"
@@ -100,8 +109,16 @@
                         <input class="isian-required" type="checkbox" value="1" @checked($value->required)
                             @disabled($value->tipe == '') name="kategori_required_kode[{{ $item }}][]">
                     </td>
+                    <td class="text-center">
+                        <select class="form-control input-sm" name="kategori_kolom[{{ $value->kategori }}][]">
+                            <option value="" selected>Pilihan lebar kolom</option>
+                            @foreach (range(1,12) as $itemKolom)
+                                <option value="{{ $itemKolom }}" >col-{{ $itemKolom }}</option>
+                            @endforeach
+                        </select>
+                    </td>
                     <td>
-                        <textarea class="form-control input-sm isian isian-atribut" name="atribut_kode[]" rows="5"
+                        <textarea class="form-control input-sm isian isian-atribut" name="kategori_atribut_kode[{{ $value->kategori }}][]" rows="5"
                             placeholder="Masukkan Atribut" @disabled($value->tipe == '')>{{ $value->atribut }}</textarea>
                     </td>
                     <td>

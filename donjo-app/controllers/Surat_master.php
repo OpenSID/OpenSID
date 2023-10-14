@@ -334,6 +334,7 @@ class Surat_master extends Admin_Controller
                 'atribut'   => $request['atribut_kode'][$i] ?: null,
                 'pilihan'   => null,
                 'refrensi'  => null,
+                'kolom'     => $request['kolom'][$i] ?? '',
             ];
 
             if ($request['tipe_kode'][$i] == 'select-manual') {
@@ -394,6 +395,7 @@ class Surat_master extends Admin_Controller
                         'atribut'   => $request['kategori_atribut_kode'][$kategori][$i] ?: null,
                         'pilihan'   => null,
                         'refrensi'  => null,
+                        'kolom'     => $request['kategori_kolom'][$i] ?? '',
                     ];
 
                     if ($request['kategori_tipe_kode'][$kategori][$i] == 'select-manual') {
