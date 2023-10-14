@@ -4,10 +4,12 @@
         <tbody id="dragable-{{$item}}">
             <tr style="font-weight: bold;">
                 <td>#</td>
-                <td>TIPE</td>
+                <td>TIPE</td>                
                 <td>NAMA</td>
+                <td>LABEL</td>
                 <td>PLACEHOLDER</td>
                 <td class="padat">HARUS DIISI</td>
+                <td>KOLOM</td>
                 <td>ATRIBUT</td>
                 <td>KOLOM</td>
                 <td class="isian-pilihan">PILIHAN</td>
@@ -33,6 +35,10 @@
                         <td><input type="text" name="kategori_nama_kode[{{ $value->kategori }}][]"
                                 class="form-control input-sm isian" value="{{ $value->nama }}"
                                 placeholder="Masukkan Nama" @disabled($value->tipe == '')>
+                        </td>
+                        <td><input type="text" name="kategori_label_kode[{{ $value->kategori }}][]"
+                            class="form-control input-sm isian" value="{{ $value->label ?? '' }}"
+                            placeholder="Masukkan Label" @disabled($value->tipe == '')>
                         </td>
                         <td><input type="text" name="kategori_deskripsi_kode[{{ $value->kategori }}][]"
                                 class="form-control input-sm isian" value="{{ $value->deskripsi }}"
@@ -102,6 +108,9 @@
                     <td><input type="text" name="kategori_nama_kode[{{ $item }}][]"
                             class="form-control input-sm isian" placeholder="Masukkan Nama"
                             @disabled($value->tipe == '')></td>
+                    <td><input type="text" name="kategori_label_kode[{{ $item }}][]"
+                                class="form-control input-sm isian" placeholder="Masukkan Label"
+                                @disabled($value->tipe == '')></td>
                     <td><input type="text" name="kategori_deskripsi_kode[{{ $item }}][]"
                             class="form-control input-sm isian" placeholder="Masukkan Placeholder"
                             @disabled($value->tipe == '')></td>

@@ -4,8 +4,9 @@
         <tbody id="dragable-form-utama">
             <tr style="font-weight: bold;">
                 <td>#</td>
-                <td>TIPE</td>
+                <td>TIPE</td>                
                 <td>NAMA</td>
+                <td>LABEL</td>
                 <td>PLACEHOLDER</td>
                 <td class="padat">HARUS DIISI</td>
                 <td>KOLOM</td>
@@ -27,9 +28,12 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </td>
+                        </td>                        
                         <td><input type="text" name="nama_kode[]" class="form-control input-sm isian"
                                 value="{{ $value->nama }}" placeholder="Masukkan Nama" @disabled($value->tipe == '')>
+                        </td>
+                        <td><input type="text" name="label_kode[]" class="form-control input-sm isian"
+                            value="{{ $value->label ?? '' }}" placeholder="Masukkan Label" @disabled($value->tipe == '')>
                         </td>
                         <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm isian"
                                 value="{{ $value->deskripsi }}" placeholder="Masukkan Placeholder"
@@ -93,9 +97,12 @@
                                     {{ $attr_value }}</option>
                             @endforeach
                         </select>
-                    </td>
+                    </td>                    
                     <td><input type="text" name="nama_kode[]" class="form-control input-sm isian"
                             placeholder="Masukkan Nama" @disabled($value->tipe == '')></td>
+                    <td><input type="text" name="label_kode[]" class="form-control input-sm isian"
+                            placeholder="Masukkan Label" @disabled($value->tipe == '')>
+                    </td>
                     <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm isian"
                             placeholder="Masukkan Placeholder" @disabled($value->tipe == '')></td>
                     <td class="text-center"><input class="isian-required" type="checkbox" value="1"
@@ -147,6 +154,13 @@
         $(document).ready(function() {
             // var counter = $(".duplikasi:last").data("id");
             // $("#gandakan-" + counter).find("button").hide();
+            // default label = nama
+            $('input[name="nama_kode[]"]').on('change', function(e){
+                $(this).closest('tr').find('input[name="label_kode[]"]').val($(this).val())
+            })
+            $('input[name^=kategori_nama_kode]').on('change', function(e){
+                $(this).closest('tr').find('input[name^=kategori_label_kode]').val($(this).val())
+            })
             $('.tambah-kode').on('click', function(e) {
                 var type = this.dataset.type;
                 console.log(type);
