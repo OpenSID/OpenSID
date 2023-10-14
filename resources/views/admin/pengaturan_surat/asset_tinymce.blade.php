@@ -6,9 +6,9 @@
             var default_font = "{{ setting('font_surat') }}"
             var pratinjau = window.location.href.includes("pratinjau");
             if (! pratinjau) {
-                plugins_tambahan = ['responsivefilemanager', 'salintemplate', 'kodeisian'];
+                plugins_tambahan = ['advlist', 'autolink', 'lists', 'charmap', 'hr', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'nonbreaking', 'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'code', 'responsivefilemanager', 'salintemplate', 'kodeisian'];
             } else {
-                plugins_tambahan = ['responsivefilemanager'];
+                plugins_tambahan = ['advlist', 'autolink', 'lists', 'charmap', 'hr', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'nonbreaking', 'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'code'];
             }
 
             tinymce.init({
@@ -27,8 +27,6 @@
                 table_sizing_mode: 'relative',
                 height: "{{ $height ?? 700 }}",
                 // theme: 'silver',
-                plugins: ['advlist', 'autolink', 'lists', 'charmap', 'hr', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'nonbreaking', 'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'code'],
-                // merge dengan plugin tambahan
                 plugins: plugins_tambahan,
                 content_style: `body { font-family: ${default_font}; }`,
                 toolbar1: "removeformat | bold italic underline subscript superscript | bullist numlist outdent indent lineheight | alignleft aligncenter alignright alignjustify | blocks fontfamily fontsizeinput",
