@@ -46,3 +46,4 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 11. [#2953](https://github.com/OpenSID/premium/issues/2953) Penyesuaian penggunaan slug untuk program bantuan.
 12. [#2973](https://github.com/OpenSID/premium/issues/2973) Penyesuaian penggunaan rtf sesuai pengaturan untuk persiapan penghapusan.
 13. [#2848](https://github.com/OpenSID/premium/issues/2848) Penyesuaian struktur tabel dan data kelompok_anggota melalui migrasi dan halaman periksa.
+14. [#1294](https://github.com/OpenSID/premium/issues/1294) Penyesuaian pengaturan email.

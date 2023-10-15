@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Config;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -71,7 +72,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
         }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023101254($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -129,5 +130,89 @@ class Migrasi_fitur_premium_2311 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2023101254($hasil)
+    {
+        $config_id    = DB::table('config')->pluck('id')->toArray();
+        $configEmail  = ['protocol' => 'smtp', 'smtp_host' => config_item('smtp_host'), 'smtp_user' => config_item('smtp_user'), 'smtp_pass' => config_item('smtp_pass'), 'smtp_port' => config_item('smtp_port')];
+        $defaultEmail = ['protocol' => 'smtp', 'smtp_host' => '', 'smtp_user' => '', 'smtp_pass' => '', 'smtp_port' => ''];
+        // tidak menggunakan function identitas karena cache identitas desa dihapus ketika memanggil tambah_setting
+        $desaMigrasi = Config::appKey()->first();
+
+        foreach ($config_id as $id) {
+            $emailSetting = $defaultEmail;
+            if ($desaMigrasi) {
+                if ($desaMigrasi->id == $id) {
+                    $emailSetting = $configEmail;
+                }
+            }
+            $hasil = $hasil && $this->migrasi_2023101255($hasil, $emailSetting, $id);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023101255($hasil, $emailSetting, $id)
+    {
+        $hasil = $hasil && $this->tambah_setting([
+            'config_id'  => $id,
+            'key'        => 'email_notifikasi',
+            'judul'      => 'Email Notifikasi',
+            'value'      => $emailSetting['smtp_host'] ? 1 : 0,
+            'keterangan' => 'Aktif atau nonaktifkan notifikasi email',
+            'jenis'      => 'boolean',
+            'kategori'   => 'email',
+        ]);
+
+        $hasil = $hasil && $this->tambah_setting([
+            'config_id'  => $id,
+            'key'        => 'email_protocol',
+            'judul'      => 'Email protokol',
+            'value'      => $emailSetting['protocol'],
+            'keterangan' => 'Email protokol, misal : SMTP',
+            'jenis'      => 'text',
+            'kategori'   => 'email',
+        ]);
+
+        $hasil = $hasil && $this->tambah_setting([
+            'config_id'  => $id,
+            'key'        => 'email_smtp_host',
+            'judul'      => 'Email Host',
+            'value'      => $emailSetting['smtp_host'],
+            'keterangan' => 'Email host',
+            'jenis'      => 'text',
+            'kategori'   => 'email',
+        ]);
+
+        $hasil = $hasil && $this->tambah_setting([
+            'config_id'  => $id,
+            'key'        => 'email_smtp_user',
+            'judul'      => 'Email Username',
+            'value'      => $emailSetting['smtp_user'],
+            'keterangan' => 'Email username',
+            'jenis'      => 'text',
+            'kategori'   => 'email',
+        ]);
+
+        $hasil = $hasil && $this->tambah_setting([
+            'config_id'  => $id,
+            'key'        => 'email_smtp_pass',
+            'judul'      => 'Email Password',
+            'value'      => $emailSetting['smtp_pass'],
+            'keterangan' => 'Email password',
+            'jenis'      => 'password',
+            'kategori'   => 'email',
+        ]);
+
+        return $hasil && $this->tambah_setting([
+            'config_id'  => $id,
+            'key'        => 'email_smtp_port',
+            'judul'      => 'Email Port',
+            'value'      => $emailSetting['smtp_port'],
+            'keterangan' => 'Email port',
+            'jenis'      => 'text',
+            'kategori'   => 'email',
+        ]);
     }
 }
