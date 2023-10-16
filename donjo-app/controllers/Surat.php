@@ -938,7 +938,7 @@ class Surat extends Admin_Controller
                         ->orWhere('nama', 'like', "%{$cari}%");
                 });
 
-            if ($individu['orang_tua'] == 1) {
+            if ($individu['data_orang_tua'] == 1) {
                 $penduduk = $penduduk->where('id_kk', '>', '0');
             }
 
