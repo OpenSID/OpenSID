@@ -263,16 +263,9 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-            var utama = `{{ $suratMaster->form_isian->data }}`;
 
-            $("#data_utama").select2();
-
-            data_utama(utama);
-
-            $('#data_utama').on('select2:select', function(e) {
-                data_utama(e.params.data.id)
-            });
             var num = 0;
+
             $('#btn-new-tab').click(function(e) {
                 var checkInput = validateInputCategory($('#nama_kategori').val())
                 // console.log(checkInput);
@@ -423,14 +416,6 @@
         function loadSelect() {
             // console.log('load select');
             $('.kategori').select2()
-        }
-
-        function data_utama(tipe) {
-            if (tipe == 2) {
-                $('#form-utama .warga_desa').hide();
-            } else {
-                $('#form-utama .warga_desa').show();
-            }
         }
 
         function hideModal() {

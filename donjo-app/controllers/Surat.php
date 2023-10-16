@@ -163,7 +163,7 @@ class Surat extends Admin_Controller
                         $data['peristiwa']   = $this->logpenduduk::with('penduduk')->where('id_pend', $nik)->latest()->first();
                     }
 
-                    if ($data['surat']->form_isian->data_orang_tua) {
+                    if ($data['surat']->form_isian->individu->data_orang_tua) {
                         $data['ayah'] = Penduduk::where('nik', $data['individu']->ayah_nik)->first();
                         $data['ibu']  = Penduduk::where('nik', $data['individu']->ibu_nik)->first();
 
