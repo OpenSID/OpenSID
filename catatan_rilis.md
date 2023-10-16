@@ -12,6 +12,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 6. [#7191](https://github.com/OpenSID/OpenSID/issues/7191) Penambahan kode isian operasi aritmatika dan terbilang untuk surat TinymCE.
 7. [#7095](https://github.com/OpenSID/OpenSID/issues/7095) Penambahan pengaturan surat TinyMCE untuk kolom kode isian.
 8. [#7192](https://github.com/OpenSID/OpenSID/issues/7192) Penambahan pengaturan surat TinyMCE untuk label kode isian.
+9. [#6546](https://github.com/OpenSID/OpenSID/issues/6546) Penambahan pengaturan unggah font untuk surat TinyMCE.
 
 
 #### Perbaikan Bug

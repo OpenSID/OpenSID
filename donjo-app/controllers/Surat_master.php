@@ -363,10 +363,10 @@ class Surat_master extends Admin_Controller
         if (isset($request['kategori'])) {
             foreach ($request['kategori'] as $kategori) {
                 $formIsian[$kategori] = [
-                    'data'           => $request['kategori_data_utama'][$kategori] ?? [1],
-                    'sex'            => $request['kategori_individu_sex'][$kategori] ?? null,
-                    'status_dasar'   => $request['kategori_status_dasar'][$kategori] ?? null,
-                    'kk_level'       => $request['kategori_individu_kk_level'][$kategori] ?? null,
+                    'data'         => $request['kategori_data_utama'][$kategori] ?? [1],
+                    'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
+                    'status_dasar' => $request['kategori_status_dasar'][$kategori] ?? null,
+                    'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
                     // 'data_orang_tua' => $request['kategori_data_orang_tua'] ?? 0,
                     // 'data_pasangan'  => $request['kategori_data_pasangan'] ?? 0,
                 ];
@@ -589,6 +589,36 @@ class Surat_master extends Admin_Controller
         $this->redirect_hak_akses('u');
         $this->load->model('setting_model');
         $data = $this->validasi_pengaturan($this->request);
+
+        if (! empty($_FILES['font_custom']['name'])) {
+            $this->load->library('upload');
+            $this->upload->initialize([
+                'file_name'     => $_FILES['font_custom']['name'],
+                'upload_path'   => sys_get_temp_dir(),
+                'allowed_types' => 'ttf',
+                'max_size'      => 2048,
+                'overwrite'     => true,
+            ]);
+
+            if ($this->upload->do_upload('font_custom')) {
+                $font = \TCPDF_FONTS::addTTFfont(
+                    $this->upload->data('full_path'),
+                    '',
+                    '',
+                    32,
+                    realpath(LOKASI_FONT_DESA) . DIRECTORY_SEPARATOR
+                );
+
+                if ($font) {
+                    // Merge font yang sudah di tambahkan ke option setting.
+                    $font_surat         = SettingAplikasi::where('key', 'font_surat')->first();
+                    $font_surat->option = array_unique(array_merge($font_surat->option, [$font]));
+                    $font_surat->save();
+                }
+            } else {
+                redirect_with('error', $this->upload->display_errors());
+            }
+        }
 
         foreach ($data as $key => $value) {
             SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);

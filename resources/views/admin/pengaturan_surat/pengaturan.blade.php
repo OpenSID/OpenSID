@@ -253,6 +253,7 @@
 
             <div class="tab-pane" id="lainnya">
                 @include('admin.pengaturan_surat.kembali')
+
                 <div class="box-body">
                     <div class="form-group">
                         <label>Jenis Font Bawaan </label>
@@ -267,6 +268,13 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Upload Font Custom</label>
+                        <input type="file" name="font_custom" class="form-control input-sm">
                     </div>
                 </div>
 

@@ -55,6 +55,11 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+if (! in_array(setting('font_surat'), FONT_SYSTEM_TINYMCE)) {
+    define('K_PATH_MAIN', '');
+    define('K_PATH_FONTS', LOKASI_FONT_DESA);
+}
+
 class TinyMCE
 {
     public const HEADER = '
