@@ -348,7 +348,6 @@ class Surat_master extends Admin_Controller
         }
 
         $formIsian = [
-            'data'           => $request['data_utama'] ?? 1,
             'individu'       => null,
             'data_orang_tua' => $request['data_orang_tua'] ?? 0,
             'data_pasangan'  => $request['data_pasangan'] ?? 0,
@@ -356,6 +355,7 @@ class Surat_master extends Admin_Controller
 
         if ($request['data_utama'] != 2) {
             $formIsian['individu'] = [
+                'data'         => $request['data_utama'] ?? 1,
                 'sex'          => $request['individu_sex'] ?? null,
                 'status_dasar' => $request['individu_status_dasar'] ?? null,
                 'kk_level'     => $request['individu_kk_level'] ?? null,

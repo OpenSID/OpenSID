@@ -55,10 +55,10 @@
                                     <td>
                                         @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
                                         <select id="data_utama" class="form-control input-sm" name="data_utama">
-                                            <option value="1" @selected(1 == $suratMaster->form_isian->data)>PENDUDUK
+                                            <option value="1" @selected(1 == $suratMaster->form_isian->individu->data)>PENDUDUK
                                                 {{ $desa_pend }}
                                             </option>
-                                            <option value="2" @selected(2 == $suratMaster->form_isian->data)>PENDUDUK LUAR
+                                            <option value="2" @selected(2 == $suratMaster->form_isian->individu->data)>PENDUDUK LUAR
                                                 {{ $desa_pend }}
                                             </option>
                                         </select>
@@ -69,8 +69,8 @@
                                     <td>Data Orang Tua</td>
                                     <td>
                                         <select id="data_orang_tua" class="form-control input-sm" name="data_orang_tua">
-                                            <option value="0" @selected(0 == $suratMaster->form_isian->data_orang_tua)>TIDAK</option>
-                                            <option value="1" @selected(1 == $suratMaster->form_isian->data_orang_tua)>YA</option>
+                                            <option value="0" @selected(0 == $suratMaster->form_isian->individu->data_orang_tua)>TIDAK</option>
+                                            <option value="1" @selected(1 == $suratMaster->form_isian->individu->data_orang_tua)>YA</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -79,8 +79,8 @@
                                     <td>Data Pasangan</td>
                                     <td>
                                         <select id="data_pasangan" class="form-control input-sm" name="data_pasangan">
-                                            <option value="0" @selected(0 == $suratMaster->form_isian->data_pasangan)>TIDAK</option>
-                                            <option value="1" @selected(1 == $suratMaster->form_isian->data_pasangan)>YA</option>
+                                            <option value="0" @selected(0 == $suratMaster->form_isian->individu->data_pasangan)>TIDAK</option>
+                                            <option value="1" @selected(1 == $suratMaster->form_isian->individu->data_pasangan)>YA</option>
                                         </select>
                                     </td>
                                 </tr>
