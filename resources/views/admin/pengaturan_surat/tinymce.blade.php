@@ -40,7 +40,7 @@
             <div class="tab-pane active" id="form-utama">
                 <div class="box-body">
                     <button type="button" class="utama-delete btn btn-danger btn-sm pull-right hide"
-                        onclick="deleteTab(event)"><i class="fa fa-times-circle"></i> Hapus Tab</button>
+                        onclick="deleteTab(event)"><i class="fa fa-times-circle"></i> Hapus Bagian Form</button>
                     <h5><b>Sumber Data</b></h5>
                     <div class="table-responsive">
                         <table class="table table-hover table-striped sumber-data">
@@ -144,7 +144,7 @@
                     <div class="box-body">
                         <button type="button" class="btn btn-danger btn-sm pull-right"
                             data-kategori="{{ $item }}" onclick="deleteTab(event)"><i
-                                class="fa  fa-times-circle"></i> Hapus Tab</button>
+                                class="fa  fa-times-circle"></i> Hapus Bagian Form</button>
                         <h5 class="sumber-data-title"><b>Sumber Data</b></h5>
                         <div class="table-responsive">
                             <table class="table table-hover table-striped sumber-data">

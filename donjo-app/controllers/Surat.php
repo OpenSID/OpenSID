@@ -931,7 +931,6 @@ class Surat extends Admin_Controller
             $cari     = $this->input->get('q');
             $filters  = FormatSurat::select('form_isian')->find($this->input->get('surat'))->form_isian;
             $individu = collect($filters->individu)->toArray();
-            $orangtua = collect($filters->orangtua);
             $penduduk = Penduduk::select(['id', 'nik', 'tag_id_card', 'nama', 'id_cluster'])
                 ->when($cari, static function ($query) use ($cari) {
                     $query->orWhere('nik', 'like', "%{$cari}%")
@@ -939,10 +938,11 @@ class Surat extends Admin_Controller
                         ->orWhere('nama', 'like', "%{$cari}%");
                 });
 
-            if ($orangtua == 1) {
+            if ($individu['orang_tua'] == 1) {
                 $penduduk = $penduduk->where('id_kk', '>', '0');
             }
 
+            // hanya ambil surat
             $penduduk = $penduduk->filters($individu)->paginate(10);
 
             return json([
