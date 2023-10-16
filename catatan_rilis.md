@@ -31,6 +31,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 26. [#7180](https://github.com/OpenSID/OpenSID/issues/7180) Perbaikan pengaturan aktif/nonaktifkan telegram pada masing-masing pengguna.
 27. [#7189](https://github.com/OpenSID/OpenSID/issues/7189) Perbaikan api TTE kirim surat ke OpenDK.
 28. [#7082](https://github.com/OpenSID/OpenSID/issues/7082) Perbaikan sebutan desa pada halaman wigdet grafik keuangan desa.
+29. [#7177](https://github.com/OpenSID/OpenSID/issues/7177) Perbaikan validasi select2 pada form tambah/ubah penduduk.
 
 #### Penyesuaian Teknis
 1. [#7149](https://github.com/OpenSID/OpenSID/issues/7149) Penghapusan duplikasi fungsi detail pada modul keluarga.

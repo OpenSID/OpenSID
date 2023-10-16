@@ -143,8 +143,8 @@ $(document).ready(function() {
 			$(element).closest(".form-group").addClass("has-error");
 		},
 		unhighlight:function (element) {
-			$('.select2').select2().change(function() {
-				$(this).valid();
+			$('.select2').on("select2:close", function (e) {  
+				$(this).valid(); 
 			});
 
 			$(element).closest(".form-group").removeClass("has-error");
