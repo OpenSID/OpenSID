@@ -287,7 +287,7 @@ class Admin_Controller extends MY_Controller
 
         $this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
         $this->load->model('modul_model');
-        if (! $this->modul_model->modul_aktif($this->controller)) {
+        if (! $this->modul_model->modul_aktif($this->controller) && $this->controller != 'pengguna') {
             session_error('Fitur ini tidak aktif');
             redirect($_SERVER['HTTP_REFERER']);
         }

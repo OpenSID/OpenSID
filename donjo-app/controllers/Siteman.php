@@ -187,7 +187,7 @@ class Siteman extends MY_Controller
             $status = $this->password->driver('email')->reset(
                 ['email' => $request->email, 'token' => $request->token, 'password' => $request->password],
                 function ($user, $password) {
-                    $this->db->where('id', $user->id)->update('user', ['password' => $this->generatePasswordHash($password)]);
+                    $this->db->where('id', $user->id)->update('user', ['password' => generatePasswordHash($password)]);
                 }
             );
         } catch (\Exception $e) {

@@ -52,7 +52,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2212');
         $hasil = $hasil && $this->migrasi_2022120651($hasil);
-        $hasil = $hasil && $this->migrasi_2022120751($hasil);
+        $hasil = $hasil && $this->migrasi_2022120771($hasil);
         $hasil = $hasil && $this->migrasi_2022121252($hasil);
         $hasil = $hasil && $this->migrasi_2022122151($hasil);
         $hasil = $hasil && $this->migrasi_2022122152($hasil);
@@ -84,7 +84,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022120751($hasil)
+    protected function migrasi_2022120771($hasil)
     {
         if (! $this->db->field_exists('kecamatan', 'tweb_surat_format')) {
             $fields = [

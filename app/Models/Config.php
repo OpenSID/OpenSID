@@ -84,6 +84,12 @@ class Config extends BaseModel
         'warna',
         'created_by',
         'updated_by',
+
+        // Field database lama
+        'nama_kepala_desa',
+        'nip_kepala_desa',
+        'g_analitic',
+        'pamong_id',
     ];
 
     /**

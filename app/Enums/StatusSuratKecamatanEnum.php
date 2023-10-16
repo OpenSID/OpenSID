@@ -35,66 +35,25 @@
  *
  */
 
-namespace App\Models;
-
-use App\Traits\Author;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class AnjunganMenu extends BaseModel
+class StatusSuratKecamatanEnum
 {
-    use Author;
+    public const TidakAktif   = 1;
+    public const BelumDikirim = 2;
+    public const SudahDikirim = 3;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
+     * Override method all()
      */
-    protected $table = 'anjungan_menu';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'nama',
-        'icon',
-        'link',
-        'link_tipe',
-        'urut',
-        'status',
-        'created_by',
-        'updated_by',
-    ];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = [
-        // 'createdBy',
-        // 'updatedBy',
-    ];
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function createdBy()
+    public static function all(): array
     {
-        return $this->hasOne(User::class, 'id', 'created_by');
-    }
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function updatedBy()
-    {
-        return $this->hasOne(User::class, 'id', 'updated_by');
+        return [
+            self::TidakAktif   => 'Tidak Aktif',
+            self::BelumDikirim => 'Belum Dikirim',
+            self::SudahDikirim => 'Sudah Dikirim',
+        ];
     }
 }

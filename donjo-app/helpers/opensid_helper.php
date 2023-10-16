@@ -45,7 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2310.0.0');
+define('VERSION', '2310.1.0');
 
 /**
  * VERSI_DATABASE
@@ -136,6 +136,8 @@ define('NILAI_PENDAPAT', serialize([
     4 => 'Buruk',
 ]));
 
+use App\Models\RefJabatan;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use voku\helper\AntiXSS;
 
@@ -1553,4 +1555,39 @@ if (! function_exists('bersihkan_xss')) {
 
         return $antiXSS->xss_clean($str);
     }
+}
+
+if (! function_exists('ref')) {
+    /**
+     * - Fungsi untuk mengambil data tabel refrensi.
+     *
+     * @param mixed $alias
+     *
+     * @return array|object
+     */
+    function ref($alias)
+    {
+        return get_instance()->db->get($alias)->result();
+    }
+}
+
+/**
+ * Buat hash password (bcrypt) dari string sebuah password
+ *
+ * @param  [type]  $string  [description]
+ *
+ * @return  [type]  [description]
+ */
+function generatePasswordHash($string)
+{
+    // Pastikan inputnya adalah string
+    $string = is_string($string) ? $string : (string) $string;
+    // Buat hash password
+    $pwHash = password_hash($string, PASSWORD_BCRYPT);
+    // Cek kekuatan hash, regenerate jika masih lemah
+    if (password_needs_rehash($pwHash, PASSWORD_BCRYPT)) {
+        $pwHash = password_hash($string, PASSWORD_BCRYPT);
+    }
+
+    return $pwHash;
 }

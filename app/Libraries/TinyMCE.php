@@ -147,7 +147,7 @@ class TinyMCE
             'Surat' => $this->getIsianSurat($data),
 
             // Data Identitas Desa
-            'Identitas Desa' => $this->getIsianIdentitas($data['id_pend']),
+            'Identitas Desa' => $this->getIsianIdentitas($data['id_pend'] ?? $data['nik_non_warga']),
 
             // Data Penduduk Umum
             'Penduduk' => $this->getIsianPenduduk($data['id_pend']),
@@ -161,6 +161,11 @@ class TinyMCE
             // Penandatangan
             'Penandatangan' => $this->getPenandatangan($data['input']),
         ];
+
+        // Jika penduduk luar, hilangkan isian penduduk
+        if ($data['surat']['form_isian']->data == 2) {
+            unset($daftar_kode_isian['Penduduk'], $daftar_kode_isian['Anggota Keluarga']);
+        }
 
         if ($withData) {
             $kodeIsian = collect($daftar_kode_isian)
@@ -1027,5 +1032,28 @@ class TinyMCE
         }
 
         return collect($lampiran)->unique()->sort()->values();
+    }
+
+    public static function getKodeIsianNonWarga()
+    {
+        return json_encode([
+            [
+                'tipe'      => 'text',
+                'kode'      => '[form_nama_non_warga]',
+                'nama'      => 'Nama Non Warga',
+                'deskripsi' => 'Masukkan Nama',
+                'atribut'   => 'class="required nama"',
+                'statis'    => true,
+            ],
+            [
+
+                'tipe'      => 'text',
+                'kode'      => '[form_nik_non_warga]',
+                'nama'      => 'NIK Non Warga',
+                'deskripsi' => 'Masukkan NIK',
+                'atribut'   => 'class="required nik"',
+                'statis'    => true,
+            ],
+        ]);
     }
 }
