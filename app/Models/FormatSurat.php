@@ -145,8 +145,8 @@ class FormatSurat extends BaseModel
         'date'            => 'Input Tanggal',
         'time'            => 'Input Jam',
         'textarea'        => 'Text Area',
-        'select-manual'   => 'Select (Manual)',
-        'select-otomatis' => 'Select (Otomatis)',
+        'select-manual'   => 'Pilihan (Kustom)',
+        'select-otomatis' => 'Pilihan (Referensi)',
         'hari'            => 'Input Hari',
         'hari-tanggal'    => 'Input Hari dan Tanggal',
     ];
