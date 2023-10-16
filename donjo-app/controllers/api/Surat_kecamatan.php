@@ -63,8 +63,9 @@ class Surat_kecamatan extends Tte_Controller
                 'base_uri' => "{$this->setting->api_opendk_server}/api/v1/surat/",
             ]);
         }
-
-        $this->kode_desa = kode_wilayah($this->header['desa']['kode_desa']);
+        $this->load->model('header_model');
+        $header          = $this->header_model->get_data();
+        $this->kode_desa = kode_wilayah($header['desa']['kode_desa']);
     }
 
     public function kirim()

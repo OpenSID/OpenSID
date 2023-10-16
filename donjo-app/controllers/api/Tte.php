@@ -151,7 +151,6 @@ class Tte extends Tte_Controller
     public function sign_visible()
     {
         $request = $this->input->post();
-
         DB::beginTransaction();
 
         try {
@@ -164,7 +163,7 @@ class Tte extends Tte_Controller
                 $image  = setting('visual_tte_gambar') ?: 'assets/images/bsre.png';
 
                 $visible = [
-                    ['name' => 'tag_koordinat', 'contents' => '[ttd_bsre]'],
+                    ['name' => 'tag_koordinat', 'contents' => '[qr_bsre]'],
                     ['name' => 'image', 'contents' => true],
                     ['name' => 'imageTTD', 'contents' => Psr7\Utils::tryFopen(FCPATH . $image, 'r')],
                 ];

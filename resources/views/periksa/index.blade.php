@@ -582,6 +582,38 @@
                                     </div>
                                 @endif
 
+                                @if (in_array('no_anggota_ganda', $masalah))
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi No Anggota ganda</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Ganda</th>
+                                                    <th>Config ID</th>
+                                                    <th>ID Kelompok</th>
+                                                    <th>No Anggota</th>
+                                                </tr>
+                                                @foreach ($no_anggota_ganda as $no_anggota)
+                                                    <tr>
+                                                        <td>{{ $no_anggota->jml }}</td>
+                                                        <td>{{ $no_anggota->config_id }}</td>
+                                                        <td>{{ $no_anggota->id_kelompok }}</td>
+                                                        <td>{{ $no_anggota->no_anggota }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki no_anggota ganda dengan (1) menambah id
+                                                ke masing-masing no_anggota. Untuk melihat no_anggota yang diubah harap periksa
+                                                berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'no_anggota_ganda') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                @endif
+
                                 <p>Setelah diperbaiki, migrasi akan otomatis diulangi mulai dari versi
                                     {{ $migrasi_utk_diulang }}.</p>
                                 <br><a href="#" data-href="{{ route('periksa.perbaiki') }}"

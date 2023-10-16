@@ -35,19 +35,30 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class Migrasi_2310_ke_2311 extends MY_Model
+class MY_Email extends CI_Email
 {
-    public function up()
+    private $active = 0;
+
+    public function __construct(array $config = [])
     {
-        $hasil = true;
+        parent::__construct($config);
+    }
 
-        // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2311', false);
+    /**
+     * Send Email
+     *
+     * @param bool $auto_clear = TRUE
+     *
+     * @return bool
+     */
+    public function send($auto_clear = true)
+    {
+        if (! $this->active) {
+            log_message('error', 'email tidak dikirim karena pengaturan notifikasi email dinonaktifkan');
 
-        status_sukses($hasil);
+            return false;
+        }
 
-        return $hasil;
+        return parent::send($auto_clear);
     }
 }

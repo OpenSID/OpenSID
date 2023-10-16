@@ -106,7 +106,7 @@ class KodeIsianPeristiwa
             [
                 'judul' => 'Tempat Dilahirkan',
                 'isian' => getFormatIsian('Tempat_dilahirkanN'),
-                'data'  => $peristiwa->penduduk->dilahirkan,
+                'data'  => $peristiwa->penduduk->tempatlahir,
             ],
             [
                 'judul' => 'Tempat Kelahiran',

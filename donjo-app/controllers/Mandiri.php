@@ -47,8 +47,8 @@ class Mandiri extends Admin_Controller
         parent::__construct();
         $this->load->model('mandiri_model');
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
-        $this->load->library('email', config_item('email'));
-
+        $this->load->library('email');
+        $this->email->initialize(config_email());
         $this->modul_ini     = 'layanan-mandiri';
         $this->sub_modul_ini = 'pendaftar-layanan-mandiri';
         $this->_set_page     = ['10', '50', '100'];

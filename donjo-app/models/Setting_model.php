@@ -186,6 +186,12 @@ class Setting_model extends MY_Model
                 }
 
                 $value = strip_tags($value);
+                // update password jika terisi saja
+                if (in_array($key, ['email_smtp_pass'])) {
+                    if (empty($value)) {
+                        continue;
+                    }
+                }
 
                 if ($key == 'ip_adress_kehadiran' || $key == 'mac_adress_kehadiran') {
                     $value = trim($value);

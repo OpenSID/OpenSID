@@ -72,7 +72,9 @@ class Surat extends Admin_Controller
     public function index()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(FormatSurat::kunci(FormatSurat::KUNCI_DISABLE)->orderBy('favorit', 'desc')->latest('updated_at'))
+            $nonAktifkanRTF = setting('nonaktifkan_rtf');
+
+            return datatables()->of((new FormatSurat())->setNonAktifkanRTF($nonAktifkanRTF)->kunci(FormatSurat::KUNCI_DISABLE)->orderBy('favorit', 'desc')->latest('updated_at'))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     $aksi = '';
@@ -105,13 +107,14 @@ class Surat extends Admin_Controller
     public function apidaftarsurat()
     {
         if ($this->input->is_ajax_request()) {
-            $cari = $this->input->get('q');
-
-            $surat = FormatSurat::select(['id', 'nama', 'jenis', 'url_surat'])
+            $cari           = $this->input->get('q');
+            $nonAktifkanRTF = setting('nonaktifkan_rtf');
+            $surat          = FormatSurat::select(['id', 'nama', 'jenis', 'url_surat'])
                 ->when($cari, static function ($query) use ($cari) {
                     $query->orWhere('nama', 'like', "%{$cari}%");
-                })
-                ->kunci(FormatSurat::KUNCI_DISABLE)
+                })->when($nonAktifkanRTF, static function ($query) {
+                    $query->whereNotIn('jenis', FormatSurat::RTF);
+                })->kunci(FormatSurat::KUNCI_DISABLE)
                 ->latest('updated_at')
                 ->orderBy('favorit', 'desc')
                 ->paginate(10);
@@ -188,7 +191,7 @@ class Surat extends Admin_Controller
                         $data['list_dokumen_ibu']  = empty($data['ibu']) ? null : $this->penduduk_model->list_dokumen($data['ibu']->id);
                     }
 
-                    if ($data['surat']->form_isian->data_pasangan && in_array($data['individu']->kk_level, [1, 2, 3])) {
+                    if ($data['surat']->form_isian->individu->data_pasangan && in_array($data['individu']->kk_level, [1, 2, 3])) {
                         $data['pasangan'] = Penduduk::where('id_kk', $data['individu']->id_kk)
                             ->where(static function ($query) {
                                 $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
@@ -214,7 +217,6 @@ class Surat extends Admin_Controller
                 $data['individu'] = null;
                 $data['anggota']  = null;
             }
-
             // cek apakah surat itu memiliki form kategori ( saksi etc )
             $kategori = get_key_form_kategori($data['surat']['form_isian']);
             if (! empty($kategori)) {
@@ -245,10 +247,13 @@ class Surat extends Admin_Controller
                 $data['surat']['kode_isian'] = $filtered_kode_isian;
                 $data['form_kategori']       = $form_kategori;
             }
-
             $this->get_data_untuk_form($url, $data);
 
             if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
+                $nonAktifkanRTF = setting('nonaktifkan_rtf');
+                if ($nonAktifkanRTF) {
+                    redirect_with('error', 'Surat RTF sudah tidak digunakan');
+                }
                 $data['form_action'] = site_url("surat/doc/{$url}");
                 $data_form           = $this->surat_model->get_data_form($url);
                 if (is_file($data_form)) {
@@ -257,6 +262,7 @@ class Surat extends Admin_Controller
 
                 return $this->render('surat/form_surat', $data);
             }
+
             // TODO:: Gunakan 1 list_dokumen untuk RTF dan TinyMCE
             $data['list_dokumen'] = empty($nik) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
             $data['form_action']  = route('surat.pratinjau', $url);
@@ -369,7 +375,7 @@ class Surat extends Admin_Controller
         // Cetak Konsep
         $cetak = $this->session->log_surat;
         if ($cetak) {
-            $id_pamong = $this->ttd($this->request['pilih_atas_nama'], $this->request['pamong_id']);
+            $id_pamong = $this->ttd($cetak['input']['pilih_atas_nama'], $cetak['input']['pamong_id']);
             $pamong    = Pamong::find($id_pamong);
             $log_surat = [
                 'id_format_surat' => $cetak['id_format_surat'],
@@ -499,7 +505,7 @@ class Surat extends Admin_Controller
         $cetak = $this->session->log_surat;
 
         if ($cetak) {
-            $id_pamong = $this->ttd($this->request['pilih_atas_nama'], $this->request['pamong_id']);
+            $id_pamong = $this->ttd($cetak['input']['pilih_atas_nama'], $cetak['input']['pamong_id']);
             $pamong    = Pamong::find($id_pamong);
             $log_surat = [
                 'id_format_surat' => $cetak['id_format_surat'],
@@ -808,7 +814,7 @@ class Surat extends Admin_Controller
         } else {
             // TinyMCE
             // Data penduduk diambil sesuai pengaturan surat
-            if ($data['surat']['form_isian']->data == 2) {
+            if ($data['surat']['form_isian']->individu->data == 2) {
                 $data['penduduk'] = false;
                 $data['anggota']  = null;
             } else {
@@ -919,17 +925,22 @@ class Surat extends Admin_Controller
     public function apipenduduksurat()
     {
         if ($this->input->is_ajax_request()) {
-            $cari    = $this->input->get('q');
-            $filters = collect(FormatSurat::select('form_isian')->find($this->input->get('surat'))->form_isian->individu)->toArray();
-
+            $cari     = $this->input->get('q');
+            $filters  = FormatSurat::select('form_isian')->find($this->input->get('surat'))->form_isian;
+            $individu = collect($filters->individu)->toArray();
+            $orangtua = collect($filters->orangtua);
             $penduduk = Penduduk::select(['id', 'nik', 'tag_id_card', 'nama', 'id_cluster'])
                 ->when($cari, static function ($query) use ($cari) {
                     $query->orWhere('nik', 'like', "%{$cari}%")
                         ->orWhere('tag_id_card', 'like', "%{$cari}%")
                         ->orWhere('nama', 'like', "%{$cari}%");
-                })
-                ->filters($filters)
-                ->paginate(10);
+                });
+
+            if ($orangtua == 1) {
+                $penduduk = $penduduk->where('id_kk', '>', '0');
+            }
+
+            $penduduk = $penduduk->filters($individu)->paginate(10);
 
             return json([
                 'results' => collect($penduduk->items())

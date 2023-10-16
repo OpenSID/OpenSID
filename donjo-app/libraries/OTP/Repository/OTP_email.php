@@ -55,6 +55,7 @@ class OTP_email implements OTP_interface
     {
         $this->ci = get_instance();
         $this->ci->load->library('email', config_item('email'));
+        $this->ci->email->initialize(config_email());
     }
 
     /**
@@ -151,17 +152,17 @@ class OTP_email implements OTP_interface
      */
     public function kirim_pin_baru($user, $pin, $nama)
     {
-        $this->ci->email->from($this->ci->email->smtp_user, 'OpenSID')
-            ->to($user)
-            ->subject('PIN Baru')
-            ->set_mailtype('html')
-            ->message($this->ci->load->view('fmandiri/email/kirim-pin', ['pin' => $pin, 'nama' => $nama], true));
+        try {
+            $this->ci->email->from($this->ci->email->smtp_user, 'OpenSID')
+                ->to($user)
+                ->subject('PIN Baru')
+                ->set_mailtype('html')
+                ->message($this->ci->load->view('fmandiri/email/kirim-pin', ['pin' => $pin, 'nama' => $nama], true));
 
-        if ($this->ci->email->send()) {
-            return true;
+            return (bool) ($this->ci->email->send());
+        } catch (\Throwable $th) {
+            throw new \Exception($this->ci->email->print_debugger());
         }
-
-        throw new \Exception($this->ci->email->print_debugger());
     }
 
     /**

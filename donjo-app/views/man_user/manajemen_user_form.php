@@ -106,7 +106,7 @@
                                     <input id="email" name="email" class="form-control input-sm email" type="email" placeholder="Alamat E-mail" value="<?= $user['email'] ?>"></input>
                                 </div>
                             </div>
-
+                            <?php if ($notifikasi_telegram): ?>
                             <div class="form-group">
                                 <label for="notif_telegram" class="col-sm-3 control-label">Notifikasi Telegram</label>
                                 <div class="btn-group col-xs-12 col-sm-8 " data-toggle="buttons">
@@ -122,13 +122,10 @@
                             <div class="form-group">
                                 <label for="catatan" class="col-sm-3 control-label">User ID Telegram</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control input-sm bilangan" type="text" id="id_telegram" name="id_telegram" value="<?= $user['id_telegram'] ?>" maxlength="10" <?= jecho(setting('telegram_token'), null, 'disabled') ?> />
-                                    <?php if (setting('telegram_token') == null) : ?>
-                                        <span class="help-block" style="color: #f39c12;">Untuk mengaktifkan notifikasi telegram, harap masukkan token telegram di modul setting aplikasi </span>
-                                    <?php endif ?>
-
+                                    <input class="form-control input-sm id_telegram" type="text" id="id_telegram" name="id_telegram" value="<?= $user['id_telegram'] ?>" maxlength="10" <?= jecho(setting('telegram_token'), null, 'disabled') ?> />
                                 </div>
                             </div>
+                            <?php endif; ?>
                         </div>
 
                         <div class="box-footer">
@@ -152,9 +149,11 @@
         $('input[name="notif_telegram"]').change(function(e) {
             e.preventDefault();
             if ($(this).val() == 1) {
-                $('input[name="id_telegram"]').addClass('required');
+                $('input[name="id_telegram"]').closest('.form-group').show();
+                $('input[name="id_telegram"]').addClass('required id_telegram');
             } else {
-                $('input[name="id_telegram"]').removeClass('required');
+                $('input[name="id_telegram"]').closest('.form-group').hide();
+                $('input[name="id_telegram"]').removeClass('required id_telegram');
             }
         });
 
@@ -173,7 +172,9 @@
             }
         });
 
-            $('input[value="<?= $user['active'] ?? 1 ?>"][name="aktif"]').parent().trigger('click')
+        $('input[value="<?= $user['active'] ?? 1 ?>"][name="aktif"]').parent().trigger('click');
+        $('input[value="<?= $user['notif_telegram'] ?? 0 ?>"][name="notif_telegram"]').parent().trigger('click');
+        $('input[name="notif_telegram"]').trigger('change');
 
     });
 </script>

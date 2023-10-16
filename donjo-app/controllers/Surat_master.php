@@ -61,22 +61,26 @@ class Surat_master extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['surat_master_model', 'surat_model']);
-        $this->tinymce       = new TinyMCE();
-        $this->modul_ini     = 'layanan-surat';
-        $this->sub_modul_ini = 'pengaturan-surat';
+        $this->tinymce            = new TinyMCE();
+        $this->modul_ini          = 'layanan-surat';
+        $this->sub_modul_ini      = 'pengaturan-surat';
+        $this->header['kategori'] = 'pengaturan-surat';
     }
 
     public function index()
     {
+        $nonAktifkanRTF = setting('nonaktifkan_rtf');
+
         return view('admin.pengaturan_surat.index', [
-            'jenisSurat' => FormatSurat::JENIS_SURAT,
+            'jenisSurat' => $nonAktifkanRTF ? FormatSurat::JENIS_SURAT_TANPA_RTF : FormatSurat::JENIS_SURAT,
         ]);
     }
 
     public function datatables()
     {
+        $nonAktifkanRTF = setting('nonaktifkan_rtf');
         if ($this->input->is_ajax_request()) {
-            return datatables(FormatSurat::jenis($this->input->get('jenis')))
+            return datatables((new FormatSurat())->setNonAktifkanRTF($nonAktifkanRTF)->jenis($this->input->get('jenis')))
                 ->addColumn('ceklist', static function ($row) {
                     return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                 })
@@ -346,19 +350,15 @@ class Surat_master extends Admin_Controller
         }
 
         $formIsian = [
-            'data'     => $request['data_utama'],
             'individu' => [
+                'data'         => $request['data_utama'],
                 'sex'          => $request['individu_sex'] ?? null,
                 'status_dasar' => $request['individu_status_dasar'] ?? null,
                 'kk_level'     => $request['individu_kk_level'] ?? null,
+                'data_orang_tua' => $request['data_orang_tua'] ?? 0,
+                'data_pasangan'  => $request['data_pasangan'] ?? 0,
             ],
-            'data_orang_tua' => $request['data_orang_tua'] ?? 0,
-            'data_pasangan'  => $request['data_pasangan'] ?? 0,
         ];
-
-        if (in_array($request['data_utama'], ['2'])) {
-            $formIsian['individu'] = null;
-        }
 
         if (isset($request['kategori'])) {
             foreach ($request['kategori'] as $kategori) {
@@ -367,6 +367,8 @@ class Surat_master extends Admin_Controller
                     'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
                     'status_dasar' => $request['kategori_status_dasar'][$kategori] ?? null,
                     'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
+                    // 'data_orang_tua' => $request['kategori_data_orang_tua'] ?? 0,
+                    // 'data_pasangan'  => $request['kategori_data_pasangan'] ?? 0,
                 ];
                 $manual_data = array_values(array_filter($request['kategori_pilihan_kode'][$kategori]));
                 if (count($manual_data) > 0) {
