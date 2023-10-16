@@ -219,6 +219,7 @@ class Surat extends Admin_Controller
             }
             // cek apakah surat itu memiliki form kategori ( saksi etc )
             $kategori = get_key_form_kategori($data['surat']['form_isian']);
+
             if (! empty($kategori)) {
                 $form_kategori   = [];
                 $kategori_isian  = [];
@@ -230,7 +231,7 @@ class Surat extends Admin_Controller
 
                 foreach ($kategori as $ktg) {
                     $form_kategori[$ktg]['form']       = $this->get_data_untuk_form($url, $data, $ktg);
-                    $form_kategori[$ktg]['kode_isian'] = $kategori_isian[$ktg];
+                    $form_kategori[$ktg]['kode_isian'] = $this->groupByLabel($kategori_isian[$ktg]);
                     $form_kategori[$ktg]['saksi']      = $this->input->post("id_pend_{$ktg}") ?? '';
 
                     if (! empty($form_kategori[$ktg]['saksi'])) {
@@ -244,8 +245,10 @@ class Surat extends Admin_Controller
                     return isset($item->kategori);
                 })->values();
 
-                $data['surat']['kode_isian'] = $filtered_kode_isian;
+                $data['surat']['kode_isian'] = $this->groupByLabel($filtered_kode_isian);
                 $data['form_kategori']       = $form_kategori;
+            } else {
+                $data['surat']['kode_isian'] = $this->groupByLabel($data['surat']->kode_isian);
             }
             $this->get_data_untuk_form($url, $data);
 
@@ -995,5 +998,17 @@ class Surat extends Admin_Controller
     private function pengikutPindah($data)
     {
         return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
+    }
+
+    private function groupByLabel($array)
+    {
+        return collect($array)->groupBy(static function ($item) {
+            $label = $item->label ?? '';
+            if (empty($label)) {
+                $label = underscore($item->nama, false);
+            }
+
+            return ucwords($label);
+        });
     }
 }
