@@ -37,6 +37,9 @@
         <div class="box-body">
             @if ($penduduk)
                 <form id="main" name="main" method="POST" class="form-horizontal">
+                    <div class="form-group subtitle_head">
+                        <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori['individu'] ?? 'Keterangan Pemohon')) }}</label>    
+                    </div>
                     <div class="form-group">
                         <label for="nik" class="col-sm-3 control-label">NIK / Nama</label>
                         <div class="col-sm-6 col-lg-4">
@@ -206,7 +209,7 @@
                 </div>
                 @include('admin.surat.konfirmasi_pemohon')
             @endif
-
+            
             @include('admin.surat.kode_isian')
 
             {{-- kategori form --}}

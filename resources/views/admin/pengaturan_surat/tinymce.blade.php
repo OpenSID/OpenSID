@@ -41,13 +41,20 @@
                 <div class="box-body">
                     <button type="button" class="utama-delete btn btn-danger btn-sm pull-right hide"
                         onclick="deleteTab(event)"><i class="fa fa-times-circle"></i> Hapus Bagian Form</button>
-                    <h5><b>Sumber Data</b></h5>
+                    <div class="row">
+                        <label for="" class="col-sm-2">Judul Bagian</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control input-sm judul" name="judul" value="Keterangan Pemohon">
+                        </div>
+                    </div>
+                    <hr>
+                    <h5><b>Sumber Data Pelaku</b></h5>
                     <div class="table-responsive">
                         <table class="table table-hover table-striped sumber-data">
                             <tbody>
                                 <tr style="font-weight: bold;">
-                                    <td>Data Kategori</td>
-                                    <td>Pilihan</td>
+                                    <td class="col-sm-2">Data Kategori</td>
+                                    <td class="col-sm-10">Pilihan</td>
                                 </tr>
 
                                 <tr>
@@ -145,13 +152,20 @@
                         <button type="button" class="btn btn-danger btn-sm pull-right"
                             data-kategori="{{ $item }}" onclick="deleteTab(event)"><i
                                 class="fa  fa-times-circle"></i> Hapus Bagian Form</button>
-                        <h5 class="sumber-data-title"><b>Sumber Data</b></h5>
+                        <div class="row">
+                            <label for="" class="col-sm-2">Judul Bagian</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm judul" name="kategori_judul[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->judul ?? $item }}">
+                            </div>
+                        </div>
+                        <hr>
+                        <h5 class="sumber-data-title"><b>Sumber Data Pelaku</b></h5>
                         <div class="table-responsive">
                             <table class="table table-hover table-striped sumber-data">
                                 <tbody>
                                     <tr style="font-weight: bold;">
-                                        <td>Data Kategori</td>
-                                        <td>Pilihan</td>
+                                        <td class="col-sm-2">Data Kategori</td>
+                                        <td class="col-sm-10">Pilihan</td>
                                     </tr>
 
                                     <tr>
@@ -240,12 +254,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">Tambah Kategori</h4>
+                    <h4 class="modal-title" id="myModalLabel">Tambah Bagian Form</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="id_rtm">Nama Kategori</label>
-                        <input type="text" class="form-control" id="nama_kategori" placeholder="Nama Kategori"
+                        <label for="id_rtm">Nama Bagian Form</label>
+                        <input type="text" class="form-control" id="nama_kategori" placeholder="Nama Bagian Form"
                             value="">
                         <label for="nama_kategori" generated="true" class="error" id="error_category"></label>
                     </div>
@@ -287,6 +301,10 @@
                 e.preventDefault()
                 var newTabId = 'tab-' + nama_kategori
                 var oldname, newname
+                // destroy select2 sebelum di clone
+                $('#data_utama').select2('destroy')
+                $('#data_utama').removeAttr('data-select2-id')
+                $('#data_utama option').removeAttr('data-select2-id')
                 $("#form-utama").clone(true)
                     .map(function() {
                         editElm = $(this)
@@ -309,7 +327,12 @@
                         elorangTua.remove()
                         var elpasangan = editElm[0].querySelector('#data-pasangan')
                         elpasangan.remove()
-                        // console.log(elkodeIsian);
+                        var elJudul = editElm[0].querySelector('input.judul')
+                        oldname = elJudul.getAttribute('name')
+                        newname = `kategori_${oldname}[${nama_kategori}]`
+                        elJudul.name = newname
+                        elJudul.value = nama_kategori
+
                         if (elsumberData != null) {
                             // console.log(321);
                             var selects = editElm[0].querySelectorAll('.sumber-data select');
@@ -320,17 +343,18 @@
                                 newname = `kategori_${oldname}[${nama_kategori}]`
                                 // if (oldname == 'data_utama') elselect2.disabled = true
                                 elselect2.name = newname
-                                elselect2.classList.add('kategori')
-                                if (elselect2.classList.contains('select2')) {
+                                elselect2.id = elselect2.id+`-${nama_kategori}`
+                                // elselect2.classList.add('kategori')
+                                // if (elselect2.classList.contains('select2')) {
 
-                                    elselect2.classList.remove('select2')
-                                    elselect2.classList.remove('select2-hidden-accessible')
-                                    elselect2.classList.remove('required')
-                                    if (elselect2.nextElementSibling != null) elselect2
-                                        .nextElementSibling.remove();
-                                    // elselect2.nextElementSibling.remove()
-                                    elselect2.removeAttribute('data-select2-id')
-                                }
+                                //     elselect2.classList.remove('select2')
+                                //     elselect2.classList.remove('select2-hidden-accessible')
+                                //     elselect2.classList.remove('required')
+                                //     if (elselect2.nextElementSibling != null) elselect2
+                                //         .nextElementSibling.remove();
+                                //     // elselect2.nextElementSibling.remove()
+                                //     elselect2.removeAttribute('data-select2-id')
+                                // }
                                 // console.log(elselect2);
                             });
                         }
@@ -407,7 +431,10 @@
 
                 $('.nav-tabs.customized-tab').append(newNavItem);
                 $('.tab-content .custom').append(inputHidden)
-                $('.tab-content .custom').append(editElm);
+                $('.tab-content .custom').append(editElm);                
+                /* buat lagi select2*/
+                $('#data_utama').select2()
+                $('#data_utama-'+nama_kategori).select2()
                 newNavItem.find('a').tab('show');
             });
 

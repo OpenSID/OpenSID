@@ -267,8 +267,11 @@ class Surat extends Admin_Controller
             }
 
             // TODO:: Gunakan 1 list_dokumen untuk RTF dan TinyMCE
-            $data['list_dokumen'] = empty($nik) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
-            $data['form_action']  = route('surat.pratinjau', $url);
+            $data['list_dokumen']   = empty($nik) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
+            $data['form_action']    = route('surat.pratinjau', $url);
+            $data['judul_kategori'] = collect($data['surat']->form_isian)->map(static function ($item) {
+                return $item->judul;
+            });
 
             return view('admin.surat.form_desa', $data);
         }
