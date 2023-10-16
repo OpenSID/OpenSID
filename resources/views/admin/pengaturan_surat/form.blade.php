@@ -20,8 +20,9 @@
     @include('admin.layouts.components.notifikasi')
 
     {!! form_open($formAction, 'id="validasi" enctype="multipart/form-data"') !!}
-    <input type="hidden" id="id_surat" name="id_surat" value="{{ $suratMaster->id }}">
+    <input type="hidden" id="id_surat" name="id_surat" value="{{ $suratMaster->id }}">    
     <div class="nav-tabs-custom">
+        <div class="container identitas-surat"><h4>Surat {{ $suratMaster->nama ?? '' }}</h4></div>
         <ul class="nav nav-tabs" id="tabs">
             <li class="active"><a href="#pengaturan-umum" data-toggle="tab">Umum</a></li>
             <li><a href="#template-surat" data-toggle="tab">Template</a></li>
@@ -77,6 +78,10 @@
             $('input[name="mandiri"]').change(function() {
                 syarat($(this).val());
             });            
+
+            $('#pengaturan-umum input[name=nama]').keyup(function(e){                
+                $('div.identitas-surat h4').text('Surat '+ $(this).val())
+            })
 
             $('#preview').click(function(e) {
                 e.preventDefault();
