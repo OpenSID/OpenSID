@@ -4,7 +4,7 @@
         <tbody id="dragable-{{$item}}">
             <tr style="font-weight: bold;">
                 <td>#</td>
-                <td>TIPE</td>                
+                <td>TIPE</td>
                 <td>NAMA</td>
                 <td>LABEL</td>
                 <td>PLACEHOLDER</td>

@@ -4,13 +4,13 @@
         <tbody id="dragable-form-utama">
             <tr style="font-weight: bold;">
                 <td>#</td>
-                <td>TIPE</td>                
+                <td>TIPE</td>
                 <td>NAMA</td>
                 <td>LABEL</td>
                 <td>PLACEHOLDER</td>
                 <td class="padat">HARUS DIISI</td>
                 <td>KOLOM</td>
-                <td>ATRIBUT</td>                
+                <td>ATRIBUT</td>
                 <td class="isian-pilihan">PILIHAN</td>
                 <td>AKSI</td>
             </tr>
@@ -28,7 +28,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </td>                        
+                        </td>
                         <td><input type="text" name="nama_kode[]" class="form-control input-sm isian"
                                 value="{{ $value->nama }}" placeholder="Masukkan Nama" @disabled($value->tipe == '')>
                         </td>

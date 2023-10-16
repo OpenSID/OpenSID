@@ -54,11 +54,11 @@
                                     <td>Data Individu</td>
                                     <td>
                                         @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
-                                        <select id="data_utama" class="form-control input-sm" name="data_utama[]" multiple>
-                                            <option value="1" @selected(is_array($suratMaster->form_isian->individu->data) ? in_array(1, $suratMaster->form_isian->data) : 1 == $suratMaster->form_isian->data)>PENDUDUK
+                                        <select id="data_utama" class="form-control input-sm select2" name="data_utama[]" multiple>
+                                            <option value="1" @selected(is_array($suratMaster->form_isian->individu->data) ? in_array(1, $suratMaster->form_isian->individu->data) : 1 == $suratMaster->form_isian->individu->data)>PENDUDUK
                                                 {{ $desa_pend }}
                                             </option>
-                                            <option value="2" @selected(is_array($suratMaster->form_isian->individu->data) ? in_array(2, $suratMaster->form_isian->data) : 2 == $suratMaster->form_isian->data)>PENDUDUK LUAR
+                                            <option value="2" @selected(is_array($suratMaster->form_isian->individu->data) ? in_array(2, $suratMaster->form_isian->individu->data) : 2 == $suratMaster->form_isian->individu->data)>PENDUDUK LUAR
                                                 {{ $desa_pend }}
                                             </option>
                                         </select>
