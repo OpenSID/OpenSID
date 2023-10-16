@@ -163,7 +163,7 @@ class Surat extends Admin_Controller
                         $data['peristiwa']   = $this->logpenduduk::with('penduduk')->where('id_pend', $nik)->latest()->first();
                     }
 
-                    if ($data['surat']->form_isian->data_orang_tua) {
+                    if ($data['surat']->form_isian->individu->data_orang_tua) {
                         $data['ayah'] = Penduduk::where('nik', $data['individu']->ayah_nik)->first();
                         $data['ibu']  = Penduduk::where('nik', $data['individu']->ibu_nik)->first();
 
@@ -191,7 +191,7 @@ class Surat extends Admin_Controller
                         $data['list_dokumen_ibu']  = empty($data['ibu']) ? null : $this->penduduk_model->list_dokumen($data['ibu']->id);
                     }
 
-                    if ($data['surat']->form_isian->data_pasangan && in_array($data['individu']->kk_level, [1, 2, 3])) {
+                    if ($data['surat']->form_isian->individu->data_pasangan && in_array($data['individu']->kk_level, [1, 2, 3])) {
                         $data['pasangan'] = Penduduk::where('id_kk', $data['individu']->id_kk)
                             ->where(static function ($query) {
                                 $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
@@ -217,7 +217,6 @@ class Surat extends Admin_Controller
                 $data['individu'] = null;
                 $data['anggota']  = null;
             }
-
             // cek apakah surat itu memiliki form kategori ( saksi etc )
             $kategori = get_key_form_kategori($data['surat']['form_isian']);
             if (! empty($kategori)) {
@@ -248,7 +247,6 @@ class Surat extends Admin_Controller
                 $data['surat']['kode_isian'] = $filtered_kode_isian;
                 $data['form_kategori']       = $form_kategori;
             }
-
             $this->get_data_untuk_form($url, $data);
 
             if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
@@ -264,6 +262,7 @@ class Surat extends Admin_Controller
 
                 return $this->render('surat/form_surat', $data);
             }
+
             // TODO:: Gunakan 1 list_dokumen untuk RTF dan TinyMCE
             $data['list_dokumen'] = empty($nik) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
             $data['form_action']  = route('surat.pratinjau', $url);
@@ -815,7 +814,7 @@ class Surat extends Admin_Controller
         } else {
             // TinyMCE
             // Data penduduk diambil sesuai pengaturan surat
-            if ($data['surat']['form_isian']->data == 2) {
+            if ($data['surat']['form_isian']->individu->data == 2) {
                 $data['penduduk'] = false;
                 $data['anggota']  = null;
             } else {

@@ -348,27 +348,25 @@ class Surat_master extends Admin_Controller
         }
 
         $formIsian = [
-            'data'           => $request['data_utama'] ?? 1,
-            'individu'       => null,
-            'data_orang_tua' => $request['data_orang_tua'] ?? 0,
-            'data_pasangan'  => $request['data_pasangan'] ?? 0,
+            'individu' => [
+                'data'           => $request['data_utama'] ?? 1,
+                'sex'            => $request['individu_sex'] ?? null,
+                'status_dasar'   => $request['individu_status_dasar'] ?? null,
+                'kk_level'       => $request['individu_kk_level'] ?? null,
+                'data_orang_tua' => $request['data_orang_tua'] ?? 0,
+                'data_pasangan'  => $request['data_pasangan'] ?? 0,
+            ],
         ];
-
-        if ($request['data_utama'] != 2) {
-            $formIsian['individu'] = [
-                'sex'          => $request['individu_sex'] ?? null,
-                'status_dasar' => $request['individu_status_dasar'] ?? null,
-                'kk_level'     => $request['individu_kk_level'] ?? null,
-            ];
-        }
 
         if (isset($request['kategori'])) {
             foreach ($request['kategori'] as $kategori) {
                 $formIsian[$kategori] = [
-                    'data'         => $request['kategori_data_utama'][$kategori] ?? 1,
-                    'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
-                    'status_dasar' => $request['kategori_status_dasar'][$kategori] ?? null,
-                    'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
+                    'data'           => $request['kategori_data_utama'][$kategori] ?? 1,
+                    'sex'            => $request['kategori_individu_sex'][$kategori] ?? null,
+                    'status_dasar'   => $request['kategori_status_dasar'][$kategori] ?? null,
+                    'kk_level'       => $request['kategori_individu_kk_level'][$kategori] ?? null,
+                    // 'data_orang_tua' => $request['kategori_data_orang_tua'] ?? 0,
+                    // 'data_pasangan'  => $request['kategori_data_pasangan'] ?? 0,
                 ];
                 $manual_data = array_values(array_filter($request['kategori_pilihan_kode'][$kategori]));
                 if (count($manual_data) > 0) {

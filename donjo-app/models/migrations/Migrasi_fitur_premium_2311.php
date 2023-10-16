@@ -72,7 +72,9 @@ class Migrasi_fitur_premium_2311 extends MY_model
         }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_2023101254($hasil);
+        $hasil = $hasil && $this->migrasi_2023101254($hasil);
+
+        return $hasil && $this->migrasi_2023101651($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -214,5 +216,37 @@ class Migrasi_fitur_premium_2311 extends MY_model
             'jenis'      => 'text',
             'kategori'   => 'email',
         ]);
+    }
+
+    protected function migrasi_2023101651($hasil)
+    {
+        $this->db->trans_start();
+        $query = $this->db->where('form_isian is NOT NULL')->get('tweb_surat_format');
+
+        foreach ($query->result() as $row) {
+            $data = json_decode($row->form_isian, true);
+            if (array_key_exists('data', $data)) {
+                $data_value = $data['data'];
+                unset($data['data']);
+            }
+            $individu = empty($data['individu']) ? [] : $data['individu'];
+            if (array_key_exists('data', $individu)) {
+                continue;
+            }
+            $data['individu'] = [];
+            if (array_key_exists('data_orang_tua', $data)) {
+                $individu['data_orang_tua'] = $data['data_orang_tua'];
+                unset($data['data_orang_tua']);
+            }
+            if (array_key_exists('data_pasangan', $data)) {
+                $individu['data_pasangan'] = $data['data_pasangan'];
+                unset($data['data_pasangan']);
+            }
+            $data['individu'] = ['data' => $data_value] + $individu;
+            $this->db->update('tweb_surat_format', ['form_isian' => json_encode($data)], ['id' => $row->id]);
+        }
+        $this->db->trans_complete();
+
+        return $hasil;
     }
 }
