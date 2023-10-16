@@ -61,9 +61,7 @@ class Periksa extends CI_Controller
 
     public function index()
     {
-        if ($this->session->periksa_data != 1) {
-            redirect('periksa/login');
-        }
+        $this->cek_user();
 
         if ($this->session->message_query || $this->session->message_exception) {
             log_message('error', $this->session->message_query);
@@ -73,11 +71,16 @@ class Periksa extends CI_Controller
         return view('periksa.index', array_merge($this->periksa_model->periksa, ['header' => $this->header]));
     }
 
-    public function perbaiki()
+    private function cek_user()
     {
         if ($this->session->periksa_data != 1) {
             redirect('periksa/login');
         }
+    }
+
+    public function perbaiki()
+    {
+        $this->cek_user();
         $this->periksa_model->perbaiki();
         $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
 
@@ -86,9 +89,7 @@ class Periksa extends CI_Controller
 
     public function perbaiki_sebagian($masalah)
     {
-        if ($this->session->periksa_data != 1) {
-            redirect('periksa/login');
-        }
+        $this->cek_user();
         $this->periksa_model->perbaiki_sebagian($masalah);
         $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
 

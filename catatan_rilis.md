@@ -49,3 +49,4 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 14. [#1294](https://github.com/OpenSID/premium/issues/1294) Penyesuaian pengaturan email.
 15. [#2980](https://github.com/OpenSID/premium/issues/2980) Penyesuaian isi kolom form_isian pada tabel tweb_surat_format.
 16. [#7196](https://github.com/OpenSID/OpenSID/issues/7196) Penyesuaian form pengaturan surat.
+17. [#2979](https://github.com/OpenSID/premium/issues/2979) Pembatasan halaman periksa hanya bisa diakses oleh superadmin.
