@@ -44,7 +44,7 @@
                     <div class="row">
                         <label for="" class="col-sm-2">Judul Bagian</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm judul" name="judul" value="Keterangan Pemohon">
+                            <input type="text" class="form-control input-sm judul" name="judul" value="{{ $suratMaster->form_isian->individu->judul ?? 'Keterangan Pemohon' }}">
                         </div>
                     </div>
                     <hr>
