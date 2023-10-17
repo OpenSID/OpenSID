@@ -270,6 +270,7 @@
         </div>
     </div>
 </div>
+@include('admin.pengaturan_surat.pindah_kode_modal')
 <div class="modal fade" id="modal-tab" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">

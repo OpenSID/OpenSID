@@ -82,6 +82,9 @@
                         <td width="1%">
                             <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
                                     class='fa fa-trash-o'></i></button>
+                            &nbsp;
+                            <button type="button" class="btn btn-warning btn-sm pindah-kode"><i
+                                    class='fa fa-exchange'></i></button>
                         </td>
                     </tr>
                 @endif
@@ -141,6 +144,9 @@
                     <td class="padat">
                         <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
                                 class="fa fa-trash-o"></i></button>
+                        &nbsp;
+                        <button type="button" class="btn btn-warning btn-sm pindah-kode"><i
+                                class='fa fa-exchange'></i></button>
                     </td>
                 </tr>
             @endif
@@ -152,9 +158,11 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            // var counter = $(".duplikasi:last").data("id");
+            var counter = $(".duplikasi:last").data("id");
             // $("#gandakan-" + counter).find("button").hide();
             // default label = nama
+            let pindahKodeElm
+
             $('input[name="nama_kode[]"]').on('change', function(e){
                 $(this).closest('tr').find('input[name="label_kode[]"]').val($(this).val())
             })
@@ -406,6 +414,41 @@
                 });
             }
 
+            function pindahkanKodeIsian(elm){
+                let _tr = pindahKodeElm.closest('tr')
+                let _modal = $(elm).closest('.modal-dialog')
+                let _tabSelected = _modal.find('.modal-body select').val()
+                let _idAsal = _tr.closest('.tab-pane').attr('id')
+                let _tabAsal = $('#form-isian #tabs').find('li>a[href="#'+_idAsal+'"]').closest('li')
+                let _tabTujuan = $('#form-isian #tabs').find('li>a[href="'+_tabSelected+'"]').closest('li')
+                let _nameElm, _nameElmBaru, _namaKodeUtama
+                                
+                // sesuaikan nama element, untuk kategori menggunakan kombinasi nama kategori_{nama_element}[{nama_kategori}][]
+                _tr.find('input, select, textarea').each(function(){
+                    _nameElm = $(this).attr('name')
+                    if (_nameElm){
+                        if (_tabAsal.attr('data-name') == 'utama') {
+                            // tujuan pasti ke kategori                        
+                            _namaKodeUtama = _nameElm.split('[')[0]
+                            _nameElmBaru = `kategori_${_namaKodeUtama}[${_tabTujuan.attr('data-name')}]${_nameElm.substr(_namaKodeUtama.length)}`                        
+                        }else {
+                            if (_tabTujuan.attr('data-name') == 'utama'){
+                                _nameElmBaru = _nameElm.replace('kategori_','').replace('['+_tabAsal.attr('data-name')+']', '')
+                            }else {
+                                // antar kategori
+                                _nameElmBaru = _nameElm.replace('['+_tabAsal.attr('data-name')+']', '['+_tabTujuan.attr('data-name')+']')
+                            }
+                        }
+                        
+                        $(this).attr('name', _nameElmBaru)
+                    }                    
+                    
+                })
+                _tr.appendTo($(_tabSelected).find('table.kode-isian tbody'))
+                _modal.find('button.close').click()
+                $('#form-isian #tabs').find('li>a[href="'+_tabSelected+'"]').click()
+            }
+
             loadSelect2();
 
             $("#dragable-form-utama").sortable({
@@ -413,6 +456,30 @@
                 placeholder: 'ui-state-highlight',
                 items: '.ui-sortable-handle'
             }).disableSelection();
+            
+            $('.pindah-kode').on('click', function() {
+                pindahKodeElm = $(this)
+                $('#pindah_kode_modal').modal('show');
+            });            
+
+            $('.pindahkan-btn').on('click', function(){
+                pindahkanKodeIsian($(this))
+            })
+
+            $('#pindah_kode_modal').on('show.bs.modal', function (event) {                
+                var tabs = $('#form-isian #tabs').find('li')
+                var tabPaneId = pindahKodeElm.closest('.tab-pane').attr('id')
+                
+                var content = ['<select class="form-control">']
+                var modal = $(this);
+                tabs.each(function(){
+                    if (! $(this).find('a[href="#'+tabPaneId+'"]').length){
+                        content.push(`<option value="${$(this).find('a').attr('href')}">${$(this).data('name')}</option>`)
+                    }                    
+                })
+                content.push('</select>')             
+                modal.find('.modal-body').html(content.join('')); // Set modal content
+            });
         })
     </script>
 @endpush

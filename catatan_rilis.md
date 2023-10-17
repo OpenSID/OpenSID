@@ -16,6 +16,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 10. [7198](https://github.com/OpenSID/OpenSID/issues/7198) Penambahan pengaturan judul kategori surat TinyMCE.
 11. [#7201](https://github.com/OpenSID/OpenSID/issues/7201) Penambahan pengaturan ubah urutan bagian form. 
 12. [#7207](https://github.com/OpenSID/OpenSID/issues/7207) Penambahan pengaturan penggunaan sumber data TinyMCE.
+13. [#7200](https://github.com/OpenSID/OpenSID/issues/7200) Penambahan pengaturan pemindahakan kode isian ke bagian form lainnya.
 
 
 #### Perbaikan Bug

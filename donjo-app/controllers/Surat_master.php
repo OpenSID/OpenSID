@@ -325,7 +325,7 @@ class Surat_master extends Admin_Controller
         }
 
         for ($i = 0; $i < count($request['tipe_kode']); $i++) {
-            if (empty($request['tipe_kode'][$i])) {
+            if (empty($request['tipe_kode'][$i]) || empty($request['nama_kode'][$i])) {
                 continue;
             }
 
@@ -389,7 +389,7 @@ class Surat_master extends Admin_Controller
                 }
 
                 for ($i = 0; $i < count($request['kategori_tipe_kode'][$kategori]); $i++) {
-                    if (empty($request['kategori_tipe_kode'][$kategori][$i])) {
+                    if (empty($request['kategori_tipe_kode'][$kategori][$i]) || empty($request['kategori_nama_kode'][$kategori][$i])) {
                         continue;
                     }
                     $kategori_isian = [
