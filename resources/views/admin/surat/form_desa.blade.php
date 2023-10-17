@@ -217,7 +217,6 @@
                 @include('admin.surat.kategori_isian')
             @endif
 
-            <hr class="batas">
             @include('admin.surat.form_tgl_berlaku')
 
             @include('admin.surat.form_pamong')
