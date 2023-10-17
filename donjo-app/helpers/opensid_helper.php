@@ -1462,6 +1462,10 @@ function menu_slug($url)
 
             break;
 
+        case 'informasi_publik':
+            $url = 'informasi-publik';
+            break;
+
             /*
                 * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
                 * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
@@ -1469,7 +1473,6 @@ function menu_slug($url)
         case 'arsip':
         case 'data_analisis':
         case 'ambil_data_covid':
-        case 'informasi_publik':
         case 'load_aparatur_desa':
         case 'load_apbdes':
         case 'load_aparatur_wilayah':
