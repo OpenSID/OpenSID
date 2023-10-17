@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -156,7 +157,7 @@ class Keluarga extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         // Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-        if (empty($_POST) && (! isset($_SESSION['dari_internal']) || ! $_SESSION['dari_internal'])) {
+        if (empty($_POST) && (!isset($_SESSION['dari_internal']) || !$_SESSION['dari_internal'])) {
             unset($_SESSION['validation_error']);
         }
 
@@ -227,7 +228,7 @@ class Keluarga extends Admin_Controller
         $kepala = $this->keluarga_model->get_kepala_a($id);
         $this->redirect_tidak_valid(empty($kepala['id']) || $kepala['status_dasar'] == 1);
 
-        if (empty($_POST) && ! $_SESSION['dari_internal']) {
+        if (empty($_POST) && !$_SESSION['dari_internal']) {
             unset($_SESSION['validation_error']);
         } else {
             unset($_SESSION['dari_internal']);
@@ -264,6 +265,10 @@ class Keluarga extends Admin_Controller
             $data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
         }
         $data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
+
+        // data orang tua
+        $data['data_ayah'] = Penduduk::where('id_kk', $id)->whereIn('kk_level', [1, 2])->where('sex', 1)->first(['nama', 'nik'])->toArray();
+        $data['data_ibu'] = Penduduk::where('id_kk', $id)->whereIn('kk_level', [1, 3])->where('sex', 2)->first(['nama', 'nik'])->toArray();
 
         // Validasi dilakukan di keluarga_model sewaktu insert dan update
         if ($_SESSION['validation_error']) {
@@ -587,7 +592,7 @@ class Keluarga extends Admin_Controller
                 break;
 
             case $tipe == 'bantuan_keluarga':
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null;
                 } // tampilkan semua peserta walaupun bukan hidup/aktif
                 $session  = 'bantuan_keluarga';
@@ -601,7 +606,7 @@ class Keluarga extends Admin_Controller
                     ->where('id', $program_id)
                     ->get('program')->row()
                     ->nama;
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;
                 }

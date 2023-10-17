@@ -706,6 +706,8 @@
 		$("#kk_level").change(function() {
 			var selected = $(this).val();
 
+			orang_tua();
+
 			if (selected == 2 || selected == 3) {
 				$("#status_perkawinan").val("2").change();
 			} else {
@@ -882,4 +884,21 @@
 			$('#section_ktp_el').fadeOut();
 		}
 	}
+
+	function orang_tua() {
+		var id_kk = $('#id_kk').val();
+		var kk_level = $('#kk_level').val();
+		if (id_kk && kk_level == 4) {
+			$('#ayah_nik').val('<?= $data_ayah['nik'] ?>');
+			$('#nama_ayah').val('<?= $data_ayah['nama'] ?>');
+			$('#ibu_nik').val('<?= $data_ibu['nik'] ?>');
+			$('#nama_ibu').val('<?= $data_ibu['nama'] ?>');
+		} else {
+			$('#ayah_nik').val('<?= $penduduk['ayah_nik'] ?>');
+			$('#nama_ayah').val('<?= $penduduk['nama_ayah'] ?>');
+			$('#ibu_nik').val('<?= $penduduk['ibu_nik'] ?>');
+			$('#nama_ibu').val('<?= $penduduk['nama_ibu'] ?>');
+		}
+	}
+
 </script>
