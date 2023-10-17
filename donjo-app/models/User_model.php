@@ -232,17 +232,17 @@ class User_model extends MY_Model
 
     public function autocomplete()
     {
-        $sql   = "SELECT username FROM user WHERE config_id = {$this->config_id} UNION SELECT nama FROM user WHERE config_id = {$this->config_id}";
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        $this->filter_sql();
 
-        $out = '';
+        $data = $this->config_id()
+            ->distinct()
+            ->select('username, nama')
+            ->order_by('username, nama')
+            ->limit(15)
+            ->get('user as u')
+            ->result_array();
 
-        for ($i = 0; $i < count($data); $i++) {
-            $out .= ",'" . $data[$i]['username'] . "'";
-        }
-
-        return '[' . strtolower(substr($out, 1)) . ']';
+        return autocomplete_data_ke_str($data);
     }
 
     private function search_sql()
