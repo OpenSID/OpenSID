@@ -38,6 +38,7 @@
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Models\Keluarga as ModelsKeluarga;
+use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -266,6 +267,10 @@ class Keluarga extends Admin_Controller
             $data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
         }
         $data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
+
+        // data orang tua
+        $data['data_ayah'] = collect(Penduduk::ayah($id)->first(['nama', 'nik']))->toArray();
+        $data['data_ibu']  = collect(Penduduk::ibu($id)->first(['nama', 'nik']))->toArray();
 
         // Validasi dilakukan di keluarga_model sewaktu insert dan update
         if ($_SESSION['validation_error']) {
