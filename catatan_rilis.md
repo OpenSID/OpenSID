@@ -15,6 +15,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 9. [#6546](https://github.com/OpenSID/OpenSID/issues/6546) Penambahan pengaturan unggah font untuk surat TinyMCE.
 10. [7198](https://github.com/OpenSID/OpenSID/issues/7198) Penambahan pengaturan judul kategori surat TinyMCE.
 11. [#7201](https://github.com/OpenSID/OpenSID/issues/7201) Penambahan pengaturan ubah urutan bagian form. 
+12. [#7207](https://github.com/OpenSID/OpenSID/issues/7207) Penambahan pengaturan penggunaan sumber data TinyMCE.
 
 
 #### Perbaikan Bug

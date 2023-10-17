@@ -351,6 +351,7 @@ class Surat_master extends Admin_Controller
 
         $formIsian = [
             'individu' => [
+                'sumber'         => 1, // sumber data untuk individu(utama) harus ada
                 'data'           => $request['data_utama'] ?? [1],
                 'sex'            => $request['individu_sex'] ?? null,
                 'status_dasar'   => $request['individu_status_dasar'] ?? null,
@@ -364,6 +365,7 @@ class Surat_master extends Admin_Controller
         if (isset($request['kategori'])) {
             foreach ($request['kategori'] as $kategori) {
                 $formIsian[$kategori] = [
+                    'sumber'       => $request['kategori_sumber'][$kategori] ?? 1,
                     'data'         => $request['kategori_data_utama'][$kategori] ?? [1],
                     'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
                     'status_dasar' => $request['kategori_status_dasar'][$kategori] ?? null,

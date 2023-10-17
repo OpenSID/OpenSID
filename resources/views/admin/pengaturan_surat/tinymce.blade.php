@@ -57,12 +57,22 @@
                         <table class="table table-hover table-striped sumber-data">
                             <tbody>
                                 <tr style="font-weight: bold;">
-                                    <td class="col-sm-2">Data Kategori</td>
-                                    <td class="col-sm-10">Pilihan</td>
+                                    <td width="40%">Data Kategori</td>
+                                    <td>Pilihan</td>
                                 </tr>
 
                                 <tr>
-                                    <td>Data Individu</td>
+                                    <td>Tampil Sumber Data</td>
+                                    <td>
+                                        <select id="sumber_data" class="form-control input-sm select2" name="sumber" disabled>
+                                            <option value="1" @selected('1' == $suratMaster->form_isian->individu->sumber)>YA
+                                            <option value="0" @selected('0' == $suratMaster->form_isian->individu->sumber)>TIDAK
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr class="sumber_data">
+                                    <td>Data Pelaku</td>
                                     <td>
                                         @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
                                         <select id="data_utama" class="form-control input-sm select2" name="data_utama[]" multiple>
@@ -76,7 +86,7 @@
                                     </td>
                                 </tr>
 
-                                <tr id="orang-tua">
+                                <tr id="orang-tua" class="sumber_data">
                                     <td>Data Orang Tua</td>
                                     <td>
                                         <select id="data_orang_tua" class="form-control input-sm" name="data_orang_tua">
@@ -86,7 +96,7 @@
                                     </td>
                                 </tr>
 
-                                <tr id="data-pasangan">
+                                <tr id="data-pasangan" class="sumber_data">
                                     <td>Data Pasangan</td>
                                     <td>
                                         <select id="data_pasangan" class="form-control input-sm" name="data_pasangan">
@@ -96,7 +106,7 @@
                                     </td>
                                 </tr>
 
-                                <tr class="warga_desa">
+                                <tr class="sumber_data">
                                     <td>Jenis Kelamin</td>
                                     <td>
                                         <select class="form-control input-sm" name="individu_sex">
@@ -110,7 +120,7 @@
                                     </td>
                                 </tr>
 
-                                <tr class="warga_desa">
+                                <tr class="sumber_data">
                                     <td>Jenis Peristiwa</td>
                                     <td>
                                         <select class="form-control input-sm" name="individu_status_dasar">
@@ -124,7 +134,7 @@
                                     </td>
                                 </tr>
 
-                                <tr class="warga_desa">
+                                <tr class="sumber_data">
                                     <td>Status Hubungan Dalam Keluarga (SHDK)</td>
                                     <td>
                                         <select id="individu_kk_level" class="form-control input-sm"
@@ -149,6 +159,7 @@
             @forelse ($kategori_nama as $item)
                 @php
                     $kategori = $kategori_isian[$item];
+                    $tampil_sumber = $suratMaster->form_isian->{$item}->sumber == '1' ? '' : 'hide';
                 @endphp
                 <div class="tab-pane" id="tab-{{ $item }}">
                     <div class="box-body">
@@ -167,11 +178,21 @@
                             <table class="table table-hover table-striped sumber-data">
                                 <tbody>
                                     <tr style="font-weight: bold;">
-                                        <td class="col-sm-2">Data Kategori</td>
-                                        <td class="col-sm-10">Pilihan</td>
+                                        <td width="40%">Data Kategori</td>
+                                        <td>Pilihan</td>
                                     </tr>
 
                                     <tr>
+                                        <td>Tampil Sumber Data</td>
+                                        <td>
+                                            <select id="sumber_data_{{ $item }}" class="form-control input-sm select2" name="kategori_sumber[{{ $item }}]" onchange='tampil_sumber_dinamis("#tab-{{ $item }}", this.value)'>
+                                                <option value="1" @selected('1' == $suratMaster->form_isian->{$item}->sumber)>YA
+                                                <option value="0" @selected('0' == $suratMaster->form_isian->{$item}->sumber)>TIDAK
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sumber_data {{ $tampil_sumber }}">
                                         <td>Data Individu</td>
                                         <td>
                                             @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
@@ -191,11 +212,10 @@
                                         </td>
                                     </tr>
 
-                                    <tr class="warga_desa">
+                                    <tr class="sumber_data {{ $tampil_sumber }}">
                                         <td>Jenis Kelamin</td>
                                         <td>
-                                            <select class="form-control input-sm kategori select2"
-                                                name="kategori_individu_sex[{{ $item }}]">
+                                            <select class="form-control input-sm kategori select2" name="kategori_individu_sex[{{ $item }}]">
                                                 <option value="">SEMUA</option>
                                                 @foreach ($form_isian['daftar_jenis_kelamin'] as $key => $data)
                                                     <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->$item->sex)>
@@ -206,7 +226,7 @@
                                         </td>
                                     </tr>
 
-                                    <tr class="warga_desa">
+                                    <tr class="sumber_data {{ $tampil_sumber }}">
                                         <td>Jenis Peristiwa</td>
                                         <td>
                                             <select class="form-control input-sm select2 kategori"
@@ -221,7 +241,7 @@
                                         </td>
                                     </tr>
 
-                                    <tr class="warga_desa">
+                                    <tr class="sumber_data {{ $tampil_sumber }}">
                                         <td>Status Hubungan Dalam Keluarga (SHDK)</td>
                                         <td>
                                             <select id="individu_kk_level"
@@ -430,7 +450,7 @@
                 );
 
                 $('.nav-tabs.customized-tab').append(newNavItem);
-                $('.tab-content .custom').append(editElm);                
+                $('.tab-content .custom').append(editElm);
                 /* buat lagi select2*/
                 $('#data_utama').select2()
                 $('#data_utama-'+nama_kategori).select2()
@@ -443,6 +463,16 @@
                 items: '.ui-list-tab'
             }).disableSelection();
         });
+
+        function tampil_sumber_dinamis(parent, tipe) {
+            if (tipe == 1) {
+                $(parent + ' .sumber_data').show();
+                $(parent + ' .sumber_data').removeClass('hide');
+            } else {
+                $(parent + ' .sumber_data').hide();
+                $(parent + ' .sumber_data').addClass('hide');
+            }
+        }
 
         function loadSelect() {
             // console.log('load select');

@@ -3,7 +3,7 @@
     <table class="table table-hover table-striped sumber-data">
         <tbody>
             <tr style="font-weight: bold;">
-                <td>Data Kategori</td>
+                <td width="40%">Data Kategori</td>
                 <td>Pilihan</td>
             </tr>
 

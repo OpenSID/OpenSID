@@ -24,8 +24,9 @@
 @foreach ($form_kategori as $key => $kategori)
     <div class="form-group subtitle_head" id="a_saksi2">
         <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori[$key] ?? $key)) }}</label>
-        <input name="anchor" type="hidden" value="<?= $anchor ?>" />        
-    </div>    
+        <input name="anchor" type="hidden" value="<?= $anchor ?>" />
+    </div>
+    @if ((int) $surat['form_isian']->{$key}->sumber == '1')
     <div class="form-group saksi2_desa">
         <label for="saksi2_desa" class="col-sm-3 control-label"><strong>NIK / Nama</strong></label>
         <div class="col-sm-5">
@@ -40,6 +41,7 @@
             </select>
         </div>
     </div>
+    @endif
 
     @if ($kategori["saksi_{$key}"])
         @php
