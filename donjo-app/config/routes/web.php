@@ -48,9 +48,16 @@ $route['status-sdgs']    = WEB . '/sdgs/index';
 $route['peta']           = WEB . '/peta/index';
 $route['peraturan-desa'] = WEB . '/peraturan/index';
 
+// Informasi Publik
+$route['informasi-publik/tampilkan/(:num)/(:num)'] = WEB . '/informasi_publik/tampilkan/$1/$2';
+$route['informasi-publik/tampilkan/(:num)']        = WEB . '/informasi_publik/tampilkan/$1';
+$route['informasi-publik/data']                    = WEB . '/informasi_publik/ajax_informasi_publik';
+$route['informasi-publik']                         = WEB . '/informasi_publik/index';
+
 // Tampil Assets
 $route['tampil/(:any)'] = 'dokumen_web/tampil/$1';
 $route['unduh/(:any)']  = 'dokumen_web/unduh/$1';
+
 // Buku Tamu
 $route['buku-tamu/jawaban/(:num)/(:num)'] = WEB . '/buku_tamu/jawaban/$1/$2';
 $route['buku-tamu/kepuasan/(:num)']       = WEB . '/buku_tamu/kepuasan/$1';
