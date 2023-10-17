@@ -307,39 +307,51 @@ class Laporan_penduduk_model extends MY_Model
     {
         //Ordering SQL
         switch (true) {
-            case $o == 1 && $lap == 'suku': $this->db->order_by($lap);
+            case $o == 1 && $lap == 'suku':
+                $this->db->order_by($lap);
                 break;
 
-            case $o == 2 && $lap == 'suku': $this->db->order_by($lap . ' DESC');
+            case $o == 2 && $lap == 'suku':
+                $this->db->order_by($lap . ' DESC');
                 break;
 
-            case $lap == 'bdt': break;
-
-            case $o == 1: $this->db->order_by('u.id');
+            case $lap == 'bdt':
                 break;
 
-            case $o == 1: $this->db->order_by('u.id');
+            case $o == 1:
+                $this->db->order_by('u.id');
                 break;
 
-            case $o == 2: $this->db->order_by('u.id DESC');
+            case $o == 1:
+                $this->db->order_by('u.id');
                 break;
 
-            case $o == 3: $this->db->order_by('laki');
+            case $o == 2:
+                $this->db->order_by('u.id DESC');
                 break;
 
-            case $o == 4: $this->db->order_by('laki DESC');
+            case $o == 3:
+                $this->db->order_by('laki');
                 break;
 
-            case $o == 5: $this->db->order_by('jumlah');
+            case $o == 4:
+                $this->db->order_by('laki DESC');
                 break;
 
-            case $o == 6: $this->db->order_by('jumlah DESC');
+            case $o == 5:
+                $this->db->order_by('jumlah');
                 break;
 
-            case $o == 7: $this->db->order_by('perempuan');
+            case $o == 6:
+                $this->db->order_by('jumlah DESC');
                 break;
 
-            case $o == 8: $this->db->order_by('perempuan DESC');
+            case $o == 7:
+                $this->db->order_by('perempuan');
+                break;
+
+            case $o == 8:
+                $this->db->order_by('perempuan DESC');
                 break;
         }
     }
@@ -400,7 +412,7 @@ class Laporan_penduduk_model extends MY_Model
         ];
 
         switch ("{$lap}") {
-            // KELUARGA
+                // KELUARGA
             case 'kelas_sosial':
                 // Kelas Sosial
                 $this->db
@@ -427,7 +439,8 @@ class Laporan_penduduk_model extends MY_Model
                 break;
 
                 // BANTUAN
-            case 'bantuan_penduduk': $sql = 'SELECT u.*,
+            case 'bantuan_penduduk':
+                $sql = 'SELECT u.*,
 				(SELECT COUNT(kartu_nik) FROM program_peserta WHERE program_id = u.id) AS jumlah,
 				(SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 1) AS laki,
 				(SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 2) AS perempuan
@@ -439,6 +452,12 @@ class Laporan_penduduk_model extends MY_Model
                 // Kehamilan
                 $this->db->where('p.sex', 2);
                 $this->select_jml_penduduk_per_kategori('hamil', 'ref_penduduk_hamil');
+                break;
+
+            case 'buku-nikah':
+                $this->db->where('p.akta_perkawinan !=', null)->where('p.akta_perkawinan !=', '');
+                $this->db->where('p.status_kawin !=', 1);
+                $this->select_jml_penduduk_per_kategori('status_kawin', 'tweb_penduduk_kawin');
                 break;
 
             case 'covid':
@@ -548,6 +567,8 @@ class Laporan_penduduk_model extends MY_Model
         } else {
             if ($lap == 'hamil') {
                 $this->db->where('b.sex', 2);
+            } elseif ($lap == 'buku-nikah') {
+                $this->db->where('b.status_kawin !=', 1);
             }
             $semua = $this->data_jml_semua_penduduk();
         }
@@ -649,7 +670,7 @@ class Laporan_penduduk_model extends MY_Model
 
     public function delete_rentang($id = '', $semua = false)
     {
-        if (! $semua) {
+        if (!$semua) {
             $this->session->success = 1;
         }
 
