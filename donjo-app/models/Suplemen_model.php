@@ -504,7 +504,9 @@ class Suplemen_model extends MY_Model
             'keterangan'  => substr(htmlentities($post['keterangan']), 0, 100), // Batasi 100 karakter
         ];
 
-        return $this->db->insert('suplemen_terdata', $data);
+        $this->db->insert('suplemen_terdata', $data);
+
+        return $this->db->affected_rows();
     }
 
     public function hapus_terdata($id_terdata)
