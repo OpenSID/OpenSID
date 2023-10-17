@@ -56,13 +56,23 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<div class="box box-info">
 			<div class="box-header with-border">
 				<p class="hidden" id="data-id"><?= $suplemen['id']; ?></p>
-				<?php if ($this->CI->cek_hak_akses('u')): ?>
-					<a href="<?= site_url("{$this->controller}/form_terdata/{$suplemen['id']}"); ?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
+				<?php if ($this->CI->cek_hak_akses('u')) : ?>
+					<div class="btn-group btn-group-vertical">
+						<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Data Warga</a>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a href="<?= site_url("{$this->controller}/aksi/1/{$suplemen['id']}") ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Satu Data Warga"><i class="fa fa-plus"></i> Tambah Satu Data Warga</a>
+							</li>
+							<li>
+								<a href="<?= site_url("{$this->controller}/aksi/2/{$suplemen['id']}") ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Beberapa Data Warga"><i class="fa fa-plus"></i> Tambah Beberapa Data Warga</a>
+							</li>
+						</ul>
+					</div>
 				<?php endif; ?>
-				<?php if ($this->CI->cek_hak_akses('h')): ?>
+				<?php if ($this->CI->cek_hak_akses('h')) : ?>
 					<a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '<?= site_url("{$this->controller}/hapus_terdata_all/{$suplemen['id']}"); ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 				<?php endif; ?>
-				<?php if ($this->CI->cek_hak_akses('u')): ?>
+				<?php if ($this->CI->cek_hak_akses('u')) : ?>
 					<a href="<?= site_url("{$this->controller}/impor"); ?>" class="btn btn-social btn-flat bg-navy btn-sm btn-import visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#impor" data-title="Impor Data Suplemen <?= $sasaran[$suplemen['sasaran']]; ?> "><i class="fa fa-upload "></i> Impor Data</a>
 				<?php endif; ?>
 				<a href="<?= site_url("{$this->controller}/ekspor/{$suplemen['id']}"); ?>" class="btn btn-social btn-flat bg-teal btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file-excel-o "></i> Ekspor Data</a>
@@ -82,7 +92,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<div class="col-sm-9">
 								<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('suplemen/filter/sex'); ?>')">
 									<option value="">Pilih Jenis Kelamin</option>
-									<?php foreach ($list_jenis_kelamin as $data): ?>
+									<?php foreach ($list_jenis_kelamin as $data) : ?>
 										<option value="<?= $data['id']; ?>" <?= selected($sex, $data['id']); ?>><?= set_ucwords($data['nama']); ?></option>
 									<?php endforeach; ?>
 								</select>
@@ -90,9 +100,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							</div>
 							<div class="col-sm-3">
 								<div class="input-group input-group-sm pull-right">
-									<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" value="<?= $cari ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/filter/cari"); ?>');$('#'+'mainform').submit();}">
+									<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?= html_escape($cari) ?>" value="<?= $cari ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/filter/cari"); ?>');$('#'+'mainform').submit();}">
 									<div class="input-group-btn">
-										<button type="submit" class="btn btn-default" value="<?= $cari ?>" onclick="$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/filter/cari"); ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+										<button type="submit" class="btn btn-default" value="<?= $cari ?>" onclick="$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/filter/cari"); ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 									</div>
 								</div>
 							</div>
@@ -101,7 +111,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 								<thead class="bg-gray disabled color-palette">
 									<tr>
-										<th><input type="checkbox" id="checkall"/></th>
+										<th><input type="checkbox" id="checkall" /></th>
 										<th>No</th>
 										<th>Aksi</th>
 										<th><?= $judul['judul_terdata_info']; ?></th>
@@ -115,16 +125,16 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									</tr>
 								</thead>
 								<tbody>
-									<?php if ($terdata): ?>
-										<?php foreach ($terdata as $key => $item): ?>
+									<?php if ($terdata) : ?>
+										<?php foreach ($terdata as $key => $item) : ?>
 											<tr>
 												<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $item['id']; ?>" /></td>
 												<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 												<td class="aksi">
-													<?php if ($this->CI->cek_hak_akses('u')): ?>
+													<?php if ($this->CI->cek_hak_akses('u')) : ?>
 														<a href="<?= site_url("{$this->controller}/edit_terdata_form/{$item['id']}"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Terdata" title="Ubah Terdata" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 													<?php endif; ?>
-													<?php if ($this->CI->cek_hak_akses('h')): ?>
+													<?php if ($this->CI->cek_hak_akses('h')) : ?>
 														<a href="#" data-href="<?= site_url("{$this->controller}/hapus_terdata/{$suplemen['id']}/{$item['id']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													<?php endif; ?>
 												</td>
@@ -138,7 +148,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 												<td width="25%"><?= $item['keterangan']; ?></td>
 											</tr>
 										<?php endforeach; ?>
-									<?php else: ?>
+									<?php else : ?>
 										<tr>
 											<td class="text-center" colspan="11">Data Tidak Tersedia</td>
 										</tr>
@@ -158,8 +168,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 <script type="text/javascript">
 	$(document).ready(function() {
 
-		var keyword = <?= $keyword ?> ;
-		$( "#cari" ).autocomplete( {
+		var keyword = <?= $keyword ?>;
+		$("#cari").autocomplete({
 			source: keyword,
 			maxShowItems: 10,
 		});
