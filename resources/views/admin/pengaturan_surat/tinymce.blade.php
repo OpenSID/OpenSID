@@ -29,10 +29,14 @@
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs customized-tab" id="tabs">
-            <li data-name="utama" class="active"><a href="#form-utama" data-toggle="tab">Utama</a></li>
+            <li data-name="utama" class="active">
+                <a href="#form-utama" data-toggle="tab">Utama</a>
+            </li>
             @forelse ($kategori_nama as $item)
-                <li id="list-{{ $item }}" data-name="{{ $item }}"><a href="#tab-{{ $item }}"
-                        data-toggle="tab">{{ str_replace('_', ' ', $item) }}</a></li>
+                <li class="ui-list-tab" id="list-{{ $item }}" data-name="{{ $item }}">
+                    <a href="#tab-{{ $item }}" data-toggle="tab">{{ str_replace('_', ' ', $item) }}</a>
+                    <input type="hidden" name="kategori[]" value="{{ $item }}">
+                </li>
             @empty
             @endforelse
         </ul>
@@ -147,7 +151,6 @@
                     $kategori = $kategori_isian[$item];
                 @endphp
                 <div class="tab-pane" id="tab-{{ $item }}">
-                    <input type="hidden" name="kategori[]" value="{{ $item }}">
                     <div class="box-body">
                         <button type="button" class="btn btn-danger btn-sm pull-right"
                             data-kategori="{{ $item }}" onclick="deleteTab(event)"><i
@@ -420,17 +423,13 @@
                 // loadSelect()
                 //// console.log(editElm[0]);
                 var newNavItem = $(
-                    `<li id="list-${nama_kategori}" data-name="${nama_kategori}"><a href="#${newTabId}" data-toggle="tab">${nama_kategori.replace(/_/g, ' ')}</a></li>`
+                    `<li class="ui-list-tab" id="list-${nama_kategori}" data-name="${nama_kategori}">
+                        <a href="#${newTabId}" data-toggle="tab">${nama_kategori.replace(/_/g, ' ')}</a>
+                        <input type="hidden" name="kategori[]" value="${nama_kategori}">
+                    </li>`
                 );
 
-                var inputHidden = $('<input>').attr({
-                    type: 'hidden',
-                    name: 'kategori[]',
-                    value: nama_kategori
-                });
-
                 $('.nav-tabs.customized-tab').append(newNavItem);
-                $('.tab-content .custom').append(inputHidden)
                 $('.tab-content .custom').append(editElm);                
                 /* buat lagi select2*/
                 $('#data_utama').select2()
@@ -438,6 +437,11 @@
                 newNavItem.find('a').tab('show');
             });
 
+            $(".customized-tab").sortable({
+                cursor: 'row-resize',
+                placeholder: 'ui-state-highlight',
+                items: '.ui-list-tab'
+            }).disableSelection();
         });
 
         function loadSelect() {
