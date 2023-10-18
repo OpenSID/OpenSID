@@ -219,7 +219,9 @@
 <script>
     $(document).ready(function() {
         var koneksi = "{{ cek_koneksi_internet() }}";
-        let koneksi_pantau = {{ $status_pantau }}
+        var koneksi_pantau = {{ $status_pantau }}
+        var demo = "{{ config_item('demo') }}";
+
         tampil_kode_desa();
 
         if (koneksi && koneksi_pantau) {
@@ -288,7 +290,8 @@
                     contentType: false,
                 })
                 .done(function(response) {
-                    $.ajax({
+                    if (demo == false) {
+                        $.ajax({
                             url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
                             headers: {
                                 "Authorization": `Bearer <?= setting('layanan_opendesa_token') ?>`,
@@ -308,6 +311,7 @@
                                 data: data,
                             })
                         })
+                    }
 
                     if (response.status) {
                         Swal.fire({

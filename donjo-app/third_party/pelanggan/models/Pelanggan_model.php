@@ -55,7 +55,7 @@ class Pelanggan_model extends MY_Model
 
     public function status_langganan()
     {
-        if (empty($response = $this->api_pelanggan_pemesanan())) {
+        if (empty($response = $this->api_pelanggan_pemesanan()) || config_item('demo_mode')) {
             return null;
         }
 
