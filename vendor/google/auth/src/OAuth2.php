@@ -1531,7 +1531,8 @@ class OAuth2 implements FetchAuthTokenInterface
     }
 
     /**
-     * Get the granted scopes (if they exist) for the last fetched token.
+     * Get the granted space-separated scopes (if they exist) for the last
+     * fetched token.
      *
      * @return string|null
      */
@@ -1722,7 +1723,7 @@ class OAuth2 implements FetchAuthTokenInterface
 
         $allowedAlg = null;
         if (is_string($allowedAlgs)) {
-            $allowedAlg = $allowedAlg;
+            $allowedAlg = $allowedAlgs;
         } elseif (is_array($allowedAlgs)) {
             if (count($allowedAlgs) > 1) {
                 throw new \InvalidArgumentException(
