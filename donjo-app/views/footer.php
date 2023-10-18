@@ -224,7 +224,7 @@
 				</script>
 				<?php session_error_clear(); ?>
 
-				<?php if (isset($perbaharui_langganan)) : ?>
+				<?php if (isset($perbaharui_langganan) && ! config_item('demo_mode')) : ?>
 					<!-- cek status langganan -->
 					<script type="text/javascript">
 						var controller = '<?= $this->controller ?>';

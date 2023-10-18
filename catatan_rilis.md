@@ -1,4 +1,4 @@
-Di rilis ini, versi 2310.0.1 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2310.0.2 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontribusi.
 
@@ -50,6 +50,8 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 27. [#7189](https://github.com/OpenSID/OpenSID/issues/7189) Perbaikan api TTE kirim surat ke OpenDK.
 28. [#7082](https://github.com/OpenSID/OpenSID/issues/7082) Perbaikan sebutan desa pada halaman wigdet grafik keuangan desa.
 29. [#7177](https://github.com/OpenSID/OpenSID/issues/7177) Perbaikan validasi select2 pada form tambah/ubah penduduk.
+30. [#7182](https://github.com/OpenSID/OpenSID/issues/7182) Perbaikan pencarian pada modul pengguna.
+
 
 #### Penyesuaian Teknis
 

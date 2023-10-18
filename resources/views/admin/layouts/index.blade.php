@@ -135,7 +135,7 @@
         });
     </script>
 
-    @if ($perbaharui_langganan != null AND !config_item('demo_mode'))
+    @if (isset($perbaharui_langganan) && ! config_item('demo_mode'))
         <!-- cek status langganan -->
         <script type="text/javascript">
             var controller = '{{ $controller }}';

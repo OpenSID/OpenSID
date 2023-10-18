@@ -377,11 +377,13 @@ class Admin_Controller extends MY_Controller
                 ->count();
         }
 
-        // cek langganan premium
-        $info_langganan = $this->cache->file->get_metadata('status_langganan');
+        if (! config_item('demo_mode')) {
+            // cek langganan premium
+            $info_langganan = $this->cache->file->get_metadata('status_langganan');
 
-        if ((strtotime('+30 day', $info_langganan['mtime']) < strtotime('now')) || ($this->cache->file->get_metadata('status_langganan') == false && $this->setting->layanan_opendesa_token != null)) {
-            $this->header['perbaharui_langganan'] = true;
+            if ((strtotime('+30 day', $info_langganan['mtime']) < strtotime('now')) || ($this->cache->file->get_metadata('status_langganan') == false && $this->setting->layanan_opendesa_token != null)) {
+                $this->header['perbaharui_langganan'] = true;
+            }
         }
     }
 
