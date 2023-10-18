@@ -906,12 +906,12 @@ if (! function_exists('config_email')) {
     function config_email()
     {
         return [
-            'active'    => setting('email_notifikasi'),
+            'active'    => (int) setting('email_notifikasi'),
             'protocol'  => setting('email_protocol'),
             'smtp_host' => setting('email_smtp_host'),
             'smtp_user' => setting('email_smtp_user'),
             'smtp_pass' => setting('email_smtp_pass'),
-            'smtp_port' => setting('email_smtp_port'),
+            'smtp_port' => (int) setting('email_smtp_port'),
         ];
     }
 }

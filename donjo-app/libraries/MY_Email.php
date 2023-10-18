@@ -37,7 +37,7 @@
 
 class MY_Email extends CI_Email
 {
-    private $active = 0;
+    public $active = 0;
 
     public function __construct(array $config = [])
     {
