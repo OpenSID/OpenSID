@@ -64,7 +64,7 @@
                                 <tr>
                                     <td>Tampil Sumber Data</td>
                                     <td>
-                                        <select id="sumber_data" class="form-control input-sm select2" name="sumber" disabled>
+                                        <select id="sumber_data" class="form-control input-sm" name="sumber" disabled>
                                             <option value="1" @selected('1' == $suratMaster->form_isian->individu->sumber)>YA
                                             <option value="0" @selected('0' == $suratMaster->form_isian->individu->sumber)>TIDAK
                                         </select>
@@ -185,7 +185,7 @@
                                     <tr>
                                         <td>Tampil Sumber Data</td>
                                         <td>
-                                            <select id="sumber_data_{{ $item }}" class="form-control input-sm select2" name="kategori_sumber[{{ $item }}]" onchange='tampil_sumber_dinamis("#tab-{{ $item }}", this.value)'>
+                                            <select id="sumber_data_{{ $item }}" class="form-control input-sm" name="kategori_sumber[{{ $item }}]" onchange='tampil_sumber_dinamis("#tab-{{ $item }}", this.value)'>
                                                 <option value="1" @selected('1' == $suratMaster->form_isian->{$item}->sumber)>YA
                                                 <option value="0" @selected('0' == $suratMaster->form_isian->{$item}->sumber)>TIDAK
                                             </select>
@@ -340,11 +340,14 @@
                             .attr('id', `dragable-${nama_kategori}`)
                             .end();
 
-                        // console.log(editElm[0].querySelector('.sumber-data'));
+                        var sumberData = editElm[0].querySelector('#sumber_data')
+                        sumberData.removeAttribute('disabled')
+                        sumberData.setAttribute('onchange', `tampil_sumber_dinamis("#tab-${nama_kategori}", this.value)`)
+
                         var utama_delete_btn = editElm[0].querySelector('.utama-delete')
                         utama_delete_btn.dataset.kategori = nama_kategori
                         utama_delete_btn.classList.remove('hide')
-                        // console.log(utama_delete_btn);
+
                         var elsumberData = editElm[0].querySelector('.sumber-data')
                         var elkodeIsian = editElm[0].querySelector('.kode-isian')
                         var elorangTua = editElm[0].querySelector('#orang-tua')
@@ -358,7 +361,7 @@
                         elJudul.value = nama_kategori
 
                         if (elsumberData != null) {
-                            // console.log(321);
+
                             var selects = editElm[0].querySelectorAll('.sumber-data select');
 
                             // Menghapus semua atribut dan kelas "select2" dari setiap elemen <select>
