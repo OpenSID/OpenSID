@@ -39,7 +39,7 @@
                     <div class="small-box bg-blue">
                         <div class="inner">
                             <h4>PEMESANAN LAYANAN</h4>
-                            <h6>
+                            <h6 style="padding-left: 10px;">
                                 <?php foreach ($response->body->pemesanan as $pemesanan) : ?>
                                     <?php if ($pemesanan->status_pemesanan == 'aktif') : ?>
                                         <?php foreach ($pemesanan->layanan as $layanan) : ?>
