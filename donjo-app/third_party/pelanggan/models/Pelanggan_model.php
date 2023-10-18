@@ -37,14 +37,12 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use Esyede\Curly;
-
-require_once 'donjo-app/libraries/Curly.php';
+use GuzzleHttp\Client;
 
 class Pelanggan_model extends MY_Model
 {
     /**
-     * @var Esyede\Curly
+     * @var Client HTTP Client
      */
     protected $client;
 
@@ -52,7 +50,7 @@ class Pelanggan_model extends MY_Model
     {
         parent::__construct();
 
-        $this->client = new Curly();
+        $this->client = new Client();
     }
 
     public function status_langganan()
