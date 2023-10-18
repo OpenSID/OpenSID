@@ -598,7 +598,7 @@ class Surat_master extends Admin_Controller
             $this->load->library('upload');
             $this->upload->initialize([
                 'file_name'     => $_FILES['font_custom']['name'],
-                'upload_path'   => sys_get_temp_dir(),
+                'upload_path'   => LOKASI_FONT_DESA,
                 'allowed_types' => 'ttf',
                 'max_size'      => 2048,
                 'overwrite'     => true,
@@ -618,6 +618,8 @@ class Surat_master extends Admin_Controller
                     $font_surat         = SettingAplikasi::where('key', 'font_surat')->first();
                     $font_surat->option = array_unique(array_merge($font_surat->option, [$font]));
                     $font_surat->save();
+
+                    rename($this->upload->data('full_path'), LOKASI_FONT_DESA . "{$font}.ttf");
                 }
             } else {
                 redirect_with('error', $this->upload->display_errors());

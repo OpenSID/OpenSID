@@ -1,3 +1,20 @@
+@php
+    $fonts   = '';
+    $cssFont = '';
+    foreach (glob(LOKASI_FONT_DESA . '*.ttf') as $font) {
+        $url      = site_url(LOKASI_FONT_DESA . $font);
+        $nameFont = ucfirst(pathinfo($font, PATHINFO_FILENAME));
+
+        $fonts   .= $nameFont . '=' . pathinfo($font, PATHINFO_FILENAME) . '; ';
+        $cssFont .= "
+            @font-face {
+                font-family: '{$nameFont}';
+                src: url($url) format('ttf');
+            }
+        ";
+    }
+@endphp
+
 @push('scripts')
     <script type="text/javascript" src="{{ asset('js/tinymce-651/tinymce.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tinymce.js') }}"></script>
@@ -67,7 +84,7 @@
                 // gak bisa pakai false
                 // forced_root_block: false, 
                 forced_root_block: ' ',
-                font_family_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black; Bookman Old Style=bookman old style; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Tahoma=tahoma,arial,helvetica,sans-serif; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva;",
+                font_family_formats: "Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black; Bookman Old Style=bookman old style; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Tahoma=tahoma,arial,helvetica,sans-serif; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; {{ $fonts }}",
                 setup: function(ed) {
                     ed.on('init', function(e) {
                         ed.execCommand("fontName", false, "${default_font}");
@@ -102,6 +119,7 @@
                     .alignbottom {
                         vertical-align: bottom;
                     }
+                    {!! $cssFont !!}
                 `
             });
 
