@@ -1,10 +1,12 @@
 @foreach ($form_kategori as $key => $kategori)
     <div class="form-group subtitle_head" id="a_saksi2">
         <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori[$key] ?? $key)) }}</label>
-        <input name="anchor" type="hidden" value="<?= $anchor ?>" />
+        @includeWhen((count($surat->form_isian->{$key}->data) > 1 && ($surat->form_isian->{$key}->sumber ?? 1) == 1) , 'admin.surat.opsi_sumber_penduduk' ,['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])
+        <input name="anchor" type="hidden" value="<?= $anchor ?>" />        
     </div>
-    @if ((int) $surat['form_isian']->{$key}->sumber == '1')
-    <div class="form-group saksi2_desa">
+    @includeWhen((in_array(1, $surat->form_isian->{$key}->data) && ($surat->form_isian->{$key}->sumber ?? 1) == 1), 'admin.surat.penduduk_desa', ['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])
+    @includeWhen((in_array(2, $surat->form_isian->{$key}->data) && ($surat->form_isian->{$key}->sumber ?? 1) == 1), 'admin.surat.penduduk_luar_desa', ['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])    
+    {{-- <div class="form-group saksi2_desa">
         <label for="saksi2_desa" class="col-sm-3 control-label"><strong>NIK / Nama</strong></label>
         <div class="col-sm-5">
             <select class="form-control select2 input-sm select2-nik-ajax required" name="id_pend_{{ $key }}"
@@ -17,8 +19,7 @@
                 <?php endif; ?>
             </select>
         </div>
-    </div>
-    @endif
+    </div> --}}
 
     @if ($kategori["saksi_{$key}"])
         @php
@@ -38,50 +39,6 @@
 
 @push('scripts')
     <script>
-        $('.select2-nik-ajax').select2({
-            ajax: {
-                url: function() {
-                    return $(this).data('url');
-                },
-                dataType: 'json',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        q: params.term || '', // search term
-                        page: params.page || 1,
-                        filter_sex: $(this).data('filter-sex'),
-                        surat: $(this).data('surat'),
-                        kategori: $(this).data('kategori'),
-                    };
-                },
-                processResults: function(data, params) {
-                    // parse the results into the format expected by Select2
-                    // since we are using custom formatting functions we do not need to
-                    // alter the remote JSON data, except to indicate that infinite
-                    // scrolling can be used
-                    // params.page = params.page || 1;
-
-                    return {
-                        results: data.results,
-                        pagination: data.pagination
-                    };
-                },
-                cache: true
-            },
-            templateResult: function(penduduk) {
-                if (!penduduk.id) {
-                    return penduduk.text;
-                }
-                var _tmpPenduduk = penduduk.text.split('\n');
-                var $penduduk = $(
-                    '<div>' + _tmpPenduduk[0] + '</div><div>' + _tmpPenduduk[1] + '</div>'
-                );
-                return $penduduk;
-            },
-            placeholder: '--  Cari NIK / Tag ID Card / Nama Penduduk --',
-            minimumInputLength: 0,
-        });
-
         function submit_form_ambil_data() {
             $('input').removeClass('required');
             $('select').removeClass('required');

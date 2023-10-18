@@ -1,5 +1,5 @@
 <div class="form-group pria_luar_desa subtitle_head">
-    <label class="col-sm-3 text-right"><strong>DATA KELUARGA / KK</strong></label>
+    <label class="col-sm-3 control-label"><strong>DATA KELUARGA / KK</strong></label>
 </div>
 <div class="form-group">
     <label for="keperluan" class="col-sm-3 control-label">Keluarga</label>
@@ -37,8 +37,8 @@
     </div>
 </div>
 
-<div class="form-group pria_luar_desa subtitle_head">
-    <label class="col-sm-3 text-right"><strong>DATA KELUARGA DI KARTU KIS</strong></label>
+<div class="form-group subtitle_head">
+    <label class="col-sm-3 control-label"><strong>DATA KELUARGA DI KARTU KIS</strong></label>
 </div>
 
 <div class="form-group">
@@ -82,18 +82,3 @@
         </div>
     </div>
 </div>
-
-@push('scripts')
-<script>
-    function pilihAnggota(elm)
-    {
-        let _checked = $(elm).is(':checked')
-        console.log($(elm).val())
-        if(_checked) {            
-            $('table.kis tr[data-row='+$(elm).val()+'] input').prop('disabled', 0)
-        }else {
-            $('table.kis tr[data-row='+$(elm).val()+'] input').prop('disabled', 1)
-        }
-    }
-</script>
-@endpush

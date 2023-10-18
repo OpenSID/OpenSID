@@ -63,10 +63,11 @@ if (! function_exists('view')) {
      * @param string|null                                   $view
      * @param array|\Illuminate\Contracts\Support\Arrayable $data
      * @param array                                         $mergeData
+     * @param mixed                                         $returnView
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    function view($view = null, $data = [], $mergeData = [])
+    function view($view = null, $data = [], $mergeData = [], $returnView = false)
     {
         $CI = &get_instance();
 
@@ -125,7 +126,9 @@ if (! function_exists('view')) {
                 'perbaharui_langganan' => $CI->header['perbaharui_langganan'] ?? null,
             ]);
         }
-
+        if ($returnView) {
+            return $factory->render($view, $data, $mergeData);
+        }
         echo $factory->render($view, $data, $mergeData);
     }
 }

@@ -1,5 +1,5 @@
 <div class="form-group pria_luar_desa subtitle_head">
-    <label class="col-sm-3 text-right"><strong>DATA KELUARGA / KK</strong></label>
+    <label class="col-sm-3 control-label"><strong>DATA KELUARGA / KK</strong></label>
 </div>
 <div class="form-group">
     <label for="keperluan" class="col-sm-3 control-label">Keluarga</label>

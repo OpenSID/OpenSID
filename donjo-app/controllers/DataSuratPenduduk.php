@@ -1,0 +1,209 @@
+<?php
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+use App\Enums\JenisKelaminEnum;
+use App\Enums\SHDKEnum;
+use App\Enums\StatusHubunganEnum;
+use App\Models\FormatSurat;
+use App\Models\Keluarga;
+use App\Models\LogPenduduk;
+use App\Models\Penduduk;
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class DataSuratPenduduk extends CI_Controller
+{
+    private $logpenduduk;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model(['penduduk_model']);
+        $this->logpenduduk = new LogPenduduk();
+    }
+
+    public function index()
+    {
+        $id       = $this->input->get('id_penduduk');
+        $surat    = FormatSurat::findOrFail($this->input->get('id_surat'));
+        $kategori = $this->input->get('kategori');
+        $this->dataPenduduk($id, $surat, $kategori);
+    }
+
+    private function dataPenduduk(int $id, FormatSurat $surat, string $kategori)
+    {
+        $data = ['individu' => Penduduk::findOrFail($id), 'anggota' => null, 'kategori' => $kategori];
+
+        if ($kategori == 'individu') {
+            if (in_array($surat->form_isian->{$kategori}->status_dasar, $this->logpenduduk::PERISTIWA)) {
+                $data['logpenduduk'] = $this->logpenduduk;
+                $data['peristiwa']   = $this->logpenduduk::with('penduduk')->where('id_pend', $id)->latest()->first();
+            }
+
+            if ($surat->form_isian->individu->data_orang_tua) {
+                $data['ayah'] = Penduduk::where('nik', $data['individu']->ayah_nik)->first();
+                $data['ibu']  = Penduduk::where('nik', $data['individu']->ibu_nik)->first();
+
+                if (! $data['ayah'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
+                    $data['ayah'] = Penduduk::where('id_kk', $data['individu']->id_kk)
+                        ->where(static function ($query) {
+                            $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                                ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
+                        })
+                        ->where('sex', JenisKelaminEnum::LAKI_LAKI)
+                        ->first();
+                }
+
+                if (! $data['ibu'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
+                    $data['ibu'] = Penduduk::where('id_kk', $data['individu']->id_kk)
+                        ->where(static function ($query) {
+                            $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                                ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
+                        })
+                        ->where('sex', JenisKelaminEnum::PEREMPUAN)
+                        ->first();
+                }
+
+                $data['list_dokumen_ayah'] = empty($data['ayah']) ? null : $this->penduduk_model->list_dokumen($data['ayah']->id);
+                $data['list_dokumen_ibu']  = empty($data['ibu']) ? null : $this->penduduk_model->list_dokumen($data['ibu']->id);
+            }
+
+            if ($surat->form_isian->individu->data_pasangan && in_array($data['individu']->kk_level, [1, 2, 3])) {
+                $data['pasangan'] = Penduduk::where('id_kk', $data['individu']->id_kk)
+                    ->where(static function ($query) {
+                        $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                            ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
+                    })
+                    ->where('sex', JenisKelaminEnum::PEREMPUAN)
+                    ->first();
+
+                if ($data['individu']->sex == JenisKelaminEnum::PEREMPUAN) {
+                    $data['pasangan'] = Penduduk::where('id_kk', $data['individu']->id_kk)
+                        ->where(static function ($query) {
+                            $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                                ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
+                        })
+                        ->where('sex', JenisKelaminEnum::LAKI_LAKI)
+                        ->first();
+                }
+            }
+
+            $data['list_dokumen_pasangan'] = empty($data['pasangan']) ? null : $this->penduduk_model->list_dokumen($data['pasangan']->id);
+
+            $template = $surat->template_desa ?: $data['surat']->template;
+            if (preg_match('/\[pengikut_surat\]/i', $template)) {
+                $pengikut = $this->pengikutDibawah18Tahun($data);
+                if ($pengikut) {
+                    $data['pengikut'] = $pengikut;
+                }
+            }
+
+            if (preg_match('/\[pengikut_kis\]/i', $template)) {
+                $pengikut = $this->pengikutSuratKIS($data);
+                if ($pengikut) {
+                    $data['pengikut_kis'] = $pengikut;
+                }
+            }
+
+            if (preg_match('/\[pengikut_pindah\]/i', $template)) {
+                $pengikut = $this->pengikutPindah($data);
+                if ($pengikut) {
+                    $data['pengikut_pindah'] = $pengikut;
+                }
+            }
+        }
+
+        $filters = collect($surat->form_isian->{$kategori})->toArray();
+        unset($filters['data']);
+        $kk_level    = $data['individu']['kk_level'];
+        $ada_anggota = ($filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA || $kk_level == SHDKEnum::KEPALA_KELUARGA) ? true : false;
+
+        if ($ada_anggota) {
+            $data['anggota'] = Keluarga::find($data['individu']['id_kk'])->anggota;
+        } else {
+            $data['anggota'] = null;
+        }
+
+        $html = view('admin.surat.data_penduduk', $data, [], true);
+
+        // Set the content type to JSON
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode([
+                'status' => 1,
+                'html'   => $html,
+            ]));
+    }
+
+    private function pengikutDibawah18Tahun($data)
+    {
+        $pengikut = null;
+        $minUmur  = 18;
+        $kk_level = $data['individu']['kk_level'];
+        if ($kk_level == SHDKEnum::KEPALA_KELUARGA) {
+            if (! empty($data['anggota'])) {
+                $pengikut = $data['anggota']->filter(static function ($item) use ($minUmur) {
+                    return $item->umur < $minUmur;
+                });
+            }
+        } else {
+            // cek apakah ada penduduk yang nik_ayah atau nik_ibu = nik pemohon
+            $filterColumn = 'ibu_nik';
+            if ($data['individu']['jenis_kelamin'] == JenisKelaminEnum::LAKI_LAKI) {
+                $filterColumn = 'ayah_nik';
+            }
+            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope('App\Scopes\ConfigIdScope')->get();
+            if ($anak) {
+                $pengikut = $anak->filter(static function ($item) use ($minUmur) {
+                    return $item->umur < $minUmur;
+                });
+            }
+        }
+
+        return $pengikut;
+    }
+
+    private function pengikutSuratKIS($data)
+    {
+        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
+    }
+
+    private function pengikutPindah($data)
+    {
+        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
+    }
+}
