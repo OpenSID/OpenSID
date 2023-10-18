@@ -20,6 +20,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 14. [#5884](https://github.com/OpenSID/OpenSID/issues/5884) Penambahan fungsi ambil data orang tua dari keluarga saat tambah anggota keluarga lahir.
 15. [#6764](https://github.com/OpenSID/OpenSID/issues/6764) Penambahan fungsi tambah satu atau beberapa pada data suplemen.
 16. [#6875](https://github.com/OpenSID/OpenSID/issues/6875) Penambahan informasi link website pada notifikasi pengajuan surat.
+17. [#4052](https://github.com/OpenSID/OpenSID/issues/4052) Penambahan statistik penduduk berdasarkan status pernikahan.
 
 #### Perbaikan Bug
 
