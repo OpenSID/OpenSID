@@ -1,26 +1,3 @@
-@push('css')
-    <style>
-        .form-horizontal .form-group {
-            margin-right: -10px;
-            margin-left: -10px;
-        }
-
-        .subtitle_head {
-            margin-left: -10px;
-            margin-right: -10px;
-            /* background-color: #d81b60 !important; */
-        }
-
-        .subtitle_head label {
-            padding-left: 10px;
-            padding-right: 10px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            margin-bottom: 0px;
-            /* color: #ffffff !important; */
-        }
-    </style>
-@endpush
 @foreach ($form_kategori as $key => $kategori)
     <div class="form-group subtitle_head" id="a_saksi2">
         <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori[$key] ?? $key)) }}</label>

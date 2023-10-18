@@ -9,6 +9,25 @@
             margin-left: -10px;
             border-top: 1px solid #f4f4f4;
         }
+        .form-horizontal .form-group {
+            margin-right: -10px;
+            margin-left: -10px;
+        }
+
+        .subtitle_head {
+            margin-left: -10px;
+            margin-right: -10px;
+            /* background-color: #d81b60 !important; */
+        }
+
+        .subtitle_head label {
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            margin-bottom: 0px;
+            /* color: #ffffff !important; */
+        }
     </style>
 @endpush
 
