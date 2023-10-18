@@ -170,7 +170,7 @@ class Config extends BaseModel
     {
         parent::boot();
         static::creating(static function ($model) {
-            $model->app_key = get_app_key();
+            // $model->app_key = get_app_key();
         });
 
         static::updating(static function ($model) {
