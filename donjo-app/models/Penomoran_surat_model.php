@@ -239,7 +239,7 @@ class Penomoran_surat_model extends MY_Model
             '[kode_surat]'   => $data['surat']['kode_surat'],
             '[tahun]'        => $thn,
             '[bulan_romawi]' => bulan_romawi((int) $bln),
-            '[kode_desa]'    => $data['config']['kode_desa'],
+            '[kode_desa]'    => identitas()->kode_desa,
         ];
 
         return str_replace(array_keys($array_replace), array_values($array_replace), $setting);

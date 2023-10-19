@@ -34,6 +34,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 29. [#7177](https://github.com/OpenSID/OpenSID/issues/7177) Perbaikan validasi select2 pada form tambah/ubah penduduk.
 30. [#7182](https://github.com/OpenSID/OpenSID/issues/7182) Perbaikan pencarian pada modul pengguna.
 31. [#7204](https://github.com/OpenSID/OpenSID/issues/7204) Perbaikan kirim email.
+32. [#7223](https://github.com/OpenSID/OpenSID/issues/7223) Perbaikan format penomoran surat untuk kode isian [kode_desa].
 
 
 #### Penyesuaian Teknis
