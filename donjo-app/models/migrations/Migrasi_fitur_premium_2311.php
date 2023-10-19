@@ -35,12 +35,12 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 use App\Models\Config;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-
-defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2311 extends MY_model
 {
@@ -58,6 +58,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_tabel($hasil)
     {
         $hasil = $hasil && $this->migrasi_2023101353($hasil);
+        $hasil = $hasil && $this->migrasi_2023101354($hasil);
         $hasil = $hasil && $this->migrasi_2023101151($hasil);
 
         return $hasil && $this->migrasi_2023101352($hasil);
@@ -93,6 +94,26 @@ class Migrasi_fitur_premium_2311 extends MY_model
                 $table->integer('config_id');
                 $table->string('device')->unique();
                 $table->longText('token');
+                $table->timestamps();
+            });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023101354($hasil)
+    {
+        if (! Schema::hasTable('log_notifikasi_admin')) {
+            $hasil = Schema::create('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->mediumInteger('id_user');
+                $table->integer('config_id');
+                $table->string('judul')->unique();
+                $table->text('isi');
+                $table->string('token');
+                $table->string('device');
+                $table->string('image');
+                $table->string('payload');
+                $table->integer('read');
                 $table->timestamps();
             });
         }

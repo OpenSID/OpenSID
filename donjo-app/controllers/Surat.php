@@ -35,18 +35,21 @@
  *
  */
 
+use App\Enums\FirebaseEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Enums\StatusHubunganEnum;
 use App\Enums\StatusSuratKecamatanEnum;
 use App\Libraries\TinyMCE;
+use App\Models\FcmToken;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
+use App\Models\RefJabatan;
 use App\Models\Urls;
 use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
@@ -267,8 +270,8 @@ class Surat extends Admin_Controller
             }
 
             // TODO:: Gunakan 1 list_dokumen untuk RTF dan TinyMCE
-            $data['list_dokumen']   = empty($nik) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
-            $data['form_action']    = route('surat.pratinjau', $url);
+            $data['list_dokumen'] = empty($nik) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
+            $data['form_action']  = route('surat.pratinjau', $url);
 
             $data['judul_kategori'] = collect($data['surat']->form_isian)->map(static function ($item) {
                 return $item->label;
@@ -500,6 +503,33 @@ class Surat extends Admin_Controller
                 $surat->verifikasi_operator = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSurat::PERIKSA : LogSurat::TERIMA;
 
                 $surat->save();
+
+                // notifikasi Mobile Admin
+                try {
+                    $judul    = 'Pembuatan Surat - ' . $cetak['surat']['nama'];
+                    $kirimFCM = 'Segera cek Halaman Admin,  ' . $cetak['surat']['nama'] . ' berhasil dibuat.';
+
+                    $allToken = FcmToken::doesntHave('user.pamong')
+                        ->orWhereHas('user.pamong', static function ($query) {
+                            return $query->whereNotIn('jabatan_id', RefJabatan::getKadesSekdes());
+                        })
+                        ->get()
+                        ->pluck('token')
+                        ->all();
+
+                    $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                    $notification = new \Fcm\Push\Notification();
+
+                    $notification
+                        ->addRecipient($allToken)
+                        ->setTitle($judul)
+                        ->setBody($kirimFCM)
+                        ->addData('payload', '/permohonan/surat/periksa/' . $id . '/Periksa Surat');
+                    $client->send($notification);
+                } catch (Exception $e) {
+                    log_message('error', $e->getMessage());
+                }
+                // akhir notifikasi Mobile Admin
             }
 
             redirect('surat');

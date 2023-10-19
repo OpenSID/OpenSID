@@ -304,7 +304,7 @@ if (! function_exists('checklist')) {
 
 function get_key_form_kategori($data, $utama = false)
 {
-    $kategori = collect($data)->mapWithKeys(function ($item, $key) {
+    $kategori = collect($data)->mapWithKeys(static function ($item, $key) {
         $judul = $item->judul ?: str_replace('_', ' ', $key);
         if ($key == 'individu') {
             $judul = 'Utama';

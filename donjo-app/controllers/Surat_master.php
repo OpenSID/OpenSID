@@ -133,7 +133,7 @@ class Surat_master extends Admin_Controller
         $data['suratMaster'] = $id ? FormatSurat::findOrFail($id) : null;
 
         if ($id) {
-            $kategori_isian        = [];
+            $kategori_isian = [];
             // hanya ambil key saja
             $data['kategori_nama'] = collect(get_key_form_kategori($data['suratMaster']->form_isian))->keys()->toArray();
 
@@ -688,8 +688,8 @@ class Surat_master extends Admin_Controller
     public function kode_isian($jenis = 'isi', $id = null)
     {
         if ($this->input->is_ajax_request()) {
-            $log_surat['surat']    = FormatSurat::find($id);
-            $kode_isian            = $this->tinymce->getFormatedKodeIsian($log_surat);
+            $log_surat['surat'] = FormatSurat::find($id);
+            $kode_isian         = $this->tinymce->getFormatedKodeIsian($log_surat);
 
             return json($kode_isian);
         }

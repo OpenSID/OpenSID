@@ -214,6 +214,7 @@ class TinyMCE
         }
 
         $daftarKategori = collect($data['surat']->form_isian)->toArray();
+
         foreach ($daftarKategori as $key => $value) {
             if ($value->sumber == 1 && $key != 'individu') {
                 $daftar_kode_isian[$value->judul] = $this->getIsianPenduduk(null, $key);
@@ -225,7 +226,7 @@ class TinyMCE
 
         if (isset($isian_post['kategori'])) {
             foreach ($isian_post['kategori'] as $key => $value) {
-                $key_ktg = $value['prefix_kategori'];
+                $key_ktg  = $value['prefix_kategori'];
                 $nama_ktg = $daftarKategori[$key_ktg]->judul;
                 unset($value['prefix_kategori']);
                 $daftar_kode_isian['Input ' . $nama_ktg][] = $value;

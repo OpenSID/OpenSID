@@ -57,6 +57,7 @@ return array(
     'Google\\' => array($vendorDir . '/google/apiclient/src'),
     'Fluent\\DataTables\\' => array($vendorDir . '/agungsugiarto/codeigniter-datables/src'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
+    'Fcm\\' => array($vendorDir . '/edwinhoksberg/php-fcm/src'),
     'Doctrine\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Inflector'),
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
     'App\\' => array($baseDir . '/app'),

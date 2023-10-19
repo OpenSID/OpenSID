@@ -23,6 +23,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 17. [#4052](https://github.com/OpenSID/OpenSID/issues/4052) Penambahan statistik penduduk berdasarkan status pernikahan.
 18. [#6855](https://github.com/OpenSID/OpenSID/issues/6855) Penambahan halaman informasi publik yang dikelola masing-masing tema.
 19. [#7184](https://github.com/OpenSID/OpenSID/issues/7184) Penambahan table FCM_token dan pengaturan untuk konfigurasi ke Cloud Messaging FCM.
+20. [#7186](https://github.com/OpenSID/OpenSID/issues/7186) Penambahan modul kirim API push notifikasi ke FCM.
 
 #### Perbaikan Bug
 
