@@ -36,7 +36,9 @@
  */
 
 use App\Models\Config;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -55,6 +57,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
+        $hasil = $hasil && $this->migrasi_2023101353($hasil);
         $hasil = $hasil && $this->migrasi_2023101151($hasil);
 
         return $hasil && $this->migrasi_2023101352($hasil);
@@ -79,6 +82,21 @@ class Migrasi_fitur_premium_2311 extends MY_model
 
     protected function migrasi_xxxxxxxxxx($hasil)
     {
+        return $hasil;
+    }
+
+    protected function migrasi_2023101353($hasil)
+    {
+        if (! Schema::hasTable('fcm_token')) {
+            $hasil = Schema::create('fcm_token', static function (Blueprint $table) {
+                $table->mediumInteger('id_user');
+                $table->integer('config_id');
+                $table->string('device')->unique();
+                $table->longText('token');
+                $table->timestamps();
+            });
+        }
+
         return $hasil;
     }
 
