@@ -64,7 +64,7 @@
                                 <tr>
                                     <td>Tampil Sumber Data</td>
                                     <td>
-                                        <select id="sumber_data" class="form-control input-sm" name="sumber" disabled>
+                                        <select id="sumber_data" class="form-control input-sm isi-sumber-data" name="sumber" disabled>
                                             <option value="1" @selected('1' == $suratMaster->form_isian->individu->sumber)>YA
                                             <option value="0" @selected('0' == $suratMaster->form_isian->individu->sumber)>TIDAK
                                         </select>
@@ -308,9 +308,10 @@
                             .attr('id', `dragable-${nama_kategori}`)
                             .end();
 
-                        var utama_isi_judul = editElm[0].querySelector('.isi-judul')
-                        var utama_isi_label = editElm[0].querySelector('.isi-label')
-                        var utama_isi_prefix = editElm[0].querySelector('.isi-prefix')
+                        var utama_isi_judul   = editElm[0].querySelector('.isi-judul')
+                        var utama_isi_label   = editElm[0].querySelector('.isi-label')
+                        var utama_isi_prefix  = editElm[0].querySelector('.isi-prefix')
+                        var utama_sumber_data = editElm[0].querySelector('.isi-sumber-data')
 
                         utama_isi_judul.name = `kategori_judul[${nama_kategori}]`
                         utama_isi_prefix.name = `kategori_prefix[${nama_kategori}]`
@@ -321,6 +322,7 @@
 
                         utama_isi_judul.removeAttribute('disabled')
                         utama_isi_prefix.removeAttribute('disabled')
+                        utama_sumber_data.removeAttribute('disabled')
 
                         // utama_isi_judul.setAttribute('onkeyup', `$('#tab-${nama_kategori} .isi-prefix').text(this.value.toLowerCase().replace(/ /g, '_'))`);
 

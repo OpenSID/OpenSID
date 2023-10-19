@@ -134,7 +134,8 @@ class Surat_master extends Admin_Controller
 
         if ($id) {
             $kategori_isian        = [];
-            $data['kategori_nama'] = get_key_form_kategori($data['suratMaster']->form_isian);
+            // hanya ambil key saja
+            $data['kategori_nama'] = collect(get_key_form_kategori($data['suratMaster']->form_isian))->keys()->toArray();
 
             collect($data['suratMaster']->kode_isian)->filter(static function ($item) use (&$kategori_isian) {
                 if (isset($item->kategori)) {
@@ -359,7 +360,7 @@ class Surat_master extends Admin_Controller
                 'data_orang_tua' => $request['data_orang_tua'] ?? 0,
                 'data_pasangan'  => $request['data_pasangan'] ?? 0,
                 'label'          => $request['label'] ?? '',
-                'judul'          => $request['judul'] ?? '',
+                'judul'          => 'Utama',
             ],
         ];
 
@@ -687,20 +688,8 @@ class Surat_master extends Admin_Controller
     public function kode_isian($jenis = 'isi', $id = null)
     {
         if ($this->input->is_ajax_request()) {
-            $log_surat['surat'] = FormatSurat::find($id);
-            $daftar_kategori    = get_key_form_kategori($log_surat['surat']->form_isian);
-
-            foreach ($daftar_kategori as $kategori) {
-                $log_surat['kategori'][$kategori] = null;
-            }
-
-            $kode_isian = $this->tinymce->getFormatedKodeIsian($log_surat);
-
-            foreach ($daftar_kategori as $kategori) {
-                $log_surat['kategori'][$kategori] = null;
-            }
-
-            $kode_isian = $this->tinymce->getFormatedKodeIsian($log_surat);
+            $log_surat['surat']    = FormatSurat::find($id);
+            $kode_isian            = $this->tinymce->getFormatedKodeIsian($log_surat);
 
             return json($kode_isian);
         }

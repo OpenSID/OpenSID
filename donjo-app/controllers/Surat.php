@@ -229,17 +229,17 @@ class Surat extends Admin_Controller
                     return isset($item->kategori);
                 })->values();
 
-                foreach ($kategori as $ktg) {
-                    $form_kategori[$ktg]['form']       = $this->get_data_untuk_form($url, $data, $ktg);
-                    $form_kategori[$ktg]['kode_isian'] = $this->groupByLabel($kategori_isian[$ktg]);
-                    $form_kategori[$ktg]['saksi']      = $this->input->post("id_pend_{$ktg}") ?? '';
+                foreach ($kategori as $key => $ktg) {
+                    $form_kategori[$key]['form']       = $this->get_data_untuk_form($url, $data, $key);
+                    $form_kategori[$key]['kode_isian'] = $this->groupByLabel($kategori_isian[$key]);
+                    $form_kategori[$key]['saksi']      = $this->input->post("id_pend_{$key}") ?? '';
 
-                    if (! empty($form_kategori[$ktg]['saksi'])) {
-                        $form_kategori[$ktg]["saksi_{$ktg}"] = Penduduk::findOrFail($form_kategori[$ktg]['saksi']);
+                    if (! empty($form_kategori[$key]['saksi'])) {
+                        $form_kategori[$key]["saksi_{$key}"] = Penduduk::findOrFail($form_kategori[$key]['saksi']);
                     }
 
-                    $form_kategori[$ktg]["list_dokumen_{$ktg}"] = empty($form_kategori[$ktg]["saksi_{$ktg}"])
-                        ? null : $this->penduduk_model->list_dokumen($form_kategori[$ktg]["saksi_{$ktg}"]->id);
+                    $form_kategori[$key]["list_dokumen_{$key}"] = empty($form_kategori[$key]["saksi_{$key}"])
+                        ? null : $this->penduduk_model->list_dokumen($form_kategori[$key]["saksi_{$key}"]->id);
                 }
                 $filtered_kode_isian = collect($data['surat']->kode_isian)->reject(static function ($item) {
                     return isset($item->kategori);
@@ -269,8 +269,9 @@ class Surat extends Admin_Controller
             // TODO:: Gunakan 1 list_dokumen untuk RTF dan TinyMCE
             $data['list_dokumen']   = empty($nik) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
             $data['form_action']    = route('surat.pratinjau', $url);
+
             $data['judul_kategori'] = collect($data['surat']->form_isian)->map(static function ($item) {
-                return $item->judul;
+                return $item->label;
             });
 
             return view('admin.surat.form_desa', $data);
@@ -354,8 +355,8 @@ class Surat extends Admin_Controller
             // return json($log_surat);
             $daftar_kategori = get_key_form_kategori($surat->form_isian);
 
-            foreach ($daftar_kategori as $kategori) {
-                $log_surat['kategori'][$kategori] = $this->request['id_pend_' . $kategori];
+            foreach ($daftar_kategori as $key => $kategori) {
+                $log_surat['kategori'][$key] = $this->request['id_pend_' . $key];
             }
 
             $isi_surat = $this->tinymce->replceKodeIsian($log_surat);

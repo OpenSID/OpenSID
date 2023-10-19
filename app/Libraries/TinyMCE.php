@@ -213,21 +213,23 @@ class TinyMCE
             $daftar_kode_isian['Peristiwa'] = KodeIsianPeristiwa::get($idPenduduk, $peristiwa);
         }
 
-        // Penduduk Kategori
-        foreach ($data['kategori'] as $key => $value) {
-            $daftar_kode_isian[$key] = $this->getIsianPenduduk($value, $key);
+        $daftarKategori = collect($data['surat']->form_isian)->toArray();
+        foreach ($daftarKategori as $key => $value) {
+            if ($value->sumber == 1 && $key != 'individu') {
+                $daftar_kode_isian[$value->judul] = $this->getIsianPenduduk(null, $key);
+            }
         }
 
-        // Data Dari Form Isian dsd
+        // Data Dari Form Isian
         $isian_post = $this->getIsianPost($data);
+
         if (isset($isian_post['kategori'])) {
             foreach ($isian_post['kategori'] as $key => $value) {
-                $nama_ktg = $value['nama_kategori'];
-                unset($value['nama_kategori']);
+                $key_ktg = $value['prefix_kategori'];
+                $nama_ktg = $daftarKategori[$key_ktg]->judul;
+                unset($value['prefix_kategori']);
                 $daftar_kode_isian['Input ' . $nama_ktg][] = $value;
-                // unset($daftar_kode_isian['Input ' . $value['nama_kategori']]['nama_kategori']);
             }
-            // $daftar_kode_isian['Input Kategori'] = $isian_post['kategori'];
             unset($isian_post['kategori']);
         }
         $daftar_kode_isian['Input'] = $isian_post;
@@ -550,7 +552,7 @@ class TinyMCE
         ];
     }
 
-    private function getIsianPenduduk($id_penduduk = null, $prefix = '')
+    private function getIsianPenduduk($id_penduduk = null, $prefix = '', $prefix_judul = false)
     {
         $ortu     = null;
         $penduduk = null;
@@ -558,6 +560,10 @@ class TinyMCE
         if (! empty($prefix)) {
             $ortu   = ' ' . ucwords($prefix);
             $prefix = '_' . uclast($prefix);
+        }
+
+        if (! $prefix_judul) {
+            $ortu = '';
         }
 
         if ($id_penduduk) {
@@ -1092,10 +1098,10 @@ class TinyMCE
                 $data = $input[underscore($nama, true, true) . '_' . $item->kategori];
 
                 return [
-                    'nama_kategori' => $item->kategori,
-                    'judul'         => $item->nama,
-                    'isian'         => getFormatIsian(str_replace(['[', ']'], '', $item->kode)),
-                    'data'          => ($item->tipe == 'date') ? tgl_indo(Carbon::parse($data)->format('Y-m-d')) : $data,
+                    'prefix_kategori' => $item->kategori,
+                    'judul'           => $item->nama,
+                    'isian'           => getFormatIsian(str_replace(['[', ']'], '', $item->kode)),
+                    'data'            => ($item->tipe == 'date') ? tgl_indo(Carbon::parse($data)->format('Y-m-d')) : $data,
                 ];
             })
             ->toArray();
