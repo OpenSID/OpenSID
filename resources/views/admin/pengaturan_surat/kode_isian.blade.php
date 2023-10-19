@@ -80,11 +80,9 @@
                             </select>
                         </td>
                         <td width="1%">
-                            <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
-                                    class='fa fa-trash-o'></i></button>
+                            <button type="button" class="btn btn-danger btn-sm hapus-kode"><i class='fa fa-trash-o'></i></button>
                             &nbsp;
-                            <button type="button" class="btn btn-warning btn-sm pindah-kode"><i
-                                    class='fa fa-exchange'></i></button>
+                            <button type="button" class="btn btn-warning btn-sm pindah-kode hide"><i class='fa fa-exchange'></i></button>
                         </td>
                     </tr>
                 @endif
@@ -100,7 +98,7 @@
                                     {{ $attr_value }}</option>
                             @endforeach
                         </select>
-                    </td>                    
+                    </td>
                     <td><input type="text" name="nama_kode[]" class="form-control input-sm isian"
                             placeholder="Masukkan Nama" @disabled($value->tipe == '')></td>
                     <td><input type="text" name="label_kode[]" class="form-control input-sm isian"
@@ -129,9 +127,6 @@
                         <select class="form-control input-sm isian select-manual @display($value->tipe == 'select-manual')"
                             name="pilihan_kode[{{ $jumlah_isian }}][]" multiple placeholder="Masukkan Pilihan"
                             @disabled($value->tipe == '')>
-                            {{-- @foreach (\App\Enums\ReferensiEnum::all() as $key => $value)
-                        <option value="{{ $value }}">{{ $key }}</option>
-                        @endforeach --}}
                         </select>
                         <select class="form-control input-sm isian isian-referensi @display($value->tipe == 'select-otomatis')"
                             name="referensi_kode[]" placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>
@@ -142,11 +137,9 @@
                         </select>
                     </td>
                     <td class="padat">
-                        <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
-                                class="fa fa-trash-o"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm hapus-kode"><i class="fa fa-trash-o"></i></button>
                         &nbsp;
-                        <button type="button" class="btn btn-warning btn-sm pindah-kode"><i
-                                class='fa fa-exchange'></i></button>
+                        <button type="button" class="btn btn-warning btn-sm pindah-kode hide"><i class='fa fa-exchange'></i></button>
                     </td>
                 </tr>
             @endif
@@ -214,7 +207,7 @@
                         }
                         return editElm;
                     });
-                                
+
                 var req_name = `required_kode[${counter}]`
                 if (type != 'utama') {
                     req_name = `kategori_required_kode[${kategori}][${counter}]`                    
@@ -241,20 +234,17 @@
             });
 
             $('.pilih_tipe').on('change', function() {
-                // if ($(this).hasClass('kategori')) {
-
-                // }
                 var tipe = $(this).val();
                 var atribut = '';
                 var option = '{}';
                 var parents = $(this).parents('.duplikasi');
-                console.log(parents);
                 var isian_atribut = parents.find('.isian-atribut');
                 var isian_pilihan = parents.find('.isian-pilihan').not('.select-manual');
                 var isian_manual = parents.find('.select-manual');
                 var isian_referensi = parents.find('.isian-referensi');
                 var isian_required = parents.find('.isian-required');
                 var isian = parents.find('.isian');
+                var pindah_kode = parents.find('.pindah-kode');
 
                 if (tipe == '') {
                     atribut = 'Masukkan Atribut';
@@ -266,6 +256,8 @@
 
                     isian_manual.addClass('hide');
                     isian_manual.removeClass('required');
+
+                    pindah_kode.addClass('hide');
                 } else {
                     isian.prop("disabled", false);
                     isian_required.prop("disabled", false);
@@ -274,6 +266,8 @@
                     isian_referensi.addClass('hide');
                     isian_manual.addClass('hide');
                     isian_manual.removeClass('required');
+
+                    pindah_kode.removeClass('hide');
 
                     if (tipe == 'select-manual') {
                         atribut = 'size="5"';
@@ -418,7 +412,7 @@
                         }
                         
                         $(this).attr('name', _nameElmBaru)
-                    }                    
+                    }
                     
                 })
                 _tr.appendTo($(_tabSelected).find('table.kode-isian tbody'))
@@ -437,13 +431,13 @@
             $('.pindah-kode').on('click', function() {
                 pindahKodeElm = $(this)
                 $('#pindah_kode_modal').modal('show');
-            });            
+            });
 
             $('.pindahkan-btn').on('click', function(){
                 pindahkanKodeIsian($(this))
             })
 
-            $('#pindah_kode_modal').on('show.bs.modal', function (event) {                
+            $('#pindah_kode_modal').on('show.bs.modal', function (event) {
                 var tabs = $('#form-isian #tabs').find('li')
                 var tabPaneId = pindahKodeElm.closest('.tab-pane').attr('id')
                 
@@ -452,9 +446,9 @@
                 tabs.each(function(){
                     if (! $(this).find('a[href="#'+tabPaneId+'"]').length){
                         content.push(`<option value="${$(this).find('a').attr('href')}">${$(this).find('a').text()}</option>`)
-                    }                    
+                    }
                 })
-                content.push('</select>')             
+                content.push('</select>')
                 modal.find('.modal-body').html(content.join('')); // Set modal content
             });
         })

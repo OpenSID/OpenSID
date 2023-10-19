@@ -85,11 +85,9 @@
                             </select>
                         </td>
                         <td width="1%">
-                            <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
-                                    class='fa fa-trash-o'></i></button>
+                            <button type="button" class="btn btn-danger btn-sm hapus-kode"><i class='fa fa-trash-o'></i></button>
                             &nbsp;
-                            <button type="button" class="btn btn-warning btn-sm pindah-kode"><i
-                                        class='fa fa-exchange'></i></button>
+                            <button type="button" class="btn btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
                         </td>
                     </tr>
                 @endif
@@ -157,7 +155,7 @@
                         <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
                                 class="fa fa-trash-o"></i></button>
                         &nbsp;
-                        <button type="button" class="btn btn-warning btn-sm pindah-kode"><i
+                        <button type="button" class="btn btn-warning btn-sm pindah-kode hide"><i
                                 class='fa fa-exchange'></i></button>
                     </td>
                 </tr>
