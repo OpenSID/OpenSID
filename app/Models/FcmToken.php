@@ -45,6 +45,8 @@ class FcmToken extends BaseModel
 {
     use ConfigId;
 
+    public const SERVERKEY = 'AAAAEUs6MMY:APA91bHzK-16glENxAPBEOgK5vMD27VnQWZbz3j1wTgO-Q88j0v8nsMg0LC0A-HP4OJiYZWpDU9K0mjLxjluieOyWO0D7SCoM-eiwP7Ur3osUkk63ZaaNyJXXS_17BdJ4tcqDRGP8U3y';
+
     /**
      * The table associated with the model.
      *
