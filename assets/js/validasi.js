@@ -268,6 +268,17 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alfanumerik, spasi, strip, titik, koma (,), [, ], &, :, ;, =, °, %, ', \", -, dan /");
 
+	jQuery.validator.addMethod("judul_tinymce", function(value, element) {
+		valid = /^[a-zA-Z\s]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter huruf besar, huruf kecil, dan spasi");
+
+
+	jQuery.validator.addMethod("prefix_tinymce", function(value, element) {
+		valid = /^[a-z_]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alpha kecil dan garis bawah (_)");
+
 	$('.bilangan_titik').each(function() {
 		$(this).rules("add", {
 			bilangan_titik: true,

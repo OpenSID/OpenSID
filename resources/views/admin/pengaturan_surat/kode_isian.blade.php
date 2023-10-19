@@ -168,34 +168,21 @@
             })
             $('input[name^=kategori_nama_kode]').on('change', function(e){
                 $(this).closest('tr').find('input[name^=kategori_label_kode]').val($(this).val())
-            })
+            })                        
+
             $('.tambah-kode').on('click', function(e) {
-                var type = this.dataset.type;
-                console.log(type);
-                var kategori = this.dataset.kategori;
+                var type = this.dataset.type;                
+                let _tabContent = $(this).closest('.tab-pane')                
+                var kategori = _tabContent.attr('id').substr(4)
                 var editElm;
-                if (type == 'utama') {
-                    var cloneTarget = 'gandakan'
-                    var trElements = document.querySelectorAll("#form-utama table tr.duplikasi");
-                    var lastTrElement = trElements[trElements.length - 1];
-                    var dataId = lastTrElement.getAttribute("data-id");
-                    var counter = dataId;
-                } else {
-                    var trElements = document.querySelectorAll(`#tab-${kategori} table tr.duplikasi`);
-                    var lastTrElement = trElements[trElements.length - 1];
-                    var dataId = lastTrElement.getAttribute("data-id");
-                    var counter = dataId;
-                    var cloneTarget = type
-                }
-                $("#gandakan-" + counter).find("button").hide();
-                console.log('before : ' + counter);
-                counter++;
-                // console.log(cloneTarget);
-                console.log('after : ' + counter);
-                $(`#${cloneTarget}-0`).clone(true)
+                let tbody = $(this).prev('table').find('tbody')
+                let cloneTarget = tbody.find('tr:last')
+                
+                let counter = new Date().getTime()
+                cloneTarget.clone(true)
                     .map(function() {
                         editElm = $(this)
-                            .attr('id', `${cloneTarget}-` + counter)
+                            .attr('id', counter)
                             .attr('data-id', counter)
                             .find('select')
                             .end();
@@ -218,44 +205,34 @@
                             elselect2.removeAttribute('data-select2-id')
                         } else if (editElm[0].querySelector('.select-manual') != null) {
                             var elselect2 = element.querySelector('.select-manual')
-                            console.log(elselect2);
+                            
                             var fullname = `pilihan_kode[${counter + 1}][]`
                             if (type != 'utama') {
-                                fullname = `kategori_pilihan_kode[${kategori}][${counter + 1}][]`
-                                console.log(fullname);
+                                fullname = `kategori_pilihan_kode[${kategori}][${counter + 1}][]`                                
                             }
                             elselect2.name = fullname
                         }
                         return editElm;
                     });
-
-                // ketika row dihapus, tidak bisa tambah baru
-                if ($(`#${cloneTarget}-` + (counter - 1)).length) {
-                    // stuck disini, maybe cek perkondisian
-                    console.log('disini');
-                    $(`#${cloneTarget}-` + (counter - 1)).after(editElm);
-                } else {
-                    console.log($(`#${cloneTarget}-${counter}`));
-                    $(`#${cloneTarget}-${counter}`).after(editElm);
-                }
+                                
                 var req_name = `required_kode[${counter}]`
                 if (type != 'utama') {
-                    req_name = `kategori_required_kode[${kategori}][${counter}]`
-                    console.log(req_name);
+                    req_name = `kategori_required_kode[${kategori}][${counter}]`                    
                 }
-                $(`#${cloneTarget}-` + counter + " option:selected").removeAttr('selected');
-                $(`#${cloneTarget}-` + counter).find('input').val('');
-                $(`#${cloneTarget}-` + counter).find('select').change(0);
-                $(`#${cloneTarget}-` + counter).find('textarea').val('');
-                $(`#${cloneTarget}-` + counter).find('.isian').prop("disabled", true);
-                $(`#${cloneTarget}-` + counter).find('.isian-required')
+                editElm.find("option:selected").removeAttr('selected');
+                editElm.find('input').val('');
+                editElm.find('select').change(0);
+                editElm.find('textarea').val('');
+                editElm.find('.isian').prop("disabled", true);
+                editElm.find('.isian-required')
                     .prop("checked", false)
                     .prop("disabled", true)
                     .attr('value', '1')
                     .attr('name', req_name);
 
-                $('.duplikasi').find("button").show();
-                $(`#${cloneTarget}-` + counter).find("button").hide();
+                tbody.find("button").show();
+                editElm.find("button").hide();
+                tbody.append(editElm)
             });
 
             // pakai data-type selector
@@ -474,7 +451,7 @@
                 var modal = $(this);
                 tabs.each(function(){
                     if (! $(this).find('a[href="#'+tabPaneId+'"]').length){
-                        content.push(`<option value="${$(this).find('a').attr('href')}">${$(this).data('name')}</option>`)
+                        content.push(`<option value="${$(this).find('a').attr('href')}">${$(this).find('a').text()}</option>`)
                     }                    
                 })
                 content.push('</select>')             
