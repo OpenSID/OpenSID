@@ -23,7 +23,7 @@
                 @if($item == 'individu') @continue
                 @endif
                 <li class="ui-list-tab" id="list-{{ $item }}" data-name="{{ $item }}">
-                    <a id="nav-tab-{{ $item }}" href="#tab-{{ $item }}" data-toggle="tab">{{ str_replace('_', ' ', $value->judul ?? $item) }}</a>
+                    <a id="nav-tab-{{ $item }}" href="#tab-{{ $item }}" data-toggle="tab">{{ str_replace('_', ' ', $value->judul ?? ucwords(str_replace('_', ' ', $item))) }}</a>
                     <input type="hidden" name="kategori[]" value="{{ $item }}">
                 </li>
             @empty
@@ -36,19 +36,19 @@
                     <div class="row">
                         <label for="isi-judul" class="col-sm-2">Judul Bagian</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm required judul isi-judul" name="judul" value="{{ $suratMaster->form_isian->individu->judul ?: 'Utama' }}" minlength="5" maxlength="20" readonly>
+                            <input type="text" class="form-control input-sm required judul isi-judul" name="judul" value="{{ $suratMaster->form_isian->individu->judul ?: 'Utama' }}" minlength="3" maxlength="20" readonly>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 5px">
                         <label for="isi-label" class="col-sm-2">Label Bagian</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm required isi-label" name="label" value="{{ $suratMaster->form_isian->individu->label ?? 'Keterangan Pemohon' }}" minlength="5" maxlength="30">
+                            <input type="text" class="form-control input-sm required isi-label" name="label" value="{{ $suratMaster->form_isian->individu->label ?? 'Keterangan Pemohon' }}" minlength="3" maxlength="30">
                         </div>
                     </div>
                     <div class="row" style="margin-top: 5px">
                         <label for="isi-prefix" class="col-sm-2">Prefix Bagian</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="prefix" value="{{ $suratMaster->form_isian->individu->prefix ?? 'individu' }}" minlength="5" maxlength="50" readonly>
+                            <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="prefix" value="{{ $suratMaster->form_isian->individu->prefix ?? 'individu' }}" minlength="3" maxlength="50" readonly>
                         </div>
                     </div>
                     <hr>
@@ -167,19 +167,19 @@
                         <div class="row">
                             <label for="isi-judul" class="col-sm-2">Judul Bagian</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control input-sm required judul_tinymce isi-judul" name="kategori_judul[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->judul }}" minlength="5" maxlength="20">
+                                <input type="text" class="form-control input-sm required judul_tinymce isi-judul" name="kategori_judul[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->judul ?? ucwords(str_replace('_', ' ', $item)) }}" minlength="3" maxlength="20">
                             </div>
                         </div>
                         <div class="row" style="margin-top: 5px">
                             <label for="isi-label" class="col-sm-2">Label Bagian</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control input-sm required judul isi-label" name="kategori_label[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->label ?? $item }}" minlength="5" maxlength="30">
+                                <input type="text" class="form-control input-sm required judul isi-label" name="kategori_label[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->label ?? ucwords(str_replace('_', ' ', $item)) }}" minlength="3" maxlength="30">
                             </div>
                         </div>
                         <div class="row" style="margin-top: 5px">
                             <label for="isi-prefix" class="col-sm-2">Prefix Bagian</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="kategori_prefix[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->prefix ?? $item}}" minlength="5" maxlength="50">
+                                <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="kategori_prefix[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->prefix ?? $item}}" minlength="3" maxlength="50">
                             </div>
                         </div>
                         <hr>
@@ -195,7 +195,7 @@
                                     <tr>
                                         <td>Tampil Sumber Data</td>
                                         <td>
-                                            <select id="sumber_data_{{ $item }}" class="form-control input-sm" name="kategori_sumber[{{ $item }}]" onchange='tampil_sumber_dinamis("#tab-{{ $item }}", this.value)'>
+                                            <select id="sumber_data_{{ $item }}" class="form-control input-sm isi-sumber-data" name="kategori_sumber[{{ $item }}]" onchange='tampil_sumber_dinamis("#tab-{{ $item }}", this.value)'>
                                                 <option value="1" @selected('1' == $suratMaster->form_isian->{$item}->sumber)>YA
                                                 <option value="0" @selected('0' == $suratMaster->form_isian->{$item}->sumber)>TIDAK
                                             </select>
@@ -340,6 +340,7 @@
                         utama_isi_judul.removeAttribute('readonly')
                         utama_isi_prefix.removeAttribute('readonly')
                         utama_sumber_data.removeAttribute('disabled')
+                        utama_sumber_data.setAttribute('onchange', `tampil_sumber_dinamis("#tab-${nama_kategori}", this.value)`)
 
                         // utama_isi_judul.setAttribute('onkeyup', `$('#tab-${nama_kategori} .isi-prefix').text(this.value.toLowerCase().replace(/ /g, '_'))`);
 
@@ -381,7 +382,7 @@
                             dropdownOptionTr.removeAttribute('id')
                             // tambahkan option dinamis berdasarkan bagian form
                             dropdownOptionTr.innerHTML += `<option value="">Pilih hubungan form</option>`
-                            tabs.each(function(){                                
+                            tabs.each(function(){
                                 dropdownOptionTr.innerHTML += `<option value="${$(this).attr('data-name')}">${$(this).find('a').text()}</option>`
                             })
 

@@ -20,7 +20,7 @@
     @include('admin.layouts.components.notifikasi')
 
     {!! form_open($formAction, 'id="validasi" enctype="multipart/form-data"') !!}
-    <input type="hidden" id="id_surat" name="id_surat" value="{{ $suratMaster->id }}">    
+    <input type="hidden" id="id_surat" name="id_surat" value="{{ $suratMaster->id }}">
     <div class="nav-tabs-custom">
         <div class="container-fluid identitas-surat"><h4>Surat {{ $suratMaster->nama ?? '' }}</h4></div>
         <ul class="nav nav-tabs" id="tabs">
