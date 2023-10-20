@@ -57,87 +57,18 @@
             {!! form_open($form_action, 'id="validasi" method="POST" class="form-surat form-horizontal"') !!}
             <input type="hidden" id="url_surat" name="url_surat" value="{{ $url }}">
             <input type="hidden" id="url_remote" name="url_remote" value="{{ site_url('surat/nomor_surat_duplikat') }}">
-            <div class="form-group subtitle_head">
+            <!-- jika bukan array maka jadikan array dulu, karena data lama bukan bentuk array -->
+            @php
+                $sumberDataPenduduk = !is_array($surat->form_isian->individu->data) ? [$surat->form_isian->individu->data] : $surat->form_isian->individu->data;                
+            @endphp
+            <div class="form-group subtitle_head" data-json='{{ $sumberDataPenduduk }}'>
                 <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori['individu'] ?? 'Keterangan Pemohon')) }}</label>                        
-                @includeWhen(count($surat->form_isian->individu->data) > 1, 'admin.surat.opsi_sumber_penduduk' ,['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu'])
+                @includeWhen(count($sumberDataPenduduk) > 1, 'admin.surat.opsi_sumber_penduduk' ,['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu'])
             </div>
-            @includeWhen(in_array(1, $surat->form_isian->individu->data), 'admin.surat.penduduk_desa', ['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu'])
-            @includeWhen(in_array(2, $surat->form_isian->individu->data), 'admin.surat.penduduk_luar_desa', ['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu'])
+            @includeWhen(in_array(1, $sumberDataPenduduk), 'admin.surat.penduduk_desa', ['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu'])
+            @includeWhen(in_array(2, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', ['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu'])
 
-            @include('admin.surat.nomor_surat')
-
-            @if ($peristiwa)
-                @include('admin.surat.peristiwa')
-            @endif
-
-            @if ($pasangan)
-                @php
-                    $individu = $pasangan;
-                    $list_dokumen = $list_dokumen_pasangan;
-                @endphp
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label text-red"><strong>DATA {{ $pasangan->sex == 1 ? 'SUAMI' : 'ISTRI' }} DARI DATABASE</strong></label>
-                </div>
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label">NIK</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control input-sm" value="{{ $pasangan->nik }}" disabled>
-                    </div>
-                </div>
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label">Nama</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control input-sm" value="{{ $pasangan->nama }}" disabled>
-                    </div>
-                </div>
-                @include('admin.surat.konfirmasi_pemohon')
-            @endif
-
-            @if ($ayah)
-                @php
-                    $individu = $ayah;
-                    $list_dokumen = $list_dokumen_ayah;
-                @endphp
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label text-red"><strong>DATA AYAH DARI DATABASE</strong></label>
-                </div>
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label">NIK</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control input-sm" value="{{ $ayah->nik }}" disabled>
-                    </div>
-                </div>
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label">Nama</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control input-sm" value="{{ $ayah->nama }}" disabled>
-                    </div>
-                </div>
-                @include('admin.surat.konfirmasi_pemohon')
-            @endif
-
-            @if ($ibu)
-                @php
-                    $individu = $ibu;
-                    $list_dokumen = $list_dokumen_ibu;
-                @endphp
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label text-red"><strong>DATA IBU DARI DATABASE</strong></label>
-                </div>
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label">NIK</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control input-sm" value="{{ $ibu->nik }}" disabled>
-                    </div>
-                </div>
-                <div class="form-group ibu_desa">
-                    <label class="col-sm-3 control-label">Nama</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control input-sm" value="{{ $ibu->nama }}" disabled>
-                    </div>
-                </div>
-                @include('admin.surat.konfirmasi_pemohon')
-            @endif
+            @include('admin.surat.nomor_surat')            
             
             @include('admin.surat.kode_isian')
 
@@ -211,6 +142,7 @@
                             filter_sex: $(this).data('filter-sex'),
                             surat: $(this).data('surat'),
                             kategori: $(this).data('kategori'),
+                            hubungan: $(`select[name="${$(this).data('hubungan')}[nik]"]`).val(),
                         };
                     },
                     processResults: function(data, params) {

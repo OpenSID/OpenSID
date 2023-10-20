@@ -1,25 +1,15 @@
 @foreach ($form_kategori as $key => $kategori)
+    <!-- jika bukan array maka jadikan array dulu, karena data lama bukan bentuk array -->
+    @php
+        $sumberDataPenduduk = !is_array($surat->form_isian->{$key}->data) ? [$surat->form_isian->individu->data] : $surat->form_isian->{$key}->data;
+    @endphp
     <div class="form-group subtitle_head" id="a_saksi2">
         <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori[$key] ?? $key)) }}</label>
-        @includeWhen((count($surat->form_isian->{$key}->data) > 1 && ($surat->form_isian->{$key}->sumber ?? 1) == 1) , 'admin.surat.opsi_sumber_penduduk' ,['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])
+        @includeWhen((count($sumberDataPenduduk) > 1 && ($surat->form_isian->{$key}->sumber ?? 1) == 1) , 'admin.surat.opsi_sumber_penduduk' ,['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])
         <input name="anchor" type="hidden" value="<?= $anchor ?>" />        
-    </div>
-    @includeWhen((in_array(1, $surat->form_isian->{$key}->data) && ($surat->form_isian->{$key}->sumber ?? 1) == 1), 'admin.surat.penduduk_desa', ['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])
-    @includeWhen((in_array(2, $surat->form_isian->{$key}->data) && ($surat->form_isian->{$key}->sumber ?? 1) == 1), 'admin.surat.penduduk_luar_desa', ['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])    
-    {{-- <div class="form-group saksi2_desa">
-        <label for="saksi2_desa" class="col-sm-3 control-label"><strong>NIK / Nama</strong></label>
-        <div class="col-sm-5">
-            <select class="form-control select2 input-sm select2-nik-ajax required" name="id_pend_{{ $key }}"
-                style="width:100%;" data-surat="{{ $surat->id }}" data-kategori="{{ $key }}" data-url="<?= site_url('surat/list_penduduk_ajax') ?>"
-                onchange="submit_form_ambil_data(this.id);">
-                <?php if ($kategori["saksi_{$key}"]) : ?>
-                <option value="<?= $kategori["saksi_{$key}"]['id'] ?>"
-                    selected><?= $kategori["saksi_{$key}"]['nik'] . ' - ' . $kategori["saksi_{$key}"]['nama'] ?>
-                </option>
-                <?php endif; ?>
-            </select>
-        </div>
-    </div> --}}
+    </div>    
+    @includeWhen((in_array(1, $sumberDataPenduduk) && ($surat->form_isian->{$key}->sumber ?? 1) == 1), 'admin.surat.penduduk_desa', ['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])
+    @includeWhen((in_array(2, $sumberDataPenduduk) && ($surat->form_isian->{$key}->sumber ?? 1) == 1), 'admin.surat.penduduk_luar_desa', ['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])    
 
     @if ($kategori["saksi_{$key}"])
         @php

@@ -25,6 +25,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 19. [#7184](https://github.com/OpenSID/OpenSID/issues/7184) Penambahan table FCM_token dan pengaturan untuk konfigurasi ke Cloud Messaging FCM.
 20. [#7186](https://github.com/OpenSID/OpenSID/issues/7186) Penambahan modul kirim API push notifikasi ke FCM.
 21. [#7185](https://github.com/OpenSID/OpenSID/issues/7185) Penambahan tabel log notifikasi.
+22. [#7220](https://github.com/OpenSID/OpenSID/issues/7220) Penambahan kondisi hubungan antara bagian form.
 
 #### Perbaikan Bug
 

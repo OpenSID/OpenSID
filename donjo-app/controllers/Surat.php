@@ -936,6 +936,7 @@ class Surat extends Admin_Controller
     {
         $cari          = $this->input->get('q');
         $page          = $this->input->get('page');
+        $hubungan      = $this->input->get('hubungan');
         $filter_sex    = $this->input->get('filter_sex');
         $filter['sex'] = ($filter_sex == 'perempuan') ? 2 : $filter_sex;
         $kategori      = $this->input->get('kategori') ?? null;
@@ -945,6 +946,10 @@ class Surat extends Admin_Controller
                 unset($filterPenduduk['data']);
             }
             $filter = array_merge($filter, $filterPenduduk);
+
+            if ($hubungan) {
+                $filter['hubungan'] = $hubungan;
+            }
         }
 
         $penduduk = $this->surat_model->list_penduduk_ajax($cari, $filter, $page);

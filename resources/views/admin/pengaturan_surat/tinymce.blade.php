@@ -36,7 +36,7 @@
                     <div class="row">
                         <label for="isi-judul" class="col-sm-2">Judul Bagian</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm required judul isi-judul" name="judul" value="{{ $suratMaster->form_isian->individu->judul ?: 'Utama' }}" minlength="5" maxlength="20" disabled>
+                            <input type="text" class="form-control input-sm required judul isi-judul" name="judul" value="{{ $suratMaster->form_isian->individu->judul ?: 'Utama' }}" minlength="5" maxlength="20" readonly>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 5px">
@@ -266,6 +266,23 @@
                                             </select>
                                         </td>
                                     </tr>
+                                    <tr class="sumber_data {{ $tampil_sumber }}">
+                                        <td>Hubungan Data</td>
+                                        <td>
+                                            <select class="form-control input-sm select2 kategori"
+                                                name="kategori_hubungan[{{ $item }}]">
+                                                <option value="">Pilih hubungan</option>                                                
+                                                @foreach ($suratMaster->form_isian as $key => $data)
+                                                    @if ($key == $item) @continue
+                                                    @endif
+                                                    <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->$item->hubungan)>
+                                                        {{ $data->judul ?: $key }}
+                                                    </option>                                                
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -330,6 +347,11 @@
                         utama_delete_btn.dataset.kategori = nama_kategori
                         utama_delete_btn.classList.remove('hide')
 
+                        var tbodySumberData = editElm[0].querySelector('table.sumber-data').querySelector('tbody')
+                        var lastTrSumberData = tbodySumberData.lastElementChild.cloneNode(true)
+                        var dropdownOptionTr = lastTrSumberData.lastElementChild.lastElementChild 
+                        var tabs = $('#form-isian #tabs').find('li')
+
                         var elsumberData = editElm[0].querySelector('.sumber-data')
                         var elkodeIsian = editElm[0].querySelector('.kode-isian')
                         var elorangTua = editElm[0].querySelector('#orang-tua')
@@ -342,30 +364,28 @@
                         elLabel.name = newname
                         elLabel.value = nama_kategori
                     
-                        if (elsumberData != null) {
-
+                        if (elsumberData != null) {                            
                             var selects = editElm[0].querySelectorAll('.sumber-data select');
-
                             // Menghapus semua atribut dan kelas "select2" dari setiap elemen <select>
                             selects.forEach((elselect2) => {
                                 oldname = elselect2.getAttribute('name')
                                 newname = `kategori_${oldname}[${nama_kategori}]`
-                                // if (oldname == 'data_utama') elselect2.disabled = true
+                                
                                 elselect2.name = newname
-                                elselect2.id = elselect2.id+`-${nama_kategori}`
-                                // elselect2.classList.add('kategori')
-                                // if (elselect2.classList.contains('select2')) {
-
-                                //     elselect2.classList.remove('select2')
-                                //     elselect2.classList.remove('select2-hidden-accessible')
-                                //     elselect2.classList.remove('required')
-                                //     if (elselect2.nextElementSibling != null) elselect2
-                                //         .nextElementSibling.remove();
-                                //     // elselect2.nextElementSibling.remove()
-                                //     elselect2.removeAttribute('data-select2-id')
-                                // }
-                                // console.log(elselect2);
+                                elselect2.id = elselect2.id+`-${nama_kategori}`                                
                             });
+                            
+                            lastTrSumberData.firstElementChild.innerText = 'Hubungan Data'
+                            dropdownOptionTr.innerHTML = ''
+                            dropdownOptionTr.name = `kategori_hubungan[${nama_kategori}]`
+                            dropdownOptionTr.removeAttribute('id')
+                            // tambahkan option dinamis berdasarkan bagian form
+                            dropdownOptionTr.innerHTML += `<option value="">Pilih hubungan form</option>`
+                            tabs.each(function(){                                
+                                dropdownOptionTr.innerHTML += `<option value="${$(this).attr('data-name')}">${$(this).find('a').text()}</option>`
+                            })
+
+                            tbodySumberData.appendChild(lastTrSumberData)
                         }
                         if (elkodeIsian != null) {
                             var elganda = editElm[0].querySelector('#gandakan-0');
@@ -430,8 +450,7 @@
                         
                         return editElm;
                     });
-                // loadSelect()
-                //// console.log(editElm[0]);
+                
                 var newNavItem = $(
                     `<li class="ui-list-tab" id="list-${nama_kategori}" data-name="${nama_kategori}">
                         <a id="nav-${newTabId}" href="#${newTabId}" data-toggle="tab">${nama_kategori.replace(/_/g, ' ')}</a>
@@ -477,10 +496,7 @@
                 _navTabElm.find('a').attr('href', '#tab-'+_prefix)
                 _navTabElm.find('input').val(_prefix)
                 _navTabElm.attr('data-name', _prefix)
-                _navTabElm.attr('id', 'list-'+_prefix)
-
-                
-
+                _navTabElm.attr('id', 'list-'+_prefix)            
             })
         });
 

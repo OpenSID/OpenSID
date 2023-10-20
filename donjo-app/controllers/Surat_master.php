@@ -360,6 +360,7 @@ class Surat_master extends Admin_Controller
                 'data_orang_tua' => $request['data_orang_tua'] ?? 0,
                 'data_pasangan'  => $request['data_pasangan'] ?? 0,
                 'label'          => $request['label'] ?? '',
+                'hubungan'       => null,
                 'judul'          => 'Utama',
             ],
         ];
@@ -374,6 +375,7 @@ class Surat_master extends Admin_Controller
                     'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
                     'label'        => $request['kategori_label'][$kategori] ?? null,
                     'judul'        => $request['kategori_judul'][$kategori] ?? null,
+                    'hubungan'     => $request['kategori_hubungan'][$kategori] ?? null,
                     // 'data_orang_tua' => $request['kategori_data_orang_tua'] ?? 0,
                     // 'data_pasangan'  => $request['kategori_data_pasangan'] ?? 0,
                 ];
