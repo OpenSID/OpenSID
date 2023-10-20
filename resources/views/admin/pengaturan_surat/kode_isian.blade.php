@@ -83,6 +83,11 @@
                             <button type="button" class="btn btn-danger btn-sm hapus-kode"><i class='fa fa-trash-o'></i></button>
                             &nbsp;
                             <button type="button" class="btn btn-warning btn-sm pindah-kode hide"><i class='fa fa-exchange'></i></button>
+                            &nbsp;
+                            <button type="button" class="btn btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
+                            <input type="hidden"
+                                class="form-control input-sm kaitkan hide"
+                                name="kaitkan_kode[]" value="{{ $value->kaitkan_kode ?? '' }}" />
                         </td>
                     </tr>
                 @endif
@@ -140,6 +145,11 @@
                         <button type="button" class="btn btn-danger btn-sm hapus-kode"><i class="fa fa-trash-o"></i></button>
                         &nbsp;
                         <button type="button" class="btn btn-warning btn-sm pindah-kode hide"><i class='fa fa-exchange'></i></button>
+                        &nbsp;
+                        <button type="button" class="btn btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
+                        <input type="hidden"
+                            class="form-control input-sm kaitkan hide"
+                            name="kaitkan_kode[]" value="" />
                     </td>
                 </tr>
             @endif
@@ -154,7 +164,7 @@
             var counter = $(".duplikasi:last").data("id");
             // $("#gandakan-" + counter).find("button").hide();
             // default label = nama
-            let pindahKodeElm
+            let pindahKodeElm, kaitkanKodeElm
 
             $('input[name="nama_kode[]"]').on('change', function(e){
                 $(this).closest('tr').find('input[name="label_kode[]"]').val($(this).val())
@@ -418,6 +428,60 @@
                 _tr.appendTo($(_tabSelected).find('table.kode-isian tbody'))
                 _modal.find('button.close').click()
                 $('#form-isian #tabs').find('li>a[href="'+_tabSelected+'"]').click()
+            }   
+            
+            function tambahKondisiIsian(elm){                
+                let _modal = $(elm).closest('.modal-dialog')
+                var td = kaitkanKodeElm.closest('td')
+                var tr = td.closest('tr')
+                var tipeKode = tr.find('select.pilih_tipe').val()
+                var kaitkanData = td.find('input.kaitkan').val()
+                var tbody = tr.closest('tbody')
+                var optionIsian = [], optionKodeIsianLain =  []
+                var isiPilihanManual = tr.find('select.select-manual').val()
+                for(let i in isiPilihanManual){
+                    optionIsian.push(`<option>${isiPilihanManual[i]}</option>`)
+                }
+                tbody.find('input[name*=nama_kode]').not(tr.find('input[name*=nama_kode]')).each(function(){
+                    optionKodeIsianLain.push(`<option>${$(this).val()}</option>`)
+                })
+                var sectionKondisi =                 
+                `<div class="panel panel-default isian" style="margin-top:5px">
+                    <div class="panel-heading">
+                        Kondisi
+                        <button type="button" onclick="$(this).closest('.panel').remove()" class="text-danger pull-right" data-dismiss="panel" aria-label="Close">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label">Nilai Kode Isian</label>
+                            <select name="nilai_isian" class="select2 form-control" multiple>${optionIsian.join('')}</select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Kode Isian</label>
+                            <select name="kode_isian_terkait" class="select2 form-control" multiple>${optionKodeIsianLain}</select>
+                        </div>
+                    </div>
+                </div>`
+                _modal.find('.modal-body').append(sectionKondisi)
+                _modal.find('select.select2').select2()
+            }
+
+            function kaitkanKodeIsian(elm){                
+                let _modal = $(elm).closest('.modal-dialog')
+                var td = kaitkanKodeElm.closest('td')
+                var tr = td.closest('tr')
+                var data = []
+                _modal.find('.panel.isian').each(function(){
+                    data.push({
+                        'nilai_isian': $(this).find('select[name=nilai_isian]').val(),
+                        'kode_isian_terkait': $(this).find('select[name=kode_isian_terkait]').val()
+                    })
+                })
+                
+                td.find('input.kaitkan').val(JSON.stringify(data))
+                _modal.find('button.close').click()
             }
 
             loadSelect2();
@@ -451,6 +515,78 @@
                 content.push('</select>')
                 modal.find('.modal-body').html(content.join('')); // Set modal content
             });
-        })
+
+            $('.kaitkan-kode').on('click', function() {
+                kaitkanKodeElm = $(this)
+                $('#kaitkan_kode_modal').modal('show');                
+            });
+
+            $('.kaitkan-btn').on('click', function(){
+                kaitkanKodeIsian($(this))
+            })
+
+            $('#kaitkan_kode_modal').on('show.bs.modal', function (event) {    
+                var td = kaitkanKodeElm.closest('td')
+                var tr = td.closest('tr')
+                var tipeKode = tr.find('select.pilih_tipe').val()
+                var kaitkanData = td.find('input.kaitkan').val()
+                var tbody = tr.closest('tbody')            
+                var content = ['<button type="button" class="btn btn-sm btn-primary tambah-kondisi-btn">Tambahkan Kondisi Baru</button>']
+                var modal = $(this);
+                if (tipeKode != 'select-manual'){
+                    modal.find('.modal-body').html('Hanya bisa mengaitkan dengan tipe Pilihan (Kustom) '); // Set modal content
+                    return
+                }
+                var optionIsian = [], optionKodeIsianLain =  []
+                var isiPilihanManual = tr.find('select.select-manual').val()
+                if (!$.isEmptyObject(kaitkanData)){
+                    let sectionKondisi, selected, jsonDataKaitkan = JSON.parse(kaitkanData)                     
+                    for(let i in jsonDataKaitkan){
+                        optionIsian = [], optionKodeIsianLain =  []
+                        for(let j in isiPilihanManual){
+                            selected = jsonDataKaitkan[i]['nilai_isian'].includes(isiPilihanManual[j]) ? 'selected' : ''
+                            optionIsian.push(`<option ${selected}>${isiPilihanManual[j]}</option>`)
+                        }
+                        
+                        tbody.find('input[name*=nama_kode]').not(tr.find('input[name*=nama_kode]')).each(function(){
+                            selected = jsonDataKaitkan[i]['kode_isian_terkait'].includes($(this).val()) ? 'selected' : ''
+                            optionKodeIsianLain.push(`<option ${selected}>${$(this).val()}</option>`)
+                        })
+
+                        sectionKondisi = 
+                        `<div class="panel panel-default isian" style="margin-top:5px">
+                            <div class="panel-heading">
+                                Kondisi
+                                <button type="button" onclick="$(this).closest('.panel').remove()" class="text-danger pull-right" data-dismiss="panel" aria-label="Close">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="control-label">Nilai Kode Isian</label>
+                                    <select name="nilai_isian" class="select2 form-control" multiple>${optionIsian.join('')}</select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Kode Isian</label>
+                                    <select name="kode_isian_terkait" class="select2 form-control" multiple>${optionKodeIsianLain}</select>
+                                </div>
+                            </div>
+                        </div>`
+                        
+                        content.push(sectionKondisi)
+                    }                    
+                }
+                
+                modal.find('.modal-body').html(content.join('')); // Set modal content
+                modal.find('button.tambah-kondisi-btn').on('click', function(){
+                    tambahKondisiIsian($(this))
+                })
+                if ($.isEmptyObject(kaitkanData)){
+                    modal.find('button.tambah-kondisi-btn').click()
+                }
+                
+                modal.find('select.select2').select2()                                
+            });
+        })        
     </script>
 @endpush

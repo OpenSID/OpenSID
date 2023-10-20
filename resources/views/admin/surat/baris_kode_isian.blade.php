@@ -7,10 +7,11 @@
                 true);
                 $class = buat_class($item->atribut, '', $item->required);
                 $widthClass = $item->kolom ? 'col-sm-'.$item->kolom : 'col-sm-12';
+                $dataKaitkan = strlen($item->kaitkan_kode ?? '') > 10 ? "data-kaitkan='".$item->kaitkan_kode."'" : '';
             @endphp
             @if ($item->tipe == 'select-manual')
             <div class="{{ $widthClass }}">
-                <select name="{{ $nama }}" {!! $class !!}>
+                <select name="{{ $nama }}" {!! $class !!} {!! $dataKaitkan !!}>
                     <option value="">-- {{ $item->deskripsi }} --</option>
                     @foreach ($item->pilihan as $key => $pilih)
                     <option @selected(set_value($nama)==$pilih) value="{{ $pilih }}">{{ $pilih }}</option>

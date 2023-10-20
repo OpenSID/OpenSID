@@ -298,6 +298,7 @@
     </div>
 </div>
 @include('admin.pengaturan_surat.pindah_kode_modal')
+@include('admin.pengaturan_surat.kaitkan_kode_modal')
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {

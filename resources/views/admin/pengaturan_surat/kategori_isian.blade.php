@@ -88,6 +88,11 @@
                             <button type="button" class="btn btn-danger btn-sm hapus-kode"><i class='fa fa-trash-o'></i></button>
                             &nbsp;
                             <button type="button" class="btn btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
+                            &nbsp;
+                            <button type="button" class="btn btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
+                            <input type="hidden"
+                                class="form-control input-sm kaitkan hide"
+                                name="kategori_kaitkan_kode[{{ $value->kategori }}][]" value="{{ $value->kaitkan_kode ?? '' }}" />
                         </td>
                     </tr>
                 @endif
@@ -157,6 +162,11 @@
                         &nbsp;
                         <button type="button" class="btn btn-warning btn-sm pindah-kode hide"><i
                                 class='fa fa-exchange'></i></button>
+                        &nbsp;
+                        <button type="button" class="btn btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
+                        <input type="hidden"
+                                class="form-control input-sm kaitkan hide"
+                                name="kategori_kaitkan_kode[{{ $value->kategori }}][]" value="" />
                     </td>
                 </tr>
             @endif

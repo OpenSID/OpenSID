@@ -173,18 +173,40 @@
                 minimumInputLength: 0,
             });                    
             
-            $('#showData').click(function() {
-                $("#kel").removeClass('hide');
-                $('#showData').hide();
-                $('#hideData').show();
-            });
+            // kaitkan data 
+            $('select[data-kaitkan]').each(function(){
+                let _kaitkan = $(this).data('kaitkan')
+                
+                _kaitkan.forEach(element => {
+                    for(let i in element.kode_isian_terkait){
+                        let _namaElm = element.kode_isian_terkait[i].replaceAll(/\s+/g,'_')
+                        $(`[name=${_namaElm}]`).removeClass('required')
+                        $(`[name=${_namaElm}]`).closest('.form-group').addClass('hide')
+                    }                                        
+                });
 
-            $('#hideData').click(function() {
-                $('#kel').addClass('hide');
-                $('#hideData').hide();
-                $('#showData').show();
-            });
-            $('#hideData').hide();
+                $(this).change(function(){
+                    let _aktifkanElm = $(this).data('kaitkan')
+                    let _namaElm
+                    _aktifkanElm.forEach(element => {
+                        for(let j in element.kode_isian_terkait){
+                            _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g,'_')
+                            $(`[name=${_namaElm}]`).removeClass('required')
+                            $(`[name=${_namaElm}]`).closest('.form-group').addClass('hide')
+                        }
+                        for(let i in element.nilai_isian){                            
+                            if (element.nilai_isian[i].includes($(this).val())){                                
+                                for(let j in element.kode_isian_terkait){
+                                    _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g,'_')
+                                    $(`[name=${_namaElm}]`).addClass('required')
+                                    $(`[name=${_namaElm}]`).closest('.form-group').removeClass('hide')
+                                }
+                                
+                            }                            
+                        }                                        
+                    }); 
+                })
+            })            
         });        
     </script>
 @endpush

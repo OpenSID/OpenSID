@@ -331,16 +331,17 @@ class Surat_master extends Admin_Controller
             }
 
             $kodeIsian[] = [
-                'tipe'      => $request['tipe_kode'][$i],
-                'kode'      => form_kode_isian($request['nama_kode'][$i]),
-                'nama'      => $request['nama_kode'][$i],
-                'deskripsi' => $request['deskripsi_kode'][$i],
-                'required'  => $request['required_kode'][$i] ?? '0',
-                'atribut'   => $request['atribut_kode'][$i] ?: null,
-                'pilihan'   => null,
-                'refrensi'  => null,
-                'kolom'     => $request['kolom'][$i] ?? '',
-                'label'     => $request['label_kode'][$i] ?? '',
+                'tipe'         => $request['tipe_kode'][$i],
+                'kode'         => form_kode_isian($request['nama_kode'][$i]),
+                'nama'         => $request['nama_kode'][$i],
+                'deskripsi'    => $request['deskripsi_kode'][$i],
+                'required'     => $request['required_kode'][$i] ?? '0',
+                'atribut'      => $request['atribut_kode'][$i] ?: null,
+                'pilihan'      => null,
+                'refrensi'     => null,
+                'kolom'        => $request['kolom'][$i] ?? '',
+                'label'        => $request['label_kode'][$i] ?? '',
+                'kaitkan_kode' => $request['kaitkan_kode'][$i] ?? '',
             ];
 
             if ($request['tipe_kode'][$i] == 'select-manual') {
@@ -398,17 +399,18 @@ class Surat_master extends Admin_Controller
                         continue;
                     }
                     $kategori_isian = [
-                        'kategori'  => $kategori,
-                        'tipe'      => $request['kategori_tipe_kode'][$kategori][$i],
-                        'kode'      => form_kode_isian($request['kategori_nama_kode'][$kategori][$i]),
-                        'nama'      => $request['kategori_nama_kode'][$kategori][$i],
-                        'deskripsi' => $request['kategori_deskripsi_kode'][$kategori][$i],
-                        'required'  => $request['kategori_required_kode'][$kategori][$i] ?? '0',
-                        'atribut'   => $request['kategori_atribut_kode'][$kategori][$i] ?: null,
-                        'pilihan'   => null,
-                        'refrensi'  => null,
-                        'kolom'     => $request['kategori_kolom'][$kategori][$i] ?? '',
-                        'label'     => $request['kategori_label_kode'][$kategori][$i] ?? '',
+                        'kategori'     => $kategori,
+                        'tipe'         => $request['kategori_tipe_kode'][$kategori][$i],
+                        'kode'         => form_kode_isian($request['kategori_nama_kode'][$kategori][$i]),
+                        'nama'         => $request['kategori_nama_kode'][$kategori][$i],
+                        'deskripsi'    => $request['kategori_deskripsi_kode'][$kategori][$i],
+                        'required'     => $request['kategori_required_kode'][$kategori][$i] ?? '0',
+                        'atribut'      => $request['kategori_atribut_kode'][$kategori][$i] ?: null,
+                        'pilihan'      => null,
+                        'refrensi'     => null,
+                        'kolom'        => $request['kategori_kolom'][$kategori][$i] ?? '',
+                        'label'        => $request['kategori_label_kode'][$kategori][$i] ?? '',
+                        'kaitkan_kode' => $request['kategori_kaitkan_kode'][$kategori][$i] ?? '',
                     ];
 
                     if ($request['kategori_tipe_kode'][$kategori][$i] == 'select-manual') {
