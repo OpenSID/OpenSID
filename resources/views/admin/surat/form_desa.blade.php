@@ -59,7 +59,7 @@
             <input type="hidden" id="url_remote" name="url_remote" value="{{ site_url('surat/nomor_surat_duplikat') }}">
             <!-- jika bukan array maka jadikan array dulu, karena data lama bukan bentuk array -->
             @php
-                $sumberDataPenduduk = !is_array($surat->form_isian->individu->data) ? [$surat->form_isian->individu->data] : $surat->form_isian->individu->data;                
+                $sumberDataPenduduk = !is_array($surat->form_isian->individu->data) ? [$surat->form_isian->individu->data] : $surat->form_isian->individu->data;
             @endphp
             <div class="form-group subtitle_head" data-json='{{ $sumberDataPenduduk }}'>
                 <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori['individu'] ?? 'Keterangan Pemohon')) }}</label>                        
@@ -68,7 +68,7 @@
             @includeWhen(in_array(1, $sumberDataPenduduk), 'admin.surat.penduduk_desa', ['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu'])
             @includeWhen(in_array(2, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', ['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu'])
 
-            @include('admin.surat.nomor_surat')            
+            @include('admin.surat.nomor_surat')
             
             @include('admin.surat.kode_isian')
 
