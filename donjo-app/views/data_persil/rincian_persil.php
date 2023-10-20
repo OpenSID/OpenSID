@@ -1,22 +1,23 @@
 <style type="text/css">
     #map {
-        width:100%;
-        height:310px
+        width: 100%;
+        height: 310px
     }
 </style>
+<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <div class="content-wrapper">
     <section class="content-header">
         <h1>Rincian Persil</h1>
         <ol class="breadcrumb">
-            <li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-            <li><a href="<?= site_url('data_persil/clear')?>"> Daftar Persil</a></li>
+            <li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="<?= site_url('data_persil/clear') ?>"> Daftar Persil</a></li>
             <li class="active">Rincian Persil</li>
         </ol>
     </section>
     <section class="content" id="maincontent">
         <div class="box box-info">
             <div class="box-header with-border">
-                <a href="<?=site_url('data_persil/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar PersilA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Persil</a>
+                <a href="<?= site_url('data_persil/clear') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar PersilA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Persil</a>
             </div>
             <div class="box-body">
                 <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -33,26 +34,26 @@
                                             <tr>
                                                 <td width="20%">No. Persil : No. Urut Bidang</td>
                                                 <td width="1%">:</td>
-                                                <td><?= $persil['nomor'] . ' : ' . $persil['nomor_urut_bidang']?></td>
+                                                <td><?= $persil['nomor'] . ' : ' . $persil['nomor_urut_bidang'] ?></td>
                                             </tr>
                                             <tr>
                                                 <th>Kelas Tanah</td>
                                                 <td>:</td>
-                                                <td><?= $persil['kode'] . ' - ' . $persil['ndesc']?></td>
+                                                <td><?= $persil['kode'] . ' - ' . $persil['ndesc'] ?></td>
                                             </tr>
                                             <tr>
                                                 <th>Alamat</td>
                                                 <td>:</td>
-                                                <td><?= $persil['alamat'] ?: $persil['lokasi']?></td>
+                                                <td><?= $persil['alamat'] ?: $persil['lokasi'] ?></td>
                                             </tr>
-                                            <?php if ($persil['cdesa_awal']): ?>
+                                            <?php if ($persil['cdesa_awal']) : ?>
                                                 <tr>
                                                     <td>C-Desa Pemilik Awal</td>
                                                     <td>:</td>
-                                                    <td><a href="<?= site_url("cdesa/mutasi/{$persil['cdesa_awal']}/{$persil['id']}")?>"><?= $persil['nomor_cdesa_awal']?></a></td>
+                                                    <td><a href="<?= site_url("cdesa/mutasi/{$persil['cdesa_awal']}/{$persil['id']}") ?>"><?= $persil['nomor_cdesa_awal'] ?></a></td>
                                                 </tr>
                                             <?php endif; ?>
-                                            <?php if ($persil['path'] != null || $persil['path'] != ''): ?>
+                                            <?php if ($persil['path'] != null || $persil['path'] != '') : ?>
                                                 <tr>
                                                     <td colspan="3" id="map">
                                                         <input type="hidden" id="path" name="path" value="<?= $persil['path'] ?>">
@@ -86,16 +87,16 @@
                                             </thead>
                                             <tbody>
                                                 <?php $nomer = 0; ?>
-                                                <?php foreach ($mutasi as $key => $item): $nomer++; ?>
+                                                <?php foreach ($mutasi as $key => $item) : $nomer++; ?>
                                                     <tr>
-                                                        <td class="text-center"><?= $nomer?></td>
-                                                        <td><a href="<?= site_url('cdesa/rincian/' . $item['id_cdesa_masuk'])?>"><?= $item['cdesa_masuk']?></a></td>
-                                                        <td><a href="<?= site_url('cdesa/rincian/' . $item['cdesa_keluar'])?>"><?= $item['cdesa_keluar']?></a></td>
-                                                        <td><?= $item['no_bidang_persil']?></td>
-                                                        <td><?= $item['luas']?></td>
-                                                        <td><?= $item['no_objek_pajak']?></td>
-                                                        <td><?= tgl_indo_out($item['tanggal_mutasi'])?></td>
-                                                        <td><?= $item['keterangan']?></td>
+                                                        <td class="text-center"><?= $nomer ?></td>
+                                                        <td><a href="<?= site_url('cdesa/rincian/' . $item['id_cdesa_masuk']) ?>"><?= $item['cdesa_masuk'] ?></a></td>
+                                                        <td><a href="<?= site_url('cdesa/rincian/' . $item['cdesa_keluar']) ?>"><?= $item['cdesa_keluar'] ?></a></td>
+                                                        <td><?= $item['no_bidang_persil'] ?></td>
+                                                        <td><?= $item['luas'] ?></td>
+                                                        <td><?= $item['no_objek_pajak'] ?></td>
+                                                        <td><?= tgl_indo_out($item['tanggal_mutasi']) ?></td>
+                                                        <td><?= $item['keterangan'] ?></td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             </tbody>
@@ -110,21 +111,24 @@
         </div>
     </section>
 </div>
-
+<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         // tampilkan map
-        <?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
-            var posisi = [<?=$desa['lat'] . ',' . $desa['lng']?>];
-            var zoom = <?=$desa['zoom'] ?: 18?>;
-        <?php else: ?>
-            var posisi = [-1.0546279422758742,116.71875000000001];
+        <?php if (!empty($desa['lat']) && !empty($desa['lng'])) : ?>
+            var posisi = [<?= $desa['lat'] . ',' . $desa['lng'] ?>];
+            var zoom = <?= $desa['zoom'] ?: 18 ?>;
+        <?php else : ?>
+            var posisi = [-1.0546279422758742, 116.71875000000001];
             var zoom = 4;
         <?php endif; ?>
 
         var options = {
             maxZoom: <?= setting('max_zoom_peta') ?>,
             minZoom: <?= setting('min_zoom_peta') ?>,
+            fullscreenControl: {
+                position: 'topright' // Menentukan posisi tombol fullscreen
+            }
         };
 
         var peta_area = L.map('map', options).setView(posisi, zoom);
@@ -132,7 +136,7 @@
         //Menampilkan BaseLayers Peta
         var baseLayers = getBaseLayers(peta_area, MAPBOX_KEY, JENIS_PETA);
 
-        if ($('input[name="path"]').val() !== '' ) {
+        if ($('input[name="path"]').val() !== '') {
             var wilayah = JSON.parse($('input[name="path"]').val());
             showCurrentArea(wilayah, peta_area, TAMPIL_LUAS);
         }

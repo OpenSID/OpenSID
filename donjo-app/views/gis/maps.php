@@ -27,6 +27,7 @@
 		padding-right: 1rem;
 	}
 </style>
+<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <div class="content-wrapper">
 	<form id="mainform_map" name="mainform_map" method="post">
 		<div class="row">
@@ -34,7 +35,7 @@
 				<div id="map">
 					<?php include 'donjo-app/views/gis/cetak_peta.php'; ?>
 					<div class="leaflet-top leaflet-right">
-						<div class="leaflet-control-layers leaflet-bar leaflet-control">
+						<div class="leaflet-control-layers leaflet-bar leaflet-control" style="margin-top: 50px;">
 							<a class="leaflet-control-control icos" href="#" title="Control Panel" role="button" aria-label="Control Panel" onclick="$('#target1').toggle();$('#target1').removeClass('hidden');$('#target2').hide();"><i class="fa fa-gears"></i></a>
 							<a class="leaflet-control-control icos" href="#" title="Legenda" role="button" aria-label="Legenda" onclick="$('#target2').toggle();$('#target2').removeClass('hidden');$('#target1').hide();"><i class="fa fa-list"></i></a>
 						</div>
@@ -151,14 +152,15 @@
 		</div>
 	</form>
 </div>
+<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script>
 	(function() {
 		var infoWindow;
 		window.onload = function() {
-			<?php if (! empty($desa['lat']) && ! empty($desa['lng'])) : ?>
+			<?php if (!empty($desa['lat']) && !empty($desa['lng'])) : ?>
 				var posisi = [<?= $desa['lat'] . ',' . $desa['lng'] ?>];
 				var zoom = <?= $desa['zoom'] ?: 10 ?>;
-			<?php elseif (! empty($desa['path'])) : ?>
+			<?php elseif (!empty($desa['path'])) : ?>
 				var wilayah_desa = <?= $desa['path'] ?>;
 				var posisi = wilayah_desa[0][0];
 				var zoom = <?= $desa['zoom'] ?: 10 ?>;
@@ -170,12 +172,15 @@
 			var options = {
 				maxZoom: <?= setting('max_zoom_peta') ?>,
 				minZoom: <?= setting('min_zoom_peta') ?>,
+				fullscreenControl: {
+					position: 'topright' // Menentukan posisi tombol fullscreen
+				}
 			};
 
 			//Inisialisasi tampilan peta
 			var peta = L.map('map', options).setView(posisi, zoom);
 
-			<?php if (! empty($desa['path'])) : ?>
+			<?php if (!empty($desa['path'])) : ?>
 				peta.fitBounds(<?= $desa['path'] ?>);
 			<?php endif; ?>
 
@@ -190,22 +195,22 @@
 
 
 			//OVERLAY WILAYAH DESA
-			<?php if (! empty($desa['path'])) : ?>
+			<?php if (!empty($desa['path'])) : ?>
 				set_marker_desa_content(marker_desa, <?= json_encode($desa) ?>, "<?= ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa'] ?>", "<?= favico_desa() ?>", '#isi_popup');
 			<?php endif; ?>
 
 			//OVERLAY WILAYAH DUSUN
-			<?php if (! empty($dusun_gis)) : ?>
+			<?php if (!empty($dusun_gis)) : ?>
 				set_marker_multi_content(marker_dusun, '<?= addslashes(json_encode($dusun_gis)) ?>', '<?= ucwords($this->setting->sebutan_dusun) ?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa() ?>');
 			<?php endif; ?>
 
 			//OVERLAY WILAYAH RW
-			<?php if (! empty($rw_gis)) : ?>
+			<?php if (!empty($rw_gis)) : ?>
 				set_marker_content(marker_rw, '<?= addslashes(json_encode($rw_gis)) ?>', 'RW', 'rw', '#isi_popup_rw_', '<?= favico_desa() ?>');
 			<?php endif; ?>
 
 			//OVERLAY WILAYAH RT
-			<?php if (! empty($rt_gis)) : ?>
+			<?php if (!empty($rt_gis)) : ?>
 				set_marker_content(marker_rt, '<?= addslashes(json_encode($rt_gis)) ?>', 'RT', 'rt', '#isi_popup_rt_', '<?= favico_desa() ?>');
 			<?php endif; ?>
 
@@ -286,7 +291,7 @@
 			var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil, TAMPIL_LUAS);
 
 			//PENDUDUK
-			<?php if ($layer_penduduk == 1 || $layer_keluarga == 1 && ! empty($penduduk)) : ?>
+			<?php if ($layer_penduduk == 1 || $layer_keluarga == 1 && !empty($penduduk)) : ?>
 
 				//Data penduduk
 				var penduduk = JSON.parse('<?= addslashes(json_encode($penduduk)) ?>');

@@ -26,7 +26,7 @@
     padding-right: 1rem;
   }
 </style>
-
+<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <form id="mainform_map" name="mainform_map" method="post">
   <div class="row">
     <div class="col-md-12">
@@ -87,15 +87,15 @@
     </div>
   </div>
 </div>
-
+<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script>
   (function() {
     var infoWindow;
     window.onload = function() {
-      <?php if (! empty($desa['lat']) && ! empty($desa['lng'])) : ?>
+      <?php if (!empty($desa['lat']) && !empty($desa['lng'])) : ?>
         var posisi = [<?= $desa['lat'] . ',' . $desa['lng'] ?>];
         var zoom = <?= $desa['zoom'] ?: 10 ?>;
-      <?php elseif (! empty($desa['path'])) : ?>
+      <?php elseif (!empty($desa['path'])) : ?>
         var wilayah_desa = <?= $desa['path'] ?>;
         var posisi = wilayah_desa[0][0];
         var zoom = <?= $desa['zoom'] ?: 10 ?>;
@@ -107,12 +107,15 @@
       var options = {
         maxZoom: <?= setting('max_zoom_peta') ?>,
         minZoom: <?= setting('min_zoom_peta') ?>,
+        fullscreenControl: {
+          position: 'topright' // Menentukan posisi tombol fullscreen
+        }
       };
 
       //Inisialisasi tampilan peta
       var mymap = L.map('map', options).setView(posisi, zoom);
 
-      <?php if (! empty($desa['path'])) : ?>
+      <?php if (!empty($desa['path'])) : ?>
         mymap.fitBounds(<?= $desa['path'] ?>);
       <?php endif; ?>
 
@@ -131,22 +134,22 @@
       var mark_covid = [];
 
       //OVERLAY WILAYAH DESA
-      <?php if (! empty($desa['path'])) : ?>
+      <?php if (!empty($desa['path'])) : ?>
         set_marker_desa_content(marker_desa, <?= json_encode($desa) ?>, "<?= ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa'] ?>", "<?= favico_desa() ?>", '#isi_popup');
       <?php endif; ?>
 
       //OVERLAY WILAYAH DUSUN
-      <?php if (! empty($dusun_gis)) : ?>
+      <?php if (!empty($dusun_gis)) : ?>
         set_marker_multi_content(marker_dusun, '<?= addslashes(json_encode($dusun_gis)) ?>', '<?= ucwords($this->setting->sebutan_dusun) ?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa() ?>');
       <?php endif; ?>
 
       //OVERLAY WILAYAH RW
-      <?php if (! empty($rw_gis)) : ?>
+      <?php if (!empty($rw_gis)) : ?>
         set_marker_content(marker_rw, '<?= addslashes(json_encode($rw_gis)) ?>', 'RW', 'rw', '#isi_popup_rw_', '<?= favico_desa() ?>');
       <?php endif; ?>
 
       //OVERLAY WILAYAH RT
-      <?php if (! empty($rt_gis)) : ?>
+      <?php if (!empty($rt_gis)) : ?>
         set_marker_content(marker_rt, '<?= addslashes(json_encode($rt_gis)) ?>', 'RT', 'rt', '#isi_popup_rt_', '<?= favico_desa() ?>');
       <?php endif; ?>
 
@@ -210,18 +213,18 @@
       });
 
       // deklrasi variabel agar mudah di baca
-			var all_area = '<?= addslashes(json_encode($area)) ?>';
-			var all_garis = '<?= addslashes(json_encode($garis)) ?>';
-			var all_lokasi = '<?= addslashes(json_encode($lokasi)) ?>';
-			var all_lokasi_pembangunan = '<?= addslashes(json_encode($lokasi_pembangunan)) ?>';
-			var LOKASI_SIMBOL_LOKASI = '<?= base_url(LOKASI_SIMBOL_LOKASI) ?>';
-			var favico_desa = '<?= favico_desa() ?>';
-			var LOKASI_FOTO_AREA = '<?= base_url(LOKASI_FOTO_AREA) ?>';
-			var LOKASI_FOTO_GARIS = '<?= base_url(LOKASI_FOTO_GARIS) ?>';
-			var LOKASI_FOTO_LOKASI = '<?= base_url(LOKASI_FOTO_LOKASI) ?>';
-			var LOKASI_GALERI = '<?= base_url(LOKASI_GALERI) ?>';
-			var info_pembangunan = '<?= site_url('pembangunan') ?>';
-			var all_persil = '<?= addslashes(json_encode($persil)) ?>';
+      var all_area = '<?= addslashes(json_encode($area)) ?>';
+      var all_garis = '<?= addslashes(json_encode($garis)) ?>';
+      var all_lokasi = '<?= addslashes(json_encode($lokasi)) ?>';
+      var all_lokasi_pembangunan = '<?= addslashes(json_encode($lokasi_pembangunan)) ?>';
+      var LOKASI_SIMBOL_LOKASI = '<?= base_url(LOKASI_SIMBOL_LOKASI) ?>';
+      var favico_desa = '<?= favico_desa() ?>';
+      var LOKASI_FOTO_AREA = '<?= base_url(LOKASI_FOTO_AREA) ?>';
+      var LOKASI_FOTO_GARIS = '<?= base_url(LOKASI_FOTO_GARIS) ?>';
+      var LOKASI_FOTO_LOKASI = '<?= base_url(LOKASI_FOTO_LOKASI) ?>';
+      var LOKASI_GALERI = '<?= base_url(LOKASI_GALERI) ?>';
+      var info_pembangunan = '<?= site_url('pembangunan') ?>';
+      var all_persil = '<?= addslashes(json_encode($persil)) ?>';
       var TAMPIL_LUAS = <?= setting('tampil_luas_peta') ?>
 
       // Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
