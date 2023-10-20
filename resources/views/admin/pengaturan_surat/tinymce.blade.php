@@ -48,7 +48,7 @@
                     <div class="row" style="margin-top: 5px">
                         <label for="isi-prefix" class="col-sm-2">Prefix Bagian</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="prefix" value="{{ $suratMaster->form_isian->individu->prefix ?? 'Individu' }}" minlength="5" maxlength="50" disabled>
+                            <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="prefix" value="{{ $suratMaster->form_isian->individu->prefix ?? 'individu' }}" minlength="5" maxlength="50" readonly>
                         </div>
                     </div>
                     <hr>
@@ -337,8 +337,8 @@
                         utama_isi_label.value  = ''
                         utama_isi_prefix.value = nama_kategori
 
-                        utama_isi_judul.removeAttribute('disabled')
-                        utama_isi_prefix.removeAttribute('disabled')
+                        utama_isi_judul.removeAttribute('readonly')
+                        utama_isi_prefix.removeAttribute('readonly')
                         utama_sumber_data.removeAttribute('disabled')
 
                         // utama_isi_judul.setAttribute('onkeyup', `$('#tab-${nama_kategori} .isi-prefix').text(this.value.toLowerCase().replace(/ /g, '_'))`);
@@ -364,7 +364,7 @@
                         elLabel.name = newname
                         elLabel.value = nama_kategori
                     
-                        if (elsumberData != null) {                            
+                        if (elsumberData != null) {
                             var selects = editElm[0].querySelectorAll('.sumber-data select');
                             // Menghapus semua atribut dan kelas "select2" dari setiap elemen <select>
                             selects.forEach((elselect2) => {
@@ -372,7 +372,7 @@
                                 newname = `kategori_${oldname}[${nama_kategori}]`
                                 
                                 elselect2.name = newname
-                                elselect2.id = elselect2.id+`-${nama_kategori}`                                
+                                elselect2.id = elselect2.id+`-${nama_kategori}`
                             });
                             
                             lastTrSumberData.firstElementChild.innerText = 'Hubungan Data'
@@ -520,14 +520,14 @@
         }
 
         function deleteTab(event) {
-            var clicked = event.target;                        
+            var clicked = event.target;
             let tabContent = $(clicked).closest('.tab-pane')
             let id = tabContent.attr('id').substr(4)
             let navTabElm = $('#form-isian #list-'+id)
             
-            tabContent.remove()            
+            tabContent.remove()
             navTabElm.prev('li').find('a').click()
-            navTabElm.remove()                        
+            navTabElm.remove()
         }
     </script>
 @endpush

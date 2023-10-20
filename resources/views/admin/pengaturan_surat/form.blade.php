@@ -77,9 +77,9 @@
             syarat($('input[name=mandiri]:checked').val());
             $('input[name="mandiri"]').change(function() {
                 syarat($(this).val());
-            });            
+            });
 
-            $('#pengaturan-umum input[name=nama]').keyup(function(e){                
+            $('#pengaturan-umum input[name=nama]').keyup(function(e){
                 $('div.identitas-surat h4').text('Surat '+ $(this).val())
             })
 
@@ -142,7 +142,7 @@
                             alert(ex); // This is an error
                         }
                     }
-            }).fail(function(response, status, xhr) {                        
+            }).fail(function(response, status, xhr) {
                         Swal.fire({
                             title: xhr.statusText, 
                             icon: 'error',
