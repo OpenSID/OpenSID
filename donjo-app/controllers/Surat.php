@@ -569,7 +569,7 @@ class Surat extends Admin_Controller
             $isi_surat = $this->request['isi_surat'];
 
             // Kembalikan kode isian [format_nomor_surat]
-            $format_surat = $this->tinymce->substitusiNomorSurat($cetak['input']['nomor'], setting('format_nomor_surat'));
+            $format_surat = substitusiNomorSurat($cetak['input']['nomor'], setting('format_nomor_surat'));
             $format_surat = str_replace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
             $format_surat = str_replace('[kode_desa]', identitas()->kode_desa, $format_surat);
             $format_surat = str_replace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);

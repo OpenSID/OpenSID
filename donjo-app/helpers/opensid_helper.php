@@ -1691,11 +1691,12 @@ if (! function_exists('getFormatIsian')) {
      */
     function getFormatIsian($kode_isian)
     {
-        $strtolower = strtolower($kode_isian);
+        $netral     = str_replace(['[', ']'], '', $kode_isian);
+        $strtolower = strtolower($netral);
         $ucfirst    = ucfirst($strtolower);
 
         return [
-            'normal'  => '[' . ucfirst(uclast($kode_isian)) . ']',
+            'normal'  => '[' . ucfirst(uclast($netral)) . ']',
             'lower'   => '[' . $strtolower . ']',
             'ucfirst' => '[' . $ucfirst . ']',
             'ucwords' => '[' . substr_replace($ucfirst, strtoupper(substr($ucfirst, 2, 1)), 2, 1) . ']',
@@ -1868,4 +1869,27 @@ if (! function_exists('bersihkan_xss')) {
 
         return $antiXSS->xss_clean($str);
     }
+}
+
+/**
+ * Kode isian nomor_surat bisa ditentukan panjangnya, diisi dengan '0' di sebelah kiri
+ * Misalnya [nomor_surat, 3] akan menghasilkan seperti '012'
+ *
+ * @param mixed|null $nomor
+ * @param mixed      $format
+ */
+function substitusiNomorSurat($nomor = null, $format = '')
+{
+    // TODO : Cek jika null, cari no surat terakhir berdasarkan kelompok
+    $format = str_replace('[nomor_surat]', "{$nomor}", $format);
+    if (preg_match_all('/\[nomor_surat,\s*\d+\]/', $format, $matches)) {
+        foreach ($matches[0] as $match) {
+            $parts         = explode(',', $match);
+            $panjang       = (int) trim(rtrim($parts[1], ']'));
+            $nomor_panjang = str_pad("{$nomor}", $panjang, '0', STR_PAD_LEFT);
+            $format        = str_replace($match, $nomor_panjang, $format);
+        }
+    }
+
+    return $format;
 }

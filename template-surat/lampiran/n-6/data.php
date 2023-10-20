@@ -35,15 +35,14 @@
  *
  */
 
-use App\Enums\JenisKelaminEnum;
-use App\Libraries\TinyMCE;
 use App\Models\Penduduk;
+use App\Enums\JenisKelaminEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 $ayah = $this->surat_model->get_data_ayah($data['id_pend']);
 
-$formatSuratN6 = (new TinyMCE())->substitusiNomorSurat($data['input']['nomor'], setting('format_nomor_surat'));
+$formatSuratN6 = substitusiNomorSurat($data['input']['nomor'], setting('format_nomor_surat'));
 $dataIndividu = [
     'nama_pasangan_terdahulu' => $input['nama_pasangan_terdahulu'],
     'nik_pasangan_terdahulu' => $input['no_ktp_pasangan_terdahulu'],
