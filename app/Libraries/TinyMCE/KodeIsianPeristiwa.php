@@ -94,7 +94,7 @@ class KodeIsianPeristiwa
             [
                 'judul' => 'Tanggal Kelahiran',
                 'isian' => 'Tanggal_kelahiranN',
-                'data'  => tgl_indo($peristiwa->penduduk->tanggallahir),
+                'data'  => formatTanggal($peristiwa->penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Jam Kelahiran',
@@ -150,7 +150,7 @@ class KodeIsianPeristiwa
             [
                 'judul' => 'Tanggal Kematian',
                 'isian' => 'Tanggal_kematiaN',
-                'data'  => tgl_indo($peristiwa->tgl_peristiwa),
+                'data'  => formatTanggal($peristiwa->tgl_peristiwa),
             ],
             [
                 'judul' => 'Jam Kematian',
@@ -186,7 +186,7 @@ class KodeIsianPeristiwa
             [
                 'judul' => 'Tanggal Pindah',
                 'isian' => 'Tanggal_pindaH',
-                'data'  => tgl_indo($peristiwa->tgl_peristiwa),
+                'data'  => formatTanggal($peristiwa->tgl_peristiwa),
             ],
             [
                 'judul' => 'Alamat Tujuan',
@@ -207,7 +207,7 @@ class KodeIsianPeristiwa
             [
                 'judul' => 'Tanggal Hilang',
                 'isian' => 'Tanggal_hilanG',
-                'data'  => tgl_indo($peristiwa->tgl_peristiwa),
+                'data'  => formatTanggal($peristiwa->tgl_peristiwa),
             ],
         ];
     }
@@ -218,7 +218,7 @@ class KodeIsianPeristiwa
             [
                 'judul' => 'Tanggal Lapor',
                 'isian' => 'Tanggal_lapoR',
-                'data'  => tgl_indo($peristiwa->tgl_lapor),
+                'data'  => formatTanggal($peristiwa->tgl_lapor),
             ],
             [
                 'judul' => 'Catatan',

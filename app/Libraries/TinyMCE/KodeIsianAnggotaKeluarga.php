@@ -92,21 +92,21 @@ class KodeIsianAnggotaKeluarga
                 'judul' => 'Tgl Lahir',
                 'isian' => 'Klgx_tanggallahiR',
                 'data'  => $anggota ? $anggota->pluck('tanggallahir')
-                    ->map(static fn ($item) => tgl_indo($item))
+                    ->map(static fn ($item) => formatTanggal($item))
                     ->toArray() : '',
             ],
             [
                 'judul' => 'Tempat Tgl Lahir',
                 'isian' => 'Klgx_tempat_tgl_lahiR',
                 'data'  => $anggota ? $anggota->pluck('tempatlahir', 'tanggallahir')
-                    ->map(static fn ($item, $key) => $item . ', ' . tgl_indo($key))
+                    ->map(static fn ($item, $key) => $item . ', ' . formatTanggal($key))
                     ->values()->toArray() : '',
             ],
             [
                 'judul' => 'Tempat Tgl Lahir (TTL)',
                 'isian' => 'Klgx_ttL',
                 'data'  => $anggota ? $anggota->pluck('tempatlahir', 'tanggallahir')
-                    ->map(static fn ($item, $key) => $item . ', ' . tgl_indo($key))
+                    ->map(static fn ($item, $key) => $item . ', ' . formatTanggal($key))
                     ->values()->toArray() : '',
             ],
             [
@@ -168,7 +168,7 @@ class KodeIsianAnggotaKeluarga
                 'judul' => 'Tgl Akhir Paspor',
                 'isian' => 'Klgx_tanggal_akhir_paspoR',
                 'data'  => $anggota ? $anggota->pluck('tanggal_akhir_paspor')
-                    ->map(static fn ($item) => tgl_indo($item))
+                    ->map(static fn ($item) => formatTanggal($item))
                     ->toArray() : '',
             ],
             [

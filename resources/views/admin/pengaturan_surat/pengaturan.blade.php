@@ -27,7 +27,7 @@
             @include('admin.pengaturan_surat.partials.pengaturan_header')
             @include('admin.pengaturan_surat.partials.pengaturan_footer')
             @include('admin.pengaturan_surat.partials.pengaturan_alur')
-            @include('admin.pengaturan_surat.partials.pengaturan_tte')            
+            @include('admin.pengaturan_surat.partials.pengaturan_tte')
             @include('admin.pengaturan_surat.partials.pengaturan_sumber_penduduk')
             @include('admin.pengaturan_surat.partials.pengaturan_lainnya')
             

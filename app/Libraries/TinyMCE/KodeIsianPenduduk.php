@@ -90,7 +90,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Tanggal Lahir' . $ortu,
                 'isian' => 'Tanggallahir' . $prefix,
-                'data'  => tgl_indo($penduduk->tanggallahir),
+                'data'  => formatTanggal($penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Tempat Lahir' . $ortu,
@@ -100,12 +100,12 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Tempat Tanggal Lahir' . $ortu,
                 'isian' => 'Tempat_tgl_lahir' . $prefix,
-                'data'  => $penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir),
+                'data'  => $penduduk->tempatlahir . '/' . formatTanggal($penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Tempat Tanggal Lahir (TTL)' . $ortu,
                 'isian' => 'Ttl' . $prefix,
-                'data'  => $penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir),
+                'data'  => $penduduk->tempatlahir . '/' . formatTanggal($penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Usia' . $ortu,
@@ -204,12 +204,12 @@ class KodeIsianPenduduk
                 [
                     'judul' => 'Tanggal Perkawinan',
                     'isian' => 'TanggalperkawinaN',
-                    'data'  => tgl_indo($penduduk->tanggalperkawinan),
+                    'data'  => formatTanggal($penduduk->tanggalperkawinan),
                 ],
                 [
                     'judul' => 'Tanggal Perceraian',
                     'isian' => 'TanggalperceraiaN',
-                    'data'  => tgl_indo($penduduk->tanggalperceraian),
+                    'data'  => formatTanggal($penduduk->tanggalperceraian),
                 ],
                 [
                     'judul' => 'Cacat',
@@ -234,7 +234,7 @@ class KodeIsianPenduduk
                 [
                     'judul' => 'Tanggal Akhir Paspor',
                     'isian' => 'Tanggal_akhir_paspoR',
-                    'data'  => tgl_indo($penduduk->tanggal_akhir_paspor),
+                    'data'  => formatTanggal($penduduk->tanggal_akhir_paspor),
                 ],
 
                 // Data KK

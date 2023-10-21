@@ -81,7 +81,7 @@ class KodeIsianSurat
             [
                 'judul' => 'Tanggal',
                 'isian' => 'Tgl_suraT',
-                'data'  => tgl_indo(date('Y m d')),
+                'data'  => formatTanggal(date('Y-m-d')),
             ],
             [
                 'judul' => 'Tanggal Hijri',

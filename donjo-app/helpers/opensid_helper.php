@@ -37,6 +37,7 @@
 
 use App\Enums\Statistik\StatistikEnum;
 use App\Models\RefJabatan;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use voku\helper\AntiXSS;
@@ -1906,4 +1907,16 @@ function updateIndex($data)
     }
 
     return $result;
+}
+
+/**
+ * @param string $tanggal
+ *
+ * @return string
+ */
+if (! function_exists('formatTanggal')) {
+    function formatTanggal($tanggal)
+    {
+        return Carbon::parse($tanggal)->translatedFormat(setting('format_tanggal_surat'));
+    }
 }

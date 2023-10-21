@@ -73,14 +73,15 @@ class Migrasi_fitur_premium_2311 extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023101152($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023101351($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023101971($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023102151($hasil, $id);
         }
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023101254($hasil);
         $hasil = $hasil && $this->migrasi_2023101651($hasil);
-        $hasil = $hasil && $this->migrasi_2023101652($hasil);
 
-        return $hasil && $this->migrasi_23102151($hasil);
+        return $hasil && $this->migrasi_2023101652($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -156,14 +157,13 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_2023101351($hasil, $id)
     {
         return $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'nonaktifkan_rtf',
             'judul'      => 'Non Aktifkan Surat RTF',
             'value'      => 0,
             'keterangan' => 'Aktif / Non-aktifkan Surat RTF',
             'jenis'      => 'boolean',
             'kategori'   => 'pengaturan-surat',
-        ]);
+        ], $id);
     }
 
     protected function migrasi_2023101352($hasil)
@@ -199,64 +199,58 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_2023101255($hasil, $emailSetting, $id)
     {
         $hasil = $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'email_notifikasi',
             'judul'      => 'Email Notifikasi',
             'value'      => $emailSetting['smtp_host'] ? 1 : 0,
             'keterangan' => 'Aktif atau nonaktifkan notifikasi email',
             'jenis'      => 'boolean',
             'kategori'   => 'email',
-        ]);
+        ], $id);
 
         $hasil = $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'email_protocol',
             'judul'      => 'Email protokol',
             'value'      => $emailSetting['protocol'],
             'keterangan' => 'Email protokol, misal : SMTP',
             'jenis'      => 'text',
             'kategori'   => 'email',
-        ]);
+        ], $id);
 
         $hasil = $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'email_smtp_host',
             'judul'      => 'Email Host',
             'value'      => $emailSetting['smtp_host'],
             'keterangan' => 'Email host',
             'jenis'      => 'text',
             'kategori'   => 'email',
-        ]);
+        ], $id);
 
         $hasil = $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'email_smtp_user',
             'judul'      => 'Email Username',
             'value'      => $emailSetting['smtp_user'],
             'keterangan' => 'Email username',
             'jenis'      => 'text',
             'kategori'   => 'email',
-        ]);
+        ], $id);
 
         $hasil = $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'email_smtp_pass',
             'judul'      => 'Email Password',
             'value'      => $emailSetting['smtp_pass'],
             'keterangan' => 'Email password',
             'jenis'      => 'password',
             'kategori'   => 'email',
-        ]);
+        ], $id);
 
         return $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'email_smtp_port',
             'judul'      => 'Email Port',
             'value'      => $emailSetting['smtp_port'],
             'keterangan' => 'Email port',
             'jenis'      => 'text',
             'kategori'   => 'email',
-        ]);
+        ], $id);
     }
 
     protected function migrasi_2023101651($hasil)
@@ -291,6 +285,20 @@ class Migrasi_fitur_premium_2311 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2023101971($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Format Tanggal Surat',
+            'key'        => 'format_tanggal_surat',
+            'value'      => 'd F Y',
+            'keterangan' => 'Format tanggal pada kode isian surat. Format : <code><a href="https://www.php.net/manual/en/function.date.php" target="_blank">https://www.php.net/manual/en/function.date.php</a></code>',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'format_surat',
+        ], $id);
+    }
+
     protected function migrasi_2023101652($hasil)
     {
         $this->db->trans_start();
@@ -320,16 +328,15 @@ class Migrasi_fitur_premium_2311 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_23102151($hasil, $id)
+    protected function migrasi_2023102151($hasil, $id)
     {
         return $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'form_penduduk_luar',
             'value'      => '{"2":{"title":"Penduduk luar","input":"nama,no_ktp"}}',
             'keterangan' => 'Form ini akan tampil jika surat dipilih menggunakan penduduk luar desa',
             'jenis'      => 'text',
             'kategori'   => 'form_surat',
             'judul'      => 'Form penduduk luar desa',
-        ]);
+        ], $id);
     }
 }

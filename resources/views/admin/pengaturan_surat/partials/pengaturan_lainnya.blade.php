@@ -37,6 +37,14 @@
     </div>
     <div class="box-body">
         <div class="form-group">
+            <label>Format tanggal surat </label>
+            <input type="text" name="format_tanggal_surat" class="form-control input-sm"
+                value="{{ setting('format_tanggal_surat') }}">
+            <span class="help-block small text-red">{!! $list_setting->where('key', 'format_tanggal_surat')->first()->keterangan !!}</span>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="form-group">
             <label>Margin</label>
             <div class="row">
                 @foreach ($margins as $key => $value)

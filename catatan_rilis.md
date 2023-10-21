@@ -28,6 +28,8 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 22. [#7220](https://github.com/OpenSID/OpenSID/issues/7220) Penambahan kondisi hubungan antara bagian form.
 23. [#7224](https://github.com/OpenSID/OpenSID/issues/7224) Penambahan fungsi untuk kode isian dengan kondisi.
 24. [#7221](https://github.com/OpenSID/OpenSID/issues/7221) Penambahan pengaturan kode isian untuk inputan non-warga.
+25. [#7193](https://github.com/OpenSID/OpenSID/issues/7193) Penambahan pengaturan format tanggal surat.
+
 
 #### Perbaikan Bug
 
