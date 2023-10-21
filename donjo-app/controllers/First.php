@@ -108,7 +108,7 @@ class First extends Web_Controller
         $data['covid'] = $this->laporan_penduduk_model->list_data('covid');
 
         $cari = trim($this->input->get('cari', true));
-        if (! empty($cari)) {
+        if (!empty($cari)) {
             // Judul artikel bisa digunakan untuk serangan XSS
             $data['judul_kategori'] = htmlentities('Hasil pencarian : ' . substr(html_escape($cari), 0, 50));
         }
@@ -190,13 +190,13 @@ class First extends Web_Controller
     }
 
     // redirect ke halaman data-statistik
-    public function statistik($stat = null)
+    public function statistik($stat = null, $tipe = 0)
     {
         if ($slug = StatistikEnum::slugFromKey($stat)) {
             redirect('data-statistik/' . $slug);
         }
 
-        if (! $this->web_menu_model->menu_aktif('statistik/' . $stat)) {
+        if (!$this->web_menu_model->menu_aktif('statistik/' . $stat)) {
             show_404();
         }
 
@@ -207,7 +207,10 @@ class First extends Web_Controller
         $data['stat']             = $this->laporan_penduduk_model->list_data($stat);
         $data['tipe']             = $tipe;
         $data['st']               = $stat;
-        $data['daftar_statistik'] = StatistikEnum::allStatistik();
+        $data['slug_aktif']       = $stat;
+
+
+        // dd($data);
 
         $this->_get_common_data($data);
 
@@ -251,7 +254,7 @@ class First extends Web_Controller
 
     public function data_analisis()
     {
-        if (! $this->web_menu_model->menu_aktif('data_analisis')) {
+        if (!$this->web_menu_model->menu_aktif('data_analisis')) {
             show_404();
         }
 
@@ -269,7 +272,7 @@ class First extends Web_Controller
 
     public function jawaban_analisis($stat = '', $sb = 0, $per = 0)
     {
-        if (! $this->web_menu_model->menu_aktif('data_analisis')) {
+        if (!$this->web_menu_model->menu_aktif('data_analisis')) {
             show_404();
         }
 
@@ -283,7 +286,7 @@ class First extends Web_Controller
 
     public function dpt()
     {
-        if (! $this->web_menu_model->menu_aktif('dpt')) {
+        if (!$this->web_menu_model->menu_aktif('dpt')) {
             show_404();
         }
 
@@ -293,7 +296,7 @@ class First extends Web_Controller
         $data['main']              = $this->dpt_model->statistik_wilayah();
         $data['total']             = $this->dpt_model->statistik_total();
         $data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
-        $data['daftar_statistik'] = StatistikEnum::allStatistik();
+        $data['slug_aktif']        = 'dpt';
         $this->_get_common_data($data);
         $data['tipe'] = 4;
         $this->set_template('layouts/stat.tpl.php');
@@ -302,7 +305,7 @@ class First extends Web_Controller
 
     public function wilayah()
     {
-        if (! $this->web_menu_model->menu_aktif('data-wilayah')) {
+        if (!$this->web_menu_model->menu_aktif('data-wilayah')) {
             show_404();
         }
 
@@ -314,6 +317,7 @@ class First extends Web_Controller
         $data['daftar_dusun'] = $this->wilayah_model->daftar_wilayah_dusun();
         $data['total']        = $this->wilayah_model->total();
         $data['st']           = 1;
+        $data['slug_aktif']   = 'data-wilayah';
         $this->_get_common_data($data);
 
         $this->set_template('layouts/stat.tpl.php');
@@ -322,7 +326,7 @@ class First extends Web_Controller
 
     public function informasi_publik()
     {
-        if (! $this->web_menu_model->menu_aktif('informasi_publik')) {
+        if (!$this->web_menu_model->menu_aktif('informasi_publik')) {
             show_404();
         }
 
@@ -379,7 +383,7 @@ class First extends Web_Controller
         $this->load->model('Web_dokumen_model');
         $berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
 
-        if (! $id_dokumen || ! $berkas || ! file_exists(LOKASI_DOKUMEN . $berkas)) {
+        if (!$id_dokumen || !$berkas || !file_exists(LOKASI_DOKUMEN . $berkas)) {
             $data['link_berkas'] = null;
         } else {
             $data = [
@@ -423,7 +427,7 @@ class First extends Web_Controller
         if ($this->form_validation->run() == true) {
             // Periksa isian captcha
             $captcha = new App\Libraries\Captcha();
-            if (! $captcha->check($this->input->post('captcha_code'))) {
+            if (!$captcha->check($this->input->post('captcha_code'))) {
                 $respon = [
                     'status' => -1, // Notif gagal
                     'pesan'  => 'Kode anda salah. Silakan ulangi lagi.',

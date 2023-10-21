@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Bantuan;
 use App\Enums\Statistik\StatistikEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -25,7 +26,7 @@ class Statistik extends Web_Controller
         $data['heading']          = StatistikEnum::labelFromSlug($slug);
         $data['stat']             = $this->laporan_penduduk_model->list_data($key);
         $data['tipe']             = 0;
-        $data['daftar_statistik'] = StatistikEnum::allStatistik();
+        $data['slug_aktif']       = $slug;
 
         $this->_get_common_data($data);
 
