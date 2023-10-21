@@ -39,7 +39,6 @@ use App\Enums\FirebaseEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
-use App\Enums\StatusHubunganEnum;
 use App\Enums\StatusSuratKecamatanEnum;
 use App\Libraries\TinyMCE;
 use App\Models\FcmToken;
@@ -50,6 +49,7 @@ use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
 use App\Models\RefJabatan;
+use App\Models\SettingAplikasi;
 use App\Models\Urls;
 use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
@@ -157,64 +157,6 @@ class Surat extends Admin_Controller
                 if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
                     $data['individu'] = $this->surat_model->get_penduduk($nik);
                     $data['anggota']  = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => true], true);
-                } else {
-                    $data['individu'] = Penduduk::findOrFail($nik);
-                    $data['anggota']  = null;
-
-                    if (in_array($data['surat']->form_isian->individu->status_dasar, $this->logpenduduk::PERISTIWA)) {
-                        $data['logpenduduk'] = $this->logpenduduk;
-                        $data['peristiwa']   = $this->logpenduduk::with('penduduk')->where('id_pend', $nik)->latest()->first();
-                    }
-
-                    if ($data['surat']->form_isian->individu->data_orang_tua) {
-                        $data['ayah'] = Penduduk::where('nik', $data['individu']->ayah_nik)->first();
-                        $data['ibu']  = Penduduk::where('nik', $data['individu']->ibu_nik)->first();
-
-                        if (! $data['ayah'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
-                            $data['ayah'] = Penduduk::where('id_kk', $data['individu']->id_kk)
-                                ->where(static function ($query) {
-                                    $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                                        ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
-                                })
-                                ->where('sex', JenisKelaminEnum::LAKI_LAKI)
-                                ->first();
-                        }
-
-                        if (! $data['ibu'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
-                            $data['ibu'] = Penduduk::where('id_kk', $data['individu']->id_kk)
-                                ->where(static function ($query) {
-                                    $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                                        ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
-                                })
-                                ->where('sex', JenisKelaminEnum::PEREMPUAN)
-                                ->first();
-                        }
-
-                        $data['list_dokumen_ayah'] = empty($data['ayah']) ? null : $this->penduduk_model->list_dokumen($data['ayah']->id);
-                        $data['list_dokumen_ibu']  = empty($data['ibu']) ? null : $this->penduduk_model->list_dokumen($data['ibu']->id);
-                    }
-
-                    if ($data['surat']->form_isian->individu->data_pasangan && in_array($data['individu']->kk_level, [1, 2, 3])) {
-                        $data['pasangan'] = Penduduk::where('id_kk', $data['individu']->id_kk)
-                            ->where(static function ($query) {
-                                $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                                    ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
-                            })
-                            ->where('sex', JenisKelaminEnum::PEREMPUAN)
-                            ->first();
-
-                        if ($data['individu']->sex == JenisKelaminEnum::PEREMPUAN) {
-                            $data['pasangan'] = Penduduk::where('id_kk', $data['individu']->id_kk)
-                                ->where(static function ($query) {
-                                    $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                                        ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
-                                })
-                                ->where('sex', JenisKelaminEnum::LAKI_LAKI)
-                                ->first();
-                        }
-
-                        $data['list_dokumen_pasangan'] = empty($data['pasangan']) ? null : $this->penduduk_model->list_dokumen($data['pasangan']->id);
-                    }
                 }
             } else {
                 $data['individu'] = null;
@@ -276,6 +218,7 @@ class Surat extends Admin_Controller
             $data['judul_kategori'] = collect($data['surat']->form_isian)->map(static function ($item) {
                 return $item->label;
             });
+            $data['pendudukLuar'] = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
 
             return view('admin.surat.form_desa', $data);
         }

@@ -181,6 +181,7 @@ class Surat_master extends Admin_Controller
         $data['masaBerlaku']      = FormatSurat::MASA_BERLAKU;
         $data['attributes']       = FormatSurat::ATTRIBUTES;
         $data['pengaturanSurat']  = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
+        $data['pendudukLuar']     = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
 
         return view('admin.pengaturan_surat.form', $data);
     }
@@ -587,10 +588,11 @@ class Surat_master extends Admin_Controller
         $data['sekdes'] = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
             return $query->where('jabatan_id', '=', sekdes()->id);
         })->exists();
-        $data['aksi']     = route('surat_master.update');
-        $data['formAksi'] = route('surat_master.edit_pengaturan');
-        $margin           = setting('surat_margin');
-        $data['margins']  = json_decode($margin) ?? FormatSurat::MARGINS;
+        $data['aksi']          = route('surat_master.update');
+        $data['formAksi']      = route('surat_master.edit_pengaturan');
+        $margin                = setting('surat_margin');
+        $data['margins']       = json_decode($margin) ?? FormatSurat::MARGINS;
+        $data['penduduk_luar'] = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);
 
         return view('admin.pengaturan_surat.pengaturan', $data);
     }
@@ -669,6 +671,7 @@ class Surat_master extends Admin_Controller
             'format_nomor_surat' => $request['format_nomor_surat'],
             'ganti_data_kosong'  => $request['ganti_data_kosong'],
             'surat_margin'       => json_encode($request['surat_margin']),
+            'form_penduduk_luar' => json_encode(updateIndex($request['penduduk_luar'])),
         ];
 
         if ($validasi['tte'] == StatusEnum::YA) {

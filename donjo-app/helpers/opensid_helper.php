@@ -64,7 +64,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023101851');
+define('VERSI_DATABASE', '2023102151');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1892,4 +1892,18 @@ function substitusiNomorSurat($nomor = null, $format = '')
     }
 
     return $format;
+}
+
+function updateIndex($data)
+{
+    $result = [];
+    $index  = 2; // dimulai index 2 karena 1 untuk penduduk desa
+    if (! empty($data)) {
+        foreach ($data as $key => $value) {
+            $result[$index] = $value;
+            $index++;
+        }
+    }
+
+    return $result;
 }

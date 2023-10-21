@@ -78,8 +78,9 @@ class Migrasi_fitur_premium_2311 extends MY_model
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023101254($hasil);
         $hasil = $hasil && $this->migrasi_2023101651($hasil);
+        $hasil = $hasil && $this->migrasi_2023101652($hasil);
 
-        return $hasil && $this->migrasi_2023101652($hasil);
+        return $hasil && $this->migrasi_23102151($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -317,5 +318,18 @@ class Migrasi_fitur_premium_2311 extends MY_model
         $this->db->trans_complete();
 
         return $hasil;
+    }
+
+    protected function migrasi_23102151($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'config_id'  => $id,
+            'key'        => 'form_penduduk_luar',
+            'value'      => '{"2":{"title":"Penduduk luar","input":"nama,no_ktp"}}',
+            'keterangan' => 'Form ini akan tampil jika surat dipilih menggunakan penduduk luar desa',
+            'jenis'      => 'text',
+            'kategori'   => 'form_surat',
+            'judul'      => 'Form penduduk luar desa',
+        ]);
     }
 }

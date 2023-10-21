@@ -5,11 +5,13 @@
     @endphp
     <div class="form-group subtitle_head" id="a_saksi2">
         <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori[$key] ?? $key)) }}</label>
-        @includeWhen((count($sumberDataPenduduk) > 1 && ($surat->form_isian->{$key}->sumber ?? 1) == 1) , 'admin.surat.opsi_sumber_penduduk' ,['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])
+        @includeWhen((count($sumberDataPenduduk) > 1 && ($surat->form_isian->{$key}->sumber ?? 1) == 1) , 'admin.surat.opsi_sumber_penduduk' ,['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key, 'pendudukLuar' => $pendudukLuar])
         <input name="anchor" type="hidden" value="<?= $anchor ?>" />        
     </div>    
     @includeWhen((in_array(1, $sumberDataPenduduk) && ($surat->form_isian->{$key}->sumber ?? 1) == 1), 'admin.surat.penduduk_desa', ['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])
-    @includeWhen((in_array(2, $sumberDataPenduduk) && ($surat->form_isian->{$key}->sumber ?? 1) == 1), 'admin.surat.penduduk_luar_desa', ['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])    
+    @foreach($pendudukLuar as $index => $penduduk)
+        @includeWhen(in_array($index, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', ['index' => $index, 'opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key, 'input' => explode(',',$penduduk['input'])])
+    @endforeach    
 
     @if ($kategori["saksi_{$key}"])
         @php

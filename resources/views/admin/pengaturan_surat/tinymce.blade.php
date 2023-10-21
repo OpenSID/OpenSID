@@ -79,9 +79,11 @@
                                             <option value="1" @selected(in_array(1, $suratMaster->form_isian->individu->data))>PENDUDUK
                                                 {{ $desa_pend }}
                                             </option>
-                                            <option value="2" @selected(in_array(2, $suratMaster->form_isian->individu->data))>PENDUDUK LUAR
+                                            @foreach($pendudukLuar as $index => $penduduk)
+                                            <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->individu->data))>{{ $penduduk['title'] }}
                                                 {{ $desa_pend }}
                                             </option>
+                                            @endforeach
                                         </select>
                                     </td>
                                 </tr>
@@ -210,9 +212,11 @@
                                                 <option value="1" @selected(in_array(1, $suratMaster->form_isian->{$item}->data))>PENDUDUK
                                                     {{ $desa_pend }}
                                                 </option>
-                                                <option value="2" @selected(in_array(2, $suratMaster->form_isian->{$item}->data))>PENDUDUK LUAR
+                                                @foreach($pendudukLuar as $index => $penduduk)
+                                                <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->{$item}->data))>{{ $penduduk['title'] }}
                                                     {{ $desa_pend }}
                                                 </option>
+                                                @endforeach                                                
                                             </select>
                                             @push('scripts')
                                                 <script>
