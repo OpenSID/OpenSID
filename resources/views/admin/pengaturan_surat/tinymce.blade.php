@@ -17,7 +17,7 @@
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs customized-tab" id="tabs">
             <li data-name="utama" class="active">
-                <a href="#form-utama" data-toggle="tab">Utama</a>
+                <a href="#form-utama" data-toggle="tab">{{ $suratMaster->form_isian->individu->judul ?? 'Utama' }}</a>
             </li>
             @forelse ($suratMaster->form_isian as $item => $value)
                 @if($item == 'individu') @continue
@@ -36,7 +36,7 @@
                     <div class="row">
                         <label for="isi-judul" class="col-sm-2">Judul Bagian</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm required judul isi-judul" name="judul" value="{{ $suratMaster->form_isian->individu->judul ?: 'Utama' }}" minlength="3" maxlength="20" readonly>
+                            <input type="text" class="form-control input-sm required judul isi-judul" name="judul" value="{{ $suratMaster->form_isian->individu->judul ?: 'Utama' }}" minlength="3" maxlength="20">
                         </div>
                     </div>
                     <div class="row" style="margin-top: 5px">
@@ -76,13 +76,9 @@
                                     <td>
                                         @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
                                         <select id="data_utama" class="form-control input-sm select2 required" name="data_utama[]" multiple>
-                                            <option value="1" @selected(in_array(1, $suratMaster->form_isian->individu->data))>PENDUDUK
-                                                {{ $desa_pend }}
-                                            </option>
+                                            <option value="1" @selected(in_array(1, $suratMaster->form_isian->individu->data))>{{ strtoupper('PENDUDUK ' . $desa_pend) }}</option>
                                             @foreach($pendudukLuar as $index => $penduduk)
-                                            <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->individu->data))>{{ $penduduk['title'] }}
-                                                {{ $desa_pend }}
-                                            </option>
+                                            <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->individu->data))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -209,14 +205,10 @@
                                         <td>
                                             @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
                                             <select id="data_utama_{{ $item }}" class="form-control input-sm kategori" name="kategori_data_utama[{{ $item }}][]" multiple>
-                                                <option value="1" @selected(in_array(1, $suratMaster->form_isian->{$item}->data))>PENDUDUK
-                                                    {{ $desa_pend }}
-                                                </option>
+                                                <option value="1" @selected(in_array(1, $suratMaster->form_isian->{$item}->data))>{{ strtoupper('PENDUDUK ' . $desa_pend) }}</option>
                                                 @foreach($pendudukLuar as $index => $penduduk)
-                                                <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->{$item}->data))>{{ $penduduk['title'] }}
-                                                    {{ $desa_pend }}
-                                                </option>
-                                                @endforeach                                                
+                                                <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->{$item}->data))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
+                                                @endforeach
                                             </select>
                                             @push('scripts')
                                                 <script>
@@ -310,7 +302,7 @@
             var num = 0;
 
             $('#btn-new-tab').click(function(e) {
-                var nama_kategori = Math.random().toString(36).substring(7);
+                var nama_kategori = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
                 num++
                 e.preventDefault()
                 var newTabId = 'tab-' + nama_kategori
@@ -342,7 +334,7 @@
                         utama_isi_label.value  = ''
                         utama_isi_prefix.value = nama_kategori
 
-                        utama_isi_judul.removeAttribute('readonly')
+                        // utama_isi_judul.removeAttribute('readonly')
                         utama_isi_prefix.removeAttribute('readonly')
                         utama_sumber_data.removeAttribute('disabled')
                         utama_sumber_data.setAttribute('onchange', `tampil_sumber_dinamis("#tab-${nama_kategori}", this.value)`)

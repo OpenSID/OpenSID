@@ -243,9 +243,6 @@ class Surat extends Admin_Controller
             $pamong    = Pamong::find($id_pamong);
             $log_surat = [
                 'id_format_surat' => $surat->id,
-                'id_pend'         => $this->request['nik'],
-                'nama_non_warga'  => $this->request['individu']['nama'],
-                'nik_non_warga'   => $this->request['individu']['nik'],
                 'id_pamong'       => $id_pamong,
                 'nama_jabatan'    => $pamong->jabatan->nama,
                 'nama_pamong'     => $pamong->pamong_nama,
@@ -256,6 +253,17 @@ class Surat extends Admin_Controller
                 'keterangan'      => $this->request['keterangan'] ?: $this->request['keperluan'],
                 'kecamatan'       => $kecamatan,
             ];
+
+            // non warga
+            if ($this->request['nik']) {
+                $log_surat['id_pend']        = $this->request['nik'];
+                $log_surat['nama_non_warga'] = null;
+                $log_surat['nik_non_warga']  = null;
+            } else {
+                $log_surat['id_pend']        = null;
+                $log_surat['nama_non_warga'] = $this->request['individu']['nama'];
+                $log_surat['nik_non_warga']  = $this->request['individu']['nik'];
+            }
 
             $log_surat['surat']     = $surat;
             $log_surat['input']     = $this->request;
@@ -439,7 +447,6 @@ class Surat extends Admin_Controller
             if ($preview) {
                 // TODO: gunakan relasi
                 Urls::destroy($surat->urls_id);
-                log_message('error', 'Preview surat berhasil. ' . $surat->urls_id);
                 LogSurat::destroy($id);
             } else {
                 // Jika verifikasi sekdes atau verifikasi kades di non-aktifkan

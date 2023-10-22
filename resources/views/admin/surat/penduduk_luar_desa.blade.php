@@ -2,10 +2,10 @@
     <div class="form-group">
         <label class="col-sm-3 control-label"><strong>Nama Lengkap / NIK KTP</strong></label>
         <div class="col-sm-5 col-lg-6">
-            <input name="{{ $kategori }}[nama]" class="form-control input-sm required" type="text" placeholder="Nama Lengkap" />
+            <input name="{{ $kategori }}[nama]" class="form-control input-sm isi-penduduk-luar required" type="text" placeholder="Nama Lengkap" />
         </div>
         <div class="col-sm-3 col-lg-2">
-            <input name="{{ $kategori }}[nik]" class="form-control input-sm required nik" type="text" placeholder="Nomor KTP" />
+            <input name="{{ $kategori }}[nik]" class="form-control input-sm isi-penduduk-luar required nik" type="text" placeholder="Nomor KTP" />
         </div>
     </div>
     @if (in_array('tempat_lahir', $input) && in_array('tanggal_lahir', $input))
@@ -65,8 +65,8 @@
         <label for="tempatlahir" class="col-sm-3 control-label">Pekerjaan</label>
         <div class="col-sm-9">
             <select class="form-control input-sm select2" name="{{ $kategori }}[warga_negara]"  style="width:100%;">
-                <option value="">-- Pilih warganegara --</option>
-                @foreach (\App\Models\WargaNegara::get() as $data )
+                <option value="">-- Pilih Pekerjaan --</option>
+                @foreach (\App\Models\Pekerjaan::get() as $data )
                 <option value="{{ $data->nama }}">{{ $data->nama }}</option>
                 @endforeach
             </select>
@@ -75,10 +75,10 @@
     @endif
     @if (in_array('warga_negara', $input))
     <div class="form-group">
-        <label for="tempatlahir" class="col-sm-3 control-label">Warganegara</label>
+        <label for="tempatlahir" class="col-sm-3 control-label">Warga Negara</label>
         <div class="col-sm-9">
             <select class="form-control input-sm select2" name="{{ $kategori }}[warga_negara]"  style="width:100%;">
-                <option value="">-- Pilih warganegara --</option>
+                <option value="">-- Pilih Warga Negara --</option>
                 @foreach (\App\Models\WargaNegara::get() as $data )
                 <option value="{{ $data->nama }}">{{ $data->nama }}</option>
                 @endforeach

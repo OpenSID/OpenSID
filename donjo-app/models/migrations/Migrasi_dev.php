@@ -35,8 +35,6 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_dev extends MY_model
@@ -59,27 +57,14 @@ class Migrasi_dev extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        // $config_id = DB::table('config')->pluck('id')->toArray();
 
-        foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_23102151($hasil, $id);
-        }
+        // foreach ($config_id as $id) {
+        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
+        // }
 
         // Migrasi tanpa config_id
-        return $hasil;
-    }
-
-    protected function migrasi_23102151($hasil, $id)
-    {
-        return $hasil && $this->tambah_setting([
-            'config_id'  => $id,
-            'key'        => 'form_penduduk_luar',
-            'value'      => '{"2":{"title":"Penduduk luar","input":"nama,no_ktp"}}',
-            'keterangan' => 'Form ini akan tampil jika surat dipilih menggunakan penduduk luar desa',
-            'jenis'      => 'text',
-            'kategori'   => 'form_surat',
-            'judul'      => 'Form penduduk luar desa',
-        ]);
+        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)

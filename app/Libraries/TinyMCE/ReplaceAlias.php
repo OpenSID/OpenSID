@@ -57,27 +57,27 @@ class ReplaceAlias
     {
         $input = $this->inputForm[$kategori];
 
-        if ($input['opsi_penduduk'] == '1') {
-            return [];
+        if (! in_array($input['opsi_penduduk'], [null, 1])) {
+            $prefix = ($kategori == 'individu') ? '' : '_' . $kategori;
+
+            return [
+                "[nik{$prefix}]"           => $input['nik'] ?: "[nik{$prefix}]",
+                "[nama{$prefix}]"          => $input['nama'] ?: "[nama{$prefix}]",
+                "[tempatlahir{$prefix}]"   => $input['tempatlahir'] ?: "[tempatlahir{$prefix}]",
+                "[tanggallahir{$prefix}]"  => $input['tanggallahir'] ? formatTanggal($input['tanggallahir']) : "[tanggallahir{$prefix}]",
+                "[ttl{$prefix}]"           => $input['tanggallahir'] || $input['tanggallahir'] ? $input['tempatlahir'] . '/' . formatTanggal($input['tanggallahir']) : "[ttl{$prefix}]",
+                "[jenis_kelamin{$prefix}]" => $input['jenis_kelamin'] ?: "[jenis_kelamin{$prefix}]",
+                "[agama{$prefix}]"         => $input['agama'] ?: "[agama{$prefix}]",
+                "[warga_negara{$prefix}]"  => $input['warga_negara'] ?: "[warga_negara{$prefix}]",
+                "[alamat{$prefix}]"        => $input['alamat'] ?: "[alamat{$prefix}]",
+
+                // agar bisa gunakan isian non warga versi sebelumnnya
+                '[form_nama_non_warga]' => $input['nama'] ?: '[form_nama_non_warga]',
+                '[form_nik_non_warga]'  => $input['nik'] ?: '[form_nik_non_warga]',
+            ];
         }
 
-        $prefix = ($kategori == 'individu') ? '' : '_' . $kategori;
-
-        return [
-            "[nik{$prefix}]"           => $input['nik'],
-            "[nama{$prefix}]"          => $input['nama'],
-            "[tempatlahir{$prefix}]"   => $input['tempatlahir'],
-            "[tanggallahir{$prefix}]"  => formatTanggal($input['tanggallahir']),
-            "[ttl{$prefix}]"           => $input['tempatlahir'] . '/' . formatTanggal($input['tanggallahir']),
-            "[jenis_kelamin{$prefix}]" => $input['jenis_kelamin'],
-            "[agama{$prefix}]"         => $input['agama'],
-            "[warga_negara{$prefix}]"  => $input['warga_negara'],
-            "[alamat{$prefix}]"        => $input['alamat'],
-
-            // agar bisa gunakan isian non warga versi sebelumnnya
-            '[form_nama_non_warga]' => $input['nama'],
-            '[form_nik_non_warga]'  => $input['nik'],
-        ];
+        return null;
     }
 
     public function getKategori()

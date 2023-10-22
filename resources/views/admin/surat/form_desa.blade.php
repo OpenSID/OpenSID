@@ -57,7 +57,9 @@
             {!! form_open($form_action, 'id="validasi" method="POST" class="form-surat form-horizontal"') !!}
             <input type="hidden" id="url_surat" name="url_surat" value="{{ $url }}">
             <input type="hidden" id="url_remote" name="url_remote" value="{{ site_url('surat/nomor_surat_duplikat') }}">
-            <!-- jika bukan array maka jadikan array dulu, karena data lama bukan bentuk array -->
+
+            @include('admin.surat.nomor_surat')
+
             @php
                 $sumberDataPenduduk = !is_array($surat->form_isian->individu->data) ? [$surat->form_isian->individu->data] : $surat->form_isian->individu->data;
             @endphp
@@ -69,13 +71,9 @@
             @foreach($pendudukLuar as $index => $penduduk)
                 @includeWhen(in_array($index, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', ['index' => $index,'opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu', 'input' => explode(',', $penduduk['input'])])
             @endforeach
-            
 
-            @include('admin.surat.nomor_surat')
-            
             @include('admin.surat.kode_isian')
 
-            {{-- kategori form --}}
             @if (isset($form_kategori))
                 @include('admin.surat.kategori_isian')
             @endif

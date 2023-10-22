@@ -403,13 +403,13 @@
                 let _tabAsal = $('#form-isian #tabs').find('li>a[href="#'+_idAsal+'"]').closest('li')
                 let _tabTujuan = $('#form-isian #tabs').find('li>a[href="'+_tabSelected+'"]').closest('li')
                 let _nameElm, _nameElmBaru, _namaKodeUtama
-                                
+
                 // sesuaikan nama element, untuk kategori menggunakan kombinasi nama kategori_{nama_element}[{nama_kategori}][]
                 _tr.find('input, select, textarea').each(function(){
                     _nameElm = $(this).attr('name')
                     if (_nameElm){
                         if (_tabAsal.attr('data-name') == 'utama') {
-                            // tujuan pasti ke kategori                        
+                            // tujuan pasti ke kategori
                             _namaKodeUtama = _nameElm.split('[')[0]
                             _nameElmBaru = `kategori_${_namaKodeUtama}[${_tabTujuan.attr('data-name')}]${_nameElm.substr(_namaKodeUtama.length)}`                        
                         }else {

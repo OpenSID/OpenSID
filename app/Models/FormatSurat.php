@@ -346,7 +346,7 @@ class FormatSurat extends BaseModel
             return kode_isian($this->url_surat);
         }
 
-        return $this->attributes['kode_isian'];
+        return json_decode($this->attributes['kode_isian']);
     }
 
     /**

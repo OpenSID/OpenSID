@@ -1,4 +1,4 @@
-Di rilis ini, versi 2310.0.2 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2310.1.0 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontribusi.
 

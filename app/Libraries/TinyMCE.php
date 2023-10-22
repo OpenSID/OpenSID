@@ -189,6 +189,8 @@ class TinyMCE
     {
         $idPenduduk = $data['id_pend'];
 
+        $judulPenduduk = $data['surat']->form_isian->individu->judul ?? 'Penduduk';
+
         $daftar_kode_isian = [
             // Data Surat
             'Surat' => KodeIsianSurat::get($data),
@@ -200,7 +202,7 @@ class TinyMCE
             'Wilayah' => KodeIsianWilayah::get(),
 
             // Data Penduduk Umum
-            'Penduduk' => KodeIsianPenduduk::get($idPenduduk),
+            $judulPenduduk => KodeIsianPenduduk::get($idPenduduk),
 
             // Data Anggota keluarga
             'Anggota Keluarga' => KodeIsianAnggotaKeluarga::get($idPenduduk),
@@ -233,11 +235,11 @@ class TinyMCE
                 $key_ktg  = $value['prefix_kategori'];
                 $nama_ktg = $daftarKategori[$key_ktg]->judul;
                 unset($value['prefix_kategori']);
-                $daftar_kode_isian['Input ' . $nama_ktg][] = $value;
+                $daftar_kode_isian['Form ' . $nama_ktg][] = $value;
             }
             unset($isian_post['kategori']);
         }
-        $daftar_kode_isian['Input'] = $isian_post;
+        $daftar_kode_isian["Form {$judulPenduduk}"] = $isian_post;
 
         // Penandatangan
         $daftar_kode_isian['Penandatangan'] = KodeIsianPenandaTangan::get($data['input']);
@@ -458,7 +460,11 @@ class TinyMCE
         }
 
         // Kode isian yang berupa alias harus didahulukan
-        $newKodeIsian = array_merge(ReplaceAlias::get($data['surat'], $data['input']), $newKodeIsian);
+        $alias = ReplaceAlias::get($data['surat'], $data['input']);
+
+        if ($alias) {
+            $newKodeIsian = array_merge($alias, $newKodeIsian);
+        }
 
         foreach ($newKodeIsian as $key => $value) {
             if (in_array($key, $kecuali)) {

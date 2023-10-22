@@ -1,7 +1,7 @@
 <div class="tab-pane" id="sumber-penduduk">
     <div class="box-body">
         <div class="callout callout-info">
-            <p>{{ $list_setting->where('key', 'form_penduduk_luar')->first()->keterangan }}</p>
+            <p>{{ sebutanDesa($list_setting->where('key', 'form_penduduk_luar')->first()->keterangan) }}</p>
         </div>
         <div class="panel">
             <div class="panel-header">
@@ -85,7 +85,7 @@
 </div>
 @push('scripts')
 <script type = "text/javascript" >
-    $(function () {        
+    $(function () {
         $('.form-penduduk-btn').on('click', function() {
             let _panel = $(this).closest('.panel')
             let _panelBody = _panel.find('.panel-body')
@@ -117,7 +117,7 @@
                     </span>
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            ${_judul.val()}                            
+                            ${_judul.val()}
                         </h4>
                     </div>
                     <div class="panel-body">
