@@ -39,55 +39,39 @@ namespace App\Libraries\TinyMCE;
 
 class KodeIsianIdentitas
 {
-    private $idPenduduk;
-
-    public function __construct($idPenduduk)
+    public function __construct()
     {
-        $this->idPenduduk = $idPenduduk;
     }
 
-    public static function get($idPenduduk)
+    public static function get()
     {
-        return (new self($idPenduduk))->kodeIsian();
+        return (new self())->kodeIsian();
     }
 
     public function kodeIsian()
     {
-        $config              = null;
-        $sebutan_dusun       = null;
-        $sebutan_desa        = null;
-        $sebutan_kecamatan   = null;
-        $sebutan_kec         = null;
-        $sebutan_kabupaten   = null;
-        $sebutan_kab         = null;
-        $sebutan_camat       = null;
-        $sebutan_kepala_desa = null;
-        $sebutan_nip_desa    = null;
+        $config              = identitas();
+        $sebutan_dusun       = setting('sebutan_dusun');
+        $sebutan_desa        = setting('sebutan_desa');
+        $sebutan_kecamatan   = setting('sebutan_kecamatan');
+        $sebutan_kec         = setting('sebutan_kecamatan_singkat');
+        $sebutan_kabupaten   = setting('sebutan_kabupaten');
+        $sebutan_kab         = setting('sebutan_kabupaten_singkat');
+        $sebutan_kepala_desa = setting('sebutan_kepala_desa');
+        $sebutan_camat       = setting('sebutan_camat');
 
-        if ($this->idPenduduk) {
-            $config              = identitas();
-            $sebutan_dusun       = setting('sebutan_dusun');
-            $sebutan_desa        = setting('sebutan_desa');
-            $sebutan_kecamatan   = setting('sebutan_kecamatan');
-            $sebutan_kec         = setting('sebutan_kecamatan_singkat');
-            $sebutan_kabupaten   = setting('sebutan_kabupaten');
-            $sebutan_kab         = setting('sebutan_kabupaten_singkat');
-            $sebutan_kepala_desa = setting('sebutan_kepala_desa');
-            $sebutan_camat       = setting('sebutan_camat');
+        if (! empty($config->email_desa)) {
+            $alamat_desa  = "{$config->alamat_kantor} Email: {$config->email_desa} Kode Pos: {$config->kode_pos}";
+            $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos} <br> Website: {$config->website} Email: {$config->email_desa}";
+        } else {
+            $alamat_desa  = "{$config->alamat_kantor} Kode Pos: {$config->kode_pos}";
+            $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos}";
+        }
 
-            if (! empty($config->email_desa)) {
-                $alamat_desa  = "{$config->alamat_kantor} Email: {$config->email_desa} Kode Pos: {$config->kode_pos}";
-                $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos} <br> Website: {$config->website} Email: {$config->email_desa}";
-            } else {
-                $alamat_desa  = "{$config->alamat_kantor} Kode Pos: {$config->kode_pos}";
-                $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos}";
-            }
-
-            if (null === $config->pamong()->pamong_nip && (! empty($config->pamong()->pamong_niap))) {
-                $sebutan_nip_desa = setting('sebutan_nip_desa');
-            } else {
-                $sebutan_nip_desa = 'NIP';
-            }
+        if (null === $config->pamong()->pamong_nip && (! empty($config->pamong()->pamong_niap))) {
+            $sebutan_nip_desa = setting('sebutan_nip_desa');
+        } else {
+            $sebutan_nip_desa = 'NIP';
         }
 
         return [

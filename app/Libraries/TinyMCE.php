@@ -46,6 +46,7 @@ use App\Libraries\TinyMCE\KodeIsianPenduduk;
 use App\Libraries\TinyMCE\KodeIsianPeristiwa;
 use App\Libraries\TinyMCE\KodeIsianSurat;
 use App\Libraries\TinyMCE\KodeIsianWilayah;
+use App\Libraries\TinyMCE\ReplaceAlias;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\LogPenduduk;
@@ -193,7 +194,7 @@ class TinyMCE
             'Surat' => KodeIsianSurat::get($data),
 
             // Data Identitas Desa
-            'Identitas Desa' => KodeIsianIdentitas::get($idPenduduk ?? $data['nik_non_warga']),
+            'Identitas Desa' => KodeIsianIdentitas::get(),
 
             // Data Dusun
             'Wilayah' => KodeIsianWilayah::get(),
@@ -324,27 +325,27 @@ class TinyMCE
             $postStatis = [
                 [
                     'nama' => 'Mulai Berlaku',
-                    'kode' => '[mulai_berlaku]',
+                    'kode' => 'mulai_berlaku',
                 ],
                 [
                     'nama' => 'Berlaku Sampai',
-                    'kode' => '[berlaku_sampai]',
+                    'kode' => 'berlaku_sampai',
                 ],
                 [
                     'nama' => 'Pengikut Surat',
-                    'kode' => '[pengikut_surat]',
+                    'kode' => 'pengikut_surat',
                 ],
                 [
                     'nama' => 'Pengikut KIS',
-                    'kode' => '[pengikut_kis]',
+                    'kode' => 'pengikut_kis',
                 ],
                 [
                     'nama' => 'Pengikut Kartu KIS',
-                    'kode' => '[pengikut_kartu_kis]',
+                    'kode' => 'pengikut_kartu_kis',
                 ],
                 [
                     'nama' => 'Pengikut Pindah',
-                    'kode' => '[pengikut_pindah]',
+                    'kode' => 'pengikut_pindah',
                 ],
             ];
 
@@ -456,10 +457,14 @@ class TinyMCE
             $result = str_replace('[mulai_berlaku] s/d [berlaku_sampai]', $gantiDengan, $result);
         }
 
+        // Kode isian yang berupa alias harus didahulukan
+        $newKodeIsian = array_merge(ReplaceAlias::get($data['surat'], $data['input']), $newKodeIsian);
+
         foreach ($newKodeIsian as $key => $value) {
             if (in_array($key, $kecuali)) {
                 continue;
             }
+
             if (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
                 $result = str_replace($key, $value, $result);
             }
@@ -478,11 +483,6 @@ class TinyMCE
                 $result = case_replace($key, $value, $result);
             }
         }
-
-        // if (isset($data['pengikut_surat'])) {
-        //     log_message('error',"pengikut_surat ". $data['pengikut_surat']);
-        //     $result = str_ireplace('[Pengikut_suraT]', $data['pengikut_surat'], $result);
-        // }
 
         return $result;
     }
@@ -536,29 +536,6 @@ class TinyMCE
         }
 
         return collect($lampiran)->unique()->sort()->values();
-    }
-
-    public static function getKodeIsianNonWarga()
-    {
-        return json_encode([
-            [
-                'tipe'      => 'text',
-                'kode'      => '[form_nama_non_warga]',
-                'nama'      => 'Nama Non Warga',
-                'deskripsi' => 'Masukkan Nama',
-                'atribut'   => 'class="required nama"',
-                'statis'    => true,
-            ],
-            [
-
-                'tipe'      => 'text',
-                'kode'      => '[form_nik_non_warga]',
-                'nama'      => 'NIK Non Warga',
-                'deskripsi' => 'Masukkan NIK',
-                'atribut'   => 'class="required nik"',
-                'statis'    => true,
-            ],
-        ]);
     }
 
     /**

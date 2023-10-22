@@ -244,8 +244,8 @@ class Surat extends Admin_Controller
             $log_surat = [
                 'id_format_surat' => $surat->id,
                 'id_pend'         => $this->request['nik'],
-                'nama_non_warga'  => $this->request['nama_non_warga'],
-                'nik_non_warga'   => $this->request['nik_non_warga'],
+                'nama_non_warga'  => $this->request['individu']['nama'],
+                'nik_non_warga'   => $this->request['individu']['nik'],
                 'id_pamong'       => $id_pamong,
                 'nama_jabatan'    => $pamong->jabatan->nama,
                 'nama_pamong'     => $pamong->pamong_nama,
@@ -349,8 +349,8 @@ class Surat extends Admin_Controller
                 $nik = Penduduk::find($nik)->nik;
             } else {
                 // Surat untuk non-warga
-                $log_surat['nama_non_warga'] = $cetak['input']['nama_non_warga'];
-                $log_surat['nik_non_warga']  = $cetak['input']['nik_non_warga'];
+                $log_surat['nama_non_warga'] = $cetak['input']['individu']['nama'];
+                $log_surat['nik_non_warga']  = $cetak['input']['individu']['nik'];
                 $nik                         = $log_surat['nik_non_warga'];
             }
 
@@ -504,8 +504,8 @@ class Surat extends Admin_Controller
                 $nik = Penduduk::find($nik)->nik;
             } else {
                 // Surat untuk non-warga
-                $log_surat['nama_non_warga'] = $cetak['input']['nama_non_warga'];
-                $log_surat['nik_non_warga']  = $cetak['input']['nik_non_warga'];
+                $log_surat['nama_non_warga'] = $cetak['input']['individu']['nama'];
+                $log_surat['nik_non_warga']  = $cetak['input']['individu']['nik'];
                 $nik                         = $log_surat['nik_non_warga'];
             }
 

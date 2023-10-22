@@ -18,8 +18,10 @@
             _formGroup.nextAll('.penduduk_luar_desa').find('input, select, textarea').val('')
             if (_val == 1) {
                 _formGroup.next('.penduduk_desa').removeClass('hide')
+                // _formGroup.next('.penduduk_desa').addClass('required')
             }else {
                 _formGroup.nextAll('.penduduk_luar_'+_val).first().removeClass('hide')
+                // _formGroup.next('.penduduk_desa').removeClass('required')
             }
         }
     </script>

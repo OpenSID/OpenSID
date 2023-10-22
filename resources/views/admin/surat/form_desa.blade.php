@@ -67,7 +67,7 @@
             </div>
             @includeWhen(in_array(1, $sumberDataPenduduk), 'admin.surat.penduduk_desa', ['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu'])
             @foreach($pendudukLuar as $index => $penduduk)
-                @includeWhen(in_array($index, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', ['index' => $index,'opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu', 'input' => explode(',',$penduduk['input'])])
+                @includeWhen(in_array($index, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', ['index' => $index,'opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu', 'input' => explode(',', $penduduk['input'])])
             @endforeach
             
 
@@ -205,11 +205,11 @@
                                     $(`[name=${_namaElm}]`).closest('.form-group').removeClass('hide')
                                 }
                                 
-                            }                            
-                        }                                        
+                            }
+                        }
                     }); 
                 })
-            })            
-        });        
+            })
+        });
     </script>
 @endpush

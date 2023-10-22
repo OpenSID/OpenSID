@@ -332,7 +332,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
     {
         return $hasil && $this->tambah_setting([
             'key'        => 'form_penduduk_luar',
-            'value'      => '{"2":{"title":"Penduduk luar","input":"nama,no_ktp"}}',
+            'value'      => '{"2":{"title":"PENDUDUK LUAR","input":"nama,no_ktp"}}',
             'keterangan' => 'Form ini akan tampil jika surat dipilih menggunakan penduduk luar desa',
             'jenis'      => 'text',
             'kategori'   => 'form_surat',
