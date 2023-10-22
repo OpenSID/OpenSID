@@ -92,7 +92,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_2023101353($hasil)
     {
         if (! Schema::hasTable('fcm_token')) {
-            $hasil = Schema::create('fcm_token', static function (Blueprint $table) {
+            Schema::create('fcm_token', static function (Blueprint $table) {
                 $table->mediumInteger('id_user');
                 $table->integer('config_id');
                 $table->string('device')->unique();
@@ -107,7 +107,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_2023101354($hasil)
     {
         if (! Schema::hasTable('log_notifikasi_admin')) {
-            $hasil = Schema::create('log_notifikasi_admin', static function (Blueprint $table) {
+            Schema::create('log_notifikasi_admin', static function (Blueprint $table) {
                 $table->mediumInteger('id_user');
                 $table->integer('config_id');
                 $table->string('judul')->unique();
