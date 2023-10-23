@@ -177,10 +177,15 @@
             // kaitkan data 
             $('select[data-kaitkan]').each(function(){
                 let _kaitkan = $(this).data('kaitkan')
-                
+                let _kategori = $(this).closest('.form-group').data('kategori')
+
                 _kaitkan.forEach(element => {
                     for(let i in element.kode_isian_terkait){
                         let _namaElm = element.kode_isian_terkait[i].replaceAll(/\s+/g,'_')
+                        if (_kategori) {
+                            _namaElm +=`_${_kategori}`
+                        }
+                        
                         $(`[name=${_namaElm}]`).removeClass('required')
                         $(`[name=${_namaElm}]`).closest('.form-group').addClass('hide')
                     }                                        
@@ -188,10 +193,13 @@
 
                 $(this).change(function(){
                     let _aktifkanElm = $(this).data('kaitkan')
-                    let _namaElm
+                    let _namaElm, _kategori = $(this).closest('.form-group').data('kategori')
                     _aktifkanElm.forEach(element => {
                         for(let j in element.kode_isian_terkait){
                             _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g,'_')
+                            if (_kategori) {
+                                _namaElm +=`_${_kategori}`
+                            }
                             $(`[name=${_namaElm}]`).removeClass('required')
                             $(`[name=${_namaElm}]`).closest('.form-group').addClass('hide')
                         }
@@ -199,6 +207,9 @@
                             if (element.nilai_isian[i].includes($(this).val())){                                
                                 for(let j in element.kode_isian_terkait){
                                     _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g,'_')
+                                    if (_kategori) {
+                                        _namaElm +=`_${_kategori}`
+                                    }
                                     $(`[name=${_namaElm}]`).addClass('required')
                                     $(`[name=${_namaElm}]`).closest('.form-group').removeClass('hide')
                                 }

@@ -1,4 +1,4 @@
-    <div class="form-group">
+    <div class="form-group" data-kategori="{{ $keyname ?? ''}}">
         <label for="{{ $groupLabel[0]->nama }}" class="col-sm-3 control-label">{{ $label }}</label>
         <div class="col-sm-9 row">
         @foreach($groupLabel as $item)
