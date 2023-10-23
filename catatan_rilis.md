@@ -29,6 +29,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 23. [#7224](https://github.com/OpenSID/OpenSID/issues/7224) Penambahan fungsi untuk kode isian dengan kondisi.
 24. [#7221](https://github.com/OpenSID/OpenSID/issues/7221) Penambahan pengaturan kode isian untuk inputan non-warga.
 25. [#7193](https://github.com/OpenSID/OpenSID/issues/7193) Penambahan pengaturan format tanggal surat.
+26. [#7210](https://github.com/OpenSID/OpenSID/issues/7210) Penambahan pilihan surat yang akan di impor pada pengaturan surat.
 
 
 #### Perbaikan Bug

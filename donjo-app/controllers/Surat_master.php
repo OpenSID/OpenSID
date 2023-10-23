@@ -922,6 +922,39 @@ class Surat_master extends Admin_Controller
             ->set_output(json_encode($ekspor, JSON_PRETTY_PRINT));
     }
 
+    public function impor_filter($data)
+    {
+        $this->session->set_flashdata('data_impor_surat', $data);
+
+        return view('admin.pengaturan_surat.impor_select', [
+            'data' => $data,
+        ]);
+    }
+
+    public function impor_store()
+    {
+        $this->redirect_hak_akses('u');
+
+        $id = $this->request['id_cb'];
+
+        if (null === $id) {
+            redirect_with('error', 'Tidak ada surat yang dipilih.');
+        }
+
+        $list_data = $this->session->flashdata('data_impor_surat');
+        if ($list_data) {
+            foreach ($list_data as $key => $value) {
+                foreach ($id as $row) {
+                    if ($row == $key) {
+                        FormatSurat::updateOrCreate(['config_id' => identitas('id'), 'url_surat' => $value['url_surat']], $value);
+                    }
+                }
+            }
+        }
+
+        redirect_with('success', 'Berhasil Impor Data');
+    }
+
     public function impor()
     {
         $this->redirect_hak_akses('u');
@@ -974,12 +1007,8 @@ class Surat_master extends Admin_Controller
                 ->toArray();
 
             if ($list_data) {
-                foreach ($list_data as $value) {
-                    FormatSurat::updateOrCreate(['config_id' => identitas('id'), 'url_surat' => $value['url_surat']], $value);
-                }
+                $this->impor_filter($list_data);
             }
-
-            redirect_with('success', 'Berhasil Impor Data');
         }
 
         redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
