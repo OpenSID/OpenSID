@@ -50,6 +50,8 @@ class ReplaceAlias
 
     public static function get($suratMatser, $inputForm)
     {
+        log_message('notice', 'data alias : ' . print_r($inputForm, true));
+
         return (new self($suratMatser, $inputForm))->getKategori();
     }
 
@@ -57,27 +59,25 @@ class ReplaceAlias
     {
         $input = $this->inputForm[$kategori];
 
-        if (! in_array($input['opsi_penduduk'], [null, 1])) {
-            $prefix = ($kategori == 'individu') ? '' : '_' . $kategori;
+        $prefix = ($kategori == 'individu') ? '' : '_' . $kategori;
 
-            return [
-                "[nik{$prefix}]"           => $input['nik'] ?: "[nik{$prefix}]",
-                "[nama{$prefix}]"          => $input['nama'] ?: "[nama{$prefix}]",
-                "[tempatlahir{$prefix}]"   => $input['tempatlahir'] ?: "[tempatlahir{$prefix}]",
-                "[tanggallahir{$prefix}]"  => $input['tanggallahir'] ? formatTanggal($input['tanggallahir']) : "[tanggallahir{$prefix}]",
-                "[ttl{$prefix}]"           => $input['tanggallahir'] || $input['tanggallahir'] ? $input['tempatlahir'] . '/' . formatTanggal($input['tanggallahir']) : "[ttl{$prefix}]",
-                "[jenis_kelamin{$prefix}]" => $input['jenis_kelamin'] ?: "[jenis_kelamin{$prefix}]",
-                "[agama{$prefix}]"         => $input['agama'] ?: "[agama{$prefix}]",
-                "[warga_negara{$prefix}]"  => $input['warga_negara'] ?: "[warga_negara{$prefix}]",
-                "[alamat{$prefix}]"        => $input['alamat'] ?: "[alamat{$prefix}]",
+        return [
+            "[nik{$prefix}]"           => $input['nik'] ?: "[nik{$prefix}]",
+            "[nama{$prefix}]"          => $input['nama'] ?: "[nama{$prefix}]",
+            "[tempatlahir{$prefix}]"   => $input['tempatlahir'] ?: "[tempatlahir{$prefix}]",
+            "[tanggallahir{$prefix}]"  => $input['tanggallahir'] ? formatTanggal($input['tanggallahir']) : "[tanggallahir{$prefix}]",
+            "[ttl{$prefix}]"           => $input['tanggallahir'] || $input['tanggallahir'] ? $input['tempatlahir'] . '/' . formatTanggal($input['tanggallahir']) : "[ttl{$prefix}]",
+            "[jenis_kelamin{$prefix}]" => $input['jenis_kelamin'] ?: "[jenis_kelamin{$prefix}]",
+            "[agama{$prefix}]"         => $input['agama'] ?: "[agama{$prefix}]",
+            "[pendidikan_kk{$prefix}]" => $input['pendidikan'] ?: "[pendidikan_kk{$prefix}]",
+            "[pekerjaan{$prefix}]"     => $input['pekerjaan'] ?: "[pekerjaan{$prefix}]",
+            "[warga_negara{$prefix}]"  => $input['warga_negara'] ?: "[warga_negara{$prefix}]",
+            "[alamat{$prefix}]"        => $input['alamat'] ?: "[alamat{$prefix}]",
 
-                // agar bisa gunakan isian non warga versi sebelumnnya
-                '[form_nama_non_warga]' => $input['nama'] ?: '[form_nama_non_warga]',
-                '[form_nik_non_warga]'  => $input['nik'] ?: '[form_nik_non_warga]',
-            ];
-        }
-
-        return null;
+            // agar bisa gunakan isian non warga versi sebelumnnya
+            '[form_nama_non_warga]' => $input['nama'] ?: '[form_nama_non_warga]',
+            '[form_nik_non_warga]'  => $input['nik'] ?: '[form_nik_non_warga]',
+        ];
     }
 
     public function getKategori()

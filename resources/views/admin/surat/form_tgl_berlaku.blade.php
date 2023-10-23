@@ -1,7 +1,6 @@
+@include('admin.layouts.components.datetime_picker')
+
 @if ((int) $surat->masa_berlaku > 0)
-
-    @include('admin.layouts.components.datetime_picker')
-
     <div class="form-group subtitle_head" id="label_lainnya">
         <label class="col-sm-12 control-label" for="label_lainnya">LAINNYA</label>
     </div>

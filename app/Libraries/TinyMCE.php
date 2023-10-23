@@ -223,7 +223,7 @@ class TinyMCE
 
         foreach ($daftarKategori as $key => $value) {
             if ($value->sumber == 1 && $key != 'individu') {
-                $daftar_kode_isian[$value->judul] = KodeIsianPenduduk::get(null, $key);
+                $daftar_kode_isian[$value->judul] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
             }
         }
 
@@ -639,6 +639,10 @@ class TinyMCE
         }
 
         $lampiran = ob_get_clean();
+
+        $data['isi_surat'] = $lampiran;
+
+        $lampiran = $this->replceKodeIsian($data);
 
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
             ->setTestTdInOnePage(true)

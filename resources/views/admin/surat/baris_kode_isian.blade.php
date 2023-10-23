@@ -39,7 +39,7 @@
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" {!! buat_class($item->atribut, 'form-control input-sm tgl', $item->required) !!}
+                    <input type="text" @if (strpos($item->atribut, 'datepicker') !== false) {!! buat_class($item->atribut, 'form-control input-sm', $item->required) !!} @else {!! buat_class($item->atribut, 'form-control input-sm tgl', $item->required) !!} @endif
                         name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" value="{{ set_value($nama) }}" />
                 </div>
             </div>

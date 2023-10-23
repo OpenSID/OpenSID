@@ -106,6 +106,7 @@
             }
         }
         $('document').ready(function() {
+            $('[data-visible-required=1]:visible').addClass('required')
             $('#nik').select2({
                 ajax: {
                     url: SITE_URL + 'surat/apipenduduksurat',
@@ -172,7 +173,7 @@
                 },
                 placeholder: '--  Cari NIK / Tag ID Card / Nama Penduduk --',
                 minimumInputLength: 0,
-            });                    
+            });
             
             // kaitkan data 
             $('select[data-kaitkan]').each(function(){
@@ -181,14 +182,14 @@
 
                 _kaitkan.forEach(element => {
                     for(let i in element.kode_isian_terkait){
-                        let _namaElm = element.kode_isian_terkait[i].replaceAll(/\s+/g,'_')
+                        let _namaElm = element.kode_isian_terkait[i].replaceAll(/\s+/g,'_').toLowerCase()
                         if (_kategori) {
                             _namaElm +=`_${_kategori}`
                         }
                         
                         $(`[name=${_namaElm}]`).removeClass('required')
                         $(`[name=${_namaElm}]`).closest('.form-group').addClass('hide')
-                    }                                        
+                    }
                 });
 
                 $(this).change(function(){
@@ -196,17 +197,17 @@
                     let _namaElm, _kategori = $(this).closest('.form-group').data('kategori')
                     _aktifkanElm.forEach(element => {
                         for(let j in element.kode_isian_terkait){
-                            _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g,'_')
+                            _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g,'_').toLowerCase()
                             if (_kategori) {
                                 _namaElm +=`_${_kategori}`
                             }
                             $(`[name=${_namaElm}]`).removeClass('required')
                             $(`[name=${_namaElm}]`).closest('.form-group').addClass('hide')
                         }
-                        for(let i in element.nilai_isian){                            
-                            if (element.nilai_isian[i].includes($(this).val())){                                
+                        for(let i in element.nilai_isian){
+                            if (element.nilai_isian[i].includes($(this).val())){
                                 for(let j in element.kode_isian_terkait){
-                                    _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g,'_')
+                                    _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g,'_').toLowerCase()
                                     if (_kategori) {
                                         _namaElm +=`_${_kategori}`
                                     }

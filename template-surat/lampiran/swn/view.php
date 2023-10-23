@@ -36,17 +36,17 @@
         <tr>
             <td colspan="17">KANTOR DESA/KELURAHAN</td>
             <td>: </td>
-            <td colspan="30"><?= strtoupper($config['nama_desa']); ?></td>
+            <td colspan="30">[Nama_desA]</td>
         </tr>
         <tr>
             <td colspan="17">KECAMATAN</td>
             <td>: </td>
-            <td colspan="30"><?= strtoupper($config['nama_kecamatan']); ?></td>
+            <td colspan="30">[Nama_kecamataN]</td>
         </tr>
         <tr>
             <td colspan="17">KABUPATEN/KOTA</td>
             <td>:</td>
-            <td colspan="30"><?= strtoupper($config['nama_kabupaten']); ?></td>
+            <td colspan="30">[Nama_kabupateN]</td>
         </tr>
         <tr>
             <?php for ($i = 0; $i < 48; $i++) : ?>
@@ -59,12 +59,12 @@
     <p class="title">SURAT KETERANGAN WALI NIKAH</p>
     <table align="center">
         <tr>
-            <td><span>Nomor : <?= $format_surat; ?></span></td>
+            <td><span>Nomor : [Format_nomor_suraT]</span></td>
         </tr>
     </table>
 
 
-    <p>Yang bertanda tangan dibawah ini, <?= setting('sebutan_kepala_desa') . ' ' . setting('sebutan_desa') ?> <?= $config['nama_desa']; ?>, Kecamatan <?= $config['nama_kecamatan'] ?>, Kabupaten <?= $config['nama_kabupaten']; ?>, menerangkan dengan sesungguhnya bahwa :</p>
+    <p>Yang bertanda tangan dibawah ini, [SeButan_kepala_desa] [SeButan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], Kabupaten [NaMa_kabupaten], menerangkan dengan sesungguhnya bahwa :</p>
     <table id="kop" class="disdukcapil">
         <col span="48" style="width: 2.0833%;">
         <tr>
@@ -74,43 +74,43 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Nama lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong><?= strtoupper($dataWaliNikah['nama_wali']); ?></strong></td>
+            <td colspan="27"><strong>[Nama_dwN]</strong></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Bin</td>
             <td>: </td>
-            <td colspan="27"><?= $dataWaliNikah['bin_wali']; ?></td>
+            <td colspan="27">[Form_bin_wali_nikaH]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Nomor Induk Kependudukan</td>
             <td>: </td>
-            <td colspan="27"><?= $dataWaliNikah['nik_wali']; ?></td>
+            <td colspan="27">[Nik_dwN]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Tempat dan Tanggal Lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $dataWaliNikah['tempatlahir_wali'] . ', ' . tgl_indo2(!empty($dataWaliNikah['tanggallahir_wali']) ? date('Y-m-d', strtotime($dataWaliNikah['tanggallahir_wali'])) : ''); ?></td>
+            <td colspan="27">[Ttl_dwN]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Agama</td>
             <td>: </td>
-            <td colspan="27"><?= $dataWaliNikah['agama_wali']; ?></td>
+            <td colspan="27">[Agama_dwN]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Pekerjaan</td>
             <td>: </td>
-            <td colspan="27"><?= $dataWaliNikah['pekerjaan_wali']; ?></td>
+            <td colspan="27">[Pekerjaan_dwN]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Tempat tinggal terakhir </td>
             <td>: </td>
-            <td colspan="27"><?= $dataWaliNikah['alamat_wali']; ?></td>
+            <td colspan="27">[Alamat_dwN]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
@@ -129,19 +129,19 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="10">Pernikahan</td>
             <td>: </td>
-            <td colspan="27"><strong><?= strtoupper($dataCalonSWN['nama_wanita']); ?></strong></td>
+            <td colspan="27"><strong>[Nama_dcpW]</strong></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="10">Dengan</td>
             <td>: </td>
-            <td colspan="27"><strong><?= strtoupper($dataCalonSWN['nama_pria']); ?></strong></td>
+            <td colspan="27"><strong>[NamA]</strong></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="10">Sebagai</td>
             <td>: </td>
-            <td colspan="27"><?= $dataWaliNikah['hubungan_wali'] ?></td>
+            <td colspan="27">[Form_hubungan_dengan_walI]</td>
         </tr>
     </table>
 
@@ -153,22 +153,22 @@
         <col span="48" style="width: 2.0833%;">
         <tr>
             <td colspan="32">&nbsp;</td>
-            <td colspan="20" class="tengah"><?= $config['nama_desa']; ?>, <?= tgl_indo(date('Y m d', time())) ?></td>
+            <td colspan="20" class="tengah">[NaMa_desa], [TgL_surat]</td>
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
             <td colspan="37">&nbsp;</td>
-            <td colspan="10" class="tengah"><?= setting('sebutan_kepala_desa') . ' ' . setting('sebutan_desa') ?></td>
+            <td colspan="10" class="tengah">[Atas_namA]</td>
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
-            <td colspan="10"><?= $qrcode ?? '' ?></td>
+            <td colspan="10">[qr_code]</td>
             <td colspan="37" class="tengah"><br><br><br><br></td>
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
             <td colspan="37">&nbsp;</td>
-            <td colspan="10" class="tengah"><strong><?= $config['nama_kepala_desa'] ?></strong></td>
+            <td colspan="10" class="tengah"><strong>[Nama_pamonG]</strong></td>
             <td colspan="2">&nbsp;</td>
         </tr>
     </table>

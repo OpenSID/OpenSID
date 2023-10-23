@@ -20,10 +20,12 @@
                 _formGroup.next('.penduduk_desa').removeClass('hide')
                 _formGroup.next('.penduduk_luar_desa').find('.isi-penduduk-luar').removeClass('required')
                 _formGroup.next('.penduduk_desa').find('.isi-penduduk-desa').addClass('required')
+                $('[data-visible-required=1]:hidden').removeClass('required')
             } else {
                 _formGroup.next('.penduduk_luar_desa').find('.isi-penduduk-luar').addClass('required')
                 _formGroup.next('.penduduk_desa').find('.isi-penduduk-desa').removeClass('required')
                 _formGroup.nextAll('.penduduk_luar_'+_val).first().removeClass('hide')
+                $('[data-visible-required=1]:visible').addClass('required')
             }
         }
     </script>

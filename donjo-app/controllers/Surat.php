@@ -414,6 +414,7 @@ class Surat extends Admin_Controller
             if ($cetak['surat']['margin_global'] == '1') {
                 $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
             }
+
             // convert in PDF
             try {
                 $this->tinymce->generateSurat($logo_qrcode, $cetak, $margin_cm_to_mm);
