@@ -591,7 +591,7 @@ class Surat extends Admin_Controller
                 $this->tinymce->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm);
                 $this->tinymce->generateLampiran($surat->id_pend, $cetak);
 
-                return $this->tinymce->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
+                $this->tinymce->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
             } catch (Html2PdfException $e) {
                 $formatter = new ExceptionFormatter($e);
                 log_message('error', $formatter->getHtmlMessage());

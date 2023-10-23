@@ -23,12 +23,12 @@
           <tr>
             <th width="150px">Nama Kegiatan</th>
             <td width="20px">:</td>
-            <td><?= $pembangunan->judul ?></td>
+            <td><?= e($pembangunan->judul) ?></td>
           </tr>
           <tr>
             <th>Alamat</th>
             <td width="20px">:</td>
-            <td><?= $pembangunan->alamat ?></td>
+            <td><?= e($pembangunan->alamat) ?></td>
           </tr>
           <tr>
             <th>Sumber Dana</th>
