@@ -37,7 +37,6 @@
 
 use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
-use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 
 defined('BASEPATH') || exit('No direct script access allowed');
