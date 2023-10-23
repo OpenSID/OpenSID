@@ -235,6 +235,9 @@
                 $("#ik2").prop("checked", true);
             }
 
+            var lampiran = "{{ $suratMaster->lampiran }}";
+            $('.lampiran-multiple').val(lampiran.split(',')).change();
+
             syarat($('input[name=mandiri]:checked').val());
         };
     </script>

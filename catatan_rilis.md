@@ -37,7 +37,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 32. [#7223](https://github.com/OpenSID/OpenSID/issues/7223) Perbaikan format penomoran surat untuk kode isian [kode_desa].
 33. [#7232](https://github.com/OpenSID/OpenSID/issues/7232) Perbaikan filter penduduk saat cetak surat.
 34. [#7246](https://github.com/OpenSID/OpenSID/issues/7246) Perbaikan notifikasi email duplikat pada form penduduk.
-
+35. [#7245](https://github.com/OpenSID/OpenSID/issues/7245) Perbaikan tombol batal untuk select2-tag/multi pada form pengaturan surat.
 
 #### Penyesuaian Teknis
 1. [#7149](https://github.com/OpenSID/OpenSID/issues/7149) Penghapusan duplikasi fungsi detail pada modul keluarga.
