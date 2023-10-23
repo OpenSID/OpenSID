@@ -36,6 +36,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 31. [#7204](https://github.com/OpenSID/OpenSID/issues/7204) Perbaikan kirim email.
 32. [#7223](https://github.com/OpenSID/OpenSID/issues/7223) Perbaikan format penomoran surat untuk kode isian [kode_desa].
 33. [#7232](https://github.com/OpenSID/OpenSID/issues/7232) Perbaikan filter penduduk saat cetak surat.
+34. [#7246](https://github.com/OpenSID/OpenSID/issues/7246) Perbaikan notifikasi email duplikat pada form penduduk.
 
 
 #### Penyesuaian Teknis
