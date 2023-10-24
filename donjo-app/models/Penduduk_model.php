@@ -1052,7 +1052,7 @@ class Penduduk_model extends MY_Model
         $error_validasi = $this->validasi_data_penduduk($data, $id);
         if (! empty($error_validasi)) {
             foreach ($error_validasi as $error) {
-                $_SESSION['error_msg'] .= ': ' . $error . '\n';
+                $_SESSION['error_msg'] .= ": {$error}\n";
             }
             // Form menggunakan kolom id_sex = sex dan id_status = status
             $_POST['id_sex']    = $_POST['sex'];

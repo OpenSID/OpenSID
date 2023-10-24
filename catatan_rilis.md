@@ -67,7 +67,9 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 31. [#7204](https://github.com/OpenSID/OpenSID/issues/7204) Perbaikan kirim email.
 32. [#7223](https://github.com/OpenSID/OpenSID/issues/7223) Perbaikan format penomoran surat untuk kode isian [kode_desa].
 33. [#7232](https://github.com/OpenSID/OpenSID/issues/7232) Perbaikan filter penduduk saat cetak surat.
-
+34. [#7246](https://github.com/OpenSID/OpenSID/issues/7246) Perbaikan notifikasi email duplikat pada form penduduk.
+35. [#7245](https://github.com/OpenSID/OpenSID/issues/7245) Perbaikan tombol batal untuk select2-tag/multi pada form pengaturan surat.
+36. [#7250](https://github.com/OpenSID/OpenSID/issues/7250) Perbaikan akses hapus kelompok/lembaga jika terdapat anggota.
 
 #### Penyesuaian Teknis
 

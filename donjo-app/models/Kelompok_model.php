@@ -396,10 +396,7 @@ class Kelompok_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $kelompok = $this->config_id()
-            ->where('id', $id)
-            ->where('tipe', $this->tipe)
-            ->get('kelompok')->num_rows();
+        $kelompok = $this->get_kelompok_having_anggota($id);
 
         if ($kelompok) {
             $outp = $this->config_id()->where('id', $id)->where('tipe', $this->tipe)->delete($this->table);
@@ -462,6 +459,19 @@ class Kelompok_model extends MY_Model
             ->group_end()
             ->get()
             ->row_array();
+    }
+
+    public function get_kelompok_having_anggota($id)
+    {
+        return $this->config_id('kelompok')
+            ->select('kelompok.id, count(kelompok_anggota.id) as jml_anggota')
+            ->join('kelompok_anggota', 'kelompok.id = kelompok_anggota.id_kelompok', 'left')
+            ->where('kelompok.id', $id)
+            ->where('kelompok.tipe', $this->tipe)
+            ->group_by('kelompok.id')
+            ->having('jml_anggota <=', '0')
+            ->get('kelompok')
+            ->num_rows();
     }
 
     public function get_ketua_kelompok($id)

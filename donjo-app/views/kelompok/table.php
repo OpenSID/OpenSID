@@ -151,7 +151,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 																<?php if ($this->CI->cek_hak_akses('u')): ?>
 																	<a href="<?= site_url("{$this->controller}/form/{$p}/{$o}/{$data['id']}"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data <?= $this->controller ?>"><i class='fa fa-edit'></i></a>
 																<?php endif; ?>
-																<?php if ($this->CI->cek_hak_akses('h')): ?>
+																<?php if ($this->CI->cek_hak_akses('h') && ($data['jml_anggota'] <= 0)): ?>
 																	<a href="#" data-href="<?= site_url("{$this->controller}/delete/{$data['id']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																<?php endif; ?>
 															</td>

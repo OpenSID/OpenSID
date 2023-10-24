@@ -45,6 +45,7 @@ define('WEBSITE_DEMO', [
     'devpremium.opendesa.id',
     'opensid.test',
     'localhost',
+    'opensid-premium.test',
 ]);
 
 if (! function_exists('cek_anjungan')) {
