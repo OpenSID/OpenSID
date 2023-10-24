@@ -38,6 +38,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 33. [#7232](https://github.com/OpenSID/OpenSID/issues/7232) Perbaikan filter penduduk saat cetak surat.
 34. [#7246](https://github.com/OpenSID/OpenSID/issues/7246) Perbaikan notifikasi email duplikat pada form penduduk.
 35. [#7245](https://github.com/OpenSID/OpenSID/issues/7245) Perbaikan tombol batal untuk select2-tag/multi pada form pengaturan surat.
+36. [#7250](https://github.com/OpenSID/OpenSID/issues/7250) Perbaikan akses hapus kelompok/lembaga jika terdapat anggota.
 
 #### Penyesuaian Teknis
 1. [#7149](https://github.com/OpenSID/OpenSID/issues/7149) Penghapusan duplikasi fungsi detail pada modul keluarga.
