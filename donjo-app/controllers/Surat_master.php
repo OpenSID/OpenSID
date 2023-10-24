@@ -533,6 +533,30 @@ class Surat_master extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Template Desa');
     }
 
+    public function restore_surat_bawaan($url_surat = '')
+    {
+        $cek_surat = FormatSurat::where('url_surat', $url_surat);
+        $ada_surat = $cek_surat->first() ?? show_404();
+
+        if (super_admin() && $ada_surat) {
+            $list_data = file_get_contents('assets/import/template_surat_tinymce.json');
+            $list_data = collect(json_decode($list_data, true))
+                ->where('url_surat', $url_surat)
+                ->map(static function ($item) {
+                    return collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray();
+                })
+                ->first();
+
+            if ($list_data) {
+                if ($cek_surat->update($list_data)) {
+                    redirect_with('success', 'Berhasil Restore Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
+                }
+            }
+        }
+
+        redirect_with('error', 'Gagal Restore Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
+    }
+
     // Tambahkan surat desa jika folder surat tidak ada di surat master
     public function perbarui()
     {

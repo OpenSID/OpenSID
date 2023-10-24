@@ -30,6 +30,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 24. [#7221](https://github.com/OpenSID/OpenSID/issues/7221) Penambahan pengaturan kode isian untuk inputan non-warga.
 25. [#7193](https://github.com/OpenSID/OpenSID/issues/7193) Penambahan pengaturan format tanggal surat.
 26. [#7210](https://github.com/OpenSID/OpenSID/issues/7210) Penambahan pilihan surat yang akan di impor pada pengaturan surat.
+27. [#7117](https://github.com/OpenSID/OpenSID/issues/7117) Penambahan fungsi restore surat tinymce bawaan sistem.
 
 
 #### Perbaikan Bug

@@ -1,18 +1,7 @@
 <div class="tab-pane active" id="pengaturan-umum">
-    <div class="box-header with-border">
-        <a href="{{ route('surat_master') }}"
-            class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-            <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Surat
-        </a>
-        @if (setting('tte') && ($suratMaster->jenis == 3 || $suratMaster->jenis == 4))
-            <br /><br />
-            <div class="alert alert-info alert-dismissible">
-                <h4><i class="icon fa fa-info"></i> Info !</h4>
-                Jika surat ingin dikirim ke kecamatan, letakan kode [qr_camat] pada tempat yang ingin ditempelkan QRCode
-                Kecamatan.
-            </div>
-        @endif
-    </div>
+
+    @include('admin.pengaturan_surat.kembali')
+
     <div class="box-body form-horizontal">
         <div class="form-group">
             <label class="col-sm-3 control-label" for="kode_surat">Kode/Klasifikasi Surat</label>
@@ -288,6 +277,26 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<div class="modal fade" id="confirm-restore" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"><i class="fa fa-exclamation-triangle text-red"></i> Konfirmasi</h4>
+            </div>
+            <div class="modal-body btn-info">
+                Apakah Anda yakin ingin merestore surat bawaan/sistem ini?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
+                <a class="btn-ok">
+                    <a href="{{route('surat_master.restore_surat_bawaan', $suratMaster->url_surat)}}" class="btn btn-social btn-success btn-sm" id="ok-restore"><i class="fa fa-refresh"></i> Restore</a>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
