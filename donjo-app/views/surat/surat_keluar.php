@@ -117,7 +117,9 @@
                                                                     <td class="aksi">
 
                                                                         <?php if ($this->tab_ini == 10 && can('u')) : ?>
-                                                                            <a href="<?= site_url("keluar/edit_keterangan/{$data['id']}") ?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+                                                                            <?php if (in_array($data['jenis'], [1, 2])) : ?>
+                                                                                <a href="<?= site_url("keluar/edit_keterangan/{$data['id']}") ?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+                                                                            <?php endif; ?>
                                                                             <?php if (! in_array($data['jenis'], [1, 2]) && $data['status'] == 0) : ?>
                                                                                 <a href="<?= site_url("surat/cetak/{$data['id']}"); ?>" class="btn btn-flat bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a>
                                                                                 <!-- hapus surat draft -->
@@ -169,7 +171,13 @@
                                                                             <?php if ($data['isi_surat'] && $data['verifikasi_operator'] != '-1') : ?>
                                                                                 <a href="<?= site_url("{$this->controller}/unduh/tinymce/{$data['id']}"); ?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
                                                                             <?php endif; ?>
-
+                                                                            <?php if ($data['tte'] && $data['kecamatan'] == 2) : ?>
+                                                                                <?php if ($this->setting->api_opendk_key) : ?>
+                                                                                    <a data-id="<?= $data['id'] ?>" id="kirim-kecamatan" class="btn btn-social btn-flat bg-olive btn-sm" title="Kirim ke Kecamatan"><i class="fa fa-send"></i> Kirim ke Kecamatan</a>
+                                                                                  <?php else: ?>
+                                                                                    <a class="btn btn-social btn-flat bg-olive btn-sm" title="Kirim ke Kecamatan" disabled><i class="fa fa-send"></i> Kirim ke Kecamatan</a>
+                                                                                  <?php endif; ?>
+                                                                            <?php endif; ?>
                                                                             <?php if (can('h') && $user_admin) : ?>
                                                                                 <!-- hapus surat -->
                                                                                 <a href="#" data-href="<?= site_url("keluar/delete/{$data['id']}?redirect={$redirect}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
@@ -197,7 +205,13 @@
                                                                         <?php if ($data['status'] == 1) : ?>
                                                                             <?php if ($data['verifikasi'] == 1) : ?>
                                                                                 <?php if ($data['status_periksa'] == 1) : ?>
-                                                                                    <span class="label label-success">Siap Cetak</span>
+                                                                                    <?php if ($data['kecamatan'] == 2) : ?>
+                                                                                        <span class="label label-success">Siap Dikirim ke Kecamatan</span>
+                                                                                    <?php elseif ($data['kecamatan'] == 3) : ?>
+                                                                                        <span class="label label-success">Telah Dikirim ke Kecamatan</span>
+                                                                                    <?php else: ?>
+                                                                                        <span class="label label-success">Siap Cetak</span>
+                                                                                    <?php endif; ?>
                                                                                 <?php else : ?>
                                                                                     <span class="label label-warning">Menunggu <?= $data['log_verifikasi'] ?></span>
                                                                                 <?php endif ?>
@@ -409,6 +423,62 @@
                 if (result.isConfirmed) {
                     window.location.href = "<?= site_url("{$this->controller}/perbaiki") ?>";
                 }
+            })
+        });
+
+        $('#kirim-kecamatan').click(function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            Swal.fire({
+                title: 'Apakah anda yakin ingin mengirim surat ini ke kecamatan?',
+                showCancelButton: true,
+                confirmButtonText: 'Kirim',
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+
+                    const formData = new FormData();
+                    formData.append('sidcsrf', getCsrfToken());
+                    formData.append('id', id);
+
+                    return fetch('<?= site_url('api/surat/kirim') ?>', {
+                        method: 'post',
+                        body: formData,
+                    }).then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+
+                        if (!response.ok) {
+                            throw new Error(response.statusText)
+                        }
+                    }).catch(error => {
+                        Swal.showValidationMessage(
+                            `Request failed: ${error}`
+                        )
+
+                    })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let response = result.value
+                    if (response.status == false) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Request failed',
+                            text: response.pesan,
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Dokumen berhasil dikirim ke kecamatan',
+                            showConfirmButton: true,
+                        }).then((result) => {
+                            window.location.replace("<?= site_url("{$this->controller}") ?>");
+                        })
+                    }
+                }
+
             })
         });
     });

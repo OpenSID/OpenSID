@@ -30,10 +30,12 @@
                             <input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
                         </div>
                     </div>
+                    <?php $this->load->view('surat/form/nomor_surat'); ?>
+
+                    <?php include FCPATH . config_item('views_blade') . '/admin/surat/kode_isian.blade.php'?>
+
                     <?php
-                        $this->load->view('surat/form/nomor_surat');
-    $this->load->view('surat/kode_isian');
-    $this->load->view('surat/form/tgl_berlaku');
+                        $this->load->view('surat/form/tgl_berlaku');
     $this->load->view('surat/form/_pamong');
     ?>
                 </form>

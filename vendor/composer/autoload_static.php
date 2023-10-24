@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238
+class ComposerStaticInitbc424e07de7f221c556c39caa4ee068a
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -346,16 +346,6 @@ class ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'o' => 
-        array (
-            'org\\bovigo\\vfs' => 
-            array (
-                0 => __DIR__ . '/..' . '/mikey179/vfsstream/src/main/php',
-            ),
-        ),
-    );
-
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
@@ -408,10 +398,9 @@ class ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitc2a096ea36d0d6461ebec39ec5a48238::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitbc424e07de7f221c556c39caa4ee068a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitbc424e07de7f221c556c39caa4ee068a::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitbc424e07de7f221c556c39caa4ee068a::$classMap;
 
         }, null, ClassLoader::class);
     }

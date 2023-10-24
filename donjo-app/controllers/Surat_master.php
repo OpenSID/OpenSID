@@ -250,7 +250,7 @@ class Surat_master extends Admin_Controller
         $kodeIsian = null;
 
         for ($i = 0; $i < count($request['tipe_kode']); $i++) {
-            if (empty($request['tipe_kode'][$i]) || empty($request['nama_kode'][$i]) || empty($request['deskripsi_kode'][$i])) {
+            if (empty($request['tipe_kode'][$i])) {
                 continue;
             }
 
@@ -259,17 +259,30 @@ class Surat_master extends Admin_Controller
                 'kode'      => form_kode_isian($request['nama_kode'][$i]),
                 'nama'      => $request['nama_kode'][$i],
                 'deskripsi' => $request['deskripsi_kode'][$i],
-                'atribut'   => $request['atribut_kode'][$i],
+                'atribut'   => $request['atribut_kode'][$i] ?: null,
+                'pilihan'   => null,
+                'refrensi'  => null,
             ];
+
+            if ($request['tipe_kode'][$i] == 'select-manual') {
+                $kodeIsian[$i]['pilihan'] = json_decode(preg_replace('/[\r\n\t]/', '', $request['pilihan_kode'][$i]), true);
+            } elseif ($request['tipe_kode'][$i] == 'select-otomatis') {
+                $kodeIsian[$i]['refrensi'] = $request['referensi_kode'][$i];
+            }
         }
 
         $formIsian = [
-            'individu' => [
+            'data'     => $request['data_utama'] ?? 1,
+            'individu' => null,
+        ];
+
+        if ($request['data_utama'] != 2) {
+            $formIsian['individu'] = [
                 'sex'          => $request['individu_sex'] ?? null,
                 'status_dasar' => $request['individu_status_dasar'] ?? null,
                 'kk_level'     => $request['individu_kk_level'] ?? null,
-            ],
-        ];
+            ];
+        }
 
         $data = [
             'nama'                => nama_terbatas($request['nama']),
@@ -502,23 +515,47 @@ class Surat_master extends Admin_Controller
         $setting_footer    = $this->request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
         $data['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
-        $data['id_pend'] = Penduduk::filters([
-            'sex'          => $this->request['individu_sex'],
-            'status_dasar' => $this->request['individu_status_dasar'],
-            'kk_level'     => $this->request['individu_kk_level'],
-        ])->first('id')
-        ->id;
+        if ($this->request['data_utama'] == 1) {
+            $data['id_pend'] = Penduduk::filters([
+                'sex'          => $this->request['individu_sex'],
+                'status_dasar' => $this->request['individu_status_dasar'],
+                'kk_level'     => $this->request['individu_kk_level'],
+            ])->first('id')->id;
 
-        if (! $data['id_pend']) {
-            redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+            if (! $data['id_pend']) {
+                redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+            }
+        } else {
+            $data['nik_non_warga']  = '1234567890123456';
+            $data['nama_non_warga'] = 'Nama Non Warga';
         }
 
-        foreach ($this->request['nama_kode'] as $kode) {
-            $data = case_replace(form_kode_isian($kode), 'Masukkan ' . $kode, $data);
+        for ($i = 0; $i < count($this->request['tipe_kode']); $i++) {
+            if (empty($this->request['tipe_kode'][$i])) {
+                continue;
+            }
+
+            $kode = $this->request['nama_kode'][$i];
+
+            if ($this->request['tipe_kode'][$i] == 'select-manual') {
+                $pilihan    = json_decode(preg_replace('/[\r\n\t]/', '', $this->request['pilihan_kode'][$i]), true);
+                $kode_isian = $pilihan[array_rand($pilihan)];
+            } elseif ($this->request['tipe_kode'][$i] == 'select-otomatis') {
+                $pilihan    = ref($this->request['referensi_kode'][$i]);
+                $kode_isian = $pilihan[array_rand($pilihan)]->nama;
+            } else {
+                $kode_isian = 'Masukkan ' . $kode;
+            }
+
+            $data = case_replace(form_kode_isian($kode), $kode_isian, $data);
         }
 
         $data      = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
         $isi_surat = $this->tinymce->replceKodeIsian($data);
+
+        // Manual replace kode isian non warga
+        $isi_surat = str_replace('[Form_nik_non_wargA]', $data['nik_non_warga'], $isi_surat);
+        $isi_surat = str_replace('[Form_nama_non_wargA]', $data['nama_non_warga'], $isi_surat);
 
         // Pisahkan isian surat
         $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);
@@ -557,10 +594,11 @@ class Surat_master extends Admin_Controller
 
         try {
             $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', [$this->request['kiri'] * 10, $this->request['atas'] * 10, $this->request['kanan'] * 10, $this->request['bawah'] * 10]);
+            $html2pdf->pdf->SetTitle($this->request['nama'] . ' (Pratinjau)');
             $html2pdf->setTestTdInOnePage(false);
             $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
             $html2pdf->writeHTML($gambar_qecode);
-            $html2pdf->output(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'preview.pdf', 'FI');
+            $html2pdf->output(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
             $formatter = new ExceptionFormatter($e);

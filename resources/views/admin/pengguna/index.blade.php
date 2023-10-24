@@ -1,85 +1,68 @@
-<div class="modal fade in" id="profil_pengguna">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Pengaturan Pengguna</h4>
+@extends('admin.layouts.index')
+@include('admin.layouts.components.asset_validasi')
+
+@section('title')
+    <h1>
+        Pengguna <small>Ubah Data</small>
+    </h1>
+@endsection
+
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ route('pengguna') }}">Pengguna</a></li>
+    <li class="active">Profil</li>
+@endsection
+
+@section('content')
+    @include('admin.layouts.components.notifikasi')
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="penduduk" id="foto" src="{{ AmbilFoto(auth()->foto) }}" alt="Foto Penduduk">
+                    <br>
+                    <div class="input-group input-group-sm text-center">
+                        <span class="input-group-btn">
+                            @if (auth()->email_verified_at === null)
+                                {!! form_open(route('pengguna.kirim_verifikasi')) !!}
+                                <button type="submit" class="btn btn-sm btn-warning btn-block btn-mb-5"><i
+                                        class="fa fa-share-square"></i>
+                                    Verifikasi Email</button>
+                                </form>
+                                <br />
+                            @endif
+                            @if (auth()->telegram_verified_at === null && setting('telegram_token') != null)
+                                <button type="button" id="verif_telegram"
+                                    class="btn btn-sm btn-warning btn-block btn-mb-5"><i class="fa fa-share-square"></i>
+                                    Verifikasi Telegram</button>
+                                <br />
+                            @endif
+                        </span>
+                    </div>
+                </div>
             </div>
-            @include('admin.profil.form')
+        </div>
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#profil" data-toggle="tab">Profil</a></li>
+                    @if (!config_item('demo_mode'))
+                        <li><a href="#sandi" data-toggle="tab">Sandi</a></li>
+                    @endif
+                </ul>
+                <div class="tab-content">
+                    @include('admin.pengguna.tab-profil')
+
+                    @if (!config_item('demo_mode'))
+                        @include('admin.pengguna.tab-sandi')
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
-</div>
-@include('admin.layouts.components.sweetalert2')
+@endsection
 @push('scripts')
-    <script src="{{ asset('js/validasi.js') }}"></script>
     <script>
-        $('document').ready(function() {
-            $('.reveal-lama').on('click', function() {
-                var $pwd = $("#password-lama");
-                if ($pwd.attr('type') === 'password') {
-                    $pwd.attr('type', 'text');
-
-                    $(".reveal-lama i").removeClass("fa-eye-slash");
-                    $(".reveal-lama i").addClass("fa-eye");
-                } else {
-                    $pwd.attr('type', 'password');
-
-                    $(".reveal-lama i").addClass("fa-eye-slash");
-                    $(".reveal-lama i").removeClass("fa-eye");
-                }
-            });
-
-            $('.reveal-baru').on('click', function() {
-                var $pwd = $("#password-baru");
-                if ($pwd.attr('type') === 'password') {
-                    $pwd.attr('type', 'text');
-
-                    $(".reveal-baru i").removeClass("fa-eye-slash");
-                    $(".reveal-baru i").addClass("fa-eye");
-                } else {
-                    $pwd.attr('type', 'password');
-
-                    $(".reveal-baru i").addClass("fa-eye-slash");
-                    $(".reveal-baru i").removeClass("fa-eye");
-                }
-            });
-
-            $('.reveal-ulangi').on('click', function() {
-                var $pwd = $("#password-ulangi");
-                if ($pwd.attr('type') === 'password') {
-                    $pwd.attr('type', 'text');
-
-                    $(".reveal-ulangi i").removeClass("fa-eye-slash");
-                    $(".reveal-ulangi i").addClass("fa-eye");
-                } else {
-                    $pwd.attr('type', 'password');
-
-                    $(".reveal-ulangi i").addClass("fa-eye-slash");
-                    $(".reveal-ulangi i").removeClass("fa-eye");
-                }
-            });
-
-            $("#validate_user").validate();
-
-            setTimeout(function() {
-                $('#pass_baru1').rules('add', {
-                    equalTo: '#pass_baru'
-                })
-            }, 500);
-
-            $('#file_browser_user').click(function(e) {
-                e.preventDefault();
-                $('#file_user').click();
-            });
-
-            $('#file_user').change(function() {
-                $('#file_path_user').val($(this).val());
-            });
-
-            $('#file_path_user').click(function() {
-                $('#file_browser_user').click();
-            });
-
+        $(document).ready(function() {
             $('#verif_telegram').click(function() {
                 Swal.fire({
                     title: 'Mengirim OTP',
@@ -91,7 +74,7 @@
                     }
                 });
                 $.ajax({
-                        url: '{{ route('user_setting.kirim_otp_telegram') }}',
+                        url: '{{ route('pengguna.kirim_otp_telegram') }}',
                         type: 'Post',
                         data: {
                             'sidcsrf': getCsrfToken(),
@@ -120,7 +103,7 @@
                                     formData.append('otp', otp);
 
                                     return fetch(
-                                            `{{ route('user_setting.verifikasi_telegram') }}`, {
+                                            `{{ route('pengguna.verifikasi_telegram') }}`, {
                                                 method: 'POST',
                                                 body: formData,
                                             }).then(response => {

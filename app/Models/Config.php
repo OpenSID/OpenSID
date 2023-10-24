@@ -84,6 +84,12 @@ class Config extends BaseModel
         'warna',
         'created_by',
         'updated_by',
+
+        // Field database lama
+        'nama_kepala_desa',
+        'nip_kepala_desa',
+        'g_analitic',
+        'pamong_id',
     ];
 
     /**
@@ -164,7 +170,7 @@ class Config extends BaseModel
     {
         parent::boot();
         static::creating(static function ($model) {
-            $model->app_key = get_app_key();
+            // $model->app_key = get_app_key();
         });
 
         static::updating(static function ($model) {

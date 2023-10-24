@@ -61,9 +61,10 @@ class User extends BaseModel
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nama',
         'email',
         'password',
+        'foto',
         'last_login',
         'id_telegram',
         'notif_telegram',

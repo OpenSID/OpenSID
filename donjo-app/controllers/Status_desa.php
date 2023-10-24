@@ -44,7 +44,6 @@ class Status_desa extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('data_publik');
         $this->modul_ini          = 'info-desa';
         $this->sub_modul_ini      = 'status-desa';
         $this->header['kategori'] = 'status sdgs';

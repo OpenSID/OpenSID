@@ -42,7 +42,6 @@ class Idm extends Web_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('data_publik');
     }
 
     public function index($tahun = null)
