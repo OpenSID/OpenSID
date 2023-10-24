@@ -1596,582 +1596,304 @@
         "favorit": false,
         "jenis": "3",
         "mandiri": false,
-        "masa_berlaku": 1,
+        "masa_berlaku": 0,
         "satuan_masa_berlaku": "M",
         "qr_code": false,
         "logo_garuda": false,
         "kecamatan": "0",
-        "syarat_surat": "[]",
+        "syarat_surat": null,
         "template": "    <h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">SURAT PENGANTAR NUMPANG NIKAH<\/span><\/h4>\r\n    <p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n    <p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n    <table style=\"border-collapse: collapse; width: 100%; height: 231.297px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n    <tbody>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90429%; height: 22.3906px; text-align: left;\">1.<\/td>\r\n    <td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Nama Lengkap<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; height: 22.3906px; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90429%; height: 22.3906px; text-align: left;\">2.<\/td>\r\n    <td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Tempat \/ Tanggal Lahir<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; height: 22.3906px; text-align: justify;\">[TtL]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90429%; height: 22.3906px; text-align: left;\">3.<\/td>\r\n    <td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Jenis Kelamin<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; height: 22.3906px; text-align: justify;\">[Jenis_kelamin]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">4.<\/td>\r\n    <td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Surat bukti diri KTP<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[NiK]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">5.<\/td>\r\n    <td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Warga Negara<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[WArga_negara]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">6.<\/td>\r\n    <td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Agama<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[AgAma]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">7.<\/td>\r\n    <td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Status Perkawinan<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[FoRm_status_kawin]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">8.<\/td>\r\n    <td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Pekerjaan<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[PeKerjaan]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 29.7812px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 29.7812px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90429%; height: 29.7812px; text-align: left;\">9.<br><br><\/td>\r\n    <td style=\"width: 30.5253%; text-align: left; height: 29.7812px;\">Alamat \/ Tempat Tinggal<br><br><\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 29.7812px;\">:<br><br><\/td>\r\n    <td style=\"width: 60.0206%; height: 29.7812px; text-align: justify;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n    <\/tr>\r\n    <\/tbody>\r\n    <\/table>\r\n    <p style=\"text-align: justify; text-indent: 30px;\">Nama tersebut di atas betul bermaksud akan menumpang Nikah \/ Kawin di :\u00a0<strong>RT [Form_rt_kua_tujuaN] RW [Form_rw_kua_tujuaN] [FoRm_dusun_kua_tujuan] Desa [FoRm_desakelurahan_kua_tujuan] Kecamatan [FoRm_kecamatan_kua_tujuan] Kabupaten [FoRm_kabupaten_kua_tujuan]<\/strong><\/p>\r\n    <p style=\"text-align: justify; text-indent: 30px;\">Kepada seorang [Jenis_kelamin_pasangaN] yang bernama :<\/p>\r\n    <p style=\"text-align: justify; text-indent: 30px;\"><strong>[FOrm_nama_calon_pasangan]\u00a0<\/strong>[Bin_pasangaN]\u00a0<strong>[FOrm_nama_ayah_calon_pasangan]<\/strong><\/p>\r\n    <p style=\"text-align: justify; text-indent: 30px;\">Demikian Surat ini dibuat, untuk dipergunakan sebagaimana mestinya.<\/p>\r\n    <table style=\"border-collapse: collapse; width: 100%; height: 178.5px;\" border=\"0\">\r\n    <tbody>\r\n    <tr style=\"height: 21.7656px;\">\r\n    <td style=\"width: 35.0099%; text-align: center; height: 21.7656px;\">\r\n    <table style=\"border-collapse: collapse; width: 100.353%; height: 44.7812px; border-width: 1px;\" border=\"0\"><colgroup><col style=\"width: 15.9175%;\"><col style=\"width: 6.59994%;\"><col style=\"width: 77.4522%;\"><\/colgroup>\r\n    <tbody>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"height: 22.3906px; text-align: left;\">Nomor<\/td>\r\n    <td style=\"height: 22.3906px;\">:<\/td>\r\n    <td style=\"height: 22.3906px; text-align: left;\">..................................................................................<\/td>\r\n    <\/tr>\r\n    <\/tbody>\r\n    <\/table>\r\n    <\/td>\r\n    <td style=\"width: 29.9801%; height: 21.7656px;\">\u00a0<\/td>\r\n    <td style=\"width: 35.0099%; text-align: center; height: 21.7656px;\">[NaMa_desa], [TgL_surat]<\/td>\r\n    <\/tr>\r\n    <tr>\r\n    <td style=\"width: 35.0099%; text-align: center;\">\r\n    <table style=\"border-collapse: collapse; width: 100.156%; border-width: 1px;\" border=\"0\"><colgroup><col style=\"width: 15.7277%;\"><col style=\"width: 6.99119%;\"><col style=\"width: 77.2781%;\"><\/colgroup>\r\n    <tbody>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"height: 22.3906px; text-align: left;\">Tanggal<\/td>\r\n    <td style=\"height: 22.3906px;\">:<\/td>\r\n    <td style=\"height: 22.3906px; text-align: left;\">..................................................................................<\/td>\r\n    <\/tr>\r\n    <\/tbody>\r\n    <\/table>\r\n    <\/td>\r\n    <td style=\"width: 29.9801%;\">\u00a0<\/td>\r\n    <td style=\"width: 35.0099%; text-align: center;\">\u00a0<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\">Mengetahui,<\/td>\r\n    <td style=\"width: 29.9801%; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <\/tr>\r\n    <tr>\r\n    <td style=\"width: 35.0099%; text-align: center;\">[SeButan_camat] [NaMa_kecamatan]<\/td>\r\n    <td style=\"width: 29.9801%;\">\u00a0<\/td>\r\n    <td style=\"width: 35.0099%; text-align: center;\">[Atas_namA]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 89.5625px;\">\r\n    <td style=\"width: 35.0099%; text-align: center; height: 89.5625px;\">\u00a0<\/td>\r\n    <td style=\"width: 29.9801%; height: 89.5625px;\"><br><br><br><br><\/td>\r\n    <td style=\"width: 35.0099%; height: 89.5625px;\">\u00a0<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\"><strong>[NaMa_kepala_camat]<\/strong><\/td>\r\n    <td style=\"width: 29.9801%; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\"><strong>[Nama_pamonG]<\/strong><\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 35.0099%; height: 22.3906px; text-align: center;\"><strong>....................................................................................<\/strong><\/td>\r\n    <td style=\"width: 29.9801%; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\"><strong>[SEbutan_nip_desa] : [nip_pamong]<\/strong><\/td>\r\n    <\/tr>\r\n    <\/tbody>\r\n    <\/table>\r\n    <div style=\"text-align: center;\"><br>[qr_code]<\/div>",
-        "template_desa": null,
+        "template_desa": "[Form_tempaT]<br>\r\n<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">URAT PENGANTAR NUMPANG NIKAH<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 231.297px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.3906px; text-align: left;\">1.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.3906px; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.3906px; text-align: left;\">2.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.3906px; text-align: justify;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.3906px; text-align: left;\">3.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.3906px; text-align: justify;\">[Jenis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">4.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Surat bukti diri KTP<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[NiK]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">5.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Warga Negara<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[WArga_negara]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">6.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Agama<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[AgAma]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">7.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Status Perkawinan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[Form_status_kawin_priA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">8.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[PeKerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 29.7812px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 29.7812px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 29.7812px; text-align: left;\">9.<br><br><\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 29.7812px;\">Alamat \/ Tempat Tinggal<br><br><\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 29.7812px;\">:<br><br><\/td>\r\n<td style=\"width: 60.0206%; height: 29.7812px; text-align: justify;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Nama tersebut di atas betul bermaksud akan menumpang Nikah \/ Kawin di :<strong>\u00a0Desa [Nama_desA] Kecamatan [Nama_kecamataN] Kabupaten [Nama_kabupateN]<\/strong><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Kepada seorang wanita yang bernama :<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><strong>[Nama_dcpW] <\/strong>\u00a0<strong>binti [Form_bin_ayah_wanitA]<\/strong>\u00a0<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian Surat ini dibuat, untuk dipergunakan sebagaimana mestinya.<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 178.5px;\" border=\"0\">\r\n<tbody>\r\n<tr style=\"height: 21.7656px;\">\r\n<td style=\"width: 35.0099%; text-align: center; height: 21.7656px;\">\r\n<table style=\"border-collapse: collapse; width: 100.353%; height: 44.7812px; border-width: 1px;\" border=\"0\"><colgroup><col style=\"width: 15.9175%;\"><col style=\"width: 6.59994%;\"><col style=\"width: 77.4522%;\"><\/colgroup>\r\n<tbody>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"height: 22.3906px; text-align: left;\">Nomor<\/td>\r\n<td style=\"height: 22.3906px;\">:<\/td>\r\n<td style=\"height: 22.3906px; text-align: left;\">..................................................................................<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<\/td>\r\n<td style=\"width: 29.9801%; height: 21.7656px;\">\u00a0<\/td>\r\n<td style=\"width: 35.0099%; text-align: center; height: 21.7656px;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35.0099%; text-align: center;\">\r\n<table style=\"border-collapse: collapse; width: 100.156%; border-width: 1px;\" border=\"0\"><colgroup><col style=\"width: 15.7277%;\"><col style=\"width: 6.99119%;\"><col style=\"width: 77.2781%;\"><\/colgroup>\r\n<tbody>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"height: 22.3906px; text-align: left;\">Tanggal<\/td>\r\n<td style=\"height: 22.3906px;\">:<\/td>\r\n<td style=\"height: 22.3906px; text-align: left;\">..................................................................................<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<\/td>\r\n<td style=\"width: 29.9801%;\">\u00a0<\/td>\r\n<td style=\"width: 35.0099%; text-align: center;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\">Mengetahui,<\/td>\r\n<td style=\"width: 29.9801%; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35.0099%; text-align: center;\">[SeButan_camat] [NaMa_kecamatan]<\/td>\r\n<td style=\"width: 29.9801%;\">\u00a0<\/td>\r\n<td style=\"width: 35.0099%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 89.5625px;\">\r\n<td style=\"width: 35.0099%; text-align: center; height: 89.5625px;\">\u00a0<\/td>\r\n<td style=\"width: 29.9801%; height: 89.5625px;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35.0099%; height: 89.5625px;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\"><strong>[NaMa_kepala_camat]<\/strong><\/td>\r\n<td style=\"width: 29.9801%; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\"><strong>[Nama_pamonG]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 35.0099%; height: 22.3906px; text-align: center;\"><strong>....................................................................................<\/strong><\/td>\r\n<td style=\"width: 29.9801%; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\"><strong>[SEbutan_nip_desa] : [nip_pamong]<\/strong><\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
         "form_isian": {
             "individu": {
+                "sumber": 1,
+                "data": [
+                    "1",
+                    "3"
+                ],
+                "sex": "1",
+                "status_dasar": "1",
+                "kk_level": "",
+                "data_orang_tua": "1",
+                "data_pasangan": "0",
+                "judul": "Pasangan Pria",
+                "label": "A.1 DATA CALON PASANGAN PRIA",
+                "hubungan": null
+            },
+            "dapp": {
+                "sumber": "1",
+                "data": [
+                    "3"
+                ],
+                "sex": "",
+                "status_dasar": null,
+                "kk_level": "",
+                "judul": "Ayah Pasangan Pria",
+                "label": "A.2 DATA AYAH PASANGAN PRIA",
+                "hubungan": ""
+            },
+            "dipp": {
+                "sumber": "1",
+                "data": [
+                    "3"
+                ],
+                "sex": "",
+                "status_dasar": null,
+                "kk_level": "",
+                "judul": "Ibu Pasangan Pria",
+                "label": "A.3 DATA IBU PASANGAN PRIA",
+                "hubungan": ""
+            },
+            "dcpw": {
+                "sumber": "1",
+                "data": [
+                    "1",
+                    "3"
+                ],
+                "sex": "2",
+                "status_dasar": null,
+                "kk_level": "",
+                "judul": "Pasangan Wanita",
+                "label": "B1. DATA CALON PASANGAN WANITA",
+                "hubungan": ""
+            },
+            "dapw": {
+                "sumber": "1",
+                "data": [
+                    "3"
+                ],
+                "sex": "",
+                "status_dasar": null,
+                "kk_level": "",
+                "judul": "Ayah Pasangan Wanita",
+                "label": "B.2 DATA AYAH PASANGAN WANITA",
+                "hubungan": ""
+            },
+            "dibpw": {
+                "sumber": "1",
+                "data": [
+                    "3"
+                ],
+                "sex": "",
+                "status_dasar": null,
+                "kk_level": "",
+                "judul": "Ibu Pasangan Wanita",
+                "label": "B.3 DATA IBU PASANGAN WANITA",
+                "hubungan": ""
+            },
+            "dst": {
+                "sumber": "1",
+                "data": [
+                    "3"
+                ],
+                "sex": "",
+                "status_dasar": null,
+                "kk_level": "",
+                "judul": "Suami Terdahulu",
+                "label": "B.4 DATA SUAMI TERDAHULU ",
+                "hubungan": ""
+            },
+            "dwn": {
+                "sumber": "1",
+                "data": [
+                    "3"
+                ],
+                "sex": "",
+                "status_dasar": null,
+                "kk_level": "",
+                "judul": "Wali Nikah",
+                "label": "B.5 DATA WALI NIKAH ",
+                "hubungan": ""
+            },
+            "dpn": {
+                "sumber": "0",
                 "data": [
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": null,
                 "kk_level": "",
-                "data_orang_tua": "1",
-                "data_pasangan": "0"
+                "judul": "Pernikahan",
+                "label": "C. DATA PERNIKAHAN ",
+                "hubungan": ""
             }
         },
         "kode_isian": [
             {
+                "tipe": "text",
+                "kode": "[form_bin_pria]",
+                "nama": "Bin Pria",
+                "deskripsi": "Bin Pria",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Bin Pria",
+                "kaitkan_kode": ""
+            },
+            {
                 "tipe": "select-manual",
-                "kode": "[form_status_kawin]",
-                "nama": "Status Kawin",
+                "kode": "[form_status_kawin_pria]",
+                "nama": "Status Kawin Pria",
                 "deskripsi": "Pilih Status Kawin",
                 "required": "1",
                 "atribut": null,
                 "pilihan": [
                     "Jejaka",
                     "Duda",
-                    "Beristri",
-                    "Perawan",
-                    "Janda",
-                    "Bersuami"
+                    "Beristri"
                 ],
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "5",
+                "label": "Status Kawin Pria",
+                "kaitkan_kode": "[{\"nilai_isian\":[\"Beristri\"],\"kode_isian_terkait\":[\"IstriKe\"]}]"
             },
             {
                 "tipe": "number",
-                "kode": "[form_jumlah_pasangan_terdahulu]",
-                "nama": "Jumlah Pasangan Terdahulu",
-                "deskripsi": "Jumlah Pasangan Terdahulu",
-                "required": "1",
-                "atribut": null,
+                "kode": "[form_istrike]",
+                "nama": "IstriKe",
+                "deskripsi": "Istri Keberapa",
+                "required": "0",
+                "atribut": "min=\"1\"\r\nmax=\"10\"",
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "5",
+                "label": "Jika beristri, istri ke-",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "dapp",
                 "tipe": "text",
-                "kode": "[form_nama_pasangan_terdahulu]",
-                "nama": "Nama Pasangan Terdahulu",
-                "deskripsi": "Nama Pasangan Terdahulu",
+                "kode": "[form_bin_ayah_pria]",
+                "nama": "Bin Ayah Pria",
+                "deskripsi": "Bin Ayah Pria",
                 "required": "0",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Bin Ayah Pria",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "dipp",
                 "tipe": "text",
-                "kode": "[form_binbinti_pasangan_terdahulu]",
-                "nama": "Bin\/Binti Pasangan Terdahulu",
-                "deskripsi": "Bin\/Binti Pasangan Terdahulu",
+                "kode": "[form_binti_ibu_pria]",
+                "nama": "Binti Ibu Pria",
+                "deskripsi": "Binti Ibu Pria",
                 "required": "0",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Binti Ibu Pria",
+                "kaitkan_kode": ""
             },
             {
-                "tipe": "number",
-                "kode": "[form_no_ktp_pasangan_terdahulu]",
-                "nama": "No KTP Pasangan Terdahulu",
-                "deskripsi": "No KTP Pasangan Terdahulu",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
+                "kategori": "dcpw",
                 "tipe": "text",
-                "kode": "[form_tempat_lahir_pasangan_terdahulu]",
-                "nama": "Tempat Lahir Pasangan Terdahulu",
-                "deskripsi": "Tempat Lahir Pasangan Terdahulu",
+                "kode": "[form_binti_wanita]",
+                "nama": "Binti Wanita",
+                "deskripsi": "Binti Wanita",
                 "required": "0",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Binti Wanita",
+                "kaitkan_kode": ""
             },
             {
-                "tipe": "date",
-                "kode": "[form_tanggal_lahir_pasangan_terdahulu]",
-                "nama": "Tanggal Lahir Pasangan Terdahulu",
-                "deskripsi": "Tanggal Lahir Pasangan Terdahulu",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_warga_negara_pasangan_terdahulu]",
-                "nama": "Warga Negara Pasangan Terdahulu",
-                "deskripsi": "Pilih Warga Negara Pasangan Terdahulu",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_warganegara"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_agama_pasangan_terdahulu]",
-                "nama": "Agama Pasangan Terdahulu",
-                "deskripsi": "Pilih Agama Pasangan Terdahulu",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_agama"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_pekerjaan_pasangan_terdahulu]",
-                "nama": "Pekerjaan Pasangan Terdahulu",
-                "deskripsi": "Pilih Pekerjaan Pasangan Terdahulu",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_pekerjaan"
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_tinggal_pasangan_terdahulu]",
-                "nama": "Tempat Tinggal Pasangan Terdahulu",
-                "deskripsi": "Tempat Tinggal Pasangan Terdahulu",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "date",
-                "kode": "[form_tanggal_meninggal_pasangan_terdahulu]",
-                "nama": "Tanggal Meninggal Pasangan Terdahulu",
-                "deskripsi": "Tanggal Meninggal Pasangan Terdahulu",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_meninggal_pasangan_terdahulu]",
-                "nama": "Tempat Meninggal Pasangan Terdahulu",
-                "deskripsi": "Tempat Meninggal Pasangan Terdahulu",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_nama_calon_pasangan]",
-                "nama": "Nama Calon Pasangan",
-                "deskripsi": "Nama Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "number",
-                "kode": "[form_no_ktp_calon_pasangan]",
-                "nama": "No KTP Calon Pasangan",
-                "deskripsi": "No KTP Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_lahir_calon_pasangan]",
-                "nama": "Tempat Lahir Calon Pasangan",
-                "deskripsi": "Tempat Lahir Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "date",
-                "kode": "[form_tanggal_lahir_calon_pasangan]",
-                "nama": "Tanggal Lahir Calon Pasangan",
-                "deskripsi": "Tanggal Lahir Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_warga_negara_calon_pasangan]",
-                "nama": "Warga Negara Calon Pasangan",
-                "deskripsi": "Pilih Warga Negara Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_warganegara"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_agama_calon_pasangan]",
-                "nama": "Agama Calon Pasangan",
-                "deskripsi": "Pilih Agama Pasangan Calon",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_agama"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_pekerjaan_calon_pasangan]",
-                "nama": "Pekerjaan Calon Pasangan",
-                "deskripsi": "Pilih Pekerjaan Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_pekerjaan"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_pendidikan_calon_pasangan]",
-                "nama": "Pendidikan Calon Pasangan",
-                "deskripsi": "Pilih Pendidikan Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_pendidikan_kk"
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_tinggal_calon_pasangan]",
-                "nama": "Tempat Tinggal Calon Pasangan",
-                "deskripsi": "Tempat Tinggal Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
+                "kategori": "dcpw",
                 "tipe": "select-manual",
-                "kode": "[form_status_kawin_calon_pasangan]",
-                "nama": "Status Kawin Calon Pasangan",
-                "deskripsi": "Pilih Status Kawin Calon Pasangan",
-                "required": "1",
+                "kode": "[form_status_kawin_wanita]",
+                "nama": "Status Kawin Wanita",
+                "deskripsi": "Pilih Status Kawin",
+                "required": "0",
                 "atribut": null,
                 "pilihan": [
-                    "Jejaka",
-                    "Duda",
-                    "Beristri",
                     "Perawan",
                     "Janda",
                     "Bersuami"
                 ],
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Status Kawin Wanita",
+                "kaitkan_kode": ""
             },
             {
-                "tipe": "number",
-                "kode": "[form_jumlah_pasangan_terdahulu_calon_pasangan]",
-                "nama": "Jumlah Pasangan Terdahulu Calon Pasangan",
-                "deskripsi": "Jumlah Pasangan Terdahulu Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
+                "kategori": "dapw",
                 "tipe": "text",
-                "kode": "[form_nama_ayah_calon_pasangan]",
-                "nama": "Nama Ayah Calon Pasangan",
-                "deskripsi": "Nama Ayah Calon Pasangan",
-                "required": "1",
+                "kode": "[form_bin_ayah_wanita]",
+                "nama": "Bin Ayah Wanita",
+                "deskripsi": "Bin Ayah Wanita",
+                "required": "0",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Bin Ayah Wanita",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "dibpw",
                 "tipe": "text",
-                "kode": "[form_bin_ayah_calon_pasangan]",
-                "nama": "Bin Ayah Calon Pasangan",
-                "deskripsi": "Bin Ayah Calon Pasangan",
-                "required": "1",
+                "kode": "[form_binti_ibu_wanita]",
+                "nama": "Binti Ibu Wanita",
+                "deskripsi": "Binti Ibu Wanita",
+                "required": "0",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Binti Ibu Wanita",
+                "kaitkan_kode": ""
             },
             {
-                "tipe": "number",
-                "kode": "[form_no_ktp_ayah_calon_pasangan]",
-                "nama": "No KTP Ayah Calon Pasangan",
-                "deskripsi": "No KTP Ayah Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_lahir_ayah_calon_pasangan]",
-                "nama": "Tempat Lahir Ayah Calon Pasangan",
-                "deskripsi": "Tempat Lahir Ayah Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
+                "kategori": "dst",
                 "tipe": "date",
-                "kode": "[form_tanggal_lahir_ayah_calon_pasangan]",
-                "nama": "Tanggal Lahir Ayah Calon Pasangan",
-                "deskripsi": "Tanggal Lahir Ayah Calon Pasangan",
-                "required": "1",
+                "kode": "[form_tanggal_meninggal_suami_terdahulu]",
+                "nama": "Tanggal Meninggal Suami Terdahulu",
+                "deskripsi": "Tanggal Meninggal",
+                "required": "0",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "4",
+                "label": "Meninggal Dunia Pada Tanggal \/ Tempat",
+                "kaitkan_kode": ""
             },
             {
-                "tipe": "select-otomatis",
-                "kode": "[form_warga_negara_ayah_calon_pasangan]",
-                "nama": "Warga Negara Ayah Calon Pasangan",
-                "deskripsi": "Pilih Warga Negara Ayah Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_warganegara"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_agama_ayah_calon_pasangan]",
-                "nama": "Agama Ayah Calon Pasangan",
-                "deskripsi": "Pilih Agama Ayah Pasangan Calon",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_agama"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_pekerjaan_ayah_calon_pasangan]",
-                "nama": "Pekerjaan Ayah Calon Pasangan",
-                "deskripsi": "Pilih Pekerjaan Ayah Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_pekerjaan"
-            },
-            {
+                "kategori": "dst",
                 "tipe": "text",
-                "kode": "[form_tempat_tinggal_ayah_calon_pasangan]",
-                "nama": "Tempat Tinggal Ayah Calon Pasangan",
-                "deskripsi": "Tempat Tinggal Ayah Calon Pasangan",
-                "required": "1",
+                "kode": "[form_tempat_meninggal_suami_terdahulu]",
+                "nama": "Tempat Meninggal Suami Terdahulu",
+                "deskripsi": "Tempat Meninggal",
+                "required": "0",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "dst",
                 "tipe": "text",
-                "kode": "[form_nama_ibu_calon_pasangan]",
-                "nama": "Nama Ibu Calon Pasangan",
-                "deskripsi": "Nama Ibu Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_binti_ibu_calon_pasangan]",
-                "nama": "Binti Ibu Calon Pasangan",
-                "deskripsi": "Binti Ibu Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "number",
-                "kode": "[form_no_ktp_ibu_calon_pasangan]",
-                "nama": "No KTP Ibu Calon Pasangan",
-                "deskripsi": "No KTP Ibu Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_lahir_ibu_calon_pasangan]",
-                "nama": "Tempat Lahir Ibu Calon Pasangan",
-                "deskripsi": "Tempat Lahir Ibu Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "date",
-                "kode": "[form_tanggal_lahir_ibu_calon_pasangan]",
-                "nama": "Tanggal Lahir Ibu Calon Pasangan",
-                "deskripsi": "Tanggal Lahir Ibu Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_warga_negara_ibu_calon_pasangan]",
-                "nama": "Warga Negara Ibu Calon Pasangan",
-                "deskripsi": "Pilih Warga Negara Ibu Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_warganegara"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_agama_ibu_calon_pasangan]",
-                "nama": "Agama Ibu Calon Pasangan",
-                "deskripsi": "Pilih Agama Ibu Pasangan Calon",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_agama"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_pekerjaan_ibu_calon_pasangan]",
-                "nama": "Pekerjaan Ibu Calon Pasangan",
-                "deskripsi": "Pilih Pekerjaan Ibu Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_pekerjaan"
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_tinggal_ibu_calon_pasangan]",
-                "nama": "Tempat Tinggal Ibu Calon Pasangan",
-                "deskripsi": "Tempat Tinggal Ibu Calon Pasangan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_nama_pasangan_terdahulu_calon_pasangan]",
-                "nama": "Nama Pasangan Terdahulu Calon Pasangan",
-                "deskripsi": "Nama Pasangan Terdahulu Calon Pasangan",
+                "kode": "[form_bin_suami_terdahulu]",
+                "nama": "Bin Suami Terdahulu",
+                "deskripsi": "Bin",
                 "required": "0",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Bin Suami Terdahulu",
+                "kaitkan_kode": ""
             },
             {
-                "tipe": "text",
-                "kode": "[form_binbinti_pasangan_terdahulu_calon_pasangan]",
-                "nama": "Bin\/Binti Pasangan Terdahulu Calon Pasangan",
-                "deskripsi": "Bin\/Binti Pasangan Terdahulu Calon Pasangan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "number",
-                "kode": "[form_no_ktp_pasangan_terdahulu_calon_pasangan]",
-                "nama": "No KTP Pasangan Terdahulu Calon Pasangan",
-                "deskripsi": "No KTP Pasangan Terdahulu Calon Pasangan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_lahir_pasangan_terdahulu_calon_pasangan]",
-                "nama": "Tempat Lahir Pasangan Terdahulu Calon Pasangan",
-                "deskripsi": "Tempat Lahir Pasangan Terdahulu Calon Pasangan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "date",
-                "kode": "[form_tanggal_lahir_pasangan_terdahulu_calon_pasangan]",
-                "nama": "Tanggal Lahir Pasangan Terdahulu Calon Pasangan",
-                "deskripsi": "Tanggal Lahir Pasangan Terdahulu Calon Pasangan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_warga_negara_pasangan_terdahulu_calon_pasangan]",
-                "nama": "Warga Negara Pasangan Terdahulu Calon Pasangan",
-                "deskripsi": "Pilih Warga Negara Pasangan Terdahulu Calon Pasangan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_warganegara"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_agama_pasangan_terdahulu_calon_pasangan]",
-                "nama": "Agama Pasangan Terdahulu Calon Pasangan",
-                "deskripsi": "Pilih Agama Pasangan Terdahulu Calon Pasangan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_agama"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_pekerjaan_pasangan_terdahulu_calon_pasangan]",
-                "nama": "Pekerjaan Pasangan Terdahulu Calon Pasangan",
-                "deskripsi": "Pilih Pekerjaan Pasangan Terdahulu Calon Pasangan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_pekerjaan"
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_tinggal_pasangan_terdahulu_calon_pasangan]",
-                "nama": "Tempat Tinggal Pasangan Terdahulu Calon Pasangan",
-                "deskripsi": "Tempat Tinggal Pasangan Terdahulu Calon Pasangan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "date",
-                "kode": "[form_tanggal_meninggal_pasangan_terdahulu_calon_pasangan]",
-                "nama": "Tanggal Meninggal Pasangan Terdahulu Calon Pasangan",
-                "deskripsi": "Tanggal Meninggal Pasangan Terdahulu Calon Pasangan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_meninggal_pasangan_terdahulu_calon_pasangan]",
-                "nama": "Tempat Meninggal Pasangan Terdahulu Calon Pasangan",
-                "deskripsi": "Tempat Meninggal Pasangan Terdahulu Calon Pasangan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_nama_wali_nikah]",
-                "nama": "Nama Wali Nikah",
-                "deskripsi": "Nama Wali Nikah",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
+                "kategori": "dwn",
                 "tipe": "text",
                 "kode": "[form_bin_wali_nikah]",
                 "nama": "Bin Wali Nikah",
@@ -2179,79 +1901,13 @@
                 "required": "0",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Bin Wali Nikah",
+                "kaitkan_kode": ""
             },
             {
-                "tipe": "number",
-                "kode": "[form_no_ktp_wali_nikah]",
-                "nama": "No KTP Wali Nikah",
-                "deskripsi": "No KTP Wali Nikah",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_lahir_wali_nikah]",
-                "nama": "Tempat Lahir Wali Nikah",
-                "deskripsi": "Tempat Lahir Wali Nikah",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "date",
-                "kode": "[form_tanggal_lahir_wali_nikah]",
-                "nama": "Tanggal Lahir Wali Nikah",
-                "deskripsi": "Tanggal Lahir Wali Nikah",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_warga_negara_wali_nikah]",
-                "nama": "Warga Negara Wali Nikah",
-                "deskripsi": "Warga Negara Wali Nikah",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_warganegara"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_agama_wali_nikah]",
-                "nama": "Agama Wali Nikah",
-                "deskripsi": "Agama Wali Nikah",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_agama"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_pekerjaan_wali_nikah]",
-                "nama": "Pekerjaan Wali Nikah",
-                "deskripsi": "Pekerjaan Wali Nikah",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_pekerjaan"
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_tinggal_wali_nikah]",
-                "nama": "Tempat Tinggal Wali Nikah",
-                "deskripsi": "Tempat Tinggal Wali Nikah",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
+                "kategori": "dwn",
                 "tipe": "text",
                 "kode": "[form_hubungan_dengan_wali]",
                 "nama": "Hubungan Dengan Wali",
@@ -2259,117 +1915,80 @@
                 "required": "0",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Hubungan Dengan Wali",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "dpn",
                 "tipe": "text",
-                "kode": "[form_hari_pernikahan]",
-                "nama": "Hari Pernikahan",
-                "deskripsi": "Hari Pernikahan",
+                "kode": "[form_hari_nikah]",
+                "nama": "Hari nikah",
+                "deskripsi": "hari nikah",
                 "required": "1",
-                "atribut": null,
+                "atribut": "class=\" hari\"\r\nreadonly",
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "3",
+                "label": "Hari, Tanggal, Jam",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "dpn",
                 "tipe": "date",
-                "kode": "[form_tanggal_pernikahan]",
-                "nama": "Tanggal Pernikahan",
-                "deskripsi": "Tanggal Pernikahan",
+                "kode": "[form_tanggal_nikah]",
+                "nama": "Tanggal Nikah",
+                "deskripsi": "Tanggal Nikah",
                 "required": "1",
-                "atribut": null,
+                "atribut": "class=\" datepicker data_hari\"",
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "3",
+                "label": "Hari, Tanggal, Jam",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "dpn",
                 "tipe": "time",
-                "kode": "[form_jam_pernikahan]",
-                "nama": "Jam Pernikahan",
-                "deskripsi": "Jam Pernikahan",
+                "kode": "[form_jam_nikah]",
+                "nama": "Jam Nikah",
+                "deskripsi": "Jam Nikah",
                 "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "3",
+                "label": "Hari, Tanggal, Jam",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "dpn",
                 "tipe": "text",
-                "kode": "[form_tempat_pernikahan]",
-                "nama": "Tempat Pernikahan",
-                "deskripsi": "Tempat Pernikahan",
+                "kode": "[form_tempat_nikah]",
+                "nama": "Tempat Nikah",
+                "deskripsi": "Tempat Nikah",
                 "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "12",
+                "label": "Tempat Nikah",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "dpn",
                 "tipe": "text",
-                "kode": "[form_maskawin]",
-                "nama": "Maskawin",
-                "deskripsi": "Maskawin",
+                "kode": "[form_maskawin_nikah]",
+                "nama": "Maskawin Nikah",
+                "deskripsi": "Maskawin Nikah",
                 "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_rt_kua_tujuan]",
-                "nama": "RT KUA Tujuan",
-                "deskripsi": "RT KUA Tujuan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_rw_kua_tujuan]",
-                "nama": "RW KUA Tujuan",
-                "deskripsi": "RW KUA Tujuan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_dusun_kua_tujuan]",
-                "nama": "Dusun KUA Tujuan",
-                "deskripsi": "Dusun KUA Tujuan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_desakelurahan_kua_tujuan]",
-                "nama": "Desa\/Kelurahan KUA Tujuan",
-                "deskripsi": "Desa\/Kelurahan KUA Tujuan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_kecamatan_kua_tujuan]",
-                "nama": "Kecamatan KUA Tujuan",
-                "deskripsi": "Kecamatan KUA Tujuan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_kabupaten_kua_tujuan]",
-                "nama": "Kabupaten KUA Tujuan",
-                "deskripsi": "Kabupaten KUA Tujuan",
-                "required": "1",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "12",
+                "label": "Maskawin Nikah",
+                "kaitkan_kode": ""
             }
         ],
         "orientasi": "Potrait",
@@ -2381,8 +2000,8 @@
         "format_nomor": null,
         "created_at": "2023-10-24T12:44:26.000000Z",
         "created_by": null,
-        "updated_at": "2023-10-24T12:44:27.000000Z",
-        "updated_by": null,
+        "updated_at": "2023-10-24T12:54:58.000000Z",
+        "updated_by": "2",
         "judul_surat": "Surat Keterangan Nikah",
         "margin_cm_to_mm": [
             17.8,
