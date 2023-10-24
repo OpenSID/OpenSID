@@ -1413,9 +1413,9 @@ class Periksa_model extends MY_Model
                 $this->perbaiki_penduduk_tanpa_keluarga();
                 break;
 
-            case 'log_penduduk_tidak_sinkron':
-                $this->perbaiki_log_penduduk_tidak_sinkron();
-                break;
+                // case 'log_penduduk_tidak_sinkron':
+            //     $this->perbaiki_log_penduduk_tidak_sinkron();
+            //     break;
 
             case 'log_penduduk_null':
                 $this->perbaiki_log_penduduk_null();
