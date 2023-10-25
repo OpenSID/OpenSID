@@ -56,8 +56,9 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_tabel($hasil)
     {
         $hasil = $hasil && $this->migrasi_2023101151($hasil);
+        $hasil = $hasil && $this->migrasi_2023101352($hasil);
 
-        return $hasil && $this->migrasi_2023101352($hasil);
+        return $hasil && $this->migrasi_2023102551($hasil);
     }
 
     // Migrasi perubahan data
@@ -239,6 +240,23 @@ class Migrasi_fitur_premium_2311 extends MY_model
             $this->db->update('tweb_surat_format', ['form_isian' => json_encode($data)], ['id' => $row->id]);
         }
         $this->db->trans_complete();
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023102551($hasil)
+    {
+        if ($this->db->field_exists('created_at', 'tweb_penduduk')) {
+            $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', [
+                'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP',
+            ]);
+        }
+
+        if ($this->db->field_exists('updated_at', 'tweb_penduduk')) {
+            $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', [
+                'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            ]);
+        }
 
         return $hasil;
     }
