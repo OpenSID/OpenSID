@@ -115,14 +115,13 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_2023101351($hasil, $id)
     {
         return $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'nonaktifkan_rtf',
             'judul'      => 'Non Aktifkan Surat RTF',
             'value'      => 0,
             'keterangan' => 'Aktif / Non-aktifkan Surat RTF',
             'jenis'      => 'boolean',
             'kategori'   => 'pengaturan-surat',
-        ]);
+        ], $id);
     }
 
     protected function migrasi_2023101352($hasil)
@@ -158,64 +157,58 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_2023101255($hasil, $emailSetting, $id)
     {
         $hasil = $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'email_notifikasi',
             'judul'      => 'Email Notifikasi',
             'value'      => $emailSetting['smtp_host'] ? 1 : 0,
             'keterangan' => 'Aktif atau nonaktifkan notifikasi email',
             'jenis'      => 'boolean',
             'kategori'   => 'email',
-        ]);
+        ], $id);
 
         $hasil = $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'email_protocol',
             'judul'      => 'Email protokol',
             'value'      => $emailSetting['protocol'],
             'keterangan' => 'Email protokol, misal : SMTP',
             'jenis'      => 'text',
             'kategori'   => 'email',
-        ]);
+        ], $id);
 
         $hasil = $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'email_smtp_host',
             'judul'      => 'Email Host',
             'value'      => $emailSetting['smtp_host'],
             'keterangan' => 'Email host',
             'jenis'      => 'text',
             'kategori'   => 'email',
-        ]);
+        ], $id);
 
         $hasil = $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'email_smtp_user',
             'judul'      => 'Email Username',
             'value'      => $emailSetting['smtp_user'],
             'keterangan' => 'Email username',
             'jenis'      => 'text',
             'kategori'   => 'email',
-        ]);
+        ], $id);
 
         $hasil = $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'email_smtp_pass',
             'judul'      => 'Email Password',
             'value'      => $emailSetting['smtp_pass'],
             'keterangan' => 'Email password',
             'jenis'      => 'password',
             'kategori'   => 'email',
-        ]);
+        ], $id);
 
         return $hasil && $this->tambah_setting([
-            'config_id'  => $id,
             'key'        => 'email_smtp_port',
             'judul'      => 'Email Port',
             'value'      => $emailSetting['smtp_port'],
             'keterangan' => 'Email port',
             'jenis'      => 'text',
             'kategori'   => 'email',
-        ]);
+        ], $id);
     }
 
     protected function migrasi_2023101651($hasil)
