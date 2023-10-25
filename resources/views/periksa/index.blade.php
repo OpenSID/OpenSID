@@ -514,27 +514,28 @@
                                         <div class="panel panel-default">
                                             <div class="panel-body">
                                                 <strong>Terdeteksi log penduduk dan status dasar penduduk tidak sesuai</strong>
+                                                <div class="col-md-10 col-offset-1" id="info-log-penduduk-tidak-sinkron">
+                                                    
+                                                </div>
+                                                
                                                 <table class="table">
                                                     <tr>
                                                         <th>NIK</th>
                                                         <th>Nama</th>
-                                                        <th>Kode Peristiwa</th>
-                                                        <th>Status Dasar</th>                                                    
+                                                        <th>Kode Peristiwa Log Terakhir</th>
+                                                        <th>Status Dasar Saat Ini</th>
+                                                        <th>Aksi</th>
                                                     </tr>
                                                     @foreach ($log_penduduk_tidak_sinkron as $penduduk)
-                                                        <tr>
+                                                        <tr data-log-tidak-sinkron="{{ $penduduk['nik'] }}">
                                                             <td>{{ $penduduk['nik'] }}</td>
                                                             <td>{{ $penduduk['nama'] }}</td>
                                                             <td>{{ \App\Models\LogPenduduk::kodePeristiwaAll($penduduk['kode_peristiwa']) }}</td>
                                                             <td>{{ \App\Enums\StatusDasarEnum::all()[$penduduk['status_dasar']] ?? '-' }}</td>
+                                                            <td><button type="button" class="btn btn-sm btn-danger" data-penduduk='{!! json_encode($penduduk) !!}' data-toggle="modal" data-target="#modal-kosong" ><i class="fa fa-eye"></i> Lihat log</button></td>
                                                         </tr>
                                                     @endforeach
-                                                </table>
-                                                <p>Klik tombol Perbaiki Data untuk memperbaiki status dasat penduduk mengikuti kode peristiwa log terakhir. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'log_penduduk_tidak_sinkron') }}"
-                                                    class="btn btn-sm btn-social btn-danger" role="button"
-                                                    title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
-                                                        class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
+                                                </table>                                                
                                             </div>
                                         </div>
                                     @endif
@@ -640,6 +641,7 @@
             </div>
 
             @include('admin.layouts.components.konfirmasi', ['periksa_data' => true])
+            @include('admin.layouts.components.modal_kosong')
         </div>
 
         <footer class="main-footer">
@@ -670,6 +672,20 @@
         $('#confirm-backup').on('show.bs.modal', function(e) {
             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             $(this).find('.modal-body').html($(e.relatedTarget).data('body'));
+        });
+        $('#modal-kosong').on('show.bs.modal', function(e) {
+            let _btn = e.relatedTarget
+            let _penduduk = $(_btn).data('penduduk')
+            let _modal = $(this)
+            $.get('periksaLogPenduduk',{ penduduk : _penduduk }, function(data){                
+                _modal.find('.modal-body').html(data);
+            }, 'html')
+            
+            _modal.find('.modal-title').html(`Data Catatan Peristiwa Penduduk ${_penduduk['nama']} / ${_penduduk['nik']}`)
+            _modal.find('.modal-footer').html(
+                `<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i
+                        class="fa fa-sign-out"></i> Tutup</button>`
+            )
         });
     </script>
 </body>
