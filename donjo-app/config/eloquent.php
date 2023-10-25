@@ -46,6 +46,8 @@ use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Facade;
 
+global $capsule;
+
 Carbon::setLocale('id');
 CarbonImmutable::setLocale('id');
 CarbonPeriod::setLocale('id');

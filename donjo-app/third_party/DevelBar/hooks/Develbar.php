@@ -610,9 +610,11 @@ class Develbar
 
     private function list_db_eloquent()
     {
-        $dbs    = [];
-        $dbName = $this->CI->capsule->getDatabaseManager()->getDatabaseName();
-        $host   = $this->CI->capsule->getDatabaseManager()->getConfig('host') . '_ORM';
+        $dbs     = [];
+        $capsule = $GLOBALS['capsule'];
+
+        $dbName = $capsule->getDatabaseManager()->getDatabaseName();
+        $host   = $capsule->getDatabaseManager()->getConfig('host') . '_ORM';
         if (! empty($this->CI->queryOrm)) {
             $database = [
                 'database'    => $dbName,
