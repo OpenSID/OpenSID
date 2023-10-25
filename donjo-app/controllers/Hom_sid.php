@@ -71,7 +71,7 @@ class Hom_sid extends Admin_Controller
             'rilis'           => $this->getUpdate(),
             'bantuan'         => $this->bantuan(),
             'penduduk'        => Penduduk::status()->count(),
-            'keluarga'        => Keluarga::status()->logTerakhir($configId, date('Y-m') . '-01')->count(),
+            'keluarga'        => Keluarga::status()->logTerakhir($configId, date('Y-m-d'))->count(),
             'rtm'             => Rtm::status()->count(),
             'kelompok'        => Kelompok::status()->tipe()->count(),
             'dusun'           => Wilayah::dusun()->count(),
