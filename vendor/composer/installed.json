@@ -4527,20 +4527,20 @@
         },
         {
             "name": "tinymce/tinymce",
-            "version": "6.7.0",
-            "version_normalized": "6.7.0.0",
+            "version": "6.7.1",
+            "version_normalized": "6.7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "02e194ec4d37aab8335332f8ac3e8d2292ba2d47"
+                "reference": "b1ddb5ec9b0c7f5d542429a044bd303648d2d647"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/02e194ec4d37aab8335332f8ac3e8d2292ba2d47",
-                "reference": "02e194ec4d37aab8335332f8ac3e8d2292ba2d47",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/b1ddb5ec9b0c7f5d542429a044bd303648d2d647",
+                "reference": "b1ddb5ec9b0c7f5d542429a044bd303648d2d647",
                 "shasum": ""
             },
-            "time": "2023-08-30T11:10:35+00:00",
+            "time": "2023-10-19T03:04:57+00:00",
             "type": "component",
             "extra": {
                 "component": {
@@ -4583,7 +4583,7 @@
                 "wysiwyg"
             ],
             "support": {
-                "source": "https://github.com/tinymce/tinymce-dist/tree/6.7.0"
+                "source": "https://github.com/tinymce/tinymce-dist/tree/6.7.1"
             },
             "install-path": "../tinymce/tinymce"
         },
