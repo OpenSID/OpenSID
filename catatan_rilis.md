@@ -32,6 +32,7 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 26. [#7210](https://github.com/OpenSID/OpenSID/issues/7210) Penambahan pilihan surat yang akan di impor pada pengaturan surat.
 27. [#7117](https://github.com/OpenSID/OpenSID/issues/7117) Penambahan fungsi restore surat tinymce bawaan sistem.
 28. [#4716](https://github.com/OpenSID/OpenSID/issues/4716) Penambahan suplai data statistik pada halaman web statistik.
+29. [#4716](https://github.com/OpenSID/OpenSID/issues/4716) Penambahan tombol hapus pada permohonan surat yang dibatalkan.
 
 
 #### Perbaikan Bug
