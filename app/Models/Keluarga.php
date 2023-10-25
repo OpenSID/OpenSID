@@ -127,7 +127,7 @@ class Keluarga extends BaseModel
 
     public function scopeLogTerakhir($query, $configId, $tgl)
     {
-        $tgl = date('Y-m-d', strtotime($tgl . ' + 1 day'));
+        $tgl    = date('Y-m-d', strtotime($tgl . ' + 1 day'));
         $sqlRaw = "select max(id) id from log_keluarga where id_kk != 0 and config_id = {$configId} and tgl_peristiwa < '{$tgl}'  group by id_kk";
 
         return $query->join('log_keluarga', static function ($q) use ($configId) {
