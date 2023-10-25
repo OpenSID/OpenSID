@@ -36,11 +36,14 @@
  */
 
 use App\Enums\Statistik\StatistikEnum;
+use App\Models\Bantuan;
 use App\Models\RefJabatan;
 use Carbon\Carbon;
+use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use voku\helper\AntiXSS;
+use ZipArchive;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -1918,5 +1921,61 @@ if (! function_exists('formatTanggal')) {
     function formatTanggal($tanggal)
     {
         return Carbon::parse($tanggal)->translatedFormat(setting('format_tanggal_surat'));
+    }
+}
+
+if (! function_exists('daftar_statistik')) {
+    function daftar_statistik()
+    {
+        $data = [];
+        $data = collect(StatistikEnum::allStatistik())->map(static function ($items, $kategori) {
+            return collect($items)->map(static function ($item) {
+                return [
+                    'key'   => $item['key'],
+                    'slug'  => $item['slug'],
+                    'label' => $item['label'],
+                    'url'   => "data-statistik/{$item['slug']}",
+                ];
+            })->all();
+        })->all();
+        $kategori_bantuan = [
+            [
+                'key'   => 'bantuan_penduduk',
+                'slug'  => 'bantuan-penduduk',
+                'label' => 'Penerima Bantuan Penduduk',
+                'url'   => 'first/statistik/bantuan_penduduk',
+            ],
+            [
+                'key'   => 'bantuan_keluarga',
+                'slug'  => 'bantuan-keluarga',
+                'label' => 'Penerima Bantuan Keluarga',
+                'url'   => 'first/statistik/bantuan_keluarga',
+            ],
+        ];
+        $setiap_bantuan = Bantuan::all()->map(static function ($item) {
+            return [
+                'key'   => "50{$item->id}",
+                'slug'  => "50{$item->id}",
+                'label' => $item->nama,
+                'url'   => "first/statistik/50{$item->id}",
+            ];
+        })->toArray();
+        $data['bantuan'] = array_merge($kategori_bantuan, $setiap_bantuan);
+        $data['lainnya'] = [
+            [
+                'key'   => 'dpt',
+                'slug'  => 'dpt',
+                'label' => 'Calon Pemilih',
+                'url'   => 'first/dpt',
+            ],
+            [
+                'key'   => 'data-wilayah',
+                'slug'  => 'data-wilayah',
+                'label' => 'Populasi Per Wilayah',
+                'url'   => 'data-wilayah',
+            ],
+        ];
+
+        return $data;
     }
 }

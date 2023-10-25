@@ -191,7 +191,7 @@ class First extends Web_Controller
     }
 
     // redirect ke halaman data-statistik
-    public function statistik($stat = '0', $tipe = '0')
+    public function statistik($stat = null, $tipe = 0)
     {
         if ($slug = StatistikEnum::slugFromKey($stat)) {
             redirect('data-statistik/' . $slug);
@@ -203,12 +203,14 @@ class First extends Web_Controller
 
         $data = $this->includes;
 
-        $data['heading']          = $this->laporan_penduduk_model->judul_statistik($stat);
-        $data['title']            = 'Statistik ' . $data['heading'];
-        $data['stat']             = $this->laporan_penduduk_model->list_data($stat);
-        $data['tipe']             = $tipe;
-        $data['st']               = $stat;
-        $data['daftar_statistik'] = StatistikEnum::allStatistik();
+        $data['heading']    = $this->laporan_penduduk_model->judul_statistik($stat);
+        $data['title']      = 'Statistik ' . $data['heading'];
+        $data['stat']       = $this->laporan_penduduk_model->list_data($stat);
+        $data['tipe']       = $tipe;
+        $data['st']         = $stat;
+        $data['slug_aktif'] = $stat;
+
+        // dd($data);
 
         $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
@@ -296,7 +298,7 @@ class First extends Web_Controller
         $data['total']             = $this->dpt_model->statistik_total();
         $data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
         $data['tipe']              = 4;
-        $data['daftar_statistik']  = StatistikEnum::allStatistik();
+        $data['slug_aktif']        = 'dpt';
 
         $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
@@ -312,13 +314,12 @@ class First extends Web_Controller
         $this->load->model('wilayah_model');
         $data = $this->includes;
 
-        $data['heading']          = 'Populasi Per Wilayah';
-        $data['tipe']             = 3;
-        $data['daftar_dusun']     = $this->wilayah_model->daftar_wilayah_dusun();
-        $data['total']            = $this->wilayah_model->total();
-        $data['st']               = 1;
-        $data['daftar_statistik'] = StatistikEnum::allStatistik();
-
+        $data['heading']      = 'Populasi Per Wilayah';
+        $data['tipe']         = 3;
+        $data['daftar_dusun'] = $this->wilayah_model->daftar_wilayah_dusun();
+        $data['total']        = $this->wilayah_model->total();
+        $data['st']           = 1;
+        $data['slug_aktif']   = 'data-wilayah';
         $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
         $this->load->view($this->template, $data);
