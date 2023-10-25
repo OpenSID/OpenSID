@@ -623,7 +623,10 @@
                                             </div>
                                         </div>
                                     @endif
-
+                                    @php
+                                      $totalMasalah = count($masalah) - (in_array('log_penduduk_tidak_sinkron', $masalah) ? 1 : 0)   
+                                    @endphp
+                                    @if ($totalMasalah)
                                     <p>Setelah diperbaiki, migrasi akan otomatis diulangi mulai dari versi
                                         {{ $migrasi_utk_diulang }}.</p>
                                     <br><a href="#" data-href="{{ route('periksa.perbaiki') }}"
@@ -631,6 +634,7 @@
                                         title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
                                         data-body="Apakah sudah melakukan backup database/foder desa?"><i
                                             class="fa fa fa-wrench"></i>Perbaiki Semua</a>
+                                    @endif
                                 @endif
 
                             </div>
@@ -682,9 +686,10 @@
             }, 'html')
             
             _modal.find('.modal-title').html(`Data Catatan Peristiwa Penduduk ${_penduduk['nama']} / ${_penduduk['nik']}`)
-            _modal.find('.modal-footer').html(
-                `<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i
-                        class="fa fa-sign-out"></i> Tutup</button>`
+            _modal.find('.modal-footer').css({'text-align' : 'center'}).html(
+                `<button type="button" class="btn btn-social btn-flat text-center btn-danger btn-sm" data-dismiss="modal"><i
+                        class="fa fa-sign-out"></i> Tutup</button>
+                `
             )
         });
     </script>

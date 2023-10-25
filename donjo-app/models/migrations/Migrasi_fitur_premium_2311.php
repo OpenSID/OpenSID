@@ -60,8 +60,9 @@ class Migrasi_fitur_premium_2311 extends MY_model
         $hasil = $hasil && $this->migrasi_2023101353($hasil);
         $hasil = $hasil && $this->migrasi_2023101354($hasil);
         $hasil = $hasil && $this->migrasi_2023101151($hasil);
+        $hasil = $hasil && $this->migrasi_2023101352($hasil);
 
-        return $hasil && $this->migrasi_2023101352($hasil);
+        return $hasil && $this->migrasi_2023102551($hasil);
     }
 
     // Migrasi perubahan data
@@ -340,5 +341,22 @@ class Migrasi_fitur_premium_2311 extends MY_model
             'kategori'   => 'form_surat',
             'judul'      => 'Form penduduk luar [desa]',
         ], $id);
+    }
+
+    protected function migrasi_2023102551($hasil)
+    {
+        if ($this->db->field_exists('created_at', 'tweb_penduduk')) {
+            $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', [
+                'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP',
+            ]);
+        }
+
+        if ($this->db->field_exists('updated_at', 'tweb_penduduk')) {
+            $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', [
+                'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            ]);
+        }
+
+        return $hasil;
     }
 }
