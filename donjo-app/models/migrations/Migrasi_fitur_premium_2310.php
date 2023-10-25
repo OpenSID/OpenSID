@@ -190,7 +190,7 @@ class Migrasi_fitur_premium_2310 extends MY_model
         return $hasil && $this->tambah_setting([
             'judul'      => 'Telegram Notifikasi',
             'key'        => 'telegram_notifikasi',
-            'value'      => '0',
+            'value'      => setting('telegram_notifikasi') === null && ! empty(setting('telegram_user_id')) && ! empty(setting('telegram_token')) ? 1 : 0,
             'keterangan' => 'Aktif atau nonaktifkan notifikasi telegram',
             'jenis'      => 'boolean',
             'option'     => null,
