@@ -476,7 +476,8 @@
                 _modal.find('.panel.isian').each(function(){
                     data.push({
                         'nilai_isian': $(this).find('select[name=nilai_isian]').val(),
-                        'kode_isian_terkait': $(this).find('select[name=kode_isian_terkait]').val()
+                        'kode_isian_terkait': $(this).find('select[name=kode_isian_terkait]').val(),
+                        'lampiran_terkait': $(this).find('select[name=lampiran_terkait]').val(),
                     })
                 })
                 
@@ -540,13 +541,18 @@
                 var optionIsian = [], optionKodeIsianLain =  []
                 var isiPilihanManual = tr.find('select.select-manual').val()
                 if (!$.isEmptyObject(kaitkanData)){
-                    let sectionKondisi, selected, jsonDataKaitkan = JSON.parse(kaitkanData)                     
+                    let sectionKondisi, selected, lampirans = $('#pengaturan-umum select[name="lampiran[]"]').val(), jsonDataKaitkan = JSON.parse(kaitkanData)
                     for(let i in jsonDataKaitkan){
-                        optionIsian = [], optionKodeIsianLain =  []
+                        optionIsian = [], optionKodeIsianLain =  [], optionLampiran = []
                         for(let j in isiPilihanManual){
                             selected = jsonDataKaitkan[i]['nilai_isian'].includes(isiPilihanManual[j]) ? 'selected' : ''
                             optionIsian.push(`<option ${selected}>${isiPilihanManual[j]}</option>`)
                         }
+                        
+                        for (lampiran of lampirans) {
+                            selected = (jsonDataKaitkan[i]['lampiran_terkait'] ?? []).includes(lampiran) ? 'selected' : ''
+                            optionLampiran.push(`<option ${selected}>${lampiran}</option>`)
+                        }                        
                         
                         tbody.find('input[name*=nama_kode]').not(tr.find('input[name*=nama_kode]')).each(function(){
                             selected = jsonDataKaitkan[i]['kode_isian_terkait'].includes($(this).val()) ? 'selected' : ''
@@ -569,6 +575,10 @@
                                 <div class="form-group">
                                     <label class="control-label">Kode Isian</label>
                                     <select name="kode_isian_terkait" class="select2 form-control" multiple>${optionKodeIsianLain}</select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Lampiran</label>
+                                    <select name="lampiran_terkait" class="select2 form-control" multiple>${optionLampiran}</select>
                                 </div>
                             </div>
                         </div>`

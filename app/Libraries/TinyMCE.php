@@ -576,17 +576,14 @@ class TinyMCE
             return;
         }
 
-        $surat         = $data['surat'];
-        $input         = $data['input'];
-        $config        = $this->ci->header['desa'];
-        $individu      = $this->surat_model->get_data_surat($id);
-        $penandatangan = $this->surat_model->atas_nama($data);
-        $lampiran      = explode(',', strtolower($surat['lampiran']));
-        $format_surat  = substitusiNomorSurat($input['nomor'], setting('format_nomor_surat'));
-        $format_surat  = str_replace('[kode_surat]', $surat['kode_surat'], $format_surat);
-        $format_surat  = str_replace('[kode_desa]', identitas()->kode_desa, $format_surat);
-        $format_surat  = str_replace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
-        $format_surat  = str_replace('[tahun]', date('Y'), $format_surat);
+        $surat        = $data['surat'];
+        $input        = $data['input'];
+        $lampiran     = explode(',', strtolower($surat['lampiran']));
+        $format_surat = substitusiNomorSurat($input['nomor'], setting('format_nomor_surat'));
+        $format_surat = str_replace('[kode_surat]', $surat['kode_surat'], $format_surat);
+        $format_surat = str_replace('[kode_desa]', identitas()->kode_desa, $format_surat);
+        $format_surat = str_replace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
+        $format_surat = str_replace('[tahun]', date('Y'), $format_surat);
 
         if (isset($input['gunakan_format'])) {
             unset($lampiran);
@@ -613,6 +610,9 @@ class TinyMCE
                     break;
             }
         }
+
+        // exclude lampiran jika lampiran tidak dikaitkan dengan nilai inputan tertentu
+        $lampiran = $this->excludeLampiran($surat, $input, $lampiran);
 
         for ($i = 0; $i < count($lampiran); $i++) {
             // Cek lampiran desa
@@ -661,5 +661,43 @@ class TinyMCE
     public function __call($method, $arguments)
     {
         return $this->ci->{$method}(...$arguments);
+    }
+
+    private function excludeLampiran($surat, $input, $lampiran)
+    {
+        $kodeIsian       = $surat->kode_isian;
+        $includeLampiran = []; // tambahkan lampiran jika memenuhi syarat
+        $excludeLampiran = []; // semua lampiran dengan syarat
+
+        foreach ($kodeIsian as $isian) {
+            if ($isian->kaitkan_kode) {
+                if (! empty($isian->kaitkan_kode)) {
+                    foreach ((array) $isian->kaitkan_kode as $kaitkanItem) {
+                        $kaitkanArr = json_decode($kaitkanItem, true);
+
+                        foreach ($kaitkanArr as $kaitkan) {
+                            $namaElm = substr('[form_status_kawin_pria]', strlen('[form_'), -1);
+
+                            if ($kaitkan['lampiran_terkait']) {
+                                foreach ($kaitkan['lampiran_terkait'] as $key => $value) {
+                                    $excludeLampiran[] = strtolower($value);
+                                }
+                            }
+
+                            if (in_array($input[$namaElm], $kaitkan['nilai_isian'])) {
+                                if ($kaitkan['lampiran_terkait']) {
+                                    foreach ($kaitkan['lampiran_terkait'] as $key => $value) {
+                                        $includeLampiran[] = strtolower($value);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        $lampiranTanpaSyarat = array_diff($lampiran, $excludeLampiran);
+
+        return array_merge($lampiranTanpaSyarat, $includeLampiran);
     }
 }
