@@ -67,8 +67,11 @@ class PeriksaLogPenduduk extends CI_Controller
     public function hapusLog()
     {
         $idLog  = $this->input->post('id');
+        $idPend   = $this->db->where('id', $idLog)->get('log_penduduk')->row_array()['id_pend'];
+        $penduduk = $this->db->where('id', $idPend)->get('tweb_penduduk')->row_array();
         $status = 0;
         if ($this->db->where('id', $idLog)->delete('log_penduduk')) {
+            log_message('notice', 'Hapus log penduduk NIK : ' . $penduduk['nik']);
             $status = 1;
         }
 
@@ -83,12 +86,14 @@ class PeriksaLogPenduduk extends CI_Controller
     {
         $idLog       = $this->input->post('id');
         $log         = $this->db->where('id', $idLog)->get('log_penduduk')->row_array();
+        $penduduk    = $this->db->where('id', $log['id_pend'])->get('tweb_penduduk')->row_array();
         $key         = $log['kode_peristiwa'];
         $statusDasar = in_array($key, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK]) ? StatusDasarEnum::HIDUP : $key;
         $this->db->where('id', $log['id_pend'])->update('tweb_penduduk', ['status_dasar' => $statusDasar]);
 
         $status = 0;
         if ($this->db->affected_rows() > 0) {
+            log_message('notice', 'Update status dasar penduduk NIK : ' . $penduduk['nik'] . ' dari ' . $penduduk['status_dasar'] . ' menjadi ' . $statusDasar);
             $status = 1;
         }
 
