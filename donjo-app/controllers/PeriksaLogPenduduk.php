@@ -66,10 +66,10 @@ class PeriksaLogPenduduk extends CI_Controller
 
     public function hapusLog()
     {
-        $idLog  = $this->input->post('id');
+        $idLog    = $this->input->post('id');
         $idPend   = $this->db->where('id', $idLog)->get('log_penduduk')->row_array()['id_pend'];
         $penduduk = $this->db->where('id', $idPend)->get('tweb_penduduk')->row_array();
-        $status = 0;
+        $status   = 0;
         if ($this->db->where('id', $idLog)->delete('log_penduduk')) {
             log_message('notice', 'Hapus log penduduk NIK : ' . $penduduk['nik']);
             $status = 1;
