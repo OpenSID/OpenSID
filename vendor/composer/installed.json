@@ -345,17 +345,17 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.320.0",
-            "version_normalized": "0.320.0.0",
+            "version": "v0.321.0",
+            "version_normalized": "0.321.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "6b0ea59d53b301cf1a8f7e0456ff1bd8f5613fdf"
+                "reference": "bf0aa8b1cb272f45c1f73270ad113047625c5937"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/6b0ea59d53b301cf1a8f7e0456ff1bd8f5613fdf",
-                "reference": "6b0ea59d53b301cf1a8f7e0456ff1bd8f5613fdf",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/bf0aa8b1cb272f45c1f73270ad113047625c5937",
+                "reference": "bf0aa8b1cb272f45c1f73270ad113047625c5937",
                 "shasum": ""
             },
             "require": {
@@ -364,7 +364,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^5.7||^8.5.13"
             },
-            "time": "2023-10-15T01:06:13+00:00",
+            "time": "2023-10-23T01:08:38+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -386,7 +386,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.320.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.321.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -2145,17 +2145,17 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.23",
-            "version_normalized": "3.0.23.0",
+            "version": "3.0.33",
+            "version_normalized": "3.0.33.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "866cc78fbd82462ffd880e3f65692afe928bed50"
+                "reference": "33fa69b2514a61138dd48e7a49f99445711e0ad0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/866cc78fbd82462ffd880e3f65692afe928bed50",
-                "reference": "866cc78fbd82462ffd880e3f65692afe928bed50",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/33fa69b2514a61138dd48e7a49f99445711e0ad0",
+                "reference": "33fa69b2514a61138dd48e7a49f99445711e0ad0",
                 "shasum": ""
             },
             "require": {
@@ -2173,7 +2173,7 @@
                 "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
                 "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
             },
-            "time": "2023-09-18T17:22:01+00:00",
+            "time": "2023-10-21T14:00:39+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2238,7 +2238,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.23"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.33"
             },
             "funding": [
                 {
