@@ -3,11 +3,11 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => '2310.0.2.x-dev',
         'version' => '2310.0.2.9999999-dev',
-        'reference' => '8661397265cd62985e546510b27b33f52fba76b5',
+        'reference' => 'fcfff98fe3cc8ae9ab3ebeef6e1a61653df4ca20',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => true,
+        'dev' => false,
     ),
     'versions' => array(
         'agungsugiarto/codeigniter-datables' => array(
@@ -253,15 +253,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'mikey179/vfsstream' => array(
-            'pretty_version' => 'v1.1.0',
-            'version' => '1.1.0.0',
-            'reference' => 'fc0fe8f4d0b527254a2dc45f0c265567c881d07e',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../mikey179/vfsstream',
-            'aliases' => array(),
-            'dev_requirement' => true,
-        ),
         'monolog/monolog' => array(
             'pretty_version' => '2.9.1',
             'version' => '2.9.1.0',
@@ -283,7 +274,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => '2310.0.2.x-dev',
             'version' => '2310.0.2.9999999-dev',
-            'reference' => '8661397265cd62985e546510b27b33f52fba76b5',
+            'reference' => 'fcfff98fe3cc8ae9ab3ebeef6e1a61653df4ca20',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -648,15 +639,6 @@
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
             'dev_requirement' => false,
-        ),
-        'tinymce/tinymce' => array(
-            'pretty_version' => '6.7.1',
-            'version' => '6.7.1.0',
-            'reference' => 'b1ddb5ec9b0c7f5d542429a044bd303648d2d647',
-            'type' => 'component',
-            'install_path' => __DIR__ . '/../tinymce/tinymce',
-            'aliases' => array(),
-            'dev_requirement' => true,
         ),
         'voku/anti-xss' => array(
             'pretty_version' => '4.1.35',
