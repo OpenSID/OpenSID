@@ -138,6 +138,12 @@
                     dataType: 'json',
                     delay: 250,
                     data: function(params) {
+                        let _kecuali = []
+                        // jika tidak berulang maka batasi pencarian penduduk
+                        if (!$(this).data('sumber_penduduk_berulang')){
+                            $(`select.select2-nik-ajax.isi-penduduk-desa`).not($(this)).each(function(index, item){ if (item.value) _kecuali.push(item.value) })
+                        }                        
+                        
                         return {
                             q: params.term || '', // search term
                             page: params.page || 1,
@@ -145,6 +151,7 @@
                             surat: $(this).data('surat'),
                             kategori: $(this).data('kategori'),
                             hubungan: $(`select[name="${$(this).data('hubungan')}[nik]"]`).val(),
+                            kecuali: _kecuali
                         };
                     },
                     processResults: function(data, params) {

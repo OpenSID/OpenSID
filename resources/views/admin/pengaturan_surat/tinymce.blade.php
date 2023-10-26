@@ -11,9 +11,9 @@
     </div>
 </div>
 <div class="tab-pane" id="form-isian">
-
+    
     @include('admin.pengaturan_surat.kembali', ['data' => 1])
-
+    
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs customized-tab" id="tabs">
             <li data-name="utama" class="active">
@@ -31,7 +31,7 @@
         </ul>
         <div class="tab-content custom">
             <div class="tab-pane active" id="form-utama">
-                <div class="box-body">
+                <div class="box-body">                    
                     <button type="button" class="utama-delete btn btn-danger btn-sm pull-right hide" onclick="deleteTab(event)"><i class="fa fa-times-circle"></i> Hapus Bagian Form</button>
                     <div class="row">
                         <label for="isi-judul" class="col-sm-2">Judul Bagian</label>

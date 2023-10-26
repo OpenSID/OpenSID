@@ -187,6 +187,7 @@ class FormatSurat extends BaseModel
         'header',
         'footer',
         'format_nomor',
+        'sumber_penduduk_berulang',
         'created_by',
         'updated_by',
     ];
