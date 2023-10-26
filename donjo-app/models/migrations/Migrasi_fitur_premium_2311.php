@@ -61,8 +61,9 @@ class Migrasi_fitur_premium_2311 extends MY_model
         $hasil = $hasil && $this->migrasi_2023101354($hasil);
         $hasil = $hasil && $this->migrasi_2023101151($hasil);
         $hasil = $hasil && $this->migrasi_2023101352($hasil);
+        $hasil = $hasil && $this->migrasi_2023102551($hasil);
 
-        return $hasil && $this->migrasi_2023102551($hasil);
+        return $hasil && $this->migrasi_2023102571($hasil);
     }
 
     // Migrasi perubahan data
@@ -358,5 +359,27 @@ class Migrasi_fitur_premium_2311 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2023102571($hasil)
+    {
+        return $hasil && $this->dbforge->add_field([
+            'id'            => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+            'config_id'     => ['type' => 'INT', 'constraint' => 11],
+            'slug'          => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => true],
+            'nama'          => ['type' => 'VARCHAR', 'constraint' => 100],
+            'jenis'         => ['type' => 'TINYINT', 'default' => '2'],
+            'template'      => ['type' => 'LONGTEXT', 'null' => true],
+            'template_desa' => ['type' => 'LONGTEXT', 'null' => true],
+            'status'        => ['type' => 'TINYINT', 'default' => '1'],
+            'created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP',
+            'created_by int(11) DEFAULT NULL',
+            'updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            'updated_by int(11) DEFAULT NULL',
+            'PRIMARY KEY (`id`)',
+            'UNIQUE KEY `slug_config` (`config_id`,`slug`)',
+            'CONSTRAINT `lampiran_surat_config_fk` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
+        ])
+            ->create_table('lampiran_surat', true);
     }
 }
