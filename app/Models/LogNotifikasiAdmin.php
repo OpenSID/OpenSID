@@ -35,11 +35,11 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 namespace App\Models;
 
 use App\Traits\ConfigId;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class LogNotifikasiAdmin extends BaseModel
 {
