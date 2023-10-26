@@ -1,14 +1,3 @@
-<?php
-/**
- * File ini:
- *
- * View di modul Pemetaan
- *
- * /donjo-app/views/garis/maps.php
- */
-?>
-
-<!-- TODO: Pindahkan ke external css -->
 <style>
   #map
   {
@@ -21,8 +10,8 @@
     margin: 4px;
   }
   .leaflet-control-layers {
-  	display: block;
-  	position: relative;
+    display: block;
+    position: relative;
   }
   .leaflet-control-locate a {
   font-size: 2em;
@@ -73,7 +62,6 @@
   </section>
 </div>
 <?php $this->load->view('global/konfirmasi'); ?>
-<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script>
   var infoWindow;
   window.onload = function() {
@@ -85,20 +73,12 @@
       var zoom = 18;
     <?php endif; ?>
 
-    var options = {
-      maxZoom: <?= setting('max_zoom_peta') ?>,
-      minZoom: <?= setting('min_zoom_peta') ?>,
-      fullscreenControl: {
-        position: 'topright' // Menentukan posisi tombol fullscreen
-      }
-    };
-
     var jenis = "<?= $garis['jenis_garis']; ?>";
     var tebal = "<?= $garis['tebal']; ?>";
     var warna = "<?= $garis['color']; ?>";
 
   	//Inisialisasi tampilan peta
-    var peta_garis = L.map('map', options).setView(posisi, zoom);
+    var peta_garis = L.map('map', pengaturan_peta).setView(posisi, zoom);
 
     //1. Menampilkan overlayLayers Peta Semua Wilayah
     var marker_desa = [];

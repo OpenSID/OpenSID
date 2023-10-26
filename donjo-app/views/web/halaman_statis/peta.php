@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="<?= asset('css/MarkerCluster.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/MarkerCluster.Default.css') ?>">
 <link rel="stylesheet" href="<?= asset('css/leaflet.groupedlayercontrol.min.css') ?>">
+<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <style>
   #map .leaflet-popup-content {
     height: auto;
@@ -87,7 +88,7 @@
     </div>
   </div>
 </div>
-
+<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script>
   (function() {
     var infoWindow;
@@ -107,6 +108,9 @@
       var options = {
         maxZoom: <?= setting('max_zoom_peta') ?>,
         minZoom: <?= setting('min_zoom_peta') ?>,
+        fullscreenControl: {
+          position: 'topright' // Menentukan posisi tombol fullscreen
+        }
       };
 
       //Inisialisasi tampilan peta

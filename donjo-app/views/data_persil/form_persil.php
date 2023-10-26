@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <div class="content-wrapper">
     <section class="content-header">
         <h1>Pengelolaan Data Persil <?=ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']; ?></h1>
@@ -147,7 +146,6 @@
         </div>
     </section>
 </div>
-<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script>
     function pilih_lokasi(pilih) {
         if (pilih == 1) {
@@ -177,15 +175,7 @@
             var zoom = 4;
         <?php endif; ?>
 
-        var options = {
-            maxZoom: <?= setting('max_zoom_peta') ?>,
-            minZoom: <?= setting('min_zoom_peta') ?>,
-            fullscreenControl: {
-                position: 'topright' // Menentukan posisi tombol fullscreen
-            }
-        };
-
-        var peta_area = L.map('map', options).setView(posisi, zoom);
+        var peta_area = L.map('map', pengaturan_peta).setView(posisi, zoom);
 
         //1. Menampilkan overlayLayers Peta Semua Wilayah
         var marker_desa = [];

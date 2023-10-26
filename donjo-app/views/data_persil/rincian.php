@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <div class="content-wrapper">
     <section class="content-header">
         <h1>Rincian C-DESA</h1>
@@ -132,7 +131,6 @@
         </div>
     </div>
 </div>
-<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script type="text/javascript">
     // deklarasi variable diluar fungsi agar terbaca di semua fungsi
     var peta_area;
@@ -144,18 +142,10 @@
         var zoom = 4;
     <?php endif; ?>
 
-    var options = {
-        maxZoom: <?= setting('max_zoom_peta') ?>,
-        minZoom: <?= setting('min_zoom_peta') ?>,
-        fullscreenControl: {
-            position: 'topright' // Menentukan posisi tombol fullscreen
-        }
-    };
-
     $(document).ready(function() {
         $(document).on('shown.bs.modal','#map-modal', function(event) {
             if (L.DomUtil.get('map')._leaflet_id  == undefined) {
-                peta_area = L.map('map', options).setView(posisi, zoom);
+                peta_area = L.map('map', pengaturan_peta).setView(posisi, zoom);
 
                 //Menampilkan BaseLayers Peta
                 var baseLayers = getBaseLayers(peta_area, MAPBOX_KEY, JENIS_PETA);

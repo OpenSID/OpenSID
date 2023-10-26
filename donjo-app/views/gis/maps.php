@@ -27,7 +27,6 @@
 		padding-right: 1rem;
 	}
 </style>
-<link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 <div class="content-wrapper">
 	<form id="mainform_map" name="mainform_map" method="post">
 		<div class="row">
@@ -152,7 +151,6 @@
 		</div>
 	</form>
 </div>
-<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 <script>
 	(function() {
 		var infoWindow;
@@ -169,16 +167,8 @@
 				var zoom = 10;
 			<?php endif; ?>
 
-			var options = {
-				maxZoom: <?= setting('max_zoom_peta') ?>,
-				minZoom: <?= setting('min_zoom_peta') ?>,
-				fullscreenControl: {
-					position: 'topright' // Menentukan posisi tombol fullscreen
-				}
-			};
-
 			//Inisialisasi tampilan peta
-			var peta = L.map('map', options).setView(posisi, zoom);
+			var peta = L.map('map', pengaturan_peta).setView(posisi, zoom);
 
 			<?php if (! empty($desa['path'])) : ?>
 				peta.fitBounds(<?= $desa['path'] ?>);
