@@ -294,7 +294,7 @@
                 </div>
             </div>
             <div class="box-footer">
-                <button type='reset' class='btn btn-social btn-danger btn-sm btn-reset' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
+                <button type='reset' class='btn btn-social btn-danger btn-sm btn-reset'><i class='fa fa-times'></i> Batal</button>
                 <button type='submit' class='btn btn-social btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
             </div>
         </div>
@@ -358,17 +358,6 @@
 
         $("#nama_dengan_gelar").val(nama);
     }
-
-    function reset_form() {
-        <?php if ($pamong['pamong_status'] == '1' || $pamong['pamong_status'] == null) : ?>
-            $("#sx3").addClass('active');
-            $("#sx4").removeClass("active");
-        <?php endif ?>
-        <?php if ($pamong['pamong_status'] == '2') : ?>
-            $("#sx4").addClass('active');
-            $("#sx3").removeClass("active");
-        <?php endif ?>
-    };
 
     function pengurus_asal(asal) {
         if (asal == 1) {
