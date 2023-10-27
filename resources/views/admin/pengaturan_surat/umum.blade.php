@@ -128,7 +128,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">Lampiran</label>
                 <div class="col-sm-7">
-                    <select class="form-control input-sm lampiran-multiple" name="lampiran[]" multiple="multiple">
+                    <select class="form-control input-sm select2" name="lampiran[]" multiple="multiple">
                         <option value="">Tidak Ada</option>
                         @foreach ($daftar_lampiran as $value)
                             <option value="{{ $value }}"
@@ -302,10 +302,6 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            $('.lampiran-multiple').select2();
-        });
-
         $(document).ready(function() {
             var x = $("[name='margin_global']:checked").val()
             console.log(x)
