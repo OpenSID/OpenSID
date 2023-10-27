@@ -902,6 +902,13 @@ if (! function_exists('jenis_surat')) {
     }
 }
 
+if (! function_exists('cek_lokasi_peta')) {
+    function cek_lokasi_peta($wilayah)
+    {
+        return (bool) (! empty($wilayah['path'] && ! empty($wilayah['lat'] && ! empty($wilayah['lng']))));
+    }
+}
+
 if (! function_exists('config_email')) {
     function config_email()
     {
