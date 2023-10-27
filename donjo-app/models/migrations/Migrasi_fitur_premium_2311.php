@@ -319,7 +319,11 @@ class Migrasi_fitur_premium_2311 extends MY_model
                     if (! is_array($value['data'])) {
                         $nilaiBaru[] = $nilaiSebelumnya;
                     } else {
-                        $nilaiBaru = [$nilaiSebelumnya];
+                        if (isNestedArray($nilaiSebelumnya)) {
+                            $nilaiBaru = $nilaiSebelumnya[0];
+                        } else {
+                            $nilaiBaru = $nilaiSebelumnya;
+                        }
                     }
                     $dataBaru[$key]['data'] = $nilaiBaru;
                 }

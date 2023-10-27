@@ -1976,4 +1976,19 @@ if (! function_exists('daftar_statistik')) {
 
         return $data;
     }
+
+    if (! function_exists('isNestedArray')) {
+        function isNestedArray($array)
+        {
+            if (is_array($array)) {
+                foreach ($array as $element) {
+                    if (is_array($element)) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+    }
 }
