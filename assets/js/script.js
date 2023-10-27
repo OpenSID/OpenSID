@@ -45,12 +45,28 @@ $(document).ready(function() {
         });
     });
 
-    // Tombol reset semua select
+    // Tombol reset semua
     $("button[type='reset']").on("click", function() {
         $($(this).closest("form")).trigger("reset")
-        $(this)
-            .closest("form")
-            .find("select").trigger("change");
+        var form =  $(this).closest("form")
+        // tipe select
+        form.find("select").trigger("change");
+        
+        // tipe input radio
+        form.find("input[type='radio']").each(function(index, el) {
+            var value = $(el).val();
+            var checked = $(el)[0].checked;
+            if (checked == true) {
+                if ($(el).parent().is('label')) {
+                    $(el).parent().addClass('active');
+                }
+            } else {
+                if ($(el).parent().is('label')) {
+                    $(el).parent().removeClass('active');
+                }
+            }
+        });
+        form.find("input[type='radio']").trigger("change");
     });
 
     // Fungsi untuk filter menu
