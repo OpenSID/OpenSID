@@ -118,7 +118,7 @@
                                                     kode yang diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'kode_kelompok') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -132,7 +132,7 @@
                                                     <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'ref_inventaris_kosong') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a>
                                                 </p>
                                             </div>
@@ -160,7 +160,7 @@
                                                     yang diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'id_cluster_null') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a>
                                                 </p>
                                             </div>
@@ -189,7 +189,7 @@
                                                     diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'nik_ganda') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -216,7 +216,7 @@
                                                     periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'kk_panjang') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -243,7 +243,7 @@
                                                     berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'no_kk_ganda') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a>
                                                 </p>
                                             </div>
@@ -272,7 +272,7 @@
                                                     <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'username_user_ganda') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a>
                                                 </p>
                                             </div>
@@ -300,7 +300,7 @@
                                                     Untuk melihat email yang diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'email_user_ganda') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -327,7 +327,7 @@
                                                     Untuk melihat email yang diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'email_ganda') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -354,7 +354,7 @@
                                                     periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'tag_id_ganda') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -368,7 +368,7 @@
                                                 <p>Klik tombol Perbaiki untuk mengubah nilai null menjadi '' <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'kartu_alamat') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -382,7 +382,7 @@
                                                     yang memerlukan <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'autoincrement') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -409,7 +409,7 @@
                                                     sesuai menjadi collation <code>{{ $ci->db->dbcollat }}</code>.<br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'collation') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -438,7 +438,7 @@
                                                     data tanggal yang diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'zero_date_default_value') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -464,7 +464,7 @@
                                                     data tanggal yang diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'tabel_invalid_date') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -478,7 +478,7 @@
                                                     tersebut. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'data_jabatan_tidak_ada') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -504,7 +504,7 @@
                                                     berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'penduduk_tanpa_keluarga') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -561,7 +561,7 @@
                                                 <p>Klik tombol Perbaiki Data memperbaiki data, kode peristiwa akan diset default menjadi 5 (baru pindah masuk). <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'log_penduduk_null') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -586,7 +586,7 @@
                                                 <p>Klik tombol Perbaiki Data memperbaiki data, log keluarga dengan id peristiwa 1 (keluarga baru) akan dibuat otomatis <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'log_keluarga_bermasalah') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                             </div>
                                         </div>
@@ -617,7 +617,7 @@
                                                     berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'no_anggota_ganda') }}"
                                                     class="btn btn-sm btn-social btn-danger" role="button"
                                                     title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                                         class="fa fa fa-wrench"></i>Perbaiki Data</a>
                                                 </p>
                                             </div>
@@ -632,7 +632,7 @@
                                     <br><a href="#" data-href="{{ route('periksa.perbaiki') }}"
                                         class="btn btn-sm btn-social btn-danger" role="button"
                                         title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
-                                        data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                        data-body="Apakah sudah melakukan backup database/folder desa?"><i
                                             class="fa fa fa-wrench"></i>Perbaiki Semua</a>
                                     @endif
                                 @endif
