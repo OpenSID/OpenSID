@@ -35,17 +35,17 @@
         <tr>
             <td colspan="17">KANTOR DESA/KELURAHAN</td>
             <td>: </td>
-            <td colspan="30">[Nama_desA]</td>
+            <td colspan="30">[NAma_desa]</td>
         </tr>
         <tr>
             <td colspan="17">KECAMATAN</td>
             <td>: </td>
-            <td colspan="30">[Nama_kecamataN]</td>
+            <td colspan="30">[NAma_kecamatan]</td>
         </tr>
         <tr>
             <td colspan="17">KABUPATEN/KOTA</td>
             <td>:</td>
-            <td colspan="30">[Nama_kabupateN]</td>
+            <td colspan="30">[NAma_kabupaten]</td>
         </tr>
         <tr>
             <?php for ($i = 0; $i < 48; $i++): ?>
@@ -55,7 +55,7 @@
     </table>
 
     <p style="margin: 0; text-align: center;" class="title"><u>SURAT KETERANGAN KEMATIAN</u></p>
-    <p style="margin: 0; text-align: center;">Nomor : [Format_nomor_suraT]</p>
+    <p style="margin: 0; text-align: center;">Nomor : [FOrmat_nomor_surat]</p>
 
     <p>Yang bertanda tangan dibawah ini menjelaskan dengan sesungguhnya bahwa : </p>
     <table id="kop" class="disdukcapil">
@@ -64,63 +64,63 @@
             <td colspan="1">A. </td>
             <td colspan="20">1.  Nama lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong>[Nama_dsT]</strong></td>
+            <td colspan="27"><strong>[NAma_dst]</strong></td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">2. Binti</td>
             <td>: </td>
-            <td colspan="27">[Bin_dsT]</td>
+            <td colspan="27">[Form_binti_dsT]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">3. Nomor Induk Kependudukan</td>
             <td>: </td>
-            <td colspan="27">[Nik_dsT]</td>
+            <td colspan="27">[NiK_dst]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan tanggal lahir</td>
             <td>: </td>
-            <td colspan="27">[Tanggallahir_dsT]</td>
+            <td colspan="27">[TaNggallahir_dst]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">&nbsp;</td>
             <td>&nbsp;</td>
-            <td colspan="27">[Tempatlahir_dsT]</td>
+            <td colspan="27">[TeMpatlahir_dst]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">5. Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[Warga_negara_dsT]</td>
+            <td colspan="27">[WaRga_negara_dst]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">6. Agama</td>
             <td>: </td>
-            <td colspan="27">[Agama_dsT]</td>
+            <td colspan="27">[AgAma_dst]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">7. Pekerjaan</td>
             <td>: </td>
-            <td colspan="27">[Pekerjaan_dsT]</td>
+            <td colspan="27">[PeKerjaan_dst]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_dsT]</td>
+            <td colspan="27">[AlAmat_dst]</td>
         </tr>
 
         <tr>
@@ -141,7 +141,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">&nbsp;</td>
             <td>&nbsp;</td>
-            <td colspan="27">[Alamat_dsT]</td>
+            <td colspan="27">[AlAmat_dst]</td>
         </tr>
 
         <tr>
@@ -152,14 +152,14 @@
             <td colspan="1">B.</td>
             <td colspan="20">1. Nama lengkap dan alias</td>
             <td>&nbsp;</td>
-            <td colspan="27"><strong>[NamA]</strong></td>
+            <td colspan="27"><strong>[NAma]</strong></td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">2. Bin/Binti</td>
             <td>&nbsp;</td>
-            <td colspan="27">[Form_biN]</td>
+            <td colspan="27">[Form_bin_priA]</td>
         </tr>
 
 
@@ -182,28 +182,28 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">5. Kewarganegaraan</td>
             <td>&nbsp;</td>
-            <td colspan="27">[Warga_negarA]></td>
+            <td colspan="27">[WaRga_negara]></td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">6. Agama</td>
             <td>&nbsp;</td>
-            <td colspan="27">[AgamA]]</td>
+            <td colspan="27">[AgAma]]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">7. Pekerjaan</td>
             <td>&nbsp;</td>
-            <td colspan="27">[PekerjaaN]</td>
+            <td colspan="27">[PeKerjaan]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>&nbsp;</td>
-            <td colspan="27">[AlamaT]</td>
+            <td colspan="27">[AlAmat]</td>
         </tr>
     </table>
 
@@ -216,7 +216,7 @@
         <col span="48" style="width: 2.0833%;">
         <tr>
             <td colspan="37">&nbsp;</td>
-            <td colspan="10" class="tengah">[NaMa_desa], [TgL_surat]</td>
+            <td colspan="10" class="tengah">[NAma_desa], [TgL_surat]</td>
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
@@ -231,7 +231,7 @@
         </tr>
         <tr>
             <td colspan="37">&nbsp;</td>
-            <td colspan="10" class="tengah"><strong>[Nama_pamonG]</strong></td>
+            <td colspan="10" class="tengah"><strong>[NAma_pamonG]</strong></td>
             <td colspan="2">&nbsp;</td>
         </tr>
     </table>

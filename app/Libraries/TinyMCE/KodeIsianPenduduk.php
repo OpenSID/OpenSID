@@ -147,6 +147,16 @@ class KodeIsianPenduduk
                 'isian' => 'Gol_daraH' . $prefix,
                 'data'  => $penduduk->golonganDarah->nama,
             ],
+            [
+                'judul' => 'Pendidikan Sedang' . $ortu,
+                'isian' => 'Pendidikan_sedanG' . $prefix,
+                'data'  => $penduduk->pendidikan->nama,
+            ],
+            [
+                'judul' => 'Pendidikan Dalam KK' . $ortu,
+                'isian' => 'Pendidikan_kK' . $prefix,
+                'data'  => $penduduk->pendidikanKK->nama,
+            ],
         ];
 
         if (empty($this->prefix)) {
@@ -215,16 +225,6 @@ class KodeIsianPenduduk
                     'judul' => 'Cacat',
                     'isian' => 'CacaT',
                     'data'  => $penduduk->cacat->nama,
-                ],
-                [
-                    'judul' => 'Pendidikan Sedang',
-                    'isian' => 'Pendidikan_sedanG',
-                    'data'  => $penduduk->pendidikan->nama,
-                ],
-                [
-                    'judul' => 'Pendidikan Dalam KK',
-                    'isian' => 'Pendidikan_kK',
-                    'data'  => $penduduk->pendidikanKK->nama,
                 ],
                 [
                     'judul' => 'Dokumen Pasport',

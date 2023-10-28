@@ -12,7 +12,7 @@
         <tr>
             <td colspan="20">Nama lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong>[NamA]</strong></td>
+            <td colspan="27"><strong>[NAma]</strong></td>
         </tr>
         <tr>
             <td colspan="20">Nomor Induk Keindividuan</td>
@@ -23,7 +23,7 @@
         <tr>
             <td colspan="20">Jenis Kelamin</td>
             <td>: </td>
-            <td colspan="27">[Jenis_kelamiN]</td>
+            <td colspan="27">[JeNis_kelamin]</td>
             
         </tr>
         <tr>
@@ -35,31 +35,31 @@
         <tr>
             <td colspan="20">Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[Warga_negarA]</td>
+            <td colspan="27">[WaRga_negara]</td>
             
         </tr>
         <tr>
             <td colspan="20">Agama</td>
             <td>: </td>
-            <td colspan="27">[AgamA]</td>
+            <td colspan="27">[AgAma]</td>
             
         </tr>
         <tr>
             <td colspan="20">Pekerjaan</td>
             <td>: </td>
-            <td colspan="27">[PekerjaaN]</td>
+            <td colspan="27">[PeKerjaan]</td>
             
         </tr>
         <tr>
             <td colspan="20">Pendidikan Terakhir</td>
             <td>: </td>
-            <td colspan="27">[Pendidikan_kK]</td>
+            <td colspan="27">[PeNdidikan_kk]</td>
             
         </tr>
         <tr>
             <td colspan="20">Alamat</td>
             <td>: </td>
-            <td colspan="27">[AlamaT]</td>
+            <td colspan="27">[AlAmat]</td>
         </tr>
     </table>
     

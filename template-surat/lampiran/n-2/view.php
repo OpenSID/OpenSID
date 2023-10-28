@@ -41,14 +41,14 @@
             <td>:</td>
             <td>Permohonan Kehendak Nikah</td>
             <td style="width:200px">&nbsp;</td>
-            <td style="width:200px;text-align:right">[Nama_kecamataN], [TgL_surat] </td>
+            <td style="width:200px;text-align:right">[NAma_kecamatan], [TgL_surat] </td>
         </tr>
     </table>
 
     <p>
     <div>Kepada Yth.</div>
     <div>Kepala KUA Kecamatan/PPN LN</div>
-    <div>di [Nama_kecamataN]</div>
+    <div>di [NAma_kecamatan]</div>
     </p>
 
     <p style="text-align: justify; text-indent: 30px;">Dengan hormat, kami mengajukan permohonan kehendak nikah untuk atas nama:</p>
@@ -62,13 +62,13 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Calon Suami</td>
             <td>: </td>
-            <td colspan="27"><strong>[NamA]</strong></td>
+            <td colspan="27"><strong>[NAma]</strong></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Calon Istri</td>
             <td>: </td>
-            <td colspan="27"><strong>[Nama_dcpW]</strong></td>
+            <td colspan="27"><strong>[NAma_dcpw]</strong></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
@@ -143,11 +143,10 @@
                 <br>
                 <br>
                 <br>
-                <div><strong>[NamA]</strong></div>
+                <div><strong>[NAma]</strong></div>
             </td>
         </tr>
     </table>
-    <?= $qrcode ?? '' ?>
 
     <br>
     <br>
