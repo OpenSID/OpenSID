@@ -50,7 +50,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_2023102651($hasil);
+        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
     }
 
     // Migrasi perubahan data
@@ -69,22 +69,6 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_xxxxxxxxxx($hasil)
     {
-        return $hasil;
-    }
-
-    protected function migrasi_2023102651($hasil)
-    {
-        if (! $this->db->field_exists('sumber_penduduk_berulang', 'tweb_surat_format')) {
-            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', [
-                'sumber_penduduk_berulang' => [
-                    'type'       => 'tinyint',
-                    'constraint' => 1,
-                    'default'    => 0,
-                    'after'      => 'format_nomor',
-                ],
-            ]);
-        }
-
         return $hasil;
     }
 }

@@ -61,8 +61,9 @@ class Migrasi_fitur_premium_2311 extends MY_model
         $hasil = $hasil && $this->migrasi_2023101354($hasil);
         $hasil = $hasil && $this->migrasi_2023101151($hasil);
         $hasil = $hasil && $this->migrasi_2023101352($hasil);
+        $hasil = $hasil && $this->migrasi_2023102551($hasil);
 
-        return $hasil && $this->migrasi_2023102551($hasil);
+        return hasil && $this->migrasi_2023102651($hasil);
     }
 
     // Migrasi perubahan data
@@ -358,6 +359,22 @@ class Migrasi_fitur_premium_2311 extends MY_model
         if ($this->db->field_exists('updated_at', 'tweb_penduduk')) {
             $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', [
                 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+            ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023102651($hasil)
+    {
+        if (! $this->db->field_exists('sumber_penduduk_berulang', 'tweb_surat_format')) {
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', [
+                'sumber_penduduk_berulang' => [
+                    'type'       => 'tinyint',
+                    'constraint' => 1,
+                    'default'    => 0,
+                    'after'      => 'format_nomor',
+                ],
             ]);
         }
 
