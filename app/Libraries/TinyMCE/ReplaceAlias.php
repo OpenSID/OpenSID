@@ -50,8 +50,6 @@ class ReplaceAlias
 
     public static function get($suratMatser, $inputForm)
     {
-        log_message('notice', 'data alias : ' . print_r($inputForm, true));
-
         return (new self($suratMatser, $inputForm))->getKategori();
     }
 

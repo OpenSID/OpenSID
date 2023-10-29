@@ -65,7 +65,7 @@
                         <div class="row" style="margin-top: 5px">
                             <label for="isi-prefix" class="col-sm-2">Prefix Bagian</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="prefix" value="{{ $suratMaster->form_isian->individu->prefix ?? 'individu' }}" minlength="3" maxlength="50" readonly>
+                                <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="prefix" value="{{ strtolower($suratMaster->form_isian->individu->prefix ?? 'individu') }}" minlength="3" maxlength="50" readonly>
                             </div>
                         </div>
                         <hr>
@@ -194,7 +194,7 @@
                             <div class="row" style="margin-top: 5px">
                                 <label for="isi-prefix" class="col-sm-2">Prefix Bagian</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="kategori_prefix[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->prefix ?? $item}}" minlength="3" maxlength="50">
+                                    <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="kategori_prefix[{{ $item }}]" value="{{ strtolower($suratMaster->form_isian->$item->prefix ?? $item) }}" minlength="3" maxlength="50">
                                 </div>
                             </div>
                             <hr>
