@@ -370,11 +370,11 @@ class TinyMCE
             ->map(static function ($item, $key) use ($input) {
                 $input_data = $input[underscore($item->nama, true, true)];
                 if ($item->tipe == 'date') {
-                    $data = Carbon::parse($input_data)->format('Y-m-d');
+                    $data = formatTanggal($input_data);
                 } elseif ($item->tipe == 'hari-tanggal') {
                     if ($input_data != '') {
                         $day  = self::get_hari($input_data);
-                        $data = tgl_indo(Carbon::parse($input_data)->format('Y-m-d'), '', $day);
+                        $data = $day . ', ' . formatTanggal($input_data);
                     }
                 } elseif ($item->tipe == 'hari') {
                     if ($input_data != '') {

@@ -295,7 +295,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
             'judul'      => 'Format Tanggal Surat',
             'key'        => 'format_tanggal_surat',
             'value'      => 'd F Y',
-            'keterangan' => 'Format tanggal pada kode isian surat. Format : <code><a href="https://www.php.net/manual/en/function.date.php" target="_blank">https://www.php.net/manual/en/function.date.php</a></code>',
+            'keterangan' => 'Format tanggal pada kode isian surat.',
             'jenis'      => 'text',
             'option'     => null,
             'attribute'  => null,
