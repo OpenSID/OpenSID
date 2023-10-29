@@ -71,7 +71,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">2. Binti</td>
             <td>: </td>
-            <td colspan="27">[Form_binti_dsT]</td>
+            <td colspan="27">[Form_bin_suami_terdahulU]</td>
         </tr>
 
         <tr>
@@ -167,7 +167,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">3. Nomor Induk Kependudukan</td>
             <td>&nbsp;</td>
-            <td colspan="27">[NiK]></td>
+            <td colspan="27">[NiK]</td>
         </tr>
 
 
@@ -182,14 +182,14 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">5. Kewarganegaraan</td>
             <td>&nbsp;</td>
-            <td colspan="27">[WaRga_negara]></td>
+            <td colspan="27">[WaRga_negara]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">6. Agama</td>
             <td>&nbsp;</td>
-            <td colspan="27">[AgAma]]</td>
+            <td colspan="27">[AgAma]</td>
         </tr>
 
         <tr>

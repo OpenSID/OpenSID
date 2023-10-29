@@ -71,7 +71,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">2. Binti</td>
             <td>: </td>
-            <td colspan="27">[Bin_suami_terdahulu_dst]</td>
+            <td colspan="27">[Form_bin_suami_terdahulU]</td>
         </tr>
 
         <tr>
@@ -134,7 +134,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Di</td>
             <td>: </td>
-            <td colspan="27">[Form_tempat_meninggal_suami_terdahulu_dsT]</td>
+            <td colspan="27">[Form_tempat_meninggal_suami_terdahulU]</td>
         </tr>
 
         <tr>
