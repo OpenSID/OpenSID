@@ -94,4 +94,9 @@ class LampiranSurat extends BaseModel
 
         return $query->where('jenis', $value);
     }
+
+    public function scopeActive($query)
+    {        
+        return $query->where('status', 1);
+    }
 }

@@ -1,5 +1,4 @@
 <?php
-
 /*
  *
  * File ini bagian dari:
@@ -34,6 +33,8 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -86,5 +87,5 @@ class Migrasi_dev extends MY_model
         }
 
         return $hasil;
-    }
+    }    
 }

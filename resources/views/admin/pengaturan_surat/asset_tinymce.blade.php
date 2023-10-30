@@ -27,7 +27,19 @@
             } else {
                 plugins_tambahan = ['advlist', 'autolink', 'lists', 'charmap', 'hr', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'nonbreaking', 'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'code'];
             }
-
+            var pageBreakCss = pratinjau ? `` : `
+            .mce-pagebreak {   
+                        border:none; 
+                        cursor: default;
+                        display: block;
+                        height: 25px;
+                        margin-top: 64px;
+                        margin-bottom: 64px;
+                        page-break-before: always;
+                        width: 120%;
+                        margin-left: -9.6%;
+                        background-color: #ECEEF4
+                    }`
             tinymce.init({
                 selector: '.editor',
                 promotion: false,
@@ -67,7 +79,7 @@
                 plugins: plugins_tambahan,
                 content_style: `body { font-family: ${default_font}; }`,
                 toolbar1: "removeformat | bold italic underline subscript superscript | bullist numlist outdent indent lineheight | alignleft aligncenter alignright alignjustify | blocks fontfamily fontsizeinput",
-                toolbar2: "responsivefilemanager | salintemplate | kodeisian | insertpagebreak",
+                toolbar2: "responsivefilemanager | salintemplate | kodeisian "+ (! pratinjau ? " | insertpagebreak" : ""),
                 // toolbar: [{ name: 'blocks', items: [ 'p', 'h', 'menjorok' ] },],
                 image_advtab: true,
                 external_plugins: {
@@ -97,16 +109,19 @@
                         ed.execCommand("fontName", false, "${default_font}");
                     });                                    
 
-                    ed.on('keydown', function() {
-                        var contentAreaHeight = ed.getBody().offsetHeight;
-                        var lengthPaper = 1644; 
-                        var sisaBatasKertas = contentAreaHeight % lengthPaper
-                        console.log('sisaBatasKertas '+ sisaBatasKertas)
-                        // Check if a new line has been added
-                        if (sisaBatasKertas > 0 && sisaBatasKertas < 35) {                            
-                            ed.insertContent('<div style="page-break-after: always;"><!-- pagebreak --></div>');                            
-                        }                        
-                    });                    
+                    if (! pratinjau) {
+                        ed.on('keydown', function() {
+                            var contentAreaHeight = ed.getBody().offsetHeight;
+                            var lengthPaper = 1644; 
+                            var sisaBatasKertas = contentAreaHeight % lengthPaper
+                            console.log('sisaBatasKertas '+ sisaBatasKertas)
+                            // Check if a new line has been added
+                            if (sisaBatasKertas > 0 && sisaBatasKertas < 35) {                            
+                                ed.insertContent('<div style="page-break-after: always;"><!-- pagebreak --></div>');                            
+                            }                        
+                        });   
+                    }
+                                     
                 },
                 content_style: `
                     body {
@@ -138,19 +153,8 @@
                         vertical-align: bottom;
                     }
                     {!! $cssFont !!}
-
-                    .mce-pagebreak {   
-                        border:none; 
-                        cursor: default;
-                        display: block;
-                        height: 25px;
-                        margin-top: 64px;
-                        margin-bottom: 64px;
-                        page-break-before: always;
-                        width: 120%;
-                        margin-left: -9.6%;
-                        background-color: #ECEEF4
-                    }
+                    
+                    ${pageBreakCss}
                 `
             });
 
