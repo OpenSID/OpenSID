@@ -285,8 +285,6 @@ class Surat_master extends Admin_Controller
 
         $data = FormatSurat::findOrFail($id);
 
-        dd($data);
-
         if ($data->update(static::validate($this->request, $data->jenis, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
