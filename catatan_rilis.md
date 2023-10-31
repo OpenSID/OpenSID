@@ -1,13 +1,13 @@
-Di rilis ini, versi 2310.1.0 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2311.0.0 berisi penambahan pengaturan / alat kelengkapan surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontribusi.
 
 #### Penambahan Fitur
 
-1. [#5026](https://github.com/OpenSID/OpenSID/issues/5026) Penambahan tools fullscreen pada peta lokasi.
-2. [#6110](https://github.com/OpenSID/OpenSID/issues/6110) Penambahan fungsi untuk menyalin grup akses yang sudah ada.
-3. [#7041](https://github.com/OpenSID/OpenSID/issues/7041) Penambahan tampilan editor TinyMCE seperti Ms. Word.
-4. [#6068](https://github.com/OpenSID/OpenSID/issues/6068) Penambahan tools top align, midle align, bottom align.
+1. [#5026](https://github.com/OpenSID/OpenSID/issues/5026) Penambahan alat tampilan penuh pada peta lokasi.
+2. [#6110](https://github.com/OpenSID/OpenSID/issues/6110) Penambahan fungsi salin grup akses yang sudah ada.
+3. [#7041](https://github.com/OpenSID/OpenSID/issues/7041) Penambahan tampilan editor TinyMCE menyerupai Ms. Word.
+4. [#6068](https://github.com/OpenSID/OpenSID/issues/6068) Penambahan alat mengatur perataan teks secara vertikal pada editor TinyMCE.
 5. [#7163](https://github.com/OpenSID/OpenSID/issues/7163) Penambahan pengaturan surat TinyMCE untuk pilihan sumber data lebih dari satu pilihan. 
 6. [#7191](https://github.com/OpenSID/OpenSID/issues/7191) Penambahan kode isian operasi aritmatika dan terbilang untuk surat TinymCE.
 7. [#7095](https://github.com/OpenSID/OpenSID/issues/7095) Penambahan pengaturan surat TinyMCE untuk kolom kode isian.
@@ -82,10 +82,10 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 4. [#7160](https://github.com/OpenSID/OpenSID/issues/7160) Penghapusan duplikasi fungsi detail pada modul keluarga.
 5. [#2867](https://github.com/OpenSID/premium/issues/2867) Penyesuaian syarat surat untuk kasus multidesa.
 6. [#7102](https://github.com/OpenSID/OpenSID/issues/7102) Penyesuaian intalasi dengan wizard.
-7. [#7147](https://github.com/OpenSID/OpenSID/issues/7147) Penyesuaian tools template dan kode isian editor pada pratinjau surat TinyMCE.
+7. [#7147](https://github.com/OpenSID/OpenSID/issues/7147) Penyesuaian alat template dan kode isian editor pada pratinjau surat TinyMCE.
 8. [#2938](https://github.com/OpenSID/premium/issues/2938) Pembatasan request ke server layanan untuk website demo.
 9. [#2940](https://github.com/OpenSID/premium/issues/2940) Penyesuaian notifikasi pada pengecekan pelanggan.
-10. [#2954](https://github.com/OpenSID/premium/issues/2954) Penyesuaian tombol ekspor impor dalam satu tombol grup.
+10. [#2954](https://github.com/OpenSID/premium/issues/2954) Penyesuaian tombol ekspor/impor dalam satu tombol grup.
 11. [#2953](https://github.com/OpenSID/premium/issues/2953) Penyesuaian penggunaan slug untuk program bantuan.
 12. [#2973](https://github.com/OpenSID/premium/issues/2973) Penyesuaian penggunaan rtf sesuai pengaturan untuk persiapan penghapusan.
 13. [#2848](https://github.com/OpenSID/premium/issues/2848) Penyesuaian struktur tabel dan data kelompok_anggota melalui migrasi dan halaman periksa.
