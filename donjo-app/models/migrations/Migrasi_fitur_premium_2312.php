@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_fitur_premium_xxxx extends MY_model
+class Migrasi_fitur_premium_2312 extends MY_model
 {
     public function up()
     {
