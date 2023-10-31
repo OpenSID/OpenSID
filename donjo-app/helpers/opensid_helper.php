@@ -1916,8 +1916,12 @@ function updateIndex($data)
  * @return string
  */
 if (! function_exists('formatTanggal')) {
-    function formatTanggal($tanggal)
+    function formatTanggal($tanggal = null)
     {
+        if (null === $tanggal) {
+            return setting('ganti_data_kosong');
+        }
+
         return Carbon::parse($tanggal)->translatedFormat(setting('format_tanggal_surat'));
     }
 }

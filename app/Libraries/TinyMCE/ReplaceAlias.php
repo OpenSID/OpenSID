@@ -57,7 +57,14 @@ class ReplaceAlias
     {
         $input = $this->inputForm[$kategori];
 
-        $prefix = ($kategori == 'individu') ? '' : '_' . $kategori;
+        $prefix = '_' . $kategori;
+
+        if ($kategori == 'individu') {
+            $prefix = '';
+            if ($this->inputForm['nik'] == $input['nik']) {
+                unset($input['nik']);
+            }
+        }
 
         return [
             "[nik{$prefix}]"           => $input['nik'] ?: "[nik{$prefix}]",
