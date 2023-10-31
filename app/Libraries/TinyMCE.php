@@ -227,7 +227,7 @@ class TinyMCE
             }
 
             if (! $value->judul || ! $value->label) {
-                $judul = str_replace('_', ' ', ucwords($key));
+                $judul        = str_replace('_', ' ', ucwords($key));
                 $value->judul = $judul;
                 $value->label = $judul;
             }
