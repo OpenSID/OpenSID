@@ -77,6 +77,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
             $hasil = $hasil && $this->migrasi_2023101351($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023101971($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023102151($hasil, $id);
+            $hasil = $hasil && $this->suratKeteranganNikah($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -376,6 +377,17 @@ class Migrasi_fitur_premium_2311 extends MY_model
                     'after'      => 'format_nomor',
                 ],
             ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function suratKeteranganNikah($hasil, $id)
+    {
+        $data = getSuratBawaanTinyMCE()->first();
+
+        if ($data) {
+            // $this->tambah_surat_tinymce($data->toArray(), 1);
         }
 
         return $hasil;

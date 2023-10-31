@@ -1976,19 +1976,34 @@ if (! function_exists('daftar_statistik')) {
 
         return $data;
     }
+}
 
-    if (! function_exists('isNestedArray')) {
-        function isNestedArray($array)
-        {
-            if (is_array($array)) {
-                foreach ($array as $element) {
-                    if (is_array($element)) {
-                        return true;
-                    }
+if (! function_exists('isNestedArray')) {
+    function isNestedArray($array)
+    {
+        if (is_array($array)) {
+            foreach ($array as $element) {
+                if (is_array($element)) {
+                    return true;
                 }
             }
-
-            return false;
         }
+
+        return false;
+    }
+}
+
+if (! function_exists('getSuratBawaanTinyMCE')) {
+    function getSuratBawaanTinyMCE($url_surat = null)
+    {
+        $list_data = file_get_contents('assets/import/template_surat_tinymce.json');
+        $list_data = collect(json_decode($list_data, true))
+            ->when($url_surat, static function ($collection) use ($url_surat) {
+                return $collection->where('url_surat', $url_surat);
+            })->map(static function ($item) {
+                return collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray();
+            });
+
+        return $list_data;
     }
 }
