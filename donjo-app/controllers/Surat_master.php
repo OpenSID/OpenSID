@@ -550,12 +550,12 @@ class Surat_master extends Admin_Controller
 
             if ($list_data) {
                 if ($cek_surat->update($list_data)) {
-                    redirect_with('success', 'Berhasil Restore Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
+                    redirect_with('success', 'Berhasil Mengembalikan Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
                 }
             }
         }
 
-        redirect_with('error', 'Gagal Restore Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
+        redirect_with('error', 'Gagal Mengembalikan Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
     }
 
     // Tambahkan surat desa jika folder surat tidak ada di surat master
