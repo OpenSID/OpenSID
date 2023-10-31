@@ -1,6 +1,6 @@
 Di rilis ini, versi 2311.0.0 berisi penambahan pengaturan / alat kelengkapan surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontribusi.
+Terima kasih pada @totoprayogo1916 dan @arifpriadi baru mulai berkontribusi.
 
 #### Penambahan Fitur
 
