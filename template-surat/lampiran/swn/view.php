@@ -36,17 +36,17 @@
         <tr>
             <td colspan="17">KANTOR DESA/KELURAHAN</td>
             <td>: </td>
-            <td colspan="30">[Nama_desA]</td>
+            <td colspan="30">[NAma_desa]</td>
         </tr>
         <tr>
             <td colspan="17">KECAMATAN</td>
             <td>: </td>
-            <td colspan="30">[Nama_kecamataN]</td>
+            <td colspan="30">[NAma_kecamatan]</td>
         </tr>
         <tr>
             <td colspan="17">KABUPATEN/KOTA</td>
             <td>:</td>
-            <td colspan="30">[Nama_kabupateN]</td>
+            <td colspan="30">[NAma_kabupaten]</td>
         </tr>
         <tr>
             <?php for ($i = 0; $i < 48; $i++) : ?>
@@ -59,12 +59,12 @@
     <p class="title">SURAT KETERANGAN WALI NIKAH</p>
     <table align="center">
         <tr>
-            <td><span>Nomor : [Format_nomor_suraT]</span></td>
+            <td><span>Nomor : [FOrmat_nomor_surat]</span></td>
         </tr>
     </table>
 
 
-    <p>Yang bertanda tangan dibawah ini, [SeButan_kepala_desa] [SeButan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], Kabupaten [NaMa_kabupaten], menerangkan dengan sesungguhnya bahwa :</p>
+    <p>Yang bertanda tangan dibawah ini, [SeButan_kepala_desa] [SeButan_desa] [NAma_desa], Kecamatan [NAma_kecamatan], Kabupaten [NAma_kabupaten], menerangkan dengan sesungguhnya bahwa :</p>
     <table id="kop" class="disdukcapil">
         <col span="48" style="width: 2.0833%;">
         <tr>
@@ -74,7 +74,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Nama lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong>[Nama_dwN]</strong></td>
+            <td colspan="27"><strong>[NAma_dwN]</strong></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
@@ -86,31 +86,31 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Nomor Induk Kependudukan</td>
             <td>: </td>
-            <td colspan="27">[Nik_dwN]</td>
+            <td colspan="27">[NiK_dwN]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Tempat dan Tanggal Lahir</td>
             <td>: </td>
-            <td colspan="27">[Ttl_dwN]</td>
+            <td colspan="27">[TtL_dwN]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Agama</td>
             <td>: </td>
-            <td colspan="27">[Agama_dwN]</td>
+            <td colspan="27">[AgAma_dwN]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Pekerjaan</td>
             <td>: </td>
-            <td colspan="27">[Pekerjaan_dwN]</td>
+            <td colspan="27">[PeKerjaan_dwN]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Tempat tinggal terakhir </td>
             <td>: </td>
-            <td colspan="27">[Alamat_dwN]</td>
+            <td colspan="27">[AlAmat_dwN]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
@@ -129,13 +129,13 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="10">Pernikahan</td>
             <td>: </td>
-            <td colspan="27"><strong>[Nama_dcpW]</strong></td>
+            <td colspan="27"><strong>[NAma_dcpw]</strong></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="10">Dengan</td>
             <td>: </td>
-            <td colspan="27"><strong>[NamA]</strong></td>
+            <td colspan="27"><strong>[NAma]</strong></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
@@ -153,7 +153,7 @@
         <col span="48" style="width: 2.0833%;">
         <tr>
             <td colspan="32">&nbsp;</td>
-            <td colspan="20" class="tengah">[NaMa_desa], [TgL_surat]</td>
+            <td colspan="20" class="tengah">[NAma_desa], [TgL_surat]</td>
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
@@ -168,7 +168,7 @@
         </tr>
         <tr>
             <td colspan="37">&nbsp;</td>
-            <td colspan="10" class="tengah"><strong>[Nama_pamonG]</strong></td>
+            <td colspan="10" class="tengah"><strong>[NAma_pamonG]</strong></td>
             <td colspan="2">&nbsp;</td>
         </tr>
     </table>

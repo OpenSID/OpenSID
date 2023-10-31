@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * File ini bagian dari:
@@ -34,42 +35,19 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class Migrasi_2311_ke_2312 extends MY_Model
 {
     public function up()
     {
         $hasil = true;
 
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
+        // Migrasi fitur premium
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2312', false);
 
-        return $hasil && $this->migrasi_data($hasil);
-    }
+        status_sukses($hasil);
 
-    protected function migrasi_tabel($hasil)
-    {
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
-    {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
-        // }
-
-        // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
-    }
-
-    protected function migrasi_xxxxxxxxxx($hasil)
-    {
         return $hasil;
     }
 }

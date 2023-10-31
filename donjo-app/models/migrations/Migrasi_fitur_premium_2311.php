@@ -63,7 +63,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
         $hasil = $hasil && $this->migrasi_2023101352($hasil);
         $hasil = $hasil && $this->migrasi_2023102551($hasil);
 
-        return $hasil && $this->migrasi_2023102571($hasil);
+        return hasil && $this->migrasi_2023102651($hasil);
     }
 
     // Migrasi perubahan data
@@ -77,6 +77,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
             $hasil = $hasil && $this->migrasi_2023101351($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023101971($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023102151($hasil, $id);
+            $hasil = $hasil && $this->suratKeteranganNikah($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -295,7 +296,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
             'judul'      => 'Format Tanggal Surat',
             'key'        => 'format_tanggal_surat',
             'value'      => 'd F Y',
-            'keterangan' => 'Format tanggal pada kode isian surat. Format : <code><a href="https://www.php.net/manual/en/function.date.php" target="_blank">https://www.php.net/manual/en/function.date.php</a></code>',
+            'keterangan' => 'Format tanggal pada kode isian surat.',
             'jenis'      => 'text',
             'option'     => null,
             'attribute'  => null,
@@ -320,7 +321,11 @@ class Migrasi_fitur_premium_2311 extends MY_model
                     if (! is_array($value['data'])) {
                         $nilaiBaru[] = $nilaiSebelumnya;
                     } else {
-                        $nilaiBaru = [$nilaiSebelumnya];
+                        if (isNestedArray($nilaiSebelumnya)) {
+                            $nilaiBaru = $nilaiSebelumnya[0];
+                        } else {
+                            $nilaiBaru = $nilaiSebelumnya;
+                        }
                     }
                     $dataBaru[$key]['data'] = $nilaiBaru;
                 }
@@ -361,25 +366,30 @@ class Migrasi_fitur_premium_2311 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2023102571($hasil)
+    protected function migrasi_2023102651($hasil)
     {
-        return $hasil && $this->dbforge->add_field([
-            'id'            => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
-            'config_id'     => ['type' => 'INT', 'constraint' => 11],
-            'slug'          => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => true],
-            'nama'          => ['type' => 'VARCHAR', 'constraint' => 100],
-            'jenis'         => ['type' => 'TINYINT', 'default' => '2'],
-            'template'      => ['type' => 'LONGTEXT', 'null' => true],
-            'template_desa' => ['type' => 'LONGTEXT', 'null' => true],
-            'status'        => ['type' => 'TINYINT', 'default' => '1'],
-            'created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP',
-            'created_by int(11) DEFAULT NULL',
-            'updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
-            'updated_by int(11) DEFAULT NULL',
-            'PRIMARY KEY (`id`)',
-            'UNIQUE KEY `slug_config` (`config_id`,`slug`)',
-            'CONSTRAINT `lampiran_surat_config_fk` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
-        ])
-            ->create_table('lampiran_surat', true);
+        if (! $this->db->field_exists('sumber_penduduk_berulang', 'tweb_surat_format')) {
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', [
+                'sumber_penduduk_berulang' => [
+                    'type'       => 'tinyint',
+                    'constraint' => 1,
+                    'default'    => 0,
+                    'after'      => 'format_nomor',
+                ],
+            ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function suratKeteranganNikah($hasil, $id)
+    {
+        $data = getSuratBawaanTinyMCE('surat-keterangan-nikah')->first();
+
+        if ($data) {
+            $this->tambah_surat_tinymce($data, $id);
+        }
+
+        return $hasil;
     }
 }

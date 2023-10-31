@@ -50,8 +50,6 @@ class ReplaceAlias
 
     public static function get($suratMatser, $inputForm)
     {
-        // log_message('notice', 'data alias : ' . print_r($inputForm, true));
-
         return (new self($suratMatser, $inputForm))->getKategori();
     }
 
@@ -59,7 +57,14 @@ class ReplaceAlias
     {
         $input = $this->inputForm[$kategori];
 
-        $prefix = ($kategori == 'individu') ? '' : '_' . $kategori;
+        $prefix = '_' . $kategori;
+
+        if ($kategori == 'individu') {
+            $prefix = '';
+            if ($this->inputForm['nik'] == $input['nik']) {
+                unset($input['nik']);
+            }
+        }
 
         return [
             "[nik{$prefix}]"           => $input['nik'] ?: "[nik{$prefix}]",

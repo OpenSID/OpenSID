@@ -50,7 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2310.1.0');
+define('VERSION', '2311.0.0');
 
 /**
  * PREMIUM
@@ -66,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023102671');
+define('VERSI_DATABASE', '2023110171');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1916,8 +1916,12 @@ function updateIndex($data)
  * @return string
  */
 if (! function_exists('formatTanggal')) {
-    function formatTanggal($tanggal)
+    function formatTanggal($tanggal = null)
     {
+        if (null === $tanggal) {
+            return setting('ganti_data_kosong');
+        }
+
         return Carbon::parse($tanggal)->translatedFormat(setting('format_tanggal_surat'));
     }
 }
@@ -1975,5 +1979,35 @@ if (! function_exists('daftar_statistik')) {
         ];
 
         return $data;
+    }
+}
+
+if (! function_exists('isNestedArray')) {
+    function isNestedArray($array)
+    {
+        if (is_array($array)) {
+            foreach ($array as $element) {
+                if (is_array($element)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+}
+
+if (! function_exists('getSuratBawaanTinyMCE')) {
+    function getSuratBawaanTinyMCE($url_surat = null)
+    {
+        $list_data = file_get_contents('assets/import/template_surat_tinymce.json');
+        $list_data = collect(json_decode($list_data, true))
+            ->when($url_surat, static function ($collection) use ($url_surat) {
+                return $collection->where('url_surat', $url_surat);
+            })->map(static function ($item) {
+                return collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray();
+            });
+
+        return $list_data;
     }
 }
