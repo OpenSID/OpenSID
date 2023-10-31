@@ -14,7 +14,7 @@
             <div class="px-4 py-8 border-b border-gray-200 sm:px-6">
                 <div class="flex justify-center items-center">
                     <img alt="App logo" class="h-12" src="{{ base_url('favicon.ico') }}">
-                    <h2 class="pl-6 uppercase font-medium text-2xl text-gray-800">OpenSID Instalasi</h2>
+                    <h2 class="pl-6 font-medium text-2xl text-gray-800">OpenSID Instalasi</h2>
                 </div>
             </div>
             <div class="px-4 py-5 sm:px-6 w-full">

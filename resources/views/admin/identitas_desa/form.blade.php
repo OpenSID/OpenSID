@@ -123,7 +123,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" for="telepon">Nomor Telpon
+                    <label class="col-sm-3 control-label" for="telepon">Nomor Telepon
                         {{ ucwords($setting->sebutan_desa) }}</label>
                     <div class="col-sm-8">
                         <input id="telepon" name="telepon" class="form-control input-sm bilangan" type="text" maxlength="15" placeholder="Telpon {{ ucwords($setting->sebutan_desa) }}" value="{{ $main['telepon'] }}" />
