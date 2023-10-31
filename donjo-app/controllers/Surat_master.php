@@ -564,7 +564,7 @@ class Surat_master extends Admin_Controller
         if (! setting('nonaktifkan_rtf')) {
             redirect_with('error', 'Anda tidak dapat mengakses halaman ini');
         }
-        
+
         $this->redirect_hak_akses('u', null, null, true);
 
         $folderSuratDesa = glob(LOKASI_SURAT_DESA . '*', GLOB_ONLYDIR);
