@@ -384,10 +384,10 @@ class Migrasi_fitur_premium_2311 extends MY_model
 
     protected function suratKeteranganNikah($hasil, $id)
     {
-        $data = getSuratBawaanTinyMCE()->first();
+        $data = getSuratBawaanTinyMCE('surat-keterangan-nikah')->first();
 
         if ($data) {
-            // $this->tambah_surat_tinymce($data->toArray(), 1);
+            $this->tambah_surat_tinymce($data, $id);
         }
 
         return $hasil;

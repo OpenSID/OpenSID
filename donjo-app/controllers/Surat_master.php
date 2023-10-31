@@ -263,7 +263,11 @@ class Surat_master extends Admin_Controller
     public function simpan_sementara()
     {
         $this->redirect_hak_akses('u');
-        $surat = FormatSurat::updateOrCreate(['id' => $this->request['id_surat'], 'config_id' => identitas('id')], static::validate($this->request));
+        $id = $this->request['id_surat'];
+
+        $cek_surat = FormatSurat::find($id);
+
+        $surat = FormatSurat::updateOrCreate(['id' => $id, 'config_id' => identitas('id')], static::validate($this->request, $cek_surat->jenis, $id));
         if ($surat) {
             redirect_with('success', 'Berhasil Simpan Data Sementara', 'surat_master/form/' . $surat->id);
         }
@@ -280,6 +284,8 @@ class Surat_master extends Admin_Controller
         }
 
         $data = FormatSurat::findOrFail($id);
+
+        dd($data);
 
         if ($data->update(static::validate($this->request, $data->jenis, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
