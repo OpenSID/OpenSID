@@ -451,7 +451,6 @@ class Surat_master extends Admin_Controller
             'footer'                   => (int) $request['footer'],
             'format_nomor'             => $request['format_nomor'],
             'sumber_penduduk_berulang' => $request['sumber_penduduk_berulang'],
-            // 'margin'              => $request['format_nomor']
         ];
 
         if (null === $id) {
