@@ -294,10 +294,10 @@ class KodeIsianPenduduk
                     ->first()->id;
             }
 
-            if ($id_ayah || empty($penduduk)) {
-                // Data Ayah
-                $data = array_merge($data, self::get($id_ayah, 'ayah', true));
-            } else {
+            // Data Ayah
+            $data = array_merge($data, self::get($id_ayah, 'ayah', true));
+
+            if (! $id_ayah && ! empty($penduduk)) {
                 $data_ortu = [
                     [
                         'judul' => 'Nama Ayah',
@@ -313,10 +313,10 @@ class KodeIsianPenduduk
                 $data = array_merge($data, $data_ortu);
             }
 
-            if ($id_ibu || empty($penduduk)) {
-                // Data Ibu
-                $data = array_merge($data, self::get($id_ibu, 'ibu', true));
-            } else {
+            // Data Ibu
+            $data = array_merge($data, self::get($id_ibu, 'ibu', true));
+
+            if (! $id_ibu && ! empty($penduduk)) {
                 $data_ortu = [
                     [
                         'judul' => 'Nama Ibu',

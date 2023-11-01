@@ -15,6 +15,7 @@
                         <label class="control-label col-sm-2" for="">Label</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control judul" />
+                            <label>Isi dengan <code>[desa]</code> untuk menyesuaikan sebutan desa berdasarkan pengaturan aplikasi.</label>
                         </div>
                     </div>
                     <div class="form-group"> 
@@ -66,7 +67,7 @@
                 </span>
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        {{ $penduduk['title'] }}
+                        {{ strtoupper(SebutanDesa($penduduk['title'])) }}
                     </h4>
                 </div>
                 <div class="panel-body">

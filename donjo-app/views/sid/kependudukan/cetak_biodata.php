@@ -115,7 +115,7 @@
 						<td><?= strtoupper($penduduk['status'])?></td>
 					</tr>
 					<tr>
-						<td>Nomor Telpon/HP</td><td >:</td>
+						<td>Nomor Telepon/HP</td><td >:</td>
 						<td><?= strtoupper($penduduk['telepon'])?></td>
 					</tr>
 					<tr>

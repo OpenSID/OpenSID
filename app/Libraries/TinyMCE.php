@@ -222,6 +222,16 @@ class TinyMCE
         $daftarKategori = collect($data['surat']->form_isian)->toArray();
 
         foreach ($daftarKategori as $key => $value) {
+            if (! $value->sumber) {
+                $value->sumber = 1;
+            }
+
+            if (! $value->judul || ! $value->label) {
+                $judul        = str_replace('_', ' ', ucwords($key));
+                $value->judul = $judul;
+                $value->label = $judul;
+            }
+
             if ($value->sumber == 1 && $key != 'individu') {
                 $daftar_kode_isian[$value->judul] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
             }
