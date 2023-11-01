@@ -22,13 +22,13 @@
 										<tr>
                       <th width="auto">Nama Kegiatan</th>
                       <td width="1%">:</td>
-                      <td><?= d($data->judul) ?></td>
+                      <td><?= $data->judul ?></td>
                     </tr>
 										<tr>
                       <th>Alamat</th>
                       <td>:</td>
 											
-                      <td><?= ($data->alamat == "=== Lokasi Tidak Ditemukan ===") ? 'Lokasi tidak diketahui' : d($data->alamat); ?></td>
+                      <td><?= ($data->alamat == "=== Lokasi Tidak Ditemukan ===") ? 'Lokasi tidak diketahui' : $data->alamat; ?></td>
                     </tr>
                     <tr>
                       <th>Tahun</th>
@@ -39,7 +39,7 @@
                     <tr>
                       <th>Keterangan</th>
                       <td>:</td>
-                      <td><?= d($data->keterangan) ?></td>
+                      <td><?= $data->keterangan ?></td>
                     </tr>
 									</tbody>
 								</table>

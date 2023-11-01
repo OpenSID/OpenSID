@@ -1,3 +1,11 @@
+<?php if ($this->setting->api_opendk_key) : ?>
+<div class="alert alert-warning alert-dismissible">
+    <h4><i class="icon fa fa-warning"></i> Info Penting!</h4>
+    Fitur Sinkronisasi Surat TTE ke kecamatan saat ini masih berupa demo menunggu proses penyempurnaan dan terdapat kecamatan yang sudah mengimplentasikan TTE.
+    Kami juga menghimbau kepada seluruh pengguna memberikan masukan terkait penyempurnaan fitur ini baik dari sisi OpenSID maupun OpenDK.
+    Masukan dapat disampaikan di grup telegram, forum opendesa maupun issue di github.
+</div>
+<?php endif ?>
 <div class="row">
     <a href="<?= site_url($this->controller . '/clear/masuk')?>">
         <div class="col-lg-3 col-sm-6 col-xs-6">
@@ -44,6 +52,25 @@
                             <div class="progress-bar" style="width: 100%"></div>
                         </div>
                         <span class="progress-description">Total : <b><?= $widgets['tolak'] ?></b></span>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+    <?php endif ?>
+
+    <?php if ($this->setting->api_opendk_key) : ?>
+        <a href="<?= site_url($this->controller . '/kecamatan')?>">
+            <div class="col-lg-3 col-sm-6 col-xs-6">
+                <div class="info-box bg-orange <?= jecho($this->tab_ini, 13, 'active') ?>">
+                    <span class="info-box-icon"><i class="fa fa-share-square fa-nav"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Kecamatan</span>
+                        <span class="info-box-number"><?= $widgets['kecamatan'] ?></span>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 100%"></div>
+                        </div>
+                        <span class="progress-description">Total : <b><?= $widgets['kecamatan'] ?></b></span>
                     </div>
                 </div>
             </div>

@@ -8,7 +8,7 @@
             <br/><br/>
             <div class="alert alert-info alert-dismissible">
                 <h4><i class="icon fa fa-info"></i> Info !</h4>
-                Jika surat ingin dikirim ke kecamatan, letakan kode [qrcode_bsre_kecamatan] pada tempat yang ingin ditempelkan QRCode Kecamatan.
+                Jika surat ingin dikirim ke kecamatan, letakan kode [qr_camat] pada tempat yang ingin ditempelkan QRCode Kecamatan.
             </div>
         @endif
     </div>

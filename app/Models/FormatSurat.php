@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Libraries\TinyMCE;
 use App\Traits\Author;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -130,13 +131,15 @@ class FormatSurat extends BaseModel
      * @var array
      */
     public const ATTRIBUTES = [
-        'text'     => 'Input Teks',
-        'number'   => 'Input Angka',
-        'email'    => 'Input Email',
-        'url'      => 'Input Url',
-        'date'     => 'Input Tanggal',
-        'time'     => 'Input Jam',
-        'textarea' => 'Text Area',
+        'text'            => 'Input Teks',
+        'number'          => 'Input Angka',
+        'email'           => 'Input Email',
+        'url'             => 'Input Url',
+        'date'            => 'Input Tanggal',
+        'time'            => 'Input Jam',
+        'textarea'        => 'Text Area',
+        'select-manual'   => 'Select (Manual)',
+        'select-otomatis' => 'Select (Otomatis)',
     ];
 
     /**
@@ -330,13 +333,23 @@ class FormatSurat extends BaseModel
             return kode_isian($this->url_surat);
         }
 
-        return json_decode($this->attributes['kode_isian']);
+        $kode_isian = json_decode($this->attributes['kode_isian']);
+        $non_warga  = json_decode(TinyMCE::getKodeIsianNonWarga());
+        if ($this->getFormIsianAttribute()->data == '2') {
+            if (null !== $kode_isian) {
+                return [...$non_warga, ...$kode_isian];
+            }
+
+            return $non_warga;
+        }
+
+        return $kode_isian;
     }
 
     /**
      * Getter untuk form_isian
      *
-     * @return string
+     * @return mixed
      */
     public function getFormIsianAttribute()
     {

@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}" />
     <!-- AdminLTE Skins. -->
     <link rel="stylesheet" href="{{ asset('css/skins/_all-skins.min.css') }}" />
-    {{-- Sweetalert --}}
+    <!-- Sweetalert CSS-->
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
     <!-- Modifikasi -->
     <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}" />
@@ -57,8 +57,6 @@
         @if ($notif['pengumuman'])
             @include('admin.layouts.components.pengumuman', $notif['pengumuman'])
         @endif
-
-        @include('admin.profil.pengaturan_pengguna')
 
         @include('admin.layouts.partials.footer')
 
@@ -103,7 +101,7 @@
     <script src="{{ asset('bootstrap/js/fastclick.js') }}"></script>
     <!-- AdminLTE -->
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
-    {{-- Sweetalert --}}
+    <!-- Sweetalert JS -->
     <script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
     <!-- jquery validasi -->
     <script src="{{ asset('js/script.js') }}"></script>
@@ -132,7 +130,7 @@
         });
     </script>
 
-    @if ($perbaharui_langganan != null)
+    @if ($perbaharui_langganan != null && !config_item('demo_mode'))
         <!-- cek status langganan -->
         <script type="text/javascript">
             var controller = '{{ $controller }}';

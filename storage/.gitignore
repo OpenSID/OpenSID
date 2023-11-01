@@ -1,0 +1,9 @@
+framework/*
+!framework/index.html
+
+!framework/views
+framework/views/*
+!framework/views/index.html
+
+logs/*
+!logs/index.html
