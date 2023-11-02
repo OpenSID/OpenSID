@@ -473,7 +473,7 @@ class TinyMCE
         $alias = ReplaceAlias::get($data['surat'], $data['input']);
 
         if ($alias) {
-            $newKodeIsian = array_merge($newKodeIsian, $alias);
+            $newKodeIsian = array_replace($newKodeIsian, $alias);
         }
 
         foreach ($newKodeIsian as $key => $value) {

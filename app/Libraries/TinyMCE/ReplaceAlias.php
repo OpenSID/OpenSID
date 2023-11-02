@@ -41,6 +41,23 @@ class ReplaceAlias
 {
     private $suratMatser;
     private $inputForm;
+    private $kodeIsian = [
+        'nik',
+        'nama',
+        'tempatlahir',
+        'tanggallahir',
+        'ttl',
+        'jenis_kelamin',
+        'agama',
+        'pendidikan',
+        'pekerjaan',
+        'warga_negara',
+        'alamat',
+
+        // kode isian lama
+        'form_nama_non_warga',
+        'form_nik_non_warga',
+    ];
 
     public function __construct($suratMatser, $inputForm)
     {
@@ -57,6 +74,10 @@ class ReplaceAlias
     {
         $input = $this->inputForm[$kategori];
 
+        if (! $input['opsi_penduduk'] || $input['opsi_penduduk'] == 1) {
+            return false;
+        }
+
         $prefix = '_' . $kategori;
 
         if ($kategori == 'individu') {
@@ -66,23 +87,18 @@ class ReplaceAlias
             }
         }
 
-        return [
-            "[nik{$prefix}]"           => $input['nik'] ?: "[nik{$prefix}]",
-            "[nama{$prefix}]"          => $input['nama'] ?: "[nama{$prefix}]",
-            "[tempatlahir{$prefix}]"   => $input['tempatlahir'] ?: "[tempatlahir{$prefix}]",
-            "[tanggallahir{$prefix}]"  => $input['tanggallahir'] ? formatTanggal($input['tanggallahir']) : "[tanggallahir{$prefix}]",
-            "[ttl{$prefix}]"           => $input['tanggallahir'] || $input['tanggallahir'] ? $input['tempatlahir'] . '/' . formatTanggal($input['tanggallahir']) : "[ttl{$prefix}]",
-            "[jenis_kelamin{$prefix}]" => $input['jenis_kelamin'] ?: "[jenis_kelamin{$prefix}]",
-            "[agama{$prefix}]"         => $input['agama'] ?: "[agama{$prefix}]",
-            "[pendidikan_kk{$prefix}]" => $input['pendidikan'] ?: "[pendidikan_kk{$prefix}]",
-            "[pekerjaan{$prefix}]"     => $input['pekerjaan'] ?: "[pekerjaan{$prefix}]",
-            "[warga_negara{$prefix}]"  => $input['warga_negara'] ?: "[warga_negara{$prefix}]",
-            "[alamat{$prefix}]"        => $input['alamat'] ?: "[alamat{$prefix}]",
+        return collect($this->kodeIsian)->mapWithKeys(function ($item) use ($prefix, $input) {
+            $value = $input[$item];
+            if (in_array($item, ['form_nama_non_warga', 'form_nik_non_warga'])) {
+                return ['[' . ucfirst(uclast($item)) . ']' => $value];
+            }
 
-            // agar bisa gunakan isian non warga versi sebelumnnya
-            '[form_nama_non_warga]' => $input['nama'] ?: '[form_nama_non_warga]',
-            '[form_nik_non_warga]'  => $input['nik'] ?: '[form_nik_non_warga]',
-        ];
+            if ($item == 'ttl') {
+                $value = $input['tempatlahir'] . '/' . formatTanggal($input['tanggallahir']);
+            }
+
+            return ['[' . ucfirst(uclast($item . $prefix)) . ']' => $value];
+        });
     }
 
     public function getKategori()
