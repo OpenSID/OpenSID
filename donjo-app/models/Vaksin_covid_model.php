@@ -74,7 +74,7 @@ class Vaksin_covid_model extends MY_Model
     {
         $kf = $this->session->dusun;
         if (isset($kf)) {
-            $this->db->where("((p.id_kk != null AND cp.dusun = '{$kf}') OR (p.id_kk = null AND ck.dusun = '{$kf}'))");
+            $this->db->where("((p.id_kk is not null AND cp.dusun = '{$kf}') OR (p.id_kk is null AND ck.dusun = '{$kf}'))");
         }
     }
 

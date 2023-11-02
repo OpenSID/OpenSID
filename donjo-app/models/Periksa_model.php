@@ -576,7 +576,6 @@ class Periksa_model extends MY_Model
         return Penduduk::select('id', 'nama', 'nik', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
             ->kepalaKeluarga()
             ->whereNotNull('id_kk')
-            ->where('id_kk', '!=', null)
             ->wheredoesntHave('keluarga', static function ($q) use ($config_id) {
                 return $q->where('config_id', $config_id);
             })

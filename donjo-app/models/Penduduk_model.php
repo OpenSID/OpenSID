@@ -95,7 +95,7 @@ class Penduduk_model extends MY_Model
     {
         if (! empty($this->session->dusun)) {
             $kf = $this->session->dusun;
-            $this->db->where("((u.id_kk != null AND a.dusun = '{$kf}') OR (u.id_kk = null AND a2.dusun = '{$kf}'))");
+            $this->db->where("((u.id_kk IS NOT NULL AND a.dusun = '{$kf}') OR (u.id_kk IS NULL AND a2.dusun = '{$kf}'))");
         }
     }
 
@@ -103,7 +103,7 @@ class Penduduk_model extends MY_Model
     {
         if (! empty($this->session->rw)) {
             $kf = $this->session->rw;
-            $this->db->where("((u.id_kk != null AND a.rw = '{$kf}') OR (u.id_kk = null AND a2.rw = '{$kf}'))");
+            $this->db->where("((u.id_kk IS NOT NULL AND a.rw = '{$kf}') OR (u.id_kk IS NULL AND a2.rw = '{$kf}'))");
         }
     }
 
@@ -111,7 +111,7 @@ class Penduduk_model extends MY_Model
     {
         if (! empty($this->session->rt)) {
             $kf = $this->session->rt;
-            $this->db->where("((u.id_kk != null AND a.rt = '{$kf}') OR (u.id_kk = null AND a2.rt = '{$kf}'))");
+            $this->db->where("((u.id_kk IS NOT NULL AND a.rt = '{$kf}') OR (u.id_kk IS NULL AND a2.rt = '{$kf}'))");
         }
     }
 
@@ -122,17 +122,9 @@ class Penduduk_model extends MY_Model
         }
 
         if ($kf == JUMLAH) {
-            $this->db
-                ->group_start()
-                ->where("{$kolom} IS NOT NULL")
-                ->where("{$kolom} !=", '')
-                ->group_end();
+            $this->db->where("{$kolom} IS NOT NULL");
         } elseif ($kf == BELUM_MENGISI) {
-            $this->db
-                ->group_start()
-                ->where("{$kolom} IS NULL")
-                ->or_where($kolom, '')
-                ->group_end();
+            $this->db->where("{$kolom} IS NULL");
         } elseif ($kf == $this->session->status_dasar) {
             $this->db->where_in($kolom, $kf);
         } else {

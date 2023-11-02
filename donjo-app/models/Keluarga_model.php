@@ -814,7 +814,7 @@ class Keluarga_model extends MY_Model
             ->select('u.id, u.nik, u.nama, u.alamat_sekarang as alamat, w.rt, w.rw, w.dusun')
             ->from('penduduk_hidup u')
             ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
-            ->where('id_kk', null)
+            ->where('id_kk is null')
             ->where('status', 1);
 
         if ($shdk) {

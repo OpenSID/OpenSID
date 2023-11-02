@@ -88,7 +88,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
     protected function migrasi_2023110252($hasil)
     {
-        DB::table('tweb_penduduk')->where('id_kk', '<', 1)->orWhere('id_kk', '')->update(['id_kk' => null]);
+        DB::table('tweb_penduduk')->where('id_kk', 0)->orWhere('id_kk', '')->update(['id_kk' => null]);
 
         return $hasil;
     }
