@@ -90,6 +90,13 @@ class Migrasi_fitur_premium_2312 extends MY_model
     {
         DB::table('tweb_penduduk')->where('id_kk', 0)->orWhere('id_kk', '')->update(['id_kk' => null]);
 
-        return $hasil;
+        return $hasil && $this->dbforge->modify_column('tweb_penduduk', [
+            'id_kk' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'       => false,
+                'default'    => null,
+            ],
+        ]);
     }
 }
