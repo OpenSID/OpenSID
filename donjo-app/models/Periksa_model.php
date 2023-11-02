@@ -39,7 +39,6 @@ use App\Enums\StatusDasarEnum;
 use App\Models\CovidVaksin;
 use App\Models\InventarisAsset;
 use App\Models\Keluarga;
-use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
 use App\Models\LogPerubahanPenduduk;
 use App\Models\Penduduk;
@@ -622,9 +621,7 @@ class Periksa_model extends MY_Model
 
     public function deteksi_log_keluarga_bermasalah()
     {
-        return Keluarga::whereDoesntHave('LogKeluarga', static function ($q) {
-            $q->where(['id_peristiwa' => LogKeluarga::KELUARGA_BARU]);
-        })->get();
+        return Keluarga::whereDoesntHave('LogKeluarga')->get();
     }
 
     private function deteksi_no_anggota_ganda()
