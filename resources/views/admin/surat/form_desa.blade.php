@@ -123,12 +123,12 @@
                 placeholder: function() {
                     $(this).data('placeholder');
                 },
-                minimumInputLength: 0,
+                minimumInputLength: 1,
                 allowClear: true,
                 escapeMarkup: function(markup) {
                     return markup;
                 },
-            });
+            }).autofocus;
 
             $('.select2-nik-ajax').select2({
                 ajax: {
@@ -179,7 +179,7 @@
                     return $penduduk;
                 },
                 placeholder: '--  Cari NIK / Tag ID Card / Nama Penduduk --',
-                minimumInputLength: 0,
+                minimumInputLength: 1,
             });
             
             // kaitkan data 

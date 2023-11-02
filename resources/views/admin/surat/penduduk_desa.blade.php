@@ -2,7 +2,7 @@
     <div class="form-group">
         <label for="nik" class="col-sm-3 control-label">NIK / Nama</label>
         <div class="col-sm-6 col-lg-4">
-            <select name="{{ $kategori }}[nik]" class="form-control input-sm isi-penduduk-desa {{ $kategori == 'individu' ? 'required' : '' }} select2-nik-ajax"
+            <select autofocus name="{{ $kategori }}[nik]" class="form-control input-sm isi-penduduk-desa {{ $kategori == 'individu' ? 'required' : '' }} select2-nik-ajax"
                 data-surat="{{ $surat->id }}" data-hubungan="{{ $surat->form_isian->$kategori->hubungan }}" data-kategori="{{ $kategori }}" data-url="{{ site_url('surat/list_penduduk_ajax') }}"
                 data-sumber_penduduk_berulang="{{ $surat->sumber_penduduk_berulang }}"
                 data-placeholder="-- Cari NIK / Tag ID Card / Nama Penduduk --"
