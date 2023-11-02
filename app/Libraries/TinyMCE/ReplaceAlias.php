@@ -87,7 +87,7 @@ class ReplaceAlias
             }
         }
 
-        return collect($this->kodeIsian)->mapWithKeys(function ($item) use ($prefix, $input) {
+        return collect($this->kodeIsian)->mapWithKeys(static function ($item) use ($prefix, $input) {
             $value = $input[$item];
             if (in_array($item, ['form_nama_non_warga', 'form_nik_non_warga'])) {
                 return ['[' . ucfirst(uclast($item)) . ']' => $value];
