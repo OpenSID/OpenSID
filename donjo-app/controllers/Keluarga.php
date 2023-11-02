@@ -108,14 +108,14 @@ class Keluarga extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data['func']       = 'index';
-        $this->header['kategori']     = 'data_lengkap';
-        $data['set_page']   = $this->_set_page;
-        $list_data          = $this->keluarga_model->list_data($o, $p);
-        $data['paging']     = $list_data['paging'];
-        $data['main']       = $list_data['main'];
-        $data['list_sex']   = $this->referensi_model->list_data('tweb_penduduk_sex');
-        $data['list_dusun'] = $this->wilayah_model->list_dusun();
+        $data['func']             = 'index';
+        $this->header['kategori'] = 'data_lengkap';
+        $data['set_page']         = $this->_set_page;
+        $list_data                = $this->keluarga_model->list_data($o, $p);
+        $data['paging']           = $list_data['paging'];
+        $data['main']             = $list_data['main'];
+        $data['list_sex']         = $this->referensi_model->list_data('tweb_penduduk_sex');
+        $data['list_dusun']       = $this->wilayah_model->list_dusun();
 
         $this->render('sid/kependudukan/keluarga', $data);
     }
@@ -439,7 +439,7 @@ class Keluarga extends Admin_Controller
 
             redirect("{$this->controller}/index/{$p}/{$o}");
         }
-        
+
         $this->keluarga_model->delete_all();
         $this->cache->hapus_cache_untuk_semua('_wilayah');
 

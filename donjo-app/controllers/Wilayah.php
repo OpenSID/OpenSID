@@ -452,7 +452,7 @@ class Wilayah extends Admin_Controller
     }
 
     public function ajax_wilayah_dusun_maps($id = '')
-    {        
+    {
         $data['wil_atas'] = $this->header['desa'];
         $sebutan_desa     = ucwords($this->setting->sebutan_desa);
         $namadesa         = $data['wil_atas']['nama_desa'];
@@ -552,14 +552,14 @@ class Wilayah extends Admin_Controller
     }
 
     public function ajax_kantor_rt_maps($id_dusun = '', $id_rw = '', $id = '')
-    {        
-        $dataRW = $this->wilayah_model->cluster_by_id($id_rw);
+    {
+        $dataRW           = $this->wilayah_model->cluster_by_id($id_rw);
         $data['wil_atas'] = $dataRW;
         if ($dataRW['rw'] == '-') {
             $data['wil_atas'] = $this->wilayah_model->cluster_by_id($id_dusun);
         }
-        $sebutan_dusun    = ucwords(setting('sebutan_dusun'));
-        $dusun            = $data['wil_atas']['dusun'];
+        $sebutan_dusun = ucwords(setting('sebutan_dusun'));
+        $dusun         = $data['wil_atas']['dusun'];
         $this->ubah_lokasi_peta($data['wil_atas'], "sub_rt/{$id_dusun}/{$id_rw}", "Lokasi Kantor {$sebutan_dusun} {$dusun} Belum Dilengkapi");
 
         $data['wil_ini']      = $this->wilayah_model->cluster_by_id($id);
@@ -581,14 +581,14 @@ class Wilayah extends Admin_Controller
 
     public function ajax_wilayah_rt_maps($id_dusun = '', $id_rw = '', $id = '')
     {
-        $dataRW = $this->wilayah_model->cluster_by_id($id_rw);
+        $dataRW           = $this->wilayah_model->cluster_by_id($id_rw);
         $data['wil_atas'] = $dataRW;
         if ($dataRW['rw'] == '-') {
             $data['wil_atas'] = $this->wilayah_model->cluster_by_id($id_dusun);
         }
-        
-        $sebutan_dusun    = ucwords(setting('sebutan_dusun'));
-        $dusun            = $data['wil_atas']['dusun'];
+
+        $sebutan_dusun = ucwords(setting('sebutan_dusun'));
+        $dusun         = $data['wil_atas']['dusun'];
         $this->ubah_lokasi_peta($data['wil_atas'], "sub_rt/{$id_dusun}/{$id_rw}", "Peta Wilayah {$sebutan_dusun} {$dusun} Belum Dilengkapi");
 
         $data['wil_ini']      = $this->wilayah_model->cluster_by_id($id);
@@ -668,7 +668,7 @@ class Wilayah extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (! cek_lokasi_peta($wilayah)) {            
+        if (! cek_lokasi_peta($wilayah)) {
             session_error($msg);
 
             redirect("{$this->controller}/{$to}");

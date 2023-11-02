@@ -591,12 +591,10 @@ class Wilayah_model extends MY_Model
 
     public function cluster_by_id($id = 0)
     {
-        $wilayah = $this->config_id()
+        return $this->config_id()
             ->where('id', $id)
             ->get('tweb_wil_clusterdesa')
             ->row_array() ?? show_404();
-
-        return $wilayah;
     }
 
     public function total()
