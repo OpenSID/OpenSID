@@ -147,6 +147,16 @@ class KodeIsianPenduduk
                 'isian' => 'Gol_daraH' . $prefix,
                 'data'  => $penduduk->golonganDarah->nama,
             ],
+            [
+                'judul' => 'Pendidikan Sedang' . $ortu,
+                'isian' => 'Pendidikan_sedanG' . $prefix,
+                'data'  => $penduduk->pendidikan->nama,
+            ],
+            [
+                'judul' => 'Pendidikan Dalam KK' . $ortu,
+                'isian' => 'Pendidikan_kK' . $prefix,
+                'data'  => $penduduk->pendidikanKK->nama,
+            ],
         ];
 
         if (empty($this->prefix)) {
@@ -217,16 +227,6 @@ class KodeIsianPenduduk
                     'data'  => $penduduk->cacat->nama,
                 ],
                 [
-                    'judul' => 'Pendidikan Sedang',
-                    'isian' => 'Pendidikan_sedanG',
-                    'data'  => $penduduk->pendidikan->nama,
-                ],
-                [
-                    'judul' => 'Pendidikan Dalam KK',
-                    'isian' => 'Pendidikan_kK',
-                    'data'  => $penduduk->pendidikanKK->nama,
-                ],
-                [
                     'judul' => 'Dokumen Pasport',
                     'isian' => 'Dokumen_pasporT',
                     'data'  => $penduduk->dokumen_pasport,
@@ -294,10 +294,10 @@ class KodeIsianPenduduk
                     ->first()->id;
             }
 
-            if ($id_ayah || empty($penduduk)) {
-                // Data Ayah
-                $data = array_merge($data, self::get($id_ayah, 'ayah', true));
-            } else {
+            // Data Ayah
+            $data = array_merge($data, self::get($id_ayah, 'ayah', true));
+
+            if (! $id_ayah && ! empty($penduduk)) {
                 $data_ortu = [
                     [
                         'judul' => 'Nama Ayah',
@@ -313,10 +313,10 @@ class KodeIsianPenduduk
                 $data = array_merge($data, $data_ortu);
             }
 
-            if ($id_ibu || empty($penduduk)) {
-                // Data Ibu
-                $data = array_merge($data, self::get($id_ibu, 'ibu', true));
-            } else {
+            // Data Ibu
+            $data = array_merge($data, self::get($id_ibu, 'ibu', true));
+
+            if (! $id_ibu && ! empty($penduduk)) {
                 $data_ortu = [
                     [
                         'judul' => 'Nama Ibu',

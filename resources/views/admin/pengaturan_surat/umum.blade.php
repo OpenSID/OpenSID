@@ -285,7 +285,7 @@
                 <h4 class="modal-title" id="myModalLabel"><i class="fa fa-exclamation-triangle text-red"></i> Konfirmasi</h4>
             </div>
             <div class="modal-body btn-info">
-                Apakah Anda yakin ingin merestore surat bawaan/sistem ini?
+                Apakah Anda yakin ingin mengembalikan surat bawaan/sistem ini?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>

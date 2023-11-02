@@ -222,6 +222,16 @@ class TinyMCE
         $daftarKategori = collect($data['surat']->form_isian)->toArray();
 
         foreach ($daftarKategori as $key => $value) {
+            if (! $value->sumber) {
+                $value->sumber = 1;
+            }
+
+            if (! $value->judul || ! $value->label) {
+                $judul        = str_replace('_', ' ', ucwords($key));
+                $value->judul = $judul;
+                $value->label = $judul;
+            }
+
             if ($value->sumber == 1 && $key != 'individu') {
                 $daftar_kode_isian[$value->judul] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
             }
@@ -370,11 +380,11 @@ class TinyMCE
             ->map(static function ($item, $key) use ($input) {
                 $input_data = $input[underscore($item->nama, true, true)];
                 if ($item->tipe == 'date') {
-                    $data = Carbon::parse($input_data)->format('Y-m-d');
+                    $data = formatTanggal($input_data);
                 } elseif ($item->tipe == 'hari-tanggal') {
                     if ($input_data != '') {
                         $day  = self::get_hari($input_data);
-                        $data = tgl_indo(Carbon::parse($input_data)->format('Y-m-d'), '', $day);
+                        $data = $day . ', ' . formatTanggal($input_data);
                     }
                 } elseif ($item->tipe == 'hari') {
                     if ($input_data != '') {

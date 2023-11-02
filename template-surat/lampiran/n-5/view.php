@@ -47,7 +47,7 @@
             <td colspan="1">A.</td>
             <td colspan="20">1. Nama lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong>[Nama_dapW]</strong></td>
+            <td colspan="27"><strong>[NAma_dapw]</strong></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
@@ -60,42 +60,42 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">3. Nomor Induk Kependudukan</td>
             <td>: </td>
-            <td colspan="27">[Nik_dapW]</td>
+            <td colspan="27">[NiK_dapw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan tanggal lahir</td>
             <td>: </td>
-            <td colspan="27">[Tempatlahir_dapW] , [Tanggallahir_dapW]</td>
+            <td colspan="27">[TtL_dapw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">5. Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[Warga_negara_dapW]</td>
+            <td colspan="27">[WaRga_negara_dapw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">6. Agama</td>
             <td>: </td>
-            <td colspan="27">[Agama_dapW]</td>
+            <td colspan="27">[AgAma_dapw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">7. Pekerjaan</td>
             <td>: </td>
-            <td colspan="27">[Pekerjaan_dapW]</td>
+            <td colspan="27">[PeKerjaan_dapw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_dapW]</td>
+            <td colspan="27">[AlAmat_dapw]</td>
         </tr>
 
         <!-- data ibu -->
@@ -103,56 +103,56 @@
             <td colspan="1">B.</td>
             <td colspan="20">1. Nama lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong>[Nama_dibpW]</strong></td>
+            <td colspan="27"><strong>[NAma_dibpw]</strong></td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">2. Binti</td>
             <td>: </td>
-            <td colspan="27">[Form_bin_ibu_wanitA]</td>
+            <td colspan="27">[Form_binti_ibu_wanitA]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">3. Nomor Induk Kependudukan</td>
             <td>: </td>
-            <td colspan="27">[Nik_dibpW]</td>
+            <td colspan="27">[NiK_dibpw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan tanggal lahir</td>
             <td>: </td>
-            <td colspan="27">[Tempatlahir_dibpW], [Tanggallahir_dibpW]</td>
+            <td colspan="27">[TtL_dibpw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">5. Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[Warga_negara_dibpW]</td>
+            <td colspan="27">[WaRga_negara_dibpw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">6. Agama</td>
             <td>: </td>
-            <td colspan="27">[Agama_dibpW]</td>
+            <td colspan="27">[AgAma_dibpw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">7. Pekerjaan</td>
             <td>: </td>
-            <td colspan="27">[Pekerjaan_dibpW]</td>
+            <td colspan="27">[PeKerjaan_dibpw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_dibpW]</td>
+            <td colspan="27">[AlAmat_dibpw]</td>
         </tr>
 
         <!-- data individu -->
@@ -164,56 +164,56 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">1. Nama lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong>[Nama_dcpW]</strong></td>
+            <td colspan="27"><strong>[NAma_dcpw]</strong></td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">2. Bin</td>
             <td>: </td>
-            <td colspan="27">[Nama_dapW]</td>
+            <td colspan="27">[Nama_dapw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">3. Nomor Induk Kependudukan</td>
             <td>: </td>
-            <td colspan="27">[Nik_dcpW]</td>
+            <td colspan="27">[NiK_dcpw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan tanggal lahir</td>
             <td>: </td>
-            <td colspan="27">[Tempatlahir_dcpW], [Tanggallahir_dcpW]</td>
+            <td colspan="27">[TtL_dcpw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">5. Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[Warga_negara_dcpW]</td>
+            <td colspan="27">[WaRga_negara_dcpw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">6. Agama</td>
             <td>: </td>
-            <td colspan="27">[Agama_dcpW]</td>
+            <td colspan="27">[AgAma_dcpw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">7. Pekerjaan</td>
             <td>: </td>
-            <td colspan="27">[Pekerjaan_dcpW]</td>
+            <td colspan="27">[PeKerjaan_dcpw]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[Alamat_dcpW]</td>
+            <td colspan="27">[AlAmat_dcpw]</td>
         </tr>
 
         <!-- data calon pasangan  -->
@@ -227,14 +227,14 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">1. Nama lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong>[NamA]</strong></td>
+            <td colspan="27"><strong>[NAma]</strong></td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">2. Bin</td>
             <td>: </td>
-            <td colspan="27">[Nama_dapP]</td>
+            <td colspan="27">[Form_bin_priA]</td>
         </tr>
 
         <tr>
@@ -255,28 +255,28 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">5. Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[Warga_negarA]</td>
+            <td colspan="27">[WaRga_negara]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">6. Agama</td>
             <td>: </td>
-            <td colspan="27">[AgamA]</td>
+            <td colspan="27">[AgAma]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">7. Pekerjaan</td>
             <td>: </td>
-            <td colspan="27">[PekerjaaN]</td>
+            <td colspan="27">[PeKerjaan]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[AlamaT]</td>
+            <td colspan="27">[AlAmat]</td>
         </tr>
 
     </table>
@@ -291,7 +291,7 @@
         <col span="48" style="width: 2.0833%;">
         <tr>
             <td colspan="26">&nbsp;</td>
-            <td colspan="16" class="tengah">[Nama_desA], <?= tgl_indo(date('Y m d', time())) ?></td>
+            <td colspan="16" class="tengah">[NAma_desa], [TgL_surat]</td>
         </tr>
         <tr>
             <td colspan="16">
@@ -300,7 +300,7 @@
                 <br>
                 <br>
                 <br>
-                <div><strong>[Nama_dapW]</strong></div>
+                <div><strong>[NAma_dapw]</strong></div>
             </td>
             <td colspan="16">&nbsp;</td>
             <td colspan="16">
@@ -309,7 +309,7 @@
                 <br>
                 <br>
                 <br>
-                <div><strong>[Nama_dibpw]</strong></div>
+                <div><strong>[NAma_dibpw]</strong></div>
             </td>
         </tr>
     </table>

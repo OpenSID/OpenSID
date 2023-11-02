@@ -61,8 +61,9 @@ class Migrasi_fitur_premium_2311 extends MY_model
         $hasil = $hasil && $this->migrasi_2023101354($hasil);
         $hasil = $hasil && $this->migrasi_2023101151($hasil);
         $hasil = $hasil && $this->migrasi_2023101352($hasil);
+        $hasil = $hasil && $this->migrasi_2023102551($hasil);
 
-        return $hasil && $this->migrasi_2023102551($hasil);
+        return hasil && $this->migrasi_2023102651($hasil);
     }
 
     // Migrasi perubahan data
@@ -76,6 +77,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
             $hasil = $hasil && $this->migrasi_2023101351($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023101971($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023102151($hasil, $id);
+            $hasil = $hasil && $this->suratKeteranganNikah($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -294,7 +296,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
             'judul'      => 'Format Tanggal Surat',
             'key'        => 'format_tanggal_surat',
             'value'      => 'd F Y',
-            'keterangan' => 'Format tanggal pada kode isian surat. Format : <code><a href="https://www.php.net/manual/en/function.date.php" target="_blank">https://www.php.net/manual/en/function.date.php</a></code>',
+            'keterangan' => 'Format tanggal pada kode isian surat.',
             'jenis'      => 'text',
             'option'     => null,
             'attribute'  => null,
@@ -319,7 +321,11 @@ class Migrasi_fitur_premium_2311 extends MY_model
                     if (! is_array($value['data'])) {
                         $nilaiBaru[] = $nilaiSebelumnya;
                     } else {
-                        $nilaiBaru = [$nilaiSebelumnya];
+                        if (isNestedArray($nilaiSebelumnya)) {
+                            $nilaiBaru = $nilaiSebelumnya[0];
+                        } else {
+                            $nilaiBaru = $nilaiSebelumnya;
+                        }
                     }
                     $dataBaru[$key]['data'] = $nilaiBaru;
                 }
@@ -355,6 +361,33 @@ class Migrasi_fitur_premium_2311 extends MY_model
             $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', [
                 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
             ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023102651($hasil)
+    {
+        if (! $this->db->field_exists('sumber_penduduk_berulang', 'tweb_surat_format')) {
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', [
+                'sumber_penduduk_berulang' => [
+                    'type'       => 'tinyint',
+                    'constraint' => 1,
+                    'default'    => 0,
+                    'after'      => 'format_nomor',
+                ],
+            ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function suratKeteranganNikah($hasil, $id)
+    {
+        $data = getSuratBawaanTinyMCE('surat-keterangan-nikah')->first();
+
+        if ($data) {
+            $this->tambah_surat_tinymce($data, $id);
         }
 
         return $hasil;

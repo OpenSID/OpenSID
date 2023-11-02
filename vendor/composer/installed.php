@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => '2310.0.2.x-dev',
         'version' => '2310.0.2.9999999-dev',
-        'reference' => 'fcfff98fe3cc8ae9ab3ebeef6e1a61653df4ca20',
+        'reference' => '898f7c7ebc4bfd279340850e3e48f93df536c7ee',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -254,9 +254,9 @@
             'dev_requirement' => false,
         ),
         'monolog/monolog' => array(
-            'pretty_version' => '2.9.1',
-            'version' => '2.9.1.0',
-            'reference' => 'f259e2b15fb95494c83f52d3caad003bbf5ffaa1',
+            'pretty_version' => '2.9.2',
+            'version' => '2.9.2.0',
+            'reference' => '437cb3628f4cf6042cc10ae97fc2b8472e48ca1f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../monolog/monolog',
             'aliases' => array(),
@@ -274,7 +274,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => '2310.0.2.x-dev',
             'version' => '2310.0.2.9999999-dev',
-            'reference' => 'fcfff98fe3cc8ae9ab3ebeef6e1a61653df4ca20',
+            'reference' => '898f7c7ebc4bfd279340850e3e48f93df536c7ee',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -412,8 +412,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0.0 || 2.0.0 || 3.0.0',
-                1 => '1.0|2.0',
+                0 => '1.0|2.0',
+                1 => '1.0.0 || 2.0.0 || 3.0.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -579,9 +579,9 @@
             'dev_requirement' => false,
         ),
         'symfony/translation' => array(
-            'pretty_version' => 'v5.4.24',
-            'version' => '5.4.24.0',
-            'reference' => 'de237e59c5833422342be67402d487fbf50334ff',
+            'pretty_version' => 'v5.4.30',
+            'version' => '5.4.30.0',
+            'reference' => '8560dc532e4e48d331937532a7cbfd2a9f9f53ce',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/translation',
             'aliases' => array(),

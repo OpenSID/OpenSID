@@ -263,7 +263,11 @@ class Surat_master extends Admin_Controller
     public function simpan_sementara()
     {
         $this->redirect_hak_akses('u');
-        $surat = FormatSurat::updateOrCreate(['id' => $this->request['id_surat'], 'config_id' => identitas('id')], static::validate($this->request));
+        $id = $this->request['id_surat'] ?: null;
+
+        $cek_surat = FormatSurat::find($id);
+
+        $surat = FormatSurat::updateOrCreate(['id' => $id, 'config_id' => identitas('id')], static::validate($this->request, $cek_surat->jenis ?? 4, $id));
         if ($surat) {
             redirect_with('success', 'Berhasil Simpan Data Sementara', 'surat_master/form/' . $surat->id);
         }
@@ -549,17 +553,21 @@ class Surat_master extends Admin_Controller
 
             if ($list_data) {
                 if ($cek_surat->update($list_data)) {
-                    redirect_with('success', 'Berhasil Restore Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
+                    redirect_with('success', 'Berhasil Mengembalikan Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
                 }
             }
         }
 
-        redirect_with('error', 'Gagal Restore Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
+        redirect_with('error', 'Gagal Mengembalikan Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
     }
 
     // Tambahkan surat desa jika folder surat tidak ada di surat master
     public function perbarui()
     {
+        if (! setting('nonaktifkan_rtf')) {
+            redirect_with('error', 'Anda tidak dapat mengakses halaman ini');
+        }
+
         $this->redirect_hak_akses('u', null, null, true);
 
         $folderSuratDesa = glob(LOKASI_SURAT_DESA . '*', GLOB_ONLYDIR);
