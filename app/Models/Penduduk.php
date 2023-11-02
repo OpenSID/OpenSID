@@ -505,7 +505,7 @@ class Penduduk extends BaseModel
 
     public function getAlamatWilayahAttribute()
     {
-        if (! in_array($this->id_kk, [0, null])) {
+        if ($this->id_kk != null) {
             return $this->keluarga->alamat . ' RT ' . $this->keluarga->wilayah->rt . ' / RW ' . $this->keluarga->wilayah->rw . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->keluarga->wilayah->dusun);
         }
 

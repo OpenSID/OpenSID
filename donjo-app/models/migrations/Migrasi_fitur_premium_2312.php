@@ -66,7 +66,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_2023110251($hasil);
+        $hasil = $hasil && $this->migrasi_2023110251($hasil);
+
+        return $hasil && $this->migrasi_2023110252($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -80,5 +82,12 @@ class Migrasi_fitur_premium_2312 extends MY_model
             ['slug' => 'home'],
             ['modul' => 'Beranda', 'slug' => 'beranda', 'url' => 'beranda']
         );
+    }
+
+    protected function migrasi_2023110252($hasil)
+    {
+        DB::table('tweb_penduduk')->where('id_kk', '<', 1)->orWhere('id_kk', '')->update(['id_kk' => null]);
+
+        return $hasil;
     }
 }
