@@ -66,11 +66,19 @@ class Migrasi_fitur_premium_2312 extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023110251($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
     {
         return $hasil;
+    }
+
+    protected function migrasi_2023110251($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'home'],
+            ['modul' => 'Beranda', 'slug' => 'beranda', 'url' => 'beranda']
+        );
     }
 }

@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Lokasi Pelapak <?= $pelapak->pelapak; ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('produdk/pelapak')?>"> Pelapak</a></li>
 			<li class="active">Lokasi Pelapak <?= $pelapak->pelapak; ?></a></li>
 		</ol>

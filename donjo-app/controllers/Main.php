@@ -64,11 +64,11 @@ class Main extends CI_Controller
 
             switch ($grup) {
                 case $this->user_model->id_grup(UserGrup::ADMINISTRATOR):
-                    redirect('hom_sid');
+                    redirect('beranda');
 
                     // no break
                 case $this->user_model->id_grup(UserGrup::OPERATOR):
-                    redirect('hom_sid');
+                    redirect('beranda');
 
                     // no break
                 case $this->user_model->id_grup(UserGrup::REDAKSI):

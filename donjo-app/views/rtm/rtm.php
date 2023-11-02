@@ -54,7 +54,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<section class="content-header">
 		<h1>Pengelompokan Rumah Tangga</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda'); ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">Daftar Rumah Tangga</li>
 		</ol>
 	</section>

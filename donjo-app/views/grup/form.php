@@ -18,7 +18,7 @@
 	<section class="content-header">
 		<h1>Form Grup Pengguna</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('grup') ?>"> Pengaturan Grup Pengguna</a></li>
 			<li class="active">Form Grup Pengguna</li>
 		</ol>

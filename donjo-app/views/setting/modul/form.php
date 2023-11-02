@@ -12,7 +12,7 @@
 			<h1>Pengaturan Modul</h1>
 		<?php endif; ?>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('modul/clear')?>"> Daftar Modul</a></li>
 			<?php if ($modul['parent'] != '0'): ?>
 				<li><a href="<?= site_url()?>modul/sub_modul/<?=($modul['parent'])?>"> Daftar Sub Modul</a></li>

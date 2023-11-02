@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Rincian Daftar Mutasi Inventaris Jalan, Irigasi dan Jaringan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('inventaris_jalan/mutasi') ?>">Daftar Mutasi Inventaris Jalan, Irigasi dan Jaringan</a></li>
 			<li class="active">Rincian Data</li>
 		</ol>

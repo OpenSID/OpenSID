@@ -17,3 +17,4 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 
 1. [#6924](https://github.com/OpenSID/OpenSID/issues/6924) Penyesuaian cara menampilkan ubah data wilayah/lokasi pada identitas desa dan wilayah administratif.
 2. [#3060](https://github.com/OpenSID/premium/issues/3060) Penyesuaian reset input group button secara global.
+3. [#7274](https://github.com/OpenSID/OpenSID/issues/7274) Penyesuaian nama dan url modul hom_sid.

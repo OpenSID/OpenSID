@@ -9,7 +9,7 @@
 	<section class="content-header">
 		<h1><?= $_SESSION['analisis_nama']; ?> [ <?= $subjek?> ]</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('analisis_master/clear')?>"> Master Analisis</a></li>
 			<li class="active"><?= $analisis_master['nama']; ?></li>
 		</ol>

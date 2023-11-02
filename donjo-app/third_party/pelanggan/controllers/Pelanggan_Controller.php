@@ -87,7 +87,7 @@ class Pelanggan_Controller extends Admin_Controller
         // hapus auto perbarui
         unset($this->header['perbaharui_langganan']);
         if (empty($this->session->error_premium)) {
-            redirect('hom_sid');
+            redirect('beranda');
         }
 
         $this->render('pelanggan/peringatan');

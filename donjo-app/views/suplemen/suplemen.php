@@ -47,7 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<section class="content-header">
 		<h1>Data Suplemen <?= ($set_sasaran == 0) ? '' : "Sasaran {$sasaran[$set_sasaran]}"; ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda'); ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">Data Suplemen</li>
 		</ol>
 	</section>
