@@ -49,6 +49,7 @@ $config = [
         LOKASI_LAMPIRAN_SURAT_DESA => [0775],
         LOKASI_TEMA_DESA           => [0775],
         LOKASI_UPLOAD              => [0775, 'htaccess1'],
+        LOKASI_FONT_DESA           => [0775, 'htaccess1', ['vendor/tecnickcom/tcpdf/fonts/helvetica.php']],
         LOKASI_FOTO_ARTIKEL        => [0775, 'htaccess1'],
         LOKASI_FOTO_BUKU_TAMU      => [0775, 'htaccess1'],
         LOKASI_DOKUMEN             => [0775, 'htaccess2'],

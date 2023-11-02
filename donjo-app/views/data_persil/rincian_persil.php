@@ -110,7 +110,6 @@
         </div>
     </section>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function() {
         // tampilkan map
@@ -122,12 +121,7 @@
             var zoom = 4;
         <?php endif; ?>
 
-        var options = {
-            maxZoom: <?= setting('max_zoom_peta') ?>,
-            minZoom: <?= setting('min_zoom_peta') ?>,
-        };
-
-        var peta_area = L.map('map', options).setView(posisi, zoom);
+        var peta_area = L.map('map', pengaturan_peta).setView(posisi, zoom);
 
         //Menampilkan BaseLayers Peta
         var baseLayers = getBaseLayers(peta_area, MAPBOX_KEY, JENIS_PETA);

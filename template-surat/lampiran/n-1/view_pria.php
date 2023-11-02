@@ -37,17 +37,17 @@
         <tr>
             <td colspan="17">KANTOR DESA/KELURAHAN</td>
             <td>: </td>
-            <td colspan="30"><?= strtoupper($config['nama_desa']); ?></td>
+            <td colspan="30">[Nama_desA]</td>
         </tr>
         <tr>
             <td colspan="17">KECAMATAN</td>
             <td>: </td>
-            <td colspan="30"><?= strtoupper($config['nama_kecamatan']); ?></td>
+            <td colspan="30">[Nama_kecamataN]</td>
         </tr>
         <tr>
             <td colspan="17">KABUPATEN/KOTA</td>
             <td>:</td>
-            <td colspan="30"><?= strtoupper($config['nama_kabupaten']); ?></td>
+            <td colspan="30">[Nama_kabupateN]</td>
         </tr>
         <tr>
             <?php for ($i = 0; $i < 48; $i++) : ?>
@@ -57,7 +57,7 @@
     </table>
 
     <p style="margin: 0; text-align: center;" class="title"><u>PENGANTAR NIKAH</u></p>
-    <p style="margin: 0; text-align: center;">Nomor : <?= $format_surat ?></p>
+    <p style="margin: 0; text-align: center;">Nomor : [Format_nomor_suraT]</p>
 
     <p>Yang bertanda tangan dibawah ini menjelaskan dengan sesungguhnya bahwa : </p>
     <table id="kop" class="disdukcapil">
@@ -69,68 +69,67 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">1. Nama</td>
             <td>: </td>
-            <td colspan="27"><strong><?= strtoupper($dataCalonSuamiN1['nama']); ?></strong></td>
+            <td colspan="27"><strong>[NamA]</strong></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">2. Nomor Induk Kependudukan (NIK)</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['nik']; ?></td>
+            <td colspan="27">[NiK]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">3. Jenis Kelamin</td>
             <td>: </td>
-            <td colspan="27">Laki - laki</td>
-
+            <td colspan="27">[Jenis_kelamiN]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan Tanggal Lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['tempatlahir'] . ', ' . tgl_indo2( !empty($dataCalonSuamiN1['tanggallahir']) ? date('Y-m-d', strtotime($dataCalonSuamiN1['tanggallahir'])) : ''); ?></td>
+            <td colspan="27">[TtL]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">5. Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['warganegara']; ?></td>
+            <td colspan="27">[Warga_negarA]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">6. Agama</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['agama']; ?></td>
+            <td colspan="27">[AgamA]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">7. Pekerjaan</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['pekerjaan']; ?></td>
+            <td colspan="27">[PekerjaaN]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Pendidikan Terakhir</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['pendidikan']; ?></td>
+            <td colspan="27">[Pendidikan_kK]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">9. Bin/Binti</td>
             <td>: </td>
-            <td colspan="27"><?= ($dataCalonSuamiN1['bin']); ?></td>
+            <td colspan="27">[Form_bin_priA]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">10. Alamat</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['alamat_wilayah']; ?></td>
+            <td colspan="27">[AlamaT]</td>
 
         </tr>
         <tr>
@@ -147,12 +146,12 @@
                     <tr>
                         <td>&nbsp;&nbsp;&nbsp;</td>
                         <td>a. </td>
-                        <td>Jejaka, Duda atau beristri ke <?= ((int) $dataCalonSuamiN1['jumlah_pasangan_terdahulu'] + 1) ?></td>
+                        <td>Jejaka, Duda atau beristri ke [Form_istrikE]</td>
                     </tr>
                 </table>
             </td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['status_kawin']; ?></td>
+            <td colspan="27">[Form_status_kawin_priA]</td>
 
         </tr>
         <tr>
@@ -172,9 +171,9 @@
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
-            <td colspan="20">12. Nama isteri / suami terdahulu</td>
+            <td colspan="20">12. Nama istri / suami terdahulu</td>
             <td>: </td>
-            <td colspan="27"><?= $input['nama_pasangan_terdahulu'] ?></td>
+            <td colspan="27">[Nama_dsT]</td>
 
         </tr>
     </table>
@@ -189,49 +188,49 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Nama Lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong><?= strtoupper($dataCalonSuamiN1['nama_ayah']); ?></strong></td>
+            <td colspan="27"><strong>[Nama_dapP]</strong></td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Nomor Induk Kependudukan (NIK)</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['ayah_nik']; ?></td>
+            <td colspan="27">[Nik_dapP]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Tempat dan Tanggal Lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['tempat_lahir_ayah'] . ', ' . tgl_indo2( !empty($dataCalonSuamiN1['tanggal_lahir_ayah']) ? date('Y-m-d', strtotime($dataCalonSuamiN1['tanggal_lahir_ayah'])) : ''); ?></td>
+            <td colspan="27">[Ttl_dapP]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['warganegara_ayah']; ?></td>
+            <td colspan="27">[Warga_negara_dapP]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Agama</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['agama_ayah']; ?></td>
+            <td colspan="27">[Agama_dapP]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Pekerjaan</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['pekerjaan_ayah']; ?></td>
+            <td colspan="27">[Pekerjaan_dapP]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Alamat</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['alamat_ayah']; ?></td>
+            <td colspan="27">[Alamat_dapP]</td>
 
         </tr>
     </table>
@@ -245,49 +244,49 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Nama Lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong><?= strtoupper($dataCalonSuamiN1['nama_ibu']); ?></strong></td>
+            <td colspan="27"><strong>[Nama_dipP]</strong></td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Nomor Induk Kependudukan (NIK)</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['ibu_nik']; ?></td>
+            <td colspan="27">[Nik_dipP]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Tempat dan Tanggal Lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['tempat_lahir_ibu'] . ', ' . tgl_indo2(!empty($dataCalonSuamiN1['tanggal_lahir_ibu']) ?  date('Y-m-d', strtotime($dataCalonSuamiN1['tanggal_lahir_ibu'])) : ''); ?></td>
+            <td colspan="27">[Ttl_dipP]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['warganegara_ibu']; ?></td>
+            <td colspan="27">[Warga_negara_dipP]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Agama</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['agama_ibu']; ?></td>
+            <td colspan="27">[Agama_dipP]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Pekerjaan</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['pekerjaan_ibu']; ?></td>
+            <td colspan="27">[Pekerjaan_dipP]</td>
 
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Alamat</td>
             <td>: </td>
-            <td colspan="27"><?= $dataCalonSuamiN1['alamat_ibu']; ?></td>
+            <td colspan="27">[Alamat_dipP]</td>
 
         </tr>
     </table>
@@ -300,22 +299,22 @@
         <col span="48" style="width: 2.0833%;">
         <tr>
             <td colspan="32">&nbsp;</td>
-            <td colspan="20" class="tengah"><?= $config['nama_desa']; ?>, <?= tgl_indo(date('Y m d', time())) ?></td>
+            <td colspan="20" class="tengah">[NaMa_desa], [TgL_surat]</td>
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
             <td colspan="37">&nbsp;</td>
-            <td colspan="10" class="tengah"><?= $penandatangan['atas_nama'] ?></td>
+            <td colspan="10" class="tengah">[Atas_namA]</td>
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
-            <td colspan="10"><?= $qrcode ?? '' ?></td>
+            <td colspan="10">[qr_code]</td>
             <td colspan="37" class="tengah"><br><br><br><br></td>
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
             <td colspan="37">&nbsp;</td>
-            <td colspan="10" class="tengah"><strong><?= $penandatangan['nama'] ?></strong></td>
+            <td colspan="10" class="tengah"><strong>[Nama_pamonG]</strong></td>
             <td colspan="2">&nbsp;</td>
         </tr>
     </table>

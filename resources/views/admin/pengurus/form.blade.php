@@ -143,7 +143,7 @@
                     <label class="col-sm-4 control-label" for="pamong_sex">Jenis Kelamin</label>
                     <div class="col-sm-7">
                         <input class="form-control input-sm pengurus-desa" type="text" placeholder="Jenis Kelamin" value="<?= $individu['sex'] ?>" disabled="disabled" />
-                        <select class="form-control input-sm pengurus-luar-desa" name="pamong_sex" onchange="show_hide_hamil($(this).find(':selected').val());" style="display: none;">
+                        <select class="form-control input-sm pengurus-luar-desa" name="pamong_sex" style="display: none;">
                             <option value="">Jenis Kelamin</option>
                             <option value="1" <?= selected($pamong['pamong_sex'], '1') ?>>Laki-Laki</option>
                             <option value="2" <?= selected($pamong['pamong_sex'], '2') ?>>Perempuan</option>
@@ -226,7 +226,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="jabatan">Jabatan</label>
                     <div class="col-sm-7">
-                        <select class="form-control select2 input-sm required" name="jabatan_id" data-old="<?=$pamong['jabatan_id']?>">
+                        <select class="form-control select2 input-sm required" name="jabatan_id">
                             <option value="">Pilih Jabatan</option>
                             <?php foreach ($jabatan as $key => $value) : ?>
                                 <option value="<?= $key ?>" <?= selected($pamong['jabatan_id'], $key) ?>><?= $value ?>
@@ -238,7 +238,7 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label text-red" for="atasan">Atasan</label>
                     <div class="col-sm-7">
-                        <select class="form-control select2 input-sm" name="atasan" data-old="<?=$pamong['atasan']?>">
+                        <select class="form-control select2 input-sm" name="atasan">
                             <option value="">Pilih Atasan</option>
                             <?php foreach ($atasan as $data) : ?>
                                 <option value="<?= $data['id'] ?>" <?= selected($pamong['atasan'], $data['id']) ?>>
@@ -294,7 +294,7 @@
                 </div>
             </div>
             <div class="box-footer">
-                <button type='reset' class='btn btn-social btn-danger btn-sm btn-reset' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
+                <button type='reset' class='btn btn-social btn-danger btn-sm btn-reset'><i class='fa fa-times'></i> Batal</button>
                 <button type='submit' class='btn btn-social btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
             </div>
         </div>
@@ -358,17 +358,6 @@
 
         $("#nama_dengan_gelar").val(nama);
     }
-
-    function reset_form() {
-        <?php if ($pamong['pamong_status'] == '1' || $pamong['pamong_status'] == null) : ?>
-            $("#sx3").addClass('active');
-            $("#sx4").removeClass("active");
-        <?php endif ?>
-        <?php if ($pamong['pamong_status'] == '2') : ?>
-            $("#sx4").addClass('active');
-            $("#sx3").removeClass("active");
-        <?php endif ?>
-    };
 
     function pengurus_asal(asal) {
         if (asal == 1) {

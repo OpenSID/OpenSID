@@ -225,6 +225,8 @@ define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
 define('LOKASI_ICON_MENU_ANJUNGAN', 'desa/anjungan/menu/');
 define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
 define('LOKASI_FOTO_DTKS', 'desa/upload/dtks/');
+define('LOKASI_FONT_DESA', 'desa/upload/fonts/');
+define('FONT_SYSTEM_TINYMCE', ['Andale Mono', 'Arial', 'Arial Black', 'Bookman Old Style', 'Comic Sans MS', 'Courier New', 'Georgia', 'Helvetica', 'Impact', 'Tahoma', 'Times New Roman', 'Trebuchet MS', 'Verdana']);
 
 // File
 define('LATAR_SITEMAN', 'desa/pengaturan/siteman/images/latar_login.jpg');

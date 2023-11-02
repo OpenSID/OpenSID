@@ -1,18 +1,5 @@
 @include('admin.pengaturan_surat.asset_tinymce')
 
-@push('css')
-    <style>
-        #modal-tab {
-            background: rgba(0, 128, 0, 0);
-            position: absolute;
-            float: left;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-    </style>
-@endpush
-
 <div class="tab-pane" id="template-surat">
 
     @include('admin.pengaturan_surat.kembali')
@@ -24,48 +11,80 @@
     </div>
 </div>
 <div class="tab-pane" id="form-isian">
-
+    
     @include('admin.pengaturan_surat.kembali', ['data' => 1])
-
+    
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs customized-tab" id="tabs">
-            <li data-name="utama" class="active"><a href="#form-utama" data-toggle="tab">Utama</a></li>
-            @forelse ($kategori_nama as $item)
-                <li id="list-{{ $item }}" data-name="{{ $item }}"><a href="#tab-{{ $item }}"
-                        data-toggle="tab">{{ str_replace('_', ' ', $item) }}</a></li>
+            <li data-name="utama" class="active">
+                <a href="#form-utama" data-toggle="tab">{{ $suratMaster->form_isian->individu->judul ?? 'Utama' }}</a>
+            </li>
+            @forelse ($suratMaster->form_isian as $item => $value)
+                @if($item == 'individu') @continue
+                @endif
+                <li class="ui-list-tab" id="list-{{ $item }}" data-name="{{ $item }}">
+                    <a id="nav-tab-{{ $item }}" href="#tab-{{ $item }}" data-toggle="tab">{{ str_replace('_', ' ', $value->judul ?? ucwords(str_replace('_', ' ', $item))) }}</a>
+                    <input type="hidden" name="kategori[]" value="{{ $item }}">
+                </li>
             @empty
             @endforelse
         </ul>
         <div class="tab-content custom">
             <div class="tab-pane active" id="form-utama">
-                <div class="box-body">
-                    <button type="button" class="utama-delete btn btn-danger btn-sm pull-right hide"
-                        onclick="deleteTab(event)"><i class="fa fa-times-circle"></i> Hapus Bagian Form</button>
-                    <h5><b>Sumber Data</b></h5>
+                <div class="box-body">                    
+                    <button type="button" class="utama-delete btn btn-danger btn-sm pull-right hide" onclick="deleteTab(event)"><i class="fa fa-times-circle"></i> Hapus Bagian Form</button>
+                    <div class="row">
+                        <label for="isi-judul" class="col-sm-2">Judul Bagian</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control input-sm required judul isi-judul" name="judul" value="{{ $suratMaster->form_isian->individu->judul ?: 'Utama' }}" minlength="3" maxlength="20">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 5px">
+                        <label for="isi-label" class="col-sm-2">Label Bagian</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control input-sm required isi-label" name="label" value="{{ $suratMaster->form_isian->individu->label ?? 'Keterangan Pemohon' }}" minlength="3" maxlength="30">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 5px">
+                        <label for="isi-prefix" class="col-sm-2">Prefix Bagian</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="prefix" value="{{ $suratMaster->form_isian->individu->prefix ?? 'individu' }}" minlength="3" maxlength="50" readonly>
+                        </div>
+                    </div>
+                    <hr>
+                    <h5><b>Sumber Data Pelaku</b></h5>
                     <div class="table-responsive">
                         <table class="table table-hover table-striped sumber-data">
                             <tbody>
                                 <tr style="font-weight: bold;">
-                                    <td>Data Kategori</td>
+                                    <td width="40%">Data Kategori</td>
                                     <td>Pilihan</td>
                                 </tr>
 
                                 <tr>
-                                    <td>Data Individu</td>
+                                    <td>Tampil Sumber Data</td>
                                     <td>
-                                        @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
-                                        <select id="data_utama" class="form-control input-sm" name="data_utama">
-                                            <option value="1" @selected(1 == $suratMaster->form_isian->individu->data)>PENDUDUK
-                                                {{ $desa_pend }}
-                                            </option>
-                                            <option value="2" @selected(2 == $suratMaster->form_isian->individu->data)>PENDUDUK LUAR
-                                                {{ $desa_pend }}
-                                            </option>
+                                        <select id="sumber_data" class="form-control input-sm isi-sumber-data" name="sumber" disabled>
+                                            <option value="1" @selected('1' == $suratMaster->form_isian->individu->sumber)>YA
+                                            <option value="0" @selected('0' == $suratMaster->form_isian->individu->sumber)>TIDAK
                                         </select>
                                     </td>
                                 </tr>
 
-                                <tr id="orang-tua">
+                                <tr class="sumber_data">
+                                    <td>Data Pelaku</td>
+                                    <td>
+                                        @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
+                                        <select id="data_utama" class="form-control input-sm select2 required" name="data_utama[]" multiple>
+                                            <option value="1" @selected(in_array(1, $suratMaster->form_isian->individu->data))>{{ strtoupper('PENDUDUK ' . $desa_pend) }}</option>
+                                            @foreach($pendudukLuar as $index => $penduduk)
+                                            <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->individu->data))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr id="orang-tua" class="sumber_data">
                                     <td>Data Orang Tua</td>
                                     <td>
                                         <select id="data_orang_tua" class="form-control input-sm" name="data_orang_tua">
@@ -75,7 +94,7 @@
                                     </td>
                                 </tr>
 
-                                <tr id="data-pasangan">
+                                <tr id="data-pasangan" class="sumber_data">
                                     <td>Data Pasangan</td>
                                     <td>
                                         <select id="data_pasangan" class="form-control input-sm" name="data_pasangan">
@@ -85,7 +104,7 @@
                                     </td>
                                 </tr>
 
-                                <tr class="warga_desa">
+                                <tr class="sumber_data">
                                     <td>Jenis Kelamin</td>
                                     <td>
                                         <select class="form-control input-sm" name="individu_sex">
@@ -99,7 +118,7 @@
                                     </td>
                                 </tr>
 
-                                <tr class="warga_desa">
+                                <tr class="sumber_data">
                                     <td>Jenis Peristiwa</td>
                                     <td>
                                         <select class="form-control input-sm" name="individu_status_dasar">
@@ -113,7 +132,7 @@
                                     </td>
                                 </tr>
 
-                                <tr class="warga_desa">
+                                <tr class="sumber_data">
                                     <td>Status Hubungan Dalam Keluarga (SHDK)</td>
                                     <td>
                                         <select id="individu_kk_level" class="form-control input-sm"
@@ -138,43 +157,71 @@
             @forelse ($kategori_nama as $item)
                 @php
                     $kategori = $kategori_isian[$item];
+                    $tampil_sumber = $suratMaster->form_isian->{$item}->sumber == '1' ? '' : 'hide';
                 @endphp
                 <div class="tab-pane" id="tab-{{ $item }}">
-                    <input type="hidden" name="kategori[]" value="{{ $item }}">
                     <div class="box-body">
-                        <button type="button" class="btn btn-danger btn-sm pull-right"
-                            data-kategori="{{ $item }}" onclick="deleteTab(event)"><i
-                                class="fa  fa-times-circle"></i> Hapus Bagian Form</button>
-                        <h5 class="sumber-data-title"><b>Sumber Data</b></h5>
+                        <button type="button" class="btn btn-danger btn-sm pull-right" data-kategori="{{ $item }}" onclick="deleteTab(event)"><i class="fa  fa-times-circle"></i> Hapus Bagian Form</button>
+                        <div class="row">
+                            <label for="isi-judul" class="col-sm-2">Judul Bagian</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm required judul_tinymce isi-judul" name="kategori_judul[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->judul ?? ucwords(str_replace('_', ' ', $item)) }}" minlength="3" maxlength="20">
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px">
+                            <label for="isi-label" class="col-sm-2">Label Bagian</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm required judul isi-label" name="kategori_label[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->label ?? ucwords(str_replace('_', ' ', $item)) }}" minlength="3" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px">
+                            <label for="isi-prefix" class="col-sm-2">Prefix Bagian</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="kategori_prefix[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->prefix ?? $item}}" minlength="3" maxlength="50">
+                            </div>
+                        </div>
+                        <hr>
+                        <h5 class="sumber-data-title"><b>Sumber Data Pelaku</b></h5>
                         <div class="table-responsive">
                             <table class="table table-hover table-striped sumber-data">
                                 <tbody>
                                     <tr style="font-weight: bold;">
-                                        <td>Data Kategori</td>
+                                        <td width="40%">Data Kategori</td>
                                         <td>Pilihan</td>
                                     </tr>
 
                                     <tr>
-                                        <td>Data Individu</td>
+                                        <td>Tampil Sumber Data</td>
                                         <td>
-                                            @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
-                                            <select id="data_utama" class="form-control input-sm kategori select2"
-                                                name="kategori_data_utama[{{ $item }}]">
-                                                <option value="1" @selected(1 == $suratMaster->form_isian->$item->data)>PENDUDUK
-                                                    {{ $desa_pend }}
-                                                </option>
-                                                <option value="2" @selected(2 == $suratMaster->form_isian->$item->data)>PENDUDUK LUAR
-                                                    {{ $desa_pend }}
-                                                </option>
+                                            <select id="sumber_data_{{ $item }}" class="form-control input-sm isi-sumber-data" name="kategori_sumber[{{ $item }}]" onchange='tampil_sumber_dinamis("#tab-{{ $item }}", this.value)'>
+                                                <option value="1" @selected('1' == $suratMaster->form_isian->{$item}->sumber)>YA
+                                                <option value="0" @selected('0' == $suratMaster->form_isian->{$item}->sumber)>TIDAK
                                             </select>
                                         </td>
                                     </tr>
 
-                                    <tr class="warga_desa">
+                                    <tr class="sumber_data {{ $tampil_sumber }}">
+                                        <td>Data Individu</td>
+                                        <td>
+                                            @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
+                                            <select id="data_utama_{{ $item }}" class="form-control input-sm kategori" name="kategori_data_utama[{{ $item }}][]" multiple>
+                                                <option value="1" @selected(in_array(1, $suratMaster->form_isian->{$item}->data))>{{ strtoupper('PENDUDUK ' . $desa_pend) }}</option>
+                                                @foreach($pendudukLuar as $index => $penduduk)
+                                                <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->{$item}->data))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
+                                                @endforeach
+                                            </select>
+                                            @push('scripts')
+                                                <script>
+                                                    $("#data_utama_{{ $item }}").select2();
+                                                </script>
+                                            @endpush
+                                        </td>
+                                    </tr>
+
+                                    <tr class="sumber_data {{ $tampil_sumber }}">
                                         <td>Jenis Kelamin</td>
                                         <td>
-                                            <select class="form-control input-sm kategori select2"
-                                                name="kategori_individu_sex[{{ $item }}]">
+                                            <select class="form-control input-sm kategori select2" name="kategori_individu_sex[{{ $item }}]">
                                                 <option value="">SEMUA</option>
                                                 @foreach ($form_isian['daftar_jenis_kelamin'] as $key => $data)
                                                     <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->$item->sex)>
@@ -185,7 +232,7 @@
                                         </td>
                                     </tr>
 
-                                    <tr class="warga_desa">
+                                    <tr class="sumber_data {{ $tampil_sumber }}">
                                         <td>Jenis Peristiwa</td>
                                         <td>
                                             <select class="form-control input-sm select2 kategori"
@@ -200,7 +247,7 @@
                                         </td>
                                     </tr>
 
-                                    <tr class="warga_desa">
+                                    <tr class="sumber_data {{ $tampil_sumber }}">
                                         <td>Status Hubungan Dalam Keluarga (SHDK)</td>
                                         <td>
                                             <select id="individu_kk_level"
@@ -215,6 +262,23 @@
                                             </select>
                                         </td>
                                     </tr>
+                                    <tr class="sumber_data {{ $tampil_sumber }}">
+                                        <td>Hubungan Data</td>
+                                        <td>
+                                            <select class="form-control input-sm select2 kategori"
+                                                name="kategori_hubungan[{{ $item }}]">
+                                                <option value="">Pilih hubungan</option>                                                
+                                                @foreach ($suratMaster->form_isian as $key => $data)
+                                                    @if ($key == $item) @continue
+                                                    @endif
+                                                    <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->$item->hubungan)>
+                                                        {{ $data->judul ?: $key }}
+                                                    </option>                                                
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -229,33 +293,8 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="modal-tab" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">Tambah Kategori</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="id_rtm">Nama Kategori</label>
-                        <input type="text" class="form-control" id="nama_kategori" placeholder="Nama Kategori"
-                            value="">
-                        <label for="nama_kategori" generated="true" class="error" id="error_category"></label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
-                        Batal</button>
-                    <button type="submit" class="btn btn-social btn-info btn-sm" id="btn-new-tab"
-                        data-backdrop="false" data-dismiss="modal"><i class="fa fa-check"></i> Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@include('admin.pengaturan_surat.pindah_kode_modal')
+@include('admin.pengaturan_surat.kaitkan_kode_modal')
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
@@ -263,26 +302,15 @@
             var num = 0;
 
             $('#btn-new-tab').click(function(e) {
-                var checkInput = validateInputCategory($('#nama_kategori').val())
-                // console.log(checkInput);
-                if (checkInput == 'huruf') {
-                    $('#error_category').show()
-                    $('#error_category').text('Maksimal 20 huruf.')
-                    return false;
-                }
-                if (checkInput == 'angka') {
-                    $('#error_category').show()
-                    $('#error_category').text('Tidak boleh ada angka.')
-                    return false;
-                }
-                var nama_kategori = $('#nama_kategori').val().replace(/ /g, '_')
-                $('#nama_kategori').val('')
-                $('#modal-tab').modal('hide')
-                $('#modal-tab').css('display', 'none')
+                var nama_kategori = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
                 num++
                 e.preventDefault()
                 var newTabId = 'tab-' + nama_kategori
                 var oldname, newname
+                // destroy select2 sebelum di clone
+                $('#data_utama').select2('destroy')
+                $('#data_utama').removeAttr('data-select2-id')
+                $('#data_utama option').removeAttr('data-select2-id')
                 $("#form-utama").clone(true)
                     .map(function() {
                         editElm = $(this)
@@ -294,41 +322,68 @@
                             .attr('id', `dragable-${nama_kategori}`)
                             .end();
 
-                        // console.log(editElm[0].querySelector('.sumber-data'));
+                        var utama_isi_judul   = editElm[0].querySelector('.isi-judul')
+                        var utama_isi_label   = editElm[0].querySelector('.isi-label')
+                        var utama_isi_prefix  = editElm[0].querySelector('.isi-prefix')
+                        var utama_sumber_data = editElm[0].querySelector('.isi-sumber-data')
+
+                        utama_isi_judul.name = `kategori_judul[${nama_kategori}]`
+                        utama_isi_prefix.name = `kategori_prefix[${nama_kategori}]`
+
+                        utama_isi_judul.value  = nama_kategori
+                        utama_isi_label.value  = ''
+                        utama_isi_prefix.value = nama_kategori
+
+                        // utama_isi_judul.removeAttribute('readonly')
+                        utama_isi_prefix.removeAttribute('readonly')
+                        utama_sumber_data.removeAttribute('disabled')
+                        utama_sumber_data.setAttribute('onchange', `tampil_sumber_dinamis("#tab-${nama_kategori}", this.value)`)
+
+                        // utama_isi_judul.setAttribute('onkeyup', `$('#tab-${nama_kategori} .isi-prefix').text(this.value.toLowerCase().replace(/ /g, '_'))`);
+
                         var utama_delete_btn = editElm[0].querySelector('.utama-delete')
                         utama_delete_btn.dataset.kategori = nama_kategori
                         utama_delete_btn.classList.remove('hide')
-                        // console.log(utama_delete_btn);
+
+                        var tbodySumberData = editElm[0].querySelector('table.sumber-data').querySelector('tbody')
+                        var lastTrSumberData = tbodySumberData.lastElementChild.cloneNode(true)
+                        var dropdownOptionTr = lastTrSumberData.lastElementChild.lastElementChild 
+                        var tabs = $('#form-isian #tabs').find('li')
+
                         var elsumberData = editElm[0].querySelector('.sumber-data')
                         var elkodeIsian = editElm[0].querySelector('.kode-isian')
                         var elorangTua = editElm[0].querySelector('#orang-tua')
                         elorangTua.remove()
                         var elpasangan = editElm[0].querySelector('#data-pasangan')
                         elpasangan.remove()
-                        // console.log(elkodeIsian);
+                        var elLabel = editElm[0].querySelector('input.isi-label')
+                        oldname = elLabel.getAttribute('name')
+                        newname = `kategori_${oldname}[${nama_kategori}]`
+                        elLabel.name = newname
+                        elLabel.value = nama_kategori
+                    
                         if (elsumberData != null) {
-                            // console.log(321);
                             var selects = editElm[0].querySelectorAll('.sumber-data select');
-
                             // Menghapus semua atribut dan kelas "select2" dari setiap elemen <select>
                             selects.forEach((elselect2) => {
                                 oldname = elselect2.getAttribute('name')
                                 newname = `kategori_${oldname}[${nama_kategori}]`
-                                // if (oldname == 'data_utama') elselect2.disabled = true
+                                
                                 elselect2.name = newname
-                                elselect2.classList.add('kategori')
-                                if (elselect2.classList.contains('select2')) {
-
-                                    elselect2.classList.remove('select2')
-                                    elselect2.classList.remove('select2-hidden-accessible')
-                                    elselect2.classList.remove('required')
-                                    if (elselect2.nextElementSibling != null) elselect2
-                                        .nextElementSibling.remove();
-                                    // elselect2.nextElementSibling.remove()
-                                    elselect2.removeAttribute('data-select2-id')
-                                }
-                                // console.log(elselect2);
+                                elselect2.id = elselect2.id+`-${nama_kategori}`
                             });
+                            
+                            lastTrSumberData.firstElementChild.innerText = 'Hubungan Data'
+                            dropdownOptionTr.innerHTML = ''
+                            dropdownOptionTr.name = `kategori_hubungan[${nama_kategori}]`
+                            dropdownOptionTr.removeAttribute('id')
+                            // tambahkan option dinamis berdasarkan bagian form
+                            dropdownOptionTr.innerHTML += `<option value="">Pilih hubungan form</option>`
+                            tabs.each(function(){
+                                dropdownOptionTr.innerHTML += `<option value="${$(this).attr('data-name')}">${$(this).find('a').text()}</option>`
+                            })
+
+                            tbodySumberData.appendChild(lastTrSumberData)
                         }
                         if (elkodeIsian != null) {
                             var elganda = editElm[0].querySelector('#gandakan-0');
@@ -386,85 +441,91 @@
                         var elbutton = editElm[0].querySelector('.tambah-kode')
                         elbutton.dataset.type = 'gandakan-' + nama_kategori
                         elbutton.dataset.kategori = nama_kategori
-                        // console.log(elbutton);
+                        
+                        editElm.find('input[name^=kategori_nama_kode]').on('change', function(e){
+                            $(this).closest('tr').find('input[name^=kategori_label_kode]').val($(this).val())
+                        })
+                        
                         return editElm;
                     });
-                // loadSelect()
-                //// console.log(editElm[0]);
+                
                 var newNavItem = $(
-                    `<li id="list-${nama_kategori}" data-name="${nama_kategori}"><a href="#${newTabId}" data-toggle="tab">${nama_kategori.replace(/_/g, ' ')}</a></li>`
+                    `<li class="ui-list-tab" id="list-${nama_kategori}" data-name="${nama_kategori}">
+                        <a id="nav-${newTabId}" href="#${newTabId}" data-toggle="tab">${nama_kategori.replace(/_/g, ' ')}</a>
+                        <input type="hidden" name="kategori[]" value="${nama_kategori}">
+                    </li>`
                 );
 
-                var inputHidden = $('<input>').attr({
-                    type: 'hidden',
-                    name: 'kategori[]',
-                    value: nama_kategori
-                });
-
                 $('.nav-tabs.customized-tab').append(newNavItem);
-                $('.tab-content .custom').append(inputHidden)
                 $('.tab-content .custom').append(editElm);
+                /* buat lagi select2*/
+                $('#data_utama').select2()
+                $('#data_utama-'+nama_kategori).select2()
                 newNavItem.find('a').tab('show');
             });
 
+            $(".customized-tab").sortable({
+                cursor: 'row-resize',
+                placeholder: 'ui-state-highlight',
+                items: '.ui-list-tab'
+            }).disableSelection();
+
+            $('input.isi-judul').on('change', function(){
+                let _idTab = $(this).closest('.tab-pane').attr('id')
+                $(`#nav-${_idTab}`).text($(this).val())
+            })
+
+            $('input.isi-prefix').on('change', function(){
+                let _tabContent = $(this).closest('.tab-pane')
+                let _idTabAsli = _tabContent.attr('id').substr(4)
+                let _prefix = $(this).val()
+                _tabContent.attr('id', 'tab-'+_prefix)
+                _tabContent.find('.box-body>button').attr('data-kategori', _prefix)
+                $(this).attr('name', 'kategori_prefix['+_prefix+']')
+                // rename semua element dalam tab tersebut
+                _tabContent.find('.box-body').find('select, input, textarea').each(function(){
+                    if (!$.isEmptyObject($(this).attr('name'))){
+                        $(this).attr('name', $(this).attr('name').replace(_idTabAsli,_prefix))
+                    }
+                })
+
+                let _navTabElm = $('#form-isian #list-'+_idTabAsli)
+                _navTabElm.find('a').attr('id', 'nav-tab-'+_prefix)
+                _navTabElm.find('a').attr('href', '#tab-'+_prefix)
+                _navTabElm.find('input').val(_prefix)
+                _navTabElm.attr('data-name', _prefix)
+                _navTabElm.attr('id', 'list-'+_prefix)            
+            })
         });
+
+        function tampil_sumber_dinamis(parent, tipe) {
+            if (tipe == 1) {
+                $(parent + ' .sumber_data').show();
+                $(parent + ' .sumber_data').removeClass('hide');
+            } else {
+                $(parent + ' .sumber_data').hide();
+                $(parent + ' .sumber_data').addClass('hide');
+            }
+        }
 
         function loadSelect() {
             // console.log('load select');
             $('.kategori').select2()
         }
 
-        function hideModal() {
-            $('#modal-tab').modal('hide')
+        function judulTab(value, tab) {
+            $('#nav-tab-' . tab).text();
         }
 
         function deleteTab(event) {
             var clicked = event.target;
-            // console.log(clicked.dataset.kategori);
-            var id = clicked.dataset.kategori
-            $(`#tab-${id}`).remove()
-            var ulElement = document.getElementsByClassName('customized-tab')[0];
-            // console.log(ulElement);
-            var liElements = ulElement.getElementsByTagName('li');
-            var activeLiElement = ulElement.querySelector('.active');
-            var activeLiIndex = Array.prototype.indexOf.call(liElements, activeLiElement);
-            var previousLiElement = liElements[activeLiIndex - 1];
-            activeLiElement.classList.remove('.active')
-            if (previousLiElement) {
-                previousLiElement.classList.add('active');
-            }
-            var prevName = previousLiElement.dataset.name
-            // console.log(previousLiElement.dataset.name);
-            $(`#list-${id}`).remove()
-            if (prevName == 'utama') {
-                $(`#tab-${id}`).removeClass('active')
-                $(`#form-${prevName}`).addClass('active')
-            } else {
-                $(`#tab-${prevName}`).show()
-            }
+            let tabContent = $(clicked).closest('.tab-pane')
+            let id = tabContent.attr('id').substr(4)
+            let navTabElm = $('#form-isian #list-'+id)
+            
+            tabContent.remove()
+            navTabElm.prev('li').find('a').click()
+            navTabElm.remove()
         }
-
-        function validateInputCategory(input) {
-            // Menghilangkan spasi di awal dan akhir input
-            // var trimmedInput = input.trim();
-            var trimmedInput = input
-            // Memeriksa apakah input hanya terdiri dari huruf
-            var lettersOnly = /^[A-Za-z _]+$/;
-            var isLettersOnly = lettersOnly.test(trimmedInput);
-
-            // Memeriksa panjang input
-            var isWithinMaxLength = trimmedInput.length <= 20;
-
-            if (!isLettersOnly) return 'angka'
-
-            if (!isWithinMaxLength) return 'huruf'
-
-            // Mengembalikan hasil validasi
-            return isLettersOnly && isWithinMaxLength;
-        }
-
-        // function checkInputCategory(input) {
-
-        // }
     </script>
 @endpush

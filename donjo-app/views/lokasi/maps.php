@@ -1,18 +1,3 @@
-<?php
-
-defined('BASEPATH') || exit('No direct script access allowed');
-
-/*
- * File ini:
- *
- * View di Modul Pemetaan
- *
- * /donjo-app/views/lokasi/maps.php
- */
-
-?>
-
-<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Lokasi <?= $lokasi['nama']?></h1>
@@ -54,7 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</div>
 	</section>
 </div>
-
 <script>
 	window.onload = function() {
 		<?php if (! empty($lokasi['lat']) && ! empty($lokasi['lng'])): ?>
@@ -65,13 +49,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			var zoom = <?=$desa['zoom'] ?: 16?>;
 		<?php endif; ?>
 
-        var options = {
-            maxZoom: <?= setting('max_zoom_peta') ?>,
-            minZoom: <?= setting('min_zoom_peta') ?>,
-        };
-
 		//Inisialisasi tampilan peta
-		var peta_lokasi = L.map('tampil-map', options).setView(posisi, zoom);
+		var peta_lokasi = L.map('tampil-map', pengaturan_peta).setView(posisi, zoom);
 
 		//1. Menampilkan overlayLayers Peta Semua Wilayah
 		var marker_desa = [];

@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
@@ -468,7 +469,6 @@ class Penduduk extends BaseModel
      * Scope query untuk menyaring data penduduk berdasarkan parameter yang ditentukan
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
@@ -515,5 +515,15 @@ class Penduduk extends BaseModel
     public function scopeKepalaKeluarga($query)
     {
         return $query->where(['kk_level' => SHDKEnum::KEPALA_KELUARGA]);
+    }
+
+    public function scopeAyah($query, $idKk)
+    {
+        return $query->where('id_kk', $idKk)->whereIn('kk_level', [SHDKEnum::KEPALA_KELUARGA, SHDKEnum::SUAMI])->where('sex', JenisKelaminEnum::LAKI_LAKI);
+    }
+
+    public function scopeIbu($query, $idKk)
+    {
+        return $query->where('id_kk', $idKk)->whereIn('kk_level', [SHDKEnum::KEPALA_KELUARGA, SHDKEnum::ISTRI])->where('sex', JenisKelaminEnum::PEREMPUAN);
     }
 }

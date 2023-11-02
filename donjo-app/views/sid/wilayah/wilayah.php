@@ -88,6 +88,7 @@
 																	<?php if (can('h')): ?>
 																		<a href="#" data-href="<?= site_url("wilayah/delete/dusun/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm <?= jecho($data['deletable'], 0, 'disabled') ?>" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif; ?>
+																	<?php if($cek_lokasi_peta): ?>
 																	<div class="btn-group">
 																		<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Peta</button>
 																		<ul class="dropdown-menu" role="menu">
@@ -99,6 +100,7 @@
 																			</li>
 																		</ul>
 																	</div>
+																	<?php endif; ?>
 																</td>
 																<td><?= strtoupper($data['dusun'])?></td>
 																<td nowrap><strong><?= strtoupper($data['nama_kadus'])?></strong> - <?= $data['nik_kadus']?></td>

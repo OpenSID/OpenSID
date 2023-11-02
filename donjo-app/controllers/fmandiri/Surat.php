@@ -215,6 +215,7 @@ class Surat extends Mandiri_Controller
                         '[judul_surat]'   => FormatSurat::find($post['id_surat'])->nama,
                         '[tanggal]'       => tgl_indo2(date('Y-m-d H:i:s')),
                         '[melalui]'       => 'Layanan Mandiri',
+                        '[website]'       => APP_URL,
                     ];
 
                     $kirimPesan = setting('notifikasi_pengajuan_surat');

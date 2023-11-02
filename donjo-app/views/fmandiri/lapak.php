@@ -222,10 +222,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		var MAPBOX_KEY = '<?= setting('mapbox_key') ?>';
 		var JENIS_PETA = '<?= setting('jenis_peta') ?>';
 
-        var options = {
-            maxZoom: <?= setting('max_zoom_peta') ?>,
-            minZoom: <?= setting('min_zoom_peta') ?>,
-        };
 
 		$(document).on('shown.bs.modal', '#map-modal', function(event) {
 			let link = $(event.relatedTarget);

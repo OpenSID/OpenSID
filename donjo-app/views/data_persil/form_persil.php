@@ -146,7 +146,6 @@
         </div>
     </section>
 </div>
-
 <script>
     function pilih_lokasi(pilih) {
         if (pilih == 1) {
@@ -176,12 +175,7 @@
             var zoom = 4;
         <?php endif; ?>
 
-        var options = {
-            maxZoom: <?= setting('max_zoom_peta') ?>,
-            minZoom: <?= setting('min_zoom_peta') ?>,
-        };
-
-        var peta_area = L.map('map', options).setView(posisi, zoom);
+        var peta_area = L.map('map', pengaturan_peta).setView(posisi, zoom);
 
         //1. Menampilkan overlayLayers Peta Semua Wilayah
         var marker_desa = [];

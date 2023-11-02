@@ -38,6 +38,7 @@
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Models\Keluarga as ModelsKeluarga;
+use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -108,6 +109,7 @@ class Keluarga extends Admin_Controller
         }
 
         $data['func']       = 'index';
+        $this->header['kategori']     = 'data_lengkap';
         $data['set_page']   = $this->_set_page;
         $list_data          = $this->keluarga_model->list_data($o, $p);
         $data['paging']     = $list_data['paging'];
@@ -267,6 +269,10 @@ class Keluarga extends Admin_Controller
         }
         $data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
 
+        // data orang tua
+        $data['data_ayah'] = collect(Penduduk::ayah($id)->first(['nama', 'nik']))->toArray();
+        $data['data_ibu']  = collect(Penduduk::ibu($id)->first(['nama', 'nik']))->toArray();
+
         // Validasi dilakukan di keluarga_model sewaktu insert dan update
         if ($_SESSION['validation_error']) {
             $data['id_kk']    = $_SESSION['id_kk'];
@@ -410,6 +416,13 @@ class Keluarga extends Admin_Controller
     public function delete($p = 1, $o = 0, $id = 0)
     {
         $this->redirect_hak_akses('h');
+
+        if (data_lengkap()) {
+            session_error('Data tidak dapat proses karena sudah dinyatakan lengkap');
+
+            redirect("{$this->controller}/index/{$p}/{$o}");
+        }
+
         $this->redirect_tidak_valid($this->keluarga_model->cek_boleh_hapus($id));
         $this->keluarga_model->delete($id);
         $this->cache->hapus_cache_untuk_semua('_wilayah');
@@ -420,6 +433,13 @@ class Keluarga extends Admin_Controller
     public function delete_all()
     {
         $this->redirect_hak_akses('h');
+
+        if (data_lengkap()) {
+            session_error('Data tidak dapat proses karena sudah dinyatakan lengkap');
+
+            redirect("{$this->controller}/index/{$p}/{$o}");
+        }
+        
         $this->keluarga_model->delete_all();
         $this->cache->hapus_cache_untuk_semua('_wilayah');
 

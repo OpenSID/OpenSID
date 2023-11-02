@@ -35,10 +35,12 @@
  *
  */
 
-use App\Models\Config;
-use Illuminate\Support\Facades\DB;
-
 defined('BASEPATH') || exit('No direct script access allowed');
+
+use App\Models\Config;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class Migrasi_fitur_premium_2311 extends MY_model
 {
@@ -55,6 +57,8 @@ class Migrasi_fitur_premium_2311 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
+        $hasil = $hasil && $this->migrasi_2023101353($hasil);
+        $hasil = $hasil && $this->migrasi_2023101354($hasil);
         $hasil = $hasil && $this->migrasi_2023101151($hasil);
         $hasil = $hasil && $this->migrasi_2023101352($hasil);
 
@@ -70,16 +74,56 @@ class Migrasi_fitur_premium_2311 extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023101152($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023101351($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023101971($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023102151($hasil, $id);
         }
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023101254($hasil);
+        $hasil = $hasil && $this->migrasi_2023101651($hasil);
 
-        return $hasil && $this->migrasi_2023101651($hasil);
+        return $hasil && $this->migrasi_2023101652($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
     {
+        return $hasil;
+    }
+
+    protected function migrasi_2023101353($hasil)
+    {
+        if (! Schema::hasTable('fcm_token')) {
+            Schema::create('fcm_token', static function (Blueprint $table) {
+                $table->mediumInteger('id_user');
+                $table->integer('config_id');
+                $table->string('device')->unique();
+                $table->longText('token');
+                $table->timestamps();
+            });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023101354($hasil)
+    {
+        if (! Schema::hasTable('log_notifikasi_admin')) {
+            Schema::create('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->increments('id');
+                $table->mediumInteger('id_user');
+                $table->integer('config_id');
+                $table->string('judul');
+                $table->text('isi');
+                $table->string('token');
+                $table->string('device');
+                $table->string('image')->nullable();
+                $table->string('payload');
+                $table->integer('read');
+                $table->timestamps();
+                $table->index(['id', 'created_at', 'read', 'device', 'config_id']);
+            });
+        }
+
         return $hasil;
     }
 
@@ -242,6 +286,61 @@ class Migrasi_fitur_premium_2311 extends MY_model
         $this->db->trans_complete();
 
         return $hasil;
+    }
+
+    protected function migrasi_2023101971($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Format Tanggal Surat',
+            'key'        => 'format_tanggal_surat',
+            'value'      => 'd F Y',
+            'keterangan' => 'Format tanggal pada kode isian surat. Format : <code><a href="https://www.php.net/manual/en/function.date.php" target="_blank">https://www.php.net/manual/en/function.date.php</a></code>',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'format_surat',
+        ], $id);
+    }
+
+    protected function migrasi_2023101652($hasil)
+    {
+        $this->db->trans_start();
+        $query = $this->db->where('form_isian is NOT NULL')->get('tweb_surat_format');
+
+        foreach ($query->result() as $row) {
+            $data     = json_decode($row->form_isian, true);
+            $dataBaru = [];
+
+            foreach ($data as $key => $value) {
+                $dataBaru[$key] = $value;
+                if (array_key_exists('data', $value)) {
+                    $nilaiSebelumnya = $value['data'] ?? $dataBaru['data'] ?? '1';
+                    $nilaiBaru       = [];
+                    if (! is_array($value['data'])) {
+                        $nilaiBaru[] = $nilaiSebelumnya;
+                    } else {
+                        $nilaiBaru = [$nilaiSebelumnya];
+                    }
+                    $dataBaru[$key]['data'] = $nilaiBaru;
+                }
+            }
+            $this->db->update('tweb_surat_format', ['form_isian' => json_encode($dataBaru)], ['id' => $row->id]);
+        }
+        $this->db->trans_complete();
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023102151($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'form_penduduk_luar',
+            'value'      => '{"2":{"title":"PENDUDUK LUAR [desa]","input":"nama,no_ktp"},"3":{"title":"PENDUDUK LUAR [desa] (LENGKAP)","input":"nama,no_ktp,tempat_lahir,tanggal_lahir,alamat,agama,pekerjaan,warga_negara"}}',
+            'keterangan' => 'Form ini akan tampil jika surat dipilih menggunakan penduduk luar [desa]',
+            'jenis'      => 'text',
+            'kategori'   => 'form_surat',
+            'judul'      => 'Form penduduk luar [desa]',
+        ], $id);
     }
 
     protected function migrasi_2023102551($hasil)

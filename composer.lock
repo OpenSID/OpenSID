@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da9f19f3f2bacf796e64a3df3089af19",
+    "content-hash": "389280fdea898b23a8b748ff7e353467",
     "packages": [
         {
             "name": "agungsugiarto/codeigniter-datables",
@@ -201,6 +201,60 @@
                 }
             ],
             "time": "2023-06-16T13:40:37+00:00"
+        },
+        {
+            "name": "edwinhoksberg/php-fcm",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EdwinHoksberg/php-fcm.git",
+                "reference": "660bbe4ae71e02090f16b11b4a993dfebab83f7f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EdwinHoksberg/php-fcm/zipball/660bbe4ae71e02090f16b11b4a993dfebab83f7f",
+                "reference": "660bbe4ae71e02090f16b11b4a993dfebab83f7f",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3 || ^7.0",
+                "php": ">= 7.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "php-coveralls/php-coveralls": "^2.3",
+                "phpunit/phpunit": "^6.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fcm\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Edwin Hoksberg",
+                    "email": "mail@edwinhoksberg.nl"
+                }
+            ],
+            "description": "A library for sending Firebase cloud messages and managing user topic subscriptions, device groups and devices.",
+            "homepage": "https://github.com/EdwinHoksberg/php-fcm",
+            "keywords": [
+                "FCM",
+                "Firebase Cloud Messaging",
+                "firebase",
+                "google",
+                "notifications"
+            ],
+            "support": {
+                "issues": "https://github.com/EdwinHoksberg/php-fcm/issues",
+                "source": "https://github.com/EdwinHoksberg/php-fcm/tree/v1.2.0"
+            },
+            "time": "2021-01-19T01:15:30+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -4542,16 +4596,16 @@
         },
         {
             "name": "tinymce/tinymce",
-            "version": "6.7.1",
+            "version": "6.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "b1ddb5ec9b0c7f5d542429a044bd303648d2d647"
+                "reference": "a4c139bde17a4e8b2e84d225020cd5acc24a728a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/b1ddb5ec9b0c7f5d542429a044bd303648d2d647",
-                "reference": "b1ddb5ec9b0c7f5d542429a044bd303648d2d647",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/a4c139bde17a4e8b2e84d225020cd5acc24a728a",
+                "reference": "a4c139bde17a4e8b2e84d225020cd5acc24a728a",
                 "shasum": ""
             },
             "type": "component",
@@ -4595,9 +4649,9 @@
                 "wysiwyg"
             ],
             "support": {
-                "source": "https://github.com/tinymce/tinymce-dist/tree/6.7.1"
+                "source": "https://github.com/tinymce/tinymce-dist/tree/6.7.2"
             },
-            "time": "2023-10-19T03:04:57+00:00"
+            "time": "2023-10-25T06:42:18+00:00"
         }
     ],
     "aliases": [],

@@ -12,58 +12,58 @@
         <tr>
             <td colspan="20">Nama lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong><?= $input['nama_calon_pasangan']; ?></strong></td>            
+            <td colspan="27"><strong>[Nama_dapP]</strong></td>
         </tr>
         <tr>
             <td colspan="20">Nomor Induk Keinputan</td>
             <td>: </td>
-            <td colspan="27"><?= $input['no_ktp_calon_pasangan']; ?></td>
+            <td colspan="27">[Nik_dapP]</td>
             
         </tr>
         <tr>
             <td colspan="20">Jenis Kelamin</td>
             <td>: </td>
-            <td colspan="27"><?= $individu['sex_id'] == 1 ? 'Wanita' : 'Pria'; ?></td>
+            <td colspan="27">[Jenis_kelamin_dapP]</td>
         </tr>
         <tr>
             <td colspan="20">Tempat dan Tanggal Lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $input['tempat_lahir_calon_pasangan'].', '. tgl_indo2(!empty($input['tanggal_lahir_calon_pasangan']) ? date('Y-m-d', strtotime($input['tanggal_lahir_calon_pasangan'])) : ''); ?></td>
+            <td colspan="27">[Ttl_dapP]</td>
             
         </tr>
         <tr>
             <td colspan="20">Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27"><?= $input['warga_negara_calon_pasangan']; ?></td>
+            <td colspan="27">[Warga_negara_dapP]</td>
             
         </tr>
         <tr>
             <td colspan="20">Agama</td>
             <td>: </td>
-            <td colspan="27"><?= $input['agama_calon_pasangan']; ?></td>
+            <td colspan="27">[Agama_dapP]</td>
             
         </tr>
         <tr>
             <td colspan="20">Pekerjaan</td>
             <td>: </td>
-            <td colspan="27"><?= $input['pekerjaan_calon_pasangan']; ?></td>
+            <td colspan="27">[Pekerjaan_dapP]</td>
             
         </tr>
         <tr>
             <td colspan="20">Pendidikan Terakhir</td>
             <td>: </td>
-            <td colspan="27"><?= $input['pendidikan_calon_pasangan']; ?></td>
+            <td colspan="27">[Pendidikan_kk_dapP]</td>
             
         </tr>
         <tr>
             <td colspan="20">Alamat</td>
             <td>: </td>
-            <td colspan="27"><?= $input['tempat_tinggal_calon_pasangan']; ?></td>
+            <td colspan="27">[Alamat_dapP]</td>
             
         </tr>
     </table>
     
-    <p>Dengan ini menyatakan bahwa, Saya betul-betul pada saat ini berstatus <?= $input['status_kawin_calon_pasangan'] ?>, dan surat pernyataan ini dibuat guna persyaratan Pernikahan.</p>
+    <p>Dengan ini menyatakan bahwa, Saya betul-betul pada saat ini berstatus [Form_status_kawin_wanitA], dan surat pernyataan ini dibuat guna persyaratan Pernikahan.</p>
     
     <p>Demikianlah surat pernyataan ini saya buat dengan sebenarnya, dalam keadaan sehat jasmani dan rohani tanpa ada paksaan dari pihak manapun. Apabila di kemudian hari menyalahi surat pernyataan ini, saya bersedia dituntut sesuai Perundang-undangan/Hukum yang berlaku dan tidak akan melibatkan aparat setempat ( Resiko Sendiri).</p>
 
@@ -78,12 +78,12 @@
         </tr>
         <tr>
             <td colspan="32"><?= $qrcode ?? '' ?></td>
-            <td colspan="15" class="tengah"><br><b><i>Materai 10.000</i></b><br><br></td>            
+            <td colspan="15" class="tengah"><br><b><i>Materai 10.000</i></b><br><br></td>
             <td colspan="2">&nbsp;</td>
-        </tr>        
+        </tr>
         <tr>
-            <td colspan="27">&nbsp;</td>            
-            <td colspan="20" class="tengah"><strong><?= $input['nama_calon_pasangan'] ?></strong></td>
+            <td colspan="27">&nbsp;</td>
+            <td colspan="20" class="tengah"><strong>[Nama_dapP]</strong></td>
             <td colspan="2">&nbsp;</td>
         </tr>
     </table>
@@ -103,5 +103,5 @@
             <td colspan="23" class="tengah">( ........................................................................ )</td>
             <td colspan="2">&nbsp;</td>
         </tr>
-    </table>  
+    </table>
 </page>

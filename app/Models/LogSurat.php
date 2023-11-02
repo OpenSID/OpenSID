@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Libraries\TinyMCE;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -142,8 +141,7 @@ class LogSurat extends BaseModel
         $format_nomor_surat = ($this->formatSurat->format_nomor == '') ? setting('format_nomor_surat') : $this->formatSurat->format_nomor;
 
         // $format_nomor_surat = str_replace('[nomor_surat]', "{$this->no_surat}", $format_nomor_surat);
-        $tinymce            = new TinyMCE();
-        $format_nomor_surat = $tinymce->substitusiNomorSurat($this->no_surat, $format_nomor_surat);
+        $format_nomor_surat = substitusiNomorSurat($this->no_surat, $format_nomor_surat);
         $array_replace      = [
             '[kode_surat]'   => $this->formatSurat->kode_surat,
             '[tahun]'        => $thn,

@@ -117,6 +117,15 @@ class Surat_model extends MY_Model
         if ($filter['kk_level']) {
             $this->db->where('kk_level', $filter['kk_level']);
         }
+        // batasi ambil data dari keluarga yang sama saja
+        if ($filter['hubungan']) {
+            $this->db->where('id_kk in (select id_kk from tweb_penduduk where id = ' . $filter['hubungan'] . ') and u.id != ' . $filter['hubungan']);
+        }
+
+        // ambil data selain yang dikecualikan
+        if ($filter['kecuali']) {
+            $this->db->where_not_in('u.id', $filter['kecuali']);
+        }
 
         if ($filter['bersurat']) {
             $this->db->join('log_surat h', 'u.id = h.id_pend');

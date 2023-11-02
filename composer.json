@@ -11,6 +11,7 @@
 		"php": "^7.3",
 		"agungsugiarto/codeigniter-datables": "1.x-dev",
 		"codeigniter/framework": "^3.1",
+		"edwinhoksberg/php-fcm": "^1.2",
 		"google/apiclient": "^2.11",
 		"illuminate/database": "^8.78",
 		"illuminate/pagination": "^8.79",

@@ -77,7 +77,6 @@ class Migrasi_fitur_premium_2308 extends MY_model
             $hasil = $hasil && $this->suratKeteranganKelahiran($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPindahPenduduk($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganNikah($hasil, $id);
-            // Jalankan Migrasi TinyMCE
             $hasil = $hasil && $this->migrasi_2023072451($hasil, $id);
         }
 
@@ -1977,8 +1976,6 @@ class Migrasi_fitur_premium_2308 extends MY_model
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
     }
-
-    // Function Migrasi TinyMCE
 
     protected function migrasi_2023072454($hasil)
     {

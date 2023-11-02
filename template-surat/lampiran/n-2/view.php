@@ -41,14 +41,14 @@
             <td>:</td>
             <td>Permohonan Kehendak Nikah</td>
             <td style="width:200px">&nbsp;</td>
-            <td style="width:200px;text-align:right"><?= $config['nama_kecamatan'] ?>, <?= tgl_indo(date('Y m d', time())) ?> </td>
+            <td style="width:200px;text-align:right">[Nama_kecamataN], [TgL_surat] </td>
         </tr>
     </table>
 
     <p>
     <div>Kepada Yth.</div>
     <div>Kepala KUA Kecamatan/PPN LN</div>
-    <div>di <?= $config['nama_kecamatan'] ?></div>
+    <div>di [Nama_kecamataN]</div>
     </p>
 
     <p style="text-align: justify; text-indent: 30px;">Dengan hormat, kami mengajukan permohonan kehendak nikah untuk atas nama:</p>
@@ -62,31 +62,31 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Calon Suami</td>
             <td>: </td>
-            <td colspan="27"><strong><?= strtoupper($dataCalonSuamiN2['nama']); ?></strong></td>
+            <td colspan="27"><strong>[NamA]</strong></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Calon Istri</td>
             <td>: </td>
-            <td colspan="27"><strong><?= strtoupper($dataCalonIstriN2['nama']); ?></strong></td>
+            <td colspan="27"><strong>[Nama_dcpW]</strong></td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Hari/tanggal/jam</td>
             <td>: </td>
-            <td colspan="27"><?= $input['hari_pernikahan'] ?>/<?= tgl_indo2(!empty($input['tanggal_pernikahan']) ? date('Y-m-d', strtotime($input['tanggal_pernikahan'])) : '') ?>/<?= $input['jam_pernikahan'] ?></td>
+            <td colspan="27">[Form_hari_nikaH] / [Form_tanggal_nikaH] / [Form_jam_nikaH] WIB</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Tempat akad nikah</td>
             <td>: </td>
-            <td colspan="27"><?= $input['tempat_pernikahan']; ?></td>
+            <td colspan="27">[Form_tempat_nikaH]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Maskawin</td>
             <td>: </td>
-            <td colspan="27"><?= $input['maskawin']; ?></td>
+            <td colspan="27">[Form_maskawin_nikaH]</td>
         </tr>
 
     </table>
@@ -143,7 +143,7 @@
                 <br>
                 <br>
                 <br>
-                <div><strong><?= $individu['nama'] ?></strong></div>
+                <div><strong>[NamA]</strong></div>
             </td>
         </tr>
     </table>

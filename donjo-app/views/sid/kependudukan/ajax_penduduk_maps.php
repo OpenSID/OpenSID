@@ -1,5 +1,4 @@
 <?php if ($this->CI->cek_hak_akses('u')): ?>
-	<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 	<div class="content-wrapper">
 		<section class="content-header">
 			<h1>Lokasi Tempat Tinggal <?= $penduduk['nama']?></h1>
@@ -57,7 +56,6 @@
 		</div>
 		</section>
 	</div>
-
 	<script>
 		window.onload = function() {
 			var mode = '<?= $edit ? true : false ?>';
@@ -70,13 +68,8 @@
 				var zoom = 10;
 			<?php	endif; ?>
 
-			var options = {
-				maxZoom: <?= setting('max_zoom_peta') ?>,
-				minZoom: <?= setting('min_zoom_peta') ?>,
-			};
-
 			//Inisialisasi tampilan peta
-			var peta_penduduk = L.map('tampil-map', options).setView(posisi, zoom);
+			var peta_penduduk = L.map('tampil-map', pengaturan_peta).setView(posisi, zoom);
 
 			//1. Menampilkan overlayLayers Peta Semua Wilayah
 			var marker_desa = [];

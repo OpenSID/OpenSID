@@ -36,7 +36,9 @@
  */
 
 use App\Enums\Statistik\StatistikEnum;
+use App\Models\Bantuan;
 use App\Models\RefJabatan;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use voku\helper\AntiXSS;
@@ -48,7 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2310.0.3');
+define('VERSION', '2310.1.0');
 
 /**
  * PREMIUM
@@ -64,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023102552');
+define('VERSI_DATABASE', '2023102571');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1462,6 +1464,10 @@ function menu_slug($url)
 
             break;
 
+        case 'informasi_publik':
+            $url = 'informasi-publik';
+            break;
+
             /*
                 * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
                 * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
@@ -1469,7 +1475,6 @@ function menu_slug($url)
         case 'arsip':
         case 'data_analisis':
         case 'ambil_data_covid':
-        case 'informasi_publik':
         case 'load_aparatur_desa':
         case 'load_apbdes':
         case 'load_aparatur_wilayah':
@@ -1688,11 +1693,12 @@ if (! function_exists('getFormatIsian')) {
      */
     function getFormatIsian($kode_isian)
     {
-        $strtolower = strtolower($kode_isian);
+        $netral     = str_replace(['[', ']'], '', $kode_isian);
+        $strtolower = strtolower($netral);
         $ucfirst    = ucfirst($strtolower);
 
         return [
-            'normal'  => '[' . ucfirst(uclast($kode_isian)) . ']',
+            'normal'  => '[' . ucfirst(uclast($netral)) . ']',
             'lower'   => '[' . $strtolower . ']',
             'ucfirst' => '[' . $ucfirst . ']',
             'ucwords' => '[' . substr_replace($ucfirst, strtoupper(substr($ucfirst, 2, 1)), 2, 1) . ']',
@@ -1864,5 +1870,110 @@ if (! function_exists('bersihkan_xss')) {
         $antiXSS->removeEvilHtmlTags(['iframe']);
 
         return $antiXSS->xss_clean($str);
+    }
+}
+
+/**
+ * Kode isian nomor_surat bisa ditentukan panjangnya, diisi dengan '0' di sebelah kiri
+ * Misalnya [nomor_surat, 3] akan menghasilkan seperti '012'
+ *
+ * @param mixed|null $nomor
+ * @param mixed      $format
+ */
+function substitusiNomorSurat($nomor = null, $format = '')
+{
+    // TODO : Cek jika null, cari no surat terakhir berdasarkan kelompok
+    $format = str_replace('[nomor_surat]', "{$nomor}", $format);
+    if (preg_match_all('/\[nomor_surat,\s*\d+\]/', $format, $matches)) {
+        foreach ($matches[0] as $match) {
+            $parts         = explode(',', $match);
+            $panjang       = (int) trim(rtrim($parts[1], ']'));
+            $nomor_panjang = str_pad("{$nomor}", $panjang, '0', STR_PAD_LEFT);
+            $format        = str_replace($match, $nomor_panjang, $format);
+        }
+    }
+
+    return $format;
+}
+
+function updateIndex($data)
+{
+    $result = [];
+    $index  = 2; // dimulai index 2 karena 1 untuk penduduk desa
+    if (! empty($data)) {
+        foreach ($data as $key => $value) {
+            $result[$index] = $value;
+            $index++;
+        }
+    }
+
+    return $result;
+}
+
+/**
+ * @param string $tanggal
+ *
+ * @return string
+ */
+if (! function_exists('formatTanggal')) {
+    function formatTanggal($tanggal)
+    {
+        return Carbon::parse($tanggal)->translatedFormat(setting('format_tanggal_surat'));
+    }
+}
+
+if (! function_exists('daftar_statistik')) {
+    function daftar_statistik()
+    {
+        $data = [];
+        $data = collect(StatistikEnum::allStatistik())->map(static function ($items, $kategori) {
+            return collect($items)->map(static function ($item) {
+                return [
+                    'key'   => $item['key'],
+                    'slug'  => $item['slug'],
+                    'label' => $item['label'],
+                    'url'   => "data-statistik/{$item['slug']}",
+                ];
+            })->all();
+        })->all();
+        $kategori_bantuan = [
+            [
+                'key'   => 'bantuan_penduduk',
+                'slug'  => 'bantuan-penduduk',
+                'label' => 'Penerima Bantuan Penduduk',
+                'url'   => 'first/statistik/bantuan_penduduk',
+            ],
+            [
+                'key'   => 'bantuan_keluarga',
+                'slug'  => 'bantuan-keluarga',
+                'label' => 'Penerima Bantuan Keluarga',
+                'url'   => 'first/statistik/bantuan_keluarga',
+            ],
+        ];
+        $setiap_bantuan = Bantuan::all()->map(static function ($item) {
+            return [
+                'key'   => "50{$item->id}",
+                'slug'  => "50{$item->id}",
+                'label' => $item->nama,
+                'url'   => "first/statistik/50{$item->id}",
+            ];
+        })->toArray();
+        $data['bantuan'] = array_merge($kategori_bantuan, $setiap_bantuan);
+        $data['lainnya'] = [
+            [
+                'key'   => 'dpt',
+                'slug'  => 'dpt',
+                'label' => 'Calon Pemilih',
+                'url'   => 'first/dpt',
+            ],
+            [
+                'key'   => 'data-wilayah',
+                'slug'  => 'data-wilayah',
+                'label' => 'Populasi Per Wilayah',
+                'url'   => 'data-wilayah',
+            ],
+        ];
+
+        return $data;
     }
 }

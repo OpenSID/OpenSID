@@ -63,10 +63,11 @@ if (! function_exists('view')) {
      * @param string|null                                   $view
      * @param array|\Illuminate\Contracts\Support\Arrayable $data
      * @param array                                         $mergeData
+     * @param mixed                                         $returnView
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    function view($view = null, $data = [], $mergeData = [])
+    function view($view = null, $data = [], $mergeData = [], $returnView = false)
     {
         $CI = &get_instance();
 
@@ -125,7 +126,9 @@ if (! function_exists('view')) {
                 'perbaharui_langganan' => $CI->header['perbaharui_langganan'] ?? null,
             ]);
         }
-
+        if ($returnView) {
+            return $factory->render($view, $data, $mergeData);
+        }
         echo $factory->render($view, $data, $mergeData);
     }
 }
@@ -387,8 +390,9 @@ if (! function_exists('folder')) {
      * @param string     $folder
      * @param string     $permissions
      * @param mixed|null $htaccess
+     * @param array|null $extra
      */
-    function folder($folder = null, $permissions = 0755, $htaccess = null)
+    function folder($folder = null, $permissions = 0755, $htaccess = null, array $extra = [])
     {
         $hasil = true;
 
@@ -404,8 +408,17 @@ if (! function_exists('folder')) {
                 write_file($folder . '.htaccess', config_item($htaccess), 'x');
             }
 
-            // File index.hmtl
+            // File index.html
             write_file($folder . 'index.html', config_item('index_html'), 'x');
+
+            if ($extra) {
+                foreach ($extra as $value) {
+                    $file    = realpath($value);
+                    $newfile = realpath($folder) . DIRECTORY_SEPARATOR . basename($value);
+
+                    copy($file, $newfile);
+                }
+            }
 
             return true;
         }
@@ -425,7 +438,7 @@ if (! function_exists('folder_desa')) {
 
         // Buat folder dan subfolder desa
         foreach ($list_folder as $folder => $lainnya) {
-            folder($folder, $lainnya[0], $lainnya[1]);
+            folder($folder, $lainnya[0], $lainnya[1], $lainnya[2] ?? []);
         }
 
         // Buat file offline_mode.php, config.php dan database.php awal
@@ -886,6 +899,13 @@ if (! function_exists('jenis_surat')) {
         }
 
         return 'TinyMCE';
+    }
+}
+
+if (! function_exists('cek_lokasi_peta')) {
+    function cek_lokasi_peta($wilayah)
+    {
+        return (bool) (! empty($wilayah['path'] && ! empty($wilayah['lat'] && ! empty($wilayah['lng']))));
     }
 }
 

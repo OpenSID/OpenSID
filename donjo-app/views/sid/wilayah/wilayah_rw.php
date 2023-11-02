@@ -12,7 +12,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<?php if ($this->CI->cek_hak_akses('u')): ?>
+						<?php if (can('u')): ?>
 							<a href="<?= site_url("wilayah/form_rw/{$id_dusun}")?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Tambah RW</a>
 						<?php endif; ?>
 						<a href="<?= site_url("wilayah/cetak_rw/{$id_dusun}")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
@@ -52,29 +52,31 @@
 																<tr>
 																	<td><?= $data['no']?></td>
 																	<td nowrap>
-																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																		<?php if (can('u')): ?>
 																			<a href="<?= site_url("wilayah/urut/rw/{$paging->page}/{$data['id']}/1/{$id_dusun}"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) && print 'disabled'; ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
 																			<a href="<?= site_url("wilayah/urut/rw/{$paging->page}/{$data['id']}/2/{$id_dusun}"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == 1 && $paging->page == $paging->start_link) && print 'disabled'; ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																		<?php endif; ?>
 																		<a href="<?= site_url("wilayah/sub_rt/{$id_dusun}/{$data['id']}")?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Sub Wilayah RW"><i class="fa fa-list"></i></a>
-																		<?php if ($data['rw'] != '-' && $this->CI->cek_hak_akses('u')): ?>
-																			<a href="<?= site_url("wilayah/form_rw/{$id_dusun}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
-																		<?php endif; ?>
-																		<?php if ($data['rw'] != '-' && $this->CI->cek_hak_akses('h')): ?>
-																			<a href="#" data-href="<?= site_url("wilayah/delete/rw/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm <?= jecho($data['deletable'], 0, 'disabled') ?>" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																		<?php endif; ?>
 																		<?php if ($data['rw'] != '-'): ?>
-																			<div class="btn-group">
-																				<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Peta</button>
-																				<ul class="dropdown-menu" role="menu">
-																					<li>
-																						<a href="<?= site_url("wilayah/ajax_kantor_rw_maps/{$id_dusun}/{$data['id']}")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lokasi Kantor RW</a>
-																					</li>
-																					<li>
-																						<a href="<?= site_url("wilayah/ajax_wilayah_rw_maps/{$id_dusun}/{$data['id']}")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map'></i> Peta Wilayah RW</a>
-																					</li>
-																				</ul>
-																			</div>
+																			<?php if (can('u')): ?>
+																				<a href="<?= site_url("wilayah/form_rw/{$id_dusun}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+																			<?php endif; ?>
+																			<?php if (can('h')): ?>
+																				<a href="#" data-href="<?= site_url("wilayah/delete/rw/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm <?= jecho($data['deletable'], 0, 'disabled') ?>" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<?php endif; ?>
+																			<?php if ($cek_lokasi_peta && can('u')): ?>
+																				<div class="btn-group">
+																					<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Peta</button>
+																					<ul class="dropdown-menu" role="menu">
+																						<li>
+																							<a href="<?= site_url("wilayah/ajax_kantor_rw_maps/{$id_dusun}/{$data['id']}")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lokasi Kantor RW</a>
+																						</li>
+																						<li>
+																							<a href="<?= site_url("wilayah/ajax_wilayah_rw_maps/{$id_dusun}/{$data['id']}")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map'></i> Peta Wilayah RW</a>
+																						</li>
+																					</ul>
+																				</div>
+																			<?php endif; ?>
 																		<?php endif; ?>
 																	</td>
 																	<td><?= $data['rw']?></td>

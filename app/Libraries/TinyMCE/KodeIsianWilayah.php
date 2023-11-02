@@ -35,36 +35,46 @@
  *
  */
 
-use App\Enums\JenisKelaminEnum;
+namespace App\Libraries\TinyMCE;
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use App\Models\Wilayah;
 
-if ($individu['sex_id'] == JenisKelaminEnum::LAKI_LAKI) {
-    $dataCalonSWN = [
-        // calon pria
-        'nama_pria' => $individu['nama'],
+class KodeIsianWilayah
+{
+    private $wilayah;
+    private $sebutanDusun;
 
-        // calon wanita
-        'nama_wanita' => $input['nama_calon_pasangan'],
-    ];
-} else {
-    $dataCalonSWN = [
-        // calon pria
-        'nama_pria' => $input['nama_calon_pasangan'],
+    public function __construct()
+    {
+        $this->wilayah      = Wilayah::with('kepala')->dusun()->get();
+        $this->sebutanDusun = setting('sebutan_dusun');
+    }
 
-        // calon wanita
-        'nama_wanita' => $individu['nama'],
-    ];
+    public static function get()
+    {
+        return (new self())->kodeIsian();
+    }
+
+    public function kodeIsian()
+    {
+        $data = [];
+
+        foreach ($this->wilayah as $wil) {
+            $namaDusun   = ucwords($this->sebutanDusun . ' ' . $wil->dusun);
+            $kepalaDusun = ucwords('kepala ' . $this->sebutanDusun . ' ' . $wil->dusun);
+
+            $data[] = [
+                'judul' => $namaDusun,
+                'isian' => $namaDusun,
+                'data'  => $wil->dusun,
+            ];
+            $data[] = [
+                'judul' => $kepalaDusun,
+                'isian' => $kepalaDusun,
+                'data'  => $wil->kepala->nama,
+            ];
+        }
+
+        return $data;
+    }
 }
-
-$dataWaliNikah = [
-    'nama_wali' => $input['nama_wali_nikah'],
-    'bin_wali' => $input['bin_wali_nikah'],
-    'nik_wali' => $input['no_ktp_wali_nikah'],
-    'tempatlahir_wali' => $input['tempatlahir_wali_nikah'],
-    'tanggallahir_wali' => $input['tanggallahir_wali_nikah'],
-    'agama_wali' => $input['agama_wali_nikah'],
-    'pekerjaan_wali' => $input['pekerjaan_wali_nikah'],
-    'alamat_wali' => $input['tempat_tinggal_wali_nikah'],
-    'hubungan_wali' => $input['hubungan_dengan_wali'],
-];

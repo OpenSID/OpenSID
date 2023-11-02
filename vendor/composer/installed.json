@@ -206,6 +206,63 @@
             "install-path": "../doctrine/inflector"
         },
         {
+            "name": "edwinhoksberg/php-fcm",
+            "version": "v1.2.0",
+            "version_normalized": "1.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EdwinHoksberg/php-fcm.git",
+                "reference": "660bbe4ae71e02090f16b11b4a993dfebab83f7f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EdwinHoksberg/php-fcm/zipball/660bbe4ae71e02090f16b11b4a993dfebab83f7f",
+                "reference": "660bbe4ae71e02090f16b11b4a993dfebab83f7f",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3 || ^7.0",
+                "php": ">= 7.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "php-coveralls/php-coveralls": "^2.3",
+                "phpunit/phpunit": "^6.5"
+            },
+            "time": "2021-01-19T01:15:30+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Fcm\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Edwin Hoksberg",
+                    "email": "mail@edwinhoksberg.nl"
+                }
+            ],
+            "description": "A library for sending Firebase cloud messages and managing user topic subscriptions, device groups and devices.",
+            "homepage": "https://github.com/EdwinHoksberg/php-fcm",
+            "keywords": [
+                "FCM",
+                "Firebase Cloud Messaging",
+                "firebase",
+                "google",
+                "notifications"
+            ],
+            "support": {
+                "issues": "https://github.com/EdwinHoksberg/php-fcm/issues",
+                "source": "https://github.com/EdwinHoksberg/php-fcm/tree/v1.2.0"
+            },
+            "install-path": "../edwinhoksberg/php-fcm"
+        },
+        {
             "name": "firebase/php-jwt",
             "version": "v6.9.0",
             "version_normalized": "6.9.0.0",
