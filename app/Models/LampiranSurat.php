@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * File ini bagian dari:
@@ -34,42 +35,68 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
+namespace App\Models;
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use App\Traits\Author;
+use App\Traits\ConfigId;
 
-class Migrasi_dev extends MY_model
+class LampiranSurat extends BaseModel
 {
-    public function up()
+    use Author;
+    use ConfigId;
+
+    public const LAMPIRAN_SISTEM = 1;
+    public const LAMPIRAN_DESA   = 2;
+    public const JENIS_LAMPIRAN  = [
+        self::LAMPIRAN_SISTEM => 'Lampiran Sistem',
+        self::LAMPIRAN_DESA   => 'Lampiran [Desa]',
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $table = 'lampiran_surat';
+
+    /**
+     * The fillable with the model.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'config_id',
+        'slug',
+        'nama',
+        'jenis',
+        'template',
+        'template_desa',
+        'status',
+        'created_by',
+        'updated_by',
+    ];
+
+    /**
+     * Scope query untuk Jenis Surat
+     *
+     * @param mixed $query
+     * @param mixed $value
+     *
+     * @return Builder
+     */
+    public function scopeJenis($query, $value)
     {
-        $hasil = true;
+        if (empty($value)) {
+            return $query->whereNotNull('jenis');
+        }
 
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
+        if (is_array($value)) {
+            return $query->whereIn('jenis', $value);
+        }
 
-        return $hasil && $this->migrasi_data($hasil);
+        return $query->where('jenis', $value);
     }
 
-    protected function migrasi_tabel($hasil)
-    {
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
-    {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
-        // }
-
-        // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
-    }
-
-    protected function migrasi_xxxxxxxxxx($hasil)
-    {
-        return $hasil;
+    public function scopeActive($query)
+    {        
+        return $query->where('status', 1);
     }
 }

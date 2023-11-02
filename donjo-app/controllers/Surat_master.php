@@ -40,6 +40,7 @@ use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
+use App\Models\LampiranSurat;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\SettingAplikasi;
@@ -1092,5 +1093,102 @@ class Surat_master extends Admin_Controller
         }
 
         return false;
+    }
+
+    public function lampiran()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables(LampiranSurat::jenis($this->input->get('jenis')))
+                ->addColumn('ceklist', static function ($row) {
+                    return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    $aksi = '';
+
+                    if (can('u') && ($row->jenis == LampiranSurat::LAMPIRAN_DESA)) {
+                        $aksi .= '<a href="' . site_url("surat_master/lampiran_form/{$row->id}") . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
+
+                    if (can('h') && ($row->jenis == LampiranSurat::LAMPIRAN_DESA)) {
+                        $aksi .= '<a href="#" data-href="' . site_url("surat_master/lampiran_delete/{$row->id}") . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->addColumn('jenis', static function ($row) {
+                    return SebutanDesa(LampiranSurat::JENIS_LAMPIRAN[$row->jenis]) ?? '';
+                })
+                ->rawColumns(['ceklist', 'aksi'])
+                ->make();
+        }
+
+        return view('admin.pengaturan_surat.lampiran', [
+            'jenis' => LampiranSurat::JENIS_LAMPIRAN,
+        ]);
+    }
+
+    public function lampiran_form($id = null)
+    {
+        $this->redirect_hak_akses('u');
+        $this->set_hak_akses_rfm();
+
+        $data['action']        = $id ? 'Ubah' : 'Tambah';
+        $data['formAction']    = $id ? route('surat_master.lampiran_update', $id) : route('surat_master.lampiran_insert');
+        $data['lampiranSurat'] = $id ? LampiranSurat::findOrFail($id) : null;
+
+        return view('admin.pengaturan_surat.lampiran_form', $data);
+    }
+
+    public function lampiran_insert()
+    {
+        $this->redirect_hak_akses('u');
+
+        if (LampiranSurat::create(static::validate_lampiran($this->request))) {
+            redirect_with('success', 'Berhasil Tambah Data', 'surat_master/lampiran');
+        }
+
+        redirect_with('error', 'Gagal Tambah Data', 'surat_master/lampiran');
+    }
+
+    public function lampiran_update($id = null)
+    {
+        $this->redirect_hak_akses('u');
+
+        $data = LampiranSurat::findOrFail($id);
+
+        if ($data->update(static::validate_lampiran($this->request))) {
+            redirect_with('success', 'Berhasil Ubah Data', 'surat_master/lampiran');
+        }
+
+        redirect_with('error', 'Gagal Ubah Data', 'surat_master/lampiran');
+    }
+
+    public function lampiran_delete($id = null)
+    {
+        $this->redirect_hak_akses('h');
+
+        if (LampiranSurat::jenis(LampiranSurat::LAMPIRAN_DESA)->delete($id)) {
+            redirect_with('success', 'Berhasil Hapus Data', 'surat_master/lampiran');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data', 'surat_master/lampiran');
+    }
+
+    public function lampiran_delete_all()
+    {
+        return $this->lampiran_delete($this->input->post('id_cb'));
+    }
+
+    private function validate_lampiran($request = [])
+    {
+        return [
+            'config_id'     => identitas('id'),
+            'nama'          => $nama = judul($request['nama']),
+            'slug'          => url_title($nama, '_', true),
+            'jenis'         => LampiranSurat::LAMPIRAN_DESA,
+            'template_desa' => $request['template_desa'],
+            'status'        => (int) $request['status'],
+        ];
     }
 }
