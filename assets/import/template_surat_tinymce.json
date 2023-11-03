@@ -3204,37 +3204,57 @@
         "template_desa": null,
         "form_isian": {
             "individu": {
+                "sumber": 1,
                 "data": [
                     "1"
                 ],
                 "sex": "",
                 "status_dasar": "2",
                 "kk_level": "",
-                "data_orang_tua": "1"
+                "data_orang_tua": "1",
+                "data_pasangan": "0",
+                "judul": "Utama",
+                "label": "Keterangan Pemohon",
+                "hubungan": null
             },
             "Pelapor": {
+                "sumber": "1",
                 "data": [
-                    1
+                    "1",
+                    "3"
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": ""
+                "kk_level": "",
+                "judul": "Pelapor",
+                "label": "Pelapor",
+                "hubungan": ""
             },
             "Saksi_I": {
+                "sumber": "1",
                 "data": [
-                    1
+                    "1",
+                    "3"
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": ""
+                "kk_level": "",
+                "judul": "Saksi I",
+                "label": "Saksi I",
+                "hubungan": ""
             },
             "Saksi_II": {
+                "sumber": "1",
                 "data": [
-                    1
+                    "1",
+                    "3"
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": ""
+                "kk_level": "",
+                "judul": "Saksi II",
+                "label": "Saksi II",
+                "hubungan": ""
             }
         },
         "kode_isian": [
@@ -3244,9 +3264,13 @@
                 "kode": "[form_hubungan_pelapor_dengan_yang_mati]",
                 "nama": "Hubungan pelapor dengan yang mati",
                 "deskripsi": "Hubungan pelapor dengan yang mati",
+                "required": "0",
                 "atribut": "class=\"required\"",
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
             }
         ],
         "orientasi": "Potrait",
@@ -3255,7 +3279,8 @@
         "margin_global": "0",
         "footer": "1",
         "header": 1,
-        "format_nomor": null
+        "format_nomor": null,
+        "sumber_penduduk_berulang": "0"
     },
     {
         "nama": "Keterangan Beda Identitas KIS",
