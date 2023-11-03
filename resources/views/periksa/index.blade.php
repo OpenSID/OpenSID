@@ -532,7 +532,7 @@
                                                             <td>{{ $penduduk['nama'] }}</td>
                                                             <td>{{ \App\Models\LogPenduduk::kodePeristiwaAll($penduduk['kode_peristiwa']) }}</td>
                                                             <td>{{ \App\Enums\StatusDasarEnum::all()[$penduduk['status_dasar']] ?? '-' }}</td>
-                                                            <td><button type="button" class="btn btn-sm btn-danger" data-penduduk='{!! json_encode($penduduk) !!}' data-toggle="modal" data-target="#modal-kosong" ><i class="fa fa-eye"></i> Lihat log</button></td>
+                                                            <td><button type="button" class="btn btn-sm btn-danger" data-title="Data Catatan Peristiwa Penduduk {{$penduduk['nama']}} / {{$penduduk['nik']}}" data-url='periksaLogPenduduk' data-ref='{!! json_encode(['penduduk' => $penduduk]) !!}' data-toggle="modal" data-target="#modal-kosong" data-close-btn-center=1 ><i class="fa fa-eye"></i> Lihat log</button></td>
                                                         </tr>
                                                     @endforeach
                                                 </table>                                                
@@ -592,6 +592,32 @@
                                         </div>
                                     @endif
 
+                                    @if (in_array('log_keluarga_ganda', $masalah))
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <strong>Terdeteksi keluarga tidak memiliki log keluarga ganda</strong>
+                                                <div class="col-md-10 col-offset-1" id="info-log-keluarga-ganda">
+                                                    
+                                                </div>
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>No KK</th>
+                                                        <th>Alamat</th>     
+                                                        <th>Aksi</th>                                               
+                                                    </tr>
+                                                    @foreach ($log_keluarga_ganda as $keluarga)
+                                                        <tr data-log-keluarga-ganda="{{$keluarga['id']}}">
+                                                            <td>{{ $keluarga['no_kk'] }}</td>
+                                                            <td>{{ $keluarga['alamat'] }}</td>
+                                                            <td><button type="button" class="btn btn-sm btn-danger" data-title="Data Catatan Peristiwa Keluarga {{$keluarga['no_kk']}} / {{$keluarga['alamat']}}" data-url='periksaLogKeluarga' data-ref='{!! json_encode(['keluarga' => $keluarga]) !!}' data-toggle="modal" data-target="#modal-kosong" data-close-btn-center=0 ><i class="fa fa-eye"></i> Lihat log</button></td>
+                                                        </tr>
+                                                    @endforeach
+                                                </table>                                                
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    
                                     @if (in_array('no_anggota_ganda', $masalah))
                                         <div class="panel panel-default">
                                             <div class="panel-body">
@@ -624,7 +650,14 @@
                                         </div>
                                     @endif
                                     @php
-                                      $totalMasalah = count($masalah) - (in_array('log_penduduk_tidak_sinkron', $masalah) ? 1 : 0)   
+                                      $excludePerbaikiSemua = ['log_keluarga_ganda', 'log_penduduk_tidak_sinkron'];
+                                      $pengurangMasalah = 0;
+                                      foreach ($excludePerbaikiSemua as $mandiri) {
+                                        if (in_array($mandiri, $masalah)){
+                                            $pengurangMasalah++;
+                                        }
+                                      }
+                                      $totalMasalah = count($masalah) - $pengurangMasalah; 
                                     @endphp
                                     @if ($totalMasalah)
                                     <p>Setelah diperbaiki, migrasi akan otomatis diulangi mulai dari versi
@@ -679,15 +712,18 @@
         });
         $('#modal-kosong').on('show.bs.modal', function(e) {
             let _btn = e.relatedTarget
-            let _penduduk = $(_btn).data('penduduk')
+            let _data = $(_btn).data('ref')
+            let _url = $(_btn).data('url')
+            let _title = $(_btn).data('title')
+            let _btnCloseCenter = $(_btn).data('close-btn-center') ? {'text-align' : 'center'} : {}
             let _modal = $(this)
-            $.get('periksaLogPenduduk',{ penduduk : _penduduk }, function(data){                
+            $.get(_url,_data, function(data){                
                 _modal.find('.modal-body').html(data);
             }, 'html')
             
-            _modal.find('.modal-title').html(`Data Catatan Peristiwa Penduduk ${_penduduk['nama']} / ${_penduduk['nik']}`)
-            _modal.find('.modal-footer').css({'text-align' : 'center'}).html(
-                `<button type="button" class="btn btn-social btn-flat text-center btn-danger btn-sm" data-dismiss="modal"><i
+            _modal.find('.modal-title').html(_title)
+            _modal.find('.modal-footer').css(_btnCloseCenter).html(
+                `<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i
                         class="fa fa-sign-out"></i> Tutup</button>
                 `
             )
