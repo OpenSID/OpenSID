@@ -64,11 +64,11 @@
                 </div>
             </div>
             @else
-            <div class="{{ $widthClass }}">
+            <div class="{{ $widthClass }}" {!! count($groupLabel) > 2 ? 'style="margin-bottom: 10px"' : '' !!}>
                 <input type="{{ $item->tipe }}" {!! $class !!} name="{{ $nama }}" placeholder="{{ $item->deskripsi }}"
                     value="{{ set_value($nama) }}" />
             </div>
-            @endif        
+            @endif
         @endforeach
         </div>
     </div>

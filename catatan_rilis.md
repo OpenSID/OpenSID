@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 8. [#7303](https://github.com/OpenSID/OpenSID/issues/7303) Perbaikan halama periksa log keluarga.
 9. [#7091](https://github.com/OpenSID/OpenSID/issues/7091) Perbaikan pencarian penduduk berdasarkan tag_id_card pada cetak surat.
 10. [#7069](https://github.com/OpenSID/OpenSID/issues/7069) Perbaikan surat tinymce penghasilan orang tua menggunakan opertor hitung dan terbilang.
+11. [#7310](https://github.com/OpenSID/OpenSID/issues/7310) Perbaikan surat bawaan tinymce.
 
 #### Penyesuaian Teknis
 
