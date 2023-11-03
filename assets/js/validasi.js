@@ -269,7 +269,7 @@ $(document).ready(function() {
 	}, "Hanya boleh berisi karakter alfanumerik, spasi, strip, titik, koma (,), [, ], &, :, ;, =, °, %, ', \", -, dan /");
 
 	jQuery.validator.addMethod("judul_tinymce", function(value, element) {
-		valid = /^[a-zA-Z\s]+$/.test(value);
+		valid = /^[a-zA-Z0-9\s]+$/.test(value);
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter huruf besar, huruf kecil, dan spasi");
 
