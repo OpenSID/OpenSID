@@ -477,7 +477,7 @@ class TinyMCE
         }
 
         foreach ($newKodeIsian as $key => $value) {
-            if (in_array($key, $kecuali)) {
+            if (in_array($key, $kecuali) || in_array($key, ['[terbilang]', '[hitung]'])) {
                 continue;
             }
 
@@ -500,7 +500,10 @@ class TinyMCE
             }
         }
 
-        return $result;
+        // Kode isian berupa hitungan perlu didahulukan
+        $result = caseHitung($result);
+
+        return terjemahkanTerbilang($result);
     }
 
     /**

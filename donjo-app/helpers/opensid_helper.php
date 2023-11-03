@@ -1696,13 +1696,17 @@ if (! function_exists('getFormatIsian')) {
         $netral     = str_replace(['[', ']'], '', $kode_isian);
         $strtolower = strtolower($netral);
         $ucfirst    = ucfirst($strtolower);
+        $suffix     = '';
+        if (in_array($strtolower, ['terbilang', 'hitung'])) {
+            $suffix = '[ ]';
+        }
 
         return [
-            'normal'  => '[' . ucfirst(uclast($netral)) . ']',
-            'lower'   => '[' . $strtolower . ']',
-            'ucfirst' => '[' . $ucfirst . ']',
-            'ucwords' => '[' . substr_replace($ucfirst, strtoupper(substr($ucfirst, 2, 1)), 2, 1) . ']',
-            'upper'   => '[' . substr_replace($ucfirst, strtoupper(substr($ucfirst, 1, 1)), 1, 1) . ']',
+            'normal'  => '[' . ucfirst(uclast($netral)) . ']' . $suffix,
+            'lower'   => '[' . $strtolower . ']' . $suffix,
+            'ucfirst' => '[' . $ucfirst . ']' . $suffix,
+            'ucwords' => '[' . substr_replace($ucfirst, strtoupper(substr($ucfirst, 2, 1)), 2, 1) . ']' . $suffix,
+            'upper'   => '[' . substr_replace($ucfirst, strtoupper(substr($ucfirst, 1, 1)), 1, 1) . ']' . $suffix,
         ];
     }
 }
@@ -1885,7 +1889,7 @@ function substitusiNomorSurat($nomor = null, $format = '')
     // TODO : Cek jika null, cari no surat terakhir berdasarkan kelompok
     $format = str_replace('[nomor_surat]', "{$nomor}", $format);
     if (preg_match_all('/\[nomor_surat,\s*\d+\]/', $format, $matches)) {
-        foreach ($matches[0] as $match) {
+        foreach ($matches[1] as $match) {
             $parts         = explode(',', $match);
             $panjang       = (int) trim(rtrim($parts[1], ']'));
             $nomor_panjang = str_pad("{$nomor}", $panjang, '0', STR_PAD_LEFT);
@@ -2009,5 +2013,91 @@ if (! function_exists('getSuratBawaanTinyMCE')) {
             });
 
         return $list_data;
+    }
+}
+
+if (! function_exists('terjemahkanTerbilang')) {
+    function terjemahkanTerbilang($teks)
+    {
+        $pola = '/\[(terbilang|TeRbilang|Terbilang|TerbilanG|TErbilang)]\[(.+?)]/';
+
+        return preg_replace_callback($pola, static function ($matches) {
+            // jika ada - di depan, maka akan ditambahkan prefix depan yakni Minus
+            $prefix = $suffix = '';
+
+            if (strpos($matches[2], '-') === 0) {
+                $prefix = 'Minus ';
+            }
+
+            if (preg_match('/[Rr][pP]/', $matches[2])) {
+                $suffix = ' Rupiah';
+            }
+
+            $ke = $prefix . trim(to_word((int) preg_replace('/[^0-9]/', '', $matches[2]))) . $suffix;
+
+            return caseWord($matches[1], $ke);
+        }, $teks);
+    }
+}
+
+if (! function_exists('caseWord')) {
+    /**
+     * Mengubah teks sesuai dengan kondisi
+     *
+     * @param string $condition
+     * @param string $teks
+     *
+     * @return string
+     */
+    function caseWord($condition, $teks)
+    {
+        // Huruf kecil semua
+        if (ctype_lower($condition[0])) {
+            return strtolower($teks);
+        }
+
+        // Huruf besar semua
+        if (ctype_upper($condition[0]) && ctype_upper($condition[1])) {
+            return strtoupper($teks);
+        }
+
+        // Huruf besar di awal kata
+        if (ctype_upper($condition[0]) && ctype_lower($condition[1])) {
+            return ucwords(strtolower($teks));
+        }
+
+        // Huruf besar di awal kalimat
+        if (ctype_upper($condition[0])) {
+            return ucfirst(strtolower($teks));
+        }
+
+        // Return teks asli jika tidak sesuai kondisi
+        return $teks;
+    }
+}
+
+if (! function_exists('caseHitung')) {
+    function caseHitung($teks)
+    {
+        $pola = '/\[(hitung|HiTung|Hitung|HitunG|HItung)]\[(.+?)]/';
+
+        return preg_replace_callback($pola, static function ($matches) {
+            $onlyNumberAndOperator = preg_replace('/[^0-9\+\-\(\)]/', '', $matches[2]);
+
+            $operasi = eval("return {$onlyNumberAndOperator};");
+
+            $ke = caseWord($matches[1], $operasi);
+
+            if (preg_match('/[Rr][pP]/', $matches[2])) {
+                // jika hasil operasinya -, maka minus berada di depan Rp. contohnya - Rp. 100.000
+                if (strpos($ke, '-') === 0) {
+                    $ke = str_replace('-', '- Rp. ', $ke);
+                } else {
+                    $ke = rupiah24($ke, 'Rp. ', 0);
+                }
+            }
+
+            return $ke;
+        }, $teks);
     }
 }
