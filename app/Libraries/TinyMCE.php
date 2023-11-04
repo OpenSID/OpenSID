@@ -645,30 +645,33 @@ class TinyMCE
         ob_start();
 
         $lampiranDb = LampiranSurat::active()->get()->keyBy('slug');
+
         for ($j = 0; $j < count($lampiran); $j++) {
-            if ($lampiranDb[$lampiran[$j]]){
-                $pattern = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
+            if ($lampiranDb[$lampiran[$j]]) {
+                $pattern        = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
                 $templateString = $lampiranDb[$lampiran[$j]]->template_desa ?? $lampiranDb[$lampiran[$j]]->template;
-                $pages = preg_split($pattern, $templateString);                
-                foreach($pages as $index => $page){                    
-                    if (!empty($page)){
+                $pages          = preg_split($pattern, $templateString);
+
+                foreach ($pages as $index => $page) {
+                    if (! empty($page)) {
                         echo '<page orientation="portrait" format="210x330">';
                         echo $page;
-                        echo '</page>';                        
-                    }                    
+                        echo '</page>';
+                    }
                 }
+
                 continue;
             }
-            // View Lampiran            
+            // View Lampiran
             include $view_lampiran[$j];
         }
 
         $lampiran = ob_get_clean();
 
         $data['isi_surat'] = $lampiran;
-        
+
         $lampiran = $this->replceKodeIsian($data);
-        
+
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
             ->setTestTdInOnePage(true)
             ->setDefaultFont(underscore(setting('font_surat'), true, true))

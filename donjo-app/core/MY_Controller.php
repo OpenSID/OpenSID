@@ -290,6 +290,7 @@ class Admin_Controller extends MY_Controller
     public $CI;
     public $modul_ini;
     public $sub_modul_ini;
+    protected $aliasController;
 
     public function __construct()
     {
@@ -335,12 +336,13 @@ class Admin_Controller extends MY_Controller
 
         $this->grup = $this->user_model->sesi_grup($this->session->sesi);
         $this->load->model('modul_model');
-        if (! $this->modul_model->modul_aktif($this->controller)) {
+        $aliasController = $this->aliasController ?? $this->controller;
+        if (! $this->modul_model->modul_aktif($aliasController)) {
             session_error('Fitur ini tidak aktif');
             redirect($_SERVER['HTTP_REFERER']);
         }
 
-        if (! $this->user_model->hak_akses($this->grup, $this->controller, 'b')) {
+        if (! $this->user_model->hak_akses($this->grup, $aliasController, 'b')) {
             if (empty($this->grup)) {
                 $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
                 redirect('siteman');
