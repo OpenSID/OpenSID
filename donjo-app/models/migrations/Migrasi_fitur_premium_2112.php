@@ -318,7 +318,6 @@ class Migrasi_fitur_premium_2112 extends MY_Model
     protected function migrasi_2021112171($hasil)
     {
         $hasil = $hasil && $this->tambah_kolom($hasil);
-        $hasil = $hasil && $this->hapus_tabel_migrations($hasil);
 
         return $hasil && $this->tambah_tabel($hasil);
     }
@@ -348,12 +347,6 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         }
 
         return $hasil;
-    }
-
-    protected function hapus_tabel_migrations($hasil)
-    {
-        // Hapus tabel migrations bagi yang terlanjur menjalankan php artisan migrate di api
-        return $hasil && $this->dbforge->drop_table('migrations', true);
     }
 
     protected function tambah_tabel($hasil)
