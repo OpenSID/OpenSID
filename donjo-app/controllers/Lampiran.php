@@ -90,9 +90,19 @@ class Lampiran extends Admin_Controller
         $this->redirect_hak_akses('u');
         $this->set_hak_akses_rfm();
 
+        $lampiran = $id ? LampiranSurat::findOrFail($id) : null;
+        $margin   = LampiranSurat::MARGINS;
+        if ($lampiran) {
+            if (! empty($lampiran->margin)) {
+                $margin = json_decode($lampiran->margin);
+            }
+        }
+
         $data['action']        = $id ? 'Ubah' : 'Tambah';
         $data['formAction']    = $id ? route('lampiran.update', $id) : route('lampiran.insert');
-        $data['lampiranSurat'] = $id ? LampiranSurat::findOrFail($id) : null;
+        $data['lampiranSurat'] = $lampiran;
+        $data['margins']       = $margin;
+        $data['margin_global'] = $lampiran->margin_global ?? 1;
 
         return view('admin.pengaturan_surat.lampiran.form', $data);
     }
@@ -148,6 +158,8 @@ class Lampiran extends Admin_Controller
             'jenis'         => LampiranSurat::LAMPIRAN_DESA,
             'template_desa' => $request['template_desa'],
             'status'        => (int) $request['status'],
+            'margin_global' => $request['margin_global'],
+            'margin'        => json_encode($request['margin']),
         ];
     }
 

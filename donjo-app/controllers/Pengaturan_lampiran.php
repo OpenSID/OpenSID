@@ -35,82 +35,50 @@
  *
  */
 
-namespace App\Models;
+use App\Models\LampiranSurat;
+use App\Models\SettingAplikasi;
 
-use App\Traits\Author;
-use App\Traits\ConfigId;
+defined('BASEPATH') || exit('No direct script access allowed');
 
-class LampiranSurat extends BaseModel
+class Pengaturan_lampiran extends Admin_Controller
 {
-    use Author;
-    use ConfigId;
+    // digunakan untuk cek hak akses, mengikuti hak akses controller yang dialiaskan
+    protected $aliasController = 'surat_master';
 
-    public const LAMPIRAN_SISTEM = 1;
-    public const LAMPIRAN_DESA   = 2;
-    public const JENIS_LAMPIRAN  = [
-        self::LAMPIRAN_SISTEM => 'Lampiran Sistem',
-        self::LAMPIRAN_DESA   => 'Lampiran [Desa]',
-    ];
-
-    /**
-     * Static data margin lampiran.
-     *
-     * @var array
-     */
-    public const MARGINS = [
-        'kiri'  => 1.78,
-        'atas'  => 0.63,
-        'kanan' => 1.78,
-        'bawah' => 1.37,
-    ];
-
-    /**
-     * {@inheritDoc}
-     */
-    protected $table = 'lampiran_surat';
-
-    /**
-     * The fillable with the model.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'config_id',
-        'slug',
-        'nama',
-        'jenis',
-        'template',
-        'template_desa',
-        'status',
-        'margin',
-        'margin_global',
-        'created_by',
-        'updated_by',
-    ];
-
-    /**
-     * Scope query untuk Jenis Surat
-     *
-     * @param mixed $query
-     * @param mixed $value
-     *
-     * @return Builder
-     */
-    public function scopeJenis($query, $value)
+    public function __construct()
     {
-        if (empty($value)) {
-            return $query->whereNotNull('jenis');
-        }
-
-        if (is_array($value)) {
-            return $query->whereIn('jenis', $value);
-        }
-
-        return $query->where('jenis', $value);
+        parent::__construct();
+        $this->modul_ini          = 'layanan-surat';
+        $this->sub_modul_ini      = 'pengaturan-surat';
+        $this->header['kategori'] = 'pengaturan-surat';
     }
 
-    public function scopeActive($query)
+    public function index()
     {
-        return $query->where('status', 1);
+        $margin           = setting('lampiran_margin');
+        $data['margins']  = json_decode($margin) ?? LampiranSurat::MARGINS;
+        $data['formAksi'] = route('pengaturan_lampiran.edit');
+
+        return view('admin.pengaturan_surat.lampiran.pengaturan.index', $data);
+    }
+
+    public function edit()
+    {
+        $this->redirect_hak_akses('u');
+        $this->load->model('setting_model');
+        $data = $this->validate($this->request);
+
+        foreach ($data as $key => $value) {
+            SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);
+        }
+
+        redirect_with('success', 'Berhasil Ubah Data');
+    }
+
+    private function validate($request)
+    {
+        return [
+            'lampiran_margin' => json_encode($request['lampiran_margin']),
+        ];
     }
 }

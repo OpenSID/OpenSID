@@ -65,7 +65,39 @@
                             </label>
                         </div>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Gunakan Margin Kertas Global</label>
+                        <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="margin: 0 0 5px 0">
+                            <label id="lmg1"
+                                class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($margin_global)">
+                                <input id="img1" type="radio" name="margin_global" @checked($margin_global)
+                                    class="form-check-input" type="radio" value="1" autocomplete="off">Ya
+                            </label>
+                            <label id="lmg2"
+                                class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$margin_global)">
+                                <input id="img2" type="radio" name="margin_global" class="form-check-input"
+                                    @checked(!$margin_global) type="radio" value="0" autocomplete="off">Tidak
+                            </label>
+                        </div>
+                        <div id="manual_margin" style="display: none;">
+                            <div class="col-sm-7 col-sm-offset-3">
+                                <div class="row">
+                                    @foreach ($margins as $key => $value)
+                                        <div class="col-sm-6">
+                                            <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
+                                                <span class="input-group-addon input-sm">{{ ucwords($key) }}</span>
+                                                <input type="number" class="form-control input-sm required" min="0"
+                                                    name="margin[{{ $key }}]" min="0" max="10" step="0.01"
+                                                    style="text-align:right;" value="{{ $value }}">
+                                                <span class="input-group-addon input-sm">cm</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
             </div>
 
             <div class="tab-pane" id="template-lampiran">
@@ -111,5 +143,22 @@
                 $("#im2").prop("checked", true);
             }
         };
+
+        $(document).ready(function() {
+            var x = $("[name='margin_global']:checked").val()            
+            if (x == 0) {
+                $('#manual_margin').show()
+            }
+
+            $("[name='margin_global']").change(function() {
+                var val = $(this).val()
+                if (val == 0) {
+                    $('#manual_margin').show()
+                } else {
+                    $('#manual_margin').hide()
+                }
+            })
+        })
+        
     </script>
 @endpush

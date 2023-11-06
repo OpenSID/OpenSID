@@ -539,22 +539,6 @@ class TinyMCE
         redirect('pengurus');
     }
 
-    public function getDaftarLampiran()
-    {
-        $lampiran               = [];
-        $daftar_lampiran_sistem = glob(DEFAULT_LOKASI_LAMPIRAN_SURAT . '*', GLOB_ONLYDIR);
-        $daftar_lampiran_desa   = glob(LOKASI_LAMPIRAN_SURAT_DESA . '*', GLOB_ONLYDIR);
-        $daftar_lampiran        = array_merge($daftar_lampiran_desa, $daftar_lampiran_sistem);
-
-        foreach ($daftar_lampiran as $value) {
-            if (file_exists(FCPATH . $value . '/view.php')) {
-                $lampiran[] = kode_format(basename($value));
-            }
-        }
-
-        return collect($lampiran)->unique()->sort()->values();
-    }
-
     /**
      * Generate surat menggunakan html2pdf, kemudian gabungakan ke pdfMerge.
      *
@@ -637,20 +621,27 @@ class TinyMCE
             if (! file_exists($data_lampiran[$i])) {
                 $data_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/data.php';
             }
-
-            // Data lampiran
-            include $data_lampiran[$i];
         }
-
-        ob_start();
 
         $lampiranDb = LampiranSurat::active()->get()->keyBy('slug');
 
         for ($j = 0; $j < count($lampiran); $j++) {
+            ob_start();
+            // default mengikuti margin global termasuk lampiran yang masih menggunakan file .php
+            $margins = LampiranSurat::MARGINS;
+
             if ($lampiranDb[$lampiran[$j]]) {
-                $pattern        = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
-                $templateString = $lampiranDb[$lampiran[$j]]->template_desa ?? $lampiranDb[$lampiran[$j]]->template;
-                $pages          = preg_split($pattern, $templateString);
+                $lampiranTerpilih = $lampiranDb[$lampiran[$j]];
+                $pattern          = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
+                $templateString   = $lampiranTerpilih->template_desa ?? $lampiranTerpilih->template;
+                $pages            = preg_split($pattern, $templateString);
+                if (! $lampiranTerpilih->margin_global) {
+                    if (! empty($lampiranTerpilih->margin)) {
+                        $margins = json_decode($lampiranTerpilih->margin, true);
+                    }
+                }
+                // convert ke mm
+                $marginMm = [$margins['kiri'] * 10, $margins['atas'] * 10, $margins['kanan'] * 10, $margins['bawah'] * 10];
 
                 foreach ($pages as $index => $page) {
                     if (! empty($page)) {
@@ -659,26 +650,27 @@ class TinyMCE
                         echo '</page>';
                     }
                 }
-
-                continue;
+            } else {
+                // Data lampiran
+                include $data_lampiran[$i];
+                // View Lampiran
+                include $view_lampiran[$j];
             }
-            // View Lampiran
-            include $view_lampiran[$j];
+
+            $lampiranHtml = ob_get_clean();
+
+            // lakukan generate dalam looping karena margin tiap lampiran bisa jadi tidak sama
+            $data['isi_surat'] = $lampiranHtml;
+
+            $lampiranHtml = $this->replceKodeIsian($data);
+            (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $marginMm))
+                ->setTestTdInOnePage(true)
+                ->setDefaultFont(underscore(setting('font_surat'), true, true))
+                ->writeHTML($lampiranHtml) // buat lampiran
+                ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
+
+            $this->pdfMerge->add($out);
         }
-
-        $lampiran = ob_get_clean();
-
-        $data['isi_surat'] = $lampiran;
-
-        $lampiran = $this->replceKodeIsian($data);
-
-        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
-            ->setTestTdInOnePage(true)
-            ->setDefaultFont(underscore(setting('font_surat'), true, true))
-            ->writeHTML($lampiran) // buat lampiran
-            ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
-
-        return $this->pdfMerge->add($out);
     }
 
     public function __get($name)

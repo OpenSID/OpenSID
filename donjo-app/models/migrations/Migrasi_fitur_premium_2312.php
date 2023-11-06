@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\LampiranSurat;
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2312 extends MY_model
@@ -52,18 +55,20 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_2023102571($hasil);
+        $hasil = $hasil && $this->migrasi_2023102571($hasil);
+
+        return $hasil && $this->migrasi_2023110672($hasil);
     }
 
     // Migrasi perubahan data
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2023110671($hasil, $id);
+        }
 
         // Migrasi tanpa config_id
         return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
@@ -94,5 +99,46 @@ class Migrasi_fitur_premium_2312 extends MY_model
             'CONSTRAINT `lampiran_surat_config_fk` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
         ])
             ->create_table('lampiran_surat', true);
+    }
+
+    protected function migrasi_2023110671($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Margin Lampiran Global',
+            'key'        => 'lampiran_margin',
+            'value'      => json_encode(LampiranSurat::MARGINS),
+            'keterangan' => 'Margin global untuk lampiran surat',
+            'jenis'      => null,
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'format_lampiran',
+        ], $id);
+    }
+
+    protected function migrasi_2023110672($hasil)
+    {
+        if (! $this->db->field_exists('margin', 'lampiran_surat')) {
+            $hasil = $hasil && $this->dbforge->add_column('lampiran_surat', [
+                'margin' => [
+                    'type'  => 'text',
+                    'null'  => true,
+                    'after' => 'status',
+                ],
+            ]);
+        }
+
+        if (! $this->db->field_exists('margin_global', 'lampiran_surat')) {
+            $hasil = $hasil && $this->dbforge->add_column('lampiran_surat', [
+                'margin_global' => [
+                    'type'       => 'tinyint',
+                    'constraint' => 1,
+                    'null'       => true,
+                    'default'    => 1,
+                    'after'      => 'margin',
+                ],
+            ]);
+        }
+
+        return $hasil;
     }
 }

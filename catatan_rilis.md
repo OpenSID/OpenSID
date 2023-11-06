@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 #### Penambahan Fitur
 
 1. [#7205](https://github.com/OpenSID/OpenSID/issues/7205) Penambahan modul lampiran surat.
+2. [#7306](https://github.com/OpenSID/OpenSID/issues/7306) Penambahan pengaturan margin pada lampiran.
 
 
 #### Perbaikan Bug
