@@ -35,9 +35,10 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
+use App\Enums\StatusEnum;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -93,16 +94,18 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
     protected function migrasi_2023110252($hasil)
     {
-        DB::table('tweb_penduduk')->where('id_kk', 0)->orWhere('id_kk', '')->update(['id_kk' => null]);
-
-        return $hasil && $this->dbforge->modify_column('tweb_penduduk', [
+        $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', [
             'id_kk' => [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'null'       => false,
+                'null'       => true,
                 'default'    => null,
             ],
         ]);
+
+        DB::table('tweb_penduduk')->where('id_kk', 0)->orWhere('id_kk', '')->update(['id_kk' => null]);
+
+        return $hasil;
     }
 
     protected function buat_tabel_migrations($hasil)
