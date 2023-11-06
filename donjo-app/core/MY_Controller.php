@@ -301,6 +301,11 @@ class Admin_Controller extends MY_Controller
 
         $this->load->library('pelanggan/validasi', null, 'premium');
         $this->cek_identitas_desa();
+
+        // paksa untuk logout jika melakukan ubah password
+        if ($this->session->change_password && $this->router->class !== 'pengguna') {
+            redirect('pengguna');
+        }
     }
 
     /*
