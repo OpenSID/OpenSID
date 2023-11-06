@@ -82,7 +82,8 @@
                         <td width="1%">
                             <button type="button" class="btn btn-danger btn-sm hapus-kode"><i class='fa fa-trash-o'></i></button>
                             &nbsp;
-                            <button type="button" class="btn btn-warning btn-sm pindah-kode hide"><i class='fa fa-exchange'></i></button>
+                            {{-- <button type="button" class="btn btn-warning btn-sm pindah-kode hide"><i class='fa fa-exchange'></i></button> --}}
+                            <button type="button" class="btn btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
                             &nbsp;
                             <button type="button" class="btn btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
                             <input type="hidden"
@@ -144,7 +145,8 @@
                     <td class="padat">
                         <button type="button" class="btn btn-danger btn-sm hapus-kode"><i class="fa fa-trash-o"></i></button>
                         &nbsp;
-                        <button type="button" class="btn btn-warning btn-sm pindah-kode hide"><i class='fa fa-exchange'></i></button>
+                        {{-- <button type="button" class="btn btn-warning btn-sm pindah-kode hide"><i class='fa fa-exchange'></i></button> --}}
+                        <button type="button" class="btn btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
                         &nbsp;
                         <button type="button" class="btn btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
                         <input type="hidden"
@@ -267,7 +269,7 @@
                     isian_manual.addClass('hide');
                     isian_manual.removeClass('required');
 
-                    pindah_kode.addClass('hide');
+                    // pindah_kode.addClass('hide');
                 } else {
                     isian.prop("disabled", false);
                     isian_required.prop("disabled", false);
@@ -277,7 +279,7 @@
                     isian_manual.addClass('hide');
                     isian_manual.removeClass('required');
 
-                    pindah_kode.removeClass('hide');
+                    // pindah_kode.removeClass('hide');
 
                     if (tipe == 'select-manual') {
                         atribut = 'size="5"';

@@ -239,7 +239,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/cetak-biodata') ?>" class="btn btn-block btn-social bg-green" target="_blank" rel="noopener noreferrer">
 										<i class="fa fa-print"></i> Cetak Biodata
 									</a>
-									<?php if ($this->is_login->id_kk != 0) : ?>
+									<?php if ($this->is_login->id_kk != null) : ?>
 										<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/cetak-kk') ?>" class="btn btn-block btn-social bg-green" target="_blank" rel="noopener noreferrer">
 											<i class="fa fa-print"></i> Cetak Salinan KK
 										</a>

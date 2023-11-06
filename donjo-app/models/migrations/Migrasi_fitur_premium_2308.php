@@ -1243,21 +1243,21 @@ class Migrasi_fitur_premium_2308 extends MY_model
                     <td style=\"width: 3.90545%; height: 22.3958px; text-align: left;\">1.</td>
                     <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Hari</td>
                     <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
-                    <td style=\"width: 60.0206%; height: 22.3958px; text-align: justify;\">[Hari_kelahiranN]</td>
+                    <td style=\"width: 60.0206%; height: 22.3958px; text-align: justify;\">[Hari_kelahiraN]</td>
                 </tr>
                 <tr style=\"height: 22.3958px;\">
                     <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
                     <td style=\"width: 3.90545%; text-align: left; height: 22.3958px;\">2.</td>
                     <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Tanggal</td>
                     <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
-                    <td style=\"width: 60.0206%; text-align: justify; height: 22.3958px;\">[Tanggal_kelahiranN]</td>
+                    <td style=\"width: 60.0206%; text-align: justify; height: 22.3958px;\">[Tanggal_kelahiraN]</td>
                 </tr>
                 <tr style=\"height: 22.3958px;\">
                     <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
                     <td style=\"width: 3.90545%; height: 22.3958px; text-align: left;\">3.</td>
                     <td style=\"width: 30.5242%; text-align: left; height: 22.3958px;\">Pukul</td>
                     <td style=\"width: 1.2333%; text-align: center; height: 22.3958px;\">:</td>
-                    <td style=\"width: 60.0206%; height: 22.3958px; text-align: justify;\">[Jam_kelahiranN]</td>
+                    <td style=\"width: 60.0206%; height: 22.3958px; text-align: justify;\">[Jam_kelahiraN]</td>
                 </tr>
                 <tr style=\"height: 22.3958px;\">
                     <td style=\"width: 4.31655%; text-align: center; height: 22.3958px;\">\u{a0}</td>
@@ -1527,7 +1527,7 @@ class Migrasi_fitur_premium_2308 extends MY_model
                     <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\">1.</td>
                     <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\"><strong>[NamA] </strong>/ [Jenis_kelamiN]</td>
                     <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\">[Tempat_dilahirkanN]</td>
-                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\">[Tanggal_kelahiranN]</td>
+                    <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\">[Tanggal_kelahiraN]</td>
                     <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\">[Kelahiran_anaK]</td>
                     <td style=\"height: 14.3958px; border-color: rgb(0, 0, 0);\">\u{a0}</td>
                 </tr>

@@ -128,12 +128,9 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">Lampiran</label>
                 <div class="col-sm-7">
-                    <select class="form-control input-sm lampiran-multiple" name="lampiran[]" multiple="multiple">
-                        <option value="">Tidak Ada</option>
+                    <select class="form-control input-sm select2" name="lampiran[]" multiple="multiple" data-placeholder="Pilih Lampiran">
                         @foreach ($daftar_lampiran as $value)
-                            <option value="{{ $value }}"
-                                {{ in_array($value, explode(',', $suratMaster->lampiran)) ? 'selected' : '' }}>
-                                {{ $value }} </option>
+                            <option value="{{ $value }}" @selected(in_array($value, explode(',', $suratMaster->lampiran)))>{{ $value }} </option>
                         @endforeach
                     </select>
                 </div>
@@ -152,7 +149,7 @@
 
         @if ($qrCode)
             <div class="form-group">
-                <label class="col-sm-3 control-label" for="mandiri">Tampilkan QR Code</label>
+                <label class="col-sm-3 control-label">Tampilkan QR Code</label>
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
                     <label id="lq1"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($suratMaster->qr_code)">
@@ -170,19 +167,19 @@
 
         @if (isset($header))
             <div class="form-group">
-                <label class="col-sm-3 control-label" for="mandiri">Tampilkan Header</label>
+                <label class="col-sm-3 control-label">Tampilkan Header</label>
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                    <label id="lh1"
+                    <label id="lh1"  for="ih1"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($header == 1)">
                         <input id="ih1" type="radio" name="header" class="form-check-input" type="radio"
                             value="1" @checked($header == 1) autocomplete="off">Semua Halaman
                     </label>
-                    <label id="lh2"
+                    <label id="lh2"  for="lh2"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($header == 2)">
                         <input id="ih2" type="radio" name="header" class="form-check-input" type="radio"
                             value="2" @checked($header == 2) autocomplete="off">Hanya Halaman Awal
                     </label>
-                    <label id="lh3"
+                    <label id="lh3" for="lh3"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($header == 0)">
                         <input id="ih3" type="radio" name="header" class="form-check-input" type="radio"
                             value="0" @checked($header == 0) autocomplete="off">Tidak
@@ -193,7 +190,7 @@
 
         @if (isset($footer))
             <div class="form-group">
-                <label class="col-sm-3 control-label" for="mandiri">Tampilkan Footer</label>
+                <label class="col-sm-3 control-label">Tampilkan Footer</label>
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
                     <label id="lf1"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($footer)">
@@ -245,7 +242,7 @@
         @endif
 
         <div class="form-group">
-            <label class="col-sm-3 control-label" for="mandiri">Sediakan di Layanan Mandiri</label>
+            <label class="col-sm-3 control-label">Sediakan di Layanan Mandiri</label>
             <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
                 <label id="lm1"
                     class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($suratMaster->mandiri)">
@@ -261,7 +258,7 @@
         </div>
 
         <div class="form-group" id="syarat" {{ jecho($suratMaster->mandiri, false, 'style="display:none;"') }}>
-            <label class="col-sm-3 control-label" for="mandiri">Syarat Surat</label>
+            <label class="col-sm-3 control-label">Syarat Surat</label>
             <div class="col-sm-7">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover" id="tabeldata" style="width: 100%;">
@@ -291,9 +288,9 @@
                 Apakah Anda yakin ingin mengembalikan surat bawaan/sistem ini?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
+                <button type="button" class="btn btn-social btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
                 <a class="btn-ok">
-                    <a href="{{route('surat_master.restore_surat_bawaan', $suratMaster->url_surat)}}" class="btn btn-social btn-success btn-sm" id="ok-restore"><i class="fa fa-refresh"></i> Restore</a>
+                    <a href="{{route('surat_master.restore_surat_bawaan', $suratMaster->url_surat)}}" class="btn btn-social btn-success btn-sm" id="ok-restore"><i class="fa fa-refresh"></i> Kembalikan</a>
                 </a>
             </div>
         </div>
@@ -302,10 +299,6 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            $('.lampiran-multiple').select2();
-        });
-
         $(document).ready(function() {
             var x = $("[name='margin_global']:checked").val()
             console.log(x)

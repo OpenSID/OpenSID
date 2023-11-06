@@ -2,7 +2,7 @@
     <section class="content-header">
         <h1>Peta Wilayah <?= $nama_wilayah ?></h1>
         <ol class="breadcrumb">
-            <li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
             <?php foreach ($breadcrumb as $tautan): ?>
                 <li><a href="<?= $tautan['link'] ?>"> <?= $tautan['judul'] ?></a></li>
             <?php endforeach; ?>

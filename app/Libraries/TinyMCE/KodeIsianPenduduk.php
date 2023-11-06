@@ -80,7 +80,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'NIK' . $ortu,
                 'isian' => 'nik' . $prefix,
-                'data'  => $penduduk->nik,
+                'data'  => get_nik($penduduk->nik),
             ],
             [
                 'judul' => 'Nama' . $ortu,
@@ -140,7 +140,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'No KK' . $ortu,
                 'isian' => 'No_kK' . $prefix,
-                'data'  => $penduduk->keluarga->no_kk,
+                'data'  => get_nokk($penduduk->keluarga->no_kk),
             ],
             [
                 'judul' => 'Golongan Darah' . $ortu,
@@ -246,7 +246,7 @@ class KodeIsianPenduduk
                 [
                     'judul' => 'No KK',
                     'isian' => 'No_kK',
-                    'data'  => $penduduk->keluarga->no_kk,
+                    'data'  => get_nokk($penduduk->keluarga->no_kk),
                 ],
                 [
                     'judul' => 'Kepala KK',
@@ -256,7 +256,7 @@ class KodeIsianPenduduk
                 [
                     'judul' => 'NIK KK',
                     'isian' => 'Nik_kepala_kK',
-                    'data'  => $penduduk->keluarga->kepalaKeluarga->nik,
+                    'data'  => get_nik($penduduk->keluarga->kepalaKeluarga->nik),
                 ],
 
                 // Data RTM
@@ -307,7 +307,7 @@ class KodeIsianPenduduk
                     [
                         'judul' => 'NIK Ayah',
                         'isian' => 'nik_ayah',
-                        'data'  => $penduduk->ayah_nik,
+                        'data'  => get_nik($penduduk->ayah_nik),
                     ],
                 ];
                 $data = array_merge($data, $data_ortu);
@@ -326,7 +326,7 @@ class KodeIsianPenduduk
                     [
                         'judul' => 'NIK Ibu',
                         'isian' => 'nik_ibu',
-                        'data'  => $penduduk->ibu_nik,
+                        'data'  => get_nik($penduduk->ibu_nik),
                     ],
                 ];
                 $data = array_merge($data, $data_ortu);

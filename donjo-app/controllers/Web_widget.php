@@ -48,7 +48,7 @@ class Web_widget extends Admin_Controller
         // Jika offline_mode dalam level yang menyembunyikan website,
         // tidak perlu menampilkan halaman website
         if ($this->setting->offline_mode >= 2) {
-            redirect('hom_sid');
+            redirect('beranda');
 
             exit;
         }

@@ -5,7 +5,7 @@
 			<small><?= ($id_pembangunan ? 'Ubah' : 'Tambah') ?> Data</small>
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url($this->controller) ?>"> Pembangunan</a></li>
 			<li><a href="<?= site_url("{$this->controller}/dokumentasi/{$id_pembangunan}") ?>"></i>Dokumentasi Pembangunan</a></li>
 			<li class="active"><?= ($id_pembangunan ? 'Ubah' : 'Tambah') ?> Data</li>

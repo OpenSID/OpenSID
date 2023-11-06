@@ -95,7 +95,7 @@ class Penduduk_model extends MY_Model
     {
         if (! empty($this->session->dusun)) {
             $kf = $this->session->dusun;
-            $this->db->where("((u.id_kk <> '0' AND a.dusun = '{$kf}') OR (u.id_kk = '0' AND a2.dusun = '{$kf}'))");
+            $this->db->where("((u.id_kk IS NOT NULL AND a.dusun = '{$kf}') OR (u.id_kk IS NULL AND a2.dusun = '{$kf}'))");
         }
     }
 
@@ -103,7 +103,7 @@ class Penduduk_model extends MY_Model
     {
         if (! empty($this->session->rw)) {
             $kf = $this->session->rw;
-            $this->db->where("((u.id_kk <> '0' AND a.rw = '{$kf}') OR (u.id_kk = '0' AND a2.rw = '{$kf}'))");
+            $this->db->where("((u.id_kk IS NOT NULL AND a.rw = '{$kf}') OR (u.id_kk IS NULL AND a2.rw = '{$kf}'))");
         }
     }
 
@@ -111,7 +111,7 @@ class Penduduk_model extends MY_Model
     {
         if (! empty($this->session->rt)) {
             $kf = $this->session->rt;
-            $this->db->where("((u.id_kk <> '0' AND a.rt = '{$kf}') OR (u.id_kk = '0' AND a2.rt = '{$kf}'))");
+            $this->db->where("((u.id_kk IS NOT NULL AND a.rt = '{$kf}') OR (u.id_kk IS NULL AND a2.rt = '{$kf}'))");
         }
     }
 
@@ -122,17 +122,9 @@ class Penduduk_model extends MY_Model
         }
 
         if ($kf == JUMLAH) {
-            $this->db
-                ->group_start()
-                ->where("{$kolom} IS NOT NULL")
-                ->where("{$kolom} !=", '')
-                ->group_end();
+            $this->db->where("{$kolom} IS NOT NULL");
         } elseif ($kf == BELUM_MENGISI) {
-            $this->db
-                ->group_start()
-                ->where("{$kolom} IS NULL")
-                ->or_where($kolom, '')
-                ->group_end();
+            $this->db->where("{$kolom} IS NULL");
         } elseif ($kf == $this->session->status_dasar) {
             $this->db->where_in($kolom, $kf);
         } else {
@@ -305,7 +297,7 @@ class Penduduk_model extends MY_Model
     {
         // Alamat anggota keluarga diambil dari tabel keluarga
         $penduduk = $this->config_id()->select('id_kk')->where('id', $id)->get('tweb_penduduk')->row_array();
-        if ($penduduk['id_kk'] > 0) {
+        if ($penduduk['id_kk'] != null) {
             return $this->keluarga_model->get_alamat_wilayah($penduduk['id_kk']);
         }
         // Alamat penduduk lepas diambil dari kolom alamat_sekarang
@@ -585,7 +577,7 @@ class Penduduk_model extends MY_Model
                 $data[$i]['umur'] = $data[$i]['umur_pada_peristiwa'];
             }
             // Ubah alamat penduduk lepas
-            if (! $data[$i]['id_kk'] || $data[$i]['id_kk'] == 0) {
+            if (! $data[$i]['id_kk'] || $data[$i]['id_kk'] != null) {
                 // Ambil alamat penduduk
                 $this->db
                     ->select('p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt')
@@ -1332,7 +1324,7 @@ class Penduduk_model extends MY_Model
     }
 
     // TODO: digunakan dimana?
-    public function get_id_kk($id = 0)
+    public function get_id_kk($id = null)
     {
         $data = $this->config_id()
             ->select('id_kk')
@@ -1392,7 +1384,7 @@ class Penduduk_model extends MY_Model
             $data['tanggalperceraian']    = tgl_indo_out($data['tanggalperceraian']);
             $data['tanggal_cetak_ktp']    = tgl_indo_out($data['tanggal_cetak_ktp']);
             // Penduduk lepas, pakai alamat penduduk
-            if ($data['id_kk'] == 0 || $data['id_kk'] == '') {
+            if ($data['id_kk'] == null) {
                 $data['alamat'] = $data['alamat_sekarang'];
                 $this->db->where('id', $data['id_cluster']);
                 $query         = $this->db->get('tweb_wil_clusterdesa');
@@ -1553,7 +1545,7 @@ class Penduduk_model extends MY_Model
             ->get('tweb_penduduk')
             ->row_array();
 
-        return (bool) ($penduduk['id_kk'] > 0);
+        return (bool) ($penduduk['id_kk'] != null);
     }
 
     public function tulis_log_penduduk_data($log)

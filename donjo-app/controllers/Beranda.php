@@ -48,7 +48,7 @@ use App\Models\Wilayah;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Hom_sid extends Admin_Controller
+class Beranda extends Admin_Controller
 {
     public $isAdmin;
 
@@ -63,7 +63,7 @@ class Hom_sid extends Admin_Controller
     {
         get_pesan_opendk(); //ambil pesan baru di opendk
 
-        $this->modul_ini = 'home';
+        $this->modul_ini = 'beranda';
 
         $this->load->library('saas');
         $configId = identitas('id');

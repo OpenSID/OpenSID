@@ -71,7 +71,7 @@
 	<section class="content-header">
 		<h1>Statistik Jawaban</h1>
 		<ol class="breadcrumb">
-		<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+		<li><a href="<?=site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?=site_url('analisis_master/clear')?>"> Master Analisis</a></li>
 			<li><a href="<?= site_url('analisis_master/leave'); ?>"><?= $analisis_master['nama']; ?></a></li>
 			<li><a href="<?=site_url()?>analisis_statistik_jawaban">Laporan Per Indikator</a></li>

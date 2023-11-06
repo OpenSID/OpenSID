@@ -35,8 +35,9 @@
  *
  */
 
-use App\Models\LampiranSurat;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -55,6 +56,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
+        // Uncomment pada rilis rev terakhir
+        // return $hasil && $this->buat_tabel_migrations($hasil);
+
         $hasil = $hasil && $this->migrasi_2023102571($hasil);
 
         return $hasil && $this->migrasi_2023110672($hasil);
@@ -71,11 +75,49 @@ class Migrasi_fitur_premium_2312 extends MY_model
         }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        $hasil = $hasil && $this->migrasi_2023110251($hasil);
+
+        return $hasil && $this->migrasi_2023110252($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
     {
+        return $hasil;
+    }
+
+    protected function migrasi_2023110251($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'home'],
+            ['modul' => 'Beranda', 'slug' => 'beranda', 'url' => 'beranda']
+        );
+    }
+
+    protected function migrasi_2023110252($hasil)
+    {
+        DB::table('tweb_penduduk')->where('id_kk', 0)->orWhere('id_kk', '')->update(['id_kk' => null]);
+
+        return $hasil && $this->dbforge->modify_column('tweb_penduduk', [
+            'id_kk' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'       => false,
+                'default'    => null,
+            ],
+        ]);
+    }
+
+    protected function buat_tabel_migrations($hasil)
+    {
+        log_message('notice', 'Membuat tabel migrations');
+        if (! Schema::hasTable('migrations')) {
+            Schema::create('migrations', static function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('migration');
+                $table->integer('batch');
+            });
+        }
+
         return $hasil;
     }
 

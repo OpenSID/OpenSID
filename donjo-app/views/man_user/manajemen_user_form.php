@@ -2,7 +2,7 @@
     <section class="content-header">
         <h1>Form Manajemen Pengguna </h1>
         <ol class="breadcrumb">
-            <li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
             <li><a href="<?= site_url('man_user') ?>"> Daftar Pengguna</a></li>
             <li class="active">Form Manajemen Pengguna</li>
         </ol>

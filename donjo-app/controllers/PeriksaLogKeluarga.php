@@ -35,58 +35,51 @@
  *
  */
 
-namespace App\Models;
-
-use App\Traits\ConfigId;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Modul extends BaseModel
+class PeriksaLogKeluarga extends CI_Controller
 {
-    use ConfigId;
-
-    public const SELALU_AKTIF = ['beranda', 'notif', 'pengguna'];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'setting_modul';
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * The casts with the model.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'aktif' => 'boolean',
-    ];
-
-    /**
-     * Scope query untuk aktif
-     *
-     * @param Builder $query
-     * @param mixed   $value
-     *
-     * @return Builder
-     */
-    public function scopeStatus($query, $value = 1)
+    public function __construct()
     {
-        return $query->where('aktif', $value);
+        parent::__construct();
+
+        $this->load->database();
+        $this->cek_user();
+    }
+
+    public function index()
+    {
+        $keluarga = $this->input->get('keluarga');
+
+        $logs  = $this->db->where(['id_kk' => $keluarga['id']])->order_by('tgl_peristiwa')->get('log_keluarga')->result_array();
+        $no_kk = $keluarga['no_kk'];
+        $id    = $keluarga['id'];
+
+        return view('periksa.log_keluarga', compact('logs', 'no_kk', 'id'));
+    }
+
+    public function hapusLog()
+    {
+        $idLog    = $this->input->post('id');
+        $idPend   = $this->db->where('id', $idLog)->get('log_keluarga')->row_array()['id_pend'];
+        $keluarga = $this->db->where('id', $idPend)->get('tweb_keluarga')->row_array();
+        $status   = 0;
+        if ($this->db->where('id', $idLog)->delete('log_keluarga')) {
+            log_message('notice', 'Hapus log keluarga NIK : ' . $keluarga['nik']);
+            $status = 1;
+        }
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode([
+                'status' => $status,
+            ]));
+    }
+
+    private function cek_user()
+    {
+        if ($this->session->periksa_data != 1) {
+            redirect('periksa/login');
+        }
     }
 }

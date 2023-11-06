@@ -149,7 +149,7 @@ class Laporan_bulanan_model extends MY_Model
             ->from('log_keluarga l')
             // Ambil log yg terakhir saja
             ->join("(
-                select max(id) id from log_keluarga where id_kk != 0 and config_id = {$configId} and tgl_peristiwa < '{$thn}-{$pad_bln}-01'  group by id_kk
+                select max(id) id from log_keluarga where id_kk IS NOT NULL and config_id = {$configId} and tgl_peristiwa < '{$thn}-{$pad_bln}-01'  group by id_kk
             ) log_max_keluarga", 'log_max_keluarga.id = l.id')
             ->join('tweb_keluarga k', 'k.id = l.id_kk')
             // Ambil log yg terakhir saja

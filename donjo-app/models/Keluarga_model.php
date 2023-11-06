@@ -711,7 +711,7 @@ class Keluarga_model extends MY_Model
             ->row();
 
         $temp['no_kk_sebelumnya'] = $kk ? $kel->no_kk : null; // Tidak simpan no kk kalau keluar dari keluarga
-        $temp['id_kk']            = 0;
+        $temp['id_kk']            = null;
         $temp['kk_level']         = 0;
         $temp['updated_at']       = date('Y-m-d H:i:s');
         $temp['updated_by']       = $this->session->user;
@@ -814,7 +814,7 @@ class Keluarga_model extends MY_Model
             ->select('u.id, u.nik, u.nama, u.alamat_sekarang as alamat, w.rt, w.rw, w.dusun')
             ->from('penduduk_hidup u')
             ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
-            ->where('id_kk', 0)
+            ->where('id_kk is null')
             ->where('status', 1);
 
         if ($shdk) {

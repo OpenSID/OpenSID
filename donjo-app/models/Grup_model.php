@@ -337,8 +337,8 @@ class Grup_model extends MY_Model
         }
 
         $modul = array_keys($this->session->hak_akses_url);
-        if (in_array('home_sid', $modul)) {
-            return 'home_sid';
+        if (in_array('beranda', $modul)) {
+            return 'beranda';
         }
 
         if (empty($modul)) {

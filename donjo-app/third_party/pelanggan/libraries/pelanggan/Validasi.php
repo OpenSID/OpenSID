@@ -48,7 +48,7 @@ class Validasi
     protected $ci;
 
     protected $kecuali = [
-        'hom_sid', 'identitas_desa', 'pelanggan', 'pengguna', 'pendaftaran_kerjasama', 'setting', 'notif', 'user_setting', 'main', 'info_sistem',
+        'beranda', 'identitas_desa', 'pelanggan', 'pengguna', 'pendaftaran_kerjasama', 'setting', 'notif', 'user_setting', 'main', 'info_sistem',
     ];
 
     public function __construct()

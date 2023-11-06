@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ route('hom_sid') }}"><i class="fa fa-home"></i> Home</a></li>
+    <li><a href="{{ route('beranda') }}"><i class="fa fa-home"></i> Beranda</a></li>
     <li class="active">DTKS</li>
 @endsection
 

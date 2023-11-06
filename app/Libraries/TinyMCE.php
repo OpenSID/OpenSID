@@ -223,6 +223,10 @@ class TinyMCE
         $daftarKategori = collect($data['surat']->form_isian)->toArray();
 
         foreach ($daftarKategori as $key => $value) {
+            if ($value->sumber != 1) {
+                continue;
+            }
+
             if (! $value->sumber) {
                 $value->sumber = 1;
             }
@@ -474,11 +478,11 @@ class TinyMCE
         $alias = ReplaceAlias::get($data['surat'], $data['input']);
 
         if ($alias) {
-            $newKodeIsian = array_merge($alias, $newKodeIsian);
+            $newKodeIsian = array_replace($newKodeIsian, $alias);
         }
 
         foreach ($newKodeIsian as $key => $value) {
-            if (in_array($key, $kecuali)) {
+            if (in_array($key, $kecuali) || in_array($key, ['[terbilang]', '[hitung]'])) {
                 continue;
             }
 
@@ -501,7 +505,10 @@ class TinyMCE
             }
         }
 
-        return $result;
+        // Kode isian berupa hitungan perlu didahulukan
+        $result = caseHitung($result);
+
+        return terjemahkanTerbilang($result);
     }
 
     /**
@@ -571,12 +578,18 @@ class TinyMCE
             return;
         }
 
-        $surat        = $data['surat'];
-        $input        = $data['input'];
+        $surat    = $data['surat'];
+        $input    = $data['input'];
+        $config   = identitas();
+        $individu = $this->surat_model->get_data_surat($id);
+
+        // Data penandatangan terpilih
+        $penandatangan = $this->surat_model->atas_nama($data);
+
         $lampiran     = explode(',', strtolower($surat['lampiran']));
         $format_surat = substitusiNomorSurat($input['nomor'], setting('format_nomor_surat'));
         $format_surat = str_replace('[kode_surat]', $surat['kode_surat'], $format_surat);
-        $format_surat = str_replace('[kode_desa]', identitas()->kode_desa, $format_surat);
+        $format_surat = str_replace('[kode_desa]', $config['kode_desa'], $format_surat);
         $format_surat = str_replace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
         $format_surat = str_replace('[tahun]', date('Y'), $format_surat);
 

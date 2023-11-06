@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Pengaturan <?= $kat_nama ?> Di <?= ucwords(setting('sebutan_desa')) ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<?php if (in_array($kat, ['2', '3'])) : ?>
 				<li><a href="<?= $kembali_ke ?: site_url("{$this->controller}/peraturan_desa/{$kat}"); ?>"> Daftar <?= $kat_nama ?></a></li>
 			<?php else : ?>

@@ -437,7 +437,7 @@ class Surat_master extends Admin_Controller
             'masa_berlaku'             => $request['masa_berlaku'],
             'satuan_masa_berlaku'      => $request['satuan_masa_berlaku'],
             'jenis'                    => $jenis,
-            'mandiri'                  => $request['mandiri'],
+            'mandiri'                  => collect($formIsian)->where('sumber', '0')->count() > 1 && (bool) $request['mandiri'],
             'syarat_surat'             => $request['mandiri'] ? json_encode($request['id_cb']) : null,
             'qr_code'                  => $request['qr_code'],
             'logo_garuda'              => $request['logo_garuda'],

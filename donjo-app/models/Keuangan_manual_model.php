@@ -207,7 +207,12 @@ class Keuangan_manual_model extends MY_Model
 
     public function salin_anggaran_tpl($thn_apbdes)
     {
-        $config_id  = $this->config_id;
+        $config_id = $this->config_id;
+
+        if (KeuanganManualRinci::where('tahun', $thn_apbdes)->exists()) {
+            return false;
+        }
+
         $result_set = KeuanganManualTemplate::get(['Kd_Akun', 'Kd_Keg', 'Kd_Rincian', 'Nilai_Anggaran', 'Nilai_Realisasi'])
             ->map(static function ($item) use ($config_id, $thn_apbdes) {
                 $item->config_id = $config_id;

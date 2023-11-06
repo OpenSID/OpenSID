@@ -84,6 +84,8 @@ class Wilayah extends Admin_Controller
             return $data;
         }, "{$this->session->per_page}_{$p}_{$this->session->cari}_dusun_wilayah", 24 * 60 * 60);
 
+        $data['cek_lokasi_peta'] = cek_lokasi_peta($this->header['desa']);
+
         $this->render('sid/wilayah/wilayah', $data);
     }
 
@@ -210,6 +212,8 @@ class Wilayah extends Admin_Controller
             return $data;
         }, "{$this->session->per_page}_{$p}_{$id_dusun}_rw_wilayah", 24 * 60 * 60);
 
+        $data['cek_lokasi_peta'] = cek_lokasi_peta($this->wilayah_model->cluster_by_id($id_dusun));
+
         $this->render('sid/wilayah/wilayah_rw', $data);
     }
 
@@ -296,6 +300,13 @@ class Wilayah extends Admin_Controller
 
             return $data;
         }, "{$this->session->per_page}_{$p}_{$id_dusun}_{$id_rw}_rt_wilayah", 24 * 60 * 60);
+
+        $dataWilayahRW = $this->wilayah_model->cluster_by_id($id_rw);
+        if ($dataWilayahRW['rw'] == '-') {
+            // ambil dari data dusun
+            $dataWilayahRW = $this->wilayah_model->cluster_by_id($id_dusun);
+        }
+        $data['cek_lokasi_peta'] = cek_lokasi_peta($dataWilayahRW);
 
         $this->render('sid/wilayah/wilayah_rt', $data);
     }
@@ -417,10 +428,15 @@ class Wilayah extends Admin_Controller
 
     public function ajax_kantor_dusun_maps($id = '')
     {
-        $sebutan_desa         = ucwords($this->setting->sebutan_desa);
-        $data['poly']         = 'multi';
-        $data['wil_ini']      = $this->wilayah_model->cluster_by_id($id);
-        $data['wil_atas']     = $this->header['desa'];
+        $data['wil_atas'] = $this->header['desa'];
+        $sebutan_desa     = ucwords($this->setting->sebutan_desa);
+        $namadesa         = $data['wil_atas']['nama_desa'];
+
+        $this->ubah_lokasi_peta($data['wil_atas'], 'index', "Lokasi Kantor {$sebutan_desa} {$namadesa} Belum Dilengkapi");
+
+        $data['poly']    = 'multi';
+        $data['wil_ini'] = $this->wilayah_model->cluster_by_id($id);
+
         $data['dusun_gis']    = $this->wilayah_model->list_dusun();
         $data['rw_gis']       = $this->wilayah_model->list_rw();
         $data['rt_gis']       = $this->wilayah_model->list_rt();
@@ -430,23 +446,19 @@ class Wilayah extends Admin_Controller
             ['link' => site_url('wilayah/clear'), 'judul' => 'Daftar ' . $data['wilayah']],
         ];
         $data['form_action'] = site_url("{$this->controller}/update_kantor_dusun_map/{$id}");
-        $namadesa            = $data['wil_atas']['nama_desa'];
         $data['logo']        = $this->header['desa'];
 
-        if (! empty($data['wil_atas']['lat'] && ! empty($data['wil_atas']['lng'] && ! empty($data['wil_atas']['path'])))) {
-            $this->render('sid/wilayah/maps_kantor', $data);
-        } else {
-            $this->session->success   = -1;
-            $this->session->error_msg = "Lokasi Kantor {$sebutan_desa} {$namadesa} Belum Dilengkapi";
-            redirect("{$this->controller}");
-        }
+        $this->render('sid/wilayah/maps_kantor', $data);
     }
 
     public function ajax_wilayah_dusun_maps($id = '')
     {
-        $sebutan_desa         = ucwords($this->setting->sebutan_desa);
+        $data['wil_atas'] = $this->header['desa'];
+        $sebutan_desa     = ucwords($this->setting->sebutan_desa);
+        $namadesa         = $data['wil_atas']['nama_desa'];
+        $this->ubah_lokasi_peta($data['wil_atas'], 'index', "Peta Wilayah {$sebutan_desa} {$namadesa} Belum Dilengkapi");
+
         $data['poly']         = 'multi';
-        $data['wil_atas']     = $this->header['desa'];
         $data['wil_ini']      = $this->wilayah_model->cluster_by_id($id);
         $data['dusun_gis']    = $this->wilayah_model->list_dusun();
         $data['rw_gis']       = $this->wilayah_model->list_rw();
@@ -457,15 +469,9 @@ class Wilayah extends Admin_Controller
             ['link' => site_url('wilayah/clear'), 'judul' => 'Daftar ' . $data['wilayah']],
         ];
         $data['form_action'] = site_url("{$this->controller}/update_wilayah_dusun_map/{$id}");
-        $namadesa            = $data['wil_atas']['nama_desa'];
         $data['logo']        = $this->header['desa'];
-        if (! empty($data['wil_atas']['lat'] && ! empty($data['wil_atas']['lng'] && ! empty($data['wil_atas']['path'])))) {
-            $this->render('sid/wilayah/maps_wilayah', $data);
-        } else {
-            $this->session->success   = -1;
-            $this->session->error_msg = "Peta Lokasi/Wilayah {$sebutan_desa} {$namadesa} Belum Dilengkapi";
-            redirect("{$this->controller}");
-        }
+
+        $this->render('sid/wilayah/maps_wilayah', $data);
     }
 
     public function update_kantor_dusun_map($id = '')
@@ -484,13 +490,17 @@ class Wilayah extends Admin_Controller
 
     public function ajax_kantor_rw_maps($id_dusun = '', $id_rw = '')
     {
-        $sebutan_dusun        = ucwords(setting('sebutan_dusun'));
-        $data['wil_atas']     = $this->wilayah_model->cluster_by_id($id_dusun);
-        $data['wil_ini']      = $this->wilayah_model->cluster_by_id($id_rw);
-        $data['dusun_gis']    = $this->wilayah_model->list_dusun();
-        $data['rw_gis']       = $this->wilayah_model->list_rw();
-        $data['rt_gis']       = $this->wilayah_model->list_rt();
-        $dusun                = $data['wil_atas']['dusun'];
+        $data['wil_atas'] = $this->wilayah_model->cluster_by_id($id_dusun);
+        $sebutan_dusun    = ucwords(setting('sebutan_dusun'));
+        $dusun            = $data['wil_atas']['dusun'];
+        $this->ubah_lokasi_peta($data['wil_atas'], "sub_rw/{$id_dusun}", "Lokasi Kantor {$sebutan_dusun} {$dusun} Belum Dilengkapi");
+
+        $data['wil_atas']  = $this->wilayah_model->cluster_by_id($id_dusun);
+        $data['wil_ini']   = $this->wilayah_model->cluster_by_id($id_rw);
+        $data['dusun_gis'] = $this->wilayah_model->list_dusun();
+        $data['rw_gis']    = $this->wilayah_model->list_rw();
+        $data['rt_gis']    = $this->wilayah_model->list_rt();
+
         $data['nama_wilayah'] = 'RW ' . $data['wil_ini']['rw'] . ' ' . $sebutan_dusun . ' ' . $dusun;
         $data['breadcrumb']   = [
             ['link' => site_url('wilayah/clear'), 'judul' => 'Daftar ' . $sebutan_dusun],
@@ -500,19 +510,16 @@ class Wilayah extends Admin_Controller
         $data['form_action'] = site_url("{$this->controller}/update_kantor_rw_map/{$id_dusun}/{$id_rw}");
         $data['logo']        = $this->header['desa'];
 
-        if (! empty($data['wil_atas']['path'] && ! empty($data['wil_atas']['lat'] && ! empty($data['wil_atas']['lng'])))) {
-            $this->render('sid/wilayah/maps_kantor', $data);
-        } else {
-            session_error("Lokasi Kantor {$sebutan_dusun} {$dusun} Belum Dilengkapi");
-
-            redirect("{$this->controller}/sub_rw/{$id_dusun}");
-        }
+        $this->render('sid/wilayah/maps_kantor', $data);
     }
 
     public function ajax_wilayah_rw_maps($id_dusun = '', $id_rw = '')
     {
-        $sebutan_dusun        = ucwords(setting('sebutan_dusun'));
-        $data['wil_atas']     = $this->wilayah_model->cluster_by_id($id_dusun);
+        $data['wil_atas'] = $this->wilayah_model->cluster_by_id($id_dusun);
+        $sebutan_dusun    = ucwords(setting('sebutan_dusun'));
+        $dusun            = $data['wil_atas']['dusun'];
+        $this->ubah_lokasi_peta($data['wil_atas'], "sub_rw/{$id_dusun}", "Peta Wilayah {$sebutan_dusun} {$dusun} Belum Dilengkapi");
+
         $data['wil_ini']      = $this->wilayah_model->cluster_by_id($id_rw);
         $data['dusun_gis']    = $this->wilayah_model->list_dusun();
         $data['rw_gis']       = $this->wilayah_model->list_rw();
@@ -527,12 +534,7 @@ class Wilayah extends Admin_Controller
         $data['form_action'] = site_url("{$this->controller}/update_wilayah_rw_map/{$id_dusun}/{$id_rw}");
         $data['logo']        = $this->header['desa'];
 
-        if (! empty($data['wil_atas']['path'] && ! empty($data['wil_atas']['lat'] && ! empty($data['wil_atas']['lng'])))) {
-            $this->render('sid/wilayah/maps_wilayah', $data);
-        } else {
-            session_error("Peta Lokasi/Wilayah {$sebutan_dusun} {$dusun} Belum Dilengkapi");
-            redirect("{$this->controller}/sub_rw/{$id_dusun}");
-        }
+        $this->render('sid/wilayah/maps_wilayah', $data);
     }
 
     public function update_kantor_rw_map($id_dusun = '', $id_rw = '')
@@ -551,8 +553,15 @@ class Wilayah extends Admin_Controller
 
     public function ajax_kantor_rt_maps($id_dusun = '', $id_rw = '', $id = '')
     {
-        $sebutan_dusun        = ucwords(setting('sebutan_dusun'));
-        $data['wil_atas']     = $this->wilayah_model->cluster_by_id($id_dusun);
+        $dataRW           = $this->wilayah_model->cluster_by_id($id_rw);
+        $data['wil_atas'] = $dataRW;
+        if ($dataRW['rw'] == '-') {
+            $data['wil_atas'] = $this->wilayah_model->cluster_by_id($id_dusun);
+        }
+        $sebutan_dusun = ucwords(setting('sebutan_dusun'));
+        $dusun         = $data['wil_atas']['dusun'];
+        $this->ubah_lokasi_peta($data['wil_atas'], "sub_rt/{$id_dusun}/{$id_rw}", "Lokasi Kantor {$sebutan_dusun} {$dusun} Belum Dilengkapi");
+
         $data['wil_ini']      = $this->wilayah_model->cluster_by_id($id);
         $data['dusun_gis']    = $this->wilayah_model->list_dusun();
         $data['rw_gis']       = $this->wilayah_model->list_rw();
@@ -567,19 +576,21 @@ class Wilayah extends Admin_Controller
         $data['form_action'] = site_url("{$this->controller}/update_wilayah_rt_map/{$id_dusun}/{$id_rw}/{$id}");
         $data['logo']        = $this->header['desa'];
 
-        if (! empty($data['wil_atas']['path'] && ! empty($data['wil_atas']['lat'] && ! empty($data['wil_atas']['lng'])))) {
-            $this->render('sid/wilayah/maps_kantor', $data);
-        } else {
-            $this->session->success   = -1;
-            $this->session->error_msg = "Lokasi Kantor {$sebutan_dusun} {$dusun} Belum Dilengkapi";
-            redirect("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}");
-        }
+        $this->render('sid/wilayah/maps_kantor', $data);
     }
 
     public function ajax_wilayah_rt_maps($id_dusun = '', $id_rw = '', $id = '')
     {
-        $sebutan_dusun        = ucwords(setting('sebutan_dusun'));
-        $data['wil_atas']     = $this->wilayah_model->cluster_by_id($id_dusun);
+        $dataRW           = $this->wilayah_model->cluster_by_id($id_rw);
+        $data['wil_atas'] = $dataRW;
+        if ($dataRW['rw'] == '-') {
+            $data['wil_atas'] = $this->wilayah_model->cluster_by_id($id_dusun);
+        }
+
+        $sebutan_dusun = ucwords(setting('sebutan_dusun'));
+        $dusun         = $data['wil_atas']['dusun'];
+        $this->ubah_lokasi_peta($data['wil_atas'], "sub_rt/{$id_dusun}/{$id_rw}", "Peta Wilayah {$sebutan_dusun} {$dusun} Belum Dilengkapi");
+
         $data['wil_ini']      = $this->wilayah_model->cluster_by_id($id);
         $data['dusun_gis']    = $this->wilayah_model->list_dusun();
         $data['rw_gis']       = $this->wilayah_model->list_rw();
@@ -594,12 +605,7 @@ class Wilayah extends Admin_Controller
         $data['form_action'] = site_url("{$this->controller}/update_wilayah_rt_map/{$id_dusun}/{$id_rw}/{$id}");
         $data['logo']        = $this->header['desa'];
 
-        if (! empty($data['wil_atas']['path'] && ! empty($data['wil_atas']['lat'] && ! empty($data['wil_atas']['lng'])))) {
-            $this->render('sid/wilayah/maps_wilayah', $data);
-        } else {
-            session_error("Peta Lokasi/Wilayah {$sebutan_dusun} {$dusun} Belum Dilengkapi");
-            redirect("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}");
-        }
+        $this->render('sid/wilayah/maps_wilayah', $data);
     }
 
     public function update_kantor_rt_map($id_dusun = '', $id_rw = '', $id = '')
@@ -656,5 +662,16 @@ class Wilayah extends Admin_Controller
     {
         $list_rt = $this->wilayah_model->list_rt($dusun, $rw);
         echo json_encode($list_rt);
+    }
+
+    public function ubah_lokasi_peta($wilayah, $to = 'index', $msg = '')
+    {
+        $this->redirect_hak_akses('u');
+
+        if (! cek_lokasi_peta($wilayah)) {
+            session_error($msg);
+
+            redirect("{$this->controller}/{$to}");
+        }
     }
 }

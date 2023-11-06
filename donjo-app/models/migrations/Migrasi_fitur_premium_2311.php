@@ -63,7 +63,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
         $hasil = $hasil && $this->migrasi_2023101352($hasil);
         $hasil = $hasil && $this->migrasi_2023102551($hasil);
 
-        return hasil && $this->migrasi_2023102651($hasil);
+        return $hasil && $this->migrasi_2023102651($hasil);
     }
 
     // Migrasi perubahan data
