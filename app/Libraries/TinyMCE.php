@@ -222,6 +222,10 @@ class TinyMCE
         $daftarKategori = collect($data['surat']->form_isian)->toArray();
 
         foreach ($daftarKategori as $key => $value) {
+            if ($value->sumber != 1) {
+                continue;
+            }
+
             if (! $value->sumber) {
                 $value->sumber = 1;
             }

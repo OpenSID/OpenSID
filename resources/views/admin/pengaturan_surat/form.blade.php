@@ -90,13 +90,13 @@
                 });
 
                 $.ajax({
-                    url: `{{ route('surat_master/update_baru', $suratMaster->id) }}`,                
+                    url: `{{ route('surat_master/update_baru', $suratMaster->id) }}`,
                     type: 'POST',
                     xhrFields: {
                         responseType: 'blob'
                     },
                     data: $("#validasi").serialize() + "&action=preview",
-                    success: function(response, status, xhr) {                        
+                    success: function(response, status, xhr) {
                         // https://stackoverflow.com/questions/34586671/download-pdf-file-using-jquery-ajax
                         var filename = "";
                         var disposition = xhr.getResponseHeader('Content-Disposition');

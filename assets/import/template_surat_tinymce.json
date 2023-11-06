@@ -1738,49 +1738,77 @@
         "logo_garuda": false,
         "kecamatan": "0",
         "syarat_surat": null,
-        "template": "        <h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n        <p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br \/><br \/><\/p>\r\n        <p style=\"text-indent: 30px; text-align: justify;\">Yang bertanda tangan di bawah ini :<\/p>\r\n        <table style=\"border-collapse: collapse; width: 100.114%; height: 42px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n        <tbody>\r\n        <tr style=\"height: 21px;\">\r\n        <td style=\"width: 30px; text-align: center; height: 21px;\">\u00a0<\/td>\r\n        <td style=\"width: 20.5239%; text-align: left; height: 21px;\">Nama<\/td>\r\n        <td style=\"width: 1.14525%; height: 21px; text-align: left;\">:<\/td>\r\n        <td style=\"width: 76.445%; height: 21px; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n        <\/tr>\r\n        <tr style=\"height: 21px;\">\r\n        <td style=\"width: 30px; text-align: center; height: 21px;\">\u00a0<\/td>\r\n        <td style=\"width: 20.5239%; text-align: left; height: 21px;\">Jabatan<\/td>\r\n        <td style=\"width: 1.14525%; height: 21px; text-align: left;\">:<\/td>\r\n        <td style=\"width: 76.445%; text-align: justify; height: 21px;\">[JabataN]<\/td>\r\n        <\/tr>\r\n        <\/tbody>\r\n        <\/table>\r\n        <p style=\"text-align: justify; text-indent: 30px;\">Dengan ini menerangkan bahwa :<\/p>\r\n        <table style=\"border-collapse: collapse; width: 100%; height: 118.922px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n        <tbody>\r\n        <tr style=\"height: 19.8125px;\">\r\n        <td style=\"width: 30px; text-align: center; height: 19.8125px;\">\u00a0<\/td>\r\n        <td style=\"width: 20.6571%; text-align: left; height: 19.8125px;\">Nama  <\/td>\r\n        <td style=\"width: 1.03204%; height: 19.8125px; text-align: left;\">:<\/td>\r\n        <td style=\"width: 76.5364%; height: 19.8125px; text-align: justify;\">[NamA]<\/td>\r\n        <\/tr>\r\n        <tr style=\"height: 19.8125px;\">\r\n        <td style=\"width: 30px; text-align: center; height: 19.8125px;\">\u00a0<\/td>\r\n        <td style=\"width: 20.6571%; text-align: left; height: 19.8125px;\">Tempat \/ Tanggal Lahir<\/td>\r\n        <td style=\"width: 1.03204%; height: 19.8125px; text-align: left;\">:<\/td>\r\n        <td style=\"width: 76.5364%; height: 19.8125px; text-align: justify;\">[TempatlahiR] \/ [TanggallahiR]<\/td>\r\n        <\/tr>\r\n        <tr style=\"height: 19.8125px;\">\r\n        <td style=\"width: 30px; text-align: center; height: 19.8125px;\">\u00a0<\/td>\r\n        <td style=\"width: 20.6571%; text-align: left; height: 19.8125px;\">Umur<\/td>\r\n        <td style=\"width: 1.03204%; height: 19.8125px; text-align: left;\">:<\/td>\r\n        <td style=\"width: 76.5364%; text-align: justify; height: 19.8125px;\">[UsiA]<\/td>\r\n        <\/tr>\r\n        <tr style=\"height: 19.8125px;\">\r\n        <td style=\"width: 30px; text-align: center; height: 19.8125px;\">\u00a0<\/td>\r\n        <td style=\"width: 20.6571%; text-align: left; height: 19.8125px;\">Jenis Kelamin<\/td>\r\n        <td style=\"width: 1.03204%; height: 19.8125px; text-align: left;\">:<\/td>\r\n        <td style=\"width: 76.5364%; height: 19.8125px; text-align: justify;\">[Jenis_kelamiN]<\/td>\r\n        <\/tr>\r\n        <tr style=\"height: 19.8125px;\">\r\n        <td style=\"width: 30px; text-align: center; height: 19.8125px;\">\u00a0<\/td>\r\n        <td style=\"width: 20.6571%; text-align: left; height: 19.8125px;\">Pekerjaan<\/td>\r\n        <td style=\"width: 1.03204%; height: 19.8125px; text-align: left;\">:<\/td>\r\n        <td style=\"width: 76.5364%; text-align: justify; height: 19.8125px;\">[PekerjaaN]<\/td>\r\n        <\/tr>\r\n        <tr style=\"height: 19.8594px;\">\r\n        <td style=\"width: 30px; text-align: center; height: 19.8594px;\">\u00a0<\/td>\r\n        <td style=\"width: 20.6571%; text-align: left; height: 19.8594px;\">Alamat<\/td>\r\n        <td style=\"width: 1.03204%; height: 19.8594px; text-align: left;\">:<\/td>\r\n        <td style=\"width: 76.5364%; text-align: justify; height: 19.8594px;\">[AlamaT]<\/td>\r\n        <\/tr>\r\n        <\/tbody>\r\n        <\/table>\r\n        <p style=\"text-indent: 30px; text-align: justify;\">Adalah benar-benar penduduk [Sebutan_desA] [NaMa_desa], yang memiliki\/menguasai tanah\/lahan berupa <strong>[FOrm_jenis_tanah]<\/strong> atas nama <strong>[Form_atas_namA]<\/strong>, yang berada di [Sebutan_desA] [NaMa_desa]. Tercatat dalam <strong>[FOrm_bukti_kepemilikan]<\/strong>, Nomor : <strong>[Form_nomor_bukti_kepemilikaN]<\/strong>, Luas :<strong>[Form_luas_tanaH]<\/strong>M<sup>2<\/sup>, dengan batas-batas :<\/p>\r\n        <table style=\"border-collapse: collapse; width: 100%; height: 72px;\" border=\"0\">\r\n        <tbody>\r\n        <tr style=\"height: 18px;\">\r\n        <td style=\"width: 30px; height: 18px;\">\u00a0<\/td>\r\n        <td style=\"width: 20.2564%; height: 18px;\">Sebelah Utara<\/td>\r\n        <td style=\"width: 1.14646%; height: 18px;\">:<\/td>\r\n        <td style=\"width: 76.5937%; height: 18px;\">[Form_batas_sebelah_utarA]<\/td>\r\n        <\/tr>\r\n        <tr style=\"height: 18px;\">\r\n        <td style=\"width: 30px; height: 18px;\">\u00a0<\/td>\r\n        <td style=\"width: 20.2564%; height: 18px;\">Sebelah Timur<\/td>\r\n        <td style=\"width: 1.14646%; height: 18px;\">:<\/td>\r\n        <td style=\"width: 76.5937%; height: 18px;\">[Form_batas_sebelah_timuR]<\/td>\r\n        <\/tr>\r\n        <tr style=\"height: 18px;\">\r\n        <td style=\"width: 30px; height: 18px;\">\u00a0<\/td>\r\n        <td style=\"width: 20.2564%; height: 18px;\">Sebelah Selatan<\/td>\r\n        <td style=\"width: 1.14646%; height: 18px;\">:<\/td>\r\n        <td style=\"width: 76.5937%; height: 18px;\">[Form_batas_sebelah_selataN]<\/td>\r\n        <\/tr>\r\n        <tr style=\"height: 18px;\">\r\n        <td style=\"width: 30px; height: 18px;\">\u00a0<\/td>\r\n        <td style=\"width: 20.2564%; height: 18px;\">Sebelah Barat<\/td>\r\n        <td style=\"width: 1.14646%; height: 18px;\">:<\/td>\r\n        <td style=\"width: 76.5937%; height: 18px;\">[Form_batas_sebelah_baraT]<\/td>\r\n        <\/tr>\r\n        <\/tbody>\r\n        <\/table>\r\n        <ol>\r\n        <li style=\"text-align: justify;\">Tanah tersebut benar-benar <em>MILIK<\/em> yang bersangkutan dan <strong>tidak dalam keadaan sengketa<\/strong>.<\/li>\r\n        <li style=\"text-align: justify;\">Tanah tersebut berasal dari <strong>[FOrm_asal_kepmilikan_tanah]<\/strong> dan sampai dengan sekarang belum terdaftar \/ didaftarkan Hak nya ke BPN (belumditerbitkan : SIIM \/ SIIGB \/ SIIGU \/ LAINNYA)<\/li>\r\n        <li style=\"text-align: justify;\">Bukti pendukung kepemilikan sementara ini berupa <strong>[Form_bukti_pendukung_kepemilikan]<\/strong>.<\/li>\r\n        <\/ol>\r\n        <p style=\"text-indent: 30px;\">Demikian surat ini dibuat, untuk dipergunakan sebagaimana mestinya.<\/p>\r\n        <p style=\"text-align: justify; text-indent: 30px;\"><br \/><br \/><\/p>\r\n        <table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n        <tbody>\r\n        <tr>\r\n        <td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n        <td style=\"width: 30%;\">\u00a0<\/td>\r\n        <td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n        <\/tr>\r\n        <tr>\r\n        <td style=\"width: 35%; text-align: center;\">Pemilih<\/td>\r\n        <td style=\"width: 30%;\">\u00a0<\/td>\r\n        <td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n        <\/tr>\r\n        <tr>\r\n        <td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n        <td style=\"width: 30%;\"><br \/><br \/><br \/><br \/><\/td>\r\n        <td style=\"width: 35%;\">\u00a0<\/td>\r\n        <\/tr>\r\n        <tr>\r\n        <td style=\"width: 35%; text-align: center;\">[NAma]<\/td>\r\n        <td style=\"width: 30%;\">\u00a0<\/td>\r\n        <td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n        <\/tr>\r\n        <tr>\r\n        <td style=\"width: 35%;\">\u00a0<\/td>\r\n        <td style=\"width: 30%;\">\u00a0<\/td>\r\n        <td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n        <\/tr>\r\n        <\/tbody>\r\n        <\/table>\r\n        <div style=\"text-align: center;\"><br \/>[qr_code]<\/div>",
-        "template_desa": null,
+        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-indent: 30px; text-align: justify;\">Yang bertanda tangan di bawah ini :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100.114%; height: 42px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 21px;\">\r\n<td style=\"width: 30px; text-align: center; height: 21px;\">\u00a0<\/td>\r\n<td style=\"width: 20.5239%; text-align: left; height: 21px;\">Nama<\/td>\r\n<td style=\"width: 1.14525%; height: 21px; text-align: left;\">:<\/td>\r\n<td style=\"width: 76.445%; height: 21px; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 21px;\">\r\n<td style=\"width: 30px; text-align: center; height: 21px;\">\u00a0<\/td>\r\n<td style=\"width: 20.5239%; text-align: left; height: 21px;\">Jabatan<\/td>\r\n<td style=\"width: 1.14525%; height: 21px; text-align: left;\">:<\/td>\r\n<td style=\"width: 76.445%; text-align: justify; height: 21px;\">[JabataN]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Dengan ini menerangkan bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 118.922px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 19.8125px;\">\r\n<td style=\"width: 30px; text-align: center; height: 19.8125px;\">\u00a0<\/td>\r\n<td style=\"width: 20.6571%; text-align: left; height: 19.8125px;\">Nama<\/td>\r\n<td style=\"width: 1.03204%; height: 19.8125px; text-align: left;\">:<\/td>\r\n<td style=\"width: 76.5364%; height: 19.8125px; text-align: justify;\">[NamA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.8125px;\">\r\n<td style=\"width: 30px; text-align: center; height: 19.8125px;\">\u00a0<\/td>\r\n<td style=\"width: 20.6571%; text-align: left; height: 19.8125px;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.03204%; height: 19.8125px; text-align: left;\">:<\/td>\r\n<td style=\"width: 76.5364%; height: 19.8125px; text-align: justify;\">[TempatlahiR] \/ [TanggallahiR]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.8125px;\">\r\n<td style=\"width: 30px; text-align: center; height: 19.8125px;\">\u00a0<\/td>\r\n<td style=\"width: 20.6571%; text-align: left; height: 19.8125px;\">Umur<\/td>\r\n<td style=\"width: 1.03204%; height: 19.8125px; text-align: left;\">:<\/td>\r\n<td style=\"width: 76.5364%; text-align: justify; height: 19.8125px;\">[UsiA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.8125px;\">\r\n<td style=\"width: 30px; text-align: center; height: 19.8125px;\">\u00a0<\/td>\r\n<td style=\"width: 20.6571%; text-align: left; height: 19.8125px;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.03204%; height: 19.8125px; text-align: left;\">:<\/td>\r\n<td style=\"width: 76.5364%; height: 19.8125px; text-align: justify;\">[Jenis_kelamiN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.8125px;\">\r\n<td style=\"width: 30px; text-align: center; height: 19.8125px;\">\u00a0<\/td>\r\n<td style=\"width: 20.6571%; text-align: left; height: 19.8125px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.03204%; height: 19.8125px; text-align: left;\">:<\/td>\r\n<td style=\"width: 76.5364%; text-align: justify; height: 19.8125px;\">[PekerjaaN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.8594px;\">\r\n<td style=\"width: 30px; text-align: center; height: 19.8594px;\">\u00a0<\/td>\r\n<td style=\"width: 20.6571%; text-align: left; height: 19.8594px;\">Alamat<\/td>\r\n<td style=\"width: 1.03204%; height: 19.8594px; text-align: left;\">:<\/td>\r\n<td style=\"width: 76.5364%; text-align: justify; height: 19.8594px;\">[AlamaT]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-indent: 30px; text-align: justify;\">Adalah benar-benar penduduk [Sebutan_desA] [NaMa_desa], yang memiliki\/menguasai tanah\/lahan berupa <strong>[FOrm_jenis_tanah]<\/strong> atas nama <strong>[Form_atas_namA]<\/strong>, yang berada di [Sebutan_desA] [NaMa_desa]. Tercatat dalam <strong>[FOrm_bukti_kepemilikan]<\/strong>, Nomor : <strong>[Form_nomor_bukti_kepemilikaN]<\/strong>, Luas :<strong>[Form_luas_tanaH]<\/strong>M<sup>2<\/sup>, dengan batas-batas :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 72px;\" border=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 30px; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 20.2564%; height: 18px;\">Sebelah Utara<\/td>\r\n<td style=\"width: 1.14646%; height: 18px;\">:<\/td>\r\n<td style=\"width: 76.5937%; height: 18px;\">[Form_batas_sebelah_utarA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 30px; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 20.2564%; height: 18px;\">Sebelah Timur<\/td>\r\n<td style=\"width: 1.14646%; height: 18px;\">:<\/td>\r\n<td style=\"width: 76.5937%; height: 18px;\">[Form_batas_sebelah_timuR]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 30px; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 20.2564%; height: 18px;\">Sebelah Selatan<\/td>\r\n<td style=\"width: 1.14646%; height: 18px;\">:<\/td>\r\n<td style=\"width: 76.5937%; height: 18px;\">[Form_batas_sebelah_selataN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 30px; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 20.2564%; height: 18px;\">Sebelah Barat<\/td>\r\n<td style=\"width: 1.14646%; height: 18px;\">:<\/td>\r\n<td style=\"width: 76.5937%; height: 18px;\">[Form_batas_sebelah_baraT]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<ol>\r\n<li style=\"text-align: justify;\">Tanah tersebut benar-benar <em>MILIK<\/em> yang bersangkutan dan <strong>tidak dalam keadaan sengketa<\/strong>.<\/li>\r\n<li style=\"text-align: justify;\">Tanah tersebut berasal dari <strong>[FOrm_asal_kepmilikan_tanah]<\/strong> dan sampai dengan sekarang belum terdaftar \/ didaftarkan Hak nya ke BPN (belumditerbitkan : SIIM \/ SIIGB \/ SIIGU \/ LAINNYA)<\/li>\r\n<li style=\"text-align: justify;\">Bukti pendukung kepemilikan sementara ini berupa <strong>[Form_bukti_pendukung_kepemilikan]<\/strong>.<\/li>\r\n<\/ol>\r\n<p style=\"text-indent: 30px;\">Demikian surat ini dibuat, untuk dipergunakan sebagaimana mestinya.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><br><br><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">Pemilih<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">[NAma]<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
+        "template_desa": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [FOrmat_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-indent: 30px; text-align: justify;\">Yang bertanda tangan di bawah ini :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100.114%; height: 42px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 21px;\">\r\n<td style=\"width: 4.48117%; text-align: center; height: 21px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 31.4983%; text-align: left; height: 21px; vertical-align: top;\">Nama<\/td>\r\n<td style=\"width: 1.60456%; height: 21px; text-align: center; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 62.4473%; height: 21px; text-align: justify; vertical-align: top;\"><strong>[NAma_pamong]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 21px;\">\r\n<td style=\"width: 4.48117%; text-align: center; height: 21px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 31.4983%; text-align: left; height: 21px; vertical-align: top;\">Jabatan<\/td>\r\n<td style=\"width: 1.60456%; height: 21px; text-align: center; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 62.4473%; text-align: justify; height: 21px; vertical-align: top;\">[JaBatan] [NaMa_desa], [SeButan_kecamatan] [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Dengan ini menerangkan bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 118.922px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 19.8125px;\">\r\n<td style=\"width: 4.63097%; text-align: center; height: 19.8125px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 31.4983%; text-align: left; height: 19.8125px; vertical-align: top;\">Nama<\/td>\r\n<td style=\"width: 1.46035%; height: 19.8125px; vertical-align: top; text-align: center;\">:<\/td>\r\n<td style=\"width: 61.7945%; height: 19.8125px; text-align: justify; vertical-align: top;\"><strong>[NamA]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.8125px;\">\r\n<td style=\"width: 4.63097%; text-align: center; height: 19.8125px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 32.1142%; text-align: left; height: 19.8125px; vertical-align: top;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.46035%; height: 19.8125px; vertical-align: top; text-align: center;\">:<\/td>\r\n<td style=\"width: 61.7945%; height: 19.8125px; text-align: justify; vertical-align: top;\">[TempatlahiR] \/ [TanggallahiR]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.8125px;\">\r\n<td style=\"width: 4.63097%; text-align: center; height: 19.8125px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 32.1142%; text-align: left; height: 19.8125px; vertical-align: top;\">Umur<\/td>\r\n<td style=\"width: 1.46035%; height: 19.8125px; vertical-align: top; text-align: center;\">:<\/td>\r\n<td style=\"width: 61.7945%; text-align: justify; height: 19.8125px; vertical-align: top;\">[UsiA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.8125px;\">\r\n<td style=\"width: 4.63097%; text-align: center; height: 19.8125px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 32.1142%; text-align: left; height: 19.8125px; vertical-align: top;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.46035%; height: 19.8125px; vertical-align: top; text-align: center;\">:<\/td>\r\n<td style=\"width: 61.7945%; height: 19.8125px; text-align: justify; vertical-align: top;\">[Jenis_kelamiN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.8125px;\">\r\n<td style=\"width: 4.63097%; text-align: center; height: 19.8125px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 32.1142%; text-align: left; height: 19.8125px; vertical-align: top;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.46035%; height: 19.8125px; vertical-align: top; text-align: center;\">:<\/td>\r\n<td style=\"width: 61.7945%; text-align: justify; height: 19.8125px; vertical-align: top;\">[PekerjaaN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.8594px;\">\r\n<td style=\"width: 4.63097%; text-align: center; height: 19.8594px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 32.1142%; text-align: left; height: 19.8594px; vertical-align: top;\">Alamat<\/td>\r\n<td style=\"width: 1.46035%; height: 19.8594px; vertical-align: top; text-align: center;\">:<\/td>\r\n<td style=\"width: 61.7945%; text-align: justify; height: 19.8594px; vertical-align: top;\">[AlamaT] [SeButan_desa] [NaMa_desa], [SeButan_kecamatan] [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-indent: 30px; text-align: justify;\">Adalah benar-benar penduduk [Sebutan_desA] [NaMa_desa], yang memiliki\/menguasai tanah\/lahan berupa <strong>[FoRm_jenis_tanah]<\/strong> atas nama <strong>[Form_atas_namA]<\/strong>, yang berada di [Sebutan_desA] [NaMa_desa]. Tercatat dalam <strong>[FOrm_bukti_kepemilikan]<\/strong>, Nomor : <strong>[Form_nomor_bukti_kepemilikaN]<\/strong>, Luas :\u00a0<strong>[Form_luas_tanaH]\u00a0<\/strong>M<sup>2<\/sup>, dengan batas-batas :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100.114%; height: 42px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 21px;\">\r\n<td style=\"width: 4.63097%; text-align: center; height: 21px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 31.4983%; text-align: left; height: 21px; vertical-align: top;\">Sebelah Utara<\/td>\r\n<td style=\"width: 1.44554%; height: 21px; text-align: center; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 70.8314%; height: 21px; text-align: justify; vertical-align: top;\">[Form_batas_sebelah_utarA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 21px;\">\r\n<td style=\"width: 1.8792%; text-align: center; height: 21px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 25.8752%; text-align: left; height: 21px; vertical-align: top;\">Sebelah Timur<\/td>\r\n<td style=\"width: 1.44554%; height: 21px; text-align: center; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 70.8314%; text-align: justify; height: 21px; vertical-align: top;\">[Form_batas_sebelah_timuR]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 1.8792%; text-align: center; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 25.8752%; text-align: left; vertical-align: top;\">Sebelah Selatan<\/td>\r\n<td style=\"width: 1.44554%; text-align: center; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 70.8314%; text-align: justify; vertical-align: top;\">[Form_batas_sebelah_selataN]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 1.8792%; text-align: center; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 25.8752%; text-align: left; vertical-align: top;\">Sebelah Barat<\/td>\r\n<td style=\"width: 1.44554%; text-align: center; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 70.8314%; text-align: justify; vertical-align: top;\">[Form_batas_sebelah_baraT]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<ol>\r\n<li style=\"text-align: justify;\">Tanah tersebut benar-benar <em>MILIK<\/em> yang bersangkutan dan <strong>tidak dalam keadaan sengketa<\/strong>.<\/li>\r\n<li style=\"text-align: justify;\">Tanah tersebut berasal dari <strong>[FOrm_asal_kepemilikan_tanah]<\/strong> dan sampai dengan sekarang belum terdaftar \/ didaftarkan Hak nya ke BPN (belumditerbitkan : SIIM \/ SIIGB \/ SIIGU \/ LAINNYA)<\/li>\r\n<li style=\"text-align: justify;\">Bukti pendukung kepemilikan sementara ini berupa <strong>[Form_bukti_pendukung_kepemilikan]<\/strong>.<\/li>\r\n<\/ol>\r\n<p style=\"text-indent: 30px;\">Demikian surat ini dibuat, untuk dipergunakan sebagaimana mestinya.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><br><br><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">Pemilih<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">[NAma]<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
         "form_isian": {
             "individu": {
+                "sumber": 1,
                 "data": [
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
-                "kk_level": ""
+                "status_dasar": "1",
+                "kk_level": "",
+                "data_orang_tua": "0",
+                "data_pasangan": "0",
+                "judul": "Pemohon",
+                "label": "Keterangan Pemohon",
+                "hubungan": null
+            },
+            "tanah": {
+                "sumber": "0",
+                "data": [
+                    "1"
+                ],
+                "sex": "",
+                "status_dasar": null,
+                "kk_level": "",
+                "judul": "Tanah",
+                "label": "DETAIL INFORMASI TANAH \/ LAHAN",
+                "hubungan": ""
             }
         },
         "kode_isian": [
             {
+                "kategori": "tanah",
                 "tipe": "select-manual",
                 "kode": "[form_jenis_tanah]",
                 "nama": "Jenis Tanah",
                 "deskripsi": "- Pilih Jenis Tanah -",
-                "atribut": "",
+                "required": "1",
+                "atribut": null,
                 "pilihan": [
                     "Tanah Sawah",
                     "Tanah Darat",
                     "Tanah Bangunan"
                 ],
                 "refrensi": null,
-                "required": "1"
+                "kolom": "3",
+                "label": "Jenis dan Luas Tanah",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "tanah",
                 "tipe": "number",
                 "kode": "[form_luas_tanah]",
                 "nama": "Luas Tanah",
                 "deskripsi": "Luas Tanah (dalam M2)",
-                "atribut": "",
+                "required": "1",
+                "atribut": "min=\"0\"",
                 "pilihan": null,
                 "refrensi": null,
-                "required": "1"
+                "kolom": "3",
+                "label": "Jenis dan Luas Tanah",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "tanah",
                 "tipe": "select-manual",
                 "kode": "[form_bukti_kepemilikan]",
                 "nama": "Bukti Kepemilikan",
                 "deskripsi": "- Pilih Bukti Kepemilikan Tanah -",
-                "atribut": "",
+                "required": "1",
+                "atribut": null,
                 "pilihan": [
                     "Petok lama",
                     "Petok baru",
@@ -1791,34 +1819,46 @@
                     "Lainnya"
                 ],
                 "refrensi": null,
-                "required": "1"
+                "kolom": "3",
+                "label": "Kepemilikan Tanah",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "tanah",
                 "tipe": "text",
                 "kode": "[form_nomor_bukti_kepemilikan]",
                 "nama": "Nomor Bukti Kepemilikan",
-                "deskripsi": "- Nomor Bukti Kepemilikan -",
-                "atribut": "",
+                "deskripsi": "Nomor Bukti Kepemilikan",
+                "required": "1",
+                "atribut": null,
                 "pilihan": null,
                 "refrensi": null,
-                "required": "1"
+                "kolom": "3",
+                "label": "Kepemilikan Tanah",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "tanah",
                 "tipe": "text",
                 "kode": "[form_atas_nama]",
                 "nama": "Atas Nama",
                 "deskripsi": "Atas Nama",
-                "atribut": "",
+                "required": "1",
+                "atribut": null,
                 "pilihan": null,
                 "refrensi": null,
-                "required": "1"
+                "kolom": "6",
+                "label": "Kepemilikan Tanah",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "tanah",
                 "tipe": "select-manual",
-                "kode": "[form_asal_kepmilikan_tanah]",
-                "nama": "Asal Kepmilikan Tanah",
+                "kode": "[form_asal_kepemilikan_tanah]",
+                "nama": "Asal Kepemilikan Tanah",
                 "deskripsi": "- Pilih Asal Kepemilikan Tanah -",
-                "atribut": "",
+                "required": "1",
+                "atribut": null,
                 "pilihan": [
                     "Yayasan",
                     "Warisan",
@@ -1827,57 +1867,79 @@
                     "Lainnya"
                 ],
                 "refrensi": null,
-                "required": "1"
+                "kolom": "3",
+                "label": "Asal dan Bukti Kepemilikan",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "tanah",
                 "tipe": "text",
                 "kode": "[form_bukti_pendukung_kepemilikan]",
                 "nama": "Bukti Pendukung Kepemilikan",
                 "deskripsi": "Bukti Pendukung Kepemilikan",
-                "atribut": "",
+                "required": "1",
+                "atribut": null,
                 "pilihan": null,
                 "refrensi": null,
-                "required": "1"
+                "kolom": "3",
+                "label": "Asal dan Bukti Kepemilikan",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "tanah",
                 "tipe": "text",
                 "kode": "[form_batas_sebelah_utara]",
                 "nama": "Batas Sebelah Utara",
                 "deskripsi": "Batas Sebelah Utara",
-                "atribut": "",
+                "required": "1",
+                "atribut": null,
                 "pilihan": null,
                 "refrensi": null,
-                "required": "1"
+                "kolom": "6",
+                "label": "Batas Tanah",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "tanah",
                 "tipe": "text",
                 "kode": "[form_batas_sebelah_timur]",
                 "nama": "Batas Sebelah Timur",
                 "deskripsi": "Batas Sebelah Timur",
-                "atribut": "",
+                "required": "1",
+                "atribut": null,
                 "pilihan": null,
                 "refrensi": null,
-                "required": "1"
+                "kolom": "6",
+                "label": "Batas Tanah",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "tanah",
                 "tipe": "text",
                 "kode": "[form_batas_sebelah_selatan]",
                 "nama": "Batas Sebelah Selatan",
                 "deskripsi": "Batas Sebelah Selatan",
-                "atribut": "",
+                "required": "1",
+                "atribut": null,
                 "pilihan": null,
                 "refrensi": null,
-                "required": "1"
+                "kolom": "6",
+                "label": "Batas Tanah",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "tanah",
                 "tipe": "text",
                 "kode": "[form_batas_sebelah_barat]",
                 "nama": "Batas Sebelah Barat",
                 "deskripsi": "Batas Sebelah Barat",
-                "atribut": "",
+                "required": "1",
+                "atribut": null,
                 "pilihan": null,
                 "refrensi": null,
-                "required": "1"
+                "kolom": "6",
+                "label": "Batas Tanah",
+                "kaitkan_kode": ""
             }
         ],
         "orientasi": "Potrait",
@@ -1886,7 +1948,8 @@
         "margin_global": "0",
         "footer": "1",
         "header": 1,
-        "format_nomor": null
+        "format_nomor": null,
+        "sumber_penduduk_berulang": "0"
     },
     {
         "nama": "Permohonan Duplikat Kelahiran",
