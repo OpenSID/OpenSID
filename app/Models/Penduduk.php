@@ -41,7 +41,6 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
-use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -489,18 +488,12 @@ class Penduduk extends BaseModel
 
     public function getUsiaAttribute()
     {
-        $tglSekarang = Carbon::now();
-        $tglLahir    = Carbon::parse($this->tanggallahir);
-
-        return $tglLahir->diffInYears($tglSekarang) . ' Tahun';
+        return $this->getUmurAttribute() . ' Tahun';
     }
 
     public function getUmurAttribute()
     {
-        $tglSekarang = Carbon::now();
-        $tglLahir    = Carbon::parse($this->tanggallahir);
-
-        return $tglLahir->diffInYears($tglSekarang);
+        return usia($this->tanggallahir, null, '%y');
     }
 
     public function getAlamatWilayahAttribute()

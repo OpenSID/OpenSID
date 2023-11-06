@@ -47,6 +47,7 @@ class ReplaceAlias
         'tempatlahir',
         'tanggallahir',
         'ttl',
+        'usia',
         'jenis_kelamin',
         'agama',
         'pendidikan',
@@ -95,6 +96,10 @@ class ReplaceAlias
 
             if ($item == 'ttl') {
                 $value = $input['tempatlahir'] . '/' . formatTanggal($input['tanggallahir']);
+            }
+
+            if ($item == 'usia') {
+                $value = usia($input['tanggallahir'], null, '%y tahun');
             }
 
             return ['[' . ucfirst(uclast($item . $prefix)) . ']' => $value];

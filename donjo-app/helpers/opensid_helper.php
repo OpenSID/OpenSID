@@ -2101,3 +2101,26 @@ if (! function_exists('caseHitung')) {
         }, $teks);
     }
 }
+
+if (! function_exists('usia')) {
+    /**
+     * Menghitung usia berdasarkan tanggal lahir
+     *
+     * @param string $tanggal_lahir
+     * @param string $tanggal_akhir
+     * @param string $format
+     *
+     * contoh format : $y Tahun $m Bulan $d Hari
+     *
+     * return string
+     */
+    function usia($tanggal_lahir, $tanggal_akhir = null, $format = '%y Tahun')
+    {
+        $tanggal_akhir = $tanggal_akhir ?? date('Y-m-d');
+        $tanggal_lahir = Carbon::parse($tanggal_lahir);
+        $tanggal_akhir = Carbon::parse($tanggal_akhir);
+        $usia          = $tanggal_lahir->diff($tanggal_akhir);
+
+        return $usia->format($format);
+    }
+}
