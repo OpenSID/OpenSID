@@ -3,11 +3,18 @@
     @php
         $sumberDataPenduduk = !is_array($surat->form_isian->{$key}->data) ? [$surat->form_isian->individu->data] : $surat->form_isian->{$key}->data;
     @endphp
+    @if($judul_kategori[$key] != '-')
     <div class="form-group subtitle_head">
         <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori[$key] ?? $key)) }}</label>
         @includeWhen((count($sumberDataPenduduk) > 1 && ($surat->form_isian->{$key}->sumber ?? 1) == 1) , 'admin.surat.opsi_sumber_penduduk' ,['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key, 'pendudukLuar' => $pendudukLuar])
-        <input name="anchor" type="hidden" value="<?= $anchor ?>" />        
-    </div>    
+        <input name="anchor" type="hidden" value="<?= $anchor ?>" />
+    </div>
+    @endif
+    @if($surat->form_isian->{$key}->info)
+    <div class="callout callout-warning">
+        <b>{{ $surat->form_isian->{$key}->info }}</b>
+    </div>
+    @endif
     @includeWhen((in_array(1, $sumberDataPenduduk) && ($surat->form_isian->{$key}->sumber ?? 1) == 1), 'admin.surat.penduduk_desa', ['opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key])
     @foreach($pendudukLuar as $index => $penduduk)
         @includeWhen(in_array($index, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', ['index' => $index, 'opsiSumberPenduduk' => $surat->form_isian->{$key}->data, 'kategori' => $key, 'input' => explode(',',$penduduk['input'])])

@@ -369,6 +369,7 @@ class Surat_master extends Admin_Controller
                 'data_pasangan'  => $request['data_pasangan'] ?? 0,
                 'judul'          => $request['judul'] ?? 'Utama',
                 'label'          => $request['label'] ?? '',
+                'info'           => $request['info'] ?? '',
                 'hubungan'       => null,
             ],
         ];
@@ -383,6 +384,7 @@ class Surat_master extends Admin_Controller
                     'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
                     'judul'        => $request['kategori_judul'][$kategori] ?? null,
                     'label'        => $request['kategori_label'][$kategori] ?? null,
+                    'info'         => $request['kategori_info'][$kategori] ?? null,
                     'hubungan'     => $request['kategori_hubungan'][$kategori] ?? null,
                     // 'data_orang_tua' => $request['kategori_data_orang_tua'] ?? 0,
                     // 'data_pasangan'  => $request['kategori_data_pasangan'] ?? 0,
@@ -565,7 +567,7 @@ class Surat_master extends Admin_Controller
     // Tambahkan surat desa jika folder surat tidak ada di surat master
     public function perbarui()
     {
-        if (! setting('nonaktifkan_rtf')) {
+        if (setting('nonaktifkan_rtf')) {
             redirect_with('error', 'Anda tidak dapat mengakses halaman ini');
         }
 
