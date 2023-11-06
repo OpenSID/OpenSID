@@ -3405,6 +3405,90 @@
         "format_nomor": null
     },
     {
+        "nama": "Keterangan Penghasilan Ayah",
+        "url_surat": "surat-keterangan-penghasilan-ayah",
+        "kode_surat": "S-44",
+        "lampiran": null,
+        "kunci": false,
+        "favorit": false,
+        "jenis": "3",
+        "mandiri": false,
+        "masa_berlaku": 1,
+        "satuan_masa_berlaku": "M",
+        "qr_code": false,
+        "logo_garuda": false,
+        "kecamatan": "0",
+        "syarat_surat": null,
+        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 166.734px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 22.3906px; text-align: left; vertical-align: top;\">1.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 22.3906px; vertical-align: top;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 22.3906px; text-align: justify; vertical-align: top;\"><strong>[NaMa_ayah]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 22.3906px; text-align: left; vertical-align: top;\">2.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 22.3906px; vertical-align: top;\">NIK \/ No. KTP<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 22.3906px; text-align: justify; vertical-align: top;\">[Nik_ayaH]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 22.3906px; vertical-align: top;\">3.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 22.3906px; vertical-align: top;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 22.3906px; vertical-align: top;\">[TtL_ayah]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 22.3906px; vertical-align: top;\">4.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 22.3906px; vertical-align: top;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 22.3906px; vertical-align: top;\">[JeNis_kelamin_ayah]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 22.3906px; text-align: left; vertical-align: top;\">5.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 22.3906px; vertical-align: top;\">Agama<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 22.3906px; text-align: justify; vertical-align: top;\">[AgAma_ayah]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 22.3906px; vertical-align: top;\">6<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 22.3906px; vertical-align: top;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 22.3906px; vertical-align: top;\">[PeKerjaan_ayah]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 22.3906px; text-align: left; vertical-align: top;\">7.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 22.3906px; vertical-align: top;\">Kewarganegaraan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 22.3906px; text-align: justify; vertical-align: top;\">[WArga_negara_ayah]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 10px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 10px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 10px; vertical-align: top;\">8.<br><br><\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 10px; vertical-align: top;\">Alamat \/ Tempat Tinggal<br><br><\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 10px; vertical-align: top;\">:<br><br><\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 10px; vertical-align: top;\">[AlAmat_ayah] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Orang yang tersebut di atas adalah benar-benar warga kami yang bertempat tinggal di [AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten] dan tercatat dalam No. KK : [No_kK] dengan NIK [Nik_ayaH] Kepala Keluarga : [Kepala_kK] dan menurut sepengetahuan kami memang benar berpenghasilan rata-rata [Form_penghasilan_ayaH] ([TerbilanG][[Form_penghasilan_ayaH]]) \/ Perbulan.<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Surat Keterangan ini dibuat atas permintaan yang bersangkutan untuk keperluan anaknya untuk [Form_keperluaN] di<strong> [Form_nama_sekolaH]<\/strong><strong> <\/strong>atas nama :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 269.297px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left; vertical-align: top;\">1.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px; vertical-align: top;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify; vertical-align: top;\"><strong>[NAma] <\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left; vertical-align: top;\">2.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px; vertical-align: top;\">NIK \/ No. KTP<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify; vertical-align: top;\">[Nik]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 25.8125px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 25.8125px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 25.8125px; vertical-align: top;\">3.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 25.8125px; vertical-align: top;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 25.8125px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 25.8125px; vertical-align: top;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 21.8125px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 21.8125px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 21.8125px; vertical-align: top;\">4.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 21.8125px; vertical-align: top;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 21.8125px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 21.8125px; vertical-align: top;\">[Jenis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left; vertical-align: top;\">5.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px; vertical-align: top;\">Agama<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify; vertical-align: top;\">[AgAma]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 4.3222%; text-align: center; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; vertical-align: top;\">6<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; vertical-align: top;\">Status<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; vertical-align: top;\">[Status_kawiN]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 4.3222%; text-align: center; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; vertical-align: top;\">7.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; vertical-align: top;\">Pendidikan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; vertical-align: top;\">[Pendidikan_sedanG]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 18px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 18px; vertical-align: top;\">8.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 18px; vertical-align: top;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 18px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 18px; vertical-align: top;\">[PeKerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left; vertical-align: top;\">9.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px; vertical-align: top;\">Kewarganegaraan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify; vertical-align: top;\">[WArga_negara]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 43.4844px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 43.4844px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 43.4844px; vertical-align: top;\">10.<br><br><\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 43.4844px; vertical-align: top;\">Alamat \/ Tempat Tinggal<br><br><\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 43.4844px; vertical-align: top;\">:<br><br><\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 43.4844px; vertical-align: top;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya, untuk dipergunakan sebagaimana mestinya.<br><br><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 144px;\" border=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 72px;\">\r\n<td style=\"width: 35%; text-align: center; height: 72px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 72px;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%; height: 72px;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
+        "template_desa": null,
+        "form_isian": {
+            "individu": {
+                "sumber": 1,
+                "data": [
+                    "1"
+                ],
+                "sex": "",
+                "status_dasar": "",
+                "kk_level": "",
+                "data_orang_tua": "0",
+                "data_pasangan": "0",
+                "judul": "Utama",
+                "label": "Keterangan Pemohon",
+                "info": "",
+                "hubungan": null
+            }
+        },
+        "kode_isian": [
+            {
+                "tipe": "text",
+                "kode": "[form_penghasilan_ayah]",
+                "nama": "Penghasilan Ayah",
+                "deskripsi": "Isi Jumlah Penghasilan Ayah Perbulan",
+                "required": "0",
+                "atribut": "class=\" rupiah\"",
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "6",
+                "label": "",
+                "kaitkan_kode": ""
+            },
+            {
+                "tipe": "textarea",
+                "kode": "[form_keperluan]",
+                "nama": "Keperluan",
+                "deskripsi": "Isi Keperluan",
+                "required": "0",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
+            },
+            {
+                "tipe": "text",
+                "kode": "[form_nama_sekolah]",
+                "nama": "Nama Sekolah",
+                "deskripsi": "Isi Nama Sekolah",
+                "required": "0",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
+            }
+        ],
+        "orientasi": "Potrait",
+        "ukuran": "F4",
+        "margin": "{\"kiri\":1.78,\"atas\":0.63,\"kanan\":1.78,\"bawah\":1.37}",
+        "margin_global": "0",
+        "footer": "1",
+        "header": 1,
+        "format_nomor": null,
+        "sumber_penduduk_berulang": "0"
+    },
+    {
         "nama": "Keterangan Penghasilan Ibu",
         "url_surat": "surat-keterangan-penghasilan-ibu",
         "kode_surat": "S-45",
