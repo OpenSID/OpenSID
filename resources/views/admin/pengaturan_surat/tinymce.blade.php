@@ -57,9 +57,15 @@
                             </div>
                         </div>
                         <div class="row" style="margin-top: 5px">
-                            <label for="isi-label" class="col-sm-2">Label Bagian</label>
+                            <label for="isi-label" class="col-sm-2" title="Isi dengan karakter - untuk sembunyikan label">Label Bagian</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control input-sm required isi-label" name="label" value="{{ $suratMaster->form_isian->individu->label ?? 'Keterangan Pemohon' }}" minlength="3" maxlength="30">
+                                <input type="text" class="form-control input-sm required isi-label" name="label" value="{{ $suratMaster->form_isian->individu->label ?? 'Keterangan Pemohon' }}" minlength="1" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px">
+                            <label for="isi-label" class="col-sm-2">Info Bagian</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control input-sm isi-info" name="info" value="{{ $suratMaster->form_isian->individu->info ?? '' }}" maxlength="100">
                             </div>
                         </div>
                         <div class="row" style="margin-top: 5px">
@@ -186,9 +192,15 @@
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 5px">
-                                <label for="isi-label" class="col-sm-2">Label Bagian</label>
+                                <label for="isi-label" class="col-sm-2" title="Isi dengan karakter - untuk sembunyikan label">Label Bagian</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control input-sm required judul isi-label" name="kategori_label[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->label ?? ucwords(str_replace('_', ' ', $item)) }}" minlength="3" maxlength="30">
+                                    <input type="text" class="form-control input-sm required judul isi-label" name="kategori_label[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->label ?? ucwords(str_replace('_', ' ', $item)) }}" minlength="1" maxlength="30">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 5px">
+                                <label for="isi-label" class="col-sm-2">Info Bagian</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control input-sm isi-info" name="kategori_info[{{ $item }}]" value="{{ $suratMaster->form_isian->$item->info ?? '' }}" maxlength="100">
                                 </div>
                             </div>
                             <div class="row" style="margin-top: 5px">
@@ -342,11 +354,13 @@
 
                         var utama_isi_judul   = editElm[0].querySelector('.isi-judul')
                         var utama_isi_label   = editElm[0].querySelector('.isi-label')
+                        var utama_isi_info   = editElm[0].querySelector('.isi-info')
                         var utama_isi_prefix  = editElm[0].querySelector('.isi-prefix')
                         var utama_sumber_data = editElm[0].querySelector('.isi-sumber-data')
 
                         utama_isi_judul.name = `kategori_judul[${nama_kategori}]`
                         utama_isi_prefix.name = `kategori_prefix[${nama_kategori}]`
+                        utama_isi_info.name = `kategori_label[${nama_kategori}]`
 
                         utama_isi_judul.value  = nama_kategori
                         utama_isi_label.value  = ''
