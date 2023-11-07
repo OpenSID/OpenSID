@@ -110,7 +110,7 @@ class ReplaceAlias
             }
 
             if ($item == 'alamat') {
-                $value = $input['alamat_jalan'] . ' RT ' . $input['nama_rt'] . ' RW ' . $input['nama_rw'] . ' ' . ucwords(setting('sebutan_desa') . ' ' . $input['nama_desa'] . ', ' . setting('sebutan_kecamatan') . ' ' . $input['nama_kecamatan'] . ', ' .  setting('sebutan_kabupaten') . ' ' . $input['nama_kabupaten'] . ', Provinsi ' . $input['nama_provinsi']);
+                $value = $input['alamat_jalan'] . ' RT ' . $input['nama_rt'] . ' RW ' . $input['nama_rw'] . ' ' . ucwords(setting('sebutan_desa') . ' ' . $input['nama_desa'] . ', ' . setting('sebutan_kecamatan') . ' ' . $input['nama_kecamatan'] . ', ' . setting('sebutan_kabupaten') . ' ' . $input['nama_kabupaten'] . ', Provinsi ' . $input['nama_provinsi']);
             }
 
             return ['[' . ucfirst(uclast($item . $prefix)) . ']' => $value];

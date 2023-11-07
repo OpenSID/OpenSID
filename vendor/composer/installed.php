@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => '2310.0.2.x-dev',
         'version' => '2310.0.2.9999999-dev',
-        'reference' => '898f7c7ebc4bfd279340850e3e48f93df536c7ee',
+        'reference' => 'f684bb1227fbe9c2f13117818d8bf0282f3b9cd9',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -65,9 +65,9 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.321.0',
-            'version' => '0.321.0.0',
-            'reference' => 'bf0aa8b1cb272f45c1f73270ad113047625c5937',
+            'pretty_version' => 'v0.323.0',
+            'version' => '0.323.0.0',
+            'reference' => 'd5497d30ddfafe7592102ca48bedaf222a4ca7a6',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
@@ -274,7 +274,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => '2310.0.2.x-dev',
             'version' => '2310.0.2.9999999-dev',
-            'reference' => '898f7c7ebc4bfd279340850e3e48f93df536c7ee',
+            'reference' => 'f684bb1227fbe9c2f13117818d8bf0282f3b9cd9',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -412,8 +412,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(
