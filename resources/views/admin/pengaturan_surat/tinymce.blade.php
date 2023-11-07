@@ -158,11 +158,14 @@
                                     <tr class="sumber_data">
                                         <td>Status Hubungan Dalam Keluarga (SHDK)</td>
                                         <td>
-                                            <select id="individu_kk_level" class="form-control input-sm"
-                                                name="individu_kk_level">
-                                                <option value="">SEMUA</option>
+                                            <select id="individu_kk_level" class="form-control kk_level select2 input-sm"
+                                                name="individu_kk_level[]" multiple>
                                                 @foreach ($form_isian['daftar_shdk'] as $key => $data)
-                                                    <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->individu->kk_level)>
+                                                    @php
+                                                        $select = false;
+                                                        if(in_array($key, $suratMaster->form_isian->individu->kk_level)) $select = true;
+                                                    @endphp
+                                                    <option value="{{ $key }}" @selected($select)>
                                                         {{ $data }}
                                                     </option>
                                                 @endforeach
@@ -279,12 +282,15 @@
                                         <tr class="sumber_data {{ $tampil_sumber }}">
                                             <td>Status Hubungan Dalam Keluarga (SHDK)</td>
                                             <td>
-                                                <select id="individu_kk_level"
-                                                    class="form-control input-sm select2 kategori"
-                                                    name="kategori_individu_kk_level[{{ $item }}]">
-                                                    <option value="">SEMUA</option>
+                                                <select id="individu_kk_level_{{$item}}"
+                                                    class="form-control input-sm select2 kategori kk_level"
+                                                    name="kategori_individu_kk_level[{{ $item }}][]" multiple>
                                                     @foreach ($form_isian['daftar_shdk'] as $key => $data)
-                                                        <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->$item->kk_level)>
+                                                    @php
+                                                        $select = false;
+                                                        if(in_array($key, $suratMaster->form_isian->$item->kk_level)) $select = true;
+                                                    @endphp
+                                                        <option value="{{ $key }}" @selected($select)>
                                                             {{ $data }}
                                                         </option>
                                                     @endforeach
@@ -341,6 +347,11 @@
                 $('#data_utama').select2('destroy')
                 $('#data_utama').removeAttr('data-select2-id')
                 $('#data_utama option').removeAttr('data-select2-id')
+
+                $('#individu_kk_level').select2('destroy')
+                $('#individu_kk_level').removeAttr('data-select2-id')
+                $('#individu_kk_level option').removeAttr('data-select2-id')
+
                 $("#form-utama").clone(true)
                     .map(function() {
                         editElm = $(this)
@@ -400,7 +411,10 @@
                             selects.forEach((elselect2) => {
                                 oldname = elselect2.getAttribute('name')
                                 newname = `kategori_${oldname}[${nama_kategori}]`
-                                
+                                if (oldname == 'individu_kk_level[]') {
+                                    newname = `kategori_individu_kk_level[${nama_kategori}][]`
+                                }
+                                // ss
                                 elselect2.name = newname
                                 elselect2.id = elselect2.id+`-${nama_kategori}`
                             });
@@ -409,6 +423,8 @@
                             dropdownOptionTr.innerHTML = ''
                             dropdownOptionTr.name = `kategori_hubungan[${nama_kategori}]`
                             dropdownOptionTr.removeAttribute('id')
+                            dropdownOptionTr.removeAttribute('multiple')
+                            dropdownOptionTr.className = 'form-control input-sm';
                             // tambahkan option dinamis berdasarkan bagian form
                             dropdownOptionTr.innerHTML += `<option value="">Pilih hubungan form</option>`
                             tabs.each(function(){
@@ -416,6 +432,7 @@
                             })
 
                             tbodySumberData.appendChild(lastTrSumberData)
+                            $(`[name="kategori_hubungan[${nama_kategori}]"]`).select2();
                         }
                         if (elkodeIsian != null) {
                             var elganda = editElm[0].querySelector('#gandakan-0');
@@ -490,9 +507,12 @@
 
                 $('.nav-tabs.customized-tab').append(newNavItem);
                 $('.tab-content .custom').append(editElm);
-                /* buat lagi select2*/
+                /* buat lagi select2s*/
                 $('#data_utama').select2()
                 $('#data_utama-'+nama_kategori).select2()
+
+                $('#individu_kk_level').select2()
+                $('#individu_kk_level-'+nama_kategori).select2()
                 newNavItem.find('a').tab('show');
             });
 
@@ -542,7 +562,7 @@
 
         function loadSelect() {
             // console.log('load select');
-            $('.kategori').select2()
+            // $('.kategori').select2()
         }
 
         function judulTab(value, tab) {

@@ -479,7 +479,11 @@ class Penduduk extends BaseModel
             }
 
             $query->when($value ?? false, static function ($query) use ($value, $key) {
-                $query->where($key, $value);
+                if (is_array($value)) {
+                    return $query->whereIn($key, $value);
+                }
+
+                return $query->where($key, $value);
             });
         }
 
