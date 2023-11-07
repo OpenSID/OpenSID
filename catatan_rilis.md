@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 2. [#7306](https://github.com/OpenSID/OpenSID/issues/7306) Penambahan pengaturan margin pada lampiran.
 3. [#2260](https://github.com/OpenSID/premium/issues/2260) Penambahan alur masuk kembali setelah ganti password.
 4. [#7164](https://github.com/OpenSID/OpenSID/issues/7164) Penambahan kode isian foto yang bisa diatur sendiri ukurannya.
+5. [#7280](https://github.com/OpenSID/OpenSID/issues/7280) Penambahan pengaturan kode isian alias surat TinyMCE.
 
 
 #### Perbaikan Bug
