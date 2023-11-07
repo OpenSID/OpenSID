@@ -436,7 +436,7 @@ class TinyMCE
         return $hari->dayName;
     }
 
-    public function replceKodeIsian($data = [], $kecuali = [])
+    public function replceKodeIsian($data = [], $kecuali = [], $imageReplace = true)
     {
         $result       = $data['isi_surat'];
         $gantiDengan  = setting('ganti_data_kosong');
@@ -481,8 +481,16 @@ class TinyMCE
             $newKodeIsian = array_replace($newKodeIsian, $alias);
         }
 
+        $pisahkanFoto = [];
+
         foreach ($newKodeIsian as $key => $value) {
             if (in_array($key, $kecuali) || in_array($key, ['[terbilang]', '[hitung]'])) {
+                continue;
+            }
+
+            if (preg_match('/(<img src=")(.*?)(">)/', $key)) {
+                $pisahkanFoto[$key] = $value;
+
                 continue;
             }
 
@@ -498,6 +506,7 @@ class TinyMCE
             if (preg_match('/pengikut_kis/i', $key)) {
                 $result = str_replace($key, $data['pengikut_kis'] ?? '', $result);
             }
+
             if (preg_match('/pengikut_pindah/i', $key)) {
                 $result = str_replace($key, $data['pengikut_pindah'] ?? '', $result);
             } else {
@@ -508,7 +517,15 @@ class TinyMCE
         // Kode isian berupa hitungan perlu didahulukan
         $result = caseHitung($result);
 
-        return terjemahkanTerbilang($result);
+        $result = terjemahkanTerbilang($result);
+
+        if ($imageReplace) {
+            foreach ($pisahkanFoto as $key => $value) {
+                $result = caseReplaceFoto($result, $key, $value);
+            }
+        }
+
+        return $result;
     }
 
     /**

@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 1. [#7205](https://github.com/OpenSID/OpenSID/issues/7205) Penambahan modul lampiran surat.
 2. [#7306](https://github.com/OpenSID/OpenSID/issues/7306) Penambahan pengaturan margin pada lampiran.
 3. [#2260](https://github.com/OpenSID/premium/issues/2260) Penambahan alur masuk kembali setelah ganti password.
+4. [#7164](https://github.com/OpenSID/OpenSID/issues/7164) Penambahan kode isian foto yang bisa diatur sendiri ukurannya.
 
 
 #### Perbaikan Bug
