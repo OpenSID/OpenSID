@@ -47,6 +47,7 @@ use App\Libraries\TinyMCE\KodeIsianPeristiwa;
 use App\Libraries\TinyMCE\KodeIsianSurat;
 use App\Libraries\TinyMCE\KodeIsianWilayah;
 use App\Libraries\TinyMCE\ReplaceAlias;
+use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\LogPenduduk;
@@ -191,7 +192,18 @@ class TinyMCE
 
         $judulPenduduk = $data['surat']->form_isian->individu->judul ?? 'Penduduk';
 
+        $alias = AliasKodeIsian::get();
+
         $daftar_kode_isian = [
+            // Kode Isian Alias
+            'Alias' => $alias->map(static function ($item) {
+                return [
+                    'judul' => $item->judul,
+                    'isian' => $item->alias,
+                    'data'  => $item->content,
+                ];
+            })->toArray(),
+
             // Data Surat
             'Surat' => KodeIsianSurat::get($data),
 
@@ -213,6 +225,10 @@ class TinyMCE
             // Aritmatika untuk penambahan, pengurangan, dan operasi lainnya serta terbilang
             'Aritmatika' => KodeIsianAritmatika::get(),
         ];
+
+        if ($alias->count() <= 0) {
+            unset($daftar_kode_isian['Alias']);
+        }
 
         $peristiwa = $data['surat']->form_isian->individu->status_dasar;
         if (array_intersect($peristiwa, LogPenduduk::PERISTIWA)) {
@@ -276,6 +292,11 @@ class TinyMCE
                 ->flatten(1)
                 ->pluck('data', 'isian.normal')
                 ->toArray();
+        }
+
+        if (isset($daftar_kode_isian['Alias'])) {
+            // Tukar Posisi Alias agar tampil terakhir
+            $daftar_kode_isian['Alias'] = array_shift($daftar_kode_isian);
         }
 
         return $daftar_kode_isian;
@@ -437,7 +458,8 @@ class TinyMCE
 
     public function replceKodeIsian($data = [], $kecuali = [])
     {
-        $result       = $data['isi_surat'];
+        $result = $data['isi_surat'];
+
         $gantiDengan  = setting('ganti_data_kosong');
         $newKodeIsian = collect($this->getFormatedKodeIsian($data, true))
             ->flatMap(static function ($value, $key) {

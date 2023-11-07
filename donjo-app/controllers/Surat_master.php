@@ -38,6 +38,7 @@
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
+use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
@@ -631,6 +632,7 @@ class Surat_master extends Admin_Controller
         $margin                = setting('surat_margin');
         $data['margins']       = json_decode($margin) ?? FormatSurat::MARGINS;
         $data['penduduk_luar'] = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);
+        $data['alias']         = AliasKodeIsian::get();
 
         return view('admin.pengaturan_surat.pengaturan', $data);
     }
@@ -683,6 +685,19 @@ class Surat_master extends Admin_Controller
             SettingAplikasi::where('key', '=', 'visual_tte_gambar')->update(['value' => $file]); //update setting
         }
 
+        if ($data['kodeisian_alias']) {
+            $judulAlias   = $data['kodeisian_alias']['judul'];
+            $contentAlias = $data['kodeisian_alias']['content'];
+            AliasKodeIsian::whereNotIn('judul', $data['kodeisian_alias']['judul'])->delete();
+
+            foreach ($data['kodeisian_alias']['alias'] as $index => $alias) {
+                // observer gak jalan ketika menggunakan upsert
+                AliasKodeIsian::upsert(['updated_by' => auth()->id, 'config_id' => identitas('id'), 'judul' => $judulAlias[$index], 'alias' => $alias, 'content' => $contentAlias[$index]], ['config_id', 'judul']);
+            }
+        } else {
+            AliasKodeIsian::whereConfigId(identitas('id'))->delete();
+        }
+
         // Perbarui log_surat jika ada perubahan pengaturan verifikasi kades / sekdes
         if (! setting('verifikasi_kades') || ! setting('verifikasi_sekdes')) {
             LogSurat::where('verifikasi_operator', LogSurat::PERIKSA)->update(['verifikasi_operator' => LogSurat::TERIMA]);
@@ -711,6 +726,7 @@ class Surat_master extends Admin_Controller
             'format_tanggal_surat' => $request['format_tanggal_surat'],
             'surat_margin'         => json_encode($request['surat_margin']),
             'form_penduduk_luar'   => json_encode(updateIndex($request['penduduk_luar'])),
+            'kodeisian_alias'      => $request['alias_kodeisian'] ? ['judul' => $request['judul_kodeisian'], 'alias' => $request['alias_kodeisian'], 'content' => $request['content_kodeisian']] : null,
         ];
 
         if ($validasi['tte'] == StatusEnum::YA) {
