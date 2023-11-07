@@ -30,7 +30,7 @@
             @include('admin.pengaturan_surat.partials.pengaturan_tte')
             @include('admin.pengaturan_surat.partials.pengaturan_sumber_penduduk')
             @include('admin.pengaturan_surat.partials.pengaturan_lainnya')
-            
+
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
                     Batal</button>
@@ -42,43 +42,44 @@
     </form>
 @endsection
 @push('scripts')
-<script type = "text/javascript" >
-    $(function () {
-        ganti_tte();
-        ganti_visual();
-        $('input[name="tte"]').on('change', function (e) {
-            ganti_tte()
-        });
-
-        function ganti_tte() {
-            var tte_password = "{{ setting('tte_password') }}";
-            if ($('input[name="tte"]').filter(':checked').val() == 1) {
-                $('input[name="tte_api"]');
-                if (tte_password == "") {
-                    $('input[name="tte_password"]').attr("required", true);
-                    $('#info-tte-password').hide();
-                } else {
-                    $('#info-tte-password').show();
-                }
-                $('input[name="tte_username"]').attr("required", true);
-                $('#modul-tte').show();
-            } else {
-                $('input[name="tte_api"]').attr("required", false);
-                $('input[name="tte_password"]').attr("required", false);
-                $('input[name="tte_username"]').attr("required", false);
-                $('#modul-tte').hide();
-            }
-        }
-        $('input[name="visual_tte"]').change(function (e) {
+    <script type="text/javascript">
+        $(function() {
+            ganti_tte();
             ganti_visual();
-        })
-        function ganti_visual() {
-            if ($('input[name="visual_tte"]').filter(':checked').val() == 1) {
-                $('#visual-tte-form').show();
-            } else {
-                $('#visual-tte-form').hide();
+            $('input[name="tte"]').on('change', function(e) {
+                ganti_tte()
+            });
+
+            function ganti_tte() {
+                var tte_password = "{{ setting('tte_password') }}";
+                if ($('input[name="tte"]').filter(':checked').val() == 1) {
+                    $('input[name="tte_api"]');
+                    if (tte_password == "") {
+                        $('input[name="tte_password"]').attr("required", true);
+                        $('#info-tte-password').hide();
+                    } else {
+                        $('#info-tte-password').show();
+                    }
+                    $('input[name="tte_username"]').attr("required", true);
+                    $('#modul-tte').show();
+                } else {
+                    $('input[name="tte_api"]').attr("required", false);
+                    $('input[name="tte_password"]').attr("required", false);
+                    $('input[name="tte_username"]').attr("required", false);
+                    $('#modul-tte').hide();
+                }
             }
-        }
-    }); 
-</script>
+            $('input[name="visual_tte"]').change(function(e) {
+                ganti_visual();
+            })
+
+            function ganti_visual() {
+                if ($('input[name="visual_tte"]').filter(':checked').val() == 1) {
+                    $('#visual-tte-form').show();
+                } else {
+                    $('#visual-tte-form').hide();
+                }
+            }
+        });
+    </script>
 @endpush

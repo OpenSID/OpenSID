@@ -4,7 +4,7 @@
             <th>Nik</th>
             <th>Nama</th>
         </tr>
-        @foreach($anggota as $item)
+        @foreach ($anggota as $item)
             <tr>
                 <td>{{ $item->penduduk->nik }}</td>
                 <td>{{ $item->penduduk->nama }}</td>

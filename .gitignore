@@ -56,3 +56,4 @@ examples/
 vendor/libreoffice/*
 vendor/mikey179/*
 .vscode/*
+/node_modules

@@ -13,8 +13,7 @@
                 @if ($mac_address)
                     <h5> MAC Address : {{ $mac_address }}</h5>
                 @endif
-                <h5>ID Pengunjung : <span id="pengunjung"></span>&nbsp;<span><a href="#" class="copy"
-                            title="Copy" style="color: white"><i class="fa fa-copy"></i></a></span></h5>
+                <h5>ID Pengunjung : <span id="pengunjung"></span>&nbsp;<span><a href="#" class="copy" title="Copy" style="color: white"><i class="fa fa-copy"></i></a></span></h5>
             </div>
         </div>
         <div class="col-xm-12 col-sm-2"></div>

@@ -6,7 +6,7 @@
 @section('title')
     <h1>
         Stunting
-        <small> {{$action}} Data Kesehatan Ibu dan Anak</small>
+        <small> {{ $action }} Data Kesehatan Ibu dan Anak</small>
     </h1>
 @endsection
 
@@ -26,8 +26,7 @@
         <div class="col-md-9 col-lg-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ route('stunting.kia') }}"
-                        class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <a href="{{ route('stunting.kia') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                         <i class="fa fa-arrow-circle-left "></i>Kembali ke Kesehatan Ibu dan Anak
                     </a>
                 </div>
@@ -36,10 +35,8 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Nomor KIA</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control input-sm required" name="no_kia"
-                                placeholder="Masukkan nomor KIA" value="{{ $kia->no_kia }}" />
-                            <input type="text" class="form-control input-sm" name="no_kia_lama"
-                                placeholder="Masukkan nomor KIA" style="display: none" value="{{ $kia->no_kia }}" />
+                            <input type="text" class="form-control input-sm required" name="no_kia" placeholder="Masukkan nomor KIA" value="{{ $kia->no_kia }}" />
+                            <input type="text" class="form-control input-sm" name="no_kia_lama" placeholder="Masukkan nomor KIA" style="display: none" value="{{ $kia->no_kia }}" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -57,8 +54,8 @@
                                 <option value="">-- Cari NIK / Nama Anak --</option>
                                 @foreach ($anak as $data)
                                     @if ($data)
-                                    <option value="{{ $data->id }}" @selected($kia->anak_id == $data->id)>NIK :
-                                        {{ $data->nik . ' - ' . $data->nama }}</option>
+                                        <option value="{{ $data->id }}" @selected($kia->anak_id == $data->id)>NIK :
+                                            {{ $data->nik . ' - ' . $data->nama }}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -67,8 +64,15 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Hari Perkiraan Lahir</label>
                         <div class="col-sm-9">
-                            <input type="text" {{ $kia->anak_id == null ? '' : 'disabled' }} class="form-control input-sm datepicker" id="perkiraan_lahir" name="perkiraan_lahir"
-                                placeholder="Masukkan hari perkiraan lahir" value="{{ $kia->hari_perkiraan_lahir }}" />
+                            <input
+                                type="text"
+                                {{ $kia->anak_id == null ? '' : 'disabled' }}
+                                class="form-control input-sm datepicker"
+                                id="perkiraan_lahir"
+                                name="perkiraan_lahir"
+                                placeholder="Masukkan hari perkiraan lahir"
+                                value="{{ $kia->hari_perkiraan_lahir }}"
+                            />
                         </div>
                     </div>
                 </div>
@@ -107,10 +111,10 @@
                 return markup;
             },
         });
-        
-        var idIbu = "{{$kia->ibu_id}}";
-        if(idIbu != undefined) {
-            var txtIbu = "{{$ibu_text}}";
+
+        var idIbu = "{{ $kia->ibu_id }}";
+        if (idIbu != undefined) {
+            var txtIbu = "{{ $ibu_text }}";
             var data = {
                 id: idIbu,
                 text: txtIbu
@@ -131,8 +135,7 @@
         $('#anak').on('change', function() {
             if (this.value == "") {
                 $('#perkiraan_lahir').prop("disabled", false);
-            }
-            else {
+            } else {
                 $('#perkiraan_lahir').prop("disabled", true);
             }
         });
@@ -142,16 +145,16 @@
         $(function() {
             $('#ibu').on('change', function() {
                 var ibu = $(this).val();
-                if(ibu) {
+                if (ibu) {
                     $.ajax({
                         url: "{{ route('stunting.getAnak') }}",
                         type: "GET",
                         data: {
                             ibu: ibu,
                         },
-                        success:function(data) {
+                        success: function(data) {
                             $('#anak').empty();
-                            if (Object.keys(data).length === 0){
+                            if (Object.keys(data).length === 0) {
                                 $('#anak').prop('disabled', true);
                             } else {
                                 $('#anak').prop('disabled', false);
@@ -168,11 +171,11 @@
                             }
                         }
                     });
-                } else{
+                } else {
                     $('#anak').empty();
                     $('#anak').prop('disabled', true);
                 }
-        });
+            });
         });
     </script>
 @endpush

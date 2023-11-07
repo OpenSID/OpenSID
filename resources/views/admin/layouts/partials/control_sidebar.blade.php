@@ -13,8 +13,7 @@
                         <p align="justify"><?= config_item('nama_aplikasi') ?> adalah aplikasi Sistem Informasi Desa
                             (SID) yang dikembangkan sejak Mei 2016. <?= config_item('nama_aplikasi') ?> dirancang dan
                             dikelola supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID.
-                            Informasi lebih lanjut dapat dilihat di <a
-                                href=https://github.com/OpenSID/opensid>https://github.com/OpenSID/OpenSID</a>.</p>
+                            Informasi lebih lanjut dapat dilihat di <a href=https://github.com/OpenSID/opensid>https://github.com/OpenSID/OpenSID</a>.</p>
                     </div>
                 </div>
             </div>
@@ -133,8 +132,7 @@
                             <li align="justify">Bentuk tim kerja bersama pemerintah desa</li>
                             <li align="justify">Diskusikan basis data apa saja yang diperlukan untuk warga</li>
                             <li align="justify">Himpun data kependudukan warga dari Kartu Keluarga (KK)</li>
-                            <li align="justify">Dapatkan aplikasi SID di <a
-                                    href=https://github.com/OpenSID/OpenSID/releases>https://github.com/OpenSID/OpenSID/releases</a>
+                            <li align="justify">Dapatkan aplikasi SID di <a href=https://github.com/OpenSID/OpenSID/releases>https://github.com/OpenSID/OpenSID/releases</a>
                             </li>
                             <li align="justify">Pasang aplikasi SID di komputer desa</li>
                             <li align="justify">Masukkan data penduduk ke SID</li>
@@ -189,19 +187,15 @@
                             <a href="https://www.facebook.com/groups/opensid" target="_blank">Forum Pengguna dan
                                 Pegiat <?= config_item('nama_aplikasi') ?></a>
                             <li align="justify">Tempat mengunduh rilis <?= config_item('nama_aplikasi') ?>:</li>
-                            <a href="https://github.com/OpenSID/OpenSID/releases"
-                                target="_blank">https://github.com/OpenSID/OpenSID/releases</a>
+                            <a href="https://github.com/OpenSID/OpenSID/releases" target="_blank">https://github.com/OpenSID/OpenSID/releases</a>
                             <li align="justify">Panduan <?= config_item('nama_aplikasi') ?>:</li>
-                            <a href="https://github.com/OpenSID/OpenSID/wiki"
-                                target="_blank">https://github.com/OpenSID/OpenSID/wiki</a>
+                            <a href="https://github.com/OpenSID/OpenSID/wiki" target="_blank">https://github.com/OpenSID/OpenSID/wiki</a>
                             <li align="justify">Channel Youtube <?= config_item('nama_aplikasi') ?>: </li>
-                            <a href="https://www.youtube.com/channel/UCvZuSYtrWYuE8otM4SsdT0Q"
-                                target="_blank">Kumpulan tutorial video <?= config_item('nama_aplikasi') ?></a>
+                            <a href="https://www.youtube.com/channel/UCvZuSYtrWYuE8otM4SsdT0Q" target="_blank">Kumpulan tutorial video <?= config_item('nama_aplikasi') ?></a>
                             <li align="justify">Forum OpenDesa:</li>
                             <a href="https://forum.opendesa.id" target="_blank">https://forum.opendesa.id</a>
                             <li align="justify">Tempat mendaftarkan masalah dan usulan fitur:</li>
-                            <a href="https://github.com/OpenSID/OpenSID/issues" target="_blank"
-                                sclass="text-green">https://github.com/OpenSID/OpenSID/issues</a>
+                            <a href="https://github.com/OpenSID/OpenSID/issues" target="_blank" sclass="text-green">https://github.com/OpenSID/OpenSID/issues</a>
                             <li align="justify">Forum diskusi teknis pengembangan <?= config_item('nama_aplikasi') ?>:
                             </li>
                             <a href="https://opensid.slack.com" target="_blank">https://opensid.slack.com</a>
@@ -248,9 +242,7 @@
                             <p align="justify">
                                 Cara mengirimkan donasi dan informasi lebih lanjut ada di:
                             </p>
-                            <a href="https://www.opendesa.id/donasi"
-                                class="btn btn-social btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                                title="Kembali Ke Daftar Suplemen"><i class="fa fa-heart"></i> Donasi Pengembangan
+                            <a href="https://www.opendesa.id/donasi" class="btn btn-social btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa fa-heart"></i> Donasi Pengembangan
                                 <?= config_item('nama_aplikasi') ?></a>
                         </div>
                     </div>

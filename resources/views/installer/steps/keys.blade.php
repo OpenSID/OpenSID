@@ -1,8 +1,8 @@
 @extends('installer::install')
 
 @section('step')
-    @if($errors->any())
-        @foreach($errors->all() as $error)
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
             <div class="bg-red-100 border-l-4 border-red-500 p-4 mb-3">
                 <div class="flex">
                     <div class="flex-shrink-0">
@@ -39,7 +39,7 @@
     <form method="post" action="{{ route('LaravelWizardInstaller::install.keys') }}">
         @csrf
         <div class="flex justify-end">
-            @if($errors->any())
+            @if ($errors->any())
                 <x-installer::button type="submit" color="red">
                     Try again
                     <svg class="fill-current w-5 h-5 ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

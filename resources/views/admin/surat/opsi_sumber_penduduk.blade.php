@@ -1,8 +1,8 @@
 <div class="btn-group col-sm-8" data-toggle="buttons">
-    @foreach($opsiSumberPenduduk as $sumberPenduduk)
-    <label style="text-transform: uppercase;" for="penduduk_{{$sumberPenduduk}}" class="btn btn-info btn-flat btn-sm col-sm-6 col-md-6 col-lg-6 form-check-label {{ $sumberPenduduk == 1 ? 'active' : ''}}">
-        <input name="{{ $kategori }}[opsi_penduduk]" type="radio" class="form-check-input" value="{{ $sumberPenduduk }}" autocomplete="off" onchange="dataPenduduk(this);"> {{ sebutanDesa($sumberPenduduk == 1 ? 'PENDUDUK [desa]' : ($pendudukLuar[$sumberPenduduk]['title'] ?? 'Luar [desa]' )) }}
-    </label>
+    @foreach ($opsiSumberPenduduk as $sumberPenduduk)
+        <label style="text-transform: uppercase;" for="penduduk_{{ $sumberPenduduk }}" class="btn btn-info btn-flat btn-sm col-sm-6 col-md-6 col-lg-6 form-check-label {{ $sumberPenduduk == 1 ? 'active' : '' }}">
+            <input name="{{ $kategori }}[opsi_penduduk]" type="radio" class="form-check-input" value="{{ $sumberPenduduk }}" autocomplete="off" onchange="dataPenduduk(this);"> {{ sebutanDesa($sumberPenduduk == 1 ? 'PENDUDUK [desa]' : $pendudukLuar[$sumberPenduduk]['title'] ?? 'Luar [desa]') }}
+        </label>
     @endforeach
 </div>
 @push('scripts')
@@ -24,7 +24,7 @@
             } else {
                 _formGroup.next('.penduduk_luar_desa').find('.isi-penduduk-luar').addClass('required')
                 _formGroup.next('.penduduk_desa').find('.isi-penduduk-desa').removeClass('required')
-                _formGroup.nextAll('.penduduk_luar_'+_val).first().removeClass('hide')
+                _formGroup.nextAll('.penduduk_luar_' + _val).first().removeClass('hide')
                 $('[data-visible-required=1]:visible').addClass('required')
             }
         }

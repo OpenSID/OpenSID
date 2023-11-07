@@ -18,8 +18,7 @@
         <div class="box-header with-border">
             @if (can('u'))
                 <div class="btn-group-vertical radius-3">
-                    <a class="btn btn-social btn-sm bg-olive" title="Impor Surat TinyMCE" onclick="formAction('mainform', '{{ route('surat_master.impor_store') }}'); return false;"><i
-                                    class="fa fa-upload"></i> Impor Surat TinyMCE</a>
+                    <a class="btn btn-social btn-sm bg-olive" title="Impor Surat TinyMCE" onclick="formAction('mainform', '{{ route('surat_master.impor_store') }}'); return false;"><i class="fa fa-upload"></i> Impor Surat TinyMCE</a>
                 </div>
             @endif
         </div>
@@ -39,15 +38,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($data as $key => $row)
-                        <tr>
-                            <td><input type="checkbox" name="id_cb[]" value="{{$key}}"/></td>
-                            <td>{{$key+1}}</td>
-                            <td>{{$row['nama']}}</td>
-                            <td>{{$row['url_surat']}}</td>
-                            <td>{{$row['kode_surat']}}</td>
-                            <td>{{$row['lampiran']}}</td>
-                        </tr>
+                        @foreach ($data as $key => $row)
+                            <tr>
+                                <td><input type="checkbox" name="id_cb[]" value="{{ $key }}" /></td>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $row['nama'] }}</td>
+                                <td>{{ $row['url_surat'] }}</td>
+                                <td>{{ $row['kode_surat'] }}</td>
+                                <td>{{ $row['lampiran'] }}</td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
