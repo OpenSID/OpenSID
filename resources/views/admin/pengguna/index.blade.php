@@ -49,15 +49,13 @@
                         <span class="input-group-btn">
                             @if ($userData->email_verified_at === null && !empty($userData->email))
                                 {!! form_open(route('pengguna.kirim_verifikasi')) !!}
-                                <button type="submit" class="btn btn-sm btn-warning btn-block btn-mb-5"><i
-                                        class="fa fa-share-square"></i>
+                                <button type="submit" class="btn btn-sm btn-warning btn-block btn-mb-5"><i class="fa fa-share-square"></i>
                                     Verifikasi Email</button>
                                 </form>
                                 <br />
                             @endif
                             @if ($userData->telegram_verified_at === null && setting('telegram_token') != null && !empty($userData->id_telegram))
-                                <button type="button" id="verif_telegram"
-                                    class="btn btn-sm btn-warning btn-block btn-mb-5"><i class="fa fa-share-square"></i>
+                                <button type="button" id="verif_telegram" class="btn btn-sm btn-warning btn-block btn-mb-5"><i class="fa fa-share-square"></i>
                                     Verifikasi Telegram</button>
                                 <br />
                             @endif

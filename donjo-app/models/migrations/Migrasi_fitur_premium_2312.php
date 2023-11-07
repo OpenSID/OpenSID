@@ -35,11 +35,13 @@
  *
  */
 
+use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
+use App\Models\FormatSurat;
 use App\Models\LampiranSurat;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -79,8 +81,10 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023110251($hasil);
+        $hasil = $hasil && $this->migrasi_2023110252($hasil);
+        $hasil = $hasil && $this->migrasi_2023110651($hasil);
 
-        return $hasil && $this->migrasi_2023110252($hasil);
+        return $hasil && $this->migrasi_2023110751($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -209,5 +213,39 @@ class Migrasi_fitur_premium_2312 extends MY_model
         ];
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
+    }
+
+    protected function migrasi_2023110651($hasil)
+    {
+        FormatSurat::where('url_surat', 'surat-keterangan-domisili-non-warga')->update(['jenis' => FormatSurat::TINYMCE_DESA]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023110751($hasil)
+    {
+        $this->db->trans_start();
+        $query = $this->db->where('form_isian is NOT NULL')->get('tweb_surat_format');
+
+        foreach ($query->result() as $row) {
+            $data     = json_decode($row->form_isian, true);
+            $dataBaru = [];
+
+            foreach ($data as $key => $value) {
+                $dataBaru[$key] = $value;
+                if (array_key_exists('kk_level', $value)) {
+                    if ($value['kk_level'] == '') {
+                        $value = array_keys(SHDKEnum::all());
+                    } else {
+                        $value = [$value['kk_level']];
+                    }
+                    $dataBaru[$key]['kk_level'] = $value;
+                }
+            }
+            $this->db->update('tweb_surat_format', ['form_isian' => json_encode($dataBaru)], ['id' => $row->id]);
+        }
+        $this->db->trans_complete();
+
+        return $hasil;
     }
 }

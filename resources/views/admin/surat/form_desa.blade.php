@@ -9,6 +9,7 @@
             margin-left: -10px;
             border-top: 1px solid #f4f4f4;
         }
+
         .form-horizontal .form-group {
             margin-right: -10px;
             margin-left: -10px;
@@ -47,9 +48,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ site_url('surat') }}"
-                class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                title="Kembali Ke Daftar Wilayah">
+            <a href="{{ site_url('surat') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Wilayah">
                 <i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
             </a>
         </div>
@@ -63,20 +62,20 @@
             @php
                 $sumberDataPenduduk = !is_array($surat->form_isian->individu->data) ? [$surat->form_isian->individu->data] : $surat->form_isian->individu->data;
             @endphp
-            @if($judul_kategori['individu'] != '-')
-            <div class="form-group subtitle_head" data-json='{{ $sumberDataPenduduk }}'>
-                <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori['individu'] ?? 'Keterangan Pemohon')) }}</label>
-                @includeWhen(count($sumberDataPenduduk) > 1, 'admin.surat.opsi_sumber_penduduk' ,['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu', 'pendudukLuar' => $pendudukLuar])
-            </div>
+            @if ($judul_kategori['individu'] != '-')
+                <div class="form-group subtitle_head" data-json='{{ $sumberDataPenduduk }}'>
+                    <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori['individu'] ?? 'Keterangan Pemohon')) }}</label>
+                    @includeWhen(count($sumberDataPenduduk) > 1, 'admin.surat.opsi_sumber_penduduk', ['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu', 'pendudukLuar' => $pendudukLuar])
+                </div>
             @endif
-            @if($surat->form_isian->individu->info)
-            <div class="callout callout-warning">
-                <b>{{ $surat->form_isian->individu->info }}</b>
-            </div>
+            @if ($surat->form_isian->individu->info)
+                <div class="callout callout-warning">
+                    <b>{{ $surat->form_isian->individu->info }}</b>
+                </div>
             @endif
             @includeWhen(in_array(1, $sumberDataPenduduk), 'admin.surat.penduduk_desa', ['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu'])
-            @foreach($pendudukLuar as $index => $penduduk)
-                @includeWhen(in_array($index, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', ['index' => $index,'opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu', 'input' => explode(',', $penduduk['input'])])
+            @foreach ($pendudukLuar as $index => $penduduk)
+                @includeWhen(in_array($index, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', ['index' => $index, 'opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu', 'input' => explode(',', $penduduk['input'])])
             @endforeach
 
             @include('admin.surat.kode_isian')
@@ -91,8 +90,7 @@
 
         </div>
         <div class="box-footer">
-            <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i
-                    class="fa fa-times"></i> Batal</button>
+            <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
             <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
                 Simpan</button>
         </div>
@@ -102,14 +100,19 @@
 
 @push('scripts')
     <script type="text/javascript">
-        function pilihAnggota(elm)
-        {
+        function pilihAnggota(elm) {
             let _checked = $(elm).is(':checked')
-            
-            if(_checked) {
-                $('table.kis tr[data-row='+$(elm).val()+'] input').prop('disabled', 0)
-            }else {
-                $('table.kis tr[data-row='+$(elm).val()+'] input').prop('disabled', 1)
+
+            if (_checked) {
+                $('table.kis tr[data-row=' + $(elm).val() + '] input').prop('disabled', 0)
+                $('table.kis tr[data-row=' + $(elm).val() + '] input.datepicker').datepicker({
+                    weekStart: 1,
+                    language: 'id',
+                    format: 'dd-mm-yyyy',
+                    autoclose: true
+                });
+            } else {
+                $('table.kis tr[data-row=' + $(elm).val() + '] input').prop('disabled', 1)
             }
         }
         $('document').ready(function() {
@@ -147,10 +150,12 @@
                     data: function(params) {
                         let _kecuali = []
                         // jika tidak berulang maka batasi pencarian penduduk
-                        if (!$(this).data('sumber_penduduk_berulang')){
-                            $(`select.select2-nik-ajax.isi-penduduk-desa`).not($(this)).each(function(index, item){ if (item.value) _kecuali.push(item.value) })
-                        }                        
-                        
+                        if (!$(this).data('sumber_penduduk_berulang')) {
+                            $(`select.select2-nik-ajax.isi-penduduk-desa`).not($(this)).each(function(index, item) {
+                                if (item.value) _kecuali.push(item.value)
+                            })
+                        }
+
                         return {
                             q: params.term || '', // search term
                             page: params.page || 1,
@@ -188,50 +193,50 @@
                 placeholder: '--  Cari NIK / Tag ID Card / Nama Penduduk --',
                 minimumInputLength: 1,
             });
-            
+
             // kaitkan data 
-            $('select[data-kaitkan]').each(function(){
+            $('select[data-kaitkan]').each(function() {
                 let _kaitkan = $(this).data('kaitkan')
                 let _kategori = $(this).closest('.form-group').data('kategori')
 
                 _kaitkan.forEach(element => {
-                    for(let i in element.kode_isian_terkait){
-                        let _namaElm = element.kode_isian_terkait[i].replaceAll(/\s+/g,'_').toLowerCase()
+                    for (let i in element.kode_isian_terkait) {
+                        let _namaElm = element.kode_isian_terkait[i].replaceAll(/\s+/g, '_').toLowerCase()
                         if (_kategori) {
-                            _namaElm +=`_${_kategori}`
+                            _namaElm += `_${_kategori}`
                         }
-                        
+
                         $(`[name=${_namaElm}]`).removeClass('required')
                         $(`[name=${_namaElm}]`).closest('.form-group').addClass('hide')
                     }
                 });
 
-                $(this).change(function(){
+                $(this).change(function() {
                     let _aktifkanElm = $(this).data('kaitkan')
                     let _namaElm, _kategori = $(this).closest('.form-group').data('kategori')
                     _aktifkanElm.forEach(element => {
-                        for(let j in element.kode_isian_terkait){
-                            _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g,'_').toLowerCase()
+                        for (let j in element.kode_isian_terkait) {
+                            _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g, '_').toLowerCase()
                             if (_kategori) {
-                                _namaElm +=`_${_kategori}`
+                                _namaElm += `_${_kategori}`
                             }
                             $(`[name=${_namaElm}]`).removeClass('required')
                             $(`[name=${_namaElm}]`).closest('.form-group').addClass('hide')
                         }
-                        for(let i in element.nilai_isian){
-                            if (element.nilai_isian[i].includes($(this).val())){
-                                for(let j in element.kode_isian_terkait){
-                                    _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g,'_').toLowerCase()
+                        for (let i in element.nilai_isian) {
+                            if (element.nilai_isian[i].includes($(this).val())) {
+                                for (let j in element.kode_isian_terkait) {
+                                    _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g, '_').toLowerCase()
                                     if (_kategori) {
-                                        _namaElm +=`_${_kategori}`
+                                        _namaElm += `_${_kategori}`
                                     }
                                     $(`[name=${_namaElm}]`).addClass('required')
                                     $(`[name=${_namaElm}]`).closest('.form-group').removeClass('hide')
                                 }
-                                
+
                             }
                         }
-                    }); 
+                    });
                 })
             })
         });

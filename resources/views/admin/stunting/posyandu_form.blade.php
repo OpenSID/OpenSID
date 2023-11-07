@@ -5,7 +5,7 @@
 @section('title')
     <h1>
         Stunting
-        <small> {{$action}} Data Posyandu</small>
+        <small> {{ $action }} Data Posyandu</small>
     </h1>
 @endsection
 
@@ -25,8 +25,7 @@
         <div class="col-md-9 col-lg-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ route('stunting.index') }}"
-                        class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <a href="{{ route('stunting.index') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                         <i class="fa fa-arrow-circle-left "></i>Kembali ke {{ $title }}
                     </a>
                 </div>
@@ -35,8 +34,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Nama</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control input-sm required" name="nama"
-                                placeholder="Masukkan nama posyandu" value="{{ $posyandu->nama }}" />
+                            <input type="text" class="form-control input-sm required" name="nama" placeholder="Masukkan nama posyandu" value="{{ $posyandu->nama }}" />
                         </div>
                     </div>
                     <div class="form-group">

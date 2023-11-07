@@ -1,11 +1,11 @@
 @php
-    $fonts   = '';
+    $fonts = '';
     $cssFont = '';
     foreach (glob(LOKASI_FONT_DESA . '*.ttf') as $font) {
-        $url      = site_url(LOKASI_FONT_DESA . $font);
+        $url = site_url(LOKASI_FONT_DESA . $font);
         $nameFont = ucfirst(pathinfo($font, PATHINFO_FILENAME));
-
-        $fonts   .= $nameFont . '=' . pathinfo($font, PATHINFO_FILENAME) . '; ';
+    
+        $fonts .= $nameFont . '=' . pathinfo($font, PATHINFO_FILENAME) . '; ';
         $cssFont .= "
             @font-face {
                 font-family: '{$nameFont}';
@@ -22,8 +22,10 @@
         $(document).ready(function() {
             var default_font = "{{ setting('font_surat') }}"
             var pratinjau = window.location.href.includes("pratinjau");
-            if (! pratinjau) {
-                plugins_tambahan = ['advlist', 'autolink', 'lists', 'charmap', 'hr', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'nonbreaking', 'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'code', 'responsivefilemanager', 'salintemplate', 'kodeisian'];
+            if (!pratinjau) {
+                plugins_tambahan = ['advlist', 'autolink', 'lists', 'charmap', 'hr', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'nonbreaking', 'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'code',
+                    'responsivefilemanager', 'salintemplate', 'kodeisian'
+                ];
             } else {
                 plugins_tambahan = ['advlist', 'autolink', 'lists', 'charmap', 'hr', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'nonbreaking', 'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'code'];
             }
@@ -66,10 +68,18 @@
                         classes: 'alignbottom'
                     }
                 },
-                style_formats: [
-                    { title: 'Align Top', format: 'aligntop' },
-                    { title: 'Align Middle', format: 'alignmiddle' },
-                    { title: 'Align Bottom', format: 'alignbottom' }
+                style_formats: [{
+                        title: 'Align Top',
+                        format: 'aligntop'
+                    },
+                    {
+                        title: 'Align Middle',
+                        format: 'alignmiddle'
+                    },
+                    {
+                        title: 'Align Bottom',
+                        format: 'alignbottom'
+                    }
                 ],
                 block_formats: 'Paragraph=p; Header 1=h1; Header 2=h2; Header 3=h3; Header 4=h4; Header 5=h5; Header 6=h6; Div=div; Preformatted=pre; Blockquote=blockquote; Menjorok=menjorok',
                 style_formats_merge: true,
@@ -112,7 +122,7 @@
 
                     ed.options.register('fontsize_formats', {
                         processor: 'string',
-                            default: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
+                        default: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
                     });
 
                     if (! pratinjau) {

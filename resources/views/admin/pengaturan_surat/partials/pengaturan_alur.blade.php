@@ -9,16 +9,26 @@
             <label>Verifikasi {{ setting('sebutan_sekretaris_desa') }}</label>
             <div class="input-group col-xs-12 col-sm-8">
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
-                    <label
-                        class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('verifikasi_sekdes') == '1') @disabled(!$sekdes)">
-                        <input type="radio" name="verifikasi_sekdes" class="form-check-input" value="1"
-                            autocomplete="off" @checked(setting('verifikasi_sekdes')=='1' && $sekdes)
-                            @disabled(!$sekdes)>Ya</label>
-                    <label
-                        class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('verifikasi_sekdes') == '0') @disabled(!$sekdes)">
-                        <input type="radio" name="verifikasi_sekdes" class="form-check-input" value="0"
-                            autocomplete="off" @checked(setting('verifikasi_sekdes')=='0' && $sekdes)
-                            @disabled(!$sekdes)>Tidak
+                    <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('verifikasi_sekdes') == '1') @disabled(!$sekdes)">
+                        <input
+                            type="radio"
+                            name="verifikasi_sekdes"
+                            class="form-check-input"
+                            value="1"
+                            autocomplete="off"
+                            @checked(setting('verifikasi_sekdes') == '1' && $sekdes)
+                            @disabled(!$sekdes)
+                        >Ya</label>
+                    <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('verifikasi_sekdes') == '0') @disabled(!$sekdes)">
+                        <input
+                            type="radio"
+                            name="verifikasi_sekdes"
+                            class="form-check-input"
+                            value="0"
+                            autocomplete="off"
+                            @checked(setting('verifikasi_sekdes') == '0' && $sekdes)
+                            @disabled(!$sekdes)
+                        >Tidak
                     </label>
                 </div>
             </div>
@@ -31,16 +41,26 @@
             <label>Verifikasi {{ setting('sebutan_kepala_desa') }}</label>
             <div class="input-group col-xs-12 col-sm-8">
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
-                    <label
-                        class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('verifikasi_kades') == '1') @disabled(setting('tte') == '1' || !$kades)">
-                        <input type="radio" name="verifikasi_kades" class="form-check-input" value="1"
-                            autocomplete="off" @checked(setting('verifikasi_kades')=='1' )
-                            @disabled(setting('tte')=='1' || !$kades)>Ya</label>
-                    <label
-                        class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('verifikasi_kades') == '0') @disabled(setting('tte') == '1' || !$kades)">
-                        <input type="radio" name="verifikasi_kades" class="form-check-input" value="0"
-                            autocomplete="off" @checked(setting('verifikasi_kades')=='0' )
-                            @disabled(setting('tte')=='1' || !$kades)>Tidak
+                    <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('verifikasi_kades') == '1') @disabled(setting('tte') == '1' || !$kades)">
+                        <input
+                            type="radio"
+                            name="verifikasi_kades"
+                            class="form-check-input"
+                            value="1"
+                            autocomplete="off"
+                            @checked(setting('verifikasi_kades') == '1')
+                            @disabled(setting('tte') == '1' || !$kades)
+                        >Ya</label>
+                    <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('verifikasi_kades') == '0') @disabled(setting('tte') == '1' || !$kades)">
+                        <input
+                            type="radio"
+                            name="verifikasi_kades"
+                            class="form-check-input"
+                            value="0"
+                            autocomplete="off"
+                            @checked(setting('verifikasi_kades') == '0')
+                            @disabled(setting('tte') == '1' || !$kades)
+                        >Tidak
                     </label>
                 </div>
             </div>

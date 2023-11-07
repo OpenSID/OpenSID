@@ -17,8 +17,7 @@
             <div class="modal-footer">
                 <div class="text-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-danger btn-sm" onClick="ambil();"><i
-                                class="fa fa-camera"></i>&nbsp; Ambil Gambar</button>
+                        <button type="button" class="btn btn-danger btn-sm" onClick="ambil();"><i class="fa fa-camera"></i>&nbsp; Ambil Gambar</button>
                     </div>
                     <select class="input-sm" id="mode">
                         <option value="user" selected>Kamera Depan</option>
@@ -45,20 +44,13 @@
             <div class="modal-footer">
                 <div class="text-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-danger btn-sm" title="Ambil Gambar" onclick="kamera();"><i
-                                class="fa fa-camera"></i>&nbsp;</button>
-                        <button type="button" class="btn btn-primary btn-sm" id="rotateL" title="Putar ke kiri"><i
-                                class="fa fa-undo"></i>&nbsp;</button>
-                        <button type="button" class="btn btn-primary btn-sm" id="rotateR" title="Putar ke kanan"><i
-                                class="fa fa-repeat"></i>&nbsp;</button>
-                        <button type="button" class="btn btn-primary btn-sm" id="scaleX" title="Balik Horizontal"><i
-                                class="fa fa-arrows-h"></i>&nbsp;</button>
-                        <button type="button" class="btn btn-primary btn-sm" id="scaleY" title="Balik Vertikal"><i
-                                class="fa fa-arrows-v"></i>&nbsp;</button>
-                        <button type="button" class="btn btn-primary btn-sm" id="reset-ini" title="Default"><i
-                                class="fa fa-refresh"></i>&nbsp;</button>
-                        <button type="button" class="btn btn-success btn-sm" id="simpan-gambar" title="Simpan"><i
-                                class="fa fa-save"></i>&nbsp;</button>
+                        <button type="button" class="btn btn-danger btn-sm" title="Ambil Gambar" onclick="kamera();"><i class="fa fa-camera"></i>&nbsp;</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="rotateL" title="Putar ke kiri"><i class="fa fa-undo"></i>&nbsp;</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="rotateR" title="Putar ke kanan"><i class="fa fa-repeat"></i>&nbsp;</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="scaleX" title="Balik Horizontal"><i class="fa fa-arrows-h"></i>&nbsp;</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="scaleY" title="Balik Vertikal"><i class="fa fa-arrows-v"></i>&nbsp;</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="reset-ini" title="Default"><i class="fa fa-refresh"></i>&nbsp;</button>
+                        <button type="button" class="btn btn-success btn-sm" id="simpan-gambar" title="Simpan"><i class="fa fa-save"></i>&nbsp;</button>
                     </div>
                     <div class="btn-group">
                         <select class="input-sm" id="ratio">

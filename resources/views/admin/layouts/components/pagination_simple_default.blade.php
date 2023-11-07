@@ -1,19 +1,19 @@
 <?php if ($paginator->hasPages()) : ?>
-  <nav>
+<nav>
     <ul class="pagination">
-      <!-- Previous Page Link -->
-      <?php if ($paginator->onFirstPage()) : ?>
+        <!-- Previous Page Link -->
+        <?php if ($paginator->onFirstPage()) : ?>
         <li class="disabled" aria-disabled="true"><span><?= lang('Pager.previous') ?></span></li>
-      <?php else : ?>
+        <?php else : ?>
         <li><a href="<?= $paginator->previousPageUrl() ?>" rel="prev"><?= lang('Pager.previous') ?></a></li>
-      <?php endif ?>
+        <?php endif ?>
 
-      <!-- Next Page Link -->
-      <?php if ($paginator->hasMorePages()) : ?>
+        <!-- Next Page Link -->
+        <?php if ($paginator->hasMorePages()) : ?>
         <li><a href="<?= $paginator->nextPageUrl() ?>" rel="next"><?= lang('Pager.next') ?></a></li>
-      <?php else : ?>
+        <?php else : ?>
         <li class="disabled" aria-disabled="true"><span><?= lang('Pager.next') ?></span></li>
-      <?php endif ?>
+        <?php endif ?>
     </ul>
-  </nav>
+</nav>
 <?php endif ?>

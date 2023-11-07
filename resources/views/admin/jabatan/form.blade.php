@@ -22,8 +22,7 @@
         <div id="umum-content" class="col-sm-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ route('pengurus.jabatan') }}"
-                        class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <a href="{{ route('pengurus.jabatan') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                         <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Jabatan
                     </a>
                 </div>
@@ -32,8 +31,7 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label class="control-label">Nama Jabatan</label>
-                            <input type="text" class="form-control input-sm nama_terbatas required" id="nama"
-                                name="nama" placeholder="Nama Jabatan" value="{{ $jabatan->nama }}" />
+                            <input type="text" class="form-control input-sm nama_terbatas required" id="nama" name="nama" placeholder="Nama Jabatan" value="{{ $jabatan->nama }}" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Tupoksi Jabatan</label>

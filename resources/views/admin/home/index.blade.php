@@ -47,8 +47,7 @@
                     <div class="icon">
                         <i class="ion ion-location"></i>
                     </div>
-                    <a href="{{ route('wilayah') }}" class="small-box-footer">Lihat Detail <i
-                            class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('wilayah') }}" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         @endif
@@ -63,8 +62,7 @@
                     <div class="icon">
                         <i class="ion ion-person"></i>
                     </div>
-                    <a href="{{ route('penduduk.clear') }}" class="small-box-footer">Lihat Detail <i
-                            class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('penduduk.clear') }}" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         @endif
@@ -79,8 +77,7 @@
                     <div class="icon">
                         <i class="ion ion-ios-people"></i>
                     </div>
-                    <a href="{{ route('keluarga.clear') }}" class="small-box-footer">Lihat Detail <i
-                            class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('keluarga.clear') }}" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         @endif
@@ -95,8 +92,7 @@
                     <div class="icon">
                         <i class="ion-ios-paper"></i>
                     </div>
-                    <a href="{{ route('keluar.clear') }}" class="small-box-footer">Lihat Detail <i
-                            class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('keluar.clear') }}" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         @endif
@@ -111,8 +107,7 @@
                     <div class="icon">
                         <i class="ion ion-android-people"></i>
                     </div>
-                    <a href="{{ route('kelompok.clear') }}" class="small-box-footer">Lihat Detail <i
-                            class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('kelompok.clear') }}" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         @endif
@@ -127,8 +122,7 @@
                     <div class="icon">
                         <i class="ion ion-ios-home"></i>
                     </div>
-                    <a href="{{ route('rtm.clear') }}" class="small-box-footer">Lihat Detail <i
-                            class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('rtm.clear') }}" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         @endif
@@ -144,11 +138,9 @@
                         <i class="ion ion-ios-pie"></i>
                     </div>
                     <div class="small-box-footer">
-                        <a href="#" class="inner text-white rilis_pengaturan" data-remote="false" data-toggle="modal"
-                            data-target="#pengaturan-bantuan"><i class="fa fa-gear"></i></a>
+                        <a href="#" class="inner text-white rilis_pengaturan" data-remote="false" data-toggle="modal" data-target="#pengaturan-bantuan"><i class="fa fa-gear"></i></a>
                         @if (can('b', 'statistik'))
-                            <a href="{{ route($bantuan['link_detail']) }}" class="inner text-white">Lihat Detail <i
-                                class="fa fa-arrow-circle-right"></i></a>
+                            <a href="{{ route($bantuan['link_detail']) }}" class="inner text-white">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
                         @else
                             &nbsp;
                         @endif
@@ -167,8 +159,7 @@
                     <div class="icon">
                         <i class="ion ion-person"></i>
                     </div>
-                    <a href="{{ route('mandiri') }}" class="small-box-footer">Lihat Detail <i
-                            class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('mandiri') }}" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         @endif

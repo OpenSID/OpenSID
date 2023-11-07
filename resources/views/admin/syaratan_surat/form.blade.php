@@ -18,8 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ route('surat_mohon') }}"
-                class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <a href="{{ route('surat_mohon') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <i class="fa fa-arrow-circle-left "></i>Kembali ke Dokumen Persyaratan Surat
             </a>
         </div>
@@ -29,9 +28,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Nama Dokumen</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control input-sm nomor_sk required" id="ref_syarat_nama"
-                            name="ref_syarat_nama" placeholder="Nama Dokumen"
-                            value="{{ $ref_syarat_surat->ref_syarat_nama }}" />
+                        <input type="text" class="form-control input-sm nomor_sk required" id="ref_syarat_nama" name="ref_syarat_nama" placeholder="Nama Dokumen" value="{{ $ref_syarat_surat->ref_syarat_nama }}" />
                     </div>
                 </div>
             </div>

@@ -32,3 +32,4 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 3. [#7274](https://github.com/OpenSID/OpenSID/issues/7274) Penyesuaian nama dan url modul hom_sid.
 4. [#3061](https://github.com/OpenSID/premium/issues/3061) Penyesuaian data pada pada kolom id_kk tabel tweb_penduduk menggunakan null sebagai penanda kk kosong.
 5. [#7230](https://github.com/OpenSID/OpenSID/issues/7230) Penyesuaian format ukuran font menggunakan pt.
+6. [#7338](https://github.com/OpenSID/OpenSID/issues/7338) Penyesuaian pilihan shdk pada pengaturan form surat tinymce agar bisa memilih lebih dari satu pilihan.

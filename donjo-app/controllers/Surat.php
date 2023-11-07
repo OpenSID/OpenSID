@@ -521,12 +521,12 @@ class Surat extends Admin_Controller
 
             // Kembalikan kode isian [format_nomor_surat]
             $format_surat = substitusiNomorSurat($cetak['input']['nomor'], setting('format_nomor_surat'));
-            $format_surat = str_replace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
-            $format_surat = str_replace('[kode_desa]', identitas()->kode_desa, $format_surat);
-            $format_surat = str_replace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
-            $format_surat = str_replace('[tahun]', date('Y'), $format_surat);
+            $format_surat = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
+            $format_surat = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat);
+            $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
+            $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
 
-            $isi_surat = str_replace($format_surat, '[format_nomor_surat]', $isi_surat);
+            $isi_surat = str_ireplace($format_surat, '[format_nomor_surat]', $isi_surat);
 
             // Kembalikan kode isian [tgl_surat]
             $tgl_surat = tgl_indo($log_surat['tanggal']);

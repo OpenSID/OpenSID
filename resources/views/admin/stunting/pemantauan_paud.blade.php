@@ -48,18 +48,14 @@
                     </div>
                     <div class="col-md-5 no-padding">
                         @if (can('u'))
-                            <a href="{{ route('stunting/formPaud') }}"
-                                class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                                    class="fa fa-plus"></i> Tambah</a>
+                            <a href="{{ route('stunting/formPaud') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
                         @endif
                         @if (can('h'))
-                            <a href="#confirm-delete" title="Hapus Data"
-                                onclick="deleteAllBox('mainform', '{{ route('stunting.deletePaud') }}')"
-                                class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                                    class='fa fa-trash-o'></i> Hapus</a>
+                            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('stunting.deletePaud') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                                    class='fa fa-trash-o'
+                                ></i> Hapus</a>
                         @endif
-                        <a id="excel" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                            class="fa fa-file"></i> Ekspor ke excel</a>
+                        <a id="excel" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file"></i> Ekspor ke excel</a>
 
                     </div>
                 </div>
@@ -80,7 +76,19 @@
                                 </tr>
                                 <tr>
                                     <th colspan="2" class="text-center" style="vertical-align: middle;">Usia Menurut Kategori</th>
-                                    <th colspan="12" class="text-center" style="vertical-align: middle;">Mengikuti Layanan PAUD (Parenting Bagi Orang Tua Anak Usia 2 - < 3 Tahun) Atau Kelas PAUD Bagi Anak 3 - 6 Tahun</th>
+                                    <th colspan="12" class="text-center" style="vertical-align: middle;">Mengikuti Layanan PAUD (Parenting Bagi Orang Tua Anak Usia 2 - <
+                                            3
+                                            Tahun)
+                                            Atau
+                                            Kelas
+                                            PAUD
+                                            Bagi
+                                            Anak
+                                            3
+                                            -
+                                            6
+                                            Tahun</th
+                                        >
                                 </tr>
                                 <tr>
                                     <th class="text-center" style="vertical-align: middle;">Anak Usia 2 - < 3 Tahun</th>
@@ -119,7 +127,7 @@
                 ajax: {
                     url: "{{ route('stunting.datatablesPaud') }}",
                     data: function(req) {
-                        req.tahun    = $('#tahun').val();
+                        req.tahun = $('#tahun').val();
                         req.posyandu = $('#posyandu').val();
                     },
                 },
@@ -160,7 +168,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.kia.anak.sex == 1 ? 'LAKI-LAKI' : 'PEREMPUAN'
                         },
                         name: 'kia.anak.sex',
@@ -168,7 +176,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.kategori_usia == 1 ? 'v' : '-'
                         },
                         name: 'kategori_usia',
@@ -176,7 +184,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.kategori_usia == 2 ? 'v' : '-'
                         },
                         name: 'kategori_usia',
@@ -184,96 +192,96 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
-                            return data.januari = (data.januari == 1) ? "-" : ((data.januari == 2)  ? "v" : "x")
+                        data: function(data) {
+                            return data.januari = (data.januari == 1) ? "-" : ((data.januari == 2) ? "v" : "x")
                         },
                         name: 'januari',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function (data) {
-                            return data.februari = (data.februari == 1) ? "-" : ((data.februari == 2)  ? "v" : "x")
+                        data: function(data) {
+                            return data.februari = (data.februari == 1) ? "-" : ((data.februari == 2) ? "v" : "x")
                         },
                         name: 'februari',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function (data) {
-                            return data.maret = (data.maret == 1) ? "-" : ((data.maret == 2)  ? "v" : "x")
+                        data: function(data) {
+                            return data.maret = (data.maret == 1) ? "-" : ((data.maret == 2) ? "v" : "x")
                         },
                         name: 'maret',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function (data) {
-                            return data.april = (data.april == 1) ? "-" : ((data.april == 2)  ? "v" : "x")
+                        data: function(data) {
+                            return data.april = (data.april == 1) ? "-" : ((data.april == 2) ? "v" : "x")
                         },
                         name: 'april',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function (data) {
-                            return data.mei = (data.mei == 1) ? "-" : ((data.mei == 2)  ? "v" : "x")
+                        data: function(data) {
+                            return data.mei = (data.mei == 1) ? "-" : ((data.mei == 2) ? "v" : "x")
                         },
                         name: 'mei',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function (data) {
-                            return data.juni = (data.juni == 1) ? "-" : ((data.juni == 2)  ? "v" : "x")
+                        data: function(data) {
+                            return data.juni = (data.juni == 1) ? "-" : ((data.juni == 2) ? "v" : "x")
                         },
                         name: 'juni',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function (data) {
-                            return data.juli = (data.juli == 1) ? "-" : ((data.juli == 2)  ? "v" : "x")
+                        data: function(data) {
+                            return data.juli = (data.juli == 1) ? "-" : ((data.juli == 2) ? "v" : "x")
                         },
                         name: 'juli',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function (data) {
-                            return data.agustus = (data.agustus == 1) ? "-" : ((data.agustus == 2)  ? "v" : "x")
+                        data: function(data) {
+                            return data.agustus = (data.agustus == 1) ? "-" : ((data.agustus == 2) ? "v" : "x")
                         },
                         name: 'agustus',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function (data) {
-                            return data.september = (data.september == 1) ? "-" : ((data.september == 2)  ? "v" : "x")
+                        data: function(data) {
+                            return data.september = (data.september == 1) ? "-" : ((data.september == 2) ? "v" : "x")
                         },
                         name: 'september',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function (data) {
-                            return data.oktober = (data.oktober == 1) ? "-" : ((data.oktober == 2)  ? "v" : "x")
+                        data: function(data) {
+                            return data.oktober = (data.oktober == 1) ? "-" : ((data.oktober == 2) ? "v" : "x")
                         },
                         name: 'oktober',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function (data) {
-                            return data.november = (data.november == 1) ? "-" : ((data.november == 2)  ? "v" : "x")
+                        data: function(data) {
+                            return data.november = (data.november == 1) ? "-" : ((data.november == 2) ? "v" : "x")
                         },
                         name: 'november',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function (data) {
-                            return data.desember = (data.desember == 1) ? "-" : ((data.desember == 2)  ? "v" : "x")
+                        data: function(data) {
+                            return data.desember = (data.desember == 1) ? "-" : ((data.desember == 2) ? "v" : "x")
                         },
                         name: 'desember',
                         searchable: true,
@@ -298,14 +306,14 @@
             $(document).on('click', '#excel', function(e) {
                 $.ajax({
                     url: "{{ route('stunting.eksporPaud') }}",
-                    type:"GET",
+                    type: "GET",
                     data: {
                         bulan: $('#bulan').val(),
                         tahun: $('#tahun').val(),
                         posyandu: $('#posyandu').val(),
                     },
-                    success:function(data){
-                    window.open(this.url, '_blank');
+                    success: function(data) {
+                        window.open(this.url, '_blank');
                     },
                 })
             });

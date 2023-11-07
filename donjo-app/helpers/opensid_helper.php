@@ -66,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023110451');
+define('VERSI_DATABASE', '2023110751');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1896,14 +1896,16 @@ if (! function_exists('bersihkan_xss')) {
  */
 function substitusiNomorSurat($nomor = null, $format = '')
 {
-    // TODO : Cek jika null, cari no surat terakhir berdasarkan kelompok
-    $format = str_replace('[nomor_surat]', "{$nomor}", $format);
-    if (preg_match_all('/\[nomor_surat,\s*\d+\]/', $format, $matches)) {
-        foreach ($matches[1] as $match) {
+    // tanpa panjang nomor surat
+    $format = case_replace('[nomor_surat]', $nomor, $format);
+
+    // jika terdapat panjang nomor surat
+    if (preg_match_all('/\[nomor_surat,\s*(\d+)\]/i', $format, $matches)) {
+        foreach ($matches[0] as $match) {
             $parts         = explode(',', $match);
             $panjang       = (int) trim(rtrim($parts[1], ']'));
-            $nomor_panjang = str_pad("{$nomor}", $panjang, '0', STR_PAD_LEFT);
-            $format        = str_replace($match, $nomor_panjang, $format);
+            $nomor_panjang = str_pad($nomor, $panjang, '0', STR_PAD_LEFT);
+            $format        = str_ireplace($match, $nomor_panjang, $format);
         }
     }
 

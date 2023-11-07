@@ -87,8 +87,7 @@
     <div class="box box-info">
         @if (can('u'))
             <div class="box-header with-border">
-                <a class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                    {!! !cek_koneksi_internet() ? 'disabled title="Perangkat tidak terhubung dengan jaringan"' : 'id="perbarui"' !!}><i class="fa fa-refresh"></i>Perbarui {{ $header }}</a>
+                <a class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" {!! !cek_koneksi_internet() ? 'disabled title="Perangkat tidak terhubung dengan jaringan"' : 'id="perbarui"' !!}><i class="fa fa-refresh"></i>Perbarui {{ $header }}</a>
             </div>
         @endif
         <div class="box-body">
@@ -112,8 +111,7 @@
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div class="info-box info-box-sdgs">
                                 <span class="info-box-icon info-box-icon-sdgs">
-                                    <img class="sdgs-logo" src="{{ asset("images/sdgs/{$value->image}") }}"
-                                        alt="{{ $value->image }}">
+                                    <img class="sdgs-logo" src="{{ asset("images/sdgs/{$value->image}") }}" alt="{{ $value->image }}">
                                 </span>
                                 <div class="info-box-content info-box-sdgs-content">
                                     <span class="info-box-number info-box-sdgs-number total-bumds">{{ $value->score }}

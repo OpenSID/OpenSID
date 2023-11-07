@@ -114,9 +114,10 @@ class Surat_model extends MY_Model
             $this->db->where('status_dasar', $filter['status_dasar']);
         }
 
-        if ($filter['kk_level']) {
-            $this->db->where('kk_level', $filter['kk_level']);
+        if ((is_array($filter['kk_level']) && $filter['kk_level'])) {
+            $this->db->where_in('kk_level', $filter['kk_level']);
         }
+
         // batasi ambil data dari keluarga yang sama saja
         if ($filter['hubungan']) {
             $this->db->where('id_kk in (select id_kk from tweb_penduduk where id = ' . $filter['hubungan'] . ') and u.id != ' . $filter['hubungan']);

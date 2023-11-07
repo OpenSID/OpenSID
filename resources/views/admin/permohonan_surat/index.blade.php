@@ -61,8 +61,7 @@
                 ajax: {
                     url: "{{ route('permohonan_surat_admin.datatables') }}"
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',
                         searchable: false,

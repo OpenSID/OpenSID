@@ -396,15 +396,36 @@
         "logo_garuda": false,
         "kecamatan": "0",
         "syarat_surat": null,
-        "template": "\r\n                    <h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br \/><br \/><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 198px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90429%; height: 18px; text-align: left;\">1.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 18px;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90429%; height: 18px; text-align: left;\">2.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 18px;\">NIK \/ No. KTP<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Nik]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90429%; height: 18px; text-align: left;\">3.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 18px;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90429%; height: 18px; text-align: left;\">4.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 18px;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Jenis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 36px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 36px;\"> <\/td>\r\n<td style=\"width: 3.90429%; height: 36px; text-align: left;\">5.<br \/><br \/><\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 36px;\">Alamat \/ Tempat Tinggal<br \/><br \/><\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 36px;\">:<br \/><br \/><\/td>\r\n<td style=\"width: 60.0206%; height: 36px; text-align: justify;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90429%; height: 18px; text-align: left;\">6.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 18px;\">Agama<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[AgAma]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90429%; height: 18px; text-align: left;\">7.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 18px;\">Status<\/td>\r\n<td style=\"width: 1.2333%; height: 18px; text-align: center;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Status_kawin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90429%; height: 18px; text-align: left;\">8.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 18px;\">Pendidikan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Pendidikan_kk]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90429%; height: 18px; text-align: left;\">9.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 18px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[PeKerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90429%; height: 18px; text-align: left;\">10.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 18px;\">Kewarganegaraan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[WArga_negara]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Orang tersebut di atas adalah benar-benar warga [Sebutan_desa] [NaMa_desa] yang memiliki usaha [Form_nama_usaha] di [AlamaT], [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten].<br \/><br \/><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">Pemegang Surat<\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"><br \/><br \/><br \/><br \/><\/td>\r\n<td style=\"width: 35%;\"> <\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">[NAma]<\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br \/>[qr_code]<\/div>\r\n                ",
+        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 268.8px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.4px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.4px; text-align: left; vertical-align: top;\">1.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.4px; vertical-align: top;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.4px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.4px; text-align: justify; vertical-align: top;\"><strong>[NAma]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.4px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.4px; text-align: left; vertical-align: top;\">2.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.4px; vertical-align: top;\">NIK \/ No. KTP<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.4px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.4px; text-align: justify; vertical-align: top;\">[Nik]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.4px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.4px; text-align: left; vertical-align: top;\">3.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.4px; vertical-align: top;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.4px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.4px; text-align: justify; vertical-align: top;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.4px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.4px; text-align: left; vertical-align: top;\">4.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.4px; vertical-align: top;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.4px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.4px; text-align: justify; vertical-align: top;\">[Jenis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 67.2px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 67.2px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 67.2px; text-align: left; vertical-align: top;\">5.<br><br><\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 67.2px; vertical-align: top;\">Alamat \/ Tempat Tinggal<br><br><\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 67.2px; vertical-align: top;\">:<br><br><\/td>\r\n<td style=\"width: 60.0206%; height: 67.2px; text-align: justify; vertical-align: top;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.4px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.4px; text-align: left; vertical-align: top;\">6.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.4px; vertical-align: top;\">Agama<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.4px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.4px; text-align: justify; vertical-align: top;\">[AgAma]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.4px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.4px; text-align: left; vertical-align: top;\">7.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.4px; vertical-align: top;\">Status<\/td>\r\n<td style=\"width: 1.2333%; height: 22.4px; text-align: center; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.4px; text-align: justify; vertical-align: top;\">[Status_kawin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.4px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.4px; text-align: left; vertical-align: top;\">8.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.4px; vertical-align: top;\">Pendidikan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.4px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.4px; text-align: justify; vertical-align: top;\">[Pendidikan_kk]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.4px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.4px; text-align: left; vertical-align: top;\">9.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.4px; vertical-align: top;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.4px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.4px; text-align: justify; vertical-align: top;\">[PeKerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.4px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.4px; text-align: left; vertical-align: top;\">10.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.4px; vertical-align: top;\">Kewarganegaraan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.4px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.4px; text-align: justify; vertical-align: top;\">[WArga_negara]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Orang tersebut di atas adalah benar-benar warga [Sebutan_desa] [NaMa_desa] yang memiliki usaha [Form_nama_usaha] di [AlamaT], [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten].<br><br><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">Pemegang Surat<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">[NAma]<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
         "template_desa": null,
         "form_isian": {
             "individu": {
+                "sumber": 1,
                 "data": [
-                    "1"
+                    "1",
+                    "3"
                 ],
                 "sex": "",
-                "status_dasar": "1"
+                "status_dasar": "1",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
+                "data_orang_tua": "0",
+                "data_pasangan": "0",
+                "judul": "Utama",
+                "label": "Keterangan Pemohon",
+                "info": "",
+                "hubungan": null
             }
         },
         "kode_isian": [
@@ -413,8 +434,13 @@
                 "kode": "[form_nama_usaha]",
                 "nama": "Nama Usaha",
                 "deskripsi": "Masukkan Nama \/ Jenis usaha",
-                "atribut": "",
-                "required": "1"
+                "required": "0",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
             }
         ],
         "orientasi": "Potrait",
@@ -423,7 +449,8 @@
         "margin_global": "0",
         "footer": "1",
         "header": 1,
-        "format_nomor": null
+        "format_nomor": null,
+        "sumber_penduduk_berulang": "0"
     },
     {
         "nama": "Keterangan JAMKESOS",
@@ -502,7 +529,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "1",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -516,7 +555,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Barang",
                 "label": "Barang Jual Beli",
                 "hubungan": ""
@@ -529,7 +580,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Pembeli",
                 "label": "Identitas Pembeli",
                 "hubungan": ""
@@ -661,7 +724,7 @@
                 ],
                 "sex": "",
                 "status_dasar": "1",
-                "kk_level": "1"
+                "kk_level": [1]
             }
         },
         "kode_isian": [
@@ -686,7 +749,7 @@
         "nama": "Keterangan Beda Identitas",
         "url_surat": "surat-keterangan-beda-identitas",
         "kode_surat": "471.1",
-        "lampiran": null,
+        "lampiran": "F-1.06",
         "kunci": false,
         "favorit": false,
         "jenis": "3",
@@ -697,106 +760,216 @@
         "logo_garuda": false,
         "kecamatan": "0",
         "syarat_surat": null,
-        "template": "\r\n                    <h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br \/><br \/><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><strong>I.  Identitas dalam KK<\/strong><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 118px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 10px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 10px;\"> <\/td>\r\n<td style=\"width: 3.90545%; height: 10px; text-align: left;\">1.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 10px;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 10px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 10px; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">2.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">3..<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Agama<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[AgAma]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">4.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Jenis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">5.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[PeKerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 36px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 36px;\"> <\/td>\r\n<td style=\"width: 3.90545%; height: 36px; text-align: left;\">6.<br \/><br \/><\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 36px;\">Alamat \/ Tempat Tinggal<br \/><br \/><\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 36px;\">:<br \/><br \/><\/td>\r\n<td style=\"width: 60.0206%; height: 36px; text-align: justify;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><strong>Ii. Identitas dalam [Form_kartU]<\/strong><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 144px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">7.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">No. Identitas<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_no_identitaS]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">8.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Nama<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_namA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">9.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_tempat_lahiR], [Form_tanggal_lahiR]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">10.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_jenis_kelamiN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">11.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Alamat \/ Tempat Tinggal<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_alamat_tempat_tinggaL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">12.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Agama<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_agamA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">13.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_pekerjaaN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">14.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Keterangan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_keterangaN]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Adalah benar-benar warga [SeButan_desa] [NaMa_desa] dan merupakan orang yang sama namun terdapat perbedaan [Form_perbedaaN] seperti tersebut di atas. Adapun data yang benar dan dipakai seperti yang tercantum di Kartu Keluarga (KK).<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat ini dibuat untuk dipergunakan sebagaimana mestinya.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\"> <\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"><br \/><br \/><br \/><br \/><\/td>\r\n<td style=\"width: 35%;\"> <\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br \/>[qr_code]<\/div>\r\n                ",
+        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><strong>I. Identitas dalam KK<\/strong><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 118px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 10px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 10px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 10px; text-align: left;\">1.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 10px;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 10px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 10px; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">2.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">3..<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Agama<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[AgAma]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">4.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Jenis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">5.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[PeKerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 36px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 36px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 36px; text-align: left;\">6.<br><br><\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 36px;\">Alamat \/ Tempat Tinggal<br><br><\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 36px;\">:<br><br><\/td>\r\n<td style=\"width: 60.0206%; height: 36px; text-align: justify;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><strong>Ii. Identitas dalam [Form_kartU]<\/strong><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 144px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">7.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">No. Identitas<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_nomor_identitaS]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">8.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Nama<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_namA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">9.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_tempat_lahiR], [Form_tanggal_lahiR]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">10.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_jenis_kelamiN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">11.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Alamat \/ Tempat Tinggal<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_alamaT]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">12.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Agama<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_agamA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">13.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_pekerjaaN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">14.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Keterangan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_keterangaN]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Adalah benar-benar warga [SeButan_desa] [NaMa_desa] dan merupakan orang yang sama namun terdapat perbedaan [Form_perbedaaN] seperti tersebut di atas. Adapun data yang benar dan dipakai seperti yang tercantum di Kartu Keluarga (KK).<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat ini dibuat untuk dipergunakan sebagaimana mestinya.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">\u00a0<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
         "template_desa": null,
         "form_isian": {
             "individu": {
+                "sumber": 1,
                 "data": [
                     "1"
                 ],
                 "sex": "",
                 "status_dasar": "1",
-                "kk_level": ""
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
+                "data_orang_tua": "0",
+                "data_pasangan": "0",
+                "judul": "Utama",
+                "label": "Keterangan Pemohon",
+                "info": "",
+                "hubungan": null
+            },
+            "identitas_kedua": {
+                "sumber": "0",
+                "data": [
+                    "1"
+                ],
+                "sex": "",
+                "status_dasar": null,
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
+                "judul": "Identitas Kedua",
+                "label": "Identitas Kedua",
+                "info": "",
+                "hubungan": ""
             }
         },
         "kode_isian": [
             {
+                "kategori": "identitas_kedua",
                 "tipe": "text",
-                "kode": "[form_kartu]",
-                "nama": "Kartu",
-                "deskripsi": "Masukkan Identitas dalam (nama kartu)",
-                "atribut": "",
-                "required": "1"
+                "kode": "[form_nama_kartu_identitas]",
+                "nama": "Nama Kartu Identitas",
+                "deskripsi": "Nama Kartu Identitas",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "",
+                "label": "Nama Kartu Identitas",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "identitas_kedua",
                 "tipe": "text",
-                "kode": "[form_no_identitas]",
-                "nama": "No Identitas",
-                "deskripsi": "Masukkan Nomer Identitas",
-                "atribut": "",
-                "required": "1"
+                "kode": "[form_nomor_identitas]",
+                "nama": "Nomor Identitas",
+                "deskripsi": "Nomor Identitas",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "",
+                "label": "Nomor Identitas",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "identitas_kedua",
                 "tipe": "text",
                 "kode": "[form_nama]",
                 "nama": "Nama",
-                "deskripsi": "Masukkan Nama",
-                "atribut": "",
-                "required": "1"
+                "deskripsi": "Nama",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "",
+                "label": "Nama",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "identitas_kedua",
                 "tipe": "text",
                 "kode": "[form_tempat_lahir]",
                 "nama": "Tempat Lahir",
-                "deskripsi": "Masukkan Tempat Lahir",
-                "atribut": "",
-                "required": "1"
+                "deskripsi": "Tempat Lahir",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "9",
+                "label": "Tempat Tanggal Lahir",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "identitas_kedua",
                 "tipe": "date",
                 "kode": "[form_tanggal_lahir]",
                 "nama": "Tanggal Lahir",
-                "deskripsi": "Masukkan Tanggal Lahir",
-                "atribut": "",
-                "required": "1"
+                "deskripsi": "Tanggal Lahir",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "3",
+                "label": "Tempat Tanggal Lahir",
+                "kaitkan_kode": ""
             },
             {
-                "tipe": "textarea",
-                "kode": "[form_alamat_tempat_tinggal]",
-                "nama": "Alamat \/ Tempat Tinggal",
-                "deskripsi": "Masukkan Alamat \/ Tempat Tinggal",
-                "atribut": "",
-                "required": "1"
-            },
-            {
-                "tipe": "text",
+                "kategori": "identitas_kedua",
+                "tipe": "select-otomatis",
                 "kode": "[form_jenis_kelamin]",
                 "nama": "Jenis Kelamin",
-                "deskripsi": "Masukkan Jenis Kelamin",
-                "atribut": "",
-                "required": "1"
+                "deskripsi": "Pilih Jenis Kelamin",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": "tweb_penduduk_sex",
+                "kolom": "6",
+                "label": "Jenis Kelamin",
+                "kaitkan_kode": ""
             },
             {
-                "tipe": "text",
+                "kategori": "identitas_kedua",
+                "tipe": "select-otomatis",
                 "kode": "[form_agama]",
                 "nama": "Agama",
-                "deskripsi": "Masukkan Agama",
-                "atribut": "",
-                "required": "1"
+                "deskripsi": "Pilih Agama",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": "tweb_penduduk_agama",
+                "kolom": "6",
+                "label": "Agama",
+                "kaitkan_kode": ""
             },
             {
-                "tipe": "text",
+                "kategori": "identitas_kedua",
+                "tipe": "select-otomatis",
                 "kode": "[form_pekerjaan]",
                 "nama": "Pekerjaan",
-                "deskripsi": "Masukkan Pekerjaan",
-                "atribut": "",
-                "required": "1"
+                "deskripsi": "Pekerjaan",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": "tweb_penduduk_pekerjaan",
+                "kolom": "6",
+                "label": "Pekerjaan",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "identitas_kedua",
                 "tipe": "textarea",
-                "kode": "[form_perbedaan]",
-                "nama": "Perbedaan",
-                "deskripsi": "Masukkan Perbedaan",
-                "atribut": "",
-                "required": "1"
+                "kode": "[form_alamat]",
+                "nama": "Alamat",
+                "deskripsi": "Alamat",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "",
+                "label": "Alamat",
+                "kaitkan_kode": ""
             },
             {
+                "kategori": "identitas_kedua",
                 "tipe": "textarea",
                 "kode": "[form_keterangan]",
                 "nama": "Keterangan",
-                "deskripsi": "Masukkan Keterangan",
-                "atribut": "",
-                "required": "1"
+                "deskripsi": "Keterangan",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "",
+                "label": "Keterangan",
+                "kaitkan_kode": ""
+            },
+            {
+                "kategori": "identitas_kedua",
+                "tipe": "text",
+                "kode": "[form_perbedaan]",
+                "nama": "Perbedaan",
+                "deskripsi": "Perbedaan",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "",
+                "label": "Perbedaan",
+                "kaitkan_kode": ""
             }
         ],
         "orientasi": "Potrait",
@@ -805,7 +978,8 @@
         "margin_global": "0",
         "footer": "1",
         "header": 1,
-        "format_nomor": null
+        "format_nomor": null,
+        "sumber_penduduk_berulang": "0"
     },
     {
         "nama": "Keterangan Wali Hakim",
@@ -910,7 +1084,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": ""
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ]
             }
         },
         "kode_isian": [
@@ -948,16 +1134,36 @@
         "logo_garuda": false,
         "kecamatan": "0",
         "syarat_surat": null,
-        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br \/><br \/><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 195.75px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px;\"> <\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">1.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px;\"> <\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">2.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">NIK \/ No. KTP<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[Nik]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px;\"> <\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">3.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px;\"> <\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">4.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[Jenis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 21px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 21px;\"> <\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 21px;\">5.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 21px;\">Agama<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 21px;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 21px;\">[AgAma]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 20.25px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 20.25px;\"> <\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 20.25px;\">6.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 20.25px;\">Status<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 20.25px;\"> <\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 20.25px;\">[Status_kawin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px;\"> <\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">7..<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Pendidikan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[Pendidikan_kk]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px;\"> <\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">8.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[PeKerjaan]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 4.3222%; text-align: center;\"> <\/td>\r\n<td style=\"width: 3.92927%; text-align: left;\">9.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left;\">Kewarganegaraan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify;\">[WArga_negara]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 36px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 36px;\"> <\/td>\r\n<td style=\"width: 3.92927%; height: 36px; text-align: left;\">10.<br \/><br \/><\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 36px;\">Alamat \/ Tempat Tinggal<br \/><br \/><\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 36px;\">:<br \/><br \/><\/td>\r\n<td style=\"width: 60.0524%; height: 36px; text-align: justify;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Orang tersebut di atas adalah benar-benar warga kami yang bertempat tinggal di [AlamaT] [Sebutan_desa] [NaMa_desa] dan tercatat dengan No. KK : [No_kK] Kepala Keluarga : [Kepala_kK].<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><br \/>       Surat Keterangan ini dibuat untuk Keperluan : <strong>[Form_keperluaN]<\/strong><br \/><br \/><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya, untuk dipergunakan sebagaimana mestinya.<br \/><br \/><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 144px;\" border=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 30%; height: 18px;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 30%; height: 18px;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 72px;\">\r\n<td style=\"width: 35%; text-align: center; height: 72px;\"> <\/td>\r\n<td style=\"width: 30%; height: 72px;\"><br \/><br \/><br \/><br \/><\/td>\r\n<td style=\"width: 35%; height: 72px;\"> <\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 30%; height: 18px;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; height: 18px;\"> <\/td>\r\n<td style=\"width: 30%; height: 18px;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br \/>[qr_code]<\/div>",
+        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 195.75px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">1.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">2.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">NIK \/ No. KTP<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[Nik]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">3.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">4.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[Jenis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 21px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 21px;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 21px;\">5.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 21px;\">Agama<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 21px;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 21px;\">[AgAma]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 20.25px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 20.25px;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 20.25px;\">6.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 20.25px;\">Status<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 20.25px;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 20.25px;\">[Status_kawin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">7..<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Pendidikan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[Pendidikan_kk]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">8.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[PeKerjaan]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 4.3222%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left;\">9.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left;\">Kewarganegaraan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify;\">[WArga_negara]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 36px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 36px;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 36px; text-align: left;\">10.<br><br><\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 36px;\">Alamat \/ Tempat Tinggal<br><br><\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 36px;\">:<br><br><\/td>\r\n<td style=\"width: 60.0524%; height: 36px; text-align: justify;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Orang tersebut di atas adalah benar-benar warga kami yang bertempat tinggal di [AlamaT] [Sebutan_desa] [NaMa_desa] dan tercatat dengan No. KK : [No_kK] Kepala Keluarga : [Kepala_kK].<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><br>Surat Keterangan ini dibuat untuk Keperluan : <strong>[Form_keperluaN]<\/strong><br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya, untuk dipergunakan sebagaimana mestinya.<br><br><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 144px;\" border=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 72px;\">\r\n<td style=\"width: 35%; text-align: center; height: 72px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 72px;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%; height: 72px;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
         "template_desa": null,
         "form_isian": {
             "individu": {
+                "sumber": 1,
                 "data": [
-                    "1"
+                    "1",
+                    "3"
                 ],
                 "sex": "",
-                "status_dasar": "",
-                "kk_level": ""
+                "status_dasar": "1",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
+                "data_orang_tua": "0",
+                "data_pasangan": "0",
+                "judul": "Utama",
+                "label": "Keterangan Pemohon",
+                "info": "",
+                "hubungan": null
             }
         },
         "kode_isian": [
@@ -966,10 +1172,13 @@
                 "kode": "[form_keperluan]",
                 "nama": "Keperluan",
                 "deskripsi": "Masukkan Keperluan",
-                "atribut": "",
+                "required": "0",
+                "atribut": null,
                 "pilihan": null,
                 "refrensi": null,
-                "required": "1"
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
             }
         ],
         "orientasi": "Potrait",
@@ -978,7 +1187,8 @@
         "margin_global": "0",
         "footer": "1",
         "header": 1,
-        "format_nomor": null
+        "format_nomor": null,
+        "sumber_penduduk_berulang": "0"
     },
     {
         "nama": "Keterangan Lahir Mati",
@@ -1005,7 +1215,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -1021,7 +1243,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Identitas Pelapor",
                 "label": "Identitas Pelapor",
                 "info": "",
@@ -1129,7 +1363,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": ""
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ]
             }
         },
         "kode_isian": [],
@@ -1166,7 +1412,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -1181,7 +1439,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Kendaraan",
                 "label": "IDENTITAS \/ DETAIL KENDARAAN",
                 "info": "Pengisian Identitas \/ Detail Kendaraan sesuai dengan BPKB",
@@ -1378,7 +1648,7 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": "4",
+                "kk_level": [4],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -1499,7 +1769,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": ""
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ]
             }
         },
         "kode_isian": [],
@@ -1536,7 +1818,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -1775,7 +2069,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -1859,7 +2165,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "1",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Pemohon",
@@ -1873,7 +2191,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Tanah",
                 "label": "DETAIL INFORMASI TANAH \/ LAHAN",
                 "hubungan": ""
@@ -2087,7 +2417,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "1",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -2102,7 +2444,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Identitas Pelapor",
                 "label": "Identitas Pelapor",
                 "hubungan": ""
@@ -2142,7 +2496,7 @@
                 ],
                 "sex": "",
                 "status_dasar": "1",
-                "kk_level": "1"
+                "kk_level": [1]
             }
         },
         "kode_isian": [
@@ -2214,7 +2568,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -2229,7 +2595,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Pasangan",
                 "label": "Data Pasangan",
                 "hubungan": ""
@@ -2285,7 +2663,7 @@
                 ],
                 "sex": "",
                 "status_dasar": "1",
-                "kk_level": "1",
+                "kk_level": [1],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -2359,7 +2737,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "1",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Pemberi Kuasa",
@@ -2374,7 +2764,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Penerima Kuasa",
                 "label": "Penerima Kuasa",
                 "hubungan": ""
@@ -2405,140 +2807,6 @@
         "sumber_penduduk_berulang": "0"
     },
     {
-        "nama": "Keterangan Domisili Non Warga",
-        "url_surat": "surat-keterangan-domisili-non-warga",
-        "kode_surat": "041.1",
-        "lampiran": null,
-        "kunci": false,
-        "favorit": false,
-        "jenis": "3",
-        "mandiri": false,
-        "masa_berlaku": 1,
-        "satuan_masa_berlaku": "M",
-        "qr_code": false,
-        "logo_garuda": false,
-        "kecamatan": "0",
-        "syarat_surat": null,
-        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100.012%; height: 336.8px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 23.2px;\">\r\n<td style=\"width: 4.34783%; text-align: center; height: 23.2px;\"> <\/td>\r\n<td style=\"width: 3.92512%; height: 23.2px; text-align: left;\">1.<\/td>\r\n<td style=\"width: 30.4952%; text-align: left; height: 23.2px;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.26812%; text-align: center; height: 23.2px;\">:<\/td>\r\n<td style=\"width: 59.9638%; height: 23.2px; text-align: justify;\"><strong>[Form_nama_non_wargA]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.34783%; text-align: center; height: 22.4px;\"> <\/td>\r\n<td style=\"width: 3.92512%; height: 22.4px; text-align: left;\">2.<\/td>\r\n<td style=\"width: 30.4952%; text-align: left; height: 22.4px;\">NIK \/ No. KTP<\/td>\r\n<td style=\"width: 1.26812%; text-align: center; height: 22.4px;\">:<\/td>\r\n<td style=\"width: 59.9638%; height: 22.4px; text-align: justify;\">[Form_nik_non_wargA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.34783%; text-align: center; height: 22.4px;\"> <\/td>\r\n<td style=\"width: 3.92512%; height: 22.4px; text-align: left;\">3.<\/td>\r\n<td style=\"width: 30.4952%; text-align: left; height: 22.4px;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.26812%; text-align: center; height: 22.4px;\">:<\/td>\r\n<td style=\"width: 59.9638%; height: 22.4px; text-align: justify;\">[form_tempat_lahir], [form_tanggal_lahir]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.34783%; text-align: center; height: 22.4px;\"> <\/td>\r\n<td style=\"width: 3.92512%; height: 22.4px; text-align: left;\">4.<\/td>\r\n<td style=\"width: 30.4952%; text-align: left; height: 22.4px;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.26812%; text-align: center; height: 22.4px;\">:<\/td>\r\n<td style=\"width: 59.9638%; height: 22.4px; text-align: justify;\">[form_jenis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.34783%; text-align: center; height: 22.4px;\"> <\/td>\r\n<td style=\"width: 3.92512%; text-align: left; height: 22.4px;\">5.<\/td>\r\n<td style=\"width: 30.4952%; text-align: left; height: 22.4px;\">Agama<\/td>\r\n<td style=\"width: 1.26812%; text-align: center; height: 22.4px;\">:<\/td>\r\n<td style=\"width: 59.9638%; text-align: justify; height: 22.4px;\">[form_agama]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.34783%; text-align: center; height: 22.4px;\"> <\/td>\r\n<td style=\"width: 3.92512%; text-align: left; height: 22.4px;\">6.<\/td>\r\n<td style=\"width: 30.4952%; text-align: left; height: 22.4px;\">Status<\/td>\r\n<td style=\"width: 1.26812%; text-align: center; height: 22.4px;\"> <\/td>\r\n<td style=\"width: 59.9638%; text-align: justify; height: 22.4px;\">[form_status_perkawinan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.34783%; text-align: center; height: 22.4px;\"> <\/td>\r\n<td style=\"width: 3.92512%; height: 22.4px; text-align: left;\">7.<\/td>\r\n<td style=\"width: 30.4952%; text-align: left; height: 22.4px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.26812%; text-align: center; height: 22.4px;\">:<\/td>\r\n<td style=\"width: 59.9638%; height: 22.4px; text-align: justify;\">[form_pekerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.34783%; text-align: center; height: 22.4px;\"> <\/td>\r\n<td style=\"width: 3.92512%; height: 22.4px; text-align: left;\">8.<\/td>\r\n<td style=\"width: 30.4952%; text-align: left; height: 22.4px;\">Asal<\/td>\r\n<td style=\"width: 1.26812%; text-align: center; height: 22.4px;\">:<\/td>\r\n<td style=\"width: 59.9638%; height: 22.4px; text-align: justify;\">[form_asal]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 22.4px;\"> <\/td>\r\n<td style=\"width: 3.92927%; height: 22.4px; text-align: left;\">9.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 22.4px;\">Tempat Tinggal Sekarang<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 22.4px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 22.4px; text-align: justify;\">[form_tempat_tinggal_sekarang]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 22.4px;\"> <\/td>\r\n<td style=\"width: 3.92927%; height: 22.4px; text-align: left;\">10.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 22.4px;\">Tujuan \/ Keperluan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 22.4px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 22.4px; text-align: justify;\">[form_tujuan_keperluan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.4px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 22.4px;\"> <\/td>\r\n<td style=\"width: 3.92927%; height: 22.4px; text-align: left;\">11.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 22.4px;\">Keterangan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 22.4px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 22.4px; text-align: justify;\">[form_keterangan]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dan diberikan kepada yang bersangkutan untuk dipergunakan sebagaimana mestinya dan di ketahui oleh pihak yang bertanggung jawab.<br><br><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 144px;\" border=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 30%; height: 18px;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 30%; height: 18px;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 72px;\">\r\n<td style=\"width: 35%; text-align: center; height: 72px;\"> <\/td>\r\n<td style=\"width: 30%; height: 72px;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%; height: 72px;\"> <\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\"> <\/td>\r\n<td style=\"width: 30%; height: 18px;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; height: 18px;\"> <\/td>\r\n<td style=\"width: 30%; height: 18px;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
-        "template_desa": null,
-        "form_isian": {
-            "individu": {
-                "data": [
-                    "2"
-                ]
-            }
-        },
-        "kode_isian": [
-            {
-                "tipe": "text",
-                "kode": "[form_tempat_lahir]",
-                "nama": "Tempat Lahir",
-                "deskripsi": "Masukkan tempat lahir",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "date",
-                "kode": "[form_tanggal_lahir]",
-                "nama": "Tanggal Lahir",
-                "deskripsi": "Masukkan tanggal lahir",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_jenis_kelamin]",
-                "nama": "Jenis Kelamin",
-                "deskripsi": "Pilih jenis kelamin",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_sex"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_status_perkawinan]",
-                "nama": "Status Perkawinan",
-                "deskripsi": "Pilih status perkawinan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_kawin"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_agama]",
-                "nama": "Agama",
-                "deskripsi": "Pilih agama",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_agama"
-            },
-            {
-                "tipe": "select-otomatis",
-                "kode": "[form_pekerjaan]",
-                "nama": "Pekerjaan",
-                "deskripsi": "pilih pekerjaan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": "tweb_penduduk_pekerjaan"
-            },
-            {
-                "tipe": "textarea",
-                "kode": "[form_asal]",
-                "nama": "Asal",
-                "deskripsi": "Masukkan kota asal",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "textarea",
-                "kode": "[form_tempat_tinggal_sekarang]",
-                "nama": "Tempat Tinggal Sekarang",
-                "deskripsi": "Masukkan tempat tinggal sekarang",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "text",
-                "kode": "[form_tujuan_keperluan]",
-                "nama": "Tujuan \/ Keperluan",
-                "deskripsi": "Masukkan tujuan \/ keperluan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            },
-            {
-                "tipe": "textarea",
-                "kode": "[form_keterangan]",
-                "nama": "Keterangan",
-                "deskripsi": "Masukkan keterangan",
-                "required": "0",
-                "atribut": null,
-                "pilihan": null,
-                "refrensi": null
-            }
-        ],
-        "orientasi": "Potrait",
-        "ukuran": "F4",
-        "margin": "{\"kiri\":1.78,\"atas\":0.63,\"kanan\":1.78,\"bawah\":1.37}",
-        "margin_global": "0",
-        "footer": "1",
-        "header": 1,
-        "format_nomor": null
-    },
-    {
         "nama": "Keterangan Izin Orang Tua Suami Istri",
         "url_surat": "surat-keterangan-izin-orang-tua-suami-istri",
         "kode_surat": "S-39",
@@ -2563,7 +2831,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Pemberi Izin",
@@ -2578,7 +2858,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Penerima Izin",
                 "label": "PIHAK YANG DIBERI IZIN",
                 "info": "",
@@ -2706,7 +2998,19 @@
                 ],
                 "sex": "1",
                 "status_dasar": "",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "1",
                 "data_pasangan": "0"
             },
@@ -2716,7 +3020,19 @@
                 ],
                 "sex": "2",
                 "status_dasar": null,
-                "kk_level": ""
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ]
             },
             "Saksi_I": {
                 "data": [
@@ -2724,7 +3040,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": ""
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ]
             },
             "Saksi_II": {
                 "data": [
@@ -2732,7 +3060,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": ""
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ]
             }
         },
         "kode_isian": [
@@ -3324,7 +3664,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "2",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "1",
                 "data_pasangan": "0",
                 "judul": "Jenazah",
@@ -3339,7 +3691,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Pelapor",
                 "label": "Pelapor",
                 "hubungan": ""
@@ -3352,7 +3716,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Saksi 1",
                 "label": "Saksi 1",
                 "hubungan": ""
@@ -3365,7 +3741,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Saksi 2",
                 "label": "Saksi 2",
                 "hubungan": ""
@@ -3410,27 +3798,61 @@
         "qr_code": false,
         "logo_garuda": false,
         "kecamatan": "0",
-        "syarat_surat": null,
-        "template": "<h3 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h3>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br \/><br \/><br \/><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa : <br \/><br \/>[Pengikut_kiS]<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Nama tersebut di atas merupakan identitas yang tertera pada KTP dan Kartu Keluarga (KK) sedangkan pada Kartu Indonesia Sehat (KIS) tertulis :<br \/><br \/>[Pengikut_kartu_kiS]<br \/><br \/><\/p><p style=\"text-align: justify; text-indent: 30px;\">Menurut pengamatan dan pengetahuan kami hingga saat dikeluarkannya surat keterangan ini bahwa yang namanya di atas merupakan orang yang satu \/ sama.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Surat keterangan ini dibuat untuk keperluan : <strong>[Form_keperluaN]<\/strong>.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya, untuk dapat dipergunakan sebagaimana mestinya.<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"><br \/><br \/><br \/><br \/><\/td>\r\n<td style=\"width: 35%;\"> <\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br \/>[qr_code]<\/div>",
+        "syarat_surat": null,        
+        "template": "<h3 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h3>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa : <br><br>[Pengikut_kiS]<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Nama tersebut di atas merupakan identitas yang tertera pada KTP dan Kartu Keluarga (KK) sedangkan pada Kartu Indonesia Sehat (KIS) tertulis :<br><br>[Pengikut_kartu_kiS]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Menurut pengamatan dan pengetahuan kami hingga saat dikeluarkannya surat keterangan ini bahwa yang namanya di atas merupakan orang yang satu \/ sama.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Surat keterangan ini dibuat untuk keperluan : <strong>[Form_keperluaN]<\/strong>.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya, untuk dapat dipergunakan sebagaimana mestinya.<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
         "template_desa": null,
         "form_isian": {
             "individu": {
+                "sumber": 1,
                 "data": [
                     "1"
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": ""
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
+                "data_orang_tua": "0",
+                "data_pasangan": "0",
+                "judul": "Keterangan Pemohon",
+                "label": "Keterangan Pemohon",
+                "info": "",
+                "hubungan": null
             }
         },
-        "kode_isian": [],
+        "kode_isian": [
+            {
+                "tipe": "text",
+                "kode": "[form_keperluan]",
+                "nama": "keperluan",
+                "deskripsi": "keperluan",
+                "required": "0",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "",
+                "label": "Keperluan",
+                "kaitkan_kode": ""
+            }
+        ],
         "orientasi": "Potrait",
         "ukuran": "F4",
         "margin": "{\"kiri\":1.78,\"atas\":0.63,\"kanan\":1.78,\"bawah\":1.37}",
         "margin_global": "0",
         "footer": "1",
         "header": 1,
-        "format_nomor": null
+        "format_nomor": null,
+        "sumber_penduduk_berulang": "0"
     },
     {
         "nama": "Keterangan Penghasilan Ayah",
@@ -3457,7 +3879,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -3540,7 +3974,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": ""
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ]
             }
         },
         "kode_isian": [
@@ -3606,7 +4052,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -3620,7 +4078,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Letak Tanah",
                 "label": "ATAS TANAH YANG TERLETAK",
                 "hubungan": ""
@@ -3632,7 +4102,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Batas Tanah",
                 "label": "BATAS-BATAS",
                 "hubungan": ""
@@ -3644,7 +4126,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Asal Tanah",
                 "label": "TANAH DI PEROLEH",
                 "hubungan": ""
@@ -3657,7 +4151,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Saksi I",
                 "label": "Saksi 1",
                 "hubungan": ""
@@ -3670,7 +4176,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Saksi II",
                 "label": "Saksi 2",
                 "hubungan": ""
@@ -3935,7 +4453,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "1",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "1",
                 "data_pasangan": "0"
             },
@@ -3945,7 +4475,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": ""
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ]
             },
             "Saksi_I": {
                 "data": [
@@ -3953,7 +4495,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": ""
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ]
             },
             "Saksi_II": {
                 "data": [
@@ -3961,7 +4515,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": ""
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ]
             }
         },
         "kode_isian": [
@@ -4009,7 +4575,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0"
             }
@@ -4394,7 +4972,19 @@
                 ],
                 "sex": "1",
                 "status_dasar": "1",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "1",
                 "data_pasangan": "0",
                 "judul": "Pasangan Pria",
@@ -4408,7 +4998,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Ayah Pasangan Pria",
                 "label": "A.2 DATA AYAH PASANGAN PRIA",
                 "hubungan": ""
@@ -4420,7 +5022,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Ibu Pasangan Pria",
                 "label": "A.3 DATA IBU PASANGAN PRIA",
                 "hubungan": ""
@@ -4433,7 +5047,19 @@
                 ],
                 "sex": "2",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Pasangan Wanita",
                 "label": "B1. DATA CALON PASANGAN WANITA",
                 "hubungan": ""
@@ -4445,7 +5071,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Ayah Pasangan Wanita",
                 "label": "B.2 DATA AYAH PASANGAN WANITA",
                 "hubungan": ""
@@ -4457,7 +5095,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Ibu Pasangan Wanita",
                 "label": "B.3 DATA IBU PASANGAN WANITA",
                 "hubungan": ""
@@ -4469,7 +5119,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Suami Terdahulu",
                 "label": "B.4 DATA SUAMI TERDAHULU ",
                 "hubungan": ""
@@ -4481,7 +5143,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Wali Nikah",
                 "label": "B.5 DATA WALI NIKAH ",
                 "hubungan": ""
@@ -4493,7 +5167,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Pernikahan",
                 "label": "C. DATA PERNIKAHAN ",
                 "hubungan": ""
@@ -4806,7 +5492,19 @@
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Pemohon",
@@ -4821,7 +5519,19 @@
                 ],
                 "sex": "",
                 "status_dasar": null,
-                "kk_level": "",
+                "kk_level": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                ],
                 "judul": "Anak",
                 "label": "Identitas Anak",
                 "info": "",

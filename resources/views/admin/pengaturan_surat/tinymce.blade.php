@@ -18,11 +18,11 @@
         <div class="row">
             <label for="penduduk_berulang" class="col-sm-3">Data Pelaku Digunakan Berulang</label>
             <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="margin: 0 0 5px 0">
-                <label class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(($suratMaster->sumber_penduduk_berulang ?? 0))">
-                    <input type="radio" name="sumber_penduduk_berulang" class="form-check-input" value="1" @checked(($suratMaster->sumber_penduduk_berulang ?? 0)) autocomplete="off">Ya
+                <label class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($suratMaster->sumber_penduduk_berulang ?? 0)">
+                    <input type="radio" name="sumber_penduduk_berulang" class="form-check-input" value="1" @checked($suratMaster->sumber_penduduk_berulang ?? 0) autocomplete="off">Ya
                 </label>
-                <label class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(! ($suratMaster->sumber_penduduk_berulang ?? 0))">
-                    <input type="radio" name="sumber_penduduk_berulang" class="form-check-input" value="0" @checked(! ($suratMaster->sumber_penduduk_berulang ?? 0)) autocomplete="off">Tidak
+                <label class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!($suratMaster->sumber_penduduk_berulang ?? 0))">
+                    <input type="radio" name="sumber_penduduk_berulang" class="form-check-input" value="0" @checked(!($suratMaster->sumber_penduduk_berulang ?? 0)) autocomplete="off">Tidak
                 </label>
             </div>
         </div>
@@ -37,7 +37,8 @@
                     <a href="#form-utama" data-toggle="tab">{{ $suratMaster->form_isian->individu->judul ?? 'Utama' }}</a>
                 </li>
                 @forelse ($suratMaster->form_isian as $item => $value)
-                    @if($item == 'individu') @continue
+                    @if ($item == 'individu')
+                        @continue
                     @endif
                     <li class="ui-list-tab" id="list-{{ $item }}" data-name="{{ $item }}">
                         <a id="nav-tab-{{ $item }}" href="#tab-{{ $item }}" data-toggle="tab">{{ str_replace('_', ' ', $value->judul ?? ucwords(str_replace('_', ' ', $item))) }}</a>
@@ -71,7 +72,15 @@
                         <div class="row" style="margin-top: 5px">
                             <label for="isi-prefix" class="col-sm-2">Prefix Bagian</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="prefix" value="{{ strtolower($suratMaster->form_isian->individu->prefix ?? 'individu') }}" minlength="3" maxlength="50" readonly>
+                                <input
+                                    type="text"
+                                    class="form-control input-sm required prefix_tinymce isi-prefix"
+                                    name="prefix"
+                                    value="{{ strtolower($suratMaster->form_isian->individu->prefix ?? 'individu') }}"
+                                    minlength="3"
+                                    maxlength="50"
+                                    readonly
+                                >
                             </div>
                         </div>
                         <hr>
@@ -100,8 +109,8 @@
                                             @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
                                             <select id="data_utama" class="form-control input-sm select2 required" name="data_utama[]" multiple>
                                                 <option value="1" @selected(in_array(1, $suratMaster->form_isian->individu->data))>{{ strtoupper('PENDUDUK ' . $desa_pend) }}</option>
-                                                @foreach($pendudukLuar as $index => $penduduk)
-                                                <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->individu->data))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
+                                                @foreach ($pendudukLuar as $index => $penduduk)
+                                                    <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->individu->data))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
@@ -158,11 +167,15 @@
                                     <tr class="sumber_data">
                                         <td>Status Hubungan Dalam Keluarga (SHDK)</td>
                                         <td>
-                                            <select id="individu_kk_level" class="form-control input-sm"
-                                                name="individu_kk_level">
-                                                <option value="">SEMUA</option>
+                                            <select id="individu_kk_level" class="form-control kk_level select2 input-sm" name="individu_kk_level[]" multiple>
                                                 @foreach ($form_isian['daftar_shdk'] as $key => $data)
-                                                    <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->individu->kk_level)>
+                                                    @php
+                                                        $select = false;
+                                                        if (in_array($key, $suratMaster->form_isian->individu->kk_level)) {
+                                                            $select = true;
+                                                        }
+                                                    @endphp
+                                                    <option value="{{ $key }}" @selected($select)>
                                                         {{ $data }}
                                                     </option>
                                                 @endforeach
@@ -235,8 +248,8 @@
                                                 @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
                                                 <select id="data_utama_{{ $item }}" class="form-control input-sm kategori" name="kategori_data_utama[{{ $item }}][]" multiple>
                                                     <option value="1" @selected(in_array(1, $suratMaster->form_isian->{$item}->data))>{{ strtoupper('PENDUDUK ' . $desa_pend) }}</option>
-                                                    @foreach($pendudukLuar as $index => $penduduk)
-                                                    <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->{$item}->data))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
+                                                    @foreach ($pendudukLuar as $index => $penduduk)
+                                                        <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->{$item}->data))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
                                                     @endforeach
                                                 </select>
                                                 @push('scripts')
@@ -264,8 +277,7 @@
                                         <tr class="sumber_data {{ $tampil_sumber }}">
                                             <td>Jenis Peristiwa</td>
                                             <td>
-                                                <select class="form-control input-sm select2 kategori"
-                                                    name="kategori_individu_status_dasar[{{ $item }}]">
+                                                <select class="form-control input-sm select2 kategori" name="kategori_individu_status_dasar[{{ $item }}]">
                                                     <option value="">SEMUA</option>
                                                     @foreach ($form_isian['daftar_status_dasar'] as $key => $data)
                                                         <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->$item->status_dasar)>
@@ -279,12 +291,15 @@
                                         <tr class="sumber_data {{ $tampil_sumber }}">
                                             <td>Status Hubungan Dalam Keluarga (SHDK)</td>
                                             <td>
-                                                <select id="individu_kk_level"
-                                                    class="form-control input-sm select2 kategori"
-                                                    name="kategori_individu_kk_level[{{ $item }}]">
-                                                    <option value="">SEMUA</option>
+                                                <select id="individu_kk_level_{{ $item }}" class="form-control input-sm select2 kategori kk_level" name="kategori_individu_kk_level[{{ $item }}][]" multiple>
                                                     @foreach ($form_isian['daftar_shdk'] as $key => $data)
-                                                        <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->$item->kk_level)>
+                                                        @php
+                                                            $select = false;
+                                                            if (in_array($key, $suratMaster->form_isian->$item->kk_level)) {
+                                                                $select = true;
+                                                            }
+                                                        @endphp
+                                                        <option value="{{ $key }}" @selected($select)>
                                                             {{ $data }}
                                                         </option>
                                                     @endforeach
@@ -294,15 +309,15 @@
                                         <tr class="sumber_data {{ $tampil_sumber }}">
                                             <td>Hubungan Data</td>
                                             <td>
-                                                <select class="form-control input-sm select2 kategori"
-                                                    name="kategori_hubungan[{{ $item }}]">
-                                                    <option value="">Pilih hubungan</option>                                                
+                                                <select class="form-control input-sm select2 kategori" name="kategori_hubungan[{{ $item }}]">
+                                                    <option value="">Pilih hubungan</option>
                                                     @foreach ($suratMaster->form_isian as $key => $data)
-                                                        @if ($key == $item) @continue
+                                                        @if ($key == $item)
+                                                            @continue
                                                         @endif
                                                         <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->$item->hubungan)>
                                                             {{ $data->judul ?: $key }}
-                                                        </option>                                                
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </td>
@@ -341,6 +356,11 @@
                 $('#data_utama').select2('destroy')
                 $('#data_utama').removeAttr('data-select2-id')
                 $('#data_utama option').removeAttr('data-select2-id')
+
+                $('#individu_kk_level').select2('destroy')
+                $('#individu_kk_level').removeAttr('data-select2-id')
+                $('#individu_kk_level option').removeAttr('data-select2-id')
+
                 $("#form-utama").clone(true)
                     .map(function() {
                         editElm = $(this)
@@ -352,18 +372,19 @@
                             .attr('id', `dragable-${nama_kategori}`)
                             .end();
 
-                        var utama_isi_judul   = editElm[0].querySelector('.isi-judul')
-                        var utama_isi_label   = editElm[0].querySelector('.isi-label')
-                        var utama_isi_info   = editElm[0].querySelector('.isi-info')
-                        var utama_isi_prefix  = editElm[0].querySelector('.isi-prefix')
+                        var utama_isi_judul = editElm[0].querySelector('.isi-judul')
+                        var utama_isi_label = editElm[0].querySelector('.isi-label')
+                        var utama_isi_info = editElm[0].querySelector('.isi-info')
+                        var utama_isi_prefix = editElm[0].querySelector('.isi-prefix')
                         var utama_sumber_data = editElm[0].querySelector('.isi-sumber-data')
 
                         utama_isi_judul.name = `kategori_judul[${nama_kategori}]`
                         utama_isi_prefix.name = `kategori_prefix[${nama_kategori}]`
-                        utama_isi_info.name = `kategori_label[${nama_kategori}]`
+                        utama_isi_info.name = `kategori_info[${nama_kategori}]`
 
-                        utama_isi_judul.value  = nama_kategori
-                        utama_isi_label.value  = ''
+                        utama_isi_judul.value = nama_kategori
+                        utama_isi_label.value = nama_kategori
+                        utama_isi_info.value = ''
                         utama_isi_prefix.value = nama_kategori
 
                         // utama_isi_judul.removeAttribute('readonly')
@@ -379,7 +400,7 @@
 
                         var tbodySumberData = editElm[0].querySelector('table.sumber-data').querySelector('tbody')
                         var lastTrSumberData = tbodySumberData.lastElementChild.cloneNode(true)
-                        var dropdownOptionTr = lastTrSumberData.lastElementChild.lastElementChild 
+                        var dropdownOptionTr = lastTrSumberData.lastElementChild.lastElementChild
                         var tabs = $('#form-isian #tabs').find('li')
 
                         var elsumberData = editElm[0].querySelector('.sumber-data')
@@ -393,29 +414,35 @@
                         newname = `kategori_${oldname}[${nama_kategori}]`
                         elLabel.name = newname
                         elLabel.value = nama_kategori
-                    
+
                         if (elsumberData != null) {
                             var selects = editElm[0].querySelectorAll('.sumber-data select');
                             // Menghapus semua atribut dan kelas "select2" dari setiap elemen <select>
                             selects.forEach((elselect2) => {
                                 oldname = elselect2.getAttribute('name')
                                 newname = `kategori_${oldname}[${nama_kategori}]`
-                                
+                                if (oldname == 'individu_kk_level[]') {
+                                    newname = `kategori_individu_kk_level[${nama_kategori}][]`
+                                }
+                                // ss
                                 elselect2.name = newname
-                                elselect2.id = elselect2.id+`-${nama_kategori}`
+                                elselect2.id = elselect2.id + `-${nama_kategori}`
                             });
-                            
+
                             lastTrSumberData.firstElementChild.innerText = 'Hubungan Data'
                             dropdownOptionTr.innerHTML = ''
                             dropdownOptionTr.name = `kategori_hubungan[${nama_kategori}]`
                             dropdownOptionTr.removeAttribute('id')
+                            dropdownOptionTr.removeAttribute('multiple')
+                            dropdownOptionTr.className = 'form-control input-sm';
                             // tambahkan option dinamis berdasarkan bagian form
                             dropdownOptionTr.innerHTML += `<option value="">Pilih hubungan form</option>`
-                            tabs.each(function(){
+                            tabs.each(function() {
                                 dropdownOptionTr.innerHTML += `<option value="${$(this).attr('data-name')}">${$(this).find('a').text()}</option>`
                             })
 
                             tbodySumberData.appendChild(lastTrSumberData)
+                            $(`[name="kategori_hubungan[${nama_kategori}]"]`).select2();
                         }
                         if (elkodeIsian != null) {
                             var elganda = editElm[0].querySelector('#gandakan-0');
@@ -473,14 +500,14 @@
                         var elbutton = editElm[0].querySelector('.tambah-kode')
                         elbutton.dataset.type = 'gandakan-' + nama_kategori
                         elbutton.dataset.kategori = nama_kategori
-                        
-                        editElm.find('input[name^=kategori_nama_kode]').on('change', function(e){
+
+                        editElm.find('input[name^=kategori_nama_kode]').on('change', function(e) {
                             $(this).closest('tr').find('input[name^=kategori_label_kode]').val($(this).val())
                         })
-                        
+
                         return editElm;
                     });
-                
+
                 var newNavItem = $(
                     `<li class="ui-list-tab" id="list-${nama_kategori}" data-name="${nama_kategori}">
                         <a id="nav-${newTabId}" href="#${newTabId}" data-toggle="tab">${nama_kategori.replace(/_/g, ' ')}</a>
@@ -490,9 +517,12 @@
 
                 $('.nav-tabs.customized-tab').append(newNavItem);
                 $('.tab-content .custom').append(editElm);
-                /* buat lagi select2*/
+                /* buat lagi select2s*/
                 $('#data_utama').select2()
-                $('#data_utama-'+nama_kategori).select2()
+                $('#data_utama-' + nama_kategori).select2()
+
+                $('#individu_kk_level').select2()
+                $('#individu_kk_level-' + nama_kategori).select2()
                 newNavItem.find('a').tab('show');
             });
 
@@ -502,31 +532,31 @@
                 items: '.ui-list-tab'
             }).disableSelection();
 
-            $('input.isi-judul').on('change', function(){
+            $('input.isi-judul').on('change', function() {
                 let _idTab = $(this).closest('.tab-pane').attr('id')
                 $(`#nav-${_idTab}`).text($(this).val())
             })
 
-            $('input.isi-prefix').on('change', function(){
+            $('input.isi-prefix').on('change', function() {
                 let _tabContent = $(this).closest('.tab-pane')
                 let _idTabAsli = _tabContent.attr('id').substr(4)
                 let _prefix = $(this).val()
-                _tabContent.attr('id', 'tab-'+_prefix)
+                _tabContent.attr('id', 'tab-' + _prefix)
                 _tabContent.find('.box-body>button').attr('data-kategori', _prefix)
-                $(this).attr('name', 'kategori_prefix['+_prefix+']')
+                $(this).attr('name', 'kategori_prefix[' + _prefix + ']')
                 // rename semua element dalam tab tersebut
-                _tabContent.find('.box-body').find('select, input, textarea').each(function(){
-                    if (!$.isEmptyObject($(this).attr('name'))){
-                        $(this).attr('name', $(this).attr('name').replace(_idTabAsli,_prefix))
+                _tabContent.find('.box-body').find('select, input, textarea').each(function() {
+                    if (!$.isEmptyObject($(this).attr('name'))) {
+                        $(this).attr('name', $(this).attr('name').replace(_idTabAsli, _prefix))
                     }
                 })
 
-                let _navTabElm = $('#form-isian #list-'+_idTabAsli)
-                _navTabElm.find('a').attr('id', 'nav-tab-'+_prefix)
-                _navTabElm.find('a').attr('href', '#tab-'+_prefix)
+                let _navTabElm = $('#form-isian #list-' + _idTabAsli)
+                _navTabElm.find('a').attr('id', 'nav-tab-' + _prefix)
+                _navTabElm.find('a').attr('href', '#tab-' + _prefix)
                 _navTabElm.find('input').val(_prefix)
                 _navTabElm.attr('data-name', _prefix)
-                _navTabElm.attr('id', 'list-'+_prefix)
+                _navTabElm.attr('id', 'list-' + _prefix)
             })
         });
 
@@ -542,19 +572,19 @@
 
         function loadSelect() {
             // console.log('load select');
-            $('.kategori').select2()
+            // $('.kategori').select2()
         }
 
         function judulTab(value, tab) {
-            $('#nav-tab-' . tab).text();
+            $('#nav-tab-'.tab).text();
         }
 
         function deleteTab(event) {
             var clicked = event.target;
             let tabContent = $(clicked).closest('.tab-pane')
             let id = tabContent.attr('id').substr(4)
-            let navTabElm = $('#form-isian #list-'+id)
-            
+            let navTabElm = $('#form-isian #list-' + id)
+
             tabContent.remove()
             navTabElm.prev('li').find('a').click()
             navTabElm.remove()

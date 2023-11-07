@@ -15,9 +15,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ route('penduduk') }}"
-                class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                title="Kembali Ke Data Penduduk"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Data Penduduk</a>
+            <a href="{{ route('penduduk') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Penduduk"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Data Penduduk</a>
         </div>
         <div class="box-body">
             {!! form_open($form_action, 'class="form-horizontal" id="impor" enctype="multipart/form-data"') !!}
@@ -26,17 +24,12 @@
             </p>
             <p>BIP yang dapat dibaca proses ini adalah yang tersusun berdasarkan keluarga, seperti contoh yang dapat dilihat
                 pada tautan berikut :</P>
-            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block"
-                href="{{ asset('import/format_bip_2012.xls') }}"><i class="fa fa-download"></i>Contoh BIP 2012</a>
-            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block"
-                href="{{ asset('import/format_bip_2016.xls') }}"><i class="fa fa-download"></i>Contoh BIP 2016</a>
-            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block"
-                href="{{ asset('import/format_bip_ektp.xls') }}"><i class="fa fa-download"></i>Contoh BIP eKTP</a>
-            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block"
-                href="{{ asset('import/format_bip_2016_luwutimur.xls') }}"><i class="fa fa-download"></i>Contoh BIP 2016
+            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ asset('import/format_bip_2012.xls') }}"><i class="fa fa-download"></i>Contoh BIP 2012</a>
+            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ asset('import/format_bip_2016.xls') }}"><i class="fa fa-download"></i>Contoh BIP 2016</a>
+            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ asset('import/format_bip_ektp.xls') }}"><i class="fa fa-download"></i>Contoh BIP eKTP</a>
+            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ asset('import/format_bip_2016_luwutimur.xls') }}"><i class="fa fa-download"></i>Contoh BIP 2016
                 Luwu Timur</a>
-            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block"
-                href="{{ asset('import/format_siak.xls') }}"><i class="fa fa-download"></i>Contoh Data SIAK</a>
+            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ asset('import/format_siak.xls') }}"><i class="fa fa-download"></i>Contoh Data SIAK</a>
             <p></p>
             <p>Proses ini mengimpor data keluarga di semua worksheet di berkas BIP. Misalnya, apabila data BIP tersusun
                 menjadi satu worksheet per dusun, proses ini akan mengimpor data semua dusun.</p>
@@ -65,21 +58,18 @@
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control" id="file_path_bip" name="userfile">
                                         <input type="file" class="hidden" id="file_bip" name="userfile"
-                                            accept="application/octet-stream, application/vnd.ms-excel, application/x-csv, text/x-csv, text/csv, application/csv, application/excel, application/vnd.msexcel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel.sheet.macroenabled.12" />
+                                            accept="application/octet-stream, application/vnd.ms-excel, application/x-csv, text/x-csv, text/csv, application/csv, application/excel, application/vnd.msexcel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel.sheet.macroenabled.12"
+                                        />
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-info" id="file_browser_bip"><i
-                                                    class="fa fa-search"></i> Browse</button>
+                                            <button type="button" class="btn btn-info" id="file_browser_bip"><i class="fa fa-search"></i> Browse</button>
                                         </span>
                                     </div>
                                     @if ($boleh_hapus_penduduk)
-                                        <p class="help-block"><input type="checkbox" name="hapus_data"
-                                                value="hapus"></input> Hapus data penduduk sebelum Impor</p>
+                                        <p class="help-block"><input type="checkbox" name="hapus_data" value="hapus"></input> Hapus data penduduk sebelum Impor</p>
                                     @endif
                                 </div>
                                 <div class="col-sm-12 col-md-5 col-lg-4">
-                                    <a href="#" class="btn btn-block btn-success btn-sm" title="Impor Database"
-                                        onclick="document.getElementById('impor').submit();" data-toggle="modal"
-                                        data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Impor Data
+                                    <a href="#" class="btn btn-block btn-success btn-sm" title="Impor Database" onclick="document.getElementById('impor').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Impor Data
                                         Penduduk</a>
                                 </div>
                             </div>

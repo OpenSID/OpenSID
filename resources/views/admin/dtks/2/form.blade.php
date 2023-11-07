@@ -2,9 +2,9 @@
 @include('admin.layouts.components.asset_validasi')
 
 @section('title')
-<h1>
-    Formulir DTKS {{ \App\Enums\Dtks\DtksEnum::VERSION_LIST[$dtks->versi_kuisioner] }}
-</h1>
+    <h1>
+        Formulir DTKS {{ \App\Enums\Dtks\DtksEnum::VERSION_LIST[$dtks->versi_kuisioner] }}
+    </h1>
 @endsection
 
 @section('breadcrumb')
@@ -39,7 +39,7 @@
             // Select2 dengan fitur pencarian karena tidak ngeload /js/custom.select2.js
             $('.select2').select2({
                 width: '100%',
-                dropdownAutoWidth : true
+                dropdownAutoWidth: true
             });
 
             // Select2 dengan fitur pencarian dan boleh isi sendiri
