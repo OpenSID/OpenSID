@@ -369,12 +369,13 @@
                         var utama_isi_prefix  = editElm[0].querySelector('.isi-prefix')
                         var utama_sumber_data = editElm[0].querySelector('.isi-sumber-data')
 
-                        utama_isi_judul.name = `kategori_judul[${nama_kategori}]`
+                        utama_isi_judul.name  = `kategori_judul[${nama_kategori}]`
                         utama_isi_prefix.name = `kategori_prefix[${nama_kategori}]`
-                        utama_isi_info.name = `kategori_label[${nama_kategori}]`
+                        utama_isi_info.name   = `kategori_info[${nama_kategori}]`
 
                         utama_isi_judul.value  = nama_kategori
-                        utama_isi_label.value  = ''
+                        utama_isi_label.value  = nama_kategori
+                        utama_isi_info.value   = ''
                         utama_isi_prefix.value = nama_kategori
 
                         // utama_isi_judul.removeAttribute('readonly')
