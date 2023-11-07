@@ -19,7 +19,7 @@
             <li><a href="#footer" data-toggle="tab">Footer</a></li>
             <li><a href="#alur" data-toggle="tab">Alur Surat</a></li>
             <li><a href="#tte" data-toggle="tab">Pengaturan TTE</a></li>
-            <li><a href="#sumber-penduduk" data-toggle="tab">Form Penduduk Luar</a></li>            
+            <li><a href="#sumber-penduduk" data-toggle="tab">Form Penduduk Luar</a></li>
             <li><a href="#kode-isian" data-toggle="tab">Kode Isian Alias</a></li>
             <li><a href="#lainnya" data-toggle="tab">Lainnya</a></li>
         </ul>

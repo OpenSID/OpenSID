@@ -32,51 +32,77 @@
         <div class="tab-content">
             <div class="tab-pane active" id="pengaturan-umum">
                 <div class="box-header with-border">
-                    <a href="{{ route('lampiran') }}"
-                        class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <a href="{{ route('lampiran') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                         <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Lampiran
                     </a>
                 </div>
-            
+
                 <div class="box-body form-horizontal">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Nama Lampiran</label>
                         <div class="col-sm-7">
                             <div class="input-group">
                                 <span class="input-group-addon input-sm">Lampiran</span>
-                                <input type="text" class="form-control input-sm nama_terbatas required" id="nama"
-                                    name="nama" placeholder="Nama lampiran" value="{{ $lampiranSurat->nama }}" />
+                                <input type="text" class="form-control input-sm nama_terbatas required" id="nama" name="nama" placeholder="Nama lampiran" value="{{ $lampiranSurat->nama }}" />
                             </div>
                         </div>
                     </div>
-            
+
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="status">Status Lampiran</label>
                         <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                            <label id="lm1"
-                                class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($lampiranSurat->status)">
-                                <input id="im1" type="radio" name="status" class="form-check-input" type="radio"
-                                    value="1" @checked($lampiranSurat->status) autocomplete="off">Aktif
+                            <label id="lm1" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($lampiranSurat->status)">
+                                <input
+                                    id="im1"
+                                    type="radio"
+                                    name="status"
+                                    class="form-check-input"
+                                    type="radio"
+                                    value="1"
+                                    @checked($lampiranSurat->status)
+                                    autocomplete="off"
+                                >Aktif
                             </label>
-                            <label id="lm2"
-                                class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$lampiranSurat->status)">
-                                <input id="im2" type="radio" name="status" class="form-check-input" type="radio"
-                                    value="0" @checked(!$lampiranSurat->status) autocomplete="off">Tidak Aktif
+                            <label id="lm2" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$lampiranSurat->status)">
+                                <input
+                                    id="im2"
+                                    type="radio"
+                                    name="status"
+                                    class="form-check-input"
+                                    type="radio"
+                                    value="0"
+                                    @checked(!$lampiranSurat->status)
+                                    autocomplete="off"
+                                >Tidak Aktif
                             </label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Gunakan Margin Kertas Global</label>
                         <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="margin: 0 0 5px 0">
-                            <label id="lmg1"
-                                class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($margin_global)">
-                                <input id="img1" type="radio" name="margin_global" @checked($margin_global)
-                                    class="form-check-input" type="radio" value="1" autocomplete="off">Ya
+                            <label id="lmg1" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($margin_global)">
+                                <input
+                                    id="img1"
+                                    type="radio"
+                                    name="margin_global"
+                                    @checked($margin_global)
+                                    class="form-check-input"
+                                    type="radio"
+                                    value="1"
+                                    autocomplete="off"
+                                >Ya
                             </label>
-                            <label id="lmg2"
-                                class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$margin_global)">
-                                <input id="img2" type="radio" name="margin_global" class="form-check-input"
-                                    @checked(!$margin_global) type="radio" value="0" autocomplete="off">Tidak
+                            <label id="lmg2" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$margin_global)">
+                                <input
+                                    id="img2"
+                                    type="radio"
+                                    name="margin_global"
+                                    class="form-check-input"
+                                    @checked(!$margin_global)
+                                    type="radio"
+                                    value="0"
+                                    autocomplete="off"
+                                >Tidak
                             </label>
                         </div>
                         <div id="manual_margin" style="display: none;">
@@ -86,9 +112,17 @@
                                         <div class="col-sm-6">
                                             <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
                                                 <span class="input-group-addon input-sm">{{ ucwords($key) }}</span>
-                                                <input type="number" class="form-control input-sm required" min="0"
-                                                    name="margin[{{ $key }}]" min="0" max="10" step="0.01"
-                                                    style="text-align:right;" value="{{ $value }}">
+                                                <input
+                                                    type="number"
+                                                    class="form-control input-sm required"
+                                                    min="0"
+                                                    name="margin[{{ $key }}]"
+                                                    min="0"
+                                                    max="10"
+                                                    step="0.01"
+                                                    style="text-align:right;"
+                                                    value="{{ $value }}"
+                                                >
                                                 <span class="input-group-addon input-sm">cm</span>
                                             </div>
                                         </div>
@@ -97,13 +131,12 @@
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
 
             <div class="tab-pane" id="template-lampiran">
                 <div class="box-header with-border">
-                    <a href="{{ route('lampiran') }}"
-                        class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <a href="{{ route('lampiran') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                         <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Lampiran
                     </a>
                 </div>
@@ -145,7 +178,7 @@
         };
 
         $(document).ready(function() {
-            var x = $("[name='margin_global']:checked").val()            
+            var x = $("[name='margin_global']:checked").val()
             if (x == 0) {
                 $('#manual_margin').show()
             }
@@ -159,6 +192,5 @@
                 }
             })
         })
-        
     </script>
 @endpush

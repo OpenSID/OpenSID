@@ -19,8 +19,7 @@
         <div class="box-header with-border">
             @if (can('u'))
                 <div class="btn-group-vertical radius-3">
-                    <button class="btn btn-social btn-sm bg-olive" id="btn-impor"  title="Impor Lampiran"><i
-                                    class="fa fa-upload"></i> Impor Lampiran</button>
+                    <button class="btn btn-social btn-sm bg-olive" id="btn-impor" title="Impor Lampiran"><i class="fa fa-upload"></i> Impor Lampiran</button>
                 </div>
             @endif
         </div>
@@ -34,17 +33,17 @@
                             <th class="padat"><input type="checkbox" id="checkall" /></th>
                             <th class="padat">NO</th>
                             <th>NAMA</th>
-                            <th>JENIS</th>                            
+                            <th>JENIS</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($data as $key => $row)
-                        <tr>
-                            <td><input type="checkbox" name="id_cb[]" value='{!! json_encode($row) !!}' /></td>
-                            <td>{{$key+1}}</td>
-                            <td>{{$row['nama']}}</td>
-                            <td>{{ App\Models\LampiranSurat::JENIS_LAMPIRAN[$row['jenis']] ?? '-'}}</td>
-                        </tr>
+                        @foreach ($data as $key => $row)
+                            <tr>
+                                <td><input type="checkbox" name="id_cb[]" value='{!! json_encode($row) !!}' /></td>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $row['nama'] }}</td>
+                                <td>{{ App\Models\LampiranSurat::JENIS_LAMPIRAN[$row['jenis']] ?? '-' }}</td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -57,16 +56,16 @@
     <script>
         $(document).ready(function() {
             $('#btn-impor').prop('disabled', 1)
-            $('#btn-impor').click(function(){
-                formAction('mainform', '{{ route('lampiran.impor_store') }}');                 
+            $('#btn-impor').click(function() {
+                formAction('mainform', '{{ route('lampiran.impor_store') }}');
             })
-            $('input[name="id_cb[]"]').change(function(){
+            $('input[name="id_cb[]"]').change(function() {
                 if ($('input[name="id_cb[]"]:checked').length) {
                     $('#btn-impor').prop('disabled', 0)
-                }else{
+                } else {
                     $('#btn-impor').prop('disabled', 1)
                 }
-            }) 
+            })
 
         });
     </script>

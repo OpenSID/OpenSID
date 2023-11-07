@@ -13,13 +13,13 @@
     @include('admin.layouts.components.notifikasi')
     {!! form_open($formAksi, ['id' => 'validasi', 'enctype' => 'multipart/form-data']) !!}
     <div class="nav-tabs-custom">
-        <ul class="nav nav-tabs">            
+        <ul class="nav nav-tabs">
             <li class="active"><a href="#lainnya" data-toggle="tab">Lainnya</a></li>
         </ul>
         <div class="tab-content">
-            @include('admin.pengaturan_surat.lampiran.pengaturan.kembali')            
+            @include('admin.pengaturan_surat.lampiran.pengaturan.kembali')
             @include('admin.pengaturan_surat.lampiran.pengaturan.lainnya')
-            
+
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
                     Batal</button>

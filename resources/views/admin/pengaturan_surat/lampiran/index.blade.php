@@ -18,35 +18,34 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a href="{{ route('lampiran.form') }}" title="Tambah Lampiran Surat"
-                    class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                        class="fa fa-plus"></i> Tambah</a>
+                <a href="{{ route('lampiran.form') }}" title="Tambah Lampiran Surat" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
             @endif
             @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data"
-                    onclick="deleteAllBox('mainform','{{ route('lampiran/delete_all') }}')"
-                    class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ route('lampiran/delete_all') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                         class='fa fa-trash-o'></i> Hapus</a>
             @endif
             @if (can('u'))
-            <div class="btn-group-vertical radius-3">
-                <a class="btn btn-social btn-sm bg-navy" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>
-                    Impor / Ekspor</a>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a href="{{ route('lampiran.impor') }}" class="btn btn-social btn-block btn-sm"
-                            data-target="#impor-surat" data-remote="false" data-toggle="modal" data-backdrop="false"
-                            data-keyboard="false"><i class="fa fa-upload"></i> Impor Lampiran Surat</a>
-                    </li>
-                    <li>
-                        <a target="_blank"
-                            class="btn btn-social btn-block btn-sm aksi-terpilih" title="Ekspor Lampiran Surat" onclick="formAction('mainform', '{{ route('lampiran.ekspor') }}'); return false;"><i
-                                class="fa fa-download"></i> Ekspor Lampiran Surat</a>
-                    </li>
-                </ul>
-            </div>
-            <a href="{{ route('pengaturan_lampiran') }}" title="Pengaturan"
-                    class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                <div class="btn-group-vertical radius-3">
+                    <a class="btn btn-social btn-sm bg-navy" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>
+                        Impor / Ekspor</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a
+                                href="{{ route('lampiran.impor') }}"
+                                class="btn btn-social btn-block btn-sm"
+                                data-target="#impor-surat"
+                                data-remote="false"
+                                data-toggle="modal"
+                                data-backdrop="false"
+                                data-keyboard="false"
+                            ><i class="fa fa-upload"></i> Impor Lampiran Surat</a>
+                        </li>
+                        <li>
+                            <a target="_blank" class="btn btn-social btn-block btn-sm aksi-terpilih" title="Ekspor Lampiran Surat" onclick="formAction('mainform', '{{ route('lampiran.ekspor') }}'); return false;"><i class="fa fa-download"></i> Ekspor Lampiran Surat</a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="{{ route('pengaturan_lampiran') }}" title="Pengaturan" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                     <i class="fa fa-gear"></i> Pengaturan
                 </a>
             @endif
