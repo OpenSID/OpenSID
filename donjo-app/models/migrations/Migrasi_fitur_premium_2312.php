@@ -36,6 +36,7 @@
  */
 
 use App\Enums\StatusEnum;
+use App\Models\FormatSurat;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -75,8 +76,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023110251($hasil);
+        $hasil = $hasil && $this->migrasi_2023110252($hasil);
 
-        return $hasil && $this->migrasi_2023110252($hasil);
+        return $hasil && $this->migrasi_2023110651($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -142,5 +144,12 @@ class Migrasi_fitur_premium_2312 extends MY_model
         ];
 
         return $hasil && $this->tambah_surat_tinymce($data, $id);
+    }
+
+    protected function migrasi_2023110651($hasil)
+    {
+        FormatSurat::where('url_surat', 'surat-keterangan-domisili-non-warga')->update(['jenis' => FormatSurat::TINYMCE_DESA]);
+
+        return $hasil;
     }
 }
