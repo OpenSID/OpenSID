@@ -3375,27 +3375,49 @@
         "qr_code": false,
         "logo_garuda": false,
         "kecamatan": "0",
-        "syarat_surat": null,
-        "template": "<h3 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h3>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br \/><br \/><br \/><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa : <br \/><br \/>[Pengikut_kiS]<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Nama tersebut di atas merupakan identitas yang tertera pada KTP dan Kartu Keluarga (KK) sedangkan pada Kartu Indonesia Sehat (KIS) tertulis :<br \/><br \/>[Pengikut_kartu_kiS]<br \/><br \/><\/p><p style=\"text-align: justify; text-indent: 30px;\">Menurut pengamatan dan pengetahuan kami hingga saat dikeluarkannya surat keterangan ini bahwa yang namanya di atas merupakan orang yang satu \/ sama.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Surat keterangan ini dibuat untuk keperluan : <strong>[Form_keperluaN]<\/strong>.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya, untuk dapat dipergunakan sebagaimana mestinya.<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"><br \/><br \/><br \/><br \/><\/td>\r\n<td style=\"width: 35%;\"> <\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\"> <\/td>\r\n<td style=\"width: 30%;\"> <\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br \/>[qr_code]<\/div>",
+        "syarat_surat": null,        
+        "template": "<h3 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h3>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa : <br><br>[Pengikut_kiS]<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Nama tersebut di atas merupakan identitas yang tertera pada KTP dan Kartu Keluarga (KK) sedangkan pada Kartu Indonesia Sehat (KIS) tertulis :<br><br>[Pengikut_kartu_kiS]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Menurut pengamatan dan pengetahuan kami hingga saat dikeluarkannya surat keterangan ini bahwa yang namanya di atas merupakan orang yang satu \/ sama.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Surat keterangan ini dibuat untuk keperluan : <strong>[Form_keperluaN]<\/strong>.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya, untuk dapat dipergunakan sebagaimana mestinya.<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
         "template_desa": null,
         "form_isian": {
             "individu": {
+                "sumber": 1,
                 "data": [
                     "1"
                 ],
                 "sex": "",
                 "status_dasar": "",
-                "kk_level": ""
+                "kk_level": "",
+                "data_orang_tua": "0",
+                "data_pasangan": "0",
+                "judul": "Keterangan Pemohon",
+                "label": "Keterangan Pemohon",
+                "info": "",
+                "hubungan": null
             }
         },
-        "kode_isian": [],
+        "kode_isian": [
+            {
+                "tipe": "text",
+                "kode": "[form_keperluan]",
+                "nama": "keperluan",
+                "deskripsi": "keperluan",
+                "required": "0",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "",
+                "label": "Keperluan",
+                "kaitkan_kode": ""
+            }
+        ],
         "orientasi": "Potrait",
         "ukuran": "F4",
         "margin": "{\"kiri\":1.78,\"atas\":0.63,\"kanan\":1.78,\"bawah\":1.37}",
         "margin_global": "0",
         "footer": "1",
         "header": 1,
-        "format_nomor": null
+        "format_nomor": null,
+        "sumber_penduduk_berulang": "0"
     },
     {
         "nama": "Keterangan Penghasilan Ayah",

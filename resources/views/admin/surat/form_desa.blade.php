@@ -108,6 +108,12 @@
             
             if(_checked) {
                 $('table.kis tr[data-row='+$(elm).val()+'] input').prop('disabled', 0)
+                $('table.kis tr[data-row='+$(elm).val()+'] input.datepicker').datepicker({
+                        weekStart : 1,
+                        language:'id',
+                        format: 'dd-mm-yyyy',
+                        autoclose: true
+                    });
             }else {
                 $('table.kis tr[data-row='+$(elm).val()+'] input').prop('disabled', 1)
             }
