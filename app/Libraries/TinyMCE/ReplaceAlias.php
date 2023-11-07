@@ -50,10 +50,17 @@ class ReplaceAlias
         'usia',
         'jenis_kelamin',
         'agama',
-        'pendidikan',
+        'pendidikan_kk',
         'pekerjaan',
         'warga_negara',
+        'alamat_jalan',
         'alamat',
+        'nama_rt',
+        'nama_rw',
+        'nama_desa',
+        'nama_kecamatan',
+        'nama_kabupaten',
+        'nama_provinsi',
 
         // kode isian lama
         'form_nama_non_warga',
@@ -100,6 +107,10 @@ class ReplaceAlias
 
             if ($item == 'usia') {
                 $value = usia($input['tanggallahir'], null, '%y tahun');
+            }
+
+            if ($item == 'alamat') {
+                $value = $input['alamat_jalan'] . ' RT ' . $input['nama_rt'] . ' RW ' . $input['nama_rw'] . ' ' . ucwords(setting('sebutan_desa') . ' ' . $input['nama_desa'] . ', ' . setting('sebutan_kecamatan') . ' ' . $input['nama_kecamatan'] . ', ' .  setting('sebutan_kabupaten') . ' ' . $input['nama_kabupaten'] . ', Provinsi ' . $input['nama_provinsi']);
             }
 
             return ['[' . ucfirst(uclast($item . $prefix)) . ']' => $value];

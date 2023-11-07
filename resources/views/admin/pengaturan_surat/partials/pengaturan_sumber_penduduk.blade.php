@@ -34,16 +34,22 @@
                                 <label><input type="checkbox" data-id="tanggal_lahir"> Tanggal lahir</label>
                             </div>
                             <div class="checkbox">
-                                <label><input type="checkbox" data-id="alamat"> Alamat</label>
+                                <label><input type="checkbox" data-id="jenis_kelamin"> Jenis Kelamin</label>
                             </div>
                             <div class="checkbox">
                                 <label><input type="checkbox" data-id="agama"> Agama</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" data-id="pendidikan_kk"> Pendidikan</label>
                             </div>
                             <div class="checkbox">
                                 <label><input type="checkbox" data-id="pekerjaan"> Pekerjaan</label>
                             </div>
                             <div class="checkbox">
                                 <label><input type="checkbox" data-id="warga_negara"> Warga Negara</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" data-id="alamat"> Alamat</label>
                             </div>
                         </div>
                     </div>
