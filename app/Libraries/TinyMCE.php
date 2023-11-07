@@ -470,7 +470,7 @@ class TinyMCE
             ->toArray();
 
         if ((int) $data['surat']['masa_berlaku'] == 0) {
-            $result = str_replace('[mulai_berlaku] s/d [berlaku_sampai]', $gantiDengan, $result);
+            $result = str_ireplace('[mulai_berlaku] s/d [berlaku_sampai]', $gantiDengan, $result);
         }
 
         // Kode isian yang berupa alias harus didahulukan
@@ -481,12 +481,12 @@ class TinyMCE
         }
 
         foreach ($newKodeIsian as $key => $value) {
-            if (in_array($key, $kecuali) || in_array($key, ['[terbilang]', '[hitung]'])) {
+            if (in_array(strtolower($key), array_map('strtolower', ['[terbilang]', '[hitung]']))) {
                 continue;
             }
-
-            if (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
-                $result = str_replace($key, $value, $result);
+            // TODO:: Cek dari awal pembuatan, kodeisian [format_nomor_surat] tidak mengikuti aturan penulisan, selalu hasilnya huruf besar.
+            if (in_array(strtolower($key), array_map('strtolower', ['[format_nomor_surat]']))) {
+                $result = str_ireplace($key, strtoupper($value), $result);
             }
             if (preg_match('/pengikut_surat/i', $key)) {
                 $result = str_replace($key, $data['pengikut_surat'] ?? '', $result);
@@ -603,10 +603,10 @@ class TinyMCE
 
         $lampiran     = explode(',', strtolower($surat['lampiran']));
         $format_surat = substitusiNomorSurat($input['nomor'], setting('format_nomor_surat'));
-        $format_surat = str_replace('[kode_surat]', $surat['kode_surat'], $format_surat);
-        $format_surat = str_replace('[kode_desa]', $config['kode_desa'], $format_surat);
-        $format_surat = str_replace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
-        $format_surat = str_replace('[tahun]', date('Y'), $format_surat);
+        $format_surat = str_ireplace('[kode_surat]', $surat['kode_surat'], $format_surat);
+        $format_surat = str_ireplace('[kode_desa]', $config['kode_desa'], $format_surat);
+        $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
+        $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
 
         if (isset($input['gunakan_format'])) {
             unset($lampiran);
