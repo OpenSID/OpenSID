@@ -84,6 +84,8 @@ class LampiranSurat extends BaseModel
         'status',
         'margin',
         'margin_global',
+        'ukuran',
+        'orientasi',
         'created_by',
         'updated_by',
     ];

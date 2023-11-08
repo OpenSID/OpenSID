@@ -190,6 +190,30 @@ class Migrasi_fitur_premium_2312 extends MY_model
             ]);
         }
 
+        if (! $this->db->field_exists('ukuran', 'lampiran_surat')) {
+            $hasil = $hasil && $this->dbforge->add_column('lampiran_surat', [
+                'ukuran' => [
+                    'type'       => 'varchar',
+                    'constraint' => 10,
+                    'null'       => true,
+                    'default'    => FormatSurat::DEFAULT_SIZES,
+                    'after'      => 'margin_global',
+                ],
+            ]);
+        }
+
+        if (! $this->db->field_exists('orientasi', 'lampiran_surat')) {
+            $hasil = $hasil && $this->dbforge->add_column('lampiran_surat', [
+                'orientasi' => [
+                    'type'       => 'varchar',
+                    'constraint' => 10,
+                    'null'       => true,
+                    'default'    => FormatSurat::DEFAULT_ORIENTATAIONS,
+                    'after'      => 'ukuran',
+                ],
+            ]);
+        }
+
         return $hasil;
     }
 

@@ -131,6 +131,28 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Orientasi Kertas</label>
+                        <div class="col-sm-7">
+                            <select class="form-control input-sm select2-tags required" name="orientasi">
+                                @foreach ($orientations as $value)
+                                    <option value="{{ $value }}" @selected(($lampiranSurat->orientasi ?? $default_orientations) === $value)>
+                                        {{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Ukuran Kertas</label>
+                        <div class="col-sm-7">
+                            <select class="form-control input-sm select2-tags required" name="ukuran">
+                                @foreach ($sizes as $value)
+                                    <option value="{{ $value }}" @selected(($lampiranSurat->ukuran ?? $default_sizes) === $value)>
+                                        {{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
 

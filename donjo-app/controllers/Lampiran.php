@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\FormatSurat;
 use App\Models\LampiranSurat;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -98,11 +99,15 @@ class Lampiran extends Admin_Controller
             }
         }
 
-        $data['action']        = $id ? 'Ubah' : 'Tambah';
-        $data['formAction']    = $id ? route('lampiran.update', $id) : route('lampiran.insert');
-        $data['lampiranSurat'] = $lampiran;
-        $data['margins']       = $margin;
-        $data['margin_global'] = $lampiran->margin_global ?? 1;
+        $data['action']               = $id ? 'Ubah' : 'Tambah';
+        $data['formAction']           = $id ? route('lampiran.update', $id) : route('lampiran.insert');
+        $data['lampiranSurat']        = $lampiran;
+        $data['margins']              = $margin;
+        $data['margin_global']        = $lampiran->margin_global ?? 1;
+        $data['orientations']         = FormatSurat::ORIENTATAIONS;
+        $data['sizes']                = FormatSurat::SIZES;
+        $data['default_orientations'] = FormatSurat::DEFAULT_ORIENTATAIONS;
+        $data['default_sizes']        = FormatSurat::DEFAULT_SIZES;
 
         return view('admin.pengaturan_surat.lampiran.form', $data);
     }
@@ -160,32 +165,34 @@ class Lampiran extends Admin_Controller
             'status'        => (int) $request['status'],
             'margin_global' => $request['margin_global'],
             'margin'        => json_encode($request['margin']),
+            'ukuran'        => $request['ukuran'],
+            'orientasi'     => $request['orientasi'],
         ];
     }
 
-public function impor()
-{
-    $this->redirect_hak_akses('u');
+    public function impor()
+    {
+        $this->redirect_hak_akses('u');
 
-    $this->load->library('upload');
+        $this->load->library('upload');
 
-    $config['upload_path']   = sys_get_temp_dir();
-    $config['allowed_types'] = 'json';
-    $config['overwrite']     = true;
-    $config['max_size']      = max_upload() * 1024;
-    $config['file_name']     = 'template_lampiran.json';
+        $config['upload_path']   = sys_get_temp_dir();
+        $config['allowed_types'] = 'json';
+        $config['overwrite']     = true;
+        $config['max_size']      = max_upload() * 1024;
+        $config['file_name']     = 'template_lampiran.json';
 
-    $this->upload->initialize($config);
+        $this->upload->initialize($config);
 
-    if ($this->upload->do_upload('userfile')) {
-        $list_data = $this->formatImport(file_get_contents($this->upload->data()['full_path']));
-        if ($list_data) {
-            return view('admin.pengaturan_surat.lampiran.impor_select', ['data' => $list_data]);
+        if ($this->upload->do_upload('userfile')) {
+            $list_data = $this->formatImport(file_get_contents($this->upload->data()['full_path']));
+            if ($list_data) {
+                return view('admin.pengaturan_surat.lampiran.impor_select', ['data' => $list_data]);
+            }
         }
-    }
 
-    redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
-}
+        redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
+    }
 
     private function formatImport($list_data = null)
     {

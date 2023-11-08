@@ -680,7 +680,8 @@ class TinyMCE
             ob_start();
             // default mengikuti margin global termasuk lampiran yang masih menggunakan file .php
             $margins = LampiranSurat::MARGINS;
-
+            $orientasiKertas =  $data['surat']['orientasi'];
+            $ukuranKertas = $data['surat']['ukuran'];
             if ($lampiranDb[$lampiran[$j]]) {
                 $lampiranTerpilih = $lampiranDb[$lampiran[$j]];
                 $pattern          = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
@@ -691,12 +692,15 @@ class TinyMCE
                         $margins = json_decode($lampiranTerpilih->margin, true);
                     }
                 }
+
+                $orientasiKertas = $lampiranTerpilih->orientasi;
+                $ukuranKertas = $lampiranTerpilih->ukuran;
                 // convert ke mm
                 $marginMm = [$margins['kiri'] * 10, $margins['atas'] * 10, $margins['kanan'] * 10, $margins['bawah'] * 10];
 
                 foreach ($pages as $index => $page) {
                     if (! empty($page)) {
-                        echo '<page orientation="portrait" format="210x330">';
+                        echo '<page>';
                         echo $page;
                         echo '</page>';
                     }
@@ -714,7 +718,8 @@ class TinyMCE
             $data['isi_surat'] = $lampiranHtml;
 
             $lampiranHtml = $this->replceKodeIsian($data);
-            (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $marginMm))
+            
+            (new Html2Pdf($orientasiKertas, $ukuranKertas, 'en', true, 'UTF-8', $marginMm))
                 ->setTestTdInOnePage(true)
                 ->setDefaultFont(underscore(setting('font_surat'), true, true))
                 ->writeHTML($lampiranHtml) // buat lampiran
