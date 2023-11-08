@@ -66,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023110751');
+define('VERSI_DATABASE', '2023120454');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1989,10 +1989,13 @@ if (! function_exists('daftar_statistik')) {
 }
 
 if (! function_exists('isNestedArray')) {
-    function isNestedArray($array)
+    function isNestedArray($array, $json = false)
     {
         if (is_array($array)) {
             foreach ($array as $element) {
+                if ($json) {
+                    $element = json_decode($element);
+                }
                 if (is_array($element)) {
                     return true;
                 }

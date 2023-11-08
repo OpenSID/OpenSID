@@ -110,8 +110,8 @@ class Surat_model extends MY_Model
             $this->db->where('sex', $filter['sex']);
         }
 
-        if ($filter['status_dasar']) {
-            $this->db->where('status_dasar', $filter['status_dasar']);
+        if ((is_array($filter['status_dasar']) && $filter['status_dasar'])) {
+            $this->db->where_in('status_dasar', $filter['status_dasar']);
         }
 
         if ((is_array($filter['kk_level']) && $filter['kk_level'])) {

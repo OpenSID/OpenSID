@@ -153,10 +153,15 @@
                                     <tr class="sumber_data">
                                         <td>Jenis Peristiwa</td>
                                         <td>
-                                            <select class="form-control input-sm" name="individu_status_dasar">
-                                                <option value="">SEMUA</option>
+                                            <select id="individu_status_dasar" class="form-control select2 input-sm" name="individu_status_dasar[]" multiple>
                                                 @foreach ($form_isian['daftar_status_dasar'] as $key => $data)
-                                                    <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->individu->status_dasar)>
+                                                    @php
+                                                        $select = false;
+                                                        if (in_array($key, $suratMaster->form_isian->individu->status_dasar)) {
+                                                            $select = true;
+                                                        }
+                                                    @endphp
+                                                    <option value="{{ $key }}" @selected($select)>
                                                         {{ $data }}
                                                     </option>
                                                 @endforeach
@@ -277,10 +282,16 @@
                                         <tr class="sumber_data {{ $tampil_sumber }}">
                                             <td>Jenis Peristiwa</td>
                                             <td>
-                                                <select class="form-control input-sm select2 kategori" name="kategori_individu_status_dasar[{{ $item }}]">
+                                                <select id="kategori_individu_status_dasar_{{ $item }}" class="form-control input-sm select2 kategori" name="kategori_individu_status_dasar[{{ $item }}][]" multiple>
                                                     <option value="">SEMUA</option>
                                                     @foreach ($form_isian['daftar_status_dasar'] as $key => $data)
-                                                        <option value="{{ $key }}" @selected($key == $suratMaster->form_isian->$item->status_dasar)>
+                                                        @php
+                                                            $select = false;
+                                                            if (in_array($key, $suratMaster->form_isian->$item->status_dasar)) {
+                                                                $select = true;
+                                                            }
+                                                        @endphp
+                                                        <option value="{{ $key }}" @selected($select)>
                                                             {{ $data }}
                                                         </option>
                                                     @endforeach
@@ -361,6 +372,11 @@
                 $('#individu_kk_level').removeAttr('data-select2-id')
                 $('#individu_kk_level option').removeAttr('data-select2-id')
 
+                // konsepnya sama seperti kasus multi kk_level
+                $('#individu_status_dasar').select2('destroy')
+                $('#individu_status_dasar').removeAttr('data-select2-id')
+                $('#individu_status_dasar option').removeAttr('data-select2-id')
+
                 $("#form-utama").clone(true)
                     .map(function() {
                         editElm = $(this)
@@ -424,7 +440,9 @@
                                 if (oldname == 'individu_kk_level[]') {
                                     newname = `kategori_individu_kk_level[${nama_kategori}][]`
                                 }
-                                // ss
+                                if (oldname == 'individu_status_dasar[]') {
+                                    newname = `kategori_individu_status_dasar[${nama_kategori}][]`
+                                }
                                 elselect2.name = newname
                                 elselect2.id = elselect2.id + `-${nama_kategori}`
                             });
@@ -523,6 +541,8 @@
 
                 $('#individu_kk_level').select2()
                 $('#individu_kk_level-' + nama_kategori).select2()
+                $('#individu_status_dasar').select2()
+                $('#individu_status_dasar-' + nama_kategori).select2()
                 newNavItem.find('a').tab('show');
             });
 

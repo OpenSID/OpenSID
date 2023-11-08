@@ -57,7 +57,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1"
+                "status_dasar": [
+                    "1"
+                ]
             }
         },
         "kode_isian": [
@@ -109,7 +111,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1"
+                "status_dasar": [
+                    "1"
+                ]
             }
         },
         "kode_isian": [
@@ -169,7 +173,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1"
+                "status_dasar": [
+                    "1"
+                ]
             }
         },
         "kode_isian": [
@@ -221,7 +227,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1"
+                "status_dasar": [
+                    "1"
+                ]
             }
         },
         "kode_isian": [
@@ -265,7 +273,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1"
+                "status_dasar": [
+                    "1"
+                ]
             }
         },
         "kode_isian": [
@@ -317,7 +327,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1"
+                "status_dasar": [
+                    "1"
+                ]
             }
         },
         "kode_isian": [
@@ -369,7 +381,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1"
+                "status_dasar": [
+                    "1"
+                ]
             }
         },
         "kode_isian": [],
@@ -406,7 +420,9 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": "1",
+                "status_dasar": [
+                    "1"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -475,7 +491,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1"
+                "status_dasar": [
+                    "1"
+                ]
             }
         },
         "kode_isian": [
@@ -528,7 +546,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1",
+                "status_dasar": [
+                    "1"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -554,7 +574,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -579,7 +609,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -688,7 +728,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1"
+                "status_dasar": [
+                    "1"
+                ]
             }
         },
         "kode_isian": [],
@@ -723,8 +765,12 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1",
-                "kk_level": [1]
+                "status_dasar": [
+                    "1"
+                ],
+                "kk_level": [
+                    1
+                ]
             }
         },
         "kode_isian": [
@@ -769,7 +815,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1",
+                "status_dasar": [
+                    "1"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -796,7 +844,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -1004,7 +1062,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1"
+                "status_dasar": [
+                    "1"
+                ]
             }
         },
         "kode_isian": [],
@@ -1039,7 +1099,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1"
+                "status_dasar": [
+                    "1"
+                ]
             }
         },
         "kode_isian": [
@@ -1083,7 +1145,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -1144,7 +1216,9 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": "1",
+                "status_dasar": [
+                    "1"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -1214,7 +1288,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -1242,7 +1326,17 @@
                     "2"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -1362,7 +1456,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -1411,7 +1515,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -1438,7 +1552,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -1647,8 +1771,20 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
-                "kk_level": [4],
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
+                "kk_level": [
+                    4
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -1768,7 +1904,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -1817,7 +1963,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -2068,7 +2224,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -2164,7 +2330,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1",
+                "status_dasar": [
+                    "1"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -2190,7 +2358,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -2416,7 +2594,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1",
+                "status_dasar": [
+                    "1"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -2443,7 +2623,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -2495,8 +2685,12 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1",
-                "kk_level": [1]
+                "status_dasar": [
+                    "1"
+                ],
+                "kk_level": [
+                    1
+                ]
             }
         },
         "kode_isian": [
@@ -2567,7 +2761,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -2594,7 +2798,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -2662,8 +2876,12 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1",
-                "kk_level": [1],
+                "status_dasar": [
+                    "1"
+                ],
+                "kk_level": [
+                    1
+                ],
                 "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Utama",
@@ -2736,7 +2954,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1",
+                "status_dasar": [
+                    "1"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -2763,7 +2983,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -2830,7 +3060,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -2857,7 +3097,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -2999,7 +3249,17 @@
                     "3"
                 ],
                 "sex": "1",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     "1",
                     "2",
@@ -3053,7 +3313,17 @@
                     "3"
                 ],
                 "sex": "2",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     "1",
                     "2",
@@ -3207,7 +3477,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     "1",
                     "2",
@@ -3233,7 +3513,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     "1",
                     "2",
@@ -4405,7 +4695,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "2",
+                "status_dasar": [
+                    "2"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -4432,7 +4724,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -4457,7 +4759,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -4482,7 +4794,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -4540,7 +4862,7 @@
         "qr_code": false,
         "logo_garuda": false,
         "kecamatan": "0",
-        "syarat_surat": null,        
+        "syarat_surat": null,
         "template": "<h3 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h3>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa : <br><br>[Pengikut_kiS]<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Nama tersebut di atas merupakan identitas yang tertera pada KTP dan Kartu Keluarga (KK) sedangkan pada Kartu Indonesia Sehat (KIS) tertulis :<br><br>[Pengikut_kartu_kiS]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Menurut pengamatan dan pengetahuan kami hingga saat dikeluarkannya surat keterangan ini bahwa yang namanya di atas merupakan orang yang satu \/ sama.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Surat keterangan ini dibuat untuk keperluan : <strong>[Form_keperluaN]<\/strong>.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya, untuk dapat dipergunakan sebagaimana mestinya.<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
         "template_desa": null,
         "form_isian": {
@@ -4550,7 +4872,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -4620,7 +4952,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -4707,7 +5049,7 @@
         "logo_garuda": false,
         "kecamatan": "0",
         "syarat_surat": null,
-        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 269.297px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left; vertical-align: top;\">1.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px; vertical-align: top;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify; vertical-align: top;\"><strong>[NaMa_ibu]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left; vertical-align: top;\">2.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px; vertical-align: top;\">NIK \/ No. KTP<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify; vertical-align: top;\">[NiK_ibu]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 25.8125px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 25.8125px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 25.8125px; vertical-align: top;\">3.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 25.8125px; vertical-align: top;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 25.8125px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 25.8125px; vertical-align: top;\">[TtL_ibu]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 21.8125px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 21.8125px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 21.8125px; vertical-align: top;\">4.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 21.8125px; vertical-align: top;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 21.8125px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 21.8125px; vertical-align: top;\">[JeNis_kelamin_ibu]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left; vertical-align: top;\">5.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px; vertical-align: top;\">Agama<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify; vertical-align: top;\">[AgAma_ibu]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 18px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 18px; vertical-align: top;\">6<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 18px; vertical-align: top;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 18px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 18px; vertical-align: top;\">[PeKerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left; vertical-align: top;\">7.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px; vertical-align: top;\">Kewarganegaraan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify; vertical-align: top;\">[Warga_negarA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 43.4844px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 43.4844px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 43.4844px; vertical-align: top;\">8.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 43.4844px; vertical-align: top;\">Alamat \/ Tempat Tinggal<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 43.4844px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 43.4844px; vertical-align: top;\">[AlAmat_ibu] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Orang yang tersebut di atas adalah benar-benar warga kami yang bertempat tinggal di [AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten] dan tercatat dalam No. KK : [No_kK] dengan NIK [NiK_ibu] Kepala Keluarga : [Kepala_kK] dan menurut sepengetahuan kami memang benar berpenghasilan rata-rata [Form_jumlah_penghasilan_ibu] ([TeRbilang][[FoRm_jumlah_penghasilan_ibu]]) \/ Perbulan.<br><br><\/p>\r\n<p>Surat Keterangan ini dibuat atas permintaan yang bersangkutan untuk keperluan anaknya untuk [Form_keperluaN] di<strong> [Form_nama_sekolaH]<\/strong><strong> <\/strong>atas nama :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 269.297px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left; vertical-align: top;\">1.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px; vertical-align: top;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify; vertical-align: top;\"><strong>[NAma] <\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left; vertical-align: top;\">2.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px; vertical-align: top;\">NIK \/ No. KTP<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify; vertical-align: top;\">[Nik]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 25.8125px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 25.8125px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 25.8125px; vertical-align: top;\">3.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 25.8125px; vertical-align: top;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 25.8125px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 25.8125px; vertical-align: top;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 21.8125px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 21.8125px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 21.8125px; vertical-align: top;\">4.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 21.8125px; vertical-align: top;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 21.8125px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 21.8125px; vertical-align: top;\">[Jenis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left; vertical-align: top;\">5.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px; vertical-align: top;\">Agama<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify; vertical-align: top;\">[AgAma]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 4.3222%; text-align: center; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; vertical-align: top;\">6<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; vertical-align: top;\">Status<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; vertical-align: top;\">[Status_kawiN]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 4.3222%; text-align: center; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; vertical-align: top;\">7.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; vertical-align: top;\">Pendidikan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; vertical-align: top;\">[Pendidikan_sedanG]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 18px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 18px; vertical-align: top;\">8.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 18px; vertical-align: top;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 18px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 18px; vertical-align: top;\">[PeKerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19.75px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19.75px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 19.75px; text-align: left; vertical-align: top;\">9.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19.75px; vertical-align: top;\">Kewarganegaraan<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19.75px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 19.75px; text-align: justify; vertical-align: top;\">[Warga_negarA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 43.4844px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 43.4844px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 43.4844px; vertical-align: top;\">10.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 43.4844px; vertical-align: top;\">Alamat \/ Tempat Tinggal<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 43.4844px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 43.4844px; vertical-align: top;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya, untuk dipergunakan sebagaimana mestinya.<br><br><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 144px;\" border=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 72px;\">\r\n<td style=\"width: 35%; text-align: center; height: 72px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 72px;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%; height: 72px;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 35%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center; height: 18px;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
+        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n            <p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br \/><br \/><\/p>\r\n            <p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n            <table style=\"border-collapse: collapse; width: 100%; height: 269.297px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n            <tbody>\r\n            <tr style=\"height: 19.75px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">1.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Nama Lengkap<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\"><strong>[NaMa_ibu]<\/strong><\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 19.75px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">2.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">NIK \/ No. KTP<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[NiK_ibu]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 25.8125px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 25.8125px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; text-align: left; height: 25.8125px;\">3.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 25.8125px;\">Tempat \/ Tanggal Lahir<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 25.8125px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; text-align: justify; height: 25.8125px;\">[TtL_ibu]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 21.8125px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 21.8125px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; text-align: left; height: 21.8125px;\">4.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 21.8125px;\">Jenis Kelamin<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 21.8125px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; text-align: justify; height: 21.8125px;\">[JeNis_kelamin_ibu]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 19.75px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">5.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Agama<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[AgAma_ibu]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 18px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; text-align: left; height: 18px;\">6<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 18px;\">Pekerjaan<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 18px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; text-align: justify; height: 18px;\">[PeKerjaan]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 19.75px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">7.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Kewarganegaraan<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[WArga_negara]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 43.4844px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 43.4844px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; text-align: left; height: 43.4844px;\">8.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 43.4844px;\">Alamat \/ Tempat Tinggal<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 43.4844px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; text-align: justify; height: 43.4844px;\">[AlAmat_ibu] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n            <\/tr>\r\n            <\/tbody>\r\n            <\/table>\r\n            <p style=\"text-align: justify; text-indent: 30px;\">Orang yang tersebut di atas adalah benar-benar warga kami yang bertempat tinggal di [AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten] dan tercatat dalam No. KK : [No_kK] dengan NIK [NiK_ibu] Kepala Keluarga : [Kepala_kK] dan menurut sepengetahuan kami memang benar berpenghasilan rata-rata [Form_jumlah_penghasilan_ibu] \/ Perbulan.<br \/><br \/><\/p>\r\n            <p>Surat Keterangan ini dibuat atas permintaan yang bersangkutan untuk keperluan anaknya untuk [Form_keperluaN] di<strong> [Form_nama_sekolaH]<\/strong><strong> <\/strong>atas nama :<\/p>\r\n            <table style=\"border-collapse: collapse; width: 100%; height: 269.297px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n            <tbody>\r\n            <tr style=\"height: 19.75px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">1.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Nama Lengkap<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\"><strong>[NAma] <\/strong><\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 19.75px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">2.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">NIK \/ No. KTP<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[Nik]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 25.8125px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 25.8125px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; text-align: left; height: 25.8125px;\">3.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 25.8125px;\">Tempat \/ Tanggal Lahir<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 25.8125px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; text-align: justify; height: 25.8125px;\">[TtL]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 21.8125px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 21.8125px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; text-align: left; height: 21.8125px;\">4.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 21.8125px;\">Jenis Kelamin<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 21.8125px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; text-align: justify; height: 21.8125px;\">[Jenis_kelamin]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 19.75px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">5.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Agama<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[AgAma]<\/td>\r\n            <\/tr>\r\n            <tr>\r\n            <td style=\"width: 4.3222%; text-align: center;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; text-align: left;\">6<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left;\">Status<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center;\">:<\/td>\r\n            <td style=\"width: 60.0524%; text-align: justify;\">[Status_kawiN]<\/td>\r\n            <\/tr>\r\n            <tr>\r\n            <td style=\"width: 4.3222%; text-align: center;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; text-align: left;\">7.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left;\">Pendidikan<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center;\">:<\/td>\r\n            <td style=\"width: 60.0524%; text-align: justify;\">[Pendidikan_sedanG]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 18px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; text-align: left; height: 18px;\">8.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 18px;\">Pekerjaan<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 18px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; text-align: justify; height: 18px;\">[PeKerjaan]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 19.75px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 19.75px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; height: 19.75px; text-align: left;\">9.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 19.75px;\">Kewarganegaraan<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 19.75px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; height: 19.75px; text-align: justify;\">[WArga_negara]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 43.4844px;\">\r\n            <td style=\"width: 4.3222%; text-align: center; height: 43.4844px;\">\u00a0<\/td>\r\n            <td style=\"width: 3.92927%; text-align: left; height: 43.4844px;\">10.<\/td>\r\n            <td style=\"width: 30.5174%; text-align: left; height: 43.4844px;\">Alamat \/ Tempat Tinggal<\/td>\r\n            <td style=\"width: 1.24427%; text-align: center; height: 43.4844px;\">:<\/td>\r\n            <td style=\"width: 60.0524%; text-align: justify; height: 43.4844px;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n            <\/tr>\r\n            <\/tbody>\r\n            <\/table>\r\n            <p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya, untuk dipergunakan sebagaimana mestinya.<br \/><br \/><\/p>\r\n            <table style=\"border-collapse: collapse; width: 100%; height: 144px;\" border=\"0\">\r\n            <tbody>\r\n            <tr style=\"height: 18px;\">\r\n            <td style=\"width: 35%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n            <td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n            <td style=\"width: 35%; text-align: center; height: 18px;\">[NaMa_desa], [TgL_surat]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 18px;\">\r\n            <td style=\"width: 35%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n            <td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n            <td style=\"width: 35%; text-align: center; height: 18px;\">[Atas_namA]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 72px;\">\r\n            <td style=\"width: 35%; text-align: center; height: 72px;\">\u00a0<\/td>\r\n            <td style=\"width: 30%; height: 72px;\"><br \/><br \/><br \/><br \/><\/td>\r\n            <td style=\"width: 35%; height: 72px;\">\u00a0<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 18px;\">\r\n            <td style=\"width: 35%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n            <td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n            <td style=\"width: 35%; text-align: center; height: 18px;\">[Nama_pamonG]<\/td>\r\n            <\/tr>\r\n            <tr style=\"height: 18px;\">\r\n            <td style=\"width: 35%; height: 18px;\">\u00a0<\/td>\r\n            <td style=\"width: 30%; height: 18px;\">\u00a0<\/td>\r\n            <td style=\"width: 35%; text-align: center; height: 18px;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n            <\/tr>\r\n            <\/tbody>\r\n            <\/table>\r\n            <div style=\"text-align: center;\"><br \/>[qr_code]<\/div>",
         "template_desa": null,
         "form_isian": {
             "individu": {
@@ -4716,7 +5058,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -4729,13 +5081,7 @@
                     9,
                     10,
                     11
-                ],
-                "data_orang_tua": "0",
-                "data_pasangan": "0",
-                "judul": "Utama",
-                "label": "Keterangan Pemohon",
-                "info": "",
-                "hubungan": null
+                ]
             }
         },
         "kode_isian": [
@@ -4813,7 +5159,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -4839,7 +5195,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -4863,7 +5229,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -4887,7 +5263,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -4912,7 +5298,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -4937,7 +5333,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5214,7 +5620,9 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "1",
+                "status_dasar": [
+                    "1"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5236,7 +5644,17 @@
                     1
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5256,7 +5674,17 @@
                     1
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5276,7 +5704,17 @@
                     1
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5336,7 +5774,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5733,7 +6181,9 @@
                     "3"
                 ],
                 "sex": "1",
-                "status_dasar": "1",
+                "status_dasar": [
+                    "1"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5759,7 +6209,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5783,7 +6243,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5808,7 +6278,17 @@
                     "3"
                 ],
                 "sex": "2",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5832,7 +6312,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5856,7 +6346,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5880,7 +6380,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5904,7 +6414,17 @@
                     "3"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -5928,7 +6448,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -6253,7 +6783,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": "",
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,
@@ -6280,7 +6820,17 @@
                     "1"
                 ],
                 "sex": "",
-                "status_dasar": null,
+                "status_dasar": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ],
                 "kk_level": [
                     1,
                     2,

@@ -363,7 +363,7 @@ class Surat_master extends Admin_Controller
                 'data'           => $request['data_utama'] ?? [1],
                 'sex'            => $request['individu_sex'] ?? null,
                 'status_dasar'   => $request['individu_status_dasar'] ?? null,
-                'kk_level'       => $request['individu_kk_level'] ?? SHDKEnum::all(),
+                'kk_level'       => $request['individu_kk_level'] ?? null,
                 'data_orang_tua' => $request['data_orang_tua'] ?? 0,
                 'data_pasangan'  => $request['data_pasangan'] ?? 0,
                 'judul'          => $request['judul'] ?? 'Utama',
@@ -379,8 +379,8 @@ class Surat_master extends Admin_Controller
                     'sumber'       => $request['kategori_sumber'][$kategori] ?? 1,
                     'data'         => $request['kategori_data_utama'][$kategori] ?? [1],
                     'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
-                    'status_dasar' => $request['kategori_status_dasar'][$kategori] ?? null,
-                    'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? SHDKEnum::all(),
+                    'status_dasar' => $request['kategori_individu_status_dasar'][$kategori] ?? null,
+                    'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
                     'judul'        => $request['kategori_judul'][$kategori] ?? null,
                     'label'        => $request['kategori_label'][$kategori] ?? null,
                     'info'         => $request['kategori_info'][$kategori] ?? null,
@@ -431,6 +431,7 @@ class Surat_master extends Admin_Controller
                 unset($data);
             }
         }
+
         $data = [
             'config_id'                => identitas('id'),
             'nama'                     => nama_surat($request['nama']),
