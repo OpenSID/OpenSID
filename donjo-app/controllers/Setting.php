@@ -156,46 +156,4 @@ class Setting extends Admin_Controller
 
         return view('admin.pengaturan.index', $data);
     }
-
-    public function qrcode($aksi = '')
-    {
-        $this->modul_ini     = 'pengaturan';
-        $this->sub_modul_ini = 'qr-code';
-
-        $data['qrcode']        = ['changeqr' => '1', 'sizeqr' => '6', 'foreqr' => '#000000']; // Default
-        $data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Manual'];
-        $data['list_sizeqr']   = ['25', '50', '75', '100', '125', '150', '175', '200', '225', '250'];
-
-        $this->render('setting/setting_qr', $data);
-    }
-
-    public function qrcode_generate()
-    {
-        $this->redirect_hak_akses_url('u');
-        $post     = $this->input->post();
-        $changeqr = $post['changeqr'];
-
-        // $logoqr = yg akan ditampilkan, url
-        // $logoqr1 = yg akan disimpan, directory
-        if ($changeqr == '1') {
-            // Ambil absolute path, bukan url
-            $logoqr1 = gambar_desa($this->header['desa']['logo'], false, true);
-        } else {
-            $logoqr = $post['logoqr'];
-            // Ubah url (http) menjadi absolute path ke file di lokasi media
-            $lokasi_media = preg_quote(LOKASI_MEDIA, '/');
-            $file_logoqr  = preg_split('/' . $lokasi_media . '/', $logoqr)[1];
-            $logoqr1      = FCPATH . LOKASI_MEDIA . $file_logoqr;
-        }
-
-        $qrCode = [
-            'isiqr'    => $post['isiqr'], // Isi / arti dr qrcode
-            'changeqr' => $changeqr, // Pilihan jenis sisipkan logo
-            'logoqr'   => $logoqr1,
-            'sizeqr'   => bilangan($post['sizeqr']), // Ukuran qrcode
-            'foreqr'   => $post['foreqr'],
-        ];
-
-        json(qrcode_generate($qrCode, true));
-    }
 }

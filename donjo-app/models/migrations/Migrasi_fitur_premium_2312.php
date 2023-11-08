@@ -73,6 +73,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->suratKeteranganPenghasilanAyah($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023111151($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -153,6 +154,13 @@ class Migrasi_fitur_premium_2312 extends MY_model
         FormatSurat::where('url_surat', 'surat-keterangan-domisili-non-warga')->update(['jenis' => FormatSurat::TINYMCE_DESA]);
 
         return $hasil;
+    }
+
+    protected function migrasi_2023111151($hasil, $id)
+    {
+        return $hasil && $this->ubah_modul(['slug' => 'qr-code', 'config_id' => $id], [
+            'url' => 'qr_code/clear',
+        ]);
     }
 
     protected function migrasi_2023110751($hasil)
