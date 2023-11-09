@@ -215,7 +215,7 @@ class TinyMCE
         ];
 
         $peristiwa = $data['surat']->form_isian->individu->status_dasar;
-        if (in_array($peristiwa, LogPenduduk::PERISTIWA)) {
+        if (array_intersect($peristiwa, LogPenduduk::PERISTIWA)) {
             $daftar_kode_isian['Peristiwa'] = KodeIsianPeristiwa::get($idPenduduk, $peristiwa);
         }
 

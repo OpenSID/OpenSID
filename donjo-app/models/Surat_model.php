@@ -104,7 +104,6 @@ class Surat_model extends MY_Model
         $this->config_id('u')
             ->from('tweb_penduduk u')
             ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left');
-        // ->where('status_dasar', 1);
 
         if ($filter['sex']) {
             $this->db->where('sex', $filter['sex']);
