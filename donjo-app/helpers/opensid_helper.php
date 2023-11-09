@@ -2056,6 +2056,11 @@ if (! function_exists('caseWord')) {
      */
     function caseWord($condition, $teks)
     {
+        // Normal
+        if (ctype_upper($condition[0]) && ctype_upper($condition[strlen($condition) - 1])) {
+            return $teks;
+        }
+
         // Huruf kecil semua
         if (ctype_lower($condition[0])) {
             return strtolower($teks);
