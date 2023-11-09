@@ -38,12 +38,11 @@
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Models\FormatSurat;
-use App\Models\StatusDasar;
 use App\Models\LampiranSurat;
+use App\Models\StatusDasar;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -66,8 +65,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
         // return $hasil && $this->buat_tabel_migrations($hasil);
 
         $hasil = $hasil && $this->migrasi_2023102571($hasil);
+        $hasil = $hasil && $this->migrasi_2023110672($hasil);
 
-        return $hasil && $this->migrasi_2023110672($hasil);
+        return $hasil && $this->migrasi_2023110771($hasil);
     }
 
     // Migrasi perubahan data
@@ -80,6 +80,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
             $hasil = $hasil && $this->migrasi_2023110671($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPenghasilanAyah($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023111151($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023110971($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -138,8 +139,8 @@ class Migrasi_fitur_premium_2312 extends MY_model
         return $hasil && $this->dbforge->add_field([
             'id'            => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
             'config_id'     => ['type' => 'INT', 'constraint' => 11],
-            'slug'          => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => true],
             'nama'          => ['type' => 'VARCHAR', 'constraint' => 100],
+            'slug'          => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => true],
             'jenis'         => ['type' => 'TINYINT', 'default' => '2'],
             'template'      => ['type' => 'LONGTEXT', 'null' => true],
             'template_desa' => ['type' => 'LONGTEXT', 'null' => true],
@@ -157,11 +158,22 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
     protected function migrasi_2023110671($hasil, $id)
     {
-        return $hasil && $this->tambah_setting([
+        $hasil = $hasil && $this->tambah_setting([
             'judul'      => 'Margin Lampiran Global',
             'key'        => 'lampiran_margin',
             'value'      => json_encode(LampiranSurat::MARGINS),
             'keterangan' => 'Margin global untuk lampiran surat',
+            'jenis'      => null,
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'format_lampiran',
+        ], $id);
+
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Pengaturan Tampilan Kotak',
+            'key'        => 'lampiran_kotak',
+            'value'      => json_encode(LampiranSurat::KOTAK),
+            'keterangan' => 'Pengaturan Tampilan Kotak',
             'jenis'      => null,
             'option'     => null,
             'attribute'  => null,
@@ -302,5 +314,43 @@ class Migrasi_fitur_premium_2312 extends MY_model
         $this->db->trans_complete();
 
         return $hasil;
+    }
+
+    private function migrasi_2023110771($hasil)
+    {
+        if (! Schema::hasTable('alias_kodeisian')) {
+            Schema::create('alias_kodeisian', static function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('config_id');
+                $table->string('judul', 10);
+                $table->string('alias', 50);
+                $table->string('content', 200);
+                $table->integer('created_by')->nullable();
+                $table->integer('updated_by')->nullable();
+                $table->timestamps();
+
+                $table->foreign('config_id')->references('id')->on('config')->onDelete('cascade');
+                $table->unique(['config_id', 'judul', 'alias']);
+            });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023110971($hasil, $config_id)
+    {
+        return $hasil && $this->tambah_modul([
+            'config_id'  => $config_id,
+            'modul'      => 'Lampiran',
+            'slug'       => 'lampiran',
+            'url'        => 'lampiran',
+            'aktif'      => 1,
+            'ikon'       => 'fa-file-o',
+            'urut'       => 3,
+            'level'      => 1,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-file-o',
+            'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'layanan-surat'])->row()->id,
+        ]);
     }
 }

@@ -64,6 +64,11 @@ class LampiranSurat extends BaseModel
         'bawah' => 1.37,
     ];
 
+    public const KOTAK = [
+        'jarak' => 2,
+        'lebar' => 5,
+    ];
+
     /**
      * {@inheritDoc}
      */

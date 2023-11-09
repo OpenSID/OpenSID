@@ -10,7 +10,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 4. [#7164](https://github.com/OpenSID/OpenSID/issues/7164) Penambahan kode isian foto yang bisa diatur sendiri ukurannya.
 5. [#7280](https://github.com/OpenSID/OpenSID/issues/7280) Penambahan pengaturan kode isian alias surat TinyMCE.
 6. [#7307](https://github.com/OpenSID/OpenSID/issues/7307) Penambahan pengaturan ukuran kertas dan orientasi pada lampiran.
-
+7. [#7279](https://github.com/OpenSID/OpenSID/issues/7279) Penambahan pengaturan tampilan kotak-kotak pada pengaturan lampiran surat TinyMCE.
 
 #### Perbaikan Bug
 

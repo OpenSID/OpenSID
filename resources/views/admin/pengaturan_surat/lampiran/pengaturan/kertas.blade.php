@@ -1,4 +1,4 @@
-<div class="tab-pane active" id="lainnya">
+<div class="tab-pane active" id="kertas">
     <div class="box-body">
         <div class="form-group">
             <label>Margin</label>

@@ -47,9 +47,6 @@
                         </li>
                     </ul>
                 </div>
-                <a href="{{ route('lampiran.index') }}" title="Lampiran Surat" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                    <i class="fa fa-book"></i> Lampiran Surat
-                </a>
                 <a href="{{ route('surat_master.pengaturan') }}" title="Pengaturan" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                     <i class="fa fa-gear"></i> Pengaturan
                 </a>

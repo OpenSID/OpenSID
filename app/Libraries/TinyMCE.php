@@ -56,6 +56,7 @@ use App\Models\Pamong;
 use App\Models\Penduduk;
 use Carbon\Carbon;
 use CI_Controller;
+use Illuminate\Support\Str;
 use Karriere\PdfMerge\PdfMerge;
 use Spipu\Html2Pdf\Html2Pdf;
 
@@ -538,8 +539,10 @@ class TinyMCE
         // Kode isian berupa hitungan perlu didahulukan
         $result = caseHitung($result);
 
-        $result = terjemahkanTerbilang($result);
+        $result       = terjemahkanTerbilang($result);
+        $settingKotak = setting('lampiran_kotak');
 
+        $result = bungkusKotak($result, json_decode($settingKotak, 1) ?? LampiranSurat::KOTAK);
         if ($imageReplace) {
             foreach ($pisahkanFoto as $key => $value) {
                 $result = caseReplaceFoto($result, $key, $value);
@@ -624,7 +627,11 @@ class TinyMCE
         // Data penandatangan terpilih
         $penandatangan = $this->surat_model->atas_nama($data);
 
-        $lampiran     = explode(',', strtolower($surat['lampiran']));
+        $lampiran = explode(',', in_array($surat['jenis'], FormatSurat::TINYMCE) ? $surat['lampiran'] : strtolower($surat['lampiran']));
+        $lampiran = array_map(static fn ($item) => Str::slug($item), $lampiran);
+
+        log_message('notice', 'Lampiran . ' . print_r($lampiran, true));
+
         $format_surat = substitusiNomorSurat($input['nomor'], setting('format_nomor_surat'));
         $format_surat = str_ireplace('[kode_surat]', $surat['kode_surat'], $format_surat);
         $format_surat = str_ireplace('[kode_desa]', $config['kode_desa'], $format_surat);
@@ -674,14 +681,14 @@ class TinyMCE
             }
         }
 
-        $lampiranDb = LampiranSurat::active()->get()->keyBy('slug');
+        $lampiranDb = LampiranSurat::active()->whereIn('slug', $lampiran)->get()->keyBy('slug');
 
         for ($j = 0; $j < count($lampiran); $j++) {
             ob_start();
             // default mengikuti margin global termasuk lampiran yang masih menggunakan file .php
-            $margins = LampiranSurat::MARGINS;
-            $orientasiKertas =  $data['surat']['orientasi'];
-            $ukuranKertas = $data['surat']['ukuran'];
+            $margins         = LampiranSurat::MARGINS;
+            $orientasiKertas = $data['surat']['orientasi'];
+            $ukuranKertas    = $data['surat']['ukuran'];
             if ($lampiranDb[$lampiran[$j]]) {
                 $lampiranTerpilih = $lampiranDb[$lampiran[$j]];
                 $pattern          = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
@@ -694,7 +701,7 @@ class TinyMCE
                 }
 
                 $orientasiKertas = $lampiranTerpilih->orientasi;
-                $ukuranKertas = $lampiranTerpilih->ukuran;
+                $ukuranKertas    = $lampiranTerpilih->ukuran;
                 // convert ke mm
                 $marginMm = [$margins['kiri'] * 10, $margins['atas'] * 10, $margins['kanan'] * 10, $margins['bawah'] * 10];
 
@@ -718,7 +725,7 @@ class TinyMCE
             $data['isi_surat'] = $lampiranHtml;
 
             $lampiranHtml = $this->replceKodeIsian($data);
-            
+
             (new Html2Pdf($orientasiKertas, $ukuranKertas, 'en', true, 'UTF-8', $marginMm))
                 ->setTestTdInOnePage(true)
                 ->setDefaultFont(underscore(setting('font_surat'), true, true))

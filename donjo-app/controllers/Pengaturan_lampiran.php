@@ -43,21 +43,24 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Pengaturan_lampiran extends Admin_Controller
 {
     // digunakan untuk cek hak akses, mengikuti hak akses controller yang dialiaskan
-    protected $aliasController = 'surat_master';
+    protected $aliasController = 'lampiran';
 
     public function __construct()
     {
         parent::__construct();
         $this->modul_ini          = 'layanan-surat';
-        $this->sub_modul_ini      = 'pengaturan-surat';
+        $this->sub_modul_ini      = 'lampiran';
         $this->header['kategori'] = 'pengaturan-surat';
     }
 
     public function index()
     {
         $margin           = setting('lampiran_margin');
+        $kotak            = setting('lampiran_kotak');
         $data['margins']  = json_decode($margin) ?? LampiranSurat::MARGINS;
         $data['formAksi'] = route('pengaturan_lampiran.edit');
+        $data['kotak']    = json_decode($kotak, 1) ?? LampiranSurat::KOTAK;
+        log_message('error', json_encode($data['kotak']));
 
         return view('admin.pengaturan_surat.lampiran.pengaturan.index', $data);
     }
@@ -79,6 +82,7 @@ class Pengaturan_lampiran extends Admin_Controller
     {
         return [
             'lampiran_margin' => json_encode($request['lampiran_margin']),
+            'lampiran_kotak'  => json_encode($request['lampiran_kotak']),
         ];
     }
 }

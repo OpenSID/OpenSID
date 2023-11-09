@@ -42,14 +42,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Lampiran extends Admin_Controller
 {
-    // digunakan untuk cek hak akses, mengikuti hak akses controller yang dialiaskan
-    protected $aliasController = 'surat_master';
-
     public function __construct()
     {
         parent::__construct();
         $this->modul_ini          = 'layanan-surat';
-        $this->sub_modul_ini      = 'pengaturan-surat';
+        $this->sub_modul_ini      = 'lampiran';
         $this->header['kategori'] = 'pengaturan-surat';
     }
 
@@ -159,7 +156,7 @@ class Lampiran extends Admin_Controller
         return [
             'config_id'     => identitas('id'),
             'nama'          => $nama = judul($request['nama']),
-            'slug'          => url_title($nama, '_', true),
+            'slug'          => url_title($nama, '-', true),
             'jenis'         => LampiranSurat::LAMPIRAN_DESA,
             'template_desa' => $request['template_desa'],
             'status'        => (int) $request['status'],
