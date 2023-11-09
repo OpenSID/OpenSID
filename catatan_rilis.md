@@ -25,6 +25,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 9. [#7091](https://github.com/OpenSID/OpenSID/issues/7091) Perbaikan pencarian penduduk berdasarkan tag_id_card pada cetak surat.
 10. [#7069](https://github.com/OpenSID/OpenSID/issues/7069) Perbaikan surat tinymce penghasilan orang tua menggunakan opertor hitung dan terbilang.
 11. [#7310](https://github.com/OpenSID/OpenSID/issues/7310) Perbaikan surat bawaan tinymce.
+12. [#7339](https://github.com/OpenSID/OpenSID/issues/7339) Perbaikan ejaan dari fungsi kembalikan foto bawaan pada tambah/ubah data penduduk.
 
 #### Penyesuaian Teknis
 
@@ -34,3 +35,5 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 4. [#3061](https://github.com/OpenSID/premium/issues/3061) Penyesuaian data pada pada kolom id_kk tabel tweb_penduduk menggunakan null sebagai penanda kk kosong.
 5. [#7230](https://github.com/OpenSID/OpenSID/issues/7230) Penyesuaian format ukuran font menggunakan pt.
 6. [#7338](https://github.com/OpenSID/OpenSID/issues/7338) Penyesuaian pilihan shdk pada pengaturan form surat tinymce agar bisa memilih lebih dari satu pilihan.
+7. [#1611](https://github.com/OpenSID/premium/issues/1611) Penyesuaian modul qrcode di controller tersendiri.
+8. [#7345](https://github.com/OpenSID/OpenSID/issues/7345) Penyesuaian pilihan jenis peristiwa pada pengaturan form surat tinymce agar bisa memilih lebih dari satu pilihan.

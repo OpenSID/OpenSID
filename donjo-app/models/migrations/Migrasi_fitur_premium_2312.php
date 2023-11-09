@@ -38,9 +38,11 @@
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Models\FormatSurat;
+use App\Models\StatusDasar;
 use App\Models\LampiranSurat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -77,6 +79,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023110671($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPenghasilanAyah($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023111151($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -246,8 +249,17 @@ class Migrasi_fitur_premium_2312 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2023111151($hasil, $id)
+    {
+        return $hasil && $this->ubah_modul(['slug' => 'qr-code', 'config_id' => $id], [
+            'url' => 'qr_code/clear',
+        ]);
+    }
+
     protected function migrasi_2023110751($hasil)
     {
+        $stDasar = array_keys(collect(StatusDasar::get()->toArray())->keyBy('id')->all());
+
         $this->db->trans_start();
         $query = $this->db->where('form_isian is NOT NULL')->get('tweb_surat_format');
 
@@ -257,13 +269,32 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
             foreach ($data as $key => $value) {
                 $dataBaru[$key] = $value;
-                if (array_key_exists('kk_level', $value)) {
-                    if ($value['kk_level'] == '') {
-                        $value = array_keys(SHDKEnum::all());
+                if (array_key_exists('kk_level', $dataBaru[$key])) {
+                    if (! is_array($value['kk_level'])) {
+                        if ($value['kk_level'] == '') {
+                            $value = array_keys(SHDKEnum::all());
+                        } else {
+                            $value = [$value['kk_level']];
+                        }
+                        $dataBaru[$key]['kk_level'] = $value;
                     } else {
-                        $value = [$value['kk_level']];
+                        if (isNestedArray($value['kk_level'], true)) {
+                            if (! is_array($value['kk_level'][0])) {
+                                $value['kk_level'][0] = json_decode($value['kk_level'][0]);
+                            }
+                            $dataBaru[$key]['kk_level'] = $value['kk_level'][0];
+                        }
                     }
-                    $dataBaru[$key]['kk_level'] = $value;
+                }
+                if (array_key_exists('status_dasar', $dataBaru[$key])) {
+                    if (! is_array($value['status_dasar'])) {
+                        if ($value['status_dasar'] == '') {
+                            $value = $stDasar;
+                        } else {
+                            $value = [$value['status_dasar']];
+                        }
+                        $dataBaru[$key]['status_dasar'] = $value;
+                    }
                 }
             }
             $this->db->update('tweb_surat_format', ['form_isian' => json_encode($dataBaru)], ['id' => $row->id]);

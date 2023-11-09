@@ -69,7 +69,7 @@ class DataSuratPenduduk extends CI_Controller
         $data = ['individu' => Penduduk::findOrFail($id), 'anggota' => null, 'kategori' => $kategori];
 
         if ($kategori == 'individu') {
-            if (in_array($surat->form_isian->{$kategori}->status_dasar, $this->logpenduduk::PERISTIWA)) {
+            if (array_intersect($surat->form_isian->{$kategori}->status_dasar, $this->logpenduduk::PERISTIWA)) {
                 $data['logpenduduk'] = $this->logpenduduk;
                 $data['peristiwa']   = $this->logpenduduk::with('penduduk')->where('id_pend', $id)->latest()->first();
             }
@@ -124,7 +124,7 @@ class DataSuratPenduduk extends CI_Controller
 
             $data['list_dokumen_pasangan'] = empty($data['pasangan']) ? null : $this->penduduk_model->list_dokumen($data['pasangan']->id);
 
-            $template = $surat->template_desa ?: $data['surat']->template;
+            $template = $surat->template_desa ?: $surat->template;
             if (preg_match('/\[pengikut_surat\]/i', $template)) {
                 $pengikut = $this->pengikutDibawah18Tahun($data);
                 if ($pengikut) {
@@ -150,7 +150,7 @@ class DataSuratPenduduk extends CI_Controller
         $filters = collect($surat->form_isian->{$kategori})->toArray();
         unset($filters['data']);
         $kk_level    = $data['individu']['kk_level'];
-        $ada_anggota = ($filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA || $kk_level == SHDKEnum::KEPALA_KELUARGA) ? true : false;
+        $ada_anggota = (in_array(SHDKEnum::KEPALA_KELUARGA, $filters['kk_level']) || $kk_level == SHDKEnum::KEPALA_KELUARGA) ? true : false;
 
         if ($ada_anggota) {
             $data['anggota'] = Keluarga::find($data['individu']['id_kk'])->anggota;

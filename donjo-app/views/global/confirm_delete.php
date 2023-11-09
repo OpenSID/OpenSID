@@ -12,7 +12,7 @@
 				<div class='modal-footer'>
 					<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 						<a class='btn-ok'>
-							<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+							<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class="<?= $icon_hapus ?? 'fa fa-trash-o' ?>"></i> <?= $tombol_hapus ?? 'Hapus' ?></button>
 						</a>
 				</div>
 			</div>

@@ -78,26 +78,23 @@
     @includeWhen(isset($pengikut_pindah), 'admin.surat.pengikut_pindah')
 @endif
 
-@if ($peristiwa)
-    @include('admin.surat.peristiwa')
-@endif
+@includeWhen(isset($peristiwa), 'admin.surat.peristiwa')
 
 @if ($pasangan)
     @php
         $individu = $pasangan;
         $list_dokumen = $list_dokumen_pasangan;
     @endphp
-    <div class="form-group ibu_desa">
-        <label class="col-sm-3 control-label text-red"><strong>DATA {{ $pasangan->sex == 1 ? 'SUAMI' : 'ISTRI' }} DARI
-                DATABASE</strong></label>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>DATA {{ $pasangan->sex == 1 ? 'SUAMI' : 'ISTRI' }}</strong></label>
     </div>
-    <div class="form-group ibu_desa">
+    <div class="form-group">
         <label class="col-sm-3 control-label">NIK</label>
         <div class="col-sm-8">
             <input type="text" class="form-control input-sm" value="{{ $pasangan->nik }}" disabled>
         </div>
     </div>
-    <div class="form-group ibu_desa">
+    <div class="form-group">
         <label class="col-sm-3 control-label">Nama</label>
         <div class="col-sm-8">
             <input type="text" class="form-control input-sm" value="{{ $pasangan->nama }}" disabled>
@@ -111,16 +108,16 @@
         $individu = $ayah;
         $list_dokumen = $list_dokumen_ayah;
     @endphp
-    <div class="form-group ibu_desa">
-        <label class="col-sm-3 control-label text-red"><strong>DATA AYAH DARI DATABASE</strong></label>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>DATA AYAH</strong></label>
     </div>
-    <div class="form-group ibu_desa">
+    <div class="form-group">
         <label class="col-sm-3 control-label">NIK</label>
         <div class="col-sm-8">
             <input type="text" class="form-control input-sm" value="{{ $ayah->nik }}" disabled>
         </div>
     </div>
-    <div class="form-group ibu_desa">
+    <div class="form-group">
         <label class="col-sm-3 control-label">Nama</label>
         <div class="col-sm-8">
             <input type="text" class="form-control input-sm" value="{{ $ayah->nama }}" disabled>
@@ -134,16 +131,16 @@
         $individu = $ibu;
         $list_dokumen = $list_dokumen_ibu;
     @endphp
-    <div class="form-group ibu_desa">
-        <label class="col-sm-3 control-label text-red"><strong>DATA IBU DARI DATABASE</strong></label>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>DATA IBU</strong></label>
     </div>
-    <div class="form-group ibu_desa">
+    <div class="form-group">
         <label class="col-sm-3 control-label">NIK</label>
         <div class="col-sm-8">
             <input type="text" class="form-control input-sm" value="{{ $ibu->nik }}" disabled>
         </div>
     </div>
-    <div class="form-group ibu_desa">
+    <div class="form-group">
         <label class="col-sm-3 control-label">Nama</label>
         <div class="col-sm-8">
             <input type="text" class="form-control input-sm" value="{{ $ibu->nama }}" disabled>

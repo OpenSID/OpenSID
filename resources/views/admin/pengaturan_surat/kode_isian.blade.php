@@ -68,14 +68,13 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td width="1%">
-                            <button type="button" class="btn btn-danger btn-sm hapus-kode"><i class='fa fa-trash-o'></i></button>
-                            &nbsp;
-                            {{-- <button type="button" class="btn btn-warning btn-sm pindah-kode hide"><i class='fa fa-exchange'></i></button> --}}
-                            <button type="button" class="btn btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
-                            &nbsp;
-                            <button type="button" class="btn btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
-                            <input type="hidden" class="form-control input-sm kaitkan hide" name="kaitkan_kode[]" value="{{ $value->kaitkan_kode ?? '' }}" />
+                        <td class="padat">
+                            <div class="btn-group-vertical">
+                                <button type="button" class="btn btn-flat btn-danger btn-sm hapus-kode"><i class='fa fa-trash-o'></i></button>
+                                <button type="button" class="btn btn-flat btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
+                                <button type="button" class="btn btn-flat btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
+                                <input type="hidden" class="form-control input-sm kaitkan hide" name="kaitkan_kode[]" value="{{ $value->kaitkan_kode ?? '' }}" />
+                            </div>
                         </td>
                     </tr>
                 @endif
@@ -120,13 +119,12 @@
                         </select>
                     </td>
                     <td class="padat">
-                        <button type="button" class="btn btn-danger btn-sm hapus-kode"><i class="fa fa-trash-o"></i></button>
-                        &nbsp;
-                        {{-- <button type="button" class="btn btn-warning btn-sm pindah-kode hide"><i class='fa fa-exchange'></i></button> --}}
-                        <button type="button" class="btn btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
-                        &nbsp;
-                        <button type="button" class="btn btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
-                        <input type="hidden" class="form-control input-sm kaitkan hide" name="kaitkan_kode[]" value="" />
+                        <div class="btn-group-vertical">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm hapus-kode"><i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-flat btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
+                            <button type="button" class="btn btn-flat btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
+                            <input type="hidden" class="form-control input-sm kaitkan hide" name="kaitkan_kode[]" value="" />
+                        </div>
                     </td>
                 </tr>
             @endif

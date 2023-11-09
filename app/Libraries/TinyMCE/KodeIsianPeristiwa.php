@@ -44,7 +44,7 @@ class KodeIsianPeristiwa
     private $logPeristiwa;
     private $statusDasar;
 
-    public function __construct($idPenduduk, $statusDasar)
+    public function __construct($idPenduduk, array $statusDasar = [])
     {
         $this->statusDasar  = $statusDasar;
         $this->logPeristiwa = LogPenduduk::where('id_pend', $idPenduduk)->latest()->first();
@@ -58,19 +58,19 @@ class KodeIsianPeristiwa
     public function kodeIsian()
     {
         switch ($this->statusDasar) {
-            case LogPenduduk::BARU_LAHIR:
+            case [LogPenduduk::BARU_LAHIR]:
                 $data = $this->getLahir($this->logPeristiwa);
                 break;
 
-            case LogPenduduk::MATI:
+            case [LogPenduduk::MATI]:
                 $data = $this->getKematian($this->logPeristiwa);
                 break;
 
-            case LogPenduduk::PINDAH_KELUAR:
+            case [LogPenduduk::PINDAH_KELUAR]:
                 $data = $this->getPindah($this->logPeristiwa);
                 break;
 
-            case LogPenduduk::HILANG:
+            case [LogPenduduk::HILANG]:
                 $data = $this->getHilang($this->logPeristiwa);
                 break;
 

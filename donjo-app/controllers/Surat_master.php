@@ -381,7 +381,7 @@ class Surat_master extends Admin_Controller
                     'sumber'       => $request['kategori_sumber'][$kategori] ?? 1,
                     'data'         => $request['kategori_data_utama'][$kategori] ?? [1],
                     'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
-                    'status_dasar' => $request['kategori_status_dasar'][$kategori] ?? null,
+                    'status_dasar' => $request['kategori_individu_status_dasar'][$kategori] ?? null,
                     'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
                     'judul'        => $request['kategori_judul'][$kategori] ?? null,
                     'label'        => $request['kategori_label'][$kategori] ?? null,
@@ -433,6 +433,7 @@ class Surat_master extends Admin_Controller
                 unset($data);
             }
         }
+
         $data = [
             'config_id'                => identitas('id'),
             'nama'                     => nama_surat($request['nama']),
@@ -1102,7 +1103,6 @@ class Surat_master extends Admin_Controller
                         }
                     }
                 } else {
-                    log_message('error', 'ini null');
                     FormatSurat::updateOrCreate(['config_id' => identitas('id'), 'url_surat' => $value['url_surat']], $value);
                 }
             }
