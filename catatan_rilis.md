@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 9. [#7091](https://github.com/OpenSID/OpenSID/issues/7091) Perbaikan pencarian penduduk berdasarkan tag_id_card pada cetak surat.
 10. [#7069](https://github.com/OpenSID/OpenSID/issues/7069) Perbaikan surat tinymce penghasilan orang tua menggunakan opertor hitung dan terbilang.
 11. [#7310](https://github.com/OpenSID/OpenSID/issues/7310) Perbaikan surat bawaan tinymce.
+12. [#7339](https://github.com/OpenSID/OpenSID/issues/7339) Perbaikan ejaan dari fungsi kembalikan foto bawaan pada tambah/ubah data penduduk.
 
 #### Penyesuaian Teknis
 
