@@ -124,7 +124,7 @@ class DataSuratPenduduk extends CI_Controller
 
             $data['list_dokumen_pasangan'] = empty($data['pasangan']) ? null : $this->penduduk_model->list_dokumen($data['pasangan']->id);
 
-            $template = $surat->template_desa ?: $data['surat']->template;
+            $template = $surat->template_desa ?: $surat->template;
             if (preg_match('/\[pengikut_surat\]/i', $template)) {
                 $pengikut = $this->pengikutDibawah18Tahun($data);
                 if ($pengikut) {

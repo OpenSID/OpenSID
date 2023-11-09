@@ -9,13 +9,13 @@
                 <table class="table table-bordered table-striped table-hover tabel-daftar">
                     <thead class="bg-gray disabled color-palette">
                         <tr>
-                            <th><input type="checkbox" id="checkall" /></th>
-                            <th>No</th>
-                            <th>NIK</th>
+                            <th class="padat"><input type="checkbox" id="checkall" /></th>
+                            <th class="padat">No</th>
+                            <th class="padat">NIK</th>
                             <th>KTP Berlaku S/D</th>
                             <th>Nama</th>
                             <th>Jenis Kelamin</th>
-                            <th>Umur</th>
+                            <th class="padat">Umur</th>
                             <th>Status Kawin</th>
                         </tr>
                     </thead>
@@ -25,8 +25,8 @@
                                 <td>
                                     <input type="checkbox" name="id_pengikut_pindah[]" value="{{ $data->id }}" />
                                 </td>
-                                <td class="padat">{{ $key + 1 }}</td>
-                                <td class="padat">{{ $data->nik }}</td>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $data->nik }}</td>
                                 <td nowrap>Seumur Hidup</td>
                                 <td nowrap>{{ $data->nama }}</td>
                                 <td nowrap>{{ $data->jenisKelamin->nama }}</td>

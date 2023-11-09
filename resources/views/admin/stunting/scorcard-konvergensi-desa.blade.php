@@ -62,12 +62,6 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-md-4 no-padding pull-right">
-                        <!--
-                                                                                                                      <a href="{{ base_url('scorcard-konvergensi-desa/export/') . $kuartal . '/' . $_tahun . '/' . $id }}" id="btnExport" type="button" class="btn pull-right btn-social bg-purple btn-sm">
-                                                                                                                        <i class="fa fa-arrow-right"></i> Export ke Excel
-                                                                                                                      </a> -->
-                    </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">

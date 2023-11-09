@@ -1086,7 +1086,6 @@ class Surat_master extends Admin_Controller
                         }
                     }
                 } else {
-                    log_message('error', 'ini null');
                     FormatSurat::updateOrCreate(['config_id' => identitas('id'), 'url_surat' => $value['url_surat']], $value);
                 }
             }

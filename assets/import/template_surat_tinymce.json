@@ -5759,22 +5759,26 @@
         "kunci": false,
         "favorit": false,
         "jenis": "3",
-        "mandiri": true,
+        "mandiri": false,
         "masa_berlaku": 1,
         "satuan_masa_berlaku": "d",
         "qr_code": false,
         "logo_garuda": false,
         "kecamatan": "0",
-        "syarat_surat": null,
-        "template": "    <h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n    <p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n    <p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan \/ cap jempol di bawah ini :<\/p>\r\n    <table style=\"border-collapse: collapse; width: 100%; height: 201.515px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n    <tbody>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; height: 22.3906px; text-align: left;\">1.<\/td>\r\n    <td style=\"width: 30.5242%; text-align: left; height: 22.3906px;\">Nama Lengkap<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; height: 22.3906px; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; height: 22.3906px; text-align: left;\">2.<\/td>\r\n    <td style=\"width: 30.5242%; text-align: left; height: 22.3906px;\">Tempat \/ Tanggal Lahir<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; height: 22.3906px; text-align: justify;\">[TtL]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; text-align: left; height: 22.3906px;\">3.<\/td>\r\n    <td style=\"width: 30.5242%; text-align: left; height: 22.3906px;\">Umur<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[UsiA]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; text-align: left; height: 22.3906px;\">4.<\/td>\r\n    <td style=\"width: 30.5242%; text-align: left; height: 22.3906px;\">Kewarganegaraan<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[WArga_negara]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; text-align: left; height: 22.3906px;\">5.<\/td>\r\n    <td style=\"width: 30.5242%; text-align: left; height: 22.3906px;\">Agama<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[AgAma]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; height: 22.3906px; text-align: left;\">6.<\/td>\r\n    <td style=\"width: 30.5242%; text-align: left; height: 22.3906px;\">Jenis Kelamin<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; height: 22.3906px; text-align: justify;\">[Jenis_kelamiN]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 22.3906px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; text-align: left; height: 22.3906px;\">7.<\/td>\r\n    <td style=\"width: 30.5242%; text-align: left; height: 22.3906px;\">Pekerjaan<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[PeKerjaan]<\/td>\r\n    <\/tr>\r\n    <tr>\r\n    <td style=\"width: 4.31655%; text-align: center;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; text-align: left;\">8.<\/td>\r\n    <td style=\"width: 30.5242%; text-align: left;\">No. KTP<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center;\">:<\/td>\r\n    <td style=\"width: 60.0206%; text-align: justify;\">[NiK]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 44.7812px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 44.7812px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; height: 44.7812px; text-align: left;\">9.<br><br><\/td>\r\n    <td style=\"width: 30.5242%; text-align: left; height: 44.7812px;\">Tempat Tinggal<br><br><\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 44.7812px;\">:<br><br><\/td>\r\n    <td style=\"width: 60.0206%; height: 44.7812px; text-align: justify;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n    <\/tr>\r\n    <\/tbody>\r\n    <\/table>\r\n    <p style=\"text-align: justify; text-indent: 30px;\">Akan pindah dengan keterangan sebagai berikut:<\/p>\r\n    <table style=\"border-collapse: collapse; width: 100%; height: 144px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n    <tbody>\r\n    <tr style=\"height: 18px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; height: 18px; text-align: left;\">10.<\/td>\r\n    <td style=\"width: 30.5242%; text-align: left; height: 18px;\">Alamat yang dituju<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; height: 18px; text-align: justify;\">RT [Form_rt_tujuaN], RW [Form_rw_tujuaN], [Sebutan_dusun] [Form_dusun_tujuaN], [Sebutan_desa] [Form_desa_atau_kelurahan_tujuan], Kecamatan [Form_kecamatan_tujuan], [Sebutan_kabupaten] [Form_kabupaten_tujuan]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 18px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; height: 18px; text-align: left;\">11.<\/td>\r\n    <td style=\"width: 30.5242%; text-align: left; height: 18px;\">Alasan Pindah<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Form_alasan_pindah]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 18px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; text-align: left; height: 18px;\">12.<\/td>\r\n    <td style=\"width: 30.5242%; text-align: left; height: 18px;\">Tanggal Pindah<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_tanggal_pindaH]<\/td>\r\n    <\/tr>\r\n    <tr style=\"height: 18px;\">\r\n    <td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n    <td style=\"width: 3.90545%; text-align: left; height: 18px;\">13.<\/td>\r\n    <td style=\"width: 30.5242%; text-align: left; height: 18px;\">Jumlah Pengikut<\/td>\r\n    <td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n    <td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_jumlah_pengikuT]<\/td>\r\n    <\/tr>\r\n    <\/tbody>\r\n    <\/table>\r\n    <p style=\"text-align: justify; text-indent: 30px;\"><br>[Pengikut_pindaH]<\/p>\r\n    <p style=\"text-align: justify; text-indent: 30px;\">Surat keterangan ini diterbitkan sebagai [Form_keterangaN].<\/p>\r\n    <p style=\"text-align: justify; text-indent: 30px;\">Demikian surat ini dibuat, untuk dipergunakan sebagaimana mestinya.<\/p>\r\n    <table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n    <tbody>\r\n    <tr>\r\n    <td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n    <td style=\"width: 30%;\">\u00a0<\/td>\r\n    <td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n    <\/tr>\r\n    <tr>\r\n    <td style=\"width: 35%; text-align: center;\">Pemegang Surat,<\/td>\r\n    <td style=\"width: 30%;\">\u00a0<\/td>\r\n    <td style=\"width: 35%; text-align: center;\">[AtAs_nama]<\/td>\r\n    <\/tr>\r\n    <tr>\r\n    <td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n    <td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n    <td style=\"width: 35%;\">\u00a0<\/td>\r\n    <\/tr>\r\n    <tr>\r\n    <td style=\"width: 35%; text-align: center;\">[Nama]<\/td>\r\n    <td style=\"width: 30%;\">\u00a0<\/td>\r\n    <td style=\"width: 35%; text-align: center;\">[NaMa_pamong]<\/td>\r\n    <\/tr>\r\n    <tr>\r\n    <td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n    <td style=\"width: 30%;\">\u00a0<\/td>\r\n    <td style=\"width: 35%; text-align: center;\">[Nip_pamonG]<\/td>\r\n    <\/tr>\r\n    <\/tbody>\r\n    <\/table>\r\n    <div style=\"text-align: center;\">\u00a0<\/div>\r\n    <div style=\"text-align: center;\"><br>[qr_code]<\/div>",
+        "syarat_surat": "[\"2\",\"3\",\"1\"]",
+        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan \/ cap jempol di bawah ini :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 201.515px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 22.3906px; text-align: left; vertical-align: top;\">1.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 22.3906px; vertical-align: top;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.3906px; text-align: justify; vertical-align: top;\"><strong>[NAma]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 22.3906px; text-align: left; vertical-align: top;\">2.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 22.3906px; vertical-align: top;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.3906px; text-align: justify; vertical-align: top;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 22.3906px; vertical-align: top;\">3.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 22.3906px; vertical-align: top;\">Umur<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px; vertical-align: top;\">[UsiA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 22.3906px; vertical-align: top;\">4.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 22.3906px; vertical-align: top;\">Kewarganegaraan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px; vertical-align: top;\">[WArga_negara]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 22.3906px; vertical-align: top;\">5.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 22.3906px; vertical-align: top;\">Agama<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px; vertical-align: top;\">[AgAma]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 22.3906px; text-align: left; vertical-align: top;\">6.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 22.3906px; vertical-align: top;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.3906px; text-align: justify; vertical-align: top;\">[Jenis_kelamiN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 22.3906px; vertical-align: top;\">7.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 22.3906px; vertical-align: top;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px; vertical-align: top;\">[PeKerjaan]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 4.31655%; text-align: center; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; vertical-align: top;\">8.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; vertical-align: top;\">No. KTP<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; vertical-align: top;\">[NiK]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 44.7812px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 44.7812px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 44.7812px; text-align: left; vertical-align: top;\">9.<br><br><\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 44.7812px; vertical-align: top;\">Tempat Tinggal<br><br><\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 44.7812px; vertical-align: top;\">:<br><br><\/td>\r\n<td style=\"width: 60.0206%; height: 44.7812px; text-align: justify; vertical-align: top;\">[AlamaT] [Sebutan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Akan pindah dengan keterangan sebagai berikut:<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 144px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left; vertical-align: top;\">10.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px; vertical-align: top;\">Alamat yang dituju<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify; vertical-align: top;\">RT [Form_rt_tujuaN], RW [Form_rw_tujuaN], [Sebutan_dusun] [Form_dusun_tujuaN], [Sebutan_desa] [Form_desa_atau_kelurahan_tujuan], Kecamatan [Form_kecamatan_tujuan], [Sebutan_kabupaten] [Form_kabupaten_tujuan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left; vertical-align: top;\">11.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px; vertical-align: top;\">Alasan Pindah<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify; vertical-align: top;\">[Form_alasan_pindah]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px; vertical-align: top;\">12.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px; vertical-align: top;\">Tanggal Pindah<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px; vertical-align: top;\">[Form_tanggal_pindaH]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px; vertical-align: top;\">13.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px; vertical-align: top;\">Jumlah Pengikut<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px; vertical-align: top;\">[Form_jumlah_pengikuT]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><br>[Pengikut_pindaH]<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Surat keterangan ini diterbitkan sebagai [Form_keterangaN].<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat ini dibuat, untuk dipergunakan sebagaimana mestinya.<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">Pemegang Surat,<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[AtAs_nama]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">[Nama]<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_pamong]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nip_pamonG]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\">\u00a0<\/div>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
         "template_desa": null,
         "form_isian": {
             "individu": {
+                "sumber": 1,
                 "data": [
                     "1"
                 ],
                 "sex": "",
                 "status_dasar": [
+                    "1"
+                ],
+                "kk_level": [
                     "1",
                     "2",
                     "3",
@@ -5783,23 +5787,16 @@
                     "6",
                     "7",
                     "8",
-                    "9"
-                ],
-                "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "9",
+                    "10",
+                    "11"
                 ],
                 "data_orang_tua": "0",
-                "data_pasangan": "0"
+                "data_pasangan": "0",
+                "judul": "Utama",
+                "label": "Keterangan Pemohon",
+                "info": "",
+                "hubungan": null
             }
         },
         "kode_isian": [
@@ -5807,11 +5804,14 @@
                 "tipe": "text",
                 "kode": "[form_telepon_pemohon]",
                 "nama": "Telepon Pemohon",
-                "deskripsi": "Nomor Telepon Pemohon",
+                "deskripsi": "Telepon Pemohon",
                 "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "select-manual",
@@ -5826,14 +5826,17 @@
                     "F-1.03 (pindah datang)",
                     "F-1.27, F-1.31, F-1.39 (sesuai tujuan)"
                 ],
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "",
+                "kaitkan_kode": "[{\"nilai_isian\":[\"F-1.03 (pindah datang)\"],\"kode_isian_terkait\":[\"Jenis Permohonan\"]}]"
             },
             {
                 "tipe": "select-manual",
                 "kode": "[form_jenis_permohonan]",
                 "nama": "Jenis Permohonan",
                 "deskripsi": "Pilih Jenis Permohonan",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": [
                     "SURAT KETERANGAN KEPENDUDUKAN",
@@ -5842,7 +5845,10 @@
                     "SURAT KETERANGAN TEMPAT TINGGAL (SKTT)",
                     "BAGI ORANG ASING TINGGAL TERBATAS"
                 ],
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "",
+                "kaitkan_kode": "[{\"nilai_isian\":[\"SURAT KETERANGAN TEMPAT TINGGAL (SKTT)\"],\"kode_isian_terkait\":[\"Nama Sponsor\",\"Tipe Sponsor\",\"Alamat Sponsor\",\"Nomor ITAS\",\"Tanggal ITAS\"],\"lampiran_terkait\":[]},{\"nilai_isian\":[\"SURAT KETERANGAN PINDAH LUAR NEGERI (SKPLN)\"],\"kode_isian_terkait\":[\"Negara Tujuan\",\"Kode Negara\",\"Alamat Tujuan Luar Negeri\",\"Penanggung Jawab\"],\"lampiran_terkait\":[]}]"
             },
             {
                 "tipe": "select-manual",
@@ -5860,7 +5866,10 @@
                     "KELUARGA",
                     "LAINNYA"
                 ],
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "select-manual",
@@ -5876,7 +5885,10 @@
                     "ANTAR KAB\/KOTA",
                     "ANTAR PROVINSI"
                 ],
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
@@ -5886,7 +5898,10 @@
                 "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
@@ -5896,7 +5911,10 @@
                 "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "4",
+                "label": "RT\/RW\/Dusun Tujuan",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
@@ -5906,7 +5924,10 @@
                 "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "4",
+                "label": "RT\/RW\/Dusun Tujuan",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
@@ -5916,67 +5937,88 @@
                 "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "4",
+                "label": "RT\/RW\/Dusun Tujuan",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_desa_atau_kelurahan_tujuan]",
                 "nama": "Desa atau Kelurahan Tujuan",
                 "deskripsi": "Desa atau Kelurahan Tujuan",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_kecamatan_tujuan]",
                 "nama": "Kecamatan Tujuan",
                 "deskripsi": "Kecamatan Tujuan",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "4",
+                "label": "Kec\/Kab\/Prop Tujuan",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_kabupaten_tujuan]",
                 "nama": "Kabupaten Tujuan",
                 "deskripsi": "Kabupaten Tujuan",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "4",
+                "label": "Kec\/Kab\/Prop Tujuan",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_provinsi_tujuan]",
                 "nama": "Provinsi Tujuan",
                 "deskripsi": "Provinsi Tujuan",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "4",
+                "label": "Kec\/Kab\/Prop Tujuan",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_kode_pos_tujuan]",
                 "nama": "Kode Pos Tujuan",
                 "deskripsi": "Kode Pos Tujuan",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "4",
+                "label": "Kode Pos\/ Telpon",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_telepon_tujuan]",
                 "nama": "Telepon Tujuan",
                 "deskripsi": "Telepon Tujuan",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "4",
+                "label": "Kode Pos\/ Telpon",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "select-manual",
@@ -5991,7 +6033,10 @@
                     "KEP. KELUARGA DAN SBG. ANGG. KELUARGA",
                     "ANGG. KELUARGA"
                 ],
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "select-manual",
@@ -6006,7 +6051,10 @@
                     "TIDAK ADA ANGG. KELUARGA YANG DITINGGAL",
                     "NOMOR KK TETAP"
                 ],
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "select-manual",
@@ -6020,64 +6068,82 @@
                     "MEMBUAT KK BARU",
                     "NOMOR KK TETAP"
                 ],
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_negara_tujuan]",
                 "nama": "Negara Tujuan",
                 "deskripsi": "Negara Tujuan",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Negara Tujuan",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_kode_negara]",
                 "nama": "Kode Negara",
                 "deskripsi": "Kode Negara",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Negara Tujuan",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_alamat_tujuan_luar_negeri]",
-                "nama": "Alamat Tujuan (Luar Negeri)",
+                "nama": "Alamat Tujuan Luar Negeri",
                 "deskripsi": "Alamat Tujuan (Luar Negeri)",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "",
+                "label": "Alamat Tujuan (Luar Negeri)",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_penanggung_jawab]",
                 "nama": "Penanggung Jawab",
                 "deskripsi": "Penanggung Jawab",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_nama_sponsor]",
                 "nama": "Nama Sponsor",
                 "deskripsi": "Nama Sponsor",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "select-manual",
                 "kode": "[form_tipe_sponsor]",
                 "nama": "Tipe Sponsor",
                 "deskripsi": "Pilih Tipe Sponsor",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": [
                     "ORGANISASI INTERNASIONAL",
@@ -6086,37 +6152,49 @@
                     "TANPA SPONSOR",
                     "PERUSAHAAN"
                 ],
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_alamat_sponsor]",
                 "nama": "Alamat Sponsor",
                 "deskripsi": "Alamat Sponsor",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
-                "kode": "[form_nomor_itas_&_itap]",
-                "nama": "Nomor ITAS & ITAP",
+                "kode": "[form_nomor_itas]",
+                "nama": "Nomor ITAS",
                 "deskripsi": "Nomor ITAS & ITAP",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Nomor dan Tanggal ITAS & ITAP",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "date",
-                "kode": "[form_tanggal_itas_&_itap]",
-                "nama": "Tanggal ITAS & ITAP",
+                "kode": "[form_tanggal_itas]",
+                "nama": "Tanggal ITAS",
                 "deskripsi": "Tanggal ITAS & ITAP",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "3",
+                "label": "Nomor dan Tanggal ITAS & ITAP",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "date",
@@ -6126,7 +6204,10 @@
                 "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "3",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
@@ -6136,17 +6217,23 @@
                 "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
             },
             {
                 "tipe": "text",
                 "kode": "[form_jumlah_pengikut]",
                 "nama": "Jumlah Pengikut",
                 "deskripsi": "Jumlah Pengikut",
-                "required": "0",
+                "required": "1",
                 "atribut": null,
                 "pilihan": null,
-                "refrensi": null
+                "refrensi": null,
+                "kolom": "",
+                "label": "",
+                "kaitkan_kode": ""
             }
         ],
         "orientasi": "Potrait",
@@ -6155,7 +6242,8 @@
         "margin_global": "0",
         "footer": "1",
         "header": 1,
-        "format_nomor": null
+        "format_nomor": null,
+        "sumber_penduduk_berulang": "0"
     },
     {
         "nama": "Keterangan Nikah",
