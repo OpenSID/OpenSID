@@ -81,8 +81,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
         $hasil = $hasil && $this->migrasi_2023110251($hasil);
         $hasil = $hasil && $this->migrasi_2023110252($hasil);
         $hasil = $hasil && $this->migrasi_2023110651($hasil);
+        $hasil = $hasil && $this->migrasi_2023110751($hasil);
 
-        return $hasil && $this->migrasi_2023110751($hasil);
+        return $hasil && $this->migrasi_2023110951($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -208,6 +209,13 @@ class Migrasi_fitur_premium_2312 extends MY_model
             $this->db->update('tweb_surat_format', ['form_isian' => json_encode($dataBaru)], ['id' => $row->id]);
         }
         $this->db->trans_complete();
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023110951($hasil)
+    {
+        FormatSurat::where('url_surat', 'surat-raw-tinymce')->update(['jenis' => FormatSurat::TINYMCE_DESA]);
 
         return $hasil;
     }
