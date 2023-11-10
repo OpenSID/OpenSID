@@ -43,7 +43,7 @@
                         <div class="col-sm-7">
                             <div class="input-group">
                                 <span class="input-group-addon input-sm">Lampiran</span>
-                                <input type="text" class="form-control input-sm nama_terbatas required" id="nama" name="nama" placeholder="Nama lampiran" value="{{ $lampiranSurat->nama }}" />
+                                <input type="text" class="form-control input-sm nama_desa required" id="nama" name="nama" placeholder="Nama lampiran" value="{{ $lampiranSurat->nama }}" />
                             </div>
                         </div>
                     </div>
