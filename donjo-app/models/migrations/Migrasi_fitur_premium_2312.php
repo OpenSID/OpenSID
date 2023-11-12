@@ -87,8 +87,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
         $hasil = $hasil && $this->migrasi_2023110251($hasil);
         $hasil = $hasil && $this->migrasi_2023110252($hasil);
         $hasil = $hasil && $this->migrasi_2023110651($hasil);
+        $hasil = $hasil && $this->migrasi_2023110751($hasil);
 
-        return $hasil && $this->migrasi_2023110751($hasil);
+        return $hasil && $this->migrasi_2023110951($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -352,5 +353,12 @@ class Migrasi_fitur_premium_2312 extends MY_model
             'ikon_kecil' => 'fa-file-o',
             'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'layanan-surat'])->row()->id,
         ]);
+    }
+
+    protected function migrasi_2023110951($hasil)
+    {
+        FormatSurat::where('url_surat', 'surat-raw-tinymce')->update(['jenis' => FormatSurat::TINYMCE_DESA]);
+
+        return $hasil;
     }
 }
