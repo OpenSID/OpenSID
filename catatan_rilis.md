@@ -2,6 +2,12 @@ Di rilis ini, versi 2311.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 
 Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 
+#### Penambahan Fitur
+
+1. [#2260](https://github.com/OpenSID/premium/issues/2260) Penambahan alur masuk kembali setelah ganti password.
+2. [#7164](https://github.com/OpenSID/OpenSID/issues/7164) Penambahan kode isian foto yang bisa diatur sendiri ukurannya.
+3. [#7280](https://github.com/OpenSID/OpenSID/issues/7280) Penambahan pengaturan kode isian alias surat TinyMCE.
+4. [#7348](https://github.com/OpenSID/OpenSID/issues/7348) Penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE.
 
 #### Perbaikan Bug
 

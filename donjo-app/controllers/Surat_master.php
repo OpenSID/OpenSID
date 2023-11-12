@@ -359,7 +359,7 @@ class Surat_master extends Admin_Controller
         // TODO:: Gabungkan kategori individu dengan kategori lainnya, jika individu hilangkan prefix kategorinya (individu)
         $formIsian = [
             'individu' => [
-                'sumber'         => 1, // sumber data untuk individu(utama) harus ada
+                'sumber'         => 1, // sumber data untuk individu (utama) harus ada
                 'data'           => $request['data_utama'] ?? [1],
                 'sex'            => $request['individu_sex'] ?? null,
                 'status_dasar'   => $request['individu_status_dasar'] ?? null,
@@ -369,6 +369,7 @@ class Surat_master extends Admin_Controller
                 'judul'          => $request['judul'] ?? 'Utama',
                 'label'          => $request['label'] ?? '',
                 'info'           => $request['info'] ?? '',
+                'sebagai'        => 1, // sebagai untuk individu (utama) harus ada
                 'hubungan'       => null,
             ],
         ];
@@ -376,7 +377,7 @@ class Surat_master extends Admin_Controller
         if (isset($request['kategori'])) {
             foreach ($request['kategori'] as $kategori) {
                 $formIsian[$kategori] = [
-                    'sumber'       => $request['kategori_sumber'][$kategori] ?? 1,
+                    'sumber'       => (int) $request['kategori_sumber'][$kategori] ?? 1,
                     'data'         => $request['kategori_data_utama'][$kategori] ?? [1],
                     'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
                     'status_dasar' => $request['kategori_individu_status_dasar'][$kategori] ?? null,
@@ -384,6 +385,7 @@ class Surat_master extends Admin_Controller
                     'judul'        => $request['kategori_judul'][$kategori] ?? null,
                     'label'        => $request['kategori_label'][$kategori] ?? null,
                     'info'         => $request['kategori_info'][$kategori] ?? null,
+                    'sebagai'      => (int) $request['kategori_sebagai'][$kategori] ?? 1,
                     'hubungan'     => $request['kategori_hubungan'][$kategori] ?? null,
                     // 'data_orang_tua' => $request['kategori_data_orang_tua'] ?? 0,
                     // 'data_pasangan'  => $request['kategori_data_pasangan'] ?? 0,

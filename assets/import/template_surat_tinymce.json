@@ -1865,6 +1865,7 @@
         "template_desa": null,
         "form_isian": {
             "individu": {
+                "sumber": 1,
                 "data": [
                     "1"
                 ],
@@ -1874,35 +1875,40 @@
                     "2",
                     "3",
                     "4",
+                    "6",
+                    "9"
+                ],
+                "kk_level": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
                     "5",
                     "6",
                     "7",
                     "8",
-                    "9"
+                    "9",
+                    "10",
+                    "11"
                 ],
-                "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
-                ]
+                "data_orang_tua": "0",
+                "data_pasangan": "0",
+                "judul": "Utama",
+                "label": "Keterangan Pemohon",
+                "info": "",
+                "sebagai": 1,
+                "hubungan": null
             }
         },
-        "kode_isian": [],
+        "kode_isian": null,
         "orientasi": "Potrait",
         "ukuran": "F4",
         "margin": "{\"kiri\":1.78,\"atas\":0.63,\"kanan\":1.78,\"bawah\":1.37}",
         "margin_global": "0",
         "footer": "1",
         "header": 1,
-        "format_nomor": null
+        "format_nomor": null,
+        "sumber_penduduk_berulang": "0"
     },
     {
         "nama": "Perintah Perjalanan Dinas",
