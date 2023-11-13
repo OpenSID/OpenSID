@@ -198,10 +198,10 @@ class Lampiran extends Admin_Controller
                 return [
                     'slug'          => $item['slug'],
                     'nama'          => $item['nama'],
-                    'jenis'         => $item['jenis'],
+                    'jenis'         => (int) $item['jenis'],
                     'template'      => $item['template'],
                     'template_desa' => $item['template_desa'],
-                    'status'        => $item['status'],
+                    'status'        => (int) $item['status'],
                     'created_by'    => auth()->id,
                     'updated_by'    => auth()->id,
                 ];
