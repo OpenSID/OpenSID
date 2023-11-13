@@ -32,9 +32,9 @@
 							<label class="col-sm-3 control-label" for="kode_pos"></label>
 							<div class="col-sm-8">
 								<?php if (get_extension($surat_keluar['berkas_scan']) == '.pdf'): ?>
-                                    <i class="fa fa-file-pdf-o pop-up-pdf" aria-hidden="true" style="font-size: 60px;" data-title="Berkas <?= $surat_keluar['nomor_surat']?>" data-url="<?= site_url() . $this->controller . '/berkas/' . $surat_keluar['id'] . '/1'?>"></i>
+                                    <i class="fa fa-file-pdf-o pop-up-pdf" aria-hidden="true" style="font-size: 60px;" data-title="Berkas <?= $surat_keluar['nomor_surat']?>" data-url="<?= site_url("{$this->controller}/berkas/{$surat_keluar['id']}/1") ?>"></i>
                                 <?php else: ?>
-                                	<i class="fa fa-picture-o pop-up-images" style="font-size: 60px;" aria-hidden="true" data-title="Berkas <?= $surat_keluar['nomor_surat']?>" data-url="<?= site_url() . $this->controller . '/berkas/' . $surat_keluar['id']?>" src="<?= site_url() . $this->controller . '/berkas/' . $surat_keluar['id']?>"></i>
+                                	<i class="fa fa-picture-o pop-up-images" style="font-size: 60px;" aria-hidden="true" data-title="Berkas <?= $surat_keluar['nomor_surat']?>" data-url="<?= site_url("{$this->controller}/berkas/{$surat_keluar['id']}") ?>" src="<?= site_url("{$this->controller}/berkas/{$surat_keluar['id']}") ?>"></i>
                                 <?php endif ?>
 								<p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?=  $surat_keluar['berkas_scan']?>" /> Hapus Berkas Lama</label></p>
 							</div>

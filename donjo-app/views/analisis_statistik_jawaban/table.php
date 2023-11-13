@@ -38,7 +38,7 @@
 							</a>
 						</div>
 						<div class="box-header with-border">
-							<h5>Analisis Statistik Jawaban - <a href="<?= site_url(); ?>analisis_master/menu/<?= $_SESSION['analisis_master']; ?>"><a href="<?= site_url(); ?>analisis_master/menu/<?= $_SESSION['analisis_master']; ?>"><?= $analisis_master['nama']; ?></a></a></h5>
+							<h5>Analisis Statistik Jawaban - <a href="<?= site_url("analisis_master/menu/{$_SESSION['analisis_master']}"); ?>"><a href="<?= site_url(); ?>analisis_master/menu/<?= $_SESSION['analisis_master']; ?>"><?= $analisis_master['nama']; ?></a></a></h5>
 						</div>
 						<div class="box-body">
 							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">

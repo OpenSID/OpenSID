@@ -3,7 +3,7 @@
 		<h1>Isi Data Inventaris Jalan, Irigasi dan Jaringan</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url() ?>inventaris_peralatan"><i class="fa fa-dashboard"></i>Daftar Inventaris Jalan, Irigasi dan Jaringan</a></li>
+			<li><a href="<?= site_url('inventaris_peralatan') ?>"><i class="fa fa-dashboard"></i>Daftar Inventaris Jalan, Irigasi dan Jaringan</a></li>
 			<li class="active">Isi Data</li>
 		</ol>
 	</section>
@@ -16,7 +16,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-						<a href="<?= site_url() ?>inventaris_jalan" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Jalan, Irigasi Dan Jariangan</a>
+						<a href="<?= site_url('inventaris_jalan') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Jalan, Irigasi Dan Jariangan</a>
 						</div>
 						<?php
                             $reg = $count_reg->count + 1;
