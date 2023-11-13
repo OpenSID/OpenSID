@@ -162,9 +162,9 @@
 							<center>
 								<div class="form-group">
 									<?php if (is_file(LOKASI_GALERI . $main->foto)) : ?>
-										<img class="img-responsive" src="<?= to_base64(LOKASI_GALERI . $main->foto); ?>" alt="Gambar Utama Pembangunan">
+										<img class="img-responsive" id="previewImage" src="<?= to_base64(LOKASI_GALERI . $main->foto); ?>" alt="Gambar Utama Pembangunan">
 									<?php else : ?>
-										<img class="img-responsive" src="<?= to_base64('assets/images/404-image-not-found.jpg') ?>" alt="Gambar Utama Pembangunan" />
+										<img class="img-responsive" id="previewImage" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="Gambar Utama Pembangunan" />
 									<?php endif; ?>
 									<div class="input-group input-group-sm">
 										<input type="hidden" name="old_foto" value="<?= $main->foto; ?>">
@@ -236,4 +236,29 @@
 	$(document).ready(function() {
 		pilih_lokasi(<?= (null === $main->id_lokasi && $main) ? 2 : 1 ?>);
 	});
+
+    document.getElementById('file').onchange = function(e) {
+		var file = e.target.files[0];
+		if (file) {
+			var allowedExtensions = document.getElementById('file').accept.split(',');
+			var fileExtension = file.name.split('.').pop().toLowerCase();
+			if (allowedExtensions.includes('.' + fileExtension)) {
+				var reader = new FileReader();
+
+				reader.onload = function(e) {
+					var output = document.getElementById('previewImage');
+					output.src = e.target.result;
+				};
+
+				reader.readAsDataURL(file);
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: 'Kesalahan',
+					text: 'Mohon pilih file gambar dengan format ' + document.getElementById('file').accept,
+					timer: 3000,
+				});
+			}
+		}
+	};
 </script>
