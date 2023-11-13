@@ -16,7 +16,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset('bootstrap/css/ionicons.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/anjungan-potrait.css') }}" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css') ?>" />
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="{{ asset('css/swiper.min.css') }}" />
     <!-- bootstrap datepicker -->

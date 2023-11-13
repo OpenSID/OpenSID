@@ -30,7 +30,7 @@
 					</div>
 					<center>
 						<div id="indikator" class="text-center">
-							<img src="<?= asset('images/background/loading.gif') ?>">
+							<img src="<?= asset("images/background/loading.gif") ?>">
 						</div>
 					</center>
 				</div>
@@ -62,7 +62,7 @@
 		$.ajax({
 			type: "POST",
 			url: SITE_URL + "<?= $aksi_ya ?>",
-      data: $('#form-pengumuman').serialize(),
+			data: $('#form-pengumuman').serialize(),
 			success: function() {
 				$('#indikator').hide();
 				$('#pengumuman').modal('hide');

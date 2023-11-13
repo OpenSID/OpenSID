@@ -63,8 +63,8 @@
 	});
 </script>
 <!-- Highcharts -->
-<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+<script src="<?= asset('js/highcharts/exporting.js') ?>"></script>
+<script src="<?= asset('js/highcharts/highcharts-more.js') ?>"></script>
 
 <div class="content-wrapper">
 	<section class="content-header">

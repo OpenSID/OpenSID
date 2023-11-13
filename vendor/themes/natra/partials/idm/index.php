@@ -1,16 +1,16 @@
-<link rel="stylesheet" href="<?= base_url()?>assets/css/AdminLTE.css" />
+<link rel="stylesheet" href="<?= asset('css/AdminLTE.css') ?>" />
 <!-- Font Awesome -->
 <link rel="stylesheet" href="<?= asset('bootstrap/css/font-awesome.min.css') ?>">
 <!-- Ionicons -->
 <link rel="stylesheet" href="<?= asset('bootstrap/css/ionicons.min.css') ?>">
 <?php if (is_file($this->theme_folder . '/' . $this->theme . '/css/first.css')): ?>
-	<link rel="stylesheet" href="<?= base_url() . $this->theme_folder . '/' . $this->theme . '/css/first.css' ?>" />
+	<link rel="stylesheet" href="<?= base_url("{$this->theme_folder}/{$this->theme}/css/first.css") ?>" />
 <?php endif; ?>
 <?php if (is_file($this->theme_folder . '/' . $this->theme . '/assets/css/desa-web.css')): ?>
-	<link type='text/css' href="<?= base_url() . $this->theme_folder . '/' . $this->theme . '/assets/css/desa-web.css' ?>" rel='stylesheet' />
+	<link type='text/css' href="<?= base_url("{$this->theme_folder}/{$this->theme}/assets/css/desa-web.css") ?>" rel='stylesheet' />
 <?php endif; ?>
 <?php if (is_file('desa/css/' . $this->theme . '/desa-web.css')): ?>
-	<link type='text/css' href="<?= base_url()?>desa/css/<?= $this->theme ?>/desa-web.css" rel='Stylesheet' />
+	<link type='text/css' href="<?= base_url("desa/css/{$this->theme}/desa-web.css") ?>" rel='Stylesheet' />
 <?php endif; ?>
 <style>
     .small-box .icon {

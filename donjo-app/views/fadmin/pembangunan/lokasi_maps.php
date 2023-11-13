@@ -90,11 +90,11 @@
 		var baseLayers = getBaseLayers(peta_lokasi, MAPBOX_KEY, JENIS_PETA);
 
 		//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS
-		L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url() ?>assets/images/folder.svg" alt="file icon"/>';
+		L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= asset("images/folder.svg")?> alt="file icon"/>';
 		showCurrentPoint(posisi, peta_lokasi);
 
 		//Export/Import Peta dari file GPX
-		L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url() ?>assets/images/gpx.png" alt="file icon"/>';
+		L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= asset("images/gpx.png")?> alt="file icon"/>';
 		L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
 		controlGpxPoint = eximGpxPoint(peta_lokasi);
 
@@ -117,5 +117,5 @@
 
 	}; //EOF window.onload
 </script>
-<script src="<?= base_url() ?>assets/js/leaflet.filelayer.js"></script>
-<script src="<?= base_url() ?>assets/js/togeojson.js"></script>
+<script src="<?= asset('js/leaflet.filelayer.js') ?>"></script>
+<script src="<?= asset('js/togeojson.js') ?>"></script>

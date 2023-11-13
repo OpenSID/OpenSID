@@ -11,7 +11,7 @@
         ],
         pageLength: 10,
         language: {
-        url: "<?= base_url('assets/bootstrap/js/dataTables.indonesian.lang') ?>",
+        url: "<?= asset('bootstrap/js/dataTables.indonesian.lang') ?>",
         }
     });
 </script>

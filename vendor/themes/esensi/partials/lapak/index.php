@@ -40,7 +40,7 @@
               <?php endfor; ?>
             </div>
             <?php else: ?>
-              <img class="h-44 w-full object-cover object-center bg-gray-300" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Produk"/>
+              <img class="h-44 w-full object-cover object-center bg-gray-300" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="Foto Produk"/>
           <?php endif ?>
           <div class="space-y-1/2 text-sm flex flex-col detail">
             <span class="font-heading font-medium"><?= $pro->nama ?></span>
