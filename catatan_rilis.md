@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 11. [#5185](https://github.com/OpenSID/OpenSID/issues/5185) Penambahan informasi dan link data keluarga pada modul pemetaan.
 12. [#5392](https://github.com/OpenSID/OpenSID/issues/5392) Penambahan informasi total pada buku rekapitulasi jumlah penduduk.
 13. [#5367](https://github.com/OpenSID/OpenSID/issues/5367) Penambahan fungsi pengurutan berdasarkan jumlah anggota pada modul keluarga.
+14. [#4736](https://github.com/OpenSID/OpenSID/issues/4736) Penambahan fungsi preview saat unggah gambar pada modul pembangunan.
 
 
 #### Perbaikan Bug
