@@ -242,14 +242,15 @@ class Laporan_penduduk_model extends MY_Model
         }
     }
 
-    protected function data_jml_semua_penduduk()
+    protected function data_jml_semua_penduduk($status_dasar = '1')
     {
         $this->db
             ->select('COUNT(b.id) AS jumlah')
             ->select('COUNT(CASE WHEN b.sex = 1 THEN b.id END) AS laki')
             ->select('COUNT(CASE WHEN b.sex = 2 THEN b.id END) AS perempuan')
-            ->from('penduduk_hidup b')
-            ->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left');
+            ->from('tweb_penduduk b')
+            ->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left')
+            ->where('b.status_dasar', $status_dasar);
 
         if ($dusun = $this->session->userdata('dusun')) {
             $this->db->where('a.dusun', $dusun);
@@ -344,18 +345,19 @@ class Laporan_penduduk_model extends MY_Model
         }
     }
 
-    private function select_jml($where)
+    private function select_jml($where, $status_dasar = '1')
     {
-        $str_jml_penduduk  = $this->str_jml_penduduk($where);
-        $str_jml_laki      = $this->str_jml_penduduk($where, '1');
-        $str_jml_perempuan = $this->str_jml_penduduk($where, '2');
+        $str_jml_penduduk  = $this->str_jml_penduduk($where, '', $status_dasar);
+        $str_jml_laki      = $this->str_jml_penduduk($where, '1', $status_dasar);
+        $str_jml_perempuan = $this->str_jml_penduduk($where, '2', $status_dasar);
+
         $this->db
             ->select("({$str_jml_penduduk}) as jumlah")
             ->select("({$str_jml_laki}) as laki")
             ->select("({$str_jml_perempuan}) as perempuan");
     }
 
-    private function str_jml_penduduk($where, $sex = '')
+    private function str_jml_penduduk($where, $sex = '', $status_dasar = '1')
     {
         if ($dusun = $this->session->userdata('dusun')) {
             $this->db->where('a.dusun', $dusun);
@@ -371,8 +373,10 @@ class Laporan_penduduk_model extends MY_Model
         }
 
         return $this->db->select('COUNT(b.id)')
-            ->from('penduduk_hidup b')
+            ->from('tweb_penduduk b')
             ->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left')
+            ->join('log_penduduk l', 'l.id_pend = b.id', 'left')
+            ->where('b.status_dasar', $status_dasar)
             ->where($where)
             ->get_compiled_select();
     }
@@ -399,7 +403,17 @@ class Laporan_penduduk_model extends MY_Model
             '19'          => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
         ];
 
-        switch ("{$lap}") {
+        switch ((string) $lap) {
+            case 'akta-kematian':
+                // Akta Kematian
+                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND l.akta_mati IS NOT NULL ";
+                $this->select_jml($where, '2');
+                $this->db
+                    ->select("u.*, concat('UMUR ', u.dari, ' S/D ', u.sampai, ' TAHUN') as nama")
+                    ->from('tweb_penduduk_umur u')
+                    ->where('u.status', '1');
+                break;
+
             // KELUARGA
             case 'kelas_sosial':
                 // Kelas Sosial
@@ -537,6 +551,7 @@ class Laporan_penduduk_model extends MY_Model
     protected function get_data_jml()
     {
         $lap = $this->lap;
+        $status_dasar = '1';
         //Siapkan data baris rekap
         if ($lap == 18) {
             $this->db->where("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1))");
@@ -548,8 +563,10 @@ class Laporan_penduduk_model extends MY_Model
         } else {
             if ($lap == 'hamil') {
                 $this->db->where('b.sex', 2);
+            } else if ($lap == 'akta-kematian') {
+                $status_dasar = '2';
             }
-            $semua = $this->data_jml_semua_penduduk();
+            $semua = $this->data_jml_semua_penduduk($status_dasar);
         }
 
         return $semua;

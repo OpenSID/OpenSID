@@ -135,10 +135,8 @@ class Penduduk_model extends MY_Model
                 ->where("{$kolom} IS NULL")
                 ->or_where($kolom, '')
                 ->group_end();
-        } elseif ($kf == $this->session->status_dasar) {
-            $this->db->where_in($kolom, $kf);
         } else {
-            $this->db->where($kolom, $kf);
+            $this->db->where($kolom, 1);
         }
     }
 
@@ -173,6 +171,27 @@ class Penduduk_model extends MY_Model
             }
 
             $this->db->where('u.sex', '2');
+        }
+    }
+
+    protected function akta_kematian_sql()
+    {
+        $kf = $this->session->akta_kematian;
+
+        if (isset($kf)) {
+            if (! in_array($kf, [JUMLAH, BELUM_MENGISI])) {
+                $this->session->umurx = $kf;
+                $this->db->where("log.akta_mati <> '' ");
+                $this->umur_sql();
+
+                return;
+            }
+
+            if ($kf == JUMLAH) {
+                $this->db->where("log.akta_mati <> '' ");
+            } elseif ($kf == BELUM_MENGISI) {
+                $this->db->where("(log.akta_mati IS NULL OR log.akta_mati = '') ");
+            }
         }
     }
 
@@ -434,6 +453,7 @@ class Penduduk_model extends MY_Model
         $this->umur_sql(); // Kode 13, 15
         $this->akta_kelahiran_sql(); // Kode 17
         $this->hamil_sql(); // Filter blum digunakan
+        $this->akta_kematian_sql();
         $this->tag_id_card_sql(); // Filter blum digunakan
         $this->nik_sementara_sql(); // NIK Sementara
     }
@@ -734,6 +754,7 @@ class Penduduk_model extends MY_Model
         $this->umur_sql(); // Kode 13, 15
         $this->akta_kelahiran_sql(); // Kode 17
         $this->hamil_sql(); // Filter blum digunakan
+        $this->akta_kematian_sql();
         $this->tag_id_card_sql(); // Filter blum digunakan
 
         return $this->db->get()->result_array();
@@ -1606,7 +1627,8 @@ class Penduduk_model extends MY_Model
 
                 case 13: // = 17
                 case 15: // = 17
-                case 17:
+                case 17: // = 17
+                case 'akta-kematian': // = 17
                     $table = 'tweb_penduduk_umur';
                     break;
 

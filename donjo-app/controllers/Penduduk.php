@@ -53,7 +53,7 @@ class Penduduk extends Admin_Controller
         $this->modul_ini     = 'kependudukan';
         $this->sub_modul_ini = 'penduduk';
         $this->_set_page     = ['50', '100', '200'];
-        $this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan', 'nik_sementara', 'tag_id_card'];
+        $this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'akta_kematian', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan', 'nik_sementara', 'tag_id_card'];
     }
 
     private function clear_session()
@@ -611,7 +611,7 @@ class Penduduk extends Admin_Controller
         $this->session->unset_userdata('program_bantuan');
         $this->session->sex = ($sex == 0) ? null : $sex;
 
-        switch ($tipe) {
+        switch ((string) $tipe) {
             case '0':
                 $session  = 'pendidikan_kk_id';
                 $kategori = 'PENDIDIKAN DALAM KK : ';
@@ -737,6 +737,12 @@ class Penduduk extends Admin_Controller
             case 'hamil':
                 $session  = 'hamil';
                 $kategori = 'STATUS KEHAMILAN : ';
+                break;
+
+            case 'akta-kematian':
+                $session  = 'akta_kematian';
+                $kategori = 'AKTA KEMATIAN : ';
+                $this->session->status_dasar = 2;
                 break;
 
             case $tipe > 50:
