@@ -11,7 +11,7 @@
 			<input type="hidden" name="jenis_impor" id="jenis_impor" value="baru">
 			<input type="hidden" name="id_keuangan_master" id="id_keuangan_master" value="0">
 			<div class="box box-info">
-				<?php if ($can('u')): ?>
+				<?php if (can('u')): ?>
 					<div class="box-header with-border">
 						<div class="col-sm-6">
 							<div class="form-group">
@@ -38,7 +38,7 @@
 							<thead class="bg-gray disabled color-palette">
 								<tr>
 									<th class="padat">No</th>
-									<?php if ($can('h')): ?>
+									<?php if (can('h')): ?>
 										<th class="padat">Aksi</th>
 									<?php endif; ?>
 									<th>Versi</th>
@@ -50,7 +50,7 @@
 								<?php foreach ($main as $data): ?>
 									<tr>
 										<td><?=$data['no']?></td>
-										<?php if ($can('h')): ?>
+										<?php if (can('h')): ?>
 											<td nowrap>
 												<?php if (count($data['desa_ganda']) > 1): ?>
 													<a href="<?= site_url("keuangan/pilih_desa/{$data['id']}")?>" title="Bersihkan desa ganda" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Bersihkan Desa Ganda" class="btn bg-orange btn-sm"><i class="fa fa-minus-square"></i></a>
@@ -76,7 +76,7 @@
 		</form>
 	</section>
 </div>
-<?php if ($can('u')): ?>
+<?php if (can('u')): ?>
 	<div class="modal fade in"  id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
