@@ -170,5 +170,5 @@
 
   }; //EOF window.onload
 </script>
-<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
-<script src="<?= base_url()?>assets/js/togeojson.js"></script>
+<script src="<?= asset('js/leaflet.filelayer.js') ?>"></script>
+<script src="<?= asset('js/togeojson.js') ?>"></script>

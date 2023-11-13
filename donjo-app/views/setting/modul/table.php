@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?= base_url()?>assets/css/alert-bootstrap.css">
+<link rel="stylesheet" href="<?= asset('css/alert-bootstrap.css">
 
 <?php if (! $sub_modul): ?>
 	<script type="text/javascript">

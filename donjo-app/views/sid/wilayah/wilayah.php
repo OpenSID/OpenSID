@@ -146,8 +146,8 @@
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete'); ?>
-<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<script src="<?= base_url()?>assets/js/validasi.js"></script>
-<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+<script src="<?= asset('js/jquery.validate.min.js') ?>"></script>
+<script src="<?= asset('js/validasi.js') ?>"></script>
+<script src="<?= asset('js/localization/messages_id.js') ?>"></script>
 
 

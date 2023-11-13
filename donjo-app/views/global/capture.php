@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="<?= base_url('assets/css/camera.css'); ?>">
-<link rel="stylesheet" href="<?= base_url('assets/css/cropper.min.css'); ?>">
+<link rel="stylesheet" href="<?= assets('css/camera.css'); ?>">
+<link rel="stylesheet" href="<?= assets('css/cropper.min.css'); ?>">
 <div class="modal fade" id="modal-camera">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -65,6 +65,6 @@
 		</div>
 	</div>
 </div>
-<script src="<?= base_url('assets/js/webcam.min.js'); ?>"></script>
-<script src="<?= base_url('assets/js/cropper.min.js'); ?>"></script>
-<script src="<?= base_url('assets/js/main-camera.js'); ?>"></script>
+<script src="<?= assets('js/webcam.min.js'); ?>"></script>
+<script src="<?= assets('js/cropper.min.js'); ?>"></script>
+<script src="<?= assets('js/main-camera.js'); ?>"></script>

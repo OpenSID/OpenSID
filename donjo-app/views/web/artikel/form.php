@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?= base_url() ?>assets/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="<?= assets('js/tinymce/tinymce.min.js') ?>"></script>
 <script type="text/javascript">
 	tinymce.init({
 		selector: 'textarea',
@@ -13,11 +13,11 @@
 		toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor | print preview code | fontselect fontsizeselect",
 		toolbar3: "| laporan_keuangan | penerima_bantuan | sotk",
 		image_advtab: true,
-		external_filemanager_path: "<?= base_url() ?>assets/filemanager/",
+		external_filemanager_path: "<?= assets('filemanager/",
 		filemanager_title: "Responsive Filemanager",
 		filemanager_access_key: "<?= $this->session->fm_key; ?>",
 		external_plugins: {
-			"filemanager": "<?= base_url() ?>assets/filemanager/plugin.min.js"
+			"filemanager": "<?= assets('filemanager/plugin.min.js"
 		},
 		templates: [{
 				title: 'Test template 1',

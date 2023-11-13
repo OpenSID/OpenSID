@@ -3,7 +3,7 @@
 	<head>
 		<title>Laporan Peserta Program <?= $peserta[0]['nama']; ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+		<link href="<?= asset('css/report.css') ?>" rel="stylesheet" type="text/css">
 		<style type="text/css">
 			.textx, td
 			{

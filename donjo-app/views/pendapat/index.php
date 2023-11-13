@@ -156,5 +156,5 @@
 		});
 	});
 </script>
-<script src="<?= base_url() ?>assets/js/highcharts/exporting.js"></script>
-<script src="<?= base_url() ?>assets/js/highcharts/highcharts-more.js"></script>
+<script src="<?= assets('js/highcharts/exporting.js') ?>"></script>
+<script src="<?= assets('js/highcharts/highcharts-more.js') ?>"></script>

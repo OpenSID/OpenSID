@@ -5,7 +5,7 @@
 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
-		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+		<link href="<?= asset('css/report.css') ?>" rel="stylesheet" type="text/css">
 		<!-- TODO: Pindahkan ke external css -->
 		<style>
 			td

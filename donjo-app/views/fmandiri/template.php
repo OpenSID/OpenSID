@@ -80,9 +80,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 	<?php if ($this->controller == 'lapak') : ?>
 		<!-- Map -->
-		<link rel="stylesheet" href="<?= base_url('assets/css/leaflet.css') ?>">
-		<link rel="stylesheet" href="<?= base_url('assets/css/mapbox-gl.css') ?>">
-		<link rel="stylesheet" href="<?= base_url('assets/css/peta.css') ?>">
+		<link rel="stylesheet" href="<?= assets('css/leaflet.css') ?>">
+		<link rel="stylesheet" href="<?= assets('css/mapbox-gl.css') ?>">
+		<link rel="stylesheet" href="<?= assets('css/peta.css') ?>">
 	<?php endif; ?>
 
 	<!-- Style Mandiri Modification CSS -->
@@ -101,8 +101,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</script>
 	<?php if ($cek_anjungan) : ?>
 		<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
-		<link rel="stylesheet" href="<?= base_url('assets/css/keyboard.min.css') ?>">
-		<link rel="stylesheet" href="<?= base_url('assets/front/css/mandiri-keyboard.css') ?>">
+		<link rel="stylesheet" href="<?= assets('css/keyboard.min.css') ?>">
+		<link rel="stylesheet" href="<?= assets('front/css/mandiri-keyboard.css') ?>">
 	<?php endif; ?>
 
 	<?php $this->load->view('head_tags') ?>
@@ -338,10 +338,10 @@ endif;
 
 	<?php if ($cek_anjungan) : ?>
 		<!-- keyboard widget script -->
-		<script src="<?= base_url('assets/js/jquery.keyboard.min.js') ?>"></script>
-		<script src="<?= base_url('assets/js/jquery.mousewheel.min.js') ?>"></script>
-		<script src="<?= base_url('assets/js/jquery.keyboard.extension-all.min.js') ?>"></script>
-		<script src="<?= base_url('assets/front/js/mandiri-keyboard.js') ?>"></script>
+		<script src="<?= assets('js/jquery.keyboard.min.js') ?>"></script>
+		<script src="<?= assets('js/jquery.mousewheel.min.js') ?>"></script>
+		<script src="<?= assets('js/jquery.keyboard.extension-all.min.js') ?>"></script>
+		<script src="<?= assets('front/js/mandiri-keyboard.js') ?>"></script>
 	<?php endif; ?>
 	<script type="text/javascript">
 		$(window).on('load', function() {
@@ -365,7 +365,7 @@ endif;
 
 	<?php if (cek_koneksi_internet()): ?>
 	<!-- Form Wizard - jquery.smartWizard -->
-	<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js') ?>"></script>
 	<?php endif ?>
 </body>
 </html>

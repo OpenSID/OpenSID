@@ -20,7 +20,7 @@
 							<label>Data yang dimasukkan adalah data yang baru</label>
 							<br/>
 							<br/>
-							<a href="<?= base_url('assets/import/format_impor_suplemen.xlsx'); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Suplemen</a>
+							<a href="<?= assets('import/format_impor_suplemen.xlsx'); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Suplemen</a>
 						</div>
 					</div>
 					<div class="modal-footer">

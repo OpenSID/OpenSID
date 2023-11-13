@@ -15,7 +15,7 @@
 								<?php if (is_file(LOKASI_GALERI . $pembangunan->foto)): ?>
 									<img width="auto" class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_GALERI . $pembangunan->foto); ?>" alt="<?= $pembangunan->slug; ?>"/>
 								<?php else: ?>
-									<img width="auto" class="img-fluid img-thumbnail" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="<?= $pembangunan->slug; ?>"/>
+									<img width="auto" class="img-fluid img-thumbnail" src="<?= assets('images/404-image-not-found.jpg') ?>" alt="<?= $pembangunan->slug; ?>"/>
 								<?php endif; ?>
 							</center>
 							<br/>
@@ -76,7 +76,7 @@
 											<?php if (is_file(LOKASI_GALERI . $value->gambar)): ?>
 												<img width="auto" class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_GALERI . $value->gambar); ?>" alt="<?= $pembangunan->slug . '-' . $value->persentase; ?>"/>
 											<?php else: ?>
-												<img width="auto" class="img-fluid img-thumbnail" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="<?= $pembangunan->slug . '-' . $value->persentase; ?>"/>
+												<img width="auto" class="img-fluid img-thumbnail" src="<?= assets('images/404-image-not-found.jpg') ?>" alt="<?= $pembangunan->slug . '-' . $value->persentase; ?>"/>
 											<?php endif; ?>
 											<b>Foto Pembangunan <?= $value->persentase; ?></b>
 										</div>
@@ -115,7 +115,7 @@
 			let posisi = [lat, lng];
 			let zoom = 15;
 			let logo = L.icon({
-				iconUrl: "<?= base_url('assets/images/gis/point/construction.png'); ?>",
+				iconUrl: "<?= assets('images/gis/point/construction.png'); ?>",
 			});
 
 			

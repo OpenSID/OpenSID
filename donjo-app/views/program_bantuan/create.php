@@ -1,5 +1,5 @@
-<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+<script src="<?= asset('js/jquery.validate.min.js') ?>"></script>
+<script src="<?= asset('js/localization/messages_id.js') ?>"></script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Tambah Program Bantuan</h1>

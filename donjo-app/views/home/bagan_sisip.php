@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?= base_url()?>assets/css/bagan.css">
+<link rel="stylesheet" href="<?= asset('css/bagan.css">
 
 <div class="content-wrapper">
 	<section class="content">

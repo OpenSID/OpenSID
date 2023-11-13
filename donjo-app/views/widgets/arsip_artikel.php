@@ -27,7 +27,7 @@
 										<?php if (is_file(LOKASI_FOTO_ARTIKEL . "kecil_{$arsip['gambar']}")): ?>
 											<img class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_FOTO_ARTIKEL . "sedang_{$arsip['gambar']}")?>"/>
 										<?php else: ?>
-											<img class="img-fluid img-thumbnail" src="<?= base_url('assets/images/404-image-not-found.jpg')?>"/>
+											<img class="img-fluid img-thumbnail" src="<?= assets('images/404-image-not-found.jpg')?>"/>
 										<?php endif; ?>
 										<div align="justify">
 											<small><span class="meta_date"><?= tgl_indo($arsip['tgl_upload']) ?> | <i class="fa fa-eye"></i> <?= hit($arsip['hit']) ?></span><br><font color="green"><?= $arsip['judul']?></font></small>

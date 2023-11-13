@@ -43,9 +43,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 ?>
 
-<script src="<?= base_url('assets/js/jquery.validate.min.js')?>"></script>
-<script src="<?= base_url('assets/js/validasi.js')?>"></script>
-<script src="<?= base_url('assets/js/localization/messages_id.js')?>"></script>
+<script src="<?= assets('js/jquery.validate.min.js')?>"></script>
+<script src="<?= assets('js/validasi.js')?>"></script>
+<script src="<?= assets('js/localization/messages_id.js')?>"></script>
 <form action="<?= $form_action?>" method="post" id="validasi">
 	<div class='modal-body'>
 		<div class="form-group">

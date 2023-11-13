@@ -115,7 +115,7 @@
 			var baseLayers = getBaseLayers(peta_penduduk, MAPBOX_KEY, JENIS_PETA);
 
 			//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS + Exim GPX/KML
-			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
+			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= asset('images/folder.svg" alt="file icon"/>';
 			showCurrentPoint(posisi, peta_penduduk, mode);
 
 			//Menambahkan zoom scale ke peta
@@ -125,6 +125,6 @@
 
 		}; //EOF window.onload
 	</script>
-	<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
-	<script src="<?= base_url()?>assets/js/togeojson.js"></script>
+	<script src="<?= asset('js/leaflet.filelayer.js') ?>"></script>
+	<script src="<?= asset('js/togeojson.js') ?>"></script>
 <?php endif; ?>

@@ -3,7 +3,7 @@
 <head>
 	<title>KIB A</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link href="<?= base_url() ?>assets/css/report.css" rel="stylesheet" type="text/css">
+	<link href="<?= assets('css/report.css') ?>" rel="stylesheet" type="text/css">
 	<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 	<!-- TODO: Pindahkan ke external css -->
 	<style>

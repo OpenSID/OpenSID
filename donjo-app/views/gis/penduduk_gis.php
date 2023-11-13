@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 ?>
 
-<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.min.css" media="screen" type="text/css" />
+<link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap.min.css') ?>" media="screen" type="text/css" />
 <style type="text/css">
 	.table, th {
 		text-align: center;
@@ -234,5 +234,5 @@ foreach ($main as $data): $i++; ?>
 		$('#chart').removeAttr('hidden');
 	}
 </script>
-<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+<script src="<?= asset('js/highcharts/exporting.js') ?>"></script>
+<script src="<?= asset('js/highcharts/highcharts-more.js') ?>"></script>
