@@ -129,7 +129,7 @@ function AmbilFoto($foto, $ukuran = 'kecil_', $sex = '1')
 
     if ($foto == $file_foto) {
         $ukuran    = ($ukuran == 'kecil_') ? 'kecil_' : '';
-        $file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
+        $file_foto = base_url(LOKASI_USER_PICT . $ukuran . $foto);
 
         if (! file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto)) {
             $file_foto = Foto_Default(null, $sex);

@@ -286,7 +286,7 @@ class Ekspor_model extends CI_Model
         $backup = preg_replace('/COLLATE=utf8_general_ci|COLLATE=cp850_general_ci|COLLATE=utf8mb4_general_ci|COLLATE=utf8mb4_unicode_ci|utf8_general_ci;/', '', $backup);
 
         $db_name = 'backup-on-' . date('Y-m-d-H-i-s') . '.sql';
-        $save    = base_url() . $db_name;
+        $save    = base_url($db_name);
 
         $this->load->helper('file');
         write_file($save, $backup);

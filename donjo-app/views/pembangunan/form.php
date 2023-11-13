@@ -164,7 +164,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<label class="control-label col-sm-4" for="nama"></label>
 				<div class="col-sm-7">
 					<input type="hidden" name="old_foto" value="<?= $main->foto ?>">
-					<img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_GALERI . $main->foto ?>" alt="Gambar Dokumentasi" width="200" height="200">
+					<img class="attachment-img img-responsive img-circle" src="<?= base_url(LOKASI_GALERI . $main->foto) ?>" alt="Gambar Dokumentasi" width="200" height="200">
 				</div>
 			</div>
 		<?php endif; ?>

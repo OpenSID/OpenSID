@@ -81,7 +81,7 @@
 																		</td>
 																		<td>
 																			<input type="hidden" name="setting[<?= $s ?>][old_gambar]" value="<?= $program['gambar'] ?>" />
-																			<img class="profile-user-img img-responsive img-circle" src="<?= base_url() . LOKASI_GAMBAR_WIDGET . $program['gambar'] ?>" alt="Gambar">
+																			<img class="profile-user-img img-responsive img-circle" src="<?= base_url(LOKASI_GAMBAR_WIDGET . $program['gambar']) ?>" alt="Gambar">
 																			<input type="file" name="setting[<?= $s ?>][gambar]" accept=".jpg,.jpeg,.png" />
 																			<p class="help-block">(Kosongkan jika tidak ingin mengubah gambar)</p>
 																		</td>

@@ -180,7 +180,7 @@
 													<label class="col-sm-2 no-padding">Berkas Form Pendaftaran</label>
 													<div class="col-sm-2">
 														<input type="hidden" name="old_file" value="<?= $list_bukti[0]['pengesahan'] ?>">
-														<img class="attachment-img img-responsive" src="<?= base_url() . LOKASI_PENGESAHAN . $list_bukti[0]['pengesahan'] ?>" alt="Bukti Pengesahan">
+														<img class="attachment-img img-responsive" src="<?= base_url(LOKASI_PENGESAHAN . $list_bukti[0]['pengesahan']) ?>" alt="Bukti Pengesahan">
 													</div>
 												</div>
 											<?php endif; ?>

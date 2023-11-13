@@ -368,7 +368,7 @@ function myErrorHandler($code, $message, $file, $line)
         $_SESSION['no_curl'] = 'y';
         echo '<strong>Apabila halamannya tidak tampil, coba di-refresh.</strong>';
         // Ulangi url yang memanggil fungsi tracker.
-        redirect(base_url() . 'index.php/' . $_SESSION['balik_ke']);
+        redirect(base_url("index.php/{$_SESSION['balik_ke']}"));
     }
     // Uncomment apabila melakukan debugging
     // else {

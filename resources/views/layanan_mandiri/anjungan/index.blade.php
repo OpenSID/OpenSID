@@ -57,7 +57,7 @@
                 <div class="swiper-wrapper">
                     @foreach ($gambar as $item)
                         <div class="swiper-slide">
-                            <img src="{{ base_url() . LOKASI_GALERI . 'sedang_' . $item->gambar }}" class="background"
+                            <img src="{{ base_url(LOKASI_GALERI . 'sedang_' . $item->gambar) }}" class="background"
                                 alt="Icon Menu">
                         </div>
                     @endforeach
