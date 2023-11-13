@@ -43,10 +43,6 @@ class Plan_garis_model extends MY_Model
 {
     protected $table = 'garis';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function autocomplete()
     {

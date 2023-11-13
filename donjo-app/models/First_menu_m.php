@@ -39,10 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class First_menu_m extends MY_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     private function list_submenu($parrent = 0)
     {

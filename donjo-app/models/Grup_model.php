@@ -43,10 +43,6 @@ class Grup_model extends MY_Model
 
     protected $table = 'user_grup';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function autocomplete()
     {

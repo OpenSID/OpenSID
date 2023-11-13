@@ -42,10 +42,6 @@ class Inventaris_kontruksi_model extends CI_Model
     protected $table        = 'inventaris_kontruksi';
     protected $table_mutasi = 'mutasi_inventaris_kontruksi';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function list_inventaris()
     {

@@ -255,10 +255,6 @@ class Mandiri_Controller extends MY_Controller
 class Api_Controller extends MY_Controller
 {
     // Constructor
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     protected function log_request()
     {

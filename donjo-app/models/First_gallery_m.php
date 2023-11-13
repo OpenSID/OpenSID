@@ -39,10 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class First_gallery_m extends CI_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function paging($p = 1)
     {

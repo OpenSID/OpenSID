@@ -39,10 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_parameter_model extends MY_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function list_parameter_by_id_master($id_master)
     {

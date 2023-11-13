@@ -46,10 +46,6 @@ class Tanah_kas_desa_model extends CI_Model
 
     protected $table = 'tanah_kas_desa';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function get_data(string $search = '')
     {

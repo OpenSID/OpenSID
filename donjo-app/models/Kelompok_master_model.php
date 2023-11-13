@@ -42,10 +42,6 @@ class Kelompok_master_model extends MY_Model
     protected $table = 'kelompok_master';
     protected $tipe  = 'kelompok';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function set_tipe(string $tipe)
     {

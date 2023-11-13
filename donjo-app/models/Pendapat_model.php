@@ -41,10 +41,6 @@ class Pendapat_model extends MY_Model
 {
     protected $table = 'pendapat';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function insert(array $data)
     {
