@@ -4,8 +4,8 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('analisis_master/clear') ?>"> Master Analisis</a></li>
-			<li><a href="<?= site_url() ?>analisis_respon/leave"><?= $analisis_master['nama'] ?></a></li>
-			<li><a href="<?= site_url() ?>analisis_respon">Data Sensus</a></li>
+			<li><a href="<?= site_url('analisis_respon/leave') ?>"><?= $analisis_master['nama'] ?></a></li>
+			<li><a href="<?= site_url('analisis_respon') ?>">Data Sensus</a></li>
 			<li class="active">Input Data</li>
 		</ol>
 	</section>
@@ -42,7 +42,7 @@
 												<tr>
 													<td width="150">Form Pendataan</td>
 													<td width="1">:</td>
-													<td><a href="<?= site_url() ?>analisis_master/menu/<?= $_SESSION['analisis_master'] ?>"><?= $analisis_master['nama'] ?></a></td>
+													<td><a href="<?= site_url("analisis_master/menu/{$_SESSION['analisis_master']}") ?>"><?= $analisis_master['nama'] ?></a></td>
 												</tr>
 												<tr>
 													<td>Nomor Identitas</td>

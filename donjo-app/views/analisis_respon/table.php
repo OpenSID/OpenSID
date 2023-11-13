@@ -46,7 +46,7 @@
 								<tr>
 									<td width="150">Nama Analisis</td>
 									<td width="1">:</td>
-									<td><a href="<?= site_url()?>analisis_master/menu/<?= $_SESSION['analisis_master']?>"><?= $analisis_master['nama']?></a></td>
+									<td><a href="<?= site_url("analisis_master/menu/{$_SESSION['analisis_master']}")?>"><?= $analisis_master['nama']?></a></td>
 								</tr>
 								<tr>
 									<td>Subjek Analisis</td>

@@ -37,12 +37,12 @@ if (isset($_SESSION['subjek_tipe'])) {
 		</li>
 		<?php if (isset($_SESSION['analisis_master'])) {?>
 			<li <?php if (! isset($_SESSION['submenu'])) {?>class="selected"<?php }?>>
-				<a href="<?= site_url()?>analisis_master/menu/<?= $_SESSION['analisis_master']?>"><?= $_SESSION['analisis_nama']?> [ <?= $asubjek?> ]</a>
+				<a href="<?= site_url("analisis_master/menu/{$_SESSION['analisis_master']}")?>"><?= $_SESSION['analisis_nama']?> [ <?= $asubjek?> ]</a>
 			</li>
 		<?php } ?>
 		<?php if (isset($_SESSION['submenu'])) {?>
 			<li class="selected">
-				<a href="<?= site_url()?><?= $_SESSION['asubmenu']?>/clear"><?= $_SESSION['submenu']?></a>
+				<a href="<?= site_url("{$_SESSION['asubmenu']}/clear")?>><?= $_SESSION['submenu']?></a>
 			</li>
 		<?php } ?>
 	</ul>
