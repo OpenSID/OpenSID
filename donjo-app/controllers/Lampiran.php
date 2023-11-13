@@ -61,7 +61,7 @@ class Lampiran extends Admin_Controller
                 ->addColumn('aksi', static function ($row) {
                     $aksi = '';
 
-                    if (can('u') && ($row->jenis == LampiranSurat::LAMPIRAN_DESA)) {
+                    if (can('u')) {
                         $aksi .= '<a href="' . site_url("lampiran/form/{$row->id}") . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
