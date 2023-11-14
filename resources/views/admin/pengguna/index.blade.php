@@ -13,8 +13,15 @@
 @endsection
 
 @if ($ci->session->change_password)
-    <div class="modal show" id="change_password" tabindex="-1" role="dialog" aria-labelledby="change-password"
-        aria-hidden="true" style="display: block;">
+    <div
+        class="modal show"
+        id="change_password"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="change-password"
+        aria-hidden="true"
+        style="display: block;"
+    >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
