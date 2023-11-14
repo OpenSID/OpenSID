@@ -50,8 +50,6 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        $hasil = $this->migrasi_2023110771($hasil);
-
         return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
     }
 
@@ -71,27 +69,6 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_xxxxxxxxxx($hasil)
     {
-        return $hasil;
-    }
-
-    private function migrasi_2023110771($hasil)
-    {
-        if (! Schema::hasTable('alias_kodeisian')) {
-            Schema::create('alias_kodeisian', static function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('config_id');
-                $table->string('judul', 10);
-                $table->string('alias', 50);
-                $table->string('content', 200);
-                $table->integer('created_by')->nullable();
-                $table->integer('updated_by')->nullable();
-                $table->timestamps();
-
-                $table->foreign('config_id')->references('id')->on('config')->onDelete('cascade');
-                $table->unique(['config_id', 'judul', 'alias']);
-            });
-        }
-
         return $hasil;
     }
 }
