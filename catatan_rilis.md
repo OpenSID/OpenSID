@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 9. [#7347](https://github.com/OpenSID/OpenSID/issues/7347) Penambahan identitas terlapor dan pelapor pada arsip layanan.
 10. [#7359](https://github.com/OpenSID/OpenSID/issues/7359) Penambahan laporan khusus dana desa pada laporan keuangan.
 11. [#5185](https://github.com/OpenSID/OpenSID/issues/5185) Penambahan informasi dan link data keluarga pada modul pemetaan.
+12. [#5392](https://github.com/OpenSID/OpenSID/issues/5392) Penambahan informasi total pada buku rekapitulasi jumlah penduduk.
 
 
 #### Perbaikan Bug
