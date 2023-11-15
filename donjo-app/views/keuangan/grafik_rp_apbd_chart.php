@@ -17,7 +17,18 @@
         <?php foreach ($subdatas as $key => $subdata): ?>
           <?php if ($subdata['judul'] != null && $key != 'laporan' && $subdata['realisasi'] != 0 || $subdata['anggaran'] != 0): ?>
             <div class="progress-group">
-              <?= $subdata['judul']; ?><br>
+              <?=
+              \Illuminate\Support\Str::of($subdata['judul'])
+                  ->title()
+                  ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
+                      if (! in_array($string, ['Dana Desa'])) {
+                          return $string->replace('Desa', setting('sebutan_desa'));
+                      }
+                  }, static function (Illuminate\Support\Stringable $string) {
+                      return $string->append(' ' . setting('sebutan_desa'));
+                  })
+                  ->title();
+              ?><br>
               <b><?= rupiah24($subdata['realisasi']); ?> | <?= rupiah24($subdata['anggaran'] + ($subdata['realisasi_jurnal'] ?? 0)); ?></b>
               <div class="progress progress-bar-striped" align="right" style="background-color: #FF0000"><small></small>
                 <div class="progress-bar progress-bar-info" role="progressbar" style="width: <?= $subdata['persen'] ?>%" aria-valuenow="<?= $subdata['persen'] ?>" aria-valuemin="0" aria-valuemax="100"><span><?= $subdata['persen'] ?> %</span></div>
