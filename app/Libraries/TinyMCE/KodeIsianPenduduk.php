@@ -166,11 +166,11 @@ class KodeIsianPenduduk
                     'isian' => 'foto_penduduK',
                     'data'  => '[foto_penduduk]',
                 ],
-                [
-                    'judul' => 'Foto Ukuran',
-                    'isian' => '<img src="' . base_url('assets/images/pengguna/kuser.png') . '" width="124" height="148">',
-                    'data'  => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
-                ],
+                // [
+                //     'judul' => 'Foto Ukuran',
+                //     'isian' => '<img src="' . base_url('assets/images/pengguna/kuser.png') . '" width="124" height="148">',
+                //     'data'  => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
+                // ],
                 [
                     'judul' => 'Alamat Jalan',
                     'isian' => 'Alamat_jalan',
