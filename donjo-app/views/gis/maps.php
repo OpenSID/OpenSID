@@ -280,7 +280,9 @@
 			var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil, TAMPIL_LUAS);
 
 			//PENDUDUK
-			<?php if ($layer_penduduk == 1 || $layer_keluarga == 1 && ! empty($penduduk)) : ?>
+			<?php if (($layer_penduduk == 1 || $layer_keluarga == 1) && ! empty($penduduk)) : ?>
+
+				var layer_keluarga = '<?= $layer_keluarga ?>';
 
 				//Data penduduk
 				var penduduk = JSON.parse('<?= addslashes(json_encode($penduduk)) ?>');
@@ -298,16 +300,25 @@
 					if (penduduk[x].lat || penduduk[x].lng) {
 						foto = `<td style="text-align: center;"><img class="foto_pend" src="<?= site_url('penduduk/ambil_foto'); ?>?foto=${penduduk[x].foto}&sex=${penduduk[x].id_sex}" alt="Foto Penduduk"/></td>`;
 
+						if (layer_keluarga == 1) {
+							info_lain = '<br/>Anggota Keluarga : ' + penduduk[x].jumlah_anggota;
+							link_detail = SITE_URL + 'keluarga/anggota/1/0/' + penduduk[x].id_kk;
+						} else {
+							info_lain = '';
+							link_detail = SITE_URL + 'penduduk/detail/1/0/' + penduduk[x].id;
+						}
+
 						//Konten yang akan ditampilkan saat marker diklik
 						content =
 							'<table border=0 style="width:150px;max-width:200px"><tr>' + foto + '</tr>' +
 							'<tr><td style="text-align: center;">' +
-							'<p size="2.5" style="margin: 5px 0;">' + penduduk[x].nama +
+							'<p size="2.5" style="margin: 5px 0;"><b>' + penduduk[x].nama + '</b>' + 
 							'<br/>' + penduduk[x].sex +
 							'<br/>' + penduduk[x].umur + ' Tahun ' +
 							'<br/>' + penduduk[x].agama +
-							'<br/>' + penduduk[x].alamat + '</p>' +
-							'<a class="btn btn-sm btn-primary" href="<?= site_url('penduduk/detail/1/0/') ?>' + penduduk[x].id + '" style="color:black;" target="ajax-modalx" rel="content" header="Rincian Data ' + penduduk[x].nama + '" >Data Rincian</a></td>' +
+							'<br/>' + penduduk[x].alamat +
+							info_lain + '</p>' +
+							'<a class="btn btn-sm btn-primary" href="' + link_detail  + '" style="color:black;" target="ajax-modalx" rel="content" header="Rincian Data ' + penduduk[x].nama + '" >Data Rincian</a></td>' +
 							'</tr></table>';
 						//Menambahkan point ke marker
 						semua_marker.push(turf.point([Number(penduduk[x].lng), Number(penduduk[x].lat)], {

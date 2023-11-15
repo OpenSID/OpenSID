@@ -683,20 +683,20 @@ class Penduduk_model extends MY_Model
     {
         //Main Query
         $this->db
-            ->select("u.id, u.nik, u.nama, u.sex as id_sex, map.lat, map.lng, a.dusun, a.rw, a.rt, u.foto, d.no_kk AS no_kk,
+            ->select("u.id, u.nik, u.nama, u.sex as id_sex, u.id_kk, map.lat, map.lng, a.dusun, a.rw, a.rt, u.foto, d.no_kk AS no_kk,
                 DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0	AS umur,
                     x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, k.nama AS kawin, g.nama AS agama, m.nama AS gol_darah, hub.nama AS hubungan,
                     @alamat:=trim(concat_ws('',
                         case
-                            when a.rt != '-' then concat('RT-', a.rt)
+                            when a.rt != '-' then concat(' RT-', a.rt)
                             else ''
                         end,
                         case
-                            when a.rw != '-' then concat('RW-', a.rw)
+                            when a.rw != '-' then concat(' RW-', a.rw)
                             else ''
                         end,
                         case
-                            when a.dusun != '-' then concat('Dusun ', a.dusun)
+                            when a.dusun != '-' then concat(' Dusun ', a.dusun)
                             else ''
                         end
                     )),
@@ -704,6 +704,7 @@ class Penduduk_model extends MY_Model
                         when length(@alamat) > 0 then @alamat
                         else 'Alamat penduduk belum valid'
                     end as alamat")
+            ->select('(SELECT COUNT(*) FROM tweb_penduduk WHERE id_kk = u.id_kk) AS jumlah_anggota')
             ->from('tweb_penduduk u')
             ->join('tweb_penduduk_map map', 'u.id = map.id')
             ->join('tweb_wil_clusterdesa a', 'u.id_cluster = a.id', 'left')
