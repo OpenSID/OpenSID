@@ -258,7 +258,8 @@ class Keluarga_model extends MY_Model
     {
         $this->db
             ->distinct()
-            ->select('u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.sex as id_sex, t.status_dasar, t.foto, t.id as id_pend, c.dusun, c.rw, c.rt');
+            ->select('u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.sex as id_sex, t.status_dasar, t.foto, t.id as id_pend, c.dusun, c.rw, c.rt')
+            ->select('(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota');
         $this->list_data_sql();
 
         $this->db->order_by("CASE
@@ -300,6 +301,14 @@ class Keluarga_model extends MY_Model
                 $this->db->order_by('u.tgl_cetak_kk DESC');
                 break;
 
+            case 9:
+                $this->db->order_by('jumlah_anggota');
+                break;
+
+            case 10:
+                $this->db->order_by('jumlah_anggota DESC');
+                break;
+
             default:
                 $this->db->order_by('u.no_kk DESC');
                 break;
@@ -307,8 +316,7 @@ class Keluarga_model extends MY_Model
         $query_dasar = $this->db->get_compiled_select();
 
         /** Lakukan pencarian jumlah anggota setelah data diperoleh supaya lebih cepat */
-        $this->db->select('u.*, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1 AND config_id = u.config_id) AS jumlah_anggota')
-            ->from('(' . $query_dasar . ') u');
+        $this->db->from('(' . $query_dasar . ') u');
 
         if (! $this->input->get('id_cb')) {
             if ($this->session->per_page > 0) {
