@@ -33,6 +33,9 @@
     @foreach ($kategori['kode_isian'] as $label => $item)
         @include('admin.surat.baris_kode_isian', ['groupLabel' => $item, 'keyname' => $key, 'label' => $label])
     @endforeach
+    @if ($surat->form_isian->$key->sebagai == 2)
+        <input type="hidden" name="sebagai" value="{{ $key }}">
+    @endif
 @endforeach
 
 @push('scripts')

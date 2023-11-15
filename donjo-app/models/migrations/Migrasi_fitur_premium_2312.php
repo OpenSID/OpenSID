@@ -64,8 +64,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
         // return $hasil && $this->buat_tabel_migrations($hasil);
 
         $hasil = $hasil && $this->migrasi_2023114951($hasil);
+        $hasil = $hasil && $this->migrasi_2023110771($hasil);
 
-        return $hasil && $this->migrasi_2023110771($hasil);
+        return $hasil && $this->migrasi_2023111571($hasil);
     }
 
     // Migrasi perubahan data
@@ -254,7 +255,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
         return $hasil;
     }
 
-    private function migrasi_2023110771($hasil)
+    protected function migrasi_2023110771($hasil)
     {
         if (! Schema::hasTable('alias_kodeisian')) {
             Schema::create('alias_kodeisian', static function (Blueprint $table) {
@@ -270,6 +271,22 @@ class Migrasi_fitur_premium_2312 extends MY_model
                 $table->foreign('config_id')->references('id')->on('config')->onDelete('cascade');
                 $table->unique(['config_id', 'judul', 'alias']);
             });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023111571($hasil)
+    {
+        if (! $this->db->field_exists('pemohon', 'log_surat')) {
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', [
+                'pemohon' => [
+                    'type'       => 'varchar',
+                    'constraint' => 200,
+                    'null'       => true,
+                    'default'    => null,
+                ],
+            ]);
         }
 
         return $hasil;

@@ -90,9 +90,6 @@
                                     <option value="0">Tidak Ada</option>
                                     <option value="1" selected>Terlapor</option>
                                     <option value="2">Pelapor</option>
-                                    {{-- <option value="0" @selected('0' == $suratMaster->form_isian->individu->sebagai)>Tidak Ada --}}
-                                    {{-- <option value="1" @selected('1' == $suratMaster->form_isian->individu->sebagai || null == $suratMaster->form_isian->individu->sebagai)>Terlapor --}}
-                                    {{-- <option value="2" @selected('2' == $suratMaster->form_isian->individu->sebagai)>Pemohon --}}
                                 </select>
                             </div>
                         </div>
@@ -245,7 +242,6 @@
                                 <div class="col-sm-8">
                                     <select id="{{ $item }}_sebagai" class="form-control input-sm isi-sebagai-data" name="kategori_sebagai[{{ $item }}]" onchange='ubah_sebagai_dinamis("#tab-{{ $item }}", this.value)'>
                                         <option value="0" @selected('0' == $suratMaster->form_isian->{$item}->sebagai)>Tidak Ada
-                                            {{-- <option value="1" @selected('1' == $suratMaster->form_isian->{$item}->sebagai)>Terlapor --}}
                                         <option value="2" @selected('2' == $suratMaster->form_isian->{$item}->sebagai)>Pemohon
                                     </select>
                                 </div>
@@ -424,11 +420,13 @@
                         utama_isi_judul.name = `kategori_judul[${nama_kategori}]`
                         utama_isi_prefix.name = `kategori_prefix[${nama_kategori}]`
                         utama_isi_info.name = `kategori_info[${nama_kategori}]`
+                        utama_sebagai_data.name = `kategori_sebagai[${nama_kategori}]`
 
                         utama_isi_judul.value = nama_kategori
                         utama_isi_label.value = nama_kategori
                         utama_isi_info.value = ''
                         utama_isi_prefix.value = nama_kategori
+                        utama_sebagai_data.value = 0
 
                         utama_sebagai_data.removeAttribute('disabled')
                         utama_sebagai_data.setAttribute('onchange', `ubah_sebagai_dinamis("#tab-${nama_kategori}", this.value)`)
