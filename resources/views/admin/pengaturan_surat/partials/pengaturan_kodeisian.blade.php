@@ -36,18 +36,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($alias as $isian)
+                    @foreach ($alias as $isian)
                         <tr class="bold">
                             <td><input type="text" class="form-control" name="judul_kodeisian[]" readonly value="{{ $isian->judul }}" maxlength="10" /></td>
                             <td><input type="text" class="form-control" name="alias_kodeisian[]" readonly value="{{ $isian->alias }}" /></td>
                             <td><input type="text" class="form-control" name="content_kodeisian[]" readonly value="{{ $isian->content }}" /></td>
                             <td><button type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash" onclick="$(this).closest('tr').remove()"></i></button></td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="padat">Data tidak tersedia</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>
