@@ -37,6 +37,29 @@ freedoms that you received.  You must make sure that they, too, receive
 or can get the source code.  And you must show them these terms so they
 know their rights.
 
+Distribution of "VERSION PUBLIC(UMUM)" and "VERSION PREMIUM":
+The 'Version Public (UMUM)' is a copy of the software with limited access to the 'Version Premium' features for a period of 6 months. The 'Version Premium' is continuously updated based on user feedback, with weekly bug fixes and monthly feature releases. Any features and improvements that are released in the 'Version Premium' during a given month will also be included in the 'Version Public (UMUM),' but with a 6-month delay. However, it's important to note that there are certain features that will never be released in the 'Version Public (UMUM)'. These features are exclusively reserved for 'Version Premium' users and are not part of the 'Version Public (UMUM)' due to the policies set by the administrators.
+
+Copyright and Additional Licensing:
+1. The copyright holder holds the exclusive right to determine and regulate the differences between the 'Version Public (UMUM)' and 'Version Premium' in terms of access to features and functions of the software.
+2. The copyright holder has the right to establish rules, policies, and update schedules for the 'Version Premium' and 'Version Public (UMUM)' in accordance with the applicable GPL provisions.
+3. Differences between the 'Version Public (UMUM)' and 'Version Premium' as determined by the copyright holder are final and binding. Features reserved exclusively for 'Version Premium' users will never be included in the 'Version Public (UMUM)'.
+
+Users are required to comply with the policies established by the copyright holder regarding differences between these versions. The copyright holder has the right to modify these policies with notification to users in accordance with the applicable GPL provisions.
+
+Additional Documentation:
+For further details on the differences between 'Version Public (UMUM)' and 'Version Premium' as well as additional usage guidelines, please refer to the [OpenSid Premium Documentation](https://opendesa.id/opensid-premium/).
+
+Users are encouraged to consult this additional documentation to gain a comprehensive understanding of the features and policies associated with each version.
+
+Pricing and Time Policy:
+The 'Version Premium' is offered with a pricing structure that is detailed in the [OpenSid Premium Documentation](https://opendesa.id/opensid-premium/). Users interested in upgrading to the 'Version Premium' are encouraged to consult this documentation for information on pricing and incentives.
+
+Access to the 'Version Public (UMUM)' is provided with certain limitations as specified in the documentation. The duration of the limitations is detailed in the same [OpenSid Premium Documentation](https://opendesa.id/opensid-premium/).
+
+It's important to note that access to the 'Version Premium' may require contributions or incentives as described in the documentation. The pricing and terms are in accordance with applicable laws and our organization policies.
+
+
   Developers that use the GNU GPL protect your rights with two steps:
 (1) assert copyright on the software, and (2) offer you this License
 giving you legal permission to copy, distribute and/or modify it.
