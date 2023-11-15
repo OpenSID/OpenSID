@@ -51,7 +51,13 @@ class Migrasi_fitur_premium_2305 extends MY_model
         $hasil = $hasil && $this->migrasi_2023041251($hasil);
         $hasil = $hasil && $this->migrasi_2023041951($hasil);
 
-        return $hasil && true;
+        return $hasil && $this->tambah_setting([
+            'key'        => 'jumlah_gambar_slider',
+            'value'      => '10',
+            'keterangan' => 'Jumlah Gambar Slider Yang di Tampilkan',
+            'jenis'      => 'text',
+            'kategori'   => '',
+        ]);
     }
 
     protected function migrasi_2023041251($hasil)

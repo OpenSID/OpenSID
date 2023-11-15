@@ -281,6 +281,7 @@ class First_artikel_m extends CI_Model
     public function slider_gambar()
     {
         $sumber = $this->setting->sumber_gambar_slider;
+        $limit  = $this->setting->jumlah_gambar_slider ?? 10;
 
         $slider_gambar = [];
 
@@ -293,7 +294,9 @@ class First_artikel_m extends CI_Model
                     ->where('gambar !=', '')
                     ->where('tgl_upload <', date('Y-m-d H:i:s'))
                     ->order_by('tgl_upload DESC')
-                    ->limit(10)->get('artikel')->result_array();
+                    ->limit($limit)
+                    ->get('artikel')
+                    ->result_array();
                 $slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
                 break;
 
@@ -316,6 +319,7 @@ class First_artikel_m extends CI_Model
         }
 
         $slider_gambar['sumber'] = $sumber;
+        $slider_gambar['gambar'] = array_slice($slider_gambar['gambar'], 0, $limit);
 
         return $slider_gambar;
     }

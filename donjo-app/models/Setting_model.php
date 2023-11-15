@@ -282,7 +282,9 @@ class Setting_model extends MY_Model
     {
         $_SESSION['success']                 = 1;
         $this->setting->sumber_gambar_slider = $this->input->post('pilihan_sumber');
+        $this->setting->jumlah_gambar_slider = $this->input->post('jumlah_gambar_slider');
         $outp                                = $this->db->where('key', 'sumber_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('pilihan_sumber')]);
+        $outp                                = $this->db->where('key', 'jumlah_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('jumlah_gambar_slider')]);
         $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
 
         if (! $outp) {
