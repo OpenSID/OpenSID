@@ -66,8 +66,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
         $hasil = $hasil && $this->migrasi_2023102571($hasil);
         $hasil = $hasil && $this->migrasi_2023110672($hasil);
+        $hasil = $hasil && $this->migrasi_2023110771($hasil);
 
-        return $hasil && $this->migrasi_2023110771($hasil);
+        return $hasil && $this->migrasi_2023111571($hasil);
     }
 
     // Migrasi perubahan data
@@ -358,6 +359,22 @@ class Migrasi_fitur_premium_2312 extends MY_model
     protected function migrasi_2023110951($hasil)
     {
         FormatSurat::where('url_surat', 'surat-raw-tinymce')->update(['jenis' => FormatSurat::TINYMCE_DESA]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023111571($hasil)
+    {
+        if (! $this->db->field_exists('pemohon', 'log_surat')) {
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', [
+                'pemohon' => [
+                    'type'       => 'varchar',
+                    'constraint' => 200,
+                    'null'       => true,
+                    'default'    => null,
+                ],
+            ]);
+        }
 
         return $hasil;
     }

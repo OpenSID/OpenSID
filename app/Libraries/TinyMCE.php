@@ -630,8 +630,6 @@ class TinyMCE
         $lampiran = explode(',', in_array($surat['jenis'], FormatSurat::TINYMCE) ? $surat['lampiran'] : strtolower($surat['lampiran']));
         $lampiran = array_map(static fn ($item) => Str::slug($item), $lampiran);
 
-        log_message('notice', 'Lampiran . ' . print_r($lampiran, true));
-
         $format_surat = substitusiNomorSurat($input['nomor'], setting('format_nomor_surat'));
         $format_surat = str_ireplace('[kode_surat]', $surat['kode_surat'], $format_surat);
         $format_surat = str_ireplace('[kode_desa]', $config['kode_desa'], $format_surat);
