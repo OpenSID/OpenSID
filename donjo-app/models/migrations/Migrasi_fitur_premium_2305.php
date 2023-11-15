@@ -51,6 +51,9 @@ class Migrasi_fitur_premium_2305 extends MY_model
         $hasil = $hasil && $this->migrasi_2023041251($hasil);
         $hasil = $hasil && $this->migrasi_2023041951($hasil);
 
+        $this->db->query("ALTER TABLE `config` ADD COLUMN `border` VARCHAR(25) NULL DEFAULT NULL AFTER `warna`");
+        $this->db->query("ALTER TABLE `tweb_wil_clusterdesa` ADD COLUMN `border` VARCHAR(25) NULL DEFAULT NULL AFTER `warna`");
+
         return $hasil && true;
     }
 

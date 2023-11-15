@@ -644,6 +644,7 @@ class Wilayah_model extends MY_Model
         $data['lat']      = koordinat($post['lat']) ?: null;
         $data['lng']      = koordinat($post['lng']) ?: null;
         $data['warna']    = warna($post['warna']);
+        $data['border']   = warna($post['border']);
 
         return $data;
     }
