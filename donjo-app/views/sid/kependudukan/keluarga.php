@@ -138,7 +138,7 @@
 										<th><?= url_order($o, "{$this->controller}/index/{$p}", 3, 'Kepala Keluarga'); ?></th>
 										<th>NIK</th>
 										<th>Tag ID Card</th>
-										<th>Jumlah Anggota</th>
+										<th><?= url_order($o, "{$this->controller}/index/{$p}", 9, 'Jumlah Anggota'); ?></th>
 										<th>Jenis Kelamin</th>
 										<th>Alamat</th>
 										<th><?= ucwords($this->setting->sebutan_dusun)?></th>
