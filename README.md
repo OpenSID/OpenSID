@@ -32,6 +32,19 @@ OpenSID (https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) 
 
 Pedoman pemasangan dan penggunaan OpenSID dapat dilihat di wiki OpenSID di https://github.com/opensid/opensid/wiki.
 
+## 📑 Distribusi "VERSI PUBLIK (UMUM)" dan "VERSI PREMIUM":
+- 'Versi Publik (UMUM)' adalah salinan perangkat lunak dengan akses terbatas ke fitur-fitur 'Versi Premium' untuk jangka waktu 6 bulan.
+- 'Versi Premium' terus diperbarui berdasarkan umpan balik pengguna, dengan perbaikan bug mingguan dan rilis fitur bulanan.
+- Setiap fitur dan peningkatan yang dirilis dalam 'Versi Premium' selama bulan tertentu juga akan disertakan dalam 'Versi Umum (UMUM)', tetapi dengan penundaan selama 6 bulan.
+- penting untuk dicatat bahwa ada beberapa fitur tertentu yang tidak akan pernah dirilis dalam 'Versi Publik (UMUM)'.
+- Fitur-fitur ini secara eksklusif disediakan untuk pengguna 'Versi Premium' dan bukan merupakan bagian dari 'Versi Publik (UMUM)' karena kebijakan yang ditetapkan oleh administrator.
+
+## 📑 Hak Cipta dan Lisensi Tambahan:
+- Pemegang hak cipta memiliki hak eksklusif untuk menentukan dan mengatur perbedaan antara 'Versi Umum (UMUM)' dan 'Versi Premium' dalam hal akses ke fitur dan fungsi perangkat lunak.
+- Pemegang hak cipta berhak menetapkan aturan, kebijakan, dan jadwal pembaruan untuk 'Versi Premium' dan 'Versi Umum (UMUM)' sesuai dengan ketentuan GPL yang berlaku.
+- Perbedaan antara 'Versi Publik (UMUM)' dan 'Versi Premium' yang ditentukan oleh pemegang hak cipta bersifat final dan mengikat. Fitur yang disediakan secara eksklusif untuk pengguna 'Versi Premium' tidak akan pernah disertakan dalam 'Versi Publik (UMUM)'.
+
+
 ## 📑 HAK CIPTA, SYARAT, DAN KETENTUAN
 
 Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan pada awalnya oleh COMBINE Resource Institution sejak tahun 2009. Pemegang hak cipta aslinya adalah Combine Resource Institution (http://lumbungkomunitas.net/).
