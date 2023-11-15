@@ -30,6 +30,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 10. [#7069](https://github.com/OpenSID/OpenSID/issues/7069) Perbaikan surat tinymce penghasilan orang tua menggunakan opertor hitung dan terbilang.
 11. [#7310](https://github.com/OpenSID/OpenSID/issues/7310) Perbaikan surat bawaan tinymce.
 12. [#7339](https://github.com/OpenSID/OpenSID/issues/7339) Perbaikan ejaan dari fungsi kembalikan foto bawaan pada tambah/ubah data penduduk.
+13. [#7350](https://github.com/OpenSID/OpenSID/issues/7350) Perbaikan ketersediaan tombol tambah data penduduk dari penduduk yang sudah ada pada modul keluarga.
 
 #### Penyesuaian Teknis
 
@@ -41,3 +42,5 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 6. [#7338](https://github.com/OpenSID/OpenSID/issues/7338) Penyesuaian pilihan shdk pada pengaturan form surat tinymce agar bisa memilih lebih dari satu pilihan.
 7. [#1611](https://github.com/OpenSID/premium/issues/1611) Penyesuaian modul qrcode di controller tersendiri.
 8. [#7345](https://github.com/OpenSID/OpenSID/issues/7345) Penyesuaian pilihan jenis peristiwa pada pengaturan form surat tinymce agar bisa memilih lebih dari satu pilihan.
+9. [#7314](https://github.com/OpenSID/OpenSID/issues/7314) Penyesuaian tabel untuk menampung data token FCM dan log notifikasi.
+10. [#6837](https://github.com/OpenSID/OpenSID/issues/6837) Penyesuaian isian tanggal berlaku surat hanya bisa di isi sesuai rentang pada pengaturan suratnya.

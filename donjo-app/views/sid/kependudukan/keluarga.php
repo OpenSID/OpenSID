@@ -166,6 +166,9 @@
 															<li>
 																<a href="<?= site_url("keluarga/form_peristiwa_a/5/{$p}/{$o}/{$data['id']}")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Anggota Keluarga Masuk"><i class="fa fa-plus"></i> Anggota Keluarga Masuk</a>
 															</li>
+															<li>
+																<a href="<?= site_url("keluarga/ajax_add_anggota/{$p}/{$o}/{$data['id']}")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Keluarga"><i class="fa fa-plus"></i> Dari Penduduk Sudah Ada</a>
+															</li>
 														</ul>
 													</div>
 												<?php endif; ?>

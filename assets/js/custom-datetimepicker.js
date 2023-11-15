@@ -158,4 +158,23 @@ $(document).ready(function()
 		locale:'id',
 		maxDate: new(Date)
 	});
+	$('#surat_tgl_mulai').datetimepicker({
+		locale: 'id',
+		format: 'DD-MM-YYYY',
+		useCurrent: false,
+		defaultDate: moment(new Date())
+	});
+	$('#surat_tgl_akhir').datetimepicker({
+		locale: 'id',
+		format: 'DD-MM-YYYY',
+		useCurrent: false,
+		minDate: moment(new Date()).add($('#surat_tgl_akhir').data('masa-berlaku'), $('#surat_tgl_akhir').data('satuan-masa-berlaku')),
+		defaultDate: moment(new Date()).add($('#surat_tgl_akhir').data('masa-berlaku'), $('#surat_tgl_akhir').data('satuan-masa-berlaku'))
+	});
+	$('#surat_tgl_mulai').datetimepicker().on('dp.change', function(e) {
+		var startDate = moment(e.date);
+		var endDate = startDate.clone().add($('#surat_tgl_mulai').data('masa-berlaku'), $('#surat_tgl_mulai').data('satuan-masa-berlaku'));
+		$('#surat_tgl_akhir').datetimepicker('minDate', endDate);
+		$('#surat_tgl_akhir').datetimepicker('date', endDate);
+	});
 });
