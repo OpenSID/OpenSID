@@ -13,6 +13,8 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 7. [#7279](https://github.com/OpenSID/OpenSID/issues/7279) Penambahan pengaturan tampilan kotak-kotak pada pengaturan lampiran surat TinyMCE.
 8. [#7348](https://github.com/OpenSID/OpenSID/issues/7348) Penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE.
 9. [#7347](https://github.com/OpenSID/OpenSID/issues/7347) Penambahan identitas terlapor dan pelapor pada arsip layanan.
+10. [#7359](https://github.com/OpenSID/OpenSID/issues/7359) Penambahan laporan khusus dana desa pada laporan keuangan.
+
 
 #### Perbaikan Bug
 

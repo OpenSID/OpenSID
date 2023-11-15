@@ -47,6 +47,7 @@ class Shortcode_model extends MY_Model
         $this->load->model('keuangan_grafik_manual_model');
         $this->load->model('laporan_penduduk_model');
         $this->load->model('pamong_model');
+        $this->load->model('keuangan_grafik_dd_model');
     }
 
     // Shortcode untuk isi artikel
@@ -103,6 +104,21 @@ class Shortcode_model extends MY_Model
         }
         if ($type == 'sotk_wo_bpd') {
             return $this->sotk_wo_bpd();
+        }
+        if ($type == 'grafik-RP-APBD-DD') {
+            return $this->grafik_rp_apbd_dd($type, $thn);
+        }
+        if ($type == 'lap-RP-APBD-dd-sm1') {
+            return $this->tabel_rp_apbd_dd($type, $thn, $smt1 = true);
+        }
+        if ($type == 'lap-RP-APBD-dd-sm2') {
+            return $this->tabel_rp_apbd_dd($type, $thn, $smt1 = false);
+        }
+        if ($type == 'lap-RP-APBD-Bidang-dd-sm1') {
+            return $this->tabel_rp_apbd_bidang_dd($type, $thn, $smt1 = true);
+        }
+        if ($type == 'lap-RP-APBD-Bidang-dd-sm2') {
+            return $this->tabel_rp_apbd_bidang_dd($type, $thn, $smt1 = false);
         }
     }
 
@@ -248,6 +264,57 @@ class Shortcode_model extends MY_Model
         return $res;
     }
 
+    private function grafik_rp_apbd_dd($type, $thn)
+    {
+        $data        = $this->keuangan_grafik_dd_model->grafik_keuangan_tema($thn);
+        $data_widget = $data['data_widget'];
+
+        ob_start();
+        include 'donjo-app/views/keuangan/grafik_rp_apbd_chart.php';
+        $res = ob_get_clean();
+
+        return $res;
+    }
+
+    private function tabel_rp_apbd_dd($type, $thn, $smt1)
+    {
+        $data              = $this->keuangan_grafik_dd_model->lap_rp_apbd($thn, $smt1);
+        $desa              = identitas();
+        $pendapatan        = $data['pendapatan'];
+        $belanja           = $data['belanja'];
+        $belanja_bidang    = $data['belanja_bidang'];
+        $pembiayaan        = $data['pembiayaan'];
+        $pembiayaan_keluar = $data['pembiayaan_keluar'];
+        $ta                = $thn;
+        $sm                = $smt1 ? '1' : '2';
+
+        ob_start();
+        include 'donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel_dd.php';
+        $output = ob_get_clean();
+
+        return $output;
+    }
+
+    private function tabel_rp_apbd_bidang_dd($type, $thn, $smt1)
+    {
+        $data              = $this->keuangan_grafik_dd_model->lap_rp_apbd($thn, $smt1);
+        $desa              = identitas();
+        $pendapatan        = $data['pendapatan'];
+        $belanja           = $data['belanja'];
+        $belanja_bidang    = $data['belanja_bidang'];
+        $pembiayaan        = $data['pembiayaan'];
+        $pembiayaan_keluar = $data['pembiayaan_keluar'];
+        $ta                = $thn;
+        $sm                = $smt1 ? '1' : '2';
+        $jenis             = 'bidang';
+
+        ob_start();
+        include 'donjo-app/views/keuangan/tabel_laporan_rp_apbd_artikel_dd.php';
+        $output = ob_get_clean();
+
+        return $output;
+    }
+
     private function sotk_w_bpd()
     {
         $desa    = identitas();
@@ -329,6 +396,21 @@ class Shortcode_model extends MY_Model
         }
         if ($type == 'sotk_wo_bpd') {
             return "<i class='fa fa-table'></i> Struktur Organisasi";
+        }
+        if ($type == 'lap-RP-APBD-sm1-dd') {
+            return "<i class='fa fa-table'></i> Tabel Laporan Dana Desa Smt. 1 TA. " . $thn . ', ';
+        }
+        if ($type == 'lap-RP-APBD-sm2-dd') {
+            return "<i class='fa fa-table'></i> Tabel Laporan Dana Desa Smt. 2 TA. " . $thn . ', ';
+        }
+        if ($type == 'lap-RP-APBD-Bidang-sm1-dd') {
+            return "<i class='fa fa-table'></i> Tabel Laporan Dana Desa Smt. 1 TA. " . $thn . ', ';
+        }
+        if ($type == 'lap-RP-APBD-Bidang-sm2-dd') {
+            return "<i class='fa fa-table'></i> Tabel Laporan Dana Desa Smt. 2 TA. " . $thn . ', ';
+        }
+        if ($type == 'grafik-RP-APBD-DD') {
+            return "<i class='fa fa-bar-chart'></i> Grafik Dana Desa TA. " . $thn . ', ';
         }
     }
 }
