@@ -170,9 +170,10 @@ class KodeIsianPenduduk
                     'data'          => '[foto_penduduk]',
                 ],
                 [
-                    'judul' => 'Foto Ukuran',
-                    'isian' => '<img src="' . base_url('desa/upload/media/kuser.png') . '" width="124" height="148">',
-                    'data'  => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
+                    'case_sentence' => true,
+                    'judul'         => 'Foto Ukuran',
+                    'isian'         => '<img src="' . base_url('desa/upload/media/kuser.png') . '" width="124" height="148">',
+                    'data'          => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
                 ],
                 [
                     'judul' => 'Alamat Jalan',
