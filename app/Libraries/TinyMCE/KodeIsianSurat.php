@@ -69,9 +69,10 @@ class KodeIsianSurat
                 'data'  => $this->dataSurat['surat']['kode_surat'],
             ],
             [
-                'judul' => 'Nomer',
-                'isian' => 'Nomer_suraT',
-                'data'  => $this->dataSurat['no_surat'],
+                'case_sentence' => true,
+                'judul'         => 'Nomer',
+                'isian'         => 'Nomer_suraT',
+                'data'          => $this->dataSurat['no_surat'],
             ],
             [
                 'judul' => 'Judul',
@@ -89,9 +90,10 @@ class KodeIsianSurat
                 'data'  => $DateConv->HijriDateId('j F Y'),
             ],
             [
-                'judul' => 'Tahun',
-                'isian' => 'TahuN',
-                'data'  => $this->dataSurat['log_surat']['bulan'] ?? date('Y'),
+                'case_sentence' => true,
+                'judul'         => 'Tahun',
+                'isian'         => 'TahuN',
+                'data'          => $this->dataSurat['log_surat']['bulan'] ?? date('Y'),
             ],
             [
                 'judul' => 'Bulan Romawi',
@@ -99,24 +101,28 @@ class KodeIsianSurat
                 'data'  => bulan_romawi((int) ($this->dataSurat['log_surat']['bulan'] ?? date('m'))),
             ],
             [
-                'judul' => 'Logo Surat',
-                'isian' => 'logo',
-                'data'  => '[logo]',
+                'case_sentence' => true,
+                'judul'         => 'Logo Surat',
+                'isian'         => 'logo',
+                'data'          => '[logo]',
             ],
             [
-                'judul' => 'QRCode',
-                'isian' => 'qr_code',
-                'data'  => '[qr_code]',
+                'case_sentence' => true,
+                'judul'         => 'QRCode',
+                'isian'         => 'qr_code',
+                'data'          => '[qr_code]',
             ],
             [
-                'judul' => 'QRCode BSrE',
-                'isian' => 'qr_bsre',
-                'data'  => '[qr_bsre]',
+                'case_sentence' => true,
+                'judul'         => 'QRCode BSrE',
+                'isian'         => 'qr_bsre',
+                'data'          => '[qr_bsre]',
             ],
             [
-                'judul' => 'Logo BSrE',
-                'isian' => 'logo_bsre',
-                'data'  => '[logo_bsre]',
+                'case_sentence' => true,
+                'judul'         => 'Logo BSrE',
+                'isian'         => 'logo_bsre',
+                'data'          => '[logo_bsre]',
             ],
         ];
     }
