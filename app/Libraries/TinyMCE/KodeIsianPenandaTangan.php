@@ -123,9 +123,10 @@ class KodeIsianPenandaTangan
                 'data'  => $sebutan_nip_desa,
             ],
             [
-                'judul' => 'NIP Pamong',
-                'isian' => 'Nip_pamonG',
-                'data'  => $nip,
+                'case_sentence' => true,
+                'judul'         => 'NIP Pamong',
+                'isian'         => 'Nip_pamonG',
+                'data'          => $nip,
             ],
             [
                 'judul' => 'Sebutan NIP ' . $this->sebutanDesa . ' & NIP Pamong',

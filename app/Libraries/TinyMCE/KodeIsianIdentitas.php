@@ -81,14 +81,16 @@ class KodeIsianIdentitas
                 'data'  => $config->nama_desa,
             ],
             [
-                'judul' => 'Kode Desa',
-                'isian' => 'Kode_desA',
-                'data'  => $config->kode_desa,
+                'case_sentence' => true,
+                'judul'         => 'Kode Desa',
+                'isian'         => 'Kode_desA',
+                'data'          => $config->kode_desa,
             ],
             [
-                'judul' => 'Kode POS',
-                'isian' => 'Kode_poS',
-                'data'  => $config->kode_pos,
+                'case_sentence' => true,
+                'judul'         => 'Kode POS',
+                'isian'         => 'Kode_poS',
+                'data'          => $config->kode_pos,
             ],
             [
                 'judul' => 'Sebutan Desa',
@@ -121,9 +123,10 @@ class KodeIsianIdentitas
                 'data'  => $config->nama_kecamatan,
             ],
             [
-                'judul' => 'Kode Kecamatan',
-                'isian' => 'Kode_kecamataN',
-                'data'  => $config->kode_kecamatan,
+                'case_sentence' => true,
+                'judul'         => 'Kode Kecamatan',
+                'isian'         => 'Kode_kecamataN',
+                'data'          => $config->kode_kecamatan,
             ],
             [
                 'judul' => 'Sebutan Kecamatan',
@@ -156,9 +159,10 @@ class KodeIsianIdentitas
                 'data'  => $config->nama_kabupaten,
             ],
             [
-                'judul' => 'Kode Kabupaten',
-                'isian' => 'Kode_kabupateN',
-                'data'  => $config->kode_kabupaten,
+                'case_sentence' => true,
+                'judul'         => 'Kode Kabupaten',
+                'isian'         => 'Kode_kabupateN',
+                'data'          => $config->kode_kabupaten,
             ],
             [
                 'judul' => 'Sebutan Kabupaten',
@@ -176,9 +180,10 @@ class KodeIsianIdentitas
                 'data'  => $config->nama_propinsi,
             ],
             [
-                'judul' => 'Kode Provinsi',
-                'isian' => 'Kode_provinsI',
-                'data'  => $config->kode_propinsi,
+                'case_sentence' => true,
+                'judul'         => 'Kode Provinsi',
+                'isian'         => 'Kode_provinsI',
+                'data'          => $config->kode_propinsi,
             ],
             [
                 'judul' => 'Alamat Desa',
@@ -201,9 +206,10 @@ class KodeIsianIdentitas
                 'data'  => $config->email_desa,
             ],
             [
-                'judul' => 'Telepon Desa',
-                'isian' => 'Telepon_desA',
-                'data'  => $config->telepon,
+                'case_sentence' => true,
+                'judul'         => 'Telepon Desa',
+                'isian'         => 'Telepon_desA',
+                'data'          => $config->telepon,
             ],
             [
                 'judul' => 'Website Desa',

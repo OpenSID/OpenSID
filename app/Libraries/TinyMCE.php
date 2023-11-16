@@ -265,7 +265,7 @@ class TinyMCE
 
         $daftar_kode_isian = collect($daftar_kode_isian)->map(static function ($item) {
             return collect($item)->map(static function ($item) {
-                $item['isian'] = getFormatIsian($item['isian']);
+                $item['isian'] = getFormatIsian($item['isian'], $item['case_sentence']);
 
                 return $item;
             });
@@ -368,9 +368,10 @@ class TinyMCE
             $postStatis = collect($postStatis)
                 ->map(static function ($item, $key) use ($input) {
                     return [
-                        'judul' => $item['nama'],
-                        'isian' => $item['kode'],
-                        'data'  => $input[underscore($item['nama'], true, true)],
+                        'case_sentence' => in_array($item['tipe'], ['number', 'time']),
+                        'judul'         => $item['nama'],
+                        'isian'         => $item['kode'],
+                        'data'          => $input[underscore($item['nama'], true, true)],
                     ];
                 })
                 ->toArray();
@@ -399,9 +400,10 @@ class TinyMCE
                 }
 
                 return [
-                    'judul' => $item->nama,
-                    'isian' => $item->kode,
-                    'data'  => $data,
+                    'case_sentence' => in_array($item->tipe, ['number', 'time']),
+                    'judul'         => $item->nama,
+                    'isian'         => $item->kode,
+                    'data'          => $data,
                 ];
             })
             ->toArray();
@@ -418,6 +420,7 @@ class TinyMCE
 
                 return [
                     'prefix_kategori' => $item->kategori,
+                    'case_sentence'   => in_array($item->tipe, ['number', 'time']),
                     'judul'           => $item->nama,
                     'isian'           => $item->kode,
                     'data'            => ($item->tipe == 'date') ? tgl_indo(Carbon::parse($data)->format('Y-m-d')) : $data,
@@ -499,9 +502,9 @@ class TinyMCE
             }
             if (preg_match('/pengikut_pindah/i', $key)) {
                 $result = str_replace($key, $data['pengikut_pindah'] ?? '', $result);
-            } else {
-                $result = case_replace($key, $value, $result);
             }
+
+            $result = case_replace($key, $value, $result);
         }
 
         // Kode isian berupa hitungan perlu didahulukan

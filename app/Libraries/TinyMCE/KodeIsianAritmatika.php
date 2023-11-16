@@ -52,12 +52,14 @@ class KodeIsianAritmatika
     {
         return [
             [
-                'judul' => 'Operasi Penambahan',
-                'isian' => 'Op+',
+                'case_sentence' => true,
+                'judul'         => 'Operasi Penambahan',
+                'isian'         => 'Op+',
             ],
             [
-                'judul' => 'Operasi Pengurangan',
-                'isian' => 'Op-',
+                'case_sentence' => true,
+                'judul'         => 'Operasi Pengurangan',
+                'isian'         => 'Op-',
             ],
             [
                 'judul' => 'Proses Perhitungan',

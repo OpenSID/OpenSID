@@ -1688,18 +1688,28 @@ if (! function_exists('getFormatIsian')) {
      * - Fungsi untuk mengembalikan format kode isian.
      *
      * @param mixed $kode_isian
+     * @param bool  $case_sentence (opsional) - Menentukan apakah harus mereturn semua kasus kalimat
      *
-     * @return array|object
+     * @return array
      */
-    function getFormatIsian($kode_isian)
+    function getFormatIsian($kode_isian, $case_sentence = false)
     {
-        $netral     = str_replace(['[', ']'], '', $kode_isian);
+        $netral = str_replace(['[', ']'], '', $kode_isian);
+
+        if ($case_sentence) {
+            // NIK versi lama, banyak digunakan di template
+            if (strpos($netral, 'nik') !== false) {
+                $netral = ucfirst(uclast($netral));
+            }
+            
+            return [
+                'normal'  => '[' . $netral . ']',
+            ];
+        }
+
         $strtolower = strtolower($netral);
         $ucfirst    = ucfirst($strtolower);
-        $suffix     = '';
-        if (in_array($strtolower, ['terbilang', 'hitung'])) {
-            $suffix = '[ ]';
-        }
+        $suffix     = in_array($strtolower, ['terbilang', 'hitung']) ? '[ ]' : '';
 
         return [
             'normal'  => '[' . ucfirst(uclast($netral)) . ']' . $suffix,

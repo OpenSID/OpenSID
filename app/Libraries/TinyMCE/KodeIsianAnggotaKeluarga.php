@@ -62,16 +62,18 @@ class KodeIsianAnggotaKeluarga
 
         return [
             [
-                'judul' => 'Urutan',
-                'isian' => 'Klgx_nO',
-                'data'  => $anggota ? $anggota->pluck('id')
+                'case_sentence' => true,
+                'judul'         => 'Urutan',
+                'isian'         => 'Klgx_nO',
+                'data'          => $anggota ? $anggota->pluck('id')
                     ->map(static fn ($item, $key) => $key + 1)
                     ->values()->toArray() : '',
             ],
             [
-                'judul' => 'NIK',
-                'isian' => 'Klgx_niK',
-                'data'  => $anggota ? $anggota->pluck('nik')->toArray() : '',
+                'case_sentence' => true,
+                'judul'         => 'NIK',
+                'isian'         => 'Klgx_niK',
+                'data'          => $anggota ? $anggota->pluck('nik')->toArray() : '',
             ],
             [
                 'judul' => 'Nama',
@@ -172,9 +174,10 @@ class KodeIsianAnggotaKeluarga
                     ->toArray() : '',
             ],
             [
-                'judul' => 'NIK Ayah',
-                'isian' => 'Klgx_nik_ayaH',
-                'data'  => $anggota ? $anggota->pluck('ayah_nik')->toArray() : '',
+                'case_sentence' => true,
+                'judul'         => 'NIK Ayah',
+                'isian'         => 'Klgx_nik_ayaH',
+                'data'          => $anggota ? $anggota->pluck('ayah_nik')->toArray() : '',
             ],
             [
                 'judul' => 'Nama Ayah',
@@ -182,9 +185,10 @@ class KodeIsianAnggotaKeluarga
                 'data'  => $anggota ? $anggota->pluck('nama_ayah')->toArray() : '',
             ],
             [
-                'judul' => 'NIK Ibu',
-                'isian' => 'Klgx_nik_ibU',
-                'data'  => $anggota ? $anggota->pluck('ibu_nik')->toArray() : '',
+                'case_sentence' => true,
+                'judul'         => 'NIK Ibu',
+                'isian'         => 'Klgx_nik_ibU',
+                'data'          => $anggota ? $anggota->pluck('ibu_nik')->toArray() : '',
             ],
             [
                 'judul' => 'Nama Ibu',

@@ -78,9 +78,10 @@ class KodeIsianPenduduk
 
         $individu = [
             [
-                'judul' => 'NIK' . $ortu,
-                'isian' => 'nik' . $prefix,
-                'data'  => get_nik($penduduk->nik),
+                'case_sentence' => true,
+                'judul'         => 'NIK' . $ortu,
+                'isian'         => 'nik' . $prefix,
+                'data'          => get_nik($penduduk->nik),
             ],
             [
                 'judul' => 'Nama' . $ortu,
@@ -138,9 +139,10 @@ class KodeIsianPenduduk
                 'data'  => $penduduk->alamat_wilayah,
             ],
             [
-                'judul' => 'No KK' . $ortu,
-                'isian' => 'No_kK' . $prefix,
-                'data'  => get_nokk($penduduk->keluarga->no_kk),
+                'case_sentence' => true,
+                'judul'         => 'No KK' . $ortu,
+                'isian'         => 'No_kK' . $prefix,
+                'data'          => get_nokk($penduduk->keluarga->no_kk),
             ],
             [
                 'judul' => 'Golongan Darah' . $ortu,
@@ -162,9 +164,10 @@ class KodeIsianPenduduk
         if (empty($this->prefix)) {
             $lainnya = [
                 [
-                    'judul' => 'Foto',
-                    'isian' => 'foto_penduduK',
-                    'data'  => '[foto_penduduk]',
+                    'case_sentence' => true,
+                    'judul'         => 'Foto',
+                    'isian'         => 'foto_penduduK',
+                    'data'          => '[foto_penduduk]',
                 ],
                 [
                     'judul' => 'Alamat Jalan',
@@ -244,9 +247,10 @@ class KodeIsianPenduduk
                     'data'  => $penduduk->pendudukHubungan->nama,
                 ],
                 [
-                    'judul' => 'No KK',
-                    'isian' => 'No_kK',
-                    'data'  => get_nokk($penduduk->keluarga->no_kk),
+                    'case_sentence' => true,
+                    'judul'         => 'No KK',
+                    'isian'         => 'No_kK',
+                    'data'          => get_nokk($penduduk->keluarga->no_kk),
                 ],
                 [
                     'judul' => 'Kepala KK',
@@ -254,16 +258,18 @@ class KodeIsianPenduduk
                     'data'  => $penduduk->keluarga->kepalaKeluarga->nama,
                 ],
                 [
-                    'judul' => 'NIK KK',
-                    'isian' => 'Nik_kepala_kK',
-                    'data'  => get_nik($penduduk->keluarga->kepalaKeluarga->nik),
+                    'case_sentence' => true,
+                    'judul'         => 'NIK KK',
+                    'isian'         => 'Nik_kepala_kK',
+                    'data'          => get_nik($penduduk->keluarga->kepalaKeluarga->nik),
                 ],
 
                 // Data RTM
                 [
-                    'judul' => 'ID BDT',
-                    'isian' => 'Id_bdT',
-                    'data'  => $penduduk->rtm->bdt,
+                    'case_sentence' => true,
+                    'judul'         => 'ID BDT',
+                    'isian'         => 'Id_bdT',
+                    'data'          => $penduduk->rtm->bdt,
                 ],
             ];
 
@@ -305,9 +311,10 @@ class KodeIsianPenduduk
                         'data'  => $penduduk->nama_ayah,
                     ],
                     [
-                        'judul' => 'NIK Ayah',
-                        'isian' => 'nik_ayah',
-                        'data'  => get_nik($penduduk->ayah_nik),
+                        'case_sentence' => true,
+                        'judul'         => 'NIK Ayah',
+                        'isian'         => 'nik_ayah',
+                        'data'          => get_nik($penduduk->ayah_nik),
                     ],
                 ];
                 $data = array_merge($data, $data_ortu);
@@ -324,9 +331,10 @@ class KodeIsianPenduduk
                         'data'  => $penduduk->nama_ibu,
                     ],
                     [
-                        'judul' => 'NIK Ibu',
-                        'isian' => 'nik_ibu',
-                        'data'  => get_nik($penduduk->ibu_nik),
+                        'case_sentence' => true,
+                        'judul'         => 'NIK Ibu',
+                        'isian'         => 'nik_ibu',
+                        'data'          => get_nik($penduduk->ibu_nik),
                     ],
                 ];
                 $data = array_merge($data, $data_ortu);

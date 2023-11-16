@@ -97,9 +97,10 @@ class KodeIsianPeristiwa
                 'data'  => formatTanggal($peristiwa->penduduk->tanggallahir),
             ],
             [
-                'judul' => 'Jam Kelahiran',
-                'isian' => 'jam_kelahiran',
-                'data'  => $peristiwa->penduduk->waktu_lahir,
+                'case_sentence' => true,
+                'judul'         => 'Jam Kelahiran',
+                'isian'         => 'jam_kelahiran',
+                'data'          => $peristiwa->penduduk->waktu_lahir,
             ],
             [
                 'judul' => 'Tempat Dilahirkan',
@@ -117,9 +118,10 @@ class KodeIsianPeristiwa
                 'data'  => $peristiwa->penduduk->jenisLahir,
             ],
             [
-                'judul' => 'Kelahiran Anak Ke',
-                'isian' => 'kelahiran_anaK',
-                'data'  => $peristiwa->penduduk->kelahiran_anak_ke,
+                'case_sentence' => true,
+                'judul'         => 'Kelahiran Anak Ke',
+                'isian'         => 'kelahiran_anaK',
+                'data'          => $peristiwa->penduduk->kelahiran_anak_ke,
             ],
             [
                 'judul' => 'Penolong Kelahiran',
@@ -127,14 +129,16 @@ class KodeIsianPeristiwa
                 'data'  => $peristiwa->penduduk->penolongLahir,
             ],
             [
-                'judul' => 'Berat Bayi',
-                'isian' => 'berat_bayI',
-                'data'  => $peristiwa->penduduk->berat_lahir,
+                'case_sentence' => true,
+                'judul'         => 'Berat Bayi',
+                'isian'         => 'berat_bayI',
+                'data'          => $peristiwa->penduduk->berat_lahir,
             ],
             [
-                'judul' => 'Panjang Bayi',
-                'isian' => 'panjang_bayI',
-                'data'  => $peristiwa->penduduk->panjang_lahir,
+                'case_sentence' => true,
+                'judul'         => 'Panjang Bayi',
+                'isian'         => 'panjang_bayI',
+                'data'          => $peristiwa->penduduk->panjang_lahir,
             ],
         ];
     }
@@ -153,9 +157,10 @@ class KodeIsianPeristiwa
                 'data'  => formatTanggal($peristiwa->tgl_peristiwa),
             ],
             [
-                'judul' => 'Jam Kematian',
-                'isian' => 'jam_kematian',
-                'data'  => $peristiwa->jam_mati,
+                'case_sentence' => true,
+                'judul'         => 'Jam Kematian',
+                'isian'         => 'jam_kematian',
+                'data'          => $peristiwa->jam_mati,
             ],
             [
                 'judul' => 'Tempat Kematian',

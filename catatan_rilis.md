@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 13. [#7350](https://github.com/OpenSID/OpenSID/issues/7350) Perbaikan ketersediaan tombol tambah data penduduk dari penduduk yang sudah ada pada modul keluarga.
 14. [#7363](https://github.com/OpenSID/OpenSID/issues/7363) Perbaikan alamat pada data penduduk.
 
+
 #### Penyesuaian Teknis
 
 1. [#6924](https://github.com/OpenSID/OpenSID/issues/6924) Penyesuaian cara menampilkan ubah data wilayah/lokasi pada identitas desa dan wilayah administratif.
@@ -32,3 +33,4 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 8. [#7345](https://github.com/OpenSID/OpenSID/issues/7345) Penyesuaian pilihan jenis peristiwa pada pengaturan form surat tinymce agar bisa memilih lebih dari satu pilihan.
 9. [#7314](https://github.com/OpenSID/OpenSID/issues/7314) Penyesuaian tabel untuk menampung data token FCM dan log notifikasi.
 10. [#6837](https://github.com/OpenSID/OpenSID/issues/6837) Penyesuaian isian tanggal berlaku surat hanya bisa di isi sesuai rentang pada pengaturan suratnya.
+11. [#7361](https://github.com/OpenSID/OpenSID/issues/7361) Penyesuaian kode isian yang berupa angka, gambar dan jam.
