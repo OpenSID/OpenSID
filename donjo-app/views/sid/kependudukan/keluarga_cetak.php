@@ -31,7 +31,7 @@
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
-							<th>No</th>
+							<th class="padat">No</th>
 							<th width="150" >Nomor KK</th>
 							<th width="200">Kepala Keluarga</th>
 							<th width="200">NIK</th>

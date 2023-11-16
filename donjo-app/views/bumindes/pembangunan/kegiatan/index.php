@@ -64,7 +64,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<div class="box-body">
 			<div class="table-responsive">
 				<table id="tabel-pembangunan" class="table table-bordered dataTable table-striped table-hover tabel-daftar">
-					<thead class="bg-gray disabled color-palette">
+					<thead class="bg-gray color-palette">
 						<tr>
 							<th rowspan="2">NOMOR URUT</th>
 							<th rowspan="2">NAMA PROYEK / KEGIATAN</th>
@@ -73,7 +73,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<th rowspan="2">JUMLAH</th>
 							<th rowspan="2">WAKTU</th>
 							<th colspan="2">SIFAT PROYEK</th>
-                            <th rowspan="2">PELAKSANA</th>
+							<th rowspan="2">PELAKSANA</th>
 							<th rowspan="2">KET</th>
 						</tr>
 						<tr>
@@ -105,7 +105,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				[1, 'desc'],
 			],
 			'columnDefs': [
-				{ 'orderable': false, 'targets': [0] },
+				{ 'orderable': false, 'targets': [0, 8, 9, 10] },
 				{ 'className' : 'padat', 'targets': [0, 3, 4, 5, 6, 7, 8] },
 			],
 			'ajax': {

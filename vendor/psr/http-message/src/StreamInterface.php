@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psr\Http\Message;
 
 /**
@@ -84,7 +86,7 @@ interface StreamInterface
      *     SEEK_END: Set position to end-of-stream plus offset.
      * @throws \RuntimeException on failure.
      */
-    public function seek(int $offset, int $whence = SEEK_SET): void;
+    public function seek(int $offset, int $whence = SEEK_SET);
 
     /**
      * Seek to the beginning of the stream.
@@ -112,7 +114,7 @@ interface StreamInterface
      * @return int Returns the number of bytes written to the stream.
      * @throws \RuntimeException on failure.
      */
-    public function write(string $string): int;
+    public function write(string $string);
 
     /**
      * Returns whether or not the stream is readable.
@@ -131,7 +133,7 @@ interface StreamInterface
      *     if no bytes are available.
      * @throws \RuntimeException if an error occurs.
      */
-    public function read(int $length): string;
+    public function read(int $length);
 
     /**
      * Returns the remaining contents in a string

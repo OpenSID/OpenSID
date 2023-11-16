@@ -13,7 +13,7 @@ info.php
 sftp-config.json
 .php-cs-fixer.cache
 rector.php
-/.htaccess
+.htaccess
 *.sql
 mitra
 

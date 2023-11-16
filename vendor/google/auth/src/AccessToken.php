@@ -421,7 +421,7 @@ class AccessToken
                 $exponent
             ]), 256),
         ]);
-        return $key->toString('PKCS8');
+        return $key->toString('PKCS1');
     }
 
     /**

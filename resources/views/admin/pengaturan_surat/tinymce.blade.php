@@ -1,4 +1,4 @@
-@include('admin.pengaturan_surat.asset_tinymce')
+@include('admin.pengaturan_surat.asset_tinymce', ['salin_template' => 'isi'])
 
 <div class="tab-pane" id="template-surat">
 

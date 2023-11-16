@@ -47,7 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2310.1.0');
+define('VERSION', '2311.1.0');
 
 /**
  * VERSI_DATABASE
@@ -56,7 +56,7 @@ define('VERSION', '2310.1.0');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023100101');
+define('VERSI_DATABASE', '2023110101');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1321,29 +1321,46 @@ function getSizeDB()
 
 function idm($kode_desa, $tahun)
 {
-    $cache = 'idm_' . $tahun . '_' . $kode_desa . '.json';
+    $ci    = &get_instance();
+    $cache = "idm_{$tahun}_{$kode_desa}.json";
 
-    return get_instance()->cache->pakai_cache(static function () use ($kode_desa, $tahun) {
-        if (! cek_koneksi_internet()) {
-            return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
+    // periksa apakah ada file idm dalam bentuk .json dan periksa ketika cache sudah kadaluarsa
+    if (file_exists(DESAPATH . "/cache/{$cache}")) {
+        // perbaharui cache yg sudah kadaluarsa
+        $data = unserialize(file_get_contents(DESAPATH . "cache/{$cache}"));
+        $ci->cache->save($cache, $data['data'], YEAR); // ubah ke satu tahun
+    }
+
+    // ambil cache idm
+    if ($data = $ci->cache->get($cache)) {
+        return $data;
+    }
+
+    // periksa koneksi
+    if (! cek_koneksi_internet()) {
+        return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
+    }
+
+    // ambil dari api idm
+    try {
+        $client   = new \GuzzleHttp\Client();
+        $response = $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
+            'headers' => [
+                'X-Requested-With' => 'XMLHttpRequest',
+            ],
+            'verify' => false,
+        ]);
+
+        if ($response->getStatusCode() === 200) {
+            $ci->cache->save($cache, json_decode($response->getBody()->getContents())->mapData, YEAR);
+
+            return $ci->cache->get($cache);
         }
+    } catch (Exception $e) {
+        log_message('error', $e->getMessage());
+    }
 
-        try {
-            $client   = new \GuzzleHttp\Client();
-            $response = $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
-                'headers' => [
-                    'X-Requested-With' => 'XMLHttpRequest',
-                ],
-                'verify' => false,
-            ]);
-
-            return json_decode($response->getBody()->getContents())->mapData;
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-
-            return (object) ['error_msg' => 'Tidak dapat mengambil data IDM.'];
-        }
-    }, $cache, 604800);
+    return (object) ['error_msg' => 'Tidak dapat mengambil data IDM.'];
 }
 
 function sdgs()
@@ -1634,6 +1651,29 @@ if (! function_exists('ref')) {
     function ref($alias)
     {
         return get_instance()->db->get($alias)->result();
+    }
+}
+
+if (! function_exists('getFormatIsian')) {
+    /**
+     * - Fungsi untuk mengembalikan format kode isian.
+     *
+     * @param mixed $kode_isian
+     *
+     * @return array|object
+     */
+    function getFormatIsian($kode_isian)
+    {
+        $strtolower = strtolower($kode_isian);
+        $ucfirst    = ucfirst($strtolower);
+
+        return [
+            'normal'  => '[' . ucfirst(uclast($kode_isian)) . ']',
+            'lower'   => '[' . $strtolower . ']',
+            'ucfirst' => '[' . $ucfirst . ']',
+            'ucwords' => '[' . substr_replace($ucfirst, strtoupper(substr($ucfirst, 2, 1)), 2, 1) . ']',
+            'upper'   => '[' . substr_replace($ucfirst, strtoupper(substr($ucfirst, 1, 1)), 1, 1) . ']',
+        ];
     }
 }
 

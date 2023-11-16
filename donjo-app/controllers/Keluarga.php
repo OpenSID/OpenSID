@@ -50,7 +50,7 @@ class Keluarga extends Admin_Controller
         $this->load->model(['keluarga_model', 'penduduk_model', 'wilayah_model', 'program_bantuan_model']);
         $this->modul_ini     = 'kependudukan';
         $this->sub_modul_ini = 'keluarga';
-        $this->_set_page     = ['20', '50', '100'];
+        $this->_set_page     = ['20', '50', '100', [0, 'Semua']];
         $this->_list_session = ['jenis_peristiwa', 'status_hanya_tetap', 'status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga', 'kumpulan_kk'];
     }
 
@@ -121,9 +121,9 @@ class Keluarga extends Admin_Controller
         return json($this->keluarga_model->autocomplete($this->input->post('cari')));
     }
 
-    public function cetak($o = 0, $aksi = '', $privasi_kk = 0)
+    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_kk = 0)
     {
-        $data['main'] = $this->keluarga_model->list_data($o, -1);
+        $data['main'] = $this->keluarga_model->list_data($o, $page)['main'];
         if ($privasi_kk == 1) {
             $data['privasi_kk'] = true;
         }
@@ -357,6 +357,7 @@ class Keluarga extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->keluarga_model->insert();
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect($this->controller);
     }
@@ -366,6 +367,7 @@ class Keluarga extends Admin_Controller
         $this->redirect_hak_akses('u');
         $id_kk = $this->input->post('id_kk');
         $this->keluarga_model->insert_a();
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         if ($_SESSION['validation_error']) {
             $_SESSION['id_kk']         = $id_kk;
             $_SESSION['kk']            = $this->keluarga_model->get_kepala_a($id_kk);
@@ -381,6 +383,7 @@ class Keluarga extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->keluarga_model->insert_new();
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         if ($_SESSION['success'] == -1) {
             $_SESSION['dari_internal'] = true;
             redirect("{$this->controller}/form");
@@ -394,6 +397,7 @@ class Keluarga extends Admin_Controller
         $this->redirect_hak_akses('u');
         $this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id)['status_dasar'] == 1);
         $this->keluarga_model->update_nokk($id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect($this->controller);
     }
@@ -403,6 +407,7 @@ class Keluarga extends Admin_Controller
         $this->redirect_hak_akses('h');
         $this->redirect_tidak_valid($this->keluarga_model->cek_boleh_hapus($id));
         $this->keluarga_model->delete($id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect($this->controller);
     }
@@ -411,6 +416,7 @@ class Keluarga extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
         $this->keluarga_model->delete_all();
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect($this->controller);
     }
@@ -642,12 +648,12 @@ class Keluarga extends Admin_Controller
         $this->load->view('sid/kependudukan/ajax_search_kumpulan_kk', $data);
     }
 
-    public function ajax_cetak($o = 0, $aksi = '')
+    public function ajax_cetak($page = 1, $o = 0, $aksi = '')
     {
         $data['o']                   = $o;
         $data['aksi']                = $aksi;
-        $data['form_action']         = site_url("{$this->controller}/cetak/{$o}/{$aksi}");
-        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$o}/{$aksi}/1");
+        $data['form_action']         = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}?id_cb={$this->input->get('id_cb')}");
+        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}/1?id_cb={$this->input->get('id_cb')}");
 
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
     }

@@ -155,7 +155,7 @@ class Files extends \Google\Service\Resource
    *
    * @opt_param string driveId If set, empties the trash of the provided shared
    * drive.
-   * @opt_param bool enforceSingleParent Deprecated: If an item is not in a shared
+   * @opt_param bool enforceSingleParent Deprecated. If an item is not in a shared
    * drive and its last parent is deleted but the item itself is not, the item
    * will be placed under its owner's root.
    */

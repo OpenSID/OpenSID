@@ -52,7 +52,8 @@ class Periksa extends CI_Controller
         }
 
         $this->load->model(['periksa_model', 'user_model']);
-        $this->header = Config::first();
+        $this->header      = Config::first();
+        $this->latar_login = default_file(LATAR_LOGIN . $this->periksa_model->getSetting('latar_login'), DEFAULT_LATAR_SITEMAN);
     }
 
     public function index()
@@ -91,6 +92,7 @@ class Periksa extends CI_Controller
         $data                        = [
             'header'      => $this->header,
             'form_action' => site_url('periksa/auth'),
+            'latar_login' => $this->latar_login,
         ];
 
         $this->setting->sebutan_desa      = $this->periksa_model->getSetting('sebutan_desa');
