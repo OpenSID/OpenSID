@@ -38,6 +38,7 @@
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
+use App\Libraries\TinyMCE\KodeIsianGambar;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
@@ -47,6 +48,7 @@ use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -758,44 +760,69 @@ class Surat_master extends Admin_Controller
 
     public function preview()
     {
+        // konversi request agar formatnya sama
+        $request             = static::validate($this->request);
+        $request['id_surat'] = $this->request['id_surat'] ?? null;
+        $kode_isian          = json_decode($request['kode_isian'], true);
+        $form_isian          = json_decode($request['form_isian'], true);
+
         // TODO:: Sederhanakan cara ini, simpan di library TInymCE
-        $setting_header    = $this->request['header'] == StatusEnum::TIDAK ? '' : setting('header_surat');
-        $setting_footer    = $this->request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
+        $setting_header    = $request['header'] == StatusEnum::TIDAK ? '' : setting('header_surat');
+        $setting_footer    = $request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
         $data['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
-        if ($this->request['data_utama'] == 1) {
-            $data['id_pend'] = Penduduk::filters([
-                'sex'          => $this->request['individu_sex'],
-                'status_dasar' => $this->request['individu_status_dasar'],
-                'kk_level'     => $this->request['individu_kk_level'],
-            ])->first('id')->id;
-
-            if (! $data['id_pend']) {
-                redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+        foreach ($kode_isian as $key => $value) {
+            // TODO: tambahkan tipe kode_isian lain
+            if ($value['tipe'] == 'select-manual') {
+                $pilihan     = json_decode(preg_replace('/[\r\n\t]/', '', $value['pilihan_kode']), true);
+                $nilai_isian = $pilihan[array_rand($pilihan)];
+            } elseif ($value['tipe'] == 'select-otomatis') {
+                $pilihan     = ref($value['refrensi']);
+                $nilai_isian = $pilihan[array_rand($pilihan)]->nama;
+            } else {
+                $nilai_isian = 'Masukkan ' . ($value['deskripsi'] ?? $value['nama']);
             }
-        } else {
-            $data['nik_non_warga']  = mt_rand(1000000000000000, 9999999999999999);
-            $data['nama_non_warga'] = 'Nama Non Warga';
+            $data = case_replace(form_kode_isian($value['nama']), $nilai_isian, $data);
         }
 
-        for ($i = 0; $i < count($this->request['tipe_kode']); $i++) {
-            if (empty($this->request['tipe_kode'][$i])) {
-                continue;
+        if ($form_isian) {
+            $pendudukLuar = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
+
+            foreach ($form_isian as $key => $value) {
+                if ($value) {
+                    if (in_array(1, $value['data'])) {
+                        $data['input']['id_pend_' . $key] = Penduduk::filters([
+                            'sex'          => $value['sex'],
+                            'status_dasar' => $value['status_dasar'],
+                            'kk_level'     => $value['kk_level'],
+                        ])->orderBy(DB::raw('RAND()'))->first('id')->id;
+
+                        if (! $data['input']['id_pend_' . $key]) {
+                            redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+                        }
+
+                        // untuk individu ganti jadi $data['id_pend']
+                        // TODO:: Sederhanakan cara ini
+                        if ($key == 'individu') {
+                            $data['id_pend'] = $data['input']['id_pend_' . $key];
+                        }
+                    } else {
+                        // tidak ada pilihan penduduk desa
+                        $pendudukLuarTerpilih = $pendudukLuar[array_rand($pendudukLuar)];
+                        $formInputPenduduk    = explode(',', $pendudukLuarTerpilih['input']);
+
+                        foreach ($formInputPenduduk as $input) {
+                            $input                       = $input == 'no_ktp' ? 'nik' : $input;
+                            $data['input'][$key][$input] = 'Masukkan ' . $input . ' ' . $key;
+                        }
+                        $data['input'][$key]['opsi_penduduk'] = 2;
+                    }
+                } else {
+                    // TODO: Perbarui ini mengikuti cara baru
+                    $data['nik_non_warga']  = mt_rand(1000000000000000, 9999999999999999);
+                    $data['nama_non_warga'] = 'Nama Non Warga';
+                }
             }
-
-            $kode = $this->request['nama_kode'][$i];
-
-            if ($this->request['tipe_kode'][$i] == 'select-manual') {
-                $pilihan    = json_decode(preg_replace('/[\r\n\t]/', '', $this->request['pilihan_kode'][$i]), true);
-                $kode_isian = $pilihan[array_rand($pilihan)];
-            } elseif ($this->request['tipe_kode'][$i] == 'select-otomatis') {
-                $pilihan    = ref($this->request['referensi_kode'][$i]);
-                $kode_isian = $pilihan[array_rand($pilihan)]->nama;
-            } else {
-                $kode_isian = 'Masukkan ' . $kode;
-            }
-
-            $data = case_replace(form_kode_isian($kode), $kode_isian, $data);
         }
 
         switch ($this->request['satuan_masa_berlaku']) {
@@ -826,7 +853,16 @@ class Surat_master extends Admin_Controller
         $data          = str_replace($mulaiBerlaku, date('d-m-Y', strtotime(Carbon\Carbon::now())), $data);
         $data          = str_replace($berlakuSampai, date('d-m-Y', strtotime($tanggal_akhir)), $data);
         $data          = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
-        $isi_surat     = $this->tinymce->replceKodeIsian($data);
+
+        if (preg_match('/pengikut_pindah/i', $request['template_desa'])) {
+            $pengikutPindah          = Penduduk::with('pendudukHubungan')->orderBy(DB::raw('RAND()'))->take(3)->get();
+            $data['pengikut_pindah'] = generatePengikutPindah($pengikutPindah);
+        }
+
+        // Pengingat : form_isian disamakan formatnya menggunakan object
+        $data['surat'] = new FormatSurat($request);
+
+        $isi_surat = $this->tinymce->replceKodeIsian($data);
 
         // Manual replace kode isian non warga
         $isi_surat = str_replace('[Form_nik_non_wargA]', $data['nik_non_warga'], $isi_surat);
@@ -886,23 +922,9 @@ class Surat_master extends Admin_Controller
         $isi_surat          = str_replace('[Pengikut_kiS]', $pengikut_kis, $isi_surat);
         $isi_surat          = str_replace('[Pengikut_kartu_kiS]', $pengikut_kartu_kis, $isi_surat);
 
-        $isi_cetak = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], $isi_surat);
-
-        // Logo Surat
-        $file_logo = ($this->request['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(identitas()->logo, false, true));
-
-        $logo      = (is_file($file_logo)) ? '<img src="' . $file_logo . '" width="90" height="90" alt="logo-surat" />' : '';
-        $logo_bsre = str_replace('[logo]', $logo, $isi_cetak);
-
-        // Logo BSrE
-        $file_logo_bsre = FCPATH . LOGO_BSRE;
-        $bsre           = (is_file($file_logo_bsre) && setting('tte') == 1) ? '<img src="' . $file_logo_bsre . '" height="90" alt="logo-bsre" />' : '';
-        $logo_qrcode    = str_replace('[logo_bsre]', $bsre, $logo_bsre);
-
-        // QrCode
-        $file_qrcode   = FCPATH . GAMBAR_QRCODE;
-        $qrcode        = (is_file($file_qrcode)) ? '<img src="' . $file_qrcode . '" width="90" height="90" alt="logo-surat" />' : '';
-        $gambar_qecode = str_replace('[qr_code]', $qrcode, $logo_qrcode);
+        $isi_cetak   = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], $isi_surat);
+        $data_gambar = KodeIsianGambar::set($this->request, $isi_cetak);
+        $isi_cetak   = $data_gambar['result'];
 
         if ($this->request['margin_global'] == 1) {
             $margins = setting('surat_margin_cm_to_mm');
@@ -920,7 +942,7 @@ class Surat_master extends Admin_Controller
             $html2pdf->pdf->SetTitle($this->request['nama'] . ' (Pratinjau)');
             $html2pdf->setTestTdInOnePage(false);
             $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
-            $html2pdf->writeHTML($gambar_qecode);
+            $html2pdf->writeHTML($isi_cetak);
             $html2pdf->output(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
