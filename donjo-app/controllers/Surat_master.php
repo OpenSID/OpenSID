@@ -825,34 +825,37 @@ class Surat_master extends Admin_Controller
             }
         }
 
-        switch ($this->request['satuan_masa_berlaku']) {
-            case 'd':
-                $tanggal_akhir = Carbon\Carbon::now()->addDays($this->request['masa_berlaku']);
-                break;
+        if ((int) $request['masa_berlaku'] > 0) {
+            switch ($request['satuan_masa_berlaku']) {
+                case 'd':
+                    $tanggal_akhir = Carbon\Carbon::now()->addDays($request['masa_berlaku']);
+                    break;
 
-            case 'w':
-                $tanggal_akhir = Carbon\Carbon::now()->addWeeks($this->request['masa_berlaku']);
-                break;
+                case 'w':
+                    $tanggal_akhir = Carbon\Carbon::now()->addWeeks($request['masa_berlaku']);
+                    break;
 
-            case 'M':
-                $tanggal_akhir = Carbon\Carbon::now()->addMonths($this->request['masa_berlaku']);
-                break;
+                case 'M':
+                    $tanggal_akhir = Carbon\Carbon::now()->addMonths($request['masa_berlaku']);
+                    break;
 
-            case 'y':
-                $tanggal_akhir = Carbon\Carbon::now()->addYears($this->request['masa_berlaku']);
-                break;
+                case 'y':
+                    $tanggal_akhir = Carbon\Carbon::now()->addYears($request['masa_berlaku']);
+                    break;
 
-            default:
-                $tanggal_akhir = Carbon\Carbon::now();
-                break;
+                default:
+                    $tanggal_akhir = Carbon\Carbon::now();
+                    break;
+            }
+
+            // TODO:: Pindahkan kode isian untuk preview di library TinyMCE
+            $mulaiBerlaku  = getFormatIsian('Mulai_berlakU');
+            $berlakuSampai = getFormatIsian('Berlaku_sampaI');
+            $data          = str_replace($mulaiBerlaku, date('d-m-Y', strtotime(Carbon\Carbon::now())), $data);
+            $data          = str_replace($berlakuSampai, date('d-m-Y', strtotime($tanggal_akhir)), $data);
         }
 
-        // TODO:: Pindahkan kode isian untuk preview di library TinyMCE
-        $mulaiBerlaku  = getFormatIsian('Mulai_berlakU');
-        $berlakuSampai = getFormatIsian('Berlaku_sampaI');
-        $data          = str_replace($mulaiBerlaku, date('d-m-Y', strtotime(Carbon\Carbon::now())), $data);
-        $data          = str_replace($berlakuSampai, date('d-m-Y', strtotime($tanggal_akhir)), $data);
-        $data          = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
+        $data = str_replace('[JUdul_surat]', strtoupper($request['nama']), $data);
 
         if (preg_match('/pengikut_pindah/i', $request['template_desa'])) {
             $pengikutPindah          = Penduduk::with('pendudukHubungan')->orderBy(DB::raw('RAND()'))->take(3)->get();
