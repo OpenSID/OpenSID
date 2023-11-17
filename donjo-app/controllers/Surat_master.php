@@ -49,6 +49,7 @@ use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -779,6 +780,10 @@ class Surat_master extends Admin_Controller
             } elseif ($value['tipe'] == 'select-otomatis') {
                 $pilihan     = ref($value['refrensi']);
                 $nilai_isian = $pilihan[array_rand($pilihan)]->nama;
+            } elseif ($value['tipe'] == 'number') {
+                $nilai_isian = Str::contains($value['atribut'], ['min', 'max'])
+                    ? mt_rand(Str::before(Str::after($value['atribut'], 'min="'), '"'), Str::between($value['atribut'], 'max="', '"'))
+                    : mt_rand(1, 10);
             } else {
                 $nilai_isian = 'Masukkan ' . ($value['deskripsi'] ?? $value['nama']);
             }
