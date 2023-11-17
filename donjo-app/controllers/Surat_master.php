@@ -870,7 +870,7 @@ class Surat_master extends Admin_Controller
             $data          = str_replace($berlakuSampai, date('d-m-Y', strtotime($tanggal_akhir)), $data);
         }
 
-        $data = str_replace('[JUdul_surat]', strtoupper($request['nama']), $data);
+        $data = str_replace('[JUdul_surat]', strtoupper('Surat ' . $request['nama']), $data);
 
         if (preg_match('/pengikut_pindah/i', $request['template_desa'])) {
             $pengikutPindah          = Penduduk::with('pendudukHubungan')->orderBy(DB::raw('RAND()'))->take(3)->get();
