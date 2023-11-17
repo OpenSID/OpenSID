@@ -774,19 +774,29 @@ class Surat_master extends Admin_Controller
 
         foreach ($kode_isian as $key => $value) {
             // TODO: tambahkan tipe kode_isian lain
-            if ($value['tipe'] == 'select-manual') {
-                $pilihan     = json_decode(preg_replace('/[\r\n\t]/', '', $value['pilihan_kode']), true);
-                $nilai_isian = $pilihan[array_rand($pilihan)];
-            } elseif ($value['tipe'] == 'select-otomatis') {
-                $pilihan     = ref($value['refrensi']);
-                $nilai_isian = $pilihan[array_rand($pilihan)]->nama;
-            } elseif ($value['tipe'] == 'number') {
-                $nilai_isian = Str::contains($value['atribut'], ['min', 'max'])
-                    ? mt_rand(Str::before(Str::after($value['atribut'], 'min="'), '"'), Str::between($value['atribut'], 'max="', '"'))
-                    : mt_rand(1, 10);
-            } else {
-                $nilai_isian = 'Masukkan ' . ($value['deskripsi'] ?? $value['nama']);
+            switch($value['tipe']) {
+                case 'select-manual':
+                    $pilihan     = $value['pilihan'];
+                    $nilai_isian = $pilihan[array_rand($pilihan)];
+                    break;
+
+                case 'select-otomatis':
+                    $pilihan     = ref($value['refrensi']);
+                    $nilai_isian = $pilihan[array_rand($pilihan)]->nama;
+                    break;
+
+                case 'date':
+                    $nilai_isian = formatTanggal(date('d-m-Y'));
+                    break;
+
+                case 'number':
+                    $nilai_isian = Str::contains($value['atribut'], ['min', 'max']) ? mt_rand(Str::before(Str::after($value['atribut'], 'min="'), '"'), Str::between($value['atribut'], 'max="', '"')) : mt_rand(1, 10);
+                    break;
+
+                default:
+                    $nilai_isian = 'Masukkan ' . ($value['deskripsi'] ?? $value['nama']);
             }
+
             $data = case_replace(form_kode_isian($value['nama']), $nilai_isian, $data);
         }
 
