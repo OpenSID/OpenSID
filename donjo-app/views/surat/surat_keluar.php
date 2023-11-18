@@ -369,7 +369,7 @@
                     formData.append('id', id);
                     formData.append('passphrase', passphrase);
 
-                    return fetch('<?= site_url('api/tte/sign_visible') ?>', {
+                    return fetch('<?= site_url('external_api/tte/sign_visible') ?>', {
                         method: 'post',
                         body: formData,
                     }).then(response => {
