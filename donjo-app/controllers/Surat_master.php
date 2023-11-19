@@ -773,7 +773,9 @@ class Surat_master extends Admin_Controller
         $data['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
         foreach ($kode_isian as $key => $value) {
-            // TODO: tambahkan tipe kode_isian lain
+            // gunakan 1 tanggal untuk semua isian yang membutuhkan tanggal
+            $tanggal = date('d-m-Y');
+
             switch($value['tipe']) {
                 case 'select-manual':
                     $pilihan     = $value['pilihan'];
@@ -786,7 +788,15 @@ class Surat_master extends Admin_Controller
                     break;
 
                 case 'date':
-                    $nilai_isian = formatTanggal(date('d-m-Y'));
+                    $nilai_isian = formatTanggal($tanggal);
+                    break;
+
+                case 'hari':
+                    $nilai_isian = hari($tanggal);
+                    break;
+
+                case 'hari-tanggal':
+                    $nilai_isian = hari($tanggal) . ', ' . formatTanggal($tanggal);
                     break;
 
                 case 'number':
@@ -794,7 +804,11 @@ class Surat_master extends Admin_Controller
                     break;
 
                 default:
-                    $nilai_isian = 'Masukkan ' . ($value['deskripsi'] ?? $value['nama']);
+                    if (preg_match('/hari/i', $value['atribut'])) {
+                        $nilai_isian = hari($tanggal);
+                    } else {
+                        $nilai_isian = 'Masukkan ' . ($value['deskripsi'] ?? $value['nama']);
+                    }
             }
 
             $data = case_replace(form_kode_isian($value['nama']), $nilai_isian, $data);
