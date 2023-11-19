@@ -38,18 +38,14 @@
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
-use App\Libraries\TinyMCE\KodeIsianGambar;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
-use App\Models\Penduduk;
 use App\Models\SettingAplikasi;
 use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -764,199 +760,11 @@ class Surat_master extends Admin_Controller
         // konversi request agar formatnya sama
         $request             = static::validate($this->request);
         $request['id_surat'] = $this->request['id_surat'] ?? null;
-        $kode_isian          = json_decode($request['kode_isian'], true);
-        $form_isian          = json_decode($request['form_isian'], true);
 
-        // TODO:: Sederhanakan cara ini, simpan di library TInymCE
-        $setting_header    = $request['header'] == StatusEnum::TIDAK ? '' : setting('header_surat');
-        $setting_footer    = $request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
-        $data['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
+        $isi_cetak = $this->tinymce->getPreview($request);
 
-        foreach ($kode_isian as $key => $value) {
-            // gunakan 1 tanggal untuk semua isian yang membutuhkan tanggal
-            $tanggal = date('d-m-Y');
-
-            switch($value['tipe']) {
-                case 'select-manual':
-                    $pilihan     = $value['pilihan'];
-                    $nilai_isian = $pilihan[array_rand($pilihan)];
-                    break;
-
-                case 'select-otomatis':
-                    $pilihan     = ref($value['refrensi']);
-                    $nilai_isian = $pilihan[array_rand($pilihan)]->nama;
-                    break;
-
-                case 'date':
-                    $nilai_isian = formatTanggal($tanggal);
-                    break;
-
-                case 'hari':
-                    $nilai_isian = hari($tanggal);
-                    break;
-
-                case 'hari-tanggal':
-                    $nilai_isian = hari($tanggal) . ', ' . formatTanggal($tanggal);
-                    break;
-
-                case 'number':
-                    $nilai_isian = Str::contains($value['atribut'], ['min', 'max']) ? mt_rand(Str::before(Str::after($value['atribut'], 'min="'), '"'), Str::between($value['atribut'], 'max="', '"')) : mt_rand(1, 10);
-                    break;
-
-                default:
-                    if (preg_match('/hari/i', $value['atribut'])) {
-                        $nilai_isian = hari($tanggal);
-                    } else {
-                        $nilai_isian = 'Masukkan ' . ($value['deskripsi'] ?? $value['nama']);
-                    }
-            }
-
-            $data = case_replace(form_kode_isian($value['nama']), $nilai_isian, $data);
-        }
-
-        if ($form_isian) {
-            $pendudukLuar = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
-
-            foreach ($form_isian as $key => $value) {
-                if ($value) {
-                    if (in_array(1, $value['data'])) {
-                        $data['input']['id_pend_' . $key] = Penduduk::filters([
-                            'sex'          => $value['sex'],
-                            'status_dasar' => $value['status_dasar'],
-                            'kk_level'     => $value['kk_level'],
-                        ])->orderBy(DB::raw('RAND()'))->first('id')->id;
-
-                        if (! $data['input']['id_pend_' . $key]) {
-                            redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
-                        }
-
-                        // untuk individu ganti jadi $data['id_pend']
-                        // TODO:: Sederhanakan cara ini
-                        if ($key == 'individu') {
-                            $data['id_pend'] = $data['input']['id_pend_' . $key];
-                        }
-                    } else {
-                        // tidak ada pilihan penduduk desa
-                        $pendudukLuarTerpilih = $pendudukLuar[array_rand($pendudukLuar)];
-                        $formInputPenduduk    = explode(',', $pendudukLuarTerpilih['input']);
-
-                        foreach ($formInputPenduduk as $input) {
-                            $input                       = $input == 'no_ktp' ? 'nik' : $input;
-                            $data['input'][$key][$input] = 'Masukkan ' . $input . ' ' . $key;
-                        }
-                        $data['input'][$key]['opsi_penduduk'] = 2;
-                    }
-                } else {
-                    // TODO: Perbarui ini mengikuti cara baru
-                    $data['nik_non_warga']  = mt_rand(1000000000000000, 9999999999999999);
-                    $data['nama_non_warga'] = 'Nama Non Warga';
-                }
-            }
-        }
-
-        if ((int) $request['masa_berlaku'] > 0) {
-            switch ($request['satuan_masa_berlaku']) {
-                case 'd':
-                    $tanggal_akhir = Carbon\Carbon::now()->addDays($request['masa_berlaku']);
-                    break;
-
-                case 'w':
-                    $tanggal_akhir = Carbon\Carbon::now()->addWeeks($request['masa_berlaku']);
-                    break;
-
-                case 'M':
-                    $tanggal_akhir = Carbon\Carbon::now()->addMonths($request['masa_berlaku']);
-                    break;
-
-                case 'y':
-                    $tanggal_akhir = Carbon\Carbon::now()->addYears($request['masa_berlaku']);
-                    break;
-
-                default:
-                    $tanggal_akhir = Carbon\Carbon::now();
-                    break;
-            }
-
-            // TODO:: Pindahkan kode isian untuk preview di library TinyMCE
-            $mulaiBerlaku  = getFormatIsian('Mulai_berlakU');
-            $berlakuSampai = getFormatIsian('Berlaku_sampaI');
-            $data          = str_replace($mulaiBerlaku, date('d-m-Y', strtotime(Carbon\Carbon::now())), $data);
-            $data          = str_replace($berlakuSampai, date('d-m-Y', strtotime($tanggal_akhir)), $data);
-        }
-
-        $data = str_replace('[JUdul_surat]', strtoupper('Surat ' . $request['nama']), $data);
-
-        if (preg_match('/pengikut_pindah/i', $request['template_desa'])) {
-            $pengikutPindah          = Penduduk::with('pendudukHubungan')->orderBy(DB::raw('RAND()'))->take(3)->get();
-            $data['pengikut_pindah'] = generatePengikutPindah($pengikutPindah);
-        }
-
-        // Pengingat : form_isian disamakan formatnya menggunakan object
-        $data['surat'] = new FormatSurat($request);
-
-        $isi_surat = $this->tinymce->replceKodeIsian($data);
-
-        // Manual replace kode isian non warga
-        $isi_surat = str_replace('[Form_nik_non_wargA]', $data['nik_non_warga'], $isi_surat);
-        $isi_surat = str_replace('[Form_nama_non_wargA]', $data['nama_non_warga'], $isi_surat);
-
-        // Manual replace data izin orang tua suami istri
-        $data_penerima_izin['id_pend'] = Penduduk::filters([
-            'sex'          => $this->request['individu_sex'],
-            'status_dasar' => $this->request['individu_status_dasar'],
-            'kk_level'     => $this->request['individu_kk_level'],
-        ])->where('id', '!=', $data['id_pend'])->first('id')->id;
-
-        if (! $data_penerima_izin['id_pend']) {
-            redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
-        }
-        $pend = $this->surat_model->get_penduduk($data_penerima_izin['id_pend']);
-
-        // TODO:: Pindahkan kode isian untuk preview di library TinyMCE
-        $isi_surat = str_replace('[Form_hubungan_dengan_penerima_iziN]', 'Anak', $isi_surat);
-        $isi_surat = str_replace('[Nama_penerima_iziN]', $pend['nama'], $isi_surat);
-        $isi_surat = str_replace('[Ttl_penerima_iziN]', $pend['tempatlahir'] . ', ' . $pend['tanggallahir'], $isi_surat);
-        $isi_surat = str_replace('[Agama_penerima_iziN]', $pend['agama'], $isi_surat);
-        $isi_surat = str_replace('[Warga_negara_penerima_iziN]', $pend['warganegara'], $isi_surat);
-        $isi_surat = str_replace('[Pekerjaan_penerima_iziN]', $pend['pekerjaan'], $isi_surat);
-        $isi_surat = str_replace('[Alamat_penerima_iziN]', $pend['alamat'], $isi_surat);
-        $isi_surat = str_replace('[Form_negara_tujuaN]', 'Malaysia', $isi_surat);
-        $isi_surat = str_replace('[Form_nama_pptkiS]', 'ABDI BELA PERSADA', $isi_surat);
-        $isi_surat = str_replace('[Form_status_pekerjaan_tki_tkW]', 'Tenaga Kerja Indonesia (TKI)', $isi_surat);
-        $isi_surat = str_replace('[Form_masa_kontrak_tahuN]', '5', $isi_surat);
-        $isi_surat = str_replace('[Form_keperluaN]', 'pembuatan surat', $isi_surat);
-
-        $pengikut_1    = Penduduk::where('id', $pend['id'])->get();
-        $pengikut_kis  = generatePengikutSuratKIS($pengikut_1);
-        $pengikut_2[0] = [
-            'kartu'        => mt_rand(1000000000000000, 9999999999999999),
-            'nama'         => $pengikut_1[0]->nama . ' A.',
-            'nik'          => substr($pengikut_1[0]->nik, 0, 15) . '1',
-            'alamat'       => 'INI ALAMAT YANG BENAR',
-            'tanggallahir' => date('d-m-Y', strtotime($pengikut_1[0]->tanggallahir . ' + 1 month')),
-            'faskes'       => 'RSUD',
-        ];
-        $pengikut_kartu_kis = generatePengikutKartuKIS($pengikut_2);
-        $isi_surat          = str_replace('[Pengikut_kiS]', $pengikut_kis, $isi_surat);
-        $isi_surat          = str_replace('[Pengikut_kartu_kiS]', $pengikut_kartu_kis, $isi_surat);
-
-        $pengikut_1    = Penduduk::where('id', $pend['id'])->get();
-        $pengikut_kis  = generatePengikutSuratKIS($pengikut_1);
-        $pengikut_2[0] = [
-            'kartu'        => mt_rand(1000000000000000, 9999999999999999),
-            'nama'         => $pengikut_1[0]->nama . ' A.',
-            'nik'          => substr($pengikut_1[0]->nik, 0, 15) . '1',
-            'alamat'       => 'INI ALAMAT YANG BENAR',
-            'tanggallahir' => date('d-m-Y', strtotime($pengikut_1[0]->tanggallahir . ' + 1 month')),
-            'faskes'       => 'RSUD',
-        ];
-        $pengikut_kartu_kis = generatePengikutKartuKIS($pengikut_2);
-        $isi_surat          = str_replace('[Pengikut_kiS]', $pengikut_kis, $isi_surat);
-        $isi_surat          = str_replace('[Pengikut_kartu_kiS]', $pengikut_kartu_kis, $isi_surat);
-
-        $isi_cetak   = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], $isi_surat);
-        $data_gambar = KodeIsianGambar::set($this->request, $isi_cetak);
-        $isi_cetak   = $data_gambar['result'];
+        // Ubah jadi format pdf
+        $isi_cetak = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], $isi_cetak);
 
         if ($this->request['margin_global'] == 1) {
             $margins = setting('surat_margin_cm_to_mm');
