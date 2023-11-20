@@ -312,7 +312,7 @@
 						content =
 							'<table border=0 style="width:150px;max-width:200px"><tr>' + foto + '</tr>' +
 							'<tr><td style="text-align: center;">' +
-							'<p size="2.5" style="margin: 5px 0;"><b>' + penduduk[x].nama + '</b>' + 
+							'<p size="2.5" style="margin: 5px 0;"><b>' + penduduk[x].nama + '</b>' +
 							'<br/>' + penduduk[x].sex +
 							'<br/>' + penduduk[x].umur + ' Tahun ' +
 							'<br/>' + penduduk[x].agama +

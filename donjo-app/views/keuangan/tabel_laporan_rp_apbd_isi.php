@@ -178,16 +178,16 @@
 							<td><?= substr($b1['Kd_Bid'], 8) ?></td>
 							<td colspan='3'>
 							<?=
-                            \Illuminate\Support\Str::of($b1['Nama_Bidang'])
-                                ->title()
-                                ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
-                                    if (! in_array($string, ['Dana Desa'])) {
-                                        return $string->replace('Desa', setting('sebutan_desa'));
-                                    }
-                                }, static function (Illuminate\Support\Stringable $string) {
-                                    return $string->append(' ' . setting('sebutan_desa'));
-                                })
-                                ->title();
+						    \Illuminate\Support\Str::of($b1['Nama_Bidang'])
+						        ->title()
+						        ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
+						            if (! in_array($string, ['Dana Desa'])) {
+						                return $string->replace('Desa', setting('sebutan_desa'));
+						            }
+						        }, static function (Illuminate\Support\Stringable $string) {
+						            return $string->append(' ' . setting('sebutan_desa'));
+						        })
+						        ->title();
 						    ?></td>
 							<td align='right'><?= rp($b1['anggaran'][0]['pagu'])?></td>
 							<td align='right'><?= rp(($b1['realisasi'][0]['realisasi'] - $b1['realisasi_um'][0]['realisasi']) + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi'])?></td>

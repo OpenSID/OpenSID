@@ -115,17 +115,17 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $this->laporan_bulanan_model->rekapitulasi_list(null, null);
-        $data['config']    = $this->header['desa'];
-        $data['bulan']     = $this->session->filter_bulan ?: date('m');
-        $data['tahun']     = $this->session->filter_tahun ?: date('Y');
-        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
+        $data                  = $this->modal_penandatangan();
+        $data['aksi']          = $aksi;
+        $data['main']          = $this->laporan_bulanan_model->rekapitulasi_list(null, null);
+        $data['config']        = $this->header['desa'];
+        $data['bulan']         = $this->session->filter_bulan ?: date('m');
+        $data['tahun']         = $this->session->filter_tahun ?: date('Y');
+        $data['tgl_cetak']     = $this->input->post('tgl_cetak');
         $data['tampil_jumlah'] = $this->input->post('tampil_jumlah');
-        $data['file']      = 'Buku Rekapitulasi Jumlah Penduduk';
-        $data['isi']       = 'bumindes/penduduk/rekapitulasi/content_rekapitulasi_cetak';
-        $data['letak_ttd'] = ['1', '2', '28'];
+        $data['file']          = 'Buku Rekapitulasi Jumlah Penduduk';
+        $data['isi']           = 'bumindes/penduduk/rekapitulasi/content_rekapitulasi_cetak';
+        $data['letak_ttd']     = ['1', '2', '28'];
 
         if ($aksi == 'pdf') {
             $this->laporan_pdf($data);

@@ -174,7 +174,7 @@ class Surat_master extends Admin_Controller
             $data['header']               = $data['suratMaster']->header ?? 1;
             $data['footer']               = $data['suratMaster']->footer ?? 1;
             // $data['daftar_lampiran']      = LampiranSurat::pluck('nama', 'slug')->toArray();
-            $data['format_nomor']         = $data['suratMaster']->format_nomor;
+            $data['format_nomor'] = $data['suratMaster']->format_nomor;
         }
 
         $data['form_isian']       = $this->form_isian();

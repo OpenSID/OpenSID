@@ -178,76 +178,76 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					</thead>
 					<tbody>
 						<?php if ($main):
-							if ($tampil_jumlah) {
-								$totals = [
-									'WNA_L_AWAL' => 0,
-									'WNA_P_AWAL' => 0,
-									'WNI_L_AWAL' => 0,
-									'WNI_P_AWAL' => 0,
-									'KK_JLH' => 0,
-									'KK_ANG_KEL' => 0,
-									'WNA_L_TAMBAH_LAHIR' => 0,
-									'WNA_P_TAMBAH_LAHIR' => 0,
-									'WNI_L_TAMBAH_LAHIR' => 0,
-									'WNI_P_TAMBAH_LAHIR' => 0,
-									'WNA_L_TAMBAH_MASUK' => 0,
-									'WNA_P_TAMBAH_MASUK' => 0,
-									'WNI_L_TAMBAH_MASUK' => 0,
-									'WNI_P_TAMBAH_MASUK' => 0,
-									'WNA_L_KURANG_MATI' => 0,
-									'WNA_P_KURANG_MATI' => 0,
-									'WNI_L_KURANG_MATI' => 0,
-									'WNI_P_KURANG_MATI' => 0,
-									'WNA_L_KURANG_KELUAR' => 0,
-									'WNA_P_KURANG_KELUAR' => 0,
-									'WNI_L_KURANG_KELUAR' => 0,
-									'WNI_P_KURANG_KELUAR' => 0,
-									'WNA_L_AKHIR' => 0,
-									'WNA_P_AKHIR' => 0,
-									'WNI_L_AKHIR' => 0,
-									'WNI_P_AKHIR' => 0,
-									'KK_AKHIR_JML' => 0,
-									'KK_AKHIR_ANG_KEL' => 0,
-								];
-							}
+						    if ($tampil_jumlah) {
+						        $totals = [
+						            'WNA_L_AWAL'          => 0,
+						            'WNA_P_AWAL'          => 0,
+						            'WNI_L_AWAL'          => 0,
+						            'WNI_P_AWAL'          => 0,
+						            'KK_JLH'              => 0,
+						            'KK_ANG_KEL'          => 0,
+						            'WNA_L_TAMBAH_LAHIR'  => 0,
+						            'WNA_P_TAMBAH_LAHIR'  => 0,
+						            'WNI_L_TAMBAH_LAHIR'  => 0,
+						            'WNI_P_TAMBAH_LAHIR'  => 0,
+						            'WNA_L_TAMBAH_MASUK'  => 0,
+						            'WNA_P_TAMBAH_MASUK'  => 0,
+						            'WNI_L_TAMBAH_MASUK'  => 0,
+						            'WNI_P_TAMBAH_MASUK'  => 0,
+						            'WNA_L_KURANG_MATI'   => 0,
+						            'WNA_P_KURANG_MATI'   => 0,
+						            'WNI_L_KURANG_MATI'   => 0,
+						            'WNI_P_KURANG_MATI'   => 0,
+						            'WNA_L_KURANG_KELUAR' => 0,
+						            'WNA_P_KURANG_KELUAR' => 0,
+						            'WNI_L_KURANG_KELUAR' => 0,
+						            'WNI_P_KURANG_KELUAR' => 0,
+						            'WNA_L_AKHIR'         => 0,
+						            'WNA_P_AKHIR'         => 0,
+						            'WNI_L_AKHIR'         => 0,
+						            'WNI_P_AKHIR'         => 0,
+						            'KK_AKHIR_JML'        => 0,
+						            'KK_AKHIR_ANG_KEL'    => 0,
+						        ];
+						    }
 
-							foreach ($main as $key => $data):
-								if ($tampil_jumlah) {
-									$data['JLH_JIWA_1'] = $data['KK_JLH'] + $data['KK_ANG_KEL'];
-									$data['JLH_JIWA_2'] = $data['KK_AKHIR_JML'] + $data['KK_AKHIR_ANG_KEL'];
+						    foreach ($main as $key => $data):
+						        if ($tampil_jumlah) {
+						            $data['JLH_JIWA_1'] = $data['KK_JLH'] + $data['KK_ANG_KEL'];
+						            $data['JLH_JIWA_2'] = $data['KK_AKHIR_JML'] + $data['KK_AKHIR_ANG_KEL'];
 
-									$totals['WNA_L_AWAL'] += intval($data['WNA_L_AWAL']);
-									$totals['WNA_P_AWAL'] += intval($data['WNA_P_AWAL']);
-									$totals['WNI_L_AWAL'] += intval($data['WNI_L_AWAL']);
-									$totals['WNI_P_AWAL'] += intval($data['WNI_P_AWAL']);
-									$totals['KK_JLH'] += intval($data['KK_JLH']);
-									$totals['KK_ANG_KEL'] += intval($data['KK_ANG_KEL']);
-									$totals['JLH_JIWA_1'] += intval($data['JLH_JIWA_1']);
-									$totals['WNA_L_TAMBAH_LAHIR'] += intval($data['WNA_L_TAMBAH_LAHIR']);
-									$totals['WNA_P_TAMBAH_LAHIR'] += intval($data['WNA_P_TAMBAH_LAHIR']);
-									$totals['WNI_L_TAMBAH_LAHIR'] += intval($data['WNI_L_TAMBAH_LAHIR']);
-									$totals['WNI_P_TAMBAH_LAHIR'] += intval($data['WNI_P_TAMBAH_LAHIR']);
-									$totals['WNA_L_TAMBAH_MASUK'] += intval($data['WNA_L_TAMBAH_MASUK']);
-									$totals['WNA_P_TAMBAH_MASUK'] += intval($data['WNA_P_TAMBAH_MASUK']);
-									$totals['WNI_L_TAMBAH_MASUK'] += intval($data['WNI_L_TAMBAH_MASUK']);
-									$totals['WNI_P_TAMBAH_MASUK'] += intval($data['WNI_P_TAMBAH_MASUK']);
-									$totals['WNA_L_KURANG_MATI'] += intval($data['WNA_L_KURANG_MATI']);
-									$totals['WNA_P_KURANG_MATI'] += intval($data['WNA_P_KURANG_MATI']);
-									$totals['WNI_L_KURANG_MATI'] += intval($data['WNI_L_KURANG_MATI']);
-									$totals['WNI_P_KURANG_MATI'] += intval($data['WNI_P_KURANG_MATI']);
-									$totals['WNA_L_KURANG_KELUAR'] += intval($data['WNA_L_KURANG_KELUAR']);
-									$totals['WNA_P_KURANG_KELUAR'] += intval($data['WNA_P_KURANG_KELUAR']);
-									$totals['WNI_L_KURANG_KELUAR'] += intval($data['WNI_L_KURANG_KELUAR']);
-									$totals['WNI_P_KURANG_KELUAR'] += intval($data['WNI_P_KURANG_KELUAR']);
-									$totals['WNA_L_AKHIR'] += intval($data['WNA_L_AKHIR']);
-									$totals['WNA_P_AKHIR'] += intval($data['WNA_P_AKHIR']);
-									$totals['WNI_L_AKHIR'] += intval($data['WNI_L_AKHIR']);
-									$totals['WNI_P_AKHIR'] += intval($data['WNI_P_AKHIR']);
-									$totals['KK_AKHIR_JML'] += intval($data['KK_AKHIR_JML']);
-									$totals['KK_AKHIR_ANG_KEL'] += intval($data['KK_AKHIR_ANG_KEL']);
-									$totals['JLH_JIWA_2'] += intval($data['JLH_JIWA_2']);
-								}
-							?>
+						            $totals['WNA_L_AWAL'] += (int) ($data['WNA_L_AWAL']);
+						            $totals['WNA_P_AWAL'] += (int) ($data['WNA_P_AWAL']);
+						            $totals['WNI_L_AWAL'] += (int) ($data['WNI_L_AWAL']);
+						            $totals['WNI_P_AWAL'] += (int) ($data['WNI_P_AWAL']);
+						            $totals['KK_JLH'] += (int) ($data['KK_JLH']);
+						            $totals['KK_ANG_KEL'] += (int) ($data['KK_ANG_KEL']);
+						            $totals['JLH_JIWA_1'] += (int) ($data['JLH_JIWA_1']);
+						            $totals['WNA_L_TAMBAH_LAHIR'] += (int) ($data['WNA_L_TAMBAH_LAHIR']);
+						            $totals['WNA_P_TAMBAH_LAHIR'] += (int) ($data['WNA_P_TAMBAH_LAHIR']);
+						            $totals['WNI_L_TAMBAH_LAHIR'] += (int) ($data['WNI_L_TAMBAH_LAHIR']);
+						            $totals['WNI_P_TAMBAH_LAHIR'] += (int) ($data['WNI_P_TAMBAH_LAHIR']);
+						            $totals['WNA_L_TAMBAH_MASUK'] += (int) ($data['WNA_L_TAMBAH_MASUK']);
+						            $totals['WNA_P_TAMBAH_MASUK'] += (int) ($data['WNA_P_TAMBAH_MASUK']);
+						            $totals['WNI_L_TAMBAH_MASUK'] += (int) ($data['WNI_L_TAMBAH_MASUK']);
+						            $totals['WNI_P_TAMBAH_MASUK'] += (int) ($data['WNI_P_TAMBAH_MASUK']);
+						            $totals['WNA_L_KURANG_MATI'] += (int) ($data['WNA_L_KURANG_MATI']);
+						            $totals['WNA_P_KURANG_MATI'] += (int) ($data['WNA_P_KURANG_MATI']);
+						            $totals['WNI_L_KURANG_MATI'] += (int) ($data['WNI_L_KURANG_MATI']);
+						            $totals['WNI_P_KURANG_MATI'] += (int) ($data['WNI_P_KURANG_MATI']);
+						            $totals['WNA_L_KURANG_KELUAR'] += (int) ($data['WNA_L_KURANG_KELUAR']);
+						            $totals['WNA_P_KURANG_KELUAR'] += (int) ($data['WNA_P_KURANG_KELUAR']);
+						            $totals['WNI_L_KURANG_KELUAR'] += (int) ($data['WNI_L_KURANG_KELUAR']);
+						            $totals['WNI_P_KURANG_KELUAR'] += (int) ($data['WNI_P_KURANG_KELUAR']);
+						            $totals['WNA_L_AKHIR'] += (int) ($data['WNA_L_AKHIR']);
+						            $totals['WNA_P_AKHIR'] += (int) ($data['WNA_P_AKHIR']);
+						            $totals['WNI_L_AKHIR'] += (int) ($data['WNI_L_AKHIR']);
+						            $totals['WNI_P_AKHIR'] += (int) ($data['WNI_P_AKHIR']);
+						            $totals['KK_AKHIR_JML'] += (int) ($data['KK_AKHIR_JML']);
+						            $totals['KK_AKHIR_ANG_KEL'] += (int) ($data['KK_AKHIR_ANG_KEL']);
+						            $totals['JLH_JIWA_2'] += (int) ($data['JLH_JIWA_2']);
+						        }
+						        ?>
 								<tr>
 									<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 									<td><?= strtoupper($data['DUSUN'])?></td>
