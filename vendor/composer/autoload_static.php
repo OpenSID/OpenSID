@@ -346,6 +346,16 @@ class ComposerStaticInitbc424e07de7f221c556c39caa4ee068a
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'o' => 
+        array (
+            'org\\bovigo\\vfs' => 
+            array (
+                0 => __DIR__ . '/..' . '/mikey179/vfsstream/src/main/php',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
@@ -400,6 +410,7 @@ class ComposerStaticInitbc424e07de7f221c556c39caa4ee068a
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitbc424e07de7f221c556c39caa4ee068a::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitbc424e07de7f221c556c39caa4ee068a::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitbc424e07de7f221c556c39caa4ee068a::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitbc424e07de7f221c556c39caa4ee068a::$classMap;
 
         }, null, ClassLoader::class);
