@@ -131,7 +131,7 @@ class FakeDataIsian
 
     private function formDinamis()
     {
-        $kode_isian = json_decode($this->request['kode_isian'], true);
+        $kode_isian = grup_kode_isian(json_decode($this->request['kode_isian'], true));
 
         foreach ($kode_isian as $value) {
             $tanggal = date('d-m-Y');
@@ -171,9 +171,9 @@ class FakeDataIsian
                     } else {
                         $nilai_isian = $value['deskripsi'] ?? $value['nama'];
                     }
-            }
 
-            $this->data['input'][underscore($value['nama'], true, true)] = $nilai_isian;
+                $this->data['input'][underscore($value['nama'], true, true)] = $nilai_isian;
+            }
         }
     }
 

@@ -2144,3 +2144,47 @@ if (! function_exists('usia')) {
         return $usia->format($format);
     }
 }
+
+if (! function_exists('grup_kode_isian')) {
+    /**
+     * Membuat ulang kode isian berdasarkan masing-masing kategori
+     * 
+     * @param array $kode_isian
+     * @param bool  $individu
+     * 
+     * @return array
+     */
+    function grup_kode_isian($kode_isian, $individu = true)
+    {
+        return collect($kode_isian)
+            ->map(function ($item) {
+                $kategori = $item['kategori'] ?? 'individu';
+                $item['kategori'] = $kategori ?? '';
+
+                return [
+                    $kategori => $item
+                ];
+            })
+            ->collapse()
+            ->when(!$individu, function ($collection) {
+                return $collection->forget('individu');
+            })
+            ->toArray();
+    }
+}
+
+if (! function_exists('get_hari')) {
+    /**
+     * Mengembalikan nama hari berdasarkan tanggal
+     * 
+     * @param string $tanggal
+     * 
+     * @return string
+     */
+    function get_hari($tanggal)
+    {
+        $hari = Carbon::createFromFormat('d-m-Y', $tanggal)->locale('id');
+
+        return $hari->dayName;
+    }
+}
