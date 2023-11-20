@@ -3,7 +3,9 @@
         <div class="callout callout-info">
             <p>{{ sebutanDesa($list_setting->where('key', 'form_penduduk_luar')->first()->keterangan) }}</p>
         </div>
-        <a data-target="#form-penduduk-luar" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" class="btn btn-sm btn-social btn-success"><i class="fa fa-plus"></i> Form Penduduk Luar</a>
+        <a data-target="#form-penduduk-luar" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <i class="fa fa-plus"></i>Form Penduduk Luar
+        </a>
         <br /><br />
         <div id="list-form-penduduk">
             @php $count = 0; @endphp
