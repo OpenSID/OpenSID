@@ -2148,25 +2148,25 @@ if (! function_exists('usia')) {
 if (! function_exists('grup_kode_isian')) {
     /**
      * Membuat ulang kode isian berdasarkan masing-masing kategori
-     * 
+     *
      * @param array $kode_isian
      * @param bool  $individu
-     * 
+     *
      * @return array
      */
     function grup_kode_isian($kode_isian, $individu = true)
     {
         return collect($kode_isian)
-            ->map(function ($item) {
-                $kategori = $item['kategori'] ?? 'individu';
+            ->map(static function ($item) {
+                $kategori         = $item['kategori'] ?? 'individu';
                 $item['kategori'] = $kategori ?? '';
 
                 return [
-                    $kategori => $item
+                    $kategori => $item,
                 ];
             })
             ->collapse()
-            ->when(!$individu, function ($collection) {
+            ->when(! $individu, static function ($collection) {
                 return $collection->forget('individu');
             })
             ->toArray();
@@ -2176,9 +2176,9 @@ if (! function_exists('grup_kode_isian')) {
 if (! function_exists('get_hari')) {
     /**
      * Mengembalikan nama hari berdasarkan tanggal
-     * 
+     *
      * @param string $tanggal
-     * 
+     *
      * @return string
      */
     function get_hari($tanggal)

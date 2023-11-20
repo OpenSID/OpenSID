@@ -67,7 +67,6 @@ class KodeIsianForm
             'kode' => 'pengikut_pindah',
         ],
     ];
-
     private $masaBerlaku;
 
     public function __construct($inputForm, $kodeIsian, $masaBerlaku = true)
@@ -84,15 +83,15 @@ class KodeIsianForm
 
     public function getKodeIsian()
     {
-        $input = $this->inputForm;
+        $input     = $this->inputForm;
         $kodeIsian = $this->kodeIsian;
 
-        if (count($kodeIsian) == 0 ) {
+        if (count($kodeIsian) == 0) {
             $kodeIsian = $this->statisForm;
 
             if (! $this->masaBerlaku) {
-                unset($kodeIsian[0]);
-                unset($kodeIsian[1]);
+                unset($kodeIsian[0], $kodeIsian[1]);
+
             }
         }
 

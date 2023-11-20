@@ -37,25 +37,24 @@
 
 namespace App\Libraries;
 
-use Carbon\Carbon;
-use CI_Controller;
-use App\Models\Pamong;
-use App\Models\FormatSurat;
-use App\Models\LogPenduduk;
-use Spipu\Html2Pdf\Html2Pdf;
-use Karriere\PdfMerge\PdfMerge;
-use App\Libraries\TinyMCE\ReplaceAlias;
 use App\Libraries\TinyMCE\FakeDataIsian;
+use App\Libraries\TinyMCE\KodeIsianAnggotaKeluarga;
+use App\Libraries\TinyMCE\KodeIsianAritmatika;
 use App\Libraries\TinyMCE\KodeIsianForm;
+use App\Libraries\TinyMCE\KodeIsianIdentitas;
+use App\Libraries\TinyMCE\KodeIsianPasangan;
+use App\Libraries\TinyMCE\KodeIsianPenandaTangan;
+use App\Libraries\TinyMCE\KodeIsianPenduduk;
+use App\Libraries\TinyMCE\KodeIsianPeristiwa;
 use App\Libraries\TinyMCE\KodeIsianSurat;
 use App\Libraries\TinyMCE\KodeIsianWilayah;
-use App\Libraries\TinyMCE\KodeIsianPasangan;
-use App\Libraries\TinyMCE\KodeIsianPenduduk;
-use App\Libraries\TinyMCE\KodeIsianIdentitas;
-use App\Libraries\TinyMCE\KodeIsianPeristiwa;
-use App\Libraries\TinyMCE\KodeIsianAritmatika;
-use App\Libraries\TinyMCE\KodeIsianPenandaTangan;
-use App\Libraries\TinyMCE\KodeIsianAnggotaKeluarga;
+use App\Libraries\TinyMCE\ReplaceAlias;
+use App\Models\FormatSurat;
+use App\Models\LogPenduduk;
+use App\Models\Pamong;
+use CI_Controller;
+use Karriere\PdfMerge\PdfMerge;
+use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -195,7 +194,7 @@ class TinyMCE
         $daftar_kode_isian = [
             // Data Surat
             'Surat' => KodeIsianSurat::get($data),
-            
+
             // Data Form Surat
             'Form Surat' => KodeIsianForm::get($data['input'], [], $data['surat']['masa_berlaku'] > 0),
 

@@ -172,7 +172,7 @@ class FakeDataIsian
                         $nilai_isian = $value['deskripsi'] ?? $value['nama'];
                     }
 
-                $this->data['input'][underscore($value['nama'], true, true)] = $nilai_isian;
+                    $this->data['input'][underscore($value['nama'], true, true)] = $nilai_isian;
             }
         }
     }
