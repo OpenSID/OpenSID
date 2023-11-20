@@ -91,7 +91,6 @@ class KodeIsianForm
 
             if (! $this->masaBerlaku) {
                 unset($kodeIsian[0], $kodeIsian[1]);
-
             }
         }
 
