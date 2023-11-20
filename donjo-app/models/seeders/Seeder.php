@@ -90,7 +90,7 @@ class Seeder extends CI_Model
     // Kalau belum diisi, buat identitas desa jika kode_desa ada di file desa/config/config.php
     private function isi_config()
     {
-        if (! Schema::hasTable('config') ||  Config::first() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
+        if (! Schema::hasTable('config') || Config::first() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
             return;
         }
 
