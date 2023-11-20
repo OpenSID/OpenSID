@@ -40,3 +40,4 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 #### Peningkatan Keamanan
 
 1. [#7365](https://github.com/OpenSID/OpenSID/issues/7365) Penambahan notifikasi ke telegram jika terdapat gagal login sebanyak 3 kali.
+2. [#7364](https://github.com/OpenSID/OpenSID/issues/7364) Pencatatan aktifitas pengguna yang berhasil masuk.

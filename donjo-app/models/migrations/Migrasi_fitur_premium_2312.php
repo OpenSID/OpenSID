@@ -63,7 +63,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
         // Uncomment pada rilis rev terakhir
         // return $hasil && $this->buat_tabel_migrations($hasil);
 
-        return $hasil && $this->migrasi_2023114951($hasil);
+        $hasil = $hasil && $this->migrasi_2023114951($hasil);
+
+        return $hasil && $this->migrasi_2023111751($hasil);
     }
 
     // Migrasi perubahan data
@@ -246,6 +248,27 @@ class Migrasi_fitur_premium_2312 extends MY_model
                 $table->tinyInteger('read')->comment('menandatakan notifikasi sudah terbaca atau belum, 1 artinya sudah dibaca, 0 artinya belum dibaca');
                 $table->timestamps();
                 $table->index(['id', 'created_at', 'read', 'device', 'config_id']);
+            });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023111751($hasil)
+    {
+        if (! Schema::hasTable('log_login')) {
+            Schema::create('log_login', static function (Blueprint $table) {
+                $table->uuid('uuid')->primary();
+                $table->integer('config_id');
+                $table->string('username');
+                $table->string('ip_address');
+                $table->string('user_agent');
+                $table->string('referer');
+                $table->string('lainnya')->nullable();
+                $table->timestamps();
+                $table->unique(['uuid', 'config_id']);
+                // Menambahkan kolom `log_login_config_id_fk`
+                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
             });
         }
 

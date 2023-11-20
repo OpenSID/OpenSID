@@ -36,6 +36,7 @@
  */
 
 use App\Models\LoginAttempts;
+use App\Models\LogLogin;
 use App\Models\Modul;
 use App\Models\User;
 use App\Models\UserGrup;
@@ -167,6 +168,13 @@ class User_model extends MY_Model
         $this->session->fm_key       = $this->set_fm_key($user->id . $user->id_grup . $user->sesi);
         $this->session->isAdmin      = $user;
         $this->last_login($user->id);
+
+        LogLogin::create([
+            'username'   => $user->nama,
+            'ip_address' => $this->input->ip_address(),
+            'user_agent' => $this->input->user_agent(),
+            'referer'    => $_SERVER['HTTP_REFERER'],
+        ]);
 
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
             $this->load->library('Telegram/telegram');
