@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Psr\Http\Message;
 
 /**
@@ -243,7 +241,7 @@ interface ServerRequestInterface extends RequestInterface
      * @param mixed $value The value of the attribute.
      * @return static
      */
-    public function withAttribute(string $name, $value);
+    public function withAttribute(string $name, $value): ServerRequestInterface;
 
     /**
      * Return an instance that removes the specified derived request attribute.
@@ -259,5 +257,5 @@ interface ServerRequestInterface extends RequestInterface
      * @param string $name The attribute name.
      * @return static
      */
-    public function withoutAttribute(string $name);
+    public function withoutAttribute(string $name): ServerRequestInterface;
 }
