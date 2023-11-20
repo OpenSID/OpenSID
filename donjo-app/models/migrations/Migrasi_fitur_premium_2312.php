@@ -64,8 +64,10 @@ class Migrasi_fitur_premium_2312 extends MY_model
         // Uncomment pada rilis rev terakhir
         // return $hasil && $this->buat_tabel_migrations($hasil);
 
-        $hasil = $hasil && $this->migrasi_2023102571($hasil);
-        $hasil = $hasil && $this->migrasi_2023110672($hasil);
+        // dimatikan sementara karena belum siap
+        // $hasil = $hasil && $this->migrasi_2023102571($hasil);
+        // $hasil = $hasil && $this->migrasi_2023110672($hasil);
+
         $hasil = $hasil && $this->migrasi_2023110771($hasil);
         $hasil = $hasil && $this->migrasi_2023114951($hasil);
 
@@ -82,7 +84,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
             $hasil = $hasil && $this->migrasi_2023110671($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPenghasilanAyah($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023111151($hasil, $id);
-            $hasil = $hasil && $this->migrasi_2023110971($hasil, $id);
+
+            // dimatika sementara karena belum siap
+            // $hasil = $hasil && $this->migrasi_2023110971($hasil, $id);
         }
 
         // Migrasi tanpa config_id
