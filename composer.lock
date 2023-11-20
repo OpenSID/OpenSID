@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "389280fdea898b23a8b748ff7e353467",
+    "content-hash": "91062532df9bf3d0540886bbc9ef19ac",
     "packages": [
         {
             "name": "agungsugiarto/codeigniter-datables",
@@ -390,16 +390,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.323.0",
+            "version": "v0.325.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "d5497d30ddfafe7592102ca48bedaf222a4ca7a6"
+                "reference": "b2d39ef968f0017d6bff3c1da82501a0c575c9ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/d5497d30ddfafe7592102ca48bedaf222a4ca7a6",
-                "reference": "d5497d30ddfafe7592102ca48bedaf222a4ca7a6",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/b2d39ef968f0017d6bff3c1da82501a0c575c9ce",
+                "reference": "b2d39ef968f0017d6bff3c1da82501a0c575c9ce",
                 "shasum": ""
             },
             "require": {
@@ -428,9 +428,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.323.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.325.0"
             },
-            "time": "2023-11-06T01:08:38+00:00"
+            "time": "2023-11-18T01:04:14+00:00"
         },
         {
             "name": "google/auth",
@@ -2804,16 +2804,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.4.28",
+            "version": "v5.4.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "f4f71842f24c2023b91237c72a365306f3c58827"
+                "reference": "11ac5f154e0e5c4c77af83ad11ead9165280b92a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/f4f71842f24c2023b91237c72a365306f3c58827",
-                "reference": "f4f71842f24c2023b91237c72a365306f3c58827",
+                "url": "https://api.github.com/repos/symfony/console/zipball/11ac5f154e0e5c4c77af83ad11ead9165280b92a",
+                "reference": "11ac5f154e0e5c4c77af83ad11ead9165280b92a",
                 "shasum": ""
             },
             "require": {
@@ -2883,7 +2883,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v5.4.28"
+                "source": "https://github.com/symfony/console/tree/v5.4.31"
             },
             "funding": [
                 {
@@ -2899,7 +2899,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-07T06:12:30+00:00"
+            "time": "2023-10-31T07:58:33+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -3829,16 +3829,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v5.4.29",
+            "version": "v5.4.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "e41bdc93def20eaf3bfc1537c4e0a2b0680a152d"
+                "reference": "2765096c03f39ddf54f6af532166e42aaa05b24b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/e41bdc93def20eaf3bfc1537c4e0a2b0680a152d",
-                "reference": "e41bdc93def20eaf3bfc1537c4e0a2b0680a152d",
+                "url": "https://api.github.com/repos/symfony/string/zipball/2765096c03f39ddf54f6af532166e42aaa05b24b",
+                "reference": "2765096c03f39ddf54f6af532166e42aaa05b24b",
                 "shasum": ""
             },
             "require": {
@@ -3895,7 +3895,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v5.4.29"
+                "source": "https://github.com/symfony/string/tree/v5.4.31"
             },
             "funding": [
                 {
@@ -3911,20 +3911,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-09-13T11:47:41+00:00"
+            "time": "2023-11-09T08:19:44+00:00"
         },
         {
             "name": "symfony/translation",
-            "version": "v5.4.30",
+            "version": "v5.4.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "8560dc532e4e48d331937532a7cbfd2a9f9f53ce"
+                "reference": "ba72f72fceddf36f00bd495966b5873f2d17ad8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/8560dc532e4e48d331937532a7cbfd2a9f9f53ce",
-                "reference": "8560dc532e4e48d331937532a7cbfd2a9f9f53ce",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/ba72f72fceddf36f00bd495966b5873f2d17ad8f",
+                "reference": "ba72f72fceddf36f00bd495966b5873f2d17ad8f",
                 "shasum": ""
             },
             "require": {
@@ -3992,7 +3992,7 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/v5.4.30"
+                "source": "https://github.com/symfony/translation/tree/v5.4.31"
             },
             "funding": [
                 {
@@ -4008,7 +4008,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-28T09:19:54+00:00"
+            "time": "2023-11-03T16:16:43+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -4254,11 +4254,18 @@
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/OpenSID/tema-esensi",
-                "reference": "7ff7b197ac7dfb8dd527d61a1e5668252906977c"
+                "url": "https://github.com/OpenSID/tema-esensi.git",
+                "reference": "c6be9a3690fd6ba487bdaf52a623e94b445a9e4f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/c6be9a3690fd6ba487bdaf52a623e94b445a9e4f",
+                "reference": "c6be9a3690fd6ba487bdaf52a623e94b445a9e4f",
+                "shasum": ""
             },
             "default-branch": true,
             "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0-or-later"
             ],
@@ -4272,19 +4279,30 @@
             "homepage": "https://github.com/OpenSID/tema-esensi",
             "keywords": [
                 "OpenSID",
-                "Themes"
+                "themes"
             ],
-            "time": "2023-08-22T15:49:01+00:00"
+            "support": {
+                "issues": "https://github.com/OpenSID/tema-esensi/issues",
+                "source": "https://github.com/OpenSID/tema-esensi/tree/main"
+            },
+            "time": "2023-11-20T02:39:22+00:00"
         },
         {
             "name": "themes/natra",
             "version": "dev-premium",
             "source": {
                 "type": "git",
-                "url": "https://github.com/OpenSID/tema-natra",
-                "reference": "7ed93ac3749d9d40083312206d3037b4db5c5435"
+                "url": "https://github.com/OpenSID/tema-natra.git",
+                "reference": "fed857fa17567af394b0b87815e1b2a7f7dce72a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/fed857fa17567af394b0b87815e1b2a7f7dce72a",
+                "reference": "fed857fa17567af394b0b87815e1b2a7f7dce72a",
+                "shasum": ""
             },
             "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0-or-later"
             ],
@@ -4298,9 +4316,13 @@
             "homepage": "https://github.com/OpenSID/tema-natra",
             "keywords": [
                 "OpenSID",
-                "Themes"
+                "themes"
             ],
-            "time": "2023-08-22T16:21:13+00:00"
+            "support": {
+                "issues": "https://github.com/OpenSID/tema-natra/issues",
+                "source": "https://github.com/OpenSID/tema-natra/tree/premium"
+            },
+            "time": "2023-11-20T02:37:18+00:00"
         },
         {
             "name": "voku/anti-xss",
@@ -4596,16 +4618,16 @@
         },
         {
             "name": "tinymce/tinymce",
-            "version": "6.7.2",
+            "version": "6.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "a4c139bde17a4e8b2e84d225020cd5acc24a728a"
+                "reference": "2a1344eb95eb8ed512f4ad56986bfc230c8c74c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/a4c139bde17a4e8b2e84d225020cd5acc24a728a",
-                "reference": "a4c139bde17a4e8b2e84d225020cd5acc24a728a",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/2a1344eb95eb8ed512f4ad56986bfc230c8c74c7",
+                "reference": "2a1344eb95eb8ed512f4ad56986bfc230c8c74c7",
                 "shasum": ""
             },
             "type": "component",
@@ -4649,9 +4671,9 @@
                 "wysiwyg"
             ],
             "support": {
-                "source": "https://github.com/tinymce/tinymce-dist/tree/6.7.2"
+                "source": "https://github.com/tinymce/tinymce-dist/tree/6.7.3"
             },
-            "time": "2023-10-25T06:42:18+00:00"
+            "time": "2023-11-15T00:41:51+00:00"
         }
     ],
     "aliases": [],

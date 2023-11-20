@@ -31,18 +31,6 @@
 		"mikey179/vfsstream": "1.1.*",
 		"tinymce/tinymce": "^6.5"
 	},
-	"repositories": [
-		{
-			"type": "git",
-			"url": "https://github.com/OpenSID/tema-natra",
-			"reference": "premium"
-		},
-		{
-			"type": "git",
-			"url": "https://github.com/OpenSID/tema-esensi",
-			"reference": "main"
-		}
-	],
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"autoload": {

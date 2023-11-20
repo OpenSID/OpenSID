@@ -402,17 +402,17 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.323.0",
-            "version_normalized": "0.323.0.0",
+            "version": "v0.325.0",
+            "version_normalized": "0.325.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "d5497d30ddfafe7592102ca48bedaf222a4ca7a6"
+                "reference": "b2d39ef968f0017d6bff3c1da82501a0c575c9ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/d5497d30ddfafe7592102ca48bedaf222a4ca7a6",
-                "reference": "d5497d30ddfafe7592102ca48bedaf222a4ca7a6",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/b2d39ef968f0017d6bff3c1da82501a0c575c9ce",
+                "reference": "b2d39ef968f0017d6bff3c1da82501a0c575c9ce",
                 "shasum": ""
             },
             "require": {
@@ -421,7 +421,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^5.7||^8.5.13"
             },
-            "time": "2023-11-06T01:08:38+00:00",
+            "time": "2023-11-18T01:04:14+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -443,7 +443,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.323.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.325.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -2930,17 +2930,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.4.28",
-            "version_normalized": "5.4.28.0",
+            "version": "v5.4.31",
+            "version_normalized": "5.4.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "f4f71842f24c2023b91237c72a365306f3c58827"
+                "reference": "11ac5f154e0e5c4c77af83ad11ead9165280b92a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/f4f71842f24c2023b91237c72a365306f3c58827",
-                "reference": "f4f71842f24c2023b91237c72a365306f3c58827",
+                "url": "https://api.github.com/repos/symfony/console/zipball/11ac5f154e0e5c4c77af83ad11ead9165280b92a",
+                "reference": "11ac5f154e0e5c4c77af83ad11ead9165280b92a",
                 "shasum": ""
             },
             "require": {
@@ -2978,7 +2978,7 @@
                 "symfony/lock": "",
                 "symfony/process": ""
             },
-            "time": "2023-08-07T06:12:30+00:00",
+            "time": "2023-10-31T07:58:33+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -3012,7 +3012,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v5.4.28"
+                "source": "https://github.com/symfony/console/tree/v5.4.31"
             },
             "funding": [
                 {
@@ -3994,17 +3994,17 @@
         },
         {
             "name": "symfony/string",
-            "version": "v5.4.29",
-            "version_normalized": "5.4.29.0",
+            "version": "v5.4.31",
+            "version_normalized": "5.4.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "e41bdc93def20eaf3bfc1537c4e0a2b0680a152d"
+                "reference": "2765096c03f39ddf54f6af532166e42aaa05b24b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/e41bdc93def20eaf3bfc1537c4e0a2b0680a152d",
-                "reference": "e41bdc93def20eaf3bfc1537c4e0a2b0680a152d",
+                "url": "https://api.github.com/repos/symfony/string/zipball/2765096c03f39ddf54f6af532166e42aaa05b24b",
+                "reference": "2765096c03f39ddf54f6af532166e42aaa05b24b",
                 "shasum": ""
             },
             "require": {
@@ -4024,7 +4024,7 @@
                 "symfony/translation-contracts": "^1.1|^2",
                 "symfony/var-exporter": "^4.4|^5.0|^6.0"
             },
-            "time": "2023-09-13T11:47:41+00:00",
+            "time": "2023-11-09T08:19:44+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -4063,7 +4063,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v5.4.29"
+                "source": "https://github.com/symfony/string/tree/v5.4.31"
             },
             "funding": [
                 {
@@ -4083,17 +4083,17 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v5.4.30",
-            "version_normalized": "5.4.30.0",
+            "version": "v5.4.31",
+            "version_normalized": "5.4.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "8560dc532e4e48d331937532a7cbfd2a9f9f53ce"
+                "reference": "ba72f72fceddf36f00bd495966b5873f2d17ad8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/8560dc532e4e48d331937532a7cbfd2a9f9f53ce",
-                "reference": "8560dc532e4e48d331937532a7cbfd2a9f9f53ce",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/ba72f72fceddf36f00bd495966b5873f2d17ad8f",
+                "reference": "ba72f72fceddf36f00bd495966b5873f2d17ad8f",
                 "shasum": ""
             },
             "require": {
@@ -4132,7 +4132,7 @@
                 "symfony/config": "",
                 "symfony/yaml": ""
             },
-            "time": "2023-10-28T09:19:54+00:00",
+            "time": "2023-11-03T16:16:43+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -4163,7 +4163,7 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/v5.4.30"
+                "source": "https://github.com/symfony/translation/tree/v5.4.31"
             },
             "funding": [
                 {
@@ -4435,13 +4435,20 @@
             "version_normalized": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/OpenSID/tema-esensi",
-                "reference": "7ff7b197ac7dfb8dd527d61a1e5668252906977c"
+                "url": "https://github.com/OpenSID/tema-esensi.git",
+                "reference": "c6be9a3690fd6ba487bdaf52a623e94b445a9e4f"
             },
-            "time": "2023-08-22T15:49:01+00:00",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/c6be9a3690fd6ba487bdaf52a623e94b445a9e4f",
+                "reference": "c6be9a3690fd6ba487bdaf52a623e94b445a9e4f",
+                "shasum": ""
+            },
+            "time": "2023-11-20T02:39:22+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "source",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0-or-later"
             ],
@@ -4455,8 +4462,12 @@
             "homepage": "https://github.com/OpenSID/tema-esensi",
             "keywords": [
                 "OpenSID",
-                "Themes"
+                "themes"
             ],
+            "support": {
+                "issues": "https://github.com/OpenSID/tema-esensi/issues",
+                "source": "https://github.com/OpenSID/tema-esensi/tree/main"
+            },
             "install-path": "../themes/esensi"
         },
         {
@@ -4465,12 +4476,19 @@
             "version_normalized": "dev-premium",
             "source": {
                 "type": "git",
-                "url": "https://github.com/OpenSID/tema-natra",
-                "reference": "7ed93ac3749d9d40083312206d3037b4db5c5435"
+                "url": "https://github.com/OpenSID/tema-natra.git",
+                "reference": "fed857fa17567af394b0b87815e1b2a7f7dce72a"
             },
-            "time": "2023-08-22T16:21:13+00:00",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/fed857fa17567af394b0b87815e1b2a7f7dce72a",
+                "reference": "fed857fa17567af394b0b87815e1b2a7f7dce72a",
+                "shasum": ""
+            },
+            "time": "2023-11-20T02:37:18+00:00",
             "type": "library",
             "installation-source": "source",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0-or-later"
             ],
@@ -4484,8 +4502,12 @@
             "homepage": "https://github.com/OpenSID/tema-natra",
             "keywords": [
                 "OpenSID",
-                "Themes"
+                "themes"
             ],
+            "support": {
+                "issues": "https://github.com/OpenSID/tema-natra/issues",
+                "source": "https://github.com/OpenSID/tema-natra/tree/premium"
+            },
             "install-path": "../themes/natra"
         },
         {
