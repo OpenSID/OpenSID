@@ -2041,11 +2041,11 @@ if (! function_exists('terjemahkanTerbilang')) {
             $prefix = $suffix = '';
 
             if (strpos($matches[2], '-') === 0) {
-                $prefix = 'Minus ';
+                $prefix = 'minus ';
             }
 
             if (preg_match('/[Rr][pP]/', $matches[2])) {
-                $suffix = ' Rupiah';
+                $suffix = ' rupiah';
             }
 
             $ke = $prefix . trim(to_word((int) preg_replace('/[^0-9]/', '', $matches[2]))) . $suffix;

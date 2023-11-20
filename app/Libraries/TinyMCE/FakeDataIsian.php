@@ -166,6 +166,8 @@ class FakeDataIsian
                 default:
                     if (preg_match('/hari/i', $value['atribut'])) {
                         $nilai_isian = hari($tanggal);
+                    } elseif (preg_match('/rupiah/i', $value['atribut'])) {
+                        $nilai_isian = 'Rp. ' . number_format(mt_rand(100, 9999) . '000', 0, ',', '.');
                     } else {
                         $nilai_isian = $value['deskripsi'] ?? $value['nama'];
                     }
