@@ -861,6 +861,21 @@ class User_model extends MY_Model
             if ($this->is_max_login_attempts_exceeded($identity, $ip_address)) {
                 $this->session->set_flashdata('time_block', $this->get_last_attempt_time($this->_username, $ip_address));
                 $message = 'LOGIN GAGAL.<br>NAMA PENGGUNA ATAU KATA SANDI YANG ANDA MASUKKAN SALAH!';
+                if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
+                    $this->load->library('Telegram/telegram');
+
+                    try {
+                        $this->telegram->sendMessage([
+                            'text' => <<<EOD
+                                    Percobaan login gagal sebanyak 3 kali dengan input nama pengguna {$identity} dan IP Address {$ip_address}.
+                                EOD,
+                            'parse_mode' => 'Markdown',
+                            'chat_id'    => $this->setting->telegram_user_id,
+                        ]);
+                    } catch (Exception $e) {
+                        log_message('error', $e->getMessage());
+                    }
+                }
             }
             $this->session->set_flashdata('attempts_error', $message);
         }
