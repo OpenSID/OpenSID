@@ -37,6 +37,7 @@
 
 namespace App\Libraries;
 
+use App\Libraries\TinyMCE\FakeDataIsian;
 use App\Libraries\TinyMCE\KodeIsianAnggotaKeluarga;
 use App\Libraries\TinyMCE\KodeIsianAritmatika;
 use App\Libraries\TinyMCE\KodeIsianIdentitas;
@@ -49,11 +50,9 @@ use App\Libraries\TinyMCE\KodeIsianWilayah;
 use App\Libraries\TinyMCE\ReplaceAlias;
 use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
-use App\Models\Keluarga;
 use App\Models\LampiranSurat;
 use App\Models\LogPenduduk;
 use App\Models\Pamong;
-use App\Models\Penduduk;
 use Carbon\Carbon;
 use CI_Controller;
 use Illuminate\Support\Str;
@@ -190,8 +189,7 @@ class TinyMCE
 
     public function getFormatedKodeIsian($data = [], $withData = false)
     {
-        $idPenduduk = $data['id_pend'];
-
+        $idPenduduk    = $data['id_pend'];
         $judulPenduduk = $data['surat']->form_isian->individu->judul ?? 'Penduduk';
 
         $alias = AliasKodeIsian::get();
@@ -783,5 +781,10 @@ class TinyMCE
         $lampiranTanpaSyarat = array_diff($lampiran, $excludeLampiran);
 
         return array_merge($lampiranTanpaSyarat, $includeLampiran);
+    }
+
+    public function getPreview($request)
+    {
+        return FakeDataIsian::set($request);
     }
 }

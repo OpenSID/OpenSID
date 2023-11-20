@@ -1706,9 +1706,9 @@ if (! function_exists('getFormatIsian')) {
             if (strpos($netral, 'nik') !== false) {
                 $netral = ucfirst(uclast($netral));
             }
-            
+
             return [
-                'normal'  => '[' . $netral . ']',
+                'normal' => '[' . $netral . ']',
             ];
         }
 

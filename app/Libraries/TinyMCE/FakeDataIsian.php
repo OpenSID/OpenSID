@@ -1,0 +1,250 @@
+<?php
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+namespace App\Libraries\TinyMCE;
+
+use App\Enums\StatusEnum;
+use App\Libraries\TinyMCE;
+use App\Models\FormatSurat;
+use App\Models\Penduduk;
+use App\Models\SettingAplikasi;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+class FakeDataIsian
+{
+    private $request;
+    private $tinymce;
+    private $result;
+    private $data = [];
+
+    public function __construct($request)
+    {
+        $this->tinymce = new TinyMCE();
+        $this->request = $request;
+    }
+
+    public static function set($request)
+    {
+        return (new self($request))->replaceData();
+    }
+
+    private function replaceData()
+    {
+        $this->tempate();
+        $this->formDinamis();
+        $this->formStatis();
+        $this->sumberData();
+        $this->formPengikut();
+        $this->prosesReplace();
+
+        return $this->result;
+    }
+
+    private function tempate()
+    {
+        // TODO:: Sederhanakan cara ini, simpan di library TInymCE
+        $setting_header = $this->request['header'] == StatusEnum::TIDAK ? '' : setting('header_surat');
+        $setting_footer = $this->request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
+        $this->result   = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
+    }
+
+    private function sumberData()
+    {
+        $form_isian = json_decode($this->request['form_isian'], true);
+
+        if ($form_isian) {
+            $pendudukLuar = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
+
+            foreach ($form_isian as $key => $value) {
+                if ($value) {
+                    if (in_array(1, $value['data'])) {
+                        $this->data['input']['id_pend_' . $key] = Penduduk::filters([
+                            'sex'          => $value['sex'],
+                            'status_dasar' => $value['status_dasar'],
+                            'kk_level'     => $value['kk_level'],
+                        ])->orderBy(DB::raw('RAND()'))->first('id')->id;
+
+                        if (! $this->data['input']['id_pend_' . $key]) {
+                            redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+                        }
+
+                        // untuk individu ganti jadi $this->data['id_pend']
+                        // TODO:: Sederhanakan cara ini
+                        if ($key == 'individu') {
+                            $this->data['id_pend'] = $this->data['input']['id_pend_' . $key];
+                        }
+                    } else {
+                        // tidak ada pilihan penduduk desa
+                        $pendudukLuarTerpilih = $pendudukLuar[array_rand($pendudukLuar)];
+                        $formInputPenduduk    = explode(',', $pendudukLuarTerpilih['input']);
+
+                        foreach ($formInputPenduduk as $input) {
+                            $input                             = $input == 'no_ktp' ? 'nik' : $input;
+                            $this->data['input'][$key][$input] = 'Masukkan ' . $input . ' ' . $key;
+                        }
+                        $this->data['input'][$key]['opsi_penduduk'] = 2;
+                    }
+                } else {
+                    // TODO: Perbarui ini mengikuti cara baru
+                    $this->data['nik_non_warga']  = mt_rand(1000000000000000, 9999999999999999);
+                    $this->data['nama_non_warga'] = 'Nama Non Warga';
+                }
+            }
+        }
+    }
+
+    private function formDinamis()
+    {
+        $kode_isian = json_decode($this->request['kode_isian'], true);
+
+        foreach ($kode_isian as $value) {
+            $tanggal = date('d-m-Y');
+
+            switch($value['tipe']) {
+                case 'select-manual':
+                    $pilihan     = $value['pilihan'];
+                    $nilai_isian = $pilihan[array_rand($pilihan)];
+                    break;
+
+                case 'select-otomatis':
+                    $pilihan     = ref($value['refrensi']);
+                    $nilai_isian = $pilihan[array_rand($pilihan)]->nama;
+                    break;
+
+                case 'date':
+                    $nilai_isian = formatTanggal($tanggal);
+                    break;
+
+                case 'hari':
+                    $nilai_isian = hari($tanggal);
+                    break;
+
+                case 'hari-tanggal':
+                    $nilai_isian = hari($tanggal) . ', ' . formatTanggal($tanggal);
+                    break;
+
+                case 'number':
+                    $nilai_isian = Str::contains($value['atribut'], ['min', 'max']) ? mt_rand(Str::before(Str::after($value['atribut'], 'min="'), '"'), Str::between($value['atribut'], 'max="', '"')) : mt_rand(1, 10);
+                    break;
+
+                default:
+                    if (preg_match('/hari/i', $value['atribut'])) {
+                        $nilai_isian = hari($tanggal);
+                    } else {
+                        $nilai_isian = $value['deskripsi'] ?? $value['nama'];
+                    }
+            }
+
+            $this->data['input'][underscore($value['nama'], true, true)] = $nilai_isian;
+        }
+    }
+
+    private function formStatis()
+    {
+        if ((int) $this->request['masa_berlaku'] > 0) {
+            $tanggal_akhir = Carbon::now();
+
+            switch ($this->request['satuan_masa_berlaku']) {
+                case 'd':
+                    $tanggal_akhir->addDays($this->request['masa_berlaku']);
+                    break;
+
+                case 'w':
+                    $tanggal_akhir->addWeeks($this->request['masa_berlaku']);
+                    break;
+
+                case 'M':
+                    $tanggal_akhir->addMonths($this->request['masa_berlaku']);
+                    break;
+
+                case 'y':
+                    $tanggal_akhir->addYears($this->request['masa_berlaku']);
+                    break;
+
+                default:
+                    // Do nothing for an unknown unit
+                    break;
+            }
+
+            $this->data['input']['mulai_berlaku']  = date('d-m-Y', strtotime(Carbon::now()));
+            $this->data['input']['berlaku_sampai'] = date('d-m-Y', strtotime($tanggal_akhir));
+        }
+    }
+
+    private function formPengikut()
+    {
+        // Pengikut Pindah
+        if (preg_match('/pengikut_pindah/i', $this->request['template_desa'])) {
+            $pengikutPindah                = Penduduk::with('pendudukHubungan')->orderBy(DB::raw('RAND()'))->take(3)->get();
+            $this->data['pengikut_pindah'] = generatePengikutPindah($pengikutPindah);
+        }
+
+        $pengikut_1    = Penduduk::where('id', $this->data['id_pend'])->get();
+        $pengikut_kis  = generatePengikutSuratKIS($pengikut_1);
+        $pengikut_2[0] = [
+            'kartu'        => mt_rand(1000000000000000, 9999999999999999),
+            'nama'         => $pengikut_1[0]->nama . ' A.',
+            'nik'          => substr($pengikut_1[0]->nik, 0, 15) . '1',
+            'alamat'       => 'INI ALAMAT YANG BENAR',
+            'tanggallahir' => date('d-m-Y', strtotime($pengikut_1[0]->tanggallahir . ' + 1 month')),
+            'faskes'       => 'RSUD',
+        ];
+        $pengikut_kartu_kis = generatePengikutKartuKIS($pengikut_2);
+
+        $this->data['pengikut_kis']       = $pengikut_kis;
+        $this->data['pengikut_kartu_kis'] = $pengikut_kartu_kis;
+        $this->data['pengikut_surat']     = $pengikut_surat ?? null; // belum digunakan
+    }
+
+    private function terakhirReplace()
+    {
+        $data_gambar  = KodeIsianGambar::set($this->request, $this->result);
+        $this->result = $data_gambar['result'];
+    }
+
+    private function prosesReplace()
+    {
+        // Pengingat : form_isian disamakan formatnya menggunakan object
+        $this->data['surat']     = new FormatSurat($this->request);
+        $this->data['isi_surat'] = $this->result;
+        $this->result            = $this->tinymce->replceKodeIsian($this->data);
+
+        $this->terakhirReplace();
+    }
+}
