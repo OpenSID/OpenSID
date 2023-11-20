@@ -169,15 +169,31 @@ class User_model extends MY_Model
         $this->session->isAdmin      = $user;
         $this->last_login($user->id);
 
-        LogLogin::create([
+        $log_login = LogLogin::create([
             'username'   => $user->nama,
             'ip_address' => $this->input->ip_address(),
             'user_agent' => $this->input->user_agent(),
             'referer'    => $_SERVER['HTTP_REFERER'],
+            'lainnya'    => geoip_info($this->input->ip_address()),
         ]);
 
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
             $this->load->library('Telegram/telegram');
+            $country = $log_login->lainnya['country'] ?? ' tidak diketahui';
+
+            if ($country != 'Indonesia') {
+                try {
+                    $this->telegram->sendMessage([
+                        'text' => <<<EOD
+                                Terindefikasi login mencurigakan dari {$user->nama} dengan lokasi {$country}.
+                            EOD,
+                        'parse_mode' => 'Markdown',
+                        'chat_id'    => $this->setting->telegram_user_id,
+                    ]);
+                } catch (Exception $e) {
+                    log_message('error', $e->getMessage());
+                }
+            }
 
             try {
                 $this->telegram->sendMessage([

@@ -66,4 +66,13 @@ class LogLogin extends BaseModel
         'referer',
         'lainnya',
     ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'lainnya' => 'json',
+    ];
 }

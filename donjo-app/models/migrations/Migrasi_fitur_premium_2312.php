@@ -267,7 +267,6 @@ class Migrasi_fitur_premium_2312 extends MY_model
                 $table->string('lainnya')->nullable();
                 $table->timestamps();
                 $table->unique(['uuid', 'config_id']);
-                // Menambahkan kolom `log_login_config_id_fk`
                 $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
             });
         }
