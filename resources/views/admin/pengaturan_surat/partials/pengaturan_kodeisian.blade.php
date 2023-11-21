@@ -115,27 +115,27 @@
                 }
 
                 if (!_judul) {
-                    $('div.info-kodeisian').addClass('error').html('Judul tidak boleh kosong')
+                    _error('Judul harus diisi')
                     return
                 }
 
                 if (!_alias) {
-                    $('div.info-kodeisian').addClass('error').html('Alias tidak boleh kosong dan harus valid')
+                    _error('Alias harus diisi dan harus valid')
                     return
                 }
 
                 if (!_content) {
-                    $('div.info-kodeisian').addClass('error').html('Isi tidak boleh kosong')
+                    _error('Isi harus diisi')
                     return
                 }
 
                 if (_sudahAdaJudul.includes(_judul)) {
-                    $('div.info-kodeisian').addClass('error').html('Data judul sudah ada')
+                    _error('Data judul sudah ada')
                     return
                 }
 
                 if (_sudahAdaAlias.includes(_alias)) {
-                    $('div.info-kodeisian').addClass('error').html('Data alias sudah ada')
+                    _error('Data alias sudah ada')
                     return
                 }
 

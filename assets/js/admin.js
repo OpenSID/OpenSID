@@ -15,6 +15,11 @@ if (
   $("#sidebar_collapse").addClass("sidebar-collapse");
 }
 
+// notifikasi swetalert
+function _error(pesan) {
+  Swal.fire("Gagal!", pesan, "error");
+}
+
 $(".sidebar-toggle").on("click", function () {
   localStorage.setItem(
     "sidebar",

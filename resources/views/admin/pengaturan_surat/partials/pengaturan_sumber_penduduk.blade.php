@@ -85,13 +85,7 @@
                 let _panelBody = _panel.find('.modal-body')
                 let _judul = _panelBody.find('input.judul')
                 if ($.isEmptyObject(_judul.val())) {
-                    Swal.fire(
-                        'Error!  ',
-                        'Judul harus diisi',
-                        'error'
-                    ).then(
-                        () => _judul.focus()
-                    )
+                    _error('Judul harus diisi')
                     return
                 }
                 let _selected = ['<ul>']
@@ -132,8 +126,12 @@
                     </div>
                 </div>`
 
+                if ($(`#list-form-penduduk .row:last-child .col-sm-4`).length % 3 === 0) {
+                    $(`<div class="row"></div>`).appendTo('#list-form-penduduk')
+                }
+
                 if (_panel.data('index') == null) {
-                    $(_template).appendTo('#list-form-penduduk')
+                    $(_template).appendTo('#list-form-penduduk .row:last-child')
                 } else {
                     $(`#list-form-penduduk div[data-index=${_index}]`).find('.panel-title').html(_judul.val())
                     $(`#list-form-penduduk div[data-index=${_index}]`).find('.panel-body').html(_selected.join(''))
