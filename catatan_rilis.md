@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 14. [#7363](https://github.com/OpenSID/OpenSID/issues/7363) Perbaikan alamat pada data penduduk.
 15. [#7360](https://github.com/OpenSID/OpenSID/issues/7360) Perbaikan pratinjau surat TinyMCE.
 16. [#7398](https://github.com/OpenSID/OpenSID/issues/7398) Perbaikan link api tte yang konflik dengan api SiapPakai.
+17. [#7362](https://github.com/OpenSID/OpenSID/issues/7362) Perbaikan mengaktifkan atau menonaktifkan berita utama pada artikel.
 
 
 #### Penyesuaian Teknis

@@ -98,7 +98,7 @@
                                 dapat melakukan olah informasi berupa artikel website.
                                 <ol>
                                     <li align="justify">Peran olah informasi : tulis, edit artikel. Redaksi boleh
-                                        mengubah semua artikel, termasuk menjadikan headline, aktif/non-aktifkan,
+                                        mengubah semua artikel, termasuk menjadikan berita utama, aktif/non-aktifkan,
                                         masukkan ke slider, dsbnya</li>
                                 </ol>
                             </li>
@@ -107,7 +107,7 @@
                                 untuk ditampilkan di website desa.
                                 <ol>
                                     <li align="justify">Peran olah informasi : tulis, edit artikel yang dibuatnya
-                                        sendiri. Kontributor tidak dapat menjadikan artikel manapun menjadi headline,
+                                        sendiri. Kontributor tidak dapat menjadikan artikel manapun menjadi berita utama,
                                         aktif/non-aktifkan atau memasukkan ke slider.</li>
                                 </ol>
                             </li>
