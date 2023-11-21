@@ -35,6 +35,9 @@
  *
  */
 
+use App\Enums\StatusPengaduanEnum;
+use App\Models\Pengaduan;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengaduan_admin extends Admin_Controller
@@ -48,100 +51,142 @@ class Pengaduan_admin extends Admin_Controller
 
     public function index()
     {
-        $data['allstatus'] = $this->pengaduan_model->get_data()->count_all_results();
-        $data['status1']   = $this->pengaduan_model->get_data('1')->count_all_results();
-        $data['status2']   = $this->pengaduan_model->get_data('2')->count_all_results();
-        $data['status3']   = $this->pengaduan_model->get_data('3')->count_all_results();
+        $data = $this->widget();
 
-        $data['m_allstatus'] = $this->pengaduan_model->get_data_month()->count_all_results();
-        $data['m_status1']   = $this->pengaduan_model->get_data_month('1')->count_all_results();
-        $data['m_status2']   = $this->pengaduan_model->get_data_month('2')->count_all_results();
-        $data['m_status3']   = $this->pengaduan_model->get_data_month('3')->count_all_results();
+        return view('admin.pengaduan_warga.index', $data);
+    }
 
+    protected function widget()
+    {
+        return [
+            'allstatus'   => Pengaduan::pengaduan()->count(),
+            'status1'     => Pengaduan::pengaduan(1)->count(),
+            'status2'     => Pengaduan::pengaduan(2)->count(),
+            'status3'     => Pengaduan::pengaduan(3)->count(),
+            'm_allstatus' => Pengaduan::bulanan()->count(),
+            'm_status1'   => Pengaduan::bulanan(1)->count(),
+            'm_status2'   => Pengaduan::bulanan(2)->count(),
+            'm_status3'   => Pengaduan::bulanan(3)->count(),
+        ];
+    }
+
+    public function datatables()
+    {
         if ($this->input->is_ajax_request()) {
-            $start  = $this->input->post('start');
-            $length = $this->input->post('length');
-            $search = $this->input->post('search[value]');
-            $order  = $this->pengaduan_model::ORDER_ABLE_PENGADUAN[$this->input->post('order[0][column]')];
-            $dir    = $this->input->post('order[0][dir]');
-            $status = $this->input->post('status');
+            $status = $this->input->get('status');
 
-            return json([
-                'draw'            => $this->input->post('draw'),
-                'recordsTotal'    => $this->pengaduan_model->get_pengaduan_a('', $status)->count_all_results(),
-                'recordsFiltered' => $this->pengaduan_model->get_pengaduan_a($search, $status)->count_all_results(),
-                'data'            => $this->pengaduan_model->get_pengaduan_a($search, $status)->order_by($order, $dir)->limit($length, $start)->get()->result(),
-            ]);
+            return datatables()->of(Pengaduan::pengaduan()->filter($status))
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    $aksi = '';
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('pengaduan_admin.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Tanggapi Pengaduan"><i class="fa fa-mail-forward"></i></a> ';
+                    }
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('pengaduan_admin.detail', $row->id) . '" class="btn btn-info btn-sm"  title="Lihat Detail"><i class="fa fa-eye"></i></a> ';
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . route('pengaduan_admin.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('status', static function ($row) {
+                    if ($row->status == StatusPengaduanEnum::MENUNGGU_DIPROSES) {
+                        $tipe = 'danger';
+                    } elseif ($row->status == StatusPengaduanEnum::SEDANG_DIPROSES) {
+                        $tipe = 'info';
+                    } elseif ($row->status == StatusPengaduanEnum::SELESAI_DIPROSES) {
+                        $tipe = 'success';
+                    }
+
+                    return '<span class="label label-' . $tipe . '">' . ucwords(StatusPengaduanEnum::valueOf($row->status)) . ' </span>';
+                })
+                ->rawColumns(['ceklist', 'aksi', 'status'])
+                ->make();
         }
 
-        $this->render('pengaduan_admin/index', $data);
+        return show_404();
+    }
+
+    public function form($id = '')
+    {
+        $this->redirect_hak_akses('u');
+
+        if ($id) {
+            $action          = 'Tanggapi Pengaduan';
+            $form_action     = route('pengaduan_admin.kirim', $id);
+            $pengaduan_warga = Pengaduan::findOrFail($id);
+        }
+
+        return view('admin.pengaduan_warga.form', compact('action', 'form_action', 'pengaduan_warga'));
     }
 
     public function kirim($id)
     {
         $this->redirect_hak_akses('u');
-        $this->pengaduan_model->m_insert($id);
 
-        redirect($this->controller);
+        try {
+            $pengaduan = Pengaduan::findOrFail($id);
+            $pengaduan->update(['status' => $this->request['status']]);
+
+            Pengaduan::where('id_pengaduan', $id)->update(['status' => $this->request['status']]);
+
+            Pengaduan::create([
+                'id_pengaduan' => $id,
+                'nama'         => $this->session->nama,
+                'isi'          => bersihkan_xss($this->request['isi']),
+                'status'       => $this->request['status'],
+                'ip_address'   => $this->input->ip_address() ?? '',
+            ]);
+
+            redirect_with('success', 'Berhasil Ditanggapi');
+        } catch (\Exception $e) {
+            log_message('error', $e);
+        }
+
+        redirect_with('error', 'Gagal Ditanggapi');
     }
 
-    public function pengaduan_form($id = '')
+    public function detail($id = '')
     {
         $this->redirect_hak_akses('u');
 
         if ($id) {
-            $data['main']        = $this->pengaduan_model->pengaduan_detail($id) ?? show_404();
-            $data['form_action'] = site_url("{$this->controller}/kirim/{$id}");
+            $action          = 'Detail Pengaduan';
+            $pengaduan_warga = Pengaduan::findOrFail($id);
+            $tanggapan       = Pengaduan::where('id_pengaduan', $id)->get();
         }
 
-        $this->load->view('pengaduan_admin/modal_form', $data);
+        return view('admin.pengaduan_warga.detail', compact('action', 'pengaduan_warga', 'tanggapan'));
     }
 
-    public function pengaduan_form_detail($id = '')
+    public function delete($id = null)
     {
-        if ($id) {
-            $data['pengaduana'] = $this->pengaduan_model->pengaduan_detailna($id) ?? show_404();
+        $this->redirect_hak_akses('h');
+
+        try {
+            Pengaduan::destroy($id ?? $this->request['id_cb']);
+
+            // Hapus komentar
+            if ($id) {
+                $this->request['id_cb'] = [$id];
+            }
+            Pengaduan::whereIn('id_pengaduan', $this->request['id_cb'])->delete();
+
+            redirect_with('success', 'Berhasil Hapus Data');
+        } catch (\Exception $e) {
+            log_message('error', $e);
         }
 
-        $this->load->view('pengaduan_admin/modal_detail', $data);
-    }
-
-    public function pengaduan_insert()
-    {
-        $this->redirect_hak_akses('u');
-        $this->pengaduan_model->pengaduan_insert();
-
-        redirect($this->controller);
-    }
-
-    public function pengaduan_update($id = '')
-    {
-        $this->redirect_hak_akses('u');
-        $this->pengaduan_model->pengaduan_update($id);
-        redirect($this->controller);
-    }
-
-    public function pengaduan_delete($id)
-    {
-        $this->redirect_hak_akses('h');
-        $this->pengaduan_model->pengaduan_delete($id);
-
-        redirect($this->controller);
-    }
-
-    public function pengaduan_delete_all()
-    {
-        $this->redirect_hak_akses('h');
-        $this->pengaduan_model->pengaduan_delete_all();
-
-        redirect($this->controller);
-    }
-
-    public function pengaduan_status($id = 0, $status = 0)
-    {
-        $this->redirect_hak_akses('u');
-        $this->pengaduan_model->status('produk_pengaduan', $id, $status);
-
-        redirect($this->controller);
+        redirect_with('error', 'Gagal Hapus Data');
     }
 }

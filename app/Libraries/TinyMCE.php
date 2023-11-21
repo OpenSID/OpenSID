@@ -191,7 +191,7 @@ class TinyMCE
     {
         $idPenduduk      = $data['id_pend'];
         $judulPenduduk   = $data['surat']->form_isian->individu->judul ?? 'Penduduk';
-        $daftarKodeIsian = grup_kode_isian(json_decode(json_encode($data['surat']['kode_isian']), true));
+        $daftarKodeIsian = grup_kode_isian($data['surat']->kode_isian);
         $daftarKategori  = collect($data['surat']->form_isian)->toArray();
 
         $alias = AliasKodeIsian::get();
@@ -222,7 +222,7 @@ class TinyMCE
             $judulPenduduk => KodeIsianPenduduk::get($idPenduduk),
 
             // Data Form Penduduk
-            "Form {$judulPenduduk}" => KodeIsianForm::get($data['input'], $daftarKodeIsian),
+            "Form {$judulPenduduk}" => KodeIsianForm::get($data['input'], $daftarKodeIsian['individu']),
 
             // Data Anggota keluarga
             'Anggota Keluarga' => KodeIsianAnggotaKeluarga::get($idPenduduk),
@@ -262,7 +262,7 @@ class TinyMCE
                 if (array_intersect($value->data, [1])) {
                     $daftar_kode_isian[$value->judul] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
                 }
-                $daftar_kode_isian["Form {$value->judul}"] = KodeIsianForm::get($data['input'], $daftarKodeIsian);
+                $daftar_kode_isian["Form {$value->judul}"] = KodeIsianForm::get($data['input'], $daftarKodeIsian[$key]);
             } elseif ($value->sumber == 1 && $key == 'individu') {
                 if (! array_intersect($value->data, [1])) {
                     unset($daftar_kode_isian[$judulPenduduk]);
@@ -672,5 +672,15 @@ class TinyMCE
     public function getPreview($request)
     {
         return FakeDataIsian::set($request);
+    }
+
+    public function generateMultiPage(string $templateString)
+    {
+        if (empty($templateString)) {
+            return [];
+        }
+        $pattern = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
+
+        return preg_split($pattern, $templateString);
     }
 }

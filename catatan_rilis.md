@@ -20,6 +20,15 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 14. [#4736](https://github.com/OpenSID/OpenSID/issues/4736) Penambahan fungsi preview saat unggah gambar pada modul pembangunan.
 
 
+#### Penambahan Fitur
+
+1. [#2260](https://github.com/OpenSID/premium/issues/2260) Penambahan alur masuk kembali setelah ganti password.
+2. [#7280](https://github.com/OpenSID/OpenSID/issues/7280) Penambahan pengaturan kode isian alias surat TinyMCE.
+3. [#7348](https://github.com/OpenSID/OpenSID/issues/7348) Penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE.
+4. [#7347](https://github.com/OpenSID/OpenSID/issues/7347) Penambahan identitas terlapor dan pelapor pada arsip layanan.
+5. [#7359](https://github.com/OpenSID/OpenSID/issues/7359) Penambahan laporan khusus dana desa pada laporan keuangan.
+
+
 #### Perbaikan Bug
 
 1. [#3029](https://github.com/OpenSID/premium/issues/3029) Perbaikan pengaturan surat untuk ditampilkan dilayanan mandiri hanya untuk penduduk individu saja tanpa menampilkan data lain.
@@ -38,6 +47,11 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 14. [#7363](https://github.com/OpenSID/OpenSID/issues/7363) Perbaikan alamat pada data penduduk.
 15. [#7360](https://github.com/OpenSID/OpenSID/issues/7360) Perbaikan pratinjau surat TinyMCE.
 16. [#7398](https://github.com/OpenSID/OpenSID/issues/7398) Perbaikan link api tte yang konflik dengan api SiapPakai.
+17. [#7362](https://github.com/OpenSID/OpenSID/issues/7362) Perbaikan mengaktifkan atau menonaktifkan berita utama pada artikel.
+18. [#7340](https://github.com/OpenSID/OpenSID/issues/7340) Perbaikan ubah status dasar penduduk dengan SHDK kepala keluarga namun belum terdaftar dalam keluarga.
+19. [#7415](https://github.com/OpenSID/OpenSID/issues/7415) Perbaikan saring data berdasarkan status permohonan surat.
+20. [7408](https://github.com/OpenSID/OpenSID/issues/7408) Perbaikan pratinjau surat yang menggunakan page breack / lebih dari 1 halaman.
+
 
 
 #### Penyesuaian Teknis
@@ -53,6 +67,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 9. [#7314](https://github.com/OpenSID/OpenSID/issues/7314) Penyesuaian tabel untuk menampung data token FCM dan log notifikasi.
 10. [#6837](https://github.com/OpenSID/OpenSID/issues/6837) Penyesuaian isian tanggal berlaku surat hanya bisa di isi sesuai rentang pada pengaturan suratnya.
 11. [#7361](https://github.com/OpenSID/OpenSID/issues/7361) Penyesuaian kode isian yang berupa angka, gambar dan jam.
+12. [#6726](https://github.com/OpenSID/OpenSID/issues/6726) Penyesuaian modul pengaduan admin menggunakan ORM dan Blade.
 
 #### Peningkatan Keamanan
 

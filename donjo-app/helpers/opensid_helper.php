@@ -50,7 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2311.0.1');
+define('VERSION', '2311.1.0');
 
 /**
  * PREMIUM
@@ -1694,6 +1694,17 @@ if (! function_exists('getFormatIsian')) {
      */
     function getFormatIsian($kode_isian, $case_sentence = false)
     {
+        // cek ulang yang ini
+        // if (preg_match('/^<img/', $kode_isian)) {
+        //     return [
+        //         'normal'  => $kode_isian,
+        //         'lower'   => $kode_isian,
+        //         'ucfirst' => $kode_isian,
+        //         'ucwords' => $kode_isian,
+        //         'upper'   => $kode_isian,
+        //     ];
+        // }
+
         $netral = str_replace(['[', ']'], '', $kode_isian);
 
         if ($case_sentence) {
@@ -2226,19 +2237,17 @@ if (! function_exists('grup_kode_isian')) {
      */
     function grup_kode_isian($kode_isian, $individu = true)
     {
-        return collect($kode_isian)
-            ->map(static function ($item) {
-                $kategori         = $item['kategori'] ?? 'individu';
-                $item['kategori'] = $kategori ?? '';
-
-                return [
-                    $kategori => $item,
-                ];
-            })
-            ->collapse()
-            ->when(! $individu, static function ($collection) {
-                return $collection->forget('individu');
-            })
+        return collect($kode_isian)->groupBy(static function ($item) {
+            return $item->kategori ?? 'individu';
+        })->map(static function ($items) {
+            return $items->map(static function ($item) {
+                return (array) $item;
+            });
+        })->when(! $individu, static function ($collection) {
+            return $collection->filter(static function ($item) {
+                return isset($item['kategori']) && $item['kategori'] !== 'individu';
+            });
+        })
             ->toArray();
     }
 }

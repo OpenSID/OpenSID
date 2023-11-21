@@ -180,7 +180,7 @@
 																				<?php endif ?>
 																				<?php if ($data['enabled'] == '1') : ?>
 																					<a href="<?= site_url('web/artikel_lock/' . encrypt($data['id']) . '/2'); ?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Artikel"><i class="fa fa-unlock"></i></a>
-																					<a href="<?= site_url('web/headline/' . encrypt($data['id'])) ?>" class="btn bg-teal btn-flat btn-sm" title="Jadikan Headline">
+																					<a href="<?= site_url('web/headline/' . encrypt($data['id'])) ?>" class="btn bg-teal btn-flat btn-sm" title="Jadikan Berita Utama">
 																						<i class="<?= ($data['headline'] == 1) ? 'fa fa-star' : 'fa fa-star-o' ?>"></i>
 																					</a>
 																					<a href="<?= site_url('web/slide/' . encrypt($data['id'])); ?>" class="btn bg-gray btn-flat btn-sm" title="<?= ($data['slider'] == 1) ? 'Keluarkan dari slide' : 'Masukkan ke dalam slide' ?>">

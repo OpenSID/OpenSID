@@ -113,6 +113,7 @@
                         onAction: function() {
                             // Insert a page break when the button is clicked
                             ed.insertContent('<div style="page-break-after: always;"><!-- pagebreak --></div>');
+                            ed.execCommand('removeFormat')
                         }
                     });
                     ed.ui.registry.addButton('kotak', {
@@ -144,19 +145,19 @@
                         processor: 'string',
                         default: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
                     });
-
-                    if (!pratinjau) {
-                        ed.on('keydown', function() {
-                            var contentAreaHeight = ed.getBody().offsetHeight;
-                            var lengthPaper = 1644;
-                            var sisaBatasKertas = contentAreaHeight % lengthPaper
-                            console.log('sisaBatasKertas ' + sisaBatasKertas)
-                            // Check if a new line has been added
-                            if (sisaBatasKertas > 0 && sisaBatasKertas < 35) {
-                                ed.insertContent('<div style="page-break-after: always;"><!-- pagebreak --></div>');
-                            }
-                        });
-                    }
+                    // pakai button saja
+                    // if (!pratinjau) {
+                    //     ed.on('keydown', function() {
+                    //         var contentAreaHeight = ed.getBody().offsetHeight;
+                    //         var lengthPaper = 1644;
+                    //         var sisaBatasKertas = contentAreaHeight % lengthPaper
+                    //         console.log('sisaBatasKertas ' + sisaBatasKertas)
+                    //         // Check if a new line has been added
+                    //         if (sisaBatasKertas > 0 && sisaBatasKertas < 35) {
+                    //             ed.insertContent('<div style="page-break-after: always;"><!-- pagebreak --></div>');
+                    //         }
+                    //     });
+                    // }
                 },
                 content_style: `
                     body {
