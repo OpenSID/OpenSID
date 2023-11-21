@@ -118,7 +118,7 @@
     {
         "nama": "Keterangan Pengantar",
         "url_surat": "surat-keterangan-pengantar",
-        "kode_surat": null,
+        "kode_surat": "S-01",
         "lampiran": null,
         "kunci": false,
         "favorit": false,

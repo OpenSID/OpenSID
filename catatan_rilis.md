@@ -1,4 +1,4 @@
-Di rilis ini, versi 2311.1.0 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2311.1.1 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 
@@ -27,6 +27,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 3. [#7348](https://github.com/OpenSID/OpenSID/issues/7348) Penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE.
 4. [#7347](https://github.com/OpenSID/OpenSID/issues/7347) Penambahan identitas terlapor dan pelapor pada arsip layanan.
 5. [#7359](https://github.com/OpenSID/OpenSID/issues/7359) Penambahan laporan khusus dana desa pada laporan keuangan.
+6. [#7164](https://github.com/OpenSID/OpenSID/issues/7164) Penambahan kode isian foto yang bisa diatur sendiri ukurannya.
 
 
 #### Perbaikan Bug
@@ -50,7 +51,8 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 17. [#7362](https://github.com/OpenSID/OpenSID/issues/7362) Perbaikan mengaktifkan atau menonaktifkan berita utama pada artikel.
 18. [#7340](https://github.com/OpenSID/OpenSID/issues/7340) Perbaikan ubah status dasar penduduk dengan SHDK kepala keluarga namun belum terdaftar dalam keluarga.
 19. [#7415](https://github.com/OpenSID/OpenSID/issues/7415) Perbaikan saring data berdasarkan status permohonan surat.
-20. [7408](https://github.com/OpenSID/OpenSID/issues/7408) Perbaikan pratinjau surat yang menggunakan page breack / lebih dari 1 halaman.
+20. [#7408](https://github.com/OpenSID/OpenSID/issues/7408) Perbaikan pratinjau surat yang menggunakan page breack / lebih dari 1 halaman.
+21. [#7417](https://github.com/OpenSID/OpenSID/issues/7417) Perbaikan ubah data kategori dengan data yang sama.
 
 
 

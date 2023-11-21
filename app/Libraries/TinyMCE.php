@@ -345,7 +345,15 @@ class TinyMCE
         ';
     }
 
-    public function replceKodeIsian($data = [], $kecuali = [], $imageReplace = true)
+    /**
+     * Replace kode isian dengan data yang sesuai.
+     *
+     * @param array $data
+     * @param bool  $imageReplace
+     *
+     * @return string
+     */
+    public function replceKodeIsian($data = [], $imageReplace = true)
     {
         $result = $data['isi_surat'];
 
@@ -441,6 +449,8 @@ class TinyMCE
 
     /**
      * Daftar penandatangan dan pamongnya
+     *
+     * @return array
      */
     public function formPenandatangan()
     {
@@ -475,6 +485,27 @@ class TinyMCE
     }
 
     /**
+     * Daftar penandatangan dan pamongnya
+     *
+     * @return array
+     */
+    public function getDaftarLampiran()
+    {
+        $lampiran               = [];
+        $daftar_lampiran_sistem = glob(DEFAULT_LOKASI_LAMPIRAN_SURAT . '*', GLOB_ONLYDIR);
+        $daftar_lampiran_desa   = glob(LOKASI_LAMPIRAN_SURAT_DESA . '*', GLOB_ONLYDIR);
+        $daftar_lampiran        = array_merge($daftar_lampiran_desa, $daftar_lampiran_sistem);
+
+        foreach ($daftar_lampiran as $value) {
+            if (file_exists(FCPATH . $value . '/view.php')) {
+                $lampiran[] = kode_format(basename($value));
+            }
+        }
+
+        return collect($lampiran)->unique()->sort()->values();
+    }
+
+    /**
      * Generate surat menggunakan html2pdf, kemudian gabungakan ke pdfMerge.
      *
      * @param string $surat
@@ -484,6 +515,8 @@ class TinyMCE
      */
     public function generateSurat($surat, array $data, $margins)
     {
+        $surat = str_replace(base_url(), FCPATH, $surat);
+
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(true)
             ->setDefaultFont(underscore(setting('font_surat'), true, true))
@@ -609,7 +642,7 @@ class TinyMCE
             // lakukan generate dalam looping karena margin tiap lampiran bisa jadi tidak sama
             $data['isi_surat'] = $lampiranHtml;
 
-            $lampiranHtml = $this->replceKodeIsian($data);
+            $lampiranHtml = $this->replceKodeIsian($data, false);
 
             (new Html2Pdf($orientasiKertas, $ukuranKertas, 'en', true, 'UTF-8', $marginMm))
                 ->setTestTdInOnePage(true)
