@@ -49,6 +49,7 @@ use App\Libraries\TinyMCE\KodeIsianPeristiwa;
 use App\Libraries\TinyMCE\KodeIsianSurat;
 use App\Libraries\TinyMCE\KodeIsianWilayah;
 use App\Libraries\TinyMCE\ReplaceAlias;
+use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
 use App\Models\LogPenduduk;
 use App\Models\Pamong;
@@ -191,7 +192,18 @@ class TinyMCE
         $daftarKodeIsian = grup_kode_isian($data['surat']->kode_isian);
         $daftarKategori  = collect($data['surat']->form_isian)->toArray();
 
+        $alias = AliasKodeIsian::get();
+
         $daftar_kode_isian = [
+            // Kode Isian Alias
+            'Alias' => $alias->map(static function ($item) {
+                return [
+                    'judul' => $item->judul,
+                    'isian' => $item->alias,
+                    'data'  => $item->content,
+                ];
+            })->toArray(),
+
             // Data Surat
             'Surat' => KodeIsianSurat::get($data),
 
@@ -219,6 +231,10 @@ class TinyMCE
             // Data Aritmatika untuk penambahan, pengurangan, dan operasi lainnya serta terbilang
             'Aritmatika' => KodeIsianAritmatika::get(),
         ];
+
+        if ($alias->count() <= 0) {
+            unset($daftar_kode_isian['Alias']);
+        }
 
         $peristiwa = $data['surat']->form_isian->individu->status_dasar;
         if (array_intersect($peristiwa, LogPenduduk::PERISTIWA)) {
@@ -268,6 +284,11 @@ class TinyMCE
                 ->flatten(1)
                 ->pluck('data', 'isian.normal')
                 ->toArray();
+        }
+
+        if (isset($daftar_kode_isian['Alias'])) {
+            // Tukar Posisi Alias agar tampil terakhir
+            $daftar_kode_isian['Alias'] = array_shift($daftar_kode_isian);
         }
 
         return $daftar_kode_isian;
@@ -324,7 +345,8 @@ class TinyMCE
 
     public function replceKodeIsian($data = [], $kecuali = [])
     {
-        $result       = $data['isi_surat'];
+        $result = $data['isi_surat'];
+
         $gantiDengan  = setting('ganti_data_kosong');
         $newKodeIsian = collect($this->getFormatedKodeIsian($data, true))
             ->flatMap(static function ($value, $key) {
@@ -367,8 +389,15 @@ class TinyMCE
             $newKodeIsian = array_replace($newKodeIsian, $alias);
         }
 
+        $pisahkanFoto = [];
+
         foreach ($newKodeIsian as $key => $value) {
             if (in_array(strtolower($key), array_map('strtolower', ['[terbilang]', '[hitung]']))) {
+                continue;
+            }
+            if (preg_match('/(<img src=")(.*?)(">)/', $key)) {
+                $pisahkanFoto[$key] = $value;
+
                 continue;
             }
             // TODO:: Cek dari awal pembuatan, kodeisian [format_nomor_surat] tidak mengikuti aturan penulisan, selalu hasilnya huruf besar.
@@ -384,6 +413,7 @@ class TinyMCE
             if (preg_match('/pengikut_kis/i', $key)) {
                 $result = str_replace($key, $data['pengikut_kis'] ?? '', $result);
             }
+
             if (preg_match('/pengikut_pindah/i', $key)) {
                 $result = str_replace($key, $data['pengikut_pindah'] ?? '', $result);
             }
@@ -394,7 +424,15 @@ class TinyMCE
         // Kode isian berupa hitungan perlu didahulukan
         $result = caseHitung($result);
 
-        return terjemahkanTerbilang($result);
+        $result = terjemahkanTerbilang($result);
+
+        if ($imageReplace) {
+            foreach ($pisahkanFoto as $key => $value) {
+                $result = caseReplaceFoto($result, $key, $value);
+            }
+        }
+
+        return $result;
     }
 
     /**

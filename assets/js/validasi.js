@@ -389,6 +389,11 @@ $(document).ready(function() {
 		valid = /^[0-9]{5,10}$/.test(value);
 		return this.optional(element) || valid;
 	},`Minimal 5 dan maksimal 10 karakter dan harus angka`);
+
+	jQuery.validator.addMethod("kode_isian", function(value, element) {
+		valid = /^\[\w+\]$/.test(value);
+		return this.optional(element) || valid;
+	},`Harus diawali [ dan diakhiri ]`);
 });
 
 function validate(elementClassId) {

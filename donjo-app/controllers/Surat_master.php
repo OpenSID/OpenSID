@@ -38,6 +38,7 @@
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
+use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
@@ -358,7 +359,7 @@ class Surat_master extends Admin_Controller
         // TODO:: Gabungkan kategori individu dengan kategori lainnya, jika individu hilangkan prefix kategorinya (individu)
         $formIsian = [
             'individu' => [
-                'sumber'         => 1, // sumber data untuk individu(utama) harus ada
+                'sumber'         => 1, // sumber data untuk individu (utama) harus ada
                 'data'           => $request['data_utama'] ?? [1],
                 'sex'            => $request['individu_sex'] ?? null,
                 'status_dasar'   => $request['individu_status_dasar'] ?? null,
@@ -368,6 +369,7 @@ class Surat_master extends Admin_Controller
                 'judul'          => $request['judul'] ?? 'Utama',
                 'label'          => $request['label'] ?? '',
                 'info'           => $request['info'] ?? '',
+                'sebagai'        => 1, // sebagai untuk individu (utama) harus ada
                 'hubungan'       => null,
             ],
         ];
@@ -375,7 +377,7 @@ class Surat_master extends Admin_Controller
         if (isset($request['kategori'])) {
             foreach ($request['kategori'] as $kategori) {
                 $formIsian[$kategori] = [
-                    'sumber'       => $request['kategori_sumber'][$kategori] ?? 1,
+                    'sumber'       => (int) $request['kategori_sumber'][$kategori] ?? 1,
                     'data'         => $request['kategori_data_utama'][$kategori] ?? [1],
                     'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
                     'status_dasar' => $request['kategori_individu_status_dasar'][$kategori] ?? null,
@@ -383,6 +385,7 @@ class Surat_master extends Admin_Controller
                     'judul'        => $request['kategori_judul'][$kategori] ?? null,
                     'label'        => $request['kategori_label'][$kategori] ?? null,
                     'info'         => $request['kategori_info'][$kategori] ?? null,
+                    'sebagai'      => (int) $request['kategori_sebagai'][$kategori] ?? 0,
                     'hubungan'     => $request['kategori_hubungan'][$kategori] ?? null,
                     // 'data_orang_tua' => $request['kategori_data_orang_tua'] ?? 0,
                     // 'data_pasangan'  => $request['kategori_data_pasangan'] ?? 0,
@@ -628,6 +631,7 @@ class Surat_master extends Admin_Controller
         $margin                = setting('surat_margin');
         $data['margins']       = json_decode($margin) ?? FormatSurat::MARGINS;
         $data['penduduk_luar'] = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);
+        $data['alias']         = AliasKodeIsian::get();
 
         return view('admin.pengaturan_surat.pengaturan', $data);
     }
@@ -680,6 +684,19 @@ class Surat_master extends Admin_Controller
             SettingAplikasi::where('key', '=', 'visual_tte_gambar')->update(['value' => $file]); //update setting
         }
 
+        if ($data['kodeisian_alias']) {
+            $judulAlias   = $data['kodeisian_alias']['judul'];
+            $contentAlias = $data['kodeisian_alias']['content'];
+            AliasKodeIsian::whereNotIn('judul', $data['kodeisian_alias']['judul'])->delete();
+
+            foreach ($data['kodeisian_alias']['alias'] as $index => $alias) {
+                // observer gak jalan ketika menggunakan upsert
+                AliasKodeIsian::upsert(['updated_by' => auth()->id, 'config_id' => identitas('id'), 'judul' => $judulAlias[$index], 'alias' => $alias, 'content' => $contentAlias[$index]], ['config_id', 'judul']);
+            }
+        } else {
+            AliasKodeIsian::whereConfigId(identitas('id'))->delete();
+        }
+
         // Perbarui log_surat jika ada perubahan pengaturan verifikasi kades / sekdes
         if (! setting('verifikasi_kades') || ! setting('verifikasi_sekdes')) {
             LogSurat::where('verifikasi_operator', LogSurat::PERIKSA)->update(['verifikasi_operator' => LogSurat::TERIMA]);
@@ -708,6 +725,7 @@ class Surat_master extends Admin_Controller
             'format_tanggal_surat' => $request['format_tanggal_surat'],
             'surat_margin'         => json_encode($request['surat_margin']),
             'form_penduduk_luar'   => json_encode(updateIndex($request['penduduk_luar'])),
+            'kodeisian_alias'      => $request['alias_kodeisian'] ? ['judul' => $request['judul_kodeisian'], 'alias' => $request['alias_kodeisian'], 'content' => $request['content_kodeisian']] : null,
         ];
 
         if ($validasi['tte'] == StatusEnum::YA) {

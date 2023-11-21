@@ -1,6 +1,15 @@
-Di rilis ini, versi 2311.0.1 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2311.1.0 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] baru mulai berkontribusi.
+
+
+#### Penambahan Fitur
+
+1. [#2260](https://github.com/OpenSID/premium/issues/2260) Penambahan alur masuk kembali setelah ganti password.
+2. [#7280](https://github.com/OpenSID/OpenSID/issues/7280) Penambahan pengaturan kode isian alias surat TinyMCE.
+3. [#7348](https://github.com/OpenSID/OpenSID/issues/7348) Penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE.
+4. [#7347](https://github.com/OpenSID/OpenSID/issues/7347) Penambahan identitas terlapor dan pelapor pada arsip layanan.
+5. [#7359](https://github.com/OpenSID/OpenSID/issues/7359) Penambahan laporan khusus dana desa pada laporan keuangan.
 
 
 #### Perbaikan Bug
@@ -23,6 +32,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 16. [#7398](https://github.com/OpenSID/OpenSID/issues/7398) Perbaikan link api tte yang konflik dengan api SiapPakai.
 17. [#7362](https://github.com/OpenSID/OpenSID/issues/7362) Perbaikan mengaktifkan atau menonaktifkan berita utama pada artikel.
 18. [#7340](https://github.com/OpenSID/OpenSID/issues/7340) Perbaikan ubah status dasar penduduk dengan SHDK kepala keluarga namun belum terdaftar dalam keluarga.
+
 
 
 #### Penyesuaian Teknis

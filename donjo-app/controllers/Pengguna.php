@@ -96,7 +96,9 @@ class Pengguna extends Admin_Controller
         $user = $this->validate_password($this->request);
 
         if ($user['status']) {
+            $this->session->change_password       = true;
             $this->session->force_change_password = false;
+
             redirect_with('success', $user['pesan']);
         }
 

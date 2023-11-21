@@ -83,6 +83,16 @@
                                 >
                             </div>
                         </div>
+                        <div class="row" style="margin-top: 5px">
+                            <label for="sebagai" class="col-sm-2">Sebagai</label>
+                            <div class="col-sm-8">
+                                <select id="utama_sebagai" class="form-control input-sm isi-sebagai-data" name="sebagai" disabled>
+                                    <option value="0">Tidak Ada</option>
+                                    <option value="1" selected>Terlapor</option>
+                                    <option value="2">Pelapor</option>
+                                </select>
+                            </div>
+                        </div>
                         <hr>
                         <h5><b>Sumber Data Pelaku</b></h5>
                         <div class="table-responsive">
@@ -225,6 +235,15 @@
                                 <label for="isi-prefix" class="col-sm-2">Prefix Bagian</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="kategori_prefix[{{ $item }}]" value="{{ strtolower($suratMaster->form_isian->$item->prefix ?? $item) }}" minlength="3" maxlength="50">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 5px">
+                                <label for="isi-sebagai" class="col-sm-2">Sebagai</label>
+                                <div class="col-sm-8">
+                                    <select id="{{ $item }}_sebagai" class="form-control input-sm isi-sebagai-data" name="kategori_sebagai[{{ $item }}]" onchange='ubah_sebagai_dinamis("#tab-{{ $item }}", this.value)'>
+                                        <option value="0" @selected('0' == $suratMaster->form_isian->{$item}->sebagai)>Tidak Ada
+                                        <option value="2" @selected('2' == $suratMaster->form_isian->{$item}->sebagai)>Pemohon
+                                    </select>
                                 </div>
                             </div>
                             <hr>
@@ -386,6 +405,9 @@
                             .end()
                             .find("#dragable-form-utama")
                             .attr('id', `dragable-${nama_kategori}`)
+                            .end()
+                            .find('#utama_sebagai')
+                            .attr('id', `${nama_kategori}_sebagai`)
                             .end();
 
                         var utama_isi_judul = editElm[0].querySelector('.isi-judul')
@@ -393,15 +415,23 @@
                         var utama_isi_info = editElm[0].querySelector('.isi-info')
                         var utama_isi_prefix = editElm[0].querySelector('.isi-prefix')
                         var utama_sumber_data = editElm[0].querySelector('.isi-sumber-data')
+                        var utama_sebagai_data = editElm[0].querySelector('.isi-sebagai-data')
 
                         utama_isi_judul.name = `kategori_judul[${nama_kategori}]`
                         utama_isi_prefix.name = `kategori_prefix[${nama_kategori}]`
                         utama_isi_info.name = `kategori_info[${nama_kategori}]`
+                        utama_sebagai_data.name = `kategori_sebagai[${nama_kategori}]`
 
                         utama_isi_judul.value = nama_kategori
                         utama_isi_label.value = nama_kategori
                         utama_isi_info.value = ''
                         utama_isi_prefix.value = nama_kategori
+                        utama_sebagai_data.value = 0
+
+                        utama_sebagai_data.removeAttribute('disabled')
+                        utama_sebagai_data.setAttribute('onchange', `ubah_sebagai_dinamis("#tab-${nama_kategori}", this.value)`)
+                        utama_sebagai_data.value = 0
+                        utama_sebagai_data.querySelector('option[value="1"]').remove()
 
                         // utama_isi_judul.removeAttribute('readonly')
                         utama_isi_prefix.removeAttribute('readonly')
@@ -579,6 +609,14 @@
                 _navTabElm.attr('id', 'list-' + _prefix)
             })
         });
+
+        function ubah_sebagai_dinamis(parent, tipe) {
+            if (tipe == 2) {
+                $('.isi-sebagai-data').val(0);
+                $('#form-utama .isi-sebagai-data').val(1);
+                $(parent + ' .isi-sebagai-data').val(tipe);
+            }
+        }
 
         function tampil_sumber_dinamis(parent, tipe) {
             if (tipe == 1) {

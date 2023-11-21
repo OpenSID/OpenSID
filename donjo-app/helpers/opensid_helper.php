@@ -50,7 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2311.0.1');
+define('VERSION', '2311.1.0');
 
 /**
  * PREMIUM
@@ -1694,6 +1694,17 @@ if (! function_exists('getFormatIsian')) {
      */
     function getFormatIsian($kode_isian, $case_sentence = false)
     {
+        // cek ulang yang ini
+        // if (preg_match('/^<img/', $kode_isian)) {
+        //     return [
+        //         'normal'  => $kode_isian,
+        //         'lower'   => $kode_isian,
+        //         'ucfirst' => $kode_isian,
+        //         'ucwords' => $kode_isian,
+        //         'upper'   => $kode_isian,
+        //     ];
+        // }
+
         $netral = str_replace(['[', ']'], '', $kode_isian);
 
         if ($case_sentence) {
@@ -2118,6 +2129,30 @@ if (! function_exists('caseHitung')) {
             }
 
             return $ke;
+        }, $teks);
+    }
+}
+
+if (! function_exists('caseReplaceFoto')) {
+    function caseReplaceFoto($teks, $isian_foto = null, $ganti_dengan = null)
+    {
+        $pola = '/(<img src=")(.*?)(">)/';
+
+        if (empty($ganti_dengan)) {
+            return preg_replace($pola, '', $teks);
+        }
+
+        return preg_replace_callback($pola, static function ($matches) use ($isian_foto, $ganti_dengan) {
+            $cek1 = str_replace('"', '', explode(' ', $matches[2])[0]);
+            $cek2 = str_replace('"', '', explode(' ', preg_replace('/^.*src="/', '', $isian_foto))[0]);
+
+            if ($cek1 == $cek2) {
+                $allImg = str_replace($cek2, $ganti_dengan, $matches[0]);
+            }
+
+            log_message('error', $allImg);
+
+            return $allImg;
         }, $teks);
     }
 }

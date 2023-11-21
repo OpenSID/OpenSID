@@ -266,6 +266,23 @@ class Surat extends Admin_Controller
                 $log_surat['nik_non_warga']  = $this->request['individu']['nik'];
             }
 
+            if ($this->request['sebagai']) {
+                $name_pelapor = $this->request['sebagai'];
+                if ($this->request['id_pend_' . $name_pelapor]) {
+                    $pelapor['id_pend_Pelapor'] = $this->request['id_pend_' . $name_pelapor];
+                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_Pelapor'])->first();
+                    $pelapor['nik_pelapor']     = $pelapor->nik;
+                    $pelapor['nama_pelapor']    = $pelapor->nama;
+                } else {
+                    $pelapor['id_pend_Pelapor'] = null;
+                    $pelapor['nik_pelapor']     = $this->request[$name_pelapor]['nik'];
+                    $pelapor['nama_pelapor']    = $this->request[$name_pelapor]['nama'];
+                }
+                $log_surat['pemohon'] = json_encode(['id_pend' => $pelapor['id'], 'nik' => $pelapor['nik_pelapor'], 'nama' => $pelapor['nama_pelapor']]);
+            } else {
+                $log_surat['pemohon'] = null;
+            }
+
             $log_surat['surat']     = $surat;
             $log_surat['input']     = $this->request;
             $setting_header         = $surat->header == StatusEnum::TIDAK ? '' : setting('header_surat');
@@ -363,11 +380,28 @@ class Surat extends Admin_Controller
                 $nik                         = $log_surat['nik_non_warga'];
             }
 
+            if ($cetak['input']['sebagai']) {
+                $name_pelapor = $cetak['input']['sebagai'];
+                if ($cetak['input']['id_pend_' . $name_pelapor]) {
+                    $pelapor['id_pend_Pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
+                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_Pelapor'])->first();
+                    $pelapor['nik_pelapor']     = $pelapor->nik;
+                    $pelapor['nama_pelapor']    = $pelapor->nama;
+                } else {
+                    $pelapor['id_pend_Pelapor'] = null;
+                    $pelapor['nik_pelapor']     = $cetak['input'][$name_pelapor]['nik'];
+                    $pelapor['nama_pelapor']    = $cetak['input'][$name_pelapor]['nama'];
+                }
+                $log_surat['pemohon'] = json_encode(['id_pend' => $pelapor['id'], 'nik' => $pelapor['nik_pelapor'], 'nama' => $pelapor['nama_pelapor']]);
+            } else {
+                $log_surat['pemohon'] = null;
+            }
+
             $log_surat['surat']     = $cetak['surat'];
             $log_surat['input']     = $cetak['input'];
             $log_surat['isi_surat'] = $this->request['isi_surat'];
 
-            $isi_surat = $this->tinymce->replceKodeIsian($log_surat);
+            $isi_surat = $this->tinymce->replceKodeIsian($log_surat, [], false);
 
             $isi_cetak = $this->tinymce->formatPdf($cetak['surat']->header, $cetak['surat']->footer, $isi_surat);
 
@@ -489,6 +523,23 @@ class Surat extends Admin_Controller
                 $log_surat['nama_non_warga'] = $cetak['input']['individu']['nama'];
                 $log_surat['nik_non_warga']  = $cetak['input']['individu']['nik'];
                 $nik                         = $log_surat['nik_non_warga'];
+            }
+
+            if ($cetak['input']['sebagai']) {
+                $name_pelapor = $cetak['input']['sebagai'];
+                if ($cetak['input']['id_pend_' . $name_pelapor]) {
+                    $pelapor['id_pend_Pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
+                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_Pelapor'])->first();
+                    $pelapor['nik_pelapor']     = $pelapor->nik;
+                    $pelapor['nama_pelapor']    = $pelapor->nama;
+                } else {
+                    $pelapor['id_pend_Pelapor'] = null;
+                    $pelapor['nik_pelapor']     = $cetak['input'][$name_pelapor]['nik'];
+                    $pelapor['nama_pelapor']    = $cetak['input'][$name_pelapor]['nama'];
+                }
+                $log_surat['pemohon'] = json_encode(['id_pend' => $pelapor['id'], 'nik' => $pelapor['nik_pelapor'], 'nama' => $pelapor['nama_pelapor']]);
+            } else {
+                $log_surat['pemohon'] = null;
             }
 
             $isi_surat = $this->request['isi_surat'];
