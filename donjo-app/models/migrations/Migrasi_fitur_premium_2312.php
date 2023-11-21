@@ -70,8 +70,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
         $hasil = $hasil && $this->migrasi_2023110771($hasil);
         $hasil = $hasil && $this->migrasi_2023114951($hasil);
+        $hasil = $hasil && $this->migrasi_2023111571($hasil);
 
-        return $hasil && $this->migrasi_2023111571($hasil);
+        return $hasil && $this->migrasi_2023111751($hasil);
     }
 
     // Migrasi perubahan data
@@ -411,6 +412,26 @@ class Migrasi_fitur_premium_2312 extends MY_model
                     'default'    => null,
                 ],
             ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023111751($hasil)
+    {
+        if (! Schema::hasTable('log_login')) {
+            Schema::create('log_login', static function (Blueprint $table) {
+                $table->uuid('uuid')->primary();
+                $table->integer('config_id');
+                $table->string('username');
+                $table->string('ip_address');
+                $table->string('user_agent');
+                $table->string('referer');
+                $table->string('lainnya')->nullable();
+                $table->timestamps();
+                $table->unique(['uuid', 'config_id']);
+                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
+            });
         }
 
         return $hasil;

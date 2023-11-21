@@ -36,6 +36,7 @@
  */
 
 use App\Models\LoginAttempts;
+use App\Models\LogLogin;
 use App\Models\Modul;
 use App\Models\User;
 use App\Models\UserGrup;
@@ -168,8 +169,31 @@ class User_model extends MY_Model
         $this->session->isAdmin      = $user;
         $this->last_login($user->id);
 
+        $log_login = LogLogin::create([
+            'username'   => $user->nama,
+            'ip_address' => $this->input->ip_address(),
+            'user_agent' => $this->input->user_agent(),
+            'referer'    => $_SERVER['HTTP_REFERER'],
+            'lainnya'    => geoip_info($this->input->ip_address()),
+        ]);
+
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
             $this->load->library('Telegram/telegram');
+            $country = $log_login->lainnya['country'] ?? ' tidak diketahui';
+
+            if ($country != 'Indonesia') {
+                try {
+                    $this->telegram->sendMessage([
+                        'text' => <<<EOD
+                                Terindefikasi login mencurigakan dari {$user->nama} dengan lokasi {$country}.
+                            EOD,
+                        'parse_mode' => 'Markdown',
+                        'chat_id'    => $this->setting->telegram_user_id,
+                    ]);
+                } catch (Exception $e) {
+                    log_message('error', $e->getMessage());
+                }
+            }
 
             try {
                 $this->telegram->sendMessage([
@@ -861,6 +885,21 @@ class User_model extends MY_Model
             if ($this->is_max_login_attempts_exceeded($identity, $ip_address)) {
                 $this->session->set_flashdata('time_block', $this->get_last_attempt_time($this->_username, $ip_address));
                 $message = 'LOGIN GAGAL.<br>NAMA PENGGUNA ATAU KATA SANDI YANG ANDA MASUKKAN SALAH!';
+                if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
+                    $this->load->library('Telegram/telegram');
+
+                    try {
+                        $this->telegram->sendMessage([
+                            'text' => <<<EOD
+                                    Percobaan login gagal sebanyak 3 kali dengan input nama pengguna {$identity} dan IP Address {$ip_address}.
+                                EOD,
+                            'parse_mode' => 'Markdown',
+                            'chat_id'    => $this->setting->telegram_user_id,
+                        ]);
+                    } catch (Exception $e) {
+                        log_message('error', $e->getMessage());
+                    }
+                }
             }
             $this->session->set_flashdata('attempts_error', $message);
         }

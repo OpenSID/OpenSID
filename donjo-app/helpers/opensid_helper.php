@@ -66,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023111571');
+define('VERSI_DATABASE', '2023112111');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -2046,11 +2046,11 @@ if (! function_exists('terjemahkanTerbilang')) {
             $prefix = $suffix = '';
 
             if (strpos($matches[2], '-') === 0) {
-                $prefix = 'Minus ';
+                $prefix = 'minus ';
             }
 
             if (preg_match('/[Rr][pP]/', $matches[2])) {
-                $suffix = ' Rupiah';
+                $suffix = ' rupiah';
             }
 
             $ke = $prefix . trim(to_word((int) preg_replace('/[^0-9]/', '', $matches[2]))) . $suffix;
@@ -2212,5 +2212,49 @@ if (! function_exists('tampilkanKotak')) {
         $table .= '</table>';
 
         return $table;
+    }
+}
+
+if (! function_exists('grup_kode_isian')) {
+    /**
+     * Membuat ulang kode isian berdasarkan masing-masing kategori
+     *
+     * @param array $kode_isian
+     * @param bool  $individu
+     *
+     * @return array
+     */
+    function grup_kode_isian($kode_isian, $individu = true)
+    {
+        return collect($kode_isian)
+            ->map(static function ($item) {
+                $kategori         = $item['kategori'] ?? 'individu';
+                $item['kategori'] = $kategori ?? '';
+
+                return [
+                    $kategori => $item,
+                ];
+            })
+            ->collapse()
+            ->when(! $individu, static function ($collection) {
+                return $collection->forget('individu');
+            })
+            ->toArray();
+    }
+}
+
+if (! function_exists('get_hari')) {
+    /**
+     * Mengembalikan nama hari berdasarkan tanggal
+     *
+     * @param string $tanggal
+     *
+     * @return string
+     */
+    function get_hari($tanggal)
+    {
+        $hari = Carbon::createFromFormat('d-m-Y', $tanggal)->locale('id');
+
+        return $hari->dayName;
     }
 }
