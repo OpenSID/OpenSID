@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 17. [#7362](https://github.com/OpenSID/OpenSID/issues/7362) Perbaikan mengaktifkan atau menonaktifkan berita utama pada artikel.
 18. [#7340](https://github.com/OpenSID/OpenSID/issues/7340) Perbaikan ubah status dasar penduduk dengan SHDK kepala keluarga namun belum terdaftar dalam keluarga.
 19. [#7415](https://github.com/OpenSID/OpenSID/issues/7415) Perbaikan saring data berdasarkan status permohonan surat.
+20. [7408](https://github.com/OpenSID/OpenSID/issues/7408) Perbaikan pratinjau surat yang menggunakan page breack / lebih dari 1 halaman.
 
 
 

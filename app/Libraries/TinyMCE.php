@@ -653,4 +653,14 @@ class TinyMCE
     {
         return FakeDataIsian::set($request);
     }
+
+    public function generateMultiPage(string $templateString)
+    {
+        if (empty($templateString)) {
+            return [];
+        }
+        $pattern = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
+
+        return preg_split($pattern, $templateString);
+    }
 }

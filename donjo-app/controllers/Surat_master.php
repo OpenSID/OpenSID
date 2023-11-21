@@ -782,7 +782,9 @@ class Surat_master extends Admin_Controller
         $isi_cetak = $this->tinymce->getPreview($request);
 
         // Ubah jadi format pdf
-        $isi_cetak = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], $isi_cetak);
+        $pages = $this->tinymce->generateMultiPage($isi_cetak);
+
+        $isi_cetak = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $pages));
 
         if ($this->request['margin_global'] == 1) {
             $margins = setting('surat_margin_cm_to_mm');
