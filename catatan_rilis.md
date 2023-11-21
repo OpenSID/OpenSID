@@ -36,6 +36,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 9. [#7314](https://github.com/OpenSID/OpenSID/issues/7314) Penyesuaian tabel untuk menampung data token FCM dan log notifikasi.
 10. [#6837](https://github.com/OpenSID/OpenSID/issues/6837) Penyesuaian isian tanggal berlaku surat hanya bisa di isi sesuai rentang pada pengaturan suratnya.
 11. [#7361](https://github.com/OpenSID/OpenSID/issues/7361) Penyesuaian kode isian yang berupa angka, gambar dan jam.
+12. [#6726](https://github.com/OpenSID/OpenSID/issues/6726) Penyesuaian modul pengaduan admin menggunakan ORM dan Blade.
 
 #### Peningkatan Keamanan
 

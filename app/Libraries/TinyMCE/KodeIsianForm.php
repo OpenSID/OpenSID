@@ -85,7 +85,6 @@ class KodeIsianForm
     {
         $input     = $this->inputForm;
         $kodeIsian = $this->kodeIsian;
-        
 
         if (count($kodeIsian) == 0) {
             $kodeIsian = $this->statisForm;

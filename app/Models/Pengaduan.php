@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -63,4 +64,60 @@ class Pengaduan extends BaseModel
         'created_at' => 'date:Y-m-d H:i:s',
         'updated_at' => 'date:Y-m-d H:i:s',
     ];
+
+    /**
+     * Scope query untuk status pengaduan
+     *
+     * @param mixed $query
+     * @param mixed $status
+     *
+     * @return Builder
+     */
+    public function scopePengaduan($query, $status = null)
+    {
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        return $query->where('id_pengaduan', null);
+    }
+
+    /**
+     * Scope query untuk status pengaduan bulanan
+     *
+     * @param mixed $query
+     * @param mixed $status
+     *
+     * @return Builder
+     */
+    public function scopeBulanan($query, $status = null)
+    {
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        return $query->where('id_pengaduan', null)->whereMonth('created_at', Carbon::now()->month);
+    }
+
+    public function scopeFilter($query, $status)
+    {
+        if (! empty($status)) {
+            $query->where('status', $status);
+        }
+
+        return $query;
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(static function ($model) {
+            if ($model->foto) {
+                $file = FCPATH . LOKASI_PENGADUAN . $model->foto;
+                if (file_exists($file)) {
+                    unlink($file);
+                }
+            }
+        });
+    }
 }

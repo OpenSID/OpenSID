@@ -98,6 +98,7 @@ class Pengaduan extends Web_Controller
         } else {
             // Cek pengaduan dengan ip_address yang pada hari yang sama
             $cek = PengaduanModel::where('ip_address', '=', $this->input->ip_address())
+                ->whereNull('id_pengaduan')
                 ->whereDate('created_at', date('Y-m-d'))
                 ->exists();
 

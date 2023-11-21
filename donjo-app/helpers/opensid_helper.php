@@ -2156,18 +2156,18 @@ if (! function_exists('grup_kode_isian')) {
      */
     function grup_kode_isian($kode_isian, $individu = true)
     {
-        return collect($kode_isian)->groupBy(function ($item) {
+        return collect($kode_isian)->groupBy(static function ($item) {
             return $item->kategori ?? 'individu';
-        })->map(function ($items) {
-            return $items->map(function ($item) {
-                return (array)$item;
+        })->map(static function ($items) {
+            return $items->map(static function ($item) {
+                return (array) $item;
             });
         })->when(! $individu, static function ($collection) {
             return $collection->filter(static function ($item) {
                 return isset($item['kategori']) && $item['kategori'] !== 'individu';
             });
         })
-        ->toArray();
+            ->toArray();
     }
 }
 
