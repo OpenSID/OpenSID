@@ -69,14 +69,14 @@ class KodeIsianForm
     ];
     private $masaBerlaku;
 
-    public function __construct($inputForm, $kodeIsian, $masaBerlaku = true)
+    public function __construct($inputForm, $kodeIsian, $masaBerlaku = false)
     {
         $this->inputForm   = $inputForm;
         $this->kodeIsian   = $kodeIsian;
         $this->masaBerlaku = $masaBerlaku;
     }
 
-    public static function get($inputForm, $kodeIsian, $masaBerlaku = true)
+    public static function get($inputForm, $kodeIsian, $masaBerlaku = false)
     {
         return (new self($inputForm, $kodeIsian, $masaBerlaku))->getKodeIsian();
     }
@@ -85,6 +85,7 @@ class KodeIsianForm
     {
         $input     = $this->inputForm;
         $kodeIsian = $this->kodeIsian;
+        
 
         if (count($kodeIsian) == 0) {
             $kodeIsian = $this->statisForm;
