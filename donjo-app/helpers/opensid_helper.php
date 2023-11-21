@@ -50,7 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2311.1.0');
+define('VERSION', '2311.1.1');
 
 /**
  * PREMIUM
@@ -66,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023111751');
+define('VERSI_DATABASE', '2023112351');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1700,7 +1700,7 @@ if (! function_exists('getFormatIsian')) {
             // jika gambar maka langsung kembalikan tanpa [ ]
             if (preg_match('/^<img/', $kode_isian)) {
                 return [
-                    'normal'  => $kode_isian,
+                    'normal' => $kode_isian,
                 ];
             }
             // NIK versi lama, banyak digunakan di template

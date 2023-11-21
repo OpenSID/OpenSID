@@ -345,10 +345,10 @@ class TinyMCE
 
     /**
      * Replace kode isian dengan data yang sesuai.
-     * 
+     *
      * @param array $data
      * @param bool  $imageReplace
-     * 
+     *
      * @return string
      */
     public function replceKodeIsian($data = [], $imageReplace = true)
@@ -445,7 +445,7 @@ class TinyMCE
 
     /**
      * Daftar penandatangan dan pamongnya
-     * 
+     *
      * @return array
      */
     public function formPenandatangan()
@@ -482,7 +482,7 @@ class TinyMCE
 
     /**
      * Daftar penandatangan dan pamongnya
-     * 
+     *
      * @return array
      */
     public function getDaftarLampiran()
