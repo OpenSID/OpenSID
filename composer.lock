@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c5000e6f826522e526ef06012560f6e4",
+    "content-hash": "e893bb150ec4258b11f81a1a9aec5387",
     "packages": [
         {
             "name": "agungsugiarto/codeigniter-datables",

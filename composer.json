@@ -19,14 +19,14 @@
 		"karriere/pdf-merge": "^2.1",
 		"mike42/escpos-php": "^3.0",
 		"openspout/openspout": "^3.7",
+		"ramsey/uuid": "^4.2",
 		"simplehtmldom/simplehtmldom": "^2.0@RC",
 		"spipu/html2pdf": "^5.2",
 		"symfony/process": "^5.4",
 		"symfony/var-dumper": "^5.4",
 		"themes/esensi": "dev-main",
 		"themes/natra": "dev-premium",
-		"voku/anti-xss": "^4.1",
-		"ramsey/uuid": "^4.2"
+		"voku/anti-xss": "^4.1"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.1.*",
