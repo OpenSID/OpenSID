@@ -54,14 +54,14 @@ class Permohonan_surat_admin extends Admin_Controller
     public function index()
     {
         return view('admin.permohonan_surat.index', [
-            'list_status_permohonan' => $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN),
+            'list_status_permohonan' => PermohonanSurat::STATUS_PERMOHONAN,
         ]);
     }
 
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables(PermohonanSurat::query())
+            return datatables(PermohonanSurat::status((string) $this->input->get('status')))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     $aksi = '';
