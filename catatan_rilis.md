@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 3. [#7348](https://github.com/OpenSID/OpenSID/issues/7348) Penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE.
 4. [#7347](https://github.com/OpenSID/OpenSID/issues/7347) Penambahan identitas terlapor dan pelapor pada arsip layanan.
 5. [#7359](https://github.com/OpenSID/OpenSID/issues/7359) Penambahan laporan khusus dana desa pada laporan keuangan.
+6. [#7164](https://github.com/OpenSID/OpenSID/issues/7164) Penambahan kode isian foto yang bisa diatur sendiri ukurannya.
 
 
 #### Perbaikan Bug

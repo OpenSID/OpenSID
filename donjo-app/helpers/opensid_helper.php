@@ -1694,20 +1694,15 @@ if (! function_exists('getFormatIsian')) {
      */
     function getFormatIsian($kode_isian, $case_sentence = false)
     {
-        // cek ulang yang ini
-        // if (preg_match('/^<img/', $kode_isian)) {
-        //     return [
-        //         'normal'  => $kode_isian,
-        //         'lower'   => $kode_isian,
-        //         'ucfirst' => $kode_isian,
-        //         'ucwords' => $kode_isian,
-        //         'upper'   => $kode_isian,
-        //     ];
-        // }
-
         $netral = str_replace(['[', ']'], '', $kode_isian);
 
         if ($case_sentence) {
+            // jika gambar maka langsung kembalikan tanpa [ ]
+            if (preg_match('/^<img/', $kode_isian)) {
+                return [
+                    'normal'  => $kode_isian,
+                ];
+            }
             // NIK versi lama, banyak digunakan di template
             if (strpos($netral, 'nik') !== false) {
                 $netral = ucfirst(uclast($netral));
@@ -2149,8 +2144,6 @@ if (! function_exists('caseReplaceFoto')) {
             if ($cek1 == $cek2) {
                 $allImg = str_replace($cek2, $ganti_dengan, $matches[0]);
             }
-
-            log_message('error', $allImg);
 
             return $allImg;
         }, $teks);

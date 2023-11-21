@@ -343,7 +343,15 @@ class TinyMCE
         ';
     }
 
-    public function replceKodeIsian($data = [], $kecuali = [])
+    /**
+     * Replace kode isian dengan data yang sesuai.
+     * 
+     * @param array $data
+     * @param bool  $imageReplace
+     * 
+     * @return string
+     */
+    public function replceKodeIsian($data = [], $imageReplace = true)
     {
         $result = $data['isi_surat'];
 
@@ -437,6 +445,8 @@ class TinyMCE
 
     /**
      * Daftar penandatangan dan pamongnya
+     * 
+     * @return array
      */
     public function formPenandatangan()
     {
@@ -470,6 +480,11 @@ class TinyMCE
         redirect('pengurus');
     }
 
+    /**
+     * Daftar penandatangan dan pamongnya
+     * 
+     * @return array
+     */
     public function getDaftarLampiran()
     {
         $lampiran               = [];
@@ -496,6 +511,8 @@ class TinyMCE
      */
     public function generateSurat($surat, array $data, $margins)
     {
+        $surat = str_replace(base_url(), FCPATH, $surat);
+
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(true)
             ->setDefaultFont(underscore(setting('font_surat'), true, true))
@@ -590,7 +607,7 @@ class TinyMCE
 
         $data['isi_surat'] = $lampiran;
 
-        $lampiran = $this->replceKodeIsian($data);
+        $lampiran = $this->replceKodeIsian($data, false);
 
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
             ->setTestTdInOnePage(true)
