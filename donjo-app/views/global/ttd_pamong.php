@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
+	    <?=batal()?>
         <button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> <?= ucwords($aksi); ?></button>
     </div>
 </form>
