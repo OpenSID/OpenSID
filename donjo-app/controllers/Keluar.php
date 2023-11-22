@@ -304,21 +304,14 @@ class Keluar extends Admin_Controller
             })->get();
 
             // log ke notifikasi
-            $log_notification = $allToken->map(static function ($log) use ($kirimFCM, $judul, $payload) {
-                return [
-                    'id_user'    => $log->id_user,
-                    'judul'      => $judul,
-                    'isi'        => $kirimFCM,
-                    'token'      => $log->token,
-                    'device'     => $log->device,
-                    'payload'    => $payload,
-                    'read'       => 0,
-                    'config_id'  => $log->config_id,
-                    'created_at' => date('Y-m-d H:i:s'),
-                ];
-            });
-
-            LogNotifikasiAdmin::insert($log_notification->toArray());
+            $isi_notifikasi = [
+                'judul'      => $judul,
+                'isi'        => $kirimFCM,
+                'payload'    => $payload,
+                'read'       => 0,
+                'created_at' => date('Y-m-d H:i:s'),
+            ];
+            $this->create_log_notifikasi_admin($next, $isi_notifikasi);
 
             if (cek_koneksi_internet()) {
                 if ($kirim_telegram != null) {

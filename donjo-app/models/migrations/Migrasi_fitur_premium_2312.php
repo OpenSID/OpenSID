@@ -71,8 +71,10 @@ class Migrasi_fitur_premium_2312 extends MY_model
         $hasil = $hasil && $this->migrasi_2023110771($hasil);
         $hasil = $hasil && $this->migrasi_2023114951($hasil);
         $hasil = $hasil && $this->migrasi_2023111571($hasil);
+        $hasil = $hasil && $this->migrasi_2023111751($hasil);
+        $hasil = $hasil && $this->migrasi_2023112251($hasil);
 
-        return $hasil && $this->migrasi_2023111751($hasil);
+        return $hasil && $this->migrasi_2023112371($hasil);
     }
 
     // Migrasi perubahan data
@@ -95,8 +97,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
         $hasil = $hasil && $this->migrasi_2023110252($hasil);
         $hasil = $hasil && $this->migrasi_2023110651($hasil);
         $hasil = $hasil && $this->migrasi_2023110751($hasil);
+        $hasil = $hasil && $this->migrasi_2023110951($hasil);
 
-        return $hasil && $this->migrasi_2023110951($hasil);
+        return $hasil && $this->migrasi_2023112252($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -435,6 +438,31 @@ class Migrasi_fitur_premium_2312 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2023112251($hasil)
+    {
+        if (Schema::hasColumn('log_notifikasi_admin', 'token')) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->dropColumn('token');
+            });
+        }
+
+        if (Schema::hasColumn('log_notifikasi_admin', 'device')) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->dropColumn('device');
+            });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023112252($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'pendaftar-layanan-mandiri', 'url' => 'mandiri/clear'],
+            ['url' => 'mandiri']
+        );
     }
 
     protected function migrasi_2023112371($hasil)

@@ -22,7 +22,7 @@
 										<tr>
                       <th width="auto">Nama Kegiatan</th>
                       <td width="1%">:</td>
-                      <td><?= d($data->judul) ?></td>
+                      <td><?= e($data->judul) ?></td>
                     </tr>
 										<tr>
                       <th>Alamat</th>
@@ -39,7 +39,7 @@
                     <tr>
                       <th>Keterangan</th>
                       <td>:</td>
-                      <td><?= d($data->keterangan) ?></td>
+                      <td><?= e($data->keterangan) ?></td>
                     </tr>
 									</tbody>
 								</table>

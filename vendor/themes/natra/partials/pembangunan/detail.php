@@ -58,7 +58,7 @@
 								<tr>
 									<th>Keterangan</th>
 									<td width="20px">:</td>
-									<td><?= d($pembangunan->keterangan) ?></td>
+									<td><?= e($pembangunan->keterangan) ?></td>
 								</tr>
 							</table>
 						</div>

@@ -26,7 +26,7 @@
             <?php else: ?>
                 <input id="<?= $pengaturan->key ?>" name="<?= $pengaturan->key ?>" class="form-control input-sm" type="text" value="<?= $pengaturan->value ?>" <?= $pengaturan->attribute ?> />
             <?php endif ?>
-            <label><code><?= $pengaturan->keterangan ?></code></label>
+            <label style="margin-top: 5px;"><code><?= $pengaturan->keterangan ?></code></label>
         </div>
     <?php endif ?>
 <?php endforeach ?>

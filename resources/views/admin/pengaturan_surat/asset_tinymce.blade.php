@@ -93,7 +93,7 @@
                 // toolbar: [{ name: 'blocks', items: [ 'p', 'h', 'menjorok' ] },],
                 image_advtab: true,
                 external_plugins: {
-                    "filemanager": "{{ asset('filemanager/plugin.min.js') }}"
+                    "filemanager": "{{ asset('kelola_file/plugin.min.js') }}"
                 },
                 // content_css: [
                 //     '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',

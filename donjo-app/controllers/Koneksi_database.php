@@ -41,12 +41,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Koneksi_database extends CI_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->database();
-    }
-
     public function index()
     {
         if ($this->session->db_error['code'] !== 1049) {
