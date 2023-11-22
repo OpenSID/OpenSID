@@ -90,17 +90,17 @@ class KodeIsianGambar
         }
 
         // QR_Code Surat
-        if ($this->surat !== null) {
-            if ($this->request['qr_code'] && ((setting('tte') == 1 && $this->surat->verifikasi_kades == LogSurat::TERIMA) || (setting('tte') == 0))) {
+        if ($this->surat->exists()) {
+            $qrCodeCondition = $this->request['qr_code'] && (setting('tte') == 1 && $this->surat->verifikasi_kades == LogSurat::TERIMA) || (setting('tte') == 0);
+            if ($qrCodeCondition) {
                 // TODO:: pindahkan fuction buatQrCode
-                $cek = $this->surat_model->buatQrCode($this->surat->nama_surat);
-
+                $cek           = $this->surat_model->buatQrCode($this->surat->nama_surat);
                 $qrcode        = ($cek['viewqr']) ? '<img src="' . $cek['viewqr'] . '" width="90" height="90" alt="qrcode-surat" />' : '';
-                $this->result  = str_ireplace('[qr_code]', $qrcode, $this->result);
+                $this->result  = str_replace('[qr_code]', $qrcode, $this->result);
                 $this->urls_id = $cek['urls_id'];
             }
         } else {
-            $this->result = str_ireplace('[qr_code]', '', $this->result);
+            $this->result = str_replace('[qr_code]', '', $this->result);
         }
 
         return [
