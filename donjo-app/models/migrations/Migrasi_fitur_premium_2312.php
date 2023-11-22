@@ -66,8 +66,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
         $hasil = $hasil && $this->migrasi_2023114951($hasil);
         $hasil = $hasil && $this->migrasi_2023110771($hasil);
         $hasil = $hasil && $this->migrasi_2023111571($hasil);
+        $hasil = $hasil && $this->migrasi_2023111751($hasil);
 
-        return $hasil && $this->migrasi_2023111751($hasil);
+        return $hasil && $this->migrasi_2023112251($hasil);
     }
 
     // Migrasi perubahan data
@@ -307,6 +308,23 @@ class Migrasi_fitur_premium_2312 extends MY_model
                 $table->timestamps();
                 $table->unique(['uuid', 'config_id']);
                 $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023112251($hasil)
+    {
+        if (Schema::hasColumn('log_notifikasi_admin', 'token')) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->dropColumn('token');
+            });
+        }
+
+        if (Schema::hasColumn('log_notifikasi_admin', 'device')) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->dropColumn('device');
             });
         }
 

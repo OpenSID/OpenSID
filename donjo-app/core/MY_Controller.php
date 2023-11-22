@@ -36,9 +36,11 @@
  */
 
 use App\Models\Config;
+use App\Models\LogNotifikasiAdmin;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Pesan;
+use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
 use Illuminate\Support\Facades\Schema;
@@ -133,6 +135,29 @@ class MY_Controller extends CI_Controller
 
         // Cek perangkat lupa absen keluar
         cek_kehadiran();
+    }
+
+    public function create_log_notifikasi_admin($next, $isi)
+    {
+        $users = User::whereHas('pamong', static function ($query) use ($next) {
+            if ($next == 'verifikasi_sekdes') {
+                return $query->where('jabatan_id', '=', sekdes()->id);
+            }
+            if ($next == 'verifikasi_kades') {
+                return $query->where('jabatan_id', '=', kades()->id);
+            }
+
+            return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
+        })->get();
+
+        if (is_array($isi) && $users->count() > 0) {
+            $logs = $users->map(static function ($user) use ($isi) {
+                $data_user = ['id_user' => $user->id, 'config_id' => $user->config_id];
+
+                return array_merge($data_user, $isi);
+            });
+            LogNotifikasiAdmin::insert($logs->toArray());
+        }
     }
 }
 
