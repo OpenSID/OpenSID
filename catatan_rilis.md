@@ -60,3 +60,4 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 1. [#7365](https://github.com/OpenSID/OpenSID/issues/7365) Penambahan notifikasi ke telegram jika terdapat gagal login sebanyak 3 kali.
 2. [#7364](https://github.com/OpenSID/OpenSID/issues/7364) Pencatatan aktifitas pengguna yang berhasil masuk.
 3. [#7366](https://github.com/OpenSID/OpenSID/issues/7366) Pendeteksi lokasi masuk dari lokasi yang tidak biasa.
+4. [#3198](https://github.com/OpenSID/premium/issues/3198) Penyesuaian ulang url dan folder filemanager.

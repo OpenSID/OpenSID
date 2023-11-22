@@ -78,8 +78,8 @@ $config = [
         'storage/logs/'              => [0775, 'htaccess3'],
         'backup_inkremental/'        => [0775, 'htaccess3'],
         'assets/'                    => [0755, 'htaccess3'],
-        'assets/filemanager/'        => [0755, 'htaccess4'],
-        'assets/filemanager/config/' => [0755, 'htaccess4'],
+        'assets/kelola_file/'        => [0755, 'htaccess4'],
+        'assets/kelola_file/config/' => [0755, 'htaccess4'],
     ],
 
     'config' => <<<'EOS'

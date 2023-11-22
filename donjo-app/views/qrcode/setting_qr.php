@@ -139,7 +139,7 @@
 				<h4 class='modal-title' id='myModalLabel'>Atur QR Code</h4>
 			</div>
 			<div class="modal-body">
-				<iframe width="100%" height="400px" src="../../assets/filemanager/dialog.php?type=1&lang=id&field_id=logoqr&fldr=&akey=<?= $this->session->fm_key ?>" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
+				<iframe width="100%" height="400px" src="../../assets/kelola_file/dialog.php?type=1&lang=id&field_id=logoqr&fldr=&akey=<?= $this->session->fm_key ?>" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
 			</div>
 		</div>
 	</div>
