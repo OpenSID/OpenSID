@@ -28,6 +28,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 4. [#7347](https://github.com/OpenSID/OpenSID/issues/7347) Penambahan identitas terlapor dan pelapor pada arsip layanan.
 5. [#7359](https://github.com/OpenSID/OpenSID/issues/7359) Penambahan laporan khusus dana desa pada laporan keuangan.
 6. [#7164](https://github.com/OpenSID/OpenSID/issues/7164) Penambahan kode isian foto yang bisa diatur sendiri ukurannya.
+7. [#5789](https://github.com/OpenSID/OpenSID/issues/5789) Penambahan pengaturan border wilayah peta.
 
 
 #### Perbaikan Bug

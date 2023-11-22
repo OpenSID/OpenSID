@@ -36,11 +36,11 @@ function set_marker(marker, daftar_path, judul, nama_wil, favico_desa) {
 
         var marker_style = {
           stroke: true,
-          color: "white",
+          color: daftar[x].border ?? "#FFFFFF",
           opacity: 1,
           weight: 3,
-          fillColor: daftar[x].warna,
-          fillOpacity: 0.8,
+          fillColor: daftar[x].warna ?? "#FFFFFF",
+          fillOpacity: 1,
           dashArray: 4,
         };
 
@@ -106,11 +106,11 @@ function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa) {
 
             var marker_style = {
               stroke: true,
-              color: "white",
+              color: daftar[x].border ?? "#FFFFFF",
               opacity: 1,
               weight: 3,
-              fillColor: daftar[x].warna,
-              fillOpacity: 0.8,
+              fillColor: daftar[x].warna ?? "#FFFFFF",
+              fillOpacity: 1,
               dashArray: 4,
             };
 
@@ -289,11 +289,11 @@ function set_marker_persil_content(
 
       var marker_style = {
         stroke: true,
-        color: "blue",
+        color: daftar[x].border ?? "#FFFFFF",
         opacity: 1,
         weight: 3,
-        fillColor: daftar[x].warna,
-        fillOpacity: 0.8,
+        fillColor: daftar[x].warna ?? "#FFFFFF",
+        fillOpacity: 1,
         dashArray: 4,
       };
       daftar[x].path[0].push(daftar[x].path[0][0]);
@@ -343,11 +343,11 @@ function set_marker_content(
 
       var marker_style = {
         stroke: true,
-        color: "white",
+        color: daftar[x].border ?? "#FFFFFF",
         opacity: 1,
         weight: 3,
-        fillColor: daftar[x].warna,
-        fillOpacity: 0.8,
+        fillColor: daftar[x].warna ?? "#FFFFFF",
+        fillOpacity: 1,
         dashArray: 4,
       };
 
@@ -409,11 +409,11 @@ function set_marker_multi_content(
 
           var marker_style = {
             stroke: true,
-            color: "white",
+            color: daftar[x].border ?? "#FFFFFF",
             opacity: 1,
             weight: 3,
-            fillColor: daftar[x].warna,
-            fillOpacity: 0.8,
+            fillColor: daftar[x].warna ?? "#FFFFFF",
+            fillOpacity: 1,
             dashArray: 4,
           };
 

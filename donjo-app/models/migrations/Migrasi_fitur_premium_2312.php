@@ -436,4 +436,29 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
         return $hasil;
     }
+
+    protected function migrasi_2023112371($hasil)
+    {
+        if (! $this->db->field_exists('border', 'config')) {
+            $hasil = $hasil && $this->dbforge->add_column('config', [
+                'border' => [
+                    'type'  => 'varchar',
+                    'constraint' => 25,
+                    'null'  => true,
+                    'after' => 'warna',
+                ],
+            ]);
+        }
+
+        if (! $this->db->field_exists('border', 'tweb_wil_clusterdesa')) {
+            $hasil = $hasil && $this->dbforge->add_column('tweb_wil_clusterdesa', [
+                'border' => [
+                    'type'  => 'varchar',
+                    'constraint' => 25,
+                    'null'  => true,
+                    'after' => 'warna',
+                ],
+            ]);
+        }
+    }
 }
