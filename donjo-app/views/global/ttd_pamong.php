@@ -20,8 +20,8 @@
         </div>
     </div>
     <div class="modal-footer">
-	    <?=batal()?>
-        <button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> <?= ucwords($aksi); ?></button>
+        <?= batal() ?>
+        <button type="submit" class="btn btn-social btn-info btn-sm"><i class='fa fa-check'></i> <?= ucwords($aksi); ?></button>
     </div>
 </form>
 <?php $this->load->view('global/validasi_form'); ?>
