@@ -50,7 +50,7 @@ class Dpt extends Admin_Controller
         $this->load->model(['penduduk_model', 'dpt_model', 'wilayah_model']);
         $this->modul_ini     = 'kependudukan';
         $this->sub_modul_ini = 'calon-pemilih';
-        $this->set_page      = ['20', '50', '100'];
+        $this->set_page      = ['50', '100', '200', [0, 'Semua']];
         $this->list_session  = ['cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umurx', 'umur_min', 'umur_max', 'cacatx', 'menahunx', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'tag_id_card'];
     }
 
@@ -102,12 +102,12 @@ class Dpt extends Admin_Controller
 
         $data['func']               = 'index';
         $data['set_page']           = $this->set_page;
-        $data['per_page']           = $this->session->per_page;
+        $list_data                  = $this->dpt_model->list_data($o, $p);
+        $data['paging']             = $list_data['paging'];
+        $data['main']               = $list_data['main'];
         $data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
         $data['list_dusun']         = $this->wilayah_model->list_dusun();
         $data['keyword']            = $this->dpt_model->autocomplete();
-        $data['paging']             = $this->dpt_model->paging($p, $o);
-        $data['main']               = $this->dpt_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 
         $this->render('dpt/dpt', $data);
     }
@@ -172,9 +172,9 @@ class Dpt extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
+    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0)
     {
-        $data['main'] = $this->dpt_model->list_data($o, 0);
+        $data['main'] = $this->dpt_model->list_data($o, $page)['main'];
         $data['aksi'] = $aksi;
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;
@@ -182,12 +182,12 @@ class Dpt extends Admin_Controller
         $this->load->view("dpt/dpt_{$aksi}", $data);
     }
 
-    public function ajax_cetak($o = 0, $aksi = '')
+    public function ajax_cetak($page = 1, $o = 0, $aksi = '')
     {
         $data['o']                   = $o;
         $data['aksi']                = $aksi;
-        $data['form_action']         = site_url("{$this->controller}/cetak/{$o}/{$aksi}");
-        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$o}/{$aksi}/1");
+        $data['form_action']         = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}");
+        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}/1");
 
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
     }

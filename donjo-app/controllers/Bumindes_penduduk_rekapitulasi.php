@@ -45,7 +45,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['pamong_model', 'penduduk_model', 'laporan_bulanan_model', 'laporan_sinkronisasi_model']);
+        $this->load->model(['pamong_model', 'penduduk_model', 'laporan_bulanan_model', 'laporan_sinkronisasi_model', 'wilayah_model']);
         $this->modul_ini          = 'buku-administrasi-desa';
         $this->sub_modul_ini      = 'administrasi-penduduk';
         $this->header['kategori'] = 'data_lengkap';
@@ -155,7 +155,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 
     public function autocomplete()
     {
-        $data = $this->penduduk_model->autocomplete($this->input->post('cari'));
+        $data = $this->wilayah_model->autocomplete($this->input->post('cari'));
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 

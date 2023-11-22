@@ -171,9 +171,7 @@ class Dtks extends Admin_Controller
 
             $case_sql = static function (&$query, $keyword, $fields = [DtksEnum::REGSOS_EK2022_K => ''], $operator = 'LIKE') {
                 $sql     = '(versi_kuisioner = ' . DtksEnum::REGSOS_EK2022_K . ' AND ' . $fields[DtksEnum::REGSOS_EK2022_K] . ' ' . $operator . ' ?)';
-                $binding = strtolower($operator) == strtolower('LIKE')
-                    ? ['%' . $keyword . '%', '%' . $keyword . '%']
-                    : [$keyword, $keyword];
+                $binding = ["%{$keyword}%"];
 
                 return $query->whereRaw($sql, $binding);
             };

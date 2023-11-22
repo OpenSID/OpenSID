@@ -68,6 +68,7 @@
 									</div>
 								</div>
 							</form>
+							<?php $this->load->view('global/paging'); ?>
 						</div>
 					</div>
 				</div>

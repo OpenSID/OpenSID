@@ -26,9 +26,9 @@
                             <b>Latar Website</b>
                         </div>
                         <div class="box-body box-profile text-center">
-                            <img class="img-responsive"
-                                src="{{ $latar_website }}"
-                                alt="Latar Halaman Website" width="100%">
+                            <a href="<?= site_url("setting/ambil_foto?foto={$latar_website[0]}&pengaturan={$latar_website[1]}"); ?>" class="progressive replace">
+                                <img class="preview" loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Latar Wesbite" width="100%"/>
+                            </a>
                             <p class="text-muted text-center text-red">(Kosongkan, jika latar website tidak berubah)</p>
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm" id="file_path" name="latar_website">
@@ -47,8 +47,9 @@
                             <b>Latar Login Admin</b>
                         </div>
                         <div class="box-body box-profile text-center">
-                            <img class="img-responsive" src="{{ $latar_siteman }}"
-                                alt="Latar Halaman Login" width="100%">
+                            <a href="<?= site_url("setting/ambil_foto?foto={$latar_siteman[0]}&pengaturan={$latar_siteman[1]}"); ?>" class="progressive replace">
+                                <img class="preview" loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Latar Login" width="100%"/>
+                            </a>
                             <p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm" id="file_path1" name="latar_login" />
@@ -68,8 +69,9 @@
                             <b>Latar Login Mandiri</b>
                         </div>
                         <div class="box-body box-profile text-center">
-                            <img class="img-responsive" src="{{ $latar_mandiri }}"
-                                alt="Latar Halaman Login" width="100%">
+                            <a href="<?= site_url("setting/ambil_foto?foto={$latar_mandiri[0]}&pengaturan={$latar_mandiri[1]}"); ?>" class="progressive replace">
+                                <img class="preview" loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Latar Wesbite" width="100%"/>
+                            </a>
                             <p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
                             <div class="input-group">
                                 <input type="text" class="form-control input-sm" id="file_path2"

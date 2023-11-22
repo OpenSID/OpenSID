@@ -351,6 +351,10 @@ $(document).ready(function() {
 		var regexLong = new RegExp('^(\\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\\.[0-9]{1,18})?))$');
 		return this.optional(element) || regexLong.test(value);
 	}, `Isi lng tidak valid`);
+
+	jQuery.validator.addMethod("telepon", function(value, element) {
+ 		return this.optional(element) || value.length > 9;
+	}, `Minimal 10 dan maksimal 20 karakter`);
 });
 
 function validate(elementClassId) {

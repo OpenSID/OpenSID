@@ -50,9 +50,9 @@ class Wilayah_model extends MY_Model
         $this->urut_model = new Urut_Model('tweb_wil_clusterdesa', 'id');
     }
 
-    public function autocomplete()
+    public function autocomplete($cari = '')
     {
-        return $this->autocomplete_str('dusun', 'tweb_wil_clusterdesa');
+        return $this->autocomplete_str('dusun', 'tweb_wil_clusterdesa', $cari);
     }
 
     private function search_sql()

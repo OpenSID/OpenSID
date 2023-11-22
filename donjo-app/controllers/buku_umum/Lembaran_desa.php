@@ -83,8 +83,9 @@ class Lembaran_desa extends Admin_Controller
             }
         }
 
+        $sebutan_desa         = ucwords(setting('sebutan_desa'));
         $data['main_content'] = 'dokumen/table_lembaran_desa';
-        $data['subtitle']     = 'Buku Lembaran Desa Dan Berita Desa';
+        $data['subtitle']     = "Buku Lembaran {$sebutan_desa} Dan Berita {$sebutan_desa}";
         $data['selected_nav'] = 'lembaran';
 
         $this->render('bumindes/umum/main', $data);
@@ -103,7 +104,7 @@ class Lembaran_desa extends Admin_Controller
         $data['kat']             = 3;
         $data['list_kategori']   = $this->web_dokumen_model->list_kategori();
         $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
-        $data['kat_nama']        = 'Lembaran Desa';
+        $data['kat_nama']        = 'Lembaran ' . ucwords($this->setting->sebutan_desa);
         $data['kembali_ke']      = site_url("lembaran_desa/index/{$p}/{$o}");
 
         if ($id) {

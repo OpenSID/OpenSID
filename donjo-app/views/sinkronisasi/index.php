@@ -397,10 +397,8 @@
                 'password': $('#api_opendk_password').val()
             }
         }).catch(function (error) {
-            if (error.response != undefined && error.response.statusText == "Unauthorized") {
-                Swal.fire('Api Opendk User dan Api Opendk Password tidak sesuai')
-            } else if(error.response != undefined) {
-                Swal.fire(error.response.statusText)
+            if(error.response != undefined) {
+                Swal.fire(error.response.data.message)
             } else {
                 Swal.fire(error.toJSON().message)
             }

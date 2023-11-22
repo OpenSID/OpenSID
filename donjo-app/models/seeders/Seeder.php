@@ -90,7 +90,7 @@ class Seeder extends CI_Model
     // Kalau belum diisi, buat identitas desa jika kode_desa ada di file desa/config/config.php
     private function isi_config()
     {
-        if (! Schema::hasTable('config') ||  Config::first() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
+        if (! Schema::hasTable('config') || Config::first() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
             return;
         }
 
@@ -106,9 +106,9 @@ class Seeder extends CI_Model
                 'kode_desa'         => bilangan($kode_desa),
                 'nama_kecamatan'    => nama_terbatas($desa->nama_kec),
                 'kode_kecamatan'    => bilangan($desa->kode_kec),
-                'nama_kabupaten'    => ucwords(nama_terbatas($desa->nama_kab)),
+                'nama_kabupaten'    => nama_terbatas($desa->nama_kab),
                 'kode_kabupaten'    => bilangan($desa->kode_kab),
-                'nama_propinsi'     => ucwords(nama_terbatas($desa->nama_prov)),
+                'nama_propinsi'     => nama_terbatas($desa->nama_prov),
                 'kode_propinsi'     => bilangan($desa->kode_prov),
                 'nama_kepala_camat' => '',
                 'nip_kepala_camat'  => '',

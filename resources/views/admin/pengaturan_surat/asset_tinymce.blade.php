@@ -1,10 +1,12 @@
 @push('scripts')
     <script type="text/javascript" src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/tinymce.js') }}"></script>
     <script>
         $(document).ready(function() {
             var default_font = "{{ setting('font_surat') }}"
             tinymce.init({
                 selector: '.editor',
+                salin_template: "{{ $salin_template ?? '' }}",
                 style_formats: [{
                     title: 'Menjorok',
                     selector: 'p',
@@ -24,13 +26,12 @@
                 content_style: `body { font-family: ${default_font}; }`,
                 toolbar1: "removeformat | bold italic underline subscript superscript | bullist numlist outdent indent lineheight | alignleft aligncenter alignright alignjustify | styleselect | fontselect fontsizeselect",
                 toolbar2: "responsivefilemanager | salintemplate | kodeisian",
-                image_advtab: true ,
-                external_filemanager_path:"{{ base_url('assets/filemanager/') }}",
-                filemanager_title:"Responsive Filemanager" ,
-                filemanager_access_key:"{{ $session->fm_key }}",
-                external_plugins:
-                {
-                    "filemanager" : "{{ base_url('assets/filemanager/plugin.min.js') }}"
+                image_advtab: true,
+                external_filemanager_path: "{{ base_url('assets/filemanager/') }}",
+                filemanager_title: "Responsive Filemanager",
+                filemanager_access_key: "{{ $session->fm_key }}",
+                external_plugins: {
+                    "filemanager": "{{ base_url('assets/filemanager/plugin.min.js') }}"
                 },
                 content_css: [
                     '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
@@ -45,7 +46,7 @@
                     ed.on('init', function(e) {
                         ed.execCommand("fontName", false, "${default_font}");
                     });
-                }
+                },
             });
         });
     </script>

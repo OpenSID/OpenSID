@@ -12,7 +12,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+		<form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">
@@ -26,10 +26,10 @@
 									<div class="form-group">
 										<label for="jenis_persentase" class="col-sm-3 control-label">Persentase Pembangunan</label>
 										<div class="btn-group col-sm-8 kiri" data-toggle="buttons">
-											<label class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label active">
+											<label id="label_pilih" class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label active focus">
 												<input type="radio" name="jenis_persentase" class="form-check-input" value="1" autocomplete="off" onchange="pilih_persentase(this.value);"> Pilih Persentase
 											</label>
-											<label class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label">
+											<label id="label_manual" class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label">
 												<input type="radio" name="jenis_persentase" class="form-check-input" value="2" autocomplete="off" onchange="pilih_persentase(this.value);"> Tulis Manual
 											</label>
 										</div>
@@ -105,22 +105,40 @@
 <script>
 	function pilih_persentase(pilih) {
 		if (pilih == 1) {
+			$('#label_pilih').addClass('active focus');
+			$('#label_manual').removeClass('active focus');
+
 			$('#persentase').val('');
 			$('#persentase').removeClass('required');
+
 			$("#manual").hide();
 			$("#pilih").show();
 			$('#id_persentase').addClass('required');
-		} else {
+		} else if (pilih = 2) {
+			$('#label_pilih').removeClass('active focus');
+			$('#label_manual').addClass('active focus');
+
 			$('#id_persentase').val('');
 			$('#id_persentase').removeClass('required');
+
 			$("#manual").show();
 			$("#pilih").hide();
 			$('#persentase').addClass('required');
+		} else {
+			$('#label_pilih').addClass('active focus');
+			$('#label_manual').removeClass('active focus');
+
+			$('#persentase').val('');
+			$('#persentase').removeClass('required');
+
+			$("#manual").hide();
+			$("#pilih").show();
+			$('#id_persentase').addClass('required');
 		}
 	}
 
 	function show_hide_anggaran(anggaran) {
-		if (anggaran == '100%' || anggaran == '100'){
+		if (anggaran == '100%' || anggaran == '100') {
 			$('#anggaran').fadeIn();
 			$("#ubahanggaran").attr('required', '');
 			$("#ubahanggaran").val('<?= $perubahan ?? 0; ?>');
@@ -132,9 +150,7 @@
 	}
 
 	$(document).ready(function() {
-		pilih_persentase(<?= in_array($main->persentase, $persentase) ? 1 : 2 ?>);
+		pilih_persentase(`<?= empty($main) ? 1 : (in_array($main->persentase, $persentase) ? 1 : 2) ?>`);
 		show_hide_anggaran(`<?= $main->persentase ?>`);
-        $("#manual").hide();
-        $("#pilih").show();
 	});
 </script>

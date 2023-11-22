@@ -42,7 +42,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_rencana_pembangunan extends Admin_Controller
 {
-    protected $tipe = 'rencana';
+    protected $tipe  = 'rencana';
+    protected $order = [];
 
     public function __construct()
     {
@@ -52,6 +53,19 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
         $this->modul_ini     = 'buku-administrasi-desa';
         $this->sub_modul_ini = 'administrasi-pembangunan';
         $this->model->set_tipe($this->tipe);
+
+        $this->order = [
+            1  => 'judul',
+            2  => 'alamat',
+            3  => 'sumber_biaya_pemerintah',
+            4  => 'sumber_biaya_provinsi',
+            5  => 'sumber_biaya_kab_kota',
+            6  => 'sumber_biaya_swadaya',
+            7  => 'sumber_biaya_jumlah',
+            8  => 'pelaksana_kegiatan',
+            9  => 'manfaat',
+            10 => 'keterangan',
+        ][$this->input->post('order[0][column]')];
     }
 
     public function index()
@@ -60,9 +74,10 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
             $start  = $this->input->post('start');
             $length = $this->input->post('length');
             $search = $this->input->post('search[value]');
-            $order  = $this->model::ORDER_ABLE[$this->input->post('order[0][column]')];
-            $dir    = $this->input->post('order[0][dir]');
-            $tahun  = $this->input->post('tahun');
+            $order  = $this->order;
+
+            $dir   = $this->input->post('order[0][dir]');
+            $tahun = $this->input->post('tahun');
 
             return json([
                 'draw'            => $this->input->post('draw'),

@@ -325,7 +325,6 @@ class Surat_master extends Admin_Controller
         return $data;
     }
 
-    // Versi baru
     public function kodeIsian($id = null)
     {
         $suratMaster = FormatSurat::select(['kode_isian'])->first($id) ?? show_404();
@@ -497,16 +496,31 @@ class Surat_master extends Admin_Controller
         return $validasi;
     }
 
-    public function kode_isian($id = null)
+    public function kode_isian($jenis = 'isi', $id = null)
     {
-        $log_surat['surat'] = FormatSurat::find($id);
+        if ($this->input->is_ajax_request()) {
+            $log_surat['surat'] = FormatSurat::find($id);
+            $kode_isian         = $this->tinymce->getFormatedKodeIsian($log_surat);
 
-        return json($this->tinymce->getFormatedKodeIsian($log_surat));
+            return json($kode_isian);
+        }
+
+        return show_404();
     }
 
-    public function salin_template()
+    public function salin_template($jenis = 'isi')
     {
-        return json($this->tinymce->getTemplate()->merge($this->tinymce->getTemplateSurat()));
+        if ($this->input->is_ajax_request()) {
+            if ($jenis == 'isi') {
+                $template = $this->tinymce->getTemplateSurat();
+            } else {
+                $template = $this->tinymce->getTemplate();
+            }
+
+            return json($template);
+        }
+
+        return show_404();
     }
 
     public function preview()

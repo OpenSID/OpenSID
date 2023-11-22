@@ -62,11 +62,11 @@
 							decimal: ","
 						},
 						abbreviations: {
-								thousand: 'k',
-								million: 'm',
-								billion: 'b',
-								trillion: 't'
-							},
+							thousand: 'k',
+							million: 'm',
+							billion: 'b',
+							trillion: 't'
+						},
 						currency: {
 							symbol: "Rp." //The currency for UAE is called the Dirham
 						}
@@ -85,7 +85,7 @@
 					<script src="<?= asset('js/demo.js') ?>"></script>
 				<?php endif ?>
 
-				<?php if (! setting('inspect_element')): ?>
+				<?php if (! setting('inspect_element')) : ?>
 					<script src="<?= asset('js/disabled.min.js') ?>"></script>
 				<?php endif ?>
 
@@ -151,6 +151,79 @@
 						$('.sidebar-toggle').on('click', function() {
 							localStorage.setItem('sidebar', $("#sidebar_collapse").hasClass('sidebar-collapse'));
 						});
+
+						//Format Tabel
+						$("#tabel1").DataTable();
+						$("#tabel2").DataTable({
+							paging: false,
+							lengthChange: false,
+							searching: false,
+							ordering: false,
+							info: false,
+							autoWidth: false,
+							scrollX: true,
+						});
+						$("#tabel3").DataTable({
+							paging: true,
+							lengthChange: true,
+							searching: true,
+							ordering: true,
+							info: true,
+							autoWidth: false,
+							scrollX: true,
+						});
+
+						// formatting datatable Program Bantuan
+						$("#table-program").DataTable({
+							paging: false,
+							info: false,
+							searching: false,
+							columnDefs: [{
+									targets: [0, 1, 3, 4, 5, 6, 7],
+									orderable: false,
+								},
+								{
+									targets: [4],
+									className: "text-center",
+								},
+								{
+									targets: [7],
+									render: function(data, type, full, meta) {
+										if (data == 0) {
+											return "Tidak Aktif";
+										}
+										return "Aktif";
+									},
+								},
+							],
+						});
+
+						// Penggunaan datatable di inventaris
+						if (!$.fn.DataTable.isDataTable("#tabel4")) {
+							var t = $("#tabel4").DataTable({
+								responsive: true,
+								processing: true,
+								autoWidth: false,
+								lengthMenu: [
+									[10, 25, 50, 100, -1],
+									[10, 25, 50, 100, "Semua"]
+								],
+								pageLength: 10,
+								language: {
+									url: "<?= asset('bootstrap/js/dataTables.indonesian.lang') ?>",
+								},
+							});
+							t.on("order.dt search.dt", function() {
+								t.column(0, {
+										search: "applied",
+										order: "applied"
+									})
+									.nodes()
+									.each(function(cell, i) {
+										cell.innerHTML = i + 1;
+									});
+							}).draw();
+						}
 					});
 				</script>
 				<?php session_error_clear(); ?>
