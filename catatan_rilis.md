@@ -53,6 +53,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 10. [#6837](https://github.com/OpenSID/OpenSID/issues/6837) Penyesuaian isian tanggal berlaku surat hanya bisa di isi sesuai rentang pada pengaturan suratnya.
 11. [#7361](https://github.com/OpenSID/OpenSID/issues/7361) Penyesuaian kode isian yang berupa angka, gambar dan jam.
 12. [#6726](https://github.com/OpenSID/OpenSID/issues/6726) Penyesuaian modul pengaduan admin menggunakan ORM dan Blade.
+13. [#7416](https://github.com/OpenSID/OpenSID/issues/7416) Penyesuaian modul pendaftaran layanan mandiri menggunakan ORM dan Blade.
 
 #### Peningkatan Keamanan
 

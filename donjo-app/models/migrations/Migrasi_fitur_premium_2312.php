@@ -87,8 +87,9 @@ class Migrasi_fitur_premium_2312 extends MY_model
         $hasil = $hasil && $this->migrasi_2023110252($hasil);
         $hasil = $hasil && $this->migrasi_2023110651($hasil);
         $hasil = $hasil && $this->migrasi_2023110751($hasil);
+        $hasil = $hasil && $this->migrasi_2023110951($hasil);
 
-        return $hasil && $this->migrasi_2023110951($hasil);
+        return $hasil && $this->migrasi_2023112252($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -329,5 +330,13 @@ class Migrasi_fitur_premium_2312 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2023112252($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'pendaftar-layanan-mandiri', 'url' => 'mandiri/clear'],
+            ['url' => 'mandiri']
+        );
     }
 }
