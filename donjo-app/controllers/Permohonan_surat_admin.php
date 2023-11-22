@@ -219,7 +219,6 @@ class Permohonan_surat_admin extends Admin_Controller
 
         $delete = PermohonanSurat::where('status', PermohonanSurat::DIBATALKAN)->find($id) ?? show_404();
 
-        dd($delete);
         if ($delete->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
