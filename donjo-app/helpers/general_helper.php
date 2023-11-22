@@ -432,7 +432,7 @@ if (! function_exists('cek_kehadiran')) {
      */
     function cek_kehadiran()
     {
-        if (Schema::hasTable('kehadiran_jam_kerja')) {
+        if (Schema::hasTable('kehadiran_jam_kerja') && (! empty(setting('rentang_waktu_kehadiran')) || setting('rentang_waktu_kehadiran'))) {
             $cek_libur = JamKerja::libur()->first();
             $cek_jam   = JamKerja::jamKerja()->first();
             $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
