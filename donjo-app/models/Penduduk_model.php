@@ -545,7 +545,6 @@ class Penduduk_model extends MY_Model
         $this->db->from("#({$query_dasar}) AS u#");
         $this->lookup_ref_penduduk();
         $this->order_by_list($order_by);
-        $sql = str_replace(['(#', '#)'], '', $this->db->get_compiled_select());
 
         // lakukan filter setelah final query
         $this->filter_id();
