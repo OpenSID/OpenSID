@@ -19,69 +19,76 @@
         <div class="box-header with-border">
             <a href="{{ route('pengaduan_admin') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Pengaduan</a>
         </div>
-        <form class="form-horizontal">
-            <div class="box-body">
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="nik">NIK</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" disabled value="{{ $pengaduan_warga->nik }}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="nik">Nama</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" disabled value="{{ $pengaduan_warga->nama }}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="nik">Email</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" disabled value="{{ $pengaduan_warga->email }}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="nik">Nomor Telepon</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" disabled value="{{ $pengaduan_warga->telepon }}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="nik">Judul</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" disabled value="{{ $pengaduan_warga->judul }}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="nik">Tanggal</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" disabled value="{{ $pengaduan_warga->created_at }}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="isi">Isi</label>
-                    <div class="col-sm-9">
-                        <textarea class="form-control input-sm" maxlength="300" rows="3" disabled style="resize:none;">{{ $pengaduan_warga->isi }}</textarea>
-                    </div>
-                </div>
-                @if ($pengaduan_warga->foto)
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" for="isi">Gambar</label>
-                        <div class="col-sm-9">
-                            <img class="img-responsive" src="{{ to_base64(LOKASI_PENGADUAN . $pengaduan_warga->foto) }}">
-                        </div>
-                    </div>
-                @endif
+        <div class="box-body">
+            <ul class="timeline timeline-inverse">
+                <!-- timeline time label -->
+                <li class="time-label">
+                    <span class="bg-blue">
+                        {{ tgl_indo($pengaduan_warga->created_at) }}
+                    </span>
+                </li>
+                <!-- /.timeline-label -->
+                <!-- timeline item -->
+                <li>
+                    <i class="fa fa-user bg-blue"></i>
 
-                @foreach ($tanggapan as $item)
-                    <hr>
-                    <div class="row support-content-comment">
-                        <div class="col-md-12">
-                            <p>Ditanggapi oleh <b>{{ $item->nama }}</b> | {{ $item->created_at }}</p>
-                            <p>{{ $item->isi }}</p>
+                    <div class="timeline-item">
+                        <span class="time"><i class="fa fa-clock-o"></i> {{ $pengaduan_warga->created_at->format('H:i') }}</span>
+
+                        <h3 class="timeline-header"><b>{{ $pengaduan_warga->nama }}</b> {{ $pengaduan_warga->judul }}</h3>
+
+                        <div class="timeline-body">
+                            {{ $pengaduan_warga->isi }}
+                        </div>
+                        <div class="timeline-footer">
+                            <p><i class="fa fa-id-card"></i> {{ $pengaduan_warga->nik }}</p>
+                            <p><i class="fa fa-phone"></i> {{ $pengaduan_warga->telepon }}</p>
+                            <p><i class="fa fa-envelope"></i> {{ $pengaduan_warga->email }}</p>
                         </div>
                     </div>
+                </li>
+                <!-- END timeline item -->
+                <!-- timeline item -->
+                @if ($pengaduan_warga->foto)
+                    <li>
+                        <i class="fa fa-image bg-blue"></i>
+
+                        <div class="timeline-item">
+                            <div class="timeline-body">
+                                <img class="img-responsive" src="{{ to_base64(LOKASI_PENGADUAN . $pengaduan_warga->foto) }}">
+                            </div>
+                        </div>
+                    </li>
+                @endif
+                <!-- END timeline item -->
+                <!-- timeline time label -->
+                @foreach ($tanggapan as $item)
+                    <li class="time-label">
+                        <span class="bg-green">
+                            {{ tgl_indo($item->created_at) }}
+                        </span>
+                    </li>
+                    <!-- /.timeline-label -->
+                    <!-- timeline item -->
+                    <li>
+                        <i class="fa fa-comments bg-green"></i>
+
+                        <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> {{ $item->created_at->format('H:i') }}</span>
+
+                            <h3 class="timeline-header"><a href="#">{{ $item->nama }}</a> Menanggapi</h3>
+
+                            <div class="timeline-body">
+                                {{ $item->isi }}
+                            </div>
+                        </div>
+                    </li>
                 @endforeach
-            </div>
-        </form>
+                <!-- END timeline item -->
+                <li>
+                    <i class="fa fa-clock-o bg-gray"></i>
+                </li>
+            </ul>
+        </div>
     </div>
 @endsection
