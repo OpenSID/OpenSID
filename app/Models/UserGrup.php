@@ -63,7 +63,7 @@ class UserGrup extends BaseModel
      */
     protected $table = 'user_grup';
 
-    public function getGrupSistem()
+    public static function getGrupSistem()
     {
         return self::where('jenis', self::SISTEM)->pluck('id')->toArray();
     }

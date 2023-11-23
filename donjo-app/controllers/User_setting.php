@@ -57,16 +57,6 @@ class User_setting extends Admin_Controller
         $this->load->view('setting', $data);
     }
 
-    public function update_password($id = '')
-    {
-        $this->user_model->update_password($id);
-        if ($this->session->success == -1) {
-            redirect($_SERVER['HTTP_REFERER']);
-        } else {
-            redirect('main');
-        }
-    }
-
     // Kata sandi harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil
     public function syarat_sandi($str)
     {

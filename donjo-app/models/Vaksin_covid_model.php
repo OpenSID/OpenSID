@@ -50,6 +50,7 @@ class Vaksin_covid_model extends MY_Model
     {
         parent::__construct();
         $this->load->model('referensi_model');
+        $this->load->library('MY_Upload', null, 'upload');
     }
 
     public function jenis_vaksin()
@@ -279,8 +280,6 @@ class Vaksin_covid_model extends MY_Model
 
     public function upload_sertifikat(&$data)
     {
-        $this->load->library('upload');
-
         for ($i = 1; $i <= 3; $i++) {
             $file = "vaksin_{$i}";
             if ($_FILES[$file]['size'] != 0 && $data["tgl_vaksin_{$i}"]) {
@@ -331,7 +330,6 @@ class Vaksin_covid_model extends MY_Model
 
     public function upload_surat(&$data)
     {
-        $this->load->library('upload');
         if ($_FILES['surat_dokter']['size'] != 0 && $data['tunda'] == 1) {
             $file                 = 'surat_dokter';
             $data['surat_dokter'] = $this->do_upload($file, $data);
@@ -417,8 +415,6 @@ class Vaksin_covid_model extends MY_Model
      */
     public function impor()
     {
-        $this->load->library('upload');
-
         $config['upload_path']   = sys_get_temp_dir();
         $config['allowed_types'] = 'xlsx';
 

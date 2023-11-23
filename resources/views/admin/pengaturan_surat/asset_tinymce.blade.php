@@ -112,7 +112,7 @@
                         text: 'Tambah Halaman Baru',
                         onAction: function() {
                             // Insert a page break when the button is clicked
-                            ed.insertContent('<div style="page-break-after: always;"><!-- pagebreak --></div>');
+                            ed.insertContent('<div style="page-break-after: always;"><!-- pagebreak --></div><p></p>');
                             ed.execCommand('removeFormat')
                         }
                     });

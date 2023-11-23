@@ -72,6 +72,8 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 11. [#7361](https://github.com/OpenSID/OpenSID/issues/7361) Penyesuaian kode isian yang berupa angka, gambar dan jam.
 12. [#6726](https://github.com/OpenSID/OpenSID/issues/6726) Penyesuaian modul pengaduan admin menggunakan ORM dan Blade.
 13. [#7416](https://github.com/OpenSID/OpenSID/issues/7416) Penyesuaian modul pendaftaran layanan mandiri menggunakan ORM dan Blade.
+14. [#6727](https://github.com/OpenSID/OpenSID/issues/6727) Penyesuaian modul pengguna menggunakan ORM dan Blade.
+15. [#7411](https://github.com/OpenSID/OpenSID/issues/7411) Penyesuaian fungsi tombol batal pada modal.
 
 #### Peningkatan Keamanan
 
@@ -79,3 +81,4 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 2. [#7364](https://github.com/OpenSID/OpenSID/issues/7364) Pencatatan aktifitas pengguna yang berhasil masuk.
 3. [#7366](https://github.com/OpenSID/OpenSID/issues/7366) Pendeteksi lokasi masuk dari lokasi yang tidak biasa.
 4. [#3198](https://github.com/OpenSID/premium/issues/3198) Penyesuaian ulang url dan folder filemanager.
+5. [#3199](https://github.com/OpenSID/premium/issues/3199) Peningkatan keamanan pada form unggah file.
