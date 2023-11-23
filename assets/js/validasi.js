@@ -311,11 +311,10 @@ $(document).ready(function() {
 			});
 	});
 
-	// Untuk donjo-app/views/man_user/manajemen_user_form.php di mana 'radiisi' berarti password tidak diubah
 	// Ketentuan kata sandi sesuai US National Institute of Standards and Technology (NIST)
 	jQuery.validator.addMethod("pwdLengthNist_atau_kosong", function(value, element) {
 		valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/.test(value);
-		return this.optional(element) || valid || value == 'radiisi';
+		return this.optional(element) || valid;
 	}, "Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus");
 
 	jQuery.validator.addMethod("bilangan", function(value, element) {

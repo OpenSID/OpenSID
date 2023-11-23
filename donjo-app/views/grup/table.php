@@ -9,7 +9,7 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-3">
-				<?php $this->load->view('man_user/menu_kiri.php') ?>
+				<?php view('admin.pengaturan.pengguna.menu') ?>
 			</div>
 			<div class="col-md-9">
 				<div class="box box-info">
