@@ -48,7 +48,7 @@ class Surat_masuk_model extends MY_Model
     {
         parent::__construct();
         // Untuk dapat menggunakan library upload
-        $this->load->library('upload');
+        $this->load->library('MY_Upload', null, 'upload');
         // Untuk dapat menggunakan fungsi generator()
         $this->load->helper('donjolib');
         // Helper upload file
