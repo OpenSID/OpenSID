@@ -21,7 +21,7 @@
                             <label for="file" class="control-label">File .xslx untuk diimpor : </label>
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control" id="file_path" name="userfile" required>
-                                <input type="file" class="hidden" id="file" name="userfile">
+                                <input type="file" class="hidden" id="file" name="userfile" accept=".xlsx">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                 </span>
