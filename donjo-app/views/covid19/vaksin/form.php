@@ -65,7 +65,7 @@
 							<div class="col-sm-8">
 								<div class="input-group input-group-sm">
 									<input type="text" class="form-control" id="file_path4" placeholder="Upload Dokumen/Surat Dokter" <?= ($penduduk->tunda == '0' || $penduduk->tunda == null) ? 'disabled' : ''; ?> >
-									<input id="file4" type="file" class="hidden" name="surat_dokter">
+									<input id="file4" type="file" class="hidden" name="surat_dokter" accept=".jpg, .jpeg, .png, .pdf">
 									<input type="hidden" name="surat_dokter" value="<?= $penduduk->surat_dokter?>">
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-info btn-flat" id="file_browser4" <?= ($penduduk->tunda == '0' || $penduduk->tunda == null) ? 'disabled' : ''; ?>><i class="fa fa-search" ></i> Browse</button>
@@ -107,7 +107,7 @@
 							<div class="col-sm-8">
 								<div class="input-group input-group-sm">
 									<input type="text" class="form-control" id="file_path1" placeholder="Upload Dokumen/Sertifikat" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>>
-									<input id="file1" type="file" class="hidden" name="vaksin_1">
+									<input id="file1" type="file" class="hidden" name="vaksin_1" accept=".jpg, .jpeg, .png, .pdf">
 									<input type="hidden" name="dokumen_vaksin_1" value="<?= $penduduk->dokumen_vaksin_1?>">
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-info btn-flat" id="file_browser1" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>><i class="fa fa-search"></i> Browse</button>
@@ -149,7 +149,7 @@
 							<div class="col-sm-8">
 								<div class="input-group input-group-sm">
 									<input type="text" class="form-control" id="file_path2" placeholder="Upload Dokumen/Sertifikat" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>>
-									<input id="file2" type="file" class="hidden" name="vaksin_2">
+									<input id="file2" type="file" class="hidden" name="vaksin_2" accept=".jpg,.jpeg,.png,.pdf">
 									<input type="hidden" name="dokumen_vaksin_2" value="<?= $penduduk->dokumen_vaksin_2?>">
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-info btn-flat" id="file_browser2" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>><i class="fa fa-search"></i> Browse</button>
@@ -191,7 +191,7 @@
 							<div class="col-sm-8">
 								<div class="input-group input-group-sm">
 									<input type="text" class="form-control" id="file_path3" placeholder="Upload Dokumen/Sertifikat" disabled>
-									<input id="file3" type="file" class="hidden" name="vaksin_3">
+									<input id="file3" type="file" class="hidden" name="vaksin_3" accept=".jpg, .jpeg, .png, .pdf">
 									<input type="hidden" name="dokumen_vaksin_3" value="<?= $penduduk->dokumen_vaksin_3?>">
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-info btn-flat" id="file_browser3" disabled><i class="fa fa-search" ></i> Browse</button>
