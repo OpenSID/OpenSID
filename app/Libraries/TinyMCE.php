@@ -547,9 +547,9 @@ class TinyMCE
         // Data penandatangan terpilih
         $penandatangan = $this->surat_model->atas_nama($data);
 
-        $lampiran = explode(',', in_array($surat['jenis'], FormatSurat::TINYMCE) ? $surat['lampiran'] : strtolower($surat['lampiran']));
-        $lampiran = array_map(static fn ($item) => Str::slug($item), $lampiran);
-
+        // $lampiran = explode(',', in_array($surat['jenis'], FormatSurat::TINYMCE) ? $surat['lampiran'] : strtolower($surat['lampiran']));
+        // $lampiran = array_map(static fn ($item) => Str::slug($item), $lampiran);
+        $lampiran     = explode(',', strtolower($surat['lampiran']));
         $format_surat = substitusiNomorSurat($input['nomor'], setting('format_nomor_surat'));
         $format_surat = str_ireplace('[kode_surat]', $surat['kode_surat'], $format_surat);
         $format_surat = str_ireplace('[kode_desa]', $config['kode_desa'], $format_surat);
@@ -599,7 +599,8 @@ class TinyMCE
             }
         }
 
-        $lampiranDb = LampiranSurat::active()->whereIn('slug', $lampiran)->get()->keyBy('slug');
+        // $lampiranDb = LampiranSurat::active()->whereIn('slug', $lampiran)->get()->keyBy('slug');
+        $lampiranDb = null;
 
         for ($j = 0; $j < count($lampiran); $j++) {
             ob_start();
@@ -644,7 +645,8 @@ class TinyMCE
 
             $lampiranHtml = $this->replceKodeIsian($data, false);
 
-            (new Html2Pdf($orientasiKertas, $ukuranKertas, 'en', true, 'UTF-8', $marginMm))
+            // (new Html2Pdf($orientasiKertas, $ukuranKertas, 'en', true, 'UTF-8', $marginMm))
+            (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
                 ->setTestTdInOnePage(true)
                 ->setDefaultFont(underscore(setting('font_surat'), true, true))
                 ->writeHTML($lampiranHtml) // buat lampiran

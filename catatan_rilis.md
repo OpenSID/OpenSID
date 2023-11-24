@@ -4,31 +4,17 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 
 #### Penambahan Fitur
 
-1. [#7205](https://github.com/OpenSID/OpenSID/issues/7205) Penambahan modul lampiran surat.
-2. [#7306](https://github.com/OpenSID/OpenSID/issues/7306) Penambahan pengaturan margin pada lampiran.
-3. [#2260](https://github.com/OpenSID/premium/issues/2260) Penambahan alur masuk kembali setelah ganti password.
-4. [#7164](https://github.com/OpenSID/OpenSID/issues/7164) Penambahan kode isian foto yang bisa diatur sendiri ukurannya.
-5. [#7280](https://github.com/OpenSID/OpenSID/issues/7280) Penambahan pengaturan kode isian alias surat TinyMCE.
-6. [#7307](https://github.com/OpenSID/OpenSID/issues/7307) Penambahan pengaturan ukuran kertas dan orientasi pada lampiran.
-7. [#7279](https://github.com/OpenSID/OpenSID/issues/7279) Penambahan pengaturan tampilan kotak-kotak pada pengaturan lampiran surat TinyMCE.
-8. [#7348](https://github.com/OpenSID/OpenSID/issues/7348) Penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE.
-9. [#7347](https://github.com/OpenSID/OpenSID/issues/7347) Penambahan identitas terlapor dan pelapor pada arsip layanan.
-10. [#7359](https://github.com/OpenSID/OpenSID/issues/7359) Penambahan laporan khusus dana desa pada laporan keuangan.
-11. [#5185](https://github.com/OpenSID/OpenSID/issues/5185) Penambahan informasi dan link data keluarga pada modul pemetaan.
-12. [#5392](https://github.com/OpenSID/OpenSID/issues/5392) Penambahan informasi total pada buku rekapitulasi jumlah penduduk.
-13. [#5367](https://github.com/OpenSID/OpenSID/issues/5367) Penambahan fungsi pengurutan berdasarkan jumlah anggota pada modul keluarga.
-14. [#4736](https://github.com/OpenSID/OpenSID/issues/4736) Penambahan fungsi preview saat unggah gambar pada modul pembangunan.
-
-
-#### Penambahan Fitur
-
-1. [#2260](https://github.com/OpenSID/premium/issues/2260) Penambahan alur masuk kembali setelah ganti password.
-2. [#7280](https://github.com/OpenSID/OpenSID/issues/7280) Penambahan pengaturan kode isian alias surat TinyMCE.
-3. [#7348](https://github.com/OpenSID/OpenSID/issues/7348) Penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE.
-4. [#7347](https://github.com/OpenSID/OpenSID/issues/7347) Penambahan identitas terlapor dan pelapor pada arsip layanan.
-5. [#7359](https://github.com/OpenSID/OpenSID/issues/7359) Penambahan laporan khusus dana desa pada laporan keuangan.
-6. [#7164](https://github.com/OpenSID/OpenSID/issues/7164) Penambahan kode isian foto yang bisa diatur sendiri ukurannya.
-7. [#5789](https://github.com/OpenSID/OpenSID/issues/5789) Penambahan pengaturan border wilayah peta.
+1.[#2260](https://github.com/OpenSID/premium/issues/2260) Penambahan alur masuk kembali setelah ganti password.
+2. [#7164](https://github.com/OpenSID/OpenSID/issues/7164) Penambahan kode isian foto yang bisa diatur sendiri ukurannya.
+3. [#7280](https://github.com/OpenSID/OpenSID/issues/7280) Penambahan pengaturan kode isian alias surat TinyMCE.
+4. [#7348](https://github.com/OpenSID/OpenSID/issues/7348) Penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE.
+5. [#7347](https://github.com/OpenSID/OpenSID/issues/7347) Penambahan identitas terlapor dan pelapor pada arsip layanan.
+6. [#7359](https://github.com/OpenSID/OpenSID/issues/7359) Penambahan laporan khusus dana desa pada laporan keuangan.
+7. [#5185](https://github.com/OpenSID/OpenSID/issues/5185) Penambahan informasi dan link data keluarga pada modul pemetaan.
+8. [#5392](https://github.com/OpenSID/OpenSID/issues/5392) Penambahan informasi total pada buku rekapitulasi jumlah penduduk.
+9. [#5367](https://github.com/OpenSID/OpenSID/issues/5367) Penambahan fungsi pengurutan berdasarkan jumlah anggota pada modul keluarga.
+10. [#4736](https://github.com/OpenSID/OpenSID/issues/4736) Penambahan fungsi preview saat unggah gambar pada modul pembangunan.
+11. [#5789](https://github.com/OpenSID/OpenSID/issues/5789) Penambahan pengaturan border wilayah peta.
 
 
 #### Perbaikan Bug
