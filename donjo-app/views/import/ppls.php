@@ -23,8 +23,8 @@
 																			<li>Pastikan format excel ber-ekstensi .xls format Excel 2003</li>
 																			<li>Data yang dibutuhkan untuk Impor dengan memenuhi aturan data berikut
 																				<div class="timeline-footer row">
-																					<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= base_url()?>assets/import/ATURANDATA.xls"><i class="fa fa-download"></i>Unduh Aturan data</a>
-																					<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= base_url()?>assets/import/ContohFormat.xls" ><i class="fa fa-download"></i>Unduh Contoh Urutan Format</a>
+																					<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= asset('import/ATURANDATA.xls') ?>"><i class="fa fa-download"></i>Unduh Aturan data</a>
+																					<a class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" href="<?= asset('import/ContohFormat.xls') ?>" ><i class="fa fa-download"></i>Unduh Contoh Urutan Format</a>
 																				</div>
 																			</li>
 																		</ol>

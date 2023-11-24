@@ -464,10 +464,10 @@ class Analisis_laporan_model extends My_Model
 
             if ($data[$i]['cek']) {
                 $data[$i]['nilai'] = $data[$i]['cek'];
-                $data[$i]['set']   = "<img src='" . base_url() . "assets/images/icon/tick.png'>";
+                $data[$i]['set']   = '<img src="' . base_url('assets/images/icon/tick.png') . '">';
             } else {
                 $data[$i]['nilai']       = '-';
-                $data[$i]['set']         = "<img src='" . base_url() . "assets/images/icon/cross.png'>";
+                $data[$i]['set']         = '<img src="' . base_url('assets/images/icon/cross.png') . '">';
                 $data[$i]['klasifikasi'] = '-';
             }
             $data[$i]['jk'] = '-';

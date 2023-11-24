@@ -93,8 +93,8 @@ if (! function_exists('menu_anjungan')) {
 function icon_menu_anjungan(string $nama_file): string
 {
     if (is_file(FCPATH . LOKASI_ICON_MENU_ANJUNGAN . $nama_file)) {
-        return base_url() . LOKASI_ICON_MENU_ANJUNGAN . $nama_file;
+        return base_url(LOKASI_ICON_MENU_ANJUNGAN . $nama_file);
     }
 
-    return base_url() . LOKASI_ICON_MENU_ANJUNGAN_DEFAULT . 'menu.png';
+    return base_url(LOKASI_ICON_MENU_ANJUNGAN_DEFAULT . 'menu.png');
 }

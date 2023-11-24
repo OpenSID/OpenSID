@@ -82,6 +82,7 @@ class Laporan_bulanan_model extends MY_Model
         $sql .= ' ORDER BY c.dusun,c.rw,c.rt ';
         $query = $this->db->query($sql);
         $data  = $query->result_array();
+
         //	$data = null;
         //Formating Output
         $counter = count($data);

@@ -401,7 +401,7 @@ class Ekspor_model extends MY_Model
         $backup = $this->ketentuan_backup_restore($backup);
 
         $db_name = 'backup-on-' . date('Y-m-d-H-i-s') . '.sql';
-        $save    = base_url() . $db_name;
+        $save    = base_url($db_name);
 
         $this->load->helper('file');
         write_file($save, $backup);

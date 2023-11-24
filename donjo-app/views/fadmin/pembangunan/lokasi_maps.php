@@ -90,11 +90,11 @@
 		var baseLayers = getBaseLayers(peta_lokasi, MAPBOX_KEY, JENIS_PETA);
 
 		//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS
-		L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url() ?>assets/images/folder.svg" alt="file icon"/>';
+		L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= asset('images/folder.svg')?>" alt="file icon"/>';
 		showCurrentPoint(posisi, peta_lokasi);
 
 		//Export/Import Peta dari file GPX
-		L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url() ?>assets/images/gpx.png" alt="file icon"/>';
+		L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= asset('images/gpx.png')?>" alt="file icon"/>';
 		L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
 		controlGpxPoint = eximGpxPoint(peta_lokasi);
 
@@ -102,7 +102,7 @@
 		L.control.scale().addTo(peta_lokasi);
 
 		// Menampilkan OverLayer Area, Garis, Lokasi dan Lokasi Pembangunan
-		layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_lokasi, '<?= addslashes(json_encode($all_area, JSON_THROW_ON_ERROR)) ?>', '<?= addslashes(json_encode($all_garis, JSON_THROW_ON_ERROR)) ?>', '<?= addslashes(json_encode($all_lokasi, JSON_THROW_ON_ERROR)) ?>', '<?= addslashes(json_encode($all_lokasi_pembangunan, JSON_THROW_ON_ERROR)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', '<?= favico_desa()?>', '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url('pembangunan/')?>', TAMPIL_LUAS);
+		layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_lokasi, '<?= addslashes(json_encode($all_area, JSON_THROW_ON_ERROR)) ?>', '<?= addslashes(json_encode($all_garis, JSON_THROW_ON_ERROR)) ?>', '<?= addslashes(json_encode($all_lokasi, JSON_THROW_ON_ERROR)) ?>', '<?= addslashes(json_encode($all_lokasi_pembangunan, JSON_THROW_ON_ERROR)) ?>', '<?= base_url(LOKASI_SIMBOL_LOKASI) ?>', '<?= favico_desa()?>', '<?= base_url(LOKASI_FOTO_AREA) ?>', '<?= base_url(LOKASI_FOTO_GARIS) ?>', '<?= base_url(LOKASI_FOTO_LOKASI) ?>', '<?= base_url(LOKASI_GALERI) ?>', '<?= site_url('pembangunan/')?>', TAMPIL_LUAS);
 
 		L.control.layers(baseLayers, overlayLayers, {
 			position: 'topleft',
@@ -117,5 +117,5 @@
 
 	}; //EOF window.onload
 </script>
-<script src="<?= base_url() ?>assets/js/leaflet.filelayer.js"></script>
-<script src="<?= base_url() ?>assets/js/togeojson.js"></script>
+<script src="<?= asset('js/leaflet.filelayer.js') ?>"></script>
+<script src="<?= asset('js/togeojson.js') ?>"></script>

@@ -15,7 +15,7 @@
 			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('modul/clear')?>"> Daftar Modul</a></li>
 			<?php if ($modul['parent'] != '0'): ?>
-				<li><a href="<?= site_url()?>modul/sub_modul/<?=($modul['parent'])?>"> Daftar Sub Modul</a></li>
+				<li><a href="<?= site_url("modul/sub_modul/{$modul['parent']}")?>"> Daftar Sub Modul</a></li>
 			<?php endif ?>
 			<li class="active">Pengaturan Modul</li>
 		</ol>
@@ -28,7 +28,7 @@
 						<div class="box-header with-border">
 							<a href="<?= site_url('modul/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
 							<?php if ($modul['parent'] != '0'): ?>
-								<a href="<?= site_url()?>modul/sub_modul/<?=($modul['parent'])?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Sub Modul</a>
+								<a href="<?= site_url("modul/sub_modul/{$modul['parent']}")?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Sub Modul</a>
 							<?php endif ?>
 						</div>
 						<div class="box-body">

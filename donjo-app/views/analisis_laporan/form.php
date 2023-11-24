@@ -4,7 +4,7 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('analisis_master/clear') ?>"> Master Analisis</a></li>
-			<li><a href="<?= site_url() ?>analisis_laporan/leave"><?= $analisis_master['nama']?></a></li>
+			<li><a href="<?= site_url('analisis_laporan/leave') ?>"><?= $analisis_master['nama']?></a></li>
 			<li class="active">Laporan Hasil Klasifikasi</li>
 		</ol>
 	</section>
@@ -31,7 +31,7 @@
 									<tr>
 										<td nowrap width="150">Hasil Pendataan</td>
 										<td width="1">:</td>
-										<td><a href="<?= site_url() ?>analisis_master/menu/<?= $_SESSION['analisis_master']?>"><?= $analisis_master['nama']?></a></td>
+										<td><a href="<?= site_url("analisis_master/menu/{$_SESSION['analisis_master']}") ?>"><?= $analisis_master['nama']?></a></td>
 									</tr>
 									<tr>
 										<td>Nomor Identitas</td>

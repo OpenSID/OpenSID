@@ -60,6 +60,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 13. [#7416](https://github.com/OpenSID/OpenSID/issues/7416) Penyesuaian modul pendaftaran layanan mandiri menggunakan ORM dan Blade.
 14. [#6727](https://github.com/OpenSID/OpenSID/issues/6727) Penyesuaian modul pengguna menggunakan ORM dan Blade.
 15. [#7411](https://github.com/OpenSID/OpenSID/issues/7411) Penyesuaian fungsi tombol batal pada modal.
+16. [#7453](https://github.com/OpenSID/OpenSID/issues/7453) Penyesuaian penggunaan construct dan helper (site_url, base_url dan asset).
 
 
 #### Peningkatan Keamanan

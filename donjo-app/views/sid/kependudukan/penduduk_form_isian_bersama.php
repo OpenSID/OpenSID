@@ -332,7 +332,7 @@
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="etnis">Suku/Etnis</label>
-			<select class="form-control input-sm select2-tags nama_suku" data-url="<?= site_url() . 'penduduk/ajax_penduduk_suku/' ?>" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
+			<select class="form-control input-sm select2-tags nama_suku" data-url="<?= site_url('penduduk/ajax_penduduk_suku/') ?>" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
 				<option value="">Pilih Suku/Etnis</option>
 				<?php if ($suku['penduduk']) : ?>
 					<?php foreach ($suku['penduduk'] as $ref_suku) : ?>

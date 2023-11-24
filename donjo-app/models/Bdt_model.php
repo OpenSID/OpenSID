@@ -175,7 +175,7 @@ class Bdt_model extends CI_Model
         $nama_subjek = ($_SESSION['subjek_tipe'] == 3) ? 'RUMAH TANGGA' : 'PENDUDUK';
         echo "<br>JUMLAH PENDUDUK GAGAL    : {$gagal}</br>";
         echo "<br>JUMLAH {$nama_subjek} BERHASIL : {$ada}</br>";
-        echo "<a href='" . site_url() . "analisis_respon'>LANJUT</a>";
+        echo '<a href="' . site_url('analisis_respon') . '">LANJUT</a>';
     }
 
     // Hapus semua respon untuk semua subjek pada periode aktif

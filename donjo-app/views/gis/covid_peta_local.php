@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
-<link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
+<link rel="stylesheet" href="<?= asset('css/peta.css')?>">
 
 <?php
 //API Local Data COVID19
@@ -17,7 +17,7 @@ $positif = $covid[4]; //"Positif Covid-19" => "POSITIF",
 			<div class="row">
 				<div class="col-lg-12 col-md-3 col-sm-3">
 					<div style="height: 75px;padding:1px" class="panel-body-lg">
-						<img src="<?= base_url()?>assets/images/siaga_cvd.png"/></a>
+						<img src="<?= asset('images/siaga_cvd.png')?>"/></a>
 					</div>
 				</div>
 			</div>

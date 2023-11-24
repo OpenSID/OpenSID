@@ -39,11 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Penomoran_surat_model extends MY_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Cari surat dengan nomor terakhir sesuai setting aplikasi
      *

@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?= base_url()?>assets/css/alert-bootstrap.css">
+<link rel="stylesheet" href="<?= asset('css/alert-bootstrap.css') ?>">
 
 <div class="content-wrapper">
 	<section class="content-header">

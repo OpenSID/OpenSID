@@ -86,7 +86,7 @@
 
 		<?php if ($this->CI->cek_hak_akses('u')): ?>
 			//Export/Import Peta dari file GPX
-			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url()?>assets/images/gpx.png" alt="file icon"/>';
+			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= asset('images/gpx.png')?>" alt="file icon"/>';
 			L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
 			controlGpxPoint = eximGpxPoint(peta_lapak);
 		<?php endif; ?>
@@ -96,5 +96,5 @@
 		L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_lapak);
 	}; //EOF window.onload
 </script>
-<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
-<script src="<?= base_url()?>assets/js/togeojson.js"></script>
+<script src="<?= asset('js/leaflet.filelayer.js') ?>"></script>
+<script src="<?= asset('js/togeojson.js') ?>"></script>

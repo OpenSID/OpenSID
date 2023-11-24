@@ -53,8 +53,8 @@
   <meta itemprop="name" content="<?= $single_artikel["judul"];?>"/>
   <meta itemprop='description' content="<?= str_replace('"', "'", substr(strip_tags($single_artikel['isi']), 0, 150)); ?>" />
   <?php if (trim($single_artikel['gambar'])!=''): ?>
-    <meta property="og:image" content="<?= base_url()?><?= LOKASI_FOTO_ARTIKEL?>sedang_<?= $single_artikel['gambar'];?>"/>
-    <meta itemprop="image" content="<?= base_url()?><?= LOKASI_FOTO_ARTIKEL?>sedang_<?= $single_artikel['gambar'];?>"/>
+    <meta property="og:image" content="<?= base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' .$single_artikel['gambar']) ?>"/>
+    <meta itemprop="image" content="<?= base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar']) ?>"/>
   <?php endif; ?>
   <meta property='og:description' content="<?= str_replace('"', "'", substr(strip_tags($single_artikel['isi']), 0, 150)); ?>" />
 <?php else: ?>
@@ -70,13 +70,13 @@
 <?php if (cek_koneksi_internet()): ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <?php endif ?>
-<script src="<?= base_url('assets/js/highcharts/highcharts.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/highcharts-3d.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/exporting.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/highcharts-more.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/sankey.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/organization.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/accessibility.js'); ?>"></script>
+<script src="<?= asset('js/highcharts/highcharts.js'); ?>"></script>
+<script src="<?= asset('js/highcharts/highcharts-3d.js'); ?>"></script>
+<script src="<?= asset('js/highcharts/exporting.js'); ?>"></script>
+<script src="<?= asset('js/highcharts/highcharts-more.js'); ?>"></script>
+<script src="<?= asset('js/highcharts/sankey.js'); ?>"></script>
+<script src="<?= asset('js/highcharts/organization.js'); ?>"></script>
+<script src="<?= asset('js/highcharts/accessibility.js'); ?>"></script>
 <?php if (cek_koneksi_internet()): ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.6.0/leaflet-providers.min.js"></script>
@@ -85,7 +85,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/2.1.6/jquery.cycle2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/2.1.6/jquery.cycle2.carousel.js"></script>
 <?php endif ?>
-<script src="<?= base_url('assets/js/peta.js') ?>"></script>
+<script src="<?= asset('js/peta.js') ?>"></script>
 <script>
   var BASE_URL = '<?= base_url() ?>';
 </script>

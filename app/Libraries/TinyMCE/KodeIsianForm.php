@@ -71,11 +71,11 @@ class KodeIsianForm
 
     /**
      * KodeIsianForm constructor.
-     * 
+     *
      * @param array      $inputForm
      * @param array|null $kodeIsian
      * @param bool       $masaBerlaku
-     * 
+     *
      * @return void
      */
     public function __construct($inputForm, $kodeIsian, $masaBerlaku = false)
@@ -89,7 +89,7 @@ class KodeIsianForm
      * @param array      $inputForm
      * @param array|null $kodeIsian
      * @param bool       $masaBerlaku
-     * 
+     *
      * @return \Illuminate\Support\Collection
      */
     public static function get($inputForm, $kodeIsian, $masaBerlaku = false)
@@ -99,7 +99,7 @@ class KodeIsianForm
 
     /**
      * Menerjemahkan kode isian menjadi data yang akan ditampilkan
-     * 
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getKodeIsian()

@@ -78,7 +78,7 @@ class DtksLampiran extends BaseModel
             return '';
         }
 
-        return base_url() . $path;
+        return base_url($path);
     }
 
     public function dtks()

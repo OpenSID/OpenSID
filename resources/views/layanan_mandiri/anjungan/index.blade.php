@@ -131,7 +131,7 @@
                                 @foreach ($gambar as $item)
                                     <div class="carousel-col">
                                         <div class="image-slider">
-                                            <img src="{{ base_url() . LOKASI_GALERI . 'sedang_' . $item->gambar }}">
+                                            <img src="{{ base_url(LOKASI_GALERI . 'sedang_' . $item->gambar) }}">
                                         </div>
                                     </div>
                                 @endforeach

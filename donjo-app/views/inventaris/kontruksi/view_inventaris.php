@@ -3,7 +3,7 @@
 		<h1>Rincian Data Inventaris Konstruksi</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
-			<li><a href="<?= site_url() ?>inventaris_peralatan"><i class="fa fa-dashboard"></i>Daftar Inventaris Konstruksi</a></li>
+			<li><a href="<?= site_url('inventaris_peralatan') ?>"><i class="fa fa-dashboard"></i>Daftar Inventaris Konstruksi</a></li>
 			<li class="active">Rincian Data</li>
 		</ol>
 	</section>
@@ -15,8 +15,8 @@
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-            			<div class="box-header with-border">
-							<a href="<?= site_url() ?>inventaris_kontruksi" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Konstruksi</a>
+						<div class="box-header with-border">
+							<a href="<?= site_url('inventaris_kontruksi') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Konstruksi</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
