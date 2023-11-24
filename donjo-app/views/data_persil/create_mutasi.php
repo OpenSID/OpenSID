@@ -455,12 +455,12 @@
             var all_lokasi = '<?= addslashes(json_encode($all_lokasi)) ?>';
             var all_lokasi_pembangunan = '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>';
             var all_persil = '<?= addslashes(json_encode($persil))?>';
-            var LOKASI_SIMBOL_LOKASI = '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>';
+            var LOKASI_SIMBOL_LOKASI = '<?= base_url(LOKASI_SIMBOL_LOKASI ) ?>';
             var favico_desa = '<?= favico_desa() ?>';
-            var LOKASI_FOTO_AREA = '<?= base_url() . LOKASI_FOTO_AREA ?>';
-            var LOKASI_FOTO_GARIS = '<?= base_url() . LOKASI_FOTO_GARIS ?>';
-            var LOKASI_FOTO_LOKASI = '<?= base_url() . LOKASI_FOTO_LOKASI ?>';
-            var LOKASI_GALERI = '<?= base_url() . LOKASI_GALERI ?>';
+            var LOKASI_FOTO_AREA = '<?= base_url(LOKASI_FOTO_AREA) ?>';
+            var LOKASI_FOTO_GARIS = '<?= base_url(LOKASI_FOTO_GARIS) ?>';
+            var LOKASI_FOTO_LOKASI = '<?= base_url(LOKASI_FOTO_LOKASI) ?>';
+            var LOKASI_GALERI = '<?= base_url(LOKASI_GALERI) ?>';
             var info_pembangunan = '<?= site_url('pembangunan/')?>';
 
             // Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan

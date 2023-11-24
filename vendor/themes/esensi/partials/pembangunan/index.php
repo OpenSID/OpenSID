@@ -13,7 +13,7 @@
       <div class="space-y-3">
         <?php if($data->foto && is_file(LOKASI_GALERI . $data->foto)) : ?>
         <img class="h-44 w-full object-cover object-center bg-gray-300 dark:bg-gray-600"
-          src="<?= base_url() . LOKASI_GALERI . $data->foto ?>" alt="Foto Pembangunan" />
+          src="<?= base_url(LOKASI_GALERI . $data->foto) ?>" alt="Foto Pembangunan" />
 
         <?php else: ?>
         <img class="h-44 w-full object-cover object-center bg-gray-300 dark:bg-gray-600"

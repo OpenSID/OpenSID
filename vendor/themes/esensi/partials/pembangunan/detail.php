@@ -12,7 +12,7 @@
   <div class="flex flex-col lg:flex-row justify-between gap-3 lg:gap-5 py-5">
     <div class="w-full px-2">
       <?php if($pembangunan->foto && is_file(LOKASI_GALERI . $pembangunan->foto)) : ?>
-        <img class="h-auto w-full" src="<?= base_url() . LOKASI_GALERI . $pembangunan->foto ?>" alt="Foto Pembangunan"/>
+        <img class="h-auto w-full" src="<?= base_url(LOKASI_GALERI . $pembangunan->foto) ?>" alt="Foto Pembangunan"/>
         
         <?php else: ?>
         <img class="h-auto w-full" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Tidak ditemukan"/>
