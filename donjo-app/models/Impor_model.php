@@ -536,6 +536,7 @@ class Impor_model extends MY_Model
         }
 
         $data['status'] = '1';  // penduduk impor dianggap aktif
+
         // Jangan masukkan atau update isian yang kosong
         foreach ($data as $key => $value) {
             if (empty($value)) {

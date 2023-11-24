@@ -87,7 +87,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 														<img class="image-produk card-img-top" src="<?= base_url(LOKASI_PRODUK . $foto[$i]); ?>" alt="Produk <?= ($i + 1); ?>">
 														<!-- <?= jecho($pro->kategori, true, '<div class="textgambar hidden-xs">' . $pro->kategori . '</div>'); ?> -->
 													<?php else : ?>
-														<img class="card-img-top" style="width: auto; max-height: 170px;" src="<?= asset("images/404-image-not-found.jpg") ?>" alt="Foto Produk" />
+														<img class="card-img-top" style="width: auto; max-height: 170px;" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="Foto Produk" />
 													<?php endif; ?>
 												</div>
 											<?php endif; ?>
@@ -101,7 +101,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									</a>
 								</div>
 							<?php else : ?>
-								<img class="card-img-top" style="width: auto; max-height: 170px;" src="<?= asset("images/404-image-not-found.jpg") ?>" alt="Foto Produk" />
+								<img class="card-img-top" style="width: auto; max-height: 170px;" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="Foto Produk" />
 							<?php endif; ?>
 
 							<div class="card-body">
@@ -233,7 +233,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			let posisi = [link.data('lat'), link.data('lng')];
 			let zoom = link.data('zoom');
 			let logo = L.icon({
-				iconUrl: "<?= asset("images/gis/point/fastfood.png"); ?>",
+				iconUrl: "<?= asset('images/gis/point/fastfood.png'); ?>",
 			});
 
 			$("#lat").val(link.data('lat'));

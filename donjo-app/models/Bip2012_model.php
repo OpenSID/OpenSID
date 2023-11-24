@@ -39,7 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bip2012_model extends Impor_model
 {
-
     /* 	===============================
             IMPORT BUKU INDUK PENDUDUK 2012
             ===============================
@@ -206,6 +205,7 @@ class Bip2012_model extends Impor_model
                 // Tidak ada data keluarga
                 continue;
             }
+
             // Import data sheet ini mulai baris pertama
             for ($i = 1; $i <= $baris; $i++) {
                 // Cari keluarga berikutnya
@@ -219,6 +219,7 @@ class Bip2012_model extends Impor_model
                 $total_keluarga++;
                 // Pergi ke data anggota keluarga
                 $i = $i + 3;
+
                 // Proses setiap anggota keluarga
                 while ($data_sheet[$i][2] != 'NO.KK' && $i <= $baris) {
                     $data_anggota   = $this->get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga);

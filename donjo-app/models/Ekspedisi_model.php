@@ -39,7 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Ekspedisi_model extends Surat_keluar_model
 {
-
     public function autocomplete()
     {
         $this->db->where('ekspedisi', 1);

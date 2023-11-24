@@ -267,7 +267,7 @@
 			var all_garis = '<?= addslashes(json_encode($garis)) ?>';
 			var all_lokasi = '<?= addslashes(json_encode($lokasi)) ?>';
 			var all_lokasi_pembangunan = '<?= addslashes(json_encode($lokasi_pembangunan)) ?>';
-			var LOKASI_SIMBOL_LOKASI = '<?= base_url(LOKASI_SIMBOL_LOKASI ) ?>';
+			var LOKASI_SIMBOL_LOKASI = '<?= base_url(LOKASI_SIMBOL_LOKASI) ?>';
 			var favico_desa = '<?= favico_desa() ?>';
 			var LOKASI_FOTO_AREA = '<?= base_url(LOKASI_FOTO_AREA) ?>';
 			var LOKASI_FOTO_GARIS = '<?= base_url(LOKASI_FOTO_GARIS) ?>';

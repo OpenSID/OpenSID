@@ -41,7 +41,6 @@ class Sinkronisasi_model extends CI_model
 {
     private $zip_file = '';
 
-
     // $file = nama file yg akan diproses
     private function extract_file($file)
     {
@@ -81,6 +80,7 @@ class Sinkronisasi_model extends CI_model
             $update_dari_waktu = strtotime($update_dari_waktu);
             $data_tabel        = $this->extract_file($nama_tabel . '.csv');
             $data_tabel        = $this->hapus_kolom_tersamar($data_tabel, $tabel['tabel']);
+
             // Hanya ambil data yg telah berubah
             foreach ($data_tabel as $k => $v) {
                 if (strtotime($v['updated_at']) <= $update_dari_waktu) {

@@ -447,6 +447,7 @@ class Keluar extends Admin_Controller
             });
 
             LogNotifikasiAdmin::insert($log_notification->toArray());
+
             // kirim ke aplikasi android admin.
             try {
                 $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);

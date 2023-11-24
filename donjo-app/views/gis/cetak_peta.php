@@ -60,6 +60,6 @@
     <td align="center"></td>
   </tr>
   <tr>
-    <td align="center"><img src="<?= asset("images/kompas.png")?>" alt="OpenSID"></td>
+    <td align="center"><img src="<?= asset('images/kompas.png')?>" alt="OpenSID"></td>
   </tr>
 </table>

@@ -113,7 +113,7 @@ class Analisis_periode_model extends MY_Model
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no'] = $j + 1;
             if ($data[$i]['aktif'] == 1) {
-                $data[$i]['aktif'] = "<img src='" . base_url('assets/images/icon/tick.png') . ">";
+                $data[$i]['aktif'] = '<img src="' . base_url('assets/images/icon/tick.png') . '">';
             } else {
                 $data[$i]['aktif'] = '';
             }

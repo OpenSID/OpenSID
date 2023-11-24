@@ -37,8 +37,8 @@
 				>
 
 				<?php if ($this->web_widget_model->get_setting('aparatur_desa', 'overlay') == true): ?>
-					<span class="cycle-prev"><img src="<?= asset("images/back_button.png")?>" alt="Back"></span>
-					<span class="cycle-next"><img src="<?= asset("images/next_button.png")?>" alt="Next"></span>
+					<span class="cycle-prev"><img src="<?= asset('images/back_button.png')?>" alt="Back"></span>
+					<span class="cycle-next"><img src="<?= asset('images/next_button.png')?>" alt="Next"></span>
 					<div class="cycle-caption"></div>
 					<div class="cycle-overlay"></div>
 				<?php else: ?>

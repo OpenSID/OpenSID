@@ -39,7 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_komentar_model extends MY_Model
 {
-
     public function autocomplete()
     {
         return $this->autocomplete_str('komentar', 'komentar');

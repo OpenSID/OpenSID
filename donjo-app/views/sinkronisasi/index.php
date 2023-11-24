@@ -117,7 +117,7 @@
                 <div class="modal-body">
                     Harap tunggu sampai proses sinkronisasi selesai. Proses ini bisa memakan waktu beberapa menit tergantung data yang dikirmkan.
                     <div class='text-center'>
-                        <img src="<?= asset("images/background/loading.gif") ?>">
+                        <img src="<?= asset('images/background/loading.gif') ?>">
                     </div>
                 </div>
             </div>

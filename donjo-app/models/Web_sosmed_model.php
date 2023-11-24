@@ -37,7 +37,6 @@
 
 class Web_sosmed_model extends MY_Model
 {
-
     public function get_sosmed($sosmed)
     {
         $id = $this->get_id($sosmed);

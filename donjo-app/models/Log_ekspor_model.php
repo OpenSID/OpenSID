@@ -39,7 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Log_ekspor_model extends CI_Model
 {
-
     public function tulis_log($data)
     {
         $this->db->insert('log_ekspor', $data);

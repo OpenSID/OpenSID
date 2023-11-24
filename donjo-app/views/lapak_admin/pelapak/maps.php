@@ -86,7 +86,7 @@
 
 		<?php if ($this->CI->cek_hak_akses('u')): ?>
 			//Export/Import Peta dari file GPX
-			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= asset("images/gpx.png")?>" alt="file icon"/>';
+			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= asset('images/gpx.png')?>" alt="file icon"/>';
 			L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
 			controlGpxPoint = eximGpxPoint(peta_lapak);
 		<?php endif; ?>

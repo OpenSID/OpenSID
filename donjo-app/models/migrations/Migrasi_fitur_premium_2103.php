@@ -48,6 +48,7 @@ class Migrasi_fitur_premium_2103 extends MY_model
 
         // Updates for issues #2834
         $hasil = $hasil && $this->penduduk_sementara($hasil);
+
         // Updates for issues #2835
         return $hasil && $this->ktp_kk($hasil);
     }

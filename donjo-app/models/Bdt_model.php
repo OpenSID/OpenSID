@@ -216,6 +216,7 @@ class Bdt_model extends CI_Model
         }
 
         $ada_baris = false;
+
         // Baris pertama baris judul kolom
         for ($i = 2; $i <= $jml_baris; $i++) {
             // Baris kedua yang mungkin ditambahkan untuk memudahkan penomoran kolom
@@ -298,6 +299,7 @@ class Bdt_model extends CI_Model
                     $list_parameter = $this->parameter_isian($indi['id'], $isi);
                     break;
             }
+
             // Himpun respon untuk semua indikator untuk semua baris
             foreach ($list_parameter as $parameter) {
                 if (! empty($parameter)) {

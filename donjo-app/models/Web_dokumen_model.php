@@ -540,6 +540,7 @@ class Web_dokumen_model extends MY_Model
 
         // cek jika dokumen ini juga ada di anggota yang lain
         $anggota_lain = $this->get_dokumen_di_anggota_lain($id);
+
         // soft delete dokumen anggota lain jika ada
         foreach ($anggota_lain as $item) {
             $this->config_id()->where('id', $item['id'])->update('dokumen', $data);
@@ -691,6 +692,7 @@ class Web_dokumen_model extends MY_Model
                     // Informasi publik
                     $this->db->where('tahun', $tahun);
                     break;
+
                     // Data tanggal berbeda menurut kategori dokumen
                     // Informasi masing2 kategori dokumen tersimpan dalam format json di kolom attr
                     // MySQL baru memiliki fitur query json mulai dari 5.7; jadi di sini dilakukan secara manual
@@ -791,6 +793,7 @@ class Web_dokumen_model extends MY_Model
 					end
 				end) as aksi
 		");
+
         // Termasuk data yg sudah dihapus
         return $this->config_id()
             ->from('dokumen')

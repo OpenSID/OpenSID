@@ -111,6 +111,7 @@ class Grup extends Admin_Controller
         $data['view']                = $view;
         $data['list_akses_modul']    = $this->grup_model->grup_akses((int) $id);
         $data['list_akses_submodul'] = $this->grup_model->akses_submodul((int) $id);
+
         // Centang modul jika ada akses submodul
         foreach ($data['list_akses_modul'] as $key => $akses_modul) {
             foreach ($data['list_akses_submodul'][$akses_modul['id']] as $akses_submodul) {

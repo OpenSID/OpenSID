@@ -106,9 +106,11 @@ class Web_menu_model extends MY_Model
 
             case 3:
                 $this->db->order_by('enabled');
+
                 // no break
             case 4:
                 $this->db->order_by('enabled', 'desc');
+
                 // no break
             default:
                 $this->db->order_by('urut');

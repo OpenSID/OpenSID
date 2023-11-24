@@ -69,6 +69,7 @@ class First_gallery_m extends MY_Model
             ->order_by('urut')
             ->get('gambar_gallery', $limit, $offset)
             ->result_array();
+
         // Untuk album yang tidak ada gambar cover, cari gambar di sub-gallery
         for ($i = 0; $i < count($data); $i++) {
             if ($data[$i]['gambar'] == '') {

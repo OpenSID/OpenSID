@@ -17,7 +17,7 @@ $positif = $covid[4]; //"Positif Covid-19" => "POSITIF",
 			<div class="row">
 				<div class="col-lg-12 col-md-3 col-sm-3">
 					<div style="height: 75px;padding:1px" class="panel-body-lg">
-						<img src="<?= asset("images/siaga_cvd.png")?>"/></a>
+						<img src="<?= asset('images/siaga_cvd.png')?>"/></a>
 					</div>
 				</div>
 			</div>

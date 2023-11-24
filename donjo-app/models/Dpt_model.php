@@ -179,6 +179,7 @@ class Dpt_model extends Penduduk_model
 
             case 8: $this->db->order_by('umur DESC');
                 break;
+
                 // Untuk Log Penduduk
             case 9: $this->db->order_by('log.tgl_peristiwa');
                 break;

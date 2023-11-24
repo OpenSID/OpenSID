@@ -108,7 +108,7 @@
 			var baseLayers = getBaseLayers(peta_penduduk, MAPBOX_KEY, JENIS_PETA);
 
 			//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS + Exim GPX/KML
-			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= asset("images/folder.svg")?>" alt="file icon"/>';
+			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= asset('images/folder.svg')?>" alt="file icon"/>';
 			showCurrentPoint(posisi, peta_penduduk, mode);
 
 			//Menambahkan zoom scale ke peta

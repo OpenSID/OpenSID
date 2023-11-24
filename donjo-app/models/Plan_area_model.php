@@ -41,7 +41,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan_area_model extends MY_Model
 {
-
     public function autocomplete()
     {
         return $this->autocomplete_str('nama', 'area');

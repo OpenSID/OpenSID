@@ -39,7 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan_polygon_model extends MY_Model
 {
-
     public function autocomplete()
     {
         return $this->autocomplete_str('nama', 'polygon');

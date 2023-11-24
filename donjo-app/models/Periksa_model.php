@@ -892,6 +892,7 @@ class Periksa_model extends MY_Model
             $urut                               = sprintf('%05d', $nokk_sementara[1] + $key);
             $kk_panjang[$key]['nokk_sementara'] = $nokk_sementara[0] . $urut;
         }
+
         // Ubah No KK panjang menjadi No KK sementara
         foreach ($kk_panjang as $kk) {
             $this->db

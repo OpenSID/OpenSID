@@ -417,6 +417,7 @@ class Analisis_import_model extends MY_Model
 
         // SIMPAN RESPON ANALISIS
         $data_import = $this->session->data_import;
+
         // Iterasi untuk setiap subjek
         foreach ($data_import['jawaban'] as $key_jawaban => $val_jawaban) {
             // Get Id Subjek berdasarkan Tipe Subjek (Penduduk / Keluarga / Rumah Tangga / Kelompok)
@@ -623,6 +624,7 @@ class Analisis_import_model extends MY_Model
                     }
 
                     $new_parameter = [];
+
                     // Insert jawaban baru
                     foreach ($val_pertanyaan['choices'] as $key_choice => $val_choice) {
                         // Jika nilai belum ada di database, maka tambahkan data parameter baru

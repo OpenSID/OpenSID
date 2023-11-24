@@ -50,7 +50,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Track_model extends CI_Model
 {
-
     public function track_desa($dari)
     {
         if ($this->setting->enable_track == false || null === identitas()) {

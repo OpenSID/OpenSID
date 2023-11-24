@@ -39,7 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Klasifikasi_model extends MY_model
 {
-
     public function autocomplete()
     {
         return $this->autocomplete_str('nama', 'klasifikasi_surat');

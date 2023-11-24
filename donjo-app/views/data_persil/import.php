@@ -24,7 +24,7 @@
 				<div class="box box-danger">
 					<div class="box-body">
 						<div class="form-group">
-							<p><label class="control-label">Contoh urutan format dapat dilihat pada <a href="<?= asset('import/data_persil.xls">tautan berikut</a></label></p>
+							<p><label class="control-label">Contoh urutan format dapat dilihat pada <a href="<?= asset('import/data_persil.xls') ?>">tautan berikut</a></label></p>
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="upload">Upload Fil XLS</label>

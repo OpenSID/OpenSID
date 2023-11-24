@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="<?= asset('lib/print/css/print.css') ?>" type="text/css" media="print" />
 		<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 		<script src="<?= asset('lib/print/js/jquery.tools.min.js') ?>"></script>
-		<script src="<?= asset('lib/print/js/jquery.print-preview.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<?= asset('lib/print/js/jquery.print-preview.js') ?>" type="text/javascript" charset="utf-8"></script>
 
 		<script type="text/javascript">
 			$(function()

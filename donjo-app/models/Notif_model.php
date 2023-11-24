@@ -37,7 +37,6 @@
 
 class Notif_model extends MY_Model
 {
-
     public function permohonan_surat_baru()
     {
         return $this->config_id()

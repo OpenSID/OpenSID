@@ -39,7 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class First_menu_m extends MY_Model
 {
-
     private function list_submenu($parrent = 0)
     {
         $data = $this->config_id_exist('menu')->where(['parrent' => $parrent, 'enabled' => 1])->order_by('urut')->get('menu')->result_array();

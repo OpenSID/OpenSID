@@ -504,6 +504,7 @@ class Penduduk_log_model extends MY_Model
             case 8:
                 $this->db->order_by('umur_pada_peristiwa', 'DESC');
                 break;
+
                 // Untuk Log Penduduk
             case 9:
                 $this->db->order_by('log.tgl_peristiwa', 'ASC');

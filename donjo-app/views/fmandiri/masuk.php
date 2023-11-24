@@ -146,7 +146,7 @@
 														Tempelkan e-KTP Pada Card Reader
 													<?php endif; ?>
 													<div class="thumbnail">
-														<img src="<?= asset("images/camera-scan.gif") ?>" alt="scanner" class="center" style="width:30%">
+														<img src="<?= asset('images/camera-scan.gif') ?>" alt="scanner" class="center" style="width:30%">
 													</div>
 												</div>
 												<div class="form-group form-login" style="<?= jecho($cek_anjungan == 0 || ENVIRONMENT == 'development', false, 'width: 0; overflow: hidden;') ?>">
