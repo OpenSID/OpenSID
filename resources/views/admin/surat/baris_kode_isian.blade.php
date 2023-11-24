@@ -3,7 +3,8 @@
         <div class="col-sm-9 row">
             @foreach ($groupLabel as $item)
                 @php
-                    $nama = isset($keyname) ? underscore($item->nama, true, true) . '_' . $keyname : underscore($item->nama, true, true);
+                    // $nama = isset($keyname) ? underscore($item->nama, true, true) . '_' . $keyname : underscore($item->nama, true, true);
+                    $nama = underscore($item->nama, true, true);
                     $class = buat_class($item->atribut, '', $item->required);
                     $widthClass = $item->kolom ? 'col-sm-' . $item->kolom : 'col-sm-12';
                     $dataKaitkan = strlen($item->kaitkan_kode ?? '') > 10 ? "data-kaitkan='" . $item->kaitkan_kode . "'" : '';

@@ -208,7 +208,7 @@ class TinyMCE
             'Surat' => KodeIsianSurat::get($data),
 
             // Data Form Surat
-            'Form Surat' => KodeIsianForm::get($data['input'], [], $data['surat']['masa_berlaku'] > 0),
+            'Form Surat' => KodeIsianForm::get($data['input'], null, $data['surat']['masa_berlaku'] > 0),
 
             // Data Identitas Desa
             'Identitas Desa' => KodeIsianIdentitas::get(),
@@ -220,7 +220,7 @@ class TinyMCE
             $judulPenduduk => KodeIsianPenduduk::get($idPenduduk),
 
             // Data Form Penduduk
-            "Form {$judulPenduduk}" => KodeIsianForm::get($data['input'], $daftarKodeIsian['individu']),
+            "Form {$judulPenduduk}" => KodeIsianForm::get($data['input'], $daftarKodeIsian['individu'] ?? []),
 
             // Data Anggota keluarga
             'Anggota Keluarga' => KodeIsianAnggotaKeluarga::get($idPenduduk),
@@ -260,7 +260,7 @@ class TinyMCE
                 if (array_intersect($value->data, [1])) {
                     $daftar_kode_isian[$value->judul] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
                 }
-                $daftar_kode_isian["Form {$value->judul}"] = KodeIsianForm::get($data['input'], $daftarKodeIsian[$key]);
+                $daftar_kode_isian["Form {$value->judul}"] = KodeIsianForm::get($data['input'], $daftarKodeIsian[$key] ?? []);
             } elseif ($value->sumber == 1 && $key == 'individu') {
                 if (! array_intersect($value->data, [1])) {
                     unset($daftar_kode_isian[$judulPenduduk]);
