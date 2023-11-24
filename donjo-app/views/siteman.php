@@ -64,6 +64,9 @@
 									<div class="form-group">
 										<input id="password" name="password" type="password" autocomplete="off" placeholder="Kata sandi" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> class="form-username form-control required" maxlength="100">
 									</div>
+									<?php if (setting('google_recaptcha')): ?>
+										<div class="g-recaptcha" data-sitekey="<?= setting('google_recaptcha_site_key') ?>"></div>
+									<?php endif ?>
 									<div class="form-group">
 										<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan kata sandi
 										<a href="<?= site_url('siteman/lupa_sandi') ?>" class="btn" role="button" aria-pressed="true">Lupa Kata Sandi?</a>
@@ -125,6 +128,7 @@
 
 		});
 	</script>
+	<script src='https://www.google.com/recaptcha/api.js?hl=id'></script>
 </body>
 
 </html>

@@ -27,19 +27,19 @@
 								<input type="text" class="form-control" id="file_path" name="userfile" required>
 								<input type="file" class="hidden" id="file" name="userfile">
 								<span class="input-group-btn">
-									<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
+									<button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 								</span>
 							</div>
 							<input type="hidden" id="id_suplemen" name="id_suplemen">
 							<label>Data dengan NIK sama akan ditimpa</label>
 							<br/>
 							<br/>
-							<a href="<?= base_url('assets/import/FormatImporRTM.xlsx'); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Rumah Tangga</a>
+							<a href="<?= base_url('assets/import/FormatImporRTM.xlsx'); ?>" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Rumah Tangga</a>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
-						<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class="fa fa-check"></i> Impor</button>
+						<?= batal() ?>
+						<button type="submit" class="btn btn-social btn-info btn-sm" id="ok"><i class="fa fa-check"></i> Impor</button>
 					</div>
 				</form>
 			</div>

@@ -149,7 +149,7 @@
 							<div class="col-sm-8">
 								<div class="input-group input-group-sm">
 									<input type="text" class="form-control" id="file_path2" placeholder="Upload Dokumen/Sertifikat" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>>
-									<input id="file2" type="file" class="hidden" name="vaksin_2" accept=".jpg, .jpeg, .png, .pdf">
+									<input id="file2" type="file" class="hidden" name="vaksin_2" accept=".jpg,.jpeg,.png,.pdf">
 									<input type="hidden" name="dokumen_vaksin_2" value="<?= $penduduk->dokumen_vaksin_2?>">
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-info btn-flat" id="file_browser2" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>><i class="fa fa-search"></i> Browse</button>

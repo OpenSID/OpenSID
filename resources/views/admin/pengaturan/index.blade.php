@@ -216,6 +216,26 @@
             }
         }
 
+        showRecaptcha($('#google_recaptcha').val());
+
+        $('#google_recaptcha').on('select2:select', function(e) {
+            showRecaptcha(e.params.data.id);
+        });
+
+        function showRecaptcha(value) {
+            if (value == 0) {
+                $('#form_google_recaptcha_secret_key').hide();
+                $('#form_google_recaptcha_site_key').hide();
+                $('#google_recaptcha_secret_key').removeClass('required');
+                $('#google_recaptcha_site_key').removeClass('required');
+            } else {
+                $('#form_google_recaptcha_secret_key').show();
+                $('#form_google_recaptcha_site_key').show();
+                $('#google_recaptcha_secret_key').addClass('required');
+                $('#google_recaptcha_site_key').addClass('required');
+            }
+        }
+
         $('.show-hide-password').click(function() {
             let _passwordElm = $(this).prev('input')
             let _currentType = _passwordElm.attr('type')

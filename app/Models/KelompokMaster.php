@@ -41,30 +41,29 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class KelompokAnggota extends BaseModel
+class KelompokMaster extends BaseModel
 {
     use ConfigId;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
+     * {@inheritDoc}
      */
-    protected $table = 'kelompok_anggota';
+    protected $table = 'kelompok_master';
 
     /**
-     * The timestamps for the model.
-     *
-     * @var bool
+     * {@inheritDoc}
+     */
+    protected $guarded = [];
+
+    /**
+     * {@inheritDoc}
      */
     public $timestamps = false;
 
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
+    public function kelompok()
+    {
+        return $this->hasMany(Kelompok::class, 'id_master', 'id');
+    }
 
     /**
      * Scope query untuk tipe kelompok

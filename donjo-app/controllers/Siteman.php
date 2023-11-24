@@ -86,6 +86,15 @@ class Siteman extends MY_Controller
 
     public function auth()
     {
+        if (setting('google_recaptcha')) {
+            $status = google_recaptcha();
+
+            if (! $status->success) {
+                set_session('notif', 'Mohon konfirmasi bahwa anda buka robot!');
+                redirect('siteman');
+            }
+        }
+
         $method       = $this->input->method(true);
         $allow_method = ['POST'];
         if (! in_array($method, $allow_method)) {

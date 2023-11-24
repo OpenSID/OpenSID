@@ -1423,6 +1423,35 @@ function sdgs()
     return (object) ['error_msg' => 'Tidak dapat mengambil data SDGS.<br>'];
 }
 
+function google_recaptcha()
+{
+    $ci = &get_instance();
+
+    // periksa koneksi
+    if (! cek_koneksi_internet()) {
+        return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
+    }
+
+    try {
+        $client = new Client([
+            'base_uri' => config_item('api_google_recaptcha'),
+            'timeout'  => 2.0,
+        ]);
+
+        $response = $client->request('POST', 'siteverify', [
+            'query' => [
+                'secret'   => setting('google_recaptcha_secret_key'),
+                'response' => trim($ci->input->post('g-recaptcha-response')),
+                'remoteip' => $ci->input->ip_address(),
+            ],
+        ]);
+    } catch (Exception $e) {
+        log_message('error', $e->getMessage());
+    }
+
+    return json_decode($response->getBody());
+}
+
 function menu_slug($url)
 {
     $CI = &get_instance();

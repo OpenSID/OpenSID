@@ -87,6 +87,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
             $hasil = $hasil && $this->migrasi_2023110671($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPenghasilanAyah($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023111151($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023112352($hasil, $id);
 
             // dimatika sementara karena belum siap
             // $hasil = $hasil && $this->migrasi_2023110971($hasil, $id);
@@ -497,5 +498,41 @@ class Migrasi_fitur_premium_2312 extends MY_model
             ['slug' => 'pengguna', 'url' => 'man_user/clear'],
             ['url' => 'man_user']
         );
+    }
+
+    protected function migrasi_2023112352($hasil, $id)
+    {
+        $hasil = $hasil && $this->tambah_setting([
+            'judul'      => 'Google Recaptcha Site Key',
+            'key'        => 'google_recaptcha_site_key',
+            'value'      => '',
+            'keterangan' => 'Site key google recaptcha',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'sistem',
+        ], $id);
+
+        $hasil = $hasil && $this->tambah_setting([
+            'judul'      => 'Google Recaptcha Secret Key',
+            'key'        => 'google_recaptcha_secret_key',
+            'value'      => '',
+            'keterangan' => 'Secret key google recaptcha',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'sistem',
+        ], $id);
+
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Google Recaptcha',
+            'key'        => 'google_recaptcha',
+            'value'      => 0,
+            'keterangan' => 'Aktif atau nonaktifkan google recaptcha',
+            'jenis'      => 'boolean',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'sistem',
+        ], $id);
     }
 }

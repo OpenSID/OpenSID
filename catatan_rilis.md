@@ -82,3 +82,4 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 3. [#7366](https://github.com/OpenSID/OpenSID/issues/7366) Pendeteksi lokasi masuk dari lokasi yang tidak biasa.
 4. [#3198](https://github.com/OpenSID/premium/issues/3198) Penyesuaian ulang url dan folder filemanager.
 5. [#3199](https://github.com/OpenSID/premium/issues/3199) Peningkatan keamanan pada form unggah file.
+6. [#7286](https://github.com/OpenSID/OpenSID/issues/7286) Peningkatan masuk aplikasi menggunakan google recaptcha yang bisa disesuaikan.

@@ -53,7 +53,7 @@
                         <div class="col-sm-6">
                             <div class="input-group input-group-sm col-sm-12">
                                 <input type="text" class="form-control" id="file_path">
-                                <input type="file" class="hidden" id="file" name="satuan">
+                                <input type="file" class="hidden" id="file" name="satuan" accept=".gif,.jpg,.jpeg,.png,.pdf">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                 </span>
