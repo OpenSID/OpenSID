@@ -162,7 +162,7 @@ class Laporan_sinkronisasi_model extends MY_Model
 
     private function upload($nama_file)
     {
-        $this->load->library('upload');
+        $this->load->library('MY_Upload', null, 'upload');
 
         $config['upload_path']   = LOKASI_DOKUMEN;
         $config['allowed_types'] = 'pdf';
