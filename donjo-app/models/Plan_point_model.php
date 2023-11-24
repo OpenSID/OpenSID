@@ -262,7 +262,7 @@ class Plan_point_model extends MY_Model
     {
         $config['upload_path']   = LOKASI_SIMBOL_LOKASI;
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        $this->load->library('upload');
+        $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('simbol')) {
