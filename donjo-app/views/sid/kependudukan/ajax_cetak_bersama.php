@@ -39,6 +39,6 @@
 	</div>
 	<div class="modal-footer">
 		<?= batal() ?>
-		<a href="#" class="btn btn-social btn-flat btn-info btn-sm" title="Simpan" target="_blank" onclick="cetak()" id="cetak_data" ><i class="fa fa-check"></i> <?= ucwords($aksi) ?></a>
+		<a href="#" class="btn btn-social btn-info btn-sm" title="Simpan" target="_blank" onclick="cetak()" id="cetak_data" ><i class="fa fa-check"></i> <?= ucwords($aksi) ?></a>
 	</div>
 </form>
