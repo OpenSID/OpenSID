@@ -49,9 +49,9 @@ use Illuminate\Support\Str;
 class FakeDataIsian
 {
     private $request;
-    private $tinymce;
+    private \App\Libraries\TinyMCE $tinymce;
     private $result;
-    private $data = [];
+    private array $data = [];
 
     public function __construct($request)
     {
@@ -76,7 +76,7 @@ class FakeDataIsian
         return $this->result;
     }
 
-    private function tempate()
+    private function tempate(): void
     {
         // TODO:: Sederhanakan cara ini, simpan di library TInymCE
         $setting_header = $this->request['header'] == StatusEnum::TIDAK ? '' : setting('header_surat');
@@ -84,7 +84,7 @@ class FakeDataIsian
         $this->result   = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
     }
 
-    private function sumberData()
+    private function sumberData(): void
     {
         $form_isian = json_decode($this->request['form_isian'], true);
 
@@ -122,14 +122,14 @@ class FakeDataIsian
                     }
                 } else {
                     // TODO: Perbarui ini mengikuti cara baru
-                    $this->data['nik_non_warga']  = mt_rand(1000000000000000, 9999999999999999);
+                    $this->data['nik_non_warga']  = random_int(1_000_000_000_000_000, 9_999_999_999_999_999);
                     $this->data['nama_non_warga'] = 'Nama Non Warga';
                 }
             }
         }
     }
 
-    private function formDinamis()
+    private function formDinamis(): void
     {
         $kode_isian = grup_kode_isian(json_decode($this->request['kode_isian'], true));
 
@@ -160,14 +160,14 @@ class FakeDataIsian
                     break;
 
                 case 'number':
-                    $nilai_isian = Str::contains($value['atribut'], ['min', 'max']) ? mt_rand(Str::before(Str::after($value['atribut'], 'min="'), '"'), Str::between($value['atribut'], 'max="', '"')) : mt_rand(1, 10);
+                    $nilai_isian = Str::contains($value['atribut'], ['min', 'max']) ? random_int(Str::before(Str::after($value['atribut'], 'min="'), '"'), Str::between($value['atribut'], 'max="', '"')) : random_int(1, 10);
                     break;
 
                 default:
                     if (preg_match('/hari/i', $value['atribut'])) {
                         $nilai_isian = hari($tanggal);
                     } elseif (preg_match('/rupiah/i', $value['atribut'])) {
-                        $nilai_isian = 'Rp. ' . number_format(mt_rand(100, 9999) . '000', 0, ',', '.');
+                        $nilai_isian = 'Rp. ' . number_format(random_int(100, 9999) . '000', 0, ',', '.');
                     } else {
                         $nilai_isian = $value['deskripsi'] ?? $value['nama'];
                     }
@@ -177,7 +177,7 @@ class FakeDataIsian
         }
     }
 
-    private function formStatis()
+    private function formStatis(): void
     {
         if ((int) $this->request['masa_berlaku'] > 0) {
             $tanggal_akhir = Carbon::now();
@@ -209,7 +209,7 @@ class FakeDataIsian
         }
     }
 
-    private function formPengikut()
+    private function formPengikut(): void
     {
         // Pengikut Pindah
         if (preg_match('/pengikut_pindah/i', $this->request['template_desa'])) {
@@ -220,7 +220,7 @@ class FakeDataIsian
         $pengikut_1    = Penduduk::where('id', $this->data['id_pend'])->get();
         $pengikut_kis  = generatePengikutSuratKIS($pengikut_1);
         $pengikut_2[0] = [
-            'kartu'        => mt_rand(1000000000000000, 9999999999999999),
+            'kartu'        => random_int(1_000_000_000_000_000, 9_999_999_999_999_999),
             'nama'         => $pengikut_1[0]->nama . ' A.',
             'nik'          => substr($pengikut_1[0]->nik, 0, 15) . '1',
             'alamat'       => 'INI ALAMAT YANG BENAR',
@@ -234,13 +234,13 @@ class FakeDataIsian
         $this->data['pengikut_surat']     = $pengikut_surat ?? null; // belum digunakan
     }
 
-    private function terakhirReplace()
+    private function terakhirReplace(): void
     {
         $data_gambar  = KodeIsianGambar::set($this->request, $this->result);
         $this->result = $data_gambar['result'];
     }
 
-    private function prosesReplace()
+    private function prosesReplace(): void
     {
         // Pengingat : form_isian disamakan formatnya menggunakan object
         $this->data['surat']     = new FormatSurat($this->request);

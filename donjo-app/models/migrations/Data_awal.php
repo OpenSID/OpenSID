@@ -115,7 +115,7 @@ class Data_awal extends MY_Model
             $hasil = $hasil && $this->keuangan_manual($hasil);
         }
 
-        return $hasil && true;
+        return $hasil;
     }
 
     protected function isi_config($hasil)
@@ -153,7 +153,7 @@ class Data_awal extends MY_Model
             hapus_cache('identitas_desa');
         }
 
-        return $hasil && true;
+        return $hasil;
     }
 
     protected function tambah_grup_pengguna($hasil)
@@ -207,7 +207,7 @@ class Data_awal extends MY_Model
         ];
 
         if (!Schema::hasColumn('user_grup', 'slug')) {
-            $data = array_map(function ($item) {
+            $data = array_map(function (array $item): array {
                 unset($item['slug']);
                 return $item;
             }, $data);
@@ -1148,12 +1148,12 @@ class Data_awal extends MY_Model
             $hasil = $hasil && DB::table('grup_akses')->insert([
                 'config_id' => $this->config_id,
                 'id_grup'   => UserGrup::where('nama', $row['grup'])->first()->id,
-                'id_modul'  => Modul::when($row['slug'] == 'klasfikasi-surat', static function ($query) {
+                'id_modul'  => Modul::when($row['slug'] == 'klasfikasi-surat', static function ($query): void {
                     // perubahan modul 'klasfikasi-surat' menjadi 'klasifikasi-surat'
                     // membuat migrasi selanjutnya tidak berjalan, gunakan query
                     // untuk mencari 'klasfikasi-surat' atau 'klasifikasi-surat'
                     $query->where('slug', 'klasfikasi-surat')->orWhere('slug', 'klasifikasi-surat');
-                }, static function ($query) use ($row) {
+                }, static function ($query) use ($row): void {
                     // default query
                     $query->where('slug', $row['slug']);
                 })
@@ -1163,7 +1163,7 @@ class Data_awal extends MY_Model
             ]);
         }
 
-        return $hasil && true;
+        return $hasil;
     }
 
     // Tambah pengaturan aplikasi jika tidak ada
@@ -2246,7 +2246,7 @@ class Data_awal extends MY_Model
             [
                 'judul'      => 'Warna Tema',
                 'key'        => 'warna_tema',
-                'value'      => DB::table('setting_aplikasi')->where('key', 'warna_tema')->first()->value ?: config_item('warna_tema') ?: SettingAplikasi::WARNA_TEMA,
+                'value'      => (DB::table('setting_aplikasi')->where('key', 'warna_tema')->first()->value ?: config_item('warna_tema')) ?: SettingAplikasi::WARNA_TEMA,
                 'keterangan' => 'Warna tema untuk halaman website',
                 'jenis'      => 'color',
                 'option'     => null,
@@ -17885,7 +17885,7 @@ class Data_awal extends MY_Model
 
         $uratTinyMCE = getSuratBawaanTinyMCE()->toArray();
         
-        foreach ($uratTinyMCE as $key => $value) {
+        foreach ($uratTinyMCE as $value) {
             $hasil = $hasil && $this->tambah_surat_tinymce($value);
         }
 
@@ -18028,7 +18028,7 @@ class Data_awal extends MY_Model
     }
 
     // Tambah syarat surat pada tabel surat
-    public function tambah_modul($hasil)
+    public function tambah_modul($hasil): bool
     {
         $data = [
             [
@@ -19965,7 +19965,7 @@ class Data_awal extends MY_Model
         $this->load->model('database_model');
         $this->database_model->impor_data_awal_analisis();
 
-        return $hasil && true;
+        return $hasil;
     }
 
     protected function notifikasi($hasil)

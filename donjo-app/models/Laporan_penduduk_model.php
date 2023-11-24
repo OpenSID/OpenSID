@@ -50,12 +50,11 @@ class Laporan_penduduk_model extends MY_Model
     public function search_sql()
     {
         if (isset($_SESSION['cari'])) {
-            $cari       = $_SESSION['cari'];
-            $kw         = $this->db->escape_like_str($cari);
-            $kw         = '%' . $kw . '%';
-            $search_sql = " AND u.nama LIKE '{$kw}'";
+            $cari = $_SESSION['cari'];
+            $kw   = $this->db->escape_like_str($cari);
+            $kw   = '%' . $kw . '%';
 
-            return $search_sql;
+            return " AND u.nama LIKE '{$kw}'";
         }
     }
 
@@ -92,9 +91,8 @@ class Laporan_penduduk_model extends MY_Model
         $sql .= $this->rw_sql();
         $sql .= $this->rt_sql();
         $sql .= ') AS jumlah';
-        $sql .= $delimiter ? ',' : '';
 
-        return $sql;
+        return $sql . ($delimiter ? ',' : '');
     }
 
     // TODO: Digunakan dimana?
@@ -109,9 +107,8 @@ class Laporan_penduduk_model extends MY_Model
         $sql .= $this->rw_sql();
         $sql .= $this->rt_sql();
         $sql .= ') AS laki';
-        $sql .= $delimiter ? ',' : '';
 
-        return $sql;
+        return $sql . ($delimiter ? ',' : '');
     }
 
     protected function get_perempuan_sql($fk = false, $delimiter = false, $where = 0)
@@ -125,9 +122,8 @@ class Laporan_penduduk_model extends MY_Model
         $sql .= $this->rw_sql();
         $sql .= $this->rt_sql();
         $sql .= ') AS perempuan';
-        $sql .= $delimiter ? ',' : '';
 
-        return $sql;
+        return $sql . ($delimiter ? ',' : '');
     }
 
     public function judul_statistik($lap)
@@ -159,8 +155,9 @@ class Laporan_penduduk_model extends MY_Model
         $total['jumlah']    = 0;
         $total['laki']      = 0;
         $total['perempuan'] = 0;
+        $counter            = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
             $total['jumlah'] += $data[$i]['jumlah'];
             $total['laki'] += $data[$i]['laki'];
@@ -172,7 +169,9 @@ class Laporan_penduduk_model extends MY_Model
 
     protected function isi_nomor(&$data)
     {
-        for ($i = 0; $i < count($data); $i++) {
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
         }
     }
@@ -180,7 +179,10 @@ class Laporan_penduduk_model extends MY_Model
     protected function hitung_persentase(&$data, $semua)
     {
         // Hitung semua presentase
-        for ($i = 0; $i < count($data); $i++) {
+        $counter = count($data);
+
+        // Hitung semua presentase
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['persen']  = persen2($data[$i]['jumlah'], $semua['jumlah']);
             $data[$i]['persen1'] = persen2($data[$i]['laki'], $semua['jumlah']);
             $data[$i]['persen2'] = persen2($data[$i]['perempuan'], $semua['jumlah']);
@@ -222,7 +224,7 @@ class Laporan_penduduk_model extends MY_Model
         return $baris_belum;
     }
 
-    private function select_jml_penduduk_per_kategori($id_referensi, $tabel_referensi)
+    private function select_jml_penduduk_per_kategori(string $id_referensi, string $tabel_referensi): void
     {
         $this->filter_wilayah();
 
@@ -309,8 +311,6 @@ class Laporan_penduduk_model extends MY_Model
                 break;
 
             case $o == 1:
-                $this->db->order_by('u.id');
-                break;
 
             case $o == 1:
                 $this->db->order_by('u.id');
@@ -346,7 +346,7 @@ class Laporan_penduduk_model extends MY_Model
         }
     }
 
-    private function select_jml($where)
+    private function select_jml(string $where): void
     {
         $str_jml_penduduk  = $this->str_jml_penduduk($where);
         $str_jml_laki      = $this->str_jml_penduduk($where, '1');
@@ -357,11 +357,11 @@ class Laporan_penduduk_model extends MY_Model
             ->select("({$str_jml_perempuan}) as perempuan");
     }
 
-    private function str_jml_penduduk($where, $sex = '')
+    private function str_jml_penduduk(string $where, string $sex = '')
     {
         $this->filter_wilayah();
 
-        if ($sex) {
+        if ($sex !== '' && $sex !== '0') {
             $this->db->where('b.sex', $sex);
         }
 
@@ -538,7 +538,7 @@ class Laporan_penduduk_model extends MY_Model
             $semua = $this->data_jml_semua_penduduk();
         } elseif (in_array($lap, ['kelas_sosial', 'bantuan_keluarga'])) {
             $semua = $this->data_jml_semua_keluarga();
-        } elseif (in_array($lap, ['bdt'])) {
+        } elseif ($lap == 'bdt') {
             $semua = $this->data_jml_semua_rtm();
         } else {
             if ($lap == 'hamil') {
@@ -621,7 +621,7 @@ class Laporan_penduduk_model extends MY_Model
             ->row_array();
     }
 
-    public function insert_rentang()
+    public function insert_rentang(): void
     {
         $data           = $this->input->post();
         $data['status'] = 1;
@@ -636,7 +636,7 @@ class Laporan_penduduk_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update_rentang($id = 0)
+    public function update_rentang($id = 0): void
     {
         $data = $this->input->post();
         if ($data['sampai'] != '99999') {
@@ -649,7 +649,7 @@ class Laporan_penduduk_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete_rentang($id = '', $semua = false)
+    public function delete_rentang($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -660,7 +660,7 @@ class Laporan_penduduk_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all_rentang()
+    public function delete_all_rentang(): void
     {
         $this->session->success = 1;
 
@@ -671,14 +671,14 @@ class Laporan_penduduk_model extends MY_Model
         }
     }
 
-    public function filter()
+    public function filter(): void
     {
         $this->filter_status();
         $this->filter_tahun();
         $this->filter_wilayah();
     }
 
-    public function filter_status()
+    public function filter_status(): void
     {
         $status = (string) $this->session->status;
         if ($status != '') {
@@ -686,7 +686,7 @@ class Laporan_penduduk_model extends MY_Model
         }
     }
 
-    public function filter_tahun()
+    public function filter_tahun(): void
     {
         $tahun = $this->session->tahun;
         if ($tahun != '') {
@@ -698,7 +698,7 @@ class Laporan_penduduk_model extends MY_Model
         }
     }
 
-    public function filter_wilayah()
+    public function filter_wilayah(): void
     {
         $dusun = $this->session->dusun;
         $rw    = $this->session->rw;

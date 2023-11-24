@@ -146,7 +146,7 @@
                                                         <div class="col-sm-4">
                                                             <select class="form-control input-sm select2" id="id_peta" name="id_peta">
                                                                 <option value=''>-- Pilih Area--</option>
-                                                                <?php foreach ($peta as $key => $item) : ?>
+                                                                <?php foreach ($peta as $item) : ?>
                                                                     <option value="<?= $item['id'] ?>" <?php selected($item['id'], $mutasi['id_peta']) ?>><?= $item['nama'] ?></option>
                                                                 <?php endforeach ?>
                                                             </select>
@@ -184,7 +184,9 @@
                                     </div>
                                 <?php endif; ?>
 
-                                <div id="mutasi_persil" <?php empty($persil['cdesa_awal']) && empty($mutasi) && print 'style="display: none;"' ?>>
+                                <div id="mutasi_persil" <?php if (empty($persil['cdesa_awal']) && empty($mutasi)) {
+                                    echo 'style="display: none;"';
+                                }?> >
 
                                     <form name='mainform' action="<?= site_url('cdesa/simpan_mutasi/' . $cdesa['id'] . '/' . $mutasi['id']) ?>" method="POST" id="validasi" class="form-horizontal">
                                         <input name="jenis_pemilik" type="hidden" value="1">
@@ -398,22 +400,22 @@
 
             //OVERLAY WILAYAH DESA
             <?php if (! empty($desa['path'])): ?>
-                set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa']?>", "<?= favico_desa()?>");
+                set_marker_desa(marker_desa, <?=json_encode($desa, JSON_THROW_ON_ERROR)?>, "<?=ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa']?>", "<?= favico_desa()?>");
             <?php endif; ?>
 
             //OVERLAY WILAYAH DUSUN
             <?php if (! empty($dusun_gis)): ?>
-                set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
+                set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis, JSON_THROW_ON_ERROR))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
             <?php endif; ?>
 
             //OVERLAY WILAYAH RW
             <?php if (! empty($rw_gis)): ?>
-                set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
+                set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis, JSON_THROW_ON_ERROR))?>', '#8888dd', 'RW', 'rw');
             <?php endif; ?>
 
             //OVERLAY WILAYAH RT
             <?php if (! empty($rt_gis)): ?>
-                set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
+                set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis, JSON_THROW_ON_ERROR))?>', '#008000', 'RT', 'rt');
             <?php endif; ?>
 
             //Menampilkan overlayLayers Peta Semua Wilayah
@@ -450,11 +452,11 @@
             addPetaPoly(peta_area);
 
             // deklrasi variabel agar mudah di baca
-            var all_area = '<?= addslashes(json_encode($all_area)) ?>';
-            var all_garis = '<?= addslashes(json_encode($all_garis)) ?>';
-            var all_lokasi = '<?= addslashes(json_encode($all_lokasi)) ?>';
-            var all_lokasi_pembangunan = '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>';
-            var all_persil = '<?= addslashes(json_encode($persil))?>';
+            var all_area = '<?= addslashes(json_encode($all_area, JSON_THROW_ON_ERROR)) ?>';
+            var all_garis = '<?= addslashes(json_encode($all_garis, JSON_THROW_ON_ERROR)) ?>';
+            var all_lokasi = '<?= addslashes(json_encode($all_lokasi, JSON_THROW_ON_ERROR)) ?>';
+            var all_lokasi_pembangunan = '<?= addslashes(json_encode($all_lokasi_pembangunan, JSON_THROW_ON_ERROR)) ?>';
+            var all_persil = '<?= addslashes(json_encode($persil, JSON_THROW_ON_ERROR))?>';
             var LOKASI_SIMBOL_LOKASI = '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>';
             var favico_desa = '<?= favico_desa() ?>';
             var LOKASI_FOTO_AREA = '<?= base_url() . LOKASI_FOTO_AREA ?>';

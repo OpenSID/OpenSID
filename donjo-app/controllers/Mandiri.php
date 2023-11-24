@@ -38,44 +38,10 @@
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
 
-/*
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package   OpenSID
- * @author    Tim Pengembang OpenDesa
- * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license   http://www.gnu.org/licenses/gpl.html GPL V3
- * @link      https://github.com/OpenSID/OpenSID
- *
- */
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\PendudukMandiri;
+use Illuminate\Contracts\View\View;
 
 class Mandiri extends Admin_Controller
 {
@@ -90,7 +56,7 @@ class Mandiri extends Admin_Controller
         $this->telegram      = new Telegram();
     }
 
-    public function index()
+    public function index(): View
     {
         return view('admin.layanan_mandiri.daftar.index');
     }
@@ -100,7 +66,7 @@ class Mandiri extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables()->of(PendudukMandiri::with('penduduk'))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     if (can('u')) {
                         $aksi .= '<a href="' . route('mandiri.ajax_pin', $row->id_pend) . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Reset PIN Warga" title="Reset PIN Warga" class="btn btn-primary btn-sm"><i class="fa fa-key"></i></a> ';
@@ -117,12 +83,8 @@ class Mandiri extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tanggal_buat', static function ($row) {
-                    return tgl_indo2($row->getRawOriginal('tanggal_buat'));
-                })
-                ->editColumn('last_login', static function ($row) {
-                    return tgl_indo2($row->getRawOriginal('last_login'));
-                })
+                ->editColumn('tanggal_buat', static fn ($row) => tgl_indo2($row->getRawOriginal('tanggal_buat')))
+                ->editColumn('last_login', static fn ($row) => tgl_indo2($row->getRawOriginal('last_login')))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -130,7 +92,7 @@ class Mandiri extends Admin_Controller
         return show_404();
     }
 
-    public function ajax_pin($id_pend = '')
+    public function ajax_pin($id_pend = ''): View
     {
         $this->redirect_hak_akses('u');
         $data['penduduk'] = PendudukHidup::select(['id', 'nik', 'nama'])->whereDoesntHave('mandiri')->get()->toArray();
@@ -150,7 +112,7 @@ class Mandiri extends Admin_Controller
         return view('admin.layanan_mandiri.daftar.ajax_pin', $data);
     }
 
-    public function ajax_hp($id_pend)
+    public function ajax_hp($id_pend): View
     {
         $this->redirect_hak_akses('u');
         $data['form_action'] = route("{$this->controller}.ubah_hp", $id_pend);
@@ -159,7 +121,7 @@ class Mandiri extends Admin_Controller
         return view('admin.layanan_mandiri.daftar.ajax_hp', $data);
     }
 
-    public function ajax_verifikasi_warga($id_pend)
+    public function ajax_verifikasi_warga($id_pend): View
     {
         $this->redirect_hak_akses('u');
         $data['tgl_verifikasi_telegram'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($id_pend);
@@ -170,11 +132,11 @@ class Mandiri extends Admin_Controller
         return view('admin.layanan_mandiri.daftar.ajax_verifikasi_warga', $data);
     }
 
-    public function verifikasi_warga($id_pend)
+    public function verifikasi_warga($id_pend): void
     {
         $this->redirect_hak_akses('u');
 
-        $post          = $this->input->post();
+        $this->input->post();
         $pilihan_kirim = $this->request['pilihan_kirim'];
         // TODO: Sederhanakan query ini, pindahkan ke model
         $data = Penduduk::select(['telegram', 'email', 'nama'])->find($id_pend);
@@ -208,7 +170,7 @@ class Mandiri extends Admin_Controller
         }
     }
 
-    protected function kirimTelegram($data)
+    protected function kirimTelegram($data): void
     {
         try {
             // TODO: Sederhanakan query ini, pindahkan ke model
@@ -248,7 +210,7 @@ class Mandiri extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function ubah_hp($id_pend)
+    public function ubah_hp($id_pend): void
     {
         $this->redirect_hak_akses('u');
 
@@ -261,7 +223,7 @@ class Mandiri extends Admin_Controller
         }
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -285,7 +247,7 @@ class Mandiri extends Admin_Controller
         }
     }
 
-    public function update($id_pend)
+    public function update($id_pend): void
     {
         akun_demo($id_pend);
         $this->redirect_hak_akses('u');
@@ -328,14 +290,14 @@ class Mandiri extends Admin_Controller
         }
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         $this->redirect_hak_akses('h');
         PendudukMandiri::where(['id_pend' => $id])->delete();
         redirect($this->controller);
     }
 
-    public function kirim($id_pend = '')
+    public function kirim($id_pend = ''): void
     {
         $this->redirect_hak_akses('u');
         $pin  = $this->input->post('pin');
@@ -351,7 +313,7 @@ class Mandiri extends Admin_Controller
         redirect($this->controller);
     }
 
-    private function kirimPinBaru($media, $pin, $penduduk)
+    private function kirimPinBaru(?string $media, $pin, $penduduk): void
     {
         switch($media) {
             case 'telegram':

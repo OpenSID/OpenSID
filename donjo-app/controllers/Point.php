@@ -48,34 +48,26 @@ class Point extends Admin_Controller
         $this->sub_modul_ini = 'pengaturan-peta';
     }
 
-    public function clear()
+    public function clear(): void
     {
         unset($_SESSION['cari'], $_SESSION['filter']);
 
         redirect('point');
     }
 
-    public function clear_simbol()
+    public function clear_simbol(): void
     {
         redirect('point/form_simbol');
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
+        $data['cari'] = $_SESSION['cari'] ?? '';
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
+        $data['filter'] = $_SESSION['filter'] ?? '';
 
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
@@ -90,7 +82,7 @@ class Point extends Admin_Controller
         $this->render('point/table', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = '')
+    public function form($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data['p'] = $p;
@@ -110,7 +102,7 @@ class Point extends Admin_Controller
         $this->render('point/form', $data);
     }
 
-    public function sub_point($point = 1)
+    public function sub_point($point = 1): void
     {
         $data['subpoint'] = $this->plan_point_model->list_sub_point($point);
         $data['point']    = $this->plan_point_model->get_point($point) ?? show_404();
@@ -119,7 +111,7 @@ class Point extends Admin_Controller
         $this->render('point/sub_point_table', $data);
     }
 
-    public function ajax_add_sub_point($point = 0, $id = 0)
+    public function ajax_add_sub_point($point = 0, $id = 0): void
     {
         if ($id) {
             $data['point']       = $this->plan_point_model->get_point($id) ?? show_404();
@@ -133,7 +125,7 @@ class Point extends Admin_Controller
         $this->load->view('point/ajax_add_sub_point_form', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -144,7 +136,7 @@ class Point extends Admin_Controller
         redirect('point');
     }
 
-    public function filter()
+    public function filter(): void
     {
         $filter = $this->input->post('filter');
         if ($filter != 0) {
@@ -155,98 +147,98 @@ class Point extends Admin_Controller
         redirect('point');
     }
 
-    public function insert($tip = 1)
+    public function insert($tip = 1): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_point_model->insert($tip);
         redirect("point/index/{$tip}");
     }
 
-    public function update($id = '', $p = 1, $o = 0)
+    public function update($id = '', $p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_point_model->update($id);
         redirect("point/index/{$p}/{$o}");
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h', "point/index/{$p}/{$o}");
         $this->plan_point_model->delete($id);
         redirect("point/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h', "point/index/{$p}/{$o}");
         $this->plan_point_model->delete_all();
         redirect("point/index/{$p}/{$o}");
     }
 
-    public function point_lock($id = '')
+    public function point_lock($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_point_model->point_lock($id, 1);
         redirect("point/index/{$p}/{$o}");
     }
 
-    public function point_unlock($id = '')
+    public function point_unlock($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_point_model->point_lock($id, 2);
         redirect("point/index/{$p}/{$o}");
     }
 
-    public function insert_sub_point($point = '')
+    public function insert_sub_point($point = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_point_model->insert_sub_point($point);
         redirect("point/sub_point/{$point}");
     }
 
-    public function update_sub_point($point = '', $id = '')
+    public function update_sub_point($point = '', $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_point_model->update_sub_point($id);
         redirect("point/sub_point/{$point}");
     }
 
-    public function delete_sub_point($point = '', $id = '')
+    public function delete_sub_point($point = '', $id = ''): void
     {
         $this->redirect_hak_akses('h', "point/sub_point/{$point}");
         $this->plan_point_model->delete_sub_point($id);
         redirect("point/sub_point/{$point}");
     }
 
-    public function delete_all_sub_point($point = '')
+    public function delete_all_sub_point($point = ''): void
     {
         $this->redirect_hak_akses('h', "point/sub_point/{$point}");
         $this->plan_point_model->delete_all_sub_point();
         redirect("point/sub_point/{$point}");
     }
 
-    public function point_lock_sub_point($point = '', $id = '')
+    public function point_lock_sub_point($point = '', $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_point_model->point_lock($id, 1);
         redirect("point/sub_point/{$point}");
     }
 
-    public function point_unlock_sub_point($point = '', $id = '')
+    public function point_unlock_sub_point($point = '', $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_point_model->point_lock($id, 2);
         redirect("point/sub_point/{$point}");
     }
 
-    public function tambah_simbol()
+    public function tambah_simbol(): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_point_model->tambah_simbol();
         redirect('point/form_simbol');
     }
 
-    public function form_simbol($id = '')
+    public function form_simbol($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data['simbol'] = $this->plan_point_model->list_simbol();
@@ -255,7 +247,7 @@ class Point extends Admin_Controller
         $this->render('point/form_simbol', $data);
     }
 
-    public function delete_simbol($id = '', $simbol = '')
+    public function delete_simbol($id = '', $simbol = ''): void
     {
         $this->redirect_hak_akses('h');
         $this->plan_point_model->delete_simbol($id);
@@ -263,7 +255,7 @@ class Point extends Admin_Controller
         redirect('point/form_simbol');
     }
 
-    public function salin_simbol_default()
+    public function salin_simbol_default(): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_point_model->salin_simbol_default();

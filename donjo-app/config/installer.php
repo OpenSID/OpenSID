@@ -266,103 +266,71 @@ $config = [
     'folders' => [
         'storage.framework' => [
             'name'  => STORAGEPATH . 'framework',
-            'check' => static function () {
-                return substr(sprintf('%o', fileperms(STORAGEPATH . 'framework')), -4) >= '0755';
-            },
+            'check' => static fn (): bool => substr(sprintf('%o', fileperms(STORAGEPATH . 'framework')), -4) >= '0755',
         ],
         'storage.logs' => [
             'name'  => STORAGEPATH . 'logs',
-            'check' => static function () {
-                return substr(sprintf('%o', fileperms(STORAGEPATH . 'logs')), -4) >= '0755';
-            },
+            'check' => static fn (): bool => substr(sprintf('%o', fileperms(STORAGEPATH . 'logs')), -4) >= '0755',
         ],
         'backup_inkremental' => [
             'name'  => BACKUPPATH,
-            'check' => static function () {
-                return is_dir(BACKUPPATH) ? substr(sprintf('%o', fileperms(BACKUPPATH)), -4) >= '0755' : true;
-            },
+            'check' => static fn (): bool => is_dir(BACKUPPATH) ? substr(sprintf('%o', fileperms(BACKUPPATH)), -4) >= '0755' : true,
         ],
     ],
 
     'server' => [
         'php' => [
             'name'    => 'PHP Version',
-            'version' => '>= 7.4.0 | < 8.0.0',
-            'check'   => static function () {
-                return version_compare(PHP_VERSION, '7.4', '>=') && version_compare(PHP_VERSION, '8.0', '<');
-            },
+            'version' => '>= 7.4.0 | <= 8.2.0',
+            'check'   => static fn (): bool => version_compare(PHP_VERSION, '7.4', '>=') && version_compare(PHP_VERSION, '8.2', '<='),
         ],
         'pdo' => [
             'name'  => 'PDO',
-            'check' => static function () {
-                return extension_loaded('pdo_mysql');
-            },
+            'check' => static fn (): bool => extension_loaded('pdo_mysql'),
         ],
         'curl' => [
             'name'  => 'Curl extention',
-            'check' => static function () {
-                return extension_loaded('curl');
-            },
+            'check' => static fn (): bool => extension_loaded('curl'),
         ],
         'fileinfo' => [
             'name'  => 'Fileinfo extension',
-            'check' => static function () {
-                return extension_loaded('fileinfo');
-            },
+            'check' => static fn (): bool => extension_loaded('fileinfo'),
         ],
         'gd' => [
             'name'  => 'GD extension',
-            'check' => static function () {
-                return extension_loaded('gd');
-            },
+            'check' => static fn (): bool => extension_loaded('gd'),
         ],
         'iconv' => [
             'name'  => 'Iconv extension',
-            'check' => static function () {
-                return extension_loaded('iconv');
-            },
+            'check' => static fn (): bool => extension_loaded('iconv'),
         ],
         'json' => [
             'name'  => 'Json extension',
-            'check' => static function () {
-                return extension_loaded('json');
-            },
+            'check' => static fn (): bool => extension_loaded('json'),
         ],
         'mbstring' => [
             'name'  => 'Mbstring extension',
-            'check' => static function () {
-                return extension_loaded('mbstring');
-            },
+            'check' => static fn (): bool => extension_loaded('mbstring'),
         ],
         'mysqli' => [
             'name'  => 'Mysqli extension',
-            'check' => static function () {
-                return extension_loaded('mysqli');
-            },
+            'check' => static fn (): bool => extension_loaded('mysqli'),
         ],
         'mysqlnd' => [
             'name'  => 'Mysqlnd extension',
-            'check' => static function () {
-                return extension_loaded('mysqlnd');
-            },
+            'check' => static fn (): bool => extension_loaded('mysqlnd'),
         ],
         'tidy' => [
             'name'  => 'Tidy extension',
-            'check' => static function () {
-                return extension_loaded('tidy');
-            },
+            'check' => static fn (): bool => extension_loaded('tidy'),
         ],
         'zip' => [
             'name'  => 'Zip extension',
-            'check' => static function () {
-                return extension_loaded('zip');
-            },
+            'check' => static fn (): bool => extension_loaded('zip'),
         ],
         'exif' => [
             'name'  => 'Exif extension',
-            'check' => static function () {
-                return extension_loaded('exif');
-            },
+            'check' => static fn (): bool => extension_loaded('exif'),
         ],
     ],
 ];

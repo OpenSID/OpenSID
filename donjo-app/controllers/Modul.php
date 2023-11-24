@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Modul extends Admin_Controller
 {
-    private $list_session;
+    private array $list_session = ['status', 'cari', 'module'];
 
     public function __construct()
     {
@@ -47,16 +47,15 @@ class Modul extends Admin_Controller
         $this->load->model(['modul_model']);
         $this->modul_ini     = 'pengaturan';
         $this->sub_modul_ini = 'modul';
-        $this->list_session  = ['status', 'cari', 'module'];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata($this->list_session);
         redirect('modul');
     }
 
-    public function index()
+    public function index(): void
     {
         $id = $this->session->module;
 
@@ -76,7 +75,7 @@ class Modul extends Admin_Controller
         $this->render('setting/modul/table', $data);
     }
 
-    public function form($id = '')
+    public function form($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data['list_icon'] = $this->modul_model->list_icon();
@@ -91,14 +90,14 @@ class Modul extends Admin_Controller
         $this->render('setting/modul/form', $data);
     }
 
-    public function sub_modul($id = '')
+    public function sub_modul($id = ''): void
     {
         $this->session->module = $id;
 
         redirect('modul');
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         $value = $this->input->post($filter);
         if ($value != '') {
@@ -109,7 +108,7 @@ class Modul extends Admin_Controller
         redirect('modul');
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->modul_model->update($id);
@@ -121,21 +120,21 @@ class Modul extends Admin_Controller
         }
     }
 
-    public function lock($id = 0, $val = 1)
+    public function lock($id = 0, $val = 1): void
     {
         $this->redirect_hak_akses('u');
         $this->modul_model->lock($id, $val);
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function ubah_server()
+    public function ubah_server(): void
     {
         $this->redirect_hak_akses('u');
         $this->setting_model->update_penggunaan_server();
         redirect('modul');
     }
 
-    public function default_server()
+    public function default_server(): void
     {
         $this->redirect_hak_akses('u');
         $this->modul_model->default_server();

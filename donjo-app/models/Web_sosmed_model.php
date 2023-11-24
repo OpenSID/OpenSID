@@ -67,7 +67,7 @@ class Web_sosmed_model extends MY_Model
         }
     }
 
-    public function update($sosmed)
+    public function update($sosmed): void
     {
         $id = $this->get_id($sosmed);
 
@@ -75,11 +75,7 @@ class Web_sosmed_model extends MY_Model
         $link = trim(strip_tags($this->input->post('link')));
 
         // untuk youtube validasi dilakukan khusus
-        if ($id === '4') {
-            $data['link'] = $this->link_sosmed($id, $link);
-        } else {
-            $data['link'] = $link;
-        }
+        $data['link'] = $id === '4' ? $this->link_sosmed($id, $link) : $link;
 
         $outp = $this->config_id()
             ->where('id', $id)
@@ -128,12 +124,11 @@ class Web_sosmed_model extends MY_Model
             $pattern = '/@[A-Za-z][A-Za-z0-9_\\-.]{2,29}/i';
             if (preg_match_all($pattern, $link, $matches)) {
                 $nickname = array_shift(array_shift($matches));
-                $link     = 'https://www.youtube.com/' . $nickname;
-            } else {
-                $link = '';
+
+                return 'https://www.youtube.com/' . $nickname;
             }
 
-            return $link;
+            return '';
         }
         // Remove all illegal characters from a url
         // remove `@` with ''

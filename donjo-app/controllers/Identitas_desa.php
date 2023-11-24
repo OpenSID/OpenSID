@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Models\Config;
 use App\Models\Pamong;
 use App\Models\Wilayah;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Schema;
 
 class Identitas_desa extends Admin_Controller
@@ -66,7 +67,7 @@ class Identitas_desa extends Admin_Controller
      *
      * @return void
      */
-    public function index()
+    public function index(): View
     {
         return view('admin.identitas_desa.index', [
             'main'      => $this->identitas_desa,
@@ -79,7 +80,7 @@ class Identitas_desa extends Admin_Controller
      *
      * @return void
      */
-    public function form()
+    public function form(): View
     {
         $this->redirect_hak_akses('u');
         $data['main']           = $this->identitas_desa;
@@ -100,7 +101,7 @@ class Identitas_desa extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (Config::create($this->validate($this->request))) {
+        if (Config::create(static::validate($this->request))) {
             return json([
                 'status' => true,
             ]);
@@ -121,7 +122,7 @@ class Identitas_desa extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         $id       = $this->identitas_desa['id'];
-        $validate = $this->validate($this->request, $id);
+        $validate = static::validate($this->request);
 
         $cek = $this->cek_kode_wilayah($validate);
         if ($cek['status'] && Config::find($id)->update($validate)) {
@@ -135,10 +136,8 @@ class Identitas_desa extends Admin_Controller
      * View Form Ubah Peta
      *
      * @param string $tipe
-     *
-     * @return void
      */
-    public function maps($tipe = 'kantor')
+    public function maps($tipe = 'kantor'): void
     {
         $data_desa            = $this->identitas_desa;
         $data['desa']         = $data_desa;
@@ -163,10 +162,8 @@ class Identitas_desa extends Admin_Controller
      * Proses ubah peta
      *
      * @param string $tipe
-     *
-     * @return void
      */
-    public function update_maps($tipe = 'kantor')
+    public function update_maps($tipe = 'kantor'): void
     {
         $this->redirect_hak_akses('u');
 
@@ -191,10 +188,8 @@ class Identitas_desa extends Admin_Controller
      * Proses kosongkan path peta
      *
      * @param string $id
-     *
-     * @return void
      */
-    public function kosongkan()
+    public function kosongkan(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -207,7 +202,6 @@ class Identitas_desa extends Admin_Controller
     // Hanya filter inputan
     protected static function validate($request = [])
     {
-        $data = [];
         if ($request['ukuran'] == '') {
             $request['ukuran'] = 100;
         }
@@ -315,6 +309,7 @@ class Identitas_desa extends Admin_Controller
 
         switch (true) {
             case $config->count() <= 1:
+            default:
                 $status = true;
                 break;
 
@@ -334,16 +329,12 @@ class Identitas_desa extends Admin_Controller
             case in_array($request['kode_desa'], $config->where('kode_desa', '!=', $this->identitas_desa['kode_desa'])->pluck('kode_desa')->toArray()):
                 $message = 'Kode Desa Sudah Digunakan';
                 break;
-
-            default:
-                $status = true;
-                break;
         }
 
         return ['status' => $status, 'message' => $message];
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->redirect_hak_akses('u');
 

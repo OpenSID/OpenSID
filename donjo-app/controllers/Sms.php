@@ -40,6 +40,7 @@ use App\Models\DaftarKontak;
 use App\Models\GrupKontak;
 use App\Models\HubungWarga;
 use App\Models\Penduduk;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,14 +55,14 @@ class Sms extends Admin_Controller
         $this->header['kategori'] = 'hubung warga';
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->per_page = 20;
 
         redirect('sms');
     }
 
-    public function index($p = 1, $o = 6)
+    public function index($p = 1, $o = 6): void
     {
         $data['p']               = $p;
         $data['o']               = $o;
@@ -75,7 +76,7 @@ class Sms extends Admin_Controller
         $this->render('sms/manajemen_sms_table', $data);
     }
 
-    public function outbox($p = 1, $o = 6)
+    public function outbox($p = 1, $o = 6): void
     {
         $data['p']               = $p;
         $data['o']               = $o;
@@ -89,7 +90,7 @@ class Sms extends Admin_Controller
         $this->render('sms/create_sms', $data);
     }
 
-    public function sentitem($p = 1, $o = 6)
+    public function sentitem($p = 1, $o = 6): void
     {
         $data['p']               = $p;
         $data['o']               = $o;
@@ -103,7 +104,7 @@ class Sms extends Admin_Controller
         $this->render('sms/berita_terkirim', $data);
     }
 
-    public function pending($p = 1, $o = 6)
+    public function pending($p = 1, $o = 6): void
     {
         $data['p']               = $p;
         $data['o']               = $o;
@@ -117,7 +118,7 @@ class Sms extends Admin_Controller
         $this->render('sms/pesan_tertunda', $data);
     }
 
-    public function form($tipe = '', $id = 0)
+    public function form($tipe = '', $id = 0): void
     {
         $this->redirect_hak_akses('u');
 
@@ -138,7 +139,7 @@ class Sms extends Admin_Controller
         }
     }
 
-    public function broadcast()
+    public function broadcast(): void
     {
         $data['grupKontak']  = GrupKontak::withCount('anggota')->get();
         $data['form_action'] = site_url('sms/broadcast_proses');
@@ -146,7 +147,7 @@ class Sms extends Admin_Controller
         $this->load->view('sms/ajax_broadcast_form', $data);
     }
 
-    public function broadcast_proses()
+    public function broadcast_proses(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -167,7 +168,7 @@ class Sms extends Admin_Controller
     }
 
     // Sms
-    public function insert($tipe = '', $id = '')
+    public function insert($tipe = '', $id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -186,7 +187,7 @@ class Sms extends Admin_Controller
         }
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -194,7 +195,7 @@ class Sms extends Admin_Controller
         redirect('sms');
     }
 
-    public function delete($tipe = 0, $id = '')
+    public function delete($tipe = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h');
 
@@ -210,7 +211,7 @@ class Sms extends Admin_Controller
         }
     }
 
-    public function deleteAll($tipe = 0)
+    public function deleteAll($tipe = 0): void
     {
         $this->redirect_hak_akses('h');
 
@@ -227,7 +228,7 @@ class Sms extends Admin_Controller
     }
 
     // Kirim Pesan (Hubung Warga)
-    public function arsip()
+    public function arsip(): View
     {
         return view('admin.sms.hubung_warga.index', [
             'navigasi' => 'arsip',
@@ -256,7 +257,7 @@ class Sms extends Admin_Controller
         return show_404();
     }
 
-    public function kirim()
+    public function kirim(): View
     {
         $this->redirect_hak_akses('u');
 
@@ -267,7 +268,7 @@ class Sms extends Admin_Controller
         ]);
     }
 
-    public function prosesKirim()
+    public function prosesKirim(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -310,8 +311,8 @@ class Sms extends Admin_Controller
             // Kirim pesan berdasarkan pilihan hubung warga
             // Prioritas : berdasarkan pilihan, telegram jika tidak tersedia, jangan kirim
             switch (true) {
-                case (bool) $this->setting->aktifkan_sms === true && $anggota->hubung_warga = 'SMS' && null !== $anggota->telepon:
-                    $kirim                                                                  = $this->sms_model->sendBroadcast([
+                case (bool) $this->setting->aktifkan_sms && $anggota->hubung_warga = 'SMS' && null !== $anggota->telepon:
+                    $kirim                                                         = $this->sms_model->sendBroadcast([
                         'DestinationNumber' => $anggota->telepon,
                         'TextDecoded'       => <<<EOD
                             SUBJEK :
@@ -323,7 +324,7 @@ class Sms extends Admin_Controller
                     ]);
 
                     if ($kirim) {
-                        $result['jumlahBerhasil'] = $result['jumlahBerhasil'] + 1;
+                        $result['jumlahBerhasil']++;
                         break;
                     }
 
@@ -338,7 +339,7 @@ class Sms extends Admin_Controller
                             'isi'    => $data['isi'],
                             'nama'   => $anggota->nama,
                         ]);
-                        $result['jumlahBerhasil'] = $result['jumlahBerhasil'] + 1;
+                        $result['jumlahBerhasil']++;
 
                         break;
                     } catch (\Exception $e) {
@@ -353,7 +354,7 @@ class Sms extends Admin_Controller
                             'subjek' => $data['subjek'],
                             'isi'    => $data['isi'],
                         ]);
-                        $result['jumlahBerhasil'] = $result['jumlahBerhasil'] + 1;
+                        $result['jumlahBerhasil']++;
                     } catch (\Exception $e) {
                         log_message('error', $e);
                         $result['pesanError'] = "Gagal kirim pesan Telegram ke : {$anggota->nama} </br>";
@@ -367,7 +368,7 @@ class Sms extends Admin_Controller
         return $result;
     }
 
-    public function hubungDelete($id = null)
+    public function hubungDelete($id = null): void
     {
         $this->redirect_hak_akses('h');
 

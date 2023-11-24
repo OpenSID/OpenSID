@@ -57,39 +57,23 @@ class Analisis_indikator extends Admin_Controller
         $this->sub_modul_ini     = 'master-analisis';
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata(['cari', 'filter', 'tipe', 'kategori']);
 
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         unset($_SESSION['cari2']);
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
-        if (isset($_SESSION['tipe'])) {
-            $data['tipe'] = $_SESSION['tipe'];
-        } else {
-            $data['tipe'] = '';
-        }
-        if (isset($_SESSION['kategori'])) {
-            $data['kategori'] = $_SESSION['kategori'];
-        } else {
-            $data['kategori'] = '';
-        }
+        $data['cari']     = $_SESSION['cari'] ?? '';
+        $data['filter']   = $_SESSION['filter'] ?? '';
+        $data['tipe']     = $_SESSION['tipe'] ?? '';
+        $data['kategori'] = $_SESSION['kategori'] ?? '';
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
         }
@@ -105,7 +89,7 @@ class Analisis_indikator extends Admin_Controller
         $this->render('analisis_indikator/table', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = 0)
+    public function form($p = 1, $o = 0, $id = 0): void
     {
         $this->redirect_hak_akses('u');
         $data['p'] = $p;
@@ -131,7 +115,7 @@ class Analisis_indikator extends Admin_Controller
         $this->render('analisis_indikator/form', $data);
     }
 
-    public function parameter($id = 0)
+    public function parameter($id = 0): void
     {
         $ai = $this->analisis_indikator_model->get_analisis_indikator($id) ?? show_404();
         if ($ai['id_tipe'] == 3 || $ai['id_tipe'] == 4) {
@@ -145,7 +129,7 @@ class Analisis_indikator extends Admin_Controller
         $this->render('analisis_indikator/parameter/table', $data);
     }
 
-    public function form_parameter($in = '', $id = 0)
+    public function form_parameter($in = '', $id = 0): void
     {
         $this->redirect_hak_akses('u');
         if ($id) {
@@ -162,7 +146,7 @@ class Analisis_indikator extends Admin_Controller
         $this->load->view('analisis_indikator/parameter/ajax_form', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -174,7 +158,7 @@ class Analisis_indikator extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function filter()
+    public function filter(): void
     {
         $filter = $this->input->post('filter');
         if ($filter != 0) {
@@ -186,7 +170,7 @@ class Analisis_indikator extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function tipe()
+    public function tipe(): void
     {
         $filter = $this->input->post('tipe');
         if ($filter != 0) {
@@ -198,7 +182,7 @@ class Analisis_indikator extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function kategori()
+    public function kategori(): void
     {
         $filter = $this->input->post('kategori');
         if ($filter != 0) {
@@ -210,7 +194,7 @@ class Analisis_indikator extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->analisis_indikator_model->insert();
@@ -218,7 +202,7 @@ class Analisis_indikator extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function update($p = 1, $o = 0, $id = 0)
+    public function update($p = 1, $o = 0, $id = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->analisis_indikator_model->update($id);
@@ -226,7 +210,7 @@ class Analisis_indikator extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function delete($p = 1, $o = 0, $id = 0)
+    public function delete($p = 1, $o = 0, $id = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->analisis_indikator_model->delete($id);
@@ -234,7 +218,7 @@ class Analisis_indikator extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->analisis_indikator_model->delete_all();
@@ -242,7 +226,7 @@ class Analisis_indikator extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function p_insert($in = '')
+    public function p_insert($in = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->analisis_indikator_model->p_insert($in);
@@ -250,7 +234,7 @@ class Analisis_indikator extends Admin_Controller
         redirect("{$this->controller}/parameter/{$in}");
     }
 
-    public function p_update($in = '', $id = 0)
+    public function p_update($in = '', $id = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->analisis_indikator_model->p_update($id, $in);
@@ -258,7 +242,7 @@ class Analisis_indikator extends Admin_Controller
         redirect("{$this->controller}/parameter/{$in}");
     }
 
-    public function p_delete($in = '', $id = 0)
+    public function p_delete($in = '', $id = 0): void
     {
         $this->redirect_hak_akses('h', "{$this->controller}/parameter/{$in}");
         $this->analisis_indikator_model->p_delete($id);
@@ -266,7 +250,7 @@ class Analisis_indikator extends Admin_Controller
         redirect("{$this->controller}/parameter/{$in}");
     }
 
-    public function p_delete_all($in = '')
+    public function p_delete_all($in = ''): void
     {
         $this->redirect_hak_akses('h', "{$this->controller}/parameter/{$in}");
         $this->analisis_indikator_model->p_delete_all();

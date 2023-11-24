@@ -38,6 +38,7 @@
 use App\Models\Galery;
 use App\Models\Kategori;
 use App\Models\SettingAplikasi;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,22 +51,22 @@ class Anjungan_pengaturan extends Anjungan_Controller
         $this->sub_modul_ini = 'pengaturan-anjungan';
     }
 
-    public function index()
+    public function index(): View
     {
         $data['form_action']      = route('anjungan_pengaturan.update');
         $data['daftar_kategori']  = Kategori::configId()->get();
         $data['pengaturan']       = SettingAplikasi::whereKategori('anjungan')->pluck('value', 'key')->toArray();
-        $data['anjungan_artikel'] = json_decode($data['pengaturan']['anjungan_artikel']);
+        $data['anjungan_artikel'] = json_decode($data['pengaturan']['anjungan_artikel'], null);
         $data['slides']           = Galery::where('parrent', 0)->where('enabled', 1)->get();
 
         return view('admin.anjungan_pengaturan.index', $data);
     }
 
-    public function update()
+    public function update(): void
     {
         $this->redirect_hak_akses('u');
 
-        $data = $this->validated($this->request);
+        $data = static::validated($this->request);
 
         foreach ($data as $key => $value) {
             SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);
@@ -77,7 +78,7 @@ class Anjungan_pengaturan extends Anjungan_Controller
     protected static function validated($request = [])
     {
         return [
-            'anjungan_artikel'         => json_encode($request['artikel']),
+            'anjungan_artikel'         => json_encode($request['artikel'], JSON_THROW_ON_ERROR),
             'anjungan_teks_berjalan'   => strip_tags($request['teks_berjalan']),
             'anjungan_profil'          => bilangan($request['tampilan_profil']),
             'anjungan_video'           => strip_tags($request['video']),

@@ -95,18 +95,19 @@ class Acak_model extends MY_Model
         return $datas;
     }
 
-    private function acak_nama($urut_penduduk, $data)
+    private function acak_nama(int $urut_penduduk, $data)
     {
         $nama      = $data[$urut_penduduk]['nama'];
         $kata      = preg_split('/\s+/', $nama);
         $nama_acak = '';
+        $counter   = count($kata);
 
-        for ($i = 0; $i < count($kata); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             // Ganti setiap kata dgn kata dari nama penduduk acak
             $urut_acak = $urut_penduduk;
 
-            while ($urut_acak == $urut_penduduk) {
-                $urut_acak = mt_rand(0, count($data) - 1);
+            while ($urut_acak === $urut_penduduk) {
+                $urut_acak = random_int(0, count($data) - 1);
             }
             $kata_penduduk_acak = preg_split('/\s+/', $data[$urut_acak]['nama']);
 
@@ -122,7 +123,7 @@ class Acak_model extends MY_Model
                 if (count($kata_penduduk_acak) == 0) {
                     break;
                 }
-                $urut_kata_acak = mt_rand(0, count($kata_penduduk_acak) - 1);
+                $urut_kata_acak = random_int(0, count($kata_penduduk_acak) - 1);
                 $kata_acak      = $kata_penduduk_acak[$urut_kata_acak];
                 // Hapus supaya kata ini tidak digunakan lagi
                 unset($kata_penduduk_acak[$urut_kata_acak]);
@@ -143,10 +144,10 @@ class Acak_model extends MY_Model
     private function nama_sembarang($sex)
     {
         if ($sex == 1) {
-            return $this->nama_pria[mt_rand(0, count($nama_pria) - 1)];
+            return $this->nama_pria[random_int(0, count($nama_pria) - 1)];
         }
 
-        return $this->nama_wanita[mt_rand(0, count($nama_pria) - 1)];
+        return $this->nama_wanita[random_int(0, count($nama_pria) - 1)];
     }
 
     public function acak_keluarga()
@@ -195,16 +196,16 @@ class Acak_model extends MY_Model
         return $datas;
     }
 
-    private function acak_angka($str)
+    private function acak_angka(string $str)
     {
         $jangan = str_pad('', strlen($str), '0');
         $baru   = $jangan;
 
         while (true) {
             for ($i = 0; $i < strlen($str); $i++) {
-                $baru[$i] = mt_rand(0, 9);
+                $baru[$i] = random_int(0, 9);
             }
-            if ($baru != $jangan) {
+            if ($baru !== $jangan) {
                 break;
             }
             $baru = $jangan;

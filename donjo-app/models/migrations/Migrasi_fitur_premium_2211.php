@@ -80,7 +80,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
     {
         // ganti jenis data untuk realisasi dan rencana keuangan
         if ($this->db->field_exists('Nilai_Anggaran', 'keuangan_manual_rinci')) {
-            foreach (KeuanganManualRinci::all() as $key => $value) {
+            foreach (KeuanganManualRinci::all() as $value) {
                 $value->Nilai_Anggaran = (float) $value->Nilai_Anggaran;
                 $value->save();
             }
@@ -96,7 +96,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
         }
 
         if ($this->db->field_exists('Nilai_Realisasi', 'keuangan_manual_rinci')) {
-            foreach (KeuanganManualRinci::all() as $key => $value) {
+            foreach (KeuanganManualRinci::all() as $value) {
                 $value->Nilai_Realisasi = (float) $value->Nilai_Realisasi;
                 $value->save();
             }
@@ -256,7 +256,7 @@ class Migrasi_fitur_premium_2211 extends MY_model
         }
 
         if (DB::table('setting_aplikasi')->whereKey('tampilan_anjungan_audio')->exists()) {
-            $hasil = $hasil && $this->db->where('key', 'tampilan_anjungan_audio')
+            return $hasil && $this->db->where('key', 'tampilan_anjungan_audio')
                 ->update('setting_aplikasi', [
                     'kategori' => 'anjungan',
                 ]);

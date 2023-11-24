@@ -305,12 +305,14 @@ class Impor_model extends MY_Model
         if ($isi_baris['ibu_nik'] != '' && (! ctype_digit($isi_baris['ibu_nik']) || (strlen($isi_baris['ibu_nik']) != 16 && $isi_baris['ibu_nik'] != '0'))) {
             return 'NIK ibu salah';
         }
-
-        if ($isi_baris['nama_ibu'] != '' && cekNama($isi_baris['nama_ibu'])) {
-            return 'Nama ibu hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
+        if ($isi_baris['nama_ibu'] == '') {
+            return '';
+        }
+        if (! cekNama($isi_baris['nama_ibu'])) {
+            return '';
         }
 
-        return '';
+        return 'Nama ibu hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
     }
 
     protected function format_tanggal($kolom_tanggal)
@@ -536,6 +538,7 @@ class Impor_model extends MY_Model
         }
 
         $data['status'] = '1';  // penduduk impor dianggap aktif
+
         // Jangan masukkan atau update isian yang kosong
         foreach ($data as $key => $value) {
             if (empty($value)) {
@@ -678,7 +681,7 @@ class Impor_model extends MY_Model
         return $penduduk_baru;
     }
 
-    private function hapus_data_penduduk()
+    private function hapus_data_penduduk(): void
     {
         $tabel_penduduk = ['tweb_wil_clusterdesa', 'tweb_keluarga', 'tweb_penduduk', 'log_keluarga', 'log_penduduk', 'log_perubahan_penduduk', 'log_surat', 'tweb_rtm'];
 
@@ -748,11 +751,7 @@ class Impor_model extends MY_Model
                     continue;
                 }
 
-                $data_excel = collect($sheet->getRowIterator())->map(static function ($row) {
-                    return collect($row->getCells())->map(static function ($cell) {
-                        return $cell->getValue();
-                    });
-                })
+                $data_excel = collect($sheet->getRowIterator())->map(static fn ($row) => collect($row->getCells())->map(static fn ($cell) => $cell->getValue()))
                     ->chunk(500)
                     ->toArray();
 

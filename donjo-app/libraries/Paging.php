@@ -60,7 +60,7 @@ class Paging
         }
     }
 
-    public function init($input = [])
+    public function init(array $input = []): void
     {
         if (isset($input['page'])) {
             $this->page = (int) $input['page'];
@@ -85,11 +85,7 @@ class Paging
         if ($this->per_page < 1) {
             $this->per_page = 50;
         }
-        if ($this->num_rows < 1) {
-            $my_num_rows = 1;
-        } else {
-            $my_num_rows = $this->num_rows;
-        }
+        $my_num_rows = $this->num_rows < 1 ? 1 : $this->num_rows;
 
         $this->num_page = (int) ((($my_num_rows - 1) / $this->per_page) + 1);
         $this->offset   = (int) (($this->page - 1) * $this->per_page);

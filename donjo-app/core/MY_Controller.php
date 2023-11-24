@@ -89,7 +89,7 @@ class MY_Controller extends CI_Controller
     }
 
     // Bersihkan session cluster wilayah
-    public function clear_cluster_session()
+    public function clear_cluster_session(): void
     {
         $cluster_session = ['dusun', 'rw', 'rt'];
 
@@ -98,7 +98,7 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    private function cek_config()
+    private function cek_config(): void
     {
         // jika belum install
         if (! file_exists(DESAPATH)) {
@@ -137,7 +137,7 @@ class MY_Controller extends CI_Controller
         cek_kehadiran();
     }
 
-    public function create_log_notifikasi_admin($next, $isi)
+    public function create_log_notifikasi_admin($next, $isi): void
     {
         $users = User::whereHas('pamong', static function ($query) use ($next) {
             if ($next == 'verifikasi_sekdes') {
@@ -151,7 +151,7 @@ class MY_Controller extends CI_Controller
         })->get();
 
         if (is_array($isi) && $users->count() > 0) {
-            $logs = $users->map(static function ($user) use ($isi) {
+            $logs = $users->map(static function ($user) use ($isi): array {
                 $data_user = ['id_user' => $user->id, 'config_id' => $user->config_id];
 
                 return array_merge($data_user, $isi);
@@ -196,15 +196,13 @@ class Web_Controller extends MY_Controller
      * set_template function
      *
      * @param string $template_file
-     *
-     * @return void
      */
-    public function set_template($template_file = 'template')
+    public function set_template($template_file = 'template'): void
     {
         $this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
     }
 
-    public function _get_common_data(&$data)
+    public function _get_common_data(&$data): void
     {
         $this->load->model('statistik_pengunjung_model');
         $this->load->model('first_menu_m');
@@ -250,7 +248,7 @@ class Web_Controller extends MY_Controller
         }
     }
 
-    private function view_maintenance()
+    private function view_maintenance(): void
     {
         $main                    = $this->header;
         $pamong_kades['jabatan'] = kades()->nama;
@@ -284,7 +282,7 @@ class Mandiri_Controller extends MY_Controller
         }
     }
 
-    public function render($view, ?array $data = null)
+    public function render($view, ?array $data = null): void
     {
         $data['desa']         = $this->header;
         $data['cek_anjungan'] = $this->cek_anjungan;
@@ -326,11 +324,14 @@ class Admin_Controller extends MY_Controller
 
         $this->load->library('pelanggan/validasi', null, 'premium');
         $this->cek_identitas_desa();
-
         // paksa untuk logout jika melakukan ubah password
-        if ($this->session->change_password && $this->router->class !== 'pengguna') {
-            redirect('pengguna');
+        if (! $this->session->change_password) {
+            return;
         }
+        if ($this->router->class === 'pengguna') {
+            return;
+        }
+        redirect('pengguna');
     }
 
     /*
@@ -340,7 +341,7 @@ class Admin_Controller extends MY_Controller
      * 2. Validasi pelanggan premium
      * 3. Password standard (sid304)
      */
-    private function cek_identitas_desa()
+    private function cek_identitas_desa(): void
     {
         $kode_desa = empty(Config::appKey()->first()->kode_desa);
 
@@ -353,7 +354,7 @@ class Admin_Controller extends MY_Controller
         $validasi = $this->premium->validasi();
         $force    = $this->session->force_change_password;
 
-        if ($force && $validasi && ! $kode_desa && ! in_array($this->router->class, ['pengguna'])) {
+        if ($force && $validasi && ! $kode_desa && $this->router->class != 'pengguna') {
             redirect('pengguna#sandi');
         }
 
@@ -393,19 +394,9 @@ class Admin_Controller extends MY_Controller
         $isAdmin                                = $this->session->isAdmin->pamong;
         $this->header['notif_permohonan']       = 0;
         if ($this->db->field_exists('verifikasi_operator', 'log_surat') && $this->db->field_exists('deleted_at', 'log_surat')) {
-            $this->header['notif_permohonan'] = LogSurat::whereNull('deleted_at')->when($isAdmin->jabatan_id == kades()->id, static function ($q) {
-                return $q->when(setting('tte') == 1, static function ($tte) {
-                    return $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
-                })->when(setting('tte') == 0, static function ($tte) {
-                    return $tte->where('verifikasi_kades', '=', 0);
-                });
-            })
-                ->when($isAdmin->jabatan_id == sekdes()->id, static function ($q) {
-                    return $q->where('verifikasi_sekdes', '=', '0');
-                })
-                ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, [kades()->id, sekdes()->id]), static function ($q) {
-                    return $q->where('verifikasi_operator', '=', '0')->orWhere('verifikasi_operator', '=', '-1');
-                })
+            $this->header['notif_permohonan'] = LogSurat::whereNull('deleted_at')->when($isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0))->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', 0)))
+                ->when($isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '0'))
+                ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, [kades()->id, sekdes()->id]), static fn ($q) => $q->where('verifikasi_operator', '=', '0')->orWhere('verifikasi_operator', '=', '-1'))
                 ->count();
         }
 
@@ -490,7 +481,7 @@ class Admin_Controller extends MY_Controller
         return $this->user_model->hak_akses($this->grup, $controller, $akses);
     }
 
-    public function redirect_tidak_valid($valid)
+    public function redirect_tidak_valid($valid): void
     {
         if ($valid) {
             return;
@@ -500,7 +491,7 @@ class Admin_Controller extends MY_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function render($view, ?array $data = null)
+    public function render($view, ?array $data = null): void
     {
         $this->load->view('header', $this->header);
         $this->load->view('nav');
@@ -561,7 +552,7 @@ class Anjungan_Controller extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        if (! cek_anjungan()) {
+        if (cek_anjungan() === '' || cek_anjungan() === '0') {
             redirect('anjungan');
         }
     }

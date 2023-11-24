@@ -52,12 +52,12 @@ class KodeIsianPenduduk
         $this->prefixJudul = $prefixJudul;
     }
 
-    public static function get($idPenduduk = null, $prefix = '', $prefixJudul = false)
+    public static function get($idPenduduk = null, $prefix = '', $prefixJudul = false): array
     {
         return (new self($idPenduduk, $prefix, $prefixJudul))->kodeIsian();
     }
 
-    public function kodeIsian()
+    public function kodeIsian(): array
     {
         $ortu     = null;
         $penduduk = null;
@@ -286,7 +286,7 @@ class KodeIsianPenduduk
             ];
 
             // Data Umum
-            $data = array_merge($individu, $lainnya);
+            $data = [...$individu, ...$lainnya];
 
             // Data Orang Tua
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
@@ -294,7 +294,7 @@ class KodeIsianPenduduk
 
             if (! $id_ayah && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
                 $id_ayah = Penduduk::where('id_kk', $penduduk->id_kk)
-                    ->where(static function ($query) {
+                    ->where(static function ($query): void {
                         $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
                             ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
                     })
@@ -304,7 +304,7 @@ class KodeIsianPenduduk
 
             if (! $id_ibu && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
                 $id_ibu = Penduduk::where('id_kk', $penduduk->id_kk)
-                    ->where(static function ($query) {
+                    ->where(static function ($query): void {
                         $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
                             ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
                     })

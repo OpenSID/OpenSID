@@ -50,7 +50,7 @@ class Feed extends CI_Controller
         $this->load->model(['feed_model']);
     }
 
-    public function index()
+    public function index(): void
     {
         $data['data_config'] = Config::appKey()->first();
         $data['feeds']       = $this->feed_model->list_feeds();

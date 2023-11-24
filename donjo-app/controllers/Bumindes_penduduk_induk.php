@@ -41,8 +41,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_penduduk_induk extends Admin_Controller
 {
-    private $_set_page;
-    private $_list_session;
+    private array $_set_page     = ['10', '20', '50', '100', [0, 'Semua']];
+    private array $_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
 
     public function __construct()
     {
@@ -52,14 +52,9 @@ class Bumindes_penduduk_induk extends Admin_Controller
 
         $this->modul_ini     = 'buku-administrasi-desa';
         $this->sub_modul_ini = 'administrasi-penduduk';
-
-        $this->_set_page = ['10', '20', '50', '100', [0, 'Semua']];
-
-        // Samakan dengan donjo-app/controllers/Penduduk.php, karena memanggil penduduk_model
-        $this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
     }
 
-    public function index($page_number = 1, $order_by = 0)
+    public function index($page_number = 1, $order_by = 0): void
     {
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
@@ -93,13 +88,13 @@ class Bumindes_penduduk_induk extends Admin_Controller
         $this->render('bumindes/penduduk/main', $data);
     }
 
-    private function clear_session()
+    private function clear_session(): void
     {
         $this->session->unset_userdata($this->_list_session);
         $this->session->per_page = $this->_set_page[0];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->clear_session();
         // Set default filter ke tahun dan bulan sekarang
@@ -108,7 +103,7 @@ class Bumindes_penduduk_induk extends Admin_Controller
         redirect('bumindes_penduduk_induk');
     }
 
-    public function ajax_cetak($page = 1, $o = 0, $aksi = '')
+    public function ajax_cetak($page = 1, $o = 0, $aksi = ''): void
     {
         // pengaturan data untuk dialog cetak/unduh
         $data = [
@@ -122,7 +117,7 @@ class Bumindes_penduduk_induk extends Admin_Controller
         $this->load->view('global/dialog_cetak', $data);
     }
 
-    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0)
+    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0): void
     {
         $data = [
             'aksi'           => $aksi,
@@ -133,7 +128,7 @@ class Bumindes_penduduk_induk extends Admin_Controller
             'bulan'          => $this->session->filter_bulan,
             'tahun'          => $this->session->filter_tahun,
             'tgl_cetak'      => $_POST['tgl_cetak'],
-            'privasi_nik'    => $privasi_nik == 1 ? true : false,
+            'privasi_nik'    => $privasi_nik == 1,
             'file'           => 'Buku Induk Kependudukan',
             'isi'            => 'bumindes/penduduk/induk/content_induk_cetak',
             'letak_ttd'      => ['2', '2', '9'],
@@ -141,13 +136,13 @@ class Bumindes_penduduk_induk extends Admin_Controller
         $this->load->view('global/format_cetak', $data);
     }
 
-    public function autocomplete()
+    public function autocomplete(): void
     {
         $data = $this->penduduk_model->autocomplete($this->input->post('cari'));
-        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+        $this->output->set_content_type('application/json')->set_output(json_encode($data, JSON_THROW_ON_ERROR));
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         $value = $this->input->post($filter);
         if ($value != '') {

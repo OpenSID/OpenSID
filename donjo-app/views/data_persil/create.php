@@ -1,4 +1,3 @@
-
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengelolaan Data C-Desa <?=ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']; ?></h1>
@@ -23,7 +22,9 @@
 								<div class="form-group ">
 									<label for="jenis_pemilik" class="col-sm-3 control-label">Jenis Pemilik</label>
 									<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-										<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php (empty($cdesa) || $cdesa['jenis_pemilik'] == 1) && print 'active' ?>">
+										<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php if (empty($cdesa) || $cdesa['jenis_pemilik'] == 1) {
+										    echo 'active';
+										} ?>">
 											<input type="radio" name="jenis_pemilik" class="form-check-input" value="1" autocomplete="off" <?php selected((empty($cdesa) || $cdesa['jenis_pemilik'] == 1), true, true)?> onchange="pilih_pemilik(this.value);">Warga Desa
 										</label>
 										<label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= ($cdesa['jenis_pemilik'] == 2) && print 'active' ?>">
@@ -101,13 +102,17 @@
 								<div class="form-group">
 									<label for="c_desa" class="col-sm-3 control-label">Nomor C-DESA</label>
 									<div class="col-sm-8">
-										<input class="form-control input-sm angka required" type="text" placeholder="Nomor Surat C-DESA" name="c_desa" value="<?= ($cdesa['nomor'])?>" <?php ! ($pemilik || $cdesa['jenis_pemilik'] == 2) && print 'disabled' ?>>
+										<input class="form-control input-sm angka required" type="text" placeholder="Nomor Surat C-DESA" name="c_desa" value="<?= ($cdesa['nomor'])?>" <?php if (! $pemilik && $cdesa['jenis_pemilik'] != 2) {
+										    echo 'disabled';
+										}?> >
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="nama_kepemilikan" class="col-sm-3 control-label">Nama Pemilik Tertulis di C-Desa</label>
 									<div class="col-sm-8">
-										<input class="form-control input-sm nama required" type="text" placeholder="Nama pemilik sebagaimana tertulis di Surat C-DESA" name="nama_kepemilikan" value="<?= ($cdesa['nama_kepemilikan']) ? sprintf('%04s', $cdesa['nama_kepemilikan']) : null ?>" <?php ! ($pemilik || $cdesa['jenis_pemilik'] == 2) && print 'disabled' ?>>
+										<input class="form-control input-sm nama required" type="text" placeholder="Nama pemilik sebagaimana tertulis di Surat C-DESA" name="nama_kepemilikan" value="<?= ($cdesa['nama_kepemilikan']) ? sprintf('%04s', $cdesa['nama_kepemilikan']) : null ?>" <?php if (! $pemilik && $cdesa['jenis_pemilik'] != 2) {
+										    echo 'disabled';
+										}?> >
 									</div>
 								</div>
 							</div>

@@ -79,10 +79,8 @@ class Area extends BaseModel
 
     /**
      * Getter untuk foto kecil.
-     *
-     * @return string
      */
-    public function getFotoKecilAttribute()
+    public function getFotoKecilAttribute(): ?string
     {
         $foto = LOKASI_FOTO_AREA . 'kecil_' . $this->attributes['foto'];
 
@@ -95,10 +93,8 @@ class Area extends BaseModel
 
     /**
      * Getter untuk foto sedang.
-     *
-     * @return string
      */
-    public function getFotoSedangAttribute()
+    public function getFotoSedangAttribute(): ?string
     {
         $foto = LOKASI_FOTO_AREA . 'sedang_' . $this->attributes['foto'];
 

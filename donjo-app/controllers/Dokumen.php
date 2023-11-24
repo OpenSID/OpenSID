@@ -49,30 +49,22 @@ class Dokumen extends Admin_Controller
         $this->sub_modul_ini = 'informasi-publik';
     }
 
-    public function clear()
+    public function clear(): void
     {
         unset($_SESSION['cari'], $_SESSION['filter']);
 
         redirect('dokumen');
     }
 
-    public function index($kat = 1, $p = 1, $o = 0)
+    public function index($kat = 1, $p = 1, $o = 0): void
     {
         $data['p']   = $p;
         $data['o']   = $o;
         $data['kat'] = $kat;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
+        $data['cari'] = $_SESSION['cari'] ?? '';
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
+        $data['filter'] = $_SESSION['filter'] ?? '';
 
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
@@ -87,7 +79,7 @@ class Dokumen extends Admin_Controller
         $this->render('dokumen/table_dokumen', $data);
     }
 
-    public function form($kat = 1, $p = 1, $o = 0, $id = '')
+    public function form($kat = 1, $p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data['p']   = $p;
@@ -108,7 +100,7 @@ class Dokumen extends Admin_Controller
         $this->render('dokumen/form', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         $kat  = $this->input->post('kategori');
@@ -120,7 +112,7 @@ class Dokumen extends Admin_Controller
         redirect("dokumen/index/{$kat}");
     }
 
-    public function filter()
+    public function filter(): void
     {
         $filter = $this->input->post('filter');
         $kat    = $this->input->post('kategori');
@@ -132,7 +124,7 @@ class Dokumen extends Admin_Controller
         redirect("dokumen/index/{$kat}");
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $_SESSION['success'] = 1;
@@ -144,7 +136,7 @@ class Dokumen extends Admin_Controller
         redirect("dokumen/index/{$kat}");
     }
 
-    public function update($kat, $id = '', $p = 1, $o = 0)
+    public function update($kat, $id = '', $p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('u');
         $_SESSION['success'] = 1;
@@ -155,35 +147,35 @@ class Dokumen extends Admin_Controller
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
 
-    public function delete($kat = 1, $p = 1, $o = 0, $id = '')
+    public function delete($kat = 1, $p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h', "dokumen/index/{$kat}/{$p}/{$o}");
         $this->web_dokumen_model->delete($id);
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
 
-    public function delete_all($kat = 1, $p = 1, $o = 0)
+    public function delete_all($kat = 1, $p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h', "dokumen/index/{$kat}/{$p}/{$o}");
         $this->web_dokumen_model->delete_all();
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
 
-    public function dokumen_lock($kat = 1, $id = '')
+    public function dokumen_lock($kat = 1, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->web_dokumen_model->dokumen_lock($id, 1);
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
 
-    public function dokumen_unlock($kat = 1, $id = '')
+    public function dokumen_unlock($kat = 1, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->web_dokumen_model->dokumen_lock($id, 2);
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
 
-    public function dialog_cetak($kat = 1)
+    public function dialog_cetak($kat = 1): void
     {
         $data['form_action']     = site_url("dokumen/cetak/{$kat}");
         $data['kat']             = $kat;
@@ -192,7 +184,7 @@ class Dokumen extends Admin_Controller
         $this->load->view('dokumen/dialog_cetak', $data);
     }
 
-    public function cetak($kat = 1)
+    public function cetak($kat = 1): void
     {
         $data     = $this->data_cetak($kat);
         $template = $data['template'];
@@ -229,7 +221,7 @@ class Dokumen extends Admin_Controller
         return $data;
     }
 
-    public function dialog_excel($kat = 1)
+    public function dialog_excel($kat = 1): void
     {
         $data['form_action']     = site_url("dokumen/excel/{$kat}");
         $data['kat']             = $kat;
@@ -238,7 +230,7 @@ class Dokumen extends Admin_Controller
         $this->load->view('dokumen/dialog_cetak', $data);
     }
 
-    public function excel($kat = 1)
+    public function excel($kat = 1): void
     {
         $data = $this->data_cetak($kat);
         $this->load->view('dokumen/dokumen_excel', $data);
@@ -250,17 +242,15 @@ class Dokumen extends Admin_Controller
      * @param int        $id_dokumen Id berkas pada koloam dokumen.id
      * @param mixed|null $id_pend
      * @param mixed      $tampil
-     *
-     * @return void
      */
-    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false)
+    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false): void
     {
         // Ambil nama berkas dari database
         $data = $this->web_dokumen_model->get_dokumen($id_dokumen, $id_pend);
         ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN, $tampil);
     }
 
-    public function tampilkan_berkas($id_dokumen, $id_pend = null)
+    public function tampilkan_berkas($id_dokumen, $id_pend = null): void
     {
         $this->unduh_berkas($id_dokumen, $id_pend, $tampil = true);
     }

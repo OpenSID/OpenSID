@@ -53,8 +53,12 @@
 																	<td><?= $data['no']?></td>
 																	<td nowrap>
 																		<?php if (can('u')): ?>
-																			<a href="<?= site_url("wilayah/urut/rw/{$paging->page}/{$data['id']}/1/{$id_dusun}"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) && print 'disabled'; ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-																			<a href="<?= site_url("wilayah/urut/rw/{$paging->page}/{$data['id']}/2/{$id_dusun}"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == 1 && $paging->page == $paging->start_link) && print 'disabled'; ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																			<a href="<?= site_url("wilayah/urut/rw/{$paging->page}/{$data['id']}/1/{$id_dusun}"); ?>" class="btn bg-olive btn-flat btn-sm <?php if ($data['no'] == $paging->num_rows) {
+																			    echo 'disabled';
+																			} ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																			<a href="<?= site_url("wilayah/urut/rw/{$paging->page}/{$data['id']}/2/{$id_dusun}"); ?>" class="btn bg-olive btn-flat btn-sm <?php if ($data['no'] == 1 && $paging->page == $paging->start_link) {
+																			    echo 'disabled';
+																			} ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																		<?php endif; ?>
 																		<a href="<?= site_url("wilayah/sub_rt/{$id_dusun}/{$data['id']}")?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Sub Wilayah RW"><i class="fa fa-list"></i></a>
 																		<?php if ($data['rw'] != '-'): ?>

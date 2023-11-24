@@ -36,6 +36,7 @@
  */
 
 use App\Models\BukuKepuasan;
+use Illuminate\Contracts\View\View;
 
 class Buku_kepuasan extends Anjungan_Controller
 {
@@ -47,7 +48,7 @@ class Buku_kepuasan extends Anjungan_Controller
         $this->header['kategori'] = 'buku-tamu';
     }
 
-    public function index()
+    public function index(): View
     {
         if ($this->input->is_ajax_request()) {
             return datatables()->of(BukuKepuasan::query()->with('tamu'))
@@ -69,11 +70,11 @@ class Buku_kepuasan extends Anjungan_Controller
         return view('admin.buku_tamu.kepuasan.index');
     }
 
-    public function delete($id = null)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
 
-        if (BukuKepuasan::destroy($this->request['id_cb'] ?? $id)) {
+        if (BukuKepuasan::destroy($this->request['id_cb'] ?? $id) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 

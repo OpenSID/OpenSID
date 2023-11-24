@@ -47,46 +47,28 @@ class Develbar
     /**
      * Supported CI version
      */
-    public const SUPPORTED_CI_VERSION = '3.0';
+    public const SUPPORTED_CI_VERSION = '3.1';
 
     /**
      * @var object
      */
     private $CI;
 
-    /**
-     * @var string
-     */
-    private $view_folder = 'develbar/';
-
-    /**
-     * @var string
-     */
-    private $assets_folder = '';
-
-    /**
-     * @var array
-     */
-    private $views = [];
-
-    private $orms = [];
+    private string $view_folder   = 'develbar/';
+    private string $assets_folder = '';
+    private array $views          = [];
 
     /**
      * List of helpers
-     *
-     * @var array
      */
-    private $helpers = [
+    private array $helpers = [
         'utility',
         'language',
         'url',
         'text',
     ];
 
-    /**
-     * @var array
-     */
-    private $mimes = [
+    private array $mimes = [
         'text/html',
     ];
 
@@ -123,7 +105,7 @@ class Develbar
     /**
      * Initialize DevelBar library
      */
-    private function initialize()
+    private function initialize(): void
     {
         $this->CI = &get_instance();
         $this->CI->load->config('develbar', true);
@@ -142,10 +124,8 @@ class Develbar
     /**
      * Load translation file for the default language,
      * if the file does not exists, set english version as default
-     *
-     * @return void
      */
-    private function load_lang_file()
+    private function load_lang_file(): void
     {
         $default_language = $this->CI->config->config['language'];
         $lang_file        = APPPATH . 'third_party/DevelBar/language/' . $default_language . '/develbar_lang.php';
@@ -159,17 +139,13 @@ class Develbar
 
     /**
      * Start Debug Mode
-     *
-     * @return void
      */
-    public function debug()
+    public function debug(): void
     {
-        if (version_compare(CI_VERSION, self::SUPPORTED_CI_VERSION, '<')) {
-            log_message(
-                'info',
-                sprintf($this->CI->lang->line('version_not_supported'), anchor($this->default_options['ci_website']))
-            );
-        }
+        log_message(
+            'info',
+            sprintf($this->CI->lang->line('version_not_supported'), anchor($this->default_options['ci_website']))
+        );
 
         if (is_cli()) {
             $this->CI->output->_display();
@@ -186,22 +162,12 @@ class Develbar
         if ($this->default_options['enable_develbar'] == true && $this->CI->router->class != 'develbarprofiler'
             && in_array($this->CI->output->get_content_type(), $this->mimes)
         ) {
-            if (version_compare(CI_VERSION, self::SUPPORTED_CI_VERSION, '<')) {
-                $this->default_options['check_update'] = true;
-                $this->views['not_supported']          = $this->CI->load->view(
-                    $this->view_folder . 'not_supported',
-                    ['config' => $this->default_options],
-                    true
-                );
-            } else {
-                foreach ($this->default_options['develbar_sections'] as $section => $enabled) {
-                    if ($enabled) {
-                        $section               = strtolower(str_replace(' ', '_', $section));
-                        $this->views[$section] = call_user_func([$this, $section . '_section']);
-                    }
-                }
-            }
-
+            $this->default_options['check_update'] = false;
+            $this->views['not_supported']          = $this->CI->load->view(
+                $this->view_folder . 'not_supported',
+                ['config' => $this->default_options],
+                true
+            );
             $output         = $this->CI->output->get_output();
             $develBarOutput = $this->develbar_output();
 
@@ -210,7 +176,7 @@ class Develbar
                 $js     = $this->CI->load->file($this->assets_folder . 'js/ajax.js', true);
                 $js     = '<script type="text/javascript">' . $js . '</script>';
                 $output = preg_replace('|<head>(.*?)<\/head>|is', '<head>' . $js . '$1</head>', $output, 1, $count);
-                if (! $count) {
+                if ($count === 0) {
                     $output = preg_replace('|(<script)|is', $js . '$1', $output, 1);
                 }
             }
@@ -232,7 +198,7 @@ class Develbar
     /**
      * Debug Ajax requests
      */
-    private function debug_ajax_request()
+    private function debug_ajax_request(): void
     {
         $this->CI->load->driver('cache', ['adapter' => 'file', 'key_prefix' => 'ci_toolbar_profiler_']);
         $develbarConfig = $this->CI->config->config['develbar'];
@@ -608,7 +574,10 @@ class Develbar
         return $this->CI->load->view($this->view_folder . 'ajax', $data, true);
     }
 
-    private function list_db_eloquent()
+    /**
+     * @return array<'database'|'hostname'|'queries'|'query_count'|'query_times', mixed>[]
+     */
+    private function list_db_eloquent(): array
     {
         $dbs = [];
         if (! empty($this->CI->queryOrm)) {
@@ -624,9 +593,7 @@ class Develbar
             ];
 
             foreach ($this->CI->queryOrm as $query) {
-                $database['queries'][] = array_reduce($query->bindings, static function ($sql, $binding) {
-                    return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
-                }, $query->sql);
+                $database['queries'][]     = array_reduce($query->bindings, static fn ($sql, $binding) => preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1), $query->sql);
                 $database['query_times'][] = $query->time;
                 $database['query_count']++;
             }

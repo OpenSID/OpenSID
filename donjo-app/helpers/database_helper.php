@@ -96,8 +96,10 @@ function tulis_csv($table)
  *
  * @param mixed $zip_file
  * @param mixed $file_in_zip
+ *
+ * @return mixed[]
  */
-function get_csv($zip_file, $file_in_zip)
+function get_csv($zip_file, $file_in_zip): array
 {
     // read the file's data:
     $path      = sprintf('zip://%s#%s', $zip_file, $file_in_zip);
@@ -105,7 +107,7 @@ function get_csv($zip_file, $file_in_zip)
     //$file_data = preg_split('/[\r\n]{1,2}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/', $file_data);
     $file_data = preg_split('/\r*\n+|\r+/', $file_data);
     $csv       = array_map('str_getcsv', $file_data);
-    array_walk($csv, static function (&$a) use ($csv) {
+    array_walk($csv, static function (&$a) use ($csv): void {
         $a = array_combine($csv[0], $a);
     });
     array_shift($csv); // remove column header
@@ -121,7 +123,7 @@ function get_csv($zip_file, $file_in_zip)
  *
  * @return string
  */
-function download_send_headers($filename)
+function download_send_headers($filename): void
 {
     // disable caching
     $now = gmdate('D, d M Y H:i:s');
@@ -139,7 +141,7 @@ function download_send_headers($filename)
     header('Content-Transfer-Encoding: binary');
 }
 
-function duplicate_key_update_str($data)
+function duplicate_key_update_str($data): string
 {
     $update_str = '';
 

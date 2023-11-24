@@ -52,7 +52,7 @@ class Masuk extends Web_Controller
         }
     }
 
-    public function index()
+    public function index(): void
     {
         $mac_address = $this->input->get('mac_address', true);
         $token       = $this->input->get('token_layanan', true);
@@ -83,13 +83,13 @@ class Masuk extends Web_Controller
         $this->load->view(MANDIRI . '/masuk', $data);
     }
 
-    public function cek()
+    public function cek(): void
     {
         $this->mandiri_model->siteman();
         redirect('layanan-mandiri/beranda');
     }
 
-    public function lupa_pin()
+    public function lupa_pin(): void
     {
         $data = [
             'header'              => $this->header,
@@ -101,7 +101,7 @@ class Masuk extends Web_Controller
         $this->load->view(MANDIRI . '/lupa_pin', $data);
     }
 
-    public function cek_pin()
+    public function cek_pin(): void
     {
         $nik = bilangan($this->input->post('nik'));
         $this->mandiri_model->cek_verifikasi($nik);

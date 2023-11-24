@@ -77,15 +77,11 @@ if ($ftp) {
     header('Accept-Ranges: bytes');
 
     if (isset($_SERVER['HTTP_RANGE'])) {
-        list($a, $range) = explode("=", $_SERVER['HTTP_RANGE'], 2);
-        list($range) = explode(",", $range, 2);
-        list($range, $range_end) = explode("-", $range);
-        $range = intval($range);
-        if (!$range_end) {
-            $range_end = $size - 1;
-        } else {
-            $range_end = intval($range_end);
-        }
+        [$a, $range] = explode("=", $_SERVER['HTTP_RANGE'], 2);
+        [$range] = explode(",", $range, 2);
+        [$range, $range_end] = explode("-", $range);
+        $range = (int) $range;
+        $range_end = $range_end === '' || $range_end === '0' ? $size - 1 : (int) $range_end;
 
         $new_length = $range_end - $range + 1;
         header("HTTP/1.1 206 Partial Content");
@@ -96,7 +92,7 @@ if ($ftp) {
         header("Content-Length: " . $size);
     }
 
-    $chunksize = 1 * (1024 * 1024);
+    $chunksize = 1024 * 1024;
     $bytes_send = 0;
 
     if ($file = fopen($file_path, 'r')) {

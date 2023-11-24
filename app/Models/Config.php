@@ -193,23 +193,20 @@ class Config extends BaseModel
 
     /**
      * The "booted" method of the model.
-     *
-     * @return void
      */
-    public static function boot()
+    public static function boot(): void
     {
-        parent::boot();
-        static::creating(static function ($model) {
+        static::creating(static function ($model): void {
             $model->app_key = get_app_key();
         });
 
-        static::updating(static function ($model) {
+        static::updating(static function ($model): void {
             static::clearCache();
         });
     }
 
     // Hapus cache config dan modul
-    private static function clearCache()
+    private function clearCache(): void
     {
         hapus_cache('identitas_desa');
         hapus_cache('status_langganan');

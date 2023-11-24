@@ -47,7 +47,7 @@ class Pendapat extends Admin_Controller
         $this->sub_modul_ini = 'pendapat';
     }
 
-    public function index()
+    public function index(): void
     {
         $tipe                  = $this->session->flashdata('tipe');
         $data['list_pendapat'] = unserialize(NILAI_PENDAPAT);
@@ -62,7 +62,7 @@ class Pendapat extends Admin_Controller
         $this->render('pendapat/index', $data);
     }
 
-    public function detail(int $tipe = 1)
+    public function detail(int $tipe = 1): void
     {
         $this->session->set_flashdata('tipe', $tipe);
 

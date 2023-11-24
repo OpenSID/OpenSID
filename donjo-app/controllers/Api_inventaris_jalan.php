@@ -50,7 +50,7 @@ class Api_inventaris_jalan extends Admin_Controller
         $this->load->model('inventaris_jalan_model');
     }
 
-    public function add()
+    public function add(): void
     {
         $this->redirect_hak_akses('u');
         $data = $this->inventaris_jalan_model->add([
@@ -74,15 +74,11 @@ class Api_inventaris_jalan extends Admin_Controller
             'created_by'       => $this->session->user,
             'updated_by'       => $this->session->user,
         ]);
-        if ($data) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_jalan');
     }
 
-    public function add_mutasi()
+    public function add_mutasi(): void
     {
         $this->redirect_hak_akses('u');
         $id_asset = $this->input->post('id_inventaris_jalan');
@@ -98,15 +94,11 @@ class Api_inventaris_jalan extends Admin_Controller
             'created_by'          => $this->session->user,
             'updated_by'          => $this->session->user,
         ]);
-        if ($data) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_jalan/mutasi');
     }
 
-    public function update($id)
+    public function update($id): void
     {
         $this->redirect_hak_akses('u');
         $data = $this->inventaris_jalan_model->update($id, [
@@ -128,19 +120,15 @@ class Api_inventaris_jalan extends Admin_Controller
             'keterangan'       => $this->input->post('keterangan'),
             'updated_at'       => date('Y-m-d H:i:s'),
         ]);
-        if ($data) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_jalan');
     }
 
-    public function update_mutasi($id)
+    public function update_mutasi($id): void
     {
         $this->redirect_hak_akses('u');
-        $id_asset = $this->input->post('id_asset');
-        $data     = $this->inventaris_jalan_model->update_mutasi($id, [
+        $this->input->post('id_asset');
+        $data = $this->inventaris_jalan_model->update_mutasi($id, [
             'jenis_mutasi'  => ($this->input->post('status_mutasi') == 'Hapus') ? $this->input->post('mutasi') : null,
             'status_mutasi' => $this->input->post('status_mutasi'),
             'tahun_mutasi'  => $this->input->post('tahun_mutasi'),
@@ -149,35 +137,23 @@ class Api_inventaris_jalan extends Admin_Controller
             'keterangan'    => $this->input->post('keterangan'),
             'updated_at'    => date('Y-m-d H:i:s'),
         ]);
-        if ($data) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_jalan/mutasi');
     }
 
-    public function delete($id)
+    public function delete($id): void
     {
         $this->redirect_hak_akses('h', 'inventaris_jalan');
-        $data = $this->inventaris_jalan_model->delete($id);
-        if ($data) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $data                = $this->inventaris_jalan_model->delete($id);
+        $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_jalan');
     }
 
-    public function delete_mutasi($id)
+    public function delete_mutasi($id): void
     {
         $this->redirect_hak_akses('h', 'inventaris_jalan/mutasi');
-        $data = $this->inventaris_jalan_model->delete_mutasi($id);
-        if ($data) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $data                = $this->inventaris_jalan_model->delete_mutasi($id);
+        $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_jalan/mutasi');
     }
 }

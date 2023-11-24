@@ -50,7 +50,7 @@ class Main extends CI_Controller
         $this->load->model(['track_model', 'grup_model']);
     }
 
-    public function index()
+    public function index(): void
     {
         // Kalau sehabis periksa data, paksa harus login lagi
         if ($this->session->periksa_data == 1) {

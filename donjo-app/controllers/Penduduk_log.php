@@ -39,8 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Penduduk_log extends Admin_Controller
 {
-    private $set_page;
-    private $list_session;
+    private array $set_page     = ['20', '50', '100'];
+    private array $list_session = ['filter_tahun', 'filter_bulan', 'kode_peristiwa', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari'];
 
     public function __construct()
     {
@@ -48,11 +48,9 @@ class Penduduk_log extends Admin_Controller
         $this->load->model(['penduduk_model', 'penduduk_log_model']);
         $this->modul_ini     = 'kependudukan';
         $this->sub_modul_ini = 'penduduk';
-        $this->set_page      = ['20', '50', '100'];
-        $this->list_session  = ['filter_tahun', 'filter_bulan', 'kode_peristiwa', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari'];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->filter_bulan = date('n');
@@ -62,7 +60,7 @@ class Penduduk_log extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
@@ -83,11 +81,7 @@ class Penduduk_log extends Admin_Controller
                 $data['rw']      = $rw;
                 $data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
-                if (isset($rt)) {
-                    $data['rt'] = $rt;
-                } else {
-                    $data['rt'] = '';
-                }
+                $data['rt'] = $rt ?? '';
             } else {
                 $data['rw'] = '';
             }
@@ -117,7 +111,7 @@ class Penduduk_log extends Admin_Controller
         $this->render('penduduk_log/penduduk_log', $data);
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         $value = $this->input->post($filter);
         if ($value != '') {
@@ -129,7 +123,7 @@ class Penduduk_log extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function dusun()
+    public function dusun(): void
     {
         $this->session->unset_userdata(['rw', 'rt']);
         $dusun = $this->input->post('dusun');
@@ -142,7 +136,7 @@ class Penduduk_log extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function rw()
+    public function rw(): void
     {
         $this->session->unset_userdata('rt');
         $rw = $this->input->post('rw');
@@ -155,7 +149,7 @@ class Penduduk_log extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function rt()
+    public function rt(): void
     {
         $rt = $this->input->post('rt');
         if ($rt != '') {
@@ -167,7 +161,7 @@ class Penduduk_log extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function tahun_bulan()
+    public function tahun_bulan(): void
     {
         if ($bln = $this->input->post('bulan')) {
             $this->session->filter_bulan = $bln;
@@ -185,7 +179,7 @@ class Penduduk_log extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function edit($p = 1, $o = 0, $id = 0)
+    public function edit($p = 1, $o = 0, $id = 0): void
     {
         $this->redirect_hak_akses('u');
         $data['log_status_dasar'] = $this->penduduk_log_model->get_log($id) ?? show_404();
@@ -197,7 +191,7 @@ class Penduduk_log extends Admin_Controller
         $this->load->view('penduduk_log/ajax_edit', $data);
     }
 
-    public function update($p = 1, $o = 0, $id = '')
+    public function update($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->penduduk_log_model->update($id);
@@ -205,7 +199,7 @@ class Penduduk_log extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function kembalikan_status($id_log)
+    public function kembalikan_status($id_log): void
     {
         $this->redirect_hak_akses('u');
 
@@ -219,7 +213,7 @@ class Penduduk_log extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function ajax_kembalikan_status_pergi($id = 0)
+    public function ajax_kembalikan_status_pergi($id = 0): void
     {
         $this->redirect_hak_akses('u');
         $data['nik']         = $this->penduduk_model->get_penduduk($id);
@@ -228,7 +222,7 @@ class Penduduk_log extends Admin_Controller
         $this->load->view('sid/kependudukan/ajax_edit_status_dasar_pergi', $data);
     }
 
-    public function kembalikan_status_pergi($id_log = 0)
+    public function kembalikan_status_pergi($id_log = 0): void
     {
         $this->redirect_hak_akses('u');
 
@@ -242,7 +236,7 @@ class Penduduk_log extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function kembalikan_status_all()
+    public function kembalikan_status_all(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -255,7 +249,7 @@ class Penduduk_log extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
+    public function cetak($o = 0, $aksi = '', $privasi_nik = 0): void
     {
         $data['main'] = $this->penduduk_log_model->list_data($o, 0);
         if ($privasi_nik == 1) {
@@ -265,7 +259,7 @@ class Penduduk_log extends Admin_Controller
         $this->load->view("penduduk_log/penduduk_log_{$aksi}", $data);
     }
 
-    public function ajax_cetak($o = 0, $aksi = '')
+    public function ajax_cetak($o = 0, $aksi = ''): void
     {
         $data['o']                   = $o;
         $data['aksi']                = $aksi;

@@ -48,7 +48,7 @@ class Sosmed extends Admin_Controller
         $this->sub_modul_ini = 'media-sosial';
     }
 
-    public function index()
+    public function index(): void
     {
         $sosmed = $this->session->userdata('sosmed');
 
@@ -66,18 +66,18 @@ class Sosmed extends Admin_Controller
         $this->render('sosmed/sosmed', $data);
     }
 
-    public function tab($sosmed)
+    public function tab($sosmed): void
     {
         $this->session->set_userdata('sosmed', $sosmed);
 
         redirect('sosmed');
     }
 
-    public function update($sosmed)
+    public function update($sosmed): void
     {
         $this->redirect_hak_akses('u');
         $this->web_sosmed_model->update($sosmed);
-        $redirect = (! empty($sosmed)) ? "sosmed/tab/{$sosmed}" : 'sosmed';
+        $redirect = (empty($sosmed)) ? 'sosmed' : "sosmed/tab/{$sosmed}";
         redirect($redirect);
     }
 }

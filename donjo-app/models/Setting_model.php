@@ -55,8 +55,8 @@ define('EKSTENSI_WAJIB', serialize([
     'zip',
     'exif',
 ]));
-define('minPhpVersion', '7.3.0');
-define('maxPhpVersion', '8.0.0');
+define('minPhpVersion', '7.4.0');
+define('maxPhpVersion', '8.2.0');
 define('minMySqlVersion', '5.6.0');
 define('maxMySqlVersion', '8.0.0');
 define('minMariaDBVersion', '10.3.0');
@@ -68,7 +68,7 @@ class Setting_model extends MY_Model
         parent::__construct();
     }
 
-    public function init()
+    public function init(): void
     {
         $CI = &get_instance();
 
@@ -83,7 +83,7 @@ class Setting_model extends MY_Model
     }
 
     // Setting untuk PHP
-    private function apply_setting()
+    private function apply_setting(): void
     {
         //  https://stackoverflow.com/questions/16765158/date-it-is-not-safe-to-rely-on-the-systems-timezone-settings
         date_default_timezone_set($this->setting->timezone); // ganti ke timezone lokal
@@ -129,7 +129,7 @@ class Setting_model extends MY_Model
         $this->setting->sebutan_sekretaris_desa = Schema::hasTable('ref_jabatan') ? sekdes()->nama : null;
 
         // Setting Multi Database untuk OpenKab
-        $this->setting->multi_desa = (Config::count() > 1) ? true : false;
+        $this->setting->multi_desa = Config::count() > 1;
 
         // Feeds
         if (empty($this->setting->link_feed)) {
@@ -187,10 +187,8 @@ class Setting_model extends MY_Model
 
                 $value = strip_tags($value);
                 // update password jika terisi saja
-                if (in_array($key, ['email_smtp_pass'])) {
-                    if (empty($value)) {
-                        continue;
-                    }
+                if ($key == 'email_smtp_pass' && $value === '') {
+                    continue;
                 }
 
                 if ($key == 'ip_adress_kehadiran' || $key == 'mac_adress_kehadiran') {
@@ -206,7 +204,7 @@ class Setting_model extends MY_Model
                 }
 
                 if (is_array($post = $this->input->post($key))) {
-                    $value = json_encode($post);
+                    $value = json_encode($post, JSON_THROW_ON_ERROR);
                 }
 
                 $hasil                 = $hasil && $this->update($key, $value);
@@ -241,7 +239,7 @@ class Setting_model extends MY_Model
                 unlink($lokasi . $latar_old); // hapus file yang sebelumya
             }
 
-            if ($key . '.jpg') {
+            if ($key . '.jpg' !== '') {
                 unlink($lokasi . $key . '.jpg'); // hapus file yang sebelumya
             }
 
@@ -278,7 +276,7 @@ class Setting_model extends MY_Model
 
     public function update($key = 'enable_track', $value = 1)
     {
-        if (in_array($key, ['latar_kehadiran'])) {
+        if ($key == 'latar_kehadiran') {
             $value = $this->upload_img('latar_kehadiran', LATAR_LOGIN, null);
         }
 
@@ -298,7 +296,7 @@ class Setting_model extends MY_Model
         return true;
     }
 
-    public function aktifkan_tracking()
+    public function aktifkan_tracking(): void
     {
         $outp = $this->config_id()->where('key', 'enable_track')->update('setting_aplikasi', ['value' => 1]);
         $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
@@ -306,7 +304,7 @@ class Setting_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function update_slider()
+    public function update_slider(): void
     {
         $_SESSION['success']                 = 1;
         $this->setting->sumber_gambar_slider = $this->input->post('pilihan_sumber');
@@ -323,7 +321,7 @@ class Setting_model extends MY_Model
         - jenis_server dan server_mana menentukan setting penggunaan_server
         - offline_mode dan offline_mode_saja menentukan setting offline_mode
     */
-    public function update_penggunaan_server()
+    public function update_penggunaan_server(): void
     {
         $_SESSION['success']              = 1;
         $mode                             = $this->input->post('offline_mode_saja');
@@ -373,7 +371,7 @@ class Setting_model extends MY_Model
         $ekstensi_wajib = array_flip($e);
         $lengkap        = true;
 
-        foreach ($ekstensi_wajib as $key => $value) {
+        foreach (array_keys($ekstensi_wajib) as $key) {
             $ekstensi_wajib[$key] = isset($ekstensi[$key]);
             $lengkap              = $lengkap && $ekstensi_wajib[$key];
         }
@@ -392,7 +390,7 @@ class Setting_model extends MY_Model
         $lengkap   = true;
 
         foreach ($wajib as $fuc) {
-            $functions[$fuc] = (in_array($fuc, $disabled)) ? false : true;
+            $functions[$fuc] = ! in_array($fuc, $disabled);
             $lengkap         = $lengkap && $functions[$fuc];
         }
 
@@ -406,7 +404,7 @@ class Setting_model extends MY_Model
     {
         return [
             'versi' => PHP_VERSION,
-            'cek'   => (version_compare(PHP_VERSION, minPhpVersion, '>=') && version_compare(PHP_VERSION, maxPhpVersion, '<')),
+            'cek'   => (version_compare(PHP_VERSION, minPhpVersion, '>=') && version_compare(PHP_VERSION, maxPhpVersion, '<=')),
         ];
     }
 

@@ -126,10 +126,8 @@ class PermohonanSurat extends BaseModel
 
     /**
      * Setter untuk id surat permohonan.
-     *
-     * @return void
      */
-    public function setIdSuratAttribute(string $slug)
+    public function setIdSuratAttribute(string $slug): void
     {
         $this->attributes['id_surat'] = FormatSurat::where('url_surat', $slug)->first()->id;
     }
@@ -141,7 +139,7 @@ class PermohonanSurat extends BaseModel
      *
      * @return Builder
      */
-    public function scopePengguna($query)
+    public function scopePengguna($query): void
     {
         // return $query->where('id_pemohon', auth('jwt')->user()->penduduk->id);
     }

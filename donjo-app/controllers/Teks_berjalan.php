@@ -52,7 +52,7 @@ class Teks_berjalan extends Admin_Controller
         $this->sub_modul_ini = 'teks-berjalan';
     }
 
-    public function index()
+    public function index(): View
     {
         $main = TeksBerjalan::orderBy('urut')
             ->withCasts([
@@ -70,10 +70,10 @@ class Teks_berjalan extends Admin_Controller
                 return $teks;
             });
 
-        return view('admin.web.teks_berjalan.index', compact('main'));
+        return view('admin.web.teks_berjalan.index', ['main' => $main]);
     }
 
-    public function form($id = '')
+    public function form($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data['list_artikel'] = $this->web_artikel_model->list_data(999, 6, 0);
@@ -91,7 +91,7 @@ class Teks_berjalan extends Admin_Controller
         $this->render('web/teks_berjalan/form', $data);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -102,35 +102,35 @@ class Teks_berjalan extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->teks_berjalan_model->update($id);
         redirect('teks_berjalan');
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         $this->redirect_hak_akses('h', 'teks_berjalan');
         $this->teks_berjalan_model->delete($id);
         redirect('teks_berjalan');
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->redirect_hak_akses('h', 'teks_berjalan');
         $this->teks_berjalan_model->delete_all();
         redirect('teks_berjalan');
     }
 
-    public function urut($id = 0, $arah = 0)
+    public function urut($id = 0, $arah = 0): void
     {
         $this->redirect_hak_akses('u');
-        $urut = $this->teks_berjalan_model->urut($id, $arah);
+        $this->teks_berjalan_model->urut($id, $arah);
         redirect("teks_berjalan/index/{$page}");
     }
 
-    public function lock($id = 0, $val = 1)
+    public function lock($id = 0, $val = 1): void
     {
         $this->redirect_hak_akses('u');
         $this->teks_berjalan_model->lock($id, $val);

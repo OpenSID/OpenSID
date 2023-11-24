@@ -45,7 +45,7 @@ class Notif_web extends Mandiri_Controller
         $this->load->model('notif_model');
     }
 
-    public function inbox()
+    public function inbox(): void
     {
         $j = $this->notif_model->inbox_baru($tipe = 2, $this->is_login->nik);
         if ($j > 0) {
@@ -53,7 +53,7 @@ class Notif_web extends Mandiri_Controller
         }
     }
 
-    public function surat_perlu_perhatian()
+    public function surat_perlu_perhatian(): void
     {
         $j = $this->notif_model->surat_perlu_perhatian($this->is_login->id_pend);
         if ($j > 0) {

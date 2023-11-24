@@ -48,28 +48,28 @@ class Plan_garis_model extends MY_Model
         return $this->autocomplete_str('nama', $this->table);
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db->like('l.nama', $cari);
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if ($filter = $this->session->filter) {
             $this->db->where('l.enabled', $filter);
         }
     }
 
-    private function line_sql()
+    private function line_sql(): void
     {
         if ($line = $this->session->line) {
             $this->db->where('m.id', $line);
         }
     }
 
-    private function subline_sql()
+    private function subline_sql(): void
     {
         if ($subline = $this->session->subline) {
             $this->db->where('p.id', $subline);
@@ -92,7 +92,7 @@ class Plan_garis_model extends MY_Model
     }
 
     // Pastikan paging dan pencarian data berdasarkan filter yg sama
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id('l')
             ->from("{$this->table} l")
@@ -131,16 +131,13 @@ class Plan_garis_model extends MY_Model
             ->get()
             ->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
 
-            if ($data[$i]['enabled'] == 1) {
-                $data[$i]['aktif'] = 'Ya';
-            } else {
-                $data[$i]['aktif'] = 'Tidak';
-            }
+            $data[$i]['aktif'] = $data[$i]['enabled'] == 1 ? 'Ya' : 'Tidak';
 
             $j++;
         }
@@ -158,7 +155,7 @@ class Plan_garis_model extends MY_Model
         ];
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data              = $this->validasi($this->input->post());
         $data['config_id'] = identitas('id');
@@ -176,7 +173,7 @@ class Plan_garis_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data       = $this->validasi($this->input->post());
         $old_foto   = $this->input->post('old_foto');
@@ -194,7 +191,7 @@ class Plan_garis_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -203,17 +200,15 @@ class Plan_garis_model extends MY_Model
         $garis = Garis::findOrFail($id);
         $outp  = $garis->delete();
 
-        if ($outp) {
-            if ($garis->foto_kecil || $garis->foto_sedang) {
-                unlink(FCPATH . $garis->foto_kecil);
-                unlink(FCPATH . $garis->foto_sedang);
-            }
+        if ($outp && ($garis->foto_kecil || $garis->foto_sedang)) {
+            unlink(FCPATH . $garis->foto_kecil);
+            unlink(FCPATH . $garis->foto_sedang);
         }
 
         status_sukses($outp, true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -250,7 +245,7 @@ class Plan_garis_model extends MY_Model
             ->result_array();
     }
 
-    public function garis_lock($id = '', $val = 0)
+    public function garis_lock($id = '', $val = 0): void
     {
         $outp = $this->config_id()
             ->where('id', $id)
@@ -271,15 +266,11 @@ class Plan_garis_model extends MY_Model
             ->row_array();
     }
 
-    public function update_position($id = 0)
+    public function update_position($id = 0): void
     {
         $data = $_POST;
         $this->db->where('id', $id);
-        if ($data['path'] !== '[]') {
-            $outp = $this->config_id()->update($this->table, $data);
-        } else {
-            $outp = '';
-        }
+        $outp = $data['path'] !== '[]' ? $this->config_id()->update($this->table, $data) : '';
 
         status_sukses($outp, $gagal_saja = false, $msg = 'titik koordinat garis harus diisi'); //Tampilkan Pesan
     }
@@ -303,7 +294,7 @@ class Plan_garis_model extends MY_Model
             ->result_array();
     }
 
-    public function kosongkan_path($id)
+    public function kosongkan_path($id): void
     {
         $this->config_id()
             ->set('path', null)

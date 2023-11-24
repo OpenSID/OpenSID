@@ -51,7 +51,7 @@ class Ekspedisi extends Admin_Controller
         $this->sub_modul_ini = 'administrasi-umum';
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->per_page = 20;
         $this->session->cari     = null;
@@ -59,7 +59,7 @@ class Ekspedisi extends Admin_Controller
         redirect('ekspedisi');
     }
 
-    public function index($p = 1, $o = 2)
+    public function index($p = 1, $o = 2): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
@@ -80,7 +80,7 @@ class Ekspedisi extends Admin_Controller
         $this->render('bumindes/umum/main', $data);
     }
 
-    public function form($p, $o, $id)
+    public function form($p, $o, $id): void
     {
         $this->redirect_hak_akses('u');
         $data['klasifikasi'] = $this->klasifikasi_model->list_kode();
@@ -101,26 +101,26 @@ class Ekspedisi extends Admin_Controller
         $this->render('ekspedisi/form', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         $this->session->cari = $this->input->post('cari') ?: null;
         redirect('ekspedisi');
     }
 
-    public function filter()
+    public function filter(): void
     {
         $this->session->filter = $this->input->post('filter') ?: null;
         redirect('ekspedisi');
     }
 
-    public function update($p, $o, $id)
+    public function update($p, $o, $id): void
     {
         $this->redirect_hak_akses('u');
         $this->ekspedisi_model->update($id);
         redirect("ekspedisi/index/{$p}/{$o}");
     }
 
-    public function dialog($aksi = 'cetak', $o = 0)
+    public function dialog($aksi = 'cetak', $o = 0): void
     {
         $data['aksi']        = $aksi;
         $data['tahun_surat'] = $this->ekspedisi_model->list_tahun_surat();
@@ -129,7 +129,7 @@ class Ekspedisi extends Admin_Controller
         $this->load->view('ekspedisi/ajax_cetak', $data);
     }
 
-    public function daftar($aksi = 'cetak', $o = 1)
+    public function daftar($aksi = 'cetak', $o = 1): void
     {
         // TODO :: gunakan view global penandatangan
         $ttd                    = $this->modal_penandatangan();
@@ -147,17 +147,15 @@ class Ekspedisi extends Admin_Controller
      * Unduh berkas tanda terima berdasarkan kolom surat_keluar.id
      *
      * @param int $id ID surat_keluar
-     *
-     * @return void
      */
-    public function unduh_tanda_terima($id)
+    public function unduh_tanda_terima($id): void
     {
         // Ambil nama berkas dari database
         $berkas = $this->ekspedisi_model->get_tanda_terima($id);
         ambilBerkas($berkas, 'surat_keluar', '__sid__');
     }
 
-    public function bukan_ekspedisi($p, $o, $id)
+    public function bukan_ekspedisi($p, $o, $id): void
     {
         $this->surat_keluar_model->untuk_ekspedisi($id, $masuk = 0);
         redirect("ekspedisi/index/{$p}/{$o}");

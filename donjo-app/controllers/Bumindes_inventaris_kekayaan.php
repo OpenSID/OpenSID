@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_inventaris_kekayaan extends Admin_Controller
 {
-    private $list_session = ['tahun'];
+    private array $list_session = ['tahun'];
 
     public function __construct()
     {
@@ -49,7 +49,7 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
         $this->sub_modul_ini = 'administrasi-umum';
     }
 
-    public function index()
+    public function index(): void
     {
         $tahun = (empty($this->session->tahun) || $this->session->tahun == 'semua') ? date('Y') : $this->session->tahun;
 
@@ -65,7 +65,7 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
         $this->render('bumindes/umum/main', $data);
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         $value = $this->input->post($filter);
         if ($value != '') {

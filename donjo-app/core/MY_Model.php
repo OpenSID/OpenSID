@@ -270,7 +270,7 @@ class MY_Model extends CI_Model
         hapus_cache('identitas_desa');
 
         if (Schema::hasColumn('setting_aplikasi', 'config_id')) {
-            $cek = SettingAplikasi::withoutGlobalScope('App\Scopes\ConfigIdScope')->where('config_id', $config_id ?? $this->config_id)->where('key', $setting['key']);
+            $cek = SettingAplikasi::withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->where('config_id', $config_id ?? $this->config_id)->where('key', $setting['key']);
 
             if ($cek->exists()) {
                 unset($setting['value']);
@@ -291,17 +291,17 @@ class MY_Model extends CI_Model
 
     public function tambah_surat_tinymce($data, $config_id = null)
     {
-        $config_id            = $config_id ?? $this->config_id;
+        $config_id ??= $this->config_id;
         $data['url_surat']    = 'surat-' . url_title($data['nama'], '-', true);
         $data['jenis']        = FormatSurat::TINYMCE_SISTEM;
-        $data['syarat_surat'] = json_encode($data['syarat_surat']);
+        $data['syarat_surat'] = json_encode($data['syarat_surat'], JSON_THROW_ON_ERROR);
         $data['created_by']   = auth()->id;
         $data['updated_by']   = auth()->id;
         if (is_array($data['form_isian'])) {
-            $data['form_isian'] = json_encode($data['form_isian']);
+            $data['form_isian'] = json_encode($data['form_isian'], JSON_THROW_ON_ERROR);
         }
         if (is_array($data['kode_isian'])) {
-            $data['kode_isian'] = json_encode($data['kode_isian']);
+            $data['kode_isian'] = json_encode($data['kode_isian'], JSON_THROW_ON_ERROR);
         }
 
         // Tambah data baru dan update (hanya kolom template) jika ada sudah ada
@@ -358,7 +358,7 @@ class MY_Model extends CI_Model
         }
 
         if ($query->num_rows() == 0) {
-            $hasil = $hasil && $this->dbforge->add_column($di_tbl, [
+            return $hasil && $this->dbforge->add_column($di_tbl, [
                 "CONSTRAINT `{$nama_constraint}` FOREIGN KEY (`{$fk}`) REFERENCES `{$ke_tbl}` (`{$ke_kolom}`) ON DELETE CASCADE ON UPDATE CASCADE",
             ]);
         }
@@ -378,7 +378,7 @@ class MY_Model extends CI_Model
 
         $hasil = true;
         if ($query->num_rows() > 0) {
-            $hasil = $hasil && $this->db->query("ALTER TABLE `{$drop}` DROP FOREIGN KEY `{$nama_constraint}`");
+            return $hasil && $this->db->query("ALTER TABLE `{$drop}` DROP FOREIGN KEY `{$nama_constraint}`");
         }
 
         return $hasil;
@@ -511,7 +511,7 @@ class MY_Model extends CI_Model
         // Hapus index nik pada tabel tweb_penduduk
         // Tambahkan unique index pada kolom config_id dan nik pada tabel tweb_penduduk
         if ($this->cek_indeks($tabel, $unique_name) && ! $this->cek_indeks($tabel, $unique_name . '_config')) {
-            $hasil = $hasil && $this->db->query("ALTER TABLE `{$tabel}` DROP INDEX `{$unique_name}`, ADD {$index} INDEX `{$unique_name}_config` {$unique_colom}");
+            return $hasil && $this->db->query("ALTER TABLE `{$tabel}` DROP INDEX `{$unique_name}`, ADD {$index} INDEX `{$unique_name}_config` {$unique_colom}");
         }
 
         return $hasil;
@@ -573,18 +573,16 @@ class MY_Model extends CI_Model
             DB::table($tabel)->update(['config_id' => $config_id]);
         }
 
-        if ($this->db->table_exists($tabel) && count($data) > 0) {
+        if ($this->db->table_exists($tabel) && $data !== []) {
             collect($data)
                 ->chunk(100)
                 // tambahkan config_id terlebih dahulu
-                ->map(static function ($chunk) use ($config_id) {
-                    return $chunk->map(static function ($item) use ($config_id) {
-                        $item['config_id'] = $config_id;
+                ->map(static fn ($chunk) => $chunk->map(static function (array $item) use ($config_id): array {
+                    $item['config_id'] = $config_id;
 
-                        return $item;
-                    });
-                })
-                ->each(static function ($chunk) use ($tabel) {
+                    return $item;
+                }))
+                ->each(static function ($chunk) use ($tabel): void {
                     // upsert agar tidak duplikat
                     DB::table($tabel)->upsert($chunk->all(), 'config_id');
                 });

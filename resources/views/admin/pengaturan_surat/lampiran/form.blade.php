@@ -164,7 +164,7 @@
                 </div>
                 <div class="box-body">
                     <div class="form-group">
-                        <textarea name="template_desa" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url() . 'assets/filemanager/', 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $lampiranSurat->template_desa ?? $lampiranSurat->template }}</textarea>
+                        <textarea name="template_desa" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url() . 'assets/filemanager/', 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key], JSON_THROW_ON_ERROR) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $lampiranSurat->template_desa ?? $lampiranSurat->template }}</textarea>
                     </div>
                 </div>
             </div>

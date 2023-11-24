@@ -39,14 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Job_prosess
 {
-    protected $os;
+    protected string $os;
 
     public function __construct()
     {
         $this->os = php_uname('s');
     }
 
-    public function kill($pid)
+    public function kill($pid): void
     {
         if (function_exists('posix_kill')) {
             posix_kill($pid, SIGKILL);

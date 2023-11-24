@@ -79,10 +79,8 @@ class Lokasi extends BaseModel
 
     /**
      * Getter untuk foto kecil.
-     *
-     * @return string
      */
-    public function getFotoKecilAttribute()
+    public function getFotoKecilAttribute(): ?string
     {
         $foto = LOKASI_FOTO_LOKASI . 'kecil_' . $this->attributes['foto'];
 
@@ -95,10 +93,8 @@ class Lokasi extends BaseModel
 
     /**
      * Getter untuk foto sedang.
-     *
-     * @return string
      */
-    public function getFotoSedangAttribute()
+    public function getFotoSedangAttribute(): ?string
     {
         $foto = LOKASI_FOTO_LOKASI . 'sedang_' . $this->attributes['foto'];
 

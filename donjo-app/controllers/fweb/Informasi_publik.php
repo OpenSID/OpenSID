@@ -43,7 +43,7 @@ class Informasi_publik extends Web_Controller
         $this->load->model(['referensi_model', 'web_dokumen_model']);
     }
 
-    public function index()
+    public function index(): void
     {
         if (! $this->web_menu_model->menu_aktif('informasi_publik')) {
             show_404();
@@ -62,7 +62,7 @@ class Informasi_publik extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function ajax_informasi_publik()
+    public function ajax_informasi_publik(): void
     {
         $informasi_publik = $this->web_dokumen_model->get_informasi_publik();
         $data             = [];
@@ -94,10 +94,10 @@ class Informasi_publik extends Web_Controller
             'recordsFiltered' => $this->web_dokumen_model->count_informasi_publik_filtered(),
             'data'            => $data,
         ];
-        echo json_encode($output);
+        echo json_encode($output, JSON_THROW_ON_ERROR);
     }
 
-    public function tampilkan($id_dokumen, $id_pend = 0)
+    public function tampilkan($id_dokumen, $id_pend = 0): void
     {
         $berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
 

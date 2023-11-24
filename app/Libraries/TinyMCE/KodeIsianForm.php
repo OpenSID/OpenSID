@@ -41,7 +41,7 @@ class KodeIsianForm
 {
     private $inputForm;
     private $kodeIsian;
-    private $statisForm = [
+    private array $statisForm = [
         [
             'nama' => 'Mulai Berlaku',
             'kode' => 'mulai_berlaku',
@@ -84,7 +84,7 @@ class KodeIsianForm
     public function getKodeIsian()
     {
         $input     = $this->inputForm;
-        $kodeIsian = $this->kodeIsian;
+        $kodeIsian = $this->kodeIsian ?? [];
 
         if (count($kodeIsian) == 0) {
             $kodeIsian = $this->statisForm;
@@ -95,7 +95,7 @@ class KodeIsianForm
         }
 
         return collect($kodeIsian)
-            ->map(static function ($item, $key) use ($input) {
+            ->map(static function (array $item, $key) use ($input): array {
                 $input_data = $input[underscore($item['nama'], true, true)];
                 if ($item['tipe'] == 'date') {
                     $data = formatTanggal($input_data);

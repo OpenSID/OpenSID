@@ -136,7 +136,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<?php if ($notif->status): ?>
 						<?= $notif->message; ?>
 					<?php else: ?>
-						<?php foreach ($notif->errors as $key => $error): ?>
+						<?php foreach ($notif->errors as $error): ?>
 							<?php foreach ($error as $er): ?>
 								<?= $er; ?></br>
 							<?php endforeach; ?>

@@ -75,11 +75,11 @@ class Laporan_apbdes extends Admin_Controller
         ]);
     }
 
-    public function form(int $id = 0)
+    public function form(int $id = 0): void
     {
         $this->redirect_hak_akses('u');
 
-        if ($id) {
+        if ($id !== 0) {
             $data['main']        = $this->sinkronisasi->find($id) ?? show_404();
             $data['form_action'] = site_url("{$this->controller}/update/{$id}");
         } else {
@@ -92,34 +92,34 @@ class Laporan_apbdes extends Admin_Controller
         $this->load->view("opendk/form_{$this->tipe}", $data);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->sinkronisasi->insert();
         redirect($this->controller);
     }
 
-    public function update(int $id = 0)
+    public function update(int $id = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->sinkronisasi->update($id);
         redirect($this->controller);
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->redirect_hak_akses('h');
         $this->sinkronisasi->delete_all();
         redirect($this->controller);
     }
 
-    public function unduh(int $id = 0)
+    public function unduh(int $id = 0): void
     {
         $nama_file = $this->sinkronisasi->find($id)->nama_file;
         ambilBerkas($nama_file, $this->controller, null, LOKASI_DOKUMEN);
     }
 
-    public function kirim()
+    public function kirim(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -144,7 +144,7 @@ class Laporan_apbdes extends Admin_Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST  => 'POST',
-            CURLOPT_POSTFIELDS     => json_encode(['desa_id' => $desa_id, $this->tipe => $this->sinkronisasi->opendk($id)]),
+            CURLOPT_POSTFIELDS     => json_encode(['desa_id' => $desa_id, $this->tipe => $this->sinkronisasi->opendk($id)], JSON_THROW_ON_ERROR),
             CURLOPT_HTTPHEADER     => [
                 'Accept: application/json',
                 'Content-Type: application/json',
@@ -152,7 +152,7 @@ class Laporan_apbdes extends Admin_Controller
             ],
         ]);
 
-        $response  = json_decode(curl_exec($curl));
+        $response  = json_decode(curl_exec($curl), null);
         $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         if (! curl_errno($curl) && $http_code !== 422) {

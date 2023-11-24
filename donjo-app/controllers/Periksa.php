@@ -37,6 +37,7 @@
 
 use App\Models\Config;
 use App\Models\UserGrup;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -59,7 +60,7 @@ class Periksa extends CI_Controller
         $this->latar_login = default_file(LATAR_LOGIN . $this->periksa_model->getSetting('latar_login'), DEFAULT_LATAR_SITEMAN);
     }
 
-    public function index()
+    public function index(): View
     {
         $this->cek_user();
 
@@ -71,14 +72,14 @@ class Periksa extends CI_Controller
         return view('periksa.index', array_merge($this->periksa_model->periksa, ['header' => $this->header]));
     }
 
-    private function cek_user()
+    private function cek_user(): void
     {
         if ($this->session->periksa_data != 1) {
             redirect('periksa/login');
         }
     }
 
-    public function perbaiki()
+    public function perbaiki(): void
     {
         $this->cek_user();
         $this->periksa_model->perbaiki();
@@ -87,7 +88,7 @@ class Periksa extends CI_Controller
         redirect('/');
     }
 
-    public function perbaiki_sebagian($masalah)
+    public function perbaiki_sebagian($masalah): void
     {
         $this->cek_user();
         $this->periksa_model->perbaiki_sebagian($masalah);
@@ -97,7 +98,7 @@ class Periksa extends CI_Controller
     }
 
     // Login khusus untuk periksa
-    public function login()
+    public function login(): void
     {
         if ($this->session->periksa_data == 1) {
             redirect('periksa');
@@ -116,7 +117,7 @@ class Periksa extends CI_Controller
     }
 
     // Login khusus untuk periksa
-    public function auth()
+    public function auth(): void
     {
         $method       = $this->input->method(true);
         $allow_method = ['POST'];

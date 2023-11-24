@@ -57,11 +57,7 @@ abstract class BaseEnum
     public static function all(): array
     {
         try {
-            if (isset(static::$items[static::class])) {
-                return static::$items[static::class];
-            }
-
-            return static::$items[static::class] = (new ReflectionClass(static::class))->getConstants();
+            return static::$items[static::class] ?? (static::$items[static::class] = (new ReflectionClass(static::class))->getConstants());
         } catch (Throwable $e) {
             return [];
         }
@@ -124,7 +120,9 @@ abstract class BaseEnum
         $keys = [];
 
         foreach (static::all() as $k => $v) {
-            $v == $value && ($keys[] = $k);
+            if ($v == $value) {
+                $keys[] = $k;
+            }
         }
 
         return $keys;

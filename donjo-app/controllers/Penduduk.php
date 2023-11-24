@@ -42,12 +42,13 @@ use App\Models\Dokumen;
 use App\Models\Penduduk as PendudukModel;
 use App\Models\SyaratSurat;
 use App\Models\UserGrup;
+use Illuminate\Contracts\View\View;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Penduduk extends Admin_Controller
 {
-    private $_set_page;
-    private $_list_session;
+    private array $_set_page     = ['50', '100', '200', [0, 'Semua']];
+    private array $_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan', 'nik_sementara', 'tag_id_card'];
 
     public function __construct()
     {
@@ -56,24 +57,22 @@ class Penduduk extends Admin_Controller
 
         $this->modul_ini     = 'kependudukan';
         $this->sub_modul_ini = 'penduduk';
-        $this->_set_page     = ['50', '100', '200', [0, 'Semua']];
-        $this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan', 'nik_sementara', 'tag_id_card'];
     }
 
-    private function clear_session()
+    private function clear_session(): void
     {
         $this->session->unset_userdata($this->_list_session);
         $this->session->status_dasar = 1; // default status dasar = hidup
         $this->session->per_page     = $this->_set_page[0];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->clear_session();
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 1)
+    public function index($p = 1, $o = 1): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
@@ -94,11 +93,7 @@ class Penduduk extends Admin_Controller
                 $data['rw']      = $rw;
                 $data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
-                if (isset($rt)) {
-                    $data['rt'] = $rt;
-                } else {
-                    $data['rt'] = '';
-                }
+                $data['rt'] = $rt ?? '';
             } else {
                 $data['rw'] = '';
             }
@@ -127,7 +122,7 @@ class Penduduk extends Admin_Controller
         $this->render('sid/kependudukan/penduduk', $data);
     }
 
-    public function ambil_foto()
+    public function ambil_foto(): void
     {
         $foto = $this->input->get('foto');
         $sex  = $this->input->get('sex');
@@ -139,7 +134,7 @@ class Penduduk extends Admin_Controller
         }
     }
 
-    public function form_peristiwa($peristiwa = '')
+    public function form_peristiwa($peristiwa = ''): void
     {
         $this->redirect_hak_akses('u');
         // Acuan jenis peristiwa berada pada ref_peristiwa
@@ -147,11 +142,11 @@ class Penduduk extends Admin_Controller
         $this->form();
     }
 
-    public function form($p = 1, $o = 0, $id = '')
+    public function form($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         // Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-        if (empty($_POST) && (! isset($_SESSION['dari_internal']) || ! $_SESSION['dari_internal'])) {
+        if ($_POST === [] && (! isset($_SESSION['dari_internal']) || ! $_SESSION['dari_internal'])) {
             unset($_SESSION['validation_error']);
         }
 
@@ -163,11 +158,7 @@ class Penduduk extends Admin_Controller
             // Validasi dilakukan di penduduk_model sewaktu insert dan update
             if (isset($_SESSION['validation_error']) && $_SESSION['validation_error']) {
                 // Kalau dipanggil internal pakai data yang disimpan di $_SESSION
-                if ($_SESSION['dari_internal']) {
-                    $data['penduduk'] = $_SESSION['post'];
-                } else {
-                    $data['penduduk'] = $_POST;
-                }
+                $data['penduduk'] = $_SESSION['dari_internal'] ? $_SESSION['post'] : $_POST;
             } else {
                 $data['penduduk']     = $this->penduduk_model->get_penduduk($id);
                 $_SESSION['nik_lama'] = $data['penduduk']['nik'];
@@ -177,11 +168,7 @@ class Penduduk extends Admin_Controller
             // Validasi dilakukan di penduduk_model sewaktu insert dan update
             if (isset($_SESSION['validation_error']) && $_SESSION['validation_error']) {
                 // Kalau dipanggil internal pakai data yang disimpan di $_SESSION
-                if ($_SESSION['dari_internal']) {
-                    $data['penduduk'] = $_SESSION['post'];
-                } else {
-                    $data['penduduk'] = $_POST;
-                }
+                $data['penduduk'] = $_SESSION['dari_internal'] ? $_SESSION['post'] : $_POST;
             } else {
                 $data['penduduk'] = null;
             }
@@ -230,7 +217,7 @@ class Penduduk extends Admin_Controller
         $this->render('sid/kependudukan/penduduk_form', $data);
     }
 
-    public function detail($p = 1, $o = 0, $id = 0)
+    public function detail($p = 1, $o = 0, $id = 0): void
     {
         $data['p']            = $p;
         $data['o']            = $o;
@@ -240,14 +227,14 @@ class Penduduk extends Admin_Controller
         $this->render('sid/kependudukan/penduduk_detail', $data);
     }
 
-    public function dokumen($id = '')
+    public function dokumen($id = ''): void
     {
         $this->render('sid/kependudukan/penduduk_dokumen', [
             'penduduk' => PendudukModel::select('id', 'nik', 'nama', 'id_cluster')->with(['dokumen'])->find($id) ?? show_404(),
         ]);
     }
 
-    public function dokumen_form($id = 0, $id_dokumen = 0)
+    public function dokumen_form($id = 0, $id_dokumen = 0): void
     {
         $this->redirect_hak_akses('u');
         $data['penduduk']           = $this->penduduk_model->get_penduduk($id) ?? show_404();
@@ -288,7 +275,7 @@ class Penduduk extends Admin_Controller
         $this->load->view('sid/kependudukan/dokumen_form', $data);
     }
 
-    public function dokumen_list($id = 0)
+    public function dokumen_list($id = 0): void
     {
         $data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
         $data['penduduk']     = $this->penduduk_model->get_penduduk($id);
@@ -296,7 +283,7 @@ class Penduduk extends Admin_Controller
         $this->load->view('sid/kependudukan/dokumen_ajax', $data);
     }
 
-    public function dokumen_insert()
+    public function dokumen_insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->web_dokumen_model->insert();
@@ -305,7 +292,7 @@ class Penduduk extends Admin_Controller
         redirect("{$this->controller}/dokumen/{$id}");
     }
 
-    public function dokumen_update($id = '')
+    public function dokumen_update($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->web_dokumen_model->update($id);
@@ -314,7 +301,7 @@ class Penduduk extends Admin_Controller
         redirect("{$this->controller}/dokumen/{$id}");
     }
 
-    public function delete_dokumen($id_pend = 0, $id = '')
+    public function delete_dokumen($id_pend = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h', "penduduk/dokumen/{$id_pend}");
         $this->web_dokumen_model->delete($id);
@@ -322,7 +309,7 @@ class Penduduk extends Admin_Controller
         redirect("{$this->controller}/dokumen/{$id_pend}");
     }
 
-    public function delete_all_dokumen($id_pend = 0)
+    public function delete_all_dokumen($id_pend = 0): void
     {
         $this->redirect_hak_akses('h', "penduduk/dokumen/{$id_pend}");
         $this->web_dokumen_model->delete_all();
@@ -330,14 +317,14 @@ class Penduduk extends Admin_Controller
         redirect("{$this->controller}/dokumen/{$id_pend}");
     }
 
-    public function cetak_biodata($id = '')
+    public function cetak_biodata($id = ''): void
     {
         $data['desa']     = $this->header['desa'];
         $data['penduduk'] = $this->penduduk_model->get_penduduk($id);
         $this->load->view('sid/kependudukan/cetak_biodata', $data);
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         if ($filter == 'dusun') {
             $this->session->unset_userdata(['rw', 'rt']);
@@ -355,14 +342,14 @@ class Penduduk extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function nik_sementara()
+    public function nik_sementara(): void
     {
         $this->session->nik_sementara = '0';
 
         redirect($this->controller);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $id = $this->penduduk_model->insert();
@@ -375,7 +362,7 @@ class Penduduk extends Admin_Controller
         }
     }
 
-    public function update($p = 1, $o = 0, $id = '')
+    public function update($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->penduduk_model->update($id);
@@ -388,7 +375,7 @@ class Penduduk extends Admin_Controller
         }
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h');
         if (data_lengkap()) {
@@ -403,7 +390,7 @@ class Penduduk extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h');
 
@@ -419,7 +406,7 @@ class Penduduk extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function ajax_adv_search()
+    public function ajax_adv_search(): void
     {
         $list_session = ['umur', 'umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'sex', 'status_dasar', 'cacat', 'cara_kb_id', 'status_ktp', 'id_asuransi', 'warganegara', 'golongan_darah', 'hamil', 'menahun', 'tag_id_card'];
 
@@ -449,7 +436,7 @@ class Penduduk extends Admin_Controller
         $this->load->view('sid/kependudukan/ajax_adv_search_form', $data);
     }
 
-    public function adv_search_proses()
+    public function adv_search_proses(): void
     {
         $this->clear_session();
         $adv_search = $this->validasi_pencarian($this->input->post());
@@ -499,7 +486,7 @@ class Penduduk extends Admin_Controller
         return $data;
     }
 
-    public function ajax_penduduk_pindah_rw($dusun = '')
+    public function ajax_penduduk_pindah_rw($dusun = ''): void
     {
         $dusun = urldecode($dusun);
         $rw    = $this->wilayah_model->list_rw($dusun);
@@ -513,7 +500,7 @@ class Penduduk extends Admin_Controller
         echo '</select></div>';
     }
 
-    public function ajax_penduduk_pindah_rt($dusun = '', $rw = '')
+    public function ajax_penduduk_pindah_rt($dusun = '', $rw = ''): void
     {
         $dusun = urldecode($dusun);
         $rt    = $this->wilayah_model->list_rt($dusun, $rw);
@@ -527,7 +514,7 @@ class Penduduk extends Admin_Controller
         echo '</select></div>';
     }
 
-    public function ajax_penduduk_cari_rw($dusun = '')
+    public function ajax_penduduk_cari_rw($dusun = ''): void
     {
         $rw = $this->wilayah_model->list_rw($dusun);
 
@@ -542,7 +529,7 @@ class Penduduk extends Admin_Controller
 		</td>';
     }
 
-    public function ajax_penduduk_maps($p = 1, $o = 0, $id = null, $edit = 1)
+    public function ajax_penduduk_maps($p = 1, $o = 0, $id = null, $edit = 1): void
     {
         $this->redirect_hak_akses('u');
 
@@ -562,7 +549,7 @@ class Penduduk extends Admin_Controller
         $this->render('sid/kependudukan/ajax_penduduk_maps', $data);
     }
 
-    public function update_maps($p = 1, $o = 0, $id = '', $edit = '')
+    public function update_maps($p = 1, $o = 0, $id = '', $edit = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -574,7 +561,7 @@ class Penduduk extends Admin_Controller
         }
     }
 
-    public function edit_status_dasar($p = 1, $o = 0, $id = 0)
+    public function edit_status_dasar($p = 1, $o = 0, $id = 0): void
     {
         $this->redirect_hak_akses('u');
         if (! data_lengkap()) {
@@ -596,7 +583,7 @@ class Penduduk extends Admin_Controller
         $this->load->view('sid/kependudukan/ajax_edit_status_dasar', $data);
     }
 
-    public function update_status_dasar($p = 1, $o = 0, $id = '')
+    public function update_status_dasar($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         if (! data_lengkap()) {
@@ -611,7 +598,7 @@ class Penduduk extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function kembalikan_status($p = 1, $o = 0, $id = '')
+    public function kembalikan_status($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->penduduk_model->kembalikan_status($id);
@@ -620,7 +607,7 @@ class Penduduk extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0)
+    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0): void
     {
         $data['main'] = $this->penduduk_model->list_data($o, $page)['main'];
 
@@ -631,7 +618,7 @@ class Penduduk extends Admin_Controller
         $this->load->view("sid/kependudukan/penduduk_{$aksi}", $data);
     }
 
-    public function statistik($tipe = '0', $nomor = 0, $sex = null)
+    public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
         $this->clear_session();
         // Set filter statistik
@@ -740,7 +727,7 @@ class Penduduk extends Admin_Controller
             case 'bpjs-tenagakerja':
                 $session                             = ($nomor == BELUM_MENGISI || $nomor == JUMLAH) ? 'bpjs_ketenagakerjaan' : 'pekerjaan_id';
                 $kategori                            = 'BPJS Ketenagakerjaan : ';
-                $this->session->bpjs_ketenagakerjaan = ($nomor == TOTAL) ? false : true;
+                $this->session->bpjs_ketenagakerjaan = $nomor != TOTAL;
                 break;
 
             case 'hubungan_kk':
@@ -823,7 +810,7 @@ class Penduduk extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function lap_statistik($id_cluster = 0, $tipe = 0, $nomor = 0)
+    public function lap_statistik($id_cluster = 0, $tipe = 0, $nomor = 0): void
     {
         $this->clear_session();
         $cluster = $this->penduduk_model->get_cluster($id_cluster);
@@ -957,7 +944,7 @@ class Penduduk extends Admin_Controller
         return json($this->penduduk_model->autocomplete($this->input->post('cari'), $where));
     }
 
-    public function search_kumpulan_nik()
+    public function search_kumpulan_nik(): void
     {
         $data['kumpulan_nik'] = $this->session->kumpulan_nik;
         $data['form_action']  = site_url("{$this->controller}/filter/kumpulan_nik");
@@ -965,7 +952,7 @@ class Penduduk extends Admin_Controller
         $this->load->view('sid/kependudukan/ajax_search_kumpulan_nik', $data);
     }
 
-    public function ajax_cetak($page = 1, $o = 0, $aksi = '')
+    public function ajax_cetak($page = 1, $o = 0, $aksi = ''): void
     {
         $data['o']                   = $o;
         $data['aksi']                = $aksi;
@@ -975,7 +962,7 @@ class Penduduk extends Admin_Controller
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
     }
 
-    public function program_bantuan()
+    public function program_bantuan(): void
     {
         // TODO : Ubah cara ini untuk menampilkan data
         $this->session->sasaran  = 1; // sasaran penduduk
@@ -991,7 +978,7 @@ class Penduduk extends Admin_Controller
         $this->load->view('sid/kependudukan/pencarian_program_bantuan', $data);
     }
 
-    public function program_bantuan_proses()
+    public function program_bantuan_proses(): void
     {
         $id_program = $this->input->post('program_bantuan');
 
@@ -1009,17 +996,15 @@ class Penduduk extends Admin_Controller
      *
      * @param int   $id_dokumen Id berkas pada koloam dokumen.id
      * @param mixed $tampil
-     *
-     * @return void
      */
-    public function unduh_berkas($id_dokumen = 0, $tampil = false)
+    public function unduh_berkas($id_dokumen = 0, $tampil = false): void
     {
         // Ambil nama berkas dari database
         $data = $this->web_dokumen_model->get_dokumen($id_dokumen);
         ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN, $tampil);
     }
 
-    public function impor()
+    public function impor(): View
     {
         if (config_item('demo_mode') || data_lengkap()) {
             redirect($this->controller);
@@ -1035,7 +1020,7 @@ class Penduduk extends Admin_Controller
         return view('admin.penduduk.impor', $data);
     }
 
-    public function proses_impor()
+    public function proses_impor(): void
     {
         if (config_item('demo_mode') || data_lengkap()) {
             redirect($this->controller);
@@ -1048,7 +1033,7 @@ class Penduduk extends Admin_Controller
         redirect('penduduk/impor');
     }
 
-    public function impor_bip()
+    public function impor_bip(): View
     {
         if (config_item('demo_mode') || setting('multi_desa') || data_lengkap()) {
             redirect($this->controller);
@@ -1064,7 +1049,7 @@ class Penduduk extends Admin_Controller
         return view('admin.penduduk.impor_bip', $data);
     }
 
-    public function proses_impor_bip()
+    public function proses_impor_bip(): void
     {
         if (config_item('demo_mode') || setting('multi_desa') || data_lengkap()) {
             redirect($this->controller);
@@ -1081,7 +1066,7 @@ class Penduduk extends Admin_Controller
         redirect('penduduk/impor_bip');
     }
 
-    public function ekspor()
+    public function ekspor(): void
     {
         try {
             $daftar_kolom = $this->impor_model->daftar_kolom;

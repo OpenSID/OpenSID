@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_2003_ke_2004 extends CI_model
 {
-    public function up()
+    public function up(): void
     {
         // ======================
         $this->surat_mandiri();
@@ -94,7 +94,7 @@ class Migrasi_2003_ke_2004 extends CI_model
         $this->tambah_tabel_migrasi();
     }
 
-    private function tambah_tabel_migrasi()
+    private function tambah_tabel_migrasi(): void
     {
         // Table ref_syarat_surat tempat nama dokumen sbg syarat Permohonan surat
         if (! $this->db->table_exists('migrasi')) {
@@ -115,7 +115,7 @@ class Migrasi_2003_ke_2004 extends CI_model
         }
     }
 
-    private function surat_mandiri()
+    private function surat_mandiri(): void
     {
         // Table ref_syarat_surat tempat nama dokumen sbg syarat Permohonan surat
         if (! $this->db->table_exists('ref_syarat_surat')) {
@@ -280,7 +280,7 @@ class Migrasi_2003_ke_2004 extends CI_model
         $this->db->query($sql);
     }
 
-    private function surat_mandiri_tersedia()
+    private function surat_mandiri_tersedia(): void
     {
         // Surat yg tersedia di permohonan surat melalui layanan mandiri plus syarat masing2
         $surat_tersedia = [
@@ -302,19 +302,17 @@ class Migrasi_2003_ke_2004 extends CI_model
         foreach ($surat_tersedia as $surat_format_id => $list_syarat) {
             $this->db->where('id', $surat_format_id)->update('tweb_surat_format', ['mandiri' => 1]);
 
-            if ($list_syarat) {
-                foreach ($list_syarat as $syarat_id) {
-                    $ada = $this->db->where('surat_format_id', $surat_format_id)->where('ref_syarat_id', $syarat_id)
-                        ->get('syarat_surat')->num_rows();
-                    if (! $ada) {
-                        $this->db->insert('syarat_surat', ['surat_format_id' => $surat_format_id, 'ref_syarat_id' => $syarat_id]);
-                    }
+            foreach ($list_syarat as $syarat_id) {
+                $ada = $this->db->where('surat_format_id', $surat_format_id)->where('ref_syarat_id', $syarat_id)
+                    ->get('syarat_surat')->num_rows();
+                if (! $ada) {
+                    $this->db->insert('syarat_surat', ['surat_format_id' => $surat_format_id, 'ref_syarat_id' => $syarat_id]);
                 }
             }
         }
     }
 
-    private function mailbox()
+    private function mailbox(): void
     {
         $modul_mailbox = [
             'modul' => 'Kotak Pesan',
@@ -401,7 +399,7 @@ class Migrasi_2003_ke_2004 extends CI_model
     }
 
     // Migrasi perubahan bagi yg sdh menggunakan fitur surat mandiri sebelumnya
-    private function ubah_surat_mandiri()
+    private function ubah_surat_mandiri(): void
     {
         // Ubah penyimpanan syarat permohonan surat.
         // Tambahkan syarat_id
@@ -424,12 +422,13 @@ class Migrasi_2003_ke_2004 extends CI_model
                 } // Tidak ada syarat_id dgn nilai 0;
 
                 $syarat_baru = [];
+                $counter     = count($syarat_permohonan);
 
-                for ($i = 0; $i < count($syarat_permohonan); $i++) {
+                for ($i = 0; $i < $counter; $i++) {
                     $syarat_baru[$syarat_surat[$i]] = $syarat_permohonan[$i];
                 }
                 $this->db->where('id', $permohonan['id'])
-                    ->update('permohonan_surat', ['syarat' => json_encode($syarat_baru)]);
+                    ->update('permohonan_surat', ['syarat' => json_encode($syarat_baru, JSON_THROW_ON_ERROR)]);
             }
         }
     }

@@ -158,7 +158,7 @@ class Keuangan_grafik_manual_model extends MY_Model
         return $data;
     }
 
-    private function data_widget_pendapatan($tahun, $opt = false)
+    private function data_widget_pendapatan($tahun, bool $opt = false)
     {
         if ($opt) {
             $raw_data       = $this->r_pd_widget($tahun, $opt = true);
@@ -194,14 +194,14 @@ class Keuangan_grafik_manual_model extends MY_Model
             }
         }
 
-        foreach ($tmp_pendapatan as $key => $value) {
+        foreach ($tmp_pendapatan as $value) {
             $res_pendapatan[] = $value;
         }
 
         return $res_pendapatan;
     }
 
-    private function data_widget_belanja($tahun, $opt = false)
+    private function data_widget_belanja($tahun, bool $opt = false)
     {
         if ($opt) {
             $raw_data    = $this->r_bd_widget($tahun, $opt = true);
@@ -237,14 +237,14 @@ class Keuangan_grafik_manual_model extends MY_Model
             }
         }
 
-        foreach ($tmp_belanja as $key => $value) {
+        foreach ($tmp_belanja as $value) {
             $res_belanja[] = $value;
         }
 
         return $res_belanja;
     }
 
-    private function data_widget_pelaksanaan($tahun, $opt = false)
+    private function data_widget_pelaksanaan($tahun, bool $opt = false)
     {
         if ($opt) {
             $raw_data = $this->rp_apbd_widget($tahun, $opt = true);
@@ -281,7 +281,7 @@ class Keuangan_grafik_manual_model extends MY_Model
             }
         }
 
-        foreach ($tmp_pelaksanaan as $key => $value) {
+        foreach ($tmp_pelaksanaan as $value) {
             $res_pelaksanaan[] = $value;
         }
 
@@ -300,7 +300,7 @@ class Keuangan_grafik_manual_model extends MY_Model
 
         return [
             //Encode ke JSON
-            'data'  => json_encode($res),
+            'data'  => json_encode($res, JSON_THROW_ON_ERROR),
             'tahun' => $this->keuangan_manual_model->list_tahun_anggaran_manual_manual(),
             //Cari tahun anggaran terbaru (terbesar secara value)
             'tahun_terbaru' => $this->keuangan_manual_model->list_tahun_anggaran_manual()[0],

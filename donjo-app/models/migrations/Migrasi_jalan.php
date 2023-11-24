@@ -87,7 +87,7 @@ class Migrasi_jalan extends MY_model
         $config_id   = DB::table('config')->pluck('id')->toArray();
         $uratTinyMCE = getSuratBawaanTinyMCE()->toArray();
 
-        foreach ($uratTinyMCE as $key => $value) {
+        foreach ($uratTinyMCE as $value) {
             foreach ($config_id as $id) {
                 $hasil = $hasil && $this->tambah_surat_tinymce($value, $id);
             }

@@ -48,7 +48,7 @@ class Suplemen_model extends MY_Model
 {
     protected $table = 'suplemen';
 
-    public function create()
+    public function create(): void
     {
         $data              = $this->validasi($this->input->post());
         $data['config_id'] = identitas('id');
@@ -80,7 +80,7 @@ class Suplemen_model extends MY_Model
         return $this->paginasi($page_number, $jml_data);
     }
 
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $sasaran = $this->session->sasaran;
 
@@ -291,7 +291,7 @@ class Suplemen_model extends MY_Model
         return $this->paging;
     }
 
-    private function get_penduduk_terdata_sql($suplemen_id)
+    private function get_penduduk_terdata_sql($suplemen_id): void
     {
         // Data Penduduk
         $this->config_id('s')
@@ -332,9 +332,10 @@ class Suplemen_model extends MY_Model
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            $data = $query->result_array();
+            $data    = $query->result_array();
+            $counter = count($data);
 
-            for ($i = 0; $i < count($data); $i++) {
+            for ($i = 0; $i < $counter; $i++) {
                 $data[$i]['terdata_info']  = $data[$i]['no_kk'];
                 $data[$i]['terdata_plus']  = $data[$i]['nik'];
                 $data[$i]['terdata_nama']  = strtoupper($data[$i]['nama']);
@@ -349,7 +350,7 @@ class Suplemen_model extends MY_Model
         return $hasil;
     }
 
-    private function get_kk_terdata_sql($suplemen_id)
+    private function get_kk_terdata_sql($suplemen_id): void
     {
         // Data KK
         $this->config_id('s')
@@ -389,9 +390,10 @@ class Suplemen_model extends MY_Model
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            $data = $query->result_array();
+            $data    = $query->result_array();
+            $counter = count($data);
 
-            for ($i = 0; $i < count($data); $i++) {
+            for ($i = 0; $i < $counter; $i++) {
                 $data[$i]['terdata_info']  = $data[$i]['nik'];
                 $data[$i]['terdata_plus']  = $data[$i]['no_kk'];
                 $data[$i]['terdata_nama']  = strtoupper($data[$i]['nama']);
@@ -462,7 +464,7 @@ class Suplemen_model extends MY_Model
         return $data;
     }
 
-    public function hapus($id)
+    public function hapus($id): void
     {
         $ada = $this->config_id()
             ->where('id_suplemen', $id)
@@ -479,7 +481,7 @@ class Suplemen_model extends MY_Model
         status_sukses($hasil); //Tampilkan Pesan
     }
 
-    public function update($id)
+    public function update($id): void
     {
         $data  = $this->validasi($this->input->post());
         $hasil = $this->config_id()->where('id', $id)->update($this->table, $data);
@@ -509,12 +511,12 @@ class Suplemen_model extends MY_Model
         return $this->db->affected_rows();
     }
 
-    public function hapus_terdata($id_terdata)
+    public function hapus_terdata($id_terdata): void
     {
         $this->config_id()->where('id', $id_terdata)->delete('suplemen_terdata');
     }
 
-    public function hapus_terdata_all()
+    public function hapus_terdata_all(): void
     {
         $id_cb = $this->input->post('id_cb');
 
@@ -524,7 +526,7 @@ class Suplemen_model extends MY_Model
     }
 
     // $id = suplemen_terdata.id
-    public function edit_terdata($post, $id)
+    public function edit_terdata($post, $id): void
     {
         $data['keterangan'] = substr(htmlentities($post['keterangan']), 0, 100); // Batasi 100 karakter
         $this->config_id()->where('id', $id)->update('suplemen_terdata', $data);
@@ -685,7 +687,7 @@ class Suplemen_model extends MY_Model
         return autocomplete_data_ke_str($data);
     }
 
-    public function ekspor($id = 0)
+    public function ekspor($id = 0): void
     {
         $data_suplemen = $this->get_rincian(0, $id);
 
@@ -793,7 +795,7 @@ class Suplemen_model extends MY_Model
 
         // Data Suplemen
         $temp                    = $this->session->per_page;
-        $this->session->per_page = 1000000000;
+        $this->session->per_page = 1_000_000_000;
 
         $upload = $this->upload->data();
 
@@ -906,7 +908,7 @@ class Suplemen_model extends MY_Model
     }
 
     // Cek valid data peserta sesuai sasaran (by NIK atau No. KK)
-    private function cek_penduduk($sasaran, $peserta)
+    private function cek_penduduk($sasaran, string $peserta)
     {
         $terdata = [];
         if ($sasaran == '1') {
@@ -926,7 +928,7 @@ class Suplemen_model extends MY_Model
         return $terdata;
     }
 
-    public function impor_peserta($suplemen_id = '', $data_peserta = [])
+    public function impor_peserta($suplemen_id = '', $data_peserta = []): void
     {
         $this->session->success = 1;
 

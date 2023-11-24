@@ -55,14 +55,14 @@ class Track_model extends CI_Model
         parent::__construct();
     }
 
-    public function track_desa($dari)
+    public function track_desa($dari): void
     {
         if ($this->setting->enable_track == false || null === identitas()) {
             return;
         }
         // Track web dan admin masing2 maksimum sekali sehari
         $sudahKirimHariIni = $this->cache->get('tracksid_admin_web') == date('Y m d') ? 1 : 0;
-        if ($sudahKirimHariIni) {
+        if ($sudahKirimHariIni !== 0) {
             return;
         }
 
@@ -70,7 +70,7 @@ class Track_model extends CI_Model
         $this->kirim_data();
     }
 
-    public function kirim_data()
+    public function kirim_data(): void
     {
         /**
          * Jangan kirim data ke pantau jika versi demo
@@ -144,7 +144,7 @@ class Track_model extends CI_Model
         }
     }
 
-    private function cek_notifikasi_TrackSID($trackSID_output)
+    private function cek_notifikasi_TrackSID(string $trackSID_output): void
     {
         if (! empty($trackSID_output)) {
             $array_output = json_decode($trackSID_output, true);

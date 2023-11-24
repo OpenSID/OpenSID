@@ -44,7 +44,7 @@ class Log_ekspor_model extends CI_Model
         parent::__construct();
     }
 
-    public function tulis_log($data)
+    public function tulis_log($data): void
     {
         $this->db->insert('log_ekspor', $data);
     }

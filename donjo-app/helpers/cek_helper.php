@@ -54,7 +54,7 @@ if (! function_exists('cek_anjungan')) {
      *
      * @return string
      */
-    function cek_anjungan()
+    function cek_anjungan(): bool
     {
         // Lewati pengecekan jika web demo dan terdaftar sebagai pengecualian
         if (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
@@ -66,6 +66,6 @@ if (! function_exists('cek_anjungan')) {
 
         $status = $CI->pelanggan_model->api_pelanggan_pemesanan();
 
-        return $status->body->tanggal_berlangganan->anjungan != 'aktif' ? false : true;
+        return $status->body->tanggal_berlangganan->anjungan == 'aktif';
     }
 }

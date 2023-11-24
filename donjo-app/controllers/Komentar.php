@@ -48,29 +48,21 @@ class Komentar extends Admin_Controller
         $this->sub_modul_ini = 'komentar';
     }
 
-    public function clear()
+    public function clear(): void
     {
         unset($_SESSION['cari'], $_SESSION['filter_status'], $_SESSION['filter_nik']);
 
         redirect('komentar');
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
+        $data['cari'] = $_SESSION['cari'] ?? '';
 
-        if (isset($_SESSION['filter_status'])) {
-            $data['filter_status'] = $_SESSION['filter_status'];
-        } else {
-            $data['filter_status'] = '';
-        }
+        $data['filter_status'] = $_SESSION['filter_status'] ?? '';
 
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
@@ -84,7 +76,7 @@ class Komentar extends Admin_Controller
         $this->render('komentar/table', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = '')
+    public function form($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $data['p'] = $p;
@@ -103,7 +95,7 @@ class Komentar extends Admin_Controller
         $this->render('komentar/form', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -114,7 +106,7 @@ class Komentar extends Admin_Controller
         redirect('komentar');
     }
 
-    public function filter()
+    public function filter(): void
     {
         $filter = $this->input->post('filter');
         if ($filter != 0) {
@@ -125,42 +117,42 @@ class Komentar extends Admin_Controller
         redirect('komentar');
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_komentar_model->insert();
         redirect('komentar');
     }
 
-    public function update($id = '', $p = 1, $o = 0)
+    public function update($id = '', $p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_komentar_model->update($id);
         redirect("komentar/index/{$p}/{$o}");
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h', "komentar/index/{$p}/{$o}");
         $this->web_komentar_model->delete($id);
         redirect("komentar/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h', "komentar/index/{$p}/{$o}");
         $this->web_komentar_model->delete_all();
         redirect("komentar/index/{$p}/{$o}");
     }
 
-    public function komentar_lock($id = '')
+    public function komentar_lock($id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_komentar_model->komentar_lock($id, 1);
         redirect("komentar/index/{$p}/{$o}");
     }
 
-    public function komentar_unlock($id = '')
+    public function komentar_unlock($id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_komentar_model->komentar_lock($id, 2);

@@ -398,13 +398,17 @@ class Periksa_model extends MY_Model
             ->having('jml >', 1)
             ->get()
             ->result_array();
-        if (! empty($email) && empty($this->session->db_error)) {
-            // Berikan kode kustom karena exception dihindari di migrasi.
-            $this->session->db_error = [
-                'code'    => 99001,
-                'message' => 'Email penduduk ganda',
-            ];
+        if (empty($email)) {
+            return $email;
         }
+        if (! empty($this->session->db_error)) {
+            return $email;
+        }
+        // Berikan kode kustom karena exception dihindari di migrasi.
+        $this->session->db_error = [
+            'code'    => 99001,
+            'message' => 'Email penduduk ganda',
+        ];
 
         return $email;
     }
@@ -491,11 +495,9 @@ class Periksa_model extends MY_Model
 
         // Tabel covid19_vaksin
         $covidVaksin = CovidVaksin::select(['id_penduduk', 'tgl_vaksin_1', 'tgl_vaksin_2', 'tgl_vaksin_3'])->where(
-            static function ($q) {
-                return $q->where('tgl_vaksin_1', '0000-00-00')
-                    ->orwhere('tgl_vaksin_2', '0000-00-00')
-                    ->orwhere('tgl_vaksin_3', '0000-00-00');
-            }
+            static fn ($q) => $q->where('tgl_vaksin_1', '0000-00-00')
+                ->orwhere('tgl_vaksin_2', '0000-00-00')
+                ->orwhere('tgl_vaksin_3', '0000-00-00')
         )->get();
 
         if ($covidVaksin->count() > 0) {
@@ -581,9 +583,7 @@ class Periksa_model extends MY_Model
         return Penduduk::select('id', 'nama', 'nik', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
             ->kepalaKeluarga()
             ->whereNotNull('id_kk')
-            ->wheredoesntHave('keluarga', static function ($q) use ($config_id) {
-                return $q->where('config_id', $config_id);
-            })
+            ->wheredoesntHave('keluarga', static fn ($q) => $q->where('config_id', $config_id))
             ->get();
     }
 
@@ -596,7 +596,7 @@ class Periksa_model extends MY_Model
         $statusDasarBukanHidup = Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
             ->where('status_dasar', '=', StatusDasarEnum::HIDUP)
             ->join(DB::raw("({$sqlRaw}) as log"), 'log.id_pend', '=', 'tweb_penduduk.id')
-            ->join('log_penduduk', static function ($q) use ($config_id) {
+            ->join('log_penduduk', static function ($q) use ($config_id): void {
                 $q->on('log_penduduk.id', '=', 'log.max_id')
                     ->where('log_penduduk.config_id', $config_id)
                     ->whereIn('kode_peristiwa', [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::HILANG, LogPenduduk::TIDAK_TETAP_PERGI]);
@@ -605,7 +605,7 @@ class Periksa_model extends MY_Model
         return Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
             ->where('status_dasar', '!=', StatusDasarEnum::HIDUP)
             ->join(DB::raw("({$sqlRaw}) as log"), 'log.id_pend', '=', 'tweb_penduduk.id')
-            ->join('log_penduduk', static function ($q) use ($config_id) {
+            ->join('log_penduduk', static function ($q) use ($config_id): void {
                 $q->on('log_penduduk.id', '=', 'log.max_id')
                     ->where('log_penduduk.config_id', $config_id)
                     ->whereNotIn('kode_peristiwa', [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::HILANG, LogPenduduk::TIDAK_TETAP_PERGI]);
@@ -617,7 +617,7 @@ class Periksa_model extends MY_Model
 
     public function deteksi_log_penduduk_null()
     {
-        $config_id = identitas('id');
+        identitas('id');
 
         return LogPenduduk::select('log_penduduk.id', 'nama', 'nik', 'kode_peristiwa', 'log_penduduk.created_at')
             ->whereNull('kode_peristiwa')
@@ -634,9 +634,7 @@ class Periksa_model extends MY_Model
     {
         $config_id = identitas('id');
 
-        return Keluarga::whereIn('id', static function ($query) use ($config_id) {
-            return $query->from('log_keluarga')->where(['config_id' => $config_id])->select(['id_kk'])->groupBy(['id_kk', 'tgl_peristiwa'])->having(DB::raw('count(tgl_peristiwa)'), '>', 1);
-        })->get();
+        return Keluarga::whereIn('id', static fn ($query) => $query->from('log_keluarga')->where(['config_id' => $config_id])->select(['id_kk'])->groupBy(['id_kk', 'tgl_peristiwa'])->having(DB::raw('count(tgl_peristiwa)'), '>', 1))->get();
     }
 
     private function deteksi_no_anggota_ganda()
@@ -648,7 +646,7 @@ class Periksa_model extends MY_Model
             ->get();
     }
 
-    public function perbaiki()
+    public function perbaiki(): void
     {
         // TODO: login
         $this->session->user_id = $this->session->user_id ?: 1;
@@ -668,11 +666,6 @@ class Periksa_model extends MY_Model
                     'type'           => 'INT',
                     'constraint'     => 11,
                     'auto_increment' => true,
-                ],
-                'versi_database' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 10,
-                    'null'       => false,
                 ],
                 'versi_database' => [
                     'type'       => 'VARCHAR',
@@ -699,7 +692,7 @@ class Periksa_model extends MY_Model
         $this->database_model->migrasi_db_cri();
     }
 
-    public function perbaiki_sebagian($masalah_ini)
+    public function perbaiki_sebagian($masalah_ini): void
     {
         // TODO: login
         $this->session->user_id = $this->session->user_id ?: 1;
@@ -709,7 +702,7 @@ class Periksa_model extends MY_Model
         $this->session->db_error = null;
     }
 
-    private function perbaiki_kode_kelompok()
+    private function perbaiki_kode_kelompok(): void
     {
         if (empty($this->periksa['kode_panjang'])) {
             return;
@@ -726,7 +719,7 @@ class Periksa_model extends MY_Model
 
     // Isi kembali tabel referensi:
     // ref_persil_kelas, ref_persil_mutasi, ref_peruntukan_tanah_kas
-    private function perbaiki_referensi_kosong()
+    private function perbaiki_referensi_kosong(): void
     {
         $this->load->model('migrations/Migrasi_2007_ke_2008', 'migrasi1');
         $this->migrasi1->buat_ref_persil_kelas();
@@ -737,7 +730,7 @@ class Periksa_model extends MY_Model
     }
 
     // Hanya terjadi pada keluarga yg tidak memiliki anggota lagi
-    private function perbaiki_id_cluster_null()
+    private function perbaiki_id_cluster_null(): void
     {
         if (empty($this->periksa['id_cluster_null'])) {
             return;
@@ -754,10 +747,9 @@ class Periksa_model extends MY_Model
     }
 
     // Migrasi 23.11 gagal jika ada no anggota ganda
-    private function perbaiki_no_anggota_ganda()
+    private function perbaiki_no_anggota_ganda(): void
     {
         $no_anggota_ganda = $this->periksa['no_anggota_ganda'];
-        $hasil            = true;
 
         if ($no_anggota_ganda) {
             foreach ($no_anggota_ganda as $value) {
@@ -783,7 +775,7 @@ class Periksa_model extends MY_Model
     }
 
     // Migrasi 21.09 gagal jika ada NIK ganda
-    private function perbaiki_nik_ganda()
+    private function perbaiki_nik_ganda(): void
     {
         if (empty($this->periksa['nik_ganda'])) {
             return;
@@ -834,7 +826,7 @@ class Periksa_model extends MY_Model
     }
 
     // Migrasi 22.02 sengaja gagal jika ada email ganda
-    private function perbaiki_email()
+    private function perbaiki_email(): void
     {
         if (empty($this->periksa['email_ganda'])) {
             return;
@@ -859,7 +851,7 @@ class Periksa_model extends MY_Model
                 ->get()
                 ->result_array();
             log_message('error', 'Email penduduk berikut telah diubah dengan menambah id: ' . print_r($daftar_ubah, true));
-            $email_ganda = array_merge($email_ganda, array_column($daftar_ubah, 'id'));
+            $email_ganda = [...$email_ganda, ...array_column($daftar_ubah, 'id')];
         }
         // Ubah email ganda dengan menambah id
         $this->db
@@ -869,7 +861,7 @@ class Periksa_model extends MY_Model
     }
 
     // Migrasi 21.11 gagal jika ada no KK melebihi 16 karakter
-    private function perbaiki_kk_panjang()
+    private function perbaiki_kk_panjang(): void
     {
         if (empty($this->periksa['kk_panjang'])) {
             return;
@@ -892,6 +884,7 @@ class Periksa_model extends MY_Model
             $urut                               = sprintf('%05d', $nokk_sementara[1] + $key);
             $kk_panjang[$key]['nokk_sementara'] = $nokk_sementara[0] . $urut;
         }
+
         // Ubah No KK panjang menjadi No KK sementara
         foreach ($kk_panjang as $kk) {
             $this->db
@@ -902,7 +895,7 @@ class Periksa_model extends MY_Model
         log_message('error', ' No KK berikut telah diubah menjadi No KK sementara: ' . print_r($kk_panjang, true));
     }
 
-    private function perbaiki_no_kk_ganda()
+    private function perbaiki_no_kk_ganda(): void
     {
         $this->load->model('keluarga_model');
 
@@ -928,7 +921,7 @@ class Periksa_model extends MY_Model
     }
 
     // Migrasi 22.02 gagal jika ada email user ganda
-    private function perbaiki_email_user()
+    private function perbaiki_email_user(): void
     {
         if (empty($this->periksa['email_user_ganda'])) {
             return;
@@ -953,7 +946,7 @@ class Periksa_model extends MY_Model
                 ->get()
                 ->result_array();
             log_message('error', 'Email user berikut telah diubah dengan menambah id: ' . print_r($daftar_ubah, true));
-            $email_ganda = array_merge($email_ganda, array_column($daftar_ubah, 'id'));
+            $email_ganda = [...$email_ganda, ...array_column($daftar_ubah, 'id')];
         }
         // Ubah email user ganda dengan menambah id
         $this->db
@@ -963,7 +956,7 @@ class Periksa_model extends MY_Model
     }
 
     // Migrasi 22.02 gagal jika ada username user ganda
-    private function perbaiki_username_user()
+    private function perbaiki_username_user(): void
     {
         if (empty($this->periksa['username_user_ganda'])) {
             return;
@@ -983,11 +976,11 @@ class Periksa_model extends MY_Model
                 ->get()
                 ->result_array();
             log_message('error', 'Username user berikut telah diubah dengan menambah id: ' . print_r($daftar_ubah, true));
-            $username_ganda = array_merge($username_ganda, array_column($daftar_ubah, 'id'));
+            $username_ganda = [...$username_ganda, ...array_column($daftar_ubah, 'id')];
         }
 
         // Ubah username user ganda dengan menambah id dan set tidak aktif
-        if ($username_ganda) {
+        if ($username_ganda !== []) {
             $this->db
                 ->set('username', 'CONCAT(id, "_", username)', false)
                 ->set('active', 0)
@@ -1005,7 +998,7 @@ class Periksa_model extends MY_Model
     }
 
     // Migrasi 21.04 tidak antiCONCAT(id, "_", email)sipasi tag_id_card ganda
-    private function perbaiki_tag_id()
+    private function perbaiki_tag_id(): void
     {
         if (empty($this->periksa['tag_id_ganda'])) {
             return;
@@ -1037,7 +1030,7 @@ class Periksa_model extends MY_Model
                 ->get()
                 ->result_array();
             log_message('error', 'Ubah tag_id_card penduduk berikut menjadi kosong: ' . print_r($daftar_ubah, true));
-            $daftar_tag_id = array_merge($daftar_tag_id, array_column($daftar_ubah, 'id'));
+            $daftar_tag_id = [...$daftar_tag_id, ...array_column($daftar_ubah, 'id')];
         }
         // Ubah tag_id ganda menjadi kosong
         $this->db
@@ -1047,7 +1040,7 @@ class Periksa_model extends MY_Model
     }
 
     // Migrasi 21.05 tidak antisipasi kartu_tempat_lahir atau kartu_alamat berisi null
-    private function perbaiki_kartu_alamat()
+    private function perbaiki_kartu_alamat(): void
     {
         $this->db
             ->set('kartu_tempat_lahir', '')
@@ -1151,12 +1144,14 @@ class Periksa_model extends MY_Model
                 if ($log->tgl_lapor != null && $log->tgl_lapor->format('Y-m-d H:i:s') == '-0001-11-30 00:00:00') {
                     $hasil = $hasil && $update->update(['tgl_lapor' => $log->created_at->format('Y-m-d H:i:s')]);
                 }
-
                 // tgl_peristiwa, ambil data dari default 1971-01-01 00:00:00 (agar tidak merusak laporan yg sudah ada)
-
-                if ($log->tgl_peristiwa != null && $log->tgl_peristiwa->format('Y-m-d H:i:s') == '-0001-11-30 00:00:00') {
-                    $hasil = $hasil && $update->update(['tgl_peristiwa' => '1971-01-01 00:00:00']);
+                if ($log->tgl_peristiwa == null) {
+                    continue;
                 }
+                if ($log->tgl_peristiwa->format('Y-m-d H:i:s') != '-0001-11-30 00:00:00') {
+                    continue;
+                }
+                $hasil = $hasil && $update->update(['tgl_peristiwa' => '1971-01-01 00:00:00']);
             }
 
             log_message('error', 'Sesuaikan tanggal invalid pada kolom tgl_lapor, tgl_peristiwa dan created_at tabel log_pendudk pada data berikut ini : ' . print_r($logPenduduk->toArray(), true));
@@ -1221,7 +1216,7 @@ class Periksa_model extends MY_Model
         $hasil = true;
 
         if ($zero_date_default_value = $this->periksa['zero_date_default_value']) {
-            foreach ($zero_date_default_value as $key => $value) {
+            foreach ($zero_date_default_value as $value) {
                 $fields = [
                     $value['column_name'] => [
                         'type'    => $value['data_type'],
@@ -1247,7 +1242,7 @@ class Periksa_model extends MY_Model
         return true;
     }
 
-    private function perbaiki_anjungan()
+    private function perbaiki_anjungan(): void
     {
         if (! $this->db->field_exists('id_pengunjung', 'anjungan')) {
             $fields_id_pengunjung = [
@@ -1286,23 +1281,21 @@ class Periksa_model extends MY_Model
         }
     }
 
-    private function perbaiki_penduduk_tanpa_keluarga()
+    private function perbaiki_penduduk_tanpa_keluarga(): void
     {
         $config_id     = identitas('id');
         $kode_desa     = identitas('kode_desa');
         $data_penduduk = Penduduk::select('id', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
             ->kepalaKeluarga()
             ->whereNotNull('id_kk')
-            ->wheredoesntHave('keluarga', static function ($q) use ($config_id) {
-                return $q->where('config_id', $config_id);
-            })
+            ->wheredoesntHave('keluarga', static fn ($q) => $q->where('config_id', $config_id))
             ->get();
         // nomer urut kk sementara
         $digit = Keluarga::nomerKKSementara();
 
         $id_sementara = [];
 
-        foreach ($data_penduduk as $key => $value) {
+        foreach ($data_penduduk as $value) {
             if (isset($id_sementara[$value->id_kk])) {
                 continue;
             }
@@ -1329,12 +1322,12 @@ class Periksa_model extends MY_Model
         }
     }
 
-    private function perbaiki_log_penduduk_null()
+    private function perbaiki_log_penduduk_null(): void
     {
         LogPenduduk::whereIn('id', array_column($this->periksa['log_penduduk_null'], 'id'))->update(['kode_peristiwa' => LogPenduduk::BARU_PINDAH_MASUK]);
     }
 
-    private function perbaiki_log_keluarga_bermasalah()
+    private function perbaiki_log_keluarga_bermasalah(): void
     {
         $configId = identitas('id');
         $userId   = auth()->id;
@@ -1344,7 +1337,7 @@ class Periksa_model extends MY_Model
         DB::statement($sql);
     }
 
-    private function selesaikan_masalah($masalah_ini)
+    private function selesaikan_masalah($masalah_ini): void
     {
         switch ($masalah_ini) {
             case 'kode_kelompok':

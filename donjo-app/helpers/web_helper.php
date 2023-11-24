@@ -89,10 +89,8 @@ if (! function_exists('menu_anjungan')) {
  * Mengembalikan path lengkap untuk icon menu anjungan
  *
  * @param mixed $nama_file
- *
- * @return string
  */
-function icon_menu_anjungan($nama_file)
+function icon_menu_anjungan(string $nama_file): string
 {
     if (is_file(FCPATH . LOKASI_ICON_MENU_ANJUNGAN . $nama_file)) {
         return base_url() . LOKASI_ICON_MENU_ANJUNGAN . $nama_file;

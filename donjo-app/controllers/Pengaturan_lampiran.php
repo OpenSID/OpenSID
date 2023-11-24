@@ -37,6 +37,7 @@
 
 use App\Models\LampiranSurat;
 use App\Models\SettingAplikasi;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -53,19 +54,19 @@ class Pengaturan_lampiran extends Admin_Controller
         $this->header['kategori'] = 'pengaturan-surat';
     }
 
-    public function index()
+    public function index(): View
     {
         $margin           = setting('lampiran_margin');
         $kotak            = setting('lampiran_kotak');
-        $data['margins']  = json_decode($margin) ?? LampiranSurat::MARGINS;
+        $data['margins']  = json_decode($margin, null) ?? LampiranSurat::MARGINS;
         $data['formAksi'] = route('pengaturan_lampiran.edit');
         $data['kotak']    = json_decode($kotak, 1) ?? LampiranSurat::KOTAK;
-        log_message('error', json_encode($data['kotak']));
+        log_message('error', json_encode($data['kotak'], JSON_THROW_ON_ERROR));
 
         return view('admin.pengaturan_surat.lampiran.pengaturan.index', $data);
     }
 
-    public function edit()
+    public function edit(): void
     {
         $this->redirect_hak_akses('u');
         $this->load->model('setting_model');
@@ -81,8 +82,8 @@ class Pengaturan_lampiran extends Admin_Controller
     private function validate($request)
     {
         return [
-            'lampiran_margin' => json_encode($request['lampiran_margin']),
-            'lampiran_kotak'  => json_encode($request['lampiran_kotak']),
+            'lampiran_margin' => json_encode($request['lampiran_margin'], JSON_THROW_ON_ERROR),
+            'lampiran_kotak'  => json_encode($request['lampiran_kotak'], JSON_THROW_ON_ERROR),
         ];
     }
 }

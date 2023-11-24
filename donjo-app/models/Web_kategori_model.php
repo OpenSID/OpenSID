@@ -41,7 +41,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_kategori_model extends MY_Model
 {
-    private $urut_model;
+    private \Urut_Model $urut_model;
 
     public function __construct()
     {
@@ -63,20 +63,6 @@ class Web_kategori_model extends MY_Model
         return autocomplete_data_ke_str($data);
     }
 
-    private function search_sql()
-    {
-        if ($cari = $this->session->cari) {
-            $this->db->like('kategori', $cari);
-        }
-    }
-
-    private function filter_sql()
-    {
-        if ($cari = $this->session->filter) {
-            $this->db->where('enabled', $cari);
-        }
-    }
-
     public function paging($p = 1, $o = 0)
     {
         $this->list_data_sql();
@@ -92,7 +78,7 @@ class Web_kategori_model extends MY_Model
         return $this->paging;
     }
 
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id('k', true)->from('kategori k')->where('parrent', 0);
     }
@@ -125,16 +111,13 @@ class Web_kategori_model extends MY_Model
             ->get()
             ->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
 
-            if ($data[$i]['enabled'] == 1) {
-                $data[$i]['aktif'] = 'Ya';
-            } else {
-                $data[$i]['aktif'] = 'Tidak';
-            }
+            $data[$i]['aktif'] = $data[$i]['enabled'] == 1 ? 'Ya' : 'Tidak';
 
             $j++;
         }
@@ -142,7 +125,7 @@ class Web_kategori_model extends MY_Model
         return $data;
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->session->unset_userdata('error_msg');
         $this->session->set_userdata('success', 1);
@@ -161,7 +144,7 @@ class Web_kategori_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    private function sterilkan_kategori(&$data)
+    private function sterilkan_kategori(array &$data): void
     {
         unset($data['kategori_lama']);
         $data['kategori'] = htmlentities($data['kategori']);
@@ -184,7 +167,7 @@ class Web_kategori_model extends MY_Model
         return true;
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $this->session->unset_userdata('error_msg');
         $this->session->set_userdata('success', 1);
@@ -203,29 +186,29 @@ class Web_kategori_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
         }
 
-        $outp = $this->config_id()->where('id', $id)->or_where('parrent', $id)->delete('kategori');
+        $this->config_id()->where('id', $id)->or_where('parrent', $id)->delete('kategori');
 
         status_sukses($this->db->affected_rows(), $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_sub($id = '', $semua = false)
+    public function delete_sub($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
         }
 
-        $outp = $this->config_id()->where('id', $id)->delete('kategori');
+        $this->config_id()->where('id', $id)->delete('kategori');
 
         status_sukses($this->db->affected_rows(), $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -249,7 +232,9 @@ class Web_kategori_model extends MY_Model
                 ->result_array();
 
             if (count($data) > 0) {
-                for ($i = 0; $i < count($data); $i++) {
+                $counter = count($data);
+
+                for ($i = 0; $i < $counter; $i++) {
                     $data[$i]['no']    = $i + 1;
                     $data[$i]['aktif'] = StatusEnum::valueOf($data[$i]['enabled']);
                 }
@@ -271,8 +256,9 @@ class Web_kategori_model extends MY_Model
             ->where('tipe', 2)
             ->get('artikel a')
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
         }
 
@@ -281,11 +267,7 @@ class Web_kategori_model extends MY_Model
 
     public function list_kategori($o = '')
     {
-        if (empty($o)) {
-            $urut = 'urut';
-        } else {
-            $urut = $o;
-        }
+        $urut = empty($o) ? 'urut' : $o;
 
         $data = $this->config_id('k', true)
             ->select('k.*')
@@ -293,8 +275,9 @@ class Web_kategori_model extends MY_Model
             ->order_by($urut)
             ->get('kategori k')
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']    = $i + 1;
             $data[$i]['judul'] = $data[$i]['kategori'];
         }
@@ -302,7 +285,7 @@ class Web_kategori_model extends MY_Model
         return $data;
     }
 
-    public function insert_sub_kategori($kategori = 0)
+    public function insert_sub_kategori($kategori = 0): void
     {
         $data             = [];
         $data['kategori'] = $this->input->post('kategori');
@@ -317,7 +300,7 @@ class Web_kategori_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update_sub_kategori($id = 0)
+    public function update_sub_kategori($id = 0): void
     {
         $data             = [];
         $data['kategori'] = $this->input->post('kategori');
@@ -327,7 +310,7 @@ class Web_kategori_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete_sub_kategori($id = '', $semua = false)
+    public function delete_sub_kategori($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -338,7 +321,7 @@ class Web_kategori_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete_all_sub_kategori()
+    public function delete_all_sub_kategori(): void
     {
         $this->session->success = 1;
 
@@ -349,7 +332,7 @@ class Web_kategori_model extends MY_Model
         }
     }
 
-    public function kategori_lock($id = '', $val = 0)
+    public function kategori_lock($id = '', $val = 0): void
     {
         $this->config_id()->where('id', $id)->update('kategori', ['enabled' => $val]);
         status_sukses($outp); //Tampilkan Pesan
@@ -363,9 +346,9 @@ class Web_kategori_model extends MY_Model
     // $arah:
     //		1 - turun
     // 		2 - naik
-    public function urut($id, $arah, $kategori = '')
+    public function urut($id, $arah, $kategori = ''): void
     {
-        $subset = ! empty($kategori) ? ['parrent' => $kategori] : ['parrent' => 0];
+        $subset = empty($kategori) ? ['parrent' => 0] : ['parrent' => $kategori];
         $this->urut_model->urut($id, $arah, $subset);
     }
 }

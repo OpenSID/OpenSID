@@ -50,7 +50,7 @@ class Lembaga extends Web_Controller
         $this->kelompok_model->set_tipe($this->tipe);
     }
 
-    public function detail($slug = null)
+    public function detail($slug = null): void
     {
         $id = LembagaModel::tipe($this->tipe)->where('slug', $slug)->first()->id;
 

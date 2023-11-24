@@ -48,12 +48,12 @@ class KodeIsianSurat
         $this->dataSurat = $dataSurat;
     }
 
-    public static function get($dataSurat)
+    public static function get($dataSurat): array
     {
         return (new self($dataSurat))->kodeIsian();
     }
 
-    public function kodeIsian()
+    public function kodeIsian(): array
     {
         $DateConv = new DateConv();
 

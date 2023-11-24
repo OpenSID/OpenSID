@@ -61,7 +61,7 @@ class Permohonan_surat_model extends MY_Model
             ));
     }
 
-    public function delete($id_permohonan)
+    public function delete($id_permohonan): void
     {
         $outp = $this->config_id()->where('id', $id_permohonan)
             ->delete('permohonan_surat');
@@ -94,7 +94,7 @@ class Permohonan_surat_model extends MY_Model
         return '[' . $outp . ']';
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db
@@ -106,7 +106,7 @@ class Permohonan_surat_model extends MY_Model
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         $filter = $this->session->filter;
         if ($filter != '') {
@@ -130,7 +130,7 @@ class Permohonan_surat_model extends MY_Model
         return $this->paging;
     }
 
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id('u')->from('permohonan_surat u')
             ->join('tweb_penduduk n', 'u.id_pemohon = n.id', 'left')
@@ -169,9 +169,10 @@ class Permohonan_surat_model extends MY_Model
             ->result_array();
 
         //Formating Output
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']     = $j + 1;
             $data[$i]['status'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN)[$data[$i]['status']];
             $j++;
@@ -197,9 +198,10 @@ class Permohonan_surat_model extends MY_Model
             ->get()
             ->result_array();
 
-        $j = 0;
+        $j       = 0;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']     = $j + 1;
             $data[$i]['nomor']  = $data[$i]['isian_form']['nomor'];
             $data[$i]['status'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN)[$data[$i]['status']];
@@ -228,7 +230,7 @@ class Permohonan_surat_model extends MY_Model
             ->row_array();
     }
 
-    public function proses($id, $status, $id_pemohon = '')
+    public function proses($id, $status, $id_pemohon = ''): void
     {
         if ($status == PermohonanSurat::BELUM_LENGKAP) {
             // Belum Lengkap
@@ -266,8 +268,9 @@ class Permohonan_surat_model extends MY_Model
 
     public function get_syarat_permohonan($id)
     {
-        $permohonan   = PermohonanSurat::select(['syarat'])->findOrFail($id);
-        $syarat_surat = collect($permohonan->syarat)->map(static function ($item, $key) {
+        $permohonan = PermohonanSurat::select(['syarat'])->findOrFail($id);
+
+        return collect($permohonan->syarat)->map(static function ($item, $key): array {
             $syaratSurat        = SyaratSurat::select(['ref_syarat_nama'])->find($key);
             $dokumenKelengkapan = Dokumen::select(['nama'])->find($item);
 
@@ -278,8 +281,6 @@ class Permohonan_surat_model extends MY_Model
                 'dok_nama'        => ($item == '-1') ? 'Bawa bukti fisik ke Kantor Desa' : $dokumenKelengkapan->nama,
             ];
         })->values();
-
-        return $syarat_surat;
     }
 
     protected function generate_no_antrian()

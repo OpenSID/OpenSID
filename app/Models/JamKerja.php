@@ -95,7 +95,7 @@ class JamKerja extends BaseModel
             ->selectRaw('id, nama_hari, jam_masuk, status, keterangan')
             ->selectRaw(sprintf('date_add(jam_keluar, interval %s minute) as jam_keluar', $rentang))
             ->where('nama_hari', $this->getNamaHari())
-            ->where(static function ($q) use ($rentang, $waktu) {
+            ->where(static function ($q) use ($rentang, $waktu): void {
                 $q->whereTime('jam_masuk', '>', $waktu)
                     ->orWhereRaw('date_add(jam_keluar, interval ? minute) < ?', [$rentang, $waktu]);
             });

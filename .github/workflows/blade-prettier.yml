@@ -3,8 +3,8 @@ name: Blade Prettier
 on:
   pull_request:
     branches:
-      - 'rilis-dev'
-      - 'bug-fix'
+      - 'rilis-devo'
+      - 'bug-fixo'
     paths:
       - '.github/workflows/blade-prettier.yml'
       - 'resources/views/**'

@@ -84,12 +84,12 @@ class User extends BaseModel
         'telegram_verified_at' => 'datetime',
     ];
 
-    public function getJWTIdentifier()
+    public function getJWTIdentifier(): void
     {
         // return $this->getKey();
     }
 
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
     }

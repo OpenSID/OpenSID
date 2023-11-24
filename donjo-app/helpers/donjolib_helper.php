@@ -56,13 +56,13 @@ function nested_array_search($needle, $array)
     }
 }
 
-function Parse_Data($data, $p1, $p2)
+function Parse_Data($data, $p1, $p2): string
 {
     $data  = ' ' . $data;
     $hasil = '';
-    $awal  = strpos($data, $p1);
+    $awal  = strpos($data, (string) $p1);
     if ($awal != '') {
-        $akhir = strpos(strstr($data, $p1), $p2);
+        $akhir = strpos(strstr($data, (string) $p1), (string) $p2);
         if ($akhir != '') {
             $hasil = substr($data, $awal + strlen($p1), $akhir - strlen($p1));
         }
@@ -71,13 +71,13 @@ function Parse_Data($data, $p1, $p2)
     return $hasil;
 }
 
-function Rupiah($nil = 0)
+function Rupiah($nil = 0): string
 {
-    $nil = $nil + 0;
+    $nil += 0;
     if (($nil * 100) % 100 == 0) {
-        $nil = $nil . '.00';
+        $nil .= '.00';
     } elseif (($nil * 100) % 10 == 0) {
-        $nil = $nil . '0';
+        $nil .= '0';
     }
     $nil  = str_replace('.', ',', $nil);
     $str1 = $nil;
@@ -95,20 +95,23 @@ function Rupiah($nil = 0)
         $i++;
     }
     $rp = strrev($str2);
-    if ($rp != '' && $rp > 0) {
-        return "Rp. {$rp}";
+    if ($rp == '') {
+        return 'Rp. 0,00';
+    }
+    if ($rp <= 0) {
+        return 'Rp. 0,00';
     }
 
-    return 'Rp. 0,00';
+    return "Rp. {$rp}";
 }
 
-function Rupiah2($nil = 0)
+function Rupiah2($nil = 0): string
 {
-    $nil = $nil + 0;
+    $nil += 0;
     if (($nil * 100) % 100 == 0) {
-        $nil = $nil . '.00';
+        $nil .= '.00';
     } elseif (($nil * 100) % 10 == 0) {
-        $nil = $nil . '0';
+        $nil .= '0';
     }
     $nil  = str_replace('.', ',', $nil);
     $str1 = $nil;
@@ -126,20 +129,23 @@ function Rupiah2($nil = 0)
         $i++;
     }
     $rp = strrev($str2);
-    if ($rp != '' && $rp > 0) {
-        return "Rp. {$rp}";
+    if ($rp == '') {
+        return '-';
+    }
+    if ($rp <= 0) {
+        return '-';
     }
 
-    return '-';
+    return "Rp. {$rp}";
 }
 
-function Rupiah3($nil = 0)
+function Rupiah3($nil = 0): string
 {
-    $nil = $nil + 0;
+    $nil += 0;
     if (($nil * 100) % 100 == 0) {
-        $nil = $nil . '.00';
+        $nil .= '.00';
     } elseif (($nil * 100) % 10 == 0) {
-        $nil = $nil . '0';
+        $nil .= '0';
     }
     $nil  = str_replace('.', ',', $nil);
     $str1 = $nil;
@@ -164,31 +170,31 @@ function Rupiah3($nil = 0)
     return '-';
 }
 
-function to_rupiah($inp = '')
+function to_rupiah($inp = ''): string
 {
     $outp = str_replace('.', '', $inp);
 
     return str_replace(',', '.', $outp);
 }
 
-function rp($inp = 0)
+function rp($inp = 0): string
 {
     return number_format($inp, 2, ',', '.');
 }
 
-function rupiah24($angka, $prefix = 'Rp ', $digit = 2)
+function rupiah24($angka, string $prefix = 'Rp ', $digit = 2): string
 {
     return $prefix . number_format($angka, $digit, ',', '.');
 }
 
-function jecho($a, $b, $str)
+function jecho($a, $b, $str): void
 {
     if ($a == $b) {
         echo $str;
     }
 }
 
-function valid_nik_nokk($nik)
+function valid_nik_nokk($nik): void
 {
     $length = strlen($nik);
     if ($length < 16) {
@@ -198,12 +204,14 @@ function valid_nik_nokk($nik)
     }
 }
 
-function compared_return($a, $b, $retval = null)
+function compared_return($a, $b, $retval = null): void
 {
-    ($a === $b) && print 'active';
+    if ($a === $b) {
+        echo 'active';
+    }
 }
 
-function selected($a, $b, $opt = 0)
+function selected($a, $b, $opt = 0): void
 {
     if ($a == $b) {
         if ($opt) {
@@ -214,7 +222,7 @@ function selected($a, $b, $opt = 0)
     }
 }
 
-function date_is_empty($tgl)
+function date_is_empty($tgl): bool
 {
     return empty($tgl) || substr($tgl, 0, 10) == '0000-00-00';
 }
@@ -229,21 +237,21 @@ function rev_tgl($tgl, $replace_with = '-')
     return $ar[2] . '-' . $ar[1] . '-' . $ar[0];
 }
 
-function penetration($str)
+function penetration($str): string
 {
     return str_replace("'", '-', $str);
 }
 
-function penetration1($str)
+function penetration1($str): string
 {
     return str_replace("'", ' ', $str);
 }
 
-function unpenetration($str)
+function unpenetration($str): string
 {
     return str_replace('-', "'", $str);
 }
-function spaceunpenetration($str)
+function spaceunpenetration($str): string
 {
     return str_replace('-', ' ', $str);
 }
@@ -253,14 +261,19 @@ function bulan()
     return [1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'];
 }
 
-function getBulan(int $bln)
+function getBulan(string $bln)
 {
     $bulan = bulan();
 
-    return $bulan[(int) $bln];
+    return $bulan[$bln];
 }
 
-function tahun(int $awal = 2018, $asc = false)
+/**
+ * @param mixed $asc
+ *
+ * @return string[]
+ */
+function tahun(int $awal = 2018, $asc = false): array
 {
     $akhir = date('Y');
     $tahun = [];
@@ -276,7 +289,7 @@ function tahun(int $awal = 2018, $asc = false)
     return $tahun;
 }
 
-function nama_bulan($tgl)
+function nama_bulan($tgl): string
 {
     $ar = explode('-', $tgl);
     $nm = getBulan($ar[1]);
@@ -284,7 +297,7 @@ function nama_bulan($tgl)
     return $ar[0] . ' ' . $nm . ' ' . $ar[2];
 }
 
-function hari($tgl)
+function hari($tgl): string
 {
     $hari = [
         0 => 'Minggu', 1 => 'Senin', 2 => 'Selasa', 3 => 'Rabu', 4 => 'Kamis', 5 => 'Jumat', 6 => 'Sabtu',
@@ -294,18 +307,12 @@ function hari($tgl)
     return $hari[$dayofweek];
 }
 
-function dua_digit($i)
+function dua_digit(string $i): string
 {
-    if ($i < 10) {
-        $o = '0' . $i;
-    } else {
-        $o = $i;
-    }
-
-    return $o;
+    return $i < 10 ? '0' . $i : $i;
 }
 
-function tiga_digit($i)
+function tiga_digit(?string $i): string
 {
     if ($i < 10) {
         $o = '00' . $i;
@@ -318,7 +325,7 @@ function tiga_digit($i)
     return $o;
 }
 
-function pertumbuhan($a = 1, $b = 1, $c = 1, $d = 1)
+function pertumbuhan($a = 1, $b = 1, $c = 1, $d = 1): string
 {
     $x = 0;
     $y = 0;
@@ -338,15 +345,9 @@ function pertumbuhan($a = 1, $b = 1, $c = 1, $d = 1)
     return str_replace('.', ',', $outp) . ' %';
 }
 
-function koma($a = 1)
+function koma($a = 1): string
 {
-    if (substr_count($a, '.')) {
-        $a = str_replace('.', ',', $a);
-    } else {
-        $a = number_format($a, 0, ',', '.');
-    }
-
-    return $a;
+    return substr_count($a, '.') !== 0 ? str_replace('.', ',', $a) : number_format($a, 0, ',', '.');
 }
 
 function tgl_indo2($tgl, $replace_with = '-')
@@ -369,7 +370,7 @@ function tgl_indo_dari_str($tgl_str, $kosong = '-')
     return $time ? tgl_indo(date('Y m d', strtotime($tgl_str))) : $kosong;
 }
 
-function tgl_indo($tgl, $replace_with = '-', $with_day = '')
+function tgl_indo($tgl, $replace_with = '-', string $with_day = '')
 {
     if (date_is_empty($tgl)) {
         return $replace_with;
@@ -408,12 +409,12 @@ function tgl_indo_in($tgl, $replace_with = '-')
     $bulan   = substr($tgl, 3, 2);
     $tahun   = substr($tgl, 6, 4);
     $jam     = substr($tgl, 11);
-    $jam     = empty($jam) ? '' : ' ' . $jam;
+    $jam     = $jam === '' ? '' : ' ' . $jam;
 
     return $tahun . '-' . $bulan . '-' . $tanggal . $jam;
 }
 
-function waktu_ind($time)
+function waktu_ind($time): string
 {
     $str = '';
     if (($time / 360) > 1) {
@@ -433,18 +434,18 @@ function waktu_ind($time)
 }
 
 //time out
-function timer()
+function timer(): void
 {
     $time                = 2000;
     $_SESSION['timeout'] = time() + $time;
 }
 
-function generator($length = 7)
+function generator($length = 7): string
 {
     return substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, $length);
 }
 
-function cek_login()
+function cek_login(): bool
 {
     $timeout = $_SESSION['timeout'];
     if (time() < $timeout) {
@@ -458,7 +459,7 @@ function cek_login()
 }
 
 //time out Mandiri set 3 login per 1 menit
-function mandiri_timer()
+function mandiri_timer(): void
 {
     $time                        = 60;  //60 detik
     $_SESSION['mandiri_try']     = 4;
@@ -466,7 +467,7 @@ function mandiri_timer()
     $_SESSION['mandiri_timeout'] = time() + $time;
 }
 
-function mandiri_timeout()
+function mandiri_timeout(): void
 {
     (isset($_SESSION['mandiri_timeout'])) ? $timeout = $_SESSION['mandiri_timeout'] : $timeout = null;
     if (time() > $timeout) {
@@ -475,28 +476,28 @@ function mandiri_timeout()
 }
 
 //time out Admin set 3 login per 5 menit
-function siteman_timer()
+function siteman_timer(): void
 {
     $time                        = 300;  //300 detik
     $_SESSION['siteman_try']     = 4;
     $_SESSION['siteman_timeout'] = time() + $time;
 }
 
-function siteman_timeout()
+function siteman_timeout(): void
 {
-    $timeout = (isset($_SESSION['siteman_timeout'])) ? $_SESSION['siteman_timeout'] : null;
+    $timeout = $_SESSION['siteman_timeout'] ?? null;
     if (time() > $timeout) {
         $_SESSION['siteman_wait'] = 0;
     }
 }
 
-function get_identitas()
+function get_identitas(): string
 {
     return ucwords(setting('sebutan_desa')) . ' : ' . identitas('nama_desa') . ' ' . ucwords(setting('sebutan_kecamatan_singkat')) . ' : ' . identitas('nama_kecamatan') . ' Kab : ' . identitas('nama_kabupaten');
 }
 
 //baca data tanpa HTML Tags
-function fixTag($varString)
+function fixTag($varString): string
 {
     // edited : filter <i> tag for exception
     return strip_tags($varString, '<i>');
@@ -504,15 +505,15 @@ function fixTag($varString)
 
 // Format tampilan tanggal rentang
 
-function fTampilTgl($sdate, $edate)
+function fTampilTgl($sdate, $edate): string
 {
     if ($sdate == $edate) {
         $tgl = date('j M Y', strtotime($sdate));
     } elseif ($edate > $sdate) {
-        if (date('Y', strtotime($sdate)) == date('Y', strtotime($edate))) {
-            if (date('M Y', strtotime($sdate)) == date('M Y', strtotime($edate))) {
-                if (date('j M Y', strtotime($sdate)) == date('j M Y', strtotime($edate))) {
-                    if (date('j M Y H', strtotime($sdate)) == date('j M Y H', strtotime($edate))) {
+        if (date('Y', strtotime($sdate)) === date('Y', strtotime($edate))) {
+            if (date('M Y', strtotime($sdate)) === date('M Y', strtotime($edate))) {
+                if (date('j M Y', strtotime($sdate)) === date('j M Y', strtotime($edate))) {
+                    if (date('j M Y H', strtotime($sdate)) === date('j M Y H', strtotime($edate))) {
                         $tgl = date('j M Y H:i', strtotime($sdate));
                     } else {
                         $tgl = date('j M Y H:i', strtotime($sdate)) . ' - ' . date('H:i', strtotime($edate));
@@ -532,28 +533,29 @@ function fTampilTgl($sdate, $edate)
 }
 
 // https://stackoverflow.com/questions/19271381/correctly-determine-if-date-string-is-a-valid-date-in-that-format
-function validate_date($date, $format = 'd-m-Y')
+function validate_date($date, $format = 'd-m-Y'): bool
 {
     $d = DateTime::createFromFormat($format, $date);
+
     // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
     return $d && $d->format($format) === $date;
 }
 
 // Potong teks pada batasan kata
-function potong_teks($teks, $panjang)
+function potong_teks($teks, $panjang): string
 {
     $abstrak = fixTag($teks);
     if (strlen($abstrak) > $panjang + 10) {
-        $abstrak = substr($abstrak, 0, strpos($abstrak, ' ', $panjang));
+        return substr($abstrak, 0, strpos($abstrak, ' ', $panjang));
     }
 
     return $abstrak;
 }
 
-function hash_pin($pin = '')
+function hash_pin($pin = ''): string
 {
     $pin = strrev($pin);
-    $pin = $pin * 77;
+    $pin *= 77;
     $pin .= '!#@$#%';
 
     return md5($pin);
@@ -563,7 +565,7 @@ function hash_pin($pin = '')
  * =======================================
  * Rupiah terbilang
  */
-function number_to_words($number, $nol_sen = true)
+function number_to_words($number, $nol_sen = true): string
 {
     $before_comma = trim(to_word($number));
     $after_comma  = trim(comma($number));
@@ -572,7 +574,7 @@ function number_to_words($number, $nol_sen = true)
     return ucwords($result . ' Rupiah');
 }
 
-function to_word($number)
+function to_word($number): string
 {
     $words      = '';
     $arr_number = [
@@ -622,7 +624,7 @@ function to_word($number)
     return $words;
 }
 
-function comma($number)
+function comma($number): string
 {
     $after_comma = stristr($number, ',');
     $arr_number  = [
@@ -650,40 +652,41 @@ function comma($number)
     return $results;
 }
 
-function hit($angka)
+function hit($angka): string
 {
     $hit = ($angka === null || $angka === '') ? '0' : ribuan($angka);
 
     return $hit . ' Kali';
 }
 
-function ribuan($angka)
+function ribuan($angka): string
 {
     return number_format($angka, 0, '.', '.');
 }
 
 // Kalau angka romawi jangan ubah
-function set_ucwords($data)
+function set_ucwords($data): string
 {
     $exp = explode(' ', $data);
 
-    $data = '';
+    $data    = '';
+    $counter = count($exp);
 
-    for ($i = 0; $i < count($exp); $i++) {
+    for ($i = 0; $i < $counter; $i++) {
         $data .= ' ' . (is_angka_romawi($exp[$i]) ? $exp[$i] : ucwords(strtolower($exp[$i])));
     }
 
     return trim($data);
 }
 
-function persen($data, $simbol = '%', $digit = 2)
+function persen($data, string $simbol = '%', $digit = 2): string
 {
     $str = number_format(is_nan($data) ? 0 : (float) ($data * 100), $digit, '.', '');
 
     return str_replace('.', ',', $str) . $simbol;
 }
 
-function persen2($pembilang, $pembagi, $simbol = '%', $digit = 2)
+function persen2($pembilang, $pembagi, $simbol = '%', $digit = 2): string
 {
     $data = ($pembagi == 0) ? 0 : $pembilang / $pembagi;
 
@@ -702,7 +705,7 @@ function sensor_nik_kk($data)
 
 // Asumsi nilai order untuk desc (di model) selalu bernilai asc + 1.
 // Contoh: asc untuk nama = 5 maka desc untuk nama = 6
-function url_order($o = 1, $url = '', $asc = 1, $text = 'Field')
+function url_order($o = 1, $url = '', $asc = 1, $text = 'Field'): string
 {
     $url  = site_url($url);
     $desc = ($asc + 1);
@@ -725,15 +728,15 @@ function url_order($o = 1, $url = '', $asc = 1, $text = 'Field')
 }
 
 // https://stackoverflow.com/questions/16564650/best-way-to-delete-column-from-multidimensional-array
-function delete_col(&$array, $offset)
+function delete_col(&$array, $offset): bool
 {
-    return array_walk($array, static function (&$v) use ($offset) {
+    return array_walk($array, static function (&$v) use ($offset): void {
         array_splice($v, $offset, 1);
     });
 }
 // =======================================
 
-function get_pesan_opendk()
+function get_pesan_opendk(): void
 {
     $ci = &get_instance();
     if ((! $ci->db->table_exists('pesan') && ! $ci->db->table_exists('pesan_detail')) || empty($ci->setting->api_opendk_key)) {
@@ -755,7 +758,7 @@ function get_pesan_opendk()
                 'id'        => (int) $id_terakhir,
             ],
         ])->getBody()->getContents();
-        $data_respon = json_decode($response);
+        $data_respon = json_decode($response, null);
 
         foreach ($data_respon->data as $pesan) {
             $row = [
@@ -802,7 +805,7 @@ if (! function_exists('opendk_api')) {
                 $options
             ))->getBody()->getContents();
 
-            $data_respon = json_decode($response);
+            $data_respon = json_decode($response, null);
             $notif       = [
                 'status' => $data_respon->status,
                 'pesan'  => $data_respon->message,
@@ -826,7 +829,7 @@ if (! function_exists('opendk_api')) {
 }
 
 if (! function_exists('messageResponseHTML')) {
-    function messageResponseHTML($json_msg)
+    function messageResponseHTML($json_msg): string
     {
         $msg  = json_decode($json_msg, 1);
         $html = '<h5>' . $msg['message'] . '</h5>';

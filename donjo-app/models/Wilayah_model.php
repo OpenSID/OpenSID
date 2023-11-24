@@ -58,11 +58,10 @@ class Wilayah_model extends MY_Model
     private function search_sql()
     {
         if (isset($_SESSION['cari'])) {
-            $kw         = $this->db->escape_like_str($_SESSION['cari']);
-            $kw         = '%' . $kw . '%';
-            $search_sql = " AND u.dusun LIKE '{$kw}'";
+            $kw = $this->db->escape_like_str($_SESSION['cari']);
+            $kw = '%' . $kw . '%';
 
-            return $search_sql;
+            return " AND u.dusun LIKE '{$kw}'";
         }
     }
 
@@ -81,9 +80,8 @@ class Wilayah_model extends MY_Model
         $sql = " FROM tweb_wil_clusterdesa u
 			LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
 			WHERE u.config_id = '" . identitas('id') . "' AND u.rt = '0' AND u.rw = '0' ";
-        $sql .= $this->search_sql();
 
-        return $sql;
+        return $sql . $this->search_sql();
     }
 
     /*
@@ -114,9 +112,10 @@ class Wilayah_model extends MY_Model
         $data  = $query->result_array();
 
         //Formating Output
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']        = $j + 1;
             $data[$i]['deletable'] = 1;
             if ($data[$i]['jumlah_warga'] > 0 || $data[$i]['jumlah_kk'] > 0) {
@@ -158,7 +157,7 @@ class Wilayah_model extends MY_Model
             ->result_array();
     }
 
-    private function select_jumlah_rw_rt()
+    private function select_jumlah_rw_rt(): void
     {
         $this->db
             ->select('(CASE
@@ -172,7 +171,7 @@ class Wilayah_model extends MY_Model
 				END) AS jumlah_rt");
     }
 
-    private function select_jumlah_warga()
+    private function select_jumlah_warga(): void
     {
         $this->db
             ->select('(CASE
@@ -196,7 +195,7 @@ class Wilayah_model extends MY_Model
 				END) AS jumlah_warga_p');
     }
 
-    private function select_jumlah_kk()
+    private function select_jumlah_kk(): void
     {
         $this->db
             ->select('(CASE
@@ -208,7 +207,7 @@ class Wilayah_model extends MY_Model
 
     private function bersihkan_data($data, $id = null)
     {
-        if (empty((int) $data['id_kepala'])) {
+        if ((int) $data['id_kepala'] === 0) {
             unset($data['id_kepala']);
         }
 
@@ -223,12 +222,12 @@ class Wilayah_model extends MY_Model
         return $data;
     }
 
-    private function cek_data($table, $data = [])
+    private function cek_data(string $table, array $data = [])
     {
         return $this->config_id()->get_where($table, $data)->num_rows();
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data     = $this->bersihkan_data($this->input->post());
         $wil      = ['dusun' => $data['dusun']];
@@ -252,7 +251,7 @@ class Wilayah_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data     = $this->bersihkan_data($this->input->post(), $id);
         $wil      = ['dusun' => $data['dusun'], 'rw' => '0', 'rt' => '0', 'id <>' => $id];
@@ -272,15 +271,11 @@ class Wilayah_model extends MY_Model
         $outp2 = $this->db->where('dusun', $temp['dusun'])->
             update('tweb_wil_clusterdesa', ['dusun' => $data['dusun']]);
 
-        if ($outp1 && $outp2) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $_SESSION['success'] = $outp1 && $outp2 ? 1 : -1;
     }
 
     // Delete dusun/rw/rt tergantung tipe
-    public function delete($tipe = '', $id = '')
+    public function delete($tipe = '', $id = ''): void
     {
         // Perlu hapus berdasarkan nama, supaya baris RW dan RT juga terhapus
         $wilayah = Wilayah::find($id) ?? show_404();
@@ -312,7 +307,7 @@ class Wilayah_model extends MY_Model
         $penduduk = Penduduk::whereIn('id_cluster', $in_id)->count();
         $keluarga = Keluarga::whereIn('id_cluster', $in_id)->count();
 
-        if (($penduduk + $keluarga) != 0) {
+        if ($penduduk + $keluarga != 0) {
             session_error(', data ' . $tipe . ' tidak dapat dihapus karena hal berikut: <ol><li>Terdapat penduduk dengan status mati, pindah, hilang, pergi dan tidak valid </li><li>Terdapat kelurga dengan status KK Hilang/Pindah/Mati dan KK Kosong</li></ol>Silakan hapus data Penduduk atau Keluarga terlebih dahulu pada setiap status tersebut.');
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -367,9 +362,10 @@ class Wilayah_model extends MY_Model
         $data = $this->db->get()->result_array();
 
         //Formating Output
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']        = $j + 1;
             $data[$i]['deletable'] = 1;
             if ($data[$i]['jumlah_warga'] > 0 || $data[$i]['jumlah_kk'] > 0) {
@@ -381,7 +377,7 @@ class Wilayah_model extends MY_Model
         return $data;
     }
 
-    public function insert_rw($dusun = '')
+    public function insert_rw($dusun = ''): void
     {
         $data          = $this->bersihkan_data($this->input->post());
         $temp          = $this->cluster_by_id($dusun);
@@ -402,7 +398,7 @@ class Wilayah_model extends MY_Model
         status_sukses($outp1 & $outp2); //Tampilkan Pesan
     }
 
-    public function update_rw($id_rw = '')
+    public function update_rw($id_rw = ''): void
     {
         $data = $this->bersihkan_data($this->input->post(), $id_rw);
         $temp = $this->cluster_by_id($id_rw);
@@ -436,7 +432,7 @@ class Wilayah_model extends MY_Model
         return $this->paginasi($p, $jml_data);
     }
 
-    private function list_data_rt_query($dusun = '', $rw = '')
+    private function list_data_rt_query($dusun = '', $rw = ''): void
     {
         $this->config_id('u')
             ->from('tweb_wil_clusterdesa u')
@@ -468,9 +464,10 @@ class Wilayah_model extends MY_Model
         $data = $this->db->get()->result_array();
 
         //Formating Output
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']        = $j + 1;
             $data[$i]['deletable'] = 1;
             if ($data[$i]['jumlah_warga'] > 0 || $data[$i]['jumlah_kk'] > 0) {
@@ -482,7 +479,7 @@ class Wilayah_model extends MY_Model
         return $data;
     }
 
-    public function insert_rt($id_dusun = '', $id_rw = '')
+    public function insert_rt($id_dusun = '', $id_rw = ''): void
     {
         $data          = $this->bersihkan_data($this->input->post());
         $temp          = $this->cluster_by_id($id_dusun);
@@ -501,7 +498,7 @@ class Wilayah_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update_rt($id = 0)
+    public function update_rt($id = 0): void
     {
         $data     = $this->bersihkan_data($this->input->post(), $id);
         $rt_lama  = $this->config_id()->where('id', $id)->get('tweb_wil_clusterdesa')->row_array();
@@ -661,7 +658,7 @@ class Wilayah_model extends MY_Model
         return $data;
     }
 
-    public function update_kantor_dusun_map($id = 0)
+    public function update_kantor_dusun_map($id = 0): void
     {
         $data = $this->validasi_koordinat($this->input->post());
         $id   = $data['id'];
@@ -672,7 +669,7 @@ class Wilayah_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update_wilayah_dusun_map($id = 0)
+    public function update_wilayah_dusun_map($id = 0): void
     {
         $data = $_POST;
         $id   = $_POST['id'];
@@ -688,7 +685,7 @@ class Wilayah_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update_kantor_rw_map($id = 0)
+    public function update_kantor_rw_map($id = 0): void
     {
         $data = $this->validasi_koordinat($this->input->post());
         $id   = $data['id'];
@@ -699,7 +696,7 @@ class Wilayah_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update_wilayah_rw_map($id = 0)
+    public function update_wilayah_rw_map($id = 0): void
     {
         // TODO :: Tambahkan validasi untuk input post
         $data = $_POST;
@@ -711,7 +708,7 @@ class Wilayah_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update_kantor_rt_map($id = 0)
+    public function update_kantor_rt_map($id = 0): void
     {
         $data = $this->validasi_koordinat($this->input->post());
         $id   = $data['id'];
@@ -722,7 +719,7 @@ class Wilayah_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update_wilayah_rt_map($id = 0)
+    public function update_wilayah_rt_map($id = 0): void
     {
         // TODO :: Tambahkan validasi untuk input post
         $data = $_POST;
@@ -775,7 +772,7 @@ class Wilayah_model extends MY_Model
     // $arah:
     //		1 - turun
     // 		2 - naik
-    public function urut($tipe = 0, $id = 0, $arah = 0, $id_dusun = 0, $id_rw = 0)
+    public function urut($tipe = 0, $id = 0, $arah = 0, $id_dusun = 0, $id_rw = 0): void
     {
         switch ($tipe) {
             case 'dusun':
@@ -807,7 +804,7 @@ class Wilayah_model extends MY_Model
     }
 
     // Samakan nomor urut semua subwilayah dusun untuk laporan cetak
-    private function urut_semua_wilayah()
+    private function urut_semua_wilayah(): void
     {
         $urut       = 1;
         $urut_dusun = $this->config_id()
@@ -852,7 +849,7 @@ class Wilayah_model extends MY_Model
         }
     }
 
-    public function kosongkan_path($id)
+    public function kosongkan_path($id): void
     {
         $outp = $this->config_id()
             ->set('path', null)
@@ -862,7 +859,7 @@ class Wilayah_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    private function update_urut($urut = 1, $id = 1)
+    private function update_urut($urut = 1, $id = 1): void
     {
         $this->config_id()
             ->set('urut_cetak', $urut)

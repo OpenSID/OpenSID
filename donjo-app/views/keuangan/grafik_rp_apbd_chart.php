@@ -10,7 +10,7 @@
 </style>
 <div class="container" style="width: 100%; background: #fff; color: #222">
   <div class="box box-info">
-    <?php foreach ($data_widget as $subdata_name => $subdatas): ?>
+    <?php foreach ($data_widget as $subdatas): ?>
       <div class="col-md-4">
         <div align="center"><h4><?= ($subdatas['laporan'])?></h4></div><hr/>
         <div align="center"><h5>Realisasi | Anggaran</h5></div><hr/>
@@ -21,12 +21,10 @@
               \Illuminate\Support\Str::of($subdata['judul'])
                   ->title()
                   ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
-                      if (! in_array($string, ['Dana Desa'])) {
+                      if ($string != 'Dana Desa') {
                           return $string->replace('Desa', setting('sebutan_desa'));
                       }
-                  }, static function (Illuminate\Support\Stringable $string) {
-                      return $string->append(' ' . setting('sebutan_desa'));
-                  })
+                  }, static fn (Illuminate\Support\Stringable $string) => $string->append(' ' . setting('sebutan_desa')))
                   ->title();
               ?><br>
               <b><?= rupiah24($subdata['realisasi']); ?> | <?= rupiah24($subdata['anggaran'] + ($subdata['realisasi_jurnal'] ?? 0)); ?></b>

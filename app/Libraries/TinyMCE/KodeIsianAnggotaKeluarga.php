@@ -50,12 +50,12 @@ class KodeIsianAnggotaKeluarga
         $this->idPenduduk = $idPenduduk;
     }
 
-    public static function get($idPenduduk)
+    public static function get($idPenduduk): array
     {
         return (new self($idPenduduk))->kodeIsian();
     }
 
-    public function kodeIsian()
+    public function kodeIsian(): array
     {
         $id_kk   = Penduduk::where('kk_level', SHDKEnum::KEPALA_KELUARGA)->find($this->idPenduduk)->id_kk;
         $anggota = Keluarga::find($id_kk)->anggota;
@@ -101,14 +101,14 @@ class KodeIsianAnggotaKeluarga
                 'judul' => 'Tempat Tgl Lahir',
                 'isian' => 'Klgx_tempat_tgl_lahiR',
                 'data'  => $anggota ? $anggota->pluck('tempatlahir', 'tanggallahir')
-                    ->map(static fn ($item, $key) => $item . ', ' . formatTanggal($key))
+                    ->map(static fn ($item, $key): string => $item . ', ' . formatTanggal($key))
                     ->values()->toArray() : '',
             ],
             [
                 'judul' => 'Tempat Tgl Lahir (TTL)',
                 'isian' => 'Klgx_ttL',
                 'data'  => $anggota ? $anggota->pluck('tempatlahir', 'tanggallahir')
-                    ->map(static fn ($item, $key) => $item . ', ' . formatTanggal($key))
+                    ->map(static fn ($item, $key): string => $item . ', ' . formatTanggal($key))
                     ->values()->toArray() : '',
             ],
             [

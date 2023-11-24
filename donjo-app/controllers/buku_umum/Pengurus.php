@@ -40,13 +40,14 @@ use App\Models\Pamong;
 use App\Models\PendidikanKK;
 use App\Models\Penduduk;
 use App\Models\RefJabatan;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengurus extends Admin_Controller
 {
-    private $_set_page;
-    private $_list_session;
+    private array $_set_page     = ['20', '50', '100'];
+    private array $_list_session = ['status', 'cari'];
 
     public function __construct()
     {
@@ -54,12 +55,10 @@ class Pengurus extends Admin_Controller
         $this->load->model(['pamong_model', 'penduduk_model', 'wilayah_model']);
         $this->modul_ini          = 'buku-administrasi-desa';
         $this->sub_modul_ini      = 'administrasi-umum';
-        $this->_set_page          = ['20', '50', '100'];
-        $this->_list_session      = ['status', 'cari'];
         $this->header['kategori'] = 'Pemerintah Desa';
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata($this->_list_session);
         $this->session->per_page = $this->_set_page[0];
@@ -67,7 +66,7 @@ class Pengurus extends Admin_Controller
         redirect('pengurus');
     }
 
-    public function index($p = 1)
+    public function index($p = 1): void
     {
         foreach ($this->_list_session as $list) {
             $data[$list] = $this->session->{$list} ?: '';
@@ -93,7 +92,7 @@ class Pengurus extends Admin_Controller
         $this->render('bumindes/umum/main', $data);
     }
 
-    public function form($id = 0)
+    public function form($id = 0): View
     {
         $this->redirect_hak_akses('u');
         $id_pend = $this->input->post('id_pend');
@@ -118,8 +117,6 @@ class Pengurus extends Admin_Controller
         if (Pamong::where('jabatan_id', $jabatan_kades)->where('pamong_status', 1)->exists() && $data['pamong']['jabatan_id'] != $jabatan_kades) {
             $semua_jabatan = $semua_jabatan->except($jabatan_kades);
         }
-
-        $jabatan_sekdes = RefJabatan::getSekdes()->id;
         // Cek apakah sekdes
         $jabatan_sekdes = sekdes()->id;
         if (Pamong::where('jabatan_id', $jabatan_sekdes)->where('pamong_status', 1)->exists() && $data['pamong']['jabatan_id'] != $jabatan_sekdes) {
@@ -131,17 +128,12 @@ class Pengurus extends Admin_Controller
         $data['pendidikan_kk'] = PendidikanKK::pluck('nama', 'id');
         $data['agama']         = Agama::pluck('nama', 'id');
 
-        if (! empty($id_pend)) {
-            // TODO :: OpenKab - Tambahkan filter berdasarkan config_id
-            $data['individu'] = $this->penduduk_model->get_penduduk($id_pend);
-        } else {
-            $data['individu'] = null;
-        }
+        $data['individu'] = empty($id_pend) ? null : $this->penduduk_model->get_penduduk($id_pend);
 
         return view('admin.pengurus.form', $data);
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         $this->redirect_hak_akses('u');
         $value = $this->input->post($filter);
@@ -153,7 +145,7 @@ class Pengurus extends Admin_Controller
         redirect('pengurus');
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->set_validasi();
@@ -168,7 +160,7 @@ class Pengurus extends Admin_Controller
         }
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->set_validasi();
@@ -184,62 +176,62 @@ class Pengurus extends Admin_Controller
         }
     }
 
-    private function set_validasi()
+    private function set_validasi(): void
     {
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('', '');
     }
 
-    public function delete($id = 0)
+    public function delete($id = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->pamong_model->delete($id);
         redirect('pengurus');
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->redirect_hak_akses('h');
         $this->pamong_model->delete_all();
         redirect('pengurus');
     }
 
-    public function ttd($id = 0, $val = 0)
+    public function ttd($id = 0, $val = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->pamong_model->ttd('a.n', $id, $val);
         redirect('pengurus');
     }
 
-    public function ub($id = 0, $val = 0)
+    public function ub($id = 0, $val = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->pamong_model->ttd('u.b', $id, $val);
         redirect('pengurus');
     }
 
-    public function urut($p = 1, $id = 0, $arah = 0)
+    public function urut($p = 1, $id = 0, $arah = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->pamong_model->urut($id, $arah);
         redirect("pengurus/index/{$p}");
     }
 
-    public function lock($id = 0, $val = 1)
+    public function lock($id = 0, $val = 1): void
     {
         $this->redirect_hak_akses('u');
         $this->pamong_model->lock($id, $val);
         redirect('pengurus');
     }
 
-    public function kehadiran($id = 0, $val = 1)
+    public function kehadiran($id = 0, $val = 1): void
     {
         $this->redirect_hak_akses('u');
         $this->pamong_model->kehadiran($id, $val);
         redirect('pengurus');
     }
 
-    public function daftar($aksi = 'cetak')
+    public function daftar($aksi = 'cetak'): void
     {
         // TODO :: gunakan view global penandatangan
         $ttd                    = $this->modal_penandatangan();
@@ -252,7 +244,7 @@ class Pengurus extends Admin_Controller
         $this->load->view('home/' . $aksi, $data);
     }
 
-    public function bagan($ada_bpd = '')
+    public function bagan($ada_bpd = ''): void
     {
         $data['desa']    = $this->header['desa'];
         $data['bagan']   = $this->pamong_model->list_bagan();
@@ -260,7 +252,7 @@ class Pengurus extends Admin_Controller
         $this->render('home/bagan', $data);
     }
 
-    public function atur_bagan()
+    public function atur_bagan(): void
     {
         $this->redirect_hak_akses('u');
         $data['atasan']      = $this->pamong_model->list_atasan();
@@ -268,7 +260,7 @@ class Pengurus extends Admin_Controller
         $this->load->view('home/ajax_atur_bagan', $data);
     }
 
-    public function update_bagan()
+    public function update_bagan(): void
     {
         $this->redirect_hak_akses('u');
         $post = $this->input->post();
@@ -276,7 +268,7 @@ class Pengurus extends Admin_Controller
         redirect('pengurus');
     }
 
-    public function atur_bagan_layout()
+    public function atur_bagan_layout(): void
     {
         $this->redirect_hak_akses('u');
         $data = [
@@ -288,17 +280,22 @@ class Pengurus extends Admin_Controller
     }
 
     // Jabatan
-    public function jabatan()
+    public function jabatan(): View
     {
         if ($this->input->is_ajax_request()) {
             return datatables()->of(RefJabatan::query()->urut()->latest())
                 ->addColumn('ceklist', static function ($row) {
-                    if (can('h') && ! in_array($row->id, RefJabatan::getKadesSekdes())) {
-                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    if (! can('h')) {
+                        return;
                     }
+                    if (in_array($row->id, RefJabatan::getKadesSekdes())) {
+                        return;
+                    }
+
+                    return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -320,7 +317,7 @@ class Pengurus extends Admin_Controller
         ]);
     }
 
-    public function jabatanform($id = '')
+    public function jabatanform($id = ''): View
     {
         $this->redirect_hak_akses('u');
 
@@ -336,10 +333,10 @@ class Pengurus extends Admin_Controller
 
         $selected_nav = 'pengurus';
 
-        return view('admin.jabatan.form', compact('selected_nav', 'action', 'form_action', 'jabatan'));
+        return view('admin.jabatan.form', ['selected_nav' => $selected_nav, 'action' => $action, 'form_action' => $form_action, 'jabatan' => $jabatan]);
     }
 
-    public function jabataninsert()
+    public function jabataninsert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -349,7 +346,7 @@ class Pengurus extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data', 'pengurus/jabatan');
     }
 
-    public function jabatanUpdate($id = '')
+    public function jabatanUpdate($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -361,7 +358,7 @@ class Pengurus extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'pengurus/jabatan');
     }
 
-    public function jabatandelete($id = '')
+    public function jabatandelete($id = ''): void
     {
         $this->redirect_hak_akses('h');
 
@@ -392,7 +389,7 @@ class Pengurus extends Admin_Controller
             $cari = $this->input->get('q');
 
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
-                ->when($cari, static function ($query) use ($cari) {
+                ->when($cari, static function ($query) use ($cari): void {
                     $query->orWhere('nik', 'like', "%{$cari}%")
                         ->orWhere('nama', 'like', "%{$cari}%");
                 })
@@ -401,12 +398,10 @@ class Pengurus extends Admin_Controller
 
             return json([
                 'results' => collect($penduduk->items())
-                    ->map(static function ($item) {
-                        return [
-                            'id'   => $item->id,
-                            'text' => "NIK : {$item->nik} - {$item->nama} - {$item->wilayah->dusun}",
-                        ];
-                    }),
+                    ->map(static fn ($item): array => [
+                        'id'   => $item->id,
+                        'text' => "NIK : {$item->nik} - {$item->nama} - {$item->wilayah->dusun}",
+                    ]),
                 'pagination' => [
                     'more' => $penduduk->currentPage() < $penduduk->lastPage(),
                 ],

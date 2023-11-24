@@ -49,7 +49,7 @@ class Inventaris_jalan extends Admin_Controller
         $this->sub_modul_ini = 61;
     }
 
-    public function index()
+    public function index(): void
     {
         $data['main']   = $this->inventaris_jalan_model->list_inventaris();
         $data['total']  = $this->inventaris_jalan_model->sum_inventaris();
@@ -59,7 +59,7 @@ class Inventaris_jalan extends Admin_Controller
         $this->render('inventaris/jalan/table', $data);
     }
 
-    public function view($id)
+    public function view($id): void
     {
         $data['main'] = $this->inventaris_jalan_model->view($id);
         $data['tip']  = 1;
@@ -67,7 +67,7 @@ class Inventaris_jalan extends Admin_Controller
         $this->render('inventaris/jalan/view_inventaris', $data);
     }
 
-    public function view_mutasi($id)
+    public function view_mutasi($id): void
     {
         $data['main'] = $this->inventaris_jalan_model->view_mutasi($id);
         $data['tip']  = 2;
@@ -75,7 +75,7 @@ class Inventaris_jalan extends Admin_Controller
         $this->render('inventaris/jalan/view_mutasi', $data);
     }
 
-    public function edit($id)
+    public function edit($id): void
     {
         $this->redirect_hak_akses('u');
         $data['main']      = $this->inventaris_jalan_model->view($id);
@@ -88,7 +88,7 @@ class Inventaris_jalan extends Admin_Controller
         $this->render('inventaris/jalan/edit_inventaris', $data);
     }
 
-    public function edit_mutasi($id)
+    public function edit_mutasi($id): void
     {
         $this->redirect_hak_akses('u');
         $data['main'] = $this->inventaris_jalan_model->edit_mutasi($id);
@@ -97,7 +97,7 @@ class Inventaris_jalan extends Admin_Controller
         $this->render('inventaris/jalan/edit_mutasi', $data);
     }
 
-    public function form()
+    public function form(): void
     {
         $this->redirect_hak_akses('u');
         $data['tip']       = 1;
@@ -108,7 +108,7 @@ class Inventaris_jalan extends Admin_Controller
         $this->render('inventaris/jalan/form_tambah', $data);
     }
 
-    public function form_mutasi($id)
+    public function form_mutasi($id): void
     {
         $this->redirect_hak_akses('u');
         $data['main'] = $this->inventaris_jalan_model->view($id);
@@ -117,7 +117,7 @@ class Inventaris_jalan extends Admin_Controller
         $this->render('inventaris/jalan/form_mutasi', $data);
     }
 
-    public function mutasi()
+    public function mutasi(): void
     {
         $data['main'] = $this->inventaris_jalan_model->list_mutasi_inventaris();
         $data['tip']  = 2;
@@ -125,7 +125,7 @@ class Inventaris_jalan extends Admin_Controller
         $this->render('inventaris/jalan/table_mutasi', $data);
     }
 
-    public function cetak($tahun, $penandatangan)
+    public function cetak($tahun, $penandatangan): void
     {
         $data['header'] = $this->header['desa'];
         $data['total']  = $this->inventaris_jalan_model->sum_print($tahun);
@@ -135,7 +135,7 @@ class Inventaris_jalan extends Admin_Controller
         $this->load->view('inventaris/jalan/inventaris_print', $data);
     }
 
-    public function download($tahun, $penandatangan)
+    public function download($tahun, $penandatangan): void
     {
         $data['header'] = $this->header['desa'];
         $data['total']  = $this->inventaris_jalan_model->sum_print($tahun);

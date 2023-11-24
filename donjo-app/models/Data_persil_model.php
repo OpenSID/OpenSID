@@ -46,7 +46,7 @@ class Data_persil_model extends MY_Model
         return $this->autocomplete_str('nomor', 'persil', $cari);
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($this->session->cari) {
             $cari = $this->session->cari;
@@ -55,7 +55,7 @@ class Data_persil_model extends MY_Model
     }
 
     // Filter kelas tanah
-    private function filter_kelas()
+    private function filter_kelas(): void
     {
         if (isset($this->session->tipe)) {
             $tipe = $this->session->tipe;
@@ -73,7 +73,7 @@ class Data_persil_model extends MY_Model
     }
 
     // Filter lokasi luar/dalam desa
-    private function filter_lokasi()
+    private function filter_lokasi(): void
     {
         if (isset($this->session->lokasi)) {
             $lokasi = $this->session->lokasi;
@@ -86,7 +86,7 @@ class Data_persil_model extends MY_Model
     }
 
     // Filter wilayah
-    private function filter_wilayah()
+    private function filter_wilayah(): void
     {
         if (isset($this->session->dusun)) {
             $dusun = $this->session->dusun;
@@ -176,7 +176,7 @@ class Data_persil_model extends MY_Model
         return $this->paging;
     }
 
-    private function main_sql()
+    private function main_sql(): void
     {
         $this->config_id('p')
             ->from('persil p')
@@ -192,7 +192,7 @@ class Data_persil_model extends MY_Model
         $this->search_sql();
     }
 
-    private function lokasi_persil_query()
+    private function lokasi_persil_query(): void
     {
         $this->db->select("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
             (CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
@@ -214,9 +214,10 @@ class Data_persil_model extends MY_Model
         $data = $this->db
             ->get()
             ->result_array();
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
             $j++;
         }
@@ -303,7 +304,7 @@ class Data_persil_model extends MY_Model
         return $id_persil;
     }
 
-    public function hapus($id)
+    public function hapus($id): void
     {
         $hasil = $this->config_id()
             ->where('id', $id)
@@ -326,14 +327,14 @@ class Data_persil_model extends MY_Model
                 ->result_array();
             $data = array_combine(array_column($data, 'id'), $data);
         }
-        if (empty($data)) {
+        if ($data === []) {
             throw new MyException('ref_persil_kelas');
         }
 
         return $data;
     }
 
-    public function awal_persil($cdesa_awal, $id_persil, $hapus = false)
+    public function awal_persil($cdesa_awal, $id_persil, $hapus = false): void
     {
         // Hapus mutasi awal kalau ada
         $this->config_id()
@@ -354,7 +355,7 @@ class Data_persil_model extends MY_Model
         }
     }
 
-    private function mutasi_awal($data, $id_persil)
+    private function mutasi_awal($data, $id_persil): void
     {
         $mutasi['config_id']      = $this->config_id;
         $mutasi['id_cdesa_masuk'] = $data['cdesa_awal'];

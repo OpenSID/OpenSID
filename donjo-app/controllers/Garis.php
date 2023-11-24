@@ -52,41 +52,25 @@ class Garis extends Admin_Controller
         $this->sub_modul_ini = 'pengaturan-peta';
     }
 
-    public function clear()
+    public function clear(): void
     {
         unset($_SESSION['cari'], $_SESSION['filter'], $_SESSION['line'], $_SESSION['subline']);
 
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
+        $data['cari'] = $_SESSION['cari'] ?? '';
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
+        $data['filter'] = $_SESSION['filter'] ?? '';
 
-        if (isset($_SESSION['line'])) {
-            $data['line'] = $_SESSION['line'];
-        } else {
-            $data['line'] = '';
-        }
+        $data['line'] = $_SESSION['line'] ?? '';
 
-        if (isset($_SESSION['subline'])) {
-            $data['subline'] = $_SESSION['subline'];
-        } else {
-            $data['subline'] = '';
-        }
+        $data['subline'] = $_SESSION['subline'] ?? '';
 
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
@@ -103,7 +87,7 @@ class Garis extends Admin_Controller
         $this->render('garis/table', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = '')
+    public function form($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data['p'] = $p;
@@ -123,15 +107,11 @@ class Garis extends Admin_Controller
         $this->render('garis/form', $data);
     }
 
-    public function ajax_garis_maps($p = 1, $o = 0, $id = '')
+    public function ajax_garis_maps($p = 1, $o = 0, $id = ''): void
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
-        if ($id) {
-            $data['garis'] = $this->plan_garis_model->get_garis($id) ?? show_404();
-        } else {
-            $data['garis'] = null;
-        }
+        $data['p']     = $p;
+        $data['o']     = $o;
+        $data['garis'] = $id ? $this->plan_garis_model->get_garis($id) ?? show_404() : null;
 
         $data['desa']                   = $this->header['desa'];
         $data['wil_atas']               = $this->header['desa'];
@@ -147,7 +127,7 @@ class Garis extends Admin_Controller
         $this->render('garis/maps', $data);
     }
 
-    public function update_maps($p = 1, $o = 0, $id = '')
+    public function update_maps($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_garis_model->update_position($id);
@@ -155,14 +135,14 @@ class Garis extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function kosongkan($id = '')
+    public function kosongkan($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_garis_model->kosongkan_path($id);
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -174,7 +154,7 @@ class Garis extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function filter()
+    public function filter(): void
     {
         $filter = $this->input->post('filter');
         if ($filter != 0) {
@@ -186,7 +166,7 @@ class Garis extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function line()
+    public function line(): void
     {
         $line = $this->input->post('line');
         if ($line != 0) {
@@ -198,7 +178,7 @@ class Garis extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function subline()
+    public function subline(): void
     {
         unset($_SESSION['line']);
         $subline = $this->input->post('subline');
@@ -211,7 +191,7 @@ class Garis extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function insert($tip = 1)
+    public function insert($tip = 1): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_garis_model->insert($tip);
@@ -219,7 +199,7 @@ class Garis extends Admin_Controller
         redirect("{$this->controller}/index/{$tip}");
     }
 
-    public function update($id = '', $p = 1, $o = 0)
+    public function update($id = '', $p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_garis_model->update($id);
@@ -227,7 +207,7 @@ class Garis extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h');
         $this->plan_garis_model->delete($id);
@@ -235,7 +215,7 @@ class Garis extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->plan_garis_model->delete_all();
@@ -243,7 +223,7 @@ class Garis extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function garis_lock($id = '')
+    public function garis_lock($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_garis_model->garis_lock($id, 1);
@@ -251,7 +231,7 @@ class Garis extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function garis_unlock($id = '')
+    public function garis_unlock($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_garis_model->garis_lock($id, 2);

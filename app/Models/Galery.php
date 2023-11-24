@@ -74,7 +74,7 @@ class Galery extends BaseModel
         return $this->hasMany(self::class, 'parrent');
     }
 
-    public function getUrlGambarAttribute()
+    public function getUrlGambarAttribute(): void
     {
         // try {
         //     return Storage::disk('ftp')->exists("desa/upload/galeri/kecil_{$this->gambar}")

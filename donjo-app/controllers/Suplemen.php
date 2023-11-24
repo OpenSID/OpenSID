@@ -52,7 +52,7 @@ class Suplemen extends Admin_Controller
         $this->_set_page     = ['20', '50', '100'];
     }
 
-    public function index($page_number = 1, $order_by = 0)
+    public function index($page_number = 1, $order_by = 0): void
     {
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
@@ -77,7 +77,7 @@ class Suplemen extends Admin_Controller
         $this->render('suplemen/suplemen', $data);
     }
 
-    public function form($id = '')
+    public function form($id = ''): void
     {
         $this->redirect_hak_akses('u');
         if ($id) {
@@ -93,7 +93,7 @@ class Suplemen extends Admin_Controller
         $this->render('suplemen/form', $data);
     }
 
-    public function tambah()
+    public function tambah(): void
     {
         $this->redirect_hak_akses('u');
         $this->suplemen_model->create();
@@ -101,7 +101,7 @@ class Suplemen extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function ubah($id)
+    public function ubah($id): void
     {
         $this->redirect_hak_akses('u');
         $this->suplemen_model->update($id);
@@ -109,7 +109,7 @@ class Suplemen extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function hapus($id)
+    public function hapus($id): void
     {
         $this->redirect_hak_akses('h');
         $this->suplemen_model->hapus($id);
@@ -117,12 +117,12 @@ class Suplemen extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function panduan()
+    public function panduan(): void
     {
         $this->render('suplemen/panduan');
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         if ($filter == 'dusun') {
             $this->session->unset_userdata(['rw', 'rt']);
@@ -143,7 +143,7 @@ class Suplemen extends Admin_Controller
         redirect("{$this->controller}/rincian/{$id_rincian}");
     }
 
-    public function aksi($aksi = '', $id_suplemen = 0)
+    public function aksi($aksi = '', $id_suplemen = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->session->set_userdata('aksi', $aksi);
@@ -151,7 +151,7 @@ class Suplemen extends Admin_Controller
         redirect("{$this->controller}/form_terdata/{$id_suplemen}");
     }
 
-    public function clear($id = 0)
+    public function clear($id = 0): void
     {
         $this->session->per_page = $this->_set_page[0];
         //# untuk filter pada data rincian suplemen
@@ -169,7 +169,7 @@ class Suplemen extends Admin_Controller
         }
     }
 
-    public function rincian($id = '', $p = 1)
+    public function rincian($id = '', $p = 1): void
     {
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
@@ -199,11 +199,7 @@ class Suplemen extends Admin_Controller
                 $data['rw']      = $rw;
                 $data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
-                if (isset($rt)) {
-                    $data['rt'] = $rt;
-                } else {
-                    $data['rt'] = '';
-                }
+                $data['rt'] = $rt ?? '';
             } else {
                 $data['rw'] = '';
             }
@@ -214,18 +210,14 @@ class Suplemen extends Admin_Controller
         $this->render('suplemen/suplemen_anggota', $data);
     }
 
-    public function form_terdata($id)
+    public function form_terdata($id): void
     {
         $this->redirect_hak_akses('u');
         $data['sasaran']      = unserialize(SASARAN);
         $data['suplemen']     = $this->suplemen_model->get_suplemen($id) ?? show_404();
         $sasaran              = $data['suplemen']['sasaran'];
         $data['list_sasaran'] = $this->suplemen_model->list_sasaran($id, $sasaran, false);
-        if (isset($_POST['terdata'])) {
-            $data['individu'] = $this->suplemen_model->get_terdata($_POST['terdata'], $sasaran);
-        } else {
-            $data['individu'] = null;
-        }
+        $data['individu']     = isset($_POST['terdata']) ? $this->suplemen_model->get_terdata($_POST['terdata'], $sasaran) : null;
 
         $data['form_action'] = site_url("{$this->controller}/add_terdata");
 
@@ -259,7 +251,7 @@ class Suplemen extends Admin_Controller
     private function get_pilihan_penduduk($cari, $terdata)
     {
         $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'kk_level'])
-            ->when($cari, static function ($query) use ($cari) {
+            ->when($cari, static function ($query) use ($cari): void {
                 $query->orWhere('nik', 'like', "%{$cari}%")
                     ->orWhere('nama', 'like', "%{$cari}%");
             })
@@ -268,12 +260,10 @@ class Suplemen extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static function ($item) {
-                    return [
-                        'id'   => $item->id,
-                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
-                    ];
-                }),
+                ->map(static fn ($item): array => [
+                    'id'   => $item->id,
+                    'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                ]),
             'pagination' => [
                 'more' => $penduduk->currentPage() < $penduduk->lastPage(),
             ],
@@ -284,14 +274,14 @@ class Suplemen extends Admin_Controller
     {
         $penduduk = Penduduk::with('pendudukHubungan')
             ->select(['tweb_penduduk.id', 'tweb_penduduk.nik', 'keluarga_aktif.no_kk', 'tweb_penduduk.kk_level', 'tweb_penduduk.nama', 'tweb_penduduk.id_cluster'])
-            ->leftJoin('tweb_penduduk_hubungan', static function ($join) {
+            ->leftJoin('tweb_penduduk_hubungan', static function ($join): void {
                 $join->on('tweb_penduduk.kk_level', '=', 'tweb_penduduk_hubungan.id');
             })
-            ->leftJoin('keluarga_aktif', static function ($join) {
+            ->leftJoin('keluarga_aktif', static function ($join): void {
                 $join->on('tweb_penduduk.id_kk', '=', 'keluarga_aktif.id');
             })
-            ->when($cari, static function ($query) use ($cari) {
-                $query->where(static function ($q) use ($cari) {
+            ->when($cari, static function ($query) use ($cari): void {
+                $query->where(static function ($q) use ($cari): void {
                     $q->where('tweb_penduduk.nik', 'like', "%{$cari}%")
                         ->orWhere('keluarga_aktif.no_kk', 'like', "%{$cari}%")
                         ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
@@ -305,26 +295,24 @@ class Suplemen extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static function ($item) {
-                    return [
-                        'id'   => $item->id,
-                        'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
-                    ];
-                }),
+                ->map(static fn ($item): array => [
+                    'id'   => $item->id,
+                    'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                ]),
             'pagination' => [
                 'more' => $penduduk->currentPage() < $penduduk->lastPage(),
             ],
         ]);
     }
 
-    public function terdata($sasaran = 0, $id = 0)
+    public function terdata($sasaran = 0, $id = 0): void
     {
         $data = $this->suplemen_model->get_terdata_suplemen($sasaran, $id);
 
         $this->render('suplemen/terdata', $data);
     }
 
-    public function data_terdata($id = 0)
+    public function data_terdata($id = 0): void
     {
         $data['terdata']  = $this->suplemen_model->get_suplemen_terdata_by_id($id);
         $data['suplemen'] = $this->suplemen_model->get_suplemen($data['terdata']['id_suplemen']);
@@ -333,7 +321,7 @@ class Suplemen extends Admin_Controller
         $this->render('suplemen/data_terdata', $data);
     }
 
-    public function edit_terdata_form($id = 0)
+    public function edit_terdata_form($id = 0): void
     {
         $this->redirect_hak_akses('u');
         $data                = $this->suplemen_model->get_suplemen_terdata_by_id($id);
@@ -342,7 +330,7 @@ class Suplemen extends Admin_Controller
         $this->load->view('suplemen/edit_terdata', $data);
     }
 
-    public function add_terdata($id)
+    public function add_terdata($id): void
     {
         $this->redirect_hak_akses('u');
         $result = $this->suplemen_model->add_terdata($_POST, $id);
@@ -356,7 +344,7 @@ class Suplemen extends Admin_Controller
         redirect($redirect);
     }
 
-    public function edit_terdata($id)
+    public function edit_terdata($id): void
     {
         $this->redirect_hak_akses('u');
         $this->suplemen_model->edit_terdata($_POST, $id);
@@ -365,7 +353,7 @@ class Suplemen extends Admin_Controller
         redirect("{$this->controller}/rincian/{$id_suplemen}");
     }
 
-    public function hapus_terdata($id_suplemen, $id_terdata)
+    public function hapus_terdata($id_suplemen, $id_terdata): void
     {
         $this->redirect_hak_akses('h');
         $this->suplemen_model->hapus_terdata($id_terdata);
@@ -373,7 +361,7 @@ class Suplemen extends Admin_Controller
         redirect("{$this->controller}/rincian/{$id_suplemen}");
     }
 
-    public function hapus_terdata_all($id_suplemen)
+    public function hapus_terdata_all($id_suplemen): void
     {
         $this->redirect_hak_akses('h');
         $this->suplemen_model->hapus_terdata_all();
@@ -382,7 +370,7 @@ class Suplemen extends Admin_Controller
     }
 
     // $aksi = cetak/unduh
-    public function dialog_daftar($id = 0, $aksi = '')
+    public function dialog_daftar($id = 0, $aksi = ''): void
     {
         $data                = $this->modal_penandatangan();
         $data['aksi']        = $aksi;
@@ -392,12 +380,12 @@ class Suplemen extends Admin_Controller
     }
 
     // $aksi = cetak/unduh
-    public function daftar($id = 0, $aksi = '')
+    public function daftar($id = 0, $aksi = ''): void
     {
         if ($id > 0) {
             $post                    = $this->input->post();
             $temp                    = $this->session->per_page;
-            $this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
+            $this->session->per_page = 1_000_000_000; // Angka besar supaya semua data terunduh
             $data                    = $this->suplemen_model->get_rincian(1, $id) ?? show_404();
             $data['sasaran']         = unserialize(SASARAN);
             $data['config']          = $this->header['desa'];
@@ -415,7 +403,7 @@ class Suplemen extends Admin_Controller
         }
     }
 
-    public function impor()
+    public function impor(): void
     {
         $this->redirect_hak_akses('u');
         $id = $this->input->post('id_suplemen');
@@ -424,7 +412,7 @@ class Suplemen extends Admin_Controller
         redirect("{$this->controller}/rincian/{$id}");
     }
 
-    public function ekspor($id = 0)
+    public function ekspor($id = 0): void
     {
         $temp = $this->session->per_page;
 

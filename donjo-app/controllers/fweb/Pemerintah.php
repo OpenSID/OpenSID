@@ -44,7 +44,7 @@ class Pemerintah extends Web_Controller
         parent::__construct();
     }
 
-    public function index()
+    public function index(): void
     {
         if (! $this->web_menu_model->menu_aktif('pemerintah')) {
             show_404();

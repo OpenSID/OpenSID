@@ -41,8 +41,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dpt extends Admin_Controller
 {
-    private $set_page;
-    private $list_session;
+    private array $set_page     = ['50', '100', '200', [0, 'Semua']];
+    private array $list_session = ['cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umurx', 'umur_min', 'umur_max', 'cacatx', 'menahunx', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'tag_id_card'];
 
     public function __construct()
     {
@@ -50,11 +50,9 @@ class Dpt extends Admin_Controller
         $this->load->model(['penduduk_model', 'dpt_model', 'wilayah_model']);
         $this->modul_ini     = 'kependudukan';
         $this->sub_modul_ini = 'calon-pemilih';
-        $this->set_page      = ['50', '100', '200', [0, 'Semua']];
-        $this->list_session  = ['cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umurx', 'umur_min', 'umur_max', 'cacatx', 'menahunx', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'tag_id_card'];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->per_page = $this->set_page[0];
@@ -62,7 +60,7 @@ class Dpt extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
@@ -83,11 +81,7 @@ class Dpt extends Admin_Controller
                 $data['rw']      = $rw;
                 $data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
-                if (isset($rt)) {
-                    $data['rt'] = $rt;
-                } else {
-                    $data['rt'] = '';
-                }
+                $data['rt'] = $rt ?? '';
             } else {
                 $data['rw'] = '';
             }
@@ -112,7 +106,7 @@ class Dpt extends Admin_Controller
         $this->render('dpt/dpt', $data);
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         if ($filter == 'dusun') {
             $this->session->unset_userdata(['rw', 'rt']);
@@ -131,7 +125,7 @@ class Dpt extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function ajax_adv_search()
+    public function ajax_adv_search(): void
     {
         foreach ($this->list_session as $list) {
             $data[$list] = $this->session->{$list} ?: '';
@@ -150,7 +144,7 @@ class Dpt extends Admin_Controller
         $this->load->view('sid/kependudukan/ajax_adv_search_form', $data);
     }
 
-    public function adv_search_proses()
+    public function adv_search_proses(): void
     {
         $adv_search = $_POST;
         $i          = 0;
@@ -172,7 +166,7 @@ class Dpt extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0)
+    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0): void
     {
         $data['main'] = $this->dpt_model->list_data($o, $page)['main'];
         $data['aksi'] = $aksi;
@@ -182,7 +176,7 @@ class Dpt extends Admin_Controller
         $this->load->view("dpt/dpt_{$aksi}", $data);
     }
 
-    public function ajax_cetak($page = 1, $o = 0, $aksi = '')
+    public function ajax_cetak($page = 1, $o = 0, $aksi = ''): void
     {
         $data['o']                   = $o;
         $data['aksi']                = $aksi;

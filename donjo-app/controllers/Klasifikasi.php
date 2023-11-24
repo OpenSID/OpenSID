@@ -48,7 +48,7 @@ class Klasifikasi extends Admin_Controller
         $this->sub_modul_ini = 'klasifikasi-surat';
     }
 
-    public function clear()
+    public function clear(): void
     {
         $_SESSION['per_page'] = 50;
         unset($_SESSION['cari'], $_SESSION['filter']);
@@ -56,22 +56,14 @@ class Klasifikasi extends Admin_Controller
         redirect('klasifikasi');
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
+        $data['cari'] = $_SESSION['cari'] ?? '';
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
+        $data['filter'] = $_SESSION['filter'] ?? '';
 
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
@@ -85,7 +77,7 @@ class Klasifikasi extends Admin_Controller
         $this->render('klasifikasi/table', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = '')
+    public function form($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data['p'] = $p;
@@ -102,7 +94,7 @@ class Klasifikasi extends Admin_Controller
         $this->render('klasifikasi/form', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -113,7 +105,7 @@ class Klasifikasi extends Admin_Controller
         redirect('klasifikasi');
     }
 
-    public function filter()
+    public function filter(): void
     {
         $filter = $this->input->post('filter');
         if ($filter != '') {
@@ -124,7 +116,7 @@ class Klasifikasi extends Admin_Controller
         redirect('klasifikasi');
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $_SESSION['success'] = 1;
@@ -135,7 +127,7 @@ class Klasifikasi extends Admin_Controller
         redirect('klasifikasi');
     }
 
-    public function update($id = '', $p = 1, $o = 0)
+    public function update($id = '', $p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('u');
         $_SESSION['success'] = 1;
@@ -146,48 +138,48 @@ class Klasifikasi extends Admin_Controller
         redirect("klasifikasi/index/{$p}/{$o}");
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h', "klasifikasi/index/{$p}/{$o}");
         $this->klasifikasi_model->delete($id);
         redirect("klasifikasi/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h', "klasifikasi/index/{$p}/{$o}");
         $this->klasifikasi_model->delete_all();
         redirect("klasifikasi/index/{$p}/{$o}");
     }
 
-    public function lock($p = 1, $o = 0, $id = '')
+    public function lock($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->klasifikasi_model->lock($id, 0);
         redirect("klasifikasi/index/{$p}/{$o}");
     }
 
-    public function unlock($p = 1, $o = 0, $id = '')
+    public function unlock($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->klasifikasi_model->lock($id, 1);
         redirect("klasifikasi/index/{$p}/{$o}");
     }
 
-    public function ekspor()
+    public function ekspor(): void
     {
         download_send_headers('klasifikasi_surat_' . date('Y-m-d') . '.csv');
         echo tulis_csv('klasifikasi_surat');
     }
 
-    public function impor()
+    public function impor(): void
     {
         $this->redirect_hak_akses('u');
         $data['form_action'] = site_url('klasifikasi/proses_impor');
         $this->load->view('klasifikasi/impor', $data);
     }
 
-    public function proses_impor()
+    public function proses_impor(): void
     {
         $this->redirect_hak_akses('u');
         $this->klasifikasi_model->impor($_FILES['klasifikasi']['tmp_name']);

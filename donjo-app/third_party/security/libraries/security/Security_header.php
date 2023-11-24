@@ -49,7 +49,7 @@ class Security_header
         $this->ci->load->config('security/headers', true);
     }
 
-    public function handle()
+    public function handle(): void
     {
         foreach ($this->ci->config->item('security/headers') as $key => $value) {
             if ($key === 'Strict-Transport-Security' && ! is_https()) {

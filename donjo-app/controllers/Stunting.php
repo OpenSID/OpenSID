@@ -48,6 +48,7 @@ use App\Models\Posyandu;
 use App\Models\SasaranPaud;
 use App\Models\UserGrup;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Stunting extends Admin_Controller
@@ -61,7 +62,7 @@ class Stunting extends Admin_Controller
         $this->sub_modul_ini = 'stunting';
     }
 
-    public function index()
+    public function index(): View
     {
         $data             = $this->widget();
         $data['navigasi'] = 'posyandu';
@@ -72,14 +73,14 @@ class Stunting extends Admin_Controller
     public function datatablesPosyandu()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(Posyandu::withConfigId())
+            return datatables()->of((new Posyandu())->withConfigId())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -99,7 +100,7 @@ class Stunting extends Admin_Controller
         return show_404();
     }
 
-    public function formPosyandu($id = null)
+    public function formPosyandu($id = null): View
     {
         $this->redirect_hak_akses('u');
 
@@ -119,7 +120,7 @@ class Stunting extends Admin_Controller
         return view('admin.stunting.posyandu_form', $data);
     }
 
-    public function insertPosyandu()
+    public function insertPosyandu(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -130,7 +131,7 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data', 'stunting');
     }
 
-    public function updatePosyandu($id = null)
+    public function updatePosyandu($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -143,7 +144,7 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'stunting');
     }
 
-    public function deletePosyandu($id = null)
+    public function deletePosyandu($id = null): void
     {
         $this->redirect_hak_akses('h');
 
@@ -170,7 +171,7 @@ class Stunting extends Admin_Controller
     // Akhir Posyandu
 
     // Awal KIA
-    public function kia()
+    public function kia(): View
     {
         $data             = $this->widget();
         $data['navigasi'] = 'kia';
@@ -188,10 +189,8 @@ class Stunting extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->editColumn('hari_perkiraan_lahir', static function ($row) {
-                    return tgl_indo($row->hari_perkiraan_lahir);
-                })
-                ->addColumn('aksi', static function ($row) {
+                ->editColumn('hari_perkiraan_lahir', static fn ($row) => tgl_indo($row->hari_perkiraan_lahir))
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -211,13 +210,13 @@ class Stunting extends Admin_Controller
         return show_404();
     }
 
-    public function formKia($id = null)
+    public function formKia($id = null): View
     {
         $this->redirect_hak_akses('u');
 
         $data             = $this->widget();
         $data['navigasi'] = 'kia';
-        $data['ibu']      = Penduduk::where(static function ($query) {
+        $data['ibu']      = Penduduk::where(static function ($query): void {
             $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
                 ->orWhere('kk_level', StatusHubunganEnum::ISTRI)
                 ->orWhere('kk_level', StatusHubunganEnum::ANAK)
@@ -254,11 +253,11 @@ class Stunting extends Admin_Controller
             $cari = $this->input->get('q');
 
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
-                ->when($cari, static function ($query) use ($cari) {
+                ->when($cari, static function ($query) use ($cari): void {
                     $query->orWhere('nik', 'like', "%{$cari}%")
                         ->orWhere('nama', 'like', "%{$cari}%");
                 })
-                ->where(static function ($query) {
+                ->where(static function ($query): void {
                     $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
                         ->orWhere('kk_level', StatusHubunganEnum::ISTRI)
                         ->orWhere('kk_level', StatusHubunganEnum::ANAK)
@@ -269,12 +268,10 @@ class Stunting extends Admin_Controller
 
             return json([
                 'results' => collect($penduduk->items())
-                    ->map(static function ($item) {
-                        return [
-                            'id'   => $item->id,
-                            'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
-                        ];
-                    }),
+                    ->map(static fn ($item): array => [
+                        'id'   => $item->id,
+                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
+                    ]),
                 'pagination' => [
                     'more' => $penduduk->currentPage() < $penduduk->lastPage(),
                 ],
@@ -309,7 +306,7 @@ class Stunting extends Admin_Controller
         }
     }
 
-    public function insertKia()
+    public function insertKia(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -320,7 +317,7 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data', 'stunting/kia');
     }
 
-    public function updateKia($id = null)
+    public function updateKia($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -333,7 +330,7 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'stunting/kia');
     }
 
-    public function deleteKia($id = null)
+    public function deleteKia($id = null): void
     {
         $this->redirect_hak_akses('h');
 
@@ -358,11 +355,7 @@ class Stunting extends Admin_Controller
             redirect_with('error', 'Tidak dapat memasukkan no kia yang sama', 'stunting/kia');
         }
 
-        if (! empty($request['perkiraan_lahir'])) {
-            $status = 1;
-        } else {
-            $status = 2;
-        }
+        $status = empty($request['perkiraan_lahir']) ? 2 : 1;
 
         Penduduk::where('id', $request['id_ibu'])->update(['hamil' => $status]);
 
@@ -376,7 +369,7 @@ class Stunting extends Admin_Controller
     // Akhir KIA
 
     // Mulai Pemantauan
-    public function pemantauan_ibu_hamil()
+    public function pemantauan_ibu_hamil(): View
     {
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-bulanan-ibu-hamil';
@@ -403,16 +396,10 @@ class Stunting extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->editColumn('kia.hari_perkiraan_lahir', static function ($row) {
-                    return tgl_indo($row->kia->hari_perkiraan_lahir);
-                })
-                ->editColumn('tanggal_melahirkan', static function ($row) {
-                    return tgl_indo($row->tanggal_melahirkan);
-                })
-                ->editColumn('tanggal_periksa', static function ($row) {
-                    return tgl_indo($row->tanggal_periksa);
-                })
-                ->addColumn('aksi', static function ($row) {
+                ->editColumn('kia.hari_perkiraan_lahir', static fn ($row) => tgl_indo($row->kia->hari_perkiraan_lahir))
+                ->editColumn('tanggal_melahirkan', static fn ($row) => tgl_indo($row->tanggal_melahirkan))
+                ->editColumn('tanggal_periksa', static fn ($row) => tgl_indo($row->tanggal_periksa))
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -432,7 +419,7 @@ class Stunting extends Admin_Controller
         return show_404();
     }
 
-    public function formIbuHamil($id = null)
+    public function formIbuHamil($id = null): View
     {
         $this->redirect_hak_akses('u');
 
@@ -462,7 +449,7 @@ class Stunting extends Admin_Controller
         return view('admin.stunting.pemantauan_ibu_hamil_form', $data);
     }
 
-    public function insertIbuHamil()
+    public function insertIbuHamil(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -482,7 +469,7 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data', 'stunting/pemantauan_ibu_hamil');
     }
 
-    public function updateIbuHamil($id = null)
+    public function updateIbuHamil($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -495,7 +482,7 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'stunting/pemantauan_ibu_hamil');
     }
 
-    public function deleteIbuHamil($id = null)
+    public function deleteIbuHamil($id = null): void
     {
         $this->redirect_hak_akses('h');
 
@@ -527,7 +514,7 @@ class Stunting extends Admin_Controller
         ];
     }
 
-    public function eksporIbuHamil()
+    public function eksporIbuHamil(): void
     {
         $filters = [
             'bulan'    => $this->input->get('bulan'),
@@ -580,7 +567,7 @@ class Stunting extends Admin_Controller
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public function pemantauan_anak()
+    public function pemantauan_anak(): View
     {
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-bulanan-anak';
@@ -607,19 +594,11 @@ class Stunting extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->editColumn('kia.anak.tanggallahir', static function ($row) {
-                    return tgl_indo($row->kia->anak->tanggallahir);
-                })
-                ->editColumn('berat_badan', static function ($row) {
-                    return $row->berat_badan . ' kg';
-                })
-                ->editColumn('tinggi_badan', static function ($row) {
-                    return $row->tinggi_badan . ' cm';
-                })
-                ->editColumn('tanggal_periksa', static function ($row) {
-                    return tgl_indo($row->tanggal_periksa);
-                })
-                ->addColumn('aksi', static function ($row) {
+                ->editColumn('kia.anak.tanggallahir', static fn ($row) => tgl_indo($row->kia->anak->tanggallahir))
+                ->editColumn('berat_badan', static fn ($row): string => $row->berat_badan . ' kg')
+                ->editColumn('tinggi_badan', static fn ($row): string => $row->tinggi_badan . ' cm')
+                ->editColumn('tanggal_periksa', static fn ($row) => tgl_indo($row->tanggal_periksa))
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -639,14 +618,14 @@ class Stunting extends Admin_Controller
         return show_404();
     }
 
-    public function formAnak($id = null)
+    public function formAnak($id = null): View
     {
         $this->redirect_hak_akses('u');
 
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-bulanan-anak';
         $data['kia']      = KIA::with('anak')->where('anak_id', '!=', null)
-            ->WhereHas('anak', static function ($query) {
+            ->WhereHas('anak', static function ($query): void {
                 $query->where('tanggallahir', '>', Carbon::now()->subMonths(24));
             })
             ->get();
@@ -681,7 +660,7 @@ class Stunting extends Admin_Controller
         return view('admin.stunting.pemantauan_anak_form', $data);
     }
 
-    public function insertAnak()
+    public function insertAnak(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -701,7 +680,7 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data', 'stunting/pemantauan_anak');
     }
 
-    public function updateAnak($id = null)
+    public function updateAnak($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -714,7 +693,7 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'stunting/pemantauan_anak');
     }
 
-    public function deleteAnak($id = null)
+    public function deleteAnak($id = null): void
     {
         $this->redirect_hak_akses('h');
 
@@ -751,7 +730,7 @@ class Stunting extends Admin_Controller
         ];
     }
 
-    public function eksporAnak()
+    public function eksporAnak(): void
     {
         $filters = [
             'bulan'    => $this->input->get('bulan'),
@@ -825,7 +804,7 @@ class Stunting extends Admin_Controller
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
-    public function pemantauan_paud()
+    public function pemantauan_paud(): View
     {
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-sasaran-paud';
@@ -850,13 +829,9 @@ class Stunting extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->editColumn('kia.anak.tanggallahir', static function ($row) {
-                    return tgl_indo($row->kia->anak->tanggallahir);
-                })
-                ->editColumn('tanggal_periksa', static function ($row) {
-                    return tgl_indo($row->tanggal_periksa);
-                })
-                ->addColumn('aksi', static function ($row) {
+                ->editColumn('kia.anak.tanggallahir', static fn ($row) => tgl_indo($row->kia->anak->tanggallahir))
+                ->editColumn('tanggal_periksa', static fn ($row) => tgl_indo($row->tanggal_periksa))
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -876,14 +851,14 @@ class Stunting extends Admin_Controller
         return show_404();
     }
 
-    public function formPaud($id = null)
+    public function formPaud($id = null): View
     {
         $this->redirect_hak_akses('u');
 
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-sasaran-paud';
         $data['kia']      = KIA::with('anak')->where('anak_id', '!=', null)
-            ->WhereHas('anak', static function ($query) {
+            ->WhereHas('anak', static function ($query): void {
                 $query->where('tanggallahir', '<=', Carbon::now()->subMonths(24));
             })
             ->get();
@@ -902,7 +877,7 @@ class Stunting extends Admin_Controller
         return view('admin.stunting.pemantauan_paud_form', $data);
     }
 
-    public function insertPaud()
+    public function insertPaud(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -922,7 +897,7 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data', 'stunting/pemantauan_paud');
     }
 
-    public function updatePaud($id = null)
+    public function updatePaud($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -935,7 +910,7 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'stunting/pemantauan_paud');
     }
 
-    public function deletePaud($id = null)
+    public function deletePaud($id = null): void
     {
         $this->redirect_hak_akses('h');
 
@@ -968,7 +943,7 @@ class Stunting extends Admin_Controller
         ];
     }
 
-    public function eksporPaud()
+    public function eksporPaud(): void
     {
         $filters = [
             'tahun'    => $this->input->get('tahun'),
@@ -1025,7 +1000,7 @@ class Stunting extends Admin_Controller
     }
 
     ////////////////////////////////////
-    public function rekapitulasi_ibu_hamil($kuartal = null, $tahun = null, $id = null)
+    public function rekapitulasi_ibu_hamil($kuartal = null, $tahun = null, $id = null): View
     {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = null;
@@ -1062,7 +1037,7 @@ class Stunting extends Admin_Controller
         return view('admin.stunting.rekapitulasi-ibu-hamil', $data);
     }
 
-    public function rekapitulasi_bulanan_anak($kuartal = null, $tahun = null, $id = null)
+    public function rekapitulasi_bulanan_anak($kuartal = null, $tahun = null, $id = null): View
     {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = null;
@@ -1100,7 +1075,7 @@ class Stunting extends Admin_Controller
     }
 
     ///////////////////////////////////
-    public function scorecard_konvergensi($kuartal = null, $tahun = null, $id = null)
+    public function scorecard_konvergensi($kuartal = null, $tahun = null, $id = null): View
     {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = null;
@@ -1108,7 +1083,6 @@ class Stunting extends Admin_Controller
 
         if ($kuartal == null) {
             $bulanSekarang = date('m');
-
             if ($bulanSekarang <= 3) {
                 $_kuartal = 1;
             } elseif ($bulanSekarang <= 6) {
@@ -1118,22 +1092,20 @@ class Stunting extends Admin_Controller
             } elseif ($bulanSekarang <= 12) {
                 $_kuartal = 4;
             }
+        } elseif ($kuartal == 1) {
+            $batasBulanBawah = 1;
+            $batasBulanAtas  = 3;
+        } elseif ($kuartal == 2) {
+            $batasBulanBawah = 4;
+            $batasBulanAtas  = 6;
+        } elseif ($kuartal == 3) {
+            $batasBulanBawah = 7;
+            $batasBulanAtas  = 9;
+        } elseif ($kuartal == 4) {
+            $batasBulanBawah = 10;
+            $batasBulanAtas  = 12;
         } else {
-            if ($kuartal == 1) {
-                $batasBulanBawah = 1;
-                $batasBulanAtas  = 3;
-            } elseif ($kuartal == 2) {
-                $batasBulanBawah = 4;
-                $batasBulanAtas  = 6;
-            } elseif ($kuartal == 3) {
-                $batasBulanBawah = 7;
-                $batasBulanAtas  = 9;
-            } elseif ($kuartal == 4) {
-                $batasBulanBawah = 10;
-                $batasBulanAtas  = 12;
-            } else {
-                exit('Terjadi Kesalahan di kuartal!');
-            }
+            exit('Terjadi Kesalahan di kuartal!');
         }
 
         if ($kuartal == null || $tahun == null) {
@@ -1242,31 +1214,79 @@ class Stunting extends Admin_Controller
         $anak2sd6->whereYear('sasaran_paud.created_at', $tahun)->get();
 
         foreach ($anak2sd6 as $datax) {
-            $datax->januari != 'belum' ? $totalAnak['januari']['total']++ : $totalAnak['januari']['total'];
-            $datax->februari != 'belum' ? $totalAnak['februari']['total']++ : $totalAnak['februari']['total'];
-            $datax->maret != 'belum' ? $totalAnak['maret']['total']++ : $totalAnak['maret']['total'];
-            $datax->april != 'belum' ? $totalAnak['april']['total']++ : $totalAnak['april']['total'];
-            $datax->mei != 'belum' ? $totalAnak['mei']['total']++ : $totalAnak['mei']['total'];
-            $datax->juni != 'belum' ? $totalAnak['juni']['total']++ : $totalAnak['juni']['total'];
-            $datax->juli != 'belum' ? $totalAnak['juni']['total']++ : $totalAnak['juni']['total'];
-            $datax->agustus != 'belum' ? $totalAnak['agustus']['total']++ : $totalAnak['agustus']['total'];
-            $datax->september != 'belum' ? $totalAnak['juni']['total']++ : $totalAnak['juni']['total'];
-            $datax->oktober != 'belum' ? $totalAnak['oktober']['total']++ : $totalAnak['oktober']['total'];
-            $datax->november != 'belum' ? $totalAnak['november']['total']++ : $totalAnak['november']['total'];
-            $datax->desember != 'belum' ? $totalAnak['desember']['total']++ : $totalAnak['desember']['total'];
+            if ($datax->januari != 'belum') {
+                $totalAnak['januari']['total']++;
+            }
+            if ($datax->februari != 'belum') {
+                $totalAnak['februari']['total']++;
+            }
+            if ($datax->maret != 'belum') {
+                $totalAnak['maret']['total']++;
+            }
+            if ($datax->april != 'belum') {
+                $totalAnak['april']['total']++;
+            }
+            if ($datax->mei != 'belum') {
+                $totalAnak['mei']['total']++;
+            }
+            if ($datax->juni != 'belum') {
+                $totalAnak['juni']['total']++;
+            }
+            if ($datax->juli != 'belum') {
+                $totalAnak['juni']['total']++;
+            }
+            if ($datax->agustus != 'belum') {
+                $totalAnak['agustus']['total']++;
+            }
+            if ($datax->september != 'belum') {
+                $totalAnak['juni']['total']++;
+            }
+            if ($datax->oktober != 'belum') {
+                $totalAnak['oktober']['total']++;
+            }
+            if ($datax->november != 'belum') {
+                $totalAnak['november']['total']++;
+            }
+            if ($datax->desember != 'belum') {
+                $totalAnak['desember']['total']++;
+            }
 
-            $datax->januari == 'v' ? $totalAnak['januari']['v']++ : $totalAnak['januari']['v'];
-            $datax->februari == 'v' ? $totalAnak['februari']['v']++ : $totalAnak['februari']['v'];
-            $datax->maret == 'v' ? $totalAnak['maret']['v']++ : $totalAnak['maret']['v'];
-            $datax->april == 'v' ? $totalAnak['april']['v']++ : $totalAnak['april']['v'];
-            $datax->mei == 'v' ? $totalAnak['mei']['v']++ : $totalAnak['mei']['v'];
-            $datax->juni == 'v' ? $totalAnak['juni']['v']++ : $totalAnak['juni']['v'];
-            $datax->juli == 'v' ? $totalAnak['juni']['v']++ : $totalAnak['juni']['v'];
-            $datax->agustus == 'v' ? $totalAnak['agustus']['v']++ : $totalAnak['agustus']['v'];
-            $datax->september == 'v' ? $totalAnak['juni']['v']++ : $totalAnak['juni']['v'];
-            $datax->oktober == 'v' ? $totalAnak['oktober']['v']++ : $totalAnak['oktober']['v'];
-            $datax->november == 'v' ? $totalAnak['november']['v']++ : $totalAnak['november']['v'];
-            $datax->desember == 'v' ? $totalAnak['desember']['v']++ : $totalAnak['desember']['v'];
+            if ($datax->januari == 'v') {
+                $totalAnak['januari']['v']++;
+            }
+            if ($datax->februari == 'v') {
+                $totalAnak['februari']['v']++;
+            }
+            if ($datax->maret == 'v') {
+                $totalAnak['maret']['v']++;
+            }
+            if ($datax->april == 'v') {
+                $totalAnak['april']['v']++;
+            }
+            if ($datax->mei == 'v') {
+                $totalAnak['mei']['v']++;
+            }
+            if ($datax->juni == 'v') {
+                $totalAnak['juni']['v']++;
+            }
+            if ($datax->juli == 'v') {
+                $totalAnak['juni']['v']++;
+            }
+            if ($datax->agustus == 'v') {
+                $totalAnak['agustus']['v']++;
+            }
+            if ($datax->september == 'v') {
+                $totalAnak['juni']['v']++;
+            }
+            if ($datax->oktober == 'v') {
+                $totalAnak['oktober']['v']++;
+            }
+            if ($datax->november == 'v') {
+                $totalAnak['november']['v']++;
+            }
+            if ($datax->desember == 'v') {
+                $totalAnak['desember']['v']++;
+            }
         }
 
         $dataAnak0sd2Tahun = ['jumlah' => 0, 'persen' => 0];
@@ -1277,14 +1297,14 @@ class Stunting extends Admin_Controller
             $jmlAnk = $totalAnak['april']['total'] + $totalAnak['mei']['total'] + $totalAnak['juni']['total'];
             $jmlV   = $totalAnak['april']['v'] + $totalAnak['mei']['v'] + $totalAnak['juni']['v'];
         } elseif ($kuartal == 3) {
-            $jmlAnk = $totalAnak['juli']['total'] + $totalAnak['agustus']['total'] + $totalAnak['september']['total'];
-            $jmlV   = $totalAnak['juli']['v'] + $totalAnak['agustus']['v'] + $totalAnak['september']['v'];
+            $jmlAnk = $totalAnak['agustus']['total'];
+            $jmlV   = $totalAnak['agustus']['v'];
         } elseif ($kuartal == 4) {
             $jmlAnk = $totalAnak['oktober']['total'] + $totalAnak['november']['total'] + $totalAnak['desember']['total'];
             $jmlV   = $totalAnak['oktober']['v'] + $totalAnak['november']['v'] + $totalAnak['desember']['v'];
         }
         $dataAnak0sd2Tahun['jumlah'] = $jmlV;
-        $dataAnak0sd2Tahun['persen'] = $jmlAnk != 0 ? number_format($jmlV / $jmlAnk * 100, 2) : 0;
+        $dataAnak0sd2Tahun['persen'] = $jmlAnk !== 0 ? number_format($jmlV / $jmlAnk * 100, 2) : 0;
 
         //END ANAK PAUD------------------------------------------------------------
 

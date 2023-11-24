@@ -93,7 +93,7 @@ class Migrasi_fitur_premium_2102 extends MY_model
         return $hasil;
     }
 
-    private function pengaturan_latar($hasil)
+    private function pengaturan_latar(bool $hasil)
     {
         $old = 'desa/css';
         $new = 'desa/pengaturan';
@@ -176,7 +176,30 @@ class Migrasi_fitur_premium_2102 extends MY_model
             'parent'     => 0,
         ]);
 
-        $hasil = $hasil && $this->tambah_modul([
+        //tambah kolom Foto utama di tabel pembangunan
+        if (! $this->db->field_exists('foto', 'pembangunan')) {
+            return $this->dbforge->add_column('pembangunan', [
+                'foto' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 255,
+                    'null'       => true,
+                ],
+            ]);
+        }
+
+        //tambah kolom Anggaran di tabel pembangunan
+        if (! $this->db->field_exists('anggaran', 'pembangunan')) {
+            return $this->dbforge->add_column('pembangunan', [
+                'anggaran' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                    'default'    => '0',
+                ],
+            ]);
+        }
+
+        return $hasil && $this->tambah_modul([
             'id'         => 221,
             'modul'      => 'Pembangunan Dokumentasi',
             'url'        => 'pembangunan_dokumentasi',
@@ -188,35 +211,10 @@ class Migrasi_fitur_premium_2102 extends MY_model
             'ikon_kecil' => '',
             'parent'     => 220,
         ]);
-
-        //tambah kolom Foto utama di tabel pembangunan
-        if (! $this->db->field_exists('foto', 'pembangunan')) {
-            $hasil = $this->dbforge->add_column('pembangunan', [
-                'foto' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 255,
-                    'null'       => true,
-                ],
-            ]);
-        }
-
-        //tambah kolom Anggaran di tabel pembangunan
-        if (! $this->db->field_exists('anggaran', 'pembangunan')) {
-            $hasil = $this->dbforge->add_column('pembangunan', [
-                'anggaran' => [
-                    'type'       => 'INT',
-                    'constraint' => 11,
-                    'null'       => false,
-                    'default'    => '0',
-                ],
-            ]);
-        }
-
-        return $hasil;
     }
 
     // Tambah Sebutan jabatan kepala desa
-    private function sebutan_kepala_desa($hasil)
+    private function sebutan_kepala_desa(bool $hasil)
     {
         $setting = [
             'key'        => 'sebutan_kepala_desa',
@@ -227,11 +225,11 @@ class Migrasi_fitur_premium_2102 extends MY_model
         return $hasil && $this->tambah_setting($setting);
     }
 
-    private function urut_cetak($hasil)
+    private function urut_cetak(bool $hasil)
     {
         //tambah kolom urut untuk tabel cetak semua di tabel tweb_wil_clusterdesa
         if (! $this->db->field_exists('urut_cetak', 'tweb_wil_clusterdesa')) {
-            $hasil = $hasil && $this->dbforge->add_column('tweb_wil_clusterdesa', [
+            return $hasil && $this->dbforge->add_column('tweb_wil_clusterdesa', [
                 'urut_cetak' => [
                     'type'       => 'INT',
                     'constraint' => 11,

@@ -61,7 +61,7 @@ class Bip_ektp_model extends Impor_model
      *
      * @return int baris pertama blok keluarga
      */
-    private function cari_bip_kk($data_sheet, $baris, $dari = 1)
+    private function cari_bip_kk($data_sheet, $baris, int $dari = 1)
     {
         if ($baris <= 1) {
             return 0;
@@ -83,21 +83,17 @@ class Bip_ektp_model extends Impor_model
     private function baris_awal_kk($data_sheet, $baris)
     {
         // Baris dengan kolom[1] berisi No KK dan kolom[2] kosong menunjukkan mulainya data keluarga dan anggotanya
-        return (bool) (strlen(preg_replace('/[^0-9]/', '', $data_sheet[$baris][1])) == 16
-                && trim($data_sheet[$baris][2]) == '');
+        return strlen(preg_replace('/[^0-9]/', '', $data_sheet[$baris][1])) == 16
+                && trim($data_sheet[$baris][2]) == '';
     }
 
-    private function ambil_kolom($str, $awalan, $akhiran = '')
+    private function ambil_kolom($str, string $awalan, string $akhiran = '')
     {
         $kolom    = '';
         $pos_awal = strpos($str, $awalan);
         if ($pos_awal !== false) {
-            $pos = $pos_awal + strlen($awalan);
-            if (empty($akhiran)) {
-                $kolom = trim(substr($str, $pos));
-            } else {
-                $kolom = trim(substr($str, $pos, strpos($str, $akhiran, $pos) - $pos));
-            }
+            $pos   = $pos_awal + strlen($awalan);
+            $kolom = $akhiran === '' ? trim(substr($str, $pos)) : trim(substr($str, $pos, strpos($str, $akhiran, $pos) - $pos));
         }
 
         return $kolom;
@@ -119,7 +115,7 @@ class Bip_ektp_model extends Impor_model
      *
      * @return array data keluarga
      */
-    private function get_bip_keluarga($data_sheet, $i)
+    private function get_bip_keluarga($data_sheet, int $i)
     {
         /* $i = baris berisi data keluarga.
          * Contoh:
@@ -141,14 +137,9 @@ class Bip_ektp_model extends Impor_model
             [$data_keluarga['rt'], $data_keluarga['rw']] = explode('/', $rtrw);
         }
 
-        $dusun = $this->ambil_kolom($alamat, 'DUSUN :');
-        $dusun = trim(str_replace('-', '', $dusun));
-        if (! empty($dusun)) {
-            $data_keluarga['dusun'] = $dusun;
-        } else {
-            // Kalau dusun kosong dianggap sama dengan nama desa
-            $data_keluarga['dusun'] = $this->desa;
-        }
+        $dusun                  = $this->ambil_kolom($alamat, 'DUSUN :');
+        $dusun                  = trim(str_replace('-', '', $dusun));
+        $data_keluarga['dusun'] = $dusun === '' ? $this->desa : $dusun;
 
         return $data_keluarga;
     }
@@ -165,7 +156,7 @@ class Bip_ektp_model extends Impor_model
      *
      * @return array data anggota keluarga
      */
-    private function get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga)
+    private function get_bip_anggota_keluarga($data_sheet, int $i, $data_keluarga)
     {
         /* $i = baris data anggota keluarga
          * Contoh:
@@ -190,7 +181,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
         $data_anggota['sex']               = $this->get_kode($this->kode_sex, trim($data_sheet[$i][6]));
         $data_anggota['status_kawin']      = $this->get_kode($this->kode_status, strtolower(trim($data_sheet[$i][7])));
         $data_anggota['golongan_darah_id'] = $this->get_kode($this->kode_golongan_darah, strtolower(trim($data_sheet[$i][8])));
-        if (empty($data_anggota['golongan_darah_id']) || $data_anggota['golongan_darah_id'] == '-') {
+        if (empty($data_anggota['golongan_darah_id']) || $data_anggota['golongan_darah_id'] == 0) {
             $data_anggota['golongan_darah_id'] = 13;
         }
         $data_anggota['kk_level']         = $this->get_kode($this->kode_hubungan, strtolower(trim($data_sheet[$i][9])));
@@ -222,7 +213,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
         return $data_anggota;
     }
 
-    private function get_status_rekam($data_sheet, $i)
+    private function get_status_rekam($data_sheet, int $i)
     {
         // Kolom status_rekam bisa ada karakter baris baru
         $status_rekam      = preg_replace('/[^a-zA-Z, ]/', ' ', strtolower(trim($data_sheet[$i][19])));
@@ -260,10 +251,13 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
         $baris_gagal    = '';
         $total_keluarga = 0;
         $total_penduduk = 0;
+        // BIP bisa terdiri dari beberapa worksheet
+        // Proses sheet satu-per-satu
+        $counter = count($data->boundsheets);
 
         // BIP bisa terdiri dari beberapa worksheet
         // Proses sheet satu-per-satu
-        for ($sheet_index = 0; $sheet_index < count($data->boundsheets); $sheet_index++) {
+        for ($sheet_index = 0; $sheet_index < $counter; $sheet_index++) {
             // membaca jumlah baris di sheet ini
             $baris      = $data->rowcount($sheet_index);
             $data_sheet = $data->sheets[$sheet_index]['cells'];
@@ -271,6 +265,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
                 // Tidak ada data keluarga
                 continue;
             }
+
             // Import data sheet ini mulai baris pertama
             for ($i = 1; $i <= $baris; $i++) {
                 // Cari keluarga berikutnya
@@ -283,7 +278,8 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
                 $this->tulis_tweb_keluarga($data_keluarga);
                 $total_keluarga++;
                 // Pergi ke data anggota keluarga
-                $i = $i + 1;
+                $i++;
+
                 // Proses setiap anggota keluarga
                 while (trim($data_sheet[$i][1]) > 0 && trim($data_sheet[$i][2]) != '' && $i <= $baris) {
                     $data_anggota   = $this->get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga);
@@ -297,7 +293,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
                     }
                     $i++;
                 }
-                $i = $i - 1;
+                $i--;
             }
         }
 

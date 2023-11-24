@@ -65,9 +65,8 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $hasil = $hasil && $this->migrasi_2022122852($hasil);
         $hasil = $hasil && $this->migrasi_2022123052($hasil);
         $hasil = $hasil && $this->migrasi_2022123053($hasil);
-        $hasil = $hasil && $this->migrasi_2022123171($hasil);
 
-        return $hasil && true;
+        return $hasil && $this->migrasi_2022123171($hasil);
     }
 
     protected function migrasi_2022120651($hasil)
@@ -121,10 +120,12 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $semua_foto = Area::pluck('foto')->toArray();
 
         foreach (get_filenames(LOKASI_FOTO_AREA, false, false) as $file) {
-            if ($file == 'index.html' || in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
+            if ($file == 'index.html') {
                 continue;
             }
-
+            if (in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
+                continue;
+            }
             unlink(LOKASI_FOTO_AREA . $file);
         }
 
@@ -136,10 +137,12 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $semua_foto = Garis::pluck('foto')->toArray();
 
         foreach (get_filenames(LOKASI_FOTO_GARIS, false, false) as $file) {
-            if ($file == 'index.html' || in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
+            if ($file == 'index.html') {
                 continue;
             }
-
+            if (in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
+                continue;
+            }
             unlink(LOKASI_FOTO_GARIS . $file);
         }
 
@@ -165,10 +168,12 @@ class Migrasi_fitur_premium_2301 extends MY_model
         $semua_foto = Lokasi::pluck('foto')->toArray();
 
         foreach (get_filenames(LOKASI_FOTO_LOKASI, false, false) as $file) {
-            if ($file == 'index.html' || in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
+            if ($file == 'index.html') {
                 continue;
             }
-
+            if (in_array(str_replace(['kecil_', 'sedang_'], '', $file), $semua_foto)) {
+                continue;
+            }
             unlink(LOKASI_FOTO_LOKASI . $file);
         }
 
@@ -431,7 +436,7 @@ class Migrasi_fitur_premium_2301 extends MY_model
     protected function migrasi_2022122851($hasil)
     {
         if ($this->db->where('nama', 'Keputusan Kades')->get('ref_dokumen')->row()) {
-            $hasil = $hasil && $this->db
+            return $hasil && $this->db
                 ->where('nama', 'Keputusan Kades')
                 ->set('nama', 'Keputusan Kepala Desa')
                 ->update('ref_dokumen');

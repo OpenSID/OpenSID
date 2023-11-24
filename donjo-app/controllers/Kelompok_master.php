@@ -36,6 +36,7 @@
  */
 
 use App\Models\KelompokMaster;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,12 +52,12 @@ class Kelompok_master extends Admin_Controller
         $this->sub_modul_ini = 'kelompok';
     }
 
-    public function clear()
+    public function clear(): void
     {
         redirect($this->controller);
     }
 
-    public function index()
+    public function index(): View
     {
         if ($this->input->is_ajax_request()) {
             $controller = $this->controller;
@@ -85,7 +86,7 @@ class Kelompok_master extends Admin_Controller
         return view('admin.kelompok_master.index');
     }
 
-    public function form($id = 0)
+    public function form($id = 0): View
     {
         $this->redirect_hak_akses('u');
         if ($id) {
@@ -101,7 +102,7 @@ class Kelompok_master extends Admin_Controller
         return view('admin.kelompok_master.form', $data);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -110,7 +111,7 @@ class Kelompok_master extends Admin_Controller
         redirect_with('success', 'Berhasil menambah data');
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $this->redirect_hak_akses('u');
 
@@ -119,7 +120,7 @@ class Kelompok_master extends Admin_Controller
         redirect_with('success', 'Berhasil mengubah data');
     }
 
-    public function delete($id = 0)
+    public function delete($id = 0): void
     {
         $this->redirect_hak_akses('h');
 
@@ -128,7 +129,7 @@ class Kelompok_master extends Admin_Controller
         redirect_with('success', 'Berhasil Hapus Data');
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->redirect_hak_akses('h');
 

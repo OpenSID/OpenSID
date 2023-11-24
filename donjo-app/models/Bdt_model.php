@@ -41,25 +41,21 @@ class Bdt_model extends CI_Model
 {
     private $jml_baris;
     private $baris_pertama;
-    private $kolom;
+    private array $kolom = [
+        'id_rtm'               => 2,
+        'nama'                 => 80,
+        'nik'                  => 81,
+        'rtm_level'            => 82,
+        'awal_respon_rt'       => 14,
+        'awal_respon_penduduk' => 82,
+    ];
     private $kolom_subjek;
     private $kolom_indikator_pertama;
-    private $abaikan;
-    private $list_subjek;
     private $list_id_subjek;
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->kolom = [
-            'id_rtm'               => 2,
-            'nama'                 => 80,
-            'nik'                  => 81,
-            'rtm_level'            => 82,
-            'awal_respon_rt'       => 14,
-            'awal_respon_penduduk' => 82,
-        ];
         $this->load->model('analisis_master_model');
     }
 
@@ -92,7 +88,7 @@ class Bdt_model extends CI_Model
      *
      * Abaikan subjek di data BDT yang tidak ada di database
     */
-    public function impor()
+    public function impor(): void
     {
         $_SESSION['error_msg'] = '';
         $_SESSION['success']   = 1;
@@ -129,7 +125,7 @@ class Bdt_model extends CI_Model
         $this->impor_respon($data_sheet);
     }
 
-    private function impor_respon($data_sheet)
+    private function impor_respon($data_sheet): void
     {
         $gagal        = 0;
         $ada          = 0;
@@ -169,11 +165,7 @@ class Bdt_model extends CI_Model
         // echo '<br><br>';
         // echo var_dump($respon);
 
-        if (! empty($respon)) {
-            $outp = $this->db->insert_batch('analisis_respon', $respon);
-        } else {
-            $outp = false;
-        }
+        $outp = empty($respon) ? false : $this->db->insert_batch('analisis_respon', $respon);
         $this->analisis_respon_model->pre_update();
 
         if (! $outp) {
@@ -187,7 +179,7 @@ class Bdt_model extends CI_Model
     }
 
     // Hapus semua respon untuk semua subjek pada periode aktif
-    private function hapus_respon($list_id_subjek)
+    private function hapus_respon($list_id_subjek): void
     {
         if (empty($list_id_subjek)) {
             return;
@@ -196,7 +188,7 @@ class Bdt_model extends CI_Model
         $per    = $this->analisis_master_model->get_aktif_periode();
         $prefix = $list_id_subjek_str = '';
 
-        foreach ($list_id_subjek as $subjek => $id) {
+        foreach ($list_id_subjek as $id) {
             $list_id_subjek_str .= $prefix . "'" . $id . "'";
             $prefix = ', ';
         }
@@ -209,17 +201,21 @@ class Bdt_model extends CI_Model
             ->delete('analisis_respon');
     }
 
-    private function cari_baris_pertama($data, $jml_baris)
+    private function cari_baris_pertama(Spreadsheet_Excel_Reader $data, $jml_baris)
     {
         if ($jml_baris <= 1) {
             return 0;
         }
 
         $ada_baris = false;
+
         // Baris pertama baris judul kolom
         for ($i = 2; $i <= $jml_baris; $i++) {
             // Baris kedua yang mungkin ditambahkan untuk memudahkan penomoran kolom
-            if ($data->val($i, 1) == 'KOLOM' || empty($data->val($i, 1))) {
+            if ($data->val($i, 1) == 'KOLOM') {
+                continue;
+            }
+            if (empty($data->val($i, 1))) {
                 continue;
             }
             $ada_baris     = true;
@@ -280,7 +276,7 @@ class Bdt_model extends CI_Model
         return $penduduk;
     }
 
-    private function siapkan_respon($indikator, $per, $baris, &$respon)
+    private function siapkan_respon($indikator, $per, $baris, &$respon): void
     {
         foreach ($indikator as $key => $indi) {
             $isi = $baris[$this->kolom_indikator_pertama + $key];
@@ -298,6 +294,7 @@ class Bdt_model extends CI_Model
                     $list_parameter = $this->parameter_isian($indi['id'], $isi);
                     break;
             }
+
             // Himpun respon untuk semua indikator untuk semua baris
             foreach ($list_parameter as $parameter) {
                 if (! empty($parameter)) {
@@ -321,12 +318,10 @@ class Bdt_model extends CI_Model
             ->row_array();
         if ($param) {
             $in_param = $param['id'];
+        } elseif ($isi == '') {
+            $in_param = 0;
         } else {
-            if ($isi == '') {
-                $in_param = 0;
-            } else {
-                $in_param = -1;
-            }
+            $in_param = -1;
         }
 
         return [$in_param];

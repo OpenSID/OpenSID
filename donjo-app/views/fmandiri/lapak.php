@@ -66,7 +66,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<?php if ($produk) : ?>
 			<div class="row" style="padding: 0px 20px;">
 				<?php foreach ($produk as $in => $pro) : ?>
-					<?php $foto = json_decode($pro->foto); ?>
+					<?php $foto = json_decode($pro->foto, null); ?>
 					<div class="col-md-4">
 						<div class="card mb-4 box-shadow">
 							<?php if ($pro->foto) : ?>
@@ -194,7 +194,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<li><a href="<?= site_url("{$paging_page}/{$paging->prev}" . $paging->suffix); ?>" title="Halaman Sebelumnya"><i class="fa fa-backward"></i>&nbsp;</a></li>
 						<?php endif; ?>
 						<?php for ($i = $paging->start_link; $i <= $paging->end_link; $i++) : ?>
-							<li class="<?php ($paging->page != $i) || print 'active'; ?>"><a href="<?= site_url("{$paging_page}/{$i}" . $paging->suffix); ?>" title="<?= 'Halaman ' . $i ?>"><?= $i ?></a></li>
+							<li class="<?php if ($paging->page == $i) {
+							    echo 'active';
+							} ?>"><a href="<?= site_url("{$paging_page}/{$i}" . $paging->suffix); ?>" title="<?= 'Halaman ' . $i ?>"><?= $i ?></a></li>
 						<?php endfor; ?>
 						<?php if ($paging->next) : ?>
 							<li><a href="<?= site_url("{$paging_page}/{$paging->next}" . $paging->suffix); ?>" title="Halaman Selanjutnya"><i class="fa fa-forward"></i>&nbsp;</a></li>

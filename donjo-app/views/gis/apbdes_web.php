@@ -10,7 +10,7 @@
 <div class="modal-body">
   <div class="container" id="transparansi-footer" style="width: 100%; padding-top: 20px; background: #fff; color: #222">
     <div class="box box-info">
-      <?php foreach ($transparansi['data_widget'] as $subdata_name => $subdatas): ?>
+      <?php foreach ($transparansi['data_widget'] as $subdatas): ?>
         <div class="col-md-4">
         <div align="center" style="height: 0.5em;"><h4><?= ($subdatas['laporan'])?></h4></div><hr/>
         <div align="center" style="height: 0.5em;"><h5>Realisasi | Anggaran</h5></div><hr/>

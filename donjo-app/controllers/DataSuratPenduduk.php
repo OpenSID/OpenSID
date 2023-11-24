@@ -47,7 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class DataSuratPenduduk extends CI_Controller
 {
-    private $logpenduduk;
+    private \App\Models\LogPenduduk $logpenduduk;
 
     public function __construct()
     {
@@ -56,7 +56,7 @@ class DataSuratPenduduk extends CI_Controller
         $this->logpenduduk = new LogPenduduk();
     }
 
-    public function index()
+    public function index(): void
     {
         $id       = $this->input->get('id_penduduk');
         $surat    = FormatSurat::findOrFail($this->input->get('id_surat'));
@@ -69,7 +69,8 @@ class DataSuratPenduduk extends CI_Controller
         $data = ['individu' => Penduduk::findOrFail($id), 'anggota' => null, 'kategori' => $kategori];
 
         if ($kategori == 'individu') {
-            if (array_intersect($surat->form_isian->{$kategori}->status_dasar, $this->logpenduduk::PERISTIWA)) {
+            $statusDasar = is_array($surat->form_isian->{$kategori}->status_dasar) ? $surat->form_isian->{$kategori}->status_dasar : [$surat->form_isian->{$kategori}->status_dasar];
+            if (array_intersect($statusDasar, $this->logpenduduk::PERISTIWA)) {
                 $data['logpenduduk'] = $this->logpenduduk;
                 $data['peristiwa']   = $this->logpenduduk::with('penduduk')->where('id_pend', $id)->latest()->first();
             }
@@ -80,7 +81,7 @@ class DataSuratPenduduk extends CI_Controller
 
                 if (! $data['ayah'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
                     $data['ayah'] = Penduduk::where('id_kk', $data['individu']->id_kk)
-                        ->where(static function ($query) {
+                        ->where(static function ($query): void {
                             $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
                                 ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
                         })
@@ -90,7 +91,7 @@ class DataSuratPenduduk extends CI_Controller
 
                 if (! $data['ibu'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
                     $data['ibu'] = Penduduk::where('id_kk', $data['individu']->id_kk)
-                        ->where(static function ($query) {
+                        ->where(static function ($query): void {
                             $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
                                 ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
                         })
@@ -104,7 +105,7 @@ class DataSuratPenduduk extends CI_Controller
 
             if ($surat->form_isian->individu->data_pasangan && in_array($data['individu']->kk_level, [1, 2, 3])) {
                 $data['pasangan'] = Penduduk::where('id_kk', $data['individu']->id_kk)
-                    ->where(static function ($query) {
+                    ->where(static function ($query): void {
                         $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
                             ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
                     })
@@ -113,7 +114,7 @@ class DataSuratPenduduk extends CI_Controller
 
                 if ($data['individu']->sex == JenisKelaminEnum::PEREMPUAN) {
                     $data['pasangan'] = Penduduk::where('id_kk', $data['individu']->id_kk)
-                        ->where(static function ($query) {
+                        ->where(static function ($query): void {
                             $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
                                 ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
                         })
@@ -150,13 +151,9 @@ class DataSuratPenduduk extends CI_Controller
         $filters = collect($surat->form_isian->{$kategori})->toArray();
         unset($filters['data']);
         $kk_level    = $data['individu']['kk_level'];
-        $ada_anggota = (in_array(SHDKEnum::KEPALA_KELUARGA, $filters['kk_level']) || $kk_level == SHDKEnum::KEPALA_KELUARGA) ? true : false;
+        $ada_anggota = in_array(SHDKEnum::KEPALA_KELUARGA, $filters['kk_level']) || $kk_level == SHDKEnum::KEPALA_KELUARGA;
 
-        if ($ada_anggota) {
-            $data['anggota'] = Keluarga::find($data['individu']['id_kk'])->anggota;
-        } else {
-            $data['anggota'] = null;
-        }
+        $data['anggota'] = $ada_anggota ? Keluarga::find($data['individu']['id_kk'])->anggota : null;
 
         $html = view('admin.surat.data_penduduk', $data, [], true);
 
@@ -166,19 +163,17 @@ class DataSuratPenduduk extends CI_Controller
             ->set_output(json_encode([
                 'status' => 1,
                 'html'   => $html,
-            ]));
+            ], JSON_THROW_ON_ERROR));
     }
 
-    private function pengikutDibawah18Tahun($data)
+    private function pengikutDibawah18Tahun(array $data)
     {
         $pengikut = null;
         $minUmur  = 18;
         $kk_level = $data['individu']['kk_level'];
         if ($kk_level == SHDKEnum::KEPALA_KELUARGA) {
             if (! empty($data['anggota'])) {
-                $pengikut = $data['anggota']->filter(static function ($item) use ($minUmur) {
-                    return $item->umur < $minUmur;
-                });
+                $pengikut = $data['anggota']->filter(static fn ($item): bool => $item->umur < $minUmur);
             }
         } else {
             // cek apakah ada penduduk yang nik_ayah atau nik_ibu = nik pemohon
@@ -186,23 +181,21 @@ class DataSuratPenduduk extends CI_Controller
             if ($data['individu']['jenis_kelamin'] == JenisKelaminEnum::LAKI_LAKI) {
                 $filterColumn = 'ayah_nik';
             }
-            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope('App\Scopes\ConfigIdScope')->get();
+            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->get();
             if ($anak) {
-                $pengikut = $anak->filter(static function ($item) use ($minUmur) {
-                    return $item->umur < $minUmur;
-                });
+                $pengikut = $anak->filter(static fn ($item): bool => $item->umur < $minUmur);
             }
         }
 
         return $pengikut;
     }
 
-    private function pengikutSuratKIS($data)
+    private function pengikutSuratKIS(array $data)
     {
         return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
     }
 
-    private function pengikutPindah($data)
+    private function pengikutPindah(array $data)
     {
         return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
     }

@@ -102,7 +102,7 @@
 										<label class="col-sm-3 control-label " style="text-align:left;" for="panjang">Panjang</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input value="<?= (! empty($main->panjang) ? $main->panjang : '0'); ?>" class="form-control input-sm number required" id="panjang" name="panjang" type="text" />
+												<input value="<?= (empty($main->panjang) ? '0' : $main->panjang); ?>" class="form-control input-sm number required" id="panjang" name="panjang" type="text" />
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
 											</div>
 										</div>
@@ -111,7 +111,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="lebar">Lebar</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input value="<?= (! empty($main->lebar) ? $main->lebar : '0'); ?>" class="form-control input-sm number required" id="lebar" name="lebar" type="text" />
+												<input value="<?= (empty($main->lebar) ? '0' : $main->lebar); ?>" class="form-control input-sm number required" id="lebar" name="lebar" type="text" />
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
 											</div>
 										</div>
@@ -120,7 +120,7 @@
 										<label class="col-sm-3 control-label " style="text-align:left;" for="luas">Luas</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input value="<?= (! empty($main->luas) ? $main->luas : '0'); ?>" class="form-control input-sm number required" id="luas" name="luas" type="text" />
+												<input value="<?= (empty($main->luas) ? '0' : $main->luas); ?>" class="form-control input-sm number required" id="luas" name="luas" type="text" />
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 											</div>
 										</div>
@@ -145,7 +145,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="no_bangunan">Nomor Kepemilikan</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (! empty($main->no_dokument) ? $main->no_dokument : '-'); ?>" class="form-control input-sm required" name="no_bangunan" id="no_bangunan" type="text" />
+											<input maxlength="50" value="<?= (empty($main->no_dokument) ? '-' : $main->no_dokument); ?>" class="form-control input-sm required" name="no_bangunan" id="no_bangunan" type="text" />
 										</div>
 									</div>
 									<div class="form-group">
@@ -169,7 +169,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="kode_tanah">Nomor Kode Tanah</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (! empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>" class="form-control input-sm required" name="kode_tanah" id="kode_tanah" type="text" />
+											<input maxlength="50" value="<?= (empty($main->kode_tanah) ? '-' : $main->kode_tanah); ?>" class="form-control input-sm required" name="kode_tanah" id="kode_tanah" type="text" />
 										</div>
 									</div>
 									<div class="form-group">

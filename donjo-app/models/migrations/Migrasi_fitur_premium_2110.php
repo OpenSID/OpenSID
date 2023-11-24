@@ -124,7 +124,7 @@ class Migrasi_fitur_premium_2110 extends MY_Model
         ]);
     }
 
-    private function ubah_nama_tabel($hasil)
+    private function ubah_nama_tabel(bool $hasil)
     {
         if (! $this->db->table_exists('laporan_sinkronisasi')) {
             // Ubah nama tabel

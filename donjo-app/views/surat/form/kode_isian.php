@@ -11,7 +11,7 @@
                 <div class="<?= $widthClass ?>">
                     <select name="<?= $nama ?>" <?= $class ?> <?= $dataKaitkan ?>>
                         <option value="">-- <?= $item->deskripsi ?> --</option>
-                        <?php foreach ($item->pilihan as $key => $pilih): ?>
+                        <?php foreach ($item->pilihan as $pilih): ?>
                             <option <?= selected(set_value($nama), $pilih) ?> value="<?= $pilih ?>"><?= $pilih ?></option>
                         <?php endforeach ?>
                     </select>
@@ -20,7 +20,7 @@
                 <div class="<?= $widthClass ?>">
                     <select name="<?= $nama ?>" <?= $class ?> placeholder="<?= $item->deskripsi ?>">
                         <option value="">-- <?= $item->deskripsi ?> --</option>
-                        <?php foreach (ref($item->refrensi) as $key => $pilih): ?>
+                        <?php foreach (ref($item->refrensi) as $pilih): ?>
                             <option <?= selected(set_value($nama), $pilih->nama) ?> value="<?= $pilih->nama ?>"><?= $pilih->nama ?></option>
                         <?php endforeach ?>
                     </select>

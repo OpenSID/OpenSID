@@ -125,7 +125,7 @@ class Komentar extends BaseModel
      *
      * @return Builder
      */
-    public function scopePesanPengguna($query)
+    public function scopePesanPengguna($query): void
     {
         // return $query->where('email', auth('jwt')->user()->penduduk->nik);
     }

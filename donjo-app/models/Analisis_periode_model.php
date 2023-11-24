@@ -44,38 +44,36 @@ class Analisis_periode_model extends MY_Model
         return $this->autocomplete_str('nama', 'analisis_periode');
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db->like('u.nama', $cari);
         }
     }
 
-    private function master_sql()
+    private function master_sql(): void
     {
         if ($analisis_master = $this->session->analisis_master) {
             $this->db->where('u.id_master', $analisis_master);
         }
     }
 
-    private function state_sql()
+    private function state_sql(): void
     {
         if ($state = $this->session->state) {
             $this->db->where('u.id_state', $state);
         }
     }
 
-    private function order_sql($order = '')
+    private function order_sql($order = ''): void
     {
         switch ($order) {
-            case 1: $this->db->order_by('u.id');
-                break;
-
-            case 2: $this->db->order_by('u.id', 'desc');
-                break;
+            case 1:
 
             case 3: $this->db->order_by('u.id');
                 break;
+
+            case 2:
 
             case 4: $this->db->order_by('u.id', 'desc');
                 break;
@@ -108,22 +106,19 @@ class Analisis_periode_model extends MY_Model
 
         $data = $this->db->get()->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['no'] = $j + 1;
-            if ($data[$i]['aktif'] == 1) {
-                $data[$i]['aktif'] = "<img src='" . base_url() . "assets/images/icon/tick.png'>";
-            } else {
-                $data[$i]['aktif'] = '';
-            }
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no']    = $j + 1;
+            $data[$i]['aktif'] = $data[$i]['aktif'] == 1 ? "<img src='" . base_url() . "assets/images/icon/tick.png'>" : '';
             $j++;
         }
 
         return $data;
     }
 
-    private function list_data_query()
+    private function list_data_query(): void
     {
         $this->config_id('u')
             ->from('analisis_periode u')
@@ -135,17 +130,10 @@ class Analisis_periode_model extends MY_Model
 
     private function validasi_data($post)
     {
-        $data                      = [];
-        $data['nama']              = nomor_surat_keputusan($post['nama']);
-        $data['id_state']          = $post['id_state'] ?: null;
-        $data['tahun_pelaksanaan'] = bilangan($post['tahun_pelaksanaan']);
-        $data['keterangan']        = htmlentities($post['keterangan']);
-        $data['aktif']             = $post['aktif'] ?: null;
-
-        return $data;
+        return ['nama' => nomor_surat_keputusan($post['nama']), 'id_state' => $post['id_state'] ?: null, 'tahun_pelaksanaan' => bilangan($post['tahun_pelaksanaan']), 'keterangan' => htmlentities($post['keterangan']), 'aktif' => $post['aktif'] ?: null];
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data              = $this->validasi_data($this->input->post());
         $data['config_id'] = $this->config_id;
@@ -173,7 +161,9 @@ class Analisis_periode_model extends MY_Model
             $data = $this->config_id()->select(['id_subjek', 'id_indikator', 'id_parameter'])->where('id_periode', $sblm)->get('analisis_respon')->result_array();
 
             if ($data) {
-                for ($i = 0; $i < count($data); $i++) {
+                $counter = count($data);
+
+                for ($i = 0; $i < $counter; $i++) {
                     $data[$i]['id_periode'] = $skrg;
                     $data[$i]['config_id']  = $this->config_id;
                 }
@@ -186,7 +176,7 @@ class Analisis_periode_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data = $this->validasi_data($this->input->post());
         $akt  = [];
@@ -202,7 +192,7 @@ class Analisis_periode_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -213,7 +203,7 @@ class Analisis_periode_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 

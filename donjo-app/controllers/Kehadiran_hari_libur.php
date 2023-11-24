@@ -36,6 +36,7 @@
  */
 
 use App\Models\HariLibur;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,7 +50,7 @@ class Kehadiran_hari_libur extends Admin_Controller
         $this->header['kategori'] = 'kehadiran';
     }
 
-    public function index()
+    public function index(): View
     {
         return view('admin.hari_libur.index');
     }
@@ -64,7 +65,7 @@ class Kehadiran_hari_libur extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -77,9 +78,7 @@ class Kehadiran_hari_libur extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tanggal', static function ($row) {
-                    return tgl_indo($row->tanggal);
-                })
+                ->editColumn('tanggal', static fn ($row) => tgl_indo($row->tanggal))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -87,7 +86,7 @@ class Kehadiran_hari_libur extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = '')
+    public function form($id = ''): View
     {
         $this->redirect_hak_akses('u');
 
@@ -102,10 +101,10 @@ class Kehadiran_hari_libur extends Admin_Controller
             $kehadiran_hari_libur = null;
         }
 
-        return view('admin.hari_libur.form', compact('action', 'form_action', 'kehadiran_hari_libur'));
+        return view('admin.hari_libur.form', ['action' => $action, 'form_action' => $form_action, 'kehadiran_hari_libur' => $kehadiran_hari_libur]);
     }
 
-    public function create()
+    public function create(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -116,7 +115,7 @@ class Kehadiran_hari_libur extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -131,7 +130,7 @@ class Kehadiran_hari_libur extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = null)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
 
@@ -178,22 +177,18 @@ class Kehadiran_hari_libur extends Admin_Controller
         ];
     }
 
-    public function import()
+    public function import(): void
     {
         $this->redirect_hak_akses('u');
 
         $kalender = file_get_contents(config_item('api_hari_libur'));
         $tanggal  = json_decode($kalender, true);
 
-        $batch = collect($tanggal)->map(static function ($item, $key) {
-            return [
-                'config_id'  => identitas('id'),
-                'tanggal'    => date_format(date_create($key), 'Y-m-d'),
-                'keterangan' => $item['summary'],
-            ];
-        })->filter(static function ($value, $key) {
-            return $value['tanggal'] > date('Y') . '-01-01';
-        })->slice(0, -2);
+        $batch = collect($tanggal)->map(static fn ($item, $key): array => [
+            'config_id'  => identitas('id'),
+            'tanggal'    => date_format(date_create($key), 'Y-m-d'),
+            'keterangan' => $item['summary'],
+        ])->filter(static fn ($value, $key): bool => $value['tanggal'] > date('Y') . '-01-01')->slice(0, -2);
 
         HariLibur::upsert($batch->values()->toArray(), ['tanggal'], ['keterangan']);
 

@@ -40,7 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Surat_keluar_model extends MY_Model
 {
     // Konfigurasi untuk library 'upload'
-    protected $uploadConfig = [];
+    protected array $uploadConfig;
 
     public function __construct()
     {
@@ -64,7 +64,7 @@ class Surat_keluar_model extends MY_Model
         return $this->autocomplete_str('tujuan', 'surat_keluar');
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db
@@ -75,7 +75,7 @@ class Surat_keluar_model extends MY_Model
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if ($filter = $this->session->filter) {
             $this->db->where('YEAR(u.tanggal_surat)', $filter);
@@ -83,7 +83,7 @@ class Surat_keluar_model extends MY_Model
     }
 
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id('u')->from('surat_keluar u');
         $this->search_sql();
@@ -111,6 +111,7 @@ class Surat_keluar_model extends MY_Model
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
         $this->list_data_sql();
+
         //Ordering
         switch ($o) {
             case 1: $order = ' YEAR(u.tanggal_surat) ASC, u.nomor_urut ASC';
@@ -160,10 +161,8 @@ class Surat_keluar_model extends MY_Model
 
     /**
      * Insert data baru ke tabel surat_keluar
-     *
-     * @return void
      */
-    public function insert()
+    public function insert(): void
     {
         // Ambil semua data dari var. global $_POST
         $data              = $this->input->post(null);
@@ -189,7 +188,7 @@ class Surat_keluar_model extends MY_Model
         $uploadData  = null;
         $uploadError = null;
         // Ada lampiran file
-        if ($adaLampiran === true) {
+        if ($adaLampiran) {
             // Tes tidak berisi script PHP
             if (isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])) {
                 $_SESSION['error_msg'] .= ' -> Jenis file ini tidak diperbolehkan ';
@@ -227,7 +226,7 @@ class Surat_keluar_model extends MY_Model
 
         $indikatorSukses = null === $uploadError && $this->db->insert('surat_keluar', $data);
 
-        $insert_id = $this->db->insert_id();
+        $this->db->insert_id();
 
         // transaction selesai
         $this->db->trans_complete();
@@ -237,7 +236,7 @@ class Surat_keluar_model extends MY_Model
         $_SESSION['error_msg'] = $_SESSION['success'] === 1 ? null : ' -> ' . $uploadError;
     }
 
-    private function validasi(&$data)
+    private function validasi(&$data): void
     {
         // Normalkan tanggal
         $data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
@@ -251,10 +250,8 @@ class Surat_keluar_model extends MY_Model
      * Update data di tabel surat_keluar
      *
      * @param int $idSuratMasuk Id berkas untuk query ke database
-     *
-     * @return void
      */
-    public function update($idSuratMasuk)
+    public function update($idSuratMasuk): void
     {
         // Ambil semua data dari var. global $_POST
         $data = $this->input->post(null);
@@ -272,14 +269,11 @@ class Surat_keluar_model extends MY_Model
         $lokasiBerkasLama = $this->uploadConfig['upload_path'] . $berkasLama;
         $lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH . $lokasiBerkasLama);
 
-        $indikatorSukses = false;
-
         // Hapus lampiran lama?
         $hapusLampiranLama = $data['gambar_hapus'];
         unset($data['gambar_hapus']);
 
-        $uploadData  = null;
-        $uploadError = null;
+        $uploadData = null;
 
         // Adakah file baru yang akan diupload?
         $adaLampiran = ! empty($_FILES['satuan']['name']);
@@ -288,7 +282,7 @@ class Surat_keluar_model extends MY_Model
         $this->db->trans_start();
 
         // Ada lampiran file
-        if ($adaLampiran === true) {
+        if ($adaLampiran) {
             // Tes tidak berisi script PHP
             if (isPHP($_FILES['foto']['tmp_name'], $_FILES['satuan']['name'])) {
                 $_SESSION['error_msg'] .= ' -> Jenis file ini tidak diperbolehkan ';
@@ -310,7 +304,7 @@ class Surat_keluar_model extends MY_Model
                 $uploadData = $this->upload->data();
                 // Hapus berkas dari disk
                 $oldFileRemoved        = unlink($lokasiBerkasLama) && ! file_exists($lokasiBerkasLama);
-                $_SESSION['error_msg'] = ($oldFileRemoved === true)
+                $_SESSION['error_msg'] = ($oldFileRemoved)
                     ? null : ' -> Gagal menghapus berkas lama';
                 // Buat nama file unik untuk nama file upload
                 $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
@@ -344,7 +338,7 @@ class Surat_keluar_model extends MY_Model
                 $data['berkas_scan']   = null;
                 $adaBerkasLamaDiDisk   = file_exists($lokasiBerkasLama);
                 $oldFileRemoved        = $adaBerkasLamaDiDisk && unlink($lokasiBerkasLama);
-                $_SESSION['error_msg'] = ($oldFileRemoved === true)
+                $_SESSION['error_msg'] = ($oldFileRemoved)
                     ? null : ' -> Gagal menghapus berkas lama';
             }
             $databaseUpdated       = $this->config_id()->where('id', $idSuratMasuk)->update('surat_keluar', $data);
@@ -368,10 +362,8 @@ class Surat_keluar_model extends MY_Model
      *
      * @param string $idSuratMasuk Id surat masuk
      * @param mixed  $semua
-     *
-     * @return void
      */
-    public function delete($idSuratMasuk, $semua = false)
+    public function delete($idSuratMasuk, $semua = false): void
     {
         if (! $semua) {
             $this->session->success   = 1;
@@ -380,7 +372,7 @@ class Surat_keluar_model extends MY_Model
         // Type check
         $idSuratMasuk = is_string($idSuratMasuk) ? $idSuratMasuk : (string) $idSuratMasuk;
         // Redirect ke halaman surat masuk jika Id kosong
-        if (empty($idSuratMasuk)) {
+        if ($idSuratMasuk === '') {
             $_SESSION['success']   = -1;
             $_SESSION['error_msg'] = ' -> Data yang anda minta tidak ditemukan';
             redirect('surat_keluar');
@@ -397,7 +389,7 @@ class Surat_keluar_model extends MY_Model
             if (file_exists($lokasiBerkasLama)) {
                 $hapusLampiranLama     = unlink($lokasiBerkasLama);
                 $hapusLampiranLama     = ! file_exists($lokasiBerkasLama);
-                $_SESSION['error_msg'] = $hapusLampiranLama === true
+                $_SESSION['error_msg'] = $hapusLampiranLama
                     ? null : ' -> Gagal menghapus berkas dari disk';
             }
 
@@ -415,7 +407,7 @@ class Surat_keluar_model extends MY_Model
         $_SESSION['success'] = null === $_SESSION['error_msg'] ? 1 : -1;
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success   = 1;
         $this->session->error_msg = '';
@@ -449,7 +441,7 @@ class Surat_keluar_model extends MY_Model
             ->berkas_scan;
     }
 
-    public function untuk_ekspedisi($id, $masuk = 0)
+    public function untuk_ekspedisi($id, $masuk = 0): void
     {
         $this->config_id()
             ->where('id', $id)

@@ -193,40 +193,38 @@ class Rekap
                     $periksaNifas     = $hitungPeriksaNifas >= 3 ? 'Y' : 'T';
                     $konseling        = 'TS';
                     $kunjunganRumah   = 'TS';
-                } else {
-                    if ($dataUsiaKehamilan <= 3) {
-                        // 0 - 3 Bulan (Trisemester 1)
-                        $periksaKehamilan = $hitungPeriksaKehamilan >= 1 ? 'Y' : 'T';
-                        $pilFe            = $hitungPilFe >= 1 ? 'Y' : 'T';
-                        $periksaNifas     = 'TS';
-                        $konseling        = $hitungKonseling >= 1 ? 'Y' : 'T';
-                        if ($status_kehamilan == 'KEK' || $status_kehamilan == 'RISTI') {
-                            $kunjunganRumah = $hitungKunjunganRumah >= 1 ? 'Y' : 'T';
-                        } else {
-                            $kunjunganRumah = 'T';
-                        }
-                    } elseif ($dataUsiaKehamilan <= 6) {
-                        // 4 - 6 Bulan (Trisemester 2)
-                        $periksaKehamilan = $hitungPeriksaKehamilan >= 1 ? 'Y' : 'T';
-                        $pilFe            = $hitungPilFe >= 1 ? 'Y' : 'T';
-                        $periksaNifas     = 'TS';
-                        $konseling        = $hitungKonseling >= 1 ? 'Y' : 'T';
-                        if ($status_kehamilan == 'KEK' || $status_kehamilan == 'RISTI') {
-                            $kunjunganRumah = $hitungKunjunganRumah >= 1 ? 'Y' : 'T';
-                        } else {
-                            $kunjunganRumah = 'T';
-                        }
+                } elseif ($dataUsiaKehamilan <= 3) {
+                    // 0 - 3 Bulan (Trisemester 1)
+                    $periksaKehamilan = $hitungPeriksaKehamilan >= 1 ? 'Y' : 'T';
+                    $pilFe            = $hitungPilFe >= 1 ? 'Y' : 'T';
+                    $periksaNifas     = 'TS';
+                    $konseling        = $hitungKonseling >= 1 ? 'Y' : 'T';
+                    if ($status_kehamilan == 'KEK' || $status_kehamilan == 'RISTI') {
+                        $kunjunganRumah = $hitungKunjunganRumah >= 1 ? 'Y' : 'T';
                     } else {
-                        // 7 - 9 Bulan (Trisemester 3) atau lebih
-                        $periksaKehamilan = $hitungPeriksaKehamilan >= 2 ? 'Y' : 'T';
-                        $pilFe            = $hitungPilFe >= 1 ? 'Y' : 'T';
-                        $periksaNifas     = 'TS';
-                        $konseling        = $hitungKonseling >= 2 ? 'Y' : 'T';
-                        if ($status_kehamilan == 'KEK' || $status_kehamilan == 'RISTI') {
-                            $kunjunganRumah = $hitungKunjunganRumah >= 1 ? 'Y' : 'T';
-                        } else {
-                            $kunjunganRumah = 'T';
-                        }
+                        $kunjunganRumah = 'T';
+                    }
+                } elseif ($dataUsiaKehamilan <= 6) {
+                    // 4 - 6 Bulan (Trisemester 2)
+                    $periksaKehamilan = $hitungPeriksaKehamilan >= 1 ? 'Y' : 'T';
+                    $pilFe            = $hitungPilFe >= 1 ? 'Y' : 'T';
+                    $periksaNifas     = 'TS';
+                    $konseling        = $hitungKonseling >= 1 ? 'Y' : 'T';
+                    if ($status_kehamilan == 'KEK' || $status_kehamilan == 'RISTI') {
+                        $kunjunganRumah = $hitungKunjunganRumah >= 1 ? 'Y' : 'T';
+                    } else {
+                        $kunjunganRumah = 'T';
+                    }
+                } else {
+                    // 7 - 9 Bulan (Trisemester 3) atau lebih
+                    $periksaKehamilan = $hitungPeriksaKehamilan >= 2 ? 'Y' : 'T';
+                    $pilFe            = $hitungPilFe >= 1 ? 'Y' : 'T';
+                    $periksaNifas     = 'TS';
+                    $konseling        = $hitungKonseling >= 2 ? 'Y' : 'T';
+                    if ($status_kehamilan == 'KEK' || $status_kehamilan == 'RISTI') {
+                        $kunjunganRumah = $hitungKunjunganRumah >= 1 ? 'Y' : 'T';
+                    } else {
+                        $kunjunganRumah = 'T';
                     }
                 }
 
@@ -274,7 +272,7 @@ class Rekap
                         }
                     }
 
-                    $jumlahSeharusnya                          = (int) $jumlahLayanan - (int) $jumlahTS;
+                    $jumlahSeharusnya                          = $jumlahLayanan - $jumlahTS;
                     $dataFilter[$key]['konvergensi_indikator'] = [
                         'jumlah_diterima_lengkap' => $jumlahY,
                         'jumlah_seharusnya'       => $jumlahSeharusnya,
@@ -306,7 +304,7 @@ class Rekap
             }
 
             foreach ($capaianKonvergensi as $key => $item) {
-                $capaianKonvergensijumlahSeharusnya            = count($dataFilter) - (int) $item['TS'];
+                $capaianKonvergensijumlahSeharusnya            = count($dataFilter) - $item['TS'];
                 $capaianKonvergensi[$key]['jumlah_seharusnya'] = $capaianKonvergensijumlahSeharusnya;
                 $capaianKonvergensi[$key]['persen']            = $capaianKonvergensijumlahSeharusnya == 0 ? '0.00' : number_format($item['Y'] / $capaianKonvergensijumlahSeharusnya * 100, 2);
             }
@@ -536,7 +534,7 @@ class Rekap
                     $jaminanKesehatan      = $hitungJaminanKesehatan >= 1 ? 'Y' : 'T';
                     $akta_lahir            = $hitungAktaLahir >= 1 ? 'Y' : 'T';
                     $pengasuhan_paud       = $hitungPengasuhan >= 5 ? 'Y' : 'T';
-                } elseif ($kategoriUmur == 4) {
+                } elseif ($kategoriUmur === 4) {
                     $imunisasi             = $hitungImunisasi > 0 && $hitungImunisasiCampak > 0 ? 'Y' : 'T';
                     $penimbanganBeratBadan = $hitungPenimbangan >= 15 ? 'Y' : 'T';
                     $konseling_gizi        = $JUMLAH_KG >= 15 ? 'Y' : 'T';
@@ -704,7 +702,7 @@ class Rekap
                         $jumlahTS++;
                     }
                 }
-                $jumlahSeharusnya            = (int) $jumlahLayanan - (int) $jumlahTS;
+                $jumlahSeharusnya            = $jumlahLayanan - $jumlahTS;
                 $tingkatKonvergensiIndikator = [
                     'jumlah_diterima_lengkap' => $jumlahY,
                     'jumlah_seharusnya'       => $jumlahSeharusnya,
@@ -741,7 +739,7 @@ class Rekap
             }
 
             foreach ($capaianKonvergensi as $key => $item) {
-                $capaianKonvergensijumlahSeharusnya            = count($dataFilter) - (int) $item['TS'];
+                $capaianKonvergensijumlahSeharusnya            = count($dataFilter) - $item['TS'];
                 $capaianKonvergensi[$key]['jumlah_diterima']   = $item['Y'];
                 $capaianKonvergensi[$key]['jumlah_seharusnya'] = $capaianKonvergensijumlahSeharusnya;
                 $capaianKonvergensi[$key]['persen']            = $capaianKonvergensijumlahSeharusnya == 0 ? '0.00' : number_format($item['Y'] / $capaianKonvergensijumlahSeharusnya * 100, 2);

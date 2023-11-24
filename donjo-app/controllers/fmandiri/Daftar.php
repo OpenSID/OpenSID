@@ -50,7 +50,7 @@ class Daftar extends Web_Controller
         }
     }
 
-    public function index()
+    public function index(): void
     {
         if ($this->session->mandiri == 1) {
             redirect('layanan-mandiri/beranda');
@@ -76,7 +76,7 @@ class Daftar extends Web_Controller
     }
 
     //Prosess Pendaftaran
-    public function proses_daftar()
+    public function proses_daftar(): void
     {
         $post              = $this->input->post();
         $data['nama']      = $post['daftar_nama'];

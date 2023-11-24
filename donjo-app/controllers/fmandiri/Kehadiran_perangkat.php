@@ -43,11 +43,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kehadiran_perangkat extends Mandiri_Controller
 {
-    public function index()
+    public function index(): void
     {
         $kehadiran = Pamong::kehadiranPamong()
             ->daftar()
-            ->where(static function ($query) {
+            ->where(static function ($query): void {
                 $query->where('tanggal', DB::raw('curdate()'))
                     ->orWhereNull('tanggal');
             })
@@ -61,10 +61,10 @@ class Kehadiran_perangkat extends Mandiri_Controller
             return $item;
         })->values()->all();
 
-        $this->render('kehadiran', compact('perangkat'));
+        $this->render('kehadiran', ['perangkat' => $perangkat]);
     }
 
-    public function lapor($id)
+    public function lapor($id): void
     {
         $data = [
             'waktu'       => date('Y-m-d H:i:s'),

@@ -140,7 +140,7 @@
                                             <?php
                                             $mulai = 1;
 
-                                                foreach ($main as $key => $data): ?>
+                                                foreach ($main as $data): ?>
                                                 <tr <?= jecho(in_array($data['jabatan_id'], $jabatanKadesSekdes), true, 'class="select-row"') ?>>
                                                     <td class="text-center">
                                                         <input data-deletable="<?= $data['deletable'] ?>" type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
@@ -150,8 +150,12 @@
                                                         <td nowrap>
                                                             <?php if (can('u')): ?>
                                                                 <?php if (! in_array($data['jabatan_id'], $jabatanKadesSekdes)): ?>
-                                                                    <a href="<?= site_url("pengurus/urut/{$paging->page}/{$data['pamong_id']}/1")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) && print 'disabled'; ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-                                                                    <a href="<?= site_url("pengurus/urut/{$paging->page}/{$data['pamong_id']}/2")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $mulai && $paging->page == $paging->start_link) && print 'disabled'; ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+                                                                    <a href="<?= site_url("pengurus/urut/{$paging->page}/{$data['pamong_id']}/1")?>" class="btn bg-olive btn-flat btn-sm <?php if ($data['no'] == $paging->num_rows) {
+                                                                        echo 'disabled';
+                                                                    } ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+                                                                    <a href="<?= site_url("pengurus/urut/{$paging->page}/{$data['pamong_id']}/2")?>" class="btn bg-olive btn-flat btn-sm <?php if ($data['no'] == $mulai && $paging->page == $paging->start_link) {
+                                                                        echo 'disabled';
+                                                                    } ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
                                                                 <?php else: ?>
                                                                     <?php $mulai++; ?>
                                                                 <?php endif ?>

@@ -175,7 +175,11 @@
                                             <td>{{ $data->KAB }}</td>
                                             <td>{{ $data->DESA }}</td>
                                             <td>{{ $data->CSR }}</td>
-                                            <td>{{ $data->SKOR[INDIKATOR['IKS 2020']] }}</td>
+                                            <!--
+                                                                menyebabkan error di PHP 8
+                                                                <td>{-- $data->SKOR[INDIKATOR['IKS 2020']] --}</td>
+                                                            -->
+                                            <td>{{ $data->SKOR }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

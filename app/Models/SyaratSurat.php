@@ -106,7 +106,7 @@ class SyaratSurat extends BaseModel
      *
      * @return \Illuminate\Database\Query\Builder
      */
-    public function scopeFormatSuratExist($query)
+    public function scopeFormatSuratExist($query): void
     {
         $sql = <<<'EOD'
                 json_contains(tweb_surat_format.syarat_surat, concat('"', ref_syarat_surat.ref_syarat_id, '"'), '$' )

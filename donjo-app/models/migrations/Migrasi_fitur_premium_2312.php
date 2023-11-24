@@ -137,7 +137,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
     {
         log_message('notice', 'Membuat tabel migrations');
         if (! Schema::hasTable('migrations')) {
-            Schema::create('migrations', static function (Blueprint $table) {
+            Schema::create('migrations', static function (Blueprint $table): void {
                 $table->increments('id');
                 $table->string('migration');
                 $table->integer('batch');
@@ -231,7 +231,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
         }
 
         if (! $this->db->field_exists('orientasi', 'lampiran_surat')) {
-            $hasil = $hasil && $this->dbforge->add_column('lampiran_surat', [
+            return $hasil && $this->dbforge->add_column('lampiran_surat', [
                 'orientasi' => [
                     'type'       => 'varchar',
                     'constraint' => 10,
@@ -296,43 +296,31 @@ class Migrasi_fitur_premium_2312 extends MY_model
                 $dataBaru[$key] = $value;
                 if (array_key_exists('kk_level', $dataBaru[$key])) {
                     if (! is_array($value['kk_level'])) {
-                        if ($value['kk_level'] == '') {
-                            $value = array_keys(SHDKEnum::all());
-                        } else {
-                            $value = [$value['kk_level']];
-                        }
+                        $value                      = $value['kk_level'] == '' ? array_keys(SHDKEnum::all()) : [$value['kk_level']];
                         $dataBaru[$key]['kk_level'] = $value;
-                    } else {
-                        if (isNestedArray($value['kk_level'], true)) {
-                            if (! is_array($value['kk_level'][0])) {
-                                $value['kk_level'][0] = json_decode($value['kk_level'][0]);
-                            }
-                            $dataBaru[$key]['kk_level'] = $value['kk_level'][0];
+                    } elseif (isNestedArray($value['kk_level'], true)) {
+                        if (! is_array($value['kk_level'][0])) {
+                            $value['kk_level'][0] = json_decode($value['kk_level'][0], null);
                         }
+                        $dataBaru[$key]['kk_level'] = $value['kk_level'][0];
                     }
                 }
-                if (array_key_exists('status_dasar', $dataBaru[$key])) {
-                    if (! is_array($value['status_dasar'])) {
-                        if ($value['status_dasar'] == '') {
-                            $value = $stDasar;
-                        } else {
-                            $value = [$value['status_dasar']];
-                        }
-                        $dataBaru[$key]['status_dasar'] = $value;
-                    }
+                if (array_key_exists('status_dasar', $dataBaru[$key]) && ! is_array($value['status_dasar'])) {
+                    $value                          = $value['status_dasar'] == '' ? $stDasar : [$value['status_dasar']];
+                    $dataBaru[$key]['status_dasar'] = $value;
                 }
             }
-            $this->db->update('tweb_surat_format', ['form_isian' => json_encode($dataBaru)], ['id' => $row->id]);
+            $this->db->update('tweb_surat_format', ['form_isian' => json_encode($dataBaru, JSON_THROW_ON_ERROR)], ['id' => $row->id]);
         }
         $this->db->trans_complete();
 
         return $hasil;
     }
 
-    private function migrasi_2023110771($hasil)
+    private function migrasi_2023110771(bool $hasil)
     {
         if (! Schema::hasTable('alias_kodeisian')) {
-            Schema::create('alias_kodeisian', static function (Blueprint $table) {
+            Schema::create('alias_kodeisian', static function (Blueprint $table): void {
                 $table->increments('id');
                 $table->integer('config_id');
                 $table->string('judul', 10);
@@ -377,7 +365,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
     protected function migrasi_2023114951($hasil)
     {
         if (! Schema::hasTable('fcm_token_mandiri')) {
-            Schema::create('fcm_token_mandiri', static function (Blueprint $table) {
+            Schema::create('fcm_token_mandiri', static function (Blueprint $table): void {
                 $table->integer('id_user_mandiri')->comment('id user mandiri');
                 $table->mediumInteger('config_id');
                 $table->string('device')->unique()->comment('id device dari android pemohon');
@@ -387,7 +375,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
         }
 
         if (! Schema::hasTable('log_notifikasi_mandiri')) {
-            Schema::create('log_notifikasi_mandiri', static function (Blueprint $table) {
+            Schema::create('log_notifikasi_mandiri', static function (Blueprint $table): void {
                 $table->bigIncrements('id');
                 $table->mediumInteger('id_user_mandiri')->comment('id user mandiri');
                 $table->integer('config_id');
@@ -409,7 +397,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
     protected function migrasi_2023111571($hasil)
     {
         if (! $this->db->field_exists('pemohon', 'log_surat')) {
-            $hasil = $hasil && $this->dbforge->add_column('log_surat', [
+            return $hasil && $this->dbforge->add_column('log_surat', [
                 'pemohon' => [
                     'type'       => 'varchar',
                     'constraint' => 200,
@@ -425,7 +413,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
     protected function migrasi_2023111751($hasil)
     {
         if (! Schema::hasTable('log_login')) {
-            Schema::create('log_login', static function (Blueprint $table) {
+            Schema::create('log_login', static function (Blueprint $table): void {
                 $table->uuid('uuid')->primary();
                 $table->integer('config_id');
                 $table->string('username');
@@ -445,13 +433,13 @@ class Migrasi_fitur_premium_2312 extends MY_model
     protected function migrasi_2023112251($hasil)
     {
         if (Schema::hasColumn('log_notifikasi_admin', 'token')) {
-            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table): void {
                 $table->dropColumn('token');
             });
         }
 
         if (Schema::hasColumn('log_notifikasi_admin', 'device')) {
-            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table): void {
                 $table->dropColumn('device');
             });
         }
@@ -472,10 +460,10 @@ class Migrasi_fitur_premium_2312 extends MY_model
         if (! $this->db->field_exists('border', 'config')) {
             $hasil = $hasil && $this->dbforge->add_column('config', [
                 'border' => [
-                    'type'  => 'varchar',
+                    'type'       => 'varchar',
                     'constraint' => 25,
-                    'null'  => true,
-                    'after' => 'warna',
+                    'null'       => true,
+                    'after'      => 'warna',
                 ],
             ]);
         }
@@ -483,10 +471,10 @@ class Migrasi_fitur_premium_2312 extends MY_model
         if (! $this->db->field_exists('border', 'tweb_wil_clusterdesa')) {
             $hasil = $hasil && $this->dbforge->add_column('tweb_wil_clusterdesa', [
                 'border' => [
-                    'type'  => 'varchar',
+                    'type'       => 'varchar',
                     'constraint' => 25,
-                    'null'  => true,
-                    'after' => 'warna',
+                    'null'       => true,
+                    'after'      => 'warna',
                 ],
             ]);
         }

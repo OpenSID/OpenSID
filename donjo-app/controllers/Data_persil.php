@@ -39,8 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Data_persil extends Admin_Controller
 {
-    private $set_page;
-    private $list_session;
+    private array $set_page     = ['20', '50', '100'];
+    private array $list_session = ['lokasi', 'tipe', 'kelas', 'dusun', 'rw', 'rt', 'cari'];
 
     public function __construct()
     {
@@ -50,11 +50,9 @@ class Data_persil extends Admin_Controller
         $this->controller    = 'data_persil';
         $this->modul_ini     = 'pertanahan';
         $this->sub_modul_ini = 'daftar-persil';
-        $this->set_page      = ['20', '50', '100'];
-        $this->list_session  = ['lokasi', 'tipe', 'kelas', 'dusun', 'rw', 'rt', 'cari'];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->per_page = $this->set_page[0];
@@ -62,19 +60,19 @@ class Data_persil extends Admin_Controller
     }
 
     // TODO: fix
-    public function autocomplete()
+    public function autocomplete(): void
     {
         $data = $this->data_persil_model->autocomplete($this->input->post('cari'));
-        echo json_encode($data);
+        echo json_encode($data, JSON_THROW_ON_ERROR);
     }
 
-    public function search()
+    public function search(): void
     {
         $this->session->cari = $this->input->post('cari') ?: null;
         redirect('data_persil');
     }
 
-    public function index($page = 1, $o = 0)
+    public function index($page = 1, $o = 0): void
     {
         $this->tab_ini = 13;
 
@@ -94,11 +92,7 @@ class Data_persil extends Admin_Controller
                 $data['rw']      = $rw;
                 $data['list_rt'] = $this->data_persil_model->list_rt($dusun, $rw);
 
-                if (isset($rt)) {
-                    $data['rt'] = $rt;
-                } else {
-                    $data['rt'] = '';
-                }
+                $data['rt'] = $rt ?? '';
             } else {
                 $data['rw'] = '';
             }
@@ -106,11 +100,7 @@ class Data_persil extends Admin_Controller
             $data['dusun'] = $data['rw'] = $data['rt'] = '';
         }
 
-        if (isset($data['tipe'])) {
-            $data['list_kelas'] = $this->data_persil_model->list_kelas($data['tipe']);
-        } else {
-            $data['list_kelas'] = '';
-        }
+        $data['list_kelas'] = isset($data['tipe']) ? $this->data_persil_model->list_kelas($data['tipe']) : '';
 
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
@@ -130,7 +120,7 @@ class Data_persil extends Admin_Controller
         $this->render('data_persil/persil', $data);
     }
 
-    public function rincian($id = 0)
+    public function rincian($id = 0): void
     {
         $this->tab_ini  = 13;
         $data           = [];
@@ -139,7 +129,7 @@ class Data_persil extends Admin_Controller
         $this->render('data_persil/rincian_persil', $data);
     }
 
-    public function form($id = '', $id_cdesa = '')
+    public function form($id = '', $id_cdesa = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->load->model('plan_area_model');
@@ -161,7 +151,7 @@ class Data_persil extends Admin_Controller
         $this->render('data_persil/form_persil', $data);
     }
 
-    public function simpan_persil($page = 1)
+    public function simpan_persil($page = 1): void
     {
         $this->redirect_hak_akses('u');
         $this->load->helper('form');
@@ -186,28 +176,28 @@ class Data_persil extends Admin_Controller
         redirect('data_persil/form/' . $id);
     }
 
-    public function hapus($id)
+    public function hapus($id): void
     {
         $this->redirect_hak_akses('h', 'data_persil');
         $this->data_persil_model->hapus($id);
         redirect('data_persil/clear');
     }
 
-    public function import()
+    public function import(): void
     {
         $this->redirect_hak_akses('u');
         $data['form_action'] = site_url('data_persil/import_proses');
         $this->load->view('data_persil/import', $data);
     }
 
-    public function import_proses()
+    public function import_proses(): void
     {
         $this->redirect_hak_akses('u');
         $this->data_persil_model->impor_persil();
         redirect('data_persil');
     }
 
-    public function kelasid()
+    public function kelasid(): void
     {
         $data  = [];
         $id    = $this->input->post('id');
@@ -216,10 +206,10 @@ class Data_persil extends Admin_Controller
         foreach ($kelas as $key => $item) {
             $data[] = ['id' => $key, 'kode' => $item['kode'], 'ndesc' => $item['ndesc']];
         }
-        echo json_encode($data);
+        echo json_encode($data, JSON_THROW_ON_ERROR);
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         if ($filter == 'dusun') {
             $this->session->unset_userdata(['rw', 'rt']);
@@ -243,7 +233,7 @@ class Data_persil extends Admin_Controller
         redirect('data_persil');
     }
 
-    public function dialog_cetak($aksi = '')
+    public function dialog_cetak($aksi = ''): void
     {
         $data                = $this->modal_penandatangan();
         $data['aksi']        = $aksi;
@@ -251,7 +241,7 @@ class Data_persil extends Admin_Controller
         $this->load->view('global/ttd_pamong', $data);
     }
 
-    public function cetak($aksi = '')
+    public function cetak($aksi = ''): void
     {
         $post                   = $this->input->post();
         $data['aksi']           = $aksi;

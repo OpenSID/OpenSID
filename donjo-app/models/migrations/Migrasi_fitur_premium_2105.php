@@ -151,8 +151,9 @@ class Migrasi_fitur_premium_2105 extends MY_model
                     'Tanggal'   => $sys_traffic->Tanggal,
                 ];
             }
-
-            $hasil = $hasil && $this->db->update_batch('sys_traffic', $batch, 'Tanggal');
+            if (count($batch) > 0) {
+                $hasil = $hasil && $this->db->update_batch('sys_traffic', $batch, 'Tanggal');
+            }
         }
 
         return $hasil;
@@ -246,7 +247,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
     }
 
     // Catat ulang semua keluarga di log_keluarga untuk laporan bulanan
-    private function isi_ulang_log_keluarga($hasil)
+    private function isi_ulang_log_keluarga(bool $hasil)
     {
         // Kosongkan
         $this->db->truncate('log_keluarga');
@@ -269,7 +270,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
             ->where('p.status_dasar <>', 1)
             ->get()->result_array();
         if (! empty($mutasi)) {
-            $hasil = $hasil && $this->db->insert_batch('log_keluarga', $mutasi);
+            return $hasil && $this->db->insert_batch('log_keluarga', $mutasi);
         }
 
         return $hasil;
@@ -363,7 +364,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         $hasil = true;
 
         if ($this->db->field_exists('persil', 'tanah_kas_desa')) {
-            $hasil = $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'persil');
+            return $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'persil');
         }
 
         return $hasil;
@@ -385,7 +386,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
     {
         $hasil = true;
         if (! $this->db->field_exists('hak_milik', 'tanah_desa')) {
-            $hasil = $hasil && $this->dbforge->add_column('tanah_desa', [
+            return $hasil && $this->dbforge->add_column('tanah_desa', [
                 'jenis_pemilik'        => ['type' => 'TEXT', 'after' => 'id_penduduk'],
                 'hak_milik'            => ['type' => 'INT', 'constraint' => 11, 'after' => 'luas'],
                 'hak_guna_bangunan'    => ['type' => 'INT', 'constraint' => 11, 'after' => 'hak_milik'],
@@ -417,7 +418,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
     {
         $hasil = true;
         if (! $this->db->field_exists('nik', 'tanah_desa')) {
-            $hasil = $hasil && $this->dbforge->add_column('tanah_desa', [
+            return $hasil && $this->dbforge->add_column('tanah_desa', [
                 'nik' => ['type' => 'DECIMAL', 'constraint' => 16.0, 'after' => 'id_penduduk'],
             ]);
         }
@@ -430,7 +431,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
     {
         $hasil = true;
         if (! $this->db->field_exists('asli_milik_desa', 'tanah_kas_desa')) {
-            $hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', [
+            return $hasil && $this->dbforge->add_column('tanah_kas_desa', [
                 'asli_milik_desa'      => ['type' => 'INT', 'constraint' => 11, 'after' => 'luas'],
                 'pemerintah'           => ['type' => 'INT', 'constraint' => 11, 'after' => 'asli_milik_desa'],
                 'provinsi'             => ['type' => 'INT', 'constraint' => 11, 'after' => 'pemerintah'],
@@ -466,7 +467,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         return $hasil && $this->akses_grup_bawaan($hasil);
     }
 
-    private function ubah_grup($hasil)
+    private function ubah_grup(bool $hasil)
     {
         $fields = [
             'id' => ['type' => 'INT', 'constraint' => 5, 'auto_increment' => true],
@@ -501,11 +502,12 @@ class Migrasi_fitur_premium_2105 extends MY_model
                 'updated_by' => ['type' => 'INT', 'constraint' => 11, 'null' => false],
             ]);
         }
+
         // Grup tambahan
         return $hasil && $this->db->where('id >', 4)->update('user_grup', ['jenis' => 2]);
     }
 
-    private function tambah_grup_akses($hasil)
+    private function tambah_grup_akses(bool $hasil)
     {
         if ($this->db->table_exists('grup_akses')) {
             return $hasil;
@@ -529,7 +531,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         ]);
     }
 
-    private function urut_modul($hasil)
+    private function urut_modul(bool $hasil)
     {
         $urut = [
             ['id' => 206, 'urut' => 5], // Siaga Covid-19
@@ -565,11 +567,11 @@ class Migrasi_fitur_premium_2105 extends MY_model
         return $hasil;
     }
 
-    private function akses_grup_bawaan($hasil)
+    private function akses_grup_bawaan(bool $hasil)
     {
         // Simpan grup akses yang ada sebelumnya kecuali grup_akses bawaan
         $grup = $this->db->where_not_in('id_grup', [2, 3, 4])->get('grup_akses')->result_array();
-        array_walk($grup, static function (&$key) {
+        array_walk($grup, static function (array &$key): void {
             unset($key['id']);
         });
 
@@ -738,7 +740,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
     }
 
     // Kosongkan url modul yg mempunyai sub modul
-    private function bersihkan_modul($hasil)
+    private function bersihkan_modul(bool $hasil)
     {
         // Modul utama yg mempunyai sub
         $ada_sub = $this->db
@@ -766,7 +768,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
     }
 
     // Beri nilai default setting_modul utk memudahkan menambah modul
-    private function modul_tambahan($hasil)
+    private function modul_tambahan(bool $hasil)
     {
         $this->db->like('url', 'man_user')->update('setting_modul', ['url' => 'man_user/clear']);
         $fields = [
@@ -807,7 +809,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         ]);
     }
 
-    private function tambah_pengaturan_analisis($hasil)
+    private function tambah_pengaturan_analisis(bool $hasil)
     {
         // Kosongkan url modul analisis yg sekarang ditambahkan submodul
         $hasil = $hasil && $this->db
@@ -842,7 +844,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         ]);
     }
 
-    private function impor_google_form($hasil)
+    private function impor_google_form(bool $hasil)
     {
         $hasil = $hasil && $this->setting_script_id_gform($hasil);
         $hasil = $hasil && $this->field_gform_id_master_analisis($hasil);
@@ -850,7 +852,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         return $hasil && $this->tambah_pengaturan_analisis($hasil);
     }
 
-    private function field_gform_id_master_analisis($hasil)
+    private function field_gform_id_master_analisis(bool $hasil)
     {
         // Tambah field gfrom_id pada tabel analisis_master
         if (! $this->db->field_exists('gform_id', 'analisis_master')) {

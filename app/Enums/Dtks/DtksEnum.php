@@ -48,7 +48,7 @@ class DtksEnum
         self::REGSOS_EK2022_K  => 'REGSOSEK2022.K',
     ];
 
-    final public static function GET_CLEAN_NAME_VERSION($code = self::VERSION_CODE)
+    final public static function GET_CLEAN_NAME_VERSION($code = self::VERSION_CODE): string
     {
         // remove char (-) and (.)
         return strtoupper(str_replace(['-', '.'], '', self::VERSION_LIST[$code]));

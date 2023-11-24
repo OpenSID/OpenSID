@@ -49,10 +49,7 @@ class Surat_kecamatan extends Tte_Controller
      */
     protected $client;
 
-    /**
-     * @var string
-     */
-    protected $kode_desa;
+    protected string $kode_desa;
 
     public function __construct()
     {

@@ -99,9 +99,10 @@ class Sms_model extends MY_Model
         $data  = $query->result_array();
 
         //Formating Output
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
             $j++;
         }
@@ -169,9 +170,10 @@ class Sms_model extends MY_Model
         $data  = $query->result_array();
 
         //Formating Output
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
             $j++;
         }
@@ -239,9 +241,10 @@ class Sms_model extends MY_Model
         $data  = $query->result_array();
 
         //Formating Output
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
             $j++;
         }
@@ -249,7 +252,7 @@ class Sms_model extends MY_Model
         return $data;
     }
 
-    public function insert()
+    public function insert(): void
     {
         $post                      = $this->input->post();
         $data['DestinationNumber'] = bilangan($post['DestinationNumber']);
@@ -260,7 +263,7 @@ class Sms_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $post                = $this->input->post();
         $data['TextDecoded'] = htmlentities($post['TextDecoded']);
@@ -269,7 +272,7 @@ class Sms_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete($Class = 0, $ID = '')
+    public function delete($Class = 0, $ID = ''): void
     {
         if ($Class == 2) {
             $tabel = 'sentitems';
@@ -284,11 +287,11 @@ class Sms_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function deleteAll($Class = 0)
+    public function deleteAll($Class = 0): void
     {
         $id_cb = $_POST['id_cb'];
 
-        if (count($id_cb)) {
+        if (count($id_cb) > 0) {
             foreach ($id_cb as $ID) {
                 $this->delete($Class, $ID);
             }

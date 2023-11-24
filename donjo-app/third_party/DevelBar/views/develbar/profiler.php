@@ -88,14 +88,14 @@
             <tbody>
             <?php if (isset($profiler['database'])): ?>
             <?php $dbs = $profiler['database']['dbs']; ?>
-            <?php if (count($dbs)): ?>
+            <?php if (count($dbs) > 0): ?>
                 <?php
                 $global_execution_time = 0;
                 $count_queries         = 0;
 
-                foreach ($dbs as $name => $db):?>
+                foreach ($dbs as $db):?>
                     <tr>
-                    <?php if (count($db['queries'])): ?>
+                    <?php if (count($db['queries']) > 0): ?>
                         <?php
                         $total_execution_time = 0;
 

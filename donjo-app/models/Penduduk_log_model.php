@@ -80,10 +80,8 @@ class Penduduk_log_model extends MY_Model
      * Update log penduduk
      *
      * @param $id_log id log penduduk
-     *
-     * @return void
      */
-    public function update($id_log)
+    public function update($id_log): void
     {
         unset($_SESSION['success']);
         $data['catatan'] = htmlentities($this->input->post('catatan'));
@@ -222,10 +220,8 @@ class Penduduk_log_model extends MY_Model
      * Kembalikan status dasar penduduk dari PERGI ke HIDUP
      *
      * @param $id_log id log penduduk
-     *
-     * @return void
      */
-    public function kembalikan_status_pergi($id_log)
+    public function kembalikan_status_pergi($id_log): void
     {
         $log = LogPenduduk::findOrFail($id_log);
 
@@ -285,10 +281,8 @@ class Penduduk_log_model extends MY_Model
 
     /**
      * Kembalikan status dasar sekumpulan penduduk ke hidup
-     *
-     * @return void
      */
-    public function kembalikan_status_all()
+    public function kembalikan_status_all(): void
     {
         unset($_SESSION['success']);
         $id_cb = $_POST['id_cb'];
@@ -298,7 +292,7 @@ class Penduduk_log_model extends MY_Model
         }
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($kw = $this->session->cari) {
             $this->db
@@ -309,56 +303,56 @@ class Penduduk_log_model extends MY_Model
         }
     }
 
-    private function sex_sql()
+    private function sex_sql(): void
     {
         if ($kf = $this->session->sex) {
             $this->db->where('u.sex', $kf);
         }
     }
 
-    private function agama_sql()
+    private function agama_sql(): void
     {
         if ($kf = $this->session->agama) {
             $this->db->where('u.agama_id', $kf);
         }
     }
 
-    private function dusun_sql()
+    private function dusun_sql(): void
     {
         if ($kf = $this->session->dusun) {
             $this->db->where('a.dusun', $kf);
         }
     }
 
-    private function rw_sql()
+    private function rw_sql(): void
     {
         if ($kf = $this->session->rw) {
             $this->db->where('a.rw', $kf);
         }
     }
 
-    private function rt_sql()
+    private function rt_sql(): void
     {
         if ($kf = $this->session->rt) {
             $this->db->where('a.rt', $kf);
         }
     }
 
-    private function kode_peristiwa()
+    private function kode_peristiwa(): void
     {
         if ($kf = $this->session->kode_peristiwa) {
             $this->db->where_in('log.kode_peristiwa', $kf);
         }
     }
 
-    private function status_penduduk()
+    private function status_penduduk(): void
     {
         if ($kf = $this->session->status_penduduk) {
             $this->db->where('u.status', $kf);
         }
     }
 
-    private function tahun_bulan()
+    private function tahun_bulan(): void
     {
         $kt = $this->session->filter_tahun;
         $kb = $this->session->filter_bulan;
@@ -371,7 +365,7 @@ class Penduduk_log_model extends MY_Model
         }
     }
 
-    private function tgl_lengkap()
+    private function tgl_lengkap(): void
     {
         if ($kf = $this->session->tgl_lengkap) {
             $this->db->where('log.tgl_lapor >=', $kf);
@@ -382,8 +376,6 @@ class Penduduk_log_model extends MY_Model
     // Mengambil tahun terkecil dari database, kemudian ditambahkan sampai tahun skrg
     public function list_tahun()
     {
-        $list_tahun = [];
-
         $list_tahun = $this->config_id()
             ->select('MIN(YEAR(tgl_lapor)) as tahun')
             ->from('log_penduduk')
@@ -435,7 +427,7 @@ class Penduduk_log_model extends MY_Model
     }
 
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id('log')
             ->from('log_penduduk log')
@@ -504,6 +496,7 @@ class Penduduk_log_model extends MY_Model
             case 8:
                 $this->db->order_by('umur_pada_peristiwa', 'DESC');
                 break;
+
                 // Untuk Log Penduduk
             case 9:
                 $this->db->order_by('log.tgl_peristiwa', 'ASC');
@@ -525,9 +518,10 @@ class Penduduk_log_model extends MY_Model
         $data = $this->db->get()->result_array();
 
         //Formating Output
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             // Ubah alamat penduduk lepas
             if (! $data[$i]['id_kk'] || $data[$i]['id_kk'] == null) {
                 // Ambil alamat penduduk
@@ -555,7 +549,7 @@ class Penduduk_log_model extends MY_Model
             // tampilkan hanya jika beda tanggal lapor
             $tgl_lapor                  = Carbon::parse($data[$i]['tgl_lapor'])->format('m-Y');
             $tgl_sekarang               = Carbon::now()->format('m-Y');
-            $data[$i]['kembali_datang'] = $tgl_lapor >= $tgl_sekarang ? false : true;
+            $data[$i]['kembali_datang'] = $tgl_lapor < $tgl_sekarang;
             $j++;
         }
 

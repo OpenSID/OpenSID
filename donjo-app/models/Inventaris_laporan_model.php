@@ -90,7 +90,7 @@ class Inventaris_laporan_model extends MY_Model
             $this->config_id();
             $hasil = $this->db->get($inventaris[1])->row();
 
-            $result[$inventaris[0]] = ! empty($hasil) ? $hasil : 0;
+            $result[$inventaris[0]] = empty($hasil) ? 0 : $hasil;
         }
 
         return $result;
@@ -145,7 +145,7 @@ class Inventaris_laporan_model extends MY_Model
             $this->config_id();
             $hasil = $this->db->get($inventaris[1])->row();
 
-            $result[$inventaris[0]] = ! empty($hasil) ? $hasil : 0;
+            $result[$inventaris[0]] = empty($hasil) ? 0 : $hasil;
         }
 
         return $result;
@@ -207,7 +207,7 @@ class Inventaris_laporan_model extends MY_Model
             $this->config_id();
             $hasil = $this->db->get($inventaris[1])->row();
 
-            $result[$inventaris[0]] = ! empty($hasil) ? $hasil : 0;
+            $result[$inventaris[0]] = empty($hasil) ? 0 : $hasil;
         }
 
         return $result;
@@ -269,7 +269,7 @@ class Inventaris_laporan_model extends MY_Model
             $this->config_id();
             $hasil = $this->db->get($inventaris[1])->row();
 
-            $result[$inventaris[0]] = ! empty($hasil) ? $hasil : 0;
+            $result[$inventaris[0]] = empty($hasil) ? 0 : $hasil;
         }
 
         return $result;

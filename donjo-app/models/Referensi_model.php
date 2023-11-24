@@ -222,7 +222,7 @@ class Referensi_model extends MY_Model
         $data = $this->list_data($tabel);
         $list = [];
 
-        foreach ($data as $key => $value) {
+        foreach ($data as $value) {
             $list[$value['id']] = $value['nama'];
         }
 
@@ -287,8 +287,6 @@ class Referensi_model extends MY_Model
     {
         $dafault = $this->list_ref(JENIS_PERATURAN_DESA);
 
-        return collect($dafault)->transform(static function ($item) {
-            return str_replace(['Desa', 'desa'], ucwords(setting('sebutan_desa')), $item);
-        })->unique()->values();
+        return collect($dafault)->transform(static fn ($item) => str_replace(['Desa', 'desa'], ucwords(setting('sebutan_desa')), $item))->unique()->values();
     }
 }

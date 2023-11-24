@@ -37,6 +37,7 @@
 
 use App\Enums\StatusEnum;
 use App\Models\BukuKeperluan;
+use Illuminate\Contracts\View\View;
 
 class Buku_keperluan extends Anjungan_Controller
 {
@@ -48,7 +49,7 @@ class Buku_keperluan extends Anjungan_Controller
         $this->header['kategori'] = 'buku-tamu';
     }
 
-    public function index()
+    public function index(): View
     {
         if ($this->input->is_ajax_request()) {
             return datatables()->of(BukuKeperluan::query())
@@ -58,7 +59,7 @@ class Buku_keperluan extends Anjungan_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -71,9 +72,7 @@ class Buku_keperluan extends Anjungan_Controller
 
                     return $aksi;
                 })
-                ->addColumn('tampil', static function ($row) {
-                    return '<span class="label label-' . ($row->status ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->status) . '</span>';
-                })
+                ->addColumn('tampil', static fn ($row): string => '<span class="label label-' . ($row->status ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->status) . '</span>')
                 ->rawColumns(['ceklist', 'aksi', 'tampil'])
                 ->make();
         }
@@ -81,7 +80,7 @@ class Buku_keperluan extends Anjungan_Controller
         return view('admin.buku_tamu.keperluan.index');
     }
 
-    public function form($id = null)
+    public function form($id = null): View
     {
         $this->redirect_hak_akses('u');
 
@@ -98,7 +97,7 @@ class Buku_keperluan extends Anjungan_Controller
         return view('admin.buku_tamu.keperluan.form', $data);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -109,7 +108,7 @@ class Buku_keperluan extends Anjungan_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id = null)
+    public function update($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -122,18 +121,18 @@ class Buku_keperluan extends Anjungan_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = null)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
 
-        if (BukuKeperluan::destroy($this->request['id_cb'] ?? $id)) {
+        if (BukuKeperluan::destroy($this->request['id_cb'] ?? $id) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private static function validate($request = [])
+    private function validate($request = [])
     {
         return [
             'keperluan' => htmlentities($request['keperluan']),

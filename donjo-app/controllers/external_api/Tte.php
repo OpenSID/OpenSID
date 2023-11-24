@@ -46,15 +46,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Tte extends Tte_Controller
 {
-    /**
-     * @var \GuzzleHttp\Client
-     */
-    protected $client;
-
-    /**
-     * @var bool
-     */
-    protected $demo;
+    protected \GuzzleHttp\Client $client;
+    protected bool $demo;
 
     /**
      * @var string
@@ -80,8 +73,6 @@ class Tte extends Tte_Controller
     /**
      * Periksa status nik.
      *
-     * @param string $nik
-     *
      * @return object
      */
     public function periksa_status(?string $nik = '')
@@ -92,9 +83,9 @@ class Tte extends Tte_Controller
                 ->getBody()
                 ->getContents();
 
-            return json(json_decode($response));
+            return json(json_decode($response, null));
         } catch (GuzzleHttp\Exception\ClientException $e) {
-            return json(json_decode($e->getResponse()->getBody()));
+            return json(json_decode($e->getResponse()->getBody(), null));
         }
     }
 

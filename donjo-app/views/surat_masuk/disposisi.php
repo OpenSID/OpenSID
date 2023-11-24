@@ -100,7 +100,8 @@
                         <tr>
                             <td colspan="6">
                                 <table>
-                                    <?php for ($i = 0; $i < count($ref_disposisi); $i += 2): ?>
+
+$counter = count($ref_disposisi);<?php for ($i = 0; $i < $counter; $i += 2): ?>
                                         <tr>
                                             <td class="nostretch no-border-kanan" style="vertical-align: text-top;">
                                                 <?= $ref_disposisi[$i]['nama']?>

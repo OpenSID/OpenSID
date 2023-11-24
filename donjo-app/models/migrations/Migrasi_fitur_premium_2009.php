@@ -48,7 +48,7 @@ class Migrasi_fitur_premium_2009 extends MY_model
         return $hasil && $this->tambah_kolom_pemerintahan_desa($hasil);
     }
 
-    private function buku_administrasi_desa($hasil)
+    private function buku_administrasi_desa(bool $hasil)
     {
         // Menu parent Buku Administrasi Desa
         $menu[0] = [
@@ -162,6 +162,7 @@ class Migrasi_fitur_premium_2009 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('surat_keluar', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
             $hasil = $hasil && $this->dbforge->add_column('surat_keluar', 'updated_by int(11) NOT NULL');
         }
+
         // Menu permohonan surat untuk operator
         return $hasil && $this->tambah_modul([
             'id'         => '310',
@@ -177,7 +178,7 @@ class Migrasi_fitur_premium_2009 extends MY_model
         ]);
     }
 
-    private function tambah_kolom_pemerintahan_desa($hasil)
+    private function tambah_kolom_pemerintahan_desa(bool $hasil)
     {
         // Struktur pemerintahan desa
         if (! $this->db->field_exists('atasan', 'tweb_desa_pamong')) {

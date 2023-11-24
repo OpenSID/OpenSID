@@ -47,38 +47,7 @@ class Statistik_web extends Web_Controller
         $this->load->model('program_bantuan_model');
     }
 
-    private function get_cluster_session()
-    {
-        $list_session = ['dusun', 'rw', 'rt'];
-
-        foreach ($list_session as $list) {
-            ${$list} = $this->session->{$list};
-        }
-
-        if (isset($dusun)) {
-            $data['dusun']   = $dusun;
-            $data['list_rw'] = $this->wilayah_model->list_rw($dusun);
-
-            if (isset($rw)) {
-                $data['rw']      = $rw;
-                $data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
-
-                if (isset($rt)) {
-                    $data['rt'] = $rt;
-                } else {
-                    $data['rt'] = '';
-                }
-            } else {
-                $data['rw'] = '';
-            }
-        } else {
-            $data['dusun'] = $data['rw'] = $data['rt'] = '';
-        }
-
-        return $data;
-    }
-
-    private function get_data_stat(&$data, $lap)
+    private function get_data_stat(array &$data, $lap): void
     {
         $data['stat']         = $this->laporan_penduduk_model->judul_statistik($lap);
         $data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
@@ -97,7 +66,7 @@ class Statistik_web extends Web_Controller
         }
     }
 
-    public function dusun($tipe = 0, $lap = 0)
+    public function dusun($tipe = 0, $lap = 0): void
     {
         $tipe_stat = $this->get_tipe_statistik($tipe);
         $this->session->unset_userdata('rw');
@@ -111,7 +80,7 @@ class Statistik_web extends Web_Controller
         redirect("statistik_web/{$tipe_stat}/{$lap}");
     }
 
-    public function rw($tipe = 0, $lap = 0)
+    public function rw($tipe = 0, $lap = 0): void
     {
         $tipe_stat = $this->get_tipe_statistik($tipe);
         $this->session->unset_userdata('rt');
@@ -124,7 +93,7 @@ class Statistik_web extends Web_Controller
         redirect("statistik_web/{$tipe_stat}/{$lap}");
     }
 
-    public function rt($tipe = 0, $lap = 0)
+    public function rt($tipe = 0, $lap = 0): void
     {
         $tipe_stat = $this->get_tipe_statistik($tipe);
         $rt        = $this->input->post('rt');
@@ -136,7 +105,7 @@ class Statistik_web extends Web_Controller
         redirect("statistik_web/{$tipe_stat}/{$lap}");
     }
 
-    public function load_chart_gis($lap = 0)
+    public function load_chart_gis($lap = 0): void
     {
         $this->cek_akses($lap);
 
@@ -148,7 +117,7 @@ class Statistik_web extends Web_Controller
         $this->load->view('gis/penduduk_gis', $data);
     }
 
-    public function chart_gis_desa($lap = 0, $desa = null)
+    public function chart_gis_desa($lap = 0, $desa = null): void
     {
         $this->session->desa = $desa;
         $this->session->unset_userdata(['dusun', 'rw', 'rt']);
@@ -156,7 +125,7 @@ class Statistik_web extends Web_Controller
         redirect("statistik_web/load_chart_gis/{$lap}");
     }
 
-    public function chart_gis_dusun($lap = 0, $dusun = null)
+    public function chart_gis_dusun($lap = 0, $dusun = null): void
     {
         $this->session->dusun = $dusun;
         $this->session->unset_userdata(['rw', 'rt']);
@@ -164,7 +133,7 @@ class Statistik_web extends Web_Controller
         redirect("statistik_web/load_chart_gis/{$lap}");
     }
 
-    public function chart_gis_rw($lap = 0, $dusun = null, $rw = null)
+    public function chart_gis_rw($lap = 0, $dusun = null, $rw = null): void
     {
         $this->cek_akses($lap);
 
@@ -175,7 +144,7 @@ class Statistik_web extends Web_Controller
         redirect("statistik_web/load_chart_gis/{$lap}");
     }
 
-    public function chart_gis_rt($lap = 0, $dusun = null, $rw = null, $rt = null)
+    public function chart_gis_rt($lap = 0, $dusun = null, $rw = null, $rt = null): void
     {
         $this->cek_akses($lap);
 
@@ -186,7 +155,7 @@ class Statistik_web extends Web_Controller
         redirect("statistik_web/load_chart_gis/{$lap}");
     }
 
-    public function chart_gis_kadus($id_kepala = '')
+    public function chart_gis_kadus($id_kepala = ''): void
     {
         $this->cek_akses($lap);
 
@@ -197,7 +166,7 @@ class Statistik_web extends Web_Controller
         redirect("statistik_web/load_kadus/{$id_kepala}");
     }
 
-    public function load_kadus($id_kepala = '')
+    public function load_kadus($id_kepala = ''): void
     {
         $data['individu'] = $this->wilayah_model->get_penduduk($dusun['id_kepala']);
 

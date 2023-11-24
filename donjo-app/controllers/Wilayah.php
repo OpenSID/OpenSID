@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Wilayah extends Admin_Controller
 {
-    private $_set_page;
+    private array $_set_page = ['20', '50', '100'];
 
     public function __construct()
     {
@@ -51,10 +51,9 @@ class Wilayah extends Admin_Controller
         $this->load->library('form_validation');
         $this->modul_ini     = 'info-desa';
         $this->sub_modul_ini = 'wilayah-administratif';
-        $this->_set_page     = ['20', '50', '100'];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata('cari');
         $this->session->per_page = $this->_set_page[0];
@@ -62,7 +61,7 @@ class Wilayah extends Admin_Controller
         redirect("{$this->controller}");
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
@@ -77,7 +76,7 @@ class Wilayah extends Admin_Controller
             $data['set_page'] = $this->_set_page;
             $data['per_page'] = $this->session->per_page;
             $data['keyword']  = $this->wilayah_model->autocomplete();
-            $data['paging']   = json_decode(json_encode($this->wilayah_model->paging($p, $o)));
+            $data['paging']   = json_decode(json_encode($this->wilayah_model->paging($p, $o), JSON_THROW_ON_ERROR), null);
             $data['main']     = $this->wilayah_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
             $data['total']    = $this->wilayah_model->total();
 
@@ -90,7 +89,7 @@ class Wilayah extends Admin_Controller
     }
 
     // $aksi = cetak/unduh
-    public function dialog($aksi = 'cetak')
+    public function dialog($aksi = 'cetak'): void
     {
         $data                = $this->modal_penandatangan();
         $data['aksi']        = $aksi;
@@ -99,7 +98,7 @@ class Wilayah extends Admin_Controller
     }
 
     // $aksi = cetak/unduh
-    public function daftar($aksi = 'cetak')
+    public function daftar($aksi = 'cetak'): void
     {
         $data['pamong_ttd']     = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
         $data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
@@ -110,7 +109,7 @@ class Wilayah extends Admin_Controller
         $this->load->view("sid/wilayah/wilayah_{$aksi}", $data);
     }
 
-    public function form($id_dusun = '')
+    public function form($id_dusun = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -129,9 +128,9 @@ class Wilayah extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $cari     = $this->input->get('q');
-            $kepala   = WilayahModel::pluck('id_kepala')->filter(static function ($value) { return null !== $value; });
+            $kepala   = WilayahModel::pluck('id_kepala')->filter(static fn ($value): bool => null !== $value);
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
-                ->when($cari, static function ($query) use ($cari) {
+                ->when($cari, static function ($query) use ($cari): void {
                     $query->orWhere('nik', 'like', "%{$cari}%")
                         ->orWhere('nama', 'like', "%{$cari}%");
                 })
@@ -140,12 +139,10 @@ class Wilayah extends Admin_Controller
 
             return json([
                 'results' => collect($penduduk->items())
-                    ->map(static function ($item) {
-                        return [
-                            'id'   => $item->id,
-                            'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
-                        ];
-                    }),
+                    ->map(static fn ($item): array => [
+                        'id'   => $item->id,
+                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
+                    ]),
                 'pagination' => [
                     'more' => $penduduk->currentPage() < $penduduk->lastPage(),
                 ],
@@ -155,7 +152,7 @@ class Wilayah extends Admin_Controller
         return show_404();
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -166,7 +163,7 @@ class Wilayah extends Admin_Controller
         redirect("{$this->controller}");
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->insert();
@@ -174,7 +171,7 @@ class Wilayah extends Admin_Controller
         redirect("{$this->controller}");
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update($id);
@@ -183,7 +180,7 @@ class Wilayah extends Admin_Controller
     }
 
     //Delete dusun/rw/rt tergantung tipe
-    public function delete($tipe = '', $id = '')
+    public function delete($tipe = '', $id = ''): void
     {
         $this->redirect_hak_akses('h');
         $this->wilayah_model->delete($tipe, $id);
@@ -191,7 +188,7 @@ class Wilayah extends Admin_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function sub_rw($id_dusun = '', $p = 1, $o = 0)
+    public function sub_rw($id_dusun = '', $p = 1, $o = 0): void
     {
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
@@ -205,7 +202,7 @@ class Wilayah extends Admin_Controller
             $data['id_dusun'] = $id_dusun;
             $data['func']     = "sub_rw/{$id_dusun}";
             $data['set_page'] = $this->_set_page;
-            $data['paging']   = json_decode(json_encode($this->wilayah_model->paging_rw($p, $o, $nama_dusun)));
+            $data['paging']   = json_decode(json_encode($this->wilayah_model->paging_rw($p, $o, $nama_dusun), JSON_THROW_ON_ERROR), null);
             $data['main']     = $this->wilayah_model->list_data_rw($id_dusun, $data['paging']->offset, $data['paging']->per_page);
             $data['total']    = $this->wilayah_model->total_rw($nama_dusun);
 
@@ -217,7 +214,7 @@ class Wilayah extends Admin_Controller
         $this->render('sid/wilayah/wilayah_rw', $data);
     }
 
-    public function cetak_rw($id_dusun = '')
+    public function cetak_rw($id_dusun = ''): void
     {
         $dusun            = $this->wilayah_model->cluster_by_id($id_dusun);
         $nama_dusun       = $dusun['dusun'];
@@ -229,7 +226,7 @@ class Wilayah extends Admin_Controller
         $this->load->view('sid/wilayah/wilayah_rw_print', $data);
     }
 
-    public function excel_rw($id_dusun = '')
+    public function excel_rw($id_dusun = ''): void
     {
         $dusun            = $this->wilayah_model->cluster_by_id($id_dusun);
         $nama_dusun       = $dusun['dusun'];
@@ -241,7 +238,7 @@ class Wilayah extends Admin_Controller
         $this->load->view('sid/wilayah/wilayah_rw_excel', $data);
     }
 
-    public function form_rw($id_dusun = '', $id_rw = '')
+    public function form_rw($id_dusun = '', $id_rw = ''): void
     {
         $this->redirect_hak_akses('u');
         $data_dusun       = $this->wilayah_model->cluster_by_id($id_dusun);
@@ -263,7 +260,7 @@ class Wilayah extends Admin_Controller
         $this->render('sid/wilayah/wilayah_form_rw', $data);
     }
 
-    public function insert_rw($id_dusun = '')
+    public function insert_rw($id_dusun = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->insert_rw($id_dusun);
@@ -271,7 +268,7 @@ class Wilayah extends Admin_Controller
         redirect("{$this->controller}/sub_rw/{$id_dusun}");
     }
 
-    public function update_rw($id_dusun = '', $id_rw = '')
+    public function update_rw($id_dusun = '', $id_rw = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update_rw($id_rw);
@@ -279,7 +276,7 @@ class Wilayah extends Admin_Controller
         redirect("{$this->controller}/sub_rw/{$id_dusun}");
     }
 
-    public function sub_rt($id_dusun = '', $id_rw = '', $p = 1, $o = 0)
+    public function sub_rt($id_dusun = '', $id_rw = '', $p = 1, $o = 0): void
     {
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
@@ -311,7 +308,7 @@ class Wilayah extends Admin_Controller
         $this->render('sid/wilayah/wilayah_rt', $data);
     }
 
-    public function cetak_rt($id_dusun = '', $id_rw = '')
+    public function cetak_rt($id_dusun = '', $id_rw = ''): void
     {
         $temp             = $this->wilayah_model->cluster_by_id($id_dusun);
         $dusun            = $temp['dusun'];
@@ -327,7 +324,7 @@ class Wilayah extends Admin_Controller
         $this->load->view('sid/wilayah/wilayah_rt_print', $data);
     }
 
-    public function excel_rt($id_dusun = '', $id_rw = '')
+    public function excel_rt($id_dusun = '', $id_rw = ''): void
     {
         $temp             = $this->wilayah_model->cluster_by_id($id_dusun);
         $dusun            = $temp['dusun'];
@@ -343,7 +340,7 @@ class Wilayah extends Admin_Controller
         $this->load->view('sid/wilayah/wilayah_rt_excel', $data);
     }
 
-    public function form_rt($id_dusun = '', $id_rw = '', $id_rt = '')
+    public function form_rt($id_dusun = '', $id_rw = '', $id_rt = ''): void
     {
         $this->redirect_hak_akses('u');
         $data_rw          = $this->wilayah_model->cluster_by_id($id_rw);
@@ -365,7 +362,7 @@ class Wilayah extends Admin_Controller
         $this->render('sid/wilayah/wilayah_form_rt', $data);
     }
 
-    public function insert_rt($id_dusun = '', $id_rw = '')
+    public function insert_rt($id_dusun = '', $id_rw = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->insert_rt($id_dusun, $id_rw);
@@ -373,7 +370,7 @@ class Wilayah extends Admin_Controller
         redirect("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}");
     }
 
-    public function update_rt($id_dusun = '', $id_rw = '', $id_rt = 0)
+    public function update_rt($id_dusun = '', $id_rw = '', $id_rt = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update_rt($id_rt);
@@ -381,32 +378,29 @@ class Wilayah extends Admin_Controller
         redirect("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}");
     }
 
-    public function warga($id = '')
+    public function warga($id = ''): void
     {
-        $temp     = $this->wilayah_model->cluster_by_id($id);
-        $id_dusun = $temp['id'];
-        $dusun    = $temp['dusun'];
+        $temp  = $this->wilayah_model->cluster_by_id($id);
+        $dusun = $temp['dusun'];
 
         $_SESSION['per_page'] = 100;
         $_SESSION['dusun']    = $dusun;
         redirect('penduduk/index/1/0');
     }
 
-    public function warga_kk($id = '')
+    public function warga_kk($id = ''): void
     {
         $temp                 = $this->wilayah_model->cluster_by_id($id);
-        $id_dusun             = $temp['id'];
         $dusun                = $temp['dusun'];
         $_SESSION['per_page'] = 50;
         $_SESSION['dusun']    = $dusun;
         redirect('keluarga/index/1/0');
     }
 
-    public function warga_l($id = '')
+    public function warga_l($id = ''): void
     {
-        $temp     = $this->wilayah_model->cluster_by_id($id);
-        $id_dusun = $temp['id'];
-        $dusun    = $temp['dusun'];
+        $temp  = $this->wilayah_model->cluster_by_id($id);
+        $dusun = $temp['dusun'];
 
         $_SESSION['per_page'] = 100;
         $_SESSION['dusun']    = $dusun;
@@ -414,11 +408,10 @@ class Wilayah extends Admin_Controller
         redirect('penduduk/index/1/0');
     }
 
-    public function warga_p($id = '')
+    public function warga_p($id = ''): void
     {
-        $temp     = $this->wilayah_model->cluster_by_id($id);
-        $id_dusun = $temp['id'];
-        $dusun    = $temp['dusun'];
+        $temp  = $this->wilayah_model->cluster_by_id($id);
+        $dusun = $temp['dusun'];
 
         $_SESSION['per_page'] = 100;
         $_SESSION['dusun']    = $dusun;
@@ -426,7 +419,7 @@ class Wilayah extends Admin_Controller
         redirect('penduduk/index/1/0');
     }
 
-    public function ajax_kantor_dusun_maps($id = '')
+    public function ajax_kantor_dusun_maps($id = ''): void
     {
         $data['wil_atas'] = $this->header['desa'];
         $sebutan_desa     = ucwords($this->setting->sebutan_desa);
@@ -451,7 +444,7 @@ class Wilayah extends Admin_Controller
         $this->render('sid/wilayah/maps_kantor', $data);
     }
 
-    public function ajax_wilayah_dusun_maps($id = '')
+    public function ajax_wilayah_dusun_maps($id = ''): void
     {
         $data['wil_atas'] = $this->header['desa'];
         $sebutan_desa     = ucwords($this->setting->sebutan_desa);
@@ -474,21 +467,21 @@ class Wilayah extends Admin_Controller
         $this->render('sid/wilayah/maps_wilayah', $data);
     }
 
-    public function update_kantor_dusun_map($id = '')
+    public function update_kantor_dusun_map($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update_kantor_dusun_map($id);
         redirect("{$this->controller}");
     }
 
-    public function update_wilayah_dusun_map($id = '')
+    public function update_wilayah_dusun_map($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update_wilayah_dusun_map($id);
         redirect("{$this->controller}");
     }
 
-    public function ajax_kantor_rw_maps($id_dusun = '', $id_rw = '')
+    public function ajax_kantor_rw_maps($id_dusun = '', $id_rw = ''): void
     {
         $data['wil_atas'] = $this->wilayah_model->cluster_by_id($id_dusun);
         $sebutan_dusun    = ucwords(setting('sebutan_dusun'));
@@ -513,7 +506,7 @@ class Wilayah extends Admin_Controller
         $this->render('sid/wilayah/maps_kantor', $data);
     }
 
-    public function ajax_wilayah_rw_maps($id_dusun = '', $id_rw = '')
+    public function ajax_wilayah_rw_maps($id_dusun = '', $id_rw = ''): void
     {
         $data['wil_atas'] = $this->wilayah_model->cluster_by_id($id_dusun);
         $sebutan_dusun    = ucwords(setting('sebutan_dusun'));
@@ -537,21 +530,21 @@ class Wilayah extends Admin_Controller
         $this->render('sid/wilayah/maps_wilayah', $data);
     }
 
-    public function update_kantor_rw_map($id_dusun = '', $id_rw = '')
+    public function update_kantor_rw_map($id_dusun = '', $id_rw = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update_kantor_rw_map($id_rw);
         redirect("{$this->controller}/sub_rw/{$id_dusun}");
     }
 
-    public function update_wilayah_rw_map($id_dusun = '', $rw = '')
+    public function update_wilayah_rw_map($id_dusun = '', $rw = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update_wilayah_rw_map($id_rw);
         redirect("{$this->controller}/sub_rw/{$id_dusun}");
     }
 
-    public function ajax_kantor_rt_maps($id_dusun = '', $id_rw = '', $id = '')
+    public function ajax_kantor_rt_maps($id_dusun = '', $id_rw = '', $id = ''): void
     {
         $dataRW           = $this->wilayah_model->cluster_by_id($id_rw);
         $data['wil_atas'] = $dataRW;
@@ -579,7 +572,7 @@ class Wilayah extends Admin_Controller
         $this->render('sid/wilayah/maps_kantor', $data);
     }
 
-    public function ajax_wilayah_rt_maps($id_dusun = '', $id_rw = '', $id = '')
+    public function ajax_wilayah_rt_maps($id_dusun = '', $id_rw = '', $id = ''): void
     {
         $dataRW           = $this->wilayah_model->cluster_by_id($id_rw);
         $data['wil_atas'] = $dataRW;
@@ -608,21 +601,21 @@ class Wilayah extends Admin_Controller
         $this->render('sid/wilayah/maps_wilayah', $data);
     }
 
-    public function update_kantor_rt_map($id_dusun = '', $id_rw = '', $id = '')
+    public function update_kantor_rt_map($id_dusun = '', $id_rw = '', $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update_kantor_rt_map($id);
         redirect("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}");
     }
 
-    public function update_wilayah_rt_map($id_dusun = '', $id_rw = '', $id = '')
+    public function update_wilayah_rt_map($id_dusun = '', $id_rw = '', $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->update_wilayah_rt_map($id);
         redirect("{$this->controller}/sub_rt/{$id_dusun}/{$id_rw}");
     }
 
-    public function kosongkan($id = '')
+    public function kosongkan($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->kosongkan_path($id);
@@ -630,7 +623,7 @@ class Wilayah extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function urut($tipe = '', $p = 1, $id = 0, $arah = 0, $id_dusun = 0, $id_rw = 0)
+    public function urut($tipe = '', $p = 1, $id = 0, $arah = 0, $id_dusun = 0, $id_rw = 0): void
     {
         switch ($tipe) {
             case 'dusun': $url = "index/{$p}";
@@ -652,19 +645,19 @@ class Wilayah extends Admin_Controller
         redirect("{$this->controller}/{$url}");
     }
 
-    public function list_rw($dusun = '')
+    public function list_rw($dusun = ''): void
     {
         $list_rw = $this->wilayah_model->list_rw($dusun);
-        echo json_encode($list_rw);
+        echo json_encode($list_rw, JSON_THROW_ON_ERROR);
     }
 
-    public function list_rt($dusun = '', $rw = '-')
+    public function list_rt($dusun = '', $rw = '-'): void
     {
         $list_rt = $this->wilayah_model->list_rt($dusun, $rw);
-        echo json_encode($list_rt);
+        echo json_encode($list_rt, JSON_THROW_ON_ERROR);
     }
 
-    public function ubah_lokasi_peta($wilayah, $to = 'index', $msg = '')
+    public function ubah_lokasi_peta($wilayah, $to = 'index', $msg = ''): void
     {
         $this->redirect_hak_akses('u');
 

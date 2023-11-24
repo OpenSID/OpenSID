@@ -46,7 +46,7 @@ class Beranda extends Mandiri_Controller
         $this->load->helper('download');
     }
 
-    public function index()
+    public function index(): void
     {
         $inbox = $this->mailbox_model->count_inbox_pesan($this->is_login->nik);
         if ($inbox) {
@@ -56,7 +56,7 @@ class Beranda extends Mandiri_Controller
         }
     }
 
-    public function profil()
+    public function profil(): void
     {
         $data = [
             'penduduk' => $this->penduduk_model->get_penduduk($this->is_login->id_pend),
@@ -66,7 +66,7 @@ class Beranda extends Mandiri_Controller
         $this->render('profil', $data);
     }
 
-    public function cetak_biodata()
+    public function cetak_biodata(): void
     {
         $data = [
             'desa'     => $this->header,
@@ -76,7 +76,7 @@ class Beranda extends Mandiri_Controller
         $this->load->view('sid/kependudukan/cetak_biodata', $data);
     }
 
-    public function cetak_kk()
+    public function cetak_kk(): void
     {
         if ($this->is_login->id_kk == null) {
             // Jika diakses melalui URL
@@ -94,7 +94,7 @@ class Beranda extends Mandiri_Controller
         $this->load->view('sid/kependudukan/cetak_kk_all', $data);
     }
 
-    public function ganti_pin()
+    public function ganti_pin(): void
     {
         $data = [
             'tgl_verifikasi_telegram' => $this->otp_library->driver('telegram')->cek_verifikasi_otp($this->is_login->id_pend),
@@ -106,20 +106,20 @@ class Beranda extends Mandiri_Controller
         $this->render('ganti_pin', $data);
     }
 
-    public function proses_ganti_pin()
+    public function proses_ganti_pin(): void
     {
         $this->mandiri_model->ganti_pin();
         redirect('layanan-mandiri/ganti-pin');
     }
 
-    public function keluar()
+    public function keluar(): void
     {
         $this->mandiri_model->logout();
         redirect('layanan-mandiri/masuk');
     }
 
     // TODO: Pindahkan ke model
-    public function pendapat(int $pilihan = 1)
+    public function pendapat(int $pilihan = 1): void
     {
         $data = [
             'config_id' => identitas('id'),

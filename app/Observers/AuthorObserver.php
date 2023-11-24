@@ -43,13 +43,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class AuthorObserver
 {
-    public function creating(Model $model)
+    public function creating(Model $model): void
     {
         $model->created_by = auth()->id;
         $model->updated_by = auth()->id;
     }
 
-    public function updating(Model $model)
+    public function updating(Model $model): void
     {
         $model->updated_by = auth()->id;
     }

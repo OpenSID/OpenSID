@@ -50,7 +50,7 @@ class Grup_model extends MY_Model
         return $this->autocomplete_str('nama', $this->table);
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db
@@ -60,7 +60,7 @@ class Grup_model extends MY_Model
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if ($filter = $this->session->jenis) {
             $this->db->where('jenis', $filter);
@@ -68,7 +68,7 @@ class Grup_model extends MY_Model
     }
 
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id('g')->from('user_grup g');
         $this->search_sql();
@@ -88,6 +88,7 @@ class Grup_model extends MY_Model
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
         $this->list_data_sql();
+
         //Ordering
         switch ($o) {
             case 1: $order = 'g.nama ASC';
@@ -106,8 +107,9 @@ class Grup_model extends MY_Model
             ->limit($limit, $offset)
             ->get()
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $offset + $i + 1;
             if ($data[$i]['jml_pengguna'] > 0) {
                 $data[$i]['boleh_hapus'] = 0;
@@ -119,10 +121,8 @@ class Grup_model extends MY_Model
 
     /**
      * Insert data baru ke tabel surat_keluar
-     *
-     * @return void
      */
-    public function insert()
+    public function insert(): void
     {
         // Ambil semua data dari var. global $_POST
         $data = [
@@ -142,11 +142,12 @@ class Grup_model extends MY_Model
     private function simpan_akses($id)
     {
         // Simpan data hak akses per modul; hapus dan ganti semua
-        $outp  = $this->config_id()->where('id_grup', $id)->delete('grup_akses');
-        $modul = $this->input->post('modul');
-        $data  = [];
+        $outp    = $this->config_id()->where('id_grup', $id)->delete('grup_akses');
+        $modul   = $this->input->post('modul');
+        $data    = [];
+        $counter = count($modul['id']);
 
-        for ($i = 0; $i < count($modul['id']); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $id_modul = $modul['id'][$i];
             $akses    = [
                 'config_id' => $this->config_id,
@@ -169,10 +170,8 @@ class Grup_model extends MY_Model
      * Update data di tabel grup
      *
      * @param int $id ID grup
-     *
-     * @return void
      */
-    public function update($id)
+    public function update($id): void
     {
         $data = [
             'nama'       => $this->input->post('nama'),
@@ -180,7 +179,7 @@ class Grup_model extends MY_Model
         ];
         $outp = $this->config_id()
             ->where('id', $id)
-            ->where_not_in('id', UserGrup::getGrupSistem())
+            ->where_not_in('id', (new UserGrup())->getGrupSistem())
             ->update($this->table, $data);
         $outp = $outp && $this->simpan_akses($id);
 
@@ -197,10 +196,8 @@ class Grup_model extends MY_Model
      *
      * @param string $id    ID grup
      * @param mixed  $semua
-     *
-     * @return void
      */
-    public function delete($id, $semua = false)
+    public function delete($id, $semua = false): void
     {
         if (! $semua) {
             session_error_clear();
@@ -208,7 +205,7 @@ class Grup_model extends MY_Model
 
         $outp = $this->config_id()
             ->where('id', $id)
-            ->where_not_in('id', UserGrup::getGrupSistem())
+            ->where_not_in('id', (new UserGrup())->getGrupSistem())
             ->delete($this->table);
 
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
@@ -216,7 +213,7 @@ class Grup_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         session_error_clear();
 
@@ -341,7 +338,7 @@ class Grup_model extends MY_Model
             return 'beranda';
         }
 
-        if (empty($modul)) {
+        if ($modul === []) {
             unset($this->session->hak_akses_url);
             $this->cache->hapus_cache_untuk_semua('_cache_modul');
 

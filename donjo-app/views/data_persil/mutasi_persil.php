@@ -112,7 +112,7 @@
                                     </thead>
                                     <tbody>
                                         <?php $nomer = $paging->offset; ?>
-                                        <?php foreach ($mutasi as $key => $item): $nomer++; ?>
+                                        <?php foreach ($mutasi as $item): $nomer++; ?>
                                             <tr>
                                                 <td class="text-center"><?= $nomer?></td>
                                                 <?php if ($this->CI->cek_hak_akses('u')): ?>

@@ -51,7 +51,7 @@ class Daftar_verifikasi extends Web_Controller
         }
     }
 
-    public function index()
+    public function index(): void
     {
         if ($this->session->mandiri == 1) {
             redirect('layanan-mandiri/beranda');
@@ -98,7 +98,7 @@ class Daftar_verifikasi extends Web_Controller
     /**
      * Verifikasi Telegram
      */
-    public function telegram()
+    public function telegram(): void
     {
         $data = [
             'header'                  => $this->header,
@@ -127,11 +127,11 @@ class Daftar_verifikasi extends Web_Controller
     /**
      * Langkah 2 Verifikasi Telegram
      */
-    public function kirim_otp_telegram()
+    public function kirim_otp_telegram(): void
     {
         $post    = $this->input->post();
         $userID  = $post['telegram_userID'];
-        $token   = hash('sha256', $raw_token = mt_rand(100000, 999999));
+        $token   = hash('sha256', $raw_token = random_int(100000, 999999));
         $id_pend = $this->session->is_verifikasi['id'];
 
         $this->db->trans_begin();
@@ -181,7 +181,7 @@ class Daftar_verifikasi extends Web_Controller
     /**
      * Langkah 3 Verifikasi Telegram
      */
-    public function verifikasi_telegram()
+    public function verifikasi_telegram(): void
     {
         $post = $this->input->post();
         $otp  = $post['token_telegram'];
@@ -216,7 +216,7 @@ class Daftar_verifikasi extends Web_Controller
     /**
      * Verifikasi Email
      */
-    public function email()
+    public function email(): void
     {
         $data = [
             'header'                  => $this->header,
@@ -245,11 +245,11 @@ class Daftar_verifikasi extends Web_Controller
     /**
      * Langkah 2 Verifikasi Email
      */
-    public function kirim_otp_email()
+    public function kirim_otp_email(): void
     {
         $post    = $this->input->post();
         $email   = $post['alamat_email'];
-        $token   = hash('sha256', $raw_token = mt_rand(100000, 999999));
+        $token   = hash('sha256', $raw_token = random_int(100000, 999999));
         $id_pend = $this->session->is_verifikasi['id'];
 
         $this->db->trans_begin();
@@ -299,7 +299,7 @@ class Daftar_verifikasi extends Web_Controller
     /**
      * Langkah 3 Verifikasi Email
      */
-    public function verifikasi_email()
+    public function verifikasi_email(): void
     {
         $post = $this->input->post();
         $otp  = $post['token_email'];

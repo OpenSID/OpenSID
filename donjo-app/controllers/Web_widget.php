@@ -60,7 +60,7 @@ class Web_widget extends Admin_Controller
         $this->list_session  = ['cari', 'filter'];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->per_page = $this->set_page[0];
@@ -68,7 +68,7 @@ class Web_widget extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function index($page = 0, $o = 0)
+    public function index($page = 0, $o = 0): void
     {
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
@@ -96,7 +96,7 @@ class Web_widget extends Admin_Controller
         $this->render('web/artikel/widget', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = '')
+    public function form($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data['p']           = $p;
@@ -114,7 +114,7 @@ class Web_widget extends Admin_Controller
         $this->render('web/artikel/widget-form', $data);
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         $value = $this->input->post($filter);
         if ($value != '') {
@@ -126,7 +126,7 @@ class Web_widget extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function admin($widget)
+    public function admin($widget): void
     {
         $data['form_action'] = site_url('web_widget/update_setting/' . $widget);
         $data['setting']     = $this->web_widget_model->get_setting($widget);
@@ -134,7 +134,7 @@ class Web_widget extends Admin_Controller
         $this->render('widgets/admin_' . $widget, $data);
     }
 
-    public function update_setting($widget)
+    public function update_setting($widget): void
     {
         $this->redirect_hak_akses('u');
         $this->cek_tidy();
@@ -144,7 +144,7 @@ class Web_widget extends Admin_Controller
         redirect("{$this->controller}/admin/{$widget}");
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->cek_tidy();
@@ -153,7 +153,7 @@ class Web_widget extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function update($id = '', $p = 1, $o = 0)
+    public function update($id = '', $p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->cek_tidy();
@@ -162,7 +162,7 @@ class Web_widget extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h');
         $this->web_widget_model->delete($id);
@@ -170,7 +170,7 @@ class Web_widget extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->web_widget_model->delete_all();
@@ -178,7 +178,7 @@ class Web_widget extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function urut($id = 0, $arah = 0)
+    public function urut($id = 0, $arah = 0): void
     {
         $this->redirect_hak_akses('u');
         $urut  = $this->web_widget_model->urut($id, $arah);
@@ -195,7 +195,7 @@ class Web_widget extends Admin_Controller
         redirect("{$this->controller}/index/{$page}");
     }
 
-    public function lock($id = 0)
+    public function lock($id = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->web_widget_model->lock($id, 1);
@@ -203,7 +203,7 @@ class Web_widget extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function unlock($id = 0)
+    public function unlock($id = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->web_widget_model->lock($id, 2);
@@ -211,7 +211,7 @@ class Web_widget extends Admin_Controller
         redirect($this->controller);
     }
 
-    private function cek_tidy()
+    private function cek_tidy(): void
     {
         if (! in_array('tidy', get_loaded_extensions())) {
             $this->session->success   = -1;

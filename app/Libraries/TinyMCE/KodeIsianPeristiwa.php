@@ -42,7 +42,7 @@ use App\Models\LogPenduduk;
 class KodeIsianPeristiwa
 {
     private $logPeristiwa;
-    private $statusDasar;
+    private array $statusDasar;
 
     public function __construct($idPenduduk, array $statusDasar = [])
     {
@@ -50,12 +50,12 @@ class KodeIsianPeristiwa
         $this->logPeristiwa = LogPenduduk::where('id_pend', $idPenduduk)->latest()->first();
     }
 
-    public static function get($idPenduduk, $statusDasar)
+    public static function get($idPenduduk, $statusDasar): array
     {
         return (new self($idPenduduk, $statusDasar))->kodeIsian();
     }
 
-    public function kodeIsian()
+    public function kodeIsian(): array
     {
         switch ($this->statusDasar) {
             case [LogPenduduk::BARU_LAHIR]:
@@ -83,7 +83,7 @@ class KodeIsianPeristiwa
         return array_merge($data, $lainnya);
     }
 
-    private function getLahir($peristiwa)
+    private function getLahir($peristiwa): array
     {
         return [
             [
@@ -143,7 +143,7 @@ class KodeIsianPeristiwa
         ];
     }
 
-    private function getKematian($peristiwa)
+    private function getKematian($peristiwa): array
     {
         return [
             [
@@ -180,7 +180,7 @@ class KodeIsianPeristiwa
         ];
     }
 
-    private function getPindah($peristiwa)
+    private function getPindah($peristiwa): array
     {
         return [
             [
@@ -201,7 +201,7 @@ class KodeIsianPeristiwa
         ];
     }
 
-    private function getHilang($peristiwa)
+    private function getHilang($peristiwa): array
     {
         return [
             [
@@ -217,7 +217,7 @@ class KodeIsianPeristiwa
         ];
     }
 
-    private function getLainnya($peristiwa)
+    private function getLainnya($peristiwa): array
     {
         return [
             [

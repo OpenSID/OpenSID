@@ -37,6 +37,7 @@
 
 use App\Models\FormatSurat;
 use App\Models\LampiranSurat;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,15 +51,13 @@ class Lampiran extends Admin_Controller
         $this->header['kategori'] = 'pengaturan-surat';
     }
 
-    public function index()
+    public function index(): View
     {
         if ($this->input->is_ajax_request()) {
             return datatables(LampiranSurat::jenis($this->input->get('jenis')))
-                ->addColumn('ceklist', static function ($row) {
-                    return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
-                })
+                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -71,9 +70,7 @@ class Lampiran extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('jenis', static function ($row) {
-                    return SebutanDesa(LampiranSurat::JENIS_LAMPIRAN[$row->jenis]) ?? '';
-                })
+                ->addColumn('jenis', static fn ($row) => SebutanDesa(LampiranSurat::JENIS_LAMPIRAN[$row->jenis]) ?? '')
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -83,17 +80,15 @@ class Lampiran extends Admin_Controller
         ]);
     }
 
-    public function form($id = null)
+    public function form($id = null): View
     {
         $this->redirect_hak_akses('u');
         $this->set_hak_akses_rfm();
 
         $lampiran = $id ? LampiranSurat::findOrFail($id) : null;
         $margin   = LampiranSurat::MARGINS;
-        if ($lampiran) {
-            if (! empty($lampiran->margin)) {
-                $margin = json_decode($lampiran->margin);
-            }
+        if ($lampiran && ! empty($lampiran->margin)) {
+            $margin = json_decode($lampiran->margin, null);
         }
 
         $data['action']               = $id ? 'Ubah' : 'Tambah';
@@ -109,7 +104,7 @@ class Lampiran extends Admin_Controller
         return view('admin.pengaturan_surat.lampiran.form', $data);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -120,7 +115,7 @@ class Lampiran extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data', 'lampiran');
     }
 
-    public function update($id = null)
+    public function update($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -133,7 +128,7 @@ class Lampiran extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'lampiran');
     }
 
-    public function delete($id = null)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
         if (! is_array($id)) {
@@ -161,7 +156,7 @@ class Lampiran extends Admin_Controller
             'template_desa' => $request['template_desa'],
             'status'        => (int) $request['status'],
             'margin_global' => $request['margin_global'],
-            'margin'        => json_encode($request['margin']),
+            'margin'        => json_encode($request['margin'], JSON_THROW_ON_ERROR),
             'ukuran'        => $request['ukuran'],
             'orientasi'     => $request['orientasi'],
         ];
@@ -194,22 +189,20 @@ class Lampiran extends Admin_Controller
     private function formatImport($list_data = null)
     {
         return collect(json_decode($list_data, true))
-            ->map(static function ($item) {
-                return [
-                    'slug'          => $item['slug'],
-                    'nama'          => $item['nama'],
-                    'jenis'         => (int) $item['jenis'],
-                    'template'      => $item['template'],
-                    'template_desa' => $item['template_desa'],
-                    'status'        => (int) $item['status'],
-                    'created_by'    => auth()->id,
-                    'updated_by'    => auth()->id,
-                ];
-            })
+            ->map(static fn ($item): array => [
+                'slug'          => $item['slug'],
+                'nama'          => $item['nama'],
+                'jenis'         => (int) $item['jenis'],
+                'template'      => $item['template'],
+                'template_desa' => $item['template_desa'],
+                'status'        => (int) $item['status'],
+                'created_by'    => auth()->id,
+                'updated_by'    => auth()->id,
+            ])
             ->toArray();
     }
 
-    public function impor_store()
+    public function impor_store(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -227,7 +220,7 @@ class Lampiran extends Admin_Controller
     private function prosesImport($list_data = null)
     {
         if ($list_data) {
-            foreach ($list_data as $key => $item) {
+            foreach ($list_data as $item) {
                 $value = json_decode($item, true);
                 LampiranSurat::updateOrCreate(['config_id' => identitas('id'), 'slug' => $value['slug']], $value);
             }
@@ -238,7 +231,7 @@ class Lampiran extends Admin_Controller
         return false;
     }
 
-    public function ekspor()
+    public function ekspor(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -255,9 +248,7 @@ class Lampiran extends Admin_Controller
         }
 
         $file_name = namafile('Template Lampiran') . '.json';
-        $ekspor    = $ekspor->map(static function ($item) {
-            return collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at')->toArray();
-        })->toArray();
+        $ekspor    = $ekspor->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at')->toArray())->toArray();
 
         $this->output
             ->set_header("Content-Disposition: attachment; filename={$file_name}")

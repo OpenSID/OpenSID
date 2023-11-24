@@ -44,14 +44,14 @@ class Plan_line_model extends MY_Model
         return $this->autocomplete_str('nama', 'line');
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db->like('nama', $cari);
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if ($filter = $this->session->filter) {
             $this->db->where('enabled', $filter);
@@ -73,7 +73,7 @@ class Plan_line_model extends MY_Model
         return $this->paging;
     }
 
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id()
             ->from('line')
@@ -109,16 +109,13 @@ class Plan_line_model extends MY_Model
             ->get()
             ->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
 
-            if ($data[$i]['enabled'] == 1) {
-                $data[$i]['aktif'] = 'Ya';
-            } else {
-                $data[$i]['aktif'] = 'Tidak';
-            }
+            $data[$i]['aktif'] = $data[$i]['enabled'] == 1 ? 'Ya' : 'Tidak';
 
             $j++;
         }
@@ -136,7 +133,7 @@ class Plan_line_model extends MY_Model
         ];
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data              = $this->validasi($this->input->post());
         $data['config_id'] = identitas('id');
@@ -158,7 +155,7 @@ class Plan_line_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data        = $this->validasi($this->input->post());
         $lokasi_file = $_FILES['simbol']['tmp_name'];
@@ -182,7 +179,7 @@ class Plan_line_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -193,7 +190,7 @@ class Plan_line_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -211,21 +208,18 @@ class Plan_line_model extends MY_Model
             ->where('tipe', 2)
             ->get('line')
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
 
-            if ($data[$i]['enabled'] == 1) {
-                $data[$i]['aktif'] = 'Ya';
-            } else {
-                $data[$i]['aktif'] = 'Tidak';
-            }
+            $data[$i]['aktif'] = $data[$i]['enabled'] == 1 ? 'Ya' : 'Tidak';
         }
 
         return $data;
     }
 
-    public function insert_sub_line($parrent = 0)
+    public function insert_sub_line($parrent = 0): void
     {
         $data              = $this->validasi($this->input->post());
         $data['config_id'] = identitas('id');
@@ -256,7 +250,7 @@ class Plan_line_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update_sub_line($id = 0)
+    public function update_sub_line($id = 0): void
     {
         $data        = $this->validasi($this->input->post());
         $lokasi_file = $_FILES['simbol']['tmp_name'];
@@ -276,14 +270,10 @@ class Plan_line_model extends MY_Model
             $this->db->where('id', $id);
             $outp = $this->config_id()->update('line', $data);
         }
-        if ($outp) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $_SESSION['success'] = $outp ? 1 : -1;
     }
 
-    public function delete_sub_line($id = '', $semua = false)
+    public function delete_sub_line($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -294,7 +284,7 @@ class Plan_line_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all_sub_line()
+    public function delete_all_sub_line(): void
     {
         $this->session->success = 1;
 
@@ -305,7 +295,7 @@ class Plan_line_model extends MY_Model
         }
     }
 
-    public function line_lock($id = '', $val = 0)
+    public function line_lock($id = '', $val = 0): void
     {
         $outp = $this->config_id()
             ->where('id', $id)

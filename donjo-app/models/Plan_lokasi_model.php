@@ -46,28 +46,28 @@ class Plan_lokasi_model extends MY_Model
         return $this->autocomplete_str('nama', 'lokasi');
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db->like('l.nama', $cari);
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if ($filter = $this->session->filter) {
             $this->db->where('l.enabled', $filter);
         }
     }
 
-    private function point_sql()
+    private function point_sql(): void
     {
         if ($point = $this->session->point) {
             $this->db->where('p.id', $point);
         }
     }
 
-    private function subpoint_sql()
+    private function subpoint_sql(): void
     {
         if ($subpoint = $this->session->subpoint) {
             $this->db->where('m.id', $subpoint);
@@ -89,7 +89,7 @@ class Plan_lokasi_model extends MY_Model
         return $this->paging;
     }
 
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id('l')
             ->from('lokasi l')
@@ -128,15 +128,12 @@ class Plan_lokasi_model extends MY_Model
             ->get()
             ->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['no'] = $j + 1;
-            if ($data[$i]['enabled'] == 1) {
-                $data[$i]['aktif'] = 'Ya';
-            } else {
-                $data[$i]['aktif'] = 'Tidak';
-            }
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no']    = $j + 1;
+            $data[$i]['aktif'] = $data[$i]['enabled'] == 1 ? 'Ya' : 'Tidak';
             $j++;
         }
 
@@ -153,7 +150,7 @@ class Plan_lokasi_model extends MY_Model
         return $data;
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data              = $this->validasi($this->input->post());
         $data['config_id'] = identitas('id');
@@ -171,7 +168,7 @@ class Plan_lokasi_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data       = $this->validasi($this->input->post());
         $old_foto   = $this->input->post('old_foto');
@@ -189,7 +186,7 @@ class Plan_lokasi_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -198,17 +195,15 @@ class Plan_lokasi_model extends MY_Model
         $garis = Lokasi::findOrFail($id);
         $outp  = $garis->delete();
 
-        if ($outp) {
-            if ($garis->foto_kecil || $garis->foto_sedang) {
-                unlink(FCPATH . $garis->foto_kecil);
-                unlink(FCPATH . $garis->foto_sedang);
-            }
+        if ($outp && ($garis->foto_kecil || $garis->foto_sedang)) {
+            unlink(FCPATH . $garis->foto_kecil);
+            unlink(FCPATH . $garis->foto_sedang);
         }
 
         status_sukses($outp, true);
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -247,7 +242,7 @@ class Plan_lokasi_model extends MY_Model
             ->result_array();
     }
 
-    public function lokasi_lock($id = '', $val = 0)
+    public function lokasi_lock($id = '', $val = 0): void
     {
         $outp = $this->config_id()
             ->where('id', $id)
@@ -264,7 +259,7 @@ class Plan_lokasi_model extends MY_Model
             ->row_array();
     }
 
-    public function update_position($id = 0)
+    public function update_position($id = 0): void
     {
         $data['lat'] = koordinat($this->input->post('lat'));
         $data['lng'] = koordinat($this->input->post('lng'));

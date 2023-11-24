@@ -56,7 +56,7 @@ class Lapor_model extends MY_Model
             // Update syarat baru yg dipilih
             $this->config_id()
                 ->where('id', $surat_format_id)
-                ->update('tweb_surat_format', ['syarat_surat' => json_encode($syarat_surat)]);
+                ->update('tweb_surat_format', ['syarat_surat' => json_encode($syarat_surat, JSON_THROW_ON_ERROR)]);
         }
     }
 }

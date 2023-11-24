@@ -93,10 +93,10 @@ class LogKeluarga extends BaseModel
 
     public function Keluarga()
     {
-        return $this->belongsTo(Keluarga::class, 'id_kk', 'id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+        return $this->belongsTo(Keluarga::class, 'id_kk', 'id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
-    public static function kodePeristiwaAll($index)
+    public static function kodePeristiwaAll($index): string
     {
         $result = [
             self::KELUARGA_BARU                 => 'Baru Lahir',

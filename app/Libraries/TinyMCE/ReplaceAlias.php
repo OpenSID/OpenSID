@@ -41,7 +41,7 @@ class ReplaceAlias
 {
     private $suratMatser;
     private $inputForm;
-    private $kodeIsian = [
+    private array $kodeIsian = [
         'nik',
         'nama',
         'tempatlahir',
@@ -78,7 +78,7 @@ class ReplaceAlias
         return (new self($suratMatser, $inputForm))->getKategori();
     }
 
-    public function alias($kategori = 'individu')
+    public function alias(string $kategori = 'individu')
     {
         $input = $this->inputForm[$kategori];
 
@@ -95,7 +95,7 @@ class ReplaceAlias
             }
         }
 
-        return collect($this->kodeIsian)->mapWithKeys(static function ($item) use ($prefix, $input) {
+        return collect($this->kodeIsian)->mapWithKeys(static function (string $item) use ($prefix, $input): array {
             $value = $input[$item];
             if (in_array($item, ['form_nama_non_warga', 'form_nik_non_warga'])) {
                 return ['[' . ucfirst(uclast($item)) . ']' => $value];
@@ -119,8 +119,6 @@ class ReplaceAlias
 
     public function getKategori()
     {
-        return collect($this->suratMatser->form_isian)->keys()->mapWithKeys(function ($item) {
-            return $this->alias($item);
-        })->toArray();
+        return collect($this->suratMatser->form_isian)->keys()->mapWithKeys(fn ($item) => $this->alias($item))->toArray();
     }
 }

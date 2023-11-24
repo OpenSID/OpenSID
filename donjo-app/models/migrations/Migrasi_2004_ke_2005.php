@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_2004_ke_2005 extends CI_model
 {
-    public function up()
+    public function up(): void
     {
         $this->covid19();
         $this->covid19Monitoring();
@@ -101,7 +101,7 @@ class Migrasi_2004_ke_2005 extends CI_model
         $this->db->query('CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1');
     }
 
-    private function covid19()
+    private function covid19(): void
     {
         // Menambahkan menu 'Group / Hak Akses' ke table 'setting_modul'
         $data[] = [
@@ -218,7 +218,7 @@ class Migrasi_2004_ke_2005 extends CI_model
         }
     }
 
-    private function covid19Monitoring()
+    private function covid19Monitoring(): void
     {
         // Update Menu Siaga Covid-19 Menjadi Menu Parent
         $this->db->where('id', 206)

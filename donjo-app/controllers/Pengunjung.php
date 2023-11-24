@@ -47,7 +47,7 @@ class Pengunjung extends Admin_Controller
         $this->sub_modul_ini = 'pengunjung';
     }
 
-    public function index()
+    public function index(): void
     {
         $data['hari_ini']   = $this->statistik_pengunjung_model->get_pengunjung_total('1');
         $data['kemarin']    = $this->statistik_pengunjung_model->get_pengunjung_total('2');
@@ -60,21 +60,21 @@ class Pengunjung extends Admin_Controller
         $this->render('pengunjung/table', $data);
     }
 
-    public function detail($id = null)
+    public function detail($id = null): void
     {
         $this->session->set_userdata('id', $id);
 
         redirect('pengunjung');
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata('id');
 
         redirect('pengunjung');
     }
 
-    public function cetak($aksi = 'cetak')
+    public function cetak($aksi = 'cetak'): void
     {
         $data = [
             'aksi'   => $aksi,

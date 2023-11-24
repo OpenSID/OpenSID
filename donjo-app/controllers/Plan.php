@@ -53,41 +53,25 @@ class Plan extends Admin_Controller
         $this->sub_modul_ini = 'pengaturan-peta';
     }
 
-    public function clear()
+    public function clear(): void
     {
         unset($_SESSION['cari'], $_SESSION['filter'], $_SESSION['point'], $_SESSION['subpoint']);
 
         redirect('plan');
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
+        $data['cari'] = $_SESSION['cari'] ?? '';
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
+        $data['filter'] = $_SESSION['filter'] ?? '';
 
-        if (isset($_SESSION['point'])) {
-            $data['point'] = $_SESSION['point'];
-        } else {
-            $data['point'] = '';
-        }
+        $data['point'] = $_SESSION['point'] ?? '';
 
-        if (isset($_SESSION['subpoint'])) {
-            $data['subpoint'] = $_SESSION['subpoint'];
-        } else {
-            $data['subpoint'] = '';
-        }
+        $data['subpoint'] = $_SESSION['subpoint'] ?? '';
 
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
@@ -105,7 +89,7 @@ class Plan extends Admin_Controller
         $this->render('lokasi/table', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = '')
+    public function form($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data['p'] = $p;
@@ -125,15 +109,11 @@ class Plan extends Admin_Controller
         $this->render('lokasi/form', $data);
     }
 
-    public function ajax_lokasi_maps($p = 1, $o = 0, $id = '')
+    public function ajax_lokasi_maps($p = 1, $o = 0, $id = ''): void
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
-        if ($id) {
-            $data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id) ?? show_404();
-        } else {
-            $data['lokasi'] = null;
-        }
+        $data['p']      = $p;
+        $data['o']      = $o;
+        $data['lokasi'] = $id ? $this->plan_lokasi_model->get_lokasi($id) ?? show_404() : null;
 
         $data['desa']                   = $this->header['desa'];
         $data['wil_atas']               = $this->header['desa'];
@@ -149,14 +129,14 @@ class Plan extends Admin_Controller
         $this->render('lokasi/maps', $data);
     }
 
-    public function update_maps($p = 1, $o = 0, $id = '')
+    public function update_maps($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_lokasi_model->update_position($id);
         redirect("plan/index/{$p}/{$o}");
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -167,7 +147,7 @@ class Plan extends Admin_Controller
         redirect('plan');
     }
 
-    public function filter()
+    public function filter(): void
     {
         $filter = $this->input->post('filter');
         if ($filter != 0) {
@@ -178,7 +158,7 @@ class Plan extends Admin_Controller
         redirect('plan');
     }
 
-    public function point()
+    public function point(): void
     {
         $point = $this->input->post('point');
         if ($point != 0) {
@@ -189,7 +169,7 @@ class Plan extends Admin_Controller
         redirect('plan');
     }
 
-    public function subpoint()
+    public function subpoint(): void
     {
         unset($_SESSION['point']);
         $subpoint = $this->input->post('subpoint');
@@ -201,42 +181,42 @@ class Plan extends Admin_Controller
         redirect('plan');
     }
 
-    public function insert($tip = 1)
+    public function insert($tip = 1): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_lokasi_model->insert($tip);
         redirect("plan/index/{$tip}");
     }
 
-    public function update($id = '', $p = 1, $o = 0)
+    public function update($id = '', $p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_lokasi_model->update($id);
         redirect("plan/index/{$p}/{$o}");
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h', "plan/index/{$p}/{$o}");
         $this->plan_lokasi_model->delete($id);
         redirect("plan/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h', "plan/index/{$p}/{$o}");
         $this->plan_lokasi_model->delete_all();
         redirect("plan/index/{$p}/{$o}");
     }
 
-    public function lokasi_lock($id = '')
+    public function lokasi_lock($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_lokasi_model->lokasi_lock($id, 1);
         redirect('plan');
     }
 
-    public function lokasi_unlock($id = '')
+    public function lokasi_unlock($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_lokasi_model->lokasi_lock($id, 2);

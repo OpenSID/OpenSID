@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Casts\Path;
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -114,10 +115,8 @@ class Wilayah extends BaseModel
 
     /**
      * Define a one-to-many relationship.
-     *
-     * @return HasMany
      */
-    public function kepala()
+    public function kepala(): HasOne
     {
         return $this->hasOne(Penduduk::class, 'id', 'id_kepala')->select('nik', 'nama', 'id');
     }

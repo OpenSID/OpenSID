@@ -48,29 +48,21 @@ class Line extends Admin_Controller
         $this->sub_modul_ini = 'pengaturan-peta';
     }
 
-    public function clear()
+    public function clear(): void
     {
         unset($_SESSION['cari'], $_SESSION['filter']);
 
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
+        $data['cari'] = $_SESSION['cari'] ?? '';
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
+        $data['filter'] = $_SESSION['filter'] ?? '';
 
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
@@ -85,7 +77,7 @@ class Line extends Admin_Controller
         $this->render('line/table', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = '')
+    public function form($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data['p'] = $p;
@@ -104,7 +96,7 @@ class Line extends Admin_Controller
         $this->render('line/form', $data);
     }
 
-    public function sub_line($line = 1)
+    public function sub_line($line = 1): void
     {
         $data['subline'] = $this->plan_line_model->list_sub_line($line);
         $data['line']    = $this->plan_line_model->get_line($line);
@@ -113,7 +105,7 @@ class Line extends Admin_Controller
         $this->render('line/sub_line_table', $data);
     }
 
-    public function ajax_add_sub_line($line = 0, $id = 0)
+    public function ajax_add_sub_line($line = 0, $id = 0): void
     {
         $this->redirect_hak_akses('u');
         if ($id) {
@@ -127,7 +119,7 @@ class Line extends Admin_Controller
         $this->load->view('line/ajax_add_sub_line_form', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -139,7 +131,7 @@ class Line extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function filter()
+    public function filter(): void
     {
         $filter = $this->input->post('filter');
         if ($filter != 0) {
@@ -151,7 +143,7 @@ class Line extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function insert($tip = 1)
+    public function insert($tip = 1): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->insert($tip);
@@ -159,7 +151,7 @@ class Line extends Admin_Controller
         redirect("{$this->controller}/index/{$tip}");
     }
 
-    public function update($id = '', $p = 1, $o = 0)
+    public function update($id = '', $p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->update($id);
@@ -167,7 +159,7 @@ class Line extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h');
         $this->plan_line_model->delete($id);
@@ -175,7 +167,7 @@ class Line extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->plan_line_model->delete_all();
@@ -183,7 +175,7 @@ class Line extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function line_lock($id = '')
+    public function line_lock($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->line_lock($id, 1);
@@ -191,7 +183,7 @@ class Line extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function line_unlock($id = '')
+    public function line_unlock($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->line_lock($id, 2);
@@ -199,7 +191,7 @@ class Line extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function insert_sub_line($line = '')
+    public function insert_sub_line($line = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->insert_sub_line($line);
@@ -207,7 +199,7 @@ class Line extends Admin_Controller
         redirect("{$this->controller}/sub_line/{$line}");
     }
 
-    public function update_sub_line($line = '', $id = '')
+    public function update_sub_line($line = '', $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->update_sub_line($id);
@@ -215,7 +207,7 @@ class Line extends Admin_Controller
         redirect("{$this->controller}/sub_line/{$line}");
     }
 
-    public function delete_sub_line($line = '', $id = '')
+    public function delete_sub_line($line = '', $id = ''): void
     {
         $this->redirect_hak_akses('h');
         $this->plan_line_model->delete_sub_line($id);
@@ -223,7 +215,7 @@ class Line extends Admin_Controller
         redirect("{$this->controller}/sub_line/{$line}");
     }
 
-    public function delete_all_sub_line($line = '')
+    public function delete_all_sub_line($line = ''): void
     {
         $this->redirect_hak_akses('h');
         $this->plan_line_model->delete_all_sub_line();
@@ -231,7 +223,7 @@ class Line extends Admin_Controller
         redirect("{$this->controller}/sub_line/{$line}");
     }
 
-    public function line_lock_sub_line($line = '', $id = '')
+    public function line_lock_sub_line($line = '', $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->line_lock($id, 1);
@@ -239,7 +231,7 @@ class Line extends Admin_Controller
         redirect("{$this->controller}/sub_line/{$line}");
     }
 
-    public function line_unlock_sub_line($line = '', $id = '')
+    public function line_unlock_sub_line($line = '', $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->line_lock($id, 2);

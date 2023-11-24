@@ -49,14 +49,14 @@ class Plan_polygon_model extends MY_Model
         return $this->autocomplete_str('nama', 'polygon');
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db->group_start()->like('nama', $cari)->group_end();
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if ($filter = $this->session->filter) {
             $this->db->where('enabled', $filter);
@@ -113,16 +113,13 @@ class Plan_polygon_model extends MY_Model
 
         $data = $this->list_data_sql()->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
 
-            if ($data[$i]['enabled'] == 1) {
-                $data[$i]['aktif'] = 'Ya';
-            } else {
-                $data[$i]['aktif'] = 'Tidak';
-            }
+            $data[$i]['aktif'] = $data[$i]['enabled'] == 1 ? 'Ya' : 'Tidak';
 
             $j++;
         }
@@ -138,7 +135,7 @@ class Plan_polygon_model extends MY_Model
         return $data;
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data              = $this->validasi($this->input->post());
         $data['config_id'] = identitas('id');
@@ -160,7 +157,7 @@ class Plan_polygon_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data        = $this->validasi($this->input->post());
         $lokasi_file = $_FILES['simbol']['tmp_name'];
@@ -181,14 +178,10 @@ class Plan_polygon_model extends MY_Model
         $this->db->where('id', $id);
         $outp = $this->config_id()->update('polygon', $data);
 
-        if ($outp) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $_SESSION['success'] = $outp ? 1 : -1;
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -199,7 +192,7 @@ class Plan_polygon_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -217,21 +210,18 @@ class Plan_polygon_model extends MY_Model
             ->where('tipe', 2)
             ->get('polygon')
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
 
-            if ($data[$i]['enabled'] == 1) {
-                $data[$i]['aktif'] = 'Ya';
-            } else {
-                $data[$i]['aktif'] = 'Tidak';
-            }
+            $data[$i]['aktif'] = $data[$i]['enabled'] == 1 ? 'Ya' : 'Tidak';
         }
 
         return $data;
     }
 
-    public function insert_sub_polygon($parrent = 0)
+    public function insert_sub_polygon($parrent = 0): void
     {
         $data              = $this->validasi($this->input->post());
         $data['config_id'] = identitas('id');
@@ -258,14 +248,10 @@ class Plan_polygon_model extends MY_Model
             $data['tipe']    = 2;
             $outp            = $this->db->insert('polygon', $data);
         }
-        if ($outp) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $_SESSION['success'] = $outp ? 1 : -1;
     }
 
-    public function update_sub_polygon($id = 0)
+    public function update_sub_polygon($id = 0): void
     {
         $data        = $this->validasi($this->input->post());
         $lokasi_file = $_FILES['simbol']['tmp_name'];
@@ -285,14 +271,10 @@ class Plan_polygon_model extends MY_Model
             $this->db->where('id', $id);
             $outp = $this->config_id()->update('polygon', $data);
         }
-        if ($outp) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $_SESSION['success'] = $outp ? 1 : -1;
     }
 
-    public function delete_sub_polygon($id = '', $semua = false)
+    public function delete_sub_polygon($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -303,7 +285,7 @@ class Plan_polygon_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all_sub_polygon()
+    public function delete_all_sub_polygon(): void
     {
         $this->session->success = 1;
 
@@ -314,7 +296,7 @@ class Plan_polygon_model extends MY_Model
         }
     }
 
-    public function polygon_lock($id = '', $val = 0)
+    public function polygon_lock($id = '', $val = 0): void
     {
         $outp = $this->config_id()
             ->where('id', $id)

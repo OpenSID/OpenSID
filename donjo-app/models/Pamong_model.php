@@ -47,7 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pamong_model extends MY_Model
 {
-    private $urut_model;
+    private \Urut_Model $urut_model;
 
     public function __construct()
     {
@@ -86,14 +86,15 @@ class Pamong_model extends MY_Model
 
         $data = $this->db->get()->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             if (empty($data[$i]['id_pend'])) {
                 // Dari luar desa
                 $data[$i]['nik']           = $data[$i]['pamong_nik'];
                 $data[$i]['tag_id_card']   = $data[$i]['pamong_tag_id_card'];
-                $data[$i]['tempatlahir']   = ! empty($data[$i]['pamong_tempatlahir']) ? $data[$i]['pamong_tempatlahir'] : '-';
+                $data[$i]['tempatlahir']   = empty($data[$i]['pamong_tempatlahir']) ? '-' : $data[$i]['pamong_tempatlahir'];
                 $data[$i]['tanggallahir']  = $data[$i]['pamong_tanggallahir'];
                 $data[$i]['sex']           = $data[$i]['pamong_sex'];
                 $data[$i]['pendidikan_kk'] = $data[$i]['pamong_pendidikan'];
@@ -104,10 +105,8 @@ class Pamong_model extends MY_Model
                 if (empty($data[$i]['pamong_nohenti'])) {
                     $data[$i]['pamong_nohenti'] = '-';
                 }
-            } else {
-                if (empty($data[$i]['tempatlahir'])) {
-                    $data[$i]['tempatlahir'] = '-';
-                }
+            } elseif (empty($data[$i]['tempatlahir'])) {
+                $data[$i]['tempatlahir'] = '-';
             }
 
             $data[$i]['nama'] = gelar($data[$i]['gelar_depan'], $data[$i]['nama'], $data[$i]['gelar_belakang']);
@@ -135,7 +134,7 @@ class Pamong_model extends MY_Model
         return $this->paging;
     }
 
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id('u')
             ->from('tweb_desa_pamong u')
@@ -168,7 +167,7 @@ class Pamong_model extends MY_Model
         return autocomplete_data_ke_str($data);
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($this->session->has_userdata('cari')) {
             $cari = $this->session->cari;
@@ -184,7 +183,7 @@ class Pamong_model extends MY_Model
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if ($this->session->has_userdata('status')) {
             $this->db->where('u.pamong_status', $this->session->status);
@@ -209,12 +208,10 @@ class Pamong_model extends MY_Model
             $data['pamong_niap_nip'] = (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
             if (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') {
                 $data['sebutan_pamong_niap_nip'] = 'NIP: ';
+            } elseif (! empty($data['pamong_niap']) && $data['pamong_niap'] != '-') {
+                $data['sebutan_pamong_niap_nip'] = $this->setting->sebutan_nip_desa . ': ';
             } else {
-                if (! empty($data['pamong_niap']) && $data['pamong_niap'] != '-') {
-                    $data['sebutan_pamong_niap_nip'] = $this->setting->sebutan_nip_desa . ': ';
-                } else {
-                    $data['sebutan_pamong_niap_nip'] = '';
-                }
+                $data['sebutan_pamong_niap_nip'] = '';
             }
 
             $data['nama'] = gelar($data['gelar_depan'], $data['nama'], $data['gelar_belakang']);
@@ -228,7 +225,7 @@ class Pamong_model extends MY_Model
         return $this->get_data($id);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $post = $this->input->post();
         $data = $this->siapkan_data($post);
@@ -249,12 +246,12 @@ class Pamong_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
-        $post           = $this->input->post();
-        $data           = $this->siapkan_data($post, $id);
-        $jabatan_kades  = RefJabatan::getKades()->id;
-        $jabatan_sekdes = RefJabatan::getSekdes()->id;
+        $post = $this->input->post();
+        $data = $this->siapkan_data($post, $id);
+        RefJabatan::getKades()->id;
+        RefJabatan::getSekdes()->id;
 
         if (! in_array($data['jabatan_id'], RefJabatan::getKadesSekdes())) {
             $data['pamong_ttd'] = $data['pamong_ub'] = 0;
@@ -280,13 +277,13 @@ class Pamong_model extends MY_Model
             $id    = $post['id_pend'];
             $field = 'id';
             $tabel = 'tweb_penduduk';
-            $foto  = time() . '-' . $id . '-' . mt_rand(10000, 999999);
+            $foto  = time() . '-' . $id . '-' . random_int(10000, 999999);
         } else {
             // Penduduk Luar Desa
             $id    = $post['id'];
             $field = 'pamong_id';
             $tabel = 'tweb_desa_pamong';
-            $foto  = 'pamong_' . time() . '-' . $id . '-' . mt_rand(10000, 999999);
+            $foto  = 'pamong_' . time() . '-' . $id . '-' . random_int(10000, 999999);
         }
         $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
         if ($foto = upload_foto_penduduk($foto, $dimensi)) {
@@ -316,7 +313,7 @@ class Pamong_model extends MY_Model
         status_sukses($outp, true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -340,9 +337,9 @@ class Pamong_model extends MY_Model
         $data['pamong_pangkat']     = strip_tags($post['pamong_pangkat']);
         $data['pamong_status']      = $post['pamong_status'];
         $data['pamong_nosk']        = empty($post['pamong_nosk']) ? '' : strip_tags($post['pamong_nosk']);
-        $data['pamong_tglsk']       = ! empty($post['pamong_tglsk']) ? tgl_indo_in($post['pamong_tglsk']) : null;
-        $data['pamong_nohenti']     = ! empty($post['pamong_nohenti']) ? strip_tags($post['pamong_nohenti']) : null;
-        $data['pamong_tglhenti']    = ! empty($post['pamong_tglhenti']) ? tgl_indo_in($post['pamong_tglhenti']) : null;
+        $data['pamong_tglsk']       = empty($post['pamong_tglsk']) ? null : tgl_indo_in($post['pamong_tglsk']);
+        $data['pamong_nohenti']     = empty($post['pamong_nohenti']) ? null : strip_tags($post['pamong_nohenti']);
+        $data['pamong_tglhenti']    = empty($post['pamong_tglhenti']) ? null : tgl_indo_in($post['pamong_tglhenti']);
         $data['pamong_masajab']     = strip_tags($post['pamong_masajab']) ?: null;
         $data['atasan']             = bilangan($post['atasan']) ?: null;
         $data['bagan_tingkat']      = bilangan($post['bagan_tingkat']) ?: null;
@@ -356,10 +353,8 @@ class Pamong_model extends MY_Model
             $data['urut'] = 1;
         } elseif ($data['jabatan_id'] == sekdes()->id) {
             $data['urut'] = 2;
-        } else {
-            if ($id == 0 || $id == null) {
-                $data['urut'] = $this->urut_model->urut_max() + 1;
-            }
+        } elseif ($id == 0 || $id == null) {
+            $data['urut'] = $this->urut_model->urut_max() + 1;
         }
 
         if (empty($data['id_pend'])) {
@@ -367,7 +362,7 @@ class Pamong_model extends MY_Model
             $data['pamong_nama']         = strip_tags($post['pamong_nama']);
             $data['pamong_nik']          = strip_tags($post['pamong_nik']) ?: null;
             $data['pamong_tempatlahir']  = strip_tags($post['pamong_tempatlahir']) ?: null;
-            $data['pamong_tanggallahir'] = ! empty($post['pamong_tanggallahir']) ? tgl_indo_in($post['pamong_tanggallahir']) : null;
+            $data['pamong_tanggallahir'] = empty($post['pamong_tanggallahir']) ? null : tgl_indo_in($post['pamong_tanggallahir']);
             $data['pamong_sex']          = $post['pamong_sex'] ?: null;
             $data['pamong_pendidikan']   = $post['pamong_pendidikan'] ?: null;
             $data['pamong_agama']        = $post['pamong_agama'] ?: null;
@@ -391,8 +386,8 @@ class Pamong_model extends MY_Model
      */
     public function ttd($jenis, $id, $val)
     {
-        $pamong         = Pamong::find($id) ?? show_404();
-        $jabatan_sekdes = RefJabatan::getSekdes()->id;
+        $pamong = Pamong::find($id) ?? show_404();
+        RefJabatan::getSekdes()->id;
 
         if ($jenis == 'a.n') {
             if ($pamong->jabatan_id == sekdes()->id) {
@@ -420,7 +415,7 @@ class Pamong_model extends MY_Model
         return status_sukses($output);
     }
 
-    private function select_data_pamong()
+    private function select_data_pamong(): void
     {
         $this->db
             ->select('m.*')
@@ -459,7 +454,7 @@ class Pamong_model extends MY_Model
     // $arah:
     //		1 - turun
     // 		2 - naik
-    public function urut($id, $arah)
+    public function urut($id, $arah): void
     {
         $outp = $this->urut_model->urut($id, $arah);
 
@@ -502,11 +497,11 @@ class Pamong_model extends MY_Model
             ->get()
             ->result_array();
 
-        return ['daftar_perangkat' => collect($data_query)->map(static function ($item) {
+        return ['daftar_perangkat' => collect($data_query)->map(static function (array $item): array {
             $kehadiran                = Kehadiran::where('pamong_id', $item['pamong_id'])->where('tanggal', Carbon::now()->format('Y-m-d'))->orderBy('id', 'DESC')->first();
             $item['status_kehadiran'] = $kehadiran ? $kehadiran->status_kehadiran : null;
             $item['tanggal']          = $kehadiran ? $kehadiran->tanggal : null;
-            $item['foto']             = AmbilFoto($item['foto'], 'besar', $item['id_sex']);
+            $item['foto']             = AmbilFoto($item['foto'] ?? '', 'besar', $item['id_sex']);
             $item['nama']             = gelar($item['gelar_depan'], $item['nama'], $item['gelar_belakang']);
 
             return $item;
@@ -538,7 +533,7 @@ class Pamong_model extends MY_Model
      * @param $id  id
      * @param $val status : 1 = Aktif, 0 = Tidak aktif
      */
-    public function kehadiran($id, $val)
+    public function kehadiran($id, $val): void
     {
         $pamong = Pamong::find($id) ?? show_404();
         $outp   = $pamong->update(['kehadiran' => $val]);
@@ -578,7 +573,7 @@ class Pamong_model extends MY_Model
             ->get()
             ->result_array();
 
-        $data['nodes'] = collect($data_query)->map(static function ($item) {
+        $data['nodes'] = collect($data_query)->map(static function (array $item): array {
             $item['nama'] = gelar($item['gelar_depan'], $item['nama'], $item['gelar_belakang']);
 
             return $item;
@@ -607,7 +602,7 @@ class Pamong_model extends MY_Model
             ->result_array();
     }
 
-    public function update_bagan($post)
+    public function update_bagan($post): void
     {
         $list_id = $post['list_id'];
         if ($post['atasan']) {

@@ -44,14 +44,14 @@ class Analisis_kategori_model extends MY_Model
         return $this->autocomplete_str('kategori', 'analisis_kategori_indikator');
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db->like('u.kategori', $cari);
         }
     }
 
-    private function master_sql()
+    private function master_sql(): void
     {
         if ($analisis_master = $this->session->analisis_master) {
             $this->db->like('u.id_master', $analisis_master);
@@ -99,9 +99,10 @@ class Analisis_kategori_model extends MY_Model
 
         $data = $this->list_data_sql()->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
             $j++;
         }
@@ -109,7 +110,7 @@ class Analisis_kategori_model extends MY_Model
         return $data;
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data              = [];
         $data['id_master'] = $this->session->analisis_master;
@@ -120,7 +121,7 @@ class Analisis_kategori_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data              = [];
         $data['id_master'] = $this->session->analisis_master;
@@ -129,7 +130,7 @@ class Analisis_kategori_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -140,7 +141,7 @@ class Analisis_kategori_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 

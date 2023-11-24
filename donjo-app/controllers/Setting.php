@@ -35,6 +35,43 @@
  *
  */
 
+use Illuminate\Contracts\View\View;
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Setting extends Admin_Controller
@@ -47,7 +84,7 @@ class Setting extends Admin_Controller
         $this->sub_modul_ini = 'aplikasi';
     }
 
-    public function index()
+    public function index(): View
     {
         $data = [
             'judul'               => 'Pengaturan Aplikasi',
@@ -60,7 +97,7 @@ class Setting extends Admin_Controller
         return view('admin.pengaturan.index', $data);
     }
 
-    public function ambil_foto()
+    public function ambil_foto(): void
     {
         $foto       = $this->input->get('foto');
         $pengaturan = $this->input->get('pengaturan');
@@ -79,7 +116,7 @@ class Setting extends Admin_Controller
     }
 
     // Untuk view lama
-    public function update()
+    public function update(): void
     {
         $this->redirect_hak_akses_url('u');
         $hasil = $this->setting_model->update_setting($this->input->post());
@@ -89,7 +126,7 @@ class Setting extends Admin_Controller
     }
 
     // Untuk view menggunakan blade
-    public function new_update()
+    public function new_update(): void
     {
         $this->redirect_hak_akses_url('u');
         if ($this->setting_model->update_setting($this->input->post())) {
@@ -101,7 +138,7 @@ class Setting extends Admin_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function aktifkan_tracking()
+    public function aktifkan_tracking(): void
     {
         if ($this->input->post('notifikasi') != 1) {
             return;
@@ -111,7 +148,7 @@ class Setting extends Admin_Controller
     }
 
     // Pengaturan web
-    public function web()
+    public function web(): View
     {
         $this->modul_ini     = 'admin-web';
         $this->sub_modul_ini = 'pengaturan-web';
@@ -126,7 +163,7 @@ class Setting extends Admin_Controller
     }
 
     // Pengaturan mandiri
-    public function mandiri()
+    public function mandiri(): View
     {
         $this->modul_ini     = 'layanan-mandiri';
         $this->sub_modul_ini = 'pengaturan-layanan-mandiri';
@@ -143,7 +180,7 @@ class Setting extends Admin_Controller
     }
 
     // Pengaturan analisis
-    public function analisis()
+    public function analisis(): View
     {
         $this->modul_ini     = 'analisis';
         $this->sub_modul_ini = 'pengaturan-analisis';

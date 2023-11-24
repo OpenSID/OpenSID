@@ -123,9 +123,9 @@
 															<td width="35px;"></td>
 															<td class="col-xs-12 col-sm-4 pull-left">
 																<select class="form-control input-sm select2" name="rb[<?= $data['id'] ?>]" onchange="formAction('mainform', '<?= site_url('analisis_indikator/kategori') ?>')">
-																	<option value="" <?= jecho(($data['referensi'] && $subjek[$data['referensi']]) && ! ($subjek[$data['referensi']] == $data2['kode_jawaban']) || ($data2['cek'] == 1), true, 'disabled'); ?>>Pilih Jawaban</option>
+																	<option value="" <?= jecho(($data['referensi'] && $subjek[$data['referensi']]) && $subjek[$data['referensi']] != $data2['kode_jawaban'] || ($data2['cek'] == 1), true, 'disabled'); ?>>Pilih Jawaban</option>
 																	<?php foreach ($data['parameter_respon'] as $data2) : ?>
-																		<option <?= jecho(($data['referensi'] && $subjek[$data['referensi']]) && ! ($subjek[$data['referensi']] == $data2['kode_jawaban']) || ($data2['cek'] == 1), true, ''); ?> value="<?= $data['id'] ?>.<?= $data2['id_parameter']; ?>" <?= selected(($data2['cek'] == 1) || ($subjek[$data['referensi']] == $data2['kode_jawaban']), true); ?>><?= $data2['kode_jawaban'] ?>. <?= $data2['jawaban'] ?></option>
+																		<option <?= jecho(($data['referensi'] && $subjek[$data['referensi']]) && $subjek[$data['referensi']] != $data2['kode_jawaban'] || ($data2['cek'] == 1), true, ''); ?> value="<?= $data['id'] ?>.<?= $data2['id_parameter']; ?>" <?= selected(($data2['cek'] == 1) || ($subjek[$data['referensi']] == $data2['kode_jawaban']), true); ?>><?= $data2['kode_jawaban'] ?>. <?= $data2['jawaban'] ?></option>
 																	<?php endforeach; ?>
 																</select>
 															</td>

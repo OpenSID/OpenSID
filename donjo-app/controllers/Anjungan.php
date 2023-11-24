@@ -37,6 +37,7 @@
 
 use App\Enums\StatusEnum;
 use App\Models\Anjungan as AnjunganModel;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,7 +50,7 @@ class Anjungan extends Admin_Controller
         $this->sub_modul_ini = 'daftar-anjungan';
     }
 
-    public function index()
+    public function index(): View
     {
         return view('admin.anjungan.index');
     }
@@ -66,15 +67,15 @@ class Anjungan extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use ($status) {
+                ->addColumn('aksi', static function ($row) use ($status): string {
                     $aksi = '';
 
                     if (can('u')) {
                         $aksi .= '<a href="' . route('anjungan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                         $url_kunci = site_url("anjungan/kunci/{$row->id}");
-                        $disabled  = $status ? '' : 'disabled';
+                        $disabled  = $status !== '' && $status !== '0' ? '' : 'disabled';
 
-                        if (! $status) {
+                        if ($status === '' || $status === '0') {
                             $aksi .= '<a href="#" class="btn bg-navy btn-sm" title="Aktifkan Anjungan" {$disabled}><i class="fa fa-lock"></i></a> ';
                         } elseif ($row->status) {
                             $aksi .= '<a href="' . $url_kunci . '/' . StatusEnum::YA . '" class="btn bg-navy btn-sm" title="Nonaktifkan Anjungan" ' . $disabled . '><i class="fa fa-unlock"></i></a> ';
@@ -89,14 +90,10 @@ class Anjungan extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('ip_address_port_printer', static function ($row) {
-                    return $row->printer_ip ?: '-' . ':' . $row->printer_port ?: '-';
-                })
-                ->editColumn('keyboard', static function ($row) {
-                    return '<span class="label label-' . ($row->keyboard ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->keyboard) . '</span>';
-                })
-                ->editColumn('status', static function ($row) use ($status) {
-                    if (! $status) {
+                ->editColumn('ip_address_port_printer', static fn ($row) => ($row->printer_ip ?: '-:' . $row->printer_port) ?: '-')
+                ->editColumn('keyboard', static fn ($row): string => '<span class="label label-' . ($row->keyboard ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->keyboard) . '</span>')
+                ->editColumn('status', static function ($row) use ($status): string {
+                    if ($status === '' || $status === '0') {
                         $row->status = StatusEnum::TIDAK;
                     }
 
@@ -109,7 +106,7 @@ class Anjungan extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = null)
+    public function form($id = null): View
     {
         $this->redirect_hak_akses('u');
 
@@ -126,7 +123,7 @@ class Anjungan extends Admin_Controller
         return view('admin.anjungan.form', $data);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -136,7 +133,7 @@ class Anjungan extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id = null)
+    public function update($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -148,21 +145,21 @@ class Anjungan extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = null)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
 
-        if (AnjunganModel::destroy($id ?? $this->request['id_cb'])) {
+        if (AnjunganModel::destroy($id ?? $this->request['id_cb']) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function kunci($id = null, $val = StatusEnum::TIDAK)
+    public function kunci($id = null, $val = StatusEnum::TIDAK): void
     {
         $this->redirect_hak_akses('u');
 
-        if (! cek_anjungan()) {
+        if (cek_anjungan() === '' || cek_anjungan() === '0') {
             redirect_with('warning', 'Untuk mengaktifkan harus memesan anjungan terlebih dahulu.');
         }
 
@@ -202,11 +199,7 @@ class Anjungan extends Admin_Controller
             'keterangan'    => htmlentities($request['keterangan']),
         ];
 
-        if ($id) {
-            $validated['created_by'] = $validated['updated_by'] = auth()->id;
-        } else {
-            $validated['created_by'] = auth()->id;
-        }
+        $validated['created_by'] = $id ? $validated['updated_by'] = auth()->id : auth()->id;
 
         return $validated;
     }

@@ -167,7 +167,7 @@
                                                 @foreach ($form_isian['daftar_status_dasar'] as $key => $data)
                                                     @php
                                                         $select = false;
-                                                        if (in_array($key, $suratMaster->form_isian->individu->status_dasar)) {
+                                                        if (in_array($key, is_array($suratMaster->form_isian->individu->status_dasar) ? $suratMaster->form_isian->individu->status_dasar : [$suratMaster->form_isian->individu->status_dasar] )) {
                                                             $select = true;
                                                         }
                                                     @endphp
@@ -186,7 +186,7 @@
                                                 @foreach ($form_isian['daftar_shdk'] as $key => $data)
                                                     @php
                                                         $select = false;
-                                                        if (in_array($key, $suratMaster->form_isian->individu->kk_level)) {
+                                                        if (in_array($key, $suratMaster->form_isian->individu->kk_level ?? [])) {
                                                             $select = true;
                                                         }
                                                     @endphp
@@ -305,8 +305,8 @@
                                                     <option value="">SEMUA</option>
                                                     @foreach ($form_isian['daftar_status_dasar'] as $key => $data)
                                                         @php
-                                                            $select = false;
-                                                            if (in_array($key, $suratMaster->form_isian->$item->status_dasar)) {
+                                                            $select = false;                                                            
+                                                            if (in_array($key, $suratMaster->form_isian->$item->status_dasar ?? [])) {
                                                                 $select = true;
                                                             }
                                                         @endphp
@@ -325,7 +325,7 @@
                                                     @foreach ($form_isian['daftar_shdk'] as $key => $data)
                                                         @php
                                                             $select = false;
-                                                            if (in_array($key, $suratMaster->form_isian->$item->kk_level)) {
+                                                            if (in_array($key, $suratMaster->form_isian->$item->kk_level ?? [])) {
                                                                 $select = true;
                                                             }
                                                         @endphp

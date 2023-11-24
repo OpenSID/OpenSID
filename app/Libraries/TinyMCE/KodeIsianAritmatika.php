@@ -39,16 +39,12 @@ namespace App\Libraries\TinyMCE;
 
 class KodeIsianAritmatika
 {
-    public function __construct()
-    {
-    }
-
-    public static function get()
+    public static function get(): array
     {
         return (new self())->kodeIsian();
     }
 
-    public function kodeIsian()
+    public function kodeIsian(): array
     {
         return [
             [

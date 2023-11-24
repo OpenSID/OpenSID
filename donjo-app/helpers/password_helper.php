@@ -121,6 +121,7 @@ namespace {
                             $salt = (string) $options['salt'];
                             break;
                         }
+
                         // no break
                     case 'array':
                     case 'resource':
@@ -148,7 +149,7 @@ namespace {
                 }
                 if (! $buffer_valid && function_exists('openssl_random_pseudo_bytes')) {
                     $buffer = openssl_random_pseudo_bytes($raw_salt_len);
-                    if ($buffer) {
+                    if ($buffer !== '' && $buffer !== '0') {
                         $buffer_valid = true;
                     }
                 }
@@ -161,18 +162,16 @@ namespace {
                         $read = PasswordCompat\binary\_strlen($buffer);
                     }
                     fclose($f);
-                    if ($read >= $raw_salt_len) {
-                        $buffer_valid = true;
-                    }
+                    $buffer_valid = true;
                 }
                 if (! $buffer_valid || PasswordCompat\binary\_strlen($buffer) < $raw_salt_len) {
                     $bl = PasswordCompat\binary\_strlen($buffer);
 
                     for ($i = 0; $i < $raw_salt_len; $i++) {
                         if ($i < $bl) {
-                            $buffer[$i] = $buffer[$i] ^ chr(mt_rand(0, 255));
+                            $buffer[$i] ^= chr(random_int(0, 255));
                         } else {
-                            $buffer .= chr(mt_rand(0, 255));
+                            $buffer .= chr(random_int(0, 255));
                         }
                     }
                 }
@@ -216,7 +215,7 @@ namespace {
          *
          * @return array The array of information about the hash.
          */
-        function password_get_info($hash)
+        function password_get_info($hash): array
         {
             $return = [
                 'algo'     => 0,
@@ -244,20 +243,18 @@ namespace {
          *
          * @return bool True if the password needs to be rehashed.
          */
-        function password_needs_rehash($hash, $algo, array $options = [])
+        function password_needs_rehash($hash, $algo, array $options = []): bool
         {
             $info = password_get_info($hash);
             if ($info['algo'] != $algo) {
                 return true;
             }
 
-            switch ($algo) {
-                case PASSWORD_BCRYPT:
-                    $cost = $options['cost'] ?? PASSWORD_BCRYPT_DEFAULT_COST;
-                    if ($cost != $info['options']['cost']) {
-                        return true;
-                    }
-                    break;
+            if ($algo === PASSWORD_BCRYPT) {
+                $cost = $options['cost'] ?? PASSWORD_BCRYPT_DEFAULT_COST;
+                if ($cost != $info['options']['cost']) {
+                    return true;
+                }
             }
 
             return false;
@@ -271,7 +268,7 @@ namespace {
          *
          * @return bool If the password matches the hash
          */
-        function password_verify($password, $hash)
+        function password_verify($password, $hash): bool
         {
             if (! function_exists('crypt')) {
                 trigger_error('Crypt must be loaded for password_verify to function', E_USER_WARNING);
@@ -279,7 +276,7 @@ namespace {
                 return false;
             }
             $ret = crypt($password, $hash);
-            if (! is_string($ret) || PasswordCompat\binary\_strlen($ret) != PasswordCompat\binary\_strlen($hash) || PasswordCompat\binary\_strlen($ret) <= 13) {
+            if (! is_string($ret) || PasswordCompat\binary\_strlen($ret) !== PasswordCompat\binary\_strlen($hash) || PasswordCompat\binary\_strlen($ret) <= 13) {
                 return false;
             }
 
@@ -309,7 +306,7 @@ namespace PasswordCompat\binary {
          *
          * @return int The number of bytes
          */
-        function _strlen($binary_string)
+        function _strlen($binary_string): int
         {
             if (function_exists('mb_strlen')) {
                 return mb_strlen($binary_string, '8bit');
@@ -331,7 +328,7 @@ namespace PasswordCompat\binary {
          *
          * @return string The substring
          */
-        function _substr($binary_string, $start, $length)
+        function _substr($binary_string, $start, $length): string
         {
             if (function_exists('mb_substr')) {
                 return mb_substr($binary_string, $start, $length, '8bit');

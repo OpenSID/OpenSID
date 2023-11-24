@@ -52,14 +52,14 @@ class Grup extends Admin_Controller
         $this->list_session  = ['jenis', 'cari'];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->per_page = $this->set_page[0];
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $this->tab_ini = 11;
         $data['p']     = $p;
@@ -85,18 +85,18 @@ class Grup extends Admin_Controller
         $this->render('grup/table', $data);
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         $this->session->{$filter} = $this->input->post($filter) ?: null;
         redirect($this->controller);
     }
 
-    public function form($p = 1, $o = 0, $id = '', $view = false)
+    public function form($p = 1, $o = 0, $id = '', $view = false): void
     {
         if ($this->session->salin_id) {
             $id = $this->session->salin_id;
         } else {
-            if (! $view && in_array($id, UserGrup::getGrupSistem())) {
+            if (! $view && in_array($id, (new UserGrup())->getGrupSistem())) {
                 session_error('Grup Pengguna Tidak Dapat Diubah');
                 redirect($this->controller);
             }
@@ -111,6 +111,7 @@ class Grup extends Admin_Controller
         $data['view']                = $view;
         $data['list_akses_modul']    = $this->grup_model->grup_akses((int) $id);
         $data['list_akses_submodul'] = $this->grup_model->akses_submodul((int) $id);
+
         // Centang modul jika ada akses submodul
         foreach ($data['list_akses_modul'] as $key => $akses_modul) {
             foreach ($data['list_akses_submodul'][$akses_modul['id']] as $akses_submodul) {
@@ -136,19 +137,19 @@ class Grup extends Admin_Controller
         $this->render('grup/form', $data);
     }
 
-    public function salin($p = 1, $o = 0, $id = '')
+    public function salin($p = 1, $o = 0, $id = ''): void
     {
         $this->session->salin_id = $id;
         redirect("{$this->controller}/form/{$p}/{$o}");
     }
 
-    public function search()
+    public function search(): void
     {
         $this->session->cari = $this->input->post('cari') ?: null;
         redirect($this->controller);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->set_form_validation();
@@ -162,7 +163,7 @@ class Grup extends Admin_Controller
         }
     }
 
-    private function set_form_validation()
+    private function set_form_validation(): void
     {
         $this->load->helper('form');
         $this->load->library('form_validation');
@@ -177,7 +178,7 @@ class Grup extends Admin_Controller
         return ! preg_match('/[^a-zA-Z0-9 \\-]/', $str);
     }
 
-    public function update($p = 1, $o = 0, $id = '')
+    public function update($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->set_form_validation();
@@ -192,14 +193,14 @@ class Grup extends Admin_Controller
         }
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h');
         $this->grup_model->delete($id);
         redirect("grup/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->grup_model->delete_all();

@@ -44,14 +44,14 @@ class Plan_point_model extends MY_Model
         return $this->autocomplete_str('nama', 'point');
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db->like('nama', $cari);
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if ($filter = $this->session->filter) {
             $this->db->where('enabled', $filter);
@@ -73,7 +73,7 @@ class Plan_point_model extends MY_Model
         return $this->paging;
     }
 
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id()
             ->from('point')
@@ -109,16 +109,13 @@ class Plan_point_model extends MY_Model
             ->get()
             ->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
 
-            if ($data[$i]['enabled'] == 1) {
-                $data[$i]['aktif'] = 'Ya';
-            } else {
-                $data[$i]['aktif'] = 'Tidak';
-            }
+            $data[$i]['aktif'] = $data[$i]['enabled'] == 1 ? 'Ya' : 'Tidak';
 
             $j++;
         }
@@ -134,7 +131,7 @@ class Plan_point_model extends MY_Model
         return $data;
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data              = $this->validasi($this->input->post());
         $data['config_id'] = identitas('id');
@@ -143,7 +140,7 @@ class Plan_point_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data = $this->validasi($this->input->post());
         $outp = $this->config_id()->where('id', $id)->update('point', $data);
@@ -151,7 +148,7 @@ class Plan_point_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -162,7 +159,7 @@ class Plan_point_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -181,20 +178,17 @@ class Plan_point_model extends MY_Model
             ->where('tipe', 2)
             ->get()
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['no'] = $i + 1;
-            if ($data[$i]['enabled'] == 1) {
-                $data[$i]['aktif'] = 'Ya';
-            } else {
-                $data[$i]['aktif'] = 'Tidak';
-            }
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no']    = $i + 1;
+            $data[$i]['aktif'] = $data[$i]['enabled'] == 1 ? 'Ya' : 'Tidak';
         }
 
         return $data;
     }
 
-    public function insert_sub_point($parrent = 0)
+    public function insert_sub_point($parrent = 0): void
     {
         $data              = $this->validasi($this->input->post());
         $data['config_id'] = identitas('id');
@@ -204,7 +198,7 @@ class Plan_point_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update_sub_point($id = 0)
+    public function update_sub_point($id = 0): void
     {
         $data = $this->validasi($this->input->post());
         $outp = $this->config_id()->where('id', $id)->update('point', $data);
@@ -212,7 +206,7 @@ class Plan_point_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete_sub_point($id = '', $semua = false)
+    public function delete_sub_point($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -223,7 +217,7 @@ class Plan_point_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all_sub_point()
+    public function delete_all_sub_point(): void
     {
         $this->session->success = 1;
 
@@ -234,7 +228,7 @@ class Plan_point_model extends MY_Model
         }
     }
 
-    public function point_lock($id = '', $val = 0)
+    public function point_lock($id = '', $val = 0): void
     {
         $outp = $this->config_id()
             ->where('id', $id)
@@ -258,7 +252,7 @@ class Plan_point_model extends MY_Model
             ->result_array();
     }
 
-    public function tambah_simbol()
+    public function tambah_simbol(): void
     {
         $config['upload_path']   = LOKASI_SIMBOL_LOKASI;
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -280,13 +274,13 @@ class Plan_point_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function delete_simbol($id = '')
+    public function delete_simbol($id = ''): void
     {
         $outp = $this->config_id()->where('id', $id)->delete('gis_simbol');
         status_sukses($outp);
     }
 
-    public function delete_simbol_file($simbol = '')
+    public function delete_simbol_file($simbol = ''): void
     {
         $target_dir  = LOKASI_SIMBOL_LOKASI;
         $target_file = $target_dir . $simbol;
@@ -297,7 +291,7 @@ class Plan_point_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function salin_simbol_default()
+    public function salin_simbol_default(): void
     {
         $dir     = LOKASI_SIMBOL_LOKASI_DEF;
         $files   = scandir($dir);
@@ -305,7 +299,7 @@ class Plan_point_model extends MY_Model
         $outp    = true;
 
         foreach ($files as $file) {
-            if (! empty($file) && $file != '.' && $file != '..') {
+            if ($file !== '' && $file != '.' && $file != '..') {
                 $source      = $dir . '/' . $file;
                 $destination = $new_dir . '/' . $file;
                 if (! file_exists($destination)) {

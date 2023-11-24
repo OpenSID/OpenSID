@@ -44,7 +44,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class UuidObserver
 {
-    public function creating(Model $model)
+    public function creating(Model $model): void
     {
         $model->uuid = Str::uuid();
     }

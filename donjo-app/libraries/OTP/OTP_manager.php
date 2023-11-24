@@ -41,17 +41,17 @@ require_once 'donjo-app/libraries/OTP/Repository/OTP_email.php';
 
 class OTP_manager extends Abstract_manager
 {
-    public function getDefaultDriver()
+    public function getDefaultDriver(): never
     {
         throw new Exception('Not supported defauld driver.');
     }
 
-    public function createTelegramDriver()
+    public function createTelegramDriver(): OTP_telegram
     {
         return new OTP_telegram();
     }
 
-    public function createEmailDriver()
+    public function createEmailDriver(): OTP_email
     {
         return new OTP_email();
     }

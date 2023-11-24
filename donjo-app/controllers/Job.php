@@ -53,7 +53,7 @@ class Job extends CI_Controller
         $this->load->model(['ekspor_model', 'database_model']);
     }
 
-    public function restore($database = null)
+    public function restore($database = null): void
     {
         /**
          * Job hanya bisa digunakan jika :
@@ -108,7 +108,7 @@ class Job extends CI_Controller
         return false;
     }
 
-    public function backup_inkremental($lokasi)
+    public function backup_inkremental($lokasi): void
     {
         if (! is_cli()) {
             return;
@@ -138,7 +138,7 @@ class Job extends CI_Controller
         }
     }
 
-    public function restore_desa($id)
+    public function restore_desa($id): void
     {
         if (! is_cli()) {
             return;

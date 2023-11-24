@@ -61,6 +61,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 14. [#6727](https://github.com/OpenSID/OpenSID/issues/6727) Penyesuaian modul pengguna menggunakan ORM dan Blade.
 15. [#7411](https://github.com/OpenSID/OpenSID/issues/7411) Penyesuaian fungsi tombol batal pada modal.
 
+
 #### Peningkatan Keamanan
 
 1. [#7365](https://github.com/OpenSID/OpenSID/issues/7365) Penambahan notifikasi ke telegram jika terdapat gagal login sebanyak 3 kali.
@@ -69,3 +70,4 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 4. [#3198](https://github.com/OpenSID/premium/issues/3198) Penyesuaian ulang url dan folder filemanager.
 5. [#3199](https://github.com/OpenSID/premium/issues/3199) Peningkatan keamanan pada form unggah file.
 6. [#7286](https://github.com/OpenSID/OpenSID/issues/7286) Peningkatan masuk aplikasi menggunakan google recaptcha yang bisa disesuaikan.
+7. [#7344](https://github.com/OpenSID/OpenSID/issues/7344) Peningkatan bisa menggunakan versi php 7.4.x - 8.2.x

@@ -55,15 +55,14 @@ class Migrasi_fitur_premium_2302 extends MY_model
         $hasil = $hasil && $this->migrasi_2023012571($hasil);
         $hasil = $hasil && $this->migrasi_2023012751($hasil);
         $hasil = $hasil && $this->migrasi_2023013051($hasil);
-        $hasil = $hasil && $this->migrasi_2023013152($hasil);
 
-        return $hasil && true;
+        return $hasil && $this->migrasi_2023013152($hasil);
     }
 
     protected function migrasi_2023010171($hasil)
     {
         if (! $this->db->field_exists('pertanyaan_statis', 'buku_kepuasan')) {
-            $hasil = $hasil && $this->dbforge->add_column('buku_kepuasan', [
+            return $hasil && $this->dbforge->add_column('buku_kepuasan', [
                 'pertanyaan_statis' => ['type' => 'TEXT', 'null' => true, 'default' => null, 'after' => 'id_jawaban'],
             ]);
         }
@@ -99,7 +98,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
     protected function migrasi_2023010452($hasil)
     {
         if (! $this->db->field_exists('status_alasan', 'anjungan')) {
-            $hasil = $hasil && $this->dbforge->add_column('anjungan', [
+            return $hasil && $this->dbforge->add_column('anjungan', [
                 'status_alasan' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,
@@ -194,7 +193,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
     public function migrasi_2023012571($hasil)
     {
         if (! $this->db->field_exists('nomor_operator', 'config')) {
-            $hasil = $this->dbforge->add_column('config', [
+            return $this->dbforge->add_column('config', [
                 'nomor_operator' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 20,
@@ -269,7 +268,7 @@ class Migrasi_fitur_premium_2302 extends MY_model
     {
         // Hapus unsigned pada kolom id di tabel ref_pindah
         if (! $this->cek_indeks('log_penduduk', 'id_ref_pindah')) {
-            $hasil = $hasil && $this->dbforge->modify_column('ref_pindah', [
+            return $hasil && $this->dbforge->modify_column('ref_pindah', [
                 'id' => [
                     'type'           => 'INT',
                     'constraint'     => 11,

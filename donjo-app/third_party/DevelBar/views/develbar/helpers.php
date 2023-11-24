@@ -1,6 +1,6 @@
 <img src="<?= $icon ?>" title="<?= lang('helpers') ?>"
      alt="<?= lang('helpers') ?>"/> <?= lang('helpers') . ' (' . count($helpers) . ')' ?>
-<?php if (count($helpers)): ?>
+<?php if (count($helpers) > 0): ?>
 <div class="detail">
     <div class="scroll">
     <?php

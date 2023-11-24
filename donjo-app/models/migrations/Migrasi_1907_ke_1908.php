@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_1907_ke_1908 extends CI_model
 {
-    public function up()
+    public function up(): void
     {
         // Tambah kolom asaldana dan modify kolom status
         if (! $this->db->field_exists('asaldana', 'program')) {

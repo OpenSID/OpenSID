@@ -61,12 +61,12 @@ class KodeIsianGambar
         $this->surat   = $surat;
     }
 
-    public static function set($request, $result, $surat = null)
+    public static function set($request, $result, $surat = null): array
     {
         return (new self($request, $result, $surat))->setKodeIsianGambar();
     }
 
-    public function setKodeIsianGambar()
+    public function setKodeIsianGambar(): array
     {
         // Logo Surat
         $file_logo    = ($this->request['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(identitas()->logo, false, true));

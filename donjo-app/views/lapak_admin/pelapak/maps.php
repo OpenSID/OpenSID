@@ -54,22 +54,22 @@
 
 		//WILAYAH DESA
 		<?php if (! empty($desa['path'])): ?>
-		set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa']?>", "<?= favico_desa()?>");
+		set_marker_desa(marker_desa, <?=json_encode($desa, JSON_THROW_ON_ERROR)?>, "<?=ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa']?>", "<?= favico_desa()?>");
 		<?php endif; ?>
 
 		//WILAYAH DUSUN
 		<?php if (! empty($dusun_gis)): ?>
-			set_marker_multi(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
+			set_marker_multi(marker_dusun, '<?=addslashes(json_encode($dusun_gis, JSON_THROW_ON_ERROR))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
 		<?php endif; ?>
 
 		//WILAYAH RW
 		<?php if (! empty($rw_gis)): ?>
-			set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
+			set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis, JSON_THROW_ON_ERROR))?>', '#8888dd', 'RW', 'rw');
 		<?php endif; ?>
 
 		//WILAYAH RT
 		<?php if (! empty($rt_gis)): ?>
-			set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
+			set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis, JSON_THROW_ON_ERROR))?>', '#008000', 'RT', 'rt');
 		<?php endif; ?>
 
 		//2. Menampilkan overlayLayers Peta Semua Wilayah

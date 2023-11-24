@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_2001_ke_2002 extends CI_model
 {
-    public function up()
+    public function up(): void
     {
         // Tambah kolom data siskeudes
         if (! $this->db->field_exists('ID_Bank', 'keuangan_ta_sts')) {

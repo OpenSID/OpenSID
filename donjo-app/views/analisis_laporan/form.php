@@ -94,8 +94,7 @@
 											</thead>
 											<tbody>
 												<?php foreach ($list_jawab as $data): ?>
-													<?php if ($data['cek'] >= 1):$bg = "class='bg'";
-													else:$bg                         = ''; endif; ?>
+													<?php $bg = $data['cek'] >= 1 ? "class='bg'" : ''; ?>
 													<tr>
 														<td><?= $data['no']?></td>
 														<td><?= $data['pertanyaan']?></td>

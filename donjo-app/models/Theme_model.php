@@ -39,7 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Theme_model extends CI_Model
 {
+    /**
+     * @var mixed[]|string
+     */
     public $tema;
+
+    /**
+     * @var 'desa/themes'|'vendor/themes'
+     */
     public $folder;
 
     public function __construct()
@@ -87,7 +94,9 @@ class Theme_model extends CI_Model
     public function lokasi_latar_website()
     {
         $folder = "desa/pengaturan/{$this->tema}/images/";
-        file_exists($folder) || mkdir($folder, 0755, true);
+        if (! file_exists($folder)) {
+            mkdir($folder, 0755, true);
+        }
 
         return $folder;
     }

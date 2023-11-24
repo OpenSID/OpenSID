@@ -41,7 +41,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Teks_berjalan_model extends MY_Model
 {
-    private $urut_model;
+    private \Urut_Model $urut_model;
 
     public function __construct()
     {
@@ -74,9 +74,10 @@ class Teks_berjalan_model extends MY_Model
             $this->db->where('status', 1);
         }
 
-        $data = $this->db->get()->result_array();
+        $data    = $this->db->get()->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']        = $i + 1;
             $data[$i]['tautan']    = $data[$i]['tautan'] ? menu_slug('artikel/' . $data[$i]['tautan']) : '';
             $data[$i]['tampilkan'] = SistemEnum::valueOf($data[$i]['tipe']);
@@ -85,7 +86,7 @@ class Teks_berjalan_model extends MY_Model
         return $data;
     }
 
-    private function sql()
+    private function sql(): void
     {
         $this->config_id_exist('teks_berjalan', 't')
             ->select('t.*, a.judul, a.tgl_upload')
@@ -109,12 +110,12 @@ class Teks_berjalan_model extends MY_Model
      * @param $id  id
      * @param $val status : 1 = Unlock, 2 = Lock
      */
-    public function lock($id, $val)
+    public function lock($id, $val): void
     {
         $this->config_id()->where('id', $id)->update('teks_berjalan', ['status' => $val]);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->session->success   = 1;
         $this->session->error_msg = '';
@@ -140,7 +141,7 @@ class Teks_berjalan_model extends MY_Model
         return $data;
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $this->session->success   = 1;
         $this->session->error_msg = '';
@@ -155,7 +156,7 @@ class Teks_berjalan_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -166,7 +167,7 @@ class Teks_berjalan_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 

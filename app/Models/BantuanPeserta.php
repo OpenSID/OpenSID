@@ -78,7 +78,7 @@ class BantuanPeserta extends BaseModel
      *
      * @return Builder
      */
-    public function scopePeserta($query)
+    public function scopePeserta($query): void
     {
         // return $query->where('peserta', auth('jwt')->user()->penduduk->nik);
     }

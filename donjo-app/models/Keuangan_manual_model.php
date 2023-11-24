@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keuangan_manual_model extends MY_Model
 {
-    private $tabel = 'keuangan_manual_rinci';
+    private string $tabel = 'keuangan_manual_rinci';
 
     public function list_tahun_anggaran_manual()
     {
@@ -158,7 +158,7 @@ class Keuangan_manual_model extends MY_Model
             ->result_array();
     }
 
-    public function delete_input($id = '')
+    public function delete_input($id = ''): void
     {
         $this->config_id()
             ->where('id', $id)
@@ -171,7 +171,7 @@ class Keuangan_manual_model extends MY_Model
         }
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $id_cb = $this->input->post('id_cb');
         // Cek apakah ada data yang dicentang atau dipilih

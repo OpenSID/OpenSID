@@ -49,7 +49,7 @@ class Security_trusted_host
         $this->config = &get_config();
     }
 
-    public function handle()
+    public function handle(): void
     {
         if (! isset($_SERVER['HTTP_HOST']) || empty($this->config['trusted_hosts'])) {
             return;
@@ -67,10 +67,17 @@ class Security_trusted_host
         foreach ($trustedHosts as $trustedHost) {
             $parsedUrl       = parse_url(trim($trustedHost));
             $realTrustedHost = trim($parsedUrl['host'] ?? '');
-
-            if ($realTrustedHost && preg_match('/^((.*?)\\.)?' . preg_quote($realTrustedHost) . '$/i', $_SERVER['HTTP_HOST'])) {
-                return;
+            if ($realTrustedHost === '') {
+                continue;
             }
+            if ($realTrustedHost === '0') {
+                continue;
+            }
+            if (! preg_match('/^((.*?)\\.)?' . preg_quote($realTrustedHost) . '$/i', $_SERVER['HTTP_HOST'])) {
+                continue;
+            }
+
+            return;
         }
 
         log_message('error', sprintf('Untrusted Host "%s".', htmlspecialchars($_SERVER['HTTP_HOST'], ENT_QUOTES, 'UTF-8')));

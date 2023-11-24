@@ -60,7 +60,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
     protected function migrasi_2021080771($hasil)
     {
         if (! $this->db->field_exists('mac_address', 'anjungan')) {
-            $hasil = $hasil && $this->dbforge->add_column('anjungan', ['mac_address' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
+            return $hasil && $this->dbforge->add_column('anjungan', ['mac_address' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
         }
 
         return $hasil;
@@ -73,9 +73,13 @@ class Migrasi_fitur_premium_2109 extends MY_Model
             foreach ($list_data as $data) {
                 // Hapus file
                 $file = LOKASI_ARSIP . '/' . str_replace('.rtf', '.php', $data->nama_surat);
-                if ($data->nama_surat && file_exists($file)) {
-                    $hasil = $hasil && unlink($file);
+                if (! $data->nama_surat) {
+                    continue;
                 }
+                if (! file_exists($file)) {
+                    continue;
+                }
+                $hasil = $hasil && unlink($file);
             }
         }
 
@@ -148,7 +152,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
         }
 
         if (! $this->db->field_exists('tipe', 'kelompok_master')) {
-            $hasil = $hasil && $this->dbforge->add_column('kelompok_master', ['tipe' => ['type' => 'VARCHAR', 'constraint' => '100', 'default' => 'kelompok']]);
+            return $hasil && $this->dbforge->add_column('kelompok_master', ['tipe' => ['type' => 'VARCHAR', 'constraint' => '100', 'default' => 'kelompok']]);
         }
 
         return $hasil;
@@ -165,7 +169,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
         }
 
         if (! $this->db->field_exists('printer_port', 'anjungan')) {
-            $hasil = $hasil && $this->dbforge->add_column('anjungan', ['printer_port' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
+            return $hasil && $this->dbforge->add_column('anjungan', ['printer_port' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
         }
 
         return $hasil;
@@ -198,7 +202,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
         }
 
         if (! $this->db->field_exists('manfaat', 'pembangunan')) {
-            $hasil = $hasil && $this->dbforge->add_column('pembangunan', ['manfaat' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
+            return $hasil && $this->dbforge->add_column('pembangunan', ['manfaat' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
         }
 
         return $hasil;

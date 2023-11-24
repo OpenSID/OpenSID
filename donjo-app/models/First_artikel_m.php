@@ -86,7 +86,7 @@ class First_artikel_m extends MY_Model
         $this->db->select('COUNT(a.id) AS jml');
         $this->paging_artikel_sql();
         $cari = trim($this->input->get('cari', true));
-        if (! empty($cari)) {
+        if ($cari !== '') {
             $cari          = $this->db->escape_like_str($cari);
             $cfg['suffix'] = "?cari={$cari}";
         }
@@ -102,7 +102,7 @@ class First_artikel_m extends MY_Model
         return $this->paging;
     }
 
-    private function paging_artikel_sql()
+    private function paging_artikel_sql(): void
     {
         $this->config_id_exist('artikel', 'a')
             ->from('artikel a')
@@ -114,7 +114,7 @@ class First_artikel_m extends MY_Model
             ->where('a.tgl_upload <', date('Y-m-d H:i:s'));
 
         $cari = trim($this->input->get('cari', true));
-        if (! empty($cari)) {
+        if ($cari !== '') {
             $this->db
                 ->group_start()
                 ->like('a.judul', $cari)
@@ -132,8 +132,9 @@ class First_artikel_m extends MY_Model
             ->limit($limit, $offset)
             ->get()
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $this->sterilkan_artikel($data[$i]);
             $this->icon_keuangan($data[$i]);
         }
@@ -141,13 +142,13 @@ class First_artikel_m extends MY_Model
         return $data;
     }
 
-    private function sterilkan_artikel(&$data)
+    private function sterilkan_artikel(&$data): void
     {
         $data['judul'] = htmlspecialchars_decode($this->security->xss_clean($data['judul']));
         $data['slug']  = $this->security->xss_clean($data['slug']);
     }
 
-    private function icon_keuangan(&$data)
+    private function icon_keuangan(&$data): void
     {
         // ganti shortcode menjadi icon
         $data['isi'] = $this->shortcode_model->convert_sc_list($data['isi']);
@@ -177,9 +178,10 @@ class First_artikel_m extends MY_Model
         }
 
         $this->db->limit(7);
-        $data = $this->db->get('artikel a')->result_array();
+        $data    = $this->db->get('artikel a')->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['judul'] = htmlspecialchars_decode($this->security->xss_clean($data[$i]['judul']));
         }
 
@@ -223,7 +225,9 @@ class First_artikel_m extends MY_Model
             ->get();
         $data = $query->result_array();
         if ($query->num_rows() > 0) {
-            for ($i = 0; $i < count($data); $i++) {
+            $counter = count($data);
+
+            for ($i = 0; $i < $counter; $i++) {
                 $nomer           = $offset + $i + 1;
                 $id              = $data[$i]['id'];
                 $tgl             = date('d/m/Y', strtotime($data[$i]['tgl_upload']));
@@ -238,7 +242,7 @@ class First_artikel_m extends MY_Model
         return $data;
     }
 
-    private function sql_gambar_slide_show($gambar)
+    private function sql_gambar_slide_show(string $gambar)
     {
         $this->config_id_exist('artikel')
             ->select('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
@@ -451,7 +455,7 @@ class First_artikel_m extends MY_Model
     }
 
     // Query sama untuk paging and ambil daftar artikel menurut kategori
-    private function list_artikel_sql($id)
+    private function list_artikel_sql($id): void
     {
         $this->config_id('a')
             ->from('artikel a')
@@ -475,9 +479,10 @@ class First_artikel_m extends MY_Model
         $this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri');
         $this->db->order_by('a.tgl_upload', 'DESC');
         $this->db->limit($limit, $offset);
-        $data = $this->db->get()->result_array();
+        $data    = $this->db->get()->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['judul'] = htmlspecialchars_decode($this->security->xss_clean($data[$i]['judul']));
             if (empty($this->setting->user_admin) || $data[$i]['id_user'] != $this->setting->user_admin) {
                 $data[$i]['isi'] = htmlspecialchars_decode($this->security->xss_clean($data[$i]['isi']));
@@ -519,9 +524,10 @@ class First_artikel_m extends MY_Model
         $query = $this->config_id_exist('media_sosial')->where('enabled', 1)->get('media_sosial');
 
         if ($query->num_rows() > 0) {
-            $data = $query->result_array();
+            $data    = $query->result_array();
+            $counter = count($data);
 
-            for ($i = 0; $i < count($data); $i++) {
+            for ($i = 0; $i < $counter; $i++) {
                 $data[$i]['link'] = $this->web_sosmed_model->link_sosmed($data[$i]['id'], $data[$i]['link'], $data[$i]['tipe']);
             }
         }
@@ -529,7 +535,7 @@ class First_artikel_m extends MY_Model
         return $data;
     }
 
-    public function hit($url)
+    public function hit($url): void
     {
         $this->load->library('user_agent');
 

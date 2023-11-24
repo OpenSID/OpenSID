@@ -48,29 +48,21 @@ class Gallery extends Admin_Controller
         $this->sub_modul_ini = 'galeri';
     }
 
-    public function clear()
+    public function clear(): void
     {
         unset($_SESSION['cari'], $_SESSION['filter']);
 
         redirect('gallery');
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
+        $data['cari'] = $_SESSION['cari'] ?? '';
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
+        $data['filter'] = $_SESSION['filter'] ?? '';
 
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
@@ -84,14 +76,14 @@ class Gallery extends Admin_Controller
         $this->render('gallery/table', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = '')
+    public function form($p = 1, $o = 0, $id = ''): void
     {
         $id = decrypt($id);
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if ($id) {
+        if ($id !== '' && $id !== '0') {
             $data['gallery']     = $this->web_gallery_model->get_gallery($id);
             $data['form_action'] = site_url("gallery/update/{$id}/{$p}/{$o}");
         } else {
@@ -102,7 +94,7 @@ class Gallery extends Admin_Controller
         $this->render('gallery/form', $data);
     }
 
-    public function search($gallery = '')
+    public function search($gallery = ''): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -117,7 +109,7 @@ class Gallery extends Admin_Controller
         }
     }
 
-    public function filter($gallery = '')
+    public function filter($gallery = ''): void
     {
         $filter = $this->input->post('filter');
         if ($filter != 0) {
@@ -132,28 +124,28 @@ class Gallery extends Admin_Controller
         }
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_gallery_model->insert();
         redirect('gallery');
     }
 
-    public function update($id = '', $p = 1, $o = 0)
+    public function update($id = '', $p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_gallery_model->update($id);
         redirect("gallery/index/{$p}/{$o}");
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h', "gallery/index/{$p}/{$o}");
         $this->web_gallery_model->delete_gallery(decrypt($id));
         redirect("gallery/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h', "gallery/index/{$p}/{$o}");
         $_SESSION['success'] = 1;
@@ -161,7 +153,7 @@ class Gallery extends Admin_Controller
         redirect("gallery/index/{$p}/{$o}");
     }
 
-    public function gallery_lock($id = '', $gallery = '')
+    public function gallery_lock($id = '', $gallery = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_gallery_model->gallery_lock(decrypt($id), 1);
@@ -172,7 +164,7 @@ class Gallery extends Admin_Controller
         }
     }
 
-    public function gallery_unlock($id = '', $gallery = '')
+    public function gallery_unlock($id = '', $gallery = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_gallery_model->gallery_lock(decrypt($id), 2);
@@ -183,7 +175,7 @@ class Gallery extends Admin_Controller
         }
     }
 
-    public function slider_on($id = '', $gallery = '')
+    public function slider_on($id = '', $gallery = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_gallery_model->gallery_slider(decrypt($id), 1);
@@ -194,7 +186,7 @@ class Gallery extends Admin_Controller
         }
     }
 
-    public function slider_off($id = '', $gallery = '')
+    public function slider_off($id = '', $gallery = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_gallery_model->gallery_slider(decrypt($id), 0);
@@ -205,23 +197,15 @@ class Gallery extends Admin_Controller
         }
     }
 
-    public function sub_gallery($gal = 0, $p = 1, $o = 0)
+    public function sub_gallery($gal = 0, $p = 1, $o = 0): void
     {
         $gal       = decrypt($gal);
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
+        $data['cari'] = $_SESSION['cari'] ?? '';
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
+        $data['filter'] = $_SESSION['filter'] ?? '';
 
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
@@ -237,13 +221,13 @@ class Gallery extends Admin_Controller
         $this->render('gallery/sub_gallery_table', $data);
     }
 
-    public function form_sub_gallery($gallery = 0, $id = 0)
+    public function form_sub_gallery($gallery = 0, $id = 0): void
     {
         $gallery = decrypt($gallery);
         $id      = decrypt($id);
 
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        if ($id) {
+        if ($id !== '' && $id !== '0') {
             $data['gallery']     = $this->web_gallery_model->get_gallery($id);
             $data['form_action'] = site_url("gallery/update_sub_gallery/{$gallery}/{$id}");
         } else {
@@ -255,28 +239,28 @@ class Gallery extends Admin_Controller
         $this->render('gallery/form_sub_gallery', $data);
     }
 
-    public function insert_sub_gallery($gallery = '')
+    public function insert_sub_gallery($gallery = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_gallery_model->insert_sub_gallery($gallery);
         redirect('gallery/sub_gallery/' . encrypt($gallery));
     }
 
-    public function update_sub_gallery($gallery = '', $id = '')
+    public function update_sub_gallery($gallery = '', $id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_gallery_model->update_sub_gallery($id);
         redirect('gallery/sub_gallery/' . encrypt($gallery));
     }
 
-    public function delete_sub_gallery($gallery = '', $id = '')
+    public function delete_sub_gallery($gallery = '', $id = ''): void
     {
         $this->redirect_hak_akses('h', "gallery/sub_gallery/{$gallery}");
         $this->web_gallery_model->delete(decrypt($id));
         redirect("gallery/sub_gallery/{$gallery}");
     }
 
-    public function delete_all_sub_gallery($gallery = '')
+    public function delete_all_sub_gallery($gallery = ''): void
     {
         $this->redirect_hak_akses('h', "gallery/sub_gallery/{$gallery}");
         $_SESSION['success'] = 1;
@@ -284,21 +268,21 @@ class Gallery extends Admin_Controller
         redirect("gallery/sub_gallery/{$gallery}");
     }
 
-    public function gallery_lock_sub_gallery($gallery = '', $id = '')
+    public function gallery_lock_sub_gallery($gallery = '', $id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_gallery_model->gallery_lock($id, 1);
         redirect("gallery/sub_gallery/{$gallery}");
     }
 
-    public function gallery_unlock_sub_gallery($gallery = '', $id = '')
+    public function gallery_unlock_sub_gallery($gallery = '', $id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_gallery_model->gallery_lock($id, 2);
         redirect("gallery/sub_gallery/{$gallery}");
     }
 
-    public function urut($id, $arah = 0, $gallery = '')
+    public function urut($id, $arah = 0, $gallery = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_gallery_model->urut(decrypt($id), $arah, decrypt($gallery));

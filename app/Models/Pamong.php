@@ -84,7 +84,7 @@ class Pamong extends BaseModel
     // TODO: OpenKab - Sementara di disable dulu observer pada relasi ini
     public function penduduk()
     {
-        return $this->hasOne(Penduduk::class, 'id', 'id_pend')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+        return $this->hasOne(Penduduk::class, 'id', 'id_pend')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
     /**
@@ -116,7 +116,7 @@ class Pamong extends BaseModel
             ->leftJoin('ref_jabatan', 'ref_jabatan.id', '=', 'tweb_desa_pamong.jabatan_id');
 
         if (ci_db()->field_exists('gelar_depan', 'tweb_desa_pamong')) {
-            $new_query = $new_query->selectRaw('gelar_depan')->selectRaw('gelar_belakang');
+            return $new_query->selectRaw('gelar_depan')->selectRaw('gelar_belakang');
         }
 
         return $new_query;
@@ -201,7 +201,7 @@ class Pamong extends BaseModel
     public function scopePenandaTangan($query)
     {
         return $this->scopeSelectData($query)
-            ->where(static function ($query) {
+            ->where(static function ($query): void {
                 $query->whereIn('jabatan_id', RefJabatan::getKadesSekdes())
                     ->orWhere('pamong_ttd', '1')
                     ->orWhere('pamong_ub', '1');
@@ -239,18 +239,14 @@ class Pamong extends BaseModel
      */
     public function getPamongNamaAttribute()
     {
-        if ($this->attributes['id_pend'] != null) {
-            $pamong_nama = $this->penduduk->nama;
-        } else {
-            $pamong_nama = $this->attributes['pamong_nama'];
-        }
+        $pamong_nama = $this->attributes['id_pend'] != null ? $this->penduduk->nama : $this->attributes['pamong_nama'];
 
         if ($this->gelar_depan) {
             $pamong_nama = $this->gelar_depan . ' ' . $pamong_nama;
         }
 
         if ($this->gelar_belakang) {
-            $pamong_nama = $pamong_nama . ', ' . $this->gelar_belakang;
+            return $pamong_nama . ', ' . $this->gelar_belakang;
         }
 
         return $pamong_nama;

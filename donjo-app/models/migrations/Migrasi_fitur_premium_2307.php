@@ -64,9 +64,8 @@ class Migrasi_fitur_premium_2307 extends MY_model
         $hasil = $hasil && $this->migrasi_2023061451($hasil);
         $hasil = $hasil && $this->migrasi_2023061752($hasil);
         $hasil = $hasil && $this->migrasi_2023061751($hasil);
-        $hasil = $hasil && $this->migrasi_2023062871($hasil);
 
-        return $hasil && true;
+        return $hasil && $this->migrasi_2023062871($hasil);
     }
 
     // Migrasi perubahan data
@@ -99,16 +98,13 @@ class Migrasi_fitur_premium_2307 extends MY_model
         $hasil = $hasil && $this->migrasi_2023061451($hasil);
         $hasil = $hasil && $this->migrasi_2023061452($hasil);
         $hasil = $hasil && $this->migrasi_2023061552($hasil);
-        $hasil = $hasil && $this->migrasi_2023061951($hasil);
 
-        return $hasil && true;
+        return $hasil && $this->migrasi_2023061951($hasil);
     }
 
     protected function migrasi_2023060451($hasil)
     {
-        DB::table('log_penduduk')->whereNotIn('id_pend', static function ($q) {
-            return $q->select('id')->from('tweb_penduduk');
-        })->delete();
+        DB::table('log_penduduk')->whereNotIn('id_pend', static fn ($q) => $q->select('id')->from('tweb_penduduk'))->delete();
 
         return $hasil;
     }
@@ -189,7 +185,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
     protected function migrasi_2023061271($hasil)
     {
         if (! $this->db->field_exists('foto', 'widget')) {
-            $hasil = $hasil && $this->dbforge->add_column('widget', [
+            return $hasil && $this->dbforge->add_column('widget', [
                 'foto' => [
                     'type'       => 'varchar',
                     'constraint' => 255,
@@ -270,7 +266,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
         }
 
         if ($fields) {
-            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
+            return $hasil && $this->dbforge->add_column('keuangan_ta_spp', $fields);
         }
 
         return $hasil;
@@ -302,7 +298,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             ];
         }
 
-        if ($data) {
+        if (count($data) > 0) {
             $hasil = $hasil && $this->db->update_batch('user_grup', $data, 'id');
         }
 
@@ -1069,7 +1065,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && FormatSurat::find($surat_item->id)->update(['kode_isian' => $kode]);
         }
 
-        return $hasil && true;
+        return $hasil;
     }
 
     protected function suratBiodataPenduduk($hasil, $id)
@@ -2773,7 +2769,7 @@ class Migrasi_fitur_premium_2307 extends MY_model
     protected function migrasi_2023062871($hasil)
     {
         if (! $this->db->field_exists('margin_global', 'tweb_surat_format')) {
-            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', [
+            return $hasil && $this->dbforge->add_column('tweb_surat_format', [
                 'margin_global' => [
                     'type'       => 'tinyint',
                     'constraint' => 1,

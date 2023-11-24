@@ -42,8 +42,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_widget_model extends MY_Model
 {
-    private $tabel = 'widget';
-    private $urut_model;
+    private string $tabel = 'widget';
+    private \Urut_Model $urut_model;
 
     public function __construct()
     {
@@ -104,7 +104,7 @@ class Web_widget_model extends MY_Model
             ->get($this->tabel)
             ->result_array();
 
-        return collect($widget)->map(static function ($item) {
+        return collect($widget)->map(static function (array $item): array {
             if ($item['jenis_widget'] == 3) {
                 $item['isi'] = bersihkan_xss($item['isi']);
             }
@@ -114,14 +114,14 @@ class Web_widget_model extends MY_Model
         })->toArray();
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($search = $this->session->cari) {
             $this->db->like('judul', $search)->or_like('isi', $search);
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if ($filter = $this->session->cari) {
             $this->db->where('enabled', $filter);
@@ -144,7 +144,7 @@ class Web_widget_model extends MY_Model
         return $this->paging;
     }
 
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id();
         $this->search_sql();
@@ -160,9 +160,10 @@ class Web_widget_model extends MY_Model
             ->get('widget')
             ->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']    = $j + 1;
             $data[$i]['judul'] = SebutanDesa($data[$i]['judul']);
 
@@ -172,12 +173,8 @@ class Web_widget_model extends MY_Model
                 $data[$i]['aktif']   = 'Tidak';
                 $data[$i]['enabled'] = 2;
             }
-            $teks = $data[$i]['isi'];
-            if (strlen($teks) > 150) {
-                $abstrak = substr($teks, 0, 150) . '...';
-            } else {
-                $abstrak = $teks;
-            }
+            $teks            = $data[$i]['isi'];
+            $abstrak         = strlen($teks) > 150 ? substr($teks, 0, 150) . '...' : $teks;
             $data[$i]['isi'] = $abstrak;
 
             $j++;
@@ -200,16 +197,14 @@ class Web_widget_model extends MY_Model
     /**
      * @param string $id
      * @param int    $val (1) Ya, (2) Tidak
-     *
-     * @return void
      */
-    public function lock($id = '', $val = 2)
+    public function lock($id = '', $val = 2): void
     {
         $outp = $this->config_id()->where('id', $id)->update($this->tabel, ['enabled' => $val]);
         status_sukses($outp);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data              = $this->validasi($this->input->post());
         $data['enabled']   = 2;
@@ -243,7 +238,7 @@ class Web_widget_model extends MY_Model
         return $data;
     }
 
-    private function upload_gambar($jenis)
+    private function upload_gambar(string $jenis)
     {
         // Inisialisasi library 'upload'
         $this->load->library('MY_Upload', null, 'upload');
@@ -257,7 +252,7 @@ class Web_widget_model extends MY_Model
         $uploadData = null;
         // Adakah berkas yang disertakan?
         $adaBerkas = ! empty($_FILES[$jenis]['name']);
-        if ($adaBerkas !== true) {
+        if (! $adaBerkas) {
             // Jika hapus (ceklis)
             if (isset($_POST['hapus_foto'])) {
                 unlink(LOKASI_GAMBAR_WIDGET . $this->input->post('old_foto'));
@@ -292,10 +287,10 @@ class Web_widget_model extends MY_Model
             return redirect('web_widget');
         }
 
-        return (! empty($uploadData)) ? $uploadData['file_name'] : null;
+        return (empty($uploadData)) ? null : $uploadData['file_name'];
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data = $this->validasi($this->input->post());
         $outp = $this->config_id()->where('id', $id)->update($this->tabel, $data);
@@ -338,7 +333,7 @@ class Web_widget_model extends MY_Model
         return $keya > $keyb;
     }
 
-    private function upload_gambar_sinergi_program(&$setting)
+    private function upload_gambar_sinergi_program(&$setting): void
     {
         foreach ($setting as $key => $value) {
             $_FILES['file']['name']     = $_FILES['setting']['name'][$key]['gambar'];
@@ -373,7 +368,7 @@ class Web_widget_model extends MY_Model
         }
     }
 
-    public function update_setting($widget, $setting)
+    public function update_setting($widget, $setting): void
     {
         $_SESSION['success'] = 1;
 
@@ -382,23 +377,23 @@ class Web_widget_model extends MY_Model
                 // Upload semua gambar setting
                 $this->upload_gambar_sinergi_program($setting);
                 // Hapus setting kosong menggunakan callback
-                $setting = array_filter($setting, [$this, 'filter_setting']);
+                $setting = array_filter($setting, fn ($k) => $this->filter_setting($k));
                 // Sort setting berdasarkan [baris][kolom]
-                usort($setting, [$this, 'sort_sinergi_program']);
+                usort($setting, fn ($a, $b) => $this->sort_sinergi_program($a, $b));
                 break;
 
             default:
                 break;
         }
         // Simpan semua setting di kolom setting sebagai json
-        $setting = json_encode($setting);
+        $setting = json_encode($setting, JSON_THROW_ON_ERROR);
         $data    = ['setting' => $setting];
         $outp    = $this->config_id()->where('isi', $widget . '.php')->update($this->tabel, $data);
 
         status_sukses($outp);
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -409,7 +404,7 @@ class Web_widget_model extends MY_Model
         status_sukses($outp, true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -421,7 +416,7 @@ class Web_widget_model extends MY_Model
     }
 
     // pengambilan data yang akan ditampilkan di widget
-    public function get_widget_data(&$data)
+    public function get_widget_data(&$data): void
     {
         if ($this->db->field_exists('app_key', 'config')) {
             $data['w_gal']           = $this->first_gallery_m->gallery_widget();
@@ -468,9 +463,9 @@ class Web_widget_model extends MY_Model
 
     public function widget($lokasi)
     {
-        $widget_statis = $this->list_widget_statis();
-        $list_widget   = glob($lokasi);
-        $l_widget      = [];
+        $this->list_widget_statis();
+        $list_widget = glob($lokasi);
+        $l_widget    = [];
 
         foreach ($list_widget as $widget) {
             $l_widget[] = $widget;
@@ -490,7 +485,7 @@ class Web_widget_model extends MY_Model
         return array_column($data, 'isi');
     }
 
-    public function cekFileWidget()
+    public function cekFileWidget(): void
     {
         $data = $this->config_id_exist($this->tabel)
             ->where('jenis_widget <>', 3)

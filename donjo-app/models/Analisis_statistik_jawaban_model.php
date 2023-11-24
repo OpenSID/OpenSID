@@ -53,82 +53,74 @@ class Analisis_statistik_jawaban_model extends MY_Model
     private function search_sql()
     {
         if (isset($_SESSION['cari'])) {
-            $cari       = $_SESSION['cari'];
-            $kw         = $this->db->escape_like_str($cari);
-            $kw         = '%' . $kw . '%';
-            $search_sql = " AND (u.pertanyaan LIKE '{$kw}' OR u.pertanyaan LIKE '{$kw}')";
+            $cari = $_SESSION['cari'];
+            $kw   = $this->db->escape_like_str($cari);
+            $kw   = '%' . $kw . '%';
 
-            return $search_sql;
+            return " AND (u.pertanyaan LIKE '{$kw}' OR u.pertanyaan LIKE '{$kw}')";
         }
     }
 
     private function filter_sql()
     {
         if (isset($_SESSION['filter'])) {
-            $kf         = $_SESSION['filter'];
-            $filter_sql = " AND u.act_analisis = {$kf}";
+            $kf = $_SESSION['filter'];
 
-            return $filter_sql;
+            return " AND u.act_analisis = {$kf}";
         }
     }
 
     private function master_sql()
     {
         if (isset($_SESSION['analisis_master'])) {
-            $kf         = $_SESSION['analisis_master'];
-            $filter_sql = " AND u.id_master = {$kf}";
+            $kf = $_SESSION['analisis_master'];
 
-            return $filter_sql;
+            return " AND u.id_master = {$kf}";
         }
     }
 
     private function tipe_sql()
     {
         if (isset($_SESSION['tipe'])) {
-            $kf         = $_SESSION['tipe'];
-            $filter_sql = " AND u.id_tipe = {$kf}";
+            $kf = $_SESSION['tipe'];
 
-            return $filter_sql;
+            return " AND u.id_tipe = {$kf}";
         }
     }
 
     private function kategori_sql()
     {
         if (isset($_SESSION['kategori'])) {
-            $kf         = $_SESSION['kategori'];
-            $filter_sql = " AND u.id_kategori = {$kf}";
+            $kf = $_SESSION['kategori'];
 
-            return $filter_sql;
+            return " AND u.id_kategori = {$kf}";
         }
     }
 
     private function dusun_sql()
     {
         if (isset($_SESSION['dusun'])) {
-            $kf        = $_SESSION['dusun'];
-            $dusun_sql = " AND a.dusun = '{$kf}'";
+            $kf = $_SESSION['dusun'];
 
-            return $dusun_sql;
+            return " AND a.dusun = '{$kf}'";
         }
     }
 
     private function rw_sql()
     {
         if (isset($_SESSION['rw'])) {
-            $kf     = $_SESSION['rw'];
-            $rw_sql = " AND a.rw = '{$kf}'";
+            $kf = $_SESSION['rw'];
 
-            return $rw_sql;
+            return " AND a.rw = '{$kf}'";
         }
     }
 
     private function rt_sql()
     {
         if (isset($_SESSION['rt'])) {
-            $kf     = $_SESSION['rt'];
-            $rt_sql = " AND a.rt = '{$kf}'";
+            $kf = $_SESSION['rt'];
 
-            return $rt_sql;
+            return " AND a.rt = '{$kf}'";
         }
     }
 
@@ -212,10 +204,11 @@ class Analisis_statistik_jawaban_model extends MY_Model
         $query = $this->db->query($sql);
         $data  = $query->result_array();
 
-        $per = $this->analisis_master_model->get_aktif_periode();
-        $j   = $offset;
+        $per     = $this->analisis_master_model->get_aktif_periode();
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']     = $j + 1;
             $data[$i]['jumlah'] = '-';
 
@@ -238,11 +231,7 @@ class Analisis_statistik_jawaban_model extends MY_Model
             $respon2         = $query2->result_array();
             $data[$i]['par'] = $respon2;
 
-            if ($data[$i]['act_analisis'] == 1) {
-                $data[$i]['act_analisis'] = 'Ya';
-            } else {
-                $data[$i]['act_analisis'] = 'Tidak';
-            }
+            $data[$i]['act_analisis'] = $data[$i]['act_analisis'] == 1 ? 'Ya' : 'Tidak';
 
             if ($data[$i]['id_tipe'] == 3) {
                 $data[$i]['jumlah'] = 0;
@@ -275,12 +264,13 @@ class Analisis_statistik_jawaban_model extends MY_Model
                 break;
         }
 
-        $sql   = 'SELECT * FROM analisis_parameter WHERE id_indikator = ? AND config_id = ' . identitas('id') . ' ORDER BY kode_jawaban ASC ';
-        $query = $this->db->query($sql, $id);
-        $data  = $query->result_array();
-        $per   = $this->analisis_master_model->get_aktif_periode();
+        $sql     = 'SELECT * FROM analisis_parameter WHERE id_indikator = ? AND config_id = ' . identitas('id') . ' ORDER BY kode_jawaban ASC ';
+        $query   = $this->db->query($sql, $id);
+        $data    = $query->result_array();
+        $per     = $this->analisis_master_model->get_aktif_periode();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
 
             $sql = "SELECT COUNT(r.id_subjek) AS jml FROM analisis_respon r {$sbj} WHERE r.id_parameter = ? AND r.id_periode = {$per}  AND r.config_id = " . identitas('id');
@@ -321,15 +311,12 @@ class Analisis_statistik_jawaban_model extends MY_Model
         $sql .= $this->dusun_sql();
         $sql .= $this->rw_sql();
         $sql .= $this->rt_sql();
-        $query = $this->db->query($sql, $id);
-        $data  = $query->result_array();
+        $query   = $this->db->query($sql, $id);
+        $data    = $query->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
-            if ($data[$i]['sex'] == 1) {
-                $data[$i]['sex'] = 'Laki-laki';
-            } else {
-                $data[$i]['sex'] = 'Perempuan';
-            }
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['sex'] = $data[$i]['sex'] == 1 ? 'Laki-laki' : 'Perempuan';
 
             $data[$i]['no'] = $i + 1;
         }

@@ -120,6 +120,7 @@ class MY_Upload extends CI_Upload
                     break;
 
                 case UPLOAD_ERR_NO_FILE:
+                default:
                     $this->set_error('upload_no_file_selected', 'debug');
                     break;
 
@@ -133,10 +134,6 @@ class MY_Upload extends CI_Upload
 
                 case UPLOAD_ERR_EXTENSION:
                     $this->set_error('upload_stopped_by_extension', 'debug');
-                    break;
-
-                default:
-                    $this->set_error('upload_no_file_selected', 'debug');
                     break;
             }
 
@@ -264,12 +261,10 @@ class MY_Upload extends CI_Upload
          * we'll use move_uploaded_file(). One of the two should
          * reliably work in most environments
          */
-        if (! @copy($this->file_temp, $this->upload_path . $this->file_name)) {
-            if (! @move_uploaded_file($this->file_temp, $this->upload_path . $this->file_name)) {
-                $this->set_error('upload_destination_error', 'error');
+        if (! @copy($this->file_temp, $this->upload_path . $this->file_name) && ! @move_uploaded_file($this->file_temp, $this->upload_path . $this->file_name)) {
+            $this->set_error('upload_destination_error', 'error');
 
-                return false;
-            }
+            return false;
         }
 
         /*

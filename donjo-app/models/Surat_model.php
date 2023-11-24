@@ -99,7 +99,7 @@ class Surat_model extends MY_Model
             ->result_array();
     }
 
-    private function list_penduduk_ajax_sql($cari = '', $filter = [])
+    private function list_penduduk_ajax_sql($cari = '', $filter = []): void
     {
         $this->config_id('u')
             ->from('tweb_penduduk u')
@@ -278,7 +278,6 @@ class Surat_model extends MY_Model
 		WHERE u.id = ? AND u.config_id = {$this->config_id}";
         $query                  = $this->db->query($sql, $id);
         $data                   = $query->row_array();
-        $data['nama']           = $data['nama'];
         $data['alamat_wilayah'] = $this->get_alamat_wilayah($data);
 
         return $data;
@@ -288,12 +287,12 @@ class Surat_model extends MY_Model
     {
         $id_cb = $_POST['id_cb'];
         $outp  = '';
-        if (count($id_cb)) {
+        if (count($id_cb) > 0) {
             foreach ($id_cb as $id) {
                 //$id = '''."$id".''';
                 $outp = $outp . $id . ',';
             }
-            $outp = $outp . '7070';
+            $outp .= '7070';
 
             $sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
 			(select (date_format(from_days((to_days(now()) - to_days(`tweb_penduduk`.`tanggallahir`))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
@@ -328,8 +327,9 @@ class Surat_model extends MY_Model
             ->where('pamong_status', 1)
             ->get()
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             if (! empty($data[$i]['id_pend'])) {
                 // Dari database penduduk
                 $data[$i]['pamong_nama'] = $data[$i]['nama'];
@@ -378,7 +378,7 @@ class Surat_model extends MY_Model
         return $data;
     }
 
-    public function format_data_surat(&$data)
+    public function format_data_surat(&$data): void
     {
         // Asumsi kolom "alamat_wilayah" sdh dalam format ucwords
         $kolomUpper = ['tanggallahir', 'tempatlahir', 'dusun', 'pekerjaan', 'gol_darah', 'agama', 'sex',
@@ -587,13 +587,9 @@ class Surat_model extends MY_Model
         $data = $this->config_id()->get_where('tweb_surat_format', ['url_surat' => $url])->row_array();
         // Isi lokasi template surat
         // Pakai surat ubahan desa apabila ada
-        $file = SuratExportDesa($url);
-        if ($file == '') {
-            $data['lokasi_rtf'] = "template-surat/{$url}/";
-        } else {
-            $data['lokasi_rtf'] = dirname($file) . '/';
-        }
-        $this->surat = $data;
+        $file               = SuratExportDesa($url);
+        $data['lokasi_rtf'] = $file == '' ? "template-surat/{$url}/" : dirname($file) . '/';
+        $this->surat        = $data;
 
         return $data;
     }
@@ -739,18 +735,7 @@ class Surat_model extends MY_Model
         }
     }
 
-    // Untuk surat sistem, cek apakah komponen surat sudah disesuaikan oleh desa
-    private function lokasi_komponen($nama_surat, $komponen)
-    {
-        $lokasi = LOKASI_SURAT_DESA . $nama_surat . '/' . $komponen;
-        if ($this->surat['jenis'] == 1 && ! is_file($lokasi)) {
-            $lokasi = "template-surat/{$nama_surat}/{$komponen}";
-        }
-
-        return $lokasi;
-    }
-
-    public function surat_rtf_khusus($url, $input, &$buffer, $config, &$individu, $ayah, $ibu)
+    public function surat_rtf_khusus($url, $input, &$buffer, $config, &$individu, $ayah, $ibu): void
     {
         $alamat_desa = ucwords($this->setting->sebutan_desa) . ' ' . $config['nama_desa'] . ', Kecamatan ' . $config['nama_kecamatan'] . ', ' . ucwords($this->setting->sebutan_kabupaten) . ' ' . $config['nama_kabupaten'];
         // Proses surat yang membutuhkan pengambilan data khusus
@@ -841,7 +826,6 @@ class Surat_model extends MY_Model
         $ibu         = $data['ibu'];
         $config      = $data['config'];
         $surat       = $data['surat'];
-        $id          = $input['nik'];
         $url         = $surat['url_surat'];
         $logo_garuda = $surat['logo_garuda'];
         $tgl         = tgl_indo(date('Y m d'));
@@ -1034,7 +1018,9 @@ class Surat_model extends MY_Model
                 // Isian tanggal diganti dengan format tanggal standar
                 if (in_array($key, $isian_tanggal)) {
                     if (is_array($entry)) {
-                        for ($i = 1; $i <= count($entry); $i++) {
+                        $counter = count($entry);
+
+                        for ($i = 1; $i <= $counter; $i++) {
                             $str = $key . $i;
                             //Jika format tanggal adalah 31-12-2018 atau terdapat 10 karakter, maka jalankan tgl_indo_dari_str($waktu)
                             //Jika format tanggal adalah 31-12-2018 23:59 atau terdapat lebih dari 10 karakter, maka jalankan tgl_indo2(tgl_indo_in($waktu))
@@ -1058,7 +1044,7 @@ class Surat_model extends MY_Model
 
     // Kode isian nomor_surat bisa ditentukan panjangnya, diisi dengan '0' di sebelah kiri
     // Misalnya [nomor_surat, 3] akan menghasilkan seperti '012'
-    public function substitusi_nomor_surat($nomor, &$buffer)
+    public function substitusi_nomor_surat($nomor, &$buffer): void
     {
         $buffer = str_replace('[nomor_surat]', "{$nomor}", $buffer);
         if (preg_match_all('/\[nomor_surat,\s*\d+\]/', $buffer, $matches)) {
@@ -1075,23 +1061,23 @@ class Surat_model extends MY_Model
     {
         $file = FCPATH . $lokasi_rtf . 'get_data_lampiran.php';
         if (! file_exists($file)) {
-            $file = FCPATH . 'template-surat/' . $url_surat . '/get_data_lampiran.php';
+            return FCPATH . 'template-surat/' . $url_surat . '/get_data_lampiran.php';
         }
 
         return $file;
     }
 
-    private function get_file_lampiran($url_surat, $lokasi_rtf, $format_lampiran)
+    private function get_file_lampiran($url_surat, $lokasi_rtf, string $format_lampiran)
     {
         $file = FCPATH . $lokasi_rtf . $format_lampiran;
         if (! file_exists($file)) {
-            $file = FCPATH . 'template-surat/' . $url_surat . '/' . $format_lampiran;
+            return FCPATH . 'template-surat/' . $url_surat . '/' . $format_lampiran;
         }
 
         return $file;
     }
 
-    public function lampiran($data, $nama_surat, &$lampiran)
+    public function lampiran($data, $nama_surat, &$lampiran): void
     {
         $surat    = $data['surat'];
         $config   = $data['config'];
@@ -1139,15 +1125,10 @@ class Surat_model extends MY_Model
         $data['config']                      = $this->header['desa'];
         $data['surat']                       = $this->get_surat($url);
         $data['surat']['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
-
-        switch ($url) {
-            default:
-                $id               = $data['input']['nik'];
-                $data['individu'] = $this->get_data_surat($id);
-                $data['ayah']     = $this->get_data_ayah($id);
-                $data['ibu']      = $this->get_data_ibu($id);
-                break;
-        }
+        $id                                  = $data['input']['nik'];
+        $data['individu']                    = $this->get_data_surat($id);
+        $data['ayah']                        = $this->get_data_ayah($id);
+        $data['ibu']                         = $this->get_data_ibu($id);
 
         return $data;
     }

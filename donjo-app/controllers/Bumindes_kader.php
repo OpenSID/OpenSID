@@ -71,7 +71,7 @@ class Bumindes_kader extends Admin_Controller
         ]);
     }
 
-    public function form($id = 0)
+    public function form($id = 0): void
     {
         if ($id) {
             $data['main']        = $this->kader_model->find($id) ?? show_404();
@@ -87,21 +87,21 @@ class Bumindes_kader extends Admin_Controller
         $this->render('bumindes/pembangunan/kader/form', $data);
     }
 
-    public function get_kursus()
+    public function get_kursus(): void
     {
         $data = $this->kader_model->get_kursus($this->input->get('nama', true));
 
-        echo json_encode($data);
+        echo json_encode($data, JSON_THROW_ON_ERROR);
     }
 
-    public function get_bidang()
+    public function get_bidang(): void
     {
         $data = $this->kader_model->get_bidang($this->input->get('nama', true));
 
-        echo json_encode($data);
+        echo json_encode($data, JSON_THROW_ON_ERROR);
     }
 
-    public function tambah()
+    public function tambah(): void
     {
         $this->redirect_hak_akses('u');
         $this->kader_model->tambah();
@@ -109,7 +109,7 @@ class Bumindes_kader extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function ubah($id = 0)
+    public function ubah($id = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->kader_model->ubah($id);
@@ -117,7 +117,7 @@ class Bumindes_kader extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function hapus($id = 0)
+    public function hapus($id = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->kader_model->hapus($id);
@@ -125,7 +125,7 @@ class Bumindes_kader extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function hapus_semua($id = 0)
+    public function hapus_semua($id = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->kader_model->hapus_semua();
@@ -133,7 +133,7 @@ class Bumindes_kader extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function dialog($aksi = '')
+    public function dialog($aksi = ''): void
     {
         $data = [
             'aksi'        => $aksi,
@@ -144,7 +144,7 @@ class Bumindes_kader extends Admin_Controller
         $this->load->view('global/dialog_cetak', $data);
     }
 
-    public function cetak($aksi = '')
+    public function cetak($aksi = ''): void
     {
         $data              = $this->modal_penandatangan();
         $data['aksi']      = $aksi;

@@ -83,7 +83,7 @@ class OTP_email implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function verifikasi_otp($otp, $user = null)
+    public function verifikasi_otp($otp, $user = null): bool
     {
         if ($this->cek_verifikasi_otp($user)) {
             return true;
@@ -118,7 +118,7 @@ class OTP_email implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function cek_verifikasi_otp($user)
+    public function cek_verifikasi_otp($user): bool
     {
         $token = $this->ci->db->from('tweb_penduduk')
             ->select('email_tgl_verifikasi')
@@ -126,7 +126,7 @@ class OTP_email implements OTP_interface
             ->get()
             ->row();
 
-        return (bool) ($token->email_tgl_verifikasi != null);
+        return $token->email_tgl_verifikasi != null;
     }
 
     /**
@@ -161,18 +161,16 @@ class OTP_email implements OTP_interface
 
             return (bool) ($this->ci->email->send());
         } catch (\Throwable $th) {
-            throw new \Exception($this->ci->email->print_debugger());
+            throw new \Exception($this->ci->email->print_debugger(), $th->getCode(), $th);
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    public function cek_akun_terdaftar($user)
+    public function cek_akun_terdaftar($user): bool
     {
-        return isset($this->ci->db)
-            ? ($this->ci->db->where('email', $user['email'])->where_not_in('id', $user['id'])->get('tweb_penduduk')->num_rows() === 0)
-            : false;
+        return isset($this->ci->db) && $this->ci->db->where('email', $user['email'])->where_not_in('id', $user['id'])->get('tweb_penduduk')->num_rows() === 0;
     }
 
     /**

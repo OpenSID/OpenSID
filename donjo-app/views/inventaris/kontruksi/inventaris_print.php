@@ -120,20 +120,20 @@
 							<td><?= $i ?></td>
 							<td><?= $data->nama_barang; ?></td>
 							<td><?= $data->kondisi_bangunan; ?></td>
-							<td><?= (! empty($data->kontruksi_bertingkat) ? $data->kontruksi_bertingkat : '-'); ?></td>
+							<td><?= (empty($data->kontruksi_bertingkat) ? '-' : $data->kontruksi_bertingkat); ?></td>
 							<td><?= ($data->kontruksi_beton == '1' ? 'Ya' : 'Tidak'); ?></td>
-							<td><?= (! empty($data->luas_bangunan) ? $data->luas_bangunan : '-'); ?></td>
+							<td><?= (empty($data->luas_bangunan) ? '-' : $data->luas_bangunan); ?></td>
 							<td><?= $data->letak; ?></td>
 							<td><?= date('d M Y', strtotime($data->tanggal_dokument)); ?></td>
-							<td><?= (! empty($data->no_dokument) ? $data->no_dokument : '-'); ?></td>
+							<td><?= (empty($data->no_dokument) ? '-' : $data->no_dokument); ?></td>
 							<td><?= date('d M Y', strtotime($data->tanggal)); ?></td>
-							<td><?= (! empty($data->status_tanah) ? $data->status_tanah : '-'); ?></td>
-							<td><?= (! empty($main->no_tanah) ? $main->no_tanah : '-'); ?></td>
+							<td><?= (empty($data->status_tanah) ? '-' : $data->status_tanah); ?></td>
+							<td><?= (empty($main->no_tanah) ? '-' : $main->no_tanah); ?></td>
 							<td><?= $data->asal; ?></td>
 							<td><?= number_format($data->harga, 0, '.', '.'); ?></td>
 							<td><?= $data->keterangan; ?></td>
 						</tr>
-						<?php $i = $i + 1 ?>
+						<?php ++$i ?>
 					<?php endforeach; ?>
 				</tbody>
 				<tfooot>

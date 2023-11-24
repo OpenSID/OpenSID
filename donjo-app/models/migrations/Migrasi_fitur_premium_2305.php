@@ -55,9 +55,8 @@ class Migrasi_fitur_premium_2305 extends MY_model
         $hasil = $hasil && $this->suratPermohonanCerai($hasil);
         $hasil = $hasil && $this->migrasi_2023041251($hasil);
         $hasil = $hasil && $this->migrasi_2023041951($hasil);
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_multidb', false);
 
-        return $hasil && true;
+        return $hasil && $this->jalankan_migrasi('migrasi_multidb', false);
     }
 
     protected function migrasi_2023040151($hasil)
@@ -269,14 +268,15 @@ class Migrasi_fitur_premium_2305 extends MY_model
                 ->pluck('pertanyaan', 'id');
 
             if (count($data) !== 0) {
+                $batch_pertanyaan = [];
+
                 foreach ($data as $id => $pertanyaan_statis) {
                     $batch_pertanyaan[] = [
                         'id'                => $id,
                         'pertanyaan_statis' => $pertanyaan_statis,
                     ];
                 }
-
-                if ($batch_pertanyaan) {
+                if (count($batch_pertanyaan) > 0) {
                     $hasil = $hasil && $this->db->update_batch('buku_kepuasan', $batch_pertanyaan, 'id');
                 }
             }
@@ -302,14 +302,15 @@ class Migrasi_fitur_premium_2305 extends MY_model
                 ->pluck('bidang', 'id');
 
             if (count($data) !== 0) {
+                $batch_bidang = [];
+
                 foreach ($data as $id => $bidang) {
                     $batch_bidang[] = [
                         'id'     => $id,
                         'bidang' => $bidang,
                     ];
                 }
-
-                if ($batch_bidang) {
+                if (count($batch_bidang) > 0) {
                     $hasil = $hasil && $this->db->update_batch('buku_tamu', $batch_bidang, 'id');
                 }
             }
@@ -337,14 +338,15 @@ class Migrasi_fitur_premium_2305 extends MY_model
                 ->pluck('keperluan', 'id');
 
             if (count($data) !== 0) {
+                $batch_keperluan = [];
+
                 foreach ($data as $id => $keperluan) {
                     $batch_keperluan[] = [
                         'id'        => $id,
                         'keperluan' => $keperluan,
                     ];
                 }
-
-                if ($batch_keperluan) {
+                if (count($batch_keperluan) > 0) {
                     $hasil = $hasil && $this->db->update_batch('buku_tamu', $batch_keperluan, 'id');
                 }
             }
@@ -360,7 +362,7 @@ class Migrasi_fitur_premium_2305 extends MY_model
         $config = DB::table('config')->get();
 
         if ($config->count() > 0) {
-            foreach ($config as $key => $value) {
+            foreach ($config as $value) {
                 DB::table('config')
                     ->where('id', $value->id)
                     ->update([

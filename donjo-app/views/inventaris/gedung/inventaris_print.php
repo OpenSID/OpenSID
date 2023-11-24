@@ -130,15 +130,15 @@
 							<td><?= $data->luas_bangunan; ?></td>
 							<td><?= $data->letak; ?></td>
 							<td><?= date('d M Y', strtotime($data->tanggal_dokument)); ?></td>
-							<td><?= (! empty($data->no_dokument) ? $data->no_dokument : '-'); ?></td>
+							<td><?= (empty($data->no_dokument) ? '-' : $data->no_dokument); ?></td>
 							<td><?= $data->luas; ?></td>
 							<td><?= $data->status_tanah; ?></td>
-							<td><?= (! empty($main->no_tanah) ? $main->no_tanah : '-'); ?></td>
+							<td><?= (empty($main->no_tanah) ? '-' : $main->no_tanah); ?></td>
 							<td><?= $data->asal; ?></td>
 							<td><?= number_format($data->harga, 0, '.', '.'); ?></td>
 							<td><?= $data->keterangan; ?></td>
 						</tr>
-						<?php $i = $i + 1 ?>
+						<?php ++$i ?>
 					<?php endforeach; ?>
 				</tbody>
 				<tfooot>

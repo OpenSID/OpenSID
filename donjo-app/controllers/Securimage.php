@@ -44,7 +44,7 @@ class Securimage extends CI_Controller
         parent::__construct();
     }
 
-    public function show()
+    public function show(): void
     {
         App\Libraries\Captcha::make();
     }

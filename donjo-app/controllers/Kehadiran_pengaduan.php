@@ -36,6 +36,7 @@
  */
 
 use App\Models\KehadiranPengaduan;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,7 +50,7 @@ class Kehadiran_pengaduan extends Admin_Controller
         $this->header['kategori'] = 'kehadiran';
     }
 
-    public function index()
+    public function index(): View
     {
         return view('admin.pengaduan.index');
     }
@@ -64,9 +65,7 @@ class Kehadiran_pengaduan extends Admin_Controller
                         return '<a href="' . route('kehadiran_pengaduan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
                 })
-                ->editColumn('waktu', static function ($row) {
-                    return tgl_indo2($row->waktu);
-                })
+                ->editColumn('waktu', static fn ($row) => tgl_indo2($row->waktu))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -74,7 +73,7 @@ class Kehadiran_pengaduan extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = '')
+    public function form($id = ''): View
     {
         $this->redirect_hak_akses('u');
 
@@ -83,10 +82,10 @@ class Kehadiran_pengaduan extends Admin_Controller
 
         $kehadiran_pengaduan = KehadiranPengaduan::findOrFail($id);
 
-        return view('admin.pengaduan.form', compact('action', 'form_action', 'kehadiran_pengaduan'));
+        return view('admin.pengaduan.form', ['action' => $action, 'form_action' => $form_action, 'kehadiran_pengaduan' => $kehadiran_pengaduan]);
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
 

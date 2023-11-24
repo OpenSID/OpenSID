@@ -77,25 +77,15 @@ if (! function_exists('view')) {
             return $factory;
         }
 
-        $factory->directive('selected', static function ($condition) {
-            return "<?= ({$condition}) ? 'selected' : ''; ?>";
-        });
+        $factory->directive('selected', static fn ($condition): string => "<?= ({$condition}) ? 'selected' : ''; ?>");
 
-        $factory->directive('checked', static function ($condition) {
-            return "<?= ({$condition}) ? 'checked' : ''; ?>";
-        });
+        $factory->directive('checked', static fn ($condition): string => "<?= ({$condition}) ? 'checked' : ''; ?>");
 
-        $factory->directive('disabled', static function ($condition) {
-            return "<?= ({$condition}) ? 'disabled' : ''; ?>";
-        });
+        $factory->directive('disabled', static fn ($condition): string => "<?= ({$condition}) ? 'disabled' : ''; ?>");
 
-        $factory->directive('active', static function ($condition) {
-            return "<?= ({$condition}) ? 'active' : ''; ?>";
-        });
+        $factory->directive('active', static fn ($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
 
-        $factory->directive('display', static function ($condition) {
-            return "<?= ({$condition}) ? 'show' : 'hide'; ?>";
-        });
+        $factory->directive('display', static fn ($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
 
         if ($CI->session->db_error['code'] === 1049) {
             $CI->session->error_db = null;
@@ -156,23 +146,25 @@ if (! function_exists('can')) {
         if (empty($controller)) {
             $controller = $CI->controller;
         }
-
-        if ($admin_only && $CI->grup != $CI->user_model->id_grup(UserGrup::ADMINISTRATOR)) {
-            return false;
+        if (! $admin_only) {
+            return $CI->user_model->hak_akses($CI->grup, $controller, $akses);
+        }
+        if ($CI->grup == $CI->user_model->id_grup(UserGrup::ADMINISTRATOR)) {
+            return $CI->user_model->hak_akses($CI->grup, $controller, $akses);
         }
 
-        return $CI->user_model->hak_akses($CI->grup, $controller, $akses);
+        return false;
     }
 }
 
 // response()->json(array_data);
 if (! function_exists('json')) {
-    function json($content = [], $header = 200)
+    function json($content = [], $header = 200): void
     {
         get_instance()->output
             ->set_status_header($header)
             ->set_content_type('application/json', 'utf-8')
-            ->set_output(json_encode($content))
+            ->set_output(json_encode($content, JSON_THROW_ON_ERROR))
             ->_display();
 
         exit();
@@ -246,11 +238,14 @@ if (! function_exists('identitas')) {
         }
 
         $identitas = $instance->cache->pakai_cache(static function () {
-            if (Schema::hasColumn('config', 'app_key') && DB::table('config')->where('app_key', get_app_key())->exists()) {
-                return Config::appKey()->first();
+            if (! Schema::hasColumn('config', 'app_key')) {
+                return null;
+            }
+            if (! DB::table('config')->where('app_key', get_app_key())->exists()) {
+                return null;
             }
 
-            return null;
+            return Config::appKey()->first();
         }, $cache, 24 * 60 * 60);
 
         if ($params) {
@@ -340,7 +335,7 @@ if (! function_exists('underscore')) {
      *
      * @return string string yang sudah dibuat spasi
      */
-    function underscore($str, $to_underscore = true, $lowercase = false)
+    function underscore($str, $to_underscore = true, $lowercase = false): string
     {
         // membersihkan string di akhir dan di awal
         $str = trim($str);
@@ -350,16 +345,8 @@ if (! function_exists('underscore')) {
             $str = MB_ENABLED ? mb_strtolower($str) : strtolower($str);
         }
 
-        if ($to_underscore) {
-            // mengganti spasi dengan underscore
-            $str = str_replace(' ', '_', $str);
-        } else {
-            // mengganti underscore dengan spasi
-            $str = str_replace('_', ' ', $str);
-        }
-
         // menyajikan hasil akhir
-        return $str;
+        return $to_underscore ? str_replace(' ', '_', $str) : str_replace('_', ' ', $str);
     }
 }
 
@@ -392,7 +379,7 @@ if (! function_exists('folder')) {
      * @param mixed|null $htaccess
      * @param array|null $extra
      */
-    function folder($folder = null, $permissions = 0755, $htaccess = null, array $extra = [])
+    function folder($folder = null, $permissions = 0755, $htaccess = null, array $extra = []): bool
     {
         $hasil = true;
 
@@ -411,13 +398,11 @@ if (! function_exists('folder')) {
             // File index.html
             write_file($folder . 'index.html', config_item('index_html'), 'x');
 
-            if ($extra) {
-                foreach ($extra as $value) {
-                    $file    = realpath($value);
-                    $newfile = realpath($folder) . DIRECTORY_SEPARATOR . basename($value);
+            foreach ($extra as $value) {
+                $file    = realpath($value);
+                $newfile = realpath($folder) . DIRECTORY_SEPARATOR . basename($value);
 
-                    copy($file, $newfile);
-                }
+                copy($file, $newfile);
             }
 
             return true;
@@ -431,7 +416,7 @@ if (! function_exists('folder_desa')) {
     /**
      * Membuat folder desa dan isinya
      */
-    function folder_desa()
+    function folder_desa(): bool
     {
         get_instance()->load->config('installer');
         $list_folder = array_merge(config_item('desa'), config_item('lainnya'));
@@ -482,7 +467,7 @@ if (! function_exists('cek_kehadiran')) {
     /**
      * Cek perangkat lupa absen
      */
-    function cek_kehadiran()
+    function cek_kehadiran(): void
     {
         if (Schema::hasTable('kehadiran_jam_kerja') && (! empty(setting('rentang_waktu_kehadiran')) || setting('rentang_waktu_kehadiran'))) {
             $cek_libur = JamKerja::libur()->first();
@@ -511,10 +496,8 @@ if (! function_exists('cek_kehadiran')) {
 if (! function_exists('case_replace')) {
     function case_replace($dari, $ke, $str)
     {
-        $replacer = static function ($matches) use ($ke) {
-            $matches = array_map(static function ($match) {
-                return preg_replace('/[\\[\\]]/', '', $match);
-            }, $matches);
+        $replacer = static function (array $matches) use ($ke) {
+            $matches = array_map(static fn ($match) => preg_replace('/[\\[\\]]/', '', $match), $matches);
 
             return caseWord($matches[0], $ke);
         };
@@ -534,7 +517,7 @@ if (! function_exists('case_replace')) {
 }
 
 if (! function_exists('kirim_versi_opensid')) {
-    function kirim_versi_opensid()
+    function kirim_versi_opensid(): void
     {
         if (! config_item('demo_mode')) {
             $ci = get_instance();
@@ -567,7 +550,7 @@ if (! function_exists('kirim_versi_opensid')) {
 }
 
 if (! function_exists('kotak')) {
-    function kotak($data_kolom, $max_kolom = 26)
+    function kotak(array $data_kolom, $max_kolom = 26): string
     {
         $view = '';
 
@@ -586,20 +569,19 @@ if (! function_exists('kotak')) {
 }
 
 if (! function_exists('checklist')) {
-    function checklist($kondisi_1, $kondisi_2)
+    function checklist($kondisi_1, $kondisi_2): string
     {
         $view = '<td class="kotak padat tengah">';
         if ($kondisi_1 == $kondisi_2) {
             $view .= '<img src="' . FCPATH . 'assets/images/check.png' . '" height="10" width="10"/>';
         }
-        $view .= '</td>';
 
-        return $view;
+        return $view . '</td>';
     }
 }
 
 if (! function_exists('create_tree_folder')) {
-    function create_tree_folder($arr, $baseDir)
+    function create_tree_folder($arr, string $baseDir)
     {
         if (! empty($arr)) {
             $tmp = '<ul class="tree-folder">';
@@ -607,22 +589,21 @@ if (! function_exists('create_tree_folder')) {
             foreach ($arr as $i => $val) {
                 if (is_array($val)) {
                     $permission     = decoct(fileperms($baseDir . DIRECTORY_SEPARATOR . $i) & 0777);
-                    $iconPermission = $permission == decoct(DESAPATHPERMISSION) ? '<i class="fa fa-check-circle-o fa-lg pull-right" style="color:green"></i>' : '<i class="fa fa-times-circle-o fa-lg pull-right" style="color:red"></i>';
-                    $liClass        = $permission == decoct(DESAPATHPERMISSION) ? 'text-green' : 'text-red';
+                    $iconPermission = $permission === decoct(DESAPATHPERMISSION) ? '<i class="fa fa-check-circle-o fa-lg pull-right" style="color:green"></i>' : '<i class="fa fa-times-circle-o fa-lg pull-right" style="color:red"></i>';
+                    $liClass        = $permission === decoct(DESAPATHPERMISSION) ? 'text-green' : 'text-red';
                     $tmp .= '<li class="' . $liClass . '"  data-path="' . preg_replace('/\/+/', '/', $baseDir . DIRECTORY_SEPARATOR . $i) . '">' . $i . '(' . $permission . ') ' . $iconPermission;
                     $tmp .= create_tree_folder($val, $baseDir . $i);
                     $tmp .= '</li>';
                 }
             }
-            $tmp .= '</ul>';
 
-            return $tmp;
+            return $tmp . '</ul>';
         }
     }
 }
 
 if (! function_exists('generatePengikut')) {
-    function generatePengikut($pengikut, $keterangan)
+    function generatePengikut($pengikut, $keterangan): string
     {
         $html = '
                 <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
@@ -651,7 +632,7 @@ if (! function_exists('generatePengikut')) {
                     <tbody>';
         $no = 1;
 
-        foreach ($pengikut as $key => $data) {
+        foreach ($pengikut as $data) {
             $html .= '
                             <tr>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
@@ -665,17 +646,16 @@ if (! function_exists('generatePengikut')) {
                             </tr>
                             ';
         }
-        $html .= '
+
+        return $html . '
                     </tbody>
                 </table>
             ';
-
-        return $html;
     }
 }
 
 if (! function_exists('generatePengikutSuratKIS')) {
-    function generatePengikutSuratKIS($pengikut)
+    function generatePengikutSuratKIS($pengikut): string
     {
         $html = '
                 <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
@@ -693,7 +673,7 @@ if (! function_exists('generatePengikutSuratKIS')) {
                     <tbody>';
         $no = 1;
 
-        foreach ($pengikut as $key => $data) {
+        foreach ($pengikut as $data) {
             $html .= '
                             <tr>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
@@ -706,17 +686,16 @@ if (! function_exists('generatePengikutSuratKIS')) {
                             </tr>
                             ';
         }
-        $html .= '
+
+        return $html . '
                     </tbody>
                 </table>
             ';
-
-        return $html;
     }
 }
 
 if (! function_exists('generatePengikutKartuKIS')) {
-    function generatePengikutKartuKIS($kis)
+    function generatePengikutKartuKIS($kis): string
     {
         $html = '
                 <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
@@ -734,7 +713,7 @@ if (! function_exists('generatePengikutKartuKIS')) {
                     <tbody>';
         $no = 1;
 
-        foreach ($kis as $key => $data) {
+        foreach ($kis as $data) {
             $html .= '
                             <tr>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
@@ -747,17 +726,16 @@ if (! function_exists('generatePengikutKartuKIS')) {
                             </tr>
                             ';
         }
-        $html .= '
+
+        return $html . '
                     </tbody>
                 </table>
             ';
-
-        return $html;
     }
 }
 
 if (! function_exists('generatePengikutPindah')) {
-    function generatePengikutPindah($pengikut)
+    function generatePengikutPindah($pengikut): string
     {
         $html = '
                 <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
@@ -773,7 +751,7 @@ if (! function_exists('generatePengikutPindah')) {
                     <tbody>';
         $no = 1;
 
-        foreach ($pengikut as $key => $data) {
+        foreach ($pengikut as $data) {
             $html .= '
                             <tr>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
@@ -784,15 +762,14 @@ if (! function_exists('generatePengikutPindah')) {
                             </tr>
                             ';
         }
-        $html .= '
+
+        return $html . '
                     </tbody>
                 </table>
             ';
-
-        return $html;
     }
 }
-function tidak_ada_data($col = 12, $message = 'Data Tidak Tersedia')
+function tidak_ada_data($col = 12, string $message = 'Data Tidak Tersedia'): void
 {
     $html = '
         <tr>
@@ -802,16 +779,16 @@ function tidak_ada_data($col = 12, $message = 'Data Tidak Tersedia')
 }
 
 if (! function_exists('data_lengkap')) {
-    function data_lengkap()
+    function data_lengkap(): bool
     {
         $CI = &get_instance();
 
-        return ($CI->setting->tgl_data_lengkap_aktif) ? true : false;
+        return (bool) $CI->setting->tgl_data_lengkap_aktif;
     }
 }
 
 if (! function_exists('buat_class')) {
-    function buat_class($class1 = '', $class2 = '', $required = false)
+    function buat_class($class1 = '', $class2 = '', $required = false): string
     {
         $onlyClass = '';
         preg_match('/class="([^"]+)"/', $class1, $match);
@@ -834,7 +811,7 @@ if (! function_exists('buat_class')) {
 }
 
 if (! function_exists('jenis_surat')) {
-    function jenis_surat($jenis)
+    function jenis_surat($jenis): string
     {
         if (in_array($jenis, FormatSurat::RTF)) {
             return 'RTF';
@@ -845,9 +822,9 @@ if (! function_exists('jenis_surat')) {
 }
 
 if (! function_exists('cek_lokasi_peta')) {
-    function cek_lokasi_peta($wilayah)
+    function cek_lokasi_peta(array $wilayah): bool
     {
-        return (bool) (! empty($wilayah['path'] && ! empty($wilayah['lat'] && ! empty($wilayah['lng']))));
+        return $wilayah['path'] && ($wilayah['lat'] && ! empty($wilayah['lng']));
     }
 }
 
@@ -923,8 +900,6 @@ if (! function_exists('geoip_info')) {
                         break;
 
                     case 'state':
-                        $output = @$ipdat->geoplugin_regionName;
-                        break;
 
                     case 'region':
                         $output = @$ipdat->geoplugin_regionName;
@@ -946,7 +921,7 @@ if (! function_exists('geoip_info')) {
 }
 
 if (! function_exists('batal')) {
-    function batal()
+    function batal(): string
     {
         return '<button type="reset" class="btn btn-social btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>';
     }

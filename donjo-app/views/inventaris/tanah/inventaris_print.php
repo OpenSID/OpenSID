@@ -133,7 +133,7 @@
 							<td><?= number_format($data->harga, 0, '.', '.'); ?></td>
 							<td><?= $data->keterangan; ?></td>
 						</tr>
-						<?php $i = $i + 1 ?>
+						<?php ++$i ?>
 					<?php endforeach; ?>
 				</tbody>
 				<tfooot>

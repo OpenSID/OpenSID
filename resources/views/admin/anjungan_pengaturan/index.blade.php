@@ -36,7 +36,7 @@
                     <div class="col-sm-9">
                         <select class="form-control input-sm artikel-multiple" name="artikel[]" multiple="multiple">
                             @foreach ($daftar_kategori as $item)
-                                <option value="{{ $item->id }}" {{ in_array($item->id, $anjungan_artikel) ? 'selected' : '' }}>{{ $item->kategori }}
+                                <option value="{{ $item->id }}" {{ in_array($item->id, $anjungan_artikel ?? []) ? 'selected' : '' }}>{{ $item->kategori }}
                                 </option>
                             @endforeach
                         </select>

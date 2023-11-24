@@ -48,7 +48,7 @@ class Galeri extends Web_Controller
         }
     }
 
-    public function index($p = 1)
+    public function index($p = 1): void
     {
         $data                 = $this->includes;
         $data['p']            = $p;
@@ -65,7 +65,7 @@ class Galeri extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function detail($parent = 0, $p = 1)
+    public function detail($parent = 0, $p = 1): void
     {
         $data                 = $this->includes;
         $data['p']            = $p;

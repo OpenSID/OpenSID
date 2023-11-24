@@ -241,7 +241,7 @@ class Arsip_fisik_model extends MY_Model
         return $this->paginasi($p, $jml_data);
     }
 
-    public function update_lokasi($tabel, $id, $value)
+    public function update_lokasi($tabel, $id, $value): void
     {
         $this->config_id_exist($tabel);
 
@@ -292,7 +292,7 @@ class Arsip_fisik_model extends MY_Model
             ->lokasi_arsip;
     }
 
-    private function datas_jenis($kategori)
+    private function datas_jenis($kategori): void
     {
         switch ($kategori) {
             case 'dokumen_desa':

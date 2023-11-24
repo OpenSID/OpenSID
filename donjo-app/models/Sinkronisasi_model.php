@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Sinkronisasi_model extends CI_model
 {
-    private $zip_file = '';
+    private string $zip_file = '';
 
     public function __construct()
     {
@@ -47,7 +47,7 @@ class Sinkronisasi_model extends CI_model
     }
 
     // $file = nama file yg akan diproses
-    private function extract_file($file)
+    private function extract_file(string $file)
     {
         $data  = get_csv($this->zip_file, $file);
         $count = count($data);
@@ -85,22 +85,23 @@ class Sinkronisasi_model extends CI_model
             $update_dari_waktu = strtotime($update_dari_waktu);
             $data_tabel        = $this->extract_file($nama_tabel . '.csv');
             $data_tabel        = $this->hapus_kolom_tersamar($data_tabel, $tabel['tabel']);
+
             // Hanya ambil data yg telah berubah
             foreach ($data_tabel as $k => $v) {
                 if (strtotime($v['updated_at']) <= $update_dari_waktu) {
                     unset($data_tabel[$k]);
                 } else {
                     // Data CSV berisi string 'NULL' untuk kolom dengan nilai NULL
-                    $data_tabel[$k] = array_map(static function ($a) {
-                        return $a == 'NULL' ? null : $a;
-                    }, $data_tabel[$k]);
+                    $data_tabel[$k] = array_map(static fn ($a) => $a == 'NULL' ? null : $a, $data_tabel[$k]);
                 }
             }
-            if (! empty($data_tabel)) {
-                if (! $this->db->update_batch($tabel['tabel'], $data_tabel, 'id')) {
-                    $_SESSION['success'] = -1;
-                }
+            if (empty($data_tabel)) {
+                continue;
             }
+            if ($this->db->update_batch($tabel['tabel'], $data_tabel, 'id')) {
+                continue;
+            }
+            $_SESSION['success'] = -1;
         }
 
         return $hasil;

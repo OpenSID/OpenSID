@@ -42,6 +42,7 @@ use App\Models\Bantuan;
 use App\Models\Kategori;
 use App\Models\Kelompok;
 use App\Models\Suplemen;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,7 +55,7 @@ class Anjungan_menu extends Anjungan_Controller
         $this->sub_modul_ini = 'anjungan-menu';
     }
 
-    public function index()
+    public function index(): View
     {
         return view('admin.anjungan_menu.index');
     }
@@ -69,7 +70,7 @@ class Anjungan_menu extends Anjungan_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -97,7 +98,7 @@ class Anjungan_menu extends Anjungan_Controller
         return show_404();
     }
 
-    public function form($id = null)
+    public function form($id = null): View
     {
         $this->redirect_hak_akses('u');
         $tipe_link = $this->referensi_model->list_ref(LINK_TIPE);
@@ -129,7 +130,7 @@ class Anjungan_menu extends Anjungan_Controller
         return view('admin.anjungan_menu.form', $data);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -143,7 +144,7 @@ class Anjungan_menu extends Anjungan_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id = null)
+    public function update($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -155,7 +156,7 @@ class Anjungan_menu extends Anjungan_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = null)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
 
@@ -164,13 +165,13 @@ class Anjungan_menu extends Anjungan_Controller
             unlink($file);
         }
 
-        if (Menu::destroy($id ?? $this->request['id_cb'])) {
+        if (Menu::destroy($id ?? $this->request['id_cb']) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function kunci($id = null, $val = 0)
+    public function kunci($id = null, $val = 0): void
     {
         $this->redirect_hak_akses('u');
 
@@ -198,11 +199,7 @@ class Anjungan_menu extends Anjungan_Controller
 
     protected static function validated($request = [], $id = null)
     {
-        if (! $id) {
-            $urut = Menu::max('urut') + 1;
-        } else {
-            $urut = Menu::find($id)->urut;
-        }
+        $urut = $id ? Menu::find($id)->urut : Menu::max('urut') + 1;
 
         $validated = [
             'nama'      => htmlentities($request['nama']),

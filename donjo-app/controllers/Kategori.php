@@ -48,7 +48,7 @@ class Kategori extends Admin_Controller
         $this->sub_modul_ini = 'menu';
     }
 
-    public function clear()
+    public function clear(): void
     {
         unset($_SESSION['cari'], $_SESSION['filter']);
 
@@ -56,23 +56,15 @@ class Kategori extends Admin_Controller
         redirect('kategori');
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $data['p']   = $p;
         $data['o']   = $o;
         $data['tip'] = 2;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
+        $data['cari'] = $_SESSION['cari'] ?? '';
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
+        $data['filter'] = $_SESSION['filter'] ?? '';
 
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
@@ -86,7 +78,7 @@ class Kategori extends Admin_Controller
         $this->render('kategori/table', $data);
     }
 
-    public function form($id = '')
+    public function form($id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $data['tip'] = 2;
@@ -101,16 +93,15 @@ class Kategori extends Admin_Controller
         $this->render('kategori/form', $data);
     }
 
-    public function sub_kategori($kategori = 1)
+    public function sub_kategori($kategori = 1): void
     {
-        $sub_kategori        = $data['tip'] = 2;
         $data['subkategori'] = $this->web_kategori_model->list_sub_kategori($kategori) ?? show_404();
         $data['kategori']    = $kategori;
 
         $this->render('kategori/sub_kategori_table', $data);
     }
 
-    public function ajax_add_sub_kategori($kategori = '', $id = '')
+    public function ajax_add_sub_kategori($kategori = '', $id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $data['kategori'] = $kategori;
@@ -127,7 +118,7 @@ class Kategori extends Admin_Controller
         $this->load->view('kategori/ajax_add_sub_kategori_form', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -138,7 +129,7 @@ class Kategori extends Admin_Controller
         redirect('kategori/index');
     }
 
-    public function filter()
+    public function filter(): void
     {
         $filter = $this->input->post('filter');
         if ($filter != 0) {
@@ -149,91 +140,91 @@ class Kategori extends Admin_Controller
         redirect('kategori');
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_kategori_model->insert($tip);
         redirect('kategori/index');
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_kategori_model->update($id);
         redirect('kategori/index');
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         $this->redirect_hak_akses('h', 'kategori/index');
         $this->web_kategori_model->delete($id);
         redirect('kategori/index');
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h', "kategori/index/{$p}/{$o}");
         $this->web_kategori_model->delete_all();
         redirect("kategori/index/{$p}/{$o}");
     }
 
-    public function kategori_lock($id = '')
+    public function kategori_lock($id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_kategori_model->kategori_lock($id, 1);
         redirect("kategori/index/{$p}/{$o}");
     }
 
-    public function kategori_unlock($id = '')
+    public function kategori_unlock($id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_kategori_model->kategori_lock($id, 2);
         redirect("kategori/index/{$p}/{$o}");
     }
 
-    public function insert_sub_kategori($kategori = '')
+    public function insert_sub_kategori($kategori = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_kategori_model->insert_sub_kategori($kategori);
         redirect("kategori/sub_kategori/{$kategori}");
     }
 
-    public function update_sub_kategori($kategori = '', $id = '')
+    public function update_sub_kategori($kategori = '', $id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_kategori_model->update_sub_kategori($id);
         redirect("kategori/sub_kategori/{$kategori}");
     }
 
-    public function delete_sub_kategori($kategori = '', $id = 0)
+    public function delete_sub_kategori($kategori = '', $id = 0): void
     {
         $this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
         $this->web_kategori_model->delete_sub($id);
         redirect("kategori/sub_kategori/{$kategori}");
     }
 
-    public function delete_all_sub_kategori($kategori = '')
+    public function delete_all_sub_kategori($kategori = ''): void
     {
         $this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
         $this->web_kategori_model->delete_all();
         redirect("kategori/sub_kategori/{$kategori}");
     }
 
-    public function kategori_lock_sub_kategori($kategori = '', $id = '')
+    public function kategori_lock_sub_kategori($kategori = '', $id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_kategori_model->kategori_lock($id, 1);
         redirect("kategori/sub_kategori/{$kategori}");
     }
 
-    public function kategori_unlock_sub_kategori($kategori = '', $id = '')
+    public function kategori_unlock_sub_kategori($kategori = '', $id = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_kategori_model->kategori_lock($id, 2);
         redirect("kategori/sub_kategori/{$kategori}");
     }
 
-    public function urut($id = 0, $arah = 0, $kategori = '')
+    public function urut($id = 0, $arah = 0, $kategori = ''): void
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $this->web_kategori_model->urut($id, $arah, $kategori);

@@ -59,10 +59,8 @@ class Statistik_pengunjung_model extends MY_Model
 
     /**
      * Counter pengunjung visitor.
-     *
-     * @return void
      */
-    public function counter_visitor()
+    public function counter_visitor(): void
     {
         if (isset($this->session->pengunjungOnline) || null === identitas()) {
             return;
@@ -143,6 +141,7 @@ class Statistik_pengunjung_model extends MY_Model
                 $data['lblx']  = 'Tanggal';
                 $data['judul'] = 'Hari Ini ( ' . tgl_indo2($tgl) . ')';
                 break;
+
                 // Kemarin
             case 2:
                 $this->db->select('Tanggal');
@@ -152,6 +151,7 @@ class Statistik_pengunjung_model extends MY_Model
                 $data['lblx']  = 'Tanggal';
                 $data['judul'] = 'Kemarin ( ' . tgl_indo2($this->op_tgl('-1 days', $tgl)) . ')';
                 break;
+
                 // 7 Hari (Minggu Ini)
             case 3:
                 $this->db->select('Tanggal');
@@ -161,6 +161,7 @@ class Statistik_pengunjung_model extends MY_Model
                 $data['lblx']  = 'Tanggal';
                 $data['judul'] = 'Dari Tanggal ' . tgl_indo2($this->op_tgl('-6 days', $tgl)) . ' - ' . tgl_indo2($tgl);
                 break;
+
                 // 1 bulan(tgl 1 sampai akhir bulan)
             case 4:
                 $this->db->select('Tanggal');
@@ -170,6 +171,7 @@ class Statistik_pengunjung_model extends MY_Model
                 $data['lblx']  = 'Tanggal';
                 $data['judul'] = 'Bulan ' . ucwords(getBulan($bln)) . ' ' . $thn;
                 break;
+
                 // 1 tahun / 12 Bulan
             case 5:
                 $this->db->select('MONTH(`Tanggal`) AS Tanggal');
@@ -179,6 +181,7 @@ class Statistik_pengunjung_model extends MY_Model
                 $data['lblx']  = 'Bulan';
                 $data['judul'] = 'Tahun ' . $thn;
                 break;
+
                 // Semua Data
             default:
                 $this->db->select('YEAR(`Tanggal`) AS Tanggal');
@@ -266,17 +269,15 @@ class Statistik_pengunjung_model extends MY_Model
      *
      * @param int jumlah
      * @param json $lastIpAddress
-     *
-     * @return void
      */
-    public function increment_visitor(int $jumlah, $lastIpAddress)
+    public function increment_visitor(int $jumlah, $lastIpAddress): void
     {
         $ip_address = json_decode($lastIpAddress, true);
 
         $this->config_id_exist($this->table)
             ->where('Tanggal', date('Y-m-d'))
             ->update($this->table, [
-                'ipAddress' => json_encode(['ip_address' => array_merge([$this->ip_address()], $ip_address['ip_address'])]),
+                'ipAddress' => json_encode(['ip_address' => array_merge([$this->ip_address()], $ip_address['ip_address'])], JSON_THROW_ON_ERROR),
                 'Jumlah'    => $jumlah + 1,
             ]);
     }
@@ -316,10 +317,12 @@ class Statistik_pengunjung_model extends MY_Model
             case 1:
                 $this->db->where('Tanggal', $tgl);
                 break;
+
                 // Kemarin
             case 2:
                 $this->db->where('Tanggal', $this->op_tgl('-1 days', $tgl));
                 break;
+
                 // Minggu ini
             case 3:
                 $this->db->where([
@@ -327,6 +330,7 @@ class Statistik_pengunjung_model extends MY_Model
                     'Tanggal <=' => $tgl,
                 ]);
                 break;
+
                 // Bulan ini
             case 4:
                 $this->db->where([
@@ -334,10 +338,12 @@ class Statistik_pengunjung_model extends MY_Model
                     'YEAR(`Tanggal`)  = ' => $thn,
                 ]);
                 break;
+
                 // Tahun ini
             case 5:
                 $this->db->where('YEAR(Tanggal) =', $thn);
                 break;
+
                 // Semua jumlah pengunjung
             default:
                 break;

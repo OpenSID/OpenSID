@@ -49,7 +49,7 @@
 											<?php
                                             $nomer = $paging->offset;
 
-			foreach ($pemudik_list as $key => $item):
+			foreach ($pemudik_list as $item):
 			    $nomer++;
 			    ?>
 											<tr>

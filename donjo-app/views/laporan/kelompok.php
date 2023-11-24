@@ -1,4 +1,3 @@
-
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Laporan Kelompok Rentan</h1>
@@ -118,16 +117,16 @@
 												<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/11") ?>"><?= $data['sakit_P'] ?></a></td>
 												<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/12") ?>"><?= $data['hamil'] ?></a></td>
 												<?php
-			        $bayi = $bayi + $data['bayi'];
-			    $balita   = $balita + $data['balita'];
-			    $sd       = $sd + $data['sd'];
-			    $smp      = $smp + $data['smp'];
-			    $sma      = $sma + $data['sma'];
-			    $lansia   = $lansia + $data['lansia'];
-			    $cacat    = $cacat + $data['cacat'];
-			    $sakit_L  = $sakit_L + $data['sakit_L'];
-			    $sakit_P  = $sakit_P + $data['sakit_P'];
-			    $hamil    = $hamil + $data['hamil'];
+			        $bayi += $data['bayi'];
+			    $balita += $data['balita'];
+			    $sd += $data['sd'];
+			    $smp += $data['smp'];
+			    $sma += $data['sma'];
+			    $lansia += $data['lansia'];
+			    $cacat += $data['cacat'];
+			    $sakit_L += $data['sakit_L'];
+			    $sakit_P += $data['sakit_P'];
+			    $hamil += $data['hamil'];
 
 			    foreach ($jenis_cacat as $key => $val):
 			        $total_cacat[$key] += $data[$val];

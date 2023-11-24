@@ -37,6 +37,7 @@
 
 use App\Models\DaftarKontak;
 use App\Models\Penduduk;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,7 +51,7 @@ class Daftar_kontak extends Admin_Controller
         $this->header['kategori'] = 'hubung warga';
     }
 
-    public function index()
+    public function index(): View
     {
         return view('admin.daftar_kontak.index', [
             'navigasi' => 'Eksternal',
@@ -67,7 +68,7 @@ class Daftar_kontak extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -87,7 +88,7 @@ class Daftar_kontak extends Admin_Controller
         return show_404();
     }
 
-    public function penduduk()
+    public function penduduk(): View
     {
         return view('admin.daftar_kontak.penduduk', [
             'navigasi' => 'Penduduk',
@@ -127,7 +128,7 @@ class Daftar_kontak extends Admin_Controller
             $daftarKontak = null;
         }
 
-        return view('admin.daftar_kontak.form', compact('title', 'navigasi', 'action', 'formAction', 'daftarKontak'));
+        return view('admin.daftar_kontak.form', ['navigasi' => $navigasi, 'action' => $action, 'formAction' => $formAction, 'daftarKontak' => $daftarKontak]);
     }
 
     public function form_penduduk($id = null)
@@ -139,10 +140,10 @@ class Daftar_kontak extends Admin_Controller
         $formAction   = route('daftar_kontak.update_penduduk', $id);
         $daftarKontak = Penduduk::findOrFail($id);
 
-        return view('admin.daftar_kontak.form', compact('title', 'navigasi', 'action', 'formAction', 'daftarKontak'));
+        return view('admin.daftar_kontak.form', ['navigasi' => $navigasi, 'action' => $action, 'formAction' => $formAction, 'daftarKontak' => $daftarKontak]);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -152,7 +153,7 @@ class Daftar_kontak extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id = null)
+    public function update($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -164,7 +165,7 @@ class Daftar_kontak extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function update_penduduk($id = null)
+    public function update_penduduk($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -176,11 +177,11 @@ class Daftar_kontak extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'daftar_kontak/penduduk');
     }
 
-    public function delete($id = null)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
 
-        if (DaftarKontak::destroy($this->request['id_cb'] ?? $id)) {
+        if (DaftarKontak::destroy($this->request['id_cb'] ?? $id) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
         redirect_with('error', 'Gagal Hapus Data');

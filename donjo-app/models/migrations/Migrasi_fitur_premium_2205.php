@@ -258,8 +258,8 @@ class Migrasi_fitur_premium_2205 extends MY_model
         $hasil = $hasil && $this->db->query('DROP VIEW IF EXISTS `daftar_grup`');
 
         // Ganti kolom no_hp pada tabel kontak
-        if ($this->db->field_exists('no_hp', 'kontak')) {
-            $hasil && $this->dbforge->modify_column('kontak', [
+        if ($this->db->field_exists('no_hp', 'kontak') && $hasil) {
+            $this->dbforge->modify_column('kontak', [
                 'no_hp' => [
                     'name'       => 'telepon',
                     'type'       => 'VARCHAR',
@@ -348,8 +348,8 @@ class Migrasi_fitur_premium_2205 extends MY_model
 
         $hasil = $hasil && $this->timestamps('kontak_grup');
 
-        if ($this->db->field_exists('id_kontak', 'anggota_grup_kontak')) {
-            $hasil && $this->dbforge->modify_column('anggota_grup_kontak', [
+        if ($this->db->field_exists('id_kontak', 'anggota_grup_kontak') && $hasil) {
+            $this->dbforge->modify_column('anggota_grup_kontak', [
                 'id_kontak' => [
                     'type'       => 'INT',
                     'constraint' => 11,
@@ -367,12 +367,16 @@ class Migrasi_fitur_premium_2205 extends MY_model
                 ],
             ]);
 
-            $hasil && $this->tambahIndeks('anggota_grup_kontak', 'id_penduduk', 'INDEX');
-            $hasil && $this->tambahForeignKey('anggota_grup_kontak_id_penduduk_fk', 'anggota_grup_kontak', 'id_penduduk', 'tweb_penduduk', 'id');
+            if ($hasil) {
+                $this->tambahIndeks('anggota_grup_kontak', 'id_penduduk', 'INDEX');
+            }
+            if ($hasil) {
+                $this->tambahForeignKey('anggota_grup_kontak_id_penduduk_fk', 'anggota_grup_kontak', 'id_penduduk', 'tweb_penduduk', 'id');
+            }
 
             // Kembalikan data grup kontak yang lama
-            if ($this->grup_kontak) {
-                $hasil && AnggotaGrup::insert($this->grup_kontak);
+            if ($this->grup_kontak && $hasil) {
+                AnggotaGrup::insert($this->grup_kontak);
             }
         }
 
@@ -383,7 +387,7 @@ class Migrasi_fitur_premium_2205 extends MY_model
     {
         $this->db->where('telepon', '')->update('tweb_penduduk', ['telepon' => null]);
 
-        return $hasil && true;
+        return $hasil;
     }
 
     protected function kirimPesanHubungWarga($hasil)

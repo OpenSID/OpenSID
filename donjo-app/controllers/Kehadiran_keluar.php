@@ -36,6 +36,7 @@
  */
 
 use App\Models\AlasanKeluar;
+use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,7 +50,7 @@ class Kehadiran_keluar extends Admin_Controller
         $this->header['kategori'] = 'kehadiran';
     }
 
-    public function index()
+    public function index(): View
     {
         return view('admin.alasan_keluar.index');
     }
@@ -64,7 +65,7 @@ class Kehadiran_keluar extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -84,7 +85,7 @@ class Kehadiran_keluar extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = '')
+    public function form($id = ''): View
     {
         $this->redirect_hak_akses('u');
 
@@ -98,34 +99,34 @@ class Kehadiran_keluar extends Admin_Controller
             $kehadiran_keluar = null;
         }
 
-        return view('admin.alasan_keluar.form', compact('action', 'form_action', 'kehadiran_keluar'));
+        return view('admin.alasan_keluar.form', ['action' => $action, 'form_action' => $form_action, 'kehadiran_keluar' => $kehadiran_keluar]);
     }
 
-    public function create()
+    public function create(): void
     {
         $this->redirect_hak_akses('u');
 
-        if (AlasanKeluar::create($this->validated($this->request))) {
+        if (AlasanKeluar::create(static::validated($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
         $update = AlasanKeluar::findOrFail($id);
 
-        if ($update->update($this->validated($this->request, $id))) {
+        if ($update->update(static::validated($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
 
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = null)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
 
@@ -143,11 +144,7 @@ class Kehadiran_keluar extends Admin_Controller
             'keterangan' => strip_tags($request['keterangan']),
         ];
 
-        if ($id) {
-            $validated['created_by'] = $validated['updated_by'] = auth()->id;
-        } else {
-            $validated['created_by'] = auth()->id;
-        }
+        $validated['created_by'] = $id ? $validated['updated_by'] = auth()->id : auth()->id;
 
         return $validated;
     }

@@ -46,7 +46,7 @@ class Lapak_admin extends Admin_Controller
         $this->load->model(['lapak_model', 'penduduk_model']);
     }
 
-    public function index()
+    public function index(): void
     {
         redirect("{$this->controller}/produk");
     }
@@ -119,7 +119,7 @@ class Lapak_admin extends Admin_Controller
         $this->render("{$this->controller}/produk/index", $data);
     }
 
-    public function produk_form($id = '')
+    public function produk_form($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -140,42 +140,42 @@ class Lapak_admin extends Admin_Controller
         $this->render("{$this->controller}/produk/form", $data);
     }
 
-    public function produk_insert()
+    public function produk_insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->lapak_model->produk_insert();
         redirect("{$this->controller}/produk");
     }
 
-    public function produk_update($id = '')
+    public function produk_update($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->lapak_model->produk_update($id);
         redirect("{$this->controller}/produk");
     }
 
-    public function produk_delete($id)
+    public function produk_delete($id): void
     {
         $this->redirect_hak_akses('h');
         $this->lapak_model->produk_delete($id);
         redirect("{$this->controller}/produk");
     }
 
-    public function produk_delete_all()
+    public function produk_delete_all(): void
     {
         $this->redirect_hak_akses('h');
         $this->lapak_model->produk_delete_all();
         redirect("{$this->controller}/produk");
     }
 
-    public function produk_detail($id = 0)
+    public function produk_detail($id = 0): void
     {
         $data['main'] = $this->lapak_model->produk_detail($id) ?? show_404();
 
         $this->load->view("{$this->controller}/produk/detail", $data);
     }
 
-    public function produk_status($id = 0, $status = 0)
+    public function produk_status($id = 0, $status = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->lapak_model->status('produk', $id, $status);
@@ -206,7 +206,7 @@ class Lapak_admin extends Admin_Controller
         $this->render("{$this->controller}/pelapak/index", $data);
     }
 
-    public function pelapak_form($id = '')
+    public function pelapak_form($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -223,7 +223,7 @@ class Lapak_admin extends Admin_Controller
         $this->load->view("{$this->controller}/pelapak/modal_form", $data);
     }
 
-    public function pelapak_maps($id = '')
+    public function pelapak_maps($id = ''): void
     {
         $desa    = $this->header['desa'];
         $pelapak = $this->lapak_model->pelapak_detail($id) ?? show_404();
@@ -274,28 +274,28 @@ class Lapak_admin extends Admin_Controller
         $this->render("{$this->controller}/pelapak/maps", $data);
     }
 
-    public function pelapak_insert()
+    public function pelapak_insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->lapak_model->pelapak_insert();
         redirect("{$this->controller}/pelapak");
     }
 
-    public function pelapak_update_maps($id = '')
+    public function pelapak_update_maps($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->lapak_model->pelapak_update_maps($id);
         redirect("{$this->controller}/pelapak");
     }
 
-    public function pelapak_update($id = '')
+    public function pelapak_update($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->lapak_model->pelapak_update($id);
         redirect("{$this->controller}/pelapak");
     }
 
-    public function pelapak_delete($id)
+    public function pelapak_delete($id): void
     {
         $this->redirect_hak_akses('h');
         // Cek apakah produk pelapak ada ???
@@ -308,14 +308,14 @@ class Lapak_admin extends Admin_Controller
         redirect("{$this->controller}/pelapak");
     }
 
-    public function pelapak_delete_all()
+    public function pelapak_delete_all(): void
     {
         $this->redirect_hak_akses('h');
         $this->lapak_model->pelapak_delete_all();
         redirect("{$this->controller}/pelapak");
     }
 
-    public function pelapak_status($id = 0, $status = 0)
+    public function pelapak_status($id = 0, $status = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->lapak_model->status('pelapak', $id, $status);
@@ -346,7 +346,7 @@ class Lapak_admin extends Admin_Controller
         $this->render("{$this->controller}/kategori/index", $data);
     }
 
-    public function kategori_form($id = '')
+    public function kategori_form($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -361,21 +361,21 @@ class Lapak_admin extends Admin_Controller
         $this->load->view("{$this->controller}/kategori/modal_form", $data);
     }
 
-    public function kategori_insert()
+    public function kategori_insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->lapak_model->kategori_insert();
         redirect("{$this->controller}/kategori");
     }
 
-    public function kategori_update($id = '')
+    public function kategori_update($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->lapak_model->kategori_update($id);
         redirect("{$this->controller}/kategori");
     }
 
-    public function kategori_delete($id)
+    public function kategori_delete($id): void
     {
         $this->redirect_hak_akses('h');
         // Cek apakah produk kategori ada ???
@@ -388,14 +388,14 @@ class Lapak_admin extends Admin_Controller
         redirect("{$this->controller}/kategori");
     }
 
-    public function kategori_delete_all()
+    public function kategori_delete_all(): void
     {
         $this->redirect_hak_akses('h');
         $this->lapak_model->kategori_delete_all();
         redirect("{$this->controller}/kategori");
     }
 
-    public function kategori_status($id = 0, $status = 0)
+    public function kategori_status($id = 0, $status = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->lapak_model->status('produk_kategori', $id, $status);
@@ -403,7 +403,7 @@ class Lapak_admin extends Admin_Controller
     }
 
     // PENGATURAN
-    public function pengaturan()
+    public function pengaturan(): void
     {
         $this->redirect_hak_akses('u');
         $data = ['kategori' => ['lapak']];

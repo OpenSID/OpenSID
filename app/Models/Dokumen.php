@@ -114,7 +114,7 @@ class Dokumen extends BaseModel
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopePengguna($query)
+    public function scopePengguna($query): void
     {
         // return $query->where('id_pend', auth('jwt')->id());
     }
@@ -124,7 +124,7 @@ class Dokumen extends BaseModel
      *
      * @return string
      */
-    public function getUrlFileAttribute()
+    public function getUrlFileAttribute(): void
     {
         // try {
         //     return Storage::disk('ftp')->exists("desa/upload/dokumen/{$this->satuan}")
@@ -140,7 +140,7 @@ class Dokumen extends BaseModel
      *
      * @return string
      */
-    public function getDownloadDokumenAttribute()
+    public function getDownloadDokumenAttribute(): void
     {
         // try {
         //     return Storage::disk('ftp')->exists("desa/upload/dokumen/{$this->satuan}")
@@ -197,7 +197,7 @@ class Dokumen extends BaseModel
     public function scopeFilters($query, array $filters = [])
     {
         foreach ($filters as $key => $value) {
-            $query->when($value ?? false, static function ($query) use ($value, $key) {
+            $query->when($value ?? false, static function ($query) use ($value, $key): void {
                 $query->where($key, $value);
             });
         }

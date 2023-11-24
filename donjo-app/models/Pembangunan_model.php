@@ -80,7 +80,7 @@ class Pembangunan_model extends MY_Model
         $this->get_tipe();
         $this->config_id('p');
 
-        if ($search) {
+        if ($search !== '' && $search !== '0') {
             $this->db
                 ->group_start()
                 ->like('p.sumber_dana', $search)
@@ -125,7 +125,7 @@ class Pembangunan_model extends MY_Model
             ->result();
     }
 
-    public function insert()
+    public function insert(): void
     {
         $post               = $this->input->post();
         $data               = $this->validasi($post);
@@ -143,7 +143,7 @@ class Pembangunan_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $post = $this->input->post();
         $data = $this->validasi($post);
@@ -189,7 +189,7 @@ class Pembangunan_model extends MY_Model
         ];
     }
 
-    private function upload_gambar_pembangunan($jenis)
+    private function upload_gambar_pembangunan(string $jenis)
     {
         // Inisialisasi library 'upload'
         $this->load->library('MY_Upload', null, 'upload');
@@ -203,7 +203,7 @@ class Pembangunan_model extends MY_Model
         $uploadData = null;
         // Adakah berkas yang disertakan?
         $adaBerkas = ! empty($_FILES[$jenis]['name']);
-        if ($adaBerkas !== true) {
+        if (! $adaBerkas) {
             // Jika hapus (ceklis)
             if (isset($_POST['hapus_foto'])) {
                 unlink(LOKASI_GALERI . $this->input->post('old_foto'));
@@ -238,7 +238,7 @@ class Pembangunan_model extends MY_Model
             return redirect('admin_pembangunan');
         }
 
-        return (! empty($uploadData)) ? $uploadData['file_name'] : null;
+        return (empty($uploadData)) ? null : $uploadData['file_name'];
     }
 
     public function update_lokasi_maps($id, array $request)
@@ -252,7 +252,7 @@ class Pembangunan_model extends MY_Model
         ]);
     }
 
-    public function delete($id)
+    public function delete($id): void
     {
         $data = $this->find($id);
 
@@ -322,7 +322,7 @@ class Pembangunan_model extends MY_Model
             ->update($this->table);
     }
 
-    public function get_tipe()
+    public function get_tipe(): void
     {
         if (empty($this->tipe)) {
             return;

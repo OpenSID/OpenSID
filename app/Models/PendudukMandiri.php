@@ -142,8 +142,8 @@ class PendudukMandiri extends BaseModel
         return $this->penduduk->email;
     }
 
-    public function generate_pin()
+    public function generate_pin(): string
     {
-        return strrev(mt_rand(100000, 999999));
+        return strrev(random_int(100000, 999999));
     }
 }

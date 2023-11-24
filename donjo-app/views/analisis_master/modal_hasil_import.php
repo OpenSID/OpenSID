@@ -29,7 +29,7 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<label class="control-label">Terjadi beberapa error, antara lain</label>
-												<input type="hidden" id="jml_error" value=<?= count($list_error) ?>>
+												<input type="hidden" id="jml_error" value=<?= count($list_error ?? []) ?>>
 												<div class="table-responsive">
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">

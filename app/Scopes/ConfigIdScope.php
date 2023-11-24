@@ -60,10 +60,8 @@ class ConfigIdScope implements Scope
 
     /**
      * Extend the query builder with the needed functions.
-     *
-     * @return void
      */
-    public function extend(Builder $builder)
+    public function extend(Builder $builder): void
     {
         $builder->macro('withConfigId', static function (Builder $builder, $alias = null) {
             if (! Schema::hasColumn($builder->getModel()->getTable(), 'config_id')) {

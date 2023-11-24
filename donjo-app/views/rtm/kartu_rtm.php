@@ -97,7 +97,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												<?php foreach ($main as $key => $data): ?>
+												<?php foreach ($main as $data): ?>
 												<tr>
 													<td><?= $data['no']?></td>
 													<td><?= strtoupper($data['nama'])?></td>

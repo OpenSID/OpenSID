@@ -39,16 +39,12 @@ namespace App\Libraries\TinyMCE;
 
 class KodeIsianIdentitas
 {
-    public function __construct()
-    {
-    }
-
-    public static function get()
+    public static function get(): array
     {
         return (new self())->kodeIsian();
     }
 
-    public function kodeIsian()
+    public function kodeIsian(): array
     {
         $config              = identitas();
         $sebutan_dusun       = setting('sebutan_dusun');

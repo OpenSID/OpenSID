@@ -104,7 +104,7 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
         parent::__construct();
     }
 
-    public function select_per_kategori()
+    public function select_per_kategori(): bool
     {
         $this->filter();
 
@@ -169,7 +169,7 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
         parent::__construct();
     }
 
-    public function select_per_kategori()
+    public function select_per_kategori(): bool
     {
         $this->filter();
 
@@ -236,7 +236,7 @@ class Bantuan_penduduk extends Statistik_penduduk_model
         $this->program_id = $program_id;
     }
 
-    public function select_per_kategori()
+    public function select_per_kategori(): bool
     {
         // Tidak ada kategori
         return false;
@@ -284,7 +284,7 @@ class Bantuan_keluarga extends Statistik_penduduk_model
         $this->program_id = $program_id;
     }
 
-    public function select_per_kategori()
+    public function select_per_kategori(): bool
     {
         // Tidak ada kategori
         return false;
@@ -331,7 +331,7 @@ class Bantuan_rumah_tangga extends Statistik_penduduk_model
         $this->program_id = $program_id;
     }
 
-    public function select_per_kategori()
+    public function select_per_kategori(): bool
     {
         // Tidak ada kategori
         return false;
@@ -381,7 +381,7 @@ class Bantuan_kelompok extends Statistik_penduduk_model
         $this->program_id = $program_id;
     }
 
-    public function select_per_kategori()
+    public function select_per_kategori(): bool
     {
         // Tidak ada kategori
         return false;

@@ -57,9 +57,10 @@ class Analisis_laporan_model extends My_Model
         $query = $this->db->query($sql);
         $data  = $query->result_array();
 
-        $outp = '';
+        $outp    = '';
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $outp .= ',"' . $data[$i]['no_kk'] . '"';
         }
         $outp = strtolower(substr($outp, 1));
@@ -88,6 +89,7 @@ class Analisis_laporan_model extends My_Model
                     ->like('u.no_kk', $cari)
                     ->or_like('p.nama', $cari)
                     ->group_end();
+
                 // no break
             case 3:
                 $kw = $this->db->escape_like_str($cari);
@@ -147,7 +149,7 @@ class Analisis_laporan_model extends My_Model
         }
     }
 
-    private function dusun_sql()
+    private function dusun_sql(): void
     {
         if (empty($this->session->dusun) || $this->subjek == 5) {
             return;
@@ -156,7 +158,7 @@ class Analisis_laporan_model extends My_Model
         $this->db->where('dusun', $this->session->dusun);
     }
 
-    private function rw_sql()
+    private function rw_sql(): void
     {
         if (empty($this->session->rw) || $this->subjek == 5) {
             return;
@@ -165,7 +167,7 @@ class Analisis_laporan_model extends My_Model
         $this->db->where('rw', $this->session->rw);
     }
 
-    private function rt_sql()
+    private function rt_sql(): void
     {
         if (empty($this->session->rt) || $this->subjek == 5) {
             return;
@@ -174,7 +176,7 @@ class Analisis_laporan_model extends My_Model
         $this->db->where('rt', $this->session->rt);
     }
 
-    private function klasifikasi_sql()
+    private function klasifikasi_sql(): void
     {
         if (empty($this->session->klasifikasi)) {
             return;
@@ -183,7 +185,7 @@ class Analisis_laporan_model extends My_Model
         $this->db->where('k.id', $this->session->klasifikasi);
     }
 
-    private function jawab_sql()
+    private function jawab_sql(): void
     {
         if (empty($kf = $this->session->jawab)) {
             return;
@@ -284,7 +286,7 @@ class Analisis_laporan_model extends My_Model
         return $this->paging;
     }
 
-    public function list_data_query()
+    public function list_data_query(): void
     {
         $per     = $this->analisis_master_model->periode->id;
         $master  = $this->analisis_master_model->analisis_master;
@@ -370,7 +372,6 @@ class Analisis_laporan_model extends My_Model
 
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
-        $per     = $this->analisis_master_model->periode->id;
         $master  = $this->analisis_master_model->analisis_master;
         $pembagi = $master['pembagi'] + 0;
 
@@ -455,9 +456,10 @@ class Analisis_laporan_model extends My_Model
 
         $data = $this->db->get()->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
 
             if ($data[$i]['cek']) {
@@ -469,11 +471,7 @@ class Analisis_laporan_model extends My_Model
                 $data[$i]['klasifikasi'] = '-';
             }
             $data[$i]['jk'] = '-';
-            if ($data[$i]['sex'] == 1) {
-                $data[$i]['jk'] = 'LAKI-LAKI';
-            } else {
-                $data[$i]['jk'] = 'PEREMPUAN';
-            }
+            $data[$i]['jk'] = $data[$i]['sex'] == 1 ? 'LAKI-LAKI' : 'PEREMPUAN';
 
             $j++;
         }
@@ -505,12 +503,12 @@ class Analisis_laporan_model extends My_Model
     {
         $jmkf = $this->group_parameter();
         $cb   = '';
-        if (count($jmkf)) {
+        if (count($jmkf) > 0) {
             foreach ($jmkf as $jm) {
                 $cb .= $jm['id_jmkf'] . ',';
             }
         }
-        $cb = $cb . '7777777';
+        $cb .= '7777777';
 
         $sql = "SELECT u.*,
             (SELECT COUNT(id)
@@ -520,10 +518,11 @@ class Analisis_laporan_model extends My_Model
             WHERE u.config_id = ' . identitas('id');
         $sql .= $this->master_sql();
         $sql .= ' ORDER BY u.nomor ASC';
-        $query = $this->db->query($sql, $id);
-        $data  = $query->result_array();
+        $query   = $this->db->query($sql, $id);
+        $data    = $query->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']      = $i + 1;
             $ret                 = $this->list_jawab2($id, $data[$i]['id']);
             $data[$i]['jawaban'] = $ret['jawaban'];
@@ -626,24 +625,16 @@ class Analisis_laporan_model extends My_Model
     public function multi_jawab($p = 0, $o = 0)
     {
         $master = $this->analisis_master_model->analisis_master;
-        if (isset($this->session->jawab)) {
-            $kf = $this->session->jawab;
-        } else {
-            $kf = '7777777';
-        }
+        $kf     = $this->session->jawab ?? '7777777';
 
         switch ($o) {
             case 1:
-                $order_sql = ' ORDER BY u.id';
-                break;
-
-            case 2:
-                $order_sql = ' ORDER BY u.id DESC';
-                break;
 
             case 3:
                 $order_sql = ' ORDER BY u.id';
                 break;
+
+            case 2:
 
             case 4:
                 $order_sql = ' ORDER BY u.id DESC';
@@ -662,10 +653,11 @@ class Analisis_laporan_model extends My_Model
             WHERE u.id_master = {$master['id']} AND u.config_id = " . identitas('id');
         $sql .= $asign_sql;
         $sql .= $order_sql;
-        $query = $this->db->query($sql, $master);
-        $data  = $query->result_array();
+        $query   = $this->db->query($sql, $master);
+        $data    = $query->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
         }
 

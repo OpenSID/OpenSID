@@ -49,12 +49,12 @@ class KodeIsianPasangan
         $this->penduduk = Penduduk::find($idPenduduk);
     }
 
-    public static function get($idPenduduk)
+    public static function get($idPenduduk): array
     {
         return (new self($idPenduduk))->kodeIsian();
     }
 
-    public function kodeIsian()
+    public function kodeIsian(): array
     {
         return [
             [

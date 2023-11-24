@@ -1,0 +1,6 @@
+No direct script access allowedNo direct script access allowed
+
+[30;42m                                                                                [39;49m
+[30;42m [OK] Rector is done!                                                           [39;49m
+[30;42m                                                                                [39;49m
+

@@ -71,7 +71,7 @@ class Keluar_model extends MY_Model
         return autocomplete_data_ke_str($data);
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         $cari = $this->session->cari;
         if (empty($cari)) {
@@ -87,7 +87,7 @@ class Keluar_model extends MY_Model
         }
     }
 
-    private function tahun_sql()
+    private function tahun_sql(): void
     {
         $tahun = $this->session->tahun;
         if (empty($tahun)) {
@@ -97,7 +97,7 @@ class Keluar_model extends MY_Model
         }
     }
 
-    private function bulan_sql()
+    private function bulan_sql(): void
     {
         $bulan = $this->session->bulan;
         if (empty($bulan)) {
@@ -107,7 +107,7 @@ class Keluar_model extends MY_Model
         }
     }
 
-    private function jenis_sql()
+    private function jenis_sql(): void
     {
         $jenis = $this->session->jenis;
         if (empty($jenis)) {
@@ -117,7 +117,7 @@ class Keluar_model extends MY_Model
         }
     }
 
-    public function navigasi()
+    public function navigasi(): void
     {
         $isAdmin = $this->session->isAdmin->pamong;
         if (isset($this->session->masuk)) {
@@ -150,7 +150,7 @@ class Keluar_model extends MY_Model
         }
     }
 
-    private function verifikasi()
+    private function verifikasi(): void
     {
         // jika kepdesa
         $isAdmin = $this->session->isAdmin->pamong;
@@ -177,7 +177,7 @@ class Keluar_model extends MY_Model
         }
     }
 
-    private function filterku_sql($nik = '')
+    private function filterku_sql($nik = ''): void
     {
         if (! empty($nik)) {
             $this->db->where('u.id_pend', $nik);
@@ -265,9 +265,10 @@ class Keluar_model extends MY_Model
         $data = $this->list_data_sql()->result_array();
 
         //Formating Output
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
             $data[$i]['t']  = $data[$i]['id_pend'];
 
@@ -286,11 +287,11 @@ class Keluar_model extends MY_Model
         return $data;
     }
 
-    private function rincian_file(&$data, $i)
+    private function rincian_file(&$data, int $i): void
     {
         $nama_surat = pathinfo($data[$i]['nama_surat'], PATHINFO_FILENAME);
 
-        if ($nama_surat) {
+        if ($nama_surat !== '' && $nama_surat !== '0') {
             $berkas_rtf      = $nama_surat . '.rtf';
             $berkas_pdf      = $nama_surat . '.pdf';
             $berkas_lampiran = $nama_surat . '_lampiran.pdf';
@@ -305,7 +306,7 @@ class Keluar_model extends MY_Model
         $data[$i]['file_lampiran'] = LOKASI_ARSIP . $berkas_lampiran;
     }
 
-    public function update_keterangan($id, $data)
+    public function update_keterangan($id, $data): void
     {
         $outp = $this->config_id()
             ->where('id', $id)
@@ -385,9 +386,10 @@ class Keluar_model extends MY_Model
         $data = $this->list_data_perorangan_sql($nik)->result_array();
 
         //Formating Output
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
             $this->rincian_file($data, $i);
             $j++;
@@ -407,7 +409,7 @@ class Keluar_model extends MY_Model
         return $url . '_' . $nik . '_' . date('Y-m-d') . '_' . $nomor_surat . '.rtf';
     }
 
-    public function log_surat($data_log_surat)
+    public function log_surat($data_log_surat): void
     {
         $url_surat  = $data_log_surat['url_surat'];
         $nama_surat = $data_log_surat['nama_surat'];
@@ -483,7 +485,7 @@ class Keluar_model extends MY_Model
             ->result_array();
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         $arsip = $this->config_id()
             ->select('nama_surat, lampiran, urls_id, status')
@@ -505,9 +507,11 @@ class Keluar_model extends MY_Model
         $sql   = 'SELECT id, nik, nama FROM tweb_penduduk WHERE status = 1';
         $query = $this->db->query($sql);
         $data  = $query->result_array();
+        //Formating Output
+        $counter = count($data);
 
         //Formating Output
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['alamat'] = 'Alamat :' . $data[$i]['nama'];
         }
 

@@ -95,7 +95,7 @@ class RefJabatan extends BaseModel
     }
 
     // get data jabatan jenis sekdes
-    public static function getKadesSekdes()
+    public static function getKadesSekdes(): array
     {
         return [
             self::getKades()->id,
@@ -111,7 +111,7 @@ class RefJabatan extends BaseModel
 
     public static function scopeNonAktif()
     {
-        return self::select('id')->whereNotExists(static function ($query) {
+        return self::select('id')->whereNotExists(static function ($query): void {
             $query->select(DB::raw(1))
                 ->from('tweb_desa_pamong')
                 ->where('tweb_desa_pamong.pamong_status', StatusEnum::YA)

@@ -85,7 +85,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
     protected function migrasi_2021072672($hasil)
     {
         if (! $this->db->field_exists('bdt', 'tweb_rtm')) {
-            $hasil = $hasil && $this->dbforge->add_column('tweb_rtm', ['bdt' => ['type' => 'VARCHAR', 'constraint' => '16', 'null' => true]]);
+            return $hasil && $this->dbforge->add_column('tweb_rtm', ['bdt' => ['type' => 'VARCHAR', 'constraint' => '16', 'null' => true]]);
         }
 
         return $hasil;
@@ -182,7 +182,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
         ]);
     }
 
-    private function ubah_pengaturan_aplikasi($hasil)
+    private function ubah_pengaturan_aplikasi(bool $hasil)
     {
         return $hasil && $this->db
             ->where_in('key', ['api_opendk_server', 'api_opendk_key', 'api_opendk_user', 'api_opendk_password'])

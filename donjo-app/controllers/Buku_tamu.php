@@ -39,6 +39,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Models\BukuKepuasan;
 use App\Models\BukuTamu;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use OpenSpout\Common\Entity\Style\Border;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Writer\Common\Creator\Style\BorderBuilder;
@@ -55,7 +56,7 @@ class Buku_tamu extends Anjungan_Controller
         $this->header['kategori'] = 'buku-tamu';
     }
 
-    public function index()
+    public function index(): View
     {
         if ($this->input->is_ajax_request()) {
             $filters = [
@@ -76,12 +77,8 @@ class Buku_tamu extends Anjungan_Controller
                         return '<a href="#" data-href="' . route('buku_tamu.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
                 })
-                ->addColumn('tampil_foto', static function ($row) {
-                    return '<img src="' . $row->url_foto . '" class="penduduk_kecil text-center" alt="' . $row->nama . '">';
-                })
-                ->editColumn('created_at', static function ($row) {
-                    return Carbon::parse($row->created_at)->dayName . ' / ' . tgl_indo($row->created_at);
-                })
+                ->addColumn('tampil_foto', static fn ($row): string => '<img src="' . $row->url_foto . '" class="penduduk_kecil text-center" alt="' . $row->nama . '">')
+                ->editColumn('created_at', static fn ($row): string => Carbon::parse($row->created_at)->dayName . ' / ' . tgl_indo($row->created_at))
                 ->rawColumns(['ceklist', 'tampil_foto', 'aksi'])
                 ->make();
         }
@@ -89,11 +86,11 @@ class Buku_tamu extends Anjungan_Controller
         return view('admin.buku_tamu.tamu.index');
     }
 
-    public function delete($id = null)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
 
-        if (BukuTamu::destroy($this->request['id_cb'] ?? $id)) {
+        if (BukuTamu::destroy($this->request['id_cb'] ?? $id) !== 0) {
             // Hapus juga data indeks kepuasan
             BukuKepuasan::whereIdNama($this->request['id_cb'] ?? $id)->delete();
             redirect_with('success', 'Berhasil Hapus Data');
@@ -102,7 +99,7 @@ class Buku_tamu extends Anjungan_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function cetak($tanggal = null)
+    public function cetak(): View
     {
         return view('admin.buku_tamu.tamu.cetak', [
             'data_tamu' => $this->data($this->input->get('tanggal')),
@@ -120,7 +117,7 @@ class Buku_tamu extends Anjungan_Controller
             ->get();
     }
 
-    public function ekspor()
+    public function ekspor(): void
     {
         $tanggal = $this->input->get('tanggal');
         $writer  = WriterEntityFactory::createXLSXWriter();

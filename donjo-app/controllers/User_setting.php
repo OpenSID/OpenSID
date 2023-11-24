@@ -50,7 +50,7 @@ class User_setting extends Admin_Controller
         $this->load->model('user_model');
     }
 
-    public function index()
+    public function index(): void
     {
         $id           = $_SESSION['user'];
         $data['main'] = $this->user_model->get_user($id);
@@ -110,7 +110,7 @@ class User_setting extends Admin_Controller
 
         try {
             $user  = User::find($this->session->user);
-            $token = hash('sha256', $raw_token = mt_rand(100000, 999999));
+            $token = hash('sha256', $raw_token = random_int(100000, 999999));
 
             $user->id_telegram = $id_telegram;
             $user->token       = $token;

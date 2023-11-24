@@ -53,6 +53,7 @@ use App\Models\PendudukHubungan;
 use App\Models\SakitMenahun;
 use App\Models\SettingAplikasi;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -70,7 +71,7 @@ class DTKSRegsosEk2022k
     /**
      *  @return [form_input_name => [target_table, target_field]]
      */
-    protected static function relasiPengaturanProgram()
+    protected static function relasiPengaturanProgram(): array
     {
         return [
             '501a'                => ['dtks', implode(',', ['kd_bss_bnpt', 'bulan_bss_bnpt', 'tahun_bss_bnpt'])],
@@ -137,16 +138,16 @@ class DTKSRegsosEk2022k
         }
     }
 
-    public function info()
+    public function info(): View
     {
         $data                            = [];
         $daftar_bantuan                  = Bantuan::get();
         $data['daftar_bantuan_keluarga'] = $daftar_bantuan->whereIn('sasaran', [SasaranEnum::KELUARGA]);
         $data['daftar_bantuan_anggota']  = $daftar_bantuan->where('sasaran', SasaranEnum::PENDUDUK);
         $all_pengaturan_program          = DtksPengaturanProgram::where('versi_kuisioner', 2)->get();
-        $relasi_program                  = $this->relasiPengaturanProgram();
+        $relasi_program                  = static::relasiPengaturanProgram();
 
-        foreach ($relasi_program as $form_input_name => $item) {
+        foreach (array_keys($relasi_program) as $form_input_name) {
             $pengaturan_program = $all_pengaturan_program->where('kode', $form_input_name);
             if ($pengaturan_program && substr($form_input_name, -(strlen('default'))) !== 'default') {
                 $data['name_' . $form_input_name] = $pengaturan_program->first()->id_bantuan;
@@ -158,7 +159,7 @@ class DTKSRegsosEk2022k
         return view('admin.dtks.' . \App\Enums\Dtks\DtksEnum::VERSION_CODE . '.info', $data);
     }
 
-    public function impor()
+    public function impor(): View
     {
         $data = [];
 
@@ -179,7 +180,7 @@ class DTKSRegsosEk2022k
             DtksAnggota::where('id_dtks', $dtks->id)->update(['id_dtks' => null]);
 
             // sesuaikan jumlah dtks dengan jumlah keluarga dalam rtm
-            foreach ($dtks->keluarga_in_rtm as $key => $keluarga) {
+            foreach ($dtks->keluarga_in_rtm as $keluarga) {
                 $dtks_keluarga = $semua_dtks->where('id_keluarga', $keluarga->id)->first();
                 $dtks_resync   = null;
                 // dtks ini belum punya acuan keluarga
@@ -243,11 +244,11 @@ class DTKSRegsosEk2022k
         ]);
         $dtks->loadMissing([
             'rtm',
-            'rtm.kepalaKeluarga' => static function ($builder) {
+            'rtm.kepalaKeluarga' => static function ($builder): void {
                 // override all items within the $with property in Penduduk
                 $builder->withOnly('Wilayah', 'keluarga');
             },
-            'rtm.anggota' => static function ($builder) {
+            'rtm.anggota' => static function ($builder): void {
                 // override all items within the $with property in Penduduk
                 $builder->withOnly(['keluarga', 'pekerjaan', 'pendidikan', 'pendidikanKK']);
                 // hanya ambil data anggota yg masih hidup (tweb_penduduk)
@@ -263,7 +264,7 @@ class DTKSRegsosEk2022k
         }
 
         // lepas anggota DTKS yg tidak ditemukan di tweb_penduduk status hidup
-        $dtks_anggotas = DtksAnggota::whereNotIn('id_penduduk', $ids_anggota)
+        DtksAnggota::whereNotIn('id_penduduk', $ids_anggota)
             ->where('id_dtks', $dtks->id)
             ->update(['id_dtks' => null]);
 
@@ -306,7 +307,7 @@ class DTKSRegsosEk2022k
 
         // hanya ambil field yg digunakan
         $dtks->load([
-            'dtksAnggota' => static function ($builder) {
+            'dtksAnggota' => static function ($builder): void {
                 $builder->select(Regsosek2022kEnum::getUsedFields()['dtks_anggota']);
             },
         ]);
@@ -334,7 +335,7 @@ class DTKSRegsosEk2022k
 
             if ($tmp_anggota->usia >= 5) {
                 // jika sedang sekolah, resync
-                if ($item->kd_partisipasi_sekolah = 2) {
+                if (($item->kd_partisipasi_sekolah = 2) !== 0) {
                     // load sekali
                     $daftar_pendidikan = $this->cacheTemporaryModelGet(new Pendidikan());
                     $this->syncPendidikan($item, $tmp_anggota, $daftar_pendidikan);
@@ -349,10 +350,10 @@ class DTKSRegsosEk2022k
         if ($dtks->jumlah_keluarga > 1) {
             $dtks->all_dtks_id = DTKS::select('id', 'id_rtm', 'id_keluarga', 'versi_kuisioner')
                 ->withOnly([
-                    'rtm' => static function ($builder) {
+                    'rtm' => static function ($builder): void {
                         $builder->select('id', 'nik_kepala');
                     },
-                    'rtm.kepalaKeluarga' => static function ($builder) {
+                    'rtm.kepalaKeluarga' => static function ($builder): void {
                         $builder->select('id', 'nama');
                         // override all items within the $with property in Penduduk
                         $builder->without([
@@ -369,10 +370,10 @@ class DTKSRegsosEk2022k
                             'wilayah',
                         ]);
                     },
-                    'keluarga' => static function ($builder) {
+                    'keluarga' => static function ($builder): void {
                         $builder->select('id', 'nik_kepala', 'no_kk');
                     },
-                    'keluarga.kepalaKeluarga' => static function ($builder) {
+                    'keluarga.kepalaKeluarga' => static function ($builder): void {
                         $builder->select('id', 'nama');
                         // override all items within the $with property in Penduduk
                         $builder->without([
@@ -399,11 +400,12 @@ class DTKSRegsosEk2022k
         return $this->syncKepesertaanProgramKeluarga($dtks);
     }
 
-    public function form(Dtks $dtks)
+    public function form(Dtks $dtks): View
     {
         $desa = SettingAplikasi::whereIn('key', [
             'sebutan_desa', 'sebutan_kecamatan', 'sebutan_kabupaten',
         ])->get();
+
         // echo json_encode($data['dtks']);
         // die();
         foreach ($desa as $item) {
@@ -422,9 +424,9 @@ class DTKSRegsosEk2022k
             if (! $dtks->kode_provinsi || ! $dtks->kode_kabupaten || ! $dtks->kode_kecamatan || ! $dtks->kode_desa) {
                 //  I. Keterangan Tempat
                 $dtks->kode_provinsi  = $kode_desa_bps ? substr($kode_desa_bps, 0, 2) : ''; // 101
-                $dtks->kode_kabupaten = $kode_desa_bps ? substr($kode_desa_bps, 0 + 2, 2) : ''; // 102
-                $dtks->kode_kecamatan = $kode_desa_bps ? substr($kode_desa_bps, 0 + 2 + 2, 3) : ''; // 103
-                $dtks->kode_desa      = $kode_desa_bps ? substr($kode_desa_bps, 0 + 2 + 2 + 3, 3) : ''; // 104
+                $dtks->kode_kabupaten = $kode_desa_bps ? substr($kode_desa_bps, 2, 2) : ''; // 102
+                $dtks->kode_kecamatan = $kode_desa_bps ? substr($kode_desa_bps, 2 + 2, 3) : ''; // 103
+                $dtks->kode_desa      = $kode_desa_bps ? substr($kode_desa_bps, 2 + 2 + 3, 3) : ''; // 104
                 $this->saveRelatedAttribute($dtks);
             }
             $data['dtks_prov'] = getKodeDesaFromTrackSID()['nama_prov'];
@@ -517,7 +519,7 @@ class DTKSRegsosEk2022k
         return ['file' => $path, 'nama' => $nama_file, 'id' => $dtks->id, 'status_file' => 1];
     }
 
-    public function cetakPreviewSingle(Dtks $dtks)
+    public function cetakPreviewSingle(Dtks $dtks): void
     {
         $this->generateCetakPdf($dtks, true);
     }
@@ -553,7 +555,7 @@ class DTKSRegsosEk2022k
         return $list_path;
     }
 
-    public function ekspor()
+    public function ekspor(): void
     {
         $file = namafile('Dtks Regsosek2022k') . '.xlsx';
 
@@ -694,13 +696,10 @@ class DTKSRegsosEk2022k
                 $dtks->kepala_keluarga->keluarga->no_kk,
                 $dtks->kd_kk,
             ];
+
             // dapatkan kode field di judul kolom 'index 2', kemudian gabung ke data
             foreach (array_column(array_slice($judul, 16, count($judul)), 2) as $field) {
-                if (in_array($field, ['tanggal_pendataan', 'tanggal_pemeriksaan'])) {
-                    $data[] = '' . $dtks->{$field};
-                } else {
-                    $data[] = $dtks->{$field};
-                }
+                $data[] = in_array($field, ['tanggal_pendataan', 'tanggal_pemeriksaan']) ? '' . $dtks->{$field} : $dtks->{$field};
             }
 
             $writer->addRow(WriterEntityFactory::createRowFromArray($data));
@@ -811,6 +810,7 @@ class DTKSRegsosEk2022k
                     $agt->kd_status_kehamilan,
                     $agt->kd_punya_kartuid,
                 ];
+
                 // dapatkan kode field di judul kolom 'index 2', kemudian gabung ke data
                 foreach (array_column(array_slice($judul, 19, count($judul)), 3) as $field) {
                     $data[] = $agt->{$field};
@@ -830,11 +830,11 @@ class DTKSRegsosEk2022k
     {
         $dtks->load([
             'rtm',
-            'rtm.kepalaKeluarga' => static function ($builder) {
+            'rtm.kepalaKeluarga' => static function ($builder): void {
                 // override all items within the $with property in Penduduk
                 $builder->withOnly('Wilayah', 'keluarga');
             },
-            'rtm.anggota' => static function ($builder) {
+            'rtm.anggota' => static function ($builder): void {
                 // override all items within the $with property in Penduduk
                 $builder->withOnly('keluarga');
                 // hanya ambil data anggota yg masih hidup (tweb_penduduk)
@@ -847,9 +847,9 @@ class DTKSRegsosEk2022k
 
             //  I. Keterangan Tempat
             $dtks->kode_provinsi  = $kode_desa_bps ? substr($kode_desa_bps, 0, 2) : ''; // 101
-            $dtks->kode_kabupaten = $kode_desa_bps ? substr($kode_desa_bps, 0 + 2, 2) : ''; // 102
-            $dtks->kode_kecamatan = $kode_desa_bps ? substr($kode_desa_bps, 0 + 2 + 2, 3) : ''; // 103
-            $dtks->kode_desa      = $kode_desa_bps ? substr($kode_desa_bps, 0 + 2 + 2 + 3, 3) : ''; // 104
+            $dtks->kode_kabupaten = $kode_desa_bps ? substr($kode_desa_bps, 2, 2) : ''; // 102
+            $dtks->kode_kecamatan = $kode_desa_bps ? substr($kode_desa_bps, 2 + 2, 3) : ''; // 103
+            $dtks->kode_desa      = $kode_desa_bps ? substr($kode_desa_bps, 2 + 2 + 3, 3) : ''; // 104
         } catch (Throwable $th) {
             log_message('error', $th);
         }
@@ -909,12 +909,9 @@ class DTKSRegsosEk2022k
     /**
      * Save Data in Form RegsosEk2022k
      *
-     * @param \App\Models\Dtks $dtks
-     * @param array            $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    public function save($request, ?Dtks $dtks = null): array
+    public function save(array $request, ?Dtks $dtks = null): array
     {
         $tipe = [
             'bagian1',
@@ -957,11 +954,9 @@ class DTKSRegsosEk2022k
     /**
      * Remove Some Data
      *
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    public function remove(Dtks $dtks, $request): array
+    public function remove(Dtks $dtks, array $request): array
     {
         $tipe = [
             'lampiran',
@@ -978,7 +973,7 @@ class DTKSRegsosEk2022k
         return $this->{$method}($dtks, $request);
     }
 
-    protected function removeLampiran(Dtks $dtks, $request)
+    protected function removeLampiran(Dtks $dtks, array $request): array
     {
         $lampiran_id = bilangan($request['lampiran_id']);
 
@@ -993,10 +988,13 @@ class DTKSRegsosEk2022k
         }
         // kalau lampiran hanya terkait di dtks ini hapus file dan lampiran
         if ($lampiran->dtks_count == 1) {
-            $path = FCPATH . LOKASI_FOTO_DTKS . $lampiran->foto;
             $path = FCPATH . LOKASI_FOTO_DTKS . 'kecil_' . $lampiran->foto;
-            file_exists($path) && unlink($path);
-            file_exists($path) && unlink($path);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+            if (file_exists($path)) {
+                unlink($path);
+            }
 
             $lampiran->delete();
         } else {
@@ -1008,11 +1006,9 @@ class DTKSRegsosEk2022k
     }
 
     /**
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    protected function saveBagian1(Dtks $dtks, $request)
+    protected function saveBagian1(Dtks $dtks, array $request): array
     {
         $message = [];
 
@@ -1020,34 +1016,38 @@ class DTKSRegsosEk2022k
             if (in_array($key, ['105', '105sub'])) {
                 $request['input']['1'][$key] = alfanumerik($input);
             }
-            if (in_array($key, ['105']) && strlen($request['input']['1']['105']) > 4) {
+            if ($key == '105' && strlen($request['input']['1']['105']) > 4) {
                 $message[] = "No.{$key}: Kode SLS/Non SLS maksimal 4 huruf/angka";
             }
-            if (in_array($key, ['105sub']) && strlen($request['input']['1']['105sub']) > 2) {
+            if ($key == '105sub' && strlen($request['input']['1']['105sub']) > 2) {
                 $message[] = "No.{$key}: Kode Sub SLS maksimal 2 huruf/angka";
             }
             if (in_array($key, ['106', '107'])) {
                 $request['input']['1'][$key] = alamat($input);
             }
-            if (in_array($key, ['106']) && strlen($request['input']['1']['106']) > 100) {
+            if ($key == '106' && strlen($request['input']['1']['106']) > 100) {
                 $message[] = "No.{$key}: Nama SLS/Non SLS maksimal 100 huruf/angka/spasi/titik/koma/tanda petik/strip/garis miring";
             }
             if (in_array($key, ['109', '110']) && $input != '' && ! is_numeric($input) && strlen($request['input']['1'][$key]) < 0 && strlen($request['input']['1'][$key]) > 999) {
                 $message[] = "No.{$key}: Harus berisi angka, minimal 1 angka dan maksimal 3 angka";
             }
-            if (in_array($key, ['111']) && strlen($request['input']['1']['111']) > 1) {
+            if ($key == '111' && strlen($request['input']['1']['111']) > 1) {
                 $message[] = "No.{$key}: Maksimal 1 huruf/angka";
             }
-            if (in_array($key, ['113']) && strlen($request['input']['1']['113']) > 6) {
-                $message[] = "No.{$key}: Maksimal 6 huruf/angka";
+            if ($key != '113') {
+                continue;
             }
+            if (strlen($request['input']['1']['113']) <= 6) {
+                continue;
+            }
+            $message[] = "No.{$key}: Maksimal 6 huruf/angka";
         }
 
         if ($request['pilihan']['1']['115'] != '' && ! array_key_exists($request['pilihan']['1']['115'], Regsosek2022kEnum::pilihanBagian1()['115'])) {
             $message[] = 'Kode Kartu Keluarga: Pilihan tidak ditemukan';
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             return ['content' => ['message' => $message], 'header_code' => 406];
         }
 
@@ -1068,11 +1068,9 @@ class DTKSRegsosEk2022k
     }
 
     /**
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    protected function saveBagian2(Dtks $dtks, $request)
+    protected function saveBagian2(Dtks $dtks, array $request): array
     {
         $message = [];
 
@@ -1084,28 +1082,32 @@ class DTKSRegsosEk2022k
                 $message[] = ($key == 'responden' ? 'Responden' : 'No.' . $key) .
                     ': Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip ';
             }
-            if (in_array($key, ['202', '204' . 'responden'])) {
+            if (in_array($key, ['202', '204responden'])) {
                 $request['input']['2'][$key] = nama($input);
             }
             if (in_array($key, ['202a', '402a'])) {
                 $request['input']['2'][$key] = alfanumerik($input);
             }
-            if (in_array($key, ['202a']) && strlen($request['input']['2']['202a']) > 4) {
+            if ($key == '202a' && strlen($request['input']['2']['202a']) > 4) {
                 $message[] = "No.{$key}: Kode pencacah maksimal 4 huruf/angka";
             }
-            if (in_array($key, ['204a']) && strlen($request['input']['2']['204a']) > 3) {
+            if ($key == '204a' && strlen($request['input']['2']['204a']) > 3) {
                 $message[] = "No.{$key}: Kode pemeriksa maksimal 3 huruf/angka";
             }
-            if (in_array($key, ['responden_hp']) && strlen($request['input']['2']['responden_hp']) > 16) {
-                $message[] = "No.{$key}: Nomor Hp maksimal 16 angka";
+            if ($key != 'responden_hp') {
+                continue;
             }
+            if (strlen($request['input']['2']['responden_hp']) <= 16) {
+                continue;
+            }
+            $message[] = "No.{$key}: Nomor Hp maksimal 16 angka";
         }
 
         if ($request['pilihan']['2']['205'] != '' && ! array_key_exists($request['pilihan']['2']['205'], Regsosek2022kEnum::pilihanBagian2()['205'])) {
             $message[] = 'Hasil pendataan keluarga: Pilihan tidak ditemukan';
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             return ['content' => ['message' => $message], 'header_code' => 406];
         }
 
@@ -1126,35 +1128,41 @@ class DTKSRegsosEk2022k
     }
 
     /**
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    protected function saveBagian3(Dtks $dtks, $request)
+    protected function saveBagian3(Dtks $dtks, array $request): array
     {
         $message = [];
 
         foreach ($request['input']['3'] as $key => $input) {
-            if (in_array($key, ['302']) && $input != '' && ! is_numeric($input)) {
+            if ($key == '302' && $input != '' && ! is_numeric($input)) {
                 $message[] = "No.{$key}: Tidak sesuai ";
             }
-            if (in_array($key, ['302']) && strlen($request['input']['3']['302']) > 3) {
-                $message[] = "No.{$key}: Luas lantai maksimal 3 angka";
+            if ($key != '302') {
+                continue;
             }
+            if (strlen($request['input']['3']['302']) <= 3) {
+                continue;
+            }
+            $message[] = "No.{$key}: Luas lantai maksimal 3 angka";
         }
 
         foreach ($request['pilihan']['3'] as $key => $input) {
-            if ($input != '' && ! array_key_exists($input, Regsosek2022kEnum::pilihanBagian3()["{$key}"])) {
-                $message[] = "No {$key}: Pilihan tidak ditemukan";
+            if ($input == '') {
+                continue;
             }
+            if (array_key_exists($input, Regsosek2022kEnum::pilihanBagian3()["{$key}"])) {
+                continue;
+            }
+            $message[] = "No {$key}: Pilihan tidak ditemukan";
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             return ['content' => ['message' => $message], 'header_code' => 406];
         }
 
         $dtks->kd_stat_bangunan_tinggal = $this->null_or_value($request['pilihan']['3']['301a']);
-        $dtks->kd_sertiv_lahan_milik    = in_array($dtks->kd_stat_bangunan_tinggal, ['1'])
+        $dtks->kd_sertiv_lahan_milik    = $dtks->kd_stat_bangunan_tinggal == '1'
             ? $this->null_or_value($request['pilihan']['3']['301b'])
             : null;
         $dtks->luas_lantai                = $this->null_or_value(bilangan($request['input']['3']['302']));
@@ -1166,13 +1174,13 @@ class DTKSRegsosEk2022k
             ? $this->null_or_value($request['pilihan']['3']['306b'])
             : null;
         $dtks->kd_sumber_penerangan_utama = $this->null_or_value($request['pilihan']['3']['307a']);
-        $dtks->kd_daya_terpasang          = in_array($dtks->kd_sumber_penerangan_utama, ['1'])
+        $dtks->kd_daya_terpasang          = $dtks->kd_sumber_penerangan_utama == '1'
             ? $this->null_or_value($request['pilihan']['3']['307b1'])
             : null;
-        $dtks->kd_daya_terpasang2 = in_array($dtks->kd_sumber_penerangan_utama, ['1'])
+        $dtks->kd_daya_terpasang2 = $dtks->kd_sumber_penerangan_utama == '1'
             ? $this->null_or_value($request['pilihan']['3']['307b2'])
             : null;
-        $dtks->kd_daya_terpasang3 = in_array($dtks->kd_sumber_penerangan_utama, ['1'])
+        $dtks->kd_daya_terpasang3 = $dtks->kd_sumber_penerangan_utama == '1'
             ? $this->null_or_value($request['pilihan']['3']['307b3'])
             : null;
         $dtks->kd_bahan_bakar_memasak  = $this->null_or_value($request['pilihan']['3']['308']);
@@ -1188,11 +1196,9 @@ class DTKSRegsosEk2022k
     }
 
     /**
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    protected function saveBagian5(Dtks $dtks, $request)
+    protected function saveBagian5(Dtks $dtks, array $request): array
     {
         $message = [];
 
@@ -1200,9 +1206,22 @@ class DTKSRegsosEk2022k
             if (in_array($key, ['504a', '504b', '504c', '504d', '504e']) && $input == '') {
                 $request['input']['5'][$key] = 0;
             }
-            if (in_array($key, ['504a', '504b', '504c', '504d', '504e']) && $input != '' && ! is_numeric($input) && $input < 0 && $input > 999) {
-                $message[] = "No.{$key}: {$input} Tidak sesuai, Minimal 0 dan Maksimal 999";
+            if (! in_array($key, ['504a', '504b', '504c', '504d', '504e'])) {
+                continue;
             }
+            if ($input == '') {
+                continue;
+            }
+            if (is_numeric($input)) {
+                continue;
+            }
+            if ($input >= 0) {
+                continue;
+            }
+            if ($input <= 999) {
+                continue;
+            }
+            $message[] = "No.{$key}: {$input} Tidak sesuai, Minimal 0 dan Maksimal 999";
         }
 
         foreach ($request['pilihan']['5'] as $key => $input) {
@@ -1227,7 +1246,7 @@ class DTKSRegsosEk2022k
             }
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             return ['content' => ['message' => $message], 'header_code' => 406];
         }
 
@@ -1287,11 +1306,9 @@ class DTKSRegsosEk2022k
     }
 
     /**
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    protected function saveBagian6(Dtks $dtks, $request)
+    protected function saveBagian6(Dtks $dtks, array $request): array
     {
         $message = [];
 
@@ -1299,7 +1316,7 @@ class DTKSRegsosEk2022k
             $message[] = 'Catatan tidak boleh kosong';
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             return ['content' => ['message' => $message], 'header_code' => 406];
         }
 
@@ -1311,18 +1328,16 @@ class DTKSRegsosEk2022k
     }
 
     /**
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    protected function saveBagian7Upload(Dtks $dtks, $request)
+    protected function saveBagian7Upload(Dtks $dtks, array $request): array
     {
         $message = [];
 
         $kamera      = $request['file_path'];
         $unggah_foto = $_FILES['foto'];
         $old_foto    = $request['old_foto'];
-        $nama_file   = time() . mt_rand(10000, 999999);
+        $nama_file   = time() . random_int(10000, 999999);
         $judul       = nama($request['judul_foto']);
         $keterangan  = alamat($request['keterangan_foto']);
         $tempat_file = LOKASI_FOTO_DTKS;
@@ -1341,7 +1356,7 @@ class DTKSRegsosEk2022k
         }
 
         if ($unggah_foto['error'] == 0) {
-            $nama_file = $nama_file . get_extension($unggah_foto['name']);
+            $nama_file .= get_extension($unggah_foto['name']);
 
             $tipe_file = TipeFile($unggah_foto);
             $dimensi   = ['width' => 200, 'height' => 200];
@@ -1357,9 +1372,9 @@ class DTKSRegsosEk2022k
                 unset($_SESSION['error_msg'], $_SESSION['success']);
             }
         } else {
-            $nama_file = $nama_file . '.png';
-            $foto      = str_replace('data:image/png;base64,', '', $kamera);
-            $foto      = base64_decode($foto, true);
+            $nama_file .= '.png';
+            $foto = str_replace('data:image/png;base64,', '', $kamera);
+            $foto = base64_decode($foto, true);
 
             if ($foto == '') {
                 $message[] = 'Foto belum dipilih/direkam';
@@ -1375,7 +1390,7 @@ class DTKSRegsosEk2022k
             file_put_contents($tempat_file . 'kecil_' . $nama_file, $foto);
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             unlink($tempat_file . $nama_file, $foto);
             unlink($tempat_file . 'kecil_' . $nama_file, $foto);
 
@@ -1392,18 +1407,13 @@ class DTKSRegsosEk2022k
         // simpan
         $dtks->lampiran()->attach($lampiran->id);
 
-        // panggil getFilKecilAttribute()
-        $lampiran->foto_kecil = $lampiran->foto_kecil;
-
         return ['content' => ['message' => 'Berhasil disimpan', 'data' => $lampiran], 'header_code' => 200];
     }
 
     /**
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    protected function saveBagian4Demografi(Dtks $dtks, $request)
+    protected function saveBagian4Demografi(Dtks $dtks, array $request): array
     {
         $message = [];
 
@@ -1414,7 +1424,7 @@ class DTKSRegsosEk2022k
             ) {
                 $message[] = "No {$key}: Pilihan tidak ditemukan";
             }
-            if ($input != '' && in_array($key, ['411'])) {
+            if ($input != '' && $key == '411') {
                 $keys = explode(',', $input);
 
                 foreach ($keys as $item) {
@@ -1425,12 +1435,11 @@ class DTKSRegsosEk2022k
             }
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             return ['content' => ['message' => $message], 'header_code' => 406];
         }
 
         $selected_anggota = $dtks->dtksAnggota->where('id', $request['id_art'])->first();
-        $umur             = $selected_anggota->umur;
 
         if (! $selected_anggota) {
             return ['content' => ['message' => 'Anggota keluarga tidak ditemukan'], 'header_code' => 406];
@@ -1461,21 +1470,23 @@ class DTKSRegsosEk2022k
     }
 
     /**
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    protected function saveBagian4Pendidikan(Dtks $dtks, $request)
+    protected function saveBagian4Pendidikan(Dtks $dtks, array $request): array
     {
         $message = [];
 
         foreach ($request['pilihan']['4'] as $key => $input) {
-            if ($input != '' && ! array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
-                $message[] = "No {$key}: Pilihan tidak ditemukan";
+            if ($input == '') {
+                continue;
             }
+            if (array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
+                continue;
+            }
+            $message[] = "No {$key}: Pilihan tidak ditemukan";
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             return ['content' => ['message' => $message], 'header_code' => 406];
         }
 
@@ -1513,21 +1524,23 @@ class DTKSRegsosEk2022k
     }
 
     /**
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    protected function saveBagian4Ketenagakerjaan(Dtks $dtks, $request)
+    protected function saveBagian4Ketenagakerjaan(Dtks $dtks, array $request): array
     {
         $message = [];
 
         foreach ($request['pilihan']['4'] as $key => $input) {
-            if ($input != '' && ! array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
-                $message[] = "No {$key}: Pilihan tidak ditemukan";
+            if ($input == '') {
+                continue;
             }
+            if (array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
+                continue;
+            }
+            $message[] = "No {$key}: Pilihan tidak ditemukan";
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             return ['content' => ['message' => $message], 'header_code' => 406];
         }
 
@@ -1541,16 +1554,16 @@ class DTKSRegsosEk2022k
         $selected_anggota->kd_bekerja_seminggu_lalu = $umur >= 5
             ? $this->null_or_value($request['pilihan']['4']['416a'])
             : null;
-        $selected_anggota->jumlah_jam_kerja_seminggu_lalu = $umur >= 5 && in_array($selected_anggota->kd_bekerja_seminggu_lalu, ['1'])
+        $selected_anggota->jumlah_jam_kerja_seminggu_lalu = $umur >= 5 && $selected_anggota->kd_bekerja_seminggu_lalu == '1'
             ? $this->null_or_value(bilangan($request['input']['4']['416b']))
             : null;
-        $selected_anggota->kd_lapangan_usaha_pekerjaan = $umur >= 5 && in_array($selected_anggota->kd_bekerja_seminggu_lalu, ['1'])
+        $selected_anggota->kd_lapangan_usaha_pekerjaan = $umur >= 5 && $selected_anggota->kd_bekerja_seminggu_lalu == '1'
             ? $this->null_or_value($request['pilihan']['4']['417'])
             : null;
-        $selected_anggota->tulis_lapangan_usaha_pekerjaan = $umur >= 5 && in_array($selected_anggota->kd_bekerja_seminggu_lalu, ['1'])
+        $selected_anggota->tulis_lapangan_usaha_pekerjaan = $umur >= 5 && $selected_anggota->kd_bekerja_seminggu_lalu == '1'
             ? alamat($request['input']['4']['lapangan_usaha_pekerjaan'])
             : '';
-        $selected_anggota->kd_kedudukan_di_pekerjaan = $umur >= 5 && in_array($selected_anggota->kd_bekerja_seminggu_lalu, ['1'])
+        $selected_anggota->kd_kedudukan_di_pekerjaan = $umur >= 5 && $selected_anggota->kd_bekerja_seminggu_lalu == '1'
             ? $this->null_or_value($request['pilihan']['4']['418'])
             : null;
         $selected_anggota->kd_punya_npwp = $umur >= 5
@@ -1573,11 +1586,9 @@ class DTKSRegsosEk2022k
     }
 
     /**
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    protected function saveBagian4KepemilikanUsaha(Dtks $dtks, $request)
+    protected function saveBagian4KepemilikanUsaha(Dtks $dtks, array $request): array
     {
         $message = [];
 
@@ -1585,13 +1596,23 @@ class DTKSRegsosEk2022k
             if (in_array($key, ['420b', '423']) && $input != '' && ! is_numeric($input) && strlen($request['input']['4'][$key]) > 2) {
                 $message[] = "No.{$key}: {$input} Tidak sesuai, maksimal 99";
             }
-            if (in_array($key, ['422']) && $input != '' && ! is_numeric($input) && strlen($request['input']['4'][$key]) > 3) {
-                $message[] = "No.{$key}: {$input} Tidak sesuai, maksimal 999";
+            if ($key != '422') {
+                continue;
             }
+            if ($input == '') {
+                continue;
+            }
+            if (is_numeric($input)) {
+                continue;
+            }
+            if (strlen($request['input']['4'][$key]) <= 3) {
+                continue;
+            }
+            $message[] = "No.{$key}: {$input} Tidak sesuai, maksimal 999";
         }
 
         foreach ($request['pilihan']['4'] as $key => $input) {
-            if ($input != '' && in_array($key, ['426'])) {
+            if ($input != '' && $key == '426') {
                 $keys = explode(',', $input);
 
                 foreach ($keys as $item) {
@@ -1600,12 +1621,19 @@ class DTKSRegsosEk2022k
                     }
                 }
             }
-            if ($input != '' && ! in_array($key, ['426']) && ! array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
-                $message[] = "No {$key}: Pilihan tidak ditemukan";
+            if ($input == '') {
+                continue;
             }
+            if ($key == '426') {
+                continue;
+            }
+            if (array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
+                continue;
+            }
+            $message[] = "No {$key}: Pilihan tidak ditemukan";
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             return ['content' => ['message' => $message], 'header_code' => 406];
         }
 
@@ -1619,25 +1647,25 @@ class DTKSRegsosEk2022k
         $selected_anggota->kd_punya_usaha_sendiri_bersama = $umur >= 5
             ? $this->null_or_value($request['pilihan']['4']['420a'])
             : null;
-        $selected_anggota->jumlah_usaha_sendiri_bersama = $umur >= 5 && bilangan($request['input']['4']['420b']) == null && in_array($selected_anggota->kd_punya_usaha_sendiri_bersama, ['1'])
+        $selected_anggota->jumlah_usaha_sendiri_bersama = $umur >= 5 && bilangan($request['input']['4']['420b']) == null && $selected_anggota->kd_punya_usaha_sendiri_bersama == '1'
             ? 0 : $this->null_or_value(bilangan($request['input']['4']['420b']));
-        $selected_anggota->kd_lapangan_usaha_dr_usaha = $umur >= 5 && in_array($selected_anggota->kd_punya_usaha_sendiri_bersama, ['1'])
+        $selected_anggota->kd_lapangan_usaha_dr_usaha = $umur >= 5 && $selected_anggota->kd_punya_usaha_sendiri_bersama == '1'
             ? $this->null_or_value($request['pilihan']['4']['421'])
             : null;
-        $selected_anggota->tulis_lapangan_usaha_dr_usaha = $umur >= 5 && in_array($selected_anggota->kd_punya_usaha_sendiri_bersama, ['1'])
+        $selected_anggota->tulis_lapangan_usaha_dr_usaha = $umur >= 5 && $selected_anggota->kd_punya_usaha_sendiri_bersama == '1'
             ? alamat($request['input']['4']['lapangan_usaha_dr_usaha'])
             : '';
-        $selected_anggota->jumlah_pekerja_dibayar = $umur >= 5 && bilangan($request['input']['4']['422']) == null && in_array($selected_anggota->kd_punya_usaha_sendiri_bersama, ['1'])
+        $selected_anggota->jumlah_pekerja_dibayar = $umur >= 5 && bilangan($request['input']['4']['422']) == null && $selected_anggota->kd_punya_usaha_sendiri_bersama == '1'
             ? 0 : bilangan(bilangan($request['input']['4']['422']));
-        $selected_anggota->jumlah_pekerja_tidak_dibayar = $umur >= 5 && bilangan($request['input']['4']['423']) == null && in_array($selected_anggota->kd_punya_usaha_sendiri_bersama, ['1'])
+        $selected_anggota->jumlah_pekerja_tidak_dibayar = $umur >= 5 && bilangan($request['input']['4']['423']) == null && $selected_anggota->kd_punya_usaha_sendiri_bersama == '1'
             ? 0 : bilangan(bilangan($request['input']['4']['423']));
-        $selected_anggota->kd_kepemilikan_ijin_usaha = $umur >= 5 && in_array($selected_anggota->kd_punya_usaha_sendiri_bersama, ['1'])
+        $selected_anggota->kd_kepemilikan_ijin_usaha = $umur >= 5 && $selected_anggota->kd_punya_usaha_sendiri_bersama == '1'
             ? $this->null_or_value($request['pilihan']['4']['424'])
             : null;
-        $selected_anggota->kd_omset_usaha_perbulan = $umur >= 5 && in_array($selected_anggota->kd_punya_usaha_sendiri_bersama, ['1'])
+        $selected_anggota->kd_omset_usaha_perbulan = $umur >= 5 && $selected_anggota->kd_punya_usaha_sendiri_bersama == '1'
             ? $this->null_or_value($request['pilihan']['4']['425'])
             : null;
-        $selected_anggota->kd_guna_internet_usaha = $umur >= 5 && in_array($selected_anggota->kd_punya_usaha_sendiri_bersama, ['1']) && ($request['pilihan']['4']['426'] != '')
+        $selected_anggota->kd_guna_internet_usaha = $umur >= 5 && $selected_anggota->kd_punya_usaha_sendiri_bersama == '1' && ($request['pilihan']['4']['426'] != '')
             ? $this->null_or_value(array_sum(explode(',', $request['pilihan']['4']['426'])))
             : null;
 
@@ -1660,21 +1688,23 @@ class DTKSRegsosEk2022k
     }
 
     /**
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    protected function saveBagian4Kesehatan(Dtks $dtks, $request)
+    protected function saveBagian4Kesehatan(Dtks $dtks, array $request): array
     {
         $message = [];
 
         foreach ($request['pilihan']['4'] as $key => $input) {
-            if ($input != '' && ! array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
-                $message[] = "No {$key}: Pilihan tidak ditemukan";
+            if ($input == '') {
+                continue;
             }
+            if (array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
+                continue;
+            }
+            $message[] = "No {$key}: Pilihan tidak ditemukan";
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             return ['content' => ['message' => $message], 'header_code' => 406];
         }
 
@@ -1758,11 +1788,9 @@ class DTKSRegsosEk2022k
     }
 
     /**
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
-    protected function saveBagian4ProgramPerlindunganSosial(Dtks $dtks, $request)
+    protected function saveBagian4ProgramPerlindunganSosial(Dtks $dtks, array $request): array
     {
         $message = [];
 
@@ -1776,12 +1804,19 @@ class DTKSRegsosEk2022k
                     }
                 }
             }
-            if ($input != '' && ! in_array($key, ['431a', '431f']) && ! array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
-                $message[] = "No {$key}: Pilihan tidak ditemukan";
+            if ($input == '') {
+                continue;
             }
+            if (in_array($key, ['431a', '431f'])) {
+                continue;
+            }
+            if (array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
+                continue;
+            }
+            $message[] = "No {$key}: Pilihan tidak ditemukan";
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             return ['content' => ['message' => $message], 'header_code' => 406];
         }
 
@@ -1826,9 +1861,12 @@ class DTKSRegsosEk2022k
         return ['content' => ['message' => 'Berhasil disimpan', 'new_data' => $new_data], 'header_code' => 200];
     }
 
-    protected function savePengaturanProgram($request)
+    /**
+     * @return mixed[][]
+     */
+    protected function savePengaturanProgram(array $request): array
     {
-        $relasi  = $this->relasiPengaturanProgram();
+        $relasi  = static::relasiPengaturanProgram();
         $message = [];
 
         $bantuan_keluarga_rtm = Bantuan::whereIn('sasaran', [SasaranEnum::KELUARGA, SasaranEnum::PENDUDUK])->get();
@@ -1845,7 +1883,7 @@ class DTKSRegsosEk2022k
             $is_for_anggota = $is_for_anggota || $relasi[$key][0] == 'dtks_anggota';
         }
 
-        if (count($message) > 0) {
+        if ($message !== []) {
             return ['content' => ['message' => $message], 'header_code' => 406];
         }
 
@@ -1902,17 +1940,17 @@ class DTKSRegsosEk2022k
                 ];
             }
         }
-        if ($to_be_deleted) {
+        if ($to_be_deleted !== []) {
             DtksPengaturanProgram::whereIn('id', $to_be_deleted)->delete();
         }
-        if ($to_be_inserted) {
+        if ($to_be_inserted !== []) {
             DtksPengaturanProgram::insert($to_be_inserted);
         }
 
         return ['content' => ['message' => 'Berhasil disimpan'], 'header_code' => 200];
     }
 
-    public function syncKetDemografi(DtksAnggota $dtks_anggota, $agt, Penduduk $kepala_keluarga, $ref_eloquent_collection): DtksAnggota
+    public function syncKetDemografi(DtksAnggota $dtks_anggota, $agt, Penduduk $kepala_keluarga, array $ref_eloquent_collection): DtksAnggota
     {
         // $dtks_anggota->nama  = $agt->nama; // 402
         // $dtks_anggota->nik   = $agt->nik; // 403
@@ -1944,17 +1982,15 @@ class DTKSRegsosEk2022k
         // 0:tidak punya, 1:akta lahir, 2:kia, 4:ktp
         $total = 0;
         if ($agt->akta_lahir) {
-            $total = $total + 1;
+            $total++;
         }
-        $is_ibu_anak_punya_data_kia = $ref_eloquent_collection['kia']->filter(static function ($item) use ($agt) {
-            return $item->ibu_id == $agt->id || $item->anak_id == $agt->id;
-        });
-        $ref_ktp_el = unserialize(KTP_EL);
+        $is_ibu_anak_punya_data_kia = $ref_eloquent_collection['kia']->filter(static fn ($item): bool => $item->ibu_id == $agt->id || $item->anak_id == $agt->id);
+        $ref_ktp_el                 = unserialize(KTP_EL);
         if ($is_ibu_anak_punya_data_kia->count() > 0 || $agt->ktp_el == $ref_ktp_el['kia']) {
-            $total = $total + 2;
+            $total += 2;
         }
         if ($agt->ktp_el == $ref_ktp_el['ktp-el']) {
-            $total = $total + 4;
+            $total += 4;
         }
         $dtks_anggota->kd_punya_kartuid = $total; // 411
 
@@ -2096,18 +2132,14 @@ class DTKSRegsosEk2022k
             $nilai_jaminan_kesehatan = ['431a1' => '1', '431a2' => '2', '431a3' => '4', '431a4' => '8'];
             //1. BPJS Jaminan Kecelakaan Kerja, 2. BPJS Jaminan Kematian, 4. BPJS Jaminan Hari Tua, 8. BPJS Jaminan Pensiun, 16. Pensiunan/Jaminan hari tua lainnya (Taspen/Program Pensiun Swasta)
             $nilai_jaminan_ketenagakerjaan     = ['431f1' => '1', '431f2' => '2', '431f3' => '4', '431f4' => '8', '431f5' => 16];
-            $pengaturan_program_selain_default = $pengaturan_programs->filter(static function ($item) {
-                return substr($item->kode, -(strlen('default'))) !== 'default';
-            });
-            $pengaturan_program_default = $pengaturan_programs->filter(static function ($item) {
-                return substr($item->kode, -(strlen('default'))) === 'default';
-            })->keyBy('target_field');
+            $pengaturan_program_selain_default = $pengaturan_programs->filter(static fn ($item): bool => substr($item->kode, -(strlen('default'))) !== 'default');
+            $pengaturan_program_default        = $pengaturan_programs->filter(static fn ($item): bool => substr($item->kode, -(strlen('default'))) === 'default')->keyBy('target_field');
 
             $to_be_updated = [];
 
             foreach ($pengaturan_program_selain_default as $item) {
                 $kepesertaan_anggota_ini = $semua_kepesertaan_anggota_ini->where('program_id', $item->id_bantuan)->first();
-                $target_field            = $this->relasiPengaturanProgram()[$item->kode][1];
+                $target_field            = static::relasiPengaturanProgram()[$item->kode][1];
                 $fields                  = explode(',', $target_field);
                 $tgl_sekarang            = Carbon::now();
                 $akhir_program           = Carbon::parse($kepesertaan_anggota_ini->bantuan->edate);
@@ -2151,7 +2183,7 @@ class DTKSRegsosEk2022k
         return $dtks_anggota;
     }
 
-    public function syncKepesertaanProgramKeluarga(Dtks $dtks)
+    public function syncKepesertaanProgramKeluarga(Dtks $dtks): Dtks
     {
         $pengaturan_programs = DtksPengaturanProgram::where('versi_kuisioner', '2')
             ->where('target_table', 'dtks')
@@ -2177,16 +2209,12 @@ class DTKSRegsosEk2022k
 
                 // cek kode relasi
                 $kode         = $pengaturan_programs->where('id_bantuan', $item->program_id)->first()->kode; //501a ... e
-                $target_field = $this->relasiPengaturanProgram()[$kode][1];
+                $target_field = static::relasiPengaturanProgram()[$kode][1];
                 $fields       = explode(',', $target_field);
 
                 // jika memiliki kepesertaan kurang dari satu tahun terakhir
                 // Kepesertaan 1. Ya, 2. Tidak
-                if ($kepesertaannya <= 1) {
-                    $dtks->{$fields[0]} = 1;
-                } else {
-                    $dtks->{$fields[0]} = 2;
-                }
+                $dtks->{$fields[0]} = $kepesertaannya <= 1 ? 1 : 2;
 
                 // bulan
                 $dtks->{$fields[1]} = $akhir_program->isoFormat('M');
@@ -2204,7 +2232,7 @@ class DTKSRegsosEk2022k
             $bukan_peserta_program = $pengaturan_programs->whereNotIn('id_bantuan', $kepesertaan_keluarga_ini->pluck('program_id'));
 
             foreach ($bukan_peserta_program as $item) {
-                $target_field = $this->relasiPengaturanProgram()[$item->kode][1];
+                $target_field = static::relasiPengaturanProgram()[$item->kode][1];
                 $fields       = explode(',', $target_field);
 
                 // Kepesertaan 1. Ya, 2. Tidak
@@ -2214,7 +2242,7 @@ class DTKSRegsosEk2022k
                 }
             }
             // lakukan update
-            if (count($to_be_updated) > 0) {
+            if ($to_be_updated !== []) {
                 Dtks::where('id', $dtks->id)->update($to_be_updated);
             }
         }
@@ -2279,7 +2307,7 @@ class DTKSRegsosEk2022k
         }
 
         // kembalikan id yang ditemukan atau null
-        return $related_data ? $related_data : null;
+        return $related_data ?: null;
     }
 
     /**
@@ -2289,12 +2317,12 @@ class DTKSRegsosEk2022k
      */
     protected function getIndexPilihan(array $daftar_pilihan, $search_value)
     {
-        return collect($daftar_pilihan)->search(static function ($item, $key) use ($search_value) {
+        return collect($daftar_pilihan)->search(static function ($item, $key) use ($search_value): bool {
             $first   = strtolower($item);
             $second  = strtolower($search_value);
             $similar = similar_text($first, $second);
 
-            return (strlen($first) == $similar || strlen($second) == $similar) ? true : false;
+            return strlen($first) == $similar || strlen($second) == $similar;
         });
     }
 }

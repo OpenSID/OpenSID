@@ -44,14 +44,14 @@ class Analisis_klasifikasi_model extends MY_Model
         return $this->autocomplete_str('nama', 'analisis_klasifikasi');
     }
 
-    public function search_sql()
+    public function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db->like('u.nama', $cari);
         }
     }
 
-    public function master_sql()
+    public function master_sql(): void
     {
         if ($analisis_master = $this->session->analisis_master) {
             $this->db->like('u.id_master', $analisis_master);
@@ -81,22 +81,19 @@ class Analisis_klasifikasi_model extends MY_Model
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
         switch ($o) {
-            case 1: $this->db->order_by('u.minval');
-                break;
-
-            case 2: $this->db->order_by('u.minval DESC');
-                break;
+            case 1:
 
             case 3: $this->db->order_by('u.minval');
                 break;
 
-            case 4: $this->db->order_by('u.minval DESC');
+            case 2:
+
+            case 4:
+
+            case 6: $this->db->order_by('u.minval DESC');
                 break;
 
             case 5: $this->db->order_by('g.minval');
-                break;
-
-            case 6: $this->db->order_by('u.minval DESC');
                 break;
 
             default:$this->db->order_by('u.minval');
@@ -108,9 +105,10 @@ class Analisis_klasifikasi_model extends MY_Model
 
         $data = $this->list_data_sql()->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
             $j++;
         }
@@ -128,7 +126,7 @@ class Analisis_klasifikasi_model extends MY_Model
         ];
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data              = $this->validasi_data($this->input->post());
         $data['config_id'] = $this->config_id;
@@ -137,7 +135,7 @@ class Analisis_klasifikasi_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data = $this->validasi_data($this->input->post());
         $outp = $this->config_id()->where('id', $id)->update('analisis_klasifikasi', $data);
@@ -145,7 +143,7 @@ class Analisis_klasifikasi_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -156,7 +154,7 @@ class Analisis_klasifikasi_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 

@@ -61,7 +61,7 @@ class Bip2016_luwutimur_model extends Impor_model
      *
      * @return int baris pertama blok keluarga
      */
-    private function cari_bip_kk($data_sheet, $baris, $dari = 1)
+    private function cari_bip_kk($data_sheet, $baris, int $dari = 1)
     {
         if ($baris <= 1) {
             return 0;
@@ -90,7 +90,7 @@ class Bip2016_luwutimur_model extends Impor_model
      *
      * @return array data keluarga
      */
-    private function get_bip_keluarga($data_sheet, $i)
+    private function get_bip_keluarga($data_sheet, int $i)
     {
         /* $i = baris berisi data keluarga.
          * Contoh:
@@ -133,7 +133,7 @@ class Bip2016_luwutimur_model extends Impor_model
      *
      * @return array data anggota keluarga
      */
-    private function get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga)
+    private function get_bip_anggota_keluarga($data_sheet, int $i, $data_keluarga)
     {
         /* $i = baris data anggota keluarga
          * Contoh:
@@ -153,7 +153,7 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
         $tanggallahir                      = trim($data_sheet[$i][7]);
         $data_anggota['tanggallahir']      = $this->format_tanggal($tanggallahir);
         $data_anggota['golongan_darah_id'] = $this->get_kode($this->kode_golongan_darah, strtolower(trim($data_sheet[$i][8])));
-        if (empty($data_anggota['golongan_darah_id']) || $data_anggota['golongan_darah_id'] == '-') {
+        if (empty($data_anggota['golongan_darah_id']) || $data_anggota['golongan_darah_id'] == 0) {
             $data_anggota['golongan_darah_id'] = 13;
         }
         $data_anggota['agama_id']         = $this->get_kode($this->kode_agama, strtolower(trim($data_sheet[$i][9])));
@@ -198,10 +198,13 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
         $baris_gagal    = '';
         $total_keluarga = 0;
         $total_penduduk = 0;
+        // BIP bisa terdiri dari beberapa worksheet
+        // Proses sheet satu-per-satu
+        $counter = count($data->boundsheets);
 
         // BIP bisa terdiri dari beberapa worksheet
         // Proses sheet satu-per-satu
-        for ($sheet_index = 0; $sheet_index < count($data->boundsheets); $sheet_index++) {
+        for ($sheet_index = 0; $sheet_index < $counter; $sheet_index++) {
             // membaca jumlah baris di sheet ini
             $baris      = $data->rowcount($sheet_index);
             $data_sheet = $data->sheets[$sheet_index]['cells'];
@@ -209,6 +212,7 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
                 // Tidak ada data keluarga
                 continue;
             }
+
             // Import data sheet ini mulai baris pertama
             for ($i = 1; $i <= $baris; $i++) {
                 // Cari keluarga berikutnya
@@ -221,7 +225,8 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
                 $this->tulis_tweb_keluarga($data_keluarga);
                 $total_keluarga++;
                 // Pergi ke data anggota keluarga
-                $i = $i + 8;
+                $i += 8;
+
                 // Proses setiap anggota keluarga
                 while (trim($data_sheet[$i][2]) != '' && $i <= $baris) {
                     if (! is_numeric(trim($data_sheet[$i][2]))) {
@@ -238,7 +243,7 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
                     }
                     $i++;
                 }
-                $i = $i - 1;
+                $i--;
             }
         }
 

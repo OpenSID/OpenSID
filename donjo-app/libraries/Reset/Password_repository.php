@@ -55,17 +55,13 @@ class Password_repository implements Password_reset_interface
 
     /**
      * The number of seconds a token should last.
-     *
-     * @var int
      */
-    protected $expires;
+    protected int $expires;
 
     /**
      * Minimum number of seconds before re-redefining the token.
-     *
-     * @var int
      */
-    protected $throttle;
+    protected int $throttle;
 
     public function __construct(int $expires = 60, int $throttle = 60)
     {
@@ -78,7 +74,7 @@ class Password_repository implements Password_reset_interface
     /**
      * {@inheritDoc}
      */
-    public function create($user)
+    public function create($user): string
     {
         $email = $user->email;
 
@@ -101,7 +97,7 @@ class Password_repository implements Password_reset_interface
     /**
      * {@inheritDoc}
      */
-    public function createNewToken()
+    public function createNewToken(): string
     {
         return hash_hmac('sha256', bin2hex(random_bytes(20)), config_item('encryption_key'));
     }
@@ -109,7 +105,7 @@ class Password_repository implements Password_reset_interface
     /**
      * {@inheritDoc}
      */
-    public function exists($user, $token)
+    public function exists($user, $token): bool
     {
         $record = $this->connection->where('email', $user->email)->get('password_resets')->row();
 
@@ -121,7 +117,7 @@ class Password_repository implements Password_reset_interface
     /**
      * {@inheritDoc}
      */
-    public function recentlyCreatedToken($user)
+    public function recentlyCreatedToken($user): bool
     {
         if ($this->throttle <= 0) {
             return false;
