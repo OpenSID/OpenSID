@@ -320,7 +320,7 @@ class Surat extends Admin_Controller
                 $log_surat['kategori'][$key] = $this->request['id_pend_' . $key];
             }
 
-            $isi_surat = $this->tinymce->replceKodeIsian($log_surat);
+            $isi_surat = $this->tinymce->replceKodeIsian($log_surat, false);
 
             unset($log_surat['isi_surat']);
             $this->session->log_surat = $log_surat;

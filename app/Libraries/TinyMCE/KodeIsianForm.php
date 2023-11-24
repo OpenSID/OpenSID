@@ -69,6 +69,15 @@ class KodeIsianForm
     ];
     private $masaBerlaku;
 
+    /**
+     * KodeIsianForm constructor.
+     * 
+     * @param array      $inputForm
+     * @param array|null $kodeIsian
+     * @param bool       $masaBerlaku
+     * 
+     * @return void
+     */
     public function __construct($inputForm, $kodeIsian, $masaBerlaku = false)
     {
         $this->inputForm   = $inputForm;
@@ -76,17 +85,29 @@ class KodeIsianForm
         $this->masaBerlaku = $masaBerlaku;
     }
 
+    /**
+     * @param array      $inputForm
+     * @param array|null $kodeIsian
+     * @param bool       $masaBerlaku
+     * 
+     * @return \Illuminate\Support\Collection
+     */
     public static function get($inputForm, $kodeIsian, $masaBerlaku = false)
     {
         return (new self($inputForm, $kodeIsian, $masaBerlaku))->getKodeIsian();
     }
 
+    /**
+     * Menerjemahkan kode isian menjadi data yang akan ditampilkan
+     * 
+     * @return \Illuminate\Support\Collection
+     */
     public function getKodeIsian()
     {
         $input     = $this->inputForm;
         $kodeIsian = $this->kodeIsian ?? [];
 
-        if (count($kodeIsian) == 0) {
+        if (! is_array($kodeIsian)) {
             $kodeIsian = $this->statisForm;
 
             if (! $this->masaBerlaku) {

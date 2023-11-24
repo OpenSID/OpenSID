@@ -45,7 +45,7 @@ class Pengaduan extends Web_Controller
     {
         parent::__construct();
         $this->load->model('pengaduan_model');
-        $this->load->library('upload');
+        $this->load->library('MY_Upload', null, 'upload');
     }
 
     public function index($p = 1): void
