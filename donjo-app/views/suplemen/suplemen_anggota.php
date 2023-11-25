@@ -110,6 +110,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<th>Tempat Lahir</th>
 										<th>Tanggal Lahir</th>
 										<th>Jenis-kelamin</th>
+										<th>Umur</th>
 										<th>Alamat</th>
 										<th>Keterangan</th>
 									</tr>
@@ -134,6 +135,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 												<td><?= $item['tempat_lahir']; ?></td>
 												<td nowrap><?= $item['tanggal_lahir']; ?></td>
 												<td nowrap><?= $item['sex']; ?></td>
+												<td nowrap><?= umur($item['tanggallahir']) ?> Tahun</td>
 												<td nowrap><?= $item['info']; ?></td>
 												<td width="25%"><?= $item['keterangan']; ?></td>
 											</tr>

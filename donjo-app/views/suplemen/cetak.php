@@ -85,6 +85,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<th>Tempat Lahir</th>
 							<th>Tanggal Lahir</th>
 							<th>Jenis Kelamin</th>
+							<th>Umur</th>
 							<th>Alamat</th>
 							<th>Keterangan</th>
 						</tr>
@@ -99,6 +100,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<td><?= $item['tempat_lahir']; ?></td>
 								<td class="textx"><?= $item['tanggal_lahir']; ?></td>
 								<td><?= $item['sex']; ?></td>
+								<td><?= umur($item['tanggallahir']); ?> Tahun</td>
 								<td><?= $item['info']; ?></td>
 								<td><?= $item['keterangan']; ?></td>
 							</tr>
