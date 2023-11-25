@@ -54,7 +54,7 @@ class Man_user extends Admin_Controller
         $this->sub_modul_ini = 'pengguna';
     }
 
-    public function index(): View
+    public function index()
     {
         $this->tab_ini = 10;
 

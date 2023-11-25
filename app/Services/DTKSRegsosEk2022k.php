@@ -909,8 +909,6 @@ class DTKSRegsosEk2022k
     /**
      * Save Data in Form RegsosEk2022k
      *
-     * @param array $request
-     *
      * @return array['content' => '', 'header_code' => '']
      */
     public function save(array $request, ?Dtks $dtks = null): array

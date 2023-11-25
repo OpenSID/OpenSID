@@ -81,11 +81,11 @@ class Release
      */
     public function __construct()
     {
-        if ($this->cache === '' || $this->cache === '0') {
+        if (! $this->cache) {
             $this->setCacheFolder(config_item('cache_path'));
         }
 
-        if ($this->interval === 0) {
+        if (! $this->interval) {
             $this->setInterval(ENVIRONMENT == 'development' ? 0 : 7);
         }
     }

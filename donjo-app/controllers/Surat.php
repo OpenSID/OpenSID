@@ -74,7 +74,7 @@ class Surat extends Admin_Controller
         $this->logpenduduk   = new LogPenduduk();
     }
 
-    public function index(): View
+    public function index()
     {
         if ($this->input->is_ajax_request()) {
             $nonAktifkanRTF = setting('nonaktifkan_rtf');
@@ -218,7 +218,7 @@ class Surat extends Admin_Controller
         redirect_with('error', 'Surat tidak ditemukan');
     }
 
-    public function pratinjau($url, $id = null): View
+    public function pratinjau($url, $id = null)
     {
         $this->set_hak_akses_rfm();
         if ($id) {
@@ -560,7 +560,7 @@ class Surat extends Admin_Controller
         redirect_with('success', 'Gagal Simpan Konsep');
     }
 
-    public function cetak($id): View
+    public function cetak($id)
     {
         $surat = LogSurat::find($id);
 

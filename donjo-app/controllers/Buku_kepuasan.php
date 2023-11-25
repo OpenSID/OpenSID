@@ -36,7 +36,6 @@
  */
 
 use App\Models\BukuKepuasan;
-use Illuminate\Contracts\View\View;
 
 class Buku_kepuasan extends Anjungan_Controller
 {
@@ -48,7 +47,7 @@ class Buku_kepuasan extends Anjungan_Controller
         $this->header['kategori'] = 'buku-tamu';
     }
 
-    public function index(): View
+    public function index()
     {
         if ($this->input->is_ajax_request()) {
             return datatables()->of(BukuKepuasan::query()->with('tamu'))

@@ -47,10 +47,24 @@
 class FeedParser
 {
     private $xmlParser;  // List of tag names which have sub tags
-    private array $channels = [];
-    private array $items    = [];
-    private $url;                     // The parsed url
-    private $version;                     // Detected feed version
+    private array $insideItem = [];                  // Keep track of current position in tag tree
+    private $currentTag;                     // Last entered tag name
+    private $currentAttr;                     // Attributes array of last entered tag
+    private array $namespaces = [
+        'http://purl.org/rss/1.0/'                 => 'RSS 1.0',
+        'http://purl.org/rss/1.0/modules/content/' => 'RSS 2.0',
+        'http://www.w3.org/2005/Atom'              => 'ATOM 1',
+    ];
+
+    // Namespaces to detact feed version
+    private array $itemTags    = ['ITEM', 'ENTRY'];    // List of tag names which holds a feed item
+    private array $channelTags = ['CHANNEL', 'FEED'];  // List of tag names which holds all channel elements
+    private array $dateTags    = ['UPDATED', 'PUBDATE', 'DC:DATE'];
+    private array $hasSubTags  = ['IMAGE', 'AUTHOR'];  // List of tag names which have sub tags
+    private array $channels    = [];
+    private array $items       = [];
+    private string $url;                     // The parsed url
+    private string $version = '';                     // Detected feed version
 
     /**
      * Constructor - Initialize and set event handler functions to xmlParser

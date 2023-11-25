@@ -56,7 +56,7 @@ class Buku_tamu extends Anjungan_Controller
         $this->header['kategori'] = 'buku-tamu';
     }
 
-    public function index(): View
+    public function index()
     {
         if ($this->input->is_ajax_request()) {
             $filters = [

@@ -104,7 +104,7 @@ class Koneksi_database extends CI_Controller
         if (! $this->session->cek_app_key) {
             redirect(site_url());
         }
-
+        $this->load->database();
         $appKey   = get_app_key();
         $appKeyDb = Config::first();
 

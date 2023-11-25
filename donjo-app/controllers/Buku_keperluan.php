@@ -49,7 +49,7 @@ class Buku_keperluan extends Anjungan_Controller
         $this->header['kategori'] = 'buku-tamu';
     }
 
-    public function index(): View
+    public function index()
     {
         if ($this->input->is_ajax_request()) {
             return datatables()->of(BukuKeperluan::query())

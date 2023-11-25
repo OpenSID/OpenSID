@@ -118,7 +118,7 @@ class Database extends Admin_Controller
         $za->download('backup_folder_desa_' . date('Y_m_d') . '.zip');
     }
 
-    public function desa_inkremental(): View
+    public function desa_inkremental()
     {
         if ($this->input->is_ajax_request()) {
             return datatables(LogBackup::query())

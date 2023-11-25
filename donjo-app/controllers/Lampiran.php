@@ -51,7 +51,7 @@ class Lampiran extends Admin_Controller
         $this->header['kategori'] = 'pengaturan-surat';
     }
 
-    public function index(): View
+    public function index()
     {
         if ($this->input->is_ajax_request()) {
             return datatables(LampiranSurat::jenis($this->input->get('jenis')))

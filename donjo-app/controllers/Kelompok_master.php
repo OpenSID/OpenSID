@@ -57,7 +57,7 @@ class Kelompok_master extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function index(): View
+    public function index()
     {
         if ($this->input->is_ajax_request()) {
             $controller = $this->controller;
