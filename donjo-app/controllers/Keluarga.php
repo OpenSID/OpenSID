@@ -156,7 +156,7 @@ class Keluarga extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         // Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-        if (empty($_POST) && (! isset($_SESSION['dari_internal']) || ! $_SESSION['dari_internal'])) {
+        if (empty($_POST) && (!isset($_SESSION['dari_internal']) || !$_SESSION['dari_internal'])) {
             unset($_SESSION['validation_error']);
         }
 
@@ -227,7 +227,7 @@ class Keluarga extends Admin_Controller
         $kepala = $this->keluarga_model->get_kepala_a($id);
         $this->redirect_tidak_valid(empty($kepala['id']) || $kepala['status_dasar'] == 1);
 
-        if (empty($_POST) && ! $_SESSION['dari_internal']) {
+        if (empty($_POST) && !$_SESSION['dari_internal']) {
             unset($_SESSION['validation_error']);
         } else {
             unset($_SESSION['dari_internal']);
@@ -289,6 +289,27 @@ class Keluarga extends Admin_Controller
         $data['form_action']        = site_url("{$this->controller}/update_nokk/{$id}");
 
         $this->load->view('sid/kependudukan/ajax_edit_nokk', $data);
+    }
+
+    public function pindah_kolektif()
+    {
+        $this->redirect_hak_akses('u');
+        $data['id_kk'] = $this->input->get('id_cb');
+        $data['dusun']              = $this->wilayah_model->list_dusun();
+        $data['rw']                 = $this->wilayah_model->list_rw();
+        $data['rt']                 = $this->wilayah_model->list_rt();
+        $data['form_action']        = site_url("{$this->controller}/proses_pindah");
+        log_message('error', print_r($data['id_kk'], true));
+
+        $this->load->view('sid/kependudukan/ajax_pindah_wilayah', $data);
+    }
+
+    public function proses_pindah()
+    {
+        $this->redirect_hak_akses('u');
+        $this->keluarga_model->proses_pindah($this->input->post());
+
+        redirect($this->controller);
     }
 
     // Tambah KK dari penduduk yg ada
@@ -587,7 +608,7 @@ class Keluarga extends Admin_Controller
                 break;
 
             case $tipe == 'bantuan_keluarga':
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null;
                 } // tampilkan semua peserta walaupun bukan hidup/aktif
                 $session  = 'bantuan_keluarga';
@@ -601,7 +622,7 @@ class Keluarga extends Admin_Controller
                     ->where('id', $program_id)
                     ->get('program')->row()
                     ->nama;
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;
                 }
