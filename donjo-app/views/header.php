@@ -101,7 +101,6 @@
     <script src="<?= asset('js/dom-to-image.min.js') ?>"></script>
     <script src="<?= asset('js/toastr.min.js') ?>"></script>
 
-
     <!-- Diperlukan untuk global automatic base_url oleh external js file -->
     <script type="text/javascript">
         var BASE_URL = "<?= base_url() ?>";
@@ -109,6 +108,7 @@
         var MAPBOX_KEY = '<?= setting('mapbox_key') ?>';
         var JENIS_PETA = '<?= setting('jenis_peta') ?>';
         var TAMPIL_LUAS = "<?= setting('tampil_luas_peta') ?>";
+        var SESSION_EXPIRED = "<?= config_item('sess_expiration') ?>";
     </script>
 
     <!-- Highcharts JS -->
@@ -208,7 +208,7 @@
                                                 </a>
                                             </li>
                                         <?php endif ?>
-                                        <?php if (can('b', 'keluar') && (setting('verifikasi_kades') || setting('verifikasi_sekdes'))): ?>
+                                        <?php if (can('b', 'keluar') && (setting('verifikasi_kades') || setting('verifikasi_sekdes'))) : ?>
                                             <li>
                                                 <a href="<?= site_url('keluar/clear/masuk') ?>">
                                                     <i class="fa fa-bell-o fa-lg" title="Permohonan Surat"></i>&nbsp;
@@ -258,13 +258,13 @@
                         </li>
                         <?php if ($this->header['kategori'] && can('u', $this->controller)) : ?>
                             <li>
-                                <?php if ($this->controller === 'pelanggan'): ?>
+                                <?php if ($this->controller === 'pelanggan') : ?>
                                     <a href="#" class="atur-token">
-                                <?php else: ?>
-                                    <a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan <?= ucwords($this->controller) ?>" data-target="#pengaturan">
-                                <?php endif ?>
-                                    <span><i class="fa fa-gear"></i>&nbsp;</span>
-                                </a>
+                                    <?php else : ?>
+                                        <a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan <?= ucwords($this->controller) ?>" data-target="#pengaturan">
+                                        <?php endif ?>
+                                        <span><i class="fa fa-gear"></i>&nbsp;</span>
+                                        </a>
                             </li>
                         <?php endif ?>
                     </ul>

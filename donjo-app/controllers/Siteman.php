@@ -71,7 +71,7 @@ class Siteman extends MY_Controller
         $data['logo_bsre']   = default_file(LOGO_BSRE, false);
         $data['latar_login'] = $this->latar_login;
         //Initialize Session ------------
-        if (! isset($_SESSION['siteman'])) {
+        if (!isset($_SESSION['siteman'])) {
             // Belum ada session variable
             $this->session->set_userdata('siteman', 0);
         }
@@ -89,7 +89,7 @@ class Siteman extends MY_Controller
     {
         $method       = $this->input->method(true);
         $allow_method = ['POST'];
-        if (! in_array($method, $allow_method)) {
+        if (!in_array($method, $allow_method)) {
             redirect('siteman');
         }
         $this->user_model->siteman();
@@ -99,7 +99,7 @@ class Siteman extends MY_Controller
             redirect('siteman');
         }
 
-        if (! $this->user_model->syarat_sandi() && ! ($this->session->user == 1 && (config_item('demo_mode') || ENVIRONMENT === 'development'))) {
+        if (!$this->user_model->syarat_sandi() && !($this->session->user == 1 && (config_item('demo_mode') || ENVIRONMENT === 'development'))) {
             // Password tidak memenuhi syarat kecuali di website demo
             redirect('user_setting/change_pwd');
         }
@@ -136,7 +136,7 @@ class Siteman extends MY_Controller
     {
         // Periksa isian captcha
         $captcha = new App\Libraries\Captcha();
-        if (! $captcha->check($this->input->post('captcha_code'))) {
+        if (!$captcha->check($this->input->post('captcha_code'))) {
             set_session('notif', 'Kode captcha anda salah. Silakan ulangi lagi.');
 
             redirect('siteman/lupa_sandi');
@@ -161,7 +161,7 @@ class Siteman extends MY_Controller
 
     public function reset_kata_sandi($token = null)
     {
-        if (! $token) {
+        if (!$token) {
             redirect('siteman');
         }
 
@@ -219,5 +219,12 @@ class Siteman extends MY_Controller
         }
 
         return $pwHash;
+    }
+
+    public function sesi()
+    {
+        $this->user_model->logout();
+
+        return view('periksa.sesi');
     }
 }

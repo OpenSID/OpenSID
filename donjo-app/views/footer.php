@@ -62,11 +62,11 @@
 							decimal: ","
 						},
 						abbreviations: {
-								thousand: 'k',
-								million: 'm',
-								billion: 'b',
-								trillion: 't'
-							},
+							thousand: 'k',
+							million: 'm',
+							billion: 'b',
+							trillion: 't'
+						},
 						currency: {
 							symbol: "Rp." //The currency for UAE is called the Dirham
 						}
@@ -85,7 +85,7 @@
 					<script src="<?= asset('js/demo.js') ?>"></script>
 				<?php endif ?>
 
-				<?php if (! setting('inspect_element')): ?>
+				<?php if (!setting('inspect_element')) : ?>
 					<script src="<?= asset('js/disabled.min.js') ?>"></script>
 				<?php endif ?>
 
@@ -101,7 +101,7 @@
 				<!-- NOTIFICATION-->
 				<script type="text/javascript">
 					$('document').ready(function() {
-						var koneksi = '<?= ! cek_koneksi_internet() && setting('notifikasi_koneksi') ?>';
+						var koneksi = '<?= !cek_koneksi_internet() && setting('notifikasi_koneksi') ?>';
 
 						if (koneksi) {
 							cek_koneksi();

@@ -79,6 +79,7 @@
     </div>
     <script type="text/javascript">
         var SITE_URL = "{{ site_url() }}";
+        var SESSION_EXPIRED = "<?= config_item('sess_expiration') ?>";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>

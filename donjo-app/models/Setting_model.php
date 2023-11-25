@@ -71,7 +71,7 @@ class Setting_model extends MY_Model
     {
         $CI = &get_instance();
 
-        if ($this->setting || ! $this->db->table_exists('setting_aplikasi')) {
+        if ($this->setting || !$this->db->table_exists('setting_aplikasi')) {
             return;
         }
 
@@ -84,6 +84,11 @@ class Setting_model extends MY_Model
     // Setting untuk PHP
     private function apply_setting()
     {
+        // sesuaikan ulang sess_expiration
+        if (!empty($this->setting->sesi_login)) {
+            $this->config->set_item('sess_expiration', (int) $this->setting->sesi_login);
+        }
+
         //  https://stackoverflow.com/questions/16765158/date-it-is-not-safe-to-rely-on-the-systems-timezone-settings
         date_default_timezone_set($this->setting->timezone); // ganti ke timezone lokal
 
@@ -115,7 +120,7 @@ class Setting_model extends MY_Model
         $pos = strpos($this->setting->web_theme, 'desa/');
         if ($pos !== false) {
             $folder = FCPATH . '/desa/themes/' . substr($this->setting->web_theme, $pos + strlen('desa/'));
-            if (! file_exists($folder)) {
+            if (!file_exists($folder)) {
                 $this->setting->web_theme = 'esensi';
             }
         }
@@ -285,7 +290,7 @@ class Setting_model extends MY_Model
         $outp                                = $this->db->where('key', 'sumber_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('pilihan_sumber')]);
         $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
 
-        if (! $outp) {
+        if (!$outp) {
             $_SESSION['success'] = -1;
         }
     }
@@ -306,7 +311,7 @@ class Setting_model extends MY_Model
         $out2                             = $this->db->where('key', 'penggunaan_server')->update('setting_aplikasi', ['value' => $penggunaan_server]);
         $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
 
-        if (! $out1 || ! $out2) {
+        if (!$out1 || !$out2) {
             $_SESSION['success'] = -1;
         }
     }

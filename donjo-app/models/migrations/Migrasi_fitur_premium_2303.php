@@ -52,7 +52,12 @@ class Migrasi_fitur_premium_2303 extends MY_model
         $hasil = $hasil && $this->migrasi_2023021671($hasil);
         $hasil = $hasil && $this->migrasi_2023022271($hasil);
 
-        return $hasil && true;
+        return $hasil && $this->tambah_setting([
+            'key'        => 'sesi_login',
+            'value'      => '7200',
+            'keterangan' => 'Waktu untuk Akhiri Sesi Login Halaman Admin (detik)',
+            'kategori'   => 'sistem',
+        ]);
     }
 
     protected function migrasi_2023020251($hasil)
@@ -90,7 +95,7 @@ class Migrasi_fitur_premium_2303 extends MY_model
 
     protected function migrasi_2023022271($hasil)
     {
-        if (! $this->db->field_exists('slug', 'setting_modul')) {
+        if (!$this->db->field_exists('slug', 'setting_modul')) {
             // Tambahkan kolom slug pada tabel setting_modul
             $hasil = $hasil && $this->dbforge->add_column('setting_modul', [
                 'slug' => [
