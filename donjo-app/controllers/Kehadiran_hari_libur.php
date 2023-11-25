@@ -77,10 +77,13 @@ class Kehadiran_hari_libur extends Admin_Controller
 
                     return $aksi;
                 })
+                ->editColumn('status', static function ($row) {
+                    return ($row->status == 1) ? '<span class="label label-success">Ya</span>' : '<span class="label label-danger">Tidak</span>';
+                })
                 ->editColumn('tanggal', static function ($row) {
                     return tgl_indo($row->tanggal);
                 })
-                ->rawColumns(['ceklist', 'aksi'])
+                ->rawColumns(['ceklist', 'aksi', 'status'])
                 ->make();
         }
 
@@ -174,6 +177,7 @@ class Kehadiran_hari_libur extends Admin_Controller
 
         return [
             'tanggal'    => date('Y-m-d', strtotime($request['tanggal'])),
+            'status'     => $request['status'] ?? '0', // 1 = libur, 0 = kerja
             'keterangan' => strip_tags($request['keterangan']),
         ];
     }
@@ -188,6 +192,7 @@ class Kehadiran_hari_libur extends Admin_Controller
         $batch = collect($tanggal)->map(static function ($item, $key) {
             return [
                 'tanggal'    => date_format(date_create($key), 'Y-m-d'),
+                'status'     => '1', // 1 = libur, 0 = kerja
                 'keterangan' => $item['deskripsi'],
             ];
         })->filter(static function ($value, $key) {

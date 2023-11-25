@@ -219,7 +219,7 @@ class Perangkat extends Web_Controller
     private function deteksi()
     {
         $cek_gawai   = (setting('ip_adress_kehadiran') === $this->ip || setting('mac_adress_kehadiran') === $this->mac || setting('id_pengunjung_kehadiran') === $this->pengunjung);
-        $cek_hari    = HariLibur::where('tanggal', '=', date('Y-m-d'))->first();
+        $cek_hari    = HariLibur::status()->where('tanggal', '=', date('Y-m-d'))->first();
         $cek_weekend = JamKerja::libur()->first();
         $cek_jam     = JamKerja::jamKerja()->first();
 

@@ -3,8 +3,8 @@
 
 @section('title')
 <h1>
-  Hari Libur Kehadiran
-  <small>{{ $action }} Data</small>
+	Hari Libur Kehadiran
+	<small>{{ $action }} Data</small>
 </h1>
 @endsection
 
@@ -33,6 +33,17 @@
 				<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 				<div class="col-sm-7">
 					<textarea name="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="3" style="resize:none;">{{ $kehadiran_hari_libur->keterangan }}</textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label" for="status">Libur</label>
+				<div class="btn-group col-sm-7" data-toggle="buttons">
+					<label id="sx3" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($kehadiran_hari_libur->status, '1', 'active') }}">
+						<input type="radio" name="status" class="form-check-input" type="radio" value="1"  {{ jecho($kehadiran_hari_libur->status, '1', 'checked') }} > Ya
+					</label>
+					<label id="sx4" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label  {{ jecho($kehadiran_hari_libur->status != '1', true, 'active') }}">
+						<input type="radio" name="status" class="form-check-input" type="radio" value="0" {{ jecho($kehadiran_hari_libur->status != '1', true, 'checked') }} > Tidak
+					</label>
 				</div>
 			</div>
 		</div>

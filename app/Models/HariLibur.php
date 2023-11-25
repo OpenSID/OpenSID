@@ -62,6 +62,12 @@ class HariLibur extends BaseModel
      */
     protected $fillable = [
         'tanggal',
+        'status',
         'keterangan',
     ];
+
+    public function scopeStatus($query, $status)
+    {
+        return $query->where('status', $status ?? 1);
+    }
 }

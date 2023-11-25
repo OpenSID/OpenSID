@@ -51,6 +51,20 @@ class Migrasi_fitur_premium_2305 extends MY_model
         $hasil = $hasil && $this->migrasi_2023041251($hasil);
         $hasil = $hasil && $this->migrasi_2023041951($hasil);
 
+        if (!$this->db->field_exists('status', 'kehadiran_hari_libur')) {
+            $fields = [
+                'status' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 4,
+                    'null'       => false,
+                    'default'    => 1,
+                    'after'      => 'tanggal',
+                ],
+
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('kehadiran_hari_libur', $fields);
+        }
+
         return $hasil && true;
     }
 
@@ -81,7 +95,7 @@ class Migrasi_fitur_premium_2305 extends MY_model
         }
 
         // Tambahkan kolom bidang di tabel buku_tamu
-        if (! $this->db->field_exists('bidang', 'buku_tamu')) {
+        if (!$this->db->field_exists('bidang', 'buku_tamu')) {
             $hasil = $hasil && $this->dbforge->add_column('buku_tamu', [
                 'bidang' => [
                     'type'       => 'VARCHAR',
@@ -116,7 +130,7 @@ class Migrasi_fitur_premium_2305 extends MY_model
         }
 
         // Tambahkan kolom keperluan di tabel buku_tamu
-        if (! $this->db->field_exists('keperluan', 'buku_tamu')) {
+        if (!$this->db->field_exists('keperluan', 'buku_tamu')) {
             $hasil = $hasil && $this->dbforge->add_column('buku_tamu', [
                 'keperluan' => [
                     'type'       => 'VARCHAR',

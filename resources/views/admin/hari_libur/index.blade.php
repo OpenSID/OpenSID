@@ -36,6 +36,7 @@
             <th class="padat">AKSI</th>
             <th>TANGGAL</th>
             <th>KETERANGAN</th>
+            <th class="padat">STATUS</th>
           </tr>
         </thead>
       </table>
@@ -62,6 +63,7 @@
         { data: 'aksi', class: 'aksi', searchable: false, orderable: false},
         { data: 'tanggal', name: 'tanggal', searchable: true, orderable: true },
         { data: 'keterangan', name: 'keterangan', searchable: true, orderable: true },
+        { data: 'status', name: 'status', searchable: true, orderable: true },
       ],
       order: [[ 3, 'asc' ]]
     });
