@@ -261,7 +261,11 @@ class Surat extends Mandiri_Controller
 
     public function proses($id = ''): void
     {
+        $permohanan = PermohonanSurat::find($id);
         $this->permohonan_surat_model->proses($id, 5, $this->is_login->id_pend);
+
+        $isi = 'Penduduk atas nama : ' . $this->is_login->nama . ' - Telah membatalkan permohonan surat ' . $permohanan->surat->nama;
+        $this->kirim_notifikasi_admin('verifikasi_operator', $isi, 'Pembatalan Permohanan Surat - ' . $permohanan->surat->nama);
 
         redirect('layanan-mandiri/permohonan-surat');
     }

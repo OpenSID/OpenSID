@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 9. [#5367](https://github.com/OpenSID/OpenSID/issues/5367) Penambahan fungsi pengurutan berdasarkan jumlah anggota pada modul keluarga.
 10. [#4736](https://github.com/OpenSID/OpenSID/issues/4736) Penambahan fungsi preview saat unggah gambar pada modul pembangunan.
 11. [#5789](https://github.com/OpenSID/OpenSID/issues/5789) Penambahan pengaturan border wilayah peta.
+12. [#7426](https://github.com/OpenSID/OpenSID/issues/7426) Penambahan kirim notifikasi ke operator saat surat dibatalkan oleh pemohon melalui layanan mandiri.
 
 
 #### Perbaikan Bug

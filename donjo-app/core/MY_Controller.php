@@ -35,7 +35,9 @@
  *
  */
 
+use App\Enums\FirebaseEnum;
 use App\Models\Config;
+use App\Models\FcmToken;
 use App\Models\LogNotifikasiAdmin;
 use App\Models\LogSurat;
 use App\Models\Pamong;
@@ -148,7 +150,11 @@ class MY_Controller extends CI_Controller
             }
 
             return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
-        })->get();
+        })
+            ->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static function ($query) {
+                return $query->orWhereNull('pamong_id');
+            })
+            ->get();
 
         if (is_array($isi) && $users->count() > 0) {
             $logs = $users->map(static function ($user) use ($isi): array {
@@ -158,6 +164,51 @@ class MY_Controller extends CI_Controller
             });
             LogNotifikasiAdmin::insert($logs->toArray());
         }
+    }
+
+    public function kirim_notifikasi_admin($next, $pesan, $judul, $payload = '')
+    {
+        $allToken = FcmToken::whereHas('user', static function ($user) use ($next) {
+            return $user->WhereHas('pamong', static function ($query) use ($next) {
+                if ($next == 'verifikasi_sekdes') {
+                    return $query->where('jabatan_id', '=', sekdes()->id);
+                }
+                if ($next == 'verifikasi_kades') {
+                    return $query->where('jabatan_id', '=', kades()->id);
+                }
+
+                return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
+            })->when(next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static function ($query) {
+                return $query->orWhereNull('pamong_id');
+            });
+        })->get();
+
+        if (cek_koneksi_internet()) {
+            // kirim ke aplikasi android admin.
+            try {
+                $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                $notification = new \Fcm\Push\Notification();
+
+                $notification
+                    ->addRecipient($allToken->pluck('token')->all())
+                    ->setTitle($judul)
+                    ->setBody($pesan)
+                    ->addData('payload', $payload);
+                $client->send($notification);
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+            }
+        }
+
+        $isi = [
+            'judul'      => $judul,
+            'isi'        => $pesan,
+            'payload'    => $payload,
+            'read'       => 0,
+            'created_at' => date('Y-m-d H:i:s'),
+        ];
+
+        $this->create_log_notifikasi_admin($next, $isi);
     }
 }
 
