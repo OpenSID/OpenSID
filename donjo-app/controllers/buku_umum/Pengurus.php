@@ -92,7 +92,7 @@ class Pengurus extends Admin_Controller
         $this->render('bumindes/umum/main', $data);
     }
 
-    public function form($id = 0): View
+    public function form($id = 0)
     {
         $this->redirect_hak_akses('u');
         $id_pend = $this->input->post('id_pend');
@@ -280,7 +280,7 @@ class Pengurus extends Admin_Controller
     }
 
     // Jabatan
-    public function jabatan(): View
+    public function jabatan()
     {
         if ($this->input->is_ajax_request()) {
             return datatables()->of(RefJabatan::query()->urut()->latest())
@@ -317,7 +317,7 @@ class Pengurus extends Admin_Controller
         ]);
     }
 
-    public function jabatanform($id = ''): View
+    public function jabatanform($id = '')
     {
         $this->redirect_hak_akses('u');
 

@@ -53,7 +53,6 @@ use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\Urls;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\View;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 
@@ -135,7 +134,7 @@ class Surat extends Admin_Controller
         return show_404();
     }
 
-    public function form($url = '', $id = ''): View
+    public function form($url = '', $id = '')
     {
         $nik = $this->input->post('nik') ?? $id;
 

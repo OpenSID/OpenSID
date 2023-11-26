@@ -36,13 +36,12 @@
  */
 
 use App\Models\Config;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Koneksi_database extends CI_Controller
 {
-    public function index(): View
+    public function index()
     {
         if ($this->session->db_error['code'] !== 1049) {
             redirect(site_url());
@@ -51,7 +50,7 @@ class Koneksi_database extends CI_Controller
         return view('periksa.koneksi');
     }
 
-    public function config(): View
+    public function config()
     {
         return view('periksa.config', $this->cekConfig());
     }

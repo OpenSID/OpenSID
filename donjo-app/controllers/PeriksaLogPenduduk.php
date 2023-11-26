@@ -37,7 +37,6 @@
 
 use App\Enums\StatusDasarEnum;
 use App\Models\LogPenduduk;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,7 +50,7 @@ class PeriksaLogPenduduk extends CI_Controller
         $this->cek_user();
     }
 
-    public function index(): View
+    public function index()
     {
         $penduduk = $this->input->get('penduduk');
 

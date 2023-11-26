@@ -37,7 +37,6 @@
 
 use App\Enums\StatusEnum;
 use App\Models\Anjungan as AnjunganModel;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,7 +49,7 @@ class Gawai_layanan extends Admin_Controller
         $this->sub_modul_ini = 'gawai-layanan';
     }
 
-    public function index(): View
+    public function index()
     {
         return view('admin.gawai_layanan.index');
     }
@@ -95,7 +94,7 @@ class Gawai_layanan extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = null): View
+    public function form($id = null)
     {
         $this->redirect_hak_akses('u');
 

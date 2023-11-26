@@ -48,7 +48,6 @@ use App\Models\Posyandu;
 use App\Models\SasaranPaud;
 use App\Models\UserGrup;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\View;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Stunting extends Admin_Controller
@@ -62,7 +61,7 @@ class Stunting extends Admin_Controller
         $this->sub_modul_ini = 'stunting';
     }
 
-    public function index(): View
+    public function index()
     {
         $data             = $this->widget();
         $data['navigasi'] = 'posyandu';
@@ -100,7 +99,7 @@ class Stunting extends Admin_Controller
         return show_404();
     }
 
-    public function formPosyandu($id = null): View
+    public function formPosyandu($id = null)
     {
         $this->redirect_hak_akses('u');
 
@@ -171,7 +170,7 @@ class Stunting extends Admin_Controller
     // Akhir Posyandu
 
     // Awal KIA
-    public function kia(): View
+    public function kia()
     {
         $data             = $this->widget();
         $data['navigasi'] = 'kia';
@@ -210,7 +209,7 @@ class Stunting extends Admin_Controller
         return show_404();
     }
 
-    public function formKia($id = null): View
+    public function formKia($id = null)
     {
         $this->redirect_hak_akses('u');
 
@@ -369,7 +368,7 @@ class Stunting extends Admin_Controller
     // Akhir KIA
 
     // Mulai Pemantauan
-    public function pemantauan_ibu_hamil(): View
+    public function pemantauan_ibu_hamil()
     {
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-bulanan-ibu-hamil';
@@ -419,7 +418,7 @@ class Stunting extends Admin_Controller
         return show_404();
     }
 
-    public function formIbuHamil($id = null): View
+    public function formIbuHamil($id = null)
     {
         $this->redirect_hak_akses('u');
 
@@ -567,7 +566,7 @@ class Stunting extends Admin_Controller
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    public function pemantauan_anak(): View
+    public function pemantauan_anak()
     {
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-bulanan-anak';
@@ -618,7 +617,7 @@ class Stunting extends Admin_Controller
         return show_404();
     }
 
-    public function formAnak($id = null): View
+    public function formAnak($id = null)
     {
         $this->redirect_hak_akses('u');
 
@@ -804,7 +803,7 @@ class Stunting extends Admin_Controller
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
-    public function pemantauan_paud(): View
+    public function pemantauan_paud()
     {
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-sasaran-paud';
@@ -851,7 +850,7 @@ class Stunting extends Admin_Controller
         return show_404();
     }
 
-    public function formPaud($id = null): View
+    public function formPaud($id = null)
     {
         $this->redirect_hak_akses('u');
 
@@ -1000,7 +999,7 @@ class Stunting extends Admin_Controller
     }
 
     ////////////////////////////////////
-    public function rekapitulasi_ibu_hamil($kuartal = null, $tahun = null, $id = null): View
+    public function rekapitulasi_ibu_hamil($kuartal = null, $tahun = null, $id = null)
     {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = null;
@@ -1037,7 +1036,7 @@ class Stunting extends Admin_Controller
         return view('admin.stunting.rekapitulasi-ibu-hamil', $data);
     }
 
-    public function rekapitulasi_bulanan_anak($kuartal = null, $tahun = null, $id = null): View
+    public function rekapitulasi_bulanan_anak($kuartal = null, $tahun = null, $id = null)
     {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = null;
@@ -1075,7 +1074,7 @@ class Stunting extends Admin_Controller
     }
 
     ///////////////////////////////////
-    public function scorecard_konvergensi($kuartal = null, $tahun = null, $id = null): View
+    public function scorecard_konvergensi($kuartal = null, $tahun = null, $id = null)
     {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = null;

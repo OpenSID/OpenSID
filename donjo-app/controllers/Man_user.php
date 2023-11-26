@@ -40,7 +40,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Models\Pamong;
 use App\Models\User;
 use App\Models\UserGrup;
-use Illuminate\View\View;
 
 class Man_user extends Admin_Controller
 {
@@ -116,7 +115,7 @@ class Man_user extends Admin_Controller
         return view('admin.pengaturan.pengguna.index', $data);
     }
 
-    public function form($id = ''): View
+    public function form($id = '')
     {
         $this->redirect_hak_akses('u');
 

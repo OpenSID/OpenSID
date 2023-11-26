@@ -36,7 +36,6 @@
  */
 
 use App\Models\KelompokMaster;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -86,7 +85,7 @@ class Kelompok_master extends Admin_Controller
         return view('admin.kelompok_master.index');
     }
 
-    public function form($id = 0): View
+    public function form($id = 0)
     {
         $this->redirect_hak_akses('u');
         if ($id) {

@@ -36,7 +36,6 @@
  */
 
 use App\Models\User;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,7 +50,7 @@ class Pengguna extends Admin_Controller
         $this->load->model('user_model');
     }
 
-    public function index(): View
+    public function index()
     {
         $userData = User::findOrFail(auth()->id);
 

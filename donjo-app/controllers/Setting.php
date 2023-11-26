@@ -84,7 +84,7 @@ class Setting extends Admin_Controller
         $this->sub_modul_ini = 'aplikasi';
     }
 
-    public function index(): View
+    public function index()
     {
         $data = [
             'judul'               => 'Pengaturan Aplikasi',
@@ -148,7 +148,7 @@ class Setting extends Admin_Controller
     }
 
     // Pengaturan web
-    public function web(): View
+    public function web()
     {
         $this->modul_ini     = 'admin-web';
         $this->sub_modul_ini = 'pengaturan-web';
@@ -163,7 +163,7 @@ class Setting extends Admin_Controller
     }
 
     // Pengaturan mandiri
-    public function mandiri(): View
+    public function mandiri()
     {
         $this->modul_ini     = 'layanan-mandiri';
         $this->sub_modul_ini = 'pengaturan-layanan-mandiri';
@@ -180,7 +180,7 @@ class Setting extends Admin_Controller
     }
 
     // Pengaturan analisis
-    public function analisis(): View
+    public function analisis()
     {
         $this->modul_ini     = 'analisis';
         $this->sub_modul_ini = 'pengaturan-analisis';

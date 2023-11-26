@@ -37,7 +37,6 @@
 
 use App\Models\DaftarKontak;
 use App\Models\Penduduk;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,7 +50,7 @@ class Daftar_kontak extends Admin_Controller
         $this->header['kategori'] = 'hubung warga';
     }
 
-    public function index(): View
+    public function index()
     {
         return view('admin.daftar_kontak.index', [
             'navigasi' => 'Eksternal',
@@ -88,7 +87,7 @@ class Daftar_kontak extends Admin_Controller
         return show_404();
     }
 
-    public function penduduk(): View
+    public function penduduk()
     {
         return view('admin.daftar_kontak.penduduk', [
             'navigasi' => 'Penduduk',

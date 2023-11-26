@@ -53,7 +53,7 @@ class Token extends CI_Controller
         }
     }
 
-    public function index(): View
+    public function index()
     {
         return view('token.index');
     }

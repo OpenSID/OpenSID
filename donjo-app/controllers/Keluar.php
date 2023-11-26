@@ -46,7 +46,6 @@ use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\RefJabatan;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -511,7 +510,7 @@ class Keluar extends Admin_Controller
         }
     }
 
-    public function periksa($id): View
+    public function periksa($id)
     {
         $surat                = LogSurat::find($id);
         $data['surat']        = $surat;

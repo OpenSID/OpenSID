@@ -44,57 +44,41 @@
                 $tot = count($indikator);
 
     foreach ($indikator as $pt):
-        $w = $pt['par'] ? '' : "width='80'";
+        if ($pt['par']):
+            $w = '';
+        else:
+            $w = "width='80'";
+        endif;
         ?>
-				<?php	if ($pt['id_tipe'] == 1) {
-            ?>
-					<td <?php 
-            <?= $w?>
-            ?>>
-						<?php 
-            <?= $pt['no']?>
-            ?><br><?php 
-            <?=$pt['pertanyaan']?>
-    
-            ?>
-						<?php 
-            if ($pt['par']):
-    						    foreach ($pt['par'] as $jb): ?>
-    								<br><?=$jb['kode_jawaban']?>&nbsp<?= $jb['jawaban']?>
-    							<?php endforeach;
-    						endif;
-            ?>
+				<?php	if ($pt['id_tipe'] == 1): ?>
+					<td <?= $w?>>
+						<?= $pt['no']?><br><?=$pt['pertanyaan']?>
+						<?php if ($pt['par']):
+						    foreach ($pt['par'] as $jb): ?>
+								<br><?=$jb['kode_jawaban']?>&nbsp<?= $jb['jawaban']?>
+							<?php endforeach;
+						endif; ?>
 					</td>
-				<?php 
-        } elseif ($pt['id_tipe'] == 2) {
-            ?>
-						<td <?php 
-            <?= $w?>
-            ?> style='background-color:#aaaafe;'>
-							<?php 
-            <?= $pt['no']?>
-            ?><br><?php 
-            <?= $pt['pertanyaan']?>
-    
-            ?>
-							<?php 
-            if ($pt['par']):
-    							    foreach ($pt['par'] as $jb): ?>
-    									<br><?=$jb['kode_jawaban']?>&nbsp<?= $jb['jawaban']?>
-    								<?php endforeach;
-    							endif;
-            ?>
+				<?php else:
+				    if ($pt['id_tipe'] == 2): ?>
+						<td <?= $w?> style='background-color:#aaaafe;'>
+							<?= $pt['no']?><br><?= $pt['pertanyaan']?>
+							<?php if ($pt['par']):
+							    foreach ($pt['par'] as $jb): ?>
+									<br><?=$jb['kode_jawaban']?>&nbsp<?= $jb['jawaban']?>
+								<?php endforeach;
+							endif; ?>
 						</td>
-					<?php 
-        } elseif ($pt['id_tipe'] == 3): ?>
- 						<td style='background-color:#00fe00;'>
- 							<?= $pt['no']?><br><?=$pt['pertanyaan']?>
- 						</td>
- 					 else: ?>
- 						<td style='background-color:#feaaaa;'>
- 							<?= $pt['no']?><br><?= $pt['pertanyaan']?>
- 						</td>
- 					
+					<?php elseif ($pt['id_tipe'] == 3): ?>
+						<td style='background-color:#00fe00;'>
+							<?= $pt['no']?><br><?=$pt['pertanyaan']?>
+						</td>
+					<?php else: ?>
+						<td style='background-color:#feaaaa;'>
+							<?= $pt['no']?><br><?= $pt['pertanyaan']?>
+						</td>
+					<?php endif;
+        endif;
     endforeach;
     ?>
 		</tr>

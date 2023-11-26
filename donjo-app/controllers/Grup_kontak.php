@@ -40,7 +40,6 @@ use App\Models\DaftarKontak;
 use App\Models\GrupKontak;
 use App\Models\Penduduk;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,7 +53,7 @@ class Grup_kontak extends Admin_Controller
         $this->header['kategori'] = 'hubung warga';
     }
 
-    public function index(): View
+    public function index()
     {
         return view('admin.grup_kontak.index');
     }
@@ -89,7 +88,7 @@ class Grup_kontak extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = null): View
+    public function form($id = null)
     {
         $this->redirect_hak_akses('u');
 
@@ -148,7 +147,7 @@ class Grup_kontak extends Admin_Controller
     }
 
     // Anggota Grup
-    public function anggota($id = null): View
+    public function anggota($id = null)
     {
         $grupKontak = GrupKontak::findOrFail($id);
 
@@ -178,7 +177,7 @@ class Grup_kontak extends Admin_Controller
         return show_404();
     }
 
-    public function anggotaForm($id_grup = null): View
+    public function anggotaForm($id_grup = null)
     {
         $this->redirect_hak_akses('u');
 

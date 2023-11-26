@@ -44,7 +44,6 @@ use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Symfony\Component\Process\Process;
 
@@ -190,7 +189,7 @@ class Database extends Admin_Controller
         }
     }
 
-    public function acak(): View
+    public function acak()
     {
         $this->redirect_hak_akses('u');
         if ($this->setting->penggunaan_server != 6 && ! super_admin()) {

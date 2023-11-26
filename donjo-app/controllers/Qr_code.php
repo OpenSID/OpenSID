@@ -42,8 +42,8 @@ class Qr_code extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul     = 'pengaturan';
-        $this->modul_ini = 'qr-code';
+        $this->modul_ini     = 'pengaturan';
+        $this->sub_modul_ini = 'qr-code';
     }
 
     public function index(): void

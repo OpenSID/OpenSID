@@ -38,7 +38,6 @@
 use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
 use App\Models\PermohonanSurat;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,7 +51,7 @@ class Permohonan_surat_admin extends Admin_Controller
         $this->sub_modul_ini = 'permohonan-surat';
     }
 
-    public function index(): View
+    public function index()
     {
         return view('admin.permohonan_surat.index', [
             'list_status_permohonan' => PermohonanSurat::STATUS_PERMOHONAN,

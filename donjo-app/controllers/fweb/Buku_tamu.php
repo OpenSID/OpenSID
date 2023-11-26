@@ -43,7 +43,6 @@ use App\Models\BukuPertanyaan;
 use App\Models\BukuTamu;
 use App\Models\RefJabatan;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -62,7 +61,7 @@ class Buku_tamu extends MY_Controller
         }
     }
 
-    public function index(): View
+    public function index()
     {
         return view('buku_tamu.registrasi', [
             'aksi'      => route('buku-tamu.registrasi'),
@@ -99,7 +98,7 @@ class Buku_tamu extends MY_Controller
         redirect('buku-tamu/kepuasan');
     }
 
-    public function kepuasan($id = null): View
+    public function kepuasan($id = null)
     {
         // Jangan tampilkan kalau belum ada daftar pertanyaan
         $data['ada_pertanyaan'] = BukuPertanyaan::whereStatus(StatusEnum::YA)->exists();

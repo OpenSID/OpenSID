@@ -67,7 +67,7 @@ class Identitas_desa extends Admin_Controller
      *
      * @return void
      */
-    public function index(): View
+    public function index()
     {
         return view('admin.identitas_desa.index', [
             'main'      => $this->identitas_desa,
@@ -80,7 +80,7 @@ class Identitas_desa extends Admin_Controller
      *
      * @return void
      */
-    public function form(): View
+    public function form()
     {
         $this->redirect_hak_akses('u');
         $data['main']           = $this->identitas_desa;

@@ -37,7 +37,6 @@
 
 use App\Enums\StatusPengaduanEnum;
 use App\Models\Pengaduan;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,7 +49,7 @@ class Pengaduan_admin extends Admin_Controller
         $this->load->model('pengaduan_model');
     }
 
-    public function index(): View
+    public function index()
     {
         $data = $this->widget();
 
@@ -118,7 +117,7 @@ class Pengaduan_admin extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = ''): View
+    public function form($id = '')
     {
         $this->redirect_hak_akses('u');
 
@@ -157,7 +156,7 @@ class Pengaduan_admin extends Admin_Controller
         redirect_with('error', 'Gagal Ditanggapi');
     }
 
-    public function pengaduan_form($id = ''): View
+    public function pengaduan_form($id = '')
     {
         $this->redirect_hak_akses('u');
 

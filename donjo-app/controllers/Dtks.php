@@ -47,7 +47,6 @@ use App\Models\Penduduk;
 use App\Models\Rtm;
 use App\Models\Wilayah;
 use App\Services\DTKSRegsosEk2022k;
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 
 // TODO : jika ada perubahan versi DTKS terbaru, selain merubah data yg ada
@@ -109,7 +108,7 @@ class Dtks extends Admin_Controller
         }
     }
 
-    public function index(): View
+    public function index()
     {
         $data['rtm'] = Rtm::with([
             'kepalaKeluarga' => static function ($builder): void {
@@ -216,7 +215,7 @@ class Dtks extends Admin_Controller
         return show_404();
     }
 
-    public function listAnggota($id_dtks): View
+    public function listAnggota($id_dtks)
     {
         $this->syncDtksRtm(Rtm::where('terdaftar_dtks', 1)->get());
         $data['anggota'] = DtksAnggota::with([

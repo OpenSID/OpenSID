@@ -41,7 +41,6 @@ use App\Models\PendudukHidup;
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\PendudukMandiri;
-use Illuminate\Contracts\View\View;
 
 class Mandiri extends Admin_Controller
 {
@@ -56,7 +55,7 @@ class Mandiri extends Admin_Controller
         $this->telegram      = new Telegram();
     }
 
-    public function index(): View
+    public function index()
     {
         return view('admin.layanan_mandiri.daftar.index');
     }
@@ -92,7 +91,7 @@ class Mandiri extends Admin_Controller
         return show_404();
     }
 
-    public function ajax_pin($id_pend = ''): View
+    public function ajax_pin($id_pend = '')
     {
         $this->redirect_hak_akses('u');
         $data['penduduk'] = PendudukHidup::select(['id', 'nik', 'nama'])->whereDoesntHave('mandiri')->get()->toArray();
@@ -112,7 +111,7 @@ class Mandiri extends Admin_Controller
         return view('admin.layanan_mandiri.daftar.ajax_pin', $data);
     }
 
-    public function ajax_hp($id_pend): View
+    public function ajax_hp($id_pend)
     {
         $this->redirect_hak_akses('u');
         $data['form_action'] = route("{$this->controller}.ubah_hp", $id_pend);
@@ -121,7 +120,7 @@ class Mandiri extends Admin_Controller
         return view('admin.layanan_mandiri.daftar.ajax_hp', $data);
     }
 
-    public function ajax_verifikasi_warga($id_pend): View
+    public function ajax_verifikasi_warga($id_pend)
     {
         $this->redirect_hak_akses('u');
         $data['tgl_verifikasi_telegram'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($id_pend);

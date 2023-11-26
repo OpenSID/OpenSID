@@ -37,7 +37,6 @@
 
 use App\Models\FormatSurat;
 use App\Models\LampiranSurat;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -80,7 +79,7 @@ class Lampiran extends Admin_Controller
         ]);
     }
 
-    public function form($id = null): View
+    public function form($id = null)
     {
         $this->redirect_hak_akses('u');
         $this->set_hak_akses_rfm();

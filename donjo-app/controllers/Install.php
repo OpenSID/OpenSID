@@ -36,7 +36,6 @@
  */
 
 use App\Models\Config;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -69,7 +68,7 @@ class Install extends CI_Controller
     /**
      * Step 1
      */
-    public function index(): View
+    public function index()
     {
         // disable install
         if (file_exists(DESAPATH)) {
@@ -82,7 +81,7 @@ class Install extends CI_Controller
     /**
      * Step 2
      */
-    public function server(): View
+    public function server()
     {
         // disable install
         if (file_exists(DESAPATH)) {
@@ -108,7 +107,7 @@ class Install extends CI_Controller
     /**
      * Step 3
      */
-    public function folders(): View
+    public function folders()
     {
         // disable install
         if (file_exists(DESAPATH)) {
@@ -138,7 +137,7 @@ class Install extends CI_Controller
     /**
      * Step 4
      */
-    public function database(): View
+    public function database()
     {
         // disable install
         if (file_exists(DESAPATH)) {
@@ -323,7 +322,7 @@ class Install extends CI_Controller
     /**
      * Step 6
      */
-    public function user(): View
+    public function user()
     {
         $this->load->database();
 

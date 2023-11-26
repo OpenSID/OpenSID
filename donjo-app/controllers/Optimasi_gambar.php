@@ -35,8 +35,6 @@
  *
  */
 
-use Illuminate\Contracts\View\View;
-
 /*
  *
  * File ini bagian dari:
@@ -84,7 +82,7 @@ class Optimasi_gambar extends Admin_Controller
         $this->header['kategori'] = 'Optimasi';
     }
 
-    public function index(): View
+    public function index()
     {
         $folders = $this->get_folders(LOKASI_UPLOAD);
 

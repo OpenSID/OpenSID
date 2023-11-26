@@ -48,7 +48,6 @@ use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -69,7 +68,7 @@ class Surat_master extends Admin_Controller
         $this->header['kategori'] = 'pengaturan-surat';
     }
 
-    public function index(): View
+    public function index()
     {
         $nonAktifkanRTF = setting('nonaktifkan_rtf');
 
@@ -119,7 +118,7 @@ class Surat_master extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = null): View
+    public function form($id = null)
     {
         $this->redirect_hak_akses('u');
         $this->set_hak_akses_rfm();
@@ -480,7 +479,7 @@ class Surat_master extends Admin_Controller
         return $data;
     }
 
-    public function kodeIsian($id = null): View
+    public function kodeIsian($id = null)
     {
         $suratMaster = FormatSurat::select(['kode_isian'])->first($id) ?? show_404();
 
@@ -610,7 +609,7 @@ class Surat_master extends Admin_Controller
         redirect_with('success', 'Berhasil Perbaharui Data');
     }
 
-    public function pengaturan(): View
+    public function pengaturan()
     {
         $data['font_option']   = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
         $data['tte_demo']      = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
@@ -826,7 +825,7 @@ class Surat_master extends Admin_Controller
             ->set_output(json_encode($ekspor, JSON_PRETTY_PRINT));
     }
 
-    public function impor_filter($data): View
+    public function impor_filter($data)
     {
         set_session('data_impor_surat', $data);
 

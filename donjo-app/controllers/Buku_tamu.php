@@ -39,7 +39,6 @@ use App\Enums\JenisKelaminEnum;
 use App\Models\BukuKepuasan;
 use App\Models\BukuTamu;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\View;
 use OpenSpout\Common\Entity\Style\Border;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Writer\Common\Creator\Style\BorderBuilder;
@@ -99,7 +98,7 @@ class Buku_tamu extends Anjungan_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function cetak(): View
+    public function cetak()
     {
         return view('admin.buku_tamu.tamu.cetak', [
             'data_tamu' => $this->data($this->input->get('tanggal')),

@@ -45,7 +45,6 @@ use App\Models\PendudukMandiri;
 use App\Models\RefJabatan;
 use App\Models\Rtm;
 use App\Models\Wilayah;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -60,7 +59,7 @@ class Beranda extends Admin_Controller
         $this->isAdmin = $this->session->isAdmin->pamong;
     }
 
-    public function index(): View
+    public function index()
     {
         get_pesan_opendk(); //ambil pesan baru di opendk
 

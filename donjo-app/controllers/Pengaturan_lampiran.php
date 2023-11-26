@@ -37,7 +37,6 @@
 
 use App\Models\LampiranSurat;
 use App\Models\SettingAplikasi;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,7 +53,7 @@ class Pengaturan_lampiran extends Admin_Controller
         $this->header['kategori'] = 'pengaturan-surat';
     }
 
-    public function index(): View
+    public function index()
     {
         $margin           = setting('lampiran_margin');
         $kotak            = setting('lampiran_kotak');

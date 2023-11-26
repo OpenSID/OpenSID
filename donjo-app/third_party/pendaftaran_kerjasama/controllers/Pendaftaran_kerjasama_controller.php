@@ -68,7 +68,7 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
         $this->server = config_item('server_layanan');
     }
 
-    public function index(): View
+    public function index()
     {
         return view('admin.pendaftaran_kerjasama.pendaftaran', []);
     }

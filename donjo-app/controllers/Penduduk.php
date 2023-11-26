@@ -42,7 +42,6 @@ use App\Models\Dokumen;
 use App\Models\Penduduk as PendudukModel;
 use App\Models\SyaratSurat;
 use App\Models\UserGrup;
-use Illuminate\Contracts\View\View;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Penduduk extends Admin_Controller
@@ -1004,7 +1003,7 @@ class Penduduk extends Admin_Controller
         ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN, $tampil);
     }
 
-    public function impor(): View
+    public function impor()
     {
         if (config_item('demo_mode') || data_lengkap()) {
             redirect($this->controller);
@@ -1033,7 +1032,7 @@ class Penduduk extends Admin_Controller
         redirect('penduduk/impor');
     }
 
-    public function impor_bip(): View
+    public function impor_bip()
     {
         if (config_item('demo_mode') || setting('multi_desa') || data_lengkap()) {
             redirect($this->controller);

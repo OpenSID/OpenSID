@@ -37,7 +37,6 @@
 
 use App\Models\Kehadiran;
 use App\Models\Pamong;
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
@@ -53,7 +52,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
         $this->header['kategori'] = 'kehadiran';
     }
 
-    public function index(): View
+    public function index()
     {
         $pamong    = Pamong::daftar()->get();
         $kehadiran = Kehadiran::get();

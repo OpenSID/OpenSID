@@ -42,7 +42,6 @@ use App\Models\Bantuan;
 use App\Models\Kategori;
 use App\Models\Kelompok;
 use App\Models\Suplemen;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -55,7 +54,7 @@ class Anjungan_menu extends Anjungan_Controller
         $this->sub_modul_ini = 'anjungan-menu';
     }
 
-    public function index(): View
+    public function index()
     {
         return view('admin.anjungan_menu.index');
     }
@@ -98,7 +97,7 @@ class Anjungan_menu extends Anjungan_Controller
         return show_404();
     }
 
-    public function form($id = null): View
+    public function form($id = null)
     {
         $this->redirect_hak_akses('u');
         $tipe_link = $this->referensi_model->list_ref(LINK_TIPE);

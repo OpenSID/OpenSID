@@ -37,7 +37,6 @@
 
 use App\Models\Config;
 use App\Models\UserGrup;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -60,7 +59,7 @@ class Periksa extends CI_Controller
         $this->latar_login = default_file(LATAR_LOGIN . $this->periksa_model->getSetting('latar_login'), DEFAULT_LATAR_SITEMAN);
     }
 
-    public function index(): View
+    public function index()
     {
         $this->cek_user();
 

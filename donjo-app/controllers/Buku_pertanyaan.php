@@ -37,7 +37,6 @@
 
 use App\Enums\StatusEnum;
 use App\Models\BukuPertanyaan;
-use Illuminate\Contracts\View\View;
 
 class Buku_pertanyaan extends Anjungan_Controller
 {
@@ -80,7 +79,7 @@ class Buku_pertanyaan extends Anjungan_Controller
         return view('admin.buku_tamu.pertanyaan.index');
     }
 
-    public function form($id = null): View
+    public function form($id = null)
     {
         $this->redirect_hak_akses('u');
 

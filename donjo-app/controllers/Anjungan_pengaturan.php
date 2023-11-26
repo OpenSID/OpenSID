@@ -38,7 +38,6 @@
 use App\Models\Galery;
 use App\Models\Kategori;
 use App\Models\SettingAplikasi;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,7 +50,7 @@ class Anjungan_pengaturan extends Anjungan_Controller
         $this->sub_modul_ini = 'pengaturan-anjungan';
     }
 
-    public function index(): View
+    public function index()
     {
         $data['form_action']      = route('anjungan_pengaturan.update');
         $data['daftar_kategori']  = Kategori::configId()->get();

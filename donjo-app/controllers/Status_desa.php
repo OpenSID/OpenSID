@@ -36,7 +36,6 @@
  */
 
 use App\Models\SettingAplikasi;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -59,7 +58,7 @@ class Status_desa extends Admin_Controller
         return $this->idm();
     }
 
-    private function idm(): View
+    private function idm()
     {
         $tahun = session('tahun') ?? ($this->input->post('tahun') ?? (setting('tahun_idm')) ?? date('Y'));
 
@@ -107,7 +106,7 @@ class Status_desa extends Admin_Controller
         redirect_with('success', 'Berhasil Simpan Data');
     }
 
-    private function sdgs(): View
+    private function sdgs()
     {
         set_session('navigasi', 'sdgs');
 

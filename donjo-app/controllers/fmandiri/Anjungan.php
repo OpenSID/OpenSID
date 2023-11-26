@@ -39,7 +39,6 @@ use App\Models\AnjunganMenu;
 use App\Models\Artikel;
 use App\Models\Galery;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -55,7 +54,7 @@ class Anjungan extends Web_Controller
         }
     }
 
-    public function index(): View
+    public function index()
     {
         $menu = AnjunganMenu::where('status', 1)->get()->map(static function ($item) {
             $item->link = menu_slug($item->link);

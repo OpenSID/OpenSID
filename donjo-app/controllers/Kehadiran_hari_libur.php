@@ -36,7 +36,6 @@
  */
 
 use App\Models\HariLibur;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,7 +49,7 @@ class Kehadiran_hari_libur extends Admin_Controller
         $this->header['kategori'] = 'kehadiran';
     }
 
-    public function index(): View
+    public function index()
     {
         return view('admin.hari_libur.index');
     }
@@ -86,7 +85,7 @@ class Kehadiran_hari_libur extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = ''): View
+    public function form($id = '')
     {
         $this->redirect_hak_akses('u');
 

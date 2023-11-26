@@ -35,8 +35,6 @@
  *
  */
 
-use Illuminate\Contracts\View\View;
-
 /*
  *
  * File ini bagian dari:
@@ -84,7 +82,7 @@ class PeriksaLogKeluarga extends CI_Controller
         $this->cek_user();
     }
 
-    public function index(): View
+    public function index()
     {
         $keluarga = $this->input->get('keluarga');
 

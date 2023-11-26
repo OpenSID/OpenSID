@@ -53,7 +53,6 @@ use App\Models\PendudukHubungan;
 use App\Models\SakitMenahun;
 use App\Models\SettingAplikasi;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -138,7 +137,7 @@ class DTKSRegsosEk2022k
         }
     }
 
-    public function info(): View
+    public function info()
     {
         $data                            = [];
         $daftar_bantuan                  = Bantuan::get();
@@ -159,7 +158,7 @@ class DTKSRegsosEk2022k
         return view('admin.dtks.' . \App\Enums\Dtks\DtksEnum::VERSION_CODE . '.info', $data);
     }
 
-    public function impor(): View
+    public function impor()
     {
         $data = [];
 
@@ -400,7 +399,7 @@ class DTKSRegsosEk2022k
         return $this->syncKepesertaanProgramKeluarga($dtks);
     }
 
-    public function form(Dtks $dtks): View
+    public function form(Dtks $dtks)
     {
         $desa = SettingAplikasi::whereIn('key', [
             'sebutan_desa', 'sebutan_kecamatan', 'sebutan_kabupaten',

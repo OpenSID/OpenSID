@@ -40,7 +40,6 @@ use App\Models\HariLibur;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -74,7 +73,7 @@ class Perangkat extends Web_Controller
         }
     }
 
-    public function index(): View
+    public function index()
     {
         $this->cekLogin();
 
@@ -158,7 +157,7 @@ class Perangkat extends Web_Controller
         $this->cek(true);
     }
 
-    public function masuk($ektp = false): View
+    public function masuk($ektp = false)
     {
         $data = [
             'ip_address'    => $this->ip,

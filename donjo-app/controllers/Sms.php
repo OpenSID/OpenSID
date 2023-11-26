@@ -40,7 +40,6 @@ use App\Models\DaftarKontak;
 use App\Models\GrupKontak;
 use App\Models\HubungWarga;
 use App\Models\Penduduk;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -228,7 +227,7 @@ class Sms extends Admin_Controller
     }
 
     // Kirim Pesan (Hubung Warga)
-    public function arsip(): View
+    public function arsip()
     {
         return view('admin.sms.hubung_warga.index', [
             'navigasi' => 'arsip',
@@ -257,7 +256,7 @@ class Sms extends Admin_Controller
         return show_404();
     }
 
-    public function kirim(): View
+    public function kirim()
     {
         $this->redirect_hak_akses('u');
 

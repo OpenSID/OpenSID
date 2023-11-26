@@ -37,7 +37,6 @@
 
 use App\Models\Pesan;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,7 +51,7 @@ class Opendk_pesan extends Admin_Controller
         $this->sub_modul_ini = 'pesan';
     }
 
-    public function cek(): View
+    public function cek()
     {
         // cek setting server ke opendk
         if (empty($this->setting->api_opendk_key)) {
@@ -64,7 +63,7 @@ class Opendk_pesan extends Admin_Controller
         return true;
     }
 
-    public function index(): View
+    public function index()
     {
         if (! $this->cek()) {
             return;
@@ -146,7 +145,7 @@ class Opendk_pesan extends Admin_Controller
         return view('admin.opendkpesan.show', ['pesan' => $pesan, 'form_action' => $form_action]);
     }
 
-    public function form(): View
+    public function form()
     {
         $this->redirect_hak_akses('u');
         $form_action = route('opendk_pesan.insert');
@@ -203,7 +202,7 @@ class Opendk_pesan extends Admin_Controller
         }
     }
 
-    public function arsip(): View
+    public function arsip()
     {
         $selected_nav = 'arsip';
         $pesan        = Pesan::where('diarsipkan', '=', '1')->with(['detailPesan'])->paginate(25);

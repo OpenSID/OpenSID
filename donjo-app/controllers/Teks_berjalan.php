@@ -52,7 +52,7 @@ class Teks_berjalan extends Admin_Controller
         $this->sub_modul_ini = 'teks-berjalan';
     }
 
-    public function index(): View
+    public function index()
     {
         $main = TeksBerjalan::orderBy('urut')
             ->withCasts([

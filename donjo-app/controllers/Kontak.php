@@ -38,7 +38,6 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\DaftarKontak;
-use Illuminate\Contracts\View\View;
 
 class Kontak extends Admin_Controller
 {
@@ -50,7 +49,7 @@ class Kontak extends Admin_Controller
         $this->header['kategori'] = 'hubung warga';
     }
 
-    public function index(): View
+    public function index()
     {
         return view('admin.kontak.index');
     }
@@ -85,7 +84,7 @@ class Kontak extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = ''): View
+    public function form($id = '')
     {
         $this->redirect_hak_akses('u');
 

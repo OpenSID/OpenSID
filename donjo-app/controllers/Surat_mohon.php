@@ -36,7 +36,6 @@
  */
 
 use App\Models\SyaratSurat;
-use Illuminate\Contracts\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,7 +48,7 @@ class Surat_mohon extends Admin_Controller
         $this->sub_modul_ini = 'daftar-persyaratan';
     }
 
-    public function index(): View
+    public function index()
     {
         return view('admin.syaratan_surat.index');
     }
@@ -86,7 +85,7 @@ class Surat_mohon extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = ''): View
+    public function form($id = '')
     {
         $this->redirect_hak_akses('u');
 
