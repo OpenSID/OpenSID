@@ -56,7 +56,6 @@ function tulis_csv($table)
     }
 
     $data = $CI->db->get($table)->result_array();
-    log_message('notice', 'print_r : ' . print_r($data, true));
     if (count($data) == 0) {
         return null;
     }
