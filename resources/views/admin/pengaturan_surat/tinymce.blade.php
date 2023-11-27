@@ -167,7 +167,7 @@
                                                 @foreach ($form_isian['daftar_status_dasar'] as $key => $data)
                                                     @php
                                                         $select = false;
-                                                        if (in_array($key, is_array($suratMaster->form_isian->individu->status_dasar) ? $suratMaster->form_isian->individu->status_dasar : [$suratMaster->form_isian->individu->status_dasar] )) {
+                                                        if (in_array($key, is_array($suratMaster->form_isian->individu->status_dasar) ? $suratMaster->form_isian->individu->status_dasar : [$suratMaster->form_isian->individu->status_dasar])) {
                                                             $select = true;
                                                         }
                                                     @endphp
@@ -305,7 +305,7 @@
                                                     <option value="">SEMUA</option>
                                                     @foreach ($form_isian['daftar_status_dasar'] as $key => $data)
                                                         @php
-                                                            $select = false;                                                            
+                                                            $select = false;
                                                             if (in_array($key, $suratMaster->form_isian->$item->status_dasar ?? [])) {
                                                                 $select = true;
                                                             }
@@ -494,19 +494,21 @@
                         }
                         if (elkodeIsian != null) {
                             var elganda = editElm[0].querySelector('#gandakan-0');
-                            // console.log(elganda);
-                            // elganda.classList.remove('duplikasi');
+
+                            elganda.querySelector('.hapus-kode').setAttribute('title', 'Hapus Kode Isian')
+                            elganda.querySelector('.pindah-kode').setAttribute('title', 'Pindah Kode Isian')
+                            elganda.querySelector('.kaitkan-kode').setAttribute('title', 'Kaitkan Kode Isian')
+                            // console.log(cek.attr)
                             elganda.classList.add('duplikasi-' + nama_kategori);
                             elganda.classList.add('kategori');
                             elganda.id = 'gandakan-' + nama_kategori + '-0';
-                            // console.log(elkodeIsian.querySelectorAll('tr.duplikasi'));
+
                             // use foreach tr, jika itu tr pertama maka sesuaikan dengan tab data, jika bukan delete
                             var trkode = elkodeIsian.querySelectorAll('tr.duplikasi');
                             trkode.forEach((tr, index) => {
                                 var kategori_isian = tr.querySelectorAll(
                                     '.kode-isian input, .kode-isian textarea, .kode-isian select, .kode-isian'
                                 );
-                                //// console.log(kategori_isian);
                                 if (index == 0) {
                                     kategori_isian.forEach((elselect2) => {
                                         // elselect2.name = `pilihan_kode[${counter + 1}][]`
