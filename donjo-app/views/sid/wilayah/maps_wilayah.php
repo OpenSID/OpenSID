@@ -26,7 +26,7 @@
                             <label class="col-sm-2 control-label" for="lat">Warna Area</label>
                             <div class="col-sm-4">
                                 <div class="input-group my-colorpicker2">
-                                    <input type="text" id="warna" name="warna" class="form-control input-sm warna required" placeholder="#FFFFFF" value="<?= $wil_ini['warna']?>">
+                                    <input type="text" id="warna" name="warna" class="form-control input-sm warna required" placeholder="#FFFFFF" value="<?= $wil_ini['warna'] ?? '#FFFFFF' ?>">
                                     <div class="input-group-addon input-sm">
                                         <i></i>
                                     </div>
@@ -35,7 +35,7 @@
                             <label class="col-sm-2 control-label" for="lat">Warna Pinggiran</label>
                             <div class="col-sm-4">
                                 <div class="input-group my-colorpicker2">
-                                    <input type="text" id="border" name="border" class="form-control input-sm warna required" placeholder="#FFFFFF" value="<?= $wil_ini['border']?>">
+                                    <input type="text" id="border" name="border" class="form-control input-sm warna required" placeholder="#FFFFFF" value="<?= $wil_ini['border'] ?? '#FFFFFF' ?>">
                                     <div class="input-group-addon input-sm">
                                         <i></i>
                                     </div>

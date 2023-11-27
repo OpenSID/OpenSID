@@ -72,4 +72,4 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 4. [#3198](https://github.com/OpenSID/premium/issues/3198) Penyesuaian ulang url dan folder filemanager.
 5. [#3199](https://github.com/OpenSID/premium/issues/3199) Peningkatan keamanan pada form unggah file.
 6. [#7286](https://github.com/OpenSID/OpenSID/issues/7286) Peningkatan masuk aplikasi menggunakan google recaptcha yang bisa disesuaikan.
-7. [#7344](https://github.com/OpenSID/OpenSID/issues/7344) Peningkatan bisa menggunakan versi php 7.4.x - 8.2.x
+7. [#7344](https://github.com/OpenSID/OpenSID/issues/7344) Peningkatan bisa menggunakan versi php 7.4.x (stabil) - 8.2.x (pengembangan).

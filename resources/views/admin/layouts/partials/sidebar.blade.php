@@ -41,7 +41,7 @@
             <li class="header">MENU UTAMA</li>
 
             <?php foreach ($modul as $mod): ?>
-            <?php if (count($mod['submodul'] ?? []) == 0): ?>
+            <?php if (is_array($mod['submodul']) && count($mod['submodul']) == 0): ?>
             <li class="<?= jecho($modul_ini, $mod['slug'], 'active') ?>">
                 <a href="<?= route($mod['url']) ?>">
                     <i class="fa <?= $mod['ikon'] ?> <?= jecho($modul_ini, $mod['slug'], 'text-aqua') ?>"></i><span><?= $mod['modul'] ?></span>
