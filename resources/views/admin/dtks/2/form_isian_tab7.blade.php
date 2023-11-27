@@ -205,9 +205,9 @@
     </div>
 </div>
 @push('scripts')
-    <script src="<?= asset('js/webcam.min.js'); ?>"></script>
-    <script src="<?= asset('js/cropper.min.js'); ?>"></script>
-    <script src="<?= asset('js/main-camera.js'); ?>"></script>
+    <script src="<?= asset('js/webcam.min.js') ?>"></script>
+    <script src="<?= asset('js/cropper.min.js') ?>"></script>
+    <script src="<?= asset('js/main-camera.js') ?>"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             let default_pic = "{{ AmbilFoto('', '') }}";
