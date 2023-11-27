@@ -348,14 +348,14 @@ class TinyMCE
     }
 
     /**
-     * Replace kode isian dengan data yang sesuai.
+     * Ganti kode isian dengan data yang sesuai.
      *
      * @param array $data
      * @param bool  $imageReplace
      *
      * @return string
      */
-    public function replceKodeIsian($data = [], $imageReplace = true)
+    public function gantiKodeIsian($data = [], $imageReplace = true)
     {
         $result = $data['isi_surat'];
 
@@ -611,7 +611,7 @@ class TinyMCE
 
         $data['isi_surat'] = $lampiran;
 
-        $lampiran = $this->replceKodeIsian($data, false);
+        $lampiran = $this->gantiKodeIsian($data, false);
 
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
             ->setTestTdInOnePage(true)

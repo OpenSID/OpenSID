@@ -245,7 +245,7 @@ class FakeDataIsian
         // Pengingat : form_isian disamakan formatnya menggunakan object
         $this->data['surat']     = new FormatSurat($this->request);
         $this->data['isi_surat'] = $this->result;
-        $this->result            = $this->tinymce->replceKodeIsian($this->data);
+        $this->result            = $this->tinymce->gantiKodeIsian($this->data);
 
         $this->terakhirReplace();
     }
