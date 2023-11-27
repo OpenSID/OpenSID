@@ -294,8 +294,12 @@ class TinyMCE
         return $daftar_kode_isian;
     }
 
-    public function formatPdf($header, $footer, $isi)
+    public function formatPdf(string $header, string $footer, string $isi): string
     {
+        $isi = $this->generateMultiPage($isi);
+
+        $isi = implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $isi);
+
         // Pisahkan isian surat
         $isi = str_replace('<p><!-- pagebreak --></p>', '', $isi);
         $isi = explode('<!-- pagebreak -->', $isi);
@@ -671,7 +675,7 @@ class TinyMCE
         return FakeDataIsian::set($request);
     }
 
-    public function generateMultiPage(string $templateString)
+    public function generateMultiPage(?string $templateString)
     {
         if (empty($templateString)) {
             return [];

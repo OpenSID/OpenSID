@@ -401,6 +401,7 @@ class Surat extends Admin_Controller
 
             $isi_surat = $this->tinymce->replceKodeIsian($log_surat, false);
 
+            // Ubah jadi format pdf
             $isi_cetak = $this->tinymce->formatPdf($cetak['surat']->header, $cetak['surat']->footer, $isi_surat);
 
             $nama_surat = $this->nama_surat_arsip($cetak['surat']['url_surat'], $nik, $cetak['no_surat']);
