@@ -347,14 +347,14 @@ class TinyMCE
     }
 
     /**
-     * Replace kode isian dengan data yang sesuai.
+     * Ganti kode isian dengan data yang sesuai.
      *
      * @param array $data
      * @param bool  $imageReplace
      *
      * @return string
      */
-    public function replceKodeIsian($data = [], $imageReplace = true)
+    public function gantiKodeIsian($data = [], $imageReplace = true)
     {
         $result = $data['isi_surat'];
 
