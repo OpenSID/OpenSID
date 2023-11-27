@@ -175,7 +175,7 @@ class Log_Viewer
         }
 
         $data['logs']        = $logs;
-        $data['files']       = [];
+        $data['files']       = ! empty($files) ? $files : [];
         $data['currentFile'] = null !== $currentFile ? basename($currentFile) : '';
 
         return $data;

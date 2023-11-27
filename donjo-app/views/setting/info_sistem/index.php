@@ -166,8 +166,7 @@
 															<div class="table-responsive">
 																<?php if (null === $logs) : ?>
 																	<div>
-																		<br><br>
-																		<strong>File log lebig dari 500 Mb, silahkan unduh.</strong>
+																		<strong>File log kosong atau lebih dari 500 Mb, silahkan unduh.</strong>
 																	</div>
 																<?php else : ?>
 																	<div class="table-responsive">
