@@ -118,14 +118,13 @@ class Migrasi_fitur_premium_2312 extends MY_model
             ],
         ]);
 
-        DB::table('tweb_penduduk')->where('id_kk', 0)->orWhere('id_kk', '')->update(['id_kk' => null]);
+        DB::table('tweb_penduduk')->where('id_kk', 0)->update(['id_kk' => null]);
 
         return $hasil;
     }
 
     protected function buat_tabel_migrations($hasil)
     {
-        log_message('notice', 'Membuat tabel migrations');
         if (! Schema::hasTable('migrations')) {
             Schema::create('migrations', static function (Blueprint $table) {
                 $table->increments('id');
