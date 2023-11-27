@@ -73,7 +73,7 @@
 <script type="text/javascript">
 	var BASE_URL   = '<?= base_url() ?>';
 </script>
-<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js') ?>"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 <script type="text/javascript">
 	window.setTimeout("renderDate()",1);
 	days = new Array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");

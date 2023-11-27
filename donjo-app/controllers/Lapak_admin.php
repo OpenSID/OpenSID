@@ -128,6 +128,7 @@ class Lapak_admin extends Admin_Controller
             $data['aksi']        = 'Ubah';
             $data['form_action'] = site_url("{$this->controller}/produk_update/{$id}");
         } else {
+            $data['main']                = new stdClass();
             $data['main']->tipe_potongan = 1;
             $data['aksi']                = 'Tambah';
             $data['form_action']         = site_url("{$this->controller}/produk_insert");

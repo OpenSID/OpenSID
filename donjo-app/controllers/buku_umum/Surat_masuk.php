@@ -111,8 +111,7 @@ class Surat_masuk extends Admin_Controller
             $data['disposisi_surat_masuk']     = null;
         }
 
-        $non_aktif             = RefJabatan::nonAktif()->pluck('id', 'id');
-        $data['ref_disposisi'] = RefJabatan::with('pamongs')->urut()->latest()->pluck('nama', 'id')->except(kades()->id)->except($non_aktif);
+        $data['ref_disposisi'] = $this->ref_disposisi();
 
         // Buang unique id pada link nama file
         $berkas                             = explode('__sid__', $data['surat_masuk']['berkas_scan']);
@@ -122,6 +121,13 @@ class Surat_masuk extends Admin_Controller
         $data['surat_masuk']['berkas_scan'] = $namaFile . '.' . $ekstensiFile;
 
         $this->render('surat_masuk/form', $data);
+    }
+
+    private function ref_disposisi()
+    {
+        $non_aktif = RefJabatan::nonAktif()->pluck('id', 'id');
+
+        return RefJabatan::with('pamongs')->urut()->latest()->pluck('nama', 'id')->except(kades()->id)->except($non_aktif)->toArray();
     }
 
     public function form_upload($p = 1, $o = 0, $url = ''): void
@@ -238,7 +244,7 @@ class Surat_masuk extends Admin_Controller
         $data['desa']                  = $this->header['desa'];
         $data['pamong_ttd']            = $this->pamong_model->get_data($_POST['pamong_ttd']);
         $data['pamong_ketahui']        = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-        $data['ref_disposisi']         = RefJabatan::select(['id', 'nama'])->urut()->latest()->get()->except(kades()->id);
+        $data['ref_disposisi']         = $this->ref_disposisi();
         $data['disposisi_surat_masuk'] = DisposisiSuratmasuk::where('id_surat_masuk', $id)->pluck('disposisi_ke')->toArray();
         $data['surat']                 = $this->surat_masuk_model->get_surat_masuk($id);
         $this->load->view('surat_masuk/disposisi', $data);

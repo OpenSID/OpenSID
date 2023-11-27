@@ -1413,6 +1413,7 @@ class Keuangan_grafik_model extends MY_Model
             $tahun = date('Y');
         }
         $thn = $this->keuangan_model->list_tahun_anggaran();
+
         if (empty($thn)) {
             return null;
         }
@@ -1423,13 +1424,22 @@ class Keuangan_grafik_model extends MY_Model
 
         $raw_data = $this->data_keuangan_tema($tahun);
 
-        foreach ($raw_data as $keys => $raws) {
-            foreach ($raws as $raw) {
-                $data         = $this->raw_perhitungan($raw);
-                $data['nama'] = $raw['nama'];
+        $res = [];
 
-                $res[$tahun][$keys][] = $data;
+        if (is_array($raw_data)) {
+            foreach ($raw_data as $keys => $raws) {
+                if (is_array($raws)) {
+                    foreach ($raws as $raw) {
+                        if (is_array($raw) && isset($raw['nama'])) {
+                            $data                 = $this->raw_perhitungan($raw);
+                            $data['nama']         = $raw['nama'];
+                            $res[$tahun][$keys][] = $data;
+                        }
+                    }
+                }
             }
+        } else {
+            return null; // Tindakan jika $raw_data bukan array
         }
 
         return [

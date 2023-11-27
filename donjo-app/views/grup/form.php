@@ -61,7 +61,7 @@
 															<td class="padat"><input id="m<?= $key + 1 ?>" type="checkbox" name="modul[id][]" value="<?= $akses_modul['id']; ?>" <?= jecho($akses_modul['ada_akses'], 1, 'checked'); ?> /></td>
 															<td class="padat" colspan="2"><?= ($key + 1); ?></td>
 															<td><?= SebutanDesa($akses_modul['modul']); ?></td>
-															<?php if (count($list_akses_submodul[$akses_modul['id']]) == 0) : ?>
+															<?php if (is_array($list_akses_submodul[$akses_modul['id']]) && count($list_akses_submodul[$akses_modul['id']]) == 0) : ?>
 																<td class="padat">
 																	<input type="checkbox" name="modul[akses_baca][<?= $akses_modul['id'] ?>]" value="1" <?= jecho($akses_modul['akses_baca'], 1, 'checked'); ?> />
 																</td>
