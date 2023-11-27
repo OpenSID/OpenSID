@@ -478,6 +478,8 @@ class Migrasi_fitur_premium_2312 extends MY_model
                 ],
             ]);
         }
+
+        return $hasil;
     }
 
     protected function migrasi_2023112351($hasil)

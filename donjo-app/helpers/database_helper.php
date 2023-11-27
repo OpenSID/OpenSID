@@ -52,10 +52,11 @@ function tulis_csv($table)
     $CI->load->database();
 
     if ($CI->db->field_exists('config_id', $table)) {
-        $CI->db->where('config_id', setting('config_id'));
+        $CI->db->where('config_id', identitas('id'));
     }
 
     $data = $CI->db->get($table)->result_array();
+    log_message('notice', 'print_r : ' . print_r($data, true));
     if (count($data) == 0) {
         return null;
     }
