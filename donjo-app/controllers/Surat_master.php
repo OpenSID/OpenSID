@@ -66,6 +66,7 @@ class Surat_master extends Admin_Controller
         $this->modul_ini          = 'layanan-surat';
         $this->sub_modul_ini      = 'pengaturan-surat';
         $this->header['kategori'] = 'pengaturan-surat';
+        $this->load->library('MY_Upload', null, 'upload');
     }
 
     public function index()
@@ -632,7 +633,6 @@ class Surat_master extends Admin_Controller
         $data = static::validasi_pengaturan($this->request);
 
         if (! empty($_FILES['font_custom']['name'])) {
-            $this->load->library('upload');
             $this->upload->initialize([
                 'file_name'     => $_FILES['font_custom']['name'],
                 'upload_path'   => LOKASI_FONT_DESA,
@@ -670,7 +670,7 @@ class Surat_master extends Admin_Controller
         // upload gambar visual tte
         if ($_FILES['visual_tte_gambar'] && $_FILES['visual_tte_gambar']['name'] != '') {
             $file = $this->setting_model->upload_img('visual_tte_gambar', LOKASI_MEDIA);
-            SettingAplikasi::where('key', '=', 'visual_tte_gambar')->update(['value' => $file]); //update setting
+            $file ? SettingAplikasi::where('key', '=', 'visual_tte_gambar')->update(['value' => $file]) : redirect_with('error', $this->upload->display_errors(null, null));
         }
 
         if ($data['kodeisian_alias']) {
@@ -852,9 +852,6 @@ class Surat_master extends Admin_Controller
     public function impor(): void
     {
         $this->redirect_hak_akses('u');
-
-        $this->load->library('upload');
-
         $config['upload_path']   = sys_get_temp_dir();
         $config['allowed_types'] = 'json';
         $config['overwrite']     = true;
