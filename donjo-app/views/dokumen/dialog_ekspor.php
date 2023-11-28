@@ -42,7 +42,7 @@
 		</div>
 		<div class="modal-footer">
 			<?= batal() ?>
-			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="btn-ok" >
+			<button type="submit" class="btn btn-social btn-info btn-sm" id="btn-ok" >
 				<i class='fa fa-download'></i> Unduh
 			</button>
 		</div>
