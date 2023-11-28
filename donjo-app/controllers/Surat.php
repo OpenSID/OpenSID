@@ -319,7 +319,7 @@ class Surat extends Admin_Controller
                 $log_surat['kategori'][$key] = $this->request['id_pend_' . $key];
             }
 
-            $isi_surat = $this->tinymce->replceKodeIsian($log_surat, false);
+            $isi_surat = $this->tinymce->gantiKodeIsian($log_surat, false);
 
             unset($log_surat['isi_surat']);
             $this->session->log_surat = $log_surat;
@@ -389,7 +389,7 @@ class Surat extends Admin_Controller
             $log_surat['input']     = $cetak['input'];
             $log_surat['isi_surat'] = $this->request['isi_surat'];
 
-            $isi_surat = $this->tinymce->replceKodeIsian($log_surat, false);
+            $isi_surat = $this->tinymce->gantiKodeIsian($log_surat, false);
 
             // Ubah jadi format pdf
             $isi_cetak = $this->tinymce->formatPdf($cetak['surat']->header, $cetak['surat']->footer, $isi_surat);
@@ -646,7 +646,7 @@ class Surat extends Admin_Controller
             }
 
             $log_surat['id'] = $surat->id;
-            $isi_surat       = $this->tinymce->replceKodeIsian($log_surat);
+            $isi_surat       = $this->tinymce->gantiKodeIsian($log_surat);
 
             unset($log_surat['isi_surat']);
             $this->session->log_surat = $log_surat;

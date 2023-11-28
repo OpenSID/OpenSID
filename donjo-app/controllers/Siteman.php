@@ -90,7 +90,7 @@ class Siteman extends MY_Controller
             $status = google_recaptcha();
 
             if (! $status->success) {
-                set_session('notif', 'Mohon konfirmasi bahwa anda buka robot!');
+                set_session('notif', 'Mohon konfirmasi bahwa anda bukan robot!');
                 redirect('siteman');
             }
         }

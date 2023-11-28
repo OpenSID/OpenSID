@@ -128,14 +128,13 @@ class Migrasi_fitur_premium_2312 extends MY_model
             ],
         ]);
 
-        DB::table('tweb_penduduk')->where('id_kk', 0)->orWhere('id_kk', '')->update(['id_kk' => null]);
+        DB::table('tweb_penduduk')->where('id_kk', 0)->update(['id_kk' => null]);
 
         return $hasil;
     }
 
     protected function buat_tabel_migrations($hasil)
     {
-        log_message('notice', 'Membuat tabel migrations');
         if (! Schema::hasTable('migrations')) {
             Schema::create('migrations', static function (Blueprint $table): void {
                 $table->increments('id');
@@ -294,7 +293,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
             foreach ($data as $key => $value) {
                 $dataBaru[$key] = $value;
-                if (array_key_exists('kk_level', $dataBaru[$key])) {
+                if (is_array($dataBaru[$key]) && array_key_exists('kk_level', $dataBaru[$key])) {
                     if (! is_array($value['kk_level'])) {
                         $value                      = $value['kk_level'] == '' ? array_keys(SHDKEnum::all()) : [$value['kk_level']];
                         $dataBaru[$key]['kk_level'] = $value;
@@ -305,7 +304,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
                         $dataBaru[$key]['kk_level'] = $value['kk_level'][0];
                     }
                 }
-                if (array_key_exists('status_dasar', $dataBaru[$key]) && ! is_array($value['status_dasar'])) {
+                if ((is_array($dataBaru[$key]) && array_key_exists('status_dasar', $dataBaru[$key])) && ! is_array($value['status_dasar'])) {
                     $value                          = $value['status_dasar'] == '' ? $stDasar : [$value['status_dasar']];
                     $dataBaru[$key]['status_dasar'] = $value;
                 }
