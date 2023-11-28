@@ -122,9 +122,9 @@ class Identitas_desa extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         $id       = $this->identitas_desa['id'];
-        $config = Config::find($id);
+        $config   = Config::find($id);
         $validate = static::validate($this->request, $config);
-        $cek = $this->cek_kode_wilayah($validate);
+        $cek      = $this->cek_kode_wilayah($validate);
 
         if ($cek['status'] && $config->update($validate)) {
             return json(['status' => true]);
@@ -289,7 +289,7 @@ class Identitas_desa extends Admin_Controller
             redirect_with('error', $CI->upload->display_errors(null, null));
         }
 
-        if (!empty($uploadData)) {
+        if (! empty($uploadData)) {
             if ($resize) {
                 $tipe_file = TipeFile($_FILES['logo']);
                 $dimensi   = ['width' => $ukuran, 'height' => $ukuran];

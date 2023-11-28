@@ -45,8 +45,9 @@ class Polygon extends BaseModel
 {
     use ConfigId;
 
-    const LOCK = 1;
-    const UNLOCK = 2;
+    public const LOCK   = 1;
+    public const UNLOCK = 2;
+
     /**
      * {@inheritDoc}
      */
@@ -57,8 +58,7 @@ class Polygon extends BaseModel
      */
     public $incrementing = false;
 
-    public $timestamps = false;
-
+    public $timestamps  = false;
     protected $fillable = [
         'config_id',
         'nama',
@@ -66,7 +66,7 @@ class Polygon extends BaseModel
         'color',
         'enabled',
         'tipe',
-        'parrent'
+        'parrent',
     ];
 
     // append parent_id

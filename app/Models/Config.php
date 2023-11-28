@@ -159,7 +159,7 @@ class Config extends BaseModel
     {
         $logo = LOKASI_LOGO_DESA . $this->attributes['logo'];
 
-        if (empty($this->attributes['logo']) || !file_exists(FCPATH . $logo)) {
+        if (empty($this->attributes['logo']) || ! file_exists(FCPATH . $logo)) {
             return 'assets/files/logo/opensid_logo.png';
         }
 
@@ -175,7 +175,7 @@ class Config extends BaseModel
     {
         $kantor_desa = LOKASI_LOGO_DESA . $this->attributes['kantor_desa'];
 
-        if (empty($this->attributes['kantor_desa']) || !file_exists(FCPATH . $kantor_desa)) {
+        if (empty($this->attributes['kantor_desa']) || ! file_exists(FCPATH . $kantor_desa)) {
             return 'assets/files/logo/opensid_kantor.jpg';
         }
 

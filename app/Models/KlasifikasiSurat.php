@@ -95,7 +95,7 @@ class KlasifikasiSurat extends BaseModel
 
     public function scopeFilter($query, $enabled)
     {
-        if (! empty($enabled) || $enabled ==  '0') {
+        if (! empty($enabled) || $enabled == '0') {
             $query->where('enabled', $enabled);
         }
 

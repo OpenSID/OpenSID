@@ -37,60 +37,62 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use Illuminate\Support\Facades\DB;
 use App\Models\KlasifikasiSurat;
+use Illuminate\Support\Facades\DB;
 
 class Klasifikasi extends Admin_Controller
 {
     public function index()
     {
         $data = [
-            'modul_ini' => 'sekretariat',
-            'sub_modul_ini' => 'klasifikasi-surat'
+            'modul_ini'     => 'sekretariat',
+            'sub_modul_ini' => 'klasifikasi-surat',
         ];
+
         return view('admin.klasifikasi.index', $data);
     }
 
-    public function datatables() 
+    public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $enable  = $this->input->get('enable');
+            $enable = $this->input->get('enable');
 
             return datatables()->of(KlasifikasiSurat::filter($enable))
-            ->addIndexColumn()
-            ->addColumn('aksi', static function ($row)  {
-                $aksi = '';
-                if (can('u')) {
-                    $aksi .= '<a href="' . route("klasifikasi.form", $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right:4px;"><i class="fa fa-edit"></i></a>';
-                    if ($row->enabled == '1') {
-                        $aksi .= '<a href="' . route("klasifikasi/lock", $row->id) .'" class="btn bg-navy btn-sm" title="Non Aktifkan" style="margin-right:4px;"><i class="fa fa-unlock">&nbsp;</i></a>';
-                    } else {
-                        $aksi .= '<a href="' . route("klasifikasi/unlock", $row->id).'" class="btn bg-navy btn-sm" title="Aktifkan" style="margin-right:4px;"><i class="fa fa-lock"></i></a>';
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    $aksi = '';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('klasifikasi.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right:4px;"><i class="fa fa-edit"></i></a>';
+                        if ($row->enabled == '1') {
+                            $aksi .= '<a href="' . route('klasifikasi/lock', $row->id) . '" class="btn bg-navy btn-sm" title="Non Aktifkan" style="margin-right:4px;"><i class="fa fa-unlock">&nbsp;</i></a>';
+                        } else {
+                            $aksi .= '<a href="' . route('klasifikasi/unlock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan" style="margin-right:4px;"><i class="fa fa-lock"></i></a>';
+                        }
+
+                        if (can('h')) {
+                            $aksi .= '<a href="#" data-href="' . route('klasifikasi/delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                        }
                     }
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route("klasifikasi/delete", $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                    return $aksi;
+                })
+                ->addColumn('checkbox', static function ($row) {
+                    $checkbox = '';
+                    if (can('u')) {
+                        $checkbox .= '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />';
                     }
-                }
-                return $aksi;
-            })
 
-            ->addColumn('checkbox', static function ($row)   {
-                $checkbox = '';
-                if (can('u')) {
-                    $checkbox .= '<input type="checkbox" name="id_cb[]" value="' . $row->id .'" />';
-                }
-                return $checkbox;
-            })
-            ->rawColumns(['aksi', 'checkbox'])
-            ->make();
+                    return $checkbox;
+                })
+                ->rawColumns(['aksi', 'checkbox'])
+                ->make();
         }
     }
 
     public function form($id = '')
     {
         $this->redirect_hak_akses('u');
-        
+
         if ($id) {
             $data['data']        = KlasifikasiSurat::where('id', (int) $id)->first();
             $data['form_action'] = route('klasifikasi.update', $id);
@@ -122,7 +124,7 @@ class Klasifikasi extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $data = static::validated($this->request);
-        
+
         try {
             KlasifikasiSurat::where('id', (int) $id)->update($data);
             session_success();
@@ -136,30 +138,30 @@ class Klasifikasi extends Admin_Controller
 
     public function delete($id = '')
     {
-        $this->redirect_hak_akses('h', "klasifikasi");
-        KlasifikasiSurat::where('id',(int) $id)->delete();
+        $this->redirect_hak_akses('h', 'klasifikasi');
+        KlasifikasiSurat::where('id', (int) $id)->delete();
         redirect_with('success', 'Klasifikasi surat berhasil dihapus');
     }
 
     public function delete_all()
     {
-        $this->redirect_hak_akses('h', "klasifikasi");
+        $this->redirect_hak_akses('h', 'klasifikasi');
         KlasifikasiSurat::whereIn('id', $this->request['id_cb'])->delete();
-        
+
         redirect_with('success', 'Klasifikasi surat berhasil dihapus');
     }
 
     public function lock($id = '')
     {
         $this->redirect_hak_akses('u');
-        KlasifikasiSurat::where('id',(int) $id)->update(['enabled' => 0]);
+        KlasifikasiSurat::where('id', (int) $id)->update(['enabled' => 0]);
         redirect_with('success', 'Klasifikasi surat berhasil dinonaktifkan');
     }
 
     public function unlock($id = '')
     {
         $this->redirect_hak_akses('u');
-        KlasifikasiSurat::where('id',(int) $id)->update(['enabled' => 1]);
+        KlasifikasiSurat::where('id', (int) $id)->update(['enabled' => 1]);
         redirect_with('success', 'Klasifikasi surat berhasil diaktifkan');
     }
 
@@ -172,7 +174,7 @@ class Klasifikasi extends Admin_Controller
     public function impor()
     {
         $this->redirect_hak_akses('u');
-        $data['form_action'] =  route("klasifikasi.proses_impor");
+        $data['form_action'] = route('klasifikasi.proses_impor');
 
         return view('admin.klasifikasi.import', $data);
     }
@@ -196,6 +198,7 @@ class Klasifikasi extends Admin_Controller
 
         while (($csv = fgetcsv($handle)) !== false) {
             $data = [];
+
             for ($c = 0; $c < $jml_kolom; $c++) {
                 $data[$header[$c]] = $csv[$c];
                 $data['config_id'] = identitas('id');
