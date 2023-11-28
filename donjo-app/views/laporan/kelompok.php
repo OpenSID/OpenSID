@@ -109,9 +109,9 @@
 												<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/6") ?>"><?= $data['smp'] ?></a></td>
 												<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/7") ?>"><?= $data['sma'] ?></a></td>
 												<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/8") ?>"><?= $data['lansia'] ?></a></td>
-												<?php foreach ($jenis_cacat as $key => $cacat): ?>
+												<?php foreach ($jenis_cacat as $key => $value): ?>
 													<?php $kode_cacat = $key + 1; ?>
-													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/9{$kode_cacat}") ?>"><?= $data[$cacat] ?></a></td>
+													<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/9{$kode_cacat}") ?>"><?= $data[$value] ?></a></td>
 												<?php endforeach; ?>
 												<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/10") ?>"><?= $data['sakit_L'] ?></a></td>
 												<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/11") ?>"><?= $data['sakit_P'] ?></a></td>

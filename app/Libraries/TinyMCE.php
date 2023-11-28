@@ -55,7 +55,6 @@ use App\Models\LampiranSurat;
 use App\Models\LogPenduduk;
 use App\Models\Pamong;
 use CI_Controller;
-use Illuminate\Support\Str;
 use Karriere\PdfMerge\PdfMerge;
 use Spipu\Html2Pdf\Html2Pdf;
 
@@ -430,11 +429,11 @@ class TinyMCE
 
         // Kode isian berupa hitungan perlu didahulukan
         $result = caseHitung($result);
+        $result = terjemahkanTerbilang($result);
 
-        $result       = terjemahkanTerbilang($result);
-        $settingKotak = setting('lampiran_kotak');
+        // $settingKotak = setting('lampiran_kotak');
 
-        $result = bungkusKotak($result, json_decode($settingKotak, 1) ?? LampiranSurat::KOTAK);
+        // $result = bungkusKotak($result, json_decode($settingKotak, 1) ?? LampiranSurat::KOTAK);
         if ($imageReplace) {
             foreach ($pisahkanFoto as $key => $value) {
                 $result = caseReplaceFoto($result, $key, $value);
@@ -530,7 +529,7 @@ class TinyMCE
      *
      * @return PdfMerge|null
      */
-    public function generateLampiran($id = null, array $data = []): void
+    public function generateLampiran($id = null, array $data = [])
     {
         if (empty($data['surat']['lampiran'])) {
             return;
@@ -544,8 +543,6 @@ class TinyMCE
         // Data penandatangan terpilih
         $penandatangan = $this->surat_model->atas_nama($data);
 
-        // $lampiran = explode(',', in_array($surat['jenis'], FormatSurat::TINYMCE) ? $surat['lampiran'] : strtolower($surat['lampiran']));
-        // $lampiran = array_map(static fn ($item) => Str::slug($item), $lampiran);
         $lampiran     = explode(',', strtolower($surat['lampiran']));
         $format_surat = substitusiNomorSurat($input['nomor'], setting('format_nomor_surat'));
         $format_surat = str_ireplace('[kode_surat]', $surat['kode_surat'], $format_surat);
@@ -594,63 +591,33 @@ class TinyMCE
             if (! file_exists($data_lampiran[$i])) {
                 $data_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/data.php';
             }
+
+            // Data lampiran
+            include $data_lampiran[$i];
         }
 
-        // $lampiranDb = LampiranSurat::active()->whereIn('slug', $lampiran)->get()->keyBy('slug');
-        $lampiranDb = null;
+        ob_start();
+
+        log_message('notice', 'cek : ' . print_r($lampiran, true));
 
         for ($j = 0; $j < count($lampiran); $j++) {
-            ob_start();
-            // default mengikuti margin global termasuk lampiran yang masih menggunakan file .php
-            $margins         = LampiranSurat::MARGINS;
-            $orientasiKertas = $data['surat']['orientasi'];
-            $ukuranKertas    = $data['surat']['ukuran'];
-            if ($lampiranDb[$lampiran[$j]]) {
-                $lampiranTerpilih = $lampiranDb[$lampiran[$j]];
-                $pattern          = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
-                $templateString   = $lampiranTerpilih->template_desa ?? $lampiranTerpilih->template;
-                $pages            = preg_split($pattern, $templateString);
-                if (! $lampiranTerpilih->margin_global) {
-                    if (! empty($lampiranTerpilih->margin)) {
-                        $margins = json_decode($lampiranTerpilih->margin, true);
-                    }
-                }
-
-                $orientasiKertas = $lampiranTerpilih->orientasi;
-                $ukuranKertas    = $lampiranTerpilih->ukuran;
-                // convert ke mm
-                $marginMm = [$margins['kiri'] * 10, $margins['atas'] * 10, $margins['kanan'] * 10, $margins['bawah'] * 10];
-
-                foreach ($pages as $page) {
-                    if (! empty($page)) {
-                        echo '<page>';
-                        echo $page;
-                        echo '</page>';
-                    }
-                }
-            } else {
-                // Data lampiran
-                include $data_lampiran[$i];
-                // View Lampiran
-                include $view_lampiran[$j];
-            }
-
-            $lampiranHtml = ob_get_clean();
-
-            // lakukan generate dalam looping karena margin tiap lampiran bisa jadi tidak sama
-            $data['isi_surat'] = $lampiranHtml;
-
-            $lampiranHtml = $this->gantiKodeIsian($data, false);
-
-            // (new Html2Pdf($orientasiKertas, $ukuranKertas, 'en', true, 'UTF-8', $marginMm))
-            (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
-                ->setTestTdInOnePage(true)
-                ->setDefaultFont(underscore(setting('font_surat'), true, true))
-                ->writeHTML($lampiranHtml) // buat lampiran
-                ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
-
-            $this->pdfMerge->add($out);
+            // View Lampiran
+            include $view_lampiran[$j];
         }
+
+        $lampiran = ob_get_clean();
+
+        $data['isi_surat'] = $lampiran;
+
+        $lampiran = $this->gantiKodeIsian($data, false);
+
+        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
+            ->setTestTdInOnePage(true)
+            ->setDefaultFont(underscore(setting('font_surat'), true, true))
+            ->writeHTML($lampiran) // buat lampiran
+            ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
+
+        return $this->pdfMerge->add($out);
     }
 
     public function __get($name)

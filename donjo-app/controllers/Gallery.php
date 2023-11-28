@@ -76,14 +76,14 @@ class Gallery extends Admin_Controller
         $this->render('gallery/table', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = ''): void
+    public function form($p = 1, $o = 0, $id = null): void
     {
-        $id = decrypt($id);
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if ($id !== '' && $id !== '0') {
+        if (null !== $id) {
+            $id                  = decrypt($id);
             $data['gallery']     = $this->web_gallery_model->get_gallery($id);
             $data['form_action'] = site_url("gallery/update/{$id}/{$p}/{$o}");
         } else {
@@ -221,13 +221,13 @@ class Gallery extends Admin_Controller
         $this->render('gallery/sub_gallery_table', $data);
     }
 
-    public function form_sub_gallery($gallery = 0, $id = 0): void
+    public function form_sub_gallery($gallery = null, $id = null): void
     {
-        $gallery = decrypt($gallery);
-        $id      = decrypt($id);
-
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        if ($id !== '' && $id !== '0') {
+        $gallery = decrypt($gallery);
+
+        if (null !== $id) {
+            $id                  = decrypt($id);
             $data['gallery']     = $this->web_gallery_model->get_gallery($id);
             $data['form_action'] = site_url("gallery/update_sub_gallery/{$gallery}/{$id}");
         } else {

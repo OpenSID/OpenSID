@@ -820,11 +820,15 @@ class Suplemen_model extends MY_Model
                 $sasaran         = $suplemen_record['sasaran'];
 
                 if ($sasaran == '1') {
-                    $ambil_peserta     = $this->get_penduduk_terdata($suplemen_id);
-                    $terdaftar_peserta = array_column($ambil_peserta['terdata'], 'nik');
+                    $ambil_peserta = $this->get_penduduk_terdata($suplemen_id);
+                    if (is_array($ambil_peserta['terdata']) && count($ambil_peserta['terdata']) > 0) {
+                        $terdaftar_peserta = array_column($ambil_peserta['terdata'], 'nik');
+                    }
                 } elseif ($sasaran == '2') {
-                    $ambil_peserta     = $this->get_kk_terdata($suplemen_id);
-                    $terdaftar_peserta = array_column($ambil_peserta['terdata'], 'no_kk');
+                    $ambil_peserta = $this->get_kk_terdata($suplemen_id);
+                    if (is_array($ambil_peserta['terdata']) && count($ambil_peserta['terdata']) > 0) {
+                        $terdaftar_peserta = array_column($ambil_peserta['terdata'], 'no_kk');
+                    }
                 }
 
                 foreach ($sheet->getRowIterator() as $row) {
