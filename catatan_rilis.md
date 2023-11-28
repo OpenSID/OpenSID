@@ -4,7 +4,7 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 
 #### Penambahan Fitur
 
-1.[#2260](https://github.com/OpenSID/premium/issues/2260) Penambahan alur masuk kembali setelah ganti password.
+1. [#2260](https://github.com/OpenSID/premium/issues/2260) Penambahan alur masuk kembali setelah ganti password.
 2. [#7164](https://github.com/OpenSID/OpenSID/issues/7164) Penambahan kode isian foto yang bisa diatur sendiri ukurannya.
 3. [#7280](https://github.com/OpenSID/OpenSID/issues/7280) Penambahan pengaturan kode isian alias surat TinyMCE.
 4. [#7348](https://github.com/OpenSID/OpenSID/issues/7348) Penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE.
@@ -15,7 +15,8 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 9. [#5367](https://github.com/OpenSID/OpenSID/issues/5367) Penambahan fungsi pengurutan berdasarkan jumlah anggota pada modul keluarga.
 10. [#4736](https://github.com/OpenSID/OpenSID/issues/4736) Penambahan fungsi preview saat unggah gambar pada modul pembangunan.
 11. [#5789](https://github.com/OpenSID/OpenSID/issues/5789) Penambahan pengaturan border wilayah peta.
-12. [#7426](https://github.com/OpenSID/OpenSID/issues/7426) Penambahan kirim notifikasi ke operator saat surat dibatalkan oleh pemohon melalui layanan mandiri.
+12. [#7426](https://github.com/OpenSID/OpenSID/issues/7426) Penambahan fungsi kirim notifikasi ke operator saat surat dibatalkan oleh pemohon melalui layanan mandiri.
+13. [#7427](https://github.com/OpenSID/OpenSID/issues/7427) Penambahan fungsi kirim notifikasi ke pemohon saat surat sedang diproses.
 
 
 #### Perbaikan Bug
