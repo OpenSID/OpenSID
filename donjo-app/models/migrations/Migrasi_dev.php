@@ -69,10 +69,17 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2023112852($hasil)
     {
-        return $hasil && $this->ubah_modul(
+        $hasil = $hasil && $this->ubah_modul(
             ['slug' => 'klasifikasi-surat', 'url' => 'klasifikasi/clear'],
             ['url' => 'klasifikasi']
         );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'polygon', 'url' => 'polygon/clear'],
+            ['url' => 'polygon']
+        );
+
+        return $hasil;
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)

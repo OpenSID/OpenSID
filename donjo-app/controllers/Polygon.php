@@ -54,11 +54,6 @@ class Polygon extends Admin_Controller
         $this->sub_modul_ini = 'pengaturan-peta';
     }
 
-    public function clear()
-    {
-        redirect('polygon');
-    }
-
     public function index()
     {
         $data = ['tip' => $this->tip, 'tipe' => $this->input->get('tipe') ?? $this->tipe,  'parent' => $this->input->get('parent') ?? $this->parent, 'parent_jenis' => ''];
