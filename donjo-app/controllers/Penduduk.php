@@ -770,6 +770,11 @@ class Penduduk extends Admin_Controller
                 $kategori = 'STATUS KEHAMILAN : ';
                 break;
 
+            case 'buku-nikah':
+                $session  = 'buku-nikah';
+                $kategori = 'STATUS PERKAWINAN : ';
+                break;
+
             case $tipe > 50:
                 $program_id                     = preg_replace('/^50/', '', $tipe);
                 $this->session->program_bantuan = $program_id;
