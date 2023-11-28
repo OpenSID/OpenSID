@@ -261,7 +261,7 @@ function bulan()
     return [1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'];
 }
 
-function getBulan(string $bln)
+function getBulan(int $bln)
 {
     $bulan = bulan();
 
@@ -376,7 +376,7 @@ function tgl_indo($tgl, $replace_with = '-', string $with_day = '')
         return $replace_with;
     }
     $tanggal = substr($tgl, 8, 2);
-    $bulan   = getBulan(substr($tgl, 5, 2));
+    $bulan   = getBulan((int) substr($tgl, 5, 2));
     $tahun   = substr($tgl, 0, 4);
     if ($with_day != '') {
         $tanggal = $with_day . ', ' . date('j', strtotime($tgl));
