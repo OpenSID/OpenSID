@@ -37,152 +37,186 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use Illuminate\Support\Facades\DB;
+use App\Models\KlasifikasiSurat;
+
 class Klasifikasi extends Admin_Controller
 {
-    public function __construct()
+    public function index()
     {
-        parent::__construct();
-
-        $this->load->model('klasifikasi_model');
-        $this->modul_ini     = 'sekretariat';
-        $this->sub_modul_ini = 'klasifikasi-surat';
+        $data = [
+            'modul_ini' => 'sekretariat',
+            'sub_modul_ini' => 'klasifikasi-surat'
+        ];
+        return view('admin.klasifikasi.index', $data);
     }
 
-    public function clear(): void
+    public function datatables() 
     {
-        $_SESSION['per_page'] = 50;
-        unset($_SESSION['cari'], $_SESSION['filter']);
+        if ($this->input->is_ajax_request()) {
+            $enable  = $this->input->get('enable');
 
-        redirect('klasifikasi');
-    }
+            return datatables()->of(KlasifikasiSurat::filter($enable))
+            ->addIndexColumn()
+            ->addColumn('aksi', static function ($row)  {
+                $aksi = '';
+                if (can('u')) {
+                    $aksi .= '<a href="' . route("klasifikasi.form", $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right:4px;"><i class="fa fa-edit"></i></a>';
+                    if ($row->enabled == '1') {
+                        $aksi .= '<a href="' . route("klasifikasi/lock", $row->id) .'" class="btn bg-navy btn-sm" title="Non Aktifkan" style="margin-right:4px;"><i class="fa fa-unlock">&nbsp;</i></a>';
+                    } else {
+                        $aksi .= '<a href="' . route("klasifikasi/unlock", $row->id).'" class="btn bg-navy btn-sm" title="Aktifkan" style="margin-right:4px;"><i class="fa fa-lock"></i></a>';
+                    }
 
-    public function index($p = 1, $o = 0): void
-    {
-        $data['p'] = $p;
-        $data['o'] = $o;
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . route("klasifikasi/delete", $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                    }
+                }
+                return $aksi;
+            })
 
-        $data['cari'] = $_SESSION['cari'] ?? '';
-
-        $data['filter'] = $_SESSION['filter'] ?? '';
-
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
+            ->addColumn('checkbox', static function ($row)   {
+                $checkbox = '';
+                if (can('u')) {
+                    $checkbox .= '<input type="checkbox" name="id_cb[]" value="' . $row->id .'" />';
+                }
+                return $checkbox;
+            })
+            ->rawColumns(['aksi', 'checkbox'])
+            ->make();
         }
-        $data['per_page'] = $_SESSION['per_page'];
-
-        $data['paging']  = $this->klasifikasi_model->paging($p, $o);
-        $data['main']    = $this->klasifikasi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword'] = $this->klasifikasi_model->autocomplete();
-
-        $this->render('klasifikasi/table', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = ''): void
+    public function form($id = '')
     {
         $this->redirect_hak_akses('u');
-        $data['p'] = $p;
-        $data['o'] = $o;
-
+        
         if ($id) {
-            $data['data']        = $this->klasifikasi_model->get_klasifikasi($id);
-            $data['form_action'] = site_url("klasifikasi/update/{$id}/{$p}/{$o}");
+            $data['data']        = KlasifikasiSurat::where('id', (int) $id)->first();
+            $data['form_action'] = route('klasifikasi.update', $id);
         } else {
             $data['data']        = null;
-            $data['form_action'] = site_url('klasifikasi/insert');
+            $data['form_action'] = route('klasifikasi.insert', $id);
         }
 
-        $this->render('klasifikasi/form', $data);
-    }
-
-    public function search(): void
-    {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $_SESSION['cari'] = $cari;
-        } else {
-            unset($_SESSION['cari']);
-        }
-        redirect('klasifikasi');
-    }
-
-    public function filter(): void
-    {
-        $filter = $this->input->post('filter');
-        if ($filter != '') {
-            $_SESSION['filter'] = $filter;
-        } else {
-            unset($_SESSION['filter']);
-        }
-        redirect('klasifikasi');
+        return view('admin.klasifikasi.form', $data);
     }
 
     public function insert(): void
     {
         $this->redirect_hak_akses('u');
-        $_SESSION['success'] = 1;
-        $outp                = $this->klasifikasi_model->insert();
-        if (! $outp) {
-            $_SESSION['success'] = -1;
+        $data = static::validated($this->request);
+
+        try {
+            KlasifikasiSurat::create($data);
+            session_success();
+        } catch (Exception $e) {
+            log_message('error', $e);
+            redirect_with('error', $e->getMessage());
         }
-        redirect('klasifikasi');
+
+        redirect_with('success', 'Klasifikasi surat berhasil ditambahkan');
     }
 
-    public function update($id = '', $p = 1, $o = 0): void
+    public function update($id = '')
     {
         $this->redirect_hak_akses('u');
-        $_SESSION['success'] = 1;
-        $outp                = $this->klasifikasi_model->update($id);
-        if (! $outp) {
-            $_SESSION['success'] = -1;
+        $data = static::validated($this->request);
+        
+        try {
+            KlasifikasiSurat::where('id', (int) $id)->update($data);
+            session_success();
+        } catch (Exception $e) {
+            log_message('error', $e);
+            redirect_with('error', $e->getMessage());
         }
-        redirect("klasifikasi/index/{$p}/{$o}");
+
+        redirect_with('success', 'Klasifikasi surat berhasil diperbarui');
     }
 
-    public function delete($p = 1, $o = 0, $id = ''): void
+    public function delete($id = '')
     {
-        $this->redirect_hak_akses('h', "klasifikasi/index/{$p}/{$o}");
-        $this->klasifikasi_model->delete($id);
-        redirect("klasifikasi/index/{$p}/{$o}");
+        $this->redirect_hak_akses('h', "klasifikasi");
+        KlasifikasiSurat::where('id',(int) $id)->delete();
+        redirect_with('success', 'Klasifikasi surat berhasil dihapus');
     }
 
-    public function delete_all($p = 1, $o = 0): void
+    public function delete_all()
     {
-        $this->redirect_hak_akses('h', "klasifikasi/index/{$p}/{$o}");
-        $this->klasifikasi_model->delete_all();
-        redirect("klasifikasi/index/{$p}/{$o}");
+        $this->redirect_hak_akses('h', "klasifikasi");
+        KlasifikasiSurat::whereIn('id', $this->request['id_cb'])->delete();
+        
+        redirect_with('success', 'Klasifikasi surat berhasil dihapus');
     }
 
-    public function lock($p = 1, $o = 0, $id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->klasifikasi_model->lock($id, 0);
-        redirect("klasifikasi/index/{$p}/{$o}");
-    }
-
-    public function unlock($p = 1, $o = 0, $id = ''): void
+    public function lock($id = '')
     {
         $this->redirect_hak_akses('u');
-        $this->klasifikasi_model->lock($id, 1);
-        redirect("klasifikasi/index/{$p}/{$o}");
+        KlasifikasiSurat::where('id',(int) $id)->update(['enabled' => 0]);
+        redirect_with('success', 'Klasifikasi surat berhasil dinonaktifkan');
     }
 
-    public function ekspor(): void
+    public function unlock($id = '')
+    {
+        $this->redirect_hak_akses('u');
+        KlasifikasiSurat::where('id',(int) $id)->update(['enabled' => 1]);
+        redirect_with('success', 'Klasifikasi surat berhasil diaktifkan');
+    }
+
+    public function ekspor()
     {
         download_send_headers('klasifikasi_surat_' . date('Y-m-d') . '.csv');
         echo tulis_csv('klasifikasi_surat');
     }
 
-    public function impor(): void
+    public function impor()
     {
         $this->redirect_hak_akses('u');
-        $data['form_action'] = site_url('klasifikasi/proses_impor');
-        $this->load->view('klasifikasi/impor', $data);
+        $data['form_action'] =  route("klasifikasi.proses_impor");
+
+        return view('admin.klasifikasi.import', $data);
     }
 
-    public function proses_impor(): void
+    public function proses_impor()
     {
         $this->redirect_hak_akses('u');
-        $this->klasifikasi_model->impor($_FILES['klasifikasi']['tmp_name']);
+
+        $file = $_FILES['klasifikasi']['tmp_name'];
+        ini_set('auto_detect_line_endings', '1');
+        if (($handle = fopen($file, 'rb')) == false) {
+            session_error('Berkas tidak ada atau bermasalah');
+            redirect('klasifikasi');
+        }
+
+        DB::beginTransaction();
+        KlasifikasiSurat::truncate();
+
+        $header    = fgetcsv($handle);
+        $jml_kolom = count($header);
+
+        while (($csv = fgetcsv($handle)) !== false) {
+            $data = [];
+            for ($c = 0; $c < $jml_kolom; $c++) {
+                $data[$header[$c]] = $csv[$c];
+                $data['config_id'] = identitas('id');
+            }
+
+            KlasifikasiSurat::insert($data);
+        }
+
+        DB::commit();
+        fclose($handle);
+        session_success();
+
         redirect('klasifikasi');
+    }
+
+    protected static function validated($data)
+    {
+        return [
+            'kode'   => alfanumerik_titik($data['kode']),
+            'nama'   => alfa_spasi($data['nama']),
+            'uraian' => strip_tags($data['uraian']),
+        ];
     }
 }

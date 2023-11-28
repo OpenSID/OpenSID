@@ -64,7 +64,15 @@ class Migrasi_dev extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023112852($hasil);
+    }
+
+    protected function migrasi_2023112852($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'klasifikasi-surat', 'url' => 'klasifikasi/clear'],
+            ['url' => 'klasifikasi']
+        );
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
