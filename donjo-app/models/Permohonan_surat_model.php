@@ -198,19 +198,17 @@ class Permohonan_surat_model extends MY_Model
             ->get()
             ->result_array();
 
-        $j       = 0;
-        $counter = count($data);
+        return collect($data)->map(static function ($item, $key): array {
+            $item['no']     = $key + 1;
+            $item['nomor']  = json_decode($item['isian_form'], true)['nomor'];
+            $item['status'] = PermohonanSurat::STATUS_PERMOHONAN[$item['status']];
+            $logSurat       = LogSurat::where('id_format_surat', $item['id_surat'])->where('no_surat', $item['nomor'])->first();
+            $item['id_log'] = $logSurat ? $logSurat->id : null;
+            $item['tte']    = $logSurat ? $logSurat->tte : null;
 
-        for ($i = 0; $i < $counter; $i++) {
-            $data[$i]['no']     = $j + 1;
-            $data[$i]['nomor']  = $data[$i]['isian_form']['nomor'];
-            $data[$i]['status'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN)[$data[$i]['status']];
-            $data[$i]['id_log'] = LogSurat::where('id_format_surat', $data[$i]['id_surat'])->where('no_surat', $data[$i]['nomor'])->first()->id;
-            $data[$i]['tte']    = LogSurat::where('id_format_surat', $data[$i]['id_surat'])->where('no_surat', $data[$i]['nomor'])->first()->tte;
-            $j++;
-        }
-
-        return $data;
+            return $item;
+        })
+            ->toArray();
     }
 
     public function get_permohonan($where = [])

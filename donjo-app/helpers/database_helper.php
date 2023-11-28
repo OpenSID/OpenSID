@@ -107,12 +107,19 @@ function get_csv($zip_file, $file_in_zip): array
     //$file_data = preg_split('/[\r\n]{1,2}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/', $file_data);
     $file_data = preg_split('/\r*\n+|\r+/', $file_data);
     $csv       = array_map('str_getcsv', $file_data);
-    array_walk($csv, static function (&$a) use ($csv): void {
-        $a = array_combine($csv[0], $a);
-    });
-    array_shift($csv); // remove column header
+    $result    = [];
+    $header    = $csv[0];
 
-    return $csv;
+    foreach ($csv as $key => $value) {
+        if (! $key) {
+            continue;
+        }
+        if (count($header) == count($value)) {
+            $result[] = array_combine($csv[0], $value);
+        }
+    }
+
+    return $result;
 }
 
 /**

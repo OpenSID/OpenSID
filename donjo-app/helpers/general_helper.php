@@ -550,7 +550,7 @@ if (! function_exists('kirim_versi_opensid')) {
 }
 
 if (! function_exists('kotak')) {
-    function kotak(array $data_kolom, $max_kolom = 26): string
+    function kotak(?string $data_kolom, int $max_kolom = 26): string
     {
         $view = '';
 

@@ -365,7 +365,7 @@ endif;
 
 	<?php if (cek_koneksi_internet()): ?>
 	<!-- Form Wizard - jquery.smartWizard -->
-	<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js') ?>"></script>
+	<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js"></script>
 	<?php endif ?>
 </body>
 </html>

@@ -105,14 +105,14 @@ class Web extends Admin_Controller
         redirect('web');
     }
 
-    public function form($id = 0): void
+    public function form($id = null): void
     {
-        $id = decrypt($id);
         $this->redirect_hak_akses('u');
         $this->set_hak_akses_rfm();
         $cat = $this->session->kategori ?: 0;
 
-        if ($id !== '' && $id !== '0') {
+        if (null !== $id) {
+            $id       = decrypt($id);
             $cek_data = $this->web_artikel_model->get_artikel($id);
             if (! $cek_data) {
                 show_404();

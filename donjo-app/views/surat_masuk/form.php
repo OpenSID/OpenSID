@@ -108,7 +108,7 @@
                                 <?php foreach ($ref_disposisi as $id => $nama): ?>
                                     <div class="col-sm-12 col-lg-6 checkbox">
                                         <label style="padding: 5px;">
-                                            <input class="akas" type="checkbox" name="disposisi_kepada[]" onclick="cek()" value="<?= $id ?>" <?= selected(in_array($id, $disposisi_surat_masuk), true, true) ?>><?= strtoupper($nama); ?>
+                                            <input class="akas" type="checkbox" name="disposisi_kepada[]" onclick="cek()" value="<?= $id ?>" <?= selected(is_array($disposisi_surat_masuk) && in_array($id, $disposisi_surat_masuk), true, true) ?>><?= strtoupper($nama); ?>
                                         </label>
                                     </div>
                                 <?php endforeach; ?>

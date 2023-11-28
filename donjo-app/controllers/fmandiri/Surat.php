@@ -116,7 +116,8 @@ class Surat extends Mandiri_Controller
             $no = 1;
 
             foreach ($syaratSurat as $baris) {
-                if (in_array($baris->ref_syarat_id, json_decode($suratMaster->syarat_surat, null))) {
+                $syarat_surat = json_decode($suratMaster->syarat_surat, true);
+                if (is_array($syarat_surat) && in_array($baris->ref_syarat_id, $syarat_surat)) {
                     $row   = [];
                     $row[] = $no++;
                     $row[] = $baris->ref_syarat_nama;

@@ -4,7 +4,7 @@
 	<h2 class="post_titile" >Data Demografi Berdasar <?= $heading; ?></h2>
 	<div class="box-body">
 		<div class="table-responsive">
-		<?php if(count($daftar_dusun) > 0) : ?>
+		<?php if(is_array($daftar_dusun) && count($daftar_dusun) > 0) : ?>
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>

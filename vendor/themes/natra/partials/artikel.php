@@ -24,7 +24,7 @@
 						<a href="<?= site_url('first/kategori/' . $single_artikel['id_kategori']) ?>"><i class='fa fa-tag'></i><?= $single_artikel['kategori'] ?></a>
 					<?php endif ?>
 				</span>
-				<div class="fb-like" data-href="<?= site_url('artikel/' . buat_slug($single_artikel['id'])) ?>" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="true"></div>
+				<div class="fb-like" data-href="<?= site_url('artikel/' . buat_slug($single_artikel)) ?>" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="true"></div>
 			</div>
 			<div class="single_page_content" style="margin-bottom:10px;">
 				<?php if ($single_artikel['id_kategori'] == 1000) : ?>

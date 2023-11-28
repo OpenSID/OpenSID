@@ -61,7 +61,7 @@
 																		<td><?=$data['no']?></td>
 																		<?php if ($this->CI->cek_hak_akses('u')): ?>
 																			<td nowrap>
-																				<a href="<?= site_url("polygon/ajax_add_sub_polygon/{$polygon['id']}/{$data['id']}")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori <?= $polygon[\NAMA]?>"><i class="fa fa-edit"></i></a>
+																				<a href="<?= site_url("polygon/ajax_add_sub_polygon/{$polygon['id']}/{$data['id']}")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori <?= $polygon['nama']?>"><i class="fa fa-edit"></i></a>
 																				<?php if ($data['enabled'] == '2'): ?>
 																					<a href="<?= site_url("polygon/polygon_lock_sub_polygon/{$polygon['id']}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 																				<?php elseif ($data['enabled'] == '1'): ?>

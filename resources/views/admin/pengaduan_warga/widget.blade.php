@@ -21,7 +21,7 @@
                 <span class="info-box-number">{{ $status1 }}</span>
 
                 <div class="progress">
-                    <div class="progress-bar" style="width: {{ ($status1 / $allstatus) * 100 }}%"></div>
+                    <div class="progress-bar" style="width: {{ persen2($status1, $allstatus) }}%"></div>
                 </div>
                 <span class="progress-description">Total bulan ini: <b>{{ $m_status1 }}</b></span>
             </div>
@@ -35,7 +35,7 @@
                 <span class="info-box-number">{{ $status2 }}</span>
 
                 <div class="progress">
-                    <div class="progress-bar" style="width: {{ ($status2 / $allstatus) * 100 }}%"></div>
+                    <div class="progress-bar" style="width: {{ persen2($status2, $allstatus) }}%"></div>
                 </div>
                 <span class="progress-description">Total bulan ini: <b>{{ $m_status2 }}</b></span>
             </div>
@@ -49,7 +49,7 @@
                 <span class="info-box-number">{{ $status3 }}</span>
 
                 <div class="progress">
-                    <div class="progress-bar" style="width: {{ ($status3 / $allstatus) * 100 }}%"></div>
+                    <div class="progress-bar" style="width: {{ persen2($status3, $allstatus) }}%"></div>
                 </div>
                 <span class="progress-description">Total bulan ini: <b>{{ $m_status3 }}</b></span>
             </div>
