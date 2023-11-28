@@ -135,6 +135,12 @@ class Permohonan_surat_admin extends Admin_Controller
             $data['form_surat']   = 'surat/form_surat_tinymce.php';
         }
 
+        $pesan   = 'Permohonan Surat - ' . $periksa->surat->nama . ' - sedang dalam proses oleh operator';
+        $judul   = 'Permohonan Surat - ' . $periksa->surat->nama . ' - sedang dalam proses';
+        $payload = '/layanan';
+        // kirim notifikasi fcm
+        $this->kirim_notifikasi_penduduk($periksa->id_pemohon, $pesan, $judul, $payload);
+
         $this->render('mandiri/periksa_surat', $data);
     }
 

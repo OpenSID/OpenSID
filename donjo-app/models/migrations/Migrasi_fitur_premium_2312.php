@@ -73,6 +73,7 @@ class Migrasi_fitur_premium_2312 extends MY_model
         $hasil = $hasil && $this->migrasi_2023111571($hasil);
         $hasil = $hasil && $this->migrasi_2023111751($hasil);
         $hasil = $hasil && $this->migrasi_2023112251($hasil);
+        $hasil = $hasil && $this->migrasi_2023112451($hasil);
 
         return $hasil && $this->migrasi_2023112371($hasil);
     }
@@ -524,4 +525,21 @@ class Migrasi_fitur_premium_2312 extends MY_model
             'kategori'   => 'sistem',
         ], $id);
     }
+
+     protected function migrasi_2023112451($hasil)
+     {
+         if (Schema::hasColumn('log_notifikasi_mandiri', 'token')) {
+             Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
+                 $table->dropColumn('token');
+             });
+         }
+
+         if (Schema::hasColumn('log_notifikasi_mandiri', 'device')) {
+             Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
+                 $table->dropColumn('device');
+             });
+         }
+
+         return $hasil;
+     }
 }

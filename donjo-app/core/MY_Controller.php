@@ -38,7 +38,9 @@
 use App\Enums\FirebaseEnum;
 use App\Models\Config;
 use App\Models\FcmToken;
+use App\Models\FcmTokenMandiri;
 use App\Models\LogNotifikasiAdmin;
+use App\Models\LogNotifikasiMandiri;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Pesan;
@@ -178,7 +180,7 @@ class MY_Controller extends CI_Controller
                 }
 
                 return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
-            })->when(next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static function ($query) {
+            })->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static function ($query) {
                 return $query->orWhereNull('pamong_id');
             });
         })->get();
@@ -209,6 +211,46 @@ class MY_Controller extends CI_Controller
         ];
 
         $this->create_log_notifikasi_admin($next, $isi);
+    }
+
+    public function create_log_notifikasi_penduduk($isi)
+    {
+        if (is_array($isi)) {
+            LogNotifikasiMandiri::create($isi);
+        }
+    }
+
+    public function kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul, $payload = '')
+    {
+        $allToken = FcmTokenMandiri::where('id_user_mandiri', $id_penduduk)->get();
+
+        if (cek_koneksi_internet()) {
+            // kirim ke aplikasi android admin.
+            try {
+                $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                $notification = new \Fcm\Push\Notification();
+
+                $notification
+                    ->addRecipient($allToken->pluck('token')->all())
+                    ->setTitle($judul)
+                    ->setBody($pesan)
+                    ->addData('payload', $payload);
+                $client->send($notification);
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+            }
+        }
+
+        $isi = [
+            'judul'           => $judul,
+            'isi'             => $pesan,
+            'payload'         => $payload,
+            'read'            => 0,
+            'id_user_mandiri' => $id_penduduk,
+            'created_at'      => date('Y-m-d H:i:s'),
+        ];
+
+        $this->create_log_notifikasi_penduduk($isi);
     }
 }
 
