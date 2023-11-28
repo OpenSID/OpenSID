@@ -598,8 +598,6 @@ class TinyMCE
 
         ob_start();
 
-        log_message('notice', 'cek : ' . print_r($lampiran, true));
-
         for ($j = 0; $j < count($lampiran); $j++) {
             // View Lampiran
             include $view_lampiran[$j];
