@@ -36,66 +36,95 @@
  */
 
 use App\Enums\SistemEnum;
+use App\Enums\StatusEnum;
+use App\Models\Artikel;
 use App\Models\TeksBerjalan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Teks_berjalan extends Admin_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('teks_berjalan_model');
-        $this->load->model('web_artikel_model');
-        $this->urut_model    = new Urut_Model('teks_berjalan');
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'teks-berjalan';
-    }
-
     public function index()
     {
-        $main = TeksBerjalan::orderBy('urut')
-            ->withCasts([
-                'status' => 'string',
-            ])
-            ->get()
-            ->map(static function ($teks, $key) {
-                $teks->no         = $key + 1;
-                $teks->judul      = artikel_get_id($teks->tautan)['judul'];
-                $teks->tgl_upload = artikel_get_id($teks->tautan)['tgl_upload'];
-                $teks->id_tautan  = $teks->tautan;
-                $teks->tautan     = menu_slug('artikel/' . $teks->tautan);
-                $teks->tampilkan  = SistemEnum::valueOf($teks->tipe);
-
-                return $teks;
-            });
-
-        return view('admin.web.teks_berjalan.index', ['main' => $main]);
+        return view('admin.web.teks_berjalan.index');
     }
 
-    public function form($id = ''): void
+    public function datatables()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(TeksBerjalan::with('artikel'))
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    $aksi = '';
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('teks_berjalan.urut') . '/' . $row->id . '/1' . '" class="btn bg-olive btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a> ';
+                        $aksi .= '<a href="' . route('teks_berjalan.urut') . '/' . $row->id . '/2' . '" class="btn bg-olive btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a> ';
+                        $aksi .= '<a href="' . route('teks_berjalan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+
+                        if ($row->status == StatusEnum::YA) {
+                            $aksi .= '<a href="' . route('teks_berjalan.lock') . '/' . $row->id . '/' . StatusEnum::TIDAK . '" class="btn bg-navy btn-sm" title="Aktifkan Anjungan"><i class="fa fa-unlock"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . route('teks_berjalan.lock') . '/' . $row->id . '/' . StatusEnum::YA . '" class="btn bg-navy btn-sm" title="Nonaktifkan Anjungan"><i class="fa fa-lock"></i></a> ';
+                        }
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . route('teks_berjalan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->addColumn('teks', static function ($row) {
+                    $text = $row->teks;
+                    $text .= ' <a href="' . menu_slug('artikel/' . $row->tautan) . '" target="_blank">' . $row->judul_tautan . '</a><br>';
+                    return $text;
+                })
+                ->editColumn('tampilkan', function ($row) {
+                    return SistemEnum::valueOf($row->tipe);
+                })
+                ->addColumn('judul_tautan', function ($row) {
+                    if ($row->tautan) {
+                        return '<a href="' . $row->tautan . '" target="_blank">' . tgl_indo($row->artikel->tgl_upload) . ' <br> ' . $row->artikel->judul . '</a>';
+                    }
+                })
+                ->rawColumns(['ceklist', 'aksi', 'teks', 'judul_tautan'])
+                ->orderColumn('teks', function ($query, $order) {
+                    $query->orderBy('teks', $order);
+                })
+                ->make();
+        }
+
+        return show_404();
+    }
+
+    public function form($id = '')
     {
         $this->redirect_hak_akses('u');
-        $data['list_artikel'] = $this->web_artikel_model->list_data(999, 6, 0);
-
+        $data['list_artikel'] = Artikel::where('id_kategori', 999)->limit(500)->orderBy('id', 'DESC')->get();
         if ($id) {
-            $data['teks']        = $this->teks_berjalan_model->get_teks($id) ?? show_404();
-            $data['form_action'] = site_url("teks_berjalan/update/{$id}");
+            $data['teks']        = TeksBerjalan::findOrFail($id);
+            $data['form_action'] = route('teks_berjalan.update', $id);
         } else {
             $data['teks']        = null;
-            $data['form_action'] = site_url('teks_berjalan/insert');
+            $data['form_action'] = route('teks_berjalan.insert');
         }
 
         $data['daftar_tampil'] = SistemEnum::all();
 
-        $this->render('web/teks_berjalan/form', $data);
+        return view('admin.web.teks_berjalan.form', $data);
     }
 
-    public function insert(): void
+    public function insert()
     {
         $this->redirect_hak_akses('u');
 
-        if (TeksBerjalan::create($this->validated($this->request, $id))) {
+        if (TeksBerjalan::create($this->validated($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 
@@ -105,36 +134,37 @@ class Teks_berjalan extends Admin_Controller
     public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
-        $this->teks_berjalan_model->update($id);
-        redirect('teks_berjalan');
+        if (TeksBerjalan::findOrFail($id)->update($this->validated($this->request, $id))) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+        redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = ''): void
+    public function delete($id = null): void
     {
-        $this->redirect_hak_akses('h', 'teks_berjalan');
-        $this->teks_berjalan_model->delete($id);
-        redirect('teks_berjalan');
-    }
+        $this->redirect_hak_akses('h');
 
-    public function delete_all(): void
-    {
-        $this->redirect_hak_akses('h', 'teks_berjalan');
-        $this->teks_berjalan_model->delete_all();
-        redirect('teks_berjalan');
+        if (TeksBerjalan::destroy($this->request['id_cb'] ?? $id) !== 0) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
     }
 
     public function urut($id = 0, $arah = 0): void
     {
         $this->redirect_hak_akses('u');
-        $this->teks_berjalan_model->urut($id, $arah);
-        redirect("teks_berjalan/index/{$page}");
+        TeksBerjalan::nomorUrut($id, $arah);
+        redirect("teks_berjalan/index");
     }
 
     public function lock($id = 0, $val = 1): void
     {
         $this->redirect_hak_akses('u');
-        $this->teks_berjalan_model->lock($id, $val);
-        redirect('teks_berjalan');
+        if (TeksBerjalan::findOrFail($id)->update(['status' => $val])) {
+            redirect_with('success', 'Berhasil Ubah Status');
+        }
+        redirect_with('error', 'Gagal Ubah Status');
     }
 
     protected function validated($request = [], $id = null)
@@ -143,13 +173,12 @@ class Teks_berjalan extends Admin_Controller
             'teks'         => htmlentities($request['teks']),
             'tautan'       => (int) $request['tautan'],
             'judul_tautan' => htmlentities($request['judul_tautan']),
-            'tipe'         => (int) $request['tipe'],
+            'tipe'         => 1, // web
             'status'       => (int) $request['status'],
         ];
 
         if ($id === null) {
-            $data['config_id'] = identitas('id');
-            $data['urut']      = $this->urut_model->urut_max() + 1;
+            $data['urut'] = TeksBerjalan::UrutMax();
         }
 
         return $data;
