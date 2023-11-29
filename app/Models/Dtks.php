@@ -243,7 +243,6 @@ class Dtks extends BaseModel
         static::deleting(static function ($model) {
             $id_lampiran = DB::table('dtks_ref_lampiran')->where('id_dtks', $model->id)->pluck('id_lampiran')->toArray();
             if (count($id_lampiran) > 0) {
-                log_message('notice', 'hapus lampiran' . json_encode($id_lampiran) . '');
                 DtksLampiran::destroy($id_lampiran);
             }
         });
