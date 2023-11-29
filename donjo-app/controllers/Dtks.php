@@ -42,6 +42,7 @@ use App\Enums\StatusEnum;
 use App\Models\Config;
 use App\Models\Dtks as ModelDtks;
 use App\Models\DtksAnggota;
+use App\Models\DtksLampiran;
 use App\Models\Keluarga;
 use App\Models\Penduduk;
 use App\Models\Rtm;
@@ -348,7 +349,7 @@ class Dtks extends Admin_Controller
             // 'is_draft' => StatusEnum::YA, // belum terpakai karena yg dibutuhkan hanya 1 data per rtm
         ])->first();
 
-        if (! $dtks) {
+        if (!$dtks) {
             DB::beginTransaction();
             $dtks = ModelDtks::create([
                 'versi_kuisioner' => DtksEnum::VERSION_CODE,
@@ -368,7 +369,7 @@ class Dtks extends Admin_Controller
             ->orderBy('created_at', 'ASC')
             ->first();
 
-        if (! $dtks) {
+        if (!$dtks) {
             session_error(' : Belum ada data');
             redirect_with('error', 'Belum ada data', $_SERVER['HTTP_REFERER']);
         }
@@ -379,7 +380,7 @@ class Dtks extends Admin_Controller
     {
         $dtks = ModelDtks::where(['id' => $id])->first();
 
-        if (! $dtks) {
+        if (!$dtks) {
             return json(['message' => 'Formulir Tidak ditemukan'], 404);
         }
 
@@ -392,7 +393,7 @@ class Dtks extends Admin_Controller
     {
         $config = Config::first();
 
-        if (! $config) {
+        if (!$config) {
             session_error(' : Konfigurasi tidak ditemukan');
             redirect_with('error', 'Konfigurasi tidak ditemukan', route('dtks'));
         }
@@ -440,7 +441,7 @@ class Dtks extends Admin_Controller
             ->first();
 
         if ($this->input->is_ajax_request()) {
-            if (! $dtks) {
+            if (!$dtks) {
                 return json(['message' => 'Formulir Tidak ditemukan'], 404);
             }
 
@@ -452,7 +453,7 @@ class Dtks extends Admin_Controller
 
             return json(['message' => 'Tidak melakukan apapun'], 200);
         }
-        if (! $dtks) {
+        if (!$dtks) {
             session_error(' : Formulir tidak ditemukan');
             redirect_with('error', 'Formulir Tidak ditemukan', $_SERVER['HTTP_REFERER']);
         }
@@ -490,7 +491,7 @@ class Dtks extends Admin_Controller
     {
         $dtks = ModelDtks::find($id);
 
-        if (! $dtks) {
+        if (!$dtks) {
             return json(['message' => 'Formulir Tidak ditemukan'], 404);
         }
 
