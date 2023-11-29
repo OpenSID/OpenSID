@@ -83,18 +83,19 @@ class Teks_berjalan extends Admin_Controller
                 ->addColumn('teks', static function ($row) {
                     $text = $row->teks;
                     $text .= ' <a href="' . menu_slug('artikel/' . $row->tautan) . '" target="_blank">' . $row->judul_tautan . '</a><br>';
+
                     return $text;
                 })
-                ->editColumn('tampilkan', function ($row) {
+                ->editColumn('tampilkan', static function ($row) {
                     return SistemEnum::valueOf($row->tipe);
                 })
-                ->addColumn('judul_tautan', function ($row) {
+                ->addColumn('judul_tautan', static function ($row) {
                     if ($row->tautan) {
                         return '<a href="' . $row->tautan . '" target="_blank">' . tgl_indo($row->artikel->tgl_upload) . ' <br> ' . $row->artikel->judul . '</a>';
                     }
                 })
                 ->rawColumns(['ceklist', 'aksi', 'teks', 'judul_tautan'])
-                ->orderColumn('teks', function ($query, $order) {
+                ->orderColumn('teks', static function ($query, $order) {
                     $query->orderBy('teks', $order);
                 })
                 ->make();
@@ -155,7 +156,7 @@ class Teks_berjalan extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         TeksBerjalan::nomorUrut($id, $arah);
-        redirect("teks_berjalan/index");
+        redirect('teks_berjalan/index');
     }
 
     public function lock($id = 0, $val = 1): void

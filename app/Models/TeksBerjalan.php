@@ -85,6 +85,7 @@ class TeksBerjalan extends BaseModel
         if ($status != '') {
             $query->where('status', $status);
         }
+
         return $query;
     }
 
@@ -120,7 +121,7 @@ class TeksBerjalan extends BaseModel
         $data = $this->findOrFail($id);
 
         $currentNo = $data->urut;
-        $targetNo = ($direction == 2) ? $currentNo - 1 : $currentNo + 1;
+        $targetNo  = ($direction == 2) ? $currentNo - 1 : $currentNo + 1;
 
         if ($direction == 2) {
             $query->where('urut', $targetNo)->update(['urut' => $currentNo]);
