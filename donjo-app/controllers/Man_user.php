@@ -264,10 +264,7 @@ class Man_user extends Admin_Controller
         if ($user->foto != 'kuser.png') {
             // Ambil nama foto
             $foto = basename(AmbilFoto($user->foto));
-            // Cek penghapusan foto pengguna
-            if (! unlink(LOKASI_USER_PICT . $foto)) {
-                redirect_with('error', 'Gagal menghapus foto pengguna');
-            }
+            unlink(LOKASI_USER_PICT . $foto);
         }
 
         $user->delete();
