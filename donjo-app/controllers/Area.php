@@ -139,8 +139,9 @@ class Area extends Admin_Controller
 
     public function ajax_area_maps($parent, int $id)
     {
-        $data['area'] = AreaModel::find($id)->toArray();
+        $this->redirect_hak_akses('u', route('area.index', $parent));
 
+        $data['area']                   = AreaModel::find($id)->toArray();
         $data['parent']                 = $parent;
         $data['desa']                   = $this->header['desa'];
         $data['wil_atas']               = $this->header['desa'];

@@ -82,7 +82,9 @@
 																		<th><input type="checkbox" id="checkall" /></th>
 																	<?php endif; ?>
 																	<th>No</th>
+																	<?php if ($this->CI->cek_hak_akses('u')) : ?>
 																	<th>Aksi</th>
+																	<?php endif; ?>
 																	<?php if ($o == 2) : ?>
 																		<th><a href="<?= site_url("garis/index/{$p}/1") ?>">Garis <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o == 1) : ?>
@@ -108,12 +110,11 @@
 																			<td><input type="checkbox" name="id_cb[]" value="<?= $data['id'] ?>" /></td>
 																		<?php endif; ?>
 																		<td><?= $data['no'] ?></td>
+																		<?php if ($this->CI->cek_hak_akses('u')) : ?>
 																		<td nowrap>
 																			<?php if ($this->CI->cek_hak_akses('u')) : ?>
 																				<a href="<?= site_url("garis/form/{$p}/{$o}/{$data['id']}") ?>" class="btn btn-warning btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
-																			<?php endif; ?>
-																			<a href="<?= site_url("garis/ajax_garis_maps/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-olive btn-flat btn-sm" title="Lokasi <?= $data['nama'] ?>"><i class="fa fa-map"></i></a>
-																			<?php if ($this->CI->cek_hak_akses('u')) : ?>
+																				<a href="<?= site_url("garis/ajax_garis_maps/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-olive btn-flat btn-sm" title="Lokasi <?= $data['nama'] ?>"><i class="fa fa-map"></i></a>
 																				<?php if ($data['enabled'] == '2') : ?>
 																					<a href="<?= site_url('garis/garis_lock/' . $data['id']) ?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 																				<?php elseif ($data['enabled'] == '1') : ?>
@@ -124,6 +125,7 @@
 																				<a href="#" data-href="<?= site_url("garis/delete/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																			<?php endif; ?>
 																		</td>
+																		<?php endif; ?>
 																		<td width="50%"><?= $data['nama'] ?></td>
 																		<td><?= $data['aktif'] ?></td>
 																		<td><?= $data['jenis'] ?></td>

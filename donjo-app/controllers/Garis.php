@@ -109,6 +109,7 @@ class Garis extends Admin_Controller
 
     public function ajax_garis_maps($p = 1, $o = 0, $id = ''): void
     {
+        $this->redirect_hak_akses('u');
         $data['p']     = $p;
         $data['o']     = $o;
         $data['garis'] = $id ? $this->plan_garis_model->get_garis($id) ?? show_404() : null;
