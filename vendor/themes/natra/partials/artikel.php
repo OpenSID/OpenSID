@@ -73,7 +73,7 @@
 				</div>
 				<div class="teks"><?= $single_artikel["isi"] ?></div>
 				<?php if ($single_artikel['dokumen'] != '' and is_file(LOKASI_DOKUMEN . $single_artikel['dokumen'])) : ?>
-					<p>Unduh Lampiran:<br><a href='<?= site_url("first/unduh_dokumen_artikel/{$single_artikel['id']}") ?>' title=""><?= $single_artikel['link_dokumen'] ?></a></p>
+					<p>Unduh Lampiran:<br><a href='<?= site_url("first/unduh_dokumen_artikel/{$single_artikel['id']}") ?>' title=""><?= e($single_artikel['link_dokumen']) ?></a></p>
 				<?php endif ?>
 				<?php if ($single_artikel['gambar1'] != '' and is_file(LOKASI_FOTO_ARTIKEL . "sedang_" . $single_artikel['gambar1'])) : ?>
 					<div class="sampul">
