@@ -247,7 +247,7 @@ class TinyMCE
             }
 
             if (! $value['judul'] || ! $value['label']) {
-                $judul        = str_replace('_', ' ', ucwords($key));
+                $judul          = str_replace('_', ' ', ucwords($key));
                 $value['judul'] = $judul;
                 $value['label'] = $judul;
             }
@@ -256,7 +256,7 @@ class TinyMCE
                 if (! array_intersect($value['data'], [1])) {
                     unset($daftar_kode_isian[$judulPenduduk]);
                 }
-                
+
                 if (! (is_array($daftarKodeIsian[$key]) && count($daftarKodeIsian[$key]) > 0)) {
                     unset($daftar_kode_isian["Form {$judulPenduduk}"]);
                 }
