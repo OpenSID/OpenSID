@@ -191,7 +191,7 @@ class TinyMCE
         $idPenduduk      = $data['id_pend'];
         $judulPenduduk   = $data['surat']->form_isian->individu->judul ?? 'Penduduk';
         $daftarKodeIsian = grup_kode_isian($data['surat']->kode_isian);
-        $daftarKategori  = collect($data['surat']->form_isian)->toArray();
+        $daftarKategori  = collect($data['surat']->form_isian)->map(static fn ($item): array => collect($item)->toArray())->toArray();
 
         $alias = AliasKodeIsian::get();
 
@@ -242,28 +242,29 @@ class TinyMCE
         }
 
         foreach ($daftarKategori as $key => $value) {
-            if ($value->sumber != 1) {
-                continue;
+            if (! $value['sumber']) {
+                $value['sumber'] = 1;
             }
 
-            if (! $value->sumber) {
-                $value->sumber = 1;
-            }
-
-            if (! $value->judul || ! $value->label) {
+            if (! $value['judul'] || ! $value['label']) {
                 $judul        = str_replace('_', ' ', ucwords($key));
-                $value->judul = $judul;
-                $value->label = $judul;
+                $value['judul'] = $judul;
+                $value['label'] = $judul;
             }
 
-            if ($value->sumber == 1 && $key != 'individu') {
-                if (array_intersect($value->data, [1])) {
-                    $daftar_kode_isian[$value->judul] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
-                }
-                $daftar_kode_isian["Form {$value->judul}"] = KodeIsianForm::get($data['input'], $daftarKodeIsian[$key] ?? []);
-            } elseif ($value->sumber == 1 && $key == 'individu') {
-                if (! array_intersect($value->data, [1])) {
+            if ($key == 'individu') {
+                if (! array_intersect($value['data'], [1])) {
                     unset($daftar_kode_isian[$judulPenduduk]);
+                }
+                if (is_array($daftarKodeIsian[$key]) && count($daftarKodeIsian[$key]) == 0) {
+                    unset($daftar_kode_isian["Form {$judulPenduduk}"]);
+                }
+            } else {
+                if (array_intersect($value['data'], [1])) {
+                    $daftar_kode_isian[$value['judul']] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
+                }
+                if (is_array($daftarKodeIsian[$key]) && count($daftarKodeIsian[$key]) > 0) {
+                    $daftar_kode_isian["Form {$value['judul']}"] = KodeIsianForm::get($data['input'], $daftarKodeIsian[$key] ?? []);
                 }
             }
         }
