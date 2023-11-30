@@ -46,8 +46,8 @@ class Garis extends BaseModel
 {
     use ConfigId;
 
-    const LOCK   = 1;
-    const UNLOCK = 2;
+    public const LOCK   = 1;
+    public const UNLOCK = 2;
 
     /**
      * The table associated with the model.
@@ -55,6 +55,7 @@ class Garis extends BaseModel
      * @var string
      */
     protected $table = 'garis';
+
     public $timestamps = false;
 
     /**
@@ -80,7 +81,7 @@ class Garis extends BaseModel
     protected $appends = [
         'foto_kecil',
         'foto_sedang',
-        'foto_garis'
+        'foto_garis',
     ];
 
     public static function boot()
@@ -155,14 +156,17 @@ class Garis extends BaseModel
 
         return null;
     }
+
     protected function scopeActive($query)
     {
         return $query->whereEnabled(1);
     }
+
     public function isLock()
     {
         return $this->enabled == self::LOCK;
     }
+
     /**
      * Get the line associated with the Garis
      */

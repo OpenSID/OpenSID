@@ -47,10 +47,10 @@ class Line extends BaseModel
 {
     use ConfigId;
 
-    const LOCK   = 1;
-    const UNLOCK = 2;
-    const ROOT  = 0;
-    const CHILD = 2;
+    public const LOCK   = 1;
+    public const UNLOCK = 2;
+    public const ROOT   = 0;
+    public const CHILD  = 2;
 
     /**
      * The table associated with the model.

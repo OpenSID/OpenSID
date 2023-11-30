@@ -37,9 +37,9 @@
 
 use App\Models\Area;
 use App\Models\Garis as GarisModel;
+use App\Models\Line;
 use App\Models\Lokasi;
 use App\Models\Pembangunan;
-use App\Models\Line;
 use App\Models\Wilayah;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -58,9 +58,9 @@ class Garis extends Admin_Controller
 
     public function index($parent = 0): void
     {
-        $data            = ['tip' => $this->tip, 'parent' => $parent];
-        $data['status']  = [Line::LOCK => 'Aktif', Line::UNLOCK => 'Non Aktif'];
-        $data['line'] = Line::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
+        $data           = ['tip' => $this->tip, 'parent' => $parent];
+        $data['status'] = [Line::LOCK => 'Aktif', Line::UNLOCK => 'Non Aktif'];
+        $data['line']   = Line::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
 
         view('admin.peta.garis.index', $data);
     }
@@ -68,10 +68,10 @@ class Garis extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status     = $this->input->get('status') ?? null;
+            $status  = $this->input->get('status') ?? null;
             $subline = $this->input->get('subline') ?? null;
             $line    = $this->input->get('line') ?? null;
-            $parent     = $this->input->get('parent') ?? 0;
+            $parent  = $this->input->get('parent') ?? 0;
 
             return datatables()->of(GarisModel::when($status, static fn ($q) => $q->whereEnabled($status))
                 ->when($line, static fn ($q) => $q->whereIn('ref_line', static fn ($q) => $q->select('id')->from('line')->whereParrent($line)))
@@ -116,18 +116,18 @@ class Garis extends Admin_Controller
     public function form($parent = 0, $id = '')
     {
         $this->redirect_hak_akses('u');
-        $data['garis']        = null;
+        $data['garis']       = null;
         $data['form_action'] = route('garis.insert', $parent);
-        $data['foto_garis']   = null;
+        $data['foto_garis']  = null;
         $data['parent']      = $parent;
 
         if ($id) {
-            $data['garis']        = GarisModel::find($id);
+            $data['garis']       = GarisModel::find($id);
             $data['form_action'] = route('garis.update', implode('/', [$parent, $id]));
         }
 
         $data['list_line'] = empty($parent) ? Line::subline()->whereHas('parent')->get() : Line::child($parent)->whereHas('parent')->get();
-        $data['tip']          = $this->tip;
+        $data['tip']       = $this->tip;
 
         return view('admin.peta.garis.form', $data);
     }
@@ -156,7 +156,7 @@ class Garis extends Admin_Controller
         $this->redirect_hak_akses('u', route('garis.index', $parent));
 
         try {
-            $data = $this->input->post();            
+            $data = $this->input->post();
             if ($data['path'] !== '[[]]') {
                 GarisModel::whereId($id)->update($data);
                 redirect_with('success', 'Pengaturan garis berhasil disimpan', route('garis.index', $parent));
@@ -268,14 +268,14 @@ class Garis extends Admin_Controller
 
     private function validasi($post)
     {
-        $data['nama']        = nomor_surat_keputusan($post['nama']);
+        $data['nama']     = nomor_surat_keputusan($post['nama']);
         $data['ref_line'] = bilangan($post['ref_line']);
-        $data['desk']        = htmlentities($post['desk']);
-        $data['enabled']     = bilangan($post['enabled']);
+        $data['desk']     = htmlentities($post['desk']);
+        $data['enabled']  = bilangan($post['enabled']);
 
         $garis_file = $_FILES['foto']['tmp_name'];
-        $nama_file = $_FILES['foto']['name'];
-        $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
+        $nama_file  = $_FILES['foto']['name'];
+        $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($garis_file)) {
             $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
         } else {
