@@ -38,6 +38,8 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,6 +49,9 @@ class Polygon extends BaseModel
 
     public const LOCK   = 1;
     public const UNLOCK = 2;
+
+    public const POLYGON     = 0;
+    public const SUB_POLYGON = 2;
 
     /**
      * {@inheritDoc}
@@ -79,5 +84,35 @@ class Polygon extends BaseModel
     public function getParrentIdAttribute()
     {
         return $this->attributes['tipe'] == 0 ? null : $this->attributes['parrent'];
+    }
+
+    protected function scopeRoot($query){
+        return $query->whereTipe(self::POLYGON);
+    }
+
+    protected function scopeChild($query, int $parent){
+        return $query->whereTipe(self::SUB_POLYGON)->whereParrent($parent);
+    }
+
+    protected function scopeSubPolygon($query){
+        return $query->whereTipe(self::SUB_POLYGON);
+    }
+    protected function scopeActive($query){
+        return $query->whereEnabled(self::UNLOCK);
+    }
+
+    /**
+     * Get the parent that owns the Polygon
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Polygon::class, 'parrent', 'id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Polygon::class, 'parrent', 'id')->whereTipe(self::SUB_POLYGON);
     }
 }

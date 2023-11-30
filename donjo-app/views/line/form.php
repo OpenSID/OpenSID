@@ -11,7 +11,7 @@
 	<form id="validasi" action="<?= $form_action?>" method="POST" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
-          <?php $this->load->view('plan/nav.php')?>
+					<?= view('admin.peta.nav') ?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">

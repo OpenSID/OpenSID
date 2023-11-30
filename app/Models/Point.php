@@ -38,85 +38,63 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Pembangunan extends BaseModel
+class Point extends BaseModel
 {
     use ConfigId;
 
+    const ROOT = 0;
+    const CHILD = 2;
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'pembangunan';
+    protected $table = 'point';
+
+    public $timestamps  = false;
 
     /**
-     * {@inheritDoc}
+     * The attributes that are mass assignable.
+     *
+     * @var array
      */
-    protected $fillable = [
-        'id_lokasi',
-        'sumber_dana',
-        'judul',
-        'slug',
-        'keterangan',
-        'lokasi',
-        'lat',
-        'lng',
-        'volume',
-        'tahun_anggaran',
-        'pelaksana_kegiatan',
-        'status',
-        'created_at',
-        'updated_at',
-        'foto',
-        'anggaran',
-        'perubahan_anggaran',
-        'sumber_biaya_pemerintah',
-        'sumber_biaya_provinsi',
-        'sumber_biaya_kab_kota',
-        'sumber_biaya_swadaya',
-        'sumber_biaya_jumlah',
-        'manfaat',
+    protected $fillable = [        
+        'nama',
+        'simbol',
+        'enabled',
+        'tipe',
+        'parrent',        
     ];
 
-    public function pembangunanDokumentasi()
-    {
-        return $this->hasMany(PembangunanDokumentasi::class, 'id_pembangunan');
+    protected function scopeRoot($query){
+        return $query->whereTipe(self::ROOT);
     }
 
-    public function wilayah()
-    {
-        return $this->hasOne(Wilayah::class, 'id', 'id_lokasi');
+    protected function scopeChild($query, int $parent){
+        return $query->whereTipe(self::CHILD)->whereParrent($parent);
+    }
+
+    protected function scopeActive($query){
+        return $query->whereEnabled(1);
     }
 
     /**
-     * Get the lokasi.
+     * Get the parent that owns the Polygon
      *
-     * @return string
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getlokasiPembAttribute()
+    public function parent(): BelongsTo
     {
-        if ($this->lokasi == null) {
-            return 'Dusun ' . $this->wilayah->dusun . (($this->wilayah->rw != 0) ? " - Rw {$this->wilayah->rw}" : '') . (($this->wilayah->rt != 0) ? "/RT {$this->wilayah->rw}" : '');
-        }
-
-        return $this->lokasi;
+        return $this->belongsTo(Point::class, 'parrent', 'id');
     }
 
-    public static function activePembangunanMap(){
-        return self::with(['wilayah'])->get()->map(function($item){
-            $item->alamat =  "=== Lokasi Tidak Ditemukan ===";
-            if ($item->wilayah){
-                $alamat = $item->wilayah->rt != '0' ? 'RT '.$item->wilayah->rt.'/': ''; 
-                $alamat .= $item->wilayah->rw != '0' ? 'RW '.$item->wilayah->rw.'-': ''; 
-                $alamat .= $item->wilayah->dusun ?? '';    
-
-                $item->alamat = $alamat;
-            }
-            $item->anggaran = strval($item->anggaran);
-            return $item;
-        })->toArray();
+    public function children(): HasMany
+    {
+        return $this->hasMany(Point::class, 'parrent', 'id')->whereTipe(self::CHILD);
     }
 }

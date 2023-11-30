@@ -37,7 +37,7 @@
                     <div class="row">
                         <div class="col-sm-2">
                             <select id="status" class="form-control input-sm select2" name="status">
-                                <option value="">Semua</option>
+                                <option value="">Pilih Status</option>
                                 @foreach ($status as $key => $item)
                                     <option value="{{ $key }}">{{ $item }}</option>
                                 @endforeach
@@ -127,7 +127,7 @@
                         
             $('#status').change(function(){
                 TableData.column(4).search($(this).val()).draw()
-            })    
+            })
             
 
             if (hapus == 0) {
