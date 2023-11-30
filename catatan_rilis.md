@@ -1,4 +1,4 @@
-Di rilis ini, versi 2311.1.0 berisi penambahan fitur tampilan anjungan yang baru dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2312.0.0 berisi penambahan fitur tampilan anjungan yang baru dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ruririzal yang terus berkontribusi.
 
