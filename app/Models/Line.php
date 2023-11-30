@@ -47,8 +47,10 @@ class Line extends BaseModel
 {
     use ConfigId;
 
-    public const ROOT  = 0;
-    public const CHILD = 2;
+    const LOCK   = 1;
+    const UNLOCK = 2;
+    const ROOT  = 0;
+    const CHILD = 2;
 
     /**
      * The table associated with the model.
@@ -90,8 +92,13 @@ class Line extends BaseModel
         return $query->whereEnabled(1);
     }
 
+    protected function scopeSubLine($query)
+    {
+        return $query->whereTipe(self::CHILD);
+    }
+
     /**
-     * Get the parent that owns the Polygon
+     * Get the parent that owns the Line
      */
     public function parent(): BelongsTo
     {

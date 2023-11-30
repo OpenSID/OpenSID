@@ -74,9 +74,19 @@ class Migrasi_dev extends MY_model
             ['url' => 'klasifikasi']
         );
 
-        return $hasil && $this->ubah_modul(
+        $hasil = $hasil && $this->ubah_modul(
             ['slug' => 'polygon', 'url' => 'polygon/clear'],
             ['url' => 'polygon']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'area', 'url' => 'area/clear'],
+            ['url' => 'area']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'garis', 'url' => 'garis/clear'],
+            ['url' => 'garis']
         );
     }
 

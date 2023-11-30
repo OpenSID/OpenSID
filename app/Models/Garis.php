@@ -46,12 +46,16 @@ class Garis extends BaseModel
 {
     use ConfigId;
 
+    const LOCK   = 1;
+    const UNLOCK = 2;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'garis';
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -76,7 +80,37 @@ class Garis extends BaseModel
     protected $appends = [
         'foto_kecil',
         'foto_sedang',
+        'foto_garis'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updating(static function ($model) {
+            if ($model->isDirty('foto')) {
+                static::deleteFile($model->getOriginal('foto'));
+            }
+        });
+
+        static::deleting(static function ($model) {
+            static::deleteFile($model->getOriginal('foto'));
+        });
+    }
+
+    private static function deleteFile($file)
+    {
+        if ($file) {
+            $fotoSedang = LOKASI_FOTO_GARIS . 'sedang_' . $file;
+            $fotoKecil  = LOKASI_FOTO_GARIS . 'kecil_' . $file;
+            if (file_exists($fotoSedang)) {
+                unlink($fotoSedang);
+            }
+            if (file_exists($fotoKecil)) {
+                unlink($fotoKecil);
+            }
+        }
+    }
 
     /**
      * Getter untuk foto kecil.
@@ -106,11 +140,29 @@ class Garis extends BaseModel
         return null;
     }
 
+    /**
+     * Getter untuk foto sedang.
+     */
+    public function getFotoGarisAttribute(): ?string
+    {
+        if ($kecil = $this->getFotoKecilAttribute()) {
+            return to_base64($kecil);
+        }
+
+        if ($sedang = $this->getFotoSedangAttribute()) {
+            return to_base64($sedang);
+        }
+
+        return null;
+    }
     protected function scopeActive($query)
     {
         return $query->whereEnabled(1);
     }
-
+    public function isLock()
+    {
+        return $this->enabled == self::LOCK;
+    }
     /**
      * Get the line associated with the Garis
      */

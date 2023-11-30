@@ -58,7 +58,7 @@
                                     <th class="padat">Aksi</th>
                                     <th>Jenis</th>
                                     <th style="width:10%">Aktif</th>
-                                    <th style="width:10%">Warna</th>                                
+                                    <th style="width:10%">Warna</th>
                                 </tr>
                             </thead>
                         </table>

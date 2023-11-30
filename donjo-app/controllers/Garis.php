@@ -35,208 +35,253 @@
  *
  */
 
+use App\Models\Area;
+use App\Models\Garis as GarisModel;
+use App\Models\Lokasi;
+use App\Models\Pembangunan;
+use App\Models\Line;
+use App\Models\Wilayah;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Garis extends Admin_Controller
 {
+    private $tip = 1;
+
     public function __construct()
     {
         parent::__construct();
 
-        $this->load->model('wilayah_model');
-        $this->load->model('plan_lokasi_model');
-        $this->load->model('plan_area_model');
-        $this->load->model('plan_garis_model');
-        $this->load->model('pembangunan_model');
         $this->modul_ini     = 'pemetaan';
         $this->sub_modul_ini = 'pengaturan-peta';
     }
 
-    public function clear(): void
+    public function index($parent = 0): void
     {
-        unset($_SESSION['cari'], $_SESSION['filter'], $_SESSION['line'], $_SESSION['subline']);
+        $data            = ['tip' => $this->tip, 'parent' => $parent];
+        $data['status']  = [Line::LOCK => 'Aktif', Line::UNLOCK => 'Non Aktif'];
+        $data['line'] = Line::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
 
-        redirect($this->controller);
+        view('admin.peta.garis.index', $data);
     }
 
-    public function index($p = 1, $o = 0): void
+    public function datatables()
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        if ($this->input->is_ajax_request()) {
+            $status     = $this->input->get('status') ?? null;
+            $subline = $this->input->get('subline') ?? null;
+            $line    = $this->input->get('line') ?? null;
+            $parent     = $this->input->get('parent') ?? 0;
 
-        $data['cari'] = $_SESSION['cari'] ?? '';
+            return datatables()->of(GarisModel::when($status, static fn ($q) => $q->whereEnabled($status))
+                ->when($line, static fn ($q) => $q->whereIn('ref_line', static fn ($q) => $q->select('id')->from('line')->whereParrent($line)))
+                ->when($subline, static fn ($q) => $q->whereRefLine($subline))
+                ->with(['line' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
+                ]))
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) use ($parent): string {
+                    $aksi = '';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('garis.form', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                    }
+                    $aksi .= '<a href="' . route('garis.ajax_garis_maps', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
+                    if (can('u')) {
+                        if ($row->isLock()) {
+                            $aksi .= '<a href="' . route('garis.unlock', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . route('garis.lock', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                        }
+                    }
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . route('garis.delete', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                    }
 
-        $data['filter'] = $_SESSION['filter'] ?? '';
-
-        $data['line'] = $_SESSION['line'] ?? '';
-
-        $data['subline'] = $_SESSION['subline'] ?? '';
-
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
+                    return $aksi;
+                })
+                ->editColumn('enabled', static fn ($row) => $row->enabled == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('ref_line', static fn ($row) => $row->line->parent->nama ?? '')
+                ->editColumn('kategori', static fn ($row) => $row->line->nama ?? '')
+                ->rawColumns(['aksi', 'ceklist'])
+                ->make();
         }
 
-        $data['per_page']     = $_SESSION['per_page'];
-        $data['paging']       = $this->plan_garis_model->paging($p, $o);
-        $data['main']         = $this->plan_garis_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']      = $this->plan_garis_model->autocomplete();
-        $data['list_line']    = $this->plan_garis_model->list_line();
-        $data['list_subline'] = $this->plan_garis_model->list_subline();
-        $data['tip']          = 1;
-
-        $this->render('garis/table', $data);
+        return show_404();
     }
 
-    public function form($p = 1, $o = 0, $id = ''): void
+    public function form($parent = 0, $id = '')
     {
         $this->redirect_hak_akses('u');
-        $data['p'] = $p;
-        $data['o'] = $o;
+        $data['garis']        = null;
+        $data['form_action'] = route('garis.insert', $parent);
+        $data['foto_garis']   = null;
+        $data['parent']      = $parent;
 
         if ($id) {
-            $data['garis']       = $this->plan_garis_model->get_garis($id) ?? show_404();
-            $data['form_action'] = site_url("{$this->controller}/update/{$id}/{$p}/{$o}");
-        } else {
-            $data['garis']       = null;
-            $data['form_action'] = site_url("{$this->controller}/insert");
+            $data['garis']        = GarisModel::find($id);
+            $data['form_action'] = route('garis.update', implode('/', [$parent, $id]));
         }
 
-        $data['list_subline'] = $this->plan_garis_model->list_subline();
-        $data['tip']          = 1;
+        $data['list_line'] = empty($parent) ? Line::subline()->whereHas('parent')->get() : Line::child($parent)->whereHas('parent')->get();
+        $data['tip']          = $this->tip;
 
-        $this->render('garis/form', $data);
+        return view('admin.peta.garis.form', $data);
     }
 
-    public function ajax_garis_maps($p = 1, $o = 0, $id = ''): void
+    public function ajax_garis_maps($parent, int $id)
     {
-        $this->redirect_hak_akses('u');
-        $data['p']     = $p;
-        $data['o']     = $o;
-        $data['garis'] = $id ? $this->plan_garis_model->get_garis($id) ?? show_404() : null;
+        $data['garis'] = GarisModel::with(['line'])->find($id)->toArray();
 
+        $data['parent']                 = $parent;
         $data['desa']                   = $this->header['desa'];
         $data['wil_atas']               = $this->header['desa'];
-        $data['dusun_gis']              = $this->wilayah_model->list_dusun();
-        $data['rw_gis']                 = $this->wilayah_model->list_rw();
-        $data['rt_gis']                 = $this->wilayah_model->list_rt();
-        $data['all_lokasi']             = $this->plan_lokasi_model->list_data();
-        $data['all_garis']              = $this->plan_garis_model->list_data();
-        $data['all_area']               = $this->plan_area_model->list_data();
-        $data['all_lokasi_pembangunan'] = $this->pembangunan_model->list_lokasi_pembangunan();
-        $data['form_action']            = site_url("{$this->controller}/update_maps/{$p}/{$o}/{$id}");
+        $data['dusun_gis']              = Wilayah::dusun()->get()->toArray();
+        $data['rw_gis']                 = Wilayah::rw()->get()->toArray();
+        $data['rt_gis']                 = Wilayah::rt()->get()->toArray();
+        $data['all_lokasi']             = Lokasi::activeLocationMap();
+        $data['all_garis']              = GarisModel::activeGarisMap();
+        $data['all_area']               = Area::activeAreaMap();
+        $data['all_lokasi_pembangunan'] = Pembangunan::activePembangunanMap();
+        $data['form_action']            = route('garis.update_maps', implode('/', [$parent, $id]));
 
-        $this->render('garis/maps', $data);
+        return view('admin.peta.garis.maps', $data);
     }
 
-    public function update_maps($p = 1, $o = 0, $id = ''): void
+    public function update_maps($parent, $id): void
+    {
+        $this->redirect_hak_akses('u', route('garis.index', $parent));
+
+        try {
+            $data = $this->input->post();            
+            if ($data['path'] !== '[[]]') {
+                GarisModel::whereId($id)->update($data);
+                redirect_with('success', 'Pengaturan garis berhasil disimpan', route('garis.index', $parent));
+            } else {
+                redirect_with('error', 'Titik koordinat garis harus diisi', route('garis.index', $parent));
+            }
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Pengaturan garis gagal disimpan', route('garis.index', $parent));
+        }
+    }
+
+    public function kosongkan($parent, $id): void
+    {
+        $this->redirect_hak_akses('u', route('garis.index', $parent));
+
+        try {
+            GarisModel::whereId($id)->update(['path' => null]);
+            redirect_with('success', 'Pengaturan garis berhasil dikosongkan', route('garis.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Pengaturan garis gagal dikosongkan', route('garis.index', $parent));
+        }
+    }
+
+    public function insert($parent): void
     {
         $this->redirect_hak_akses('u');
-        $this->plan_garis_model->update_position($id);
-
-        redirect("{$this->controller}/index/{$p}/{$o}");
-    }
-
-    public function kosongkan($id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_garis_model->kosongkan_path($id);
-        redirect($_SERVER['HTTP_REFERER']);
-    }
-
-    public function search(): void
-    {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $_SESSION['cari'] = $cari;
-        } else {
-            unset($_SESSION['cari']);
+        if ($this->validation()) {
+            $data = $this->validasi($this->input->post());
         }
 
-        redirect($this->controller);
+        try {
+            GarisModel::create($data);
+            redirect_with('success', 'Pengaturan garis berhasil disimpan', route('garis.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Pengaturan garis gagal disimpan', route('garis.index', $parent));
+        }
     }
 
-    public function filter(): void
+    public function update($parent, $id): void
     {
-        $filter = $this->input->post('filter');
-        if ($filter != 0) {
-            $_SESSION['filter'] = $filter;
-        } else {
-            unset($_SESSION['filter']);
+        $this->redirect_hak_akses('u');
+
+        if ($this->validation()) {
+            $data = $this->validasi($this->input->post());
         }
 
-        redirect($this->controller);
+        try {
+            $obj = GarisModel::findOrFail($id);
+            $obj->update($data);
+            redirect_with('success', 'Pengaturan garis berhasil disimpan', route('garis.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Pengaturan garis gagal disimpan', route('garis.index', $parent));
+        }
     }
 
-    public function line(): void
+    public function delete($parent, $id = null): void
     {
-        $line = $this->input->post('line');
-        if ($line != 0) {
-            $_SESSION['line'] = $line;
+        $this->redirect_hak_akses('h', route('garis.index', $parent));
+
+        try {
+            GarisModel::destroy($this->request['id_cb'] ?? $id);
+            redirect_with('success', 'Pengaturan garis berhasil dihapus', route('garis.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Pengaturan garis gagal dihapus', route('garis.index', $parent));
+        }
+    }
+
+    public function lock($parent, $id): void
+    {
+        $this->redirect_hak_akses('h', route('garis.index', $parent));
+
+        try {
+            GarisModel::where(['id' => $id])->update(['enabled' => GarisModel::LOCK]);
+            redirect_with('success', 'Pengaturan garis berhasil dinonaktifkan', route('garis.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Pengaturan garis gagal dinonaktifkan', route('garis.index', $parent));
+        }
+    }
+
+    public function unlock($parent, $id): void
+    {
+        $this->redirect_hak_akses('h', route('garis.index', $parent));
+
+        try {
+            GarisModel::where(['id' => $id])->update(['enabled' => GarisModel::UNLOCK]);
+            redirect_with('success', 'Pengaturan garis berhasil dinonaktifkan', route('garis.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Pengaturan garis gagal dinonaktifkan', route('garis.index', $parent));
+        }
+    }
+
+    private function validation()
+    {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('ref_line', 'Kategori', 'required');
+        $this->form_validation->set_rules('desk', 'Keterangan', 'required|trim');
+        $this->form_validation->set_rules('enabled', 'Status', 'required');
+
+        return $this->form_validation->run();
+    }
+
+    private function validasi($post)
+    {
+        $data['nama']        = nomor_surat_keputusan($post['nama']);
+        $data['ref_line'] = bilangan($post['ref_line']);
+        $data['desk']        = htmlentities($post['desk']);
+        $data['enabled']     = bilangan($post['enabled']);
+
+        $garis_file = $_FILES['foto']['tmp_name'];
+        $nama_file = $_FILES['foto']['name'];
+        $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
+        if (! empty($garis_file)) {
+            $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
         } else {
-            unset($_SESSION['line']);
+            unset($data['foto']);
         }
 
-        redirect($this->controller);
-    }
-
-    public function subline(): void
-    {
-        unset($_SESSION['line']);
-        $subline = $this->input->post('subline');
-        if ($subline != 0) {
-            $_SESSION['subline'] = $subline;
-        } else {
-            unset($_SESSION['subline']);
-        }
-
-        redirect($this->controller);
-    }
-
-    public function insert($tip = 1): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_garis_model->insert($tip);
-
-        redirect("{$this->controller}/index/{$tip}");
-    }
-
-    public function update($id = '', $p = 1, $o = 0): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_garis_model->update($id);
-
-        redirect("{$this->controller}/index/{$p}/{$o}");
-    }
-
-    public function delete($p = 1, $o = 0, $id = ''): void
-    {
-        $this->redirect_hak_akses('h');
-        $this->plan_garis_model->delete($id);
-
-        redirect("{$this->controller}/index/{$p}/{$o}");
-    }
-
-    public function delete_all($p = 1, $o = 0): void
-    {
-        $this->redirect_hak_akses('h');
-        $this->plan_garis_model->delete_all();
-
-        redirect("{$this->controller}/index/{$p}/{$o}");
-    }
-
-    public function garis_lock($id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_garis_model->garis_lock($id, 1);
-
-        redirect($this->controller);
-    }
-
-    public function garis_unlock($id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_garis_model->garis_lock($id, 2);
-
-        redirect($this->controller);
+        return $data;
     }
 }

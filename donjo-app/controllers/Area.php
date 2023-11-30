@@ -56,11 +56,6 @@ class Area extends Admin_Controller
         $this->sub_modul_ini = 'pengaturan-peta';
     }
 
-    public function clear(): void
-    {
-        redirect('area');
-    }
-
     public function index($parent = 0): void
     {
         $data            = ['tip' => $this->tip, 'parent' => $parent];

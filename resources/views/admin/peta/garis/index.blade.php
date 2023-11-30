@@ -3,12 +3,12 @@
 @include('admin.layouts.components.asset_datatables')
 @section('title')
     <h1>
-        Area
+        Pengaturan Garis
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Area</li>
+    <li class="active">Pengaturan Garis</li>
 @endsection
 
 @section('content')
@@ -21,15 +21,15 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u'))
-                        <a href="{{ route('area.form', $parent) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+                        <a href="{{ route('garis.form', $parent) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
                     @endif
                     @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('area.delete', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i>
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('garis.delete', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i>
                             Hapus</a>
                     @endif
                     @if ($parent_jenis)
-                        <a href="{{ route('area.index') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                            <i class="fa fa-arrow-circle-left "></i>Kembali ke Area
+                        <a href="{{ route('garis.index') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                            <i class="fa fa-arrow-circle-left "></i>Kembali ke Pengaturan Garis
                         </a>
                     @endif
                 </div>
@@ -44,24 +44,23 @@
                             </select>
                         </div>
                         <div class="col-sm-2">
-                            <select id="polygon" class="form-control input-sm select2">
+                            <select id="line" class="form-control input-sm select2">
                                 <option value="">Pilih Jenis</option>
-                                @foreach($polygon as $item)
+                                @foreach($line as $item)
                                     <option data-children='{!! $item->children->toJson() !!}' value="{{ $item->id }}" >{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
                         
                         <div class="col-sm-2">
-                            <select id="subpolygon" class="form-control input-sm select2">
+                            <select id="subline" class="form-control input-sm select2">
                                 <option value="">Pilih Kategori</option>
-                                @foreach($polygon as $item)
+                                @foreach($line as $item)
                                     <optgroup label="{{ $item->nama }}">
                                     @foreach($item->children as $child)
                                         <option value="{{ $child->id }}" >{{ $child->nama }}</option>
                                     @endforeach
-                                    </optgroup>
-                                    
+                                    </optgroup>                                    
                                 @endforeach
                             </select>
                         </div>
@@ -76,7 +75,7 @@
                                     <th><input type="checkbox" id="checkall" /></th>
                                     <th class="padat">No</th>
                                     <th class="padat">Aksi</th>
-                                    <th>Area</th>
+                                    <th>Garis</th>
                                     <th style="width:10%">Aktif</th>
                                     <th style="width:15%">Jenis</th> 
                                     <th style="width:15%">Kategori</th>
@@ -108,11 +107,11 @@
                 processing: true,
                 serverSide: true,
                 ajax: { 
-                    url :"{{ route('area.datatables') }}?parent={{ $parent }}" ,
+                    url :"{{ route('garis.datatables') }}?parent={{ $parent }}" ,
                     data: function(req) {
                         req.status = $('#status').val();
-                        req.polygon = $('#polygon').val();
-                        req.subpolygon = $('#subpolygon').val();
+                        req.line = $('#line').val();
+                        req.subline = $('#subline').val();
                     }
                 },
                 columns: [{
@@ -146,17 +145,17 @@
                         orderable: true
                     },
                     {
-                        data: 'ref_polygon',
-                        name: 'ref_polygon',
+                        data: 'ref_line',
+                        name: 'ref_line',
                         label: 'jenis',
                         searchable: false,
-                        orderable: false
+                        orderable: false,
                     },
                     {
                         data: 'kategori',
                         name: 'kategori',
                         searchable: false,
-                        orderable: false
+                        orderable: false,
                     },      
                 ],
                 order: [
@@ -172,29 +171,29 @@
                 TableData.column(2).visible(false);
             }            
 
-            $('#polygon').change(function(){                
+            $('#line').change(function(){                
                 let _label = $(this).find('option:selected').text()
-                $('#subpolygon').val('')
-                $('#subpolygon').find('optgroup').prop('disabled', 1)                
+                $('#subline').val('')
+                $('#subline').find('optgroup').prop('disabled', 1)                
                 if($(this).val()){
-                    $('#subpolygon').closest('div').show()
-                    $('#subpolygon').find(`optgroup[label="${_label}"]`).prop('disabled', 0)
+                    $('#subline').closest('div').show()
+                    $('#subline').find(`optgroup[label="${_label}"]`).prop('disabled', 0)
                 } else {
-                    $('#subpolygon').closest('div').hide()    
+                    $('#subline').closest('div').hide()    
                 }
-                $('#btn-add').attr('href', '{{ route('area.form') }}/'+$(this).val())
-                $('#subpolygon').select2()
+                $('#btn-add').attr('href', '{{ route('garis.form') }}/'+$(this).val())
+                $('#subline').select2()
             })            
 
-            $('#subpolygon').closest('div').hide()
+            $('#subline').closest('div').hide()
             
-            $('#subpolygon, #polygon, #status').change(function(){
+            $('#subline, #line, #status').change(function(){
                 TableData.draw()
             })
 
             if ({{ $parent }} > 0) {
-                $('#polygon').val({{ $parent }})
-                $('#polygon').trigger('change')
+                $('#line').val({{ $parent }})
+                $('#line').trigger('change')
             }
         });
     </script>
