@@ -261,6 +261,9 @@ class Database_model extends MY_Model
             Migrasi::where('versi_database', '=', VERSI_DATABASE)->update(['premium' => $this->session->daftar_migrasi]);
         }
 
+        $index = file_get_contents('https://raw.githubusercontent.com/OpenSID/OpenSID/umum/index.php');
+        file_put_contents(FCPATH . 'index.php', $index);
+
         log_message('notice', 'Versi database sudah terbaru');
     }
 
