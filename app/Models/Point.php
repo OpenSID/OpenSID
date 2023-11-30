@@ -47,8 +47,9 @@ class Point extends BaseModel
 {
     use ConfigId;
 
-    const ROOT = 0;
-    const CHILD = 2;
+    public const ROOT  = 0;
+    public const CHILD = 2;
+
     /**
      * The table associated with the model.
      *
@@ -56,37 +57,38 @@ class Point extends BaseModel
      */
     protected $table = 'point';
 
-    public $timestamps  = false;
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [        
+    protected $fillable = [
         'nama',
         'simbol',
         'enabled',
         'tipe',
-        'parrent',        
+        'parrent',
     ];
 
-    protected function scopeRoot($query){
+    protected function scopeRoot($query)
+    {
         return $query->whereTipe(self::ROOT);
     }
 
-    protected function scopeChild($query, int $parent){
+    protected function scopeChild($query, int $parent)
+    {
         return $query->whereTipe(self::CHILD)->whereParrent($parent);
     }
 
-    protected function scopeActive($query){
+    protected function scopeActive($query)
+    {
         return $query->whereEnabled(1);
     }
 
     /**
      * Get the parent that owns the Polygon
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent(): BelongsTo
     {

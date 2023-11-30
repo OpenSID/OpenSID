@@ -48,13 +48,16 @@ class Area extends BaseModel
 
     public const LOCK   = 1;
     public const UNLOCK = 2;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'area';
-    public $timestamps  = false;
+
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -125,34 +128,35 @@ class Area extends BaseModel
         return null;
     }
 
-    protected function scopeActive($query){
+    protected function scopeActive($query)
+    {
         return $query->whereEnabled(self::UNLOCK);
     }
 
     /**
      * Get the polygon that owns the Area
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function polygon(): BelongsTo
     {
         return $this->belongsTo(Polygon::class, 'ref_polygon', 'id');
     }
 
-    public function isLock(){
+    public function isLock()
+    {
         return $this->enabled == self::LOCK;
     }
 
-    public static function activeAreaMap(){
+    public static function activeAreaMap()
+    {
         return self::active()->with(['polygon' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol', 'color'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol', 'color'])]),
         ])->get()->map(function ($item) {
-                    $item->jenis    = $item->polygon->parent->nama ?? '';
-                    $item->kategori = $item->polygon->nama ?? '';
-                    $item->simbol   = $item->polygon->simbol ?? '';
-                    $item->color    = $item->polygon->color ?? '';
+            $item->jenis    = $item->polygon->parent->nama ?? '';
+            $item->kategori = $item->polygon->nama ?? '';
+            $item->simbol   = $item->polygon->simbol ?? '';
+            $item->color    = $item->polygon->color ?? '';
 
-                    return $item;
-                })->toArray();
+            return $item;
+        })->toArray();
     }
 
     /**
@@ -177,9 +181,9 @@ class Area extends BaseModel
 
     private static function deleteFile($file)
     {
-        if ($file) {            
+        if ($file) {
             $fotoSedang = LOKASI_FOTO_AREA . 'sedang_' . $file;
-            $fotoKecil = LOKASI_FOTO_AREA . 'kecil_' . $file;
+            $fotoKecil  = LOKASI_FOTO_AREA . 'kecil_' . $file;
             if (file_exists($fotoSedang)) {
                 unlink($fotoSedang);
             }

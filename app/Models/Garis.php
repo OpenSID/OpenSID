@@ -106,30 +106,31 @@ class Garis extends BaseModel
         return null;
     }
 
-    protected function scopeActive($query){
+    protected function scopeActive($query)
+    {
         return $query->whereEnabled(1);
     }
 
     /**
      * Get the line associated with the Garis
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function line(): HasOne
     {
         return $this->hasOne(Line::class, 'id', 'ref_line');
     }
 
-    public static function activeGarisMap(){
+    public static function activeGarisMap()
+    {
         return self::active()->with(['line' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol'])]),
         ])->get()->map(function ($item) {
-                $item->jenis    = $item->line->parent->nama ?? '';
-                $item->kategori = $item->line->nama ?? '';
-                $item->simbol   = $item->line->simbol ?? '';
-                $item->color    = $item->line->color ?? '';
-                $item->tebal    = $item->line->tebal ?? '';
-                $item->jenis_garis  = $item->line->jenis ?? '';
-                return $item;
+            $item->jenis       = $item->line->parent->nama ?? '';
+            $item->kategori    = $item->line->nama ?? '';
+            $item->simbol      = $item->line->simbol ?? '';
+            $item->color       = $item->line->color ?? '';
+            $item->tebal       = $item->line->tebal ?? '';
+            $item->jenis_garis = $item->line->jenis ?? '';
+
+            return $item;
         })->toArray();
     }
 }

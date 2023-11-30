@@ -36,12 +36,11 @@
  */
 
 use App\Models\Area as AreaModel;
-use App\Models\Lokasi;
 use App\Models\Garis;
+use App\Models\Lokasi;
 use App\Models\Pembangunan;
 use App\Models\Polygon;
 use App\Models\Wilayah;
-use Illuminate\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,7 +51,7 @@ class Area extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->modul_ini     = 'pemetaan';
         $this->sub_modul_ini = 'pengaturan-peta';
     }
@@ -142,15 +141,15 @@ class Area extends Admin_Controller
     {
         $data['area'] = AreaModel::find($id)->toArray();
 
-        $data['parent']     = $parent;
-        $data['desa']       = $this->header['desa'];
-        $data['wil_atas']   = $this->header['desa'];
-        $data['dusun_gis']  = Wilayah::dusun()->get()->toArray();
-        $data['rw_gis']     = Wilayah::rw()->get()->toArray();
-        $data['rt_gis']     = Wilayah::rt()->get()->toArray();
-        $data['all_lokasi'] = Lokasi::activeLocationMap();
-        $data['all_garis'] = Garis::activeGarisMap();
-        $data['all_area'] = AreaModel::activeAreaMap();
+        $data['parent']                 = $parent;
+        $data['desa']                   = $this->header['desa'];
+        $data['wil_atas']               = $this->header['desa'];
+        $data['dusun_gis']              = Wilayah::dusun()->get()->toArray();
+        $data['rw_gis']                 = Wilayah::rw()->get()->toArray();
+        $data['rt_gis']                 = Wilayah::rt()->get()->toArray();
+        $data['all_lokasi']             = Lokasi::activeLocationMap();
+        $data['all_garis']              = Garis::activeGarisMap();
+        $data['all_area']               = AreaModel::activeAreaMap();
         $data['all_lokasi_pembangunan'] = Pembangunan::activePembangunanMap();
         $data['form_action']            = route('area.update_maps', implode('/', [$parent, $id]));
 

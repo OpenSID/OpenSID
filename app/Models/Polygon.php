@@ -47,9 +47,8 @@ class Polygon extends BaseModel
 {
     use ConfigId;
 
-    public const LOCK   = 1;
-    public const UNLOCK = 2;
-
+    public const LOCK        = 1;
+    public const UNLOCK      = 2;
     public const POLYGON     = 0;
     public const SUB_POLYGON = 2;
 
@@ -86,25 +85,28 @@ class Polygon extends BaseModel
         return $this->attributes['tipe'] == 0 ? null : $this->attributes['parrent'];
     }
 
-    protected function scopeRoot($query){
+    protected function scopeRoot($query)
+    {
         return $query->whereTipe(self::POLYGON);
     }
 
-    protected function scopeChild($query, int $parent){
+    protected function scopeChild($query, int $parent)
+    {
         return $query->whereTipe(self::SUB_POLYGON)->whereParrent($parent);
     }
 
-    protected function scopeSubPolygon($query){
+    protected function scopeSubPolygon($query)
+    {
         return $query->whereTipe(self::SUB_POLYGON);
     }
-    protected function scopeActive($query){
+
+    protected function scopeActive($query)
+    {
         return $query->whereEnabled(self::UNLOCK);
     }
 
     /**
      * Get the parent that owns the Polygon
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent(): BelongsTo
     {

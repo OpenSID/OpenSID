@@ -52,7 +52,8 @@ class Lokasi extends BaseModel
      * @var string
      */
     protected $table = 'lokasi';
-    public $timestamps  = false;
+
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -107,28 +108,29 @@ class Lokasi extends BaseModel
         return null;
     }
 
-    protected function scopeActive($query){
+    protected function scopeActive($query)
+    {
         return $query->whereEnabled(1);
     }
 
     /**
      * Get the point associated with the Lokasi
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function point(): HasOne
     {
         return $this->hasOne(Point::class, 'id', 'ref_point');
     }
 
-    public static function activeLocationMap(){
+    public static function activeLocationMap()
+    {
         return self::active()->with(['point' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol'])]),
         ])->get()->map(function ($item) {
-                    $item->jenis    = $item->point->parent->nama ?? '';
-                    $item->kategori = $item->point->nama ?? '';
-                    $item->simbol   = $item->point->simbol ?? '';
-                    unset($item->point);
-                    return $item;
-                })->toArray();
+            $item->jenis    = $item->point->parent->nama ?? '';
+            $item->kategori = $item->point->nama ?? '';
+            $item->simbol   = $item->point->simbol ?? '';
+            unset($item->point);
+
+            return $item;
+        })->toArray();
     }
 }
