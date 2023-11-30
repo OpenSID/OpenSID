@@ -115,6 +115,7 @@ class Area extends Admin_Controller
 
     public function ajax_area_maps($p = 1, $o = 0, $id = ''): void
     {
+        $this->redirect_hak_akses('u');
         $data['p']    = $p;
         $data['o']    = $o;
         $data['area'] = $id ? $this->plan_area_model->get_area($id) : null;

@@ -89,6 +89,10 @@
                     [2, 'desc']
                 ]
             });
+
+            if (ubah == 0) {
+                TableData.column(1).visible(false);
+            }
         });
     </script>
 @endpush
