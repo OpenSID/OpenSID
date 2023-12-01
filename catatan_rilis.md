@@ -9,6 +9,6 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#7462](https://github.com/OpenSID/OpenSID/issues/7462) Perbaikan ekspor klasifikasi surat.
 
 
-#### Peningkatan Keamanan
+#### Penyesuaian Teknis
 
-1. 
+1. [#3197](https://github.com/OpenSID/premium/issues/3197) Penyesuaian source menggunakan rector.

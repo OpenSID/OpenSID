@@ -338,7 +338,7 @@ class Shortcode_model extends MY_Model
         }, $str);
     }
 
-    private function converted_sc_list(string $type, string $thn)
+    private function converted_sc_list(string $type = '', string $thn = '')
     {
         if ($type == 'lap-RP-APBD-sm1') {
             return "<i class='fa fa-table'></i> Tabel Laporan APBDes Smt. 1 TA. " . $thn . ', ';

@@ -9,6 +9,7 @@ use Rector\Caching\ValueObject\Storage\FileCacheStorage;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictTypedCallRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\BoolReturnTypeFromStrictScalarReturnsRector;
+use Rector\Php73\Rector\ConstFetch\SensitiveConstantNameRector;
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
@@ -30,6 +31,7 @@ return static function (RectorConfig $rectorConfig): void {
     // register a single rule, test push
     $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
     $rectorConfig->skip([
+        SensitiveConstantNameRector::class,
         ExplicitBoolCompareRector::class,
         JsonThrowOnErrorRector::class,
         // skip rule ini, karena menyebabkan error di codeigniter 3

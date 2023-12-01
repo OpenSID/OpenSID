@@ -153,9 +153,7 @@ class MY_Controller extends CI_Controller
 
             return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
         })
-            ->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static function ($query) {
-                return $query->orWhereNull('pamong_id');
-            })
+            ->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static fn ($query) => $query->orWhereNull('pamong_id'))
             ->get();
 
         if (is_array($isi) && $users->count() > 0) {
@@ -168,22 +166,18 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    public function kirim_notifikasi_admin($next, $pesan, $judul, $payload = '')
+    public function kirim_notifikasi_admin($next, $pesan, $judul, $payload = ''): void
     {
-        $allToken = FcmToken::whereHas('user', static function ($user) use ($next) {
-            return $user->WhereHas('pamong', static function ($query) use ($next) {
-                if ($next == 'verifikasi_sekdes') {
-                    return $query->where('jabatan_id', '=', sekdes()->id);
-                }
-                if ($next == 'verifikasi_kades') {
-                    return $query->where('jabatan_id', '=', kades()->id);
-                }
+        $allToken = FcmToken::whereHas('user', static fn ($user) => $user->WhereHas('pamong', static function ($query) use ($next) {
+            if ($next == 'verifikasi_sekdes') {
+                return $query->where('jabatan_id', '=', sekdes()->id);
+            }
+            if ($next == 'verifikasi_kades') {
+                return $query->where('jabatan_id', '=', kades()->id);
+            }
 
-                return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
-            })->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static function ($query) {
-                return $query->orWhereNull('pamong_id');
-            });
-        })->get();
+            return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
+        })->when(next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static fn ($query) => $query->orWhereNull('pamong_id')))->get();
 
         if (cek_koneksi_internet()) {
             // kirim ke aplikasi android admin.
@@ -213,14 +207,14 @@ class MY_Controller extends CI_Controller
         $this->create_log_notifikasi_admin($next, $isi);
     }
 
-    public function create_log_notifikasi_penduduk($isi)
+    public function create_log_notifikasi_penduduk($isi): void
     {
         if (is_array($isi)) {
             LogNotifikasiMandiri::create($isi);
         }
     }
 
-    public function kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul, $payload = '')
+    public function kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul, $payload = ''): void
     {
         $allToken = FcmTokenMandiri::where('id_user_mandiri', $id_penduduk)->get();
 

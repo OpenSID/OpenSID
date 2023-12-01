@@ -133,7 +133,7 @@ class FakeDataIsian
     {
         $kode_isian = json_decode($this->request['kode_isian'], true);
 
-        foreach ($kode_isian as $kode => $value) {
+        foreach ($kode_isian as $value) {
             $tanggal = date('d-m-Y');
 
             switch($value['tipe']) {
@@ -154,14 +154,14 @@ class FakeDataIsian
                     break;
 
                 case 'number':
-                    $nilai_isian = Str::contains($value['atribut'], ['min', 'max']) ? mt_rand((int) Str::before(Str::after($value['atribut'], 'min="'), '"'), (int) Str::between($value['atribut'], 'max="', '"')) : mt_rand(1, 10);
+                    $nilai_isian = Str::contains($value['atribut'], ['min', 'max']) ? random_int((int) Str::before(Str::after($value['atribut'], 'min="'), '"'), (int) Str::between($value['atribut'], 'max="', '"')) : random_int(1, 10);
                     break;
 
                 default:
                     if (preg_match('/hari/i', $value['atribut'])) {
                         $nilai_isian = hari($tanggal);
                     } elseif (preg_match('/rupiah/i', $value['atribut'])) {
-                        $nilai_isian = 'Rp. ' . number_format(mt_rand(100, 9999) . '000', 0, ',', '.');
+                        $nilai_isian = 'Rp. ' . number_format(random_int(100, 9999) . '000', 0, ',', '.');
                     } else {
                         $nilai_isian = $value['deskripsi'] ?? $value['nama'];
                     }
