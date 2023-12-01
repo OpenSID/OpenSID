@@ -85,4 +85,32 @@ class DtksLampiran extends BaseModel
     {
         return $this->belongsToMany(Dtks::class, 'dtks_ref_lampiran', 'id_lampiran', 'id_dtks')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(static function ($model) {
+            static::deleteFile($model->getOriginal('foto'));
+        });
+    }
+
+    private static function deleteFile($file)
+    {
+        if ($file) {
+            $path = FCPATH . LOKASI_FOTO_DTKS . $file;
+            if (file_exists($path)) {
+                unlink($path);
+            }
+
+            $path_kecil = FCPATH . LOKASI_FOTO_DTKS . 'kecil_' . $file;
+            if (file_exists($path_kecil)) {
+                unlink($path_kecil);
+            }
+        }
+    }
 }

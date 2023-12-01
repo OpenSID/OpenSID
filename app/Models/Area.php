@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,12 +46,17 @@ class Area extends BaseModel
 {
     use ConfigId;
 
+    public const LOCK   = 1;
+    public const UNLOCK = 2;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'area';
+
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -75,6 +81,7 @@ class Area extends BaseModel
     protected $appends = [
         'foto_kecil',
         'foto_sedang',
+        'foto_area',
     ];
 
     /**
@@ -103,5 +110,86 @@ class Area extends BaseModel
         }
 
         return null;
+    }
+
+    /**
+     * Getter untuk foto sedang.
+     */
+    public function getFotoAreaAttribute(): ?string
+    {
+        if ($kecil = $this->getFotoKecilAttribute()) {
+            return to_base64($kecil);
+        }
+
+        if ($sedang = $this->getFotoSedangAttribute()) {
+            return to_base64($sedang);
+        }
+
+        return null;
+    }
+
+    protected function scopeActive($query)
+    {
+        return $query->whereEnabled(self::UNLOCK);
+    }
+
+    /**
+     * Get the polygon that owns the Area
+     */
+    public function polygon(): BelongsTo
+    {
+        return $this->belongsTo(Polygon::class, 'ref_polygon', 'id');
+    }
+
+    public function isLock()
+    {
+        return $this->enabled == self::LOCK;
+    }
+
+    public static function activeAreaMap()
+    {
+        return self::active()->with(['polygon' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol', 'color'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol', 'color'])]),
+        ])->get()->map(function ($item) {
+            $item->jenis    = $item->polygon->parent->nama ?? '';
+            $item->kategori = $item->polygon->nama ?? '';
+            $item->simbol   = $item->polygon->simbol ?? '';
+            $item->color    = $item->polygon->color ?? '';
+
+            return $item;
+        })->toArray();
+    }
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updating(static function ($model) {
+            if ($model->isDirty('foto')) {
+                static::deleteFile($model->getOriginal('foto'));
+            }
+        });
+
+        static::deleting(static function ($model) {
+            static::deleteFile($model->getOriginal('foto'));
+        });
+    }
+
+    private static function deleteFile($file)
+    {
+        if ($file) {
+            $fotoSedang = LOKASI_FOTO_AREA . 'sedang_' . $file;
+            $fotoKecil  = LOKASI_FOTO_AREA . 'kecil_' . $file;
+            if (file_exists($fotoSedang)) {
+                unlink($fotoSedang);
+            }
+            if (file_exists($fotoKecil)) {
+                unlink($fotoKecil);
+            }
+        }
     }
 }

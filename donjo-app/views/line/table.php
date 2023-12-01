@@ -21,11 +21,11 @@
 		<form id="mainform" name="mainform" method="post">
 			<div class="row">
 				<div class="col-md-3">
-          <?php $this->load->view('plan/nav.php')?>
+					<?= view('admin.peta.nav', ['tip' => $tip]) ?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 							<?php if ($this->CI->cek_hak_akses('u')): ?>
 								<a href="<?=site_url('line/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
 									<i class="fa fa-plus"></i>Tambah Jenis Garis Baru

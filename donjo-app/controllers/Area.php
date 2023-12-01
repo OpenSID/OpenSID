@@ -35,215 +35,225 @@
  *
  */
 
+use App\Models\Area as AreaModel;
+use App\Models\Garis;
+use App\Models\Lokasi;
+use App\Models\Pembangunan;
+use App\Models\Polygon;
+use App\Models\Wilayah;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Area extends Admin_Controller
 {
-    /**
-     * @var array
-     */
-    protected $list_session = ['cari', 'filter', 'polygon', 'subpolygon'];
-
-    /**
-     * @var array
-     */
-    protected $set_page = ['50', '100', '200'];
+    private $tip = 4;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->load->model(['wilayah_model', 'plan_lokasi_model', 'plan_area_model', 'plan_garis_model', 'pembangunan_model', 'pembangunan_dokumentasi_model']);
         $this->modul_ini     = 'pemetaan';
         $this->sub_modul_ini = 'pengaturan-peta';
     }
 
-    public function clear(): void
+    public function index($parent = 0): void
     {
-        $this->session->unset_userdata($this->list_session);
-        $this->session->per_page = $this->set_page[0];
-        redirect('area');
+        $data            = ['tip' => $this->tip, 'parent' => $parent];
+        $data['status']  = [Polygon::LOCK => 'Aktif', Polygon::UNLOCK => 'Non Aktif'];
+        $data['polygon'] = Polygon::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
+
+        view('admin.peta.area.index', $data);
     }
 
-    public function index($p = 1, $o = 0): void
+    public function datatables()
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        if ($this->input->is_ajax_request()) {
+            $status     = $this->input->get('status') ?? null;
+            $subpolygon = $this->input->get('subpolygon') ?? null;
+            $polygon    = $this->input->get('polygon') ?? null;
+            $parent     = $this->input->get('parent') ?? 0;
 
-        foreach ($this->list_session as $list) {
-            $data[$list] = $this->session->{$list} ?: '';
+            return datatables()->of(AreaModel::when($status, static fn ($q) => $q->whereEnabled($status))
+                ->when($polygon, static fn ($q) => $q->whereIn('ref_polygon', static fn ($q) => $q->select('id')->from('polygon')->whereParrent($polygon)))
+                ->when($subpolygon, static fn ($q) => $q->whereRefPolygon($subpolygon))
+                ->with(['polygon' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
+                ]))
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) use ($parent): string {
+                    $aksi = '';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('area.form', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                    }
+                    $aksi .= '<a href="' . route('area.ajax_area_maps', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
+                    if (can('u')) {
+                        if ($row->isLock()) {
+                            $aksi .= '<a href="' . route('area.unlock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . route('area.lock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                        }
+                    }
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . route('area.delete', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('enabled', static fn ($row) => $row->enabled == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('ref_polygon', static fn ($row) => $row->polygon->parent->nama ?? '')
+                ->editColumn('kategori', static fn ($row) => $row->polygon->nama ?? '')
+                ->rawColumns(['aksi', 'ceklist'])
+                ->make();
         }
 
-        $per_page = $this->input->post('per_page');
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
-        }
-
-        $data['func']            = 'index';
-        $data['set_page']        = $this->set_page;
-        $data['per_page']        = $this->session->per_page;
-        $data['paging']          = $this->plan_area_model->paging($p, $o);
-        $data['main']            = $this->plan_area_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']         = $this->plan_area_model->autocomplete();
-        $data['list_polygon']    = $this->plan_area_model->list_polygon();
-        $data['list_subpolygon'] = $this->plan_area_model->list_subpolygon();
-
-        $data['tip'] = 4;
-        $this->render('area/table', $data);
+        return show_404();
     }
 
-    public function form($p = 1, $o = 0, $id = ''): void
+    public function form($parent = 0, $id = '')
     {
         $this->redirect_hak_akses('u');
-        $data['p'] = $p;
-        $data['o'] = $o;
+        $data['area']        = null;
+        $data['form_action'] = route('area.insert', $parent);
+        $data['foto_area']   = null;
+        $data['parent']      = $parent;
 
         if ($id) {
-            $data['area']        = $this->plan_area_model->get_area($id);
-            $data['form_action'] = site_url("area/update/{$id}/{$p}/{$o}");
-        } else {
-            $data['area']        = null;
-            $data['form_action'] = site_url('area/insert');
+            $data['area']        = AreaModel::find($id);
+            $data['form_action'] = route('area.update', implode('/', [$parent, $id]));
         }
 
-        $data['list_polygon'] = $this->plan_area_model->list_polygon();
-        $data['tip']          = 4;
-        $data['foto_area']    = to_base64(LOKASI_FOTO_AREA . 'kecil_' . $data['area']['foto']);
+        $data['list_polygon'] = empty($parent) ? Polygon::subPolygon()->whereHas('parent')->get() : Polygon::child($parent)->whereHas('parent')->get();
+        $data['tip']          = $this->tip;
 
-        $this->render('area/form', $data);
+        return view('admin.peta.area.form', $data);
     }
 
-    public function ajax_area_maps($p = 1, $o = 0, $id = ''): void
+    public function ajax_area_maps($parent, int $id)
     {
-        $this->redirect_hak_akses('u');
-        $data['p']    = $p;
-        $data['o']    = $o;
-        $data['area'] = $id ? $this->plan_area_model->get_area($id) : null;
+        $this->redirect_hak_akses('u', route('area.index', $parent));
 
+        $data['area']                   = AreaModel::find($id)->toArray();
+        $data['parent']                 = $parent;
         $data['desa']                   = $this->header['desa'];
         $data['wil_atas']               = $this->header['desa'];
-        $data['dusun_gis']              = $this->wilayah_model->list_dusun();
-        $data['rw_gis']                 = $this->wilayah_model->list_rw();
-        $data['rt_gis']                 = $this->wilayah_model->list_rt();
-        $data['all_lokasi']             = $this->plan_lokasi_model->list_data();
-        $data['all_garis']              = $this->plan_garis_model->list_data();
-        $data['all_area']               = $this->plan_area_model->list_data();
-        $data['all_lokasi_pembangunan'] = $this->pembangunan_model->list_lokasi_pembangunan();
-        $data['form_action']            = site_url("area/update_maps/{$p}/{$o}/{$id}");
+        $data['dusun_gis']              = Wilayah::dusun()->get()->toArray();
+        $data['rw_gis']                 = Wilayah::rw()->get()->toArray();
+        $data['rt_gis']                 = Wilayah::rt()->get()->toArray();
+        $data['all_lokasi']             = Lokasi::activeLocationMap();
+        $data['all_garis']              = Garis::activeGarisMap();
+        $data['all_area']               = AreaModel::activeAreaMap();
+        $data['all_lokasi_pembangunan'] = Pembangunan::activePembangunanMap();
+        $data['form_action']            = route('area.update_maps', implode('/', [$parent, $id]));
 
-        $this->render('area/maps', $data);
+        return view('admin.peta.area.maps', $data);
     }
 
-    public function update_maps($p = 1, $o = 0, $id = ''): void
+    public function update_maps($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
-        $this->plan_area_model->update_position($id);
-        redirect("area/index/{$p}/{$o}");
-    }
+        $this->redirect_hak_akses('u', route('area.index', $parent));
 
-    public function kosongkan($id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_area_model->kosongkan_path($id);
-        redirect($_SERVER['HTTP_REFERER']);
-    }
-
-    public function search(): void
-    {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $this->session->cari = $cari;
-        } else {
-            $this->session->unset_userdata('cari');
+        try {
+            $data = $this->input->post();
+            if ($data['path'] !== '[[]]') {
+                AreaModel::whereId($id)->update($data);
+                redirect_with('success', 'Area berhasil disimpan', route('area.index', $parent));
+            } else {
+                redirect_with('error', 'Titik koordinat area harus diisi', route('area.index', $parent));
+            }
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Area gagal disimpan', route('area.index', $parent));
         }
-        redirect('area');
     }
 
-    public function filter(): void
+    public function kosongkan($parent, $id): void
     {
-        $filter = $this->input->post('filter');
-        if ($filter != 0) {
-            $this->session->filter = $filter;
-        } else {
-            $this->session->unset_userdata('filter');
+        $this->redirect_hak_akses('u', route('area.index', $parent));
+
+        try {
+            AreaModel::whereId($id)->update(['path' => null]);
+            redirect_with('success', 'Peta area berhasil dikosongkan', route('area.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Peta area gagal dikosongkan', route('area.index', $parent));
         }
-        redirect('area');
     }
 
-    public function polygon(): void
-    {
-        $polygon = $this->input->post('polygon');
-        if ($polygon != 0) {
-            $this->session->polygon = $polygon;
-        } else {
-            $this->session->unset_userdata('polygon');
-        }
-        redirect('area');
-    }
-
-    public function subpolygon(): void
-    {
-        $this->session->unset_userdata('polygon');
-        $subpolygon = $this->input->post('subpolygon');
-        if ($subpolygon != 0) {
-            $this->session->subpolygon = $subpolygon;
-        } else {
-            $this->session->unset_userdata('subpolygon');
-        }
-        redirect('area');
-    }
-
-    public function insert($tip = 1): void
+    public function insert($parent): void
     {
         $this->redirect_hak_akses('u');
         if ($this->validation()) {
-            $this->plan_area_model->insert($tip);
-            redirect("area/index/{$tip}");
+            $data = $this->validasi($this->input->post());
         }
 
-        session_error(trim(validation_errors()));
-        redirect('area/form');
+        try {
+            AreaModel::create($data);
+            redirect_with('success', 'Area berhasil disimpan', route('area.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Area gagal disimpan', route('area.index', $parent));
+        }
     }
 
-    public function update($id = '', $p = 1, $o = 0): void
+    public function update($parent, $id): void
     {
         $this->redirect_hak_akses('u');
 
         if ($this->validation()) {
-            $this->plan_area_model->update($id);
-            redirect("area/index/{$p}/{$o}");
+            $data = $this->validasi($this->input->post());
         }
 
-        session_error(trim(validation_errors()));
-        redirect("area/form/{$id}/{$p}/{$o}");
+        try {
+            $obj = AreaModel::findOrFail($id);
+            $obj->update($data);
+            redirect_with('success', 'Area berhasil disimpan', route('area.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Area gagal disimpan', route('area.index', $parent));
+        }
     }
 
-    public function delete($p = 1, $o = 0, $id = ''): void
+    public function delete($parent, $id = null): void
     {
-        $this->redirect_hak_akses('h', "area/index/{$p}/{$o}");
-        $this->plan_area_model->delete($id);
-        redirect("area/index/{$p}/{$o}");
+        $this->redirect_hak_akses('h', route('area.index', $parent));
+
+        try {
+            AreaModel::destroy($this->request['id_cb'] ?? $id);
+            redirect_with('success', 'Area berhasil dihapus', route('area.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Area gagal dihapus', route('area.index', $parent));
+        }
     }
 
-    public function delete_all($p = 1, $o = 0): void
+    public function lock($parent, $id): void
     {
-        $this->redirect_hak_akses('h', "area/index/{$p}/{$o}");
-        $this->plan_area_model->delete_all();
-        redirect("area/index/{$p}/{$o}");
+        $this->redirect_hak_akses('h', route('area.index', $parent));
+
+        try {
+            AreaModel::where(['id' => $id])->update(['enabled' => AreaModel::LOCK]);
+            redirect_with('success', 'Area berhasil dinonaktifkan', route('area.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Area gagal dinonaktifkan', route('area.index', $parent));
+        }
     }
 
-    public function area_lock($id = ''): void
+    public function unlock($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
-        $this->plan_area_model->area_lock($id, 1);
-        redirect("area/index/{$p}/{$o}");
-    }
+        $this->redirect_hak_akses('h', route('area.index', $parent));
 
-    public function area_unlock($id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_area_model->area_lock($id, 2);
-        redirect("area/index/{$p}/{$o}");
+        try {
+            AreaModel::where(['id' => $id])->update(['enabled' => AreaModel::UNLOCK]);
+            redirect_with('success', 'Area berhasil dinonaktifkan', route('area.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Area gagal dinonaktifkan', route('area.index', $parent));
+        }
     }
 
     private function validation()
@@ -255,5 +265,24 @@ class Area extends Admin_Controller
         $this->form_validation->set_rules('enabled', 'Status', 'required');
 
         return $this->form_validation->run();
+    }
+
+    private function validasi($post)
+    {
+        $data['nama']        = nomor_surat_keputusan($post['nama']);
+        $data['ref_polygon'] = bilangan($post['ref_polygon']);
+        $data['desk']        = htmlentities($post['desk']);
+        $data['enabled']     = bilangan($post['enabled']);
+
+        $area_file = $_FILES['foto']['tmp_name'];
+        $nama_file = $_FILES['foto']['name'];
+        $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
+        if (! empty($area_file)) {
+            $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_AREA);
+        } else {
+            unset($data['foto']);
+        }
+
+        return $data;
     }
 }
