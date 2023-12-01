@@ -1,6 +1,6 @@
-Di rilis ini, versi 2311.1.1 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2312.0.0 berisi penambahan penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] baru mulai berkontribusi.
+Terima kasih pada @ariandii dan @arifpriadi telah ikut berkontribusi.
 
 #### Penambahan Fitur
 
