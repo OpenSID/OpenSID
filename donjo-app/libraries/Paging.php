@@ -51,7 +51,7 @@ class Paging
     public $end;
     public $end_link;
     public $suffix;
-    public $num_links = 20;
+    public $num_links = 10;
 
     public function __construct($props = [])
     {

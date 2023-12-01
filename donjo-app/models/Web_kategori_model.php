@@ -214,6 +214,17 @@ class Web_kategori_model extends CI_Model
             $this->session->success = 1;
         }
 
+        $outp = $this->db->where('id', $id)->or_where('parrent', $id)->delete('kategori');
+
+        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+    }
+
+    public function delete_sub($id = '', $semua = false)
+    {
+        if (! $semua) {
+            $this->session->success = 1;
+        }
+
         $outp = $this->db->where('id', $id)->delete('kategori');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan

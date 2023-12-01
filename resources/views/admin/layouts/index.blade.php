@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
     <!-- Modifikasi -->
     <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}" />
+    <!-- Loading Lazy -->
+    <link rel="stylesheet" href="<?= asset('js/progressive-image/progressive-image.css') ?>">
     @stack('css')
 </head>
 
@@ -77,6 +79,7 @@
     </div>
     <script type="text/javascript">
         var SITE_URL = "{{ site_url() }}";
+        var BASE_URL = "{{ base_url() }}";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
@@ -106,6 +109,8 @@
     <!-- jquery validasi -->
     <script src="{{ asset('js/script.js') }}"></script>
     <script src="{{ asset('js/admin.js') }}"></script>
+    <!-- Loading Lazy -->
+    <script src="<?= asset('js/progressive-image/progressive-image.js') ?>"></script>
     <!-- Modifikasi -->
     @if (config_item('demo_mode'))
         <!-- Website Demo -->

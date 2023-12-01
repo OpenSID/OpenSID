@@ -116,8 +116,9 @@ class Bumindes_umum extends Admin_Controller
 
     private function load_berita_data_tables($page_number = 1, $offset = 0)
     {
+        $sebutan_desa         = ucwords(setting('sebutan_desa'));
         $data['main_content'] = 'bumindes/umum/content_berita';
-        $data['subtitle']     = 'Buku Lembaran Desa dan Berita Desa';
+        $data['subtitle']     = "Buku Lembaran {$sebutan_desa} dan Berita {$sebutan_desa}";
 
         return $data;
     }

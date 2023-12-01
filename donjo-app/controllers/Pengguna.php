@@ -73,7 +73,7 @@ class Pengguna extends Admin_Controller
     private function validate($request = [])
     {
         return [
-            'nama'           => alfanumerik_spasi($request['nama']),
+            'nama'           => nama($request['nama']),
             'notif_telegram' => (int) $request['notif_telegram'],
             'id_telegram'    => alfanumerik(empty($request['id_telegram']) ? 0 : $request['id_telegram']),
             'foto'           => $this->user_model->urusFoto(Auth()->id),

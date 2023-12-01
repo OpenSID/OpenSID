@@ -696,8 +696,8 @@ class Migrasi_fitur_premium_2209 extends MY_model
         if ($this->db->field_exists('id_telegram', 'user')) {
             $fields = [
                 'id_telegram' => [
-                    'type'       => 'INT',
-                    'constraint' => 11,
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
                     'null'       => false,
                 ],
             ];

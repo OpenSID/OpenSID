@@ -123,7 +123,8 @@ class Database_model extends MY_Model
         '23.08'   => ['migrate' => 'migrasi_2308_ke_2309', 'nextVersion' => '23.09'],
         '23.09'   => ['migrate' => 'migrasi_2309_ke_2310', 'nextVersion' => '23.10'],
         '23.10'   => ['migrate' => 'migrasi_2310_ke_2311', 'nextVersion' => '23.11'],
-        '23.10'   => ['migrate' => 'migrasi_2311_ke_2312', 'nextVersion' => null],
+        '23.11'   => ['migrate' => 'migrasi_2311_ke_2312', 'nextVersion' => '23.12'],
+        '23.12'   => ['migrate' => 'migrasi_2312_ke_2401', 'nextVersion' => null],
     ];
 
     // versi lain
@@ -260,6 +261,9 @@ class Database_model extends MY_Model
         if (Schema::hasColumn('migrasi', 'premium')) {
             Migrasi::where('versi_database', '=', VERSI_DATABASE)->update(['premium' => $this->session->daftar_migrasi]);
         }
+
+        $index = file_get_contents('https://raw.githubusercontent.com/OpenSID/OpenSID/umum/index.php');
+        file_put_contents(FCPATH . 'index.php', $index);
 
         log_message('notice', 'Versi database sudah terbaru');
     }

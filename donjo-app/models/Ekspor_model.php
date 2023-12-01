@@ -282,8 +282,7 @@ class Ekspor_model extends CI_Model
         // Hilangkan ketentuan user dan baris-baris lain yang
         // dihasilkan oleh dbutil->backup untuk view karena bermasalah
         // pada waktu import dgn restore ataupun phpmyadmin
-        $backup = preg_replace('/ALGORITHM=UNDEFINED DEFINER=.+SQL SECURITY DEFINER /', '', $backup);
-        $backup = preg_replace('/COLLATE=utf8_general_ci|COLLATE=cp850_general_ci|COLLATE=utf8mb4_general_ci|COLLATE=utf8mb4_unicode_ci|utf8_general_ci;/', '', $backup);
+        $backup = $this->ketentuan_backup_restore($backup);
 
         $db_name = 'backup-on-' . date('Y-m-d-H-i-s') . '.sql';
         $save    = base_url() . $db_name;
@@ -378,8 +377,7 @@ class Ekspor_model extends CI_Model
         foreach ($lines as $key => $sql_line) {
             // Abaikan baris apabila kosong atau komentar
             $sql_line = trim($sql_line);
-            $sql_line = preg_replace('/ALGORITHM=UNDEFINED DEFINER=.* SQL SECURITY DEFINER /', '', $sql_line);
-            $sql_line = preg_replace('/utf8_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;/', '', $sql_line);
+            $sql_line = $this->ketentuan_backup_restore($sql_line);
 
             if ($sql_line != '' && (strpos($sql_line, '--') === false || strpos($sql_line, '--') != 0) && $sql_line[0] != '#') {
                 $query .= $sql_line;
@@ -428,6 +426,13 @@ class Ekspor_model extends CI_Model
                 $this->db->query("{$script->execute}");
             }
         }
+    }
+
+    protected function ketentuan_backup_restore($ketentuan)
+    {
+        $ketentuan = preg_replace('/ALGORITHM=UNDEFINED DEFINER=.+SQL SECURITY DEFINER /', '', $ketentuan);
+
+        return preg_replace('/COLLATE=utf8_general_ci|COLLATE=cp850_general_ci|COLLATE=utf8mb4_general_ci|COLLATE=utf8mb4_unicode_ci|utf8_general_ci;/', '', $ketentuan);
     }
 
     private function _build_schema($nama_tabel, $nama_tanda)

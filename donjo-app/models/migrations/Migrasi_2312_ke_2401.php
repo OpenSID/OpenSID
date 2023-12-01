@@ -37,20 +37,17 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Bumindes_keuangan extends Admin_Controller
+class Migrasi_2312_ke_2401 extends MY_Model
 {
-    public function __construct()
+    public function up()
     {
-        parent::__construct();
-        $this->modul_ini     = 'buku-administrasi-desa';
-        $this->sub_modul_ini = 304;
-    }
+        $hasil = true;
 
-    public function index($submenu = 'apbd')
-    {
-        $this->render('bumindes/keuangan/main', [
-            'selected_nav' => $submenu,
-            'main_content' => 'bumindes/keuangan/content_keuangan',
-        ]);
+        // Migrasi fitur premium
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2306');
+
+        status_sukses($hasil);
+
+        return $hasil;
     }
 }

@@ -87,10 +87,13 @@ class JamKerja extends BaseModel
     {
         $waktu = date('H:i');
 
-        return $query->where('nama_hari', $this->getNamaHari())
+        return $query
+            ->selectRaw('id, nama_hari, jam_masuk, status, keterangan')
+            ->selectRaw(sprintf('date_add(jam_keluar, interval %s minute) as jam_keluar', setting('rentang_waktu_kehadiran')))
+            ->where('nama_hari', $this->getNamaHari())
             ->where(static function ($q) use ($waktu) {
                 $q->whereTime('jam_masuk', '>', $waktu)
-                    ->orWhereTime('jam_keluar', '<', $waktu);
+                    ->orWhereRaw('date_add(jam_keluar, interval ? minute) < ?', [setting('rentang_waktu_kehadiran'), $waktu]);
             });
     }
 

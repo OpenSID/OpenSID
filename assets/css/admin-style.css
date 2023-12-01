@@ -794,3 +794,7 @@ div.form-surat .content-header {
 .radius-5>.btn:first-child:not(:last-child) {
     border-radius: 3px;
 }
+
+.widget-surat{
+    min-height:107px;
+}
