@@ -148,15 +148,9 @@ class FakeDataIsian
                     break;
 
                 case 'date':
-                    $nilai_isian = formatTanggal($tanggal);
-                    break;
-
                 case 'hari':
-                    $nilai_isian = hari($tanggal);
-                    break;
-
                 case 'hari-tanggal':
-                    $nilai_isian = hari($tanggal) . ', ' . formatTanggal($tanggal);
+                    $nilai_isian = $tanggal;
                     break;
 
                 case 'number':
@@ -204,8 +198,8 @@ class FakeDataIsian
                     break;
             }
 
-            $this->data['input']['mulai_berlaku']  = date('d-m-Y', strtotime(Carbon::now()));
-            $this->data['input']['berlaku_sampai'] = date('d-m-Y', strtotime($tanggal_akhir));
+            $this->data['input']['mulai_berlaku']  = formatTanggal(Carbon::now());
+            $this->data['input']['berlaku_sampai'] = formatTanggal($tanggal_akhir);
         }
     }
 
