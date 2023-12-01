@@ -38,7 +38,8 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\KlasifikasiSurat;
-use Illuminate\Support\Facades\DB;
+use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Klasifikasi extends Admin_Controller
 {
@@ -51,7 +52,7 @@ class Klasifikasi extends Admin_Controller
 
         return view('admin.klasifikasi.index', $data);
     }
-
+    
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
@@ -165,10 +166,22 @@ class Klasifikasi extends Admin_Controller
         redirect_with('success', 'Klasifikasi surat berhasil diaktifkan');
     }
 
-    public function ekspor()
+    public function ekspor(): void
     {
-        download_send_headers('klasifikasi_surat_' . date('Y-m-d') . '.csv');
-        echo tulis_csv('klasifikasi_surat');
+        //Nama File
+        $writer   = WriterEntityFactory::createXLSXWriter();
+        $fileName = namafile('klasifikasi_surat_' . date('d-m-Y')) . '.xlsx';
+        $writer->openToBrowser($fileName);
+
+        // Sheet Program
+        $writer->getCurrentSheet()->setName('klasifikasi');
+        $writer->addRow(WriterEntityFactory::createRowFromArray(['kode', 'nama', 'uraian']));
+        foreach (KlasifikasiSurat::select(['kode', 'nama', 'uraian'])->get()->toArray() as $row) {
+            $rowFromValues = WriterEntityFactory::createRowFromArray($row);
+            $writer->addRow($rowFromValues);
+        }
+
+        $writer->close();
     }
 
     public function impor()
@@ -179,39 +192,50 @@ class Klasifikasi extends Admin_Controller
         return view('admin.klasifikasi.import', $data);
     }
 
-    public function proses_impor()
+    public function proses_impor(): void
     {
         $this->redirect_hak_akses('u');
 
-        $file = $_FILES['klasifikasi']['tmp_name'];
-        ini_set('auto_detect_line_endings', '1');
-        if (($handle = fopen($file, 'rb')) == false) {
-            session_error('Berkas tidak ada atau bermasalah');
-            redirect('klasifikasi');
-        }
+        $this->load->library('MY_Upload', null, 'upload');
+        $this->upload->initialize([
+            'upload_path'   => sys_get_temp_dir(),
+            'allowed_types' => 'xls|xlsx|xlsm',
+            'file_name'     => namafile('Impor Klasifikasi Surat'),
+        ]);
 
-        DB::beginTransaction();
-        KlasifikasiSurat::truncate();
+        if ($this->upload->do_upload('klasifikasi')) {
+            $upload = $this->upload->data();
+            $reader = ReaderEntityFactory::createXLSXReader();
+            $reader->open($upload['full_path']);
+            $configId = identitas('id');
+            try {
+                foreach ($reader->getSheetIterator() as $sheet) {
+                    // Sheet klasifikasi                    
+                    if ($sheet->getName() == 'klasifikasi') {
+                        $dataUpdate = [];
+                        foreach ($sheet->getRowIterator() as $index => $row) {                            
+                            if ($index <= 1) continue;
+                            $cells      = $row->getCells();
+                            $dataUpdate[] = [
+                                'kode'   => (string) $cells[0],
+                                'nama'   => (string) $cells[1],
+                                'uraian' => (string) $cells[2],
+                                'config_id' => $configId
+                            ];
+                            
+                        }
+                        KlasifikasiSurat::upsert($dataUpdate, ['kode', 'config_id']);
+                    }
+                }
 
-        $header    = fgetcsv($handle);
-        $jml_kolom = count($header);
-
-        while (($csv = fgetcsv($handle)) !== false) {
-            $data = [];
-
-            for ($c = 0; $c < $jml_kolom; $c++) {
-                $data[$header[$c]] = $csv[$c];
-                $data['config_id'] = identitas('id');
+                $reader->close();
+                redirect_with('success', 'Klasifikasi surat berhasil diimport');
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+                $reader->close();
+                redirect_with('error', 'Gagal import klasifikasi surat');
             }
-
-            KlasifikasiSurat::insert($data);
         }
-
-        DB::commit();
-        fclose($handle);
-        session_success();
-
-        redirect('klasifikasi');
     }
 
     protected static function validated($data)

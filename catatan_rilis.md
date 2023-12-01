@@ -5,7 +5,8 @@ Terima kasih pada [untuk diisi] baru mulai berkontribusi.
 
 #### Perbaikan Bug
 
-1. [#7474](https://github.com/OpenSID/OpenSID/issues/7474) Perbaikan detail data pada url statistik buku nikah. 
+1. [#7474](https://github.com/OpenSID/OpenSID/issues/7474) Perbaikan detail data pada url statistik buku nikah.
+2. [#7462](https://github.com/OpenSID/OpenSID/issues/7462) Perbaikan ekspor klasifikasi surat.
 
 
 #### Peningkatan Keamanan

@@ -36,7 +36,7 @@
                                 <div class="col-sm-12">
                                     <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                         <form id="mainform" name="mainform" method="post">
-                                            <input name="kategori" type="hidden" value="<?= $kat ?>">
+                                            <input name="kategori" type="hidden" value="{{ $kat }}">
                                             <div class="row" style="margin-bottom: 10px">
                                                 <div class="col-sm-6">
                                                     <select class="form-control input-sm " name="enable">
@@ -147,6 +147,14 @@
                 $(this).val();
                 TableData.ajax.reload();
             });
+
+            if (hapus == 0) {
+                TableData.column(0).visible(false);
+            }
+
+            if (ubah == 0) {
+                TableData.column(2).visible(false);
+            }
         });
     </script>
 @endpush

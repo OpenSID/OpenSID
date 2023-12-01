@@ -8,8 +8,8 @@
 @endsection
 
 @section('breadcrumb')
-	<li><a href="<?= route("klasifikasi") ?>">Klasifikasi Surat </a></li>
-	<li class="active"><?= empty($data) ? 'Tambah' : 'Ubah'?> Data</li>
+	<li><a href="{{ route("klasifikasi") }}">Klasifikasi Surat </a></li>
+	<li class="active">{{ empty($data) ? 'Tambah' : 'Ubah' }} Data</li>
 @endsection
 
 @section('content')
