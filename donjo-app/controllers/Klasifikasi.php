@@ -52,7 +52,7 @@ class Klasifikasi extends Admin_Controller
 
         return view('admin.klasifikasi.index', $data);
     }
-    
+
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
@@ -176,6 +176,7 @@ class Klasifikasi extends Admin_Controller
         // Sheet Program
         $writer->getCurrentSheet()->setName('klasifikasi');
         $writer->addRow(WriterEntityFactory::createRowFromArray(['kode', 'nama', 'uraian']));
+
         foreach (KlasifikasiSurat::select(['kode', 'nama', 'uraian'])->get()->toArray() as $row) {
             $rowFromValues = WriterEntityFactory::createRowFromArray($row);
             $writer->addRow($rowFromValues);
@@ -208,21 +209,24 @@ class Klasifikasi extends Admin_Controller
             $reader = ReaderEntityFactory::createXLSXReader();
             $reader->open($upload['full_path']);
             $configId = identitas('id');
+
             try {
                 foreach ($reader->getSheetIterator() as $sheet) {
-                    // Sheet klasifikasi                    
+                    // Sheet klasifikasi
                     if ($sheet->getName() == 'klasifikasi') {
                         $dataUpdate = [];
-                        foreach ($sheet->getRowIterator() as $index => $row) {                            
-                            if ($index <= 1) continue;
-                            $cells      = $row->getCells();
+
+                        foreach ($sheet->getRowIterator() as $index => $row) {
+                            if ($index <= 1) {
+                                continue;
+                            }
+                            $cells        = $row->getCells();
                             $dataUpdate[] = [
-                                'kode'   => (string) $cells[0],
-                                'nama'   => (string) $cells[1],
-                                'uraian' => (string) $cells[2],
-                                'config_id' => $configId
+                                'kode'      => (string) $cells[0],
+                                'nama'      => (string) $cells[1],
+                                'uraian'    => (string) $cells[2],
+                                'config_id' => $configId,
                             ];
-                            
                         }
                         KlasifikasiSurat::upsert($dataUpdate, ['kode', 'config_id']);
                     }

@@ -89,11 +89,14 @@ class Migrasi_dev extends MY_model
             ['url' => 'garis']
         );
     }
+
     protected function migrasi_2023120151($hasil)
-    {        
-        $this->tambahIndeks('klasifikasi_surat', 'config_id, kode', 'UNIQUE', true);        
+    {
+        $this->tambahIndeks('klasifikasi_surat', 'config_id, kode', 'UNIQUE', true);
+
         return $hasil;
     }
+
     protected function migrasi_xxxxxxxxxx($hasil)
     {
         return $hasil;
