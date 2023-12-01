@@ -24,7 +24,9 @@
                         <a href="{{ route('polygon.form', $parent) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
                     @endif
                     @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('polygon.delete_all', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i>
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('polygon.delete_all', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                                class='fa fa-trash-o'
+                            ></i>
                             Hapus</a>
                     @endif
                     @if ($parent_jenis)
@@ -65,14 +67,14 @@
                     </div>
                     </form>
                 </div>
-            </div>    
+            </div>
         </div>
     </div>
-    
+
     @include('admin.layouts.components.konfirmasi_hapus')
 @endsection
 @push('css')
-<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-colorpicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-colorpicker.min.css') }}">
 @endpush
 @push('scripts')
     <script src="{{ asset('bootstrap/js/bootstrap-colorpicker.min.js') }}"></script>
@@ -118,17 +120,17 @@
                         name: 'color',
                         searchable: true,
                         orderable: true
-                    },                    
+                    },
                 ],
                 order: [
                     [3, 'asc']
                 ]
-            });            
-                        
-            $('#status').change(function(){
+            });
+
+            $('#status').change(function() {
                 TableData.column(4).search($(this).val()).draw()
             })
-            
+
 
             if (hapus == 0) {
                 TableData.column(0).visible(false);
