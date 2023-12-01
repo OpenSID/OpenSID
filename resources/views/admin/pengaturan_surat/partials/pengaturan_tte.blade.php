@@ -80,7 +80,7 @@
                     </div>
                     <div class="input-group input-group-sm  col-md-2 col-sm-12">
                         <input type="text" class="form-control" id="file_path">
-                        <input type="file" id="file" class="hidden" name="visual_tte_gambar">
+                        <input type="file" id="file" class="hidden" name="visual_tte_gambar" accept=".jpg,.jpeg,.png">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i></button>
                         </span>

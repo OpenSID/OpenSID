@@ -105,7 +105,7 @@ class KodeIsianForm
     public function getKodeIsian()
     {
         $input     = $this->inputForm;
-        $kodeIsian = $this->kodeIsian ?? [];
+        $kodeIsian = $this->kodeIsian;
 
         if (! is_array($kodeIsian)) {
             $kodeIsian = $this->statisForm;

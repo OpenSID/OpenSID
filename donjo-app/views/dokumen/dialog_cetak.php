@@ -42,8 +42,8 @@
         <?php endif; ?>
     </div>
     <div class="modal-footer">
-        <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
-        <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="btn-ok" >
+        <?= batal(); ?>
+        <button type="submit" class="btn btn-social btn-info btn-sm" id="btn-ok" >
             <?php if (strpos($form_action, '/cetak') !== false): ?>
                 <i class='fa fa-print'></i> Cetak
             <?php else: ?>

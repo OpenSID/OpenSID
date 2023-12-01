@@ -18,7 +18,7 @@
     <div class="box-body">
         <div class="form-group">
             <label>Upload Font Custom</label>
-            <input type="file" name="font_custom" class="form-control input-sm">
+            <input type="file" name="font_custom" class="form-control input-sm" accept=".ttf">
         </div>
     </div>
     <div class="box-body">

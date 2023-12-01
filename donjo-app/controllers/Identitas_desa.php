@@ -122,10 +122,11 @@ class Identitas_desa extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         $id       = $this->identitas_desa['id'];
-        $validate = static::validate($this->request);
+        $config   = Config::find($id);
+        $validate = static::validate($this->request, $config);
+        $cek      = $this->cek_kode_wilayah($validate);
 
-        $cek = $this->cek_kode_wilayah($validate);
-        if ($cek['status'] && Config::find($id)->update($validate)) {
+        if ($cek['status'] && $config->update($validate)) {
             return json(['status' => true]);
         }
 
@@ -200,15 +201,15 @@ class Identitas_desa extends Admin_Controller
     }
 
     // Hanya filter inputan
-    protected static function validate($request = [])
+    protected static function validate($request = [], $old = null)
     {
         if ($request['ukuran'] == '') {
             $request['ukuran'] = 100;
         }
 
         $config = [
-            'logo'              => static::unggah('logo', true, bilangan($request['ukuran'])) ?? $request['old_logo'],
-            'kantor_desa'       => static::unggah('kantor_desa') ?? $request['old_kantor_desa'],
+            'logo'              => static::unggah('logo', true, bilangan($request['ukuran'])) ?? $old->logo,
+            'kantor_desa'       => static::unggah('kantor_desa') ?? $old->kantor_desa,
             'nama_desa'         => nama_desa($request['nama_desa']),
             'kode_desa'         => substr(bilangan($request['kode_desa']), 0, 10),
             'kode_pos'          => bilangan($request['kode_pos']),

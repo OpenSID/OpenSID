@@ -127,9 +127,10 @@
 				<tr class='bold highlighted'>
 					<td colspan='4' align='center'>JUMLAH PENDAPATAN</td>
 					<td align='right'><?= rp($l['anggaran'][0]['pagu'])?></td>
-					<td align='right'><?= rp($l['realisasi'][0]['realisasi'] + $l['realisasi_bunga'][0]['realisasi'] + $l['realisasi_jurnal'][0]['realisasi'])?></td>
-					<td align='right'><?= rp(($l['anggaran'][0]['pagu']) - ($l['realisasi'][0]['realisasi'] + $l['realisasi_bunga'][0]['realisasi'] + $l['realisasi_jurnal'][0]['realisasi']))?></td>
-					<td align='right'><?= rp(($l['realisasi'][0]['realisasi'] + $l['realisasi_bunga'][0]['realisasi'] + $l['realisasi_jurnal'][0]['realisasi']) / ($l['anggaran'][0]['pagu']) * 100)?> </td>
+					<?php $jumlah_real = ($l['realisasi'][0]['realisasi'] + $l['realisasi_bunga'][0]['realisasi'] + $l['realisasi_jurnal'][0]['realisasi']) ?>
+					<td align='right'><?= rp($jumlah_real)?></td>
+					<td align='right'><?= rp(($l['anggaran'][0]['pagu']) - ($jumlah_real))?></td>
+					<td align='right'><?= rp(($jumlah_real == 0 ? 0 : ($jumlah_real) / ($l['anggaran'][0]['pagu']) * 100)) ?> </td>
 				</tr>
 			<?php endforeach ?>
 
@@ -222,19 +223,20 @@
 				<tr class='bold highlighted'>
 					<td colspan='4' align='center'>JUMLAH BELANJA</td>
 					<td align='right'><?= rp($b['anggaran'][0]['pagu'])?></td>
+					<?php $jumlah_belanja = (($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi']) ?>
 					<td align='right'><?= rp(($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi'])?></td>
 					<td align='right'><?= rp(($b['anggaran'][0]['pagu']) - (($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi']))?></td>
-					<td align='right'><?= rp((($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi']) / ($b['anggaran'][0]['pagu']) * 100)?> </td>
+					<td align='right'><?= rp(($jumlah_belanja == 0) ? 0 : $jumlah_belanja / ($b['anggaran'][0]['pagu']) * 100)?> </td>
 				</tr>
 			<?php endforeach ?>
 
 			<tr class='bold highlighted'>
 				<td colspan='4' align='center'>SURPLUS / (DEFISIT)</td>
 				<td align='right'><?= rp(($l['anggaran'][0]['pagu']) - ($b['anggaran'][0]['pagu'])) ?></td>
-				<td align='right'><?= rp(($l['realisasi'][0]['realisasi'] + $l['realisasi_bunga'][0]['realisasi'] + $l['realisasi_jurnal'][0]['realisasi']) - (($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi'])) ?></td>
-				<td align='right'><?= rp((($l['anggaran'][0]['pagu']) - ($b['anggaran'][0]['pagu'])) - (($l['realisasi'][0]['realisasi'] + $l['realisasi_bunga'][0]['realisasi'] + $l['realisasi_jurnal'][0]['realisasi']) - (($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi'])))?></td>
+				<td align='right'><?= rp(($jumlah_real) - (($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi'])) ?></td>
+				<td align='right'><?= rp((($l['anggaran'][0]['pagu']) - ($b['anggaran'][0]['pagu'])) - (($jumlah_real) - (($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi'])))?></td>
 				<td align='right'><?php
-                    $pembagi = (($l['realisasi'][0]['realisasi'] + $l['realisasi_bunga'][0]['realisasi'] + $l['realisasi_jurnal'][0]['realisasi']) - ($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi']);
+                    $pembagi = (($jumlah_real) - ($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi']);
 			echo $pembagi > 0 ? rp((($l['anggaran'][0]['pagu']) - ($b['anggaran'][0]['pagu'])) / $pembagi * 100) : '-';
 			?>
 				</td>
@@ -315,8 +317,8 @@
 			<tr class='bold highlighted'>
 				<td colspan='4' align='center'>SILPA/SiLPA TAHUN BERJALAN</td>
 				<td align='right'><?= rp((($l['anggaran'][0]['pagu']) - ($b['anggaran'][0]['pagu'])) + (($p1['anggaran'][0]['pagu']) - ($pk1['anggaran'][0]['pagu']))) ?></td>
-				<td align='right'><?= rp((($l['realisasi'][0]['realisasi'] + $l['realisasi_bunga'][0]['realisasi'] + $l['realisasi_jurnal'][0]['realisasi']) - (($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi'])) + (($p1['realisasi'][0]['realisasi']) - ($pk1['realisasi'][0]['realisasi']))) ?></td>
-				<td align='right'><?= rp(((($l['anggaran'][0]['pagu']) - ($b['anggaran'][0]['pagu'])) - (($l['realisasi'][0]['realisasi'] + $l['realisasi_bunga'][0]['realisasi'] + $l['realisasi_jurnal'][0]['realisasi']) - (($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi']))) + (($p1['anggaran'][0]['pagu']) - ($pk1['anggaran'][0]['pagu']) - (($p1['realisasi'][0]['realisasi']) - ($pk1['realisasi'][0]['realisasi']))))?></td>
+				<td align='right'><?= rp((($jumlah_real) - (($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi'])) + (($p1['realisasi'][0]['realisasi']) - ($pk1['realisasi'][0]['realisasi']))) ?></td>
+				<td align='right'><?= rp(((($l['anggaran'][0]['pagu']) - ($b['anggaran'][0]['pagu'])) - (($jumlah_real) - (($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi']))) + (($p1['anggaran'][0]['pagu']) - ($pk1['anggaran'][0]['pagu']) - (($p1['realisasi'][0]['realisasi']) - ($pk1['realisasi'][0]['realisasi']))))?></td>
 				<td align='right'></td>
 			</tr>
 

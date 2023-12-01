@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="reset" class="btn btn-social btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                <?= batal() ?>
                 <button type="submit" class="btn btn-social btn-info btn-sm" id="ok"><i class="fa fa-check"></i>
                     Simpan</button>
             </div>

@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => 'dev-2311.1.0-clear',
         'version' => 'dev-2311.1.0-clear',
-        'reference' => '1f311c551b68999a03df09d81edf4f81fb47c17a',
+        'reference' => '3396bee24c77c936e658c3dc44028eeb7de6b1f4',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -74,9 +74,9 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.325.0',
-            'version' => '0.325.0.0',
-            'reference' => 'b2d39ef968f0017d6bff3c1da82501a0c575c9ce',
+            'pretty_version' => 'v0.326.0',
+            'version' => '0.326.0.0',
+            'reference' => '033de899257a294ca82f52fe4296dac011d01f74',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
@@ -283,7 +283,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => 'dev-2311.1.0-clear',
             'version' => 'dev-2311.1.0-clear',
-            'reference' => '1f311c551b68999a03df09d81edf4f81fb47c17a',
+            'reference' => '3396bee24c77c936e658c3dc44028eeb7de6b1f4',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -317,9 +317,9 @@
             'dev_requirement' => false,
         ),
         'phpseclib/phpseclib' => array(
-            'pretty_version' => '3.0.33',
-            'version' => '3.0.33.0',
-            'reference' => '33fa69b2514a61138dd48e7a49f99445711e0ad0',
+            'pretty_version' => '3.0.34',
+            'version' => '3.0.34.0',
+            'reference' => '56c79f16a6ae17e42089c06a2144467acc35348a',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpseclib/phpseclib',
             'aliases' => array(),
@@ -421,8 +421,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0.0 || 2.0.0 || 3.0.0',
-                1 => '1.0|2.0',
+                0 => '1.0|2.0',
+                1 => '1.0.0 || 2.0.0 || 3.0.0',
             ),
         ),
         'psr/simple-cache' => array(

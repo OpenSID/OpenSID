@@ -290,7 +290,7 @@ class Analisis_laporan_model extends My_Model
     {
         $per     = $this->analisis_master_model->periode->id;
         $master  = $this->analisis_master_model->analisis_master;
-        $pembagi = $master['pembagi'] + 0;
+        $pembagi = (int) $master['pembagi'] + 0;
 
         switch ($this->subjek) {
             case 1:
@@ -373,7 +373,7 @@ class Analisis_laporan_model extends My_Model
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
         $master  = $this->analisis_master_model->analisis_master;
-        $pembagi = $master['pembagi'] + 0;
+        $pembagi = (int) $master['pembagi'] + 0;
 
         switch ($this->subjek) {
             case 1:

@@ -111,6 +111,7 @@ class Plan extends Admin_Controller
 
     public function ajax_lokasi_maps($p = 1, $o = 0, $id = ''): void
     {
+        $this->redirect_hak_akses('u');
         $data['p']      = $p;
         $data['o']      = $o;
         $data['lokasi'] = $id ? $this->plan_lokasi_model->get_lokasi($id) ?? show_404() : null;

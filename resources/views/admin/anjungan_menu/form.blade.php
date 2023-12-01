@@ -34,7 +34,6 @@
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" id="file_path" name="icon">
                         <input type="file" class="hidden" id="file" name="icon">
-                        <input type="hidden" name="old_icon" value="{{ $menu['icon'] }}">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i>&nbsp;Browse</button>
                         </span>

@@ -37,152 +37,217 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\KlasifikasiSurat;
+use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
+use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+
 class Klasifikasi extends Admin_Controller
 {
-    public function __construct()
+    public function index()
     {
-        parent::__construct();
+        $data = [
+            'modul_ini'     => 'sekretariat',
+            'sub_modul_ini' => 'klasifikasi-surat',
+        ];
 
-        $this->load->model('klasifikasi_model');
-        $this->modul_ini     = 'sekretariat';
-        $this->sub_modul_ini = 'klasifikasi-surat';
+        return view('admin.klasifikasi.index', $data);
     }
 
-    public function clear(): void
+    public function datatables()
     {
-        $_SESSION['per_page'] = 50;
-        unset($_SESSION['cari'], $_SESSION['filter']);
+        if ($this->input->is_ajax_request()) {
+            $enable = $this->input->get('enable');
 
-        redirect('klasifikasi');
-    }
+            return datatables()->of(KlasifikasiSurat::filter($enable))
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    $aksi = '';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('klasifikasi.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right:4px;"><i class="fa fa-edit"></i></a>';
+                        if ($row->enabled == '1') {
+                            $aksi .= '<a href="' . route('klasifikasi/lock', $row->id) . '" class="btn bg-navy btn-sm" title="Non Aktifkan" style="margin-right:4px;"><i class="fa fa-unlock">&nbsp;</i></a>';
+                        } else {
+                            $aksi .= '<a href="' . route('klasifikasi/unlock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan" style="margin-right:4px;"><i class="fa fa-lock"></i></a>';
+                        }
 
-    public function index($p = 1, $o = 0): void
-    {
-        $data['p'] = $p;
-        $data['o'] = $o;
+                        if (can('h')) {
+                            $aksi .= '<a href="#" data-href="' . route('klasifikasi/delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                        }
+                    }
 
-        $data['cari'] = $_SESSION['cari'] ?? '';
+                    return $aksi;
+                })
+                ->addColumn('checkbox', static function ($row) {
+                    $checkbox = '';
+                    if (can('u')) {
+                        $checkbox .= '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />';
+                    }
 
-        $data['filter'] = $_SESSION['filter'] ?? '';
-
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
+                    return $checkbox;
+                })
+                ->rawColumns(['aksi', 'checkbox'])
+                ->make();
         }
-        $data['per_page'] = $_SESSION['per_page'];
-
-        $data['paging']  = $this->klasifikasi_model->paging($p, $o);
-        $data['main']    = $this->klasifikasi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword'] = $this->klasifikasi_model->autocomplete();
-
-        $this->render('klasifikasi/table', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = ''): void
+    public function form($id = '')
     {
         $this->redirect_hak_akses('u');
-        $data['p'] = $p;
-        $data['o'] = $o;
 
         if ($id) {
-            $data['data']        = $this->klasifikasi_model->get_klasifikasi($id);
-            $data['form_action'] = site_url("klasifikasi/update/{$id}/{$p}/{$o}");
+            $data['data']        = KlasifikasiSurat::where('id', (int) $id)->first();
+            $data['form_action'] = route('klasifikasi.update', $id);
         } else {
             $data['data']        = null;
-            $data['form_action'] = site_url('klasifikasi/insert');
+            $data['form_action'] = route('klasifikasi.insert', $id);
         }
 
-        $this->render('klasifikasi/form', $data);
-    }
-
-    public function search(): void
-    {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $_SESSION['cari'] = $cari;
-        } else {
-            unset($_SESSION['cari']);
-        }
-        redirect('klasifikasi');
-    }
-
-    public function filter(): void
-    {
-        $filter = $this->input->post('filter');
-        if ($filter != '') {
-            $_SESSION['filter'] = $filter;
-        } else {
-            unset($_SESSION['filter']);
-        }
-        redirect('klasifikasi');
+        return view('admin.klasifikasi.form', $data);
     }
 
     public function insert(): void
     {
         $this->redirect_hak_akses('u');
-        $_SESSION['success'] = 1;
-        $outp                = $this->klasifikasi_model->insert();
-        if (! $outp) {
-            $_SESSION['success'] = -1;
+        $data = static::validated($this->request);
+
+        try {
+            KlasifikasiSurat::create($data);
+            session_success();
+        } catch (Exception $e) {
+            log_message('error', $e);
+            redirect_with('error', $e->getMessage());
         }
-        redirect('klasifikasi');
+
+        redirect_with('success', 'Klasifikasi surat berhasil ditambahkan');
     }
 
-    public function update($id = '', $p = 1, $o = 0): void
+    public function update($id = '')
     {
         $this->redirect_hak_akses('u');
-        $_SESSION['success'] = 1;
-        $outp                = $this->klasifikasi_model->update($id);
-        if (! $outp) {
-            $_SESSION['success'] = -1;
+        $data = static::validated($this->request);
+
+        try {
+            KlasifikasiSurat::where('id', (int) $id)->update($data);
+            session_success();
+        } catch (Exception $e) {
+            log_message('error', $e);
+            redirect_with('error', $e->getMessage());
         }
-        redirect("klasifikasi/index/{$p}/{$o}");
+
+        redirect_with('success', 'Klasifikasi surat berhasil diperbarui');
     }
 
-    public function delete($p = 1, $o = 0, $id = ''): void
+    public function delete($id = '')
     {
-        $this->redirect_hak_akses('h', "klasifikasi/index/{$p}/{$o}");
-        $this->klasifikasi_model->delete($id);
-        redirect("klasifikasi/index/{$p}/{$o}");
+        $this->redirect_hak_akses('h', 'klasifikasi');
+        KlasifikasiSurat::where('id', (int) $id)->delete();
+        redirect_with('success', 'Klasifikasi surat berhasil dihapus');
     }
 
-    public function delete_all($p = 1, $o = 0): void
+    public function delete_all()
     {
-        $this->redirect_hak_akses('h', "klasifikasi/index/{$p}/{$o}");
-        $this->klasifikasi_model->delete_all();
-        redirect("klasifikasi/index/{$p}/{$o}");
+        $this->redirect_hak_akses('h', 'klasifikasi');
+        KlasifikasiSurat::whereIn('id', $this->request['id_cb'])->delete();
+
+        redirect_with('success', 'Klasifikasi surat berhasil dihapus');
     }
 
-    public function lock($p = 1, $o = 0, $id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->klasifikasi_model->lock($id, 0);
-        redirect("klasifikasi/index/{$p}/{$o}");
-    }
-
-    public function unlock($p = 1, $o = 0, $id = ''): void
+    public function lock($id = '')
     {
         $this->redirect_hak_akses('u');
-        $this->klasifikasi_model->lock($id, 1);
-        redirect("klasifikasi/index/{$p}/{$o}");
+        KlasifikasiSurat::where('id', (int) $id)->update(['enabled' => 0]);
+        redirect_with('success', 'Klasifikasi surat berhasil dinonaktifkan');
+    }
+
+    public function unlock($id = '')
+    {
+        $this->redirect_hak_akses('u');
+        KlasifikasiSurat::where('id', (int) $id)->update(['enabled' => 1]);
+        redirect_with('success', 'Klasifikasi surat berhasil diaktifkan');
     }
 
     public function ekspor(): void
     {
-        download_send_headers('klasifikasi_surat_' . date('Y-m-d') . '.csv');
-        echo tulis_csv('klasifikasi_surat');
+        //Nama File
+        $writer   = WriterEntityFactory::createXLSXWriter();
+        $fileName = namafile('klasifikasi_surat_' . date('d-m-Y')) . '.xlsx';
+        $writer->openToBrowser($fileName);
+
+        // Sheet Program
+        $writer->getCurrentSheet()->setName('klasifikasi');
+        $writer->addRow(WriterEntityFactory::createRowFromArray(['kode', 'nama', 'uraian']));
+
+        foreach (KlasifikasiSurat::select(['kode', 'nama', 'uraian'])->get()->toArray() as $row) {
+            $rowFromValues = WriterEntityFactory::createRowFromArray($row);
+            $writer->addRow($rowFromValues);
+        }
+
+        $writer->close();
     }
 
-    public function impor(): void
+    public function impor()
     {
         $this->redirect_hak_akses('u');
-        $data['form_action'] = site_url('klasifikasi/proses_impor');
-        $this->load->view('klasifikasi/impor', $data);
+        $data['form_action'] = route('klasifikasi.proses_impor');
+
+        return view('admin.klasifikasi.import', $data);
     }
 
     public function proses_impor(): void
     {
         $this->redirect_hak_akses('u');
-        $this->klasifikasi_model->impor($_FILES['klasifikasi']['tmp_name']);
-        redirect('klasifikasi');
+
+        $this->load->library('MY_Upload', null, 'upload');
+        $this->upload->initialize([
+            'upload_path'   => sys_get_temp_dir(),
+            'allowed_types' => 'xls|xlsx|xlsm',
+            'file_name'     => namafile('Impor Klasifikasi Surat'),
+        ]);
+
+        if ($this->upload->do_upload('klasifikasi')) {
+            $upload = $this->upload->data();
+            $reader = ReaderEntityFactory::createXLSXReader();
+            $reader->open($upload['full_path']);
+            $configId = identitas('id');
+
+            try {
+                foreach ($reader->getSheetIterator() as $sheet) {
+                    // Sheet klasifikasi
+                    if ($sheet->getName() == 'klasifikasi') {
+                        $dataUpdate = [];
+
+                        foreach ($sheet->getRowIterator() as $index => $row) {
+                            if ($index <= 1) {
+                                continue;
+                            }
+                            $cells        = $row->getCells();
+                            $dataUpdate[] = [
+                                'kode'      => (string) $cells[0],
+                                'nama'      => (string) $cells[1],
+                                'uraian'    => (string) $cells[2],
+                                'config_id' => $configId,
+                            ];
+                        }
+                        KlasifikasiSurat::upsert($dataUpdate, ['kode', 'config_id']);
+                    }
+                }
+
+                $reader->close();
+                redirect_with('success', 'Klasifikasi surat berhasil diimport');
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+                $reader->close();
+                redirect_with('error', 'Gagal import klasifikasi surat');
+            }
+        }
+    }
+
+    protected static function validated($data)
+    {
+        return [
+            'kode'   => alfanumerik_titik($data['kode']),
+            'nama'   => alfa_spasi($data['nama']),
+            'uraian' => strip_tags($data['uraian']),
+        ];
     }
 }

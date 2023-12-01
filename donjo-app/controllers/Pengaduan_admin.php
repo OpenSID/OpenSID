@@ -82,7 +82,7 @@ class Pengaduan_admin extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row): string {
+                ->addColumn('aksi', static function ($row) {
                     $aksi = '';
 
                     if (can('u')) {
@@ -99,7 +99,7 @@ class Pengaduan_admin extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('status', static function ($row): string {
+                ->editColumn('status', static function ($row) {
                     if ($row->status == StatusPengaduanEnum::MENUNGGU_DIPROSES) {
                         $tipe = 'danger';
                     } elseif ($row->status == StatusPengaduanEnum::SEDANG_DIPROSES) {
@@ -127,10 +127,10 @@ class Pengaduan_admin extends Admin_Controller
             $pengaduan_warga = Pengaduan::findOrFail($id);
         }
 
-        return view('admin.pengaduan_warga.form', ['action' => $action, 'form_action' => $form_action, 'pengaduan_warga' => $pengaduan_warga]);
+        return view('admin.pengaduan_warga.form', compact('action', 'form_action', 'pengaduan_warga'));
     }
 
-    public function kirim($id): void
+    public function kirim($id)
     {
         $this->redirect_hak_akses('u');
 
@@ -156,7 +156,7 @@ class Pengaduan_admin extends Admin_Controller
         redirect_with('error', 'Gagal Ditanggapi');
     }
 
-    public function pengaduan_form($id = '')
+    public function detail($id = '')
     {
         $this->redirect_hak_akses('u');
 
@@ -166,10 +166,10 @@ class Pengaduan_admin extends Admin_Controller
             $tanggapan       = Pengaduan::where('id_pengaduan', $id)->get();
         }
 
-        return view('admin.pengaduan_warga.detail', ['action' => $action, 'pengaduan_warga' => $pengaduan_warga, 'tanggapan' => $tanggapan]);
+        return view('admin.pengaduan_warga.detail', compact('action', 'pengaduan_warga', 'tanggapan'));
     }
 
-    public function pengaduan_form_detail($id = ''): void
+    public function delete($id = null)
     {
         $this->redirect_hak_akses('h');
 

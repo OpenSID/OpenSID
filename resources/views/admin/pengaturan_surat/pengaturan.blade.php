@@ -1,5 +1,6 @@
 @include('admin.pengaturan_surat.asset_tinymce', ['height' => 350])
 @extends('admin.layouts.index')
+@include('admin.layouts.components.asset_validasi')
 @section('title')
     <h1>
         Daftar Surat

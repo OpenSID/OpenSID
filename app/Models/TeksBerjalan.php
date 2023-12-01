@@ -77,6 +77,18 @@ class TeksBerjalan extends BaseModel
         'status' => 'boolean',
     ];
 
+    public function scopeList($query, $tipe = '', $status = '')
+    {
+        if ($tipe != '') {
+            $query->where('tipe', $status);
+        }
+        if ($status != '') {
+            $query->where('status', $status);
+        }
+
+        return $query;
+    }
+
     /**
      * Scope query untuk status
      *
@@ -102,5 +114,33 @@ class TeksBerjalan extends BaseModel
     public function scopeTipe($query, $value = 1)
     {
         return $query->where('tipe', $value);
+    }
+
+    public function scopeNomorUrut($query, $id, $direction)
+    {
+        $data = $this->findOrFail($id);
+
+        $currentNo = $data->urut;
+        $targetNo  = ($direction == 2) ? $currentNo - 1 : $currentNo + 1;
+
+        if ($direction == 2) {
+            $query->where('urut', $targetNo)->update(['urut' => $currentNo]);
+        } else {
+            $query->where('urut', $targetNo)->update(['urut' => $currentNo]);
+        }
+
+        $data->update(['urut' => $targetNo]);
+
+        return $query;
+    }
+
+    public function scopeUrutMax($query)
+    {
+        return $query->orderByDesc('urut')->first()->urut + 1;
+    }
+
+    public function artikel()
+    {
+        return $this->belongsTo(Artikel::class, 'tautan', 'id');
     }
 }

@@ -1663,6 +1663,10 @@ class Penduduk_model extends MY_Model
                 case 'hamil':
                     $table = 'ref_penduduk_hamil';
                     break;
+
+                case 'buku-nikah':
+                    $table = 'tweb_penduduk_kawin';
+                    break;
             }
 
             if ($tipe == 13 || $tipe == 17) {

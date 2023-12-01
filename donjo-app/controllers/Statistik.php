@@ -85,7 +85,7 @@ class Statistik extends Admin_Controller
 
     private function tautan_data($lap)
     {
-        if ($lap > 50) {
+        if ((int) $lap > 50) {
             $program_id = preg_replace('/^50/', '', $lap);
 
             // TODO: Sederhanakan query ini, pindahkan ke model
@@ -102,19 +102,19 @@ class Statistik extends Admin_Controller
         }
 
         switch (true) {
-            case in_array($lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga']) || ($lap > 50 && $sasaran == 2):
+            case in_array((int) $lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga']) || ((int) $lap > 50 && $sasaran == 2):
                 $tautan = site_url("keluarga/statistik/{$lap}/");
                 break;
 
-            case $lap == 'bdt' || ($lap > 50 && $sasaran == 3):
+            case $lap == 'bdt' || ((int) $lap > 50 && $sasaran == 3):
                 $tautan = site_url("rtm/statistik/{$lap}/");
                 break;
 
-            case $lap < 50 || ($lap > 50 && $sasaran == 1):
+            case (int) $lap < 50 || ((int) $lap > 50 && $sasaran == 1):
                 $tautan = site_url("penduduk/statistik/{$lap}/");
                 break;
 
-            case $lap > 50 && $sasaran == 4:
+            case (int) $lap > 50 && $sasaran == 4:
                 $tautan = site_url("kelompok/statistik/{$lap}/");
                 break;
 
@@ -143,7 +143,7 @@ class Statistik extends Admin_Controller
     private function get_data_stat(&$data, $lap): void
     {
         switch (true) {
-            case $lap > 50:
+            case (int) $lap > 50:
                 // Untuk program bantuan, $lap berbentuk '50<program_id>'
                 $program_id             = preg_replace('/^50/', '', $lap);
                 $data['program']        = $this->program_bantuan_model->get_sasaran($program_id);
@@ -156,7 +156,7 @@ class Statistik extends Admin_Controller
                 $kategori = 'bantuan';
                 break;
 
-            case $lap > 20 || "{$lap}" == 'kelas_sosial':
+            case (int) $lap > 20 || "{$lap}" == 'kelas_sosial':
                 // Kelurga
                 $kategori = 'keluarga';
 

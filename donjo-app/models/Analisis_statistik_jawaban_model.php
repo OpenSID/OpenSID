@@ -237,7 +237,7 @@ class Analisis_statistik_jawaban_model extends MY_Model
                 $data[$i]['jumlah'] = 0;
 
                 foreach ($respon2 as $par) {
-                    $data[$i]['jumlah'] += $par['jawaban'] * $par['jml_p'];
+                    $data[$i]['jumlah'] += (int) $par['jawaban'] * (int) $par['jml_p'];
                 }
             }
             $j++;

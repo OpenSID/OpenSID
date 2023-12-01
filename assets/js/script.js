@@ -361,7 +361,7 @@ $(document).ready(function() {
 });
 
 /* Fungsi formatRupiah untuk form surat */
-function formatRupiah(angka, prefix, nol_sen = true) {
+function formatRupiah(angka, prefix, nol_sen = true) {        
     var number_string = angka.replace(/[^,\d]/g, "").toString(),
         split = number_string.split(","),
         sisa = split[0].length % 3,
