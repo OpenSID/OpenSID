@@ -1,6 +1,7 @@
-Di rilis ini, versi 2311.1.0 berisi penambahan fitur tampilan anjungan yang baru dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2312.0.0 berisi penambahan fitur tampilan anjungan yang baru dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ruririzal yang terus berkontribusi.
+
 
 #### Penambahan Fitur
 
@@ -12,6 +13,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 6. [#6539](https://github.com/OpenSID/OpenSID/issues/6539) Penambahan untuk membedakan template isian dan header/footer pada surat TinyMCE.
 7. [#2169](https://github.com/OpenSID/premium/issues/2169) Penambahan tampilan anjungan yang baru.
 8. [#2261](https://github.com/OpenSID/premium/issues/2261) Penambahan tampilan buku tamu yang baru.
+
 
 #### Perbaikan BUG
 
@@ -77,6 +79,7 @@ Terima kasih pada @ruririzal yang terus berkontribusi.
 60. [#6663](https://github.com/OpenSID/OpenSID/issues/6663) Perbaikan penyebutan sebutan desa, kepala desa dan pemerintah desa pada modul bumindes administrasi umum.
 61. [#6701](https://github.com/OpenSID/OpenSID/issues/6701) Perbaikan notifikasi dan proses simpan artikel jika unggah gambar gagal.
 62. [#6664](https://github.com/OpenSID/OpenSID/issues/6664) Perbaikan gagal rekamm kehadiran saat jam pulang.
+
 
 #### Perubahan Teknis
 
