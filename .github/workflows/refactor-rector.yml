@@ -1,9 +1,10 @@
 name: Refactor Rector
 
 on:
-    push:
+    pull_request:
       branches:
-        - 'rilis-dev-7344'     
+        - bug-fix
+        - rilis-dev
       paths:
         - '.github/workflows/refactor-rector.yml'
         - 'donjo-app/**'

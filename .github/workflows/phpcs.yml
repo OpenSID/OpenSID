@@ -1,9 +1,6 @@
 name: Fix styling
 
 on:
-  push:
-    branches:
-      - bug-fix-2312.0.1
   pull_request:
     branches:
       - bug-fix
