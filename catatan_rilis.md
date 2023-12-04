@@ -12,3 +12,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### Penyesuaian Teknis
 
 1. [#3197](https://github.com/OpenSID/premium/issues/3197) Penyesuaian source menggunakan rector.
+
+#### Peningkatan Keamanan
+
+1. [#3200](https://github.com/OpenSID/premium/issues/3200) Peningkatan keamanan pada form unggah file pada modul menu anjungan.

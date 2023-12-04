@@ -225,7 +225,7 @@ class Anjungan_menu extends Anjungan_Controller
     protected static function unggah($jenis = '')
     {
         $CI = &get_instance();
-        $CI->load->library('upload');
+        $CI->load->library('MY_Upload', null, 'upload');
         folder(LOKASI_ICON_MENU_ANJUNGAN);
 
         $CI->uploadConfig = [
