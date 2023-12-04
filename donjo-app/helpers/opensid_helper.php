@@ -569,7 +569,7 @@ function sql_in_list($list_array)
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
  * tampil : true kalau berkas akan ditampilkan inline (tidak diunduh)
  */
-function ambilBerkas(string $nama_berkas, $redirect_url = null, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil = false)
+function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil = false)
 {
     $CI = &get_instance();
     $CI->load->helper('download');
