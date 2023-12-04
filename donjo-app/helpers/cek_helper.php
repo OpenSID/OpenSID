@@ -43,7 +43,6 @@ define('WEBSITE_DEMO', [
     'beta2.opensid.or.id',
     'berputar.opendesa.id',
     'devpremium.opendesa.id',
-    'opensid.test',
 ]);
 
 if (! function_exists('cek_anjungan')) {
