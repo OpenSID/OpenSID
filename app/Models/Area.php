@@ -141,7 +141,7 @@ class Area extends BaseModel
         return $this->belongsTo(Polygon::class, 'ref_polygon', 'id');
     }
 
-    public function isLock()
+    public function isLock(): bool
     {
         return $this->enabled == self::LOCK;
     }
@@ -161,20 +161,18 @@ class Area extends BaseModel
 
     /**
      * The "booted" method of the model.
-     *
-     * @return void
      */
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 
-        static::updating(static function ($model) {
+        static::updating(static function ($model): void {
             if ($model->isDirty('foto')) {
                 static::deleteFile($model->getOriginal('foto'));
             }
         });
 
-        static::deleting(static function ($model) {
+        static::deleting(static function ($model): void {
             static::deleteFile($model->getOriginal('foto'));
         });
     }

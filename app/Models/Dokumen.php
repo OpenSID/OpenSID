@@ -144,8 +144,6 @@ class Dokumen extends BaseModel
      * Scope a query to only users.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePengguna($query): void
     {
@@ -154,8 +152,6 @@ class Dokumen extends BaseModel
 
     /**
      * Getter untuk menambahkan url file.
-     *
-     * @return string
      */
     public function getUrlFileAttribute(): void
     {
@@ -170,8 +166,6 @@ class Dokumen extends BaseModel
 
     /**
      * Getter untuk donwload file.
-     *
-     * @return string
      */
     public function getDownloadDokumenAttribute(): void
     {

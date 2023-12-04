@@ -123,11 +123,7 @@ class TeksBerjalan extends BaseModel
         $currentNo = $data->urut;
         $targetNo  = ($direction == 2) ? $currentNo - 1 : $currentNo + 1;
 
-        if ($direction == 2) {
-            $query->where('urut', $targetNo)->update(['urut' => $currentNo]);
-        } else {
-            $query->where('urut', $targetNo)->update(['urut' => $currentNo]);
-        }
+        $query->where('urut', $targetNo)->update(['urut' => $currentNo]);
 
         $data->update(['urut' => $targetNo]);
 

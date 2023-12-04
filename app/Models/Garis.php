@@ -84,17 +84,17 @@ class Garis extends BaseModel
         'foto_garis',
     ];
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 
-        static::updating(static function ($model) {
+        static::updating(static function ($model): void {
             if ($model->isDirty('foto')) {
                 static::deleteFile($model->getOriginal('foto'));
             }
         });
 
-        static::deleting(static function ($model) {
+        static::deleting(static function ($model): void {
             static::deleteFile($model->getOriginal('foto'));
         });
     }
@@ -162,7 +162,7 @@ class Garis extends BaseModel
         return $query->whereEnabled(1);
     }
 
-    public function isLock()
+    public function isLock(): bool
     {
         return $this->enabled == self::LOCK;
     }

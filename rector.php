@@ -6,6 +6,7 @@ use Rector\CodeQuality\Rector\Class_\CompleteDynamicPropertiesRector;
 use Rector\CodeQuality\Rector\Include_\AbsolutizeRequireAndIncludePathRector;
 use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
+use Rector\CodeQuality\Rector\ClassMethod\LocallyCalledStaticMethodToNonStaticRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictTypedCallRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\BoolReturnTypeFromStrictScalarReturnsRector;
@@ -34,6 +35,7 @@ return static function (RectorConfig $rectorConfig): void {
         SensitiveConstantNameRector::class,
         ExplicitBoolCompareRector::class,
         JsonThrowOnErrorRector::class,
+        LocallyCalledStaticMethodToNonStaticRector::class,
         // skip rule ini, karena menyebabkan error di codeigniter 3
         AbsolutizeRequireAndIncludePathRector::class, 
         CompleteDynamicPropertiesRector::class,

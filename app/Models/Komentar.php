@@ -122,8 +122,6 @@ class Komentar extends BaseModel
      * Scope query untuk tipe pesan masuk.
      *
      * @param Builder $query
-     *
-     * @return Builder
      */
     public function scopePesanPengguna($query): void
     {

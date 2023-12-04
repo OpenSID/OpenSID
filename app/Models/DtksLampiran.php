@@ -88,13 +88,11 @@ class DtksLampiran extends BaseModel
 
     /**
      * The "booted" method of the model.
-     *
-     * @return void
      */
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
-        static::deleting(static function ($model) {
+        static::deleting(static function ($model): void {
             static::deleteFile($model->getOriginal('foto'));
         });
     }
