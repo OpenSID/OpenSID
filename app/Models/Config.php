@@ -219,7 +219,7 @@ class Config extends BaseModel
         hapus_cache('_cache_modul');
     }
 
-    private function deleteFile($file)
+    private static function deleteFile(?string $file): void
     {
         if ($file) {
             $logo = LOKASI_LOGO_DESA . $file;

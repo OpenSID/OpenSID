@@ -481,7 +481,7 @@ class Log_Viewer
      * @param filename. It can be all - to delete all log files - or specific for a file
      * @param mixed $fileName
      */
-    private function deleteFiles($fileName): void
+    private static function deleteFiles($fileName): void
     {
         if ($fileName == 'all') {
             array_map('unlink', glob($this->fullLogFilePath));

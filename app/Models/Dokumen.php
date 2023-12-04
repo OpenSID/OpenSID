@@ -120,7 +120,7 @@ class Dokumen extends BaseModel
         });
     }
 
-    private function deleteFile(?string $file): void
+    private static function deleteFile(?string $file): void
     {
         if ($file) {
             $satuan = LOKASI_DOKUMEN . $file;

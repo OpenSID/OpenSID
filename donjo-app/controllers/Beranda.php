@@ -84,8 +84,10 @@ class Beranda extends Admin_Controller
         return view('admin.home.index', $data);
     }
 
-    private function getUpdate()
+    private function getUpdate(): array
     {
+        $info = [];
+
         if (cek_koneksi_internet() && ! config_item('demo_mode')) {
             $url_rilis = ($this->premium->validasi_akses() && PREMIUM) ? config_item('rilis_premium') : config_item('rilis_umum');
 

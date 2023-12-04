@@ -74,7 +74,7 @@ class Anjungan_pengaturan extends Anjungan_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    protected static function validated($request = [])
+    protected static function validated($request = []): array
     {
         return [
             'anjungan_artikel'         => json_encode($request['artikel'], JSON_THROW_ON_ERROR),

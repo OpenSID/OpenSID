@@ -140,7 +140,7 @@ class Kehadiran_hari_libur extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate($request = [], $id = '')
+    private function validate($request = [], $id = ''): array
     {
         $_POST['tanggal'] = date('Y-m-d', strtotime($request['tanggal']));
 

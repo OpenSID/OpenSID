@@ -99,7 +99,7 @@ class DtksLampiran extends BaseModel
         });
     }
 
-    private static function deleteFile($file)
+    private static function deleteFile(?string $file): void
     {
         if ($file) {
             $path = FCPATH . LOKASI_FOTO_DTKS . $file;

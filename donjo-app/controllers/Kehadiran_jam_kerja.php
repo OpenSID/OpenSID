@@ -99,7 +99,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    private function validate($request = [])
+    private function validate($request = []): array
     {
         return [
             'jam_masuk'  => date('H:i:s', strtotime($request['jam_masuk'])),

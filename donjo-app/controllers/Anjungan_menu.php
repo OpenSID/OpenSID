@@ -196,7 +196,7 @@ class Anjungan_menu extends Anjungan_Controller
         return redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    protected static function validated($request = [], $id = null)
+    protected static function validated($request = [], $id = null): array
     {
         $urut = $id ? Menu::find($id)->urut : Menu::max('urut') + 1;
 

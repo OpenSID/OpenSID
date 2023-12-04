@@ -172,7 +172,7 @@ class Man_user extends Admin_Controller
     }
 
     // Kata sandi harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil
-    public function syarat_sandi($str)
+    public function syarat_sandi($str): bool
     {
         return (bool) (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/', $str));
     }
@@ -270,7 +270,7 @@ class Man_user extends Admin_Controller
         $user->delete();
     }
 
-    protected function validate($request = [], $id = '')
+    protected function validate($request = [], $id = ''): array
     {
         $data = [
             'active'         => (int) ($request['aktif'] ?? 0),

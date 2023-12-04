@@ -169,7 +169,7 @@ class Anjungan extends Admin_Controller
     }
 
     // Hanya filter inputan
-    protected static function validated($request = [], $id = null)
+    protected static function validated($request = [], $id = null): array
     {
         $anjungan      = AnjunganModel::find($id);
         $ip_address    = AnjunganModel::tipe(1)->where('ip_address', $request['ip_address'])->first();

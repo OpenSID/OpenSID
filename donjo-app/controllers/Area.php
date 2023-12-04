@@ -46,7 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Area extends Admin_Controller
 {
-    private $tip = 4;
+    private int $tip = 4;
 
     public function __construct()
     {
@@ -103,7 +103,7 @@ class Area extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('enabled', static fn ($row) => $row->enabled == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('enabled', static fn ($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
                 ->editColumn('ref_polygon', static fn ($row) => $row->polygon->parent->nama ?? '')
                 ->editColumn('kategori', static fn ($row) => $row->polygon->nama ?? '')
                 ->rawColumns(['aksi', 'ceklist'])

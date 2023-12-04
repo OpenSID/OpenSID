@@ -63,10 +63,8 @@ class Kelompok_master extends Admin_Controller
 
             return datatables(KelompokMaster::tipe($this->tipe)->withCount('kelompok as jumlah'))
                 ->addIndexColumn()
-                ->addColumn('ceklist', static function ($row) {
-                    return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
-                })
-                ->addColumn('aksi', static function ($row) use ($controller) {
+                ->addColumn('ceklist', static fn($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
+                ->addColumn('aksi', static function ($row) use ($controller): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -152,7 +150,7 @@ class Kelompok_master extends Admin_Controller
         $result->delete();
     }
 
-    protected function validate($request = [])
+    protected function validate($request = []): array
     {
         return [
             'config_id' => identitas('id'),

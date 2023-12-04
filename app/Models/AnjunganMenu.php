@@ -118,7 +118,7 @@ class AnjunganMenu extends BaseModel
         });
     }
 
-    private function deleteFile($file)
+    private static function deleteFile(?string $file): void
     {
         if ($file) {
             $icon = LOKASI_ICON_MENU_ANJUNGAN . $file;

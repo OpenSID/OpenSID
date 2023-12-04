@@ -256,9 +256,8 @@ class Penduduk extends Admin_Controller
                             $aksi .= '<a href="#" data-href="' . route('penduduk.delete_dokumen', "{$idPend}/{$row->id}") . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                         }
                     }
-                    $aksi .= '<a href="' . route('penduduk.unduh_berkas', $row->id) . '" class="btn bg-purple btn-sm" title="Unduh Dokumen"><i class="fa fa-download"></i></a>';
 
-                    return $aksi;
+                    return $aksi . ('<a href="' . route('penduduk.unduh_berkas', $row->id) . '" class="btn bg-purple btn-sm" title="Unduh Dokumen"><i class="fa fa-download"></i></a>');
                 })
                 ->editColumn('jenis_dokumen', static fn ($row) => $row->jenisDokumen->ref_syarat_nama ?? '')
                 ->editColumn('tgl_upload', static fn ($row) => tgl_indo2($row->tgl_upload))
@@ -362,28 +361,22 @@ class Penduduk extends Admin_Controller
             $anggotaLain      = $dokumenLain ? $dokumenLain->pluck('id_pend')->all() : [];
             $intersectAnggota = array_intersect($anggotaKK, $anggotaLain);
 
-            if ($intersectAnggota) {
-                foreach ($intersectAnggota as $value) {
-                    $dokumen->children->firstWhere('id_pend', $value)->update($dataUpdate);
-                }
+            foreach ($intersectAnggota as $value) {
+                $dokumen->children->firstWhere('id_pend', $value)->update($dataUpdate);
             }
 
             $diffDeleteAnggota = array_diff($anggotaLain, $anggotaKK);
-            if ($diffDeleteAnggota) {
-                foreach ($diffDeleteAnggota as $value) {
-                    $dokumen->children->firstWhere('id_pend', $value)->delete();
-                }
+            foreach ($diffDeleteAnggota as $value) {
+                $dokumen->children->firstWhere('id_pend', $value)->delete();
             }
 
             $diffInsertAnggota = array_diff($anggotaKK, $anggotaLain);
 
-            if ($diffInsertAnggota) {
-                foreach ($diffInsertAnggota as $value) {
-                    $dataUpdate['id_parent'] = $dokumen->id;
-                    $dataUpdate['id_pend']   = $value;
-                    $dataUpdate['satuan']    = $dokumen->satuan;
-                    Dokumen::create($dataUpdate);
-                }
+            foreach ($diffInsertAnggota as $value) {
+                $dataUpdate['id_parent'] = $dokumen->id;
+                $dataUpdate['id_pend']   = $value;
+                $dataUpdate['satuan']    = $dokumen->satuan;
+                Dokumen::create($dataUpdate);
             }
 
             redirect_with('success', 'Dokumen berhasil disimpan', route('penduduk.dokumen', $id_pend));
@@ -551,7 +544,7 @@ class Penduduk extends Admin_Controller
 
         $i = 0;
 
-        while ($i++ < count($adv_search)) {
+        while ($i++ < (is_countable($adv_search) ? count($adv_search) : 0)) {
             $col[$i] = key($adv_search);
             next($adv_search);
         }
