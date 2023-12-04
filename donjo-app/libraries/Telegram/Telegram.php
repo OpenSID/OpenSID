@@ -78,7 +78,7 @@ class Telegram
     {
         $this->ci = get_instance();
 
-        $this->token  = $this->ci->setting->telegram_token;
+        $this->token  = $this->ci->setting->telegram_token ?? '';
         $this->active = $this->ci->setting->telegram_notifikasi;
         $this->http   = new HttpClient();
     }

@@ -380,7 +380,7 @@ function UploadArtikel(string $fupload_name, $gambar): bool
     return true;
 }
 
-function HapusArtikel(string $gambar): bool
+function HapusArtikel(?string $gambar): bool
 {
     $vdir_upload  = LOKASI_FOTO_ARTIKEL;
     $vfile_upload = $vdir_upload . 'sedang_' . $gambar;
