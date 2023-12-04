@@ -110,8 +110,11 @@ class Periksa extends CI_Controller
             'latar_login' => $this->latar_login,
         ];
 
-        $this->setting->sebutan_desa      = $this->periksa_model->getSetting('sebutan_desa');
-        $this->setting->sebutan_kabupaten = $this->periksa_model->getSetting('sebutan_kabupaten');
+        if ($this->setting) {
+            $this->setting->sebutan_desa      = $this->periksa_model->getSetting('sebutan_desa');
+            $this->setting->sebutan_kabupaten = $this->periksa_model->getSetting('sebutan_kabupaten');
+        }
+
         $this->load->view('siteman', $data);
     }
 

@@ -39,6 +39,7 @@ use App\Enums\StatusDasarEnum;
 use App\Models\CovidVaksin;
 use App\Models\InventarisAsset;
 use App\Models\Keluarga;
+use App\Models\KlasifikasiSurat;
 use App\Models\LogPenduduk;
 use App\Models\LogPerubahanPenduduk;
 use App\Models\Penduduk;
@@ -295,6 +296,12 @@ class Periksa_model extends MY_Model
         if (! $no_anggota_ganda->isEmpty()) {
             $this->periksa['masalah'][]        = 'no_anggota_ganda';
             $this->periksa['no_anggota_ganda'] = $no_anggota_ganda->toArray();
+        }
+
+        $klasifikasi_surat_ganda = $this->deteksi_klasifikasi_surat_ganda();
+        if (! $klasifikasi_surat_ganda->isEmpty()) {
+            $this->periksa['masalah'][]               = 'klasifikasi_surat_ganda';
+            $this->periksa['klasifikasi_surat_ganda'] = $klasifikasi_surat_ganda->toArray();
         }
 
         return $calon;
@@ -644,6 +651,13 @@ class Periksa_model extends MY_Model
             ->groupBy('config_id', 'id_kelompok', 'no_anggota')
             ->having('jml', '>', 1)
             ->get();
+    }
+
+    private function deteksi_klasifikasi_surat_ganda()
+    {
+        $config_id = identitas('id');
+
+        return KlasifikasiSurat::where(['config_id' => $config_id])->whereIn('kode', static fn ($q) => $q->from('klasifikasi_surat')->select(['kode'])->where(['config_id' => $config_id])->groupBy('kode')->having(DB::raw('count(kode)'), '>', 1))->orderBy('kode')->get();
     }
 
     public function perbaiki(): void

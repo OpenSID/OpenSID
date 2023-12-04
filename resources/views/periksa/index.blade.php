@@ -764,8 +764,37 @@
                                             </div>
                                         </div>
                                     @endif
+
+                                    @if (in_array('klasifikasi_surat_ganda', $masalah))
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <strong>Terdeteksi kode klasifikasi surat ganda</strong>
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>Id</th>
+                                                        <th>Kode</th>
+                                                        <th>Nama</th>
+                                                        <th>Uraian</th>
+                                                        <th>Aksi</th>
+                                                    </tr>
+                                                    @foreach ($klasifikasi_surat_ganda as $klasifikasi)
+                                                        <tr>
+                                                            <td>{{ $klasifikasi['id'] }}</td>
+                                                            <td>{{ $klasifikasi['kode'] }}</td>
+                                                            <td>{{ $klasifikasi['nama'] }}</td>
+                                                            <td>{{ $klasifikasi['uraian'] }}</td>
+                                                            <td><button onclick="$.get('periksaKlasifikasiSurat/hapus', {id: {{ $klasifikasi['id'] }}},function(){$(event.target).replaceWith(`<button class='btn btn-sm btn-success'><i class='fa fa-check'></i> Sudah dihapus</button>`)},'json')"
+                                                                    type="button" class="btn btn-sm btn-danger"
+                                                                ><i class="fa fa-trash"></i> Hapus </button></td>
+                                                        </tr>
+                                                    @endforeach
+                                                </table>
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     @php
-                                        $excludePerbaikiSemua = ['log_keluarga_ganda', 'log_penduduk_tidak_sinkron'];
+                                        $excludePerbaikiSemua = ['klasifikasi_surat_ganda', 'log_keluarga_ganda', 'log_penduduk_tidak_sinkron'];
                                         $pengurangMasalah = 0;
                                         foreach ($excludePerbaikiSemua as $mandiri) {
                                             if (in_array($mandiri, $masalah)) {

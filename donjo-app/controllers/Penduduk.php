@@ -366,6 +366,7 @@ class Penduduk extends Admin_Controller
             }
 
             $diffDeleteAnggota = array_diff($anggotaLain, $anggotaKK);
+
             foreach ($diffDeleteAnggota as $value) {
                 $dokumen->children->firstWhere('id_pend', $value)->delete();
             }

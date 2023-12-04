@@ -63,7 +63,7 @@ class Kelompok_master extends Admin_Controller
 
             return datatables(KelompokMaster::tipe($this->tipe)->withCount('kelompok as jumlah'))
                 ->addIndexColumn()
-                ->addColumn('ceklist', static fn($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
+                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addColumn('aksi', static function ($row) use ($controller): string {
                     $aksi = '';
 

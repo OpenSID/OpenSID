@@ -129,7 +129,7 @@ class Pengguna extends Admin_Controller
 
             case $pwMasihMD5 && (md5($pass_lama) != auth()->password):
 
-            case ! $pwMasihMD5 && (!password_verify($pass_lama, auth()->password)):
+            case ! $pwMasihMD5 && (! password_verify($pass_lama, auth()->password)):
                 $respon = [
                     'status' => false,
                     'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang anda masukkan tidak sesuai.',
