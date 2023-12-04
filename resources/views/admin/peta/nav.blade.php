@@ -13,7 +13,7 @@
                 <li {{ jecho($tip, 6, "class='active'") }}><a href="{{ site_url('point/clear_simbol') }}">Simbol Lokasi</a></li>
             @endif
             <li {{ jecho($tip, 1, "class='active'") }}><a href="{{ site_url('garis') }}">Garis</a></li>
-            <li {{ jecho($tip, 2, "class='active'") }}><a href="{{ site_url('line/clear') }}">Tipe Garis</a></li>
+            <li {{ jecho($tip, 2, "class='active'") }}><a href="{{ site_url('line') }}">Tipe Garis</a></li>
             <li {{ jecho($tip, 4, "class='active'") }}><a href="{{ site_url('area') }}">Area</a></li>
             <li {{ jecho($tip, 5, "class='active'") }}><a href="{{ site_url('polygon') }}">Tipe Area</a></li>
         </ul>

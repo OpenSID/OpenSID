@@ -52,7 +52,7 @@ class Migrasi_fitur_premium_2401 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023120351($hasil);
     }
 
     // Migrasi perubahan data
@@ -66,11 +66,41 @@ class Migrasi_fitur_premium_2401 extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023120451($hasil);
     }
 
-    protected function migrasi_xxxxxxxxxx($hasil)
+    protected function migrasi_2023120451($hasil)
     {
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'klasifikasi-surat', 'url' => 'klasifikasi/clear'],
+            ['url' => 'klasifikasi']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'polygon', 'url' => 'polygon/clear'],
+            ['url' => 'polygon']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'area', 'url' => 'area/clear'],
+            ['url' => 'area']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'garis', 'url' => 'garis/clear'],
+            ['url' => 'garis']
+        );
+
+        return $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'line', 'url' => 'line/clear'],
+            ['url' => 'line']
+        );
+    }
+
+    protected function migrasi_2023120351($hasil)
+    {
+        $this->tambahIndeks('klasifikasi_surat', 'config_id, kode', 'UNIQUE', true);
+
         return $hasil;
     }
 }
