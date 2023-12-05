@@ -15,7 +15,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#3197](https://github.com/OpenSID/premium/issues/3197) Penyesuaian source menggunakan rector.
 2. [#7498](https://github.com/OpenSID/OpenSID/issues/7498) Penyesuaian beberapa fungsi agar jalan normal di php 8.x.
 3. [#7439](https://github.com/OpenSID/OpenSID/issues/7439) Penyesuaian modul penduduk > dokumen menggunakan ORM dan Blade.
-4. [#7439](https://github.com/OpenSID/OpenSID/issues/7439) Penyesuaian modul pengaturan peta > tipe garis menggunakan ORM dan Blade.
+4. [#7442](https://github.com/OpenSID/OpenSID/issues/7442) Penyesuaian modul pengaturan peta > tipe garis menggunakan ORM dan Blade.
+5. [#7490](https://github.com/OpenSID/OpenSID/issues/7490) Penyesuaian modul pengaturan > pengguna > grup menggunakan ORM dan Blade.
 
 
 #### Peningkatan Keamanan

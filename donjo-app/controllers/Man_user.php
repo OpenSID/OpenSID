@@ -43,6 +43,8 @@ use App\Models\UserGrup;
 
 class Man_user extends Admin_Controller
 {
+    private int $tab_ini = 10;
+
     public function __construct()
     {
         parent::__construct();
@@ -55,7 +57,7 @@ class Man_user extends Admin_Controller
 
     public function index()
     {
-        $this->tab_ini = 10;
+        $data['tab_ini'] = $this->tab_ini;
 
         $data['status'] = [
             ['id' => '1', 'nama' => 'Aktif'],
@@ -277,8 +279,8 @@ class Man_user extends Admin_Controller
             'username'       => isset($request['username']) ? alfanumerik($request['username']) : null,
             'password'       => isset($request['password']) ? generatePasswordHash($request['password']) : null,
             'nama'           => isset($request['nama']) ? strip_tags(nama($request['nama'])) : null,
-            'phone'          => isset($request['email']) ? htmlentities($request['phone']) : null,
-            'email'          => isset($request['email']) ? htmlentities($request['email']) : null,
+            'phone'          => isset($request['phone']) ? htmlentities($request['phone']) : null,
+            'email'          => empty($request['email']) ? null : htmlentities($request['email']),
             'id_grup'        => $request['id_grup'] ?? null,
             'pamong_id'      => empty($request['pamong_id']) ? null : $request['pamong_id'],
             'foto'           => isset($request['foto']) ? $this->user_model->urusFoto($id) : null,
