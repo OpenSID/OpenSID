@@ -212,14 +212,14 @@ class Config extends BaseModel
     }
 
     // Hapus cache config dan modul
-    private static function clearCache(): void
+    public static function clearCache(): void
     {
         hapus_cache('identitas_desa');
         hapus_cache('status_langganan');
         hapus_cache('_cache_modul');
     }
 
-    private static function deleteFile(?string $file): void
+    public static function deleteFile(?string $file): void
     {
         if ($file) {
             $logo = LOKASI_LOGO_DESA . $file;

@@ -99,7 +99,7 @@ class Garis extends BaseModel
         });
     }
 
-    private static function deleteFile(?string $file): void
+    public static function deleteFile(?string $file): void
     {
         if ($file) {
             $fotoSedang = LOKASI_FOTO_GARIS . 'sedang_' . $file;

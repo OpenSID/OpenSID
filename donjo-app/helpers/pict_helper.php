@@ -170,7 +170,7 @@ function UploadGambarWidget(string $nama_file, string $lokasi_file, ?string $old
 /**
  * Unggah foto
  */
-function UploadFoto(string $fupload_name, string $old_foto, string $dimensi = '200x200'): bool
+function UploadFoto(?string $fupload_name, ?string $old_foto, string $dimensi = '200x200'): bool
 {
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_USER_PICT;
@@ -776,12 +776,12 @@ function qrcode_generate(array $qrcode = [], $base64 = false): string
     return $filename;
 }
 
-function upload_foto_penduduk($nama_file = null, $dimensi = null)
+function upload_foto_penduduk(?string $nama_file = '', ?string $dimensi = '')
 {
     $foto     = $_POST['foto'];
     $old_foto = $_POST['old_foto'];
 
-    if ($nama_file === null) {
+    if ($nama_file) {
         $nama_file = time() . random_int(10000, 999999);
     }
 
@@ -793,7 +793,7 @@ function upload_foto_penduduk($nama_file = null, $dimensi = null)
         $foto = str_replace('data:image/png;base64,', '', $foto);
         $foto = base64_decode($foto, true);
 
-        if ($old_foto != '') {
+        if (isset($old_foto)) {
             // Hapus old_foto
             unlink(LOKASI_USER_PICT . $old_foto);
             unlink(LOKASI_USER_PICT . 'kecil_' . $old_foto);

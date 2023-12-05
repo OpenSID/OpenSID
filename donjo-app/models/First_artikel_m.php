@@ -547,7 +547,7 @@ class First_artikel_m extends MY_Model
             ->row()->id;
 
         //membatasi hit hanya satu kali dalam setiap session
-        if (in_array($id, $_SESSION['artikel']) || $this->agent->is_robot() || crawler() === true) {
+        if (in_array($id, $_SESSION['artikel']) || $this->agent->is_robot() || crawler()) {
             return;
         }
 

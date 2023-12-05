@@ -109,13 +109,9 @@ class Analisis_periode_model extends MY_Model
         $j       = $offset;
         $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['no'] = $j + 1;
-            if ($data[$i]['aktif'] == 1) {
-                $data[$i]['aktif'] = '<img src="' . base_url('assets/images/icon/tick.png') . '">';
-            } else {
-                $data[$i]['aktif'] = '';
-            }
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no']    = $j + 1;
+            $data[$i]['aktif'] = $data[$i]['aktif'] == 1 ? '<img src="' . base_url('assets/images/icon/tick.png') . '">' : '';
             $j++;
         }
 
