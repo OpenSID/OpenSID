@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#7462](https://github.com/OpenSID/OpenSID/issues/7462) Perbaikan ekspor klasifikasi surat.
 3. [#7493](https://github.com/OpenSID/OpenSID/issues/7493) Perbaikan ejaan.
 4. [#7494](https://github.com/OpenSID/OpenSID/issues/7494) Perbaikan notifikasi buat token sinkronisasi OpenDK.
+5. [#7454](https://github.com/OpenSID/OpenSID/issues/7454) Perbaikan halaman mode offline dan pindahkan ke masing-masing tema.
 
 
 #### Penyesuaian Teknis

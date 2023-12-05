@@ -675,7 +675,9 @@ $config['api_google_recaptcha'] = 'https://google.com/recaptcha/api/';
 |--------------------------------------------------------------------------
 |
 */
-$config['views_blade'] = RESOURCESPATH . 'views/';
+$config['views_blade'] = [
+    RESOURCESPATH . 'views/',
+];
 
 /*
 |--------------------------------------------------------------------------

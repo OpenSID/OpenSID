@@ -258,6 +258,15 @@ class Web_Controller extends MY_Controller
         parent::__construct();
 
         $this->header = identitas();
+
+        $this->load->model('theme_model');
+        $this->theme        = $this->theme_model->tema;
+        $this->theme_folder = $this->theme_model->folder;
+
+        // Variabel untuk tema
+        $this->set_template();
+        $this->includes['folder_themes'] = "../../{$this->theme_folder}/{$this->theme}";
+
         if ($this->setting->offline_mode == 2) {
             $this->view_maintenance();
         } elseif ($this->setting->offline_mode == 1) {
@@ -267,14 +276,6 @@ class Web_Controller extends MY_Controller
                 $this->view_maintenance();
             }
         }
-
-        $this->load->model('theme_model');
-        $this->theme        = $this->theme_model->tema;
-        $this->theme_folder = $this->theme_model->folder;
-
-        // Variabel untuk tema
-        $this->set_template();
-        $this->includes['folder_themes'] = "../../{$this->theme_folder}/{$this->theme}";
 
         $this->load->model('web_menu_model');
     }
@@ -335,14 +336,15 @@ class Web_Controller extends MY_Controller
         }
     }
 
-    private function view_maintenance(): void
+    private function view_maintenance()
     {
-        $main                    = $this->header;
-        $pamong_kades['jabatan'] = kades()->nama;
+        $data['jabatan']          = kades()->nama;
+        $data['nama_kepala_desa'] = $this->header['nama_kepala_desa'];
+        $data['nip_kepala_desa']  = $this->header['nip_kepala_desa'];
 
-        include DESAPATH . 'offline_mode.php';
+        $this->config->set_item('views_blade', array_merge(config_item('views_blade'), ["{$this->theme_folder}/{$this->theme}"]));
 
-        exit();
+        return view('mode_offline', $data);
     }
 }
 

@@ -426,12 +426,10 @@ if (! function_exists('folder_desa')) {
             folder($folder, $lainnya[0], $lainnya[1], $lainnya[2] ?? []);
         }
 
-        // Buat file offline_mode.php, config.php dan database.php awal
         write_file(LOKASI_CONFIG_DESA . 'config.php', config_item('config'), 'x');
         write_file(LOKASI_CONFIG_DESA . 'database.php', config_item('database'), 'x');
         write_file(DESAPATH . 'pengaturan/siteman/siteman.css', config_item('siteman_css'), 'x');
         write_file(DESAPATH . 'pengaturan/siteman/siteman_mandiri.css', config_item('siteman_mandiri_css'), 'x');
-        write_file(DESAPATH . 'offline_mode.php', config_item('offline_mode'), 'x');
         write_file(DESAPATH . 'app_key', set_app_key(), 'x');
 
         return true;
