@@ -451,7 +451,8 @@
                 title: 'Gagal terhubung ke server OpenDK',
                 html: $pesan,
                 icon: 'error',
-                confirmButtonText: 'OK'
+                confirmButtonText: 'OK',
+                timer: 5000,
             })
         });
 
@@ -469,6 +470,7 @@
             icon: 'info',
             timer: 5000,
             showCancelButton: true,
+            cancelButtonText: 'Batal',
             didOpen: () => {
                 Swal.showLoading();
                 get_token();
@@ -476,10 +478,10 @@
         }).then((result) => {
             if (result.dismiss === Swal.DismissReason.timer) {
                 Swal.fire({
-                    title: 'Gagal terhubung ke server OpenDK',
-                    html: 'Pastikan <b>server</b>, <b>user</b> dan <b>password</b> sudah terisi dengan benar !!!',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
+                    title: 'Berhasil terhubung ke server OpenDK',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    timer: 5000,
                 })
             }
         });
