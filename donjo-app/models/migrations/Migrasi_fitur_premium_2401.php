@@ -91,9 +91,14 @@ class Migrasi_fitur_premium_2401 extends MY_model
             ['url' => 'garis']
         );
 
-        return $hasil = $hasil && $this->ubah_modul(
+        $hasil = $hasil = $hasil && $this->ubah_modul(
             ['slug' => 'line', 'url' => 'line/clear'],
             ['url' => 'line']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'arsip-layanan', 'url' => 'keluar/clear/masuk'],
+            ['url' => 'keluar/clear']
         );
     }
 
