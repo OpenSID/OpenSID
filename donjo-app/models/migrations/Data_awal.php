@@ -1642,7 +1642,7 @@ class Data_awal extends MY_Model
             [
                 'judul'      => 'Api Gform Redirect Uri',
                 'key'        => 'api_gform_redirect_uri',
-                'value'      => 'https://berputar.opensid.or.id/index.php/first/get_form_info',
+                'value'      => 'https://berputar.opendesa.id/index.php/first/get_form_info',
                 'keterangan' => 'Redirecet URI untuk Google API',
                 'jenis'      => 'text',
                 'option'     => null,

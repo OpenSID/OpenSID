@@ -1176,7 +1176,7 @@ class Data_awal_seeder extends CI_Model
             [
                 'id'      => 1,
                 'gambar'  => 'fb.png',
-                'link'    => 'https://www.facebook.com/groups/OpenSID/',
+                'link'    => <?= config_item('fb_opendesa') ?>,
                 'nama'    => 'Facebook',
                 'tipe'    => 1,
                 'enabled' => 1,
@@ -61653,7 +61653,7 @@ class Data_awal_seeder extends CI_Model
             [
                 'id'         => 115,
                 'key'        => 'api_gform_redirect_uri',
-                'value'      => 'https://berputar.opensid.or.id/index.php/first/get_form_info',
+                'value'      => 'https://berputar.opendesa.id/index.php/first/get_form_info',
                 'keterangan' => 'Redirecet URI untuk Google API',
                 'jenis'      => null,
                 'kategori'   => 'setting_analisis',

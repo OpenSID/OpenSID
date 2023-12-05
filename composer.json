@@ -1,6 +1,6 @@
 {
 	"name": "opendesa/opensid",
-	"description": "OpenSID adalah Sistem Informasi Desa (SID) yang sengaja dirancang supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. OpenSID awalnya dikembangkan menggunakan SID dari Combine Resource Institution (CRI). SID CRI terakhir yang telah digabung dengan OpenSID adalah SID 3.10 yang diperoleh dari teman-teman di https://www.facebook.com/groups/OpenSID pada tanggal 15 Pebruari 2017.",
+	"description": "OpenSID adalah Sistem Informasi Desa (SID) yang sengaja dirancang supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. OpenSID awalnya dikembangkan menggunakan SID dari Combine Resource Institution (CRI). SID CRI terakhir yang telah digabung dengan OpenSID adalah SID 3.10 yang diperoleh dari teman-teman di https://www.facebook.com/groups/komunitasopendesa pada tanggal 15 Pebruari 2017.",
 	"license": "GPL-3.0-or-later",
 	"type": "project",
 	"keywords": [

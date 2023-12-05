@@ -184,7 +184,7 @@
                             <a href="http://opensid.my.id" target="_blank">Website Resmi
                                 <?= config_item('nama_aplikasi') ?></a>
                             <li align="justify">Grup Facebook, tempat mendapatkan bantuan dan berbagi pengalaman: </li>
-                            <a href="https://www.facebook.com/groups/opensid" target="_blank">Forum Pengguna dan
+                            <a href="<?= config_item('fb_opendesa') ?>" target="_blank">Forum Pengguna dan
                                 Pegiat <?= config_item('nama_aplikasi') ?></a>
                             <li align="justify">Tempat mengunduh rilis <?= config_item('nama_aplikasi') ?>:</li>
                             <a href="https://github.com/OpenSID/OpenSID/releases" target="_blank">https://github.com/OpenSID/OpenSID/releases</a>
