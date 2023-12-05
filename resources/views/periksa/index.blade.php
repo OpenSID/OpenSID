@@ -60,7 +60,7 @@
                             <p>Periksa database hanya diperbolehkan untuk Super Admin.</p>
                         </div>
                         <div class="text-center">
-                            <a href="{{ route('beranda') }}" class="btn btn-sm btn-social btn-danger" role="button" title="Kembali ke Dasbor"><i class="fa fa fa-sign-out"></i>Kembali</a>
+                            <a href="{{ route('siteman.logout') }}" class="btn btn-sm btn-social btn-danger" role="button" title="Kembali ke Dasbor"><i class="fa fa fa-sign-out"></i>Kembali</a>
                         </div>
                     @else
                         @if ($session->db_error)

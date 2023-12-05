@@ -889,14 +889,14 @@ id,kode,nama,uraian,enabled
 888,472.5,"Perceraian Agama Islam",-,1
 889,472.6,"Perceraian Agama Non Islam",-,1
 890,472.7,"Advokasi Perkawinan Dan Perceraian",-,1
-891,472.3,"Pengangkatan, Pengakuan, Dan Pengesahan Anak Serta Perubahan Dan Pembatalan Akta Dan Advokasi Pengangkatan Anak",-,1
+891,472.8,"Pengangkatan, Pengakuan, Dan Pengesahan Anak Serta Perubahan Dan Pembatalan Akta Dan Advokasi Pengangkatan Anak",-,1
 892,472.31,"Pengangkatan Anak",-,1
 893,472.32,"Pengakuan Anak",-,1
 894,472.33,"Pengesahan Anak",-,1
 895,472.34,"Perubahan Anak",-,1
 896,472.35,"Pembatalan Anak",-,1
 897,472.36,"Advokasi Pengurusan Pengangkatan, Pengakuan Dan Pengesahan Anak Serta Perubahan Dan Pembatalan Akta",-,1
-898,472.4,"Pencatatan Kewarganegaraan",-,1
+898,472.37,"Pencatatan Kewarganegaraan",-,1
 899,472.41,"Akibat Perkawinan",-,1
 900,472.42,"Akibat Kelahiran",-,1
 901,472.43,"Non Perkawinan",-,1
@@ -1619,8 +1619,6 @@ id,kode,nama,uraian,enabled
 1618,622.98,"Turap Penahan",-,1
 1619,622.99,Bronjong,-,1
 1620,623,-,-,1
-1621,623,-,-,1
-1622,623,-,-,1
 1623,630,JEMBATAN,-,1
 1624,631,"Jembatan Pada Jalan Kota",-,1
 1625,631.1,"Daerah Penguasaan",-,1
@@ -2260,7 +2258,6 @@ id,kode,nama,uraian,enabled
 2259,905,"Dana Alokasi Umum",-,1
 2260,906,"Dana Alokasi Khusus",-,1
 2261,907,"Dekonsentrasi (Pelimpahan Dana Dari Pusat Ke Daerah)",-,1
-2262,907,-,-,1
 2263,908,-,-,1
 2264,910,ANGGARAN,-,1
 2265,911,Rutin,-,1

@@ -50123,7 +50123,7 @@ class Data_awal_seeder extends CI_Model
             ],
             [
                 'id'      => 891,
-                'kode'    => '472.3',
+                'kode'    => '472.8',
                 'nama'    => 'Pengangkatan, Pengakuan, Dan Pengesahan Anak Serta Perubahan Dan Pembatalan Akta Dan Advokasi Pengangkatan Anak',
                 'uraian'  => '-',
                 'enabled' => 1,
@@ -50172,7 +50172,7 @@ class Data_awal_seeder extends CI_Model
             ],
             [
                 'id'      => 898,
-                'kode'    => '472.4',
+                'kode'    => '472.37',
                 'nama'    => 'Pencatatan Kewarganegaraan',
                 'uraian'  => '-',
                 'enabled' => 1,
@@ -55225,20 +55225,6 @@ class Data_awal_seeder extends CI_Model
                 'enabled' => 1,
             ],
             [
-                'id'      => 1620,
-                'kode'    => '623',
-                'nama'    => '-',
-                'uraian'  => '-',
-                'enabled' => 1,
-            ],
-            [
-                'id'      => 1621,
-                'kode'    => '623',
-                'nama'    => '-',
-                'uraian'  => '-',
-                'enabled' => 1,
-            ],
-            [
                 'id'      => 1622,
                 'kode'    => '623',
                 'nama'    => '-',
@@ -59715,13 +59701,6 @@ class Data_awal_seeder extends CI_Model
                 'id'      => 2261,
                 'kode'    => '907',
                 'nama'    => 'Dekonsentrasi (Pelimpahan Dana Dari Pusat Ke Daerah)',
-                'uraian'  => '-',
-                'enabled' => 1,
-            ],
-            [
-                'id'      => 2262,
-                'kode'    => '907',
-                'nama'    => '-',
                 'uraian'  => '-',
                 'enabled' => 1,
             ],
