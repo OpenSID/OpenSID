@@ -96,7 +96,6 @@ interface OTP_interface
     /**
      * Cek akun sudah terdaftar.
      *
-     * @param mixed $user
      * @param mixed $chat_id
      *
      * @return bool

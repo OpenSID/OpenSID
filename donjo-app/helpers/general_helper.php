@@ -924,3 +924,19 @@ if (! function_exists('batal')) {
         return '<button type="reset" class="btn btn-social btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>';
     }
 }
+
+if (! function_exists('sensorEmail')) {
+    function sensorEmail($email): string
+    {
+        if (! $email || null === $email) {
+            return '';
+        }
+        $atPosition = strpos($email, '@');
+
+        $firstPart  = substr($email, 0, 2);
+        $secondPart = substr($email, 1, $atPosition - 2);
+        $lastPart   = substr($email, $atPosition);
+
+        return $firstPart . str_repeat('*', strlen($secondPart)) . $lastPart;
+    }
+}

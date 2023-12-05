@@ -150,22 +150,17 @@ class OTP_telegram implements OTP_interface
      */
     public function kirim_pin_baru($user, $pin, $nama): void
     {
+        $pesanTelegram = [
+            '[nama]'    => $nama,
+            '[website]' => APP_URL,
+            '[pin]'     => $pin,
+        ];
+
+        $kirimPesan = setting('notifikasi_reset_pin');
+        $kirimPesan = str_replace(array_keys($pesanTelegram), array_values($pesanTelegram), $kirimPesan);
         $this->telegram->sendMessage([
-            'chat_id' => $user,
-            'text'    => <<<EOD
-                HALO {$nama},
-
-                BERIKUT ADALAH KODE PIN YANG BARU SAJA DIHASILKAN,
-                KODE PIN INI SANGAT RAHASIA
-                JANGAN BERIKAN KODE PIN KEPADA SIAPA PUN,
-                TERMASUK PIHAK YANG MENGAKU DARI DESA ANDA.
-
-                KODE PIN: {$pin}
-
-                JIKA BUKAN ANDA YANG MELAKUKAN RESET PIN TERSEBUT
-                SILAHKAN LAPORKAN KEPADA OPERATOR DESA
-
-                EOD,
+            'chat_id'    => $user,
+            'text'       => $kirimPesan,
             'parse_mode' => 'Markdown',
         ]);
     }
@@ -181,7 +176,7 @@ class OTP_telegram implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function kirim_pesan($data = []): void
+    public function kirim_pesan(array $data = []): void
     {
         $this->telegram->sendMessage([
             'chat_id' => $data['tujuan'],
