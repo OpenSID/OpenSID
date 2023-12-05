@@ -81,14 +81,14 @@ class Keluarga_model extends MY_Model
         if ($value == '1') {
             $this->db
                 ->where('t.status_dasar', 1)
-                ->where('t.kk_level', 1);
+                ->where('t.kk_level', SHDKEnum::KEPALA_KELUARGA);
         } elseif ($value == '2') {
             $this->db->where('t.status_dasar <>', 1);
         } elseif ($value == '3') {
             $this->db
                 ->group_start()
                 ->where('t.status_dasar IS NULL')
-                ->or_where(' t.kk_level <>', 1)
+                ->or_where(' t.kk_level <>', SHDKEnum::KEPALA_KELUARGA)
                 ->group_end();
         } elseif ($value == '4') {
             $this->db
@@ -372,7 +372,7 @@ class Keluarga_model extends MY_Model
         $kk_id = $this->db->insert_id();
 
         $default['id_kk']      = $kk_id;
-        $default['kk_level']   = 1;
+        $default['kk_level']   = SHDKEnum::KEPALA_KELUARGA;
         $default['status']     = 1; // statusnya menjadi tetap
         $default['updated_at'] = date('Y-m-d H:i:s');
         $default['updated_by'] = $this->session->user;
@@ -485,7 +485,7 @@ class Keluarga_model extends MY_Model
         unset($data['alamat']);
 
         // Tulis penduduk baru sebagai kepala keluarga
-        $data['kk_level']   = 1;
+        $data['kk_level']   = SHDKEnum::KEPALA_KELUARGA;
         $data['created_by'] = $this->session->user;
         $data['config_id']  = $this->config_id;
         $outp               = $this->db->insert('tweb_penduduk', $data);
@@ -662,14 +662,14 @@ class Keluarga_model extends MY_Model
     {
         $outp              = true;
         $nik['updated_by'] = auth()->id;
-        if ($kk_level == 1) {
+        if ($kk_level == SHDKEnum::KEPALA_KELUARGA) {
             // Kalau ada penduduk lain yg juga Kepala Keluarga, ubah menjadi hubungan Lainnya
             $lvl['kk_level']   = SHDKEnum::LAINNYA;
             $lvl['updated_at'] = Carbon::now();
             $lvl['updated_by'] = auth()->id;
             $this->config_id()
                 ->where('id_kk', $id_kk)
-                ->where('kk_level', 1)
+                ->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
                 ->update('tweb_penduduk', $lvl);
 
             $nik['nik_kepala'] = $id;
@@ -710,11 +710,11 @@ class Keluarga_model extends MY_Model
 
         $temp['no_kk_sebelumnya'] = $kk ? $kel->no_kk : null; // Tidak simpan no kk kalau keluar dari keluarga
         $temp['id_kk']            = null;
-        $temp['kk_level']         = 0;
+        $temp['kk_level']         = null;
         $temp['updated_at']       = date('Y-m-d H:i:s');
         $temp['updated_by']       = $this->session->user;
         $outp                     = $this->config_id()->where('id', $id)->update('tweb_penduduk', $temp);
-        if ($pend['kk_level'] == '1') {
+        if ($pend['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
             $temp2['updated_by'] = $this->session->user;
             $temp2['nik_kepala'] = 0;
             $outp                = $this->config_id()->where('id', $pend['id_kk'])->update('tweb_keluarga', $temp2);
@@ -866,7 +866,7 @@ class Keluarga_model extends MY_Model
             ->where(['status_dasar' => 1, 'id_kk' => $id]);
 
         if ($options['dengan_kk'] !== null && ! $options['dengan_kk']) {
-            $this->db->where('kk_level <> 1');
+            $this->db->where('kk_level !=', SHDKEnum::KEPALA_KELUARGA);
         }
 
         if (! empty($options['pilih'])) {
@@ -1002,7 +1002,7 @@ class Keluarga_model extends MY_Model
         $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
         unset($data['maksud_tujuan_kedatangan']);
 
-        if ($data['kk_level'] == 1) {
+        if ($data['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
             $tambah_kk = true;
             $kel       = $this->get_raw_keluarga($data['id_kk']);
             if ($kel['nik_kepala']) {
@@ -1376,7 +1376,7 @@ class Keluarga_model extends MY_Model
                 'updated_by'       => $this->session->user,
             ];
             if ($anggota['id'] == $post['nik_kepala']) {
-                $data['kk_level'] = 1;
+                $data['kk_level'] = SHDKEnum::KEPALA_KELUARGA;
             }
             $hasil = $hasil && $this->config_id()
                 ->where('id', $anggota['id'])

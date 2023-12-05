@@ -12,6 +12,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#7454](https://github.com/OpenSID/OpenSID/issues/7454) Perbaikan halaman mode offline dan pindahkan ke masing-masing tema.
 6. [#7465](https://github.com/OpenSID/OpenSID/issues/7465) Perbaikan akses awal modul arsip layanan.
 7. [#7499](https://github.com/OpenSID/OpenSID/issues/7499) Perbaikan notifikasi reset pin layanan mandiri dan bisa disesuaikan oleh pengguna.
+8. [#7502](https://github.com/OpenSID/OpenSID/issues/7502) Perbaikan pecah keluarga.
+
 
 #### Penyesuaian Teknis
 
