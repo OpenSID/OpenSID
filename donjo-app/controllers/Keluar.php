@@ -36,6 +36,7 @@
  */
 
 use App\Enums\FirebaseEnum;
+use App\Libraries\TinyMCE;
 use App\Models\Dokumen;
 use App\Models\FcmToken;
 use App\Models\FormatSurat;
@@ -57,9 +58,8 @@ class Keluar extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('keluar_model');
-        $this->load->model('surat_model');
-
+        $this->load->model(['keluar_model', 'surat_model']);
+        $this->tinymce = new TinyMCE();
         $this->load->helper('download');
         $this->load->model('pamong_model');
         $this->modul_ini     = 'layanan-surat';
@@ -626,11 +626,11 @@ class Keluar extends Admin_Controller
         redirect('keluar');
     }
 
-    public function unduh($tipe, $id, $preview = false): void
+    public function unduh($tipe, $id, $preview = false)
     {
         $berkas = $this->keluar_model->get_surat($id);
         if ($tipe == 'tinymce') {
-            redirect("surat/cetak/{$id}");
+            $this->tinymce->cetak_surat($id);
         } else {
             if ($tipe == 'pdf') {
                 $berkas->nama_surat = basename($berkas->nama_surat, 'rtf') . 'pdf';

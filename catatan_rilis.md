@@ -13,6 +13,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#7465](https://github.com/OpenSID/OpenSID/issues/7465) Perbaikan akses awal modul arsip layanan.
 7. [#7499](https://github.com/OpenSID/OpenSID/issues/7499) Perbaikan notifikasi reset pin layanan mandiri dan bisa disesuaikan oleh pengguna.
 8. [#7502](https://github.com/OpenSID/OpenSID/issues/7502) Perbaikan pecah keluarga.
+9. [#7491](https://github.com/OpenSID/OpenSID/issues/7491) Perbaikan pratinjau pdf saat melalukan passphrase.
 
 
 #### Penyesuaian Teknis

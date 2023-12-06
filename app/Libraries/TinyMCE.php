@@ -41,6 +41,7 @@ use App\Libraries\TinyMCE\FakeDataIsian;
 use App\Libraries\TinyMCE\KodeIsianAnggotaKeluarga;
 use App\Libraries\TinyMCE\KodeIsianAritmatika;
 use App\Libraries\TinyMCE\KodeIsianForm;
+use App\Libraries\TinyMCE\KodeIsianGambar;
 use App\Libraries\TinyMCE\KodeIsianIdentitas;
 use App\Libraries\TinyMCE\KodeIsianPasangan;
 use App\Libraries\TinyMCE\KodeIsianPenandaTangan;
@@ -53,9 +54,12 @@ use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
 use App\Models\LampiranSurat;
 use App\Models\LogPenduduk;
+use App\Models\LogSurat;
 use App\Models\Pamong;
 use CI_Controller;
 use Karriere\PdfMerge\PdfMerge;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -684,5 +688,39 @@ class TinyMCE
         $pattern = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
 
         return preg_split($pattern, $templateString);
+    }
+
+    public function cetak_surat($id)
+    {
+        $surat = LogSurat::find($id);
+
+        // Cek ada file
+        if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
+            return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
+        }
+
+        $isi_cetak      = $surat->isi_surat;
+        $nama_surat     = $surat->nama_surat;
+        $cetak['surat'] = $surat->formatSurat;
+
+        $data_gambar    = KodeIsianGambar::set($cetak['surat'], $isi_cetak, $surat);
+        $isi_cetak      = $data_gambar['result'];
+        $surat->urls_id = $data_gambar['urls_id'];
+
+        $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
+        if ($cetak['surat']['margin_global'] == '1') {
+            $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
+        }
+
+        // convert in PDF
+        try {
+            $this->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm);
+            $this->generateLampiran($surat->id_pend, $cetak);
+
+            $this->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
+        } catch (Html2PdfException $e) {
+            $formatter = new ExceptionFormatter($e);
+            log_message('error', $formatter->getHtmlMessage());
+        }
     }
 }
