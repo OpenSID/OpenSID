@@ -35,14 +35,12 @@
  *
  */
 
-
-
 if (! function_exists('theme')) {
     function theme()
     {
-        $CI =& get_instance();
+        $CI = &get_instance();
         $CI->load->model('theme_model');
-        
+
         return $CI->theme_model;
     }
 }

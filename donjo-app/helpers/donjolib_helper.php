@@ -292,7 +292,7 @@ function tahun(int $awal = 2018, $asc = false): array
 function nama_bulan($tgl): string
 {
     $ar = explode('-', $tgl);
-    $nm = getBulan($ar[1]);
+    $nm = getBulan((int) $ar[1]);
 
     return $ar[0] . ' ' . $nm . ' ' . $ar[2];
 }
@@ -357,7 +357,7 @@ function tgl_indo2($tgl, $replace_with = '-')
     }
     $tanggal = substr($tgl, 8, 2);
     $jam     = substr($tgl, 11, 8);
-    $bulan   = getBulan(substr($tgl, 5, 2));
+    $bulan   = getBulan((int) substr($tgl, 5, 2));
     $tahun   = substr($tgl, 0, 4);
 
     return $tanggal . ' ' . $bulan . ' ' . $tahun . ' ' . $jam;
