@@ -1176,7 +1176,7 @@ class Data_awal_seeder extends CI_Model
             [
                 'id'      => 1,
                 'gambar'  => 'fb.png',
-                'link'    => <?= config_item('fb_opendesa') ?>,
+                'link'    => config_item('fb_opendesa'),
                 'nama'    => 'Facebook',
                 'tipe'    => 1,
                 'enabled' => 1,
