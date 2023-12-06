@@ -260,6 +260,7 @@ class Web_Controller extends MY_Controller
         $this->header = identitas();
 
         $this->load->model('theme_model');
+        $this->load->helper('theme');
         $this->theme        = $this->theme_model->tema;
         $this->theme_folder = $this->theme_model->folder;
 
@@ -344,7 +345,7 @@ class Web_Controller extends MY_Controller
 
         $this->config->set_item('views_blade', array_merge(config_item('views_blade'), ["{$this->theme_folder}/{$this->theme}"]));
 
-        return view('mode_offline', $data);
+        return view('layouts.maintenance', $data);
     }
 }
 
