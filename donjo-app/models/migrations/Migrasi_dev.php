@@ -66,7 +66,17 @@ class Migrasi_dev extends MY_model
         // }
 
         // Migrasi tanpa config_id
+        $hasil = $hasil && $this->migrasi_2023120751($hasil);
+
         return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+    }
+
+    protected function migrasi_2023120751($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'wilayah-administratif', 'url' => 'wilayah/clear'],
+            ['url' => 'wilayah']
+        );
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
