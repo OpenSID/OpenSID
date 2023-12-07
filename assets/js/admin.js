@@ -17,7 +17,13 @@ if (
 
 // notifikasi swetalert
 function _error(pesan) {
-  Swal.fire("Gagal!", pesan, "error");
+  Swal.fire({
+    title: 'Gagal!',
+    html: pesan,
+    icon: 'error',
+    confirmButtonText: 'OK',
+    timer: 5000,
+  });
 }
 
 $(".sidebar-toggle").on("click", function () {

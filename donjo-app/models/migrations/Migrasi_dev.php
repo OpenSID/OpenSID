@@ -52,7 +52,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023120752($hasil);
     }
 
     // Migrasi perubahan data
@@ -81,6 +81,13 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_xxxxxxxxxx($hasil)
     {
+        return $hasil;
+    }
+
+    protected function migrasi_2023120752($hasil)
+    {
+        $this->db->query('ALTER TABLE config MODIFY path LONGTEXT DEFAULT NULL;');
+
         return $hasil;
     }
 }
