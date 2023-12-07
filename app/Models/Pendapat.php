@@ -35,67 +35,46 @@
  *
  */
 
+namespace App\Models;
+
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Pendapat_model extends MY_Model
+class Pendapat extends BaseModel
 {
-    protected $table = 'pendapat';
+    use ConfigId;
 
-    public function insert(array $data)
-    {
-        $this->db->insert($this->table, $data);
+    protected $table   = 'pendapat';
+    public $timestamps = false;
+    protected $guarded = ['id'];
 
-        return $this->db->affected_rows();
-    }
-
-    public function get_pilihan($tipe, $pilih)
-    {
-        $this->db->where('pilihan', $pilih);
-        $data = $this->get_pendapat($tipe);
-
-        return $data['total'];
-    }
-
-    public function get_data($tipe)
+    public function scopePendapat($query, $tipe, $pilih = null)
     {
         $kondisi = $this->kondisi($tipe);
-
-        return $this->config_id('u')
-            ->select('p.nama, u.pengguna, DATE(tanggal) AS tanggal, pilihan')
-            ->from('pendapat u')
-            ->join('tweb_penduduk p', 'p.id = u.pengguna', 'left')
-            ->where($kondisi['where'])
-            ->order_by('u.tanggal desc')
+        $data    = $query->selectRaw('COUNT(pilihan) AS jumlah, pilihan')
+            ->whereRaw($kondisi['where'])
+            ->when($pilih, static function ($query) use ($pilih) {
+                return $query->where('pilihan', $pilih);
+            })
+            ->groupBy('pilihan')
+            ->orderBy('pilihan')
             ->get()
-            ->result_array();
-    }
+            ->toArray();
 
-    public function get_pendapat($tipe)
-    {
-        $kondisi  = $this->kondisi($tipe);
-        $pendapat = $this->config_id()
-            ->select('COUNT(pilihan) AS jumlah, pilihan')
-            ->where($kondisi['where'])
-            ->group_by('pilihan')
-            ->order_by('pilihan')
-            ->get($this->table)
-            ->result_array();
-
-        $total = 0;
-
-        foreach ($pendapat as $jumlah) {
-            $total += $jumlah['jumlah'];
-        }
+        $total = collect($data)->map(static function ($item) {
+            return $item['jumlah'];
+        })->sum();
 
         return [
             'lblx'     => $kondisi['lblx'],
             'judul'    => $kondisi['judul'],
-            'pendapat' => $pendapat,
+            'pendapat' => $data,
             'total'    => $total,
         ];
     }
 
-    protected function kondisi($tipe)
+    public function kondisi($tipe)
     {
         $tgl = date('Y-m-d');
         $bln = date('m');
@@ -107,66 +86,56 @@ class Pendapat_model extends MY_Model
             // Hari ini
             case 1:
                 $judul = 'Hari Ini ( ' . tgl_indo2($tgl) . ')';
-                $where = [
-                    'DATE(`tanggal`) = ' => $tgl,
-                ];
+                $where = 'DATE(`tanggal`) = "' . $tgl . '"';
                 break;
 
                 // Kemarin
             case 2:
                 $judul = 'Kemarin ( ' . tgl_indo2($this->op_tgl('-1 days', $tgl)) . ')';
-                $where = [
-                    'DATE(`tanggal`) = ' => $this->op_tgl('-1 days', $tgl),
-                ];
+                $where = 'DATE(`tanggal`) = "' . $this->op_tgl('-1 days', $tgl) . '"';
                 break;
 
                 // Minggu ini
             case 3:
                 $judul = 'Dari tanggal ' . tgl_indo2($this->op_tgl('-6 days', $tgl)) . ' - ' . tgl_indo2($tgl);
-                $where = [
-                    'DATE(`tanggal`) >= ' => $this->op_tgl('-6 days', $tgl),
-                    'DATE(`tanggal`) <= ' => $tgl,
-                ];
+                $where = 'DATE(`tanggal`) >= "' . $this->op_tgl('-6 days', $tgl) . '" AND DATE(`tanggal`) <= "' . $tgl . '"';
                 break;
 
                 // Bulan ini
             case 4:
                 $judul = 'Bulan ' . ucwords(getBulan($bln)) . ' ' . $thn;
-                $where = [
-                    'MONTH(`tanggal`) = ' => $bln,
-                    'YEAR(`tanggal`)  = ' => $thn,
-                ];
+                $where = 'MONTH(`tanggal`) = ' . $bln . ' AND YEAR(`tanggal`)  = ' . $thn;
                 break;
 
                 // Tahun ini
             case 5:
                 $lblx  = 'BULAN';
                 $judul = 'Tahun ' . $thn;
-                $where = [
-                    'YEAR(tanggal) = ' => $thn,
-                ];
+                $where = 'YEAR(tanggal) = ' . $thn;
                 break;
 
                 // Semua jumlah pendapat
             default:
                 $lblx  = 'TAHUN';
                 $judul = 'Setiap Tahun';
-                $where = [
-                    'tanggal != ' => 'NOT NULL',
-                ];
+                $where = 'tanggal IS NOT NULL';
                 break;
         }
 
         return [
-            'lblx'   => $lblx,
-            'judul'  => $judul,
-            'select' => $select,
-            'where'  => $where,
+            'lblx'  => $lblx,
+            'judul' => $judul,
+            'where' => $where,
         ];
     }
 
     protected function op_tgl(string $op, string $tgl)
     {
         return date('Y-m-d', strtotime($op, strtotime($tgl)));
+    }
+
+    public function penduduk()
+    {
+        return $this->belongsTo(Penduduk::class, 'pengguna', 'id');
     }
 }

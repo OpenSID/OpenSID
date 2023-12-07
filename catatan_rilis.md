@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#7439](https://github.com/OpenSID/OpenSID/issues/7439) Penyesuaian modul penduduk > dokumen menggunakan ORM dan Blade.
 4. [#7442](https://github.com/OpenSID/OpenSID/issues/7442) Penyesuaian modul pengaturan peta > tipe garis menggunakan ORM dan Blade.
 5. [#7490](https://github.com/OpenSID/OpenSID/issues/7490) Penyesuaian modul pengaturan > pengguna > grup menggunakan ORM dan Blade.
+6. [#7489](https://github.com/OpenSID/OpenSID/issues/7489) Penyesuaian modul pendapat menggunakan ORM dan Blade.
 
 
 #### Peningkatan Keamanan

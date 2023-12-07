@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Pendapat;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Beranda extends Mandiri_Controller
@@ -42,7 +44,7 @@ class Beranda extends Mandiri_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model', 'pendapat_model', 'mailbox_model']);
+        $this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model', 'mailbox_model']);
         $this->load->helper('download');
     }
 
@@ -127,7 +129,7 @@ class Beranda extends Mandiri_Controller
             'pilihan'   => $pilihan,
         ];
 
-        $this->pendapat_model->insert($data);
+        Pendapat::create($data);
         redirect('layanan-mandiri/keluar');
     }
 }
