@@ -468,6 +468,52 @@ class Wilayah_model extends MY_Model
             ->update('tweb_wil_clusterdesa');
     }
 
+    public function list_data($o = 0, $offset = 0, $limit = 500)
+    {
+        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
+        $select_sql = "SELECT u.*, a.nama AS nama_kadus, a.nik AS nik_kadus,
+		(SELECT COUNT(rw.id) FROM tweb_wil_clusterdesa rw WHERE rw.config_id = u.config_id AND rw.dusun = u.dusun AND rw <> '-' AND rt = '-') AS jumlah_rw,
+		(SELECT COUNT(rt.id) FROM tweb_wil_clusterdesa rt WHERE rt.config_id = u.config_id AND rt.dusun = u.dusun AND rt.rt <> '0' AND rt.rt <> '-') AS jumlah_rt,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa c WHERE c.config_id = u.config_id AND c.dusun = u.dusun)) AS jumlah_warga,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa c WHERE c.config_id = u.config_id AND c.dusun = u.dusun) AND p.sex = 1) AS jumlah_warga_l,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa c WHERE c.config_id = u.config_id AND c.dusun = u.dusun) AND p.sex = 2) AS jumlah_warga_p,
+		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala = p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa c WHERE c.config_id = u.config_id AND c.dusun = u.dusun) AND p.kk_level = 1) AS jumlah_kk";
+        $sql = $select_sql . $this->list_data_sql();
+        $sql .= 'ORDER BY`u`.`urut` ASC';
+        $sql .= $paging_sql;
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
+        //Formating Output
+        $j       = $offset;
+        $counter = count($data);
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no']        = $j + 1;
+            $data[$i]['deletable'] = 1;
+            if ($data[$i]['jumlah_warga'] > 0 || $data[$i]['jumlah_kk'] > 0) {
+                $data[$i]['deletable'] = 0;
+            }
+            $j++;
+        }
+        return $data;
+    }
+
+    private function list_data_sql()
+    {
+        $sql = " FROM tweb_wil_clusterdesa u
+			LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
+			WHERE u.config_id = '" . identitas('id') . "' AND u.rt = '0' AND u.rw = '0' ";
+        return $sql . $this->search_sql();
+    }
+
+    private function search_sql()
+    {
+        if (isset($_SESSION['cari'])) {
+            $kw = $this->db->escape_like_str($_SESSION['cari']);
+            $kw = '%' . $kw . '%';
+            return " AND u.dusun LIKE '{$kw}'";
+        }
+    }
+
     public function daftar_wilayah_dusun()
     {
         // Daftar Dusun
