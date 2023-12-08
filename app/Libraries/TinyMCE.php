@@ -46,10 +46,10 @@ use App\Libraries\TinyMCE\KodeIsianIdentitas;
 use App\Libraries\TinyMCE\KodeIsianPasangan;
 use App\Libraries\TinyMCE\KodeIsianPenandaTangan;
 use App\Libraries\TinyMCE\KodeIsianPenduduk;
+use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
 use App\Libraries\TinyMCE\KodeIsianPeristiwa;
 use App\Libraries\TinyMCE\KodeIsianSurat;
 use App\Libraries\TinyMCE\KodeIsianWilayah;
-use App\Libraries\TinyMCE\ReplaceAlias;
 use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
 use App\Models\LampiranSurat;
@@ -256,18 +256,22 @@ class TinyMCE
                 $value['label'] = $judul;
             }
 
+            $kodeIsianPendudukLuar = KodeIsianPendudukLuar::$kodeIsian;
             if ($key == 'individu') {
                 if (! array_intersect($value['data'], [1])) {
-                    unset($daftar_kode_isian[$judulPenduduk]);
+                    $daftar_kode_isian[$judulPenduduk] = collect($daftar_kode_isian[$judulPenduduk])->filter(static fn ($item) => in_array($item['isian'], $kodeIsianPendudukLuar))->toArray();
                 }
 
                 if (! (is_array($daftarKodeIsian[$key]) && count($daftarKodeIsian[$key]) > 0)) {
                     unset($daftar_kode_isian["Form {$judulPenduduk}"]);
                 }
             } else {
-                if (array_intersect($value['data'], [1])) {
-                    $daftar_kode_isian[$value['judul']] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
+                $daftar_kode_isian[$value['judul']] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
+                $kodeIsianPendudukLuar              = array_map(static fn ($item): string => $item . "_{$key}", $kodeIsianPendudukLuar);
+                if (! array_intersect($value['data'], [1])) {
+                    $daftar_kode_isian[$value['judul']] = collect($daftar_kode_isian[$value['judul']])->filter(static fn ($item) => in_array($item['isian'], $kodeIsianPendudukLuar))->toArray();
                 }
+
                 if (is_array($daftarKodeIsian[$key]) && count($daftarKodeIsian[$key]) > 0) {
                     $daftar_kode_isian["Form {$value['judul']}"] = KodeIsianForm::get($data['input'], $daftarKodeIsian[$key] ?? []);
                 }
@@ -395,7 +399,7 @@ class TinyMCE
         }
 
         // Kode isian yang berupa alias harus didahulukan
-        $alias = ReplaceAlias::get($data['surat'], $data['input']);
+        $alias = KodeIsianPendudukLuar::get($data['surat'], $data['input']);
 
         if ($alias) {
             $newKodeIsian = array_replace($newKodeIsian, $alias);

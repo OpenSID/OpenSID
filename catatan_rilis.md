@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#7491](https://github.com/OpenSID/OpenSID/issues/7491) Perbaikan pratinjau pdf saat melalukan passphrase.
 10. [#7500](https://github.com/OpenSID/OpenSID/issues/7500) Perbaikan notifikasi gagal impor peta tipe gpx/kml dan shp.
 11. [#7487](https://github.com/OpenSID/OpenSID/issues/7487) Perbaikan saring data stunting > hasil scorecard konvergensi berdasarkan posyandu.
+12. [#7514](https://github.com/OpenSID/OpenSID/issues/7514) Perbaikan kode isian jika hanya ada penduduk luar saja.
 
 
 #### Penyesuaian Teknis

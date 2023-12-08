@@ -37,11 +37,11 @@
 
 namespace App\Libraries\TinyMCE;
 
-class ReplaceAlias
+class KodeIsianPendudukLuar
 {
     private $suratMatser;
     private $inputForm;
-    private array $kodeIsian = [
+    public static array $kodeIsian = [
         'nik',
         'nama',
         'tempatlahir',
@@ -55,12 +55,13 @@ class ReplaceAlias
         'warga_negara',
         'alamat_jalan',
         'alamat',
+        'nama_dusun',
         'nama_rt',
         'nama_rw',
-        'nama_desa',
-        'nama_kecamatan',
-        'nama_kabupaten',
-        'nama_provinsi',
+        'pend_desa',
+        'pend_kecamatan',
+        'pend_kabupaten',
+        'pend_provinsi',
 
         // kode isian lama
         'form_nama_non_warga',
@@ -82,21 +83,26 @@ class ReplaceAlias
     {
         $input = $this->inputForm[$kategori];
 
-        if (! $input['opsi_penduduk'] || $input['opsi_penduduk'] == 1) {
-            return false;
-        }
-
         $prefix = '_' . $kategori;
 
         if ($kategori == 'individu') {
+            if (isset($this->inputForm['nik'])) {
+                return [];
+            }
+
             $prefix = '';
             if ($this->inputForm['nik'] == $input['nik']) {
                 unset($input['nik']);
             }
+        } else {
+            if ($this->inputForm["id_pend_{$kategori}"]) {
+                return [];
+            }
         }
 
-        return collect($this->kodeIsian)->mapWithKeys(static function (string $item) use ($prefix, $input): array {
+        return collect(self::$kodeIsian)->mapWithKeys(static function (string $item) use ($prefix, $input): array {
             $value = $input[$item];
+
             if (in_array($item, ['form_nama_non_warga', 'form_nik_non_warga'])) {
                 return ['[' . ucfirst(uclast($item)) . ']' => $value];
             }
@@ -110,7 +116,7 @@ class ReplaceAlias
             }
 
             if ($item == 'alamat') {
-                $value = $input['alamat_jalan'] . ' RT ' . $input['nama_rt'] . ' RW ' . $input['nama_rw'] . ' ' . ucwords(setting('sebutan_desa') . ' ' . $input['nama_desa'] . ', ' . setting('sebutan_kecamatan') . ' ' . $input['nama_kecamatan'] . ', ' . setting('sebutan_kabupaten') . ' ' . $input['nama_kabupaten'] . ', Provinsi ' . $input['nama_provinsi']);
+                $value = $input['alamat_jalan'] . ' RT ' . $input['nama_rt'] . ' RW ' . $input['nama_rw'] . ' ' . ucwords(setting('sebutan_desa') . ' ' . $input['pend_desa'] . ', ' . setting('sebutan_kecamatan') . ' ' . $input['pend_kecamatan'] . ', ' . setting('sebutan_kabupaten') . ' ' . $input['pend_kabupaten'] . ', Provinsi ' . $input['pend_provinsi']);
             }
 
             return ['[' . ucfirst(uclast($item . $prefix)) . ']' => $value];
