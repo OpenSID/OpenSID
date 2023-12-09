@@ -56,9 +56,7 @@ class Shortcode_model extends MY_Model
         $regex = '/\\[\\[(.*?)\\]\\]/';
 
         return preg_replace_callback($regex, function (array $matches) {
-            $result         = [];
             $params_explode = explode(',', $matches[1]);
-            $fnName         = 'extract_shortcode';
 
             return $this->extract_shortcode($params_explode[0], $params_explode[1]);
         }, $str);
@@ -329,16 +327,13 @@ class Shortcode_model extends MY_Model
         $regex = '/\\[\\[(.*?)\\]\\]/';
 
         return preg_replace_callback($regex, function (array $matches) {
-            $result = [];
-
             $params_explode = explode(',', $matches[1]);
-            $fnName         = 'converted_sc_list';
 
             return $this->converted_sc_list($params_explode[0], $params_explode[1]);
         }, $str);
     }
 
-    private function converted_sc_list(string $type = '', string $thn = '')
+    private function converted_sc_list(?string $type = '', ?string $thn = '')
     {
         if ($type == 'lap-RP-APBD-sm1') {
             return "<i class='fa fa-table'></i> Tabel Laporan APBDes Smt. 1 TA. " . $thn . ', ';
