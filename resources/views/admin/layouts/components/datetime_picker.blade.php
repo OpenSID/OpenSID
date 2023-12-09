@@ -18,7 +18,7 @@
     <script src="{{ asset('bootstrap/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/bootstrap-datepicker.id.min.js') }}"></script>
     <?php if (cek_koneksi_internet()): ?>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js') ?>"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <?php endif ?>
     <!-- Script-->
     <script src="{{ asset('js/custom-datetimepicker.js') }}"></script>
