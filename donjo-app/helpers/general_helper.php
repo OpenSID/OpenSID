@@ -822,6 +822,10 @@ if (! function_exists('jenis_surat')) {
 if (! function_exists('cek_lokasi_peta')) {
     function cek_lokasi_peta(array $wilayah): bool
     {
+        if ($wilayah['dusun'] == '-') {
+            $wilayah = identitas();
+        }
+
         return $wilayah['path'] && ($wilayah['lat'] && ! empty($wilayah['lng']));
     }
 }

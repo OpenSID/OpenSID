@@ -167,6 +167,9 @@ class Wilayah extends Admin_Controller
                             $aksi .= '<a href="#" data-href="' . route('wilayah.delete', "{$level}/{$row->id}") . '" class="btn bg-maroon btn-sm ' . $disabled . '" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                         }
                     }
+                    if ($level == 'dusun' && $row->dusun == '-') {
+                        $cek_lokasi_peta = false;
+                    }
                     if ($cek_lokasi_peta && can('u')) {
                         $wilayah = $level == 'dusun' ? ucwords(setting('sebutan_dusun')) : strtoupper($level);
                         if (! ($level == 'rw' && $row->rw == '-')) {
@@ -311,14 +314,10 @@ class Wilayah extends Admin_Controller
         return show_404();
     }
 
-    private function bersihkan_data($data, $id = null)
+    private function bersihkan_data($data)
     {
         if ((int) $data['id_kepala'] === 0) {
             unset($data['id_kepala']);
-        }
-
-        if (null === $id) {
-            $data['config_id'] = identitas('id');
         }
 
         $data['dusun'] = nama_terbatas(trim(str_ireplace('DUSUN', '', $data['dusun'])));
@@ -333,7 +332,7 @@ class Wilayah extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         try {
-            $data      = $this->bersihkan_data($this->input->post());
+            $data      = $this->bersihkan_data($this->request);
             $parentObj = $parent ? WilayahModel::find($parent) : null;
 
             switch($level) {
@@ -381,7 +380,7 @@ class Wilayah extends Admin_Controller
     public function update(string $level, $id = '', ?int $parent = null): void
     {
         try {
-            $data = $this->bersihkan_data($this->input->post());
+            $data = $this->bersihkan_data($this->request);
             $obj  = WilayahModel::find($id);
             // update nama wilayah yang dibawahnya, karena hubungan parent - child diidentifikasi berdasarkan nama
             switch($level) {
@@ -698,21 +697,14 @@ class Wilayah extends Admin_Controller
     public function update_kantor_map(string $level, int $id, ?int $parent = null): void
     {
         $this->redirect_hak_akses('u');
-        $data = $this->validasi_koordinat($this->input->post());
-        WilayahModel::whereId($id)->update($data);
+        WilayahModel::whereId($id)->update($this->validasi_koordinat($this->request));
         redirect_with('success', 'Lokasi kantor berhasil disimpan', route('wilayah.index') . '?level=' . $level . '&parent=' . $parent);
     }
 
     public function update_wilayah_map(string $level, int $id, ?int $parent = null): void
     {
         $this->redirect_hak_akses('u');
-        $data = $this->input->post();
-
-        if ($data['path'] == '[]') {
-            $data['path'] = null;
-        }
-
-        WilayahModel::whereId($id)->update($data);
+        WilayahModel::whereId($id)->update($this->validasi_wilayah($this->request));
         redirect_with('success', 'Peta berhasil disimpan', route('wilayah.index') . '?level=' . $level . '&parent=' . $parent);
     }
 
@@ -755,14 +747,23 @@ class Wilayah extends Admin_Controller
 
     private function validasi_koordinat($post)
     {
-        $data['id']       = $post['id'];
-        $data['zoom']     = $post['zoom'];
-        $data['map_tipe'] = $post['map_tipe'];
-        $data['lat']      = koordinat($post['lat']) ?: null;
-        $data['lng']      = koordinat($post['lng']) ?: null;
-        $data['warna']    = warna($post['warna']);
-        $data['border']   = warna($post['border']);
+        return [
+            'zoom'     => $post['zoom'] ?: null,
+            'map_tipe' => $post['map_tipe'],
+            'lat'      => koordinat($post['lat']),
+            'lng'      => koordinat($post['lng']),
+            'warna'    => warna($post['warna']),
+            'border'   => warna($post['border']),
+        ];
+    }
 
-        return $data;
+    private function validasi_wilayah($post)
+    {
+        return [
+            'path'   => $post['path'],
+            'zoom'   => $post['zoom'] ?: null,
+            'warna'  => warna($post['warna']),
+            'border' => warna($post['border']),
+        ];
     }
 }

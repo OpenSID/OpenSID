@@ -37,7 +37,7 @@
     <script src="{{ asset('js/leaflet.browser.print.sizes.js') }}"></script>
     <script src="{{ asset('js/dom-to-image.min.js') }}"></script>
     <script src="{{ asset('js/toastr.min.js') }}"></script>
-    <script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
+    <script src="{{ asset('js/Leaflet.fullscreen.min.js') }}"></script>
     <script>
         // pengaturan peta
         var MAPBOX_KEY = '{{ setting('mapbox_key') }}';

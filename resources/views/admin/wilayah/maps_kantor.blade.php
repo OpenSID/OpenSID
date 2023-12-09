@@ -53,9 +53,13 @@
 @push('scripts')
     <script>
         window.onload = function() {
-            @if (!empty($desa['lat']) && !empty($desa['lng']))
-                var posisi = [{{ $desa['lat'] }}, {{ $desa['lng'] }}];
-                var zoom = {{ $desa['zoom'] ?: 18 }};
+            @if (!empty($wil_ini['lat']) && !empty($wil_ini['lng']))
+                var posisi = [{{ $wil_ini['lat'] }}, {{ $wil_ini['lng'] }}];
+                var zoom = {{ $wil_ini['zoom'] ?: 18 }};
+            @elseif (!empty($wil_atas['lat']) && !empty($wil_atas['lng']))
+                // Jika posisi saat ini belum ada, maka posisi peta akan menampilkan peta desa
+                var posisi = [{{ $wil_atas['lat'] . ', ' . $wil_atas['lng'] }}];
+                var zoom = {{ $wil_atas['zoom'] }};
             @else
                 var posisi = [-1.0546279422758742, 116.71875000000001];
                 var zoom = 4;

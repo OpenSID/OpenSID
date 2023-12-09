@@ -486,6 +486,7 @@ class Wilayah_model extends MY_Model
         //Formating Output
         $j       = $offset;
         $counter = count($data);
+
         for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']        = $j + 1;
             $data[$i]['deletable'] = 1;
@@ -494,6 +495,7 @@ class Wilayah_model extends MY_Model
             }
             $j++;
         }
+
         return $data;
     }
 
@@ -502,6 +504,7 @@ class Wilayah_model extends MY_Model
         $sql = " FROM tweb_wil_clusterdesa u
 			LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
 			WHERE u.config_id = '" . identitas('id') . "' AND u.rt = '0' AND u.rw = '0' ";
+
         return $sql . $this->search_sql();
     }
 
@@ -510,6 +513,7 @@ class Wilayah_model extends MY_Model
         if (isset($_SESSION['cari'])) {
             $kw = $this->db->escape_like_str($_SESSION['cari']);
             $kw = '%' . $kw . '%';
+
             return " AND u.dusun LIKE '{$kw}'";
         }
     }

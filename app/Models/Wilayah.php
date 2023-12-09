@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Casts\Path;
+use App\Casts\Zoom;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Traits\ConfigId;
@@ -79,6 +80,7 @@ class Wilayah extends BaseModel
      */
     protected $casts = [
         'path' => Path::class,
+        'zoom' => Zoom::class,
     ];
 
     /**

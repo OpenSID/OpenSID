@@ -908,6 +908,10 @@ function alamat($str): ?string
 // Koordinat peta hanya boleh berisi numerik ,minus dan desimal
 function koordinat($str): ?string
 {
+    if (empty($str)) {
+        return null;
+    }
+
     return preg_replace('/[^-?(?:\\d+|\\d{1,3}(?:,\\d{3})+)(?:\\.\\d+)?$]/', '', htmlentities($str));
 }
 
