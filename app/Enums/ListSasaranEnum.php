@@ -35,58 +35,27 @@
  *
  */
 
-namespace App\Models;
-
-use App\Traits\ConfigId;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Suplemen extends BaseModel
+class ListSasaranEnum extends BaseEnum
 {
-    use ConfigId;
+    public const PENDUDUK     = 1;
+    public const KELUARGA     = 2;
+    public const RUMAH_TANGGA = 3;
+    public const KELOMPOK     = 4;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
+     * Override method all()
      */
-    protected $table = 'suplemen';
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'nama',
-        'slug',
-        'sasaran',
-        'keterangan',
-    ];
-
-    /**
-     * Define a one-to-many relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function terdata()
+    public static function all(): array
     {
-        return $this->hasMany(SuplemenTerdata::class, 'id_suplemen');
-    }
-
-    public function scopeFilter($query, $sasaran)
-    {
-        if (! empty($sasaran)) {
-            $query->where('sasaran', $sasaran);
-        }
-
-        return $query;
+        return [
+            self::PENDUDUK     => 'NIK / Nama Penduduk',
+            self::KELUARGA     => 'No.KK / Nama Kepala Keluarga',
+            self::RUMAH_TANGGA => 'No. RTM / Nama Kepala Rumah Tangga',
+            self::KELOMPOK     => 'Kode Kelompok / Nama Ketua Kelompok',
+        ];
     }
 }

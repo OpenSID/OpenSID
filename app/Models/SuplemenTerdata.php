@@ -45,12 +45,22 @@ class SuplemenTerdata extends BaseModel
 {
     use ConfigId;
 
+    public const PENDUDUK = 1;
+    public const KELUARGA = 2;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'suplemen_terdata';
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * The guarded with the model.
@@ -64,7 +74,7 @@ class SuplemenTerdata extends BaseModel
      *
      * @var array
      */
-    protected $with = ['suplemen, penduduk'];
+    protected $with = ['suplemen', 'penduduk'];
 
     public function suplemen()
     {
@@ -74,5 +84,60 @@ class SuplemenTerdata extends BaseModel
     public function penduduk()
     {
         return $this->belongsTo(Penduduk::class, 'id_terdata');
+    }
+
+    public function keluarga()
+    {
+        return $this->belongsTo(Keluarga::class, 'id_terdata');
+    }
+
+    public function scopeAnggota($query, $sasaran, $suplemen)
+    {
+        switch ($sasaran) {
+            case SuplemenTerdata::PENDUDUK:
+                $query->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'suplemen_terdata.id_terdata', 'left')
+                    ->join('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk', 'left')
+                    ->selectRaw('no_kk as terdata_info')
+                    ->selectRaw('nik as terdata_plus')
+                    ->selectRaw('nama as terdata_nama');
+                break;
+
+            case SuplemenTerdata::KELUARGA:
+                $query->join('tweb_keluarga', 'tweb_keluarga.id', '=', 'suplemen_terdata.id_terdata', 'left')
+                    ->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_keluarga.nik_kepala', 'left')
+                    ->selectRaw('nik as terdata_info')
+                    ->selectRaw('no_kk as terdata_plus')
+                    ->selectRaw('nama as terdata_nama');
+                break;
+
+            default:
+                return [];
+        }
+
+        $query->join('tweb_wil_clusterdesa', 'tweb_wil_clusterdesa.id', '=', 'tweb_penduduk.id_cluster', 'left')
+            ->selectRaw('suplemen_terdata.*, tweb_penduduk.nik, tweb_penduduk.nama, tweb_penduduk.tempatlahir, tweb_penduduk.tanggallahir, tweb_penduduk.sex, tweb_keluarga.no_kk, tweb_wil_clusterdesa.rt, tweb_wil_clusterdesa.rw, tweb_wil_clusterdesa.dusun')
+            ->selectRaw('(case when (tweb_penduduk.id_kk is null) then tweb_penduduk.alamat_sekarang else tweb_keluarga.alamat end) AS alamat')
+            ->where('id_suplemen', $suplemen);
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        if (! empty($filters['sex'])) {
+            $query->where('sex', $filters['sex']);
+        }
+
+        if (! empty($filters['dusun'])) {
+            $query->where('dusun', $filters['dusun']);
+        }
+
+        if (! empty($filters['rw'])) {
+            $query->where('rw', $filters['rw']);
+        }
+
+        if (! empty($filters['rt'])) {
+            $query->where('rt', $filters['rt']);
+        }
+
+        return $query;
     }
 }

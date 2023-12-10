@@ -73,6 +73,11 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2023120751($hasil)
     {
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'data-suplemen', 'url' => 'suplemen/clear'],
+            ['url' => 'suplemen']
+        );
+
         return $hasil && $this->ubah_modul(
             ['slug' => 'wilayah-administratif', 'url' => 'wilayah/clear'],
             ['url' => 'wilayah']

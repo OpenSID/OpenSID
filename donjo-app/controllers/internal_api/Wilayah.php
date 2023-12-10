@@ -35,58 +35,26 @@
  *
  */
 
-namespace App\Models;
-
-use App\Traits\ConfigId;
+use App\Models\Wilayah as WilayahModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Suplemen extends BaseModel
+class Wilayah extends MY_Controller
 {
-    use ConfigId;
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'suplemen';
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'nama',
-        'slug',
-        'sasaran',
-        'keterangan',
-    ];
-
-    /**
-     * Define a one-to-many relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function terdata()
+    public function get_rw()
     {
-        return $this->hasMany(SuplemenTerdata::class, 'id_suplemen');
+        $dusun = $this->input->get('dusun');
+        $data  = WilayahModel::select('rw')->where('dusun', $dusun)->rw()->get();
+
+        return json($data->all());
     }
 
-    public function scopeFilter($query, $sasaran)
+    public function get_rt()
     {
-        if (! empty($sasaran)) {
-            $query->where('sasaran', $sasaran);
-        }
+        $dusun = $this->input->get('dusun');
+        $rw    = $this->input->get('rw');
+        $data  = WilayahModel::select('rt')->where('dusun', $dusun)->where('rw', $rw)->rt()->get();
 
-        return $query;
+        return json($data->all());
     }
 }
