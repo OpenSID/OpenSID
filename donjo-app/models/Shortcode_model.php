@@ -62,7 +62,7 @@ class Shortcode_model extends MY_Model
         }, $str);
     }
 
-    private function extract_shortcode(string $type, string $thn)
+    private function extract_shortcode(?string $type = '', ?string $thn = '')
     {
         if ($type == 'grafik-RP-APBD') {
             return $this->grafik_rp_apbd($thn);
