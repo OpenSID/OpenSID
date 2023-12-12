@@ -717,20 +717,22 @@ class Wilayah extends Admin_Controller
 
     public function list_rw($dusun = ''): void
     {
-        $list_rw = $dusun ? WilayahModel::rw()->whereDusun($dusun)->get()->toArray() : WilayahModel::rw()->get()->toArray();
+        $list_rw = WilayahModel::rw()
+            ->when($dusun, static fn ($q) => $q->whereDusun($dusun))
+            ->get()
+            ->toArray();
+
         echo json_encode($list_rw, JSON_THROW_ON_ERROR);
     }
 
     public function list_rt($dusun = '', $rw = '-'): void
     {
-        $obj = WilayahModel::rt();
-        if ($dusun) {
-            $obj->whereDusun($dusun);
-        }
-        if ($rw) {
-            $obj->whereDusun($rw);
-        }
-        $list_rt = $obj->get()->toArray();
+        $list_rt = WilayahModel::rt()
+            ->when($dusun, static fn ($q) => $q->whereDusun($dusun))
+            ->when($rw, static fn ($q) => $q->whereRw($rw))
+            ->get()
+            ->toArray();
+
         echo json_encode($list_rt, JSON_THROW_ON_ERROR);
     }
 
