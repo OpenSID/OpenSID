@@ -367,7 +367,7 @@
 												</div>
 												<hr>
 												<div class="input-group">
-													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('views_blade')) ?>*" readonly>
+													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('cache_blade')) ?>*" readonly>
 													<?php if (can('u')) : ?>
 														<span class="input-group-btn">
 															<a href="<?= site_url("{$this->controller}/cache_blade") ?>" class="btn btn-info btn-flat">Bersihkan</a>
