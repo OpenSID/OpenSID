@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-individu"><a href="{{ route('suplemen.rincian', $suplemen->id) }}">Daftar Terdata Suplemen</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('suplemen.rincian', $suplemen->id) }}">Daftar Terdata Suplemen</a></li>
     <li class="active">{{ $action }} Data</li>
 @endsection
 

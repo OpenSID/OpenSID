@@ -35,69 +35,60 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
+namespace App\Models;
+
+use App\Traits\ConfigId;
+use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class StatistikPengunjung extends BaseModel
 {
-    public function up()
+    use ConfigId;
+
+    public const HARI_INI   = 1;
+    public const KEMARIN    = 2;
+    public const MINGGU_INI = 3;
+    public const BULAN_INI  = 4;
+    public const TAHUN_INI  = 5;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'sys_traffic';
+
+    public function scopeFilter($query, $type = null)
     {
-        $hasil = true;
+        switch ($type) {
+            case self::HARI_INI:
+                $query = $query->whereDate('tanggal', Carbon::today());
+                break;
 
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
+            case self::KEMARIN:
+                $query = $query->whereDate('tanggal', Carbon::today()->subDay());
+                break;
 
-        return $hasil && $this->migrasi_data($hasil);
-    }
+            case self::MINGGU_INI:
+                $query = $query->whereBetween('tanggal', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->whereMonth('tanggal', Carbon::now()->month)
+                    ->whereYear('tanggal', Carbon::now()->year);
+                break;
 
-    protected function migrasi_tabel($hasil)
-    {
-        return $hasil && $this->migrasi_2023120752($hasil);
-    }
+            case self::BULAN_INI:
+                $query = $query->whereMonth('tanggal', Carbon::now()->month)
+                    ->whereYear('tanggal', Carbon::now()->year);
+                break;
 
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
-    {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+            case self::TAHUN_INI:
+                $query = $query->whereYear('tanggal', Carbon::now()->year);
+                break;
 
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
-        // }
+            default:
+                break;
+        }
 
-        // Migrasi tanpa config_id
-        $hasil = $hasil && $this->migrasi_2023120751($hasil);
-
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
-    }
-
-    protected function migrasi_2023120751($hasil)
-    {
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'data-suplemen', 'url' => 'suplemen/clear'],
-            ['url' => 'suplemen']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'wilayah-administratif', 'url' => 'wilayah/clear'],
-            ['url' => 'wilayah']
-        );
-
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'pengunjung', 'url' => 'pengunjung/clear'],
-            ['url' => 'pengunjung']
-        );
-    }
-
-    protected function migrasi_xxxxxxxxxx($hasil)
-    {
-        return $hasil;
-    }
-
-    protected function migrasi_2023120752($hasil)
-    {
-        $this->db->query('ALTER TABLE config MODIFY path LONGTEXT DEFAULT NULL;');
-
-        return $hasil;
+        return $query->orderBy('tanggal', 'asc');
     }
 }

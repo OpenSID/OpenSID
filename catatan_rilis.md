@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#7489](https://github.com/OpenSID/OpenSID/issues/7489) Penyesuaian modul pendapat menggunakan ORM dan Blade.
 7. [#6722](https://github.com/OpenSID/OpenSID/issues/6722) Penyesuaian modul wilayah administratif menggunakan ORM dan Blade.
 8. [#6725](https://github.com/OpenSID/OpenSID/issues/6725) Penyesuaian modul suplemen menggunakan ORM dan Blade.
+9. [#7508](https://github.com/OpenSID/OpenSID/issues/7508) Penyesuaian modul pengunjung web menggunakan ORM dan Blade.
 
 
 #### Peningkatan Keamanan

@@ -397,7 +397,7 @@ class Suplemen extends Admin_Controller
 
             //pengaturan data untuk format cetak/ unduh
             $data['file']      = 'Laporan Suplemen ' . $data['suplemen']['nama'];
-            $data['isi']       = 'suplemen/cetak';
+            $data['isi']       = 'admin.suplemen.cetak';
             $data['letak_ttd'] = ['2', '2', '3'];
 
             return view('admin.layouts.components.format_cetak', $data);

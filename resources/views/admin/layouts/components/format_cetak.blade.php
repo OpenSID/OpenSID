@@ -28,9 +28,9 @@
 <body>
     <div id="container">
         <div id="body">
-            @include('admin.suplemen.cetak')
+            @include($isi)
         </div>
-        @if (count($letak_ttd) > 0)
+        @if ($letak_ttd && count($letak_ttd) > 0)
             <br />
             <table width="10%">
                 <tr class="text-center">
