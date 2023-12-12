@@ -104,28 +104,25 @@ class Dokumen extends BaseModel
         parent::boot();
 
         static::updating(static function ($model): void {
-            if (! $model->isDirty('satuan')) {
-                return;
-            }
             if ($model->id_parent != null) {
                 return;
             }
-            static::deleteFile($model->getOriginal('satuan'));
+            static::deleteFile($model, 'satuan');
         });
 
         static::deleting(static function ($model): void {
             if ($model->id_parent == null) {
-                static::deleteFile($model->getOriginal('satuan'));
+                static::deleteFile($model, 'satuan');
             }
         });
     }
 
-    public static function deleteFile(?string $file): void
+    public static function deleteFile($model, ?string $file): void
     {
-        if ($file) {
-            $satuan = LOKASI_DOKUMEN . $file;
-            if (file_exists($satuan)) {
-                unlink($satuan);
+        if ($model->isDirty($file)) {
+            $logo = LOKASI_DOKUMEN . $model->getOriginal($file);
+            if (file_exists($logo)) {
+                unlink($logo);
             }
         }
     }

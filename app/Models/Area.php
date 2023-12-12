@@ -167,21 +167,19 @@ class Area extends BaseModel
         parent::boot();
 
         static::updating(static function ($model): void {
-            if ($model->isDirty('foto')) {
-                static::deleteFile($model->getOriginal('foto'));
-            }
+            static::deleteFile($model, 'foto');
         });
 
         static::deleting(static function ($model): void {
-            static::deleteFile($model->getOriginal('foto'));
+            static::deleteFile($model, 'foto');
         });
     }
 
-    public static function deleteFile(?string $file): void
+    public static function deleteFile($model, ?string $file): void
     {
-        if ($file) {
-            $fotoSedang = LOKASI_FOTO_AREA . 'sedang_' . $file;
-            $fotoKecil  = LOKASI_FOTO_AREA . 'kecil_' . $file;
+        if ($model->isDirty($file)) {
+            $fotoSedang = LOKASI_FOTO_AREA . 'sedang_' . $model->getOriginal($file);
+            $fotoKecil = LOKASI_FOTO_AREA . 'kecil_' . $model->getOriginal($file);
             if (file_exists($fotoSedang)) {
                 unlink($fotoSedang);
             }
