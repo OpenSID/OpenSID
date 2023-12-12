@@ -95,6 +95,11 @@ class Migrasi_fitur_premium_2401 extends MY_model
             ['url' => 'garis']
         );
 
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'widget', 'url' => 'web_widget/clear'],
+            ['url' => 'web_widget']
+        );
+
         $hasil = $hasil = $hasil && $this->ubah_modul(
             ['slug' => 'line', 'url' => 'line/clear'],
             ['url' => 'line']
