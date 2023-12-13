@@ -8,7 +8,7 @@
     <div class="box-body no-padding">
         <ul class="nav nav-pills nav-stacked">
             <li {{ jecho($tip, 3, "class='active'") }}><a href="{{ site_url('plan/clear') }}">Lokasi</a></li>
-            <li {{ jecho($tip, 0, "class='active'") }}><a href="{{ site_url('point/clear') }}">Tipe Lokasi</a></li>
+            <li {{ jecho($tip, 0, "class='active'") }}><a href="{{ site_url('point') }}">Tipe Lokasi</a></li>
             @if (can('u'))
                 <li {{ jecho($tip, 6, "class='active'") }}><a href="{{ site_url('point/clear_simbol') }}">Simbol Lokasi</a></li>
             @endif
