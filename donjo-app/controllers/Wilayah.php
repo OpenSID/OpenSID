@@ -428,21 +428,26 @@ class Wilayah extends Admin_Controller
                 break;
 
             case 'rw':
-                $id_cluster = WilayahModel::where('rw', '!=', '-')->where('rw', $wilayah->rw)->where('dusun', $wilayah->dusun)->pluck('id')->toArray();
-                $nama       = 'RW ' . $wilayah->rw . ' ' . setting('sebutan_dusun') . ' ' . $wilayah->dusun;
+                $id_cluster        = WilayahModel::where('rw', '!=', '-')->where('rw', $wilayah->rw)->where('dusun', $wilayah->dusun)->pluck('id')->toArray();
+                $nama              = 'RW ' . $wilayah->rw . ' ' . setting('sebutan_dusun') . ' ' . $wilayah->dusun;
+                $this->session->rw = $wilayah->rw;
                 break;
 
             default:
-                $id_cluster = [$id];
-                $nama       = 'RT ' . $wilayah->rw . ' ' . 'RW ' . $wilayah->rw . ' ' . setting('sebutan_dusun') . ' ' . $wilayah->dusun;
+                $id_cluster        = [$id];
+                $nama              = 'RT ' . $wilayah->rw . ' ' . 'RW ' . $wilayah->rw . ' ' . setting('sebutan_dusun') . ' ' . $wilayah->dusun;
+                $this->session->rt = $wilayah->rt;
+                $this->session->rw = $wilayah->rw;
                 break;
         }
-
         $penduduk = Penduduk::whereIn('id_cluster', $id_cluster)->count();
         $keluarga = Keluarga::whereIn('id_cluster', $id_cluster)->count();
 
+        $this->session->dusun = $wilayah->dusun;
+        $url_penduduk         = route('penduduk.index');
+        $url_keluarga         = route('keluarga.index');
         if ($penduduk + $keluarga != 0) {
-            redirect_with('error', $nama . ' tidak dapat dihapus karena hal berikut: <ol><li>Terdapat penduduk dengan status mati, pindah, hilang, pergi dan tidak valid </li><li>Terdapat kelurga dengan status KK Hilang/Pindah/Mati dan KK Kosong</li></ol>Silakan hapus data Penduduk atau Keluarga terlebih dahulu pada setiap status tersebut.');
+            redirect_with('error', $nama . ' tidak dapat dihapus karena hal berikut: <ol><li>Terdapat penduduk dengan status mati, pindah, hilang, pergi dan tidak valid </li><li>Terdapat kelurga dengan status KK Hilang/Pindah/Mati dan KK Kosong</li></ol>Silakan hapus data <a href="' . $url_penduduk . '" target="_blank">Penduduk</a> atau <a href="' . $url_keluarga . '" target="_blank">Keluarga</a> terlebih dahulu pada setiap status tersebut.', '', true);
         }
 
         WilayahModel::whereIn('id', $id_cluster)->delete();

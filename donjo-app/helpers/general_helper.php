@@ -173,9 +173,13 @@ if (! function_exists('json')) {
 
 // redirect()->route('example')->with('success', 'information');
 if (! function_exists('redirect_with')) {
-    function redirect_with($key = 'success', $value = '', $to = '')
+    function redirect_with($key = 'success', $value = '', $to = '', $autodismis = null)
     {
         set_session($key, $value);
+
+        if ($autodismis) {
+            set_session('autodismiss', true);
+        }
 
         if (empty($to)) {
             $to = get_instance()->controller;
