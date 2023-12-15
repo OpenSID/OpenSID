@@ -65,6 +65,7 @@ class Migrasi_fitur_premium_2401 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023120552($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023120554($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -150,5 +151,22 @@ class Migrasi_fitur_premium_2401 extends MY_model
         DB::table('tweb_penduduk')->where('kk_level', 0)->update(['kk_level' => null]);
 
         return $hasil;
+    }
+
+    protected function migrasi_2023120554($hasil, $config_id)
+    {
+        return $hasil && $this->tambah_modul([
+            'config_id'  => $config_id,
+            'modul'      => 'Simbol',
+            'slug'       => 'simbol',
+            'url'        => 'simbol',
+            'aktif'      => 1,
+            'ikon'       => 'fa-location-arrow',
+            'urut'       => 3,
+            'level'      => 1,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-location-arrow',
+            'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'simbol'])->row()->id,
+        ]);
     }
 }

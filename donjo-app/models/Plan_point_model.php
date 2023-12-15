@@ -123,53 +123,6 @@ class Plan_point_model extends MY_Model
         return $data;
     }
 
-    private function validasi($post)
-    {
-        $data['nama']   = nomor_surat_keputusan($post['nama']);
-        $data['simbol'] = $post['simbol'];
-
-        return $data;
-    }
-
-    public function insert(): void
-    {
-        $data              = $this->validasi($this->input->post());
-        $data['config_id'] = identitas('id');
-        $outp              = $this->db->insert('point', $data);
-
-        status_sukses($outp); //Tampilkan Pesan
-    }
-
-    public function update($id = 0): void
-    {
-        $data = $this->validasi($this->input->post());
-        $outp = $this->config_id()->where('id', $id)->update('point', $data);
-
-        status_sukses($outp); //Tampilkan Pesan
-    }
-
-    public function delete($id = '', $semua = false): void
-    {
-        if (! $semua) {
-            $this->session->success = 1;
-        }
-
-        $outp = $this->config_id()->where('id', $id)->delete('point');
-
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
-    }
-
-    public function delete_all(): void
-    {
-        $this->session->success = 1;
-
-        $id_cb = $this->input->post('id_cb');
-
-        foreach ($id_cb as $id) {
-            $this->delete($id, $semua = true);
-        }
-    }
-
     public function list_sub_point($point = 1)
     {
         $data = $this->config_id()
@@ -186,46 +139,6 @@ class Plan_point_model extends MY_Model
         }
 
         return $data;
-    }
-
-    public function insert_sub_point($parrent = 0): void
-    {
-        $data              = $this->validasi($this->input->post());
-        $data['config_id'] = identitas('id');
-        $data['parrent']   = $parrent;
-        $data['tipe']      = 2;
-        $outp              = $this->db->insert('point', $data);
-        status_sukses($outp); //Tampilkan Pesan
-    }
-
-    public function update_sub_point($id = 0): void
-    {
-        $data = $this->validasi($this->input->post());
-        $outp = $this->config_id()->where('id', $id)->update('point', $data);
-
-        status_sukses($outp); //Tampilkan Pesan
-    }
-
-    public function delete_sub_point($id = '', $semua = false): void
-    {
-        if (! $semua) {
-            $this->session->success = 1;
-        }
-
-        $outp = $this->config_id()->where('id', $id)->delete('point');
-
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
-    }
-
-    public function delete_all_sub_point(): void
-    {
-        $this->session->success = 1;
-
-        $id_cb = $this->input->post('id_cb');
-
-        foreach ($id_cb as $id) {
-            $this->delete_sub_point($id, $semua = true);
-        }
     }
 
     public function point_lock($id = '', $val = 0): void
@@ -250,67 +163,5 @@ class Plan_point_model extends MY_Model
         return $this->config_id()
             ->get('gis_simbol')
             ->result_array();
-    }
-
-    public function tambah_simbol(): void
-    {
-        $config['upload_path']   = LOKASI_SIMBOL_LOKASI;
-        $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        $this->load->library('MY_Upload', null, 'upload');
-        $this->upload->initialize($config);
-
-        if (! $this->upload->do_upload('simbol')) {
-            session_error($this->upload->display_errors());
-
-            return;
-        }
-
-        $uploadedImage = $this->upload->data();
-        ResizeGambar($uploadedImage['full_path'], $uploadedImage['full_path'], ['width' => 32, 'height' => 32]); // ubah ukuran gambar
-
-        $data['simbol']    = $uploadedImage['file_name'];
-        $data['config_id'] = identitas('id');
-        $outp              = $this->db->insert('gis_simbol', $data);
-        status_sukses($outp);
-    }
-
-    public function delete_simbol($id = ''): void
-    {
-        $outp = $this->config_id()->where('id', $id)->delete('gis_simbol');
-        status_sukses($outp);
-    }
-
-    public function delete_simbol_file($simbol = ''): void
-    {
-        $target_dir  = LOKASI_SIMBOL_LOKASI;
-        $target_file = $target_dir . $simbol;
-
-        if (file_exists($target_file)) {
-            $outp = unlink($target_file);
-        }
-        status_sukses($outp);
-    }
-
-    public function salin_simbol_default(): void
-    {
-        $dir     = LOKASI_SIMBOL_LOKASI_DEF;
-        $files   = scandir($dir);
-        $new_dir = LOKASI_SIMBOL_LOKASI;
-        $outp    = true;
-
-        foreach ($files as $file) {
-            if ($file !== '' && $file != '.' && $file != '..') {
-                $source      = $dir . '/' . $file;
-                $destination = $new_dir . '/' . $file;
-                if (! file_exists($destination)) {
-                    $outp              = $outp && copy($source, $destination);
-                    $data['simbol']    = basename($file);
-                    $data['config_id'] = identitas('id');
-                    $sql               = $this->db->insert_string('gis_simbol', $data) . ' ON DUPLICATE KEY UPDATE simbol = VALUES(simbol), config_id = VALUES(config_id)';
-                    $outp              = $outp && $this->db->query($sql);
-                }
-            }
-        }
-        status_sukses($outp);
     }
 }

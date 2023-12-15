@@ -219,41 +219,4 @@ class Point extends Admin_Controller
         }
         redirect_with('error', 'Gagal Ubah Status', $subpoint);
     }
-
-    public function tambah_simbol(): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_point_model->tambah_simbol();
-        redirect('point/form_simbol');
-    }
-
-    // TODO:: Hapus ini jika sudah dipindahkan ke controller lain
-    public function clear_simbol(): void
-    {
-        redirect('point/form_simbol');
-    }
-
-    public function form_simbol(): void
-    {
-        $this->redirect_hak_akses('u');
-        $data['simbol'] = $this->plan_point_model->list_simbol();
-        $data['tip']    = 6;
-
-        $this->render('point/form_simbol', $data);
-    }
-
-    public function salin_simbol_default(): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_point_model->salin_simbol_default();
-        redirect('point/form_simbol');
-    }
-
-    public function delete_simbol($id = '', $simbol = ''): void
-    {
-        $this->redirect_hak_akses('h');
-        $this->plan_point_model->delete_simbol($id);
-        $this->plan_point_model->delete_simbol_file($simbol);
-        redirect('point/form_simbol');
-    }
 }
