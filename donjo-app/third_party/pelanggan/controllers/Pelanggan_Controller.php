@@ -151,7 +151,7 @@ class Pelanggan_Controller extends Admin_Controller
         $this->load->helper('file');
         if ($this->input->is_ajax_request()) {
             if (config_item('demo_mode')) {
-                hapus_cache('identitas_desa');
+                cache()->forget('identitas_desa');
                 hapus_cache('status_langganan');
                 $this->cache->pakai_cache(fn () => // request ke api layanan.opendesa.id
                     json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), false), 'status_langganan', 24 * 60 * 60);
@@ -164,7 +164,7 @@ class Pelanggan_Controller extends Admin_Controller
 
             if (isset($this->request['body']['token'])) {
                 hapus_cache('status_langganan');
-                hapus_cache('identitas_desa');
+                cache()->forget('identitas_desa');
                 if ($this->request['body']['desa_id'] != kode_wilayah($this->header['desa']['kode_desa'])) {
                     // $this->setting_model->update_setting(['layanan_opendesa_token' => null]);
 
