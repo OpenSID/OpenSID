@@ -701,7 +701,7 @@ class Periksa_model extends MY_Model
             ->set('value', $this->periksa['migrasi_utk_diulang'])
             ->where('key', 'current_version')
             ->update('setting_aplikasi');
-        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+        cache()->forget('setting_aplikasi');
         $this->load->model('database_model');
         $this->database_model->migrasi_db_cri();
     }

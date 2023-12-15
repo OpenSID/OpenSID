@@ -66,6 +66,7 @@ class Migrasi_fitur_premium_2401 extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023120552($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023120554($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023121551($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -168,5 +169,19 @@ class Migrasi_fitur_premium_2401 extends MY_model
             'ikon_kecil' => 'fa-location-arrow',
             'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'simbol'])->row()->id,
         ]);
+    }
+
+    protected function migrasi_2023121551($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Jumlah Gambar Slider',
+            'key'        => 'jumlah_gambar_slider',
+            'value'      => '10',
+            'keterangan' => 'Jumlah Gambar Slider Yang di Tampilkan',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'artikel',
+        ], $id);
     }
 }

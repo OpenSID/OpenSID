@@ -286,7 +286,7 @@ class MY_Model extends CI_Model
             $hasil = $this->db->query($sql);
         }
 
-        hapus_cache('setting_aplikasi');
+        cache()->forget('setting_aplikasi');
 
         return true;
     }
