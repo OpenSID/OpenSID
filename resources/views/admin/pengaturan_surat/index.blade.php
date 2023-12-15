@@ -23,7 +23,7 @@
                 <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ route('surat_master/deleteAll') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                         class='fa fa-trash-o'></i> Hapus</a>
             @endif
-            @if (!setting('nonaktifkan_rtf') && can('u', '', true))
+            @if (! setting('nonaktifkan_rtf') && can('u', 'pengaturan-surat', true))
                 <a href="{{ route('surat_master.perbarui') }}" title="{{ SebutanDesa('Perbarui Surat [Desa]') }}" class="btn btn-social bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-recycle"></i> Perbarui</a>
             @endif
             @if (can('u'))

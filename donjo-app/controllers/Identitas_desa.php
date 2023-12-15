@@ -53,7 +53,7 @@ class Identitas_desa extends Admin_Controller
         parent::__construct();
         $this->modul_ini     = 'info-desa';
         $this->sub_modul_ini = 'identitas-desa';
-
+        isCan('b');
         if (Schema::hasTable('ref_jabatan')) {
             $this->cek_kades = Pamong::kepalaDesa()->exists();
             // TODO: Cek bagian ini selalu bermasalah jika model penduduk atau pamong aktifkan global observer config_id
@@ -82,7 +82,7 @@ class Identitas_desa extends Admin_Controller
      */
     public function form()
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['main']           = $this->identitas_desa;
         $data['cek_kades']      = $this->cek_kades;
         $data['form_action']    = route('identitas_desa.update');
@@ -99,7 +99,7 @@ class Identitas_desa extends Admin_Controller
      */
     public function insert()
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (Config::create(static::validate($this->request))) {
             return json([
@@ -119,7 +119,7 @@ class Identitas_desa extends Admin_Controller
      */
     public function update()
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $id       = $this->identitas_desa['id'];
         $config   = Config::find($id);
@@ -166,7 +166,7 @@ class Identitas_desa extends Admin_Controller
      */
     public function update_maps($tipe = 'kantor'): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data['zoom'] = bilangan($this->request['zoom']);
 
@@ -192,7 +192,7 @@ class Identitas_desa extends Admin_Controller
      */
     public function kosongkan(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (Config::find($this->identitas_desa['id'])->update(['path' => null])) {
             redirect_with('success', 'Berhasil Kosongkan Peta');
@@ -337,7 +337,7 @@ class Identitas_desa extends Admin_Controller
 
     public function reset(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (null === $this->identitas_desa) {
             unlink(DESAPATH . 'app_key');

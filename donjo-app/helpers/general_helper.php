@@ -157,7 +157,7 @@ if (! function_exists('can')) {
     {
         $idGrup   = auth()->id_grup;
         $slugGrup = UserGrup::find($idGrup)->slug;
-        $data     = cache()->remember('modul_' . $idGrup, 604800, static function () use ($idGrup, $slugGrup) {
+        $data     = cache()->remember('akses_grup_' . $idGrup, 604800, static function () use ($idGrup, $slugGrup) {
             if (in_array($idGrup, UserGrup::getGrupSistem())) {
                 $grup = UserGrup::getAksesGrupBawaan()[$slugGrup];
 
@@ -223,6 +223,12 @@ if (! function_exists('can')) {
             return false;
         }
 
+        if ($adminOnly) {
+            return super_admin() ? true : false;
+        }
+
+        // dd($data);
+
         return $data[$slugModul][$alias[$akses]];
     }
 }
@@ -240,7 +246,7 @@ if (! function_exists('isCan')) {
     function isCan($akses = null, $slugModul = null, $adminOnly = false)
     {
         $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
-        if (! can('u', $slugModul, $adminOnly)) {
+        if (! can('b', $slugModul, $adminOnly)) {
             set_session('error', $pesan);
             session_error($pesan);
 

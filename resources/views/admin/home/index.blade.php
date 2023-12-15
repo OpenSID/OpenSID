@@ -52,7 +52,7 @@
             </div>
         @endif
 
-        @if (can('b', 'arsip-layanan'))
+        @if (can('b', 'penduduk'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-aqua">
                     <div class="inner">

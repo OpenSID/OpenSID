@@ -216,7 +216,7 @@ class Grup extends Admin_Controller
         if ($grupAkses) {
             GrupAkses::insert($grupAkses);
         }
-        cache()->forget('modul_' . $grupId);
+        cache()->forget('akses_grup_' . $grupId);
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
     }
 

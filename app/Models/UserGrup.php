@@ -127,6 +127,4 @@ class UserGrup extends BaseModel
             ],
         ];
     }
-
-    // Modul yang hanya bisa diakses oleh grup administrator
 }

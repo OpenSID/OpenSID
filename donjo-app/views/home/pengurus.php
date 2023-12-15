@@ -57,26 +57,26 @@
                 <i class="fa fa fa-list"></i>Jabatan
             </a>
         <?php endif; ?>
-        <?php if (can('u', 'kehadiran_jam_kerja') || can('u', 'kehadiran_hari_libur') || can('u', 'kehadiran_rekapitulasi') || can('u', 'kehadiran_pengaduan')): ?>
+        <?php if (can('u', 'jam-kerja') || can('u', 'hari-libur') || can('u', 'rekapitulasi') || can('u', 'kehadiran-pengaduan')): ?>
         <div class="btn-group btn-group-vertical">
             <a class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Kehadiran</a>
             <ul class="dropdown-menu" role="menu">
-                <?php if (can('u', 'kehadiran_jam_kerja')): ?>
+                <?php if (can('u', 'jam-kerja')): ?>
                 <li>
                     <a href="<?= site_url('kehadiran_jam_kerja')?>" title="Jam Kerja" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-clock-o"></i> Jam Kerja</a>
                 </li>
                 <?php endif ?>
-                <?php if (can('u', 'kehadiran_hari_libur')): ?>
+                <?php if (can('u', 'hari-libur')): ?>
                 <li>
                     <a href="<?= site_url('kehadiran_hari_libur')?>" title="Hari Libur" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-calendar"></i> Hari Libur</a>
                 </li>
                 <?php endif ?>
-                <?php if (can('u', 'kehadiran_rekapitulasi')): ?>
+                <?php if (can('u', 'rekapitulasi')): ?>
                 <li>
                     <a href="<?= site_url('kehadiran_rekapitulasi')?>" title="Kehadiran" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-list"></i> Kehadiran</a>
                 </li>
                 <?php endif ?>
-                <?php if (can('u', 'kehadiran_pengaduan')): ?>
+                <?php if (can('u', 'kehadiran-pengaduan')): ?>
                 <li>
                     <a href="<?= site_url('kehadiran_pengaduan')?>" title="Pengaduan" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-exclamation"></i> Pengaduan</a>
                 </li>
