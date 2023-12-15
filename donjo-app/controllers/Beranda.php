@@ -55,15 +55,13 @@ class Beranda extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-
-        $this->isAdmin = $this->session->isAdmin->pamong;
+        $this->modul_ini = 'beranda';
+        $this->isAdmin   = $this->session->isAdmin->pamong;
     }
 
     public function index()
     {
         get_pesan_opendk(); //ambil pesan baru di opendk
-
-        $this->modul_ini = 'beranda';
 
         $this->load->library('saas');
         $configId = identitas('id');

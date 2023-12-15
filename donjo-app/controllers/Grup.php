@@ -38,7 +38,6 @@
 use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
-use Illuminate\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -55,7 +54,7 @@ class Grup extends Admin_Controller
         $this->sub_modul_ini = 'pengguna';
     }
 
-    public function index($jenis = 0): View
+    public function index()
     {
         $data = [
             'tab_ini' => $this->tab_ini,
@@ -217,6 +216,7 @@ class Grup extends Admin_Controller
         if ($grupAkses) {
             GrupAkses::insert($grupAkses);
         }
+        cache()->forget('modul_' . $grupId);
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
     }
 
@@ -236,6 +236,7 @@ class Grup extends Admin_Controller
             }
             GrupAkses::whereIn('id_grup', $this->request['id_cb'] ?? [$id])->delete();
             UserGrup::destroy($this->request['id_cb'] ?? $id);
+            cache()->flush();
             $this->cache->hapus_cache_untuk_semua('_cache_modul');
             redirect_with('success', 'Grup pengguna berhasil dihapus');
         } catch (Exception $e) {

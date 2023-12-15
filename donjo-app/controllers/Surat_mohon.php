@@ -46,6 +46,7 @@ class Surat_mohon extends Admin_Controller
         parent::__construct();
         $this->modul_ini     = 'layanan-surat';
         $this->sub_modul_ini = 'daftar-persyaratan';
+        isCan('b');
     }
 
     public function index()
@@ -60,20 +61,13 @@ class Surat_mohon extends Admin_Controller
 
             return datatables()->of($query)
                 ->addColumn('ceklist', static function ($row) {
-                    if (can('h')) {
-                        return '<input type="checkbox" name="id_cb[]" value="' . $row->ref_syarat_id . '"/>';
-                    }
+                    return '<input type="checkbox" class="akses-hapus" name="id_cb[]" value="' . $row->ref_syarat_id . '"/>';
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
-                    $aksi = '';
-
-                    if (can('u')) {
-                        $aksi .= '<a href="' . route('surat_mohon.form', $row->ref_syarat_id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
-
-                    if (can('h') && $row->jumlah_format_surat == '0') {
-                        $aksi .= '<a href="#" data-href="' . route('surat_mohon.delete', $row->ref_syarat_id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    $aksi = '<a href="' . route('surat_mohon.form', $row->ref_syarat_id) . '" class="btn btn-warning btn-sm akses-ubah"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    if ($row->jumlah_format_surat == '0') {
+                        $aksi .= '<a href="#" data-href="' . route('surat_mohon.delete', $row->ref_syarat_id) . '" class="btn bg-maroon btn-sm akses-hapus"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -87,7 +81,7 @@ class Surat_mohon extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action      = 'Ubah';
@@ -105,7 +99,7 @@ class Surat_mohon extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (SyaratSurat::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
@@ -115,7 +109,7 @@ class Surat_mohon extends Admin_Controller
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = SyaratSurat::findOrFail($id);
 
@@ -127,7 +121,7 @@ class Surat_mohon extends Admin_Controller
 
     public function delete($id = ''): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (SyaratSurat::deleteFormatSuratExist($id)) {
             redirect_with('success', 'Berhasil Hapus Data');
@@ -137,7 +131,7 @@ class Surat_mohon extends Admin_Controller
 
     public function deleteAll(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         foreach ($this->request['id_cb'] as $id) {
             if (! SyaratSurat::deleteFormatSuratExist($id)) {

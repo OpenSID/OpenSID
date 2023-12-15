@@ -37,7 +37,7 @@
     @include('admin.home.bantuan')
 
     <div class="row">
-        @if (can('b', 'wilayah'))
+        @if (can('b', 'wilayah-administratif'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-purple">
                     <div class="inner">
@@ -52,7 +52,7 @@
             </div>
         @endif
 
-        @if (can('b', 'penduduk'))
+        @if (can('b', 'arsip-layanan'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-aqua">
                     <div class="inner">
@@ -82,7 +82,7 @@
             </div>
         @endif
 
-        @if (can('b', 'keluar'))
+        @if (can('b', 'arsip-layanan'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-blue">
                     <div class="inner">
@@ -112,7 +112,7 @@
             </div>
         @endif
 
-        @if (can('b', 'rtm'))
+        @if (can('b', 'rumah-tangga'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-gray">
                     <div class="inner">
@@ -127,7 +127,7 @@
             </div>
         @endif
 
-        @if (can('b', 'program_bantuan'))
+        @if (can('b', 'bantuan'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box bg-yellow">
                     <div class="inner">
@@ -149,7 +149,7 @@
             </div>
         @endif
 
-        @if (can('b', 'mandiri'))
+        @if (can('b', 'pendaftar-layanan-mandiri'))
             <div class="col-lg-3 col-sm-6 col-xs-6">
                 <div class="small-box" style="background-color: #39CCCC;">
                     <div class="inner">

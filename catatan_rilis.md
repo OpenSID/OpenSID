@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#7508](https://github.com/OpenSID/OpenSID/issues/7508) Penyesuaian modul pengunjung web menggunakan ORM dan Blade.
 10. [#7423](https://github.com/OpenSID/OpenSID/issues/7423) Penyesuaian modul widget web menggunakan ORM dan Blade.
 11. [#7512](https://github.com/OpenSID/OpenSID/issues/7512) Penyesuaian modul pengaturan peta > tipe lokasi menggunakan ORM dan Blade.
+12. [#7509](https://github.com/OpenSID/OpenSID/issues/7509) Penyesuaian pengecekan hak akses.
 
 
 #### Peningkatan Keamanan

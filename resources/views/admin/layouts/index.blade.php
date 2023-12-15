@@ -132,6 +132,22 @@
                     behavior: 'smooth'
                 });
             }
+
+            var aksesBaca = "{{ can('b') }}";
+            var aksesUbah = "{{ can('u') }}";
+            var aksesHapus = "{{ can('h') }}";
+
+            if (aksesBaca == 0) {
+                $('.akses-baca').remove();
+            }
+
+            if (aksesUbah == 0) {
+                $('.akses-ubah').remove();
+            }
+
+            if (aksesHapus == 0) {
+                $('.akses-hapus').remove();
+            }
         });
     </script>
 

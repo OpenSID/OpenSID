@@ -515,6 +515,7 @@ class Admin_Controller extends MY_Controller
         return $pengumuman;
     }
 
+    // TODO:: hapus method ini jika sudah tidak digunakan
     // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
     protected function redirect_hak_akses_url($akses, $redirect = '', $controller = '')
     {
@@ -530,6 +531,7 @@ class Admin_Controller extends MY_Controller
         }
     }
 
+    // TODO:: hapus method ini jika sudah tidak digunakan
     protected function redirect_hak_akses($akses, $redirect = '', $controller = '', $admin_only = false)
     {
         if (empty($controller)) {
@@ -546,6 +548,7 @@ class Admin_Controller extends MY_Controller
         }
     }
 
+    // TODO:: hapus method ini jika sudah tidak digunakan
     // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
     public function cek_hak_akses_url($akses, $controller = '')
     {
@@ -556,6 +559,7 @@ class Admin_Controller extends MY_Controller
         return $this->user_model->hak_akses_url($this->grup, $controller, $akses);
     }
 
+    // TODO:: hapus method ini jika sudah tidak digunakan
     public function cek_hak_akses($akses, $controller = '')
     {
         if (empty($controller)) {
@@ -565,6 +569,7 @@ class Admin_Controller extends MY_Controller
         return $this->user_model->hak_akses($this->grup, $controller, $akses);
     }
 
+    // TODO:: hapus method ini jika sudah tidak digunakan
     public function redirect_tidak_valid($valid): void
     {
         if ($valid) {

@@ -5,7 +5,7 @@ window.setTimeout(function () {
     .slideUp(500, function () {
       $(this).remove();
     });
-}, 1000);
+}, 5000);
 
 // Sidebar
 if (
