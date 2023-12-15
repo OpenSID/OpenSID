@@ -56,7 +56,7 @@ class Track_model extends CI_Model
             return;
         }
         // Track web dan admin masing2 maksimum sekali sehari
-        $sudahKirimHariIni = $this->cache->get('tracksid_admin_web') == date('Y m d') ? 1 : 0;
+        $sudahKirimHariIni = cache()->get('tracksid_admin_web') == date('Y m d') ? 1 : 0;
         if ($sudahKirimHariIni !== 0) {
             return;
         }
@@ -134,7 +134,7 @@ class Track_model extends CI_Model
 
         $trackSID_output = httpPost($tracker . '/api/track/desa?token=' . config_item('token_pantau'), $desa); // kirim ke tracksid.
         if (! empty($trackSID_output)) {
-            $this->cache->save('tracksid_admin_web', date('Y m d'), DAY);
+            cache()->put('tracksid_admin_web', date('Y m d'), DAY);
             $this->cek_notifikasi_TrackSID($trackSID_output);
         }
     }
