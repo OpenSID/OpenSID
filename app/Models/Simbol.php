@@ -67,17 +67,16 @@ class Simbol extends BaseModel
         parent::boot();
 
         static::deleting(static function ($model): void {
-            static::deleteFile($model->getOriginal('simbol'));
+            static::deleteFile($model, 'simbol', true);
         });
     }
 
-    public static function deleteFile(?string $file): void
+    public static function deleteFile($model, ?string $file, $deleting = false): void
     {
-        if ($file) {
-            $target_dir  = LOKASI_SIMBOL_LOKASI;
-            $target_file = $target_dir . $file;
-            if (file_exists($target_file)) {
-                unlink($target_file);
+        if ($model->isDirty($file) || $deleting) {
+            $foto = LOKASI_SIMBOL_LOKASI . $model->getOriginal($file);
+            if (file_exists($foto)) {
+                unlink($foto);
             }
         }
     }

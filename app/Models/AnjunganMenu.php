@@ -112,13 +112,13 @@ class AnjunganMenu extends BaseModel
         });
 
         static::deleting(static function ($model): void {
-            static::deleteFile($model, 'icon');
+            static::deleteFile($model, 'icon', true);
         });
     }
 
-    public static function deleteFile($model, ?string $file): void
+    public static function deleteFile($model, ?string $file, $deleting = false): void
     {
-        if ($model->isDirty($file)) {
+        if ($model->isDirty($file) || $deleting) {
             $logo = LOKASI_ICON_MENU_ANJUNGAN . $model->getOriginal($file);
             if (file_exists($logo)) {
                 unlink($logo);

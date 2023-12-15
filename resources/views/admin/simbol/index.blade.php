@@ -83,7 +83,7 @@
                 </div>
                 <div class="box-body">
                     <div class="form-group">
-                        <div class="col-sm-10">
+                        <div class="col-sm-12">
                             <div class="vertical-scrollbar" style="max-height:460px;">
                                 <ul id="icons" class="bs-glyphicons">
                                     @foreach ($simbol as $data)
@@ -91,7 +91,7 @@
                                             <label>
                                                 <img src="{{ to_base64(LOKASI_SIMBOL_LOKASI . $data['simbol']) }}">
                                                 <span class="glyphicon-class">{{ $data['simbol'] }}</span>
-                                                <a href="#" data-href="{{ site_url("simbol/delete_simbol/{$data['id']}/{$data['simbol']}") }}" class="btn btn-danger btn-sm akses-hapus" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                                                <a href="#" data-href="{{ site_url("simbol/delete_simbol/{$data['id']}/{$data['simbol']}") }}" style="margin-top:10px;" class="btn btn-danger btn-sm btn-block akses-hapus" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                             </label>
                                         </li>
                                     @endforeach
