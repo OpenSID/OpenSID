@@ -337,14 +337,7 @@ if (! function_exists('identitas')) {
      */
     function identitas(?string $params = null)
     {
-        $cache    = 'identitas_desa';
-        $instance = get_instance();
-
-        if (null === $instance->cache) {
-            return null;
-        }
-
-        $identitas = $instance->cache->pakai_cache(static function () {
+        $identitas = cache()->remember('identitas_desa', 604800, static function () {
             if (! Schema::hasColumn('config', 'app_key')) {
                 return null;
             }
@@ -353,7 +346,7 @@ if (! function_exists('identitas')) {
             }
 
             return Config::appKey()->first();
-        }, $cache, 24 * 60 * 60);
+        });
 
         if ($params) {
             return $identitas->{$params};

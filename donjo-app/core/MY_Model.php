@@ -269,7 +269,7 @@ class MY_Model extends CI_Model
 
     public function tambah_setting($setting, $config_id = null)
     {
-        hapus_cache('identitas_desa');
+        cache()->forget('identitas_desa');
 
         if (Schema::hasColumn('setting_aplikasi', 'config_id')) {
             $cek = SettingAplikasi::withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->where('config_id', $config_id ?? $this->config_id)->where('key', $setting['key']);

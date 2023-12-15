@@ -211,7 +211,7 @@ class Config extends BaseModel
     public static function clearCache(): void
     {
         cache()->flush();
-        hapus_cache('identitas_desa');
+        // cache()->forget('identitas_desa');
         hapus_cache('status_langganan');
         hapus_cache('_cache_modul');
     }

@@ -54,7 +54,7 @@ class Data_awal extends MY_Model
     {
         $hasil = true;
 
-        hapus_cache('identitas_desa');
+        cache()->forget('identitas_desa');
 
         if ($this->config_id) {
             // Ubah config
@@ -150,7 +150,7 @@ class Data_awal extends MY_Model
                 log_message('error', 'Gagal menggunakan kode desa dari file config');
             }
 
-            hapus_cache('identitas_desa');
+            cache()->forget('identitas_desa');
         }
 
         return $hasil;

@@ -341,7 +341,7 @@ class Identitas_desa extends Admin_Controller
 
         if (null === $this->identitas_desa) {
             unlink(DESAPATH . 'app_key');
-            hapus_cache('identitas_desa');
+            cache()->forget('identitas_desa');
 
             set_session('error', 'Berhasil Reset AppKey, Silahkan Tentukan Identitas Desa');
         }
