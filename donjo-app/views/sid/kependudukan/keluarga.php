@@ -53,6 +53,11 @@
 						<li>
 							<a href="" class="btn btn-social btn-flat btn-block btn-sm aksi-terpilih" title="Unduh Kartu Keluarga" onclick="formAction('mainform','<?= site_url('keluarga/doc_kk_all')?>'); return false;"><i class="fa fa-download"></i> Unduh Kartu Keluarga</a>
 						</li>
+						<?php if ($this->CI->cek_hak_akses('u')): ?>
+							<li>
+								<a id="pindah_kolektif" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pindah Wilayah Kolektif" class="btn btn-social btn-flat btn-block btn-sm aksi-terpilih" title="Pindah Wilayah Kolektif"><i class="fa fa-random"></i> Pindah Wilayah Kolektif</a>
+							</li>
+						<?php endif; ?>
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
 							<li>
 								<a href="#confirm-delete" class="btn btn-social btn-flat btn-block btn-sm hapus-terpilih" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url('keluarga/delete_all')?>')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
@@ -226,5 +231,9 @@
 
 		$("#cetak_id").attr("href", `<?= site_url("keluarga/ajax_cetak/{$p}/{$o}/cetak") ?>?id_cb=${id}`);
 		$("#unduh_id").attr("href", `<?= site_url("keluarga/ajax_cetak/{$p}/{$o}/unduh") ?>?id_cb=${id}`);
-	})
+		
+		var newHref = SITE_URL + "keluarga/pindah_kolektif?id_cb=" + id;
+
+		$("#pindah_kolektif").attr("href", newHref);
+	});
 </script>

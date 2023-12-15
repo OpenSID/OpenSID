@@ -300,6 +300,27 @@ class Keluarga extends Admin_Controller
         $this->load->view('sid/kependudukan/ajax_add_keluarga', $data);
     }
 
+    public function pindah_kolektif()
+    {
+        $this->redirect_hak_akses('u');
+        $data['id_kk'] = $this->input->get('id_cb');
+        $data['dusun']              = $this->wilayah_model->list_dusun();
+        $data['rw']                 = $this->wilayah_model->list_rw();
+        $data['rt']                 = $this->wilayah_model->list_rt();
+        $data['form_action']        = site_url("{$this->controller}/proses_pindah");
+        log_message('error', print_r($data['id_kk'], true));
+
+        $this->load->view('sid/kependudukan/ajax_pindah_wilayah', $data);
+    }
+
+    public function proses_pindah()
+    {
+        $this->redirect_hak_akses('u');
+        $this->keluarga_model->proses_pindah($this->input->post());
+
+        redirect($this->controller);
+    }
+
     public function filter($filter): void
     {
         $value = $this->input->post($filter);

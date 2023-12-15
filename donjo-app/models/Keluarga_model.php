@@ -1388,4 +1388,21 @@ class Keluarga_model extends MY_Model
 
         status_sukses($hasil, true); //Tampilkan Pesan
     }
+
+    public function proses_pindah($post)
+    {
+        $id_kk = explode(',', $post['id_kk']);
+
+        $data = ['id_cluster' => $post['id_cluster']];
+
+        $outp_keluarga = $this->db
+            ->where_in('id', $id_kk)
+            ->update('tweb_keluarga', $data);
+
+        $outp_penduduk = $this->db
+            ->where_in('id_kk', $id_kk)
+            ->update('tweb_penduduk', $data);
+
+        status_sukses($outp_keluarga && $outp_penduduk);
+    }
 }

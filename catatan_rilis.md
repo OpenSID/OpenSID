@@ -1,9 +1,12 @@
-Di rilis ini, versi 2312.0.1 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2312.1.0 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
+#### FITUR
+1. [#3604](https://github.com/OpenSID/OpenSID/issues/3604) Penambahan fungsi pindah keluarga secara kolektif atar wilayah dusun/rw/rt.
 
-#### Perbaikan Bug
+
+#### BUG
 
 1. [#7474](https://github.com/OpenSID/OpenSID/issues/7474) Perbaikan detail data pada url statistik buku nikah.
 2. [#7462](https://github.com/OpenSID/OpenSID/issues/7462) Perbaikan ekspor klasifikasi surat.
@@ -20,7 +23,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#6136](https://github.com/OpenSID/OpenSID/issues/6136) Perbaikan notifikasi hapus dusun/rw/rt yang sudah 0 di modul Wilayah.
 
 
-#### Penyesuaian Teknis
+#### TEKNIS
 
 1. [#3197](https://github.com/OpenSID/premium/issues/3197) Penyesuaian source menggunakan rector.
 2. [#7498](https://github.com/OpenSID/OpenSID/issues/7498) Penyesuaian beberapa fungsi agar jalan normal di php 8.x.
@@ -37,6 +40,6 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#7512](https://github.com/OpenSID/OpenSID/issues/7512) Penyesuaian modul pengaturan peta > simbol lokasi menggunakan ORM dan Blade.
 
 
-#### Peningkatan Keamanan
+#### KEAMANAN
 
 1. [#3200](https://github.com/OpenSID/premium/issues/3200) Peningkatan keamanan pada form unggah file pada modul menu anjungan.
