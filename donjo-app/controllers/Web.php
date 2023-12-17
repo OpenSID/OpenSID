@@ -68,7 +68,7 @@ class Web extends Admin_Controller
 
     public function index($p = 1, $o = 0)
     {
-        $cat = $this->session->kategori ?: -1;
+        $cat = $this->session->kategori ?? -1;
 
         $data['p'] = $p;
         $data['o'] = $o;
@@ -207,7 +207,7 @@ class Web extends Admin_Controller
             redirect('web');
         }
 
-        $data['list_kategori']     = $this->web_kategori_model->list_kategori('kategori');
+        $data['list_kategori']     = $this->web_artikel_model->list_kategori();
         $data['form_action']       = site_url("web/update_kategori/{$id}");
         $data['kategori_sekarang'] = $this->web_artikel_model->get_kategori_artikel($id);
         $this->load->view('web/artikel/ajax_ubah_kategori_form', $data);

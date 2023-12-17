@@ -30,14 +30,14 @@
                     <div class="form-group">
                         <label for="nik" class="col-sm-3 control-label">NIK / Nama</label>
                         <div class="col-sm-6 col-lg-4">
-                            <select class="form-control required input-sm select2" id="nik" name="nik"
-                                style="width:100%;" onchange="formAction('main')">
-                                <option value="">-- Cari NIK / Nama Penduduk --</option>
-                                @foreach ($penduduk as $data)
-                                    <option value="{{ $data->id }}" @selected($individu->id === $data->id)>NIK :
-                                        {{ $data->nik . ' - ' . $data->nama }}
+                            <select id="nik" name="nik" class="form-control input-sm required"
+                                data-placeholder="-- Cari NIK / Tag ID Card / Nama Penduduk --"
+                                onchange="formAction('main')" data-surat="{{ $surat->id }}">
+                                @if ($individu)
+                                    <option value="{{ $individu->id }}" selected>
+                                        {{ $individu->nik . ' - ' . ($individu->tag_id_card ?: ' ') . ' - ' . $individu->nama }}
                                     </option>
-                                @endforeach
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -131,7 +131,30 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $(function() {
+        $('document').ready(function() {
+            $('#nik').select2({
+                ajax: {
+                    url: SITE_URL + 'surat/apipenduduksurat',
+                    dataType: 'json',
+                    data: function(params) {
+                        return {
+                            q: params.term || '',
+                            page: params.page || 1,
+                            surat: $(this).data('surat'),
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: function() {
+                    $(this).data('placeholder');
+                },
+                minimumInputLength: 0,
+                allowClear: true,
+                escapeMarkup: function(markup) {
+                    return markup;
+                },
+            });
+
             $('#showData').click(function() {
                 $("#kel").removeClass('hide');
                 $('#showData').hide();

@@ -20,20 +20,20 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="owner"><?= $owner ?></label>
 								<div class="col-sm-9">
-									<div class="form-control input-sm"><?= $pesan['owner']?></div>
+									<div class="form-control input-sm" readonly><?= $pesan['owner']?></div>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="email">NIK</label>
 								<div class="col-sm-9">
-									<div class="form-control input-sm"><?= $pesan['email']?></div>
+									<div class="form-control input-sm" readonly><?= $pesan['email']?></div>
 									<input type="hidden" name="nik" value="<?= $pesan['email']?>">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="subjek">Subjek</label>
 								<div class="col-sm-9">
-									<div class="form-control input-sm"><?= $pesan['subjek']?></div>
+									<div class="form-control input-sm" readonly><?= $pesan['subjek']?></div>
 									<input type="hidden" name="subjek" value="<?= $pesan['subjek']?>">
 								</div>
 							</div>

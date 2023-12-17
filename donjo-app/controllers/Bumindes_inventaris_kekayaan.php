@@ -54,7 +54,7 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
         $tahun = (empty($this->session->tahun) || $this->session->tahun == 'semua') ? date('Y') : $this->session->tahun;
 
         $data = [
-            'subtitle'     => 'Buku Inventaris dan Kekayaan Desa',
+            'subtitle'     => 'Buku Inventaris dan Kekayaan ' . ucwords($this->setting->sebutan_desa),
             'selected_nav' => 'inventaris',
             'main_content' => 'bumindes/umum/content_inventaris',
             'min_tahun'    => $this->inventaris_laporan_model->min_tahun(),

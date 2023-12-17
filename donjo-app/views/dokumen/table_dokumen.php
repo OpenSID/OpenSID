@@ -31,7 +31,7 @@
             <div class="box-header with-border">
 							<?php if ($this->CI->cek_hak_akses('u')): ?>
 								<a href="<?= site_url("{$this->controller}/form/{$kat}")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Menu Baru">
-									<i class="fa fa-plus"></i>Tambah <?= $kat_nama?> Baru
+									<i class="fa fa-plus"></i>Tambah
 	            	</a>
 	            <?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>

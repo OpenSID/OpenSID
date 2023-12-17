@@ -215,14 +215,14 @@
                 { data: 'ceklist', class: 'padat', searchable: false, orderable: false },
                 { data: 'DT_RowIndex', class: 'padat', searchable: false, orderable: false },
                 { data: 'aksi', class: 'aksi', searchable: false, orderable: false},
-                { data: 'nik_krt', name: 'nik_krt', searchable: true, orderable: true },
-                { data: 'nama_krt', name: 'nama_krt', searchable: true, orderable: true },
+                { data: 'nik_krt', name: 'krt.nik', searchable: true, orderable: true },
+                { data: 'nama_krt', name: 'krt.nama', searchable: true, orderable: true },
                 { data: 'keluarga_count', name: 'keluarga_count', searchable: false, orderable: true },
                 { data: 'dusun', name: 'dusun', searchable: true, orderable: true },
                 { data: 'rw', name: 'rw', searchable: true, orderable: true },
                 { data: 'rt', name: 'rt', searchable: true, orderable: true },
-                { data: 'nik_kk', name: 'nik_kk', searchable: true, orderable: true },
-                { data: 'nama_kk', name: 'nama_kk', searchable: true, orderable: true },
+                { data: 'nik_kk', name: 'kk.nik', searchable: true, orderable: true },
+                { data: 'nama_kk', name: 'kk.nama', searchable: true, orderable: true },
                 { data: function (data) {
                         if (data.anggota_count != null) {
                             return `<a href="{{ route('dtks.listAnggota') }}/${data.id}" title="Lihat Nama Anggota" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Daftar Anggota">${data.anggota_count}</a>`;

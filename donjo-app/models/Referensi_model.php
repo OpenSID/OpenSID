@@ -286,6 +286,8 @@ class Referensi_model extends CI_Model
     {
         $dafault = $this->list_ref(JENIS_PERATURAN_DESA);
 
-        return collect($dafault)->unique()->values();
+        return collect($dafault)->transform(static function ($item) {
+            return str_replace(['Desa', 'desa'], ucwords(setting('sebutan_desa')), $item);
+        })->unique()->values();
     }
 }

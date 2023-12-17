@@ -49,7 +49,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 class DateConv
 {
-    private $months = [
+    private array $months = [
         'Muharram',
         'Safar',
         "Rabi'ul Awal",
@@ -97,7 +97,7 @@ class DateConv
      */
     public function hijriToJulian($year, $month, $day)
     {
-        return floor((11 * $year + 3) / 30) + floor(354 * $year) + floor(30 * $month) - floor(($month - 1) / 2) + $day + 1948440 - 386;
+        return floor((11 * $year + 3) / 30) + floor(354 * $year) + floor(30 * $month) - floor(($month - 1) / 2) + $day + 1_948_440 - 386;
     }
 
     /**
@@ -110,8 +110,8 @@ class DateConv
     public function julianToGregorian($julianDay)
     {
         $b = 0;
-        if ($julianDay > 2299160) {
-            $a = floor(($julianDay - 1867216.25) / 36524.25);
+        if ($julianDay > 2_299_160) {
+            $a = floor(($julianDay - 1_867_216.25) / 36524.25);
             $b = 1 + $a - floor($a / 4.0);
         }
         $bb    = $julianDay + $b + 1524;
@@ -139,7 +139,7 @@ class DateConv
     public function julianToHijri($julianDay)
     {
         $y          = 10631.0 / 30.0;
-        $epochAstro = 1948084;
+        $epochAstro = 1_948_084;
         $shift1     = 8.01 / 60.0;
         $z          = $julianDay - $epochAstro;
         $cyc        = floor($z / 10631.0);

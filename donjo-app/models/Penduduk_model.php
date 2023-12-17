@@ -379,6 +379,13 @@ class Penduduk_model extends MY_Model
         }
     }
 
+    private function filter_id()
+    {
+        if ($id = $this->input->get('id_cb')) {
+            $this->db->where_in('u.id', explode(',', $id));
+        }
+    }
+
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
     private function list_data_sql()
     {
@@ -526,9 +533,11 @@ class Penduduk_model extends MY_Model
         $this->order_by_list($order_by);
 
         if ($page > 0) {
-            $jumlah_pilahan = $this->db->count_all_results('', false);
-            $paging         = $this->paginasi($page, $jumlah_pilahan);
-            $this->db->limit($paging->per_page, $paging->offset);
+            if ($this->session->per_page > 0) {
+                $jumlah_pilahan = $this->db->count_all_results('', false);
+                $paging         = $this->paginasi($page, $jumlah_pilahan);
+                $this->db->limit($paging->per_page, $paging->offset);
+            }
         }
 
         $query_dasar = $this->db->select('u.*')->get_compiled_select();
@@ -556,12 +565,18 @@ class Penduduk_model extends MY_Model
         $this->db->from("#({$query_dasar}) AS u#");
         $this->lookup_ref_penduduk();
         $this->order_by_list($order_by);
+
+        // lakukan filter setelah final query
+        $this->filter_id();
+
         $sql = str_replace(['(#', '#)'], '', $this->db->get_compiled_select());
 
         $data = $this->db->query($sql)->result_array();
 
         //Formating Output
-        $j = $offset;
+        if (empty($this->input->get('id_cb'))) {
+            $j = $paging->offset;
+        }
 
         for ($i = 0; $i < count($data); $i++) {
             // Untuk penduduk mati atau hilang, gunakan umur pada tgl peristiwa

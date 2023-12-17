@@ -18,7 +18,7 @@
                             <li>
                                 <ul class="menu">
                 @endif
-                @if ($notif['langganan'])
+                @if ($notif['langganan'] && can('b', 'layanan-pelanggan'))
                     <li>
                         <a href="{{ route('pelanggan') }}">
                             <i class="fa {{ $notif['langganan']['ikon'] }} fa-lg"
@@ -138,8 +138,13 @@
             </li>
             @if ($kategori && can('u', $controller))
                 <li>
-                    <a href="#" data-remote="false" data-toggle="modal" data-target="#pengaturan">
-                        <span><i class="fa fa-gear"></i>&nbsp;</span>
+                    @if ($controller === 'pelanggan')
+                        <a href="#" class="atur-token">
+                        @else
+                            <a href="#" data-remote="false" data-toggle="modal"
+                                data-title="Pengaturan {{ ucwords($controller) }}" data-target="#pengaturan">
+                    @endif
+                    <span><i class="fa fa-gear"></i>&nbsp;</span>
                     </a>
                 </li>
             @endif

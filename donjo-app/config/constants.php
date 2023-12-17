@@ -120,6 +120,23 @@ defined('EXIT_DATABASE')       || define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
+/*
+|--------------------------------------------------------------------------
+| Timing Constants
+|--------------------------------------------------------------------------
+|
+| Provide simple ways to work with the myriad of PHP functions that
+| require information to be in seconds.
+*/
+defined('SECOND') || define('SECOND', 1);
+defined('MINUTE') || define('MINUTE', 60);
+defined('HOUR')   || define('HOUR', 3600);
+defined('DAY')    || define('DAY', 86400);
+defined('WEEK')   || define('WEEK', 604800);
+defined('MONTH')  || define('MONTH', 2_592_000);
+defined('YEAR')   || define('YEAR', 31_536_000);
+defined('DECADE') || define('DECADE', 315_360_000);
+
 /**
  * https://stackoverflow.com/questions/11792268/how-to-set-proper-codeigniter-base-url
  * Define APP_URL Dynamically
@@ -149,11 +166,13 @@ define('BACKUPPATH', 'backup_inkremental' . DIRECTORY_SEPARATOR);
  * Folder dan file pada folder sistem.
  */
 // Folder
+define('LOKASI_ASSET_IMAGES', 'assets/css/images/');
+define('LOKASI_ASSET_FRONT_IMAGES', 'assets/front/css/images/');
 define('LOKASI_FILES_LOGO', 'assets/files/logo/');
 define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
 define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
 define('PENDAPAT', 'assets/images/layanan_mandiri/');
-define('LOKASI_ICON_MENU_ANJUNGAN_DEFAULT', 'assets/images/anjungan/');
+define('LOKASI_ICON_MENU_ANJUNGAN_DEFAULT', 'assets/anjungan/images/');
 define('LOKASI_SURAT_SISTEM', 'template-surat/');
 define('DEFAULT_LOKASI_LAMPIRAN_SURAT', 'template-surat/lampiran/');
 define('DEFAULT_LOKASI_TEMA', 'vendor/themes/');
