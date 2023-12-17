@@ -125,7 +125,7 @@ class Penduduk extends Admin_Controller
     {
         $foto = $this->input->get('foto');
         $sex  = $this->input->get('sex');
-        if (empty($foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $foto)) {
+        if (empty($foto) || !file_exists(FCPATH . LOKASI_USER_PICT . $foto)) {
             $foto = ($sex == 1) ? 'kuser.png' : 'wuser.png';
             ambilBerkas($foto, $this->controller, null, 'assets/images/pengguna/', $tampil = true);
         } else {
@@ -145,7 +145,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         // Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-        if (empty($_POST) && (! isset($_SESSION['dari_internal']) || ! $_SESSION['dari_internal'])) {
+        if (empty($_POST) && (!isset($_SESSION['dari_internal']) || !$_SESSION['dari_internal'])) {
             unset($_SESSION['validation_error']);
         }
 
@@ -715,7 +715,7 @@ class Penduduk extends Admin_Controller
                 break;
 
             case 'bantuan_penduduk':
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null;
                 } // tampilkan semua peserta walaupun bukan hidup/aktif
                 $session  = 'bantuan_penduduk';
@@ -752,7 +752,7 @@ class Penduduk extends Admin_Controller
                     ->where('id', $program_id)
                     ->get('program')->row()
                     ->nama;
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;
                 }
@@ -1034,7 +1034,7 @@ class Penduduk extends Admin_Controller
         redirect('penduduk/impor_bip');
     }
 
-    public function ekspor()
+    public function ekspor($huruf = null)
     {
         try {
             $daftar_kolom = $this->impor_model->daftar_kolom;
@@ -1044,7 +1044,7 @@ class Penduduk extends Admin_Controller
             $writer->addRow(WriterEntityFactory::createRowFromArray($daftar_kolom));
 
             //Isi Tabel
-            $get = $this->ekspor_model->expor();
+            $get = $this->ekspor_model->expor($huruf);
 
             foreach ($get as $row) {
                 $penduduk = [];

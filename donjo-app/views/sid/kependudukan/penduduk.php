@@ -3,23 +3,23 @@
 		$('#cari').focus();
 	});
 
-	$( function() {
-		$( "#cari" ).autocomplete( {
-			source: function( request, response ) {
-				$.ajax( {
+	$(function() {
+		$("#cari").autocomplete({
+			source: function(request, response) {
+				$.ajax({
 					type: "POST",
 					url: '<?= site_url('penduduk/autocomplete'); ?>',
 					dataType: "json",
 					data: {
 						cari: request.term
 					},
-					success: function( data ) {
-						response( JSON.parse( data ));
+					success: function(data) {
+						response(JSON.parse(data));
 					}
 				});
 			},
 			minLength: 2,
-		} );
+		});
 	});
 </script>
 <div class="content-wrapper">
@@ -35,20 +35,20 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<?php if (can('u')): ?>
+						<?php if (can('u')) : ?>
 							<div class="btn-group btn-group-vertical">
 								<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Penduduk</a>
 								<ul class="dropdown-menu" role="menu">
 									<li>
-										<a href="<?= site_url('penduduk/form_peristiwa/1'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data Penduduk Lahir"><i class="fa fa-plus"></i>  Penduduk Lahir</a>
+										<a href="<?= site_url('penduduk/form_peristiwa/1'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data Penduduk Lahir"><i class="fa fa-plus"></i> Penduduk Lahir</a>
 									</li>
 									<li>
-										<a href="<?= site_url('penduduk/form_peristiwa/5'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data Penduduk Masuk"><i class="fa fa-plus"></i>  Penduduk Masuk</a>
+										<a href="<?= site_url('penduduk/form_peristiwa/5'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data Penduduk Masuk"><i class="fa fa-plus"></i> Penduduk Masuk</a>
 									</li>
 								</ul>
 							</div>
 						<?php endif; ?>
-						<?php if (can('h')): ?>
+						<?php if (can('h')) : ?>
 							<a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '<?= site_url("penduduk/delete_all/{$p}/{$o}"); ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<?php endif; ?>
 						<div class="btn-group-vertical">
@@ -64,7 +64,7 @@
 									<a href="<?= site_url('penduduk/ajax_adv_search'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Spesifik" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik"><i class="fa fa-search"></i> Pencarian Spesifik</a>
 								</li>
 								<li>
-									<a href="<?= site_url('penduduk/program_bantuan')?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Program Bantuan"><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
+									<a href="<?= site_url('penduduk/program_bantuan') ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Program Bantuan"><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
 								</li>
 								<li>
 									<a href="<?= site_url('penduduk/search_kumpulan_nik'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pilihan Kumpulan NIK" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pilihan Kumpulan NIK"><i class="fa fa-users"></i> Pilihan Kumpulan NIK</a>
@@ -80,7 +80,7 @@
 						<div class="btn-group-vertical">
 							<a class="btn btn-social btn-flat bg-navy btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Impor / Ekspor</a>
 							<ul class="dropdown-menu" role="menu">
-								<?php if (! config_item('demo_mode') && $this->session->grup == 1): ?>
+								<?php if (!config_item('demo_mode') && $this->session->grup == 1) : ?>
 									<li>
 										<a href="<?= route('penduduk.impor') ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Impor Penduduk"><i class="fa fa-upload"></i> Impor Penduduk</a>
 									</li>
@@ -90,6 +90,9 @@
 								<?php endif ?>
 								<li>
 									<a href="<?= route('penduduk.ekspor') ?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm" title="Ekspor Penduduk"><i class="fa fa-download"></i> Ekspor Penduduk</a>
+								</li>
+								<li>
+									<a href="<?= route('penduduk.ekspor.1') ?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm" title="Ekspor Penduduk Berupa Isian Lengkap (Huruf)"><i class="fa fa-download"></i> Ekspor Penduduk Huruf</a>
 								</li>
 							</ul>
 						</div>
@@ -102,19 +105,19 @@
 									<div class="col-sm-9">
 										<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?= site_url('penduduk/filter/filter'); ?>')">
 											<option value="">Status Penduduk</option>
-											<?php foreach ($list_status_penduduk as $data): ?>
+											<?php foreach ($list_status_penduduk as $data) : ?>
 												<option value="<?= $data['id']; ?>" <?= selected($filter, $data['id']); ?>><?= set_ucwords($data['nama']); ?></option>
 											<?php endforeach; ?>
 										</select>
 										<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?= site_url('penduduk/filter/status_dasar'); ?>')">
 											<option value="">Status Dasar</option>
-											<?php foreach ($list_status_dasar as $data): ?>
+											<?php foreach ($list_status_dasar as $data) : ?>
 												<option value="<?= $data['id']; ?>" <?= selected($status_dasar, $data['id']); ?>><?= set_ucwords($data['nama']); ?></option>
 											<?php endforeach; ?>
 										</select>
 										<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('penduduk/filter/sex'); ?>')">
 											<option value="">Jenis Kelamin</option>
-											<?php foreach ($list_jenis_kelamin as $data): ?>
+											<?php foreach ($list_jenis_kelamin as $data) : ?>
 												<option value="<?= $data['id']; ?>" <?= selected($sex, $data['id']); ?>><?= set_ucwords($data['nama']); ?></option>
 											<?php endforeach; ?>
 										</select>
@@ -122,7 +125,7 @@
 									</div>
 									<div class="col-sm-3">
 										<div class="input-group input-group-sm pull-right">
-											<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" title="Pencarian berdasarkan nama penduduk" value="<?=html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url('penduduk/filter/cari'); ?>');$('#'+'mainform').submit();}">
+											<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" title="Pencarian berdasarkan nama penduduk" value="<?= html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url('penduduk/filter/cari'); ?>');$('#'+'mainform').submit();}">
 											<div class="input-group-btn">
 												<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url('penduduk/filter/cari'); ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 											</div>
@@ -130,13 +133,13 @@
 									</div>
 								</div>
 								<div class="table-responsive table-min-height">
-									<?php if ($judul_statistik): ?>
+									<?php if ($judul_statistik) : ?>
 										<h5 class="box-title text-center"><b><?= $judul_statistik; ?></b></h5>
 									<?php endif; ?>
 									<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 										<thead class="bg-gray disabled color-palette">
 											<tr>
-												<th><input type="checkbox" id="checkall"/></th>
+												<th><input type="checkbox" id="checkall" /></th>
 												<th>No</th>
 												<th>Aksi</th>
 												<th>Foto</th>
@@ -155,15 +158,15 @@
 												<th>RT</th>
 												<th>Pendidikan dalam KK</th>
 												<th><?= url_order($o, "{$this->controller}/{$func}/1", 7, 'Umur'); ?></th>
-												<th >Pekerjaan</th>
+												<th>Pekerjaan</th>
 												<th>Kawin</th>
 												<th><?= url_order($o, "{$this->controller}/{$func}/1", 11, 'Tgl Peristiwa'); ?></th>
 												<th><?= url_order($o, "{$this->controller}/{$func}/1", 9, 'Tgl Terdaftar'); ?></th>
 											</tr>
 										</thead>
 										<tbody>
-											<?php if ($main): ?>
-												<?php foreach ($main as $key => $data): ?>
+											<?php if ($main) : ?>
+												<?php foreach ($main as $key => $data) : ?>
 													<tr <?= jecho(get_nik($data['nik']), '0', 'class="danger"') ?>>
 														<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
 														<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
@@ -174,13 +177,13 @@
 																	<li>
 																		<a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-list-ol"></i> Lihat Detail Biodata Penduduk</a>
 																	</li>
-																	<?php if ($data['status_dasar'] == 9 && can('u')): ?>
+																	<?php if ($data['status_dasar'] == 9 && can('u')) : ?>
 																		<li>
 																			<a href="#" data-href="<?= site_url("penduduk/kembalikan_status/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-status" data-body="Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan."><i class="fa fa-undo"></i> Kembalikan ke Status HIDUP</a>
 																		</li>
 																	<?php endif; ?>
-																	<?php if ($data['status_dasar'] == 1): ?>
-																		<?php if (can('u')): ?>
+																	<?php if ($data['status_dasar'] == 1) : ?>
+																		<?php if (can('u')) : ?>
 																			<li>
 																				<a href="<?= site_url("penduduk/form/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
 																			</li>
@@ -197,7 +200,7 @@
 																		<li>
 																			<a href="<?= site_url("penduduk/cetak_biodata/{$data['id']}"); ?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
 																		</li>
-																		<?php if (can('h')): ?>
+																		<?php if (can('h')) : ?>
 																			<li>
 																				<a href="#" data-href="<?= site_url("penduduk/delete/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
 																			</li>
@@ -208,7 +211,7 @@
 														</td>
 														<td class="padat">
 															<a href="<?= site_url("penduduk/ambil_foto?foto={$data['foto']}&sex={$data['id_sex']}"); ?>" class="progressive replace penduduk_kecil">
-																<img class="preview " loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Foto Penduduk"/>
+																<img class="preview " loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Foto Penduduk" />
 															</a>
 
 														</td>
@@ -235,7 +238,7 @@
 														<td><?= tgl_indo($data['created_at']); ?></td>
 													</tr>
 												<?php endforeach; ?>
-											<?php else: ?>
+											<?php else : ?>
 												<tr>
 													<td class="text-center" colspan="20">Data Tidak Tersedia</td>
 												</tr>
@@ -256,8 +259,8 @@
 <?php $this->load->view('global/konfirmasi'); ?>
 
 <script>
-	$("input[type=checkbox]").change(function () {
-		var id = $('input[name="id_cb[]"]:checked').map(function () {
+	$("input[type=checkbox]").change(function() {
+		var id = $('input[name="id_cb[]"]:checked').map(function() {
 			return this.value;
 		}).get().join(',');
 
