@@ -48,11 +48,11 @@ class Dpt_model extends Penduduk_model
     {
         if ($this->input->post('tanggal_pemilihan')) {
             $tanggal_pemilihan             = $this->input->post('tanggal_pemilihan');
-            $_SESSION['tanggal_pemilihan'] = $tanggal_pemilihan;
-        } elseif (isset($_SESSION['tanggal_pemilihan'])) {
-            $tanggal_pemilihan = $_SESSION['tanggal_pemilihan'];
+            $this->session->tanggal_pemilihan = $tanggal_pemilihan;
+        } elseif (isset($this->session->tanggal_pemilihan)) {
+            $tanggal_pemilihan = $this->session->tanggal_pemilihan;
         } else {
-            $_SESSION['tanggal_pemilihan'] = date('d-m-Y');
+            $this->session->tanggal_pemilihan = date('d-m-Y');
             $tanggal_pemilihan             = date('d-m-Y');
         }
 
@@ -156,38 +156,49 @@ class Dpt_model extends Penduduk_model
     {
         //Ordering SQL
         switch ($order_by) {
-            case 1: $this->db->order_by('u.nik');
+            case 1:
+                $this->db->order_by('u.nik');
                 break;
 
-            case 2: $this->db->order_by('u.nik DESC');
+            case 2:
+                $this->db->order_by('u.nik DESC');
                 break;
 
-            case 3: $this->db->order_by('u.nama');
+            case 3:
+                $this->db->order_by('u.nama');
                 break;
 
-            case 4: $this->db->order_by('u.nama DESC');
+            case 4:
+                $this->db->order_by('u.nama DESC');
                 break;
 
-            case 5: $this->db->order_by('d.no_kk');
+            case 5:
+                $this->db->order_by('d.no_kk');
                 break;
 
-            case 6: $this->db->order_by('d.no_kk DESC');
+            case 6:
+                $this->db->order_by('d.no_kk DESC');
                 break;
 
-            case 7: $this->db->order_by('umur');
+            case 7:
+                $this->db->order_by('umur');
                 break;
 
-            case 8: $this->db->order_by('umur DESC');
+            case 8:
+                $this->db->order_by('umur DESC');
                 break;
 
                 // Untuk Log Penduduk
-            case 9: $this->db->order_by('log.tgl_peristiwa');
+            case 9:
+                $this->db->order_by('log.tgl_peristiwa');
                 break;
 
-            case 10: $this->db->order_by('log.tgl_peristiwa DESC');
+            case 10:
+                $this->db->order_by('log.tgl_peristiwa DESC');
                 break;
 
-            default: break;
+            default:
+                break;
         }
     }
 
@@ -230,7 +241,7 @@ class Dpt_model extends Penduduk_model
 
         for ($i = 0; $i < count($data); $i++) {
             // Ubah alamat penduduk lepas
-            if (! $data[$i]['id_kk'] || $data[$i]['id_kk'] == 0) {
+            if (!$data[$i]['id_kk'] || $data[$i]['id_kk'] == 0) {
                 $penduduk = $this->db->select('p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt')
                     ->from('tweb_penduduk p')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')

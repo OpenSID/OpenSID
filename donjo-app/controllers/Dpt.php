@@ -35,7 +35,9 @@
  *
  */
 
+use Carbon\Carbon;
 use App\Enums\StatusEnum;
+use App\Models\Pemilihan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -43,6 +45,7 @@ class Dpt extends Admin_Controller
 {
     private $set_page;
     private $list_session;
+    private $tanggal_pemilihan;
 
     public function __construct()
     {
@@ -52,6 +55,8 @@ class Dpt extends Admin_Controller
         $this->sub_modul_ini = 'calon-pemilih';
         $this->set_page      = ['50', '100', '200', [0, 'Semua']];
         $this->list_session  = ['cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umurx', 'umur_min', 'umur_max', 'cacatx', 'menahunx', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'tag_id_card'];
+        $tanggal                  = Pemilihan::status()->orderBy('tanggal')->first()->tanggal ?? Carbon::now();
+        $this->tanggal_pemilihan = Carbon::parse($tanggal)->format('d-m-Y');
     }
 
     public function clear()
@@ -74,6 +79,8 @@ class Dpt extends Admin_Controller
                 $data[$list] = $this->session->{$list} ?: '';
             }
         }
+
+        $this->session->tanggal_pemilihan = $this->session->tanggal_pemilihan ?? $this->tanggal_pemilihan;
 
         if (isset($dusun)) {
             $data['dusun']   = $dusun;
@@ -190,5 +197,121 @@ class Dpt extends Admin_Controller
         $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}/1");
 
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
+    }
+
+    // Pemilihan
+    public function pemilihan()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(Pemilihan::query())
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    $aksi = '';
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('dpt.pemilihanform', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
+
+                    if (can('u')) {
+                        if ($row->status) {
+                            $aksi .= '<a href="' . site_url("dpt/pemilihanstatus/{$row->id}/1") . '" class="btn bg-olive btn-sm" title="Non Aktifkan"><i class="fa fa-star"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . site_url("dpt/pemilihanstatus/{$row->id}/0") . '" class="btn bg-purple btn-sm" title="Aktifkan"><i class="fa fa-star-o"></i></a> ';
+                        }
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . route('dpt.pemilihandelete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->rawColumns(['ceklist', 'aksi'])
+                ->make();
+        }
+
+        return view('admin.pemilihan.index', [
+            'selected_nav' => 'dpt',
+        ]);
+    }
+
+    public function pemilihanform($id = '')
+    {
+        $this->redirect_hak_akses('u');
+
+        if ($id) {
+            $action      = 'Ubah';
+            $form_action = route('dpt.pemilihanupdate', $id);
+            $pemilihan     = Pemilihan::findOrFail($id);
+        } else {
+            $action      = 'Tambah';
+            $form_action = route('dpt.pemilihaninsert');
+            $pemilihan     = null;
+        }
+
+        return view('admin.pemilihan.form', compact('action', 'form_action', 'pemilihan'));
+    }
+
+    public function pemilihaninsert()
+    {
+        $this->redirect_hak_akses('u');
+
+        if (Pemilihan::create(static::pemilihanValidate($this->request))) {
+            redirect_with('success', 'Berhasil Tambah Data', 'dpt/pemilihan');
+        }
+        redirect_with('error', 'Gagal Tambah Data', 'dpt/pemilihan');
+    }
+
+    public function pemilihanUpdate($id = '')
+    {
+        $this->redirect_hak_akses('u');
+
+        $data = Pemilihan::findOrFail($id);
+
+        if ($data->update(static::pemilihanValidate($this->request, $data->id))) {
+            redirect_with('success', 'Berhasil Ubah Data', 'dpt/pemilihan');
+        }
+        redirect_with('error', 'Gagal Ubah Data', 'dpt/pemilihan');
+    }
+
+    public function pemilihanstatus($id = null, $val = 0)
+    {
+        $this->redirect_hak_akses('u');
+
+        $status = Pemilihan::findOrFail($id);
+        $status->update(['status' => ($val == 1) ? 0 : 1]);
+
+        if ($status->update(['status' => ($val == 1) ? 0 : 1])) {
+            redirect_with('success', 'Berhasil Ubah Data', 'dpt/pemilihan');
+        }
+        redirect_with('error', 'Gagal Ubah Data', 'dpt/pemilihan');
+    }
+
+    public function pemilihandelete($id = '')
+    {
+        $this->redirect_hak_akses('h');
+
+        $data = Pemilihan::findOrFail($id);
+
+        if ($data->destroy($this->request['id_cb'] ?? $id)) {
+            redirect_with('success', 'Berhasil Hapus Data', 'dpt/pemilihan');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data', 'dpt/pemilihan');
+    }
+
+    protected static function pemilihanValidate($request = [])
+    {
+        return [
+            'judul'    => nama_terbatas($request['judul']),
+            'tanggal' => date('Y-m-d', strtotime($request['tanggal'])),
+            'keterangan' => $request['keterangan'],
+            'status' => $request['status'],
+        ];
     }
 }

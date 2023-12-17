@@ -35,9 +35,47 @@
  *
  */
 
-header('Content-type: application/octet-stream');
-header('Content-Disposition: attachment; filename=DPT_' . $this->session->tanggal_pemilihan . '.xls');
-header('Pragma: no-cache');
-header('Expires: 0');
+namespace App\Models;
 
-include 'donjo-app/views/dpt/dpt_cetak.php';
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class Pemilihan extends BaseModel
+{
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'pemilihan';
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The fillable with the model.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'judul',
+        'tanggal',
+        'keterangan'
+    ];
+
+    /**
+     * Scope query untuk status
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopeStatus($query, $value = 1)
+    {
+        return $query->where('status', $value);
+    }
+}
