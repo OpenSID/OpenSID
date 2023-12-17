@@ -389,7 +389,6 @@ function sesi_login() {
 	var sessionTimeout;
 
 	function resetSessionTimeout() {
-		console.log('reset')
 		clearTimeout(sessionTimeout);
 		startSessionTimeout();
 	}
