@@ -48,6 +48,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2305');
 
+        $hasil = $hasil && $this->migrasi_motto_desa($hasil);
         $hasil = $hasil && $this->migrasi_2023052351($hasil);
         $hasil = $hasil && $this->migrasi_2023052451($hasil);
         $hasil = $hasil && $this->migrasi_2023052551($hasil);
@@ -60,12 +61,11 @@ class Migrasi_fitur_premium_2306 extends MY_model
 
     protected function migrasi_2023052351($hasil)
     {
-        if (! $this->db
+        if (!$this->db
             ->where('id', 63)
             ->where('modul', 'Klasfikasi Surat')
             ->get('setting_modul')
-            ->result()
-        ) {
+            ->result()) {
             return $hasil;
         }
 
@@ -109,7 +109,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
 
     protected function migrasi_2023052951($hasil)
     {
-        if (! $this->db->field_exists('No_RPJM', 'keuangan_ta_rpjm_visi')) {
+        if (!$this->db->field_exists('No_RPJM', 'keuangan_ta_rpjm_visi')) {
             $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_rpjm_visi', [
                 'No_RPJM' => [
                     'type'       => 'varchar',
@@ -162,6 +162,18 @@ class Migrasi_fitur_premium_2306 extends MY_model
             'attribute'  => 'class="bilangan" placeholder="10"',
             'keterangan' => 'Rentang waktu kehadiran ketika keluar. (satuan: menit)',
             'kategori'   => 'kehadiran',
+        ]);
+    }
+
+    protected function migrasi_motto_desa($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'motto_desa',
+            'judul'      => 'Motto Desa',
+            'value'      => '',
+            'jenis'      => 'text',
+            'attribute'  => '',
+            'keterangan' => 'Motto Desa',
         ]);
     }
 }
