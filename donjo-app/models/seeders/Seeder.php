@@ -95,23 +95,21 @@ class Seeder extends CI_Model
         }
 
         // Ambil data desa dari tracksid
-        $this->load->library('data_publik');
-        $this->data_publik->set_api_url(config_item('server_pantau') . '/index.php/api/wilayah/kodedesa?token=' . config_item('token_pantau') . '&kode=' . $kode_desa, 'kode_desa');
-        $data_desa = $this->data_publik->get_url_content(true);
+        $data_desa = get_data_desa($kode_desa);
 
-        if ($data_desa->header->http_code != 200 || empty($data_desa->body)) {
+        if (null === $data_desa) {
             set_session('error', "Kode desa {$kode_desa} di desa/config/config.php tidak ditemukan di " . config_item('server_pantau'));
         } else {
-            $desa = $data_desa->body;
+            $desa = $data_desa;
             $data = [
-                'nama_desa'         => $desa->nama_desa,
-                'kode_desa'         => $kode_desa,
-                'nama_kecamatan'    => $desa->nama_kec,
-                'kode_kecamatan'    => $desa->kode_kec,
-                'nama_kabupaten'    => $desa->nama_kab,
-                'kode_kabupaten'    => $desa->kode_kab,
-                'nama_propinsi'     => $desa->nama_prov,
-                'kode_propinsi'     => $desa->kode_prov,
+                'nama_desa'         => nama_desa($desa->nama_desa),
+                'kode_desa'         => bilangan($kode_desa),
+                'nama_kecamatan'    => nama_terbatas($desa->nama_kec),
+                'kode_kecamatan'    => bilangan($desa->kode_kec),
+                'nama_kabupaten'    => nama_terbatas($desa->nama_kab),
+                'kode_kabupaten'    => bilangan($desa->kode_kab),
+                'nama_propinsi'     => nama_terbatas($desa->nama_prov),
+                'kode_propinsi'     => bilangan($desa->kode_prov),
                 'nama_kepala_camat' => '',
                 'nip_kepala_camat'  => '',
             ];

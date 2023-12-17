@@ -209,6 +209,7 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
                 // Tidak ada data keluarga
                 continue;
             }
+
             // Import data sheet ini mulai baris pertama
             for ($i = 1; $i <= $baris; $i++) {
                 // Cari keluarga berikutnya
@@ -222,6 +223,7 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
                 $total_keluarga++;
                 // Pergi ke data anggota keluarga
                 $i = $i + 8;
+
                 // Proses setiap anggota keluarga
                 while (trim($data_sheet[$i][2]) != '' && $i <= $baris) {
                     if (! is_numeric(trim($data_sheet[$i][2]))) {

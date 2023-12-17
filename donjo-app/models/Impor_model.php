@@ -506,6 +506,7 @@ class Impor_model extends CI_Model
         }
 
         $data['status'] = '1';  // penduduk impor dianggap aktif
+
         // Jangan masukkan atau update isian yang kosong
         foreach ($data as $key => $value) {
             if (empty($value)) {
@@ -713,58 +714,61 @@ class Impor_model extends CI_Model
                     continue;
                 }
 
-                foreach ($sheet->getRowIterator() as $row) {
-                    $baris_data++;
+                $data_excel = collect($sheet->getRowIterator())->map(static function ($row) {
+                    return collect($row->getCells())->map(static function ($cell) {
+                        return $cell->getValue();
+                    });
+                })
+                    ->chunk(500)
+                    ->toArray();
 
-                    $rowData = [];
-                    $cells   = $row->getCells();
+                foreach ($data_excel as $row) {
+                    foreach ($row as $rowData) {
+                        $baris_data++;
 
-                    foreach ($cells as $cell) {
-                        $rowData[] = $cell->getValue();
-                    }
+                        // Baris kedua = '###' menunjukkan telah sampai pada baris data terakhir
+                        if ($rowData[1] == '###') {
+                            break;
+                        }
 
-                    // Baris kedua = '###' menunjukkan telah sampai pada baris data terakhir
-                    if ($rowData[1] == '###') {
-                        break;
-                    }
+                        // Baris pertama diabaikan, berisi nama kolom
+                        if (! $baris_pertama) {
+                            $baris_pertama = true;
+                            $daftar_kolom  = $rowData;
 
-                    // Baris pertama diabaikan, berisi nama kolom
-                    if (! $baris_pertama) {
-                        $baris_pertama = true;
-                        $daftar_kolom  = $rowData;
-
-                        foreach ($daftar_kolom as $kolom) {
-                            if (! in_array($kolom, $this->daftar_kolom)) {
-                                return set_session('error', 'Data penduduk gagal diimpor, nama kolom ' . $kolom . ' tidak sesuai.');
+                            foreach ($daftar_kolom as $kolom) {
+                                if (! in_array($kolom, $this->daftar_kolom)) {
+                                    return set_session('error', 'Data penduduk gagal diimpor, nama kolom ' . $kolom . ' tidak sesuai.');
+                                }
                             }
+
+                            continue;
                         }
 
-                        continue;
-                    }
+                        $this->db->query('SET character_set_connection = utf8');
+                        $this->db->query('SET character_set_client = utf8');
+                        $isi_baris      = $this->get_isi_baris($daftar_kolom, $rowData);
+                        $error_validasi = $this->data_import_valid($isi_baris);
+                        if (empty($error_validasi)) {
+                            $this->tulis_tweb_wil_clusterdesa($isi_baris);
+                            $this->tulis_tweb_keluarga($isi_baris);
 
-                    $this->db->query('SET character_set_connection = utf8');
-                    $this->db->query('SET character_set_client = utf8');
-                    $isi_baris      = $this->get_isi_baris($daftar_kolom, $rowData);
-                    $error_validasi = $this->data_import_valid($isi_baris);
-                    if (empty($error_validasi)) {
-                        $this->tulis_tweb_wil_clusterdesa($isi_baris);
-                        $this->tulis_tweb_keluarga($isi_baris);
+                            // Untuk pesan jika data yang sama akan diganti
+                            if ($index = array_search($isi_baris['nik'], $data_penduduk) && $isi_baris['nik'] != '0') {
+                                $ganda++;
+                                $pesan .= $baris_data . ') NIK ' . $isi_baris['nik'] . ' sama dengan baris ' . ($index + 2) . '<br>';
+                            }
+                            $data_penduduk[] = $isi_baris['nik'];
 
-                        // Untuk pesan jika data yang sama akan diganti
-                        if ($index = array_search($isi_baris['nik'], $data_penduduk) && $isi_baris['nik'] != '0') {
-                            $ganda++;
-                            $pesan .= $baris_data . ') NIK ' . $isi_baris['nik'] . ' sama dengan baris ' . ($index + 2) . '<br>';
-                        }
-                        $data_penduduk[] = $isi_baris['nik'];
-
-                        $this->tulis_tweb_penduduk($isi_baris);
-                        if ($error = $this->error_tulis_penduduk) {
+                            $this->tulis_tweb_penduduk($isi_baris);
+                            if ($error = $this->error_tulis_penduduk) {
+                                $gagal++;
+                                $pesan .= $baris_data . ') ' . $error['message'] . '<br>';
+                            }
+                        } else {
                             $gagal++;
-                            $pesan .= $baris_data . ') ' . $error['message'] . '<br>';
+                            $pesan .= $baris_data . ') ' . $error_validasi . '<br>';
                         }
-                    } else {
-                        $gagal++;
-                        $pesan .= $baris_data . ') ' . $error_validasi . '<br>';
                     }
                 }
 

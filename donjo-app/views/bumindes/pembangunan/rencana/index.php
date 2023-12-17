@@ -64,7 +64,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<div class="box-body">
 			<div class="table-responsive">
 				<table id="tabel-pembangunan" class="table table-bordered dataTable table-striped table-hover tabel-daftar">
-					<thead class="bg-gray disabled color-palette">
+					<thead class="bg-gray color-palette">
 						<tr>
 							<th rowspan="2">NOMOR URUT</th>
 							<th rowspan="2">NAMA PROYEK / KEGIATAN</th>

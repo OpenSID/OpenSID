@@ -211,6 +211,7 @@ class Bip2016_model extends Impor_model
                 // Tidak ada data keluarga
                 continue;
             }
+
             // Import data sheet ini mulai baris pertama
             for ($i = 1; $i <= $baris; $i++) {
                 // Baris-baris keterangan ada di akhir berkas BIP 2016. Selesai apabila ketemu.
@@ -229,6 +230,7 @@ class Bip2016_model extends Impor_model
                 $total_keluarga++;
                 // Pergi ke data anggota keluarga
                 $i = $i + 1;
+
                 // Proses setiap anggota keluarga
                 while (strpos($data_sheet[$i][1], 'No. KK') !== 0 && $i <= $baris) {
                     if (! is_numeric($data_sheet[$i][1])) {

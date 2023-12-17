@@ -84,6 +84,12 @@ class Config extends BaseModel
         'warna',
         'created_by',
         'updated_by',
+
+        // Field database lama
+        'nama_kepala_desa',
+        'nip_kepala_desa',
+        'g_analitic',
+        'pamong_id',
     ];
 
     /**
@@ -153,5 +159,30 @@ class Config extends BaseModel
         }
 
         return $this->attributes['kantor_desa'];
+    }
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(static function ($model) {
+            // $model->app_key = get_app_key();
+        });
+
+        static::updating(static function ($model) {
+            static::clearCache();
+        });
+    }
+
+    // Hapus cache config dan modul
+    private static function clearCache()
+    {
+        // hapus_cache('identitas_desa');
+        hapus_cache('status_langganan');
+        hapus_cache('_cache_modul');
     }
 }

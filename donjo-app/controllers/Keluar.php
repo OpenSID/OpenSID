@@ -262,6 +262,9 @@ class Keluar extends Admin_Controller
             $log_surat = LogSurat::where('id', '=', $id)->first();
             $log_surat->update([$current => 1,  $next => 0, 'log_verifikasi' => $log]);
 
+            // hapus surat pdf agar bisa digenerate ulang.
+            unlink(FCPATH . LOKASI_ARSIP . $log_surat->nama_surat);
+
             $kirim_telegram = User::whereHas('pamong', static function ($query) use ($next) {
                 if ($next == 'verifikasi_sekdes') {
                     return $query->where('pamong_ub', '=', '1');
@@ -620,7 +623,8 @@ class Keluar extends Admin_Controller
                 ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static function ($q) {
                     return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
                 })->count(),
-            'tolak' => LogSurat::whereNull('deleted_at')->where('verifikasi_operator', '=', '-1')->count(),
+            'tolak'     => LogSurat::whereNull('deleted_at')->where('verifikasi_operator', '=', '-1')->count(),
+            'kecamatan' => count($this->data_kecamatan()),
         ];
     }
 
@@ -633,7 +637,51 @@ class Keluar extends Admin_Controller
 
     public function perbaiki()
     {
-        $this->db->update('log_surat', ['verifikasi_operator' => 1, 'verifikasi_sekdes' => 1, 'verifikasi_kades' => 1]);
+        $this->db->update('log_surat', ['status' => LogSurat::CETAK, 'verifikasi_operator' => 1, 'verifikasi_sekdes' => 1, 'verifikasi_kades' => 1]);
         redirect('keluar');
+    }
+
+    public function kecamatan()
+    {
+        $this->tab_ini = 13;
+
+        if (setting('verifikasi_kades') || setting('verifikasi_sekdes')) {
+            $data['operator'] = ($this->isAdmin->jabatan_id == 1 || $this->isAdmin->jabatan_id == 2) ? false : true;
+            $data['widgets']  = $this->widget();
+        }
+
+        $data['main'] = $this->data_kecamatan();
+
+        $this->render('surat/kecamatan', $data);
+    }
+
+    private function data_kecamatan()
+    {
+        $desa = kode_wilayah($this->header['desa']['kode_desa']);
+
+        try {
+            $client = new \GuzzleHttp\Client([
+                'base_uri' => "{$this->setting->api_opendk_server}/api/v1/surat?desa_id={$desa}",
+            ]);
+
+            $response = $client->get('', [
+                'headers' => [
+                    'Accept'        => 'application/json',
+                    'Authorization' => "Bearer {$this->setting->api_opendk_key}",
+                ],
+            ]);
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            log_message('error', $e);
+
+            return null;
+        } catch (\Exception $exception) {
+            log_message('error', $exception);
+
+            return null;
+        }
+
+        $surat = json_decode($response->getBody()->getContents());
+
+        return $surat->data;
     }
 }

@@ -50,7 +50,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				Tampilkan
 				<select class="form-control input-sm" name="per_page" onchange="$('#paging').submit()">
 					<?php foreach ($set_page as $set): ?>
-						<option value="<?= $set; ?>" <?= selected($per_page = $per_page ?: $paging->per_page, $set); ?>><?= $set; ?></option>
+						<?php if (is_array($set)) : ?>
+							<?php [$number, $string] = $set ?>
+							<option value="<?= $number; ?>" <?= $this->session->per_page == 0 ? 'selected' : '' ?>><?= $string; ?></option>
+							<?php continue ?>
+						<?php else: ?>
+							<option value="<?= $set; ?>" <?= selected($per_page = $per_page ?: $paging->per_page, $set); ?>><?= $set; ?></option>
+						<?php endif ?>
 					<?php endforeach; ?>
 				</select>
 				Dari <strong><?= $paging->num_rows; ?></strong> Total Data

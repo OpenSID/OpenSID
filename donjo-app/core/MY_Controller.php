@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\Anjungan;
 use App\Models\Config;
 use App\Models\GrupAkses;
 use App\Models\LogSurat;
@@ -93,12 +92,6 @@ class MY_Controller extends CI_Controller
 
         // Untuk anjungan
         if (Schema::hasColumn('anjungan', 'tipe') && Schema::hasColumn('anjungan', 'status_alasan')) {
-            if (! cek_anjungan() && Anjungan::exists()) {
-                try {
-                    Anjungan::tipe(1)->update(['status' => 0, 'status_alasan' => 'tidak berlangganan anjungan']);
-                } catch (Exception $e) {
-                }
-            }
             $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
         }
 
@@ -294,7 +287,7 @@ class Admin_Controller extends MY_Controller
 
         $this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
         $this->load->model('modul_model');
-        if (! $this->modul_model->modul_aktif($this->controller)) {
+        if (! $this->modul_model->modul_aktif($this->controller) && $this->controller != 'pengguna') {
             session_error('Fitur ini tidak aktif');
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -335,11 +328,13 @@ class Admin_Controller extends MY_Controller
                 ->count();
         }
 
-        // cek langganan premium
-        $info_langganan = $this->cache->file->get_metadata('status_langganan');
+        if (! config_item('demo_mode')) {
+            // cek langganan premium
+            $info_langganan = $this->cache->file->get_metadata('status_langganan');
 
-        if ((strtotime('+1 day', $info_langganan['mtime']) < strtotime('now')) || ($this->cache->file->get_metadata('status_langganan') == false && $this->setting->layanan_opendesa_token != null)) {
-            $this->header['perbaharui_langganan'] = true;
+            if ((strtotime('+30 day', $info_langganan['mtime']) < strtotime('now')) || ($this->cache->file->get_metadata('status_langganan') == false && $this->setting->layanan_opendesa_token != null)) {
+                $this->header['perbaharui_langganan'] = true;
+            }
         }
     }
 

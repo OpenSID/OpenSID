@@ -89,16 +89,6 @@ class BukuKepuasan extends BaseModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
-    public function pertanyaan()
-    {
-        return $this->hasOne(BukuPertanyaan::class, 'id', 'id_pertanyaan');
-    }
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
     public function tamu()
     {
         return $this->hasOne(BukuTamu::class, 'id', 'id_nama');

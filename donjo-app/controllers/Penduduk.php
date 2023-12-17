@@ -52,7 +52,7 @@ class Penduduk extends Admin_Controller
 
         $this->modul_ini     = 'kependudukan';
         $this->sub_modul_ini = 'penduduk';
-        $this->_set_page     = ['50', '100', '200'];
+        $this->_set_page     = ['50', '100', '200', [0, 'Semua']];
         $this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan', 'nik_sementara', 'tag_id_card'];
     }
 
@@ -116,6 +116,7 @@ class Penduduk extends Admin_Controller
         $data['list_status_dasar']    = $this->referensi_model->list_data('tweb_status_dasar');
         $data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
         $data['list_jenis_kelamin']   = $this->referensi_model->list_data('tweb_penduduk_sex');
+        $data['pesan_hapus']          = 'Hanya lakukan hapus penduduk hanya jika ada kesalahan saat pengisian data atau penduduk tersebut tidak akan ditambahkan kembali. Apakah Anda yakin ingin menghapus data ini?';
 
         $this->render('sid/kependudukan/penduduk', $data);
     }
@@ -358,6 +359,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $id = $this->penduduk_model->insert();
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         if ($_SESSION['success'] == -1) {
             $_SESSION['dari_internal'] = true;
             redirect("{$this->controller}/form");
@@ -370,6 +372,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->penduduk_model->update($id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         if ($_SESSION['success'] == -1) {
             $_SESSION['dari_internal'] = true;
             redirect("{$this->controller}/form/{$p}/{$o}/{$id}");
@@ -382,6 +385,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
         $this->penduduk_model->delete($id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
@@ -390,6 +394,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
         $this->penduduk_model->delete_all();
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
@@ -569,6 +574,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->penduduk_model->update_status_dasar($id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
@@ -577,13 +583,14 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->penduduk_model->kembalikan_status($id);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
+    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0)
     {
-        $data['main'] = $this->penduduk_model->list_data($o, 0);
+        $data['main'] = $this->penduduk_model->list_data($o, $page)['main'];
 
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;
@@ -912,12 +919,12 @@ class Penduduk extends Admin_Controller
         $this->load->view('sid/kependudukan/ajax_search_kumpulan_nik', $data);
     }
 
-    public function ajax_cetak($o = 0, $aksi = '')
+    public function ajax_cetak($page = 1, $o = 0, $aksi = '')
     {
         $data['o']                   = $o;
         $data['aksi']                = $aksi;
-        $data['form_action']         = site_url("{$this->controller}/cetak/{$o}/{$aksi}");
-        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$o}/{$aksi}/1");
+        $data['form_action']         = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}?id_cb={$this->input->get('id_cb')}");
+        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}/1?id_cb={$this->input->get('id_cb')}");
 
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
     }
@@ -991,6 +998,7 @@ class Penduduk extends Admin_Controller
         $this->redirect_hak_akses('u', '', '', true);
         $hapus = isset($_POST['hapus_data']);
         $this->impor_model->impor_excel($hapus);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect('penduduk/impor');
     }
 

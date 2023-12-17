@@ -76,26 +76,6 @@ class BukuTamu extends BaseModel
     }
 
     /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function bidang()
-    {
-        return $this->hasOne(RefJabatan::class, 'id', 'id_bidang');
-    }
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function keperluan()
-    {
-        return $this->hasOne(BukuKeperluan::class, 'id', 'id_keperluan');
-    }
-
-    /**
      * Getter untuk url_foto
      *
      * @return string
@@ -125,5 +105,25 @@ class BukuTamu extends BaseModel
         }
 
         return $query;
+    }
+
+    /**
+     * Setter untuk bidang
+     *
+     * @param mixed $value
+     */
+    public function setBidangAttribute($value)
+    {
+        $this->attributes['bidang'] = RefJabatan::find($value)->nama ?? null;
+    }
+
+    /**
+     * Setter untuk keperluan
+     *
+     * @param mixed $value
+     */
+    public function setKeperluanAttribute($value)
+    {
+        $this->attributes['keperluan'] = BukuKeperluan::find($value)->keperluan ?? null;
     }
 }

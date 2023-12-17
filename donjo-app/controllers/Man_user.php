@@ -47,16 +47,19 @@ class Man_user extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('form_validation');
+        $this->form_validation->set_error_delimiters('', '');
         $this->modul_ini     = 'pengaturan';
         $this->sub_modul_ini = 'pengguna';
-        $this->_set_page     = ['5', '50', '100', '200'];
-        $this->_list_session = ['cari', 'filter'];
+        $this->_set_page     = ['10', '50', '100', '200'];
+        $this->_list_session = ['cari', 'filter', 'group'];
     }
 
     public function clear()
     {
         $this->session->unset_userdata($this->_list_session);
         $this->session->per_page = $this->_set_page[0];
+        $this->session->filter   = 'active';
 
         redirect('man_user');
     }
@@ -76,12 +79,16 @@ class Man_user extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data['func']       = 'index';
-        $data['set_page']   = $this->_set_page;
-        $data['per_page']   = $this->session->per_page;
-        $data['paging']     = $this->user_model->paging($p, $o);
-        $data['main']       = $this->user_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']    = $this->user_model->autocomplete();
+        $data['func']     = 'index';
+        $data['set_page'] = $this->_set_page;
+        $data['per_page'] = $this->session->per_page;
+        $data['paging']   = $this->user_model->paging($p, $o);
+        $data['main']     = $this->user_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+        $data['keyword']  = $this->user_model->autocomplete();
+        $data['status']   = [
+            ['id' => 'active', 'nama' => 'Aktif'],
+            ['id' => 'inactive', 'nama' => 'Tidak Aktif'],
+        ];
         $data['user_group'] = $this->referensi_model->list_data('user_grup');
 
         $this->render('man_user/manajemen_user_table', $data);
@@ -119,13 +126,14 @@ class Man_user extends Admin_Controller
         redirect('man_user');
     }
 
-    public function filter()
+    public function filter($filter)
     {
-        $filter = $this->input->post('filter');
-        if ($filter != 0) {
-            $_SESSION['filter'] = $filter;
+        $value = $this->input->post($filter);
+
+        if ($value !== '') {
+            $this->session->{$filter} = $value;
         } else {
-            unset($_SESSION['filter']);
+            $this->session->unset_userdata($filter);
         }
         redirect('man_user');
     }
@@ -159,8 +167,6 @@ class Man_user extends Admin_Controller
 
     private function set_form_validation()
     {
-        $this->load->library('form_validation');
-        $this->form_validation->set_error_delimiters('', '');
         $this->form_validation->set_rules('password', 'Kata Sandi Baru', 'required|callback_syarat_sandi');
         $this->form_validation->set_message('syarat_sandi', 'Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil');
     }
@@ -175,7 +181,9 @@ class Man_user extends Admin_Controller
     public function update($p = 1, $o = 0, $id = '')
     {
         $this->redirect_hak_akses('u');
-        $this->set_form_validation();
+        if ($this->input->post('password') != '') {
+            $this->set_form_validation();
+        }
         $this->form_validation->set_rules('username', 'Username', "is_unique[user.username,id,{$id}]");
         $this->form_validation->set_rules('email', 'Email', "is_unique[user.email,id,{$id}]");
         $this->form_validation->set_rules([
@@ -191,6 +199,7 @@ class Man_user extends Admin_Controller
 
         if ($this->form_validation->run() !== true) {
             session_error(trim(validation_errors()));
+
             redirect("man_user/form/{$p}/{$o}/{$id}");
         } else {
             $this->user_model->update($id);

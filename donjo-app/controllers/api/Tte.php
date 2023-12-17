@@ -44,7 +44,7 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Tte extends Premium
+class Tte extends MY_Controller
 {
     /**
      * @var \GuzzleHttp\Client
@@ -79,8 +79,6 @@ class Tte extends Premium
 
     /**
      * Periksa status nik.
-     *
-     * @param string $nik
      *
      * @return object
      */

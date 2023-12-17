@@ -3,6 +3,7 @@ desa/*
 
 # Abaikan backup_inkremental
 backup_inkremental/*
+!backup_inkremental/index.html
 
 # Abaikan file
 *.log
@@ -15,7 +16,6 @@ rector.php
 .htaccess
 *.sql
 mitra
-.php-cs-fixer.php
 
 # Abaikan file cache milik phpintel (plugin sublime text)
 .phpintel/*
@@ -55,10 +55,9 @@ doc/
 docs/
 example/
 examples/
-tools/
+/tools/
 
 vendor/libreoffice/*
 vendor/mikey179/*
-
-# Struktur Laravel
-storage/framework/
+.vscode/*
+/node_modules

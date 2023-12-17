@@ -130,11 +130,13 @@ class Buku_tamu extends MY_Controller
         if (! $tamu || ! in_array($jawaban, JawabanKepuasanEnum::keys())) {
             set_session('error', 'Jawaban Gagal Disimpan');
         } else {
-            $pertanyaan = BukuKepuasan::whereIdNama($id)->pluck('id_pertanyaan');
+            $cek_pertanyaan = BukuKepuasan::whereIdNama($id)->pluck('id_pertanyaan');
+            $pertanyaan     = BukuPertanyaan::whereNotIn('id', $cek_pertanyaan)->whereStatus(StatusEnum::YA)->first();
             BukuKepuasan::create([
-                'id_nama'       => $tamu->id,
-                'id_pertanyaan' => BukuPertanyaan::whereNotIn('id', $pertanyaan)->whereStatus(StatusEnum::YA)->first()->id,
-                'id_jawaban'    => $jawaban,
+                'id_nama'           => $tamu->id,
+                'id_pertanyaan'     => $pertanyaan->id,
+                'pertanyaan_statis' => $pertanyaan->pertanyaan,
+                'id_jawaban'        => $jawaban,
             ]);
 
             // jika masih ada pertanyaan
@@ -167,10 +169,10 @@ class Buku_tamu extends MY_Controller
             'nama'          => htmlentities($request['nama']),
             'telepon'       => htmlentities($request['telepon']),
             'instansi'      => htmlentities($request['instansi']),
-            'jenis_kelamin' => htmlentities($request['jenis_kelamin']),
+            'jenis_kelamin' => bilangan($request['jenis_kelamin']),
             'alamat'        => htmlentities($request['alamat']),
-            'id_bidang'     => htmlentities($request['id_bidang']),
-            'id_keperluan'  => htmlentities($request['id_keperluan']),
+            'bidang'        => bilangan($request['id_bidang']),
+            'keperluan'     => bilangan($request['id_keperluan']),
             'foto'          => $this->foto($request['foto']),
         ];
     }

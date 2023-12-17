@@ -41,6 +41,23 @@ use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property CI_Benchmark        $benchmark
+ * @property CI_Config           $config
+ * @property CI_DB_query_builder $db
+ * @property CI_DB_forge         $dbforge
+ * @property CI_Input            $input
+ * @property CI_Lang             $lang
+ * @property CI_Loader           $load
+ * @property CI_Loader           $loader
+ * @property CI_log              $log
+ * @property CI_Output           $output
+ * @property CI_Router           $router
+ * @property CI_Security         $security
+ * @property CI_Session          $session
+ * @property CI_URI              $uri
+ * @property CI_Utf8             $utf8
+ */
 class User_model extends CI_Model
 {
     public const GROUP_REDAKSI = 3;
@@ -115,7 +132,7 @@ class User_model extends CI_Model
 
         if ($pwMasihMD5) {
             // Ganti pass md5 jadi bcrypt
-            $pwBcrypt = $this->generatePasswordHash($password);
+            $pwBcrypt = generatePasswordHash($password);
 
             // Modifikasi panjang karakter di kolom user.password menjadi 100 untuk -
             // backward compatibility dengan kolom di database lama yang hanya 40 karakter.
@@ -221,36 +238,47 @@ class User_model extends CI_Model
 
     private function search_sql()
     {
-        if (isset($_SESSION['cari'])) {
-            $keyword    = $_SESSION['cari'];
-            $keyword    = '%' . $this->db->escape_like_str($keyword) . '%';
-            $search_sql = " AND (u.username LIKE '{$keyword}' OR u.nama LIKE '{$keyword}')";
-
-            return $search_sql;
+        if ($cari = $this->session->cari) {
+            $this->db
+                ->group_start()
+                ->like('u.username', $cari)
+                ->or_like('u.nama', $cari)
+                ->group_end();
         }
+
+        return $this->db;
     }
 
     private function filter_sql()
     {
-        if (isset($_SESSION['filter'])) {
-            $filter     = $_SESSION['filter'];
-            $filter_sql = " AND u.id_grup = {$filter}";
+        if ($filter = $this->session->filter) {
+            switch ($filter) {
+                case 'active':
+                    $this->db->where('u.active', 1);
+                    break;
 
-            return $filter_sql;
+                case 'inactive':
+                    $this->db->where('u.active', 0);
+                    break;
+
+                default:
+                    break;
+            }
         }
+
+        if ($group = $this->session->group) {
+            $this->db->where('u.id_grup', $group);
+        }
+
+        return $this->db;
     }
 
     public function paging($page = 1, $o = 0)
     {
-        $sql      = 'SELECT COUNT(*) AS jml ' . $this->list_data_sql();
-        $query    = $this->db->query($sql);
-        $row      = $query->row_array();
-        $jml_data = $row['jml'];
-
         $this->load->library('paging');
         $cfg['page']     = $page;
         $cfg['per_page'] = $this->session->per_page;
-        $cfg['num_rows'] = $jml_data;
+        $cfg['num_rows'] = $this->list_data_sql()->select('count(u.id) as jml')->get()->row()->jml;
         $this->paging->init($cfg);
 
         return $this->paging;
@@ -258,11 +286,14 @@ class User_model extends CI_Model
 
     private function list_data_sql()
     {
-        $sql = ' FROM user u LEFT JOIN tweb_desa_pamong p ON u.pamong_id = p.pamong_id, user_grup g WHERE u.id_grup = g.id ';
-        $sql .= $this->search_sql();
-        $sql .= $this->filter_sql();
+        $this->db->from('user u')
+            ->join('tweb_desa_pamong p', 'u.pamong_id = p.pamong_id', 'left')
+            ->join('user_grup g', 'u.id_grup = g.id');
 
-        return $sql;
+        $this->search_sql();
+        $this->filter_sql();
+
+        return $this->db;
     }
 
     public function list_data($order = 0, $offset = 0, $limit = 500)
@@ -270,41 +301,40 @@ class User_model extends CI_Model
         // Ordering sql
         switch ($order) {
             case 1:
-                $order_sql = ' ORDER BY u.username';
+                $this->db->order_by('u.username');
                 break;
 
             case 2:
-                $order_sql = ' ORDER BY u.username DESC';
+                $this->db->order_by('u.username', 'desc');
                 break;
 
             case 3:
-                $order_sql = ' ORDER BY u.nama';
+                $this->db->order_by('u.nama');
                 break;
 
             case 4:
-                $order_sql = ' ORDER BY u.nama DESC';
+                $this->db->order_by('u.nama', 'desc');
                 break;
 
             case 5:
-                $order_sql = ' ORDER BY g.nama';
+                $this->db->order_by('g.nama');
                 break;
 
             case 6:
-                $order_sql = ' ORDER BY g.nama DESC';
+                $this->db->order_by('g.nama', 'desc');
                 break;
 
             default:
-                $order_sql = ' ORDER BY u.username';
+                $this->db->order_by('u.username');
         }
-        // Paging sql
-        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
-        // Query utama
-        $sql = 'SELECT u.*, p.pamong_status, g.nama as grup ' . $this->list_data_sql();
-        $sql .= $order_sql;
-        $sql .= $paging_sql;
 
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        $this->list_data_sql();
+
+        $data = $this->db
+            ->select('u.*, p.pamong_status, g.nama as grup')
+            ->limit($limit, $offset)
+            ->get()
+            ->result_array();
 
         // Formating output
         $j = $offset;
@@ -333,7 +363,7 @@ class User_model extends CI_Model
             $data['pamong_id'] = null;
         }
 
-        $pwHash           = $this->generatePasswordHash($data['password']);
+        $pwHash           = generatePasswordHash($data['password']);
         $data['password'] = $pwHash;
         $data['session']  = md5(now());
 
@@ -352,6 +382,7 @@ class User_model extends CI_Model
     {
         $data             = [];
         $data['password'] = $post['password'];
+        $data['active']   = (int) $post['aktif'];
         if (isset($post['username']) && ! empty($post['username'])) {
             $data['username'] = alfanumerik($post['username']);
         }
@@ -408,16 +439,13 @@ class User_model extends CI_Model
             redirect('man_user');
         }
 
-        if (
-            empty($data['username']) || empty($data['password'])
-                                     || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())
-        ) {
+        if (empty($data['username']) || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())) {
             session_error(' -> Nama, Username dan Kata Sandi harus diisi');
             redirect('man_user');
         }
 
         // radiisi menandakan password tidak diubah
-        if ($data['password'] == 'radiisi') {
+        if ($data['password'] == '') {
             unset($data['password']);
         }
         // Untuk demo jangan ubah username atau password
@@ -425,7 +453,7 @@ class User_model extends CI_Model
             unset($data['username'], $data['password']);
         }
         if ($data['password']) {
-            $pwHash           = $this->generatePasswordHash($data['password']);
+            $pwHash           = generatePasswordHash($data['password']);
             $data['password'] = $pwHash;
         }
 
@@ -442,6 +470,12 @@ class User_model extends CI_Model
         if (! $this->db->where('id', $idUser)->update('user', $data)) {
             session_error(' -> Gagal memperbarui data di database');
         }
+
+        // perbaharui session login
+        if ((string) $idUser === (string) $this->session->isAdmin->id) {
+            $this->session->isAdmin = User::find($idUser);
+        }
+
         $this->cache->file->delete("{$idUser}_cache_modul");
     }
 
@@ -568,38 +602,13 @@ class User_model extends CI_Model
             else {
                 $this->session->success = 1;
                 // Buat hash password
-                $pwHash = $this->generatePasswordHash($pass_baru);
+                $pwHash = generatePasswordHash($pass_baru);
                 // Cek kekuatan hash lolos, simpan ke array data
                 $data['password'] = $pwHash;
             }
         }
 
         return $data;
-    }
-
-    /**
-     * Update user's settings
-     *
-     * @param int $id Id user di database
-     *
-     * @return void
-     */
-    public function update_setting($id = 0)
-    {
-        $data = $this->periksa_input_password($id);
-
-        $data['nama']           = alfanumerik_spasi($this->input->post('nama'));
-        $data['notif_telegram'] = (int) $this->input->post('notif_telegram');
-        $data['id_telegram']    = alfanumerik(empty($this->input->post('id_telegram')) ? 0 : $this->input->post('id_telegram'));
-
-        // Update foto
-        $data['foto'] = $this->urusFoto($id);
-        $hasil        = $this->db->where('id', $id)->update('user', $data);
-
-        // Untuk Blade
-        $this->session->isAdmin = User::findOrFail($id);
-
-        status_sukses($hasil, true);
     }
 
     public function list_grup()
@@ -615,33 +624,12 @@ class User_model extends CI_Model
     //!===========================================================
 
     /**
-     * Buat hash password (bcrypt) dari string sebuah password
-     *
-     * @param  [type]  $string  [description]
-     *
-     * @return  [type]  [description]
-     */
-    private function generatePasswordHash($string)
-    {
-        // Pastikan inputnya adalah string
-        $string = is_string($string) ? $string : (string) $string;
-        // Buat hash password
-        $pwHash = password_hash($string, PASSWORD_BCRYPT);
-        // Cek kekuatan hash, regenerate jika masih lemah
-        if (password_needs_rehash($pwHash, PASSWORD_BCRYPT)) {
-            $pwHash = password_hash($string, PASSWORD_BCRYPT);
-        }
-
-        return $pwHash;
-    }
-
-    /**
      * - success: nama berkas yang diunggah
      * - fail: nama berkas lama, kalau ada
      *
      * @param mixed $idUser
      */
-    private function urusFoto($idUser = '')
+    public function urusFoto($idUser = '')
     {
         if ($idUser) {
             $berkasLama       = $this->db->select('foto')->where('id', $idUser)->get('user')->row();

@@ -50,7 +50,7 @@ class Anjungan extends Web_Controller
         parent::__construct();
         $this->load->helper('web');
         $this->load->model('pamong_model');
-        if ($this->cek_anjungan['tipe'] != 1) {
+        if (! cek_anjungan() || $this->cek_anjungan['tipe'] != 1) {
             redirect('layanan-mandiri/beranda');
         }
     }

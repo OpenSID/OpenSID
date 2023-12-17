@@ -121,7 +121,10 @@ class Database_model extends MY_Model
         '23.06'   => ['migrate' => 'migrasi_2306_ke_2307', 'nextVersion' => '23.07'],
         '23.07'   => ['migrate' => 'migrasi_2307_ke_2308', 'nextVersion' => '23.08'],
         '23.08'   => ['migrate' => 'migrasi_2308_ke_2309', 'nextVersion' => '23.09'],
-        '23.09'   => ['migrate' => 'migrasi_2309_ke_2310', 'nextVersion' => null],
+        '23.09'   => ['migrate' => 'migrasi_2309_ke_2310', 'nextVersion' => '23.10'],
+        '23.10'   => ['migrate' => 'migrasi_2310_ke_2311', 'nextVersion' => '23.11'],
+        '23.11'   => ['migrate' => 'migrasi_2311_ke_2312', 'nextVersion' => '23.12'],
+        '23.12'   => ['migrate' => 'migrasi_2312_ke_2401', 'nextVersion' => null],
     ];
 
     // versi lain
@@ -258,6 +261,9 @@ class Database_model extends MY_Model
         if (Schema::hasColumn('migrasi', 'premium')) {
             Migrasi::where('versi_database', '=', VERSI_DATABASE)->update(['premium' => $this->session->daftar_migrasi]);
         }
+
+        $index = file_get_contents('https://raw.githubusercontent.com/OpenSID/OpenSID/umum/index.php');
+        file_put_contents(FCPATH . 'index.php', $index);
 
         log_message('notice', 'Versi database sudah terbaru');
     }
@@ -3502,6 +3508,7 @@ class Database_model extends MY_Model
                 'surat_permohonan_cerai',
                 'surat_ket_rujuk_cerai',
             ];
+
             // Jenis surat yang bukan bagian rilis sistem sudah otomatis berisi nilai default (yaitu, 2)
             foreach ($surat_sistem as $url_surat) {
                 $this->db->where('url_surat', $url_surat)->update('tweb_surat_format', ['jenis' => 1]);

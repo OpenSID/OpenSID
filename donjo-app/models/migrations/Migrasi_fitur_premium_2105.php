@@ -501,6 +501,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
                 'updated_by' => ['type' => 'INT', 'constraint' => 11, 'null' => false],
             ]);
         }
+
         // Grup tambahan
         return $hasil && $this->db->where('id >', 4)->update('user_grup', ['jenis' => 2]);
     }

@@ -80,11 +80,24 @@
                                 <label class="col-sm-3 control-label" for="password">Kata Sandi</label>
                                 <div class="col-sm-8">
                                     <div class="input-group">
-                                        <input id="password" name="password" class="form-control input-sm required pwdLengthNist_atau_kosong" type="password" placeholder="Kata Sandi" <?php if ($user) : ?>value="radiisi" <?php endif ?> autocomplete="off"></input>
+                                        <input id="password" name="password" class="form-control input-sm pwdLengthNist_atau_kosong <?= ($user) ? '' : 'required' ?>" type="password" placeholder="<?= ($user) ? 'Ubah Password' : 'Password' ?>" autocomplete="off"></input>
                                         <span class="input-group-addon input-sm reveal"><i class="fa fa-eye-slash"></i></span>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label for="aktif" class="col-sm-3 control-label">Status</label>
+                                <div class="btn-group col-xs-12 col-sm-8 " data-toggle="buttons">
+                                    <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= compared_return($user['active'], '1') ?>">
+                                        <input type="radio" name="aktif" class="form-check-input" value="1" <?= selected($user['active'], 1) ?>> Aktif
+                                    </label>
+                                    <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= compared_return($user['active'], '0') ?>">
+                                        <input type="radio" name="aktif" class="form-check-input" value="0" <?= selected($user['notif_telegram'], 0) ?>> Tidak Aktif
+                                    </label>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="nama">Nama</label>
                                 <div class="col-sm-8">
@@ -120,7 +133,7 @@
                             <div class="form-group">
                                 <label for="catatan" class="col-sm-3 control-label">User ID Telegram</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control input-sm" type="text" id="id_telegram" name="id_telegram" value="<?= $user['id_telegram'] ?>" maxlength="10" <?= jecho(setting('telegram_token'), null, 'disabled') ?> />
+                                    <input class="form-control input-sm bilangan" type="text" id="id_telegram" name="id_telegram" value="<?= $user['id_telegram'] ?>" maxlength="10" <?= jecho(setting('telegram_token'), null, 'disabled') ?> />
                                     <?php if (setting('telegram_token') == null) : ?>
                                         <span class="help-block" style="color: #f39c12;">Untuk mengaktifkan notifikasi telegram, harap masukkan token telegram di modul setting aplikasi </span>
                                     <?php endif ?>
@@ -186,5 +199,8 @@
                 $(".reveal i").removeClass("fa-eye");
             }
         });
+
+            $('input[value="<?= $user['active'] ?? 1 ?>"][name="aktif"]').parent().trigger('click')
+
     });
 </script>

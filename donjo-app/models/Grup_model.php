@@ -92,6 +92,7 @@ class Grup_model extends MY_Model
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
         $this->list_data_sql();
+
         //Ordering
         switch ($o) {
             case 1: $order = 'g.nama ASC';
@@ -254,6 +255,7 @@ class Grup_model extends MY_Model
             ->from('setting_modul m')
             ->join('grup_akses a', "a.id_modul = m.id and a.id_grup = {$id_grup}", 'left')
             ->where('m.parent', 0)
+            ->where('m.aktif', 1)
             ->order_by('m.urut')
             ->get()
             ->result_array();
@@ -271,6 +273,7 @@ class Grup_model extends MY_Model
             ->join('setting_modul sub', 'sub.parent = p.id')
             ->join('grup_akses a', "sub.id = a.id_modul and a.id_grup = {$grup}", 'left')
             ->where('p.id', $modul)
+            ->where('sub.aktif', 1)
             ->order_by('sub.urut')
             ->get()->result_array();
     }
@@ -280,6 +283,7 @@ class Grup_model extends MY_Model
         $parent = $this->db
             ->select('id')
             ->where('parent', 0)
+            ->where('aktif', 1)
             ->get('setting_modul')->result_array();
         $parent = array_column($parent, 'id');
 

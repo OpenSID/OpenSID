@@ -37,10 +37,16 @@
 							<form id="mainform" name="mainform" method="post">
 								<div class="row">
 									<div class="col-sm-6">
-										<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?= site_url('man_user/filter') ?>')">
+										<select class="form-control input-sm" name="filter" onchange="formAction('mainform','<?= site_url('man_user/filter/filter') ?>')">
+											<option value="">Semua</option>
+											<?php foreach ($status as $item) : ?>
+												<option <?php selected($filter, $item['id']); ?> value="<?= $item['id'] ?>"><?= $item['nama'] ?></option>
+											<?php endforeach ?>
+										</select>
+										<select class="form-control input-sm" name="group" onchange="formAction('mainform','<?= site_url('man_user/filter/group') ?>')">
 											<option value="">Semua</option>
 											<?php foreach ($user_group as $item) : ?>
-												<option <?php selected($filter, $item['id']); ?> value="<?= $item['id'] ?>"><?= $item['nama'] ?></option>
+												<option <?= selected($group, $item['id']); ?> value="<?= $item['id'] ?>"><?= $item['nama'] ?></option>
 											<?php endforeach ?>
 										</select>
 									</div>

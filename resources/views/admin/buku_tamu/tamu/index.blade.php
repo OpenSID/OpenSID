@@ -152,14 +152,14 @@
                         orderable: true
                     },
                     {
-                        data: 'bidang.nama',
-                        name: 'bidang.nama',
+                        data: 'bidang',
+                        name: 'bidang',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: 'keperluan.keperluan',
-                        name: 'keperluan.keperluan',
+                        data: 'keperluan',
+                        name: 'keperluan',
                         searchable: true,
                         orderable: true
                     },

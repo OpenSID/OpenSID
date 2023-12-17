@@ -21,10 +21,12 @@
     <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}" />
     <!-- AdminLTE Skins. -->
     <link rel="stylesheet" href="{{ asset('css/skins/_all-skins.min.css') }}" />
-    {{-- Sweetalert --}}
+    <!-- Sweetalert CSS-->
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
     <!-- Modifikasi -->
     <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}" />
+    <!-- Loading Lazy -->
+    <link rel="stylesheet" href="<?= asset('js/progressive-image/progressive-image.css') ?>">
     @stack('css')
 </head>
 
@@ -58,8 +60,6 @@
             @include('admin.layouts.components.pengumuman', $notif['pengumuman'])
         @endif
 
-        @include('admin.profil.pengaturan_pengguna')
-
         @include('admin.layouts.partials.footer')
 
         @include('admin.layouts.partials.control_sidebar')
@@ -79,6 +79,7 @@
     </div>
     <script type="text/javascript">
         var SITE_URL = "{{ site_url() }}";
+        var BASE_URL = "{{ base_url() }}";
         var SESSION_EXPIRED = "<?= config_item('sess_expiration') ?>";
     </script>
     <!-- jQuery 3 -->
@@ -104,11 +105,13 @@
     <script src="{{ asset('bootstrap/js/fastclick.js') }}"></script>
     <!-- AdminLTE -->
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
-    {{-- Sweetalert --}}
+    <!-- Sweetalert JS -->
     <script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
     <!-- jquery validasi -->
     <script src="{{ asset('js/script.js') }}"></script>
     <script src="{{ asset('js/admin.js') }}"></script>
+    <!-- Loading Lazy -->
+    <script src="<?= asset('js/progressive-image/progressive-image.js') ?>"></script>
     <!-- Modifikasi -->
     @if (config_item('demo_mode'))
         <!-- Website Demo -->
@@ -133,7 +136,7 @@
         });
     </script>
 
-    @if ($perbaharui_langganan != null)
+    @if ($perbaharui_langganan != null && !config_item('demo_mode'))
         <!-- cek status langganan -->
         <script type="text/javascript">
             var controller = '{{ $controller }}';

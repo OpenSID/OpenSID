@@ -1,5 +1,6 @@
 @extends('admin.layouts.index')
 @include('admin.layouts.components.asset_validasi')
+
 @section('title')
     <h1>
         {{ SebutanDesa('Identitas [Desa]') }}
@@ -155,15 +156,17 @@
                                 value="{{ $main->telepon }}" />
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" for="telepon">Nomor Ponsel
-                            {{ ucwords($setting->sebutan_desa) }}</label>
-                        <div class="col-sm-8">
-                            <input id="telepon-operator" name="nomor_operator" class="form-control input-sm bilangan"
-                                type="text" maxlength="15" placeholder="Nomor Ponsel"
-                                value="{{ $main->nomor_operator }}" />
+                    @if ($nomor_operator)
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="telepon">Nomor Ponsel
+                                {{ ucwords($setting->sebutan_desa) }}</label>
+                            <div class="col-sm-8">
+                                <input id="telepon-operator" name="nomor_operator" class="form-control input-sm bilangan"
+                                    type="text" maxlength="15" placeholder="Nomor Ponsel"
+                                    value="{{ $main->nomor_operator }}" />
+                            </div>
                         </div>
-                    </div>
+                    @endif
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="website">Website
                             {{ ucwords($setting->sebutan_desa) }}</label>
@@ -267,6 +270,7 @@
     <script>
         $(document).ready(function() {
             var koneksi = "{{ cek_koneksi_internet() }}";
+            var demo = "{{ config_item('demo') }}";
 
             tampil_kode_desa();
 
@@ -334,8 +338,9 @@
                         processData: false,
                         contentType: false,
                     })
-                    .done(function() {
-                        $.ajax({
+                    .done(function(response) {
+                        if (demo == false) {
+                            $.ajax({
                                 url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
                                 headers: {
                                     "Authorization": `Bearer <?= setting('layanan_opendesa_token') ?>`,
@@ -347,42 +352,38 @@
                                 let data = {
                                     body: response
                                 }
+
                                 $.ajax({
-                                        url: `${SITE_URL}pelanggan/pemesanan`,
-                                        type: 'Post',
-                                        dataType: 'json',
-                                        data: data,
-                                    })
-                                    .done(function() {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'berhasil ubah data',
-                                        })
-                                        window.location.replace(`${SITE_URL}identitas_desa`);
-                                    })
-                                    .fail(function(e) {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'berhasil ubah data',
-                                        })
-                                        window.location.replace(`${SITE_URL}identitas_desa`);
-                                    });
-                            })
-                            .fail(function() {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'berhasil ubah data',
+                                    url: `${SITE_URL}pelanggan/pemesanan`,
+                                    type: 'Post',
+                                    dataType: 'json',
+                                    data: data,
                                 })
-                                window.location.replace(`${SITE_URL}identitas_desa`);
-                            });
+                            })
+                        }
+
+                        if (response.status) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil Ubah Data',
+                            })
+                            window.location.replace(`${SITE_URL}identitas_desa`);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal Ubah Data',
+                                text: response.message,
+                            })
+                        }
                     })
-                    .fail(function() {
+                    .fail(function(response) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal Ubah Data',
+                            text: response.message,
                         })
                     });
-            });
+                });
         });
 
         function tampil_kode_desa() {
