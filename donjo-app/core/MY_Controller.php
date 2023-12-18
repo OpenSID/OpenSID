@@ -404,7 +404,6 @@ class Admin_Controller extends MY_Controller
     {
         parent::__construct();
         $this->CI          = CI_Controller::get_instance();
-        $this->akses_modul = $this->sub_modul_ini ?? $this->modul_ini;
         $this->load->model('header_model');
         $this->header = $this->header_model->get_data();
 

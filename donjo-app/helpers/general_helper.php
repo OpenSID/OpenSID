@@ -96,6 +96,8 @@ if (! function_exists('view')) {
 
         $factory->directive('display', static fn ($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
 
+        $factory->directive('can', static fn ($condition): string => "<?= can({$condition}) ?>");
+
         if ($CI->session->db_error['code'] === 1049) {
             $CI->session->error_db = null;
             $CI->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception', 'sudah_mulai']);
@@ -119,13 +121,11 @@ if (! function_exists('view')) {
                 ],
                 'kategori'             => $CI->header['kategori'],
                 'sub_modul_ini'        => $CI->sub_modul_ini,
+                'akses_modul'          => $CI->akses_modul,
                 'session'              => $CI->session,
                 'setting'              => $CI->setting,
                 'token'                => $CI->security->get_csrf_token_name(),
                 'perbaharui_langganan' => $CI->header['perbaharui_langganan'] ?? null,
-                'aksesBaca'            => can('b'),
-                'aksesUbah'            => can('u'),
-                'aksesHapus'           => can('h'),
             ]);
         }
         if ($returnView) {
@@ -213,7 +213,7 @@ if (! function_exists('can')) {
         }
 
         if (null === $slugModul) {
-            $slugModul = get_instance()->akses_modul;
+            $slugModul = get_instance()->akses_modul ?? get_instance()->sub_modul_ini ?? get_instance()->modul_ini;
         }
 
         $alias = [

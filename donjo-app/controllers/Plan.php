@@ -88,17 +88,17 @@ class Plan extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($parent): string {
                     $aksi = '';
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('plan.form', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm akses-ubah"  title="Ubah"><i class="fa fa-edit"></i></a> ';
-                        $aksi .= '<a href="' . route('plan.ajax_lokasi_maps', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm akses-ubah" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
+                        $aksi .= '<a href="' . route('plan.form', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . route('plan.ajax_lokasi_maps', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
                         if ($row->isLock()) {
-                            $aksi .= '<a href="' . route('plan.unlock', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm akses-ubah" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . route('plan.unlock', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . route('plan.lock', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm akses-ubah" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                            $aksi .= '<a href="' . route('plan.lock', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
                         }
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('plan.delete', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm akses-hapus"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . route('plan.delete', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;

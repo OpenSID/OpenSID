@@ -108,8 +108,8 @@ class Man_user extends Admin_Controller
                 ->addColumn('pamong_status', static fn ($row): string => $row->pamong->pamong_status == 1
                     ? '<span class="label label-success">Staf</span>'
                     : '<span class="label label-info">Bukan Staf</span>')
-                ->editColumn('last_login', static fn ($row) => tgl_indo($row->last_login))
-                ->editColumn('email_verified_at', static fn ($row) => tgl_indo($row->email_verified_at))
+                ->editColumn('last_login', static fn ($row) => tgl_indo2($row->last_login))
+                ->editColumn('email_verified_at', static fn ($row) => tgl_indo2($row->email_verified_at))
                 ->rawColumns(['ceklist', 'aksi', 'pamong_status'])
                 ->make();
         }

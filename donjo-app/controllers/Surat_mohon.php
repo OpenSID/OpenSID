@@ -61,13 +61,18 @@ class Surat_mohon extends Admin_Controller
 
             return datatables()->of($query)
                 ->addColumn('ceklist', static function ($row) {
-                    return '<input type="checkbox" class="akses-hapus" name="id_cb[]" value="' . $row->ref_syarat_id . '"/>';
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->ref_syarat_id . '"/>';
+                    }
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
-                    $aksi = '<a href="' . route('surat_mohon.form', $row->ref_syarat_id) . '" class="btn btn-warning btn-sm akses-ubah"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    if ($row->jumlah_format_surat == '0') {
-                        $aksi .= '<a href="#" data-href="' . route('surat_mohon.delete', $row->ref_syarat_id) . '" class="btn bg-maroon btn-sm akses-hapus"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    if (can('u')) {
+                        $aksi = '<a href="' . route('surat_mohon.form', $row->ref_syarat_id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
+
+                    if (can('u') && $row->jumlah_format_surat == '0') {
+                        $aksi .= '<a href="#" data-href="' . route('surat_mohon.delete', $row->ref_syarat_id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;

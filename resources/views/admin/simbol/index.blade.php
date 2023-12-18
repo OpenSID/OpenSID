@@ -76,10 +76,14 @@
             {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="#" id="btn_ikon" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block akses-ubah"><i class="fa fa-plus"></i>Tambah</a>
-                    <a href="<?= site_url('simbol/salin_simbol_default') ?>" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block akses-ubah" title="Salin">
-                        <i class="fa fa-copy"></i>Salin
-                    </a>
+                    @if (can('u'))
+                        <a href="#" id="btn_ikon" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i>Tambah</a>
+                    @endif
+                    @if (can('h'))
+                        <a href="<?= site_url('simbol/salin_simbol_default') ?>" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Salin">
+                            <i class="fa fa-copy"></i>Salin
+                        </a>
+                    @endif
                 </div>
                 <div class="box-body">
                     <div class="form-group">
@@ -95,7 +99,7 @@
                                                     href="#"
                                                     data-href="{{ site_url("simbol/delete_simbol/{$data['id']}/{$data['simbol']}") }}"
                                                     style="margin-top:10px;"
-                                                    class="btn btn-danger btn-sm btn-block akses-hapus"
+                                                    class="btn btn-danger btn-sm btn-block"
                                                     title="Hapus"
                                                     data-toggle="modal"
                                                     data-target="#confirm-delete"
