@@ -100,7 +100,7 @@ class UserGrup extends BaseModel
             self::ADMINISTRATOR => [
                 '*' => 7,
             ],
-            self::OPERATOR => [
+            self::KONTRIBUTOR => [
                 'admin-web' => 0,
                 'artikel'   => 3,
                 'komentar'  => 3,
@@ -122,7 +122,7 @@ class UserGrup extends BaseModel
                 'kategori'       => 3,
                 'lapak'          => 3,
             ],
-            self::KONTRIBUTOR => [
+            self::OPERATOR => [
                 '*' => 3,
             ],
         ];

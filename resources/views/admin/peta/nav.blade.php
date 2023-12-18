@@ -7,7 +7,7 @@
     </div>
     <div class="box-body no-padding">
         <ul class="nav nav-pills nav-stacked">
-            <li {{ jecho($tip, 3, "class='active'") }}><a href="{{ site_url('plan/clear') }}">Lokasi</a></li>
+            <li {{ jecho($tip, 3, "class='active'") }}><a href="{{ site_url('plan') }}">Lokasi</a></li>
             <li {{ jecho($tip, 0, "class='active'") }}><a href="{{ site_url('point') }}">Tipe Lokasi</a></li>
             <li {{ jecho($tip, 6, "class='active'") }}><a href="{{ site_url('simbol') }}">Simbol Lokasi</a></li>
             <li {{ jecho($tip, 1, "class='active'") }}><a href="{{ site_url('garis') }}">Garis</a></li>

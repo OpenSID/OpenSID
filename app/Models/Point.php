@@ -89,6 +89,11 @@ class Point extends BaseModel
         return $query->whereTipe(self::CHILD)->whereParrent($parent);
     }
 
+    protected function scopeSubPoint($query)
+    {
+        return $query->whereTipe(self::CHILD);
+    }
+
     protected function scopeActive($query)
     {
         return $query->whereEnabled(self::UNLOCK);
@@ -101,10 +106,8 @@ class Point extends BaseModel
 
     /**
      * Getter untuk path + simbol
-     *
-     * @return string
      */
-    public function getPathSimbolAttribute()
+    public function getPathSimbolAttribute(): string
     {
         $simbol = LOKASI_SIMBOL_LOKASI . $this->attributes['simbol'];
 

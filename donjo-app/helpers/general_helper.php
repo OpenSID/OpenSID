@@ -77,6 +77,9 @@ if (! function_exists('view')) {
         $container = new Container();
         $container->instance('db', Container::getInstance()->get('db'));
 
+        // TODO:: sementara gunakan config yang ada di CI3 karena masalah instance laravel
+        // $factory = new \Jenssegers\Blade\Blade(config('view.paths'), config('view.compiled'), $container);
+
         $factory = new \Jenssegers\Blade\Blade(config_item('views_blade'), config_item('cache_blade'), $container);
 
         if (func_num_args() === 0) {
@@ -92,6 +95,8 @@ if (! function_exists('view')) {
         $factory->directive('active', static fn ($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
 
         $factory->directive('display', static fn ($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
+
+        $factory->directive('can', static fn ($condition): string => "<?= can({$condition}) ?>");
 
         if ($CI->session->db_error['code'] === 1049) {
             $CI->session->error_db = null;
@@ -116,6 +121,7 @@ if (! function_exists('view')) {
                 ],
                 'kategori'             => $CI->header['kategori'],
                 'sub_modul_ini'        => $CI->sub_modul_ini,
+                'akses_modul'          => $CI->akses_modul,
                 'session'              => $CI->session,
                 'setting'              => $CI->setting,
                 'token'                => $CI->security->get_csrf_token_name(),
@@ -169,7 +175,7 @@ if (! function_exists('can')) {
                 }
 
                 return $grupAkses->mapWithKeys(static function ($item) use ($idGrup, $rbac, $grup) {
-                    $rbac = $rbac ?? $grup[$item->slug];
+                    $rbac ??= $grup[$item->slug];
                     $rbac = $rbac === 0 ? 1 : $rbac;
 
                     return [
@@ -177,32 +183,29 @@ if (! function_exists('can')) {
                             'id_modul' => $item->id,
                             'id_grup'  => $idGrup,
                             'akses'    => $rbac,
-                            'baca'     => $rbac >= 1 ? true : false,
-                            'ubah'     => $rbac >= 3 ? true : false,
-                            'hapus'    => $rbac >= 7 ? true : false,
-                        ],
-                    ];
-                })->toArray();
-            } else {
-                $grupAkses = GrupAkses::leftJoin('setting_modul', 'grup_akses.id_modul', '=', 'setting_modul.id')
-                    ->where('id_grup', $idGrup)
-                    ->select('grup_akses.*')
-                    ->selectRaw('setting_modul.slug as slug')
-                    ->get();
-
-                return $grupAkses->mapWithKeys(static function ($item) {
-                    return [
-                        $item->slug => [
-                            'id_modul' => $item->id_modul,
-                            'id_grup'  => $item->id_grup,
-                            'akses'    => $item->akses,
-                            'baca'     => $item->akses >= 1 ? true : false,
-                            'ubah'     => $item->akses >= 3 ? true : false,
-                            'hapus'    => $item->akses >= 7 ? true : false,
+                            'baca'     => $rbac >= 1,
+                            'ubah'     => $rbac >= 3,
+                            'hapus'    => $rbac >= 7,
                         ],
                     ];
                 })->toArray();
             }
+            $grupAkses = GrupAkses::leftJoin('setting_modul', 'grup_akses.id_modul', '=', 'setting_modul.id')
+                ->where('id_grup', $idGrup)
+                ->select('grup_akses.*')
+                ->selectRaw('setting_modul.slug as slug')
+                ->get();
+
+            return $grupAkses->mapWithKeys(static fn ($item) => [
+                $item->slug => [
+                    'id_modul' => $item->id_modul,
+                    'id_grup'  => $item->id_grup,
+                    'akses'    => $item->akses,
+                    'baca'     => $item->akses >= 1,
+                    'ubah'     => $item->akses >= 3,
+                    'hapus'    => $item->akses >= 7,
+                ],
+            ])->toArray();
         });
 
         if (null === $akses) {
@@ -210,7 +213,7 @@ if (! function_exists('can')) {
         }
 
         if (null === $slugModul) {
-            $slugModul = get_instance()->sub_modul_ini ?? get_instance()->modul_ini;
+            $slugModul = get_instance()->akses_modul ?? get_instance()->sub_modul_ini ?? get_instance()->modul_ini;
         }
 
         $alias = [
@@ -224,7 +227,7 @@ if (! function_exists('can')) {
         }
 
         if ($adminOnly) {
-            return super_admin() ? true : false;
+            return (bool) super_admin();
         }
 
         // dd($data);
@@ -243,7 +246,7 @@ if (! function_exists('isCan')) {
      *
      * @return array|bool
      */
-    function isCan($akses = null, $slugModul = null, $adminOnly = false)
+    function isCan($akses = null, $slugModul = null, $adminOnly = false): void
     {
         $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
         if (! can('b', $slugModul, $adminOnly)) {
@@ -1122,5 +1125,25 @@ if (! function_exists('cache')) {
         [$key, $value, $minutes] = $arguments[0];
 
         return $store->put($key, $value, $minutes ?? null);
+    }
+}
+
+if (! function_exists('resource_path')) {
+    /**
+     * Get the path to the resources folder.
+     */
+    function resource_path(string $path = ''): string
+    {
+        return RESOURCESPATH . $path;
+    }
+}
+
+if (! function_exists('storage_path')) {
+    /**
+     * Get the path to the storage folder.
+     */
+    function storage_path(string $path = ''): string
+    {
+        return STORAGEPATH . $path;
     }
 }

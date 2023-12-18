@@ -35,30 +35,33 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+return [
 
-class Plan_lokasi_model extends MY_Model
-{
-    // TODO hapus, masih digunakan di modul pembangunan dan maps
-    /**
-     * @param mixed|null $status
-     */
-    public function list_lokasi($status = null)
-    {
-        if (null !== $status) {
-            $this->db
-                ->where('l.enabled', $status)
-                ->where('p.enabled', $status)
-                ->where('m.enabled', $status);
-        }
+    /*
+    |--------------------------------------------------------------------------
+    | View Storage Paths
+    |--------------------------------------------------------------------------
+    |
+    | Most templating systems load templates from disk. Here you may specify
+    | an array of paths that should be checked for your views. Of course
+    | the usual Laravel view path has already been registered for you.
+    |
+    */
 
-        return $this->config_id('l')
-            ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol')
-            ->from('lokasi l')
-            ->join('point p', 'l.ref_point = p.id', 'left')
-            ->join('point m', 'p.parrent = m.id', 'left')
-            ->where('l.ref_point !=', 0)
-            ->get()
-            ->result_array();
-    }
-}
+    'paths' => [
+        resource_path('views'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Compiled View Path
+    |--------------------------------------------------------------------------
+    |
+    | This option determines where all the compiled Blade templates will be
+    | stored for your application. Typically, this is within the storage
+    | directory. However, as usual, you are free to change this value.
+    |
+    */
+
+    'compiled' => realpath(storage_path('framework/views')),
+];

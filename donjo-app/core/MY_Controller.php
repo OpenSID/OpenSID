@@ -397,12 +397,13 @@ class Admin_Controller extends MY_Controller
     public $CI;
     public $modul_ini;
     public $sub_modul_ini;
+    public $akses_modul;
     protected $aliasController;
 
     public function __construct()
     {
         parent::__construct();
-        $this->CI = CI_Controller::get_instance();
+        $this->CI          = CI_Controller::get_instance();
         $this->load->model('header_model');
         $this->header = $this->header_model->get_data();
 

@@ -358,7 +358,7 @@
 											<div class="col-sm-6">
 												<h5><b>CACHE</b></h5>
 												<div class="input-group">
-													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('cache_path')) ?>*" readonly>
+													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config('cache.stores.file.path')) ?>" readonly>
 													<?php if (can('u')) : ?>
 														<span class="input-group-btn">
 															<a href="<?= site_url("{$this->controller}/cache_desa") ?>" class="btn btn-info btn-flat">Bersihkan</a>
@@ -367,7 +367,7 @@
 												</div>
 												<hr>
 												<div class="input-group">
-													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('cache_blade')) ?>*" readonly>
+													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config('view.compiled')) ?>" readonly>
 													<?php if (can('u')) : ?>
 														<span class="input-group-btn">
 															<a href="<?= site_url("{$this->controller}/cache_blade") ?>" class="btn btn-info btn-flat">Bersihkan</a>
