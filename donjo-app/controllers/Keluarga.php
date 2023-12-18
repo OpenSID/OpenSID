@@ -355,7 +355,6 @@ class Keluarga extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->keluarga_model->insert();
-        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect($this->controller);
     }
@@ -368,7 +367,6 @@ class Keluarga extends Admin_Controller
         $_POST['id']    = $id_kk;
         unset($_POST['no_kk_keluarga']);
         $this->keluarga_model->insert_a();
-        $this->cache->hapus_cache_untuk_semua('_wilayah');
         if ($_SESSION['validation_error']) {
             $_SESSION['id_kk']         = $id_kk;
             $_SESSION['kk']            = $this->keluarga_model->get_kepala_a($id_kk);
@@ -384,7 +382,6 @@ class Keluarga extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->keluarga_model->insert_new();
-        $this->cache->hapus_cache_untuk_semua('_wilayah');
         if ($_SESSION['success'] == -1) {
             $_SESSION['dari_internal'] = true;
             redirect("{$this->controller}/form");
@@ -398,7 +395,6 @@ class Keluarga extends Admin_Controller
         $this->redirect_hak_akses('u');
         $this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id)['status_dasar'] == 1);
         $this->keluarga_model->update_nokk($id);
-        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect($this->controller);
     }
@@ -415,7 +411,6 @@ class Keluarga extends Admin_Controller
 
         $this->redirect_tidak_valid($this->keluarga_model->cek_boleh_hapus($id));
         $this->keluarga_model->delete($id);
-        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect($this->controller);
     }
@@ -431,7 +426,6 @@ class Keluarga extends Admin_Controller
         }
 
         $this->keluarga_model->delete_all();
-        $this->cache->hapus_cache_untuk_semua('_wilayah');
 
         redirect($this->controller);
     }

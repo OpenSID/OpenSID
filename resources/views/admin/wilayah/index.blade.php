@@ -45,7 +45,7 @@
 
             @if ($parent)
                 <a href="{{ $backUrl }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                    <i class="fa fa-arrow-circle-left "></i>Kembali ke Wilayah Administratif {{ $wilayahLabel = 'RT' ? 'RW' : 'Dusun' }}
+                    <i class="fa fa-arrow-circle-left "></i>Kembali ke Wilayah Administratif {{ $level == 'rt' ? 'RW' : 'Dusun' }}
                 </a>
             @endif
         </div>

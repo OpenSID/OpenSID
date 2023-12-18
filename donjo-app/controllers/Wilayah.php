@@ -139,7 +139,9 @@ class Wilayah extends Admin_Controller
                         $aksi .= '<a data-arah="bawah"  href="#" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a> ';
                         $aksi .= '<a data-arah="atas" href="#" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a> ';
                     }
-                    $aksi .= '<a href="' . route('wilayah.index') . '?parent=' . $row->id . '&level=' . $subOrdinat . '" class="btn bg-purple btn-sm" title="Rincian Sub Wilayah"><i class="fa fa-list"></i></a> ';
+                    if ($level != 'rt') {
+                        $aksi .= '<a href="' . route('wilayah.index') . '?parent=' . $row->id . '&level=' . $subOrdinat . '" class="btn bg-purple btn-sm" title="Rincian Sub Wilayah"><i class="fa fa-list"></i></a> ';
+                    }
                     if (can('u')) {
                         if ($level == 'rw') {
                             if ($row->rw != '-') {
@@ -369,7 +371,6 @@ class Wilayah extends Admin_Controller
                     break;
             }
 
-            $this->cache->hapus_cache_untuk_semua('_wilayah');
             redirect_with('success', 'Data wilayah berhasil disimpan', route('wilayah.index') . '?level=' . $level . '&parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -406,7 +407,6 @@ class Wilayah extends Admin_Controller
                     $obj->update($data);
             }
 
-            $this->cache->hapus_cache_untuk_semua('_wilayah');
             redirect_with('success', 'Data wilayah berhasil disimpan', route('wilayah.index') . '?level=' . $level . '&parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -451,7 +451,6 @@ class Wilayah extends Admin_Controller
         }
 
         WilayahModel::whereIn('id', $id_cluster)->delete();
-        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect_with('success', $nama . ' berhasil dihapus');
     }
 
