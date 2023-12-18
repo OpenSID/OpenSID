@@ -77,6 +77,9 @@ if (! function_exists('view')) {
         $container = new Container();
         $container->instance('db', Container::getInstance()->get('db'));
 
+        // TODO:: sementara gunakan config yang ada di CI3 karena masalah instance laravel
+        // $factory = new \Jenssegers\Blade\Blade(config('view.paths'), config('view.compiled'), $container);
+
         $factory = new \Jenssegers\Blade\Blade(config_item('views_blade'), config_item('cache_blade'), $container);
 
         if (func_num_args() === 0) {
@@ -1122,5 +1125,31 @@ if (! function_exists('cache')) {
         [$key, $value, $minutes] = $arguments[0];
 
         return $store->put($key, $value, $minutes ?? null);
+    }
+}
+
+if (! function_exists('resource_path')) {
+    /**
+     * Get the path to the resources folder.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    function resource_path($path = '')
+    {
+        return RESOURCESPATH . $path;
+    }
+}
+
+if (! function_exists('storage_path')) {
+    /**
+     * Get the path to the storage folder.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    function storage_path($path = '')
+    {
+        return STORAGEPATH . $path;
     }
 }

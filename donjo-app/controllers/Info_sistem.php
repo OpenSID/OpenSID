@@ -90,7 +90,7 @@ class Info_sistem extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        kosongkanFolder(config_item('cache_path'));
+        cache()->flush();
 
         status_sukses(true);
 
