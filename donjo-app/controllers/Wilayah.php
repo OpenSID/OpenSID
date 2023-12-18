@@ -722,6 +722,7 @@ class Wilayah extends Admin_Controller
 
     public function list_rw($dusun = ''): void
     {
+        $dusun   = urldecode($dusun);
         $list_rw = WilayahModel::rw()
             ->when($dusun, static fn ($q) => $q->whereDusun($dusun))
             ->get()
@@ -732,6 +733,7 @@ class Wilayah extends Admin_Controller
 
     public function list_rt($dusun = '', $rw = '-'): void
     {
+        $dusun   = urldecode($dusun);
         $list_rt = WilayahModel::rt()
             ->when($dusun, static fn ($q) => $q->whereDusun($dusun))
             ->when($rw, static fn ($q) => $q->whereRw($rw))
