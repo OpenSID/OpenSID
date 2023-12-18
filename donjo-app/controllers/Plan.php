@@ -35,192 +35,243 @@
  *
  */
 
+use App\Models\Area;
+use App\Models\Garis;
+use App\Models\Lokasi;
+use App\Models\Pembangunan;
+use App\Models\Point;
+use App\Models\Wilayah;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan extends Admin_Controller
 {
+    private int $tip = 3;
+
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model('wilayah_model');
-        $this->load->model('plan_lokasi_model');
-        $this->load->model('plan_area_model');
-        $this->load->model('plan_garis_model');
-        $this->load->model('pembangunan_model');
-        $this->load->model('pembangunan_dokumentasi_model');
         $this->modul_ini     = 'pemetaan';
         $this->sub_modul_ini = 'pengaturan-peta';
+        $this->akses_modul   = 'plan';
+        isCan('b');
     }
 
-    public function clear(): void
+    public function index($parent = 0): void
     {
-        unset($_SESSION['cari'], $_SESSION['filter'], $_SESSION['point'], $_SESSION['subpoint']);
+        $data           = ['tip' => $this->tip, 'parent' => $parent];
+        $data['status'] = [Point::LOCK => 'Aktif', Point::UNLOCK => 'Non Aktif'];
+        $data['point']  = Point::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
 
-        redirect('plan');
+        view('admin.peta.lokasi.index', $data);
     }
 
-    public function index($p = 1, $o = 0): void
+    public function datatables()
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        if ($this->input->is_ajax_request()) {
+            $status   = $this->input->get('status') ?? null;
+            $subpoint = $this->input->get('subpoint') ?? null;
+            $point    = $this->input->get('point') ?? null;
+            $parent   = $this->input->get('parent') ?? 0;
 
-        $data['cari'] = $_SESSION['cari'] ?? '';
+            return datatables()->of(Lokasi::when($status, static fn ($q) => $q->whereEnabled($status))
+                ->when($point, static fn ($q) => $q->whereIn('ref_point', static fn ($q) => $q->select('id')->from('point')->whereParrent($point)))
+                ->when($subpoint, static fn ($q) => $q->whereRefPoint($subpoint))
+                ->with(['point' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
+                ]))
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) use ($parent): string {
+                    $aksi = '';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('plan.form', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm akses-ubah"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . route('plan.ajax_lokasi_maps', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm akses-ubah" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
+                        if ($row->isLock()) {
+                            $aksi .= '<a href="' . route('plan.unlock', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm akses-ubah" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . route('plan.lock', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm akses-ubah" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                        }
+                    }
 
-        $data['filter'] = $_SESSION['filter'] ?? '';
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . route('plan.delete', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm akses-hapus"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
 
-        $data['point'] = $_SESSION['point'] ?? '';
-
-        $data['subpoint'] = $_SESSION['subpoint'] ?? '';
-
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
+                    return $aksi;
+                })
+                ->editColumn('enabled', static fn ($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('ref_point', static fn ($row) => $row->point->parent->nama ?? '')
+                ->editColumn('kategori', static fn ($row) => $row->point->nama ?? '')
+                ->rawColumns(['aksi', 'ceklist'])
+                ->make();
         }
 
-        $data['per_page'] = $_SESSION['per_page'];
-
-        $data['paging']        = $this->plan_lokasi_model->paging($p, $o);
-        $data['main']          = $this->plan_lokasi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']       = $this->plan_lokasi_model->autocomplete();
-        $data['list_point']    = $this->plan_lokasi_model->list_point();
-        $data['list_subpoint'] = $this->plan_lokasi_model->list_subpoint();
-        $data['tip']           = 3;
-
-        $this->render('lokasi/table', $data);
+        return show_404();
     }
 
-    public function form($p = 1, $o = 0, $id = ''): void
+    public function form($parent = 0, $id = '')
     {
-        $this->redirect_hak_akses('u');
-        $data['p'] = $p;
-        $data['o'] = $o;
+        isCan('u');
+
+        $data['plan']        = null;
+        $data['form_action'] = route('plan.insert', $parent);
+        $data['foto_plan']   = null;
+        $data['parent']      = $parent;
 
         if ($id) {
-            $data['lokasi']      = $this->plan_lokasi_model->get_lokasi($id) ?? show_404();
-            $data['form_action'] = site_url("plan/update/{$id}/{$p}/{$o}");
-        } else {
-            $data['lokasi']      = null;
-            $data['form_action'] = site_url('plan/insert');
+            $data['plan']        = Lokasi::findOrFail($id);
+            $data['form_action'] = route('plan.update', implode('/', [$parent, $id]));
         }
 
-        $data['list_point'] = $this->plan_lokasi_model->list_point();
-        $data['tip']        = 3;
+        $data['list_point'] = empty($parent) ? Point::subPoint()->whereHas('parent')->get() : Point::child($parent)->whereHas('parent')->get();
+        $data['tip']        = $this->tip;
 
-        $this->render('lokasi/form', $data);
+        return view('admin.peta.lokasi.form', $data);
     }
 
-    public function ajax_lokasi_maps($p = 1, $o = 0, $id = ''): void
+    public function ajax_lokasi_maps($parent, int $id)
     {
-        $this->redirect_hak_akses('u');
-        $data['p']      = $p;
-        $data['o']      = $o;
-        $data['lokasi'] = $id ? $this->plan_lokasi_model->get_lokasi($id) ?? show_404() : null;
+        isCan('u');
 
+        $data['lokasi']                 = Lokasi::findOrFail($id)->toArray();
+        $data['parent']                 = $parent;
         $data['desa']                   = $this->header['desa'];
         $data['wil_atas']               = $this->header['desa'];
-        $data['dusun_gis']              = $this->wilayah_model->list_dusun();
-        $data['rw_gis']                 = $this->wilayah_model->list_rw();
-        $data['rt_gis']                 = $this->wilayah_model->list_rt();
-        $data['all_lokasi']             = $this->plan_lokasi_model->list_data();
-        $data['all_garis']              = $this->plan_garis_model->list_data();
-        $data['all_area']               = $this->plan_area_model->list_data();
-        $data['all_lokasi_pembangunan'] = $this->pembangunan_model->list_lokasi_pembangunan();
-        $data['form_action']            = site_url("plan/update_maps/{$p}/{$o}/{$id}");
+        $data['dusun_gis']              = Wilayah::dusun()->get()->toArray();
+        $data['rw_gis']                 = Wilayah::rw()->get()->toArray();
+        $data['rt_gis']                 = Wilayah::rt()->get()->toArray();
+        $data['all_lokasi']             = Lokasi::activeLocationMap();
+        $data['all_garis']              = Garis::activeGarisMap();
+        $data['all_area']               = Area::activeAreaMap();
+        $data['all_lokasi_pembangunan'] = Pembangunan::activePembangunanMap();
+        $data['form_action']            = route('plan.update_maps', implode('/', [$parent, $id]));
 
-        $this->render('lokasi/maps', $data);
+        return view('admin.peta.lokasi.maps', $data);
     }
 
-    public function update_maps($p = 1, $o = 0, $id = ''): void
+    public function update_maps($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
-        $this->plan_lokasi_model->update_position($id);
-        redirect("plan/index/{$p}/{$o}");
-    }
+        isCan('u');
 
-    public function search(): void
-    {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $_SESSION['cari'] = $cari;
-        } else {
-            unset($_SESSION['cari']);
+        try {
+            $data = $this->input->post();
+            if (! empty($data['lat']) && ! empty($data['lng'])) {
+                Lokasi::whereId($id)->update($data);
+                redirect_with('success', 'Lokasi berhasil disimpan', route('plan.index', $parent));
+            } else {
+                redirect_with('error', 'Titik koordinat lokasi harus diisi', route('plan.index', $parent));
+            }
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Lokasi gagal disimpan', route('plan.index', $parent));
         }
-        redirect('plan');
     }
 
-    public function filter(): void
+    public function insert($parent): void
     {
-        $filter = $this->input->post('filter');
-        if ($filter != 0) {
-            $_SESSION['filter'] = $filter;
-        } else {
-            unset($_SESSION['filter']);
+        isCan('u');
+
+        if ($this->validation()) {
+            $data = $this->validasi($this->input->post());
         }
-        redirect('plan');
-    }
 
-    public function point(): void
-    {
-        $point = $this->input->post('point');
-        if ($point != 0) {
-            $_SESSION['point'] = $point;
-        } else {
-            unset($_SESSION['point']);
+        try {
+            Lokasi::create($data);
+            redirect_with('success', 'Lokasi berhasil disimpan', route('plan.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Lokasi gagal disimpan', route('plan.index', $parent));
         }
-        redirect('plan');
     }
 
-    public function subpoint(): void
+    public function update($parent, $id): void
     {
-        unset($_SESSION['point']);
-        $subpoint = $this->input->post('subpoint');
-        if ($subpoint != 0) {
-            $_SESSION['subpoint'] = $subpoint;
-        } else {
-            unset($_SESSION['subpoint']);
+        isCan('u');
+
+        if ($this->validation()) {
+            $data = $this->validasi($this->input->post());
         }
-        redirect('plan');
+
+        try {
+            $obj = Lokasi::findOrFail($id);
+            $obj->update($data);
+            redirect_with('success', 'Lokasi berhasil disimpan', route('plan.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Lokasi gagal disimpan', route('plan.index', $parent));
+        }
     }
 
-    public function insert($tip = 1): void
+    public function delete($parent, $id = null): void
     {
-        $this->redirect_hak_akses('u');
-        $this->plan_lokasi_model->insert($tip);
-        redirect("plan/index/{$tip}");
+        isCan('h');
+
+        try {
+            Lokasi::destroy($this->request['id_cb'] ?? $id);
+            redirect_with('success', 'Lokasi berhasil dihapus', route('plan.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Lokasi gagal dihapus', route('plan.index', $parent));
+        }
     }
 
-    public function update($id = '', $p = 1, $o = 0): void
+    public function lock($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
-        $this->plan_lokasi_model->update($id);
-        redirect("plan/index/{$p}/{$o}");
+        isCan('h');
+
+        try {
+            Lokasi::where(['id' => $id])->update(['enabled' => Lokasi::LOCK]);
+            redirect_with('success', 'Lokasi berhasil diaktifkan', route('plan.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Lokasi gagal diaktifkan', route('plan.index', $parent));
+        }
     }
 
-    public function delete($p = 1, $o = 0, $id = ''): void
+    public function unlock($parent, $id): void
     {
-        $this->redirect_hak_akses('h', "plan/index/{$p}/{$o}");
-        $this->plan_lokasi_model->delete($id);
-        redirect("plan/index/{$p}/{$o}");
+        isCan('u');
+
+        try {
+            Lokasi::where(['id' => $id])->update(['enabled' => Lokasi::UNLOCK]);
+            redirect_with('success', 'Lokasi berhasil dinonaktifkan', route('plan.index', $parent));
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Lokasi gagal dinonaktifkan', route('plan.index', $parent));
+        }
     }
 
-    public function delete_all($p = 1, $o = 0): void
+    private function validation()
     {
-        $this->redirect_hak_akses('h', "plan/index/{$p}/{$o}");
-        $this->plan_lokasi_model->delete_all();
-        redirect("plan/index/{$p}/{$o}");
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('ref_point', 'Kategori', 'required');
+        $this->form_validation->set_rules('desk', 'Keterangan', 'required|trim');
+        $this->form_validation->set_rules('enabled', 'Status', 'required');
+
+        return $this->form_validation->run();
     }
 
-    public function lokasi_lock($id = ''): void
+    private function validasi($post)
     {
-        $this->redirect_hak_akses('u');
-        $this->plan_lokasi_model->lokasi_lock($id, 1);
-        redirect('plan');
-    }
+        $data['nama']      = nomor_surat_keputusan($post['nama']);
+        $data['ref_point'] = bilangan($post['ref_point']);
+        $data['desk']      = htmlentities($post['desk']);
+        $data['enabled']   = bilangan($post['enabled']);
 
-    public function lokasi_unlock($id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_lokasi_model->lokasi_lock($id, 2);
-        redirect('plan');
+        $lokasi_file = $_FILES['foto']['tmp_name'];
+        $nama_file   = $_FILES['foto']['name'];
+        $nama_file   = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
+        if (! empty($lokasi_file)) {
+            $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_LOKASI);
+        } else {
+            unset($data['foto']);
+        }
+
+        return $data;
     }
 }

@@ -141,7 +141,7 @@ class Track_model extends CI_Model
 
     private function cek_notifikasi_TrackSID(string $trackSID_output): void
     {
-        if (! empty($trackSID_output)) {
+        if ($trackSID_output !== '' && $trackSID_output !== '0') {
             $array_output = json_decode($trackSID_output, true);
             $this->load->model('notif_model');
 
