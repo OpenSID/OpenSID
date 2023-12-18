@@ -277,7 +277,6 @@ class Man_user extends Admin_Controller
         $data = [
             'active'         => (int) ($request['aktif'] ?? 0),
             'username'       => isset($request['username']) ? alfanumerik($request['username']) : null,
-            'password'       => isset($request['password']) ? generatePasswordHash($request['password']) : null,
             'nama'           => isset($request['nama']) ? strip_tags(nama($request['nama'])) : null,
             'phone'          => isset($request['phone']) ? htmlentities($request['phone']) : null,
             'email'          => empty($request['email']) ? null : htmlentities($request['email']),
@@ -288,6 +287,10 @@ class Man_user extends Admin_Controller
             'id_telegram'    => (int) ($request['id_telegram'] ?? 0),
             'config_id'      => identitas('id'),
         ];
+
+        if (! empty($request['password'])) {
+            $data['password'] = generatePasswordHash($request['password']);
+        }
 
         if (empty($id)) {
             $data['session'] = md5(now());
