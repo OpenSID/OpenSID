@@ -152,29 +152,33 @@ class Web_gallery_model extends MY_Model
 
     public function insert()
     {
-        $_SESSION['success']   = 1;
-        $_SESSION['error_msg'] = '';
-        if (UploadError($_FILES['gambar'])) {
-            $_SESSION['success'] = -1;
-
-            return;
-        }
-
-        $lokasi_file  = $_FILES['gambar']['tmp_name'];
-        $tipe_file    = TipeFile($_FILES['gambar']);
+        session_success();
         $data         = [];
         $data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi karakter yg diizinkan seperti pada nomor sk
         $data['urut'] = $this->urut_model->urut_max(['parrent' => 0]) + 1;
-        // Bolehkan album tidak ada gambar cover
-        if (! empty($lokasi_file)) {
-            if (! CekGambar($_FILES['gambar'], $tipe_file)) {
+        $data['jenis'] = $this->input->post('jenis');
+        if ($this->input->post('jenis') == 2) {
+            $data['gambar'] = $this->input->post('url');
+        } else {
+            if (UploadError($_FILES['gambar'])) {
                 $_SESSION['success'] = -1;
 
                 return;
             }
-            $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
-            UploadGallery($nama_file, '', $tipe_file);
-            $data['gambar'] = $nama_file;
+
+            $lokasi_file  = $_FILES['gambar']['tmp_name'];
+            $tipe_file    = TipeFile($_FILES['gambar']);
+            // Bolehkan album tidak ada gambar cover
+            if (! empty($lokasi_file)) {
+                if (! CekGambar($_FILES['gambar'], $tipe_file)) {
+                    $_SESSION['success'] = -1;
+
+                    return;
+                }
+                $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
+                UploadGallery($nama_file, '', $tipe_file);
+                $data['gambar'] = $nama_file;
+            }
         }
 
         if ($_SESSION['grup'] == 4) {
@@ -189,28 +193,32 @@ class Web_gallery_model extends MY_Model
 
     public function update($id = 0)
     {
-        $_SESSION['success']   = 1;
-        $_SESSION['error_msg'] = '';
-        if (UploadError($_FILES['gambar'])) {
-            $_SESSION['success'] = -1;
-
-            return;
-        }
-
-        $lokasi_file  = $_FILES['gambar']['tmp_name'];
-        $tipe_file    = TipeFile($_FILES['gambar']);
+        session_success();
         $data         = [];
         $data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi karakter yg diizinkan seperti pada nomor sk
-        // Kalau kosong, gambar tidak diubah
-        if (! empty($lokasi_file)) {
-            if (! CekGambar($_FILES['gambar'], $tipe_file)) {
+        $data['jenis'] = $this->input->post('jenis');
+        if ($this->input->post('jenis') == 2) {
+            $data['gambar'] = $this->input->post('url');
+        } else {
+            if (UploadError($_FILES['gambar'])) {
                 $_SESSION['success'] = -1;
 
                 return;
             }
-            $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
-            UploadGallery($nama_file, $data['old_gambar'], $tipe_file);
-            $data['gambar'] = $nama_file;
+
+            $lokasi_file  = $_FILES['gambar']['tmp_name'];
+            $tipe_file    = TipeFile($_FILES['gambar']);
+            // Bolehkan album tidak ada gambar cover
+            if (! empty($lokasi_file)) {
+                if (! CekGambar($_FILES['gambar'], $tipe_file)) {
+                    $_SESSION['success'] = -1;
+
+                    return;
+                }
+                $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
+                UploadGallery($nama_file, '', $tipe_file);
+                $data['gambar'] = $nama_file;
+            }
         }
 
         if ($_SESSION['grup'] == 4) {
@@ -419,29 +427,35 @@ class Web_gallery_model extends MY_Model
 
     public function insert_sub_gallery($parrent = 0)
     {
-        $_SESSION['success']   = 1;
-        $_SESSION['error_msg'] = '';
-        if (UploadError($_FILES['gambar'])) {
-            $_SESSION['success'] = -1;
-
-            return;
-        }
-
+        session_success();
         $lokasi_file  = $_FILES['gambar']['tmp_name'];
         $tipe_file    = TipeFile($_FILES['gambar']);
         $data         = [];
         $data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi
         $data['urut'] = $this->urut_model->urut_max(['parrent' => $parrent]) + 1;
-        // Bolehkan isi album tidak ada gambar
-        if (! empty($lokasi_file)) {
-            if (! CekGambar($_FILES['gambar'], $tipe_file)) {
+        $data['jenis'] = $this->input->post('jenis');
+        if ($this->input->post('jenis') == 2) {
+            $data['gambar'] = $this->input->post('url');
+        } else {
+            if (UploadError($_FILES['gambar'])) {
                 $_SESSION['success'] = -1;
 
                 return;
             }
-            $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
-            UploadGallery($nama_file, '', $tipe_file);
-            $data['gambar'] = $nama_file;
+
+            $lokasi_file  = $_FILES['gambar']['tmp_name'];
+            $tipe_file    = TipeFile($_FILES['gambar']);
+            // Bolehkan album tidak ada gambar cover
+            if (! empty($lokasi_file)) {
+                if (! CekGambar($_FILES['gambar'], $tipe_file)) {
+                    $_SESSION['success'] = -1;
+
+                    return;
+                }
+                $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
+                UploadGallery($nama_file, '', $tipe_file);
+                $data['gambar'] = $nama_file;
+            }
         }
 
         if ($_SESSION['grup'] == 4) {
@@ -458,28 +472,32 @@ class Web_gallery_model extends MY_Model
 
     public function update_sub_gallery($id = 0)
     {
-        $_SESSION['success']   = 1;
-        $_SESSION['error_msg'] = '';
-        if (UploadError($_FILES['gambar'])) {
-            $_SESSION['success'] = -1;
-
-            return;
-        }
-
-        $lokasi_file  = $_FILES['gambar']['tmp_name'];
-        $tipe_file    = TipeFile($_FILES['gambar']);
+        session_success();
         $data         = [];
         $data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi
-        // Kalau kosong, gambar tidak diubah
-        if (! empty($lokasi_file)) {
-            if (! CekGambar($_FILES['gambar'], $tipe_file)) {
+        $data['jenis'] = $this->input->post('jenis');
+        if ($this->input->post('jenis') == 2) {
+            $data['gambar'] = $this->input->post('url');
+        } else {
+            if (UploadError($_FILES['gambar'])) {
                 $_SESSION['success'] = -1;
 
                 return;
             }
-            $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
-            UploadGallery($nama_file, $data['old_gambar'], $tipe_file);
-            $data['gambar'] = $nama_file;
+
+            $lokasi_file  = $_FILES['gambar']['tmp_name'];
+            $tipe_file    = TipeFile($_FILES['gambar']);
+            // Bolehkan album tidak ada gambar cover
+            if (! empty($lokasi_file)) {
+                if (! CekGambar($_FILES['gambar'], $tipe_file)) {
+                    $_SESSION['success'] = -1;
+
+                    return;
+                }
+                $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
+                UploadGallery($nama_file, '', $tipe_file);
+                $data['gambar'] = $nama_file;
+            }
         }
 
         unset($data['old_gambar']);

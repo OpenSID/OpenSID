@@ -48,6 +48,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2305');
 
+        $hasil = $hasil && $this->galery($hasil);
         $hasil = $hasil && $this->migrasi_2023052351($hasil);
         $hasil = $hasil && $this->migrasi_2023052451($hasil);
         $hasil = $hasil && $this->migrasi_2023052551($hasil);
@@ -163,5 +164,26 @@ class Migrasi_fitur_premium_2306 extends MY_model
             'keterangan' => 'Rentang waktu kehadiran ketika keluar. (satuan: menit)',
             'kategori'   => 'kehadiran',
         ]);
+    }
+
+    protected function galery($hasil)
+    {
+        $this->dbforge->modify_column('gambar_gallery', [
+            'gambar' => [
+                'type'       => 'TEXT',
+                'null'       => true,
+            ],
+        ]);
+
+        $this->dbforge->add_column('gambar_gallery', [
+            'jenis' => [
+                'type'       => 'TINYINT',
+                'constraint' => 4,
+                'null'       => false,
+                'default'    => 1,
+            ],
+        ]);
+
+        return $hasil;
     }
 }
