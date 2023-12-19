@@ -2,7 +2,7 @@
     <!-- bootstrap datepicker -->
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-datepicker.min.css') }}">
     <?php if (cek_koneksi_internet()): ?>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css') ?>" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <?php endif ?>
 @endpush
 

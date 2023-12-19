@@ -79,13 +79,14 @@ class Suplemen_model extends MY_Model
     // TODO:: Hapus ini, masih dipanggil di helper menu_slug
     public function get_suplemen($id)
     {
-        return Suplemen::select('suplemen.*')
+        $data = Suplemen::select('suplemen.*')
             ->selectRaw('COUNT(suplemen_terdata.id) AS jml')
             ->leftJoin('suplemen_terdata', 'suplemen_terdata.id_suplemen', '=', 'suplemen.id')
             ->where('suplemen.id', $id)
             ->groupBy('suplemen.id')
-            ->first()
-            ->toArray();
+            ->first();
+
+        return $data ? $data->toArray() : null;
     }
 
     // TODO:: Hapus ini, masih dipanggil di halaman web suplemen
