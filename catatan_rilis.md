@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### FITUR
 1. [#3604](https://github.com/OpenSID/OpenSID/issues/3604) Penambahan fungsi pindah keluarga secara kolektif atar wilayah dusun/rw/rt.
 2. [#5141](https://github.com/OpenSID/OpenSID/issues/5141) Penambahan pengaturan jumlah slider yang ditampilkan pada halaman web.
+3. [#1772](https://github.com/OpenSID/OpenSID/issues/1772) Penambahan jadwal pemilihan pada modul dpt.
 
 
 #### BUG
