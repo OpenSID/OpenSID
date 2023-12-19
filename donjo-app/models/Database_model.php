@@ -264,8 +264,12 @@ class Database_model extends MY_Model
             echo json_encode(['message' => 'Versi database sudah terbaru', 'status' => 0]);
         }
 
-        $index = file_get_contents('https://raw.githubusercontent.com/OpenSID/rilis-premium/master/index.php');
-        file_put_contents(FCPATH . 'index.php', $index);
+        if (cek_koneksi_internet()) {
+            $index = file_get_contents('https://raw.githubusercontent.com/OpenSID/rilis-premium/master/index.php');
+            if (file_get_contents(FCPATH . 'index.php') != $index) {
+                file_put_contents(FCPATH . 'index.php', $index);
+            }
+        }
     }
 
     // Cek apakah migrasi perlu dijalankan
