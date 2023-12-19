@@ -54,7 +54,9 @@ class Migrasi_fitur_premium_2401 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_2023120351($hasil);
+        $hasil = $hasil && $this->migrasi_2023120351($hasil);
+
+        return $hasil && $this->migrasi_2023120752($hasil);
     }
 
     // Migrasi perubahan data
@@ -70,8 +72,9 @@ class Migrasi_fitur_premium_2401 extends MY_model
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023120451($hasil);
+        $hasil = $hasil && $this->migrasi_2023120553($hasil);
 
-        return $hasil && $this->migrasi_2023120553($hasil);
+        return $hasil && $this->migrasi_2023120751($hasil);
     }
 
     protected function migrasi_2023120451($hasil)
@@ -168,5 +171,30 @@ class Migrasi_fitur_premium_2401 extends MY_model
             'ikon_kecil' => 'fa-location-arrow',
             'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'simbol'])->row()->id,
         ]);
+    }
+
+    protected function migrasi_2023120751($hasil)
+    {
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'data-suplemen', 'url' => 'suplemen/clear'],
+            ['url' => 'suplemen']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'wilayah-administratif', 'url' => 'wilayah/clear'],
+            ['url' => 'wilayah']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'pengunjung', 'url' => 'pengunjung/clear'],
+            ['url' => 'pengunjung']
+        );
+    }
+
+    protected function migrasi_2023120752($hasil)
+    {
+        $this->db->query('ALTER TABLE config MODIFY path LONGTEXT DEFAULT NULL;');
+
+        return $hasil;
     }
 }

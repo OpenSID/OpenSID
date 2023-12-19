@@ -52,7 +52,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_2023120752($hasil);
+        return $hasil;
     }
 
     // Migrasi perubahan data
@@ -66,38 +66,12 @@ class Migrasi_dev extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        $hasil = $hasil && $this->migrasi_2023120751($hasil);
 
         return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
     }
 
-    protected function migrasi_2023120751($hasil)
-    {
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'data-suplemen', 'url' => 'suplemen/clear'],
-            ['url' => 'suplemen']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'wilayah-administratif', 'url' => 'wilayah/clear'],
-            ['url' => 'wilayah']
-        );
-
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'pengunjung', 'url' => 'pengunjung/clear'],
-            ['url' => 'pengunjung']
-        );
-    }
-
     protected function migrasi_xxxxxxxxxx($hasil)
     {
-        return $hasil;
-    }
-
-    protected function migrasi_2023120752($hasil)
-    {
-        $this->db->query('ALTER TABLE config MODIFY path LONGTEXT DEFAULT NULL;');
-
         return $hasil;
     }
 }
