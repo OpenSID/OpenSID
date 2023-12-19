@@ -18,6 +18,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#7487](https://github.com/OpenSID/OpenSID/issues/7487) Perbaikan saring data stunting > hasil scorecard konvergensi berdasarkan posyandu.
 12. [#7514](https://github.com/OpenSID/OpenSID/issues/7514) Perbaikan kode isian jika hanya ada penduduk luar saja.
 13. [#6136](https://github.com/OpenSID/OpenSID/issues/6136) Perbaikan notifikasi hapus dusun/rw/rt yang sudah 0 di modul Wilayah.
+14. [#7526](https://github.com/OpenSID/OpenSID/issues/7526) Perbaikan menu suplemen yang sudah terhapus.
 
 
 #### Penyesuaian Teknis
