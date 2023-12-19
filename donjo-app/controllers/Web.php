@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\TampilanArtikelEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web extends Admin_Controller
@@ -112,11 +114,11 @@ class Web extends Admin_Controller
 
         if ($id) {
             $cek_data = $this->web_artikel_model->get_artikel($id);
-            if (! $cek_data) {
+            if (!$cek_data) {
                 show_404();
             }
 
-            if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
+            if (!$this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
                 redirect('web');
             }
 
@@ -131,6 +133,7 @@ class Web extends Admin_Controller
 
         $data['cat']      = $cat;
         $data['kategori'] = $this->web_artikel_model->get_kategori($cat);
+        $data['list_tampilan'] = TampilanArtikelEnum::all();
 
         $this->render('web/artikel/form', $data);
     }
@@ -160,7 +163,7 @@ class Web extends Admin_Controller
         $this->redirect_hak_akses('u');
         $cat = $this->session->kategori ?: 0;
 
-        if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
+        if (!$this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
         }
 
@@ -203,7 +206,7 @@ class Web extends Admin_Controller
     {
         $id = decrypt($id);
         $this->redirect_hak_akses('u');
-        if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
+        if (!$this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
         }
 
@@ -216,7 +219,7 @@ class Web extends Admin_Controller
     public function update_kategori($id = 0)
     {
         $this->redirect_hak_akses('u');
-        if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
+        if (!$this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
         }
 

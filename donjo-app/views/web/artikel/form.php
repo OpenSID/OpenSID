@@ -203,6 +203,26 @@
 					<?php endif; ?>
 					<div class="box box-info">
 						<div class="box-header with-border">
+							<h3 class="box-title">Pengaturan Tampilan</h3>
+							<div class="box-tools">
+								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+							</div>
+						</div>
+						<div class="box-body no-padding">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="control-label" for="tampilan">Posisi</label>
+									<select name="tampilan" class="form-control input-sm select2">
+										<?php foreach ($list_tampilan as $key => $value) : ?>
+											<option value="<?= $key ?>" <?= selected($key, $artikel['tampilan']) ?>><?= $value ?></option>
+										<?php endforeach; ?>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="box box-info">
+						<div class="box-header with-border">
 							<h3 class="box-title">Pengaturan Lainnya</h3>
 							<div class="box-tools">
 								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>

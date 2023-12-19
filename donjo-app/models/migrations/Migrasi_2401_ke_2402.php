@@ -43,12 +43,21 @@ class Migrasi_2401_ke_2402 extends MY_Model
     {
         $hasil = true;
 
+        $this->kolomtampilan();
         // Migrasi fitur premium
         // $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2306', false);
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2307', false);
 
+
         status_sukses($hasil);
 
         return $hasil;
+    }
+
+    protected function kolomtampilan()
+    {
+        if (!$this->db->field_exists('tampilan', 'artikel')) {
+            $this->db->query("ALTER TABLE `artikel` ADD COLUMN `tampilan` TINYINT(4) NULL DEFAULT '1' AFTER `hit`");
+        }
     }
 }

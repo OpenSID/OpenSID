@@ -227,6 +227,7 @@ class Web_artikel_model extends MY_Model
         $data['isi'] = bersihkan_xss($data['isi']); // hapus potensi xss
         // Batasi judul menggunakan teks polos
         $data['judul'] = judul($data['judul']);
+        $data['tampilan'] = (int) $data['tampilan'];
 
         $fp          = time();
         $list_gambar = ['gambar', 'gambar1', 'gambar2', 'gambar3'];
@@ -346,6 +347,7 @@ class Web_artikel_model extends MY_Model
         $data['isi'] = bersihkan_xss($data['isi']); // hapus potensi xss
         // Batasi judul menggunakan teks polos
         $data['judul'] = judul($data['judul']);
+        $data['tampilan'] = (int) $data['tampilan'];
 
         $fp          = time();
         $list_gambar = ['gambar', 'gambar1', 'gambar2', 'gambar3'];
