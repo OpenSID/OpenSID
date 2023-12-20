@@ -358,6 +358,14 @@ class Ekspor_model extends MY_Model
             'pesan',
             'analisis_klasifikasi',
             'analisis_parameter',
+            'alias_kodeisian',
+            'log_login',
+            'log_notifikasi_admin',
+            'log_notifikasi_mandiri',
+            'fcm_token_mandiri',
+            'log_login',
+            'fcm_token',
+            
         ];
 
         $prefs = [

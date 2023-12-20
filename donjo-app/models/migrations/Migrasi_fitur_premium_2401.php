@@ -36,6 +36,8 @@
  */
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,6 +56,9 @@ class Migrasi_fitur_premium_2401 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
+        // Uncomment pada rilis rev terakhir
+        // return $hasil && $this->buat_tabel_migrations($hasil);
+
         $hasil = $hasil && $this->migrasi_2023120351($hasil);
 
         return $hasil && $this->migrasi_2023120752($hasil);
@@ -194,6 +199,19 @@ class Migrasi_fitur_premium_2401 extends MY_model
     protected function migrasi_2023120752($hasil)
     {
         $this->db->query('ALTER TABLE config MODIFY path LONGTEXT DEFAULT NULL;');
+
+        return $hasil;
+    }
+
+    protected function buat_tabel_migrations($hasil)
+    {
+        if (! Schema::hasTable('migrations')) {
+            Schema::create('migrations', static function (Blueprint $table): void {
+                $table->increments('id');
+                $table->string('migration');
+                $table->integer('batch');
+            });
+        }
 
         return $hasil;
     }
