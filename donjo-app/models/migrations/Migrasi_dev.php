@@ -55,7 +55,7 @@ class Migrasi_dev extends MY_model
     protected function migrasi_tabel($hasil)
     {
 
-        return $hasil && $this->migrasi_2023121951($hasil);
+        return $hasil;
     }
 
     // Migrasi perubahan data
@@ -75,27 +75,6 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_xxxxxxxxxx($hasil)
     {
-        return $hasil;
-    }
-
-    protected function migrasi_2023121951($hasil)
-    {
-        if (! Schema::hasTable('pemilihan')) {
-            Schema::create('pemilihan', function (Blueprint $table) {
-                $table->uuid('uuid')->primary();
-                $table->integer('config_id');
-                $table->string('judul', 100);
-                $table->date('tanggal');
-                $table->integer('status')->default(0);
-                $table->text('keterangan');
-                $table->timestamps();
-                $table->integer('created_by')->nullable();
-                $table->integer('updated_by')->nullable();
-                $table->unique(['uuid', 'config_id']);
-                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
-            });
-        }
-
         return $hasil;
     }
 }

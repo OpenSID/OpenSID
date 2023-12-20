@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('dpt.clear') }}"> Pengurus</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('dpt.clear') }}"> DPT</a></li>
     <li class="active">Daftar Pemilihan</li>
 @endsection
 
@@ -19,13 +19,13 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a href="{{ route('dpt.pemilihanform') }}"
+                <a href="{{ route('pemilihan.form') }}"
                     class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
                         class="fa fa-plus"></i> Tambah</a>
             @endif
             @if (can('h'))
                 <a href="#confirm-delete" title="Hapus Data"
-                    onclick="deleteAllBox('mainform', '{{ route('dpt.pemilihandelete') }}')"
+                    onclick="deleteAllBox('mainform', '{{ route('pemilihan.delete') }}')"
                     class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                         class='fa fa-trash-o'></i> Hapus</a>
             @endif
@@ -62,7 +62,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('dpt.datatables') }}",
+                ajax: "{{ route('pemilihan.datatables') }}",
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

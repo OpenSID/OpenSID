@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Traits\Uuid;
 use App\Traits\Author;
 use App\Traits\ConfigId;
@@ -83,5 +84,16 @@ class Pemilihan extends BaseModel
     public function scopeStatus($query, $value = 1)
     {
         return $query->where('status', $value);
+    }
+
+    /**
+     * Fungsi untuk mengambil tanggal pemilihan terdekat yang aktif
+     * 
+     * @return string
+     */
+    public static function tanggalPemilihan() {
+        $tanggal = self::status()->orderBy('tanggal')->first()->tanggal ?? Carbon::now();
+
+        return Carbon::parse($tanggal)->format('d-m-Y');
     }
 }

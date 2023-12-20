@@ -35,7 +35,10 @@
  *
  */
 
+use Carbon\Carbon;
+use App\Models\Pemilihan;
 use App\Enums\Statistik\StatistikEnum;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -296,7 +299,7 @@ class First extends Web_Controller
         $data['title']             = 'Daftar Calon Pemilih Berdasarkan Wilayah';
         $data['main']              = $this->dpt_model->statistik_wilayah();
         $data['total']             = $this->dpt_model->statistik_total();
-        $data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
+        $data['tanggal_pemilihan'] = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
         $data['tipe']              = 4;
         $data['slug_aktif']        = 'dpt';
 
