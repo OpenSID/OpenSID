@@ -136,8 +136,8 @@ class Wilayah extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($parent, $mapKantor, $mapWilayah, $level, $subOrdinat, $cek_lokasi_peta): string {
                     $aksi = '';
                     if (can('u')) {
-                        $aksi .= '<a data-arah="bawah"  href="#" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a> ';
-                        $aksi .= '<a data-arah="atas" href="#" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a> ';
+                        $aksi .= '<a data-arah="bawah"  href="javascript:void(0)" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a> ';
+                        $aksi .= '<a data-arah="atas" href="javascript:void(0)" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a> ';
                     }
                     if ($level != 'rt') {
                         $aksi .= '<a href="' . route('wilayah.index') . '?parent=' . $row->id . '&level=' . $subOrdinat . '" class="btn bg-purple btn-sm" title="Rincian Sub Wilayah"><i class="fa fa-list"></i></a> ';
