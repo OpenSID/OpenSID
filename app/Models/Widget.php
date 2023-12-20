@@ -42,7 +42,7 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class WebWidget extends BaseModel
+class Widget extends BaseModel
 {
     use ConfigId;
 
@@ -211,7 +211,7 @@ class WebWidget extends BaseModel
 
     public static function updateUrutan(): void
     {
-        $all  = WebWidget::orderBy('urut')->get();
+        $all  = Widget::orderBy('urut')->get();
         $urut = 1;
 
         foreach ($all as $w) {
