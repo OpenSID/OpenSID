@@ -37,6 +37,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 12. [#7509](https://github.com/OpenSID/OpenSID/issues/7509) Penyesuaian pengecekan hak akses.
 13. [#7512](https://github.com/OpenSID/OpenSID/issues/7512) Penyesuaian modul pengaturan peta > simbol lokasi menggunakan ORM dan Blade.
 14. [#7511](https://github.com/OpenSID/OpenSID/issues/7511) Penyesuaian modul pengaturan peta > lokasi menggunakan ORM dan Blade.
+15. [#7528](https://github.com/OpenSID/OpenSID/issues/7528) Penyesuaian pengaturan mapbox_key dan google recaptcha ambil dari config jika belum tersedia.
 
 
 #### Peningkatan Keamanan

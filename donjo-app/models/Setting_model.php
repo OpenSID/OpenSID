@@ -84,8 +84,24 @@ class Setting_model extends MY_Model
         date_default_timezone_set($this->setting->timezone); // ganti ke timezone lokal
 
         // Ambil google api key dari desa/config/config.php kalau tidak ada di database
-        if (empty($this->setting->mapbox_key)) {
+        if (empty($this->setting->mapbox_key) && ! empty(config_item('mapbox_key'))) {
             $this->setting->mapbox_key = config_item('mapbox_key');
+        }
+
+        if (empty($this->setting->google_api_key) && ! empty(config_item('google_api_key'))) {
+            $this->setting->google_api_key = config_item('google_api_key');
+        }
+
+        if (empty($this->setting->google_recaptcha_site_key) && ! empty(config_item('google_recaptcha_site_key'))) {
+            $this->setting->google_recaptcha_site_key = config_item('google_recaptcha_site_key');
+        }
+
+        if (empty($this->setting->google_recaptcha_secret_key) && ! empty(config_item('google_recaptcha_secret_key'))) {
+            $this->setting->google_recaptcha_secret_key = config_item('google_recaptcha_secret_key');
+        }
+
+        if (empty($this->setting->google_recaptcha) && ! empty(config_item('google_recaptcha'))) {
+            $this->setting->google_recaptcha = config_item('google_recaptcha');
         }
 
         if (empty($this->setting->header_surat)) {
