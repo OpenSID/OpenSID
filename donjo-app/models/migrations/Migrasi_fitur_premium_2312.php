@@ -61,9 +61,6 @@ class Migrasi_fitur_premium_2312 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        // Uncomment pada rilis rev terakhir
-        // return $hasil && $this->buat_tabel_migrations($hasil);
-
         // dimatikan sementara karena belum siap
         // $hasil = $hasil && $this->migrasi_2023102571($hasil);
         // $hasil = $hasil && $this->migrasi_2023110672($hasil);
@@ -130,19 +127,6 @@ class Migrasi_fitur_premium_2312 extends MY_model
         ]);
 
         DB::table('tweb_penduduk')->where('id_kk', 0)->update(['id_kk' => null]);
-
-        return $hasil;
-    }
-
-    protected function buat_tabel_migrations($hasil)
-    {
-        if (! Schema::hasTable('migrations')) {
-            Schema::create('migrations', static function (Blueprint $table): void {
-                $table->increments('id');
-                $table->string('migration');
-                $table->integer('batch');
-            });
-        }
 
         return $hasil;
     }

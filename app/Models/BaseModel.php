@@ -79,18 +79,16 @@ class BaseModel extends Model
 
     /**
      * Fungsi untuk mengganti status
-     * 
+     *
      * @param int    $id      ID data
      * @param string $kolom   Kolom yang akan diubah
      * @param bool   $onlyOne Hanya satu data yang aktif
-     * 
-     * @return bool
      */
-    public static function gantiStatus($id, $kolom = 'status', $onlyOne = false)
+    public static function gantiStatus($id, $kolom = 'status', $onlyOne = false): bool
     {
         $data = self::findOrFail($id);
 
-        $data->update([$kolom => ($data->$kolom == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA]);
+        $data->update([$kolom => ($data->{$kolom} == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA]);
 
         if ($onlyOne) {
             self::where('id', '!=', $id)->update([$kolom => StatusEnum::TIDAK]);

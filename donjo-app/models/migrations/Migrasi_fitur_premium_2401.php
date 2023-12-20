@@ -56,6 +56,9 @@ class Migrasi_fitur_premium_2401 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
+        // Uncomment pada rilis rev terakhir
+        // return $hasil && $this->buat_tabel_migrations($hasil);
+
         $hasil = $hasil && $this->migrasi_2023120351($hasil);
         $hasil = $hasil && $this->migrasi_2023120752($hasil);
 
@@ -231,6 +234,19 @@ class Migrasi_fitur_premium_2401 extends MY_model
                 $table->integer('updated_by')->nullable();
                 $table->unique(['uuid', 'config_id']);
                 $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
+
+        return $hasil;
+    }
+
+    protected function buat_tabel_migrations($hasil)
+    {
+        if (! Schema::hasTable('migrations')) {
+            Schema::create('migrations', static function (Blueprint $table): void {
+                $table->increments('id');
+                $table->string('migration');
+                $table->integer('batch');
             });
         }
 

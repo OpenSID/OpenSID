@@ -141,63 +141,57 @@
                     $(row).attr('data-id', data.id)
                 },
                 drawCallback: function(settings) {
-                    var api = this.api();
-                    if (api.rows().count()) {
-                        var lastRowIndex = api.rows().count() - 1;
+                    if (ubah == 1) {
 
-                        api.row(lastRowIndex).node().querySelector('i.fa-arrow-down').parentNode.setAttribute("disabled", true)
-                        api.row(0).node().querySelector('i.fa-arrow-up').parentNode.setAttribute("disabled", true)
+                        var api = this.api();
 
-                        $('a.pindahkan').click(function() {
-                            let _trAsal = $(this).closest('tr')
-                            const _arah = $(this).data('arah')
-                            let _urutAsal = _trAsal.attr('data-urut')
-                            let _trTujuan = _arah == 'atas' ? _trAsal.prev() : _trAsal.next()
-                            let _urutTujuan = _trTujuan.attr('data-urut')
+                        if (api.rows().count()) {
+                            var lastRowIndex = api.rows().count() - 1;
 
-                            if (_arah == 'atas') {
-                                if (_urutAsal <= _urutTujuan) {
+                            api.row(lastRowIndex).node().querySelector('i.fa-arrow-down').parentNode.setAttribute("disabled", true)
+                            api.row(0).node().querySelector('i.fa-arrow-up').parentNode.setAttribute("disabled", true)
+
+                            $('a.pindahkan').click(function() {
+                                const _trAsal = $(this).closest('tr');
+                                const _arah = $(this).data('arah');
+                                let _urutAsal = _trAsal.attr('data-urut');
+                                let _trTujuan = (_arah == 'atas') ? _trAsal.prev() : _trAsal.next();
+                                let _urutTujuan = _trTujuan.attr('data-urut');
+
+                                if ((_arah == 'atas' && _urutAsal <= _urutTujuan) || (_arah == 'bawah' && _urutAsal >= _urutTujuan)) {
                                     if (_urutTujuan == 0) {
-                                        _urutAsal = 1
-                                        _urutTujuan = 2
+                                        _urutAsal = (_arah == 'atas') ? 1 : 2;
+                                        _urutTujuan = (_arah == 'atas') ? 2 : 1;
+                                    } else {
+                                        const _tmpUrut = _urutAsal;
+                                        _urutAsal = _urutTujuan;
+                                        _urutTujuan = _tmpUrut;
                                     }
                                 } else {
-                                    _tmpUrut = _urutAsal
-                                    _urutAsal = _urutTujuan
-                                    _urutTujuan = _tmpUrut
+                                    const _tmpUrut = _urutAsal;
+                                    _urutAsal = _urutTujuan;
+                                    _urutTujuan = _tmpUrut;
                                 }
-                            }
 
-                            if (_arah == 'bawah') {
-                                if (_urutAsal >= _urutTujuan) {
-                                    if (_urutTujuan == 0) {
-                                        _urutAsal = 2
-                                        _urutTujuan = 1
+                                const _dataKirim = {
+                                    data: [{
+                                        id: _trAsal.attr('data-id'),
+                                        urut: _urutAsal
+                                    }, {
+                                        id: _trTujuan.attr('data-id'),
+                                        urut: _urutTujuan
+                                    }]
+                                };
+
+                                $.post(SITE_URL + 'web_widget/tukar', _dataKirim, function(data) {
+                                    if (data.status) {
+                                        TableData.draw();
                                     }
-                                } else {
-                                    _tmpUrut = _urutAsal
-                                    _urutAsal = _urutTujuan
-                                    _urutTujuan = _tmpUrut
-                                }
-                            }
-                            let _dataKirim = {
-                                data: [{
-                                    id: _trAsal.attr('data-id'),
-                                    urut: _urutAsal
-                                }, {
-                                    id: _trTujuan.attr('data-id'),
-                                    urut: _urutTujuan
-                                }]
-                            }
+                                }, 'json');
+                            });
 
-                            $.post('{{ route('web_widget.tukar') }}', _dataKirim, function(data) {
-                                if (data.status) {
-                                    TableData.draw()
-                                }
-                            }, 'json')
-                        })
+                        }
                     }
-
                 }
             });
 

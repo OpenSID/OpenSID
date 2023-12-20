@@ -36,7 +36,8 @@
  */
 
 use App\Enums\StatusEnum;
-use App\Models\WebWidget;
+use App\Models\Widget;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,6 +46,8 @@ class Web_widget extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->modul_ini     = 'admin-web';
+        $this->sub_modul_ini = 'widget';
         // Jika offline_mode dalam level yang menyembunyikan website,
         // tidak perlu menampilkan halaman website
         if ($this->setting->offline_mode >= 2) {
@@ -64,7 +67,7 @@ class Web_widget extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(WebWidget::orderBy('urut'))
+            return datatables()->of(Widget::orderBy('urut'))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -75,8 +78,8 @@ class Web_widget extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a data-arah="bawah"  href="#" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a> ';
-                        $aksi .= '<a data-arah="atas" href="#" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a> ';
+                        $aksi .= '<a data-arah="bawah"  href="javascript:void(0)" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a> ';
+                        $aksi .= '<a data-arah="atas" hhref="javascript:void(0)" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a> ';
                         if ($row->jenis_widget != 1) {
                             $aksi .= '<a href="' . route('web_widget.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                         }
@@ -86,9 +89,9 @@ class Web_widget extends Admin_Controller
                     }
                     if (can('u')) {
                         if ($row->enabled == StatusEnum::YA) {
-                            $aksi .= '<a href="' . route('web_widget.lock') . '/' . $row->id . '/' . StatusEnum::TIDAK . '" class="btn bg-navy btn-sm" title="Aktifkan Anjungan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Aktifkan Anjungan"><i class="fa fa-unlock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . route('web_widget.lock') . '/' . $row->id . '/' . StatusEnum::YA . '" class="btn bg-navy btn-sm" title="Nonaktifkan Anjungan"><i class="fa fa-lock"></i></a> ';
+                            $aksi .= '<a href="' . route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Nonaktifkan Anjungan"><i class="fa fa-lock"></i></a> ';
                         }
                     }
                     if (can('h') && $row->jenis_widget != 1) {
@@ -106,6 +109,13 @@ class Web_widget extends Admin_Controller
                     return ['style' => $style];
                 })
                 ->editColumn('enabled', static fn ($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('isi', static function ($row): string {
+                    if ($row->jenis_widget == Widget::WIDGET_DINAMIS) {
+                        return Str::limit($row->isi, 200, '...');
+                    }
+
+                    return $row->isi;
+                })
                 ->addColumn('jenis_widget', static fn ($row): string => $row->jenis_widget == '1' ? 'Sistem' : ($row->jenis_widget == '2' ? 'Statis' : 'Dinamis'))
                 ->rawColumns(['ceklist', 'aksi', 'jenis_widget'])
                 ->make();
@@ -119,20 +129,20 @@ class Web_widget extends Admin_Controller
         $widget = $this->input->post('data');
         if ($widget) {
             foreach ($widget as $w) {
-                WebWidget::findOrFail($w['id'])->update(['urut' => $w['urut']]);
+                Widget::findOrFail($w['id'])->update(['urut' => $w['urut']]);
             }
-            WebWidget::updateUrutan();
+            Widget::updateUrutan();
         }
         $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 1], JSON_THROW_ON_ERROR));
     }
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
-        $data['list_widget'] = WebWidget::listWidgetBaru();
+        isCan('u');
+
         if ($id) {
             $data['aksi']        = 'Ubah';
-            $data['widget']      = WebWidget::GetWidget($id);
+            $data['widget']      = Widget::GetWidget($id);
             $data['form_action'] = route('web_widget.update', $id);
         } else {
             $data['aksi']        = 'Tambah';
@@ -140,13 +150,15 @@ class Web_widget extends Admin_Controller
             $data['form_action'] = route('web_widget.insert');
         }
 
+        $data['list_widget'] = Widget::listWidgetBaru();
+
         return view('admin.web.widget.form', $data);
     }
 
     public function admin($widget)
     {
         $data['form_action'] = site_url('web_widget/update_setting/' . $widget);
-        $data['settings']    = WebWidget::getSetting($widget);
+        $data['settings']    = Widget::getSetting($widget);
         if ($widget == 'sinergi_program' || $widget == 'aparatur_desa') {
             $data['pemerintah'] = ucwords(setting('sebutan_pemerintah_desa'));
 
@@ -157,7 +169,8 @@ class Web_widget extends Admin_Controller
 
     public function update_setting($widget): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
+
         $this->cek_tidy();
         $setting = $this->input->post('setting');
         $this->web_widget_model->update_setting($widget, $setting);
@@ -167,9 +180,10 @@ class Web_widget extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
+
         $this->cek_tidy();
-        if (WebWidget::create($this->validasi($this->request))) {
+        if (Widget::create($this->validasi($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 
@@ -232,9 +246,10 @@ class Web_widget extends Admin_Controller
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
+
         $this->cek_tidy();
-        if (WebWidget::findOrFail($id)->update($this->validasi($this->request))) {
+        if (Widget::findOrFail($id)->update($this->validasi($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
         redirect_with('error', 'Gagal Ubah Data');
@@ -242,8 +257,9 @@ class Web_widget extends Admin_Controller
 
     public function delete($id = ''): void
     {
-        $this->redirect_hak_akses('h');
-        $web = WebWidget::where('jenis_widget', '!=', WebWidget::WIDGET_SISTEM)->find($id) ?? show_404();
+        isCan('h');
+
+        $web = Widget::where('jenis_widget', '!=', Widget::WIDGET_SISTEM)->find($id) ?? show_404();
         if ($web->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
@@ -252,8 +268,9 @@ class Web_widget extends Admin_Controller
 
     public function delete_all(): void
     {
-        $this->redirect_hak_akses('h');
-        if (WebWidget::whereIn('id', $this->request['id_cb'])->where('jenis_widget', '!=', WebWidget::WIDGET_SISTEM)->delete()) {
+        isCan('h');
+
+        if (Widget::whereIn('id', $this->request['id_cb'])->where('jenis_widget', '!=', Widget::WIDGET_SISTEM)->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
         redirect_with('error', 'Gagal Hapus Data');
@@ -261,16 +278,18 @@ class Web_widget extends Admin_Controller
 
     public function urut($id = 0, $arah = 0): void
     {
-        $this->redirect_hak_akses('u');
-        WebWidget::nomorUrut($id, $arah);
+        isCan('u');
+
+        Widget::nomorUrut($id, $arah);
 
         redirect('web_widget');
     }
 
     public function lock($id = 0, $val = 1): void
     {
-        $this->redirect_hak_akses('u');
-        if (WebWidget::findOrFail($id)->update(['enabled' => $val])) {
+        isCan('u');
+
+        if (Widget::gantiStatus($id)) {
             redirect_with('success', 'Berhasil Ubah Status');
         }
         redirect_with('error', 'Gagal Ubah Status');
