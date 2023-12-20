@@ -89,9 +89,9 @@ class Web_widget extends Admin_Controller
                     }
                     if (can('u')) {
                         if ($row->enabled == StatusEnum::YA) {
-                            $aksi .= '<a href="' . route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Aktifkan Anjungan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Nonaktifkan Anjungan"><i class="fa fa-lock"></i></a> ';
+                            $aksi .= '<a href="' . route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
                         }
                     }
                     if (can('h') && $row->jenis_widget != 1) {
@@ -285,11 +285,11 @@ class Web_widget extends Admin_Controller
         redirect('web_widget');
     }
 
-    public function lock($id = 0, $val = 1): void
+    public function lock($id = 0): void
     {
         isCan('u');
 
-        if (Widget::gantiStatus($id)) {
+        if (Widget::gantiStatus($id, 'enabled')) {
             redirect_with('success', 'Berhasil Ubah Status');
         }
         redirect_with('error', 'Gagal Ubah Status');
