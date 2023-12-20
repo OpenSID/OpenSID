@@ -75,7 +75,9 @@ if (! function_exists('view')) {
         $CI = &get_instance();
 
         $container = new Container();
-        $container->instance('db', Container::getInstance()->get('db'));
+
+        // sementara dimatikan karena koneksi ke elequent saat installasi tidak terdeteksi
+        // $container->instance('db', Container::getInstance()->get('db'));
 
         // TODO:: sementara gunakan config yang ada di CI3 karena masalah instance laravel
         // $factory = new \Jenssegers\Blade\Blade(config('view.paths'), config('view.compiled'), $container);
