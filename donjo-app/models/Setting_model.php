@@ -84,8 +84,24 @@ class Setting_model extends MY_Model
         date_default_timezone_set($this->setting->timezone); // ganti ke timezone lokal
 
         // Ambil google api key dari desa/config/config.php kalau tidak ada di database
-        if (empty($this->setting->mapbox_key)) {
+        if (empty($this->setting->mapbox_key) && ! empty(config_item('mapbox_key'))) {
             $this->setting->mapbox_key = config_item('mapbox_key');
+        }
+
+        if (empty($this->setting->google_api_key) && ! empty(config_item('google_api_key'))) {
+            $this->setting->google_api_key = config_item('google_api_key');
+        }
+
+        if (empty($this->setting->google_recaptcha_site_key) && ! empty(config_item('google_recaptcha_site_key'))) {
+            $this->setting->google_recaptcha_site_key = config_item('google_recaptcha_site_key');
+        }
+
+        if (empty($this->setting->google_recaptcha_secret_key) && ! empty(config_item('google_recaptcha_secret_key'))) {
+            $this->setting->google_recaptcha_secret_key = config_item('google_recaptcha_secret_key');
+        }
+
+        if (empty($this->setting->google_recaptcha) && ! empty(config_item('google_recaptcha'))) {
+            $this->setting->google_recaptcha = config_item('google_recaptcha');
         }
 
         if (empty($this->setting->header_surat)) {
@@ -283,7 +299,7 @@ class Setting_model extends MY_Model
 
         // Hapus Cache
         // $this->cache->hapus_cache_untuk_semua('status_langganan');
-        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+        cache()->forget('setting_aplikasi');
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         status_sukses($outp);
@@ -294,7 +310,7 @@ class Setting_model extends MY_Model
     public function aktifkan_tracking(): void
     {
         $outp = $this->config_id()->where('key', 'enable_track')->update('setting_aplikasi', ['value' => 1]);
-        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+        cache()->forget('setting_aplikasi');
 
         status_sukses($outp);
     }
@@ -303,8 +319,10 @@ class Setting_model extends MY_Model
     {
         $_SESSION['success']                 = 1;
         $this->setting->sumber_gambar_slider = $this->input->post('pilihan_sumber');
+        $this->setting->jumlah_gambar_slider = $this->input->post('jumlah_gambar_slider');
         $outp                                = $this->config_id()->where('key', 'sumber_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('pilihan_sumber')]);
-        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+        $outp                                = $this->config_id()->where('key', 'jumlah_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('jumlah_gambar_slider')]);
+        cache()->forget('setting_aplikasi');
 
         if (! $outp) {
             $_SESSION['success'] = -1;
@@ -325,7 +343,7 @@ class Setting_model extends MY_Model
         $penggunaan_server                = $this->input->post('server_mana') ?: $this->input->post('jenis_server');
         $this->setting->penggunaan_server = $penggunaan_server;
         $out2                             = $this->config_id()->where('key', 'penggunaan_server')->update('setting_aplikasi', ['value' => $penggunaan_server]);
-        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+        cache()->forget('setting_aplikasi');
 
         if (! $out1 || ! $out2) {
             $_SESSION['success'] = -1;

@@ -131,7 +131,7 @@ class Buku_keperluan extends Anjungan_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate($request = [])
+    private function validate($request = []): array
     {
         return [
             'keperluan' => htmlentities($request['keperluan']),

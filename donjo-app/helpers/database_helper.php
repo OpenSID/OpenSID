@@ -114,7 +114,7 @@ function get_csv($zip_file, $file_in_zip): array
         if (! $key) {
             continue;
         }
-        if (count($header) == count($value)) {
+        if (count($header) === count($value)) {
             $result[] = array_combine($csv[0], $value);
         }
     }

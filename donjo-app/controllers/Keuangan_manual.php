@@ -229,7 +229,7 @@ class Keuangan_manual extends Admin_Controller
         redirect('keuangan_manual/manual_apbdes');
     }
 
-    private function validation($post = [])
+    private function validation($post = []): array
     {
         return [
             'Tahun'           => bilangan($post['Tahun']),

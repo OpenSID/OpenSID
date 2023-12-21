@@ -88,26 +88,23 @@ class DtksLampiran extends BaseModel
 
     /**
      * The "booted" method of the model.
-     *
-     * @return void
      */
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
-        static::deleting(static function ($model) {
-            static::deleteFile($model->getOriginal('foto'));
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'foto', true);
         });
     }
 
-    private static function deleteFile($file)
+    public static function deleteFile($model, ?string $file, $deleting = false): void
     {
-        if ($file) {
-            $path = FCPATH . LOKASI_FOTO_DTKS . $file;
-            if (file_exists($path)) {
-                unlink($path);
+        if ($model->isDirty($file) || $deleting) {
+            $logo       = LOKASI_FOTO_DTKS . $model->getOriginal($file);
+            $path_kecil = LOKASI_FOTO_DTKS . 'kecil_' . $model->getOriginal($file);
+            if (file_exists($logo)) {
+                unlink($logo);
             }
-
-            $path_kecil = FCPATH . LOKASI_FOTO_DTKS . 'kecil_' . $file;
             if (file_exists($path_kecil)) {
                 unlink($path_kecil);
             }

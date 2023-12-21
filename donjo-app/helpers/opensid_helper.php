@@ -50,7 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2312.0.0');
+define('VERSION', '2312.0.3');
 
 /**
  * PREMIUM
@@ -66,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023120171');
+define('VERSI_DATABASE', '2023121971');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -569,7 +569,7 @@ function sql_in_list($list_array)
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
  * tampil : true kalau berkas akan ditampilkan inline (tidak diunduh)
  */
-function ambilBerkas(string $nama_berkas, $redirect_url = null, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil = false)
+function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil = false)
 {
     $CI = &get_instance();
     $CI->load->helper('download');
@@ -908,6 +908,10 @@ function alamat($str): ?string
 // Koordinat peta hanya boleh berisi numerik ,minus dan desimal
 function koordinat($str): ?string
 {
+    if (empty($str)) {
+        return null;
+    }
+
     return preg_replace('/[^-?(?:\\d+|\\d{1,3}(?:,\\d{3})+)(?:\\.\\d+)?$]/', '', htmlentities($str));
 }
 

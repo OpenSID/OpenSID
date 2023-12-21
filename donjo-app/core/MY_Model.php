@@ -163,6 +163,8 @@ class MY_Model extends CI_Model
             if ($duplikat > 0) {
                 session_error('--> Silahkan Cek <a href="' . site_url('info_sistem') . '">Info Sistem > Log</a>.');
                 log_message('error', "Data kolom {$kolom} pada tabel {$tabel} ada yang duplikat dan perlu diperbaiki sebelum migrasi dilanjutkan.");
+
+                return false;
             }
         }
 
@@ -267,7 +269,7 @@ class MY_Model extends CI_Model
 
     public function tambah_setting($setting, $config_id = null)
     {
-        hapus_cache('identitas_desa');
+        cache()->forget('identitas_desa');
 
         if (Schema::hasColumn('setting_aplikasi', 'config_id')) {
             $cek = SettingAplikasi::withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->where('config_id', $config_id ?? $this->config_id)->where('key', $setting['key']);
@@ -284,7 +286,7 @@ class MY_Model extends CI_Model
             $hasil = $this->db->query($sql);
         }
 
-        hapus_cache('setting_aplikasi');
+        cache()->forget('setting_aplikasi');
 
         return true;
     }

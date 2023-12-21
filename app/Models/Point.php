@@ -47,8 +47,10 @@ class Point extends BaseModel
 {
     use ConfigId;
 
-    public const ROOT  = 0;
-    public const CHILD = 2;
+    public const LOCK   = 1;
+    public const UNLOCK = 2;
+    public const ROOT   = 0;
+    public const CHILD  = 2;
 
     /**
      * The table associated with the model.
@@ -72,6 +74,11 @@ class Point extends BaseModel
         'parrent',
     ];
 
+    // append
+    protected $appends = [
+        'path_simbol',
+    ];
+
     protected function scopeRoot($query)
     {
         return $query->whereTipe(self::ROOT);
@@ -82,9 +89,33 @@ class Point extends BaseModel
         return $query->whereTipe(self::CHILD)->whereParrent($parent);
     }
 
+    protected function scopeSubPoint($query)
+    {
+        return $query->whereTipe(self::CHILD);
+    }
+
     protected function scopeActive($query)
     {
-        return $query->whereEnabled(1);
+        return $query->whereEnabled(self::UNLOCK);
+    }
+
+    public function isLock(): bool
+    {
+        return $this->enabled == self::LOCK;
+    }
+
+    /**
+     * Getter untuk path + simbol
+     */
+    public function getPathSimbolAttribute(): string
+    {
+        $simbol = LOKASI_SIMBOL_LOKASI . $this->attributes['simbol'];
+
+        if (empty($this->attributes['simbol']) || ! file_exists(FCPATH . $simbol)) {
+            return LOKASI_SIMBOL_LOKASI . 'default.png';
+        }
+
+        return $simbol;
     }
 
     /**

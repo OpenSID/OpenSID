@@ -59,7 +59,7 @@ class Teks_berjalan extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -80,22 +80,19 @@ class Teks_berjalan extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('teks', static function ($row) {
+                ->addColumn('teks', static function ($row): string {
                     $text = $row->teks;
-                    $text .= ' <a href="' . menu_slug('artikel/' . $row->tautan) . '" target="_blank">' . $row->judul_tautan . '</a><br>';
 
-                    return $text;
+                    return $text . (' <a href="' . menu_slug('artikel/' . $row->tautan) . '" target="_blank">' . $row->judul_tautan . '</a><br>');
                 })
-                ->editColumn('tampilkan', static function ($row) {
-                    return SistemEnum::valueOf($row->tipe);
-                })
+                ->editColumn('tampilkan', static fn ($row) => SistemEnum::valueOf($row->tipe))
                 ->addColumn('judul_tautan', static function ($row) {
                     if ($row->tautan) {
                         return '<a href="' . $row->tautan . '" target="_blank">' . tgl_indo($row->artikel->tgl_upload) . ' <br> ' . $row->artikel->judul . '</a>';
                     }
                 })
                 ->rawColumns(['ceklist', 'aksi', 'teks', 'judul_tautan'])
-                ->orderColumn('teks', static function ($query, $order) {
+                ->orderColumn('teks', static function ($query, $order): void {
                     $query->orderBy('teks', $order);
                 })
                 ->make();
@@ -121,7 +118,7 @@ class Teks_berjalan extends Admin_Controller
         return view('admin.web.teks_berjalan.form', $data);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 

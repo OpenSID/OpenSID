@@ -24,7 +24,9 @@
                         <a href="{{ route('area.form', $parent) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
                     @endif
                     @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('area.delete', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i>
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('area.delete', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                                class='fa fa-trash-o'
+                            ></i>
                             Hapus</a>
                     @endif
                     @if ($parent_jenis)
@@ -46,26 +48,25 @@
                         <div class="col-sm-2">
                             <select id="polygon" class="form-control input-sm select2">
                                 <option value="">Pilih Jenis</option>
-                                @foreach($polygon as $item)
-                                    <option data-children='{!! $item->children->toJson() !!}' value="{{ $item->id }}" >{{ $item->nama }}</option>
+                                @foreach ($polygon as $item)
+                                    <option data-children='{!! $item->children->toJson() !!}' value="{{ $item->id }}">{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        
+
                         <div class="col-sm-2">
                             <select id="subpolygon" class="form-control input-sm select2">
                                 <option value="">Pilih Kategori</option>
-                                @foreach($polygon as $item)
+                                @foreach ($polygon as $item)
                                     <optgroup label="{{ $item->nama }}">
-                                    @foreach($item->children as $child)
-                                        <option value="{{ $child->id }}" >{{ $child->nama }}</option>
-                                    @endforeach
+                                        @foreach ($item->children as $child)
+                                            <option value="{{ $child->id }}">{{ $child->nama }}</option>
+                                        @endforeach
                                     </optgroup>
-                                    
                                 @endforeach
                             </select>
                         </div>
-                        
+
                     </div>
                     <hr>
                     {!! form_open(null, 'id="mainform" name="mainform"') !!}
@@ -78,7 +79,7 @@
                                     <th class="padat">Aksi</th>
                                     <th>Area</th>
                                     <th style="width:10%">Aktif</th>
-                                    <th style="width:15%">Jenis</th> 
+                                    <th style="width:15%">Jenis</th>
                                     <th style="width:15%">Kategori</th>
                                 </tr>
                             </thead>
@@ -86,19 +87,18 @@
                     </div>
                     </form>
                 </div>
-            </div>    
+            </div>
         </div>
     </div>
-    
+
     @include('admin.layouts.components.konfirmasi_hapus')
 @endsection
 @push('css')
-<style>
-    .select2-results__option[aria-disabled=true]
-    {
-        display: none;
-    }
-</style>
+    <style>
+        .select2-results__option[aria-disabled=true] {
+            display: none;
+        }
+    </style>
 @endpush
 @push('scripts')
     <script>
@@ -107,8 +107,8 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: { 
-                    url :"{{ route('area.datatables') }}?parent={{ $parent }}" ,
+                ajax: {
+                    url: "{{ route('area.datatables') }}?parent={{ $parent }}",
                     data: function(req) {
                         req.status = $('#status').val();
                         req.polygon = $('#polygon').val();
@@ -157,38 +157,38 @@
                         name: 'kategori',
                         searchable: false,
                         orderable: false
-                    },      
+                    },
                 ],
                 order: [
                     [3, 'asc']
                 ]
-            });                                    
-            
+            });
+
             if (hapus == 0) {
                 TableData.column(0).visible(false);
             }
 
             if (ubah == 0) {
                 TableData.column(2).visible(false);
-            }            
+            }
 
-            $('#polygon').change(function(){                
+            $('#polygon').change(function() {
                 let _label = $(this).find('option:selected').text()
                 $('#subpolygon').val('')
-                $('#subpolygon').find('optgroup').prop('disabled', 1)                
-                if($(this).val()){
+                $('#subpolygon').find('optgroup').prop('disabled', 1)
+                if ($(this).val()) {
                     $('#subpolygon').closest('div').show()
                     $('#subpolygon').find(`optgroup[label="${_label}"]`).prop('disabled', 0)
                 } else {
-                    $('#subpolygon').closest('div').hide()    
+                    $('#subpolygon').closest('div').hide()
                 }
-                $('#btn-add').attr('href', '{{ route('area.form') }}/'+$(this).val())
+                $('#btn-add').attr('href', '{{ route('area.form') }}/' + $(this).val())
                 $('#subpolygon').select2()
-            })            
+            })
 
             $('#subpolygon').closest('div').hide()
-            
-            $('#subpolygon, #polygon, #status').change(function(){
+
+            $('#subpolygon, #polygon, #status').change(function() {
                 TableData.draw()
             })
 

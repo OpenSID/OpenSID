@@ -141,7 +141,7 @@ class Area extends BaseModel
         return $this->belongsTo(Polygon::class, 'ref_polygon', 'id');
     }
 
-    public function isLock()
+    public function isLock(): bool
     {
         return $this->enabled == self::LOCK;
     }
@@ -161,29 +161,25 @@ class Area extends BaseModel
 
     /**
      * The "booted" method of the model.
-     *
-     * @return void
      */
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 
-        static::updating(static function ($model) {
-            if ($model->isDirty('foto')) {
-                static::deleteFile($model->getOriginal('foto'));
-            }
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'foto');
         });
 
-        static::deleting(static function ($model) {
-            static::deleteFile($model->getOriginal('foto'));
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'foto', true);
         });
     }
 
-    private static function deleteFile($file)
+    public static function deleteFile($model, ?string $file, $deleting = false): void
     {
-        if ($file) {
-            $fotoSedang = LOKASI_FOTO_AREA . 'sedang_' . $file;
-            $fotoKecil  = LOKASI_FOTO_AREA . 'kecil_' . $file;
+        if ($model->isDirty($file) || $deleting) {
+            $fotoSedang = LOKASI_FOTO_AREA . 'sedang_' . $model->getOriginal($file);
+            $fotoKecil  = LOKASI_FOTO_AREA . 'kecil_' . $model->getOriginal($file);
             if (file_exists($fotoSedang)) {
                 unlink($fotoSedang);
             }

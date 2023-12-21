@@ -61,7 +61,7 @@ Demo aplikasi OpenSID Versi Premium dapat diujicoba di https://berputar.opendesa
 
 ### 💬 FORUM
 
-Anda dapat bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.facebook.com/groups/opensid) di Facebook atau di [Telegram](http://bit.ly/2DG6Beb). Kedua group ini bersifat informal dan merupakan tempat berbagi informasi dan saling membantu menggunakan dan mengembangkan aplikasi OpenSID.
+Anda dapat bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.facebook.com/groups/komunitasopendesa) di Facebook atau di [Telegram](https://t.me/komunitasopensidstop). Kedua group ini bersifat informal dan merupakan tempat berbagi informasi dan saling membantu menggunakan dan mengembangkan aplikasi OpenSID.
 
 ## 🤝 KEMBANGKAN BERSAMA
 

@@ -201,28 +201,25 @@ class Config extends BaseModel
         });
 
         static::updating(static function ($model): void {
-            static::deleteFile($model->getOriginal('logo'));
-            static::deleteFile($model->getOriginal('kantor_desa'));
+            static::deleteFile($model, 'logo');
+            static::deleteFile($model, 'kantor_desa');
             static::clearCache();
         });
-
-        // static::deleting(static function ($model) {
-        //     static::deleteFile($model->logo);
-        // });
     }
 
     // Hapus cache config dan modul
-    private static function clearCache(): void
+    public static function clearCache(): void
     {
-        hapus_cache('identitas_desa');
+        cache()->flush();
+        // cache()->forget('identitas_desa');
         hapus_cache('status_langganan');
         hapus_cache('_cache_modul');
     }
 
-    private function deleteFile($file)
+    public static function deleteFile($model, ?string $file): void
     {
-        if ($file) {
-            $logo = LOKASI_LOGO_DESA . $file;
+        if ($model->isDirty($file)) {
+            $logo = LOKASI_LOGO_DESA . $model->getOriginal($file);
             if (file_exists($logo)) {
                 unlink($logo);
             }

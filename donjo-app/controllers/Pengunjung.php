@@ -37,6 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\StatistikPengunjung;
+use Illuminate\Support\Facades\DB;
+
 class Pengunjung extends Admin_Controller
 {
     public function __construct()
@@ -47,42 +50,125 @@ class Pengunjung extends Admin_Controller
         $this->sub_modul_ini = 'pengunjung';
     }
 
-    public function index(): void
+    public function index()
     {
-        $data['hari_ini']   = $this->statistik_pengunjung_model->get_pengunjung_total('1');
-        $data['kemarin']    = $this->statistik_pengunjung_model->get_pengunjung_total('2');
-        $data['minggu_ini'] = $this->statistik_pengunjung_model->get_pengunjung_total('3');
-        $data['bulan_ini']  = $this->statistik_pengunjung_model->get_pengunjung_total('4');
-        $data['tahun_ini']  = $this->statistik_pengunjung_model->get_pengunjung_total('5');
-        $data['jumlah']     = $this->statistik_pengunjung_model->get_pengunjung_total(null);
-        $data['main']       = $this->statistik_pengunjung_model->get_pengunjung($this->session->id);
+        $data['hari_ini']   = StatistikPengunjung::filter(StatistikPengunjung::HARI_INI)->sum('jumlah');
+        $data['kemarin']    = StatistikPengunjung::filter(StatistikPengunjung::KEMARIN)->sum('jumlah');
+        $data['minggu_ini'] = StatistikPengunjung::filter(StatistikPengunjung::MINGGU_INI)->sum('jumlah');
+        $data['bulan_ini']  = StatistikPengunjung::filter(StatistikPengunjung::BULAN_INI)->sum('jumlah');
+        $data['tahun_ini']  = StatistikPengunjung::filter(StatistikPengunjung::TAHUN_INI)->sum('jumlah');
+        $data['jumlah']     = StatistikPengunjung::sum('jumlah');
+        $data['main']       = $this->getPengunjung();
 
-        $this->render('pengunjung/table', $data);
+        return view('admin.pengunjung.index', $data);
     }
 
-    public function detail($id = null): void
+    private function getPengunjung($type = null)
     {
-        $this->session->set_userdata('id', $id);
+        $tgl = date('Y-m-d');
+        $bln = date('m');
+        $thn = date('Y');
 
-        redirect('pengunjung');
+        switch ($type) {
+            // Hari Ini
+            case StatistikPengunjung::HARI_INI:
+                $data['lblx']       = 'Tanggal';
+                $data['judul']      = 'Hari Ini ( ' . tgl_indo2($tgl) . ')';
+                $data['pengunjung'] = StatistikPengunjung::filter(StatistikPengunjung::HARI_INI)
+                    ->groupBy(DB::raw('tanggal'))
+                    ->select(DB::raw('SUM(jumlah) as Jumlah'), DB::raw('tanggal as Tanggal'))
+                    ->orderBy('Tanggal', 'asc')->get();
+                break;
+
+                // Kemarin
+            case StatistikPengunjung::KEMARIN:
+                $data['lblx']       = 'Tanggal';
+                $data['judul']      = 'Kemarin ( ' . tgl_indo2($this->op_tgl('-1 days', $tgl)) . ')';
+                $data['pengunjung'] = StatistikPengunjung::filter(StatistikPengunjung::KEMARIN)
+                    ->groupBy(DB::raw('tanggal'))
+                    ->select(DB::raw('SUM(jumlah) as Jumlah'), DB::raw('tanggal as Tanggal'))
+                    ->orderBy('Tanggal', 'asc')->get();
+                break;
+
+                // 7 Hari (Minggu Ini)
+            case StatistikPengunjung::MINGGU_INI:
+                $data['lblx']       = 'Tanggal';
+                $data['judul']      = 'Dari Tanggal ' . tgl_indo2($this->op_tgl('-6 days', $tgl)) . ' - ' . tgl_indo2($tgl);
+                $data['pengunjung'] = StatistikPengunjung::filter(StatistikPengunjung::MINGGU_INI)
+                    ->groupBy(DB::raw('tanggal'))
+                    ->select(DB::raw('SUM(jumlah) as Jumlah'), DB::raw('tanggal as Tanggal'))
+                    ->orderBy('Tanggal', 'asc')->get();
+                break;
+
+                // 1 bulan(tgl 1 sampai akhir bulan)
+            case StatistikPengunjung::BULAN_INI:
+                $data['lblx']       = 'Tanggal';
+                $data['judul']      = 'Bulan ' . ucwords(getBulan($bln)) . ' ' . $thn;
+                $data['pengunjung'] = StatistikPengunjung::filter(StatistikPengunjung::BULAN_INI)
+                    ->groupBy(DB::raw('Tanggal'))
+                    ->select(DB::raw('SUM(jumlah) as Jumlah'), DB::raw('tanggal as Tanggal'))
+                    ->orderBy('Tanggal', 'asc')->get();
+                break;
+
+                // 1 tahun / 12 Bulan
+            case StatistikPengunjung::TAHUN_INI:
+                $data['lblx']       = 'Bulan';
+                $data['judul']      = 'Tahun ' . $thn;
+                $data['pengunjung'] = StatistikPengunjung::filter(StatistikPengunjung::TAHUN_INI)
+                    ->groupBy(DB::raw('MONTH(tanggal)'))
+                    ->select(DB::raw('SUM(jumlah) as Jumlah'), DB::raw('MONTH(tanggal) as Tanggal'))
+                    ->orderBy('Tanggal', 'asc')->get();
+                break;
+
+                // Semua Data
+            default:
+                $data['lblx']       = 'Tahun';
+                $data['judul']      = 'Setiap Tahun';
+                $data['pengunjung'] = StatistikPengunjung::groupBy(DB::raw('YEAR(tanggal)'))
+                    ->select(DB::raw('YEAR(tanggal) as Tanggal'), DB::raw('SUM(jumlah) as Jumlah'))
+                    ->orderBy('Tanggal', 'asc')->get();
+                break;
+        }
+
+        $data['Total']      = $data['pengunjung']->sum('Jumlah');
+        $data['pengunjung'] = $data['pengunjung']->toArray();
+
+        return $data;
     }
 
-    public function clear(): void
+    public function detail($id = null)
     {
-        $this->session->unset_userdata('id');
+        $data['hari_ini']   = StatistikPengunjung::filter(StatistikPengunjung::HARI_INI)->sum('jumlah');
+        $data['kemarin']    = StatistikPengunjung::filter(StatistikPengunjung::KEMARIN)->sum('jumlah');
+        $data['minggu_ini'] = StatistikPengunjung::filter(StatistikPengunjung::MINGGU_INI)->sum('jumlah');
+        $data['bulan_ini']  = StatistikPengunjung::filter(StatistikPengunjung::BULAN_INI)->sum('jumlah');
+        $data['tahun_ini']  = StatistikPengunjung::filter(StatistikPengunjung::TAHUN_INI)->sum('jumlah');
+        $data['jumlah']     = StatistikPengunjung::sum('jumlah');
+        $data['main']       = $this->getPengunjung($id);
 
-        redirect('pengunjung');
+        return view('admin.pengunjung.index', $data);
     }
 
-    public function cetak($aksi = 'cetak'): void
+    public function cetak($aksi = 'cetak')
     {
         $data = [
             'aksi'   => $aksi,
             'config' => $this->header['desa'],
-            'main'   => $this->statistik_pengunjung_model->get_pengunjung($this->session->id),
+            'main'   => $this->getPengunjung(),
             'file'   => 'LAPORAN DATA STATISTIK PENGUNJUNG WEBSITE SETIAP TAHUN',
-            'isi'    => 'pengunjung/print',
+            'isi'    => 'admin.pengunjung.cetak',
         ];
-        $this->load->view('global/format_cetak', $data);
+
+        return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    /**
+     * Rentang tanggal.
+     *
+     * @return string
+     */
+    protected function op_tgl(string $op, string $tgl)
+    {
+        return date('Y-m-d', strtotime($op, strtotime($tgl)));
     }
 }

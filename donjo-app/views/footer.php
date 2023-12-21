@@ -43,6 +43,7 @@
 				<script src="<?= asset('js/numeral.min.js') ?>"></script>
 				<!-- Script-->
 				<script src="<?= asset('js/script.js') ?>"></script>
+				<script src="<?= asset('js/admin.js') ?>"></script>
 				<script src="<?= asset('js/custom-select2.js') ?>"></script>
 				<script src="<?= asset('js/custom-datetimepicker.js') ?>"></script>
 
@@ -122,13 +123,13 @@
 							notify_msg = 'Data berhasil disimpan';
 						} else if (success == -1) {
 							notify = 'error';
-							notify_msg = 'Data gagal disimpan ' + message;
+							notify_msg = 'Data gagal disimpan. <br>' + message;
 						} else if (success == -2) {
 							notify = 'error';
-							notify_msg = 'Data gagal disimpan, nama id sudah ada!';
+							notify_msg = 'Data gagal disimpan. <br>Nama id sudah ada!';
 						} else if (success == -3) {
 							notify = 'error';
-							notify_msg = 'Data gagal disimpan, nama id sudah ada!';
+							notify_msg = 'Data gagal disimpan. <br>Nama id sudah ada!';
 						} else if (success == 4) {
 							notify = 'success';
 							notify_msg = 'Data berhasil dihapus';

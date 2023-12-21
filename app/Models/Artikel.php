@@ -195,8 +195,6 @@ class Artikel extends BaseModel
 
     /**
      * Getter untuk menambahkan url gambar.
-     *
-     * @return string
      */
     public function getUrlGambarAttribute(): void
     {
@@ -207,8 +205,6 @@ class Artikel extends BaseModel
 
     /**
      * Getter untuk menambahkan url gambar.
-     *
-     * @return string
      */
     public function getUrlGambar1Attribute(): void
     {
@@ -219,8 +215,6 @@ class Artikel extends BaseModel
 
     /**
      * Getter untuk menambahkan url gambar.
-     *
-     * @return string
      */
     public function getUrlGambar2Attribute(): void
     {
@@ -231,8 +225,6 @@ class Artikel extends BaseModel
 
     /**
      * Getter untuk menambahkan url gambar.
-     *
-     * @return string
      */
     public function getUrlGambar3Attribute(): void
     {

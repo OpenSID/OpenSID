@@ -37,7 +37,9 @@
 
 namespace App\Models;
 
+use App\Traits\Author;
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -45,6 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class UserGrup extends BaseModel
 {
     use ConfigId;
+    use Author;
 
     // UserGrup bawaan
     public const ADMINISTRATOR = 'administrator';
@@ -63,6 +66,13 @@ class UserGrup extends BaseModel
      */
     protected $table = 'user_grup';
 
+    protected $fillable = [
+        'nama',
+        'jenis',
+        'created_by',
+        'updated_by',
+    ];
+
     public static function getGrupSistem()
     {
         return self::where('jenis', self::SISTEM)->pluck('id')->toArray();
@@ -71,5 +81,50 @@ class UserGrup extends BaseModel
     public static function getGrupId($slug)
     {
         return self::where(Schema::hasColumn('user_grup', 'slug') ? 'slug' : 'nama', $slug)->value('id');
+    }
+
+    /**
+     * Get all of the user for the UserGrup
+     */
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'id_grup', 'id');
+    }
+
+    /**
+     * Get all of the user for the UserGrup
+     */
+    public static function getAksesGrupBawaan(): array
+    {
+        return [
+            self::ADMINISTRATOR => [
+                '*' => 7,
+            ],
+            self::KONTRIBUTOR => [
+                'admin-web' => 0,
+                'artikel'   => 3,
+                'komentar'  => 3,
+                'galeri'    => 3,
+                'slider'    => 3,
+            ],
+            self::REDAKSI => [
+                'admin-web'      => 0,
+                'artikel'        => 3,
+                'widget'         => 3,
+                'menu'           => 3,
+                'komentar'       => 3,
+                'galeri'         => 3,
+                'media-sosial'   => 3,
+                'slider'         => 3,
+                'teks-berjalan'  => 3,
+                'pengunjung'     => 3,
+                'pengaturan-web' => 3,
+                'kategori'       => 3,
+                'lapak'          => 3,
+            ],
+            self::OPERATOR => [
+                '*' => 3,
+            ],
+        ];
     }
 }

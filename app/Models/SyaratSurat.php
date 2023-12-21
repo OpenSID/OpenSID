@@ -103,8 +103,6 @@ class SyaratSurat extends BaseModel
      * Scope Format surat exist.
      *
      * @param \Illuminate\Database\Query\Builder $query
-     *
-     * @return \Illuminate\Database\Query\Builder
      */
     public function scopeFormatSuratExist($query): void
     {

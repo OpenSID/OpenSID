@@ -131,7 +131,7 @@ class Buku_pertanyaan extends Anjungan_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate($request = [])
+    private function validate($request = []): array
     {
         return [
             'pertanyaan' => htmlentities($request['pertanyaan']),

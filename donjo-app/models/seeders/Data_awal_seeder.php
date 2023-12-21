@@ -1176,7 +1176,7 @@ class Data_awal_seeder extends CI_Model
             [
                 'id'      => 1,
                 'gambar'  => 'fb.png',
-                'link'    => 'https://www.facebook.com/groups/OpenSID/',
+                'link'    => config_item('fb_opendesa'),
                 'nama'    => 'Facebook',
                 'tipe'    => 1,
                 'enabled' => 1,
@@ -50123,7 +50123,7 @@ class Data_awal_seeder extends CI_Model
             ],
             [
                 'id'      => 891,
-                'kode'    => '472.3',
+                'kode'    => '472.8',
                 'nama'    => 'Pengangkatan, Pengakuan, Dan Pengesahan Anak Serta Perubahan Dan Pembatalan Akta Dan Advokasi Pengangkatan Anak',
                 'uraian'  => '-',
                 'enabled' => 1,
@@ -50172,7 +50172,7 @@ class Data_awal_seeder extends CI_Model
             ],
             [
                 'id'      => 898,
-                'kode'    => '472.4',
+                'kode'    => '472.37',
                 'nama'    => 'Pencatatan Kewarganegaraan',
                 'uraian'  => '-',
                 'enabled' => 1,
@@ -55225,20 +55225,6 @@ class Data_awal_seeder extends CI_Model
                 'enabled' => 1,
             ],
             [
-                'id'      => 1620,
-                'kode'    => '623',
-                'nama'    => '-',
-                'uraian'  => '-',
-                'enabled' => 1,
-            ],
-            [
-                'id'      => 1621,
-                'kode'    => '623',
-                'nama'    => '-',
-                'uraian'  => '-',
-                'enabled' => 1,
-            ],
-            [
                 'id'      => 1622,
                 'kode'    => '623',
                 'nama'    => '-',
@@ -59719,13 +59705,6 @@ class Data_awal_seeder extends CI_Model
                 'enabled' => 1,
             ],
             [
-                'id'      => 2262,
-                'kode'    => '907',
-                'nama'    => '-',
-                'uraian'  => '-',
-                'enabled' => 1,
-            ],
-            [
                 'id'      => 2263,
                 'kode'    => '908',
                 'nama'    => '-',
@@ -61653,7 +61632,7 @@ class Data_awal_seeder extends CI_Model
             [
                 'id'         => 115,
                 'key'        => 'api_gform_redirect_uri',
-                'value'      => 'https://berputar.opensid.or.id/index.php/first/get_form_info',
+                'value'      => 'https://berputar.opendesa.id/index.php/first/get_form_info',
                 'keterangan' => 'Redirecet URI untuk Google API',
                 'jenis'      => null,
                 'kategori'   => 'setting_analisis',

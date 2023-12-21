@@ -37,10 +37,13 @@
 
 use App\Models\Config;
 use App\Models\FormatSurat;
+use App\Models\GrupAkses;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
+use App\Models\Modul;
 use App\Models\UserGrup;
 use Carbon\Carbon;
+use Illuminate\Container\Container;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -71,7 +74,13 @@ if (! function_exists('view')) {
     {
         $CI = &get_instance();
 
-        $factory = new \Jenssegers\Blade\Blade(config_item('views_blade'), config_item('cache_blade'));
+        $container = new Container();
+        $container->instance('db', Container::getInstance()->get('db'));
+
+        // TODO:: sementara gunakan config yang ada di CI3 karena masalah instance laravel
+        // $factory = new \Jenssegers\Blade\Blade(config('view.paths'), config('view.compiled'), $container);
+
+        $factory = new \Jenssegers\Blade\Blade(config_item('views_blade'), config_item('cache_blade'), $container);
 
         if (func_num_args() === 0) {
             return $factory;
@@ -86,6 +95,8 @@ if (! function_exists('view')) {
         $factory->directive('active', static fn ($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
 
         $factory->directive('display', static fn ($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
+
+        $factory->directive('can', static fn ($condition): string => "<?= can({$condition}) ?>");
 
         if ($CI->session->db_error['code'] === 1049) {
             $CI->session->error_db = null;
@@ -110,6 +121,7 @@ if (! function_exists('view')) {
                 ],
                 'kategori'             => $CI->header['kategori'],
                 'sub_modul_ini'        => $CI->sub_modul_ini,
+                'akses_modul'          => $CI->akses_modul,
                 'session'              => $CI->session,
                 'setting'              => $CI->setting,
                 'token'                => $CI->security->get_csrf_token_name(),
@@ -138,22 +150,116 @@ if (! function_exists('session')) {
 }
 
 if (! function_exists('can')) {
-    function can($akses, $controller = '', $admin_only = false)
+    /**
+     * Cek akses user
+     *
+     * @param string|null $akses
+     * @param string|null $slugModul
+     * @param bool        $adminOnly
+     *
+     * @return array|bool
+     */
+    function can($akses = null, $slugModul = null, $adminOnly = false)
     {
-        $CI = &get_instance();
-        $CI->load->model('user_model');
+        $idGrup   = auth()->id_grup;
+        $slugGrup = UserGrup::find($idGrup)->slug;
+        $data     = cache()->remember('akses_grup_' . $idGrup, 604800, static function () use ($idGrup, $slugGrup) {
+            if (in_array($idGrup, UserGrup::getGrupSistem())) {
+                $grup = UserGrup::getAksesGrupBawaan()[$slugGrup];
 
-        if (empty($controller)) {
-            $controller = $CI->controller;
-        }
-        if (! $admin_only) {
-            return $CI->user_model->hak_akses($CI->grup, $controller, $akses);
-        }
-        if ($CI->grup == $CI->user_model->id_grup(UserGrup::ADMINISTRATOR)) {
-            return $CI->user_model->hak_akses($CI->grup, $controller, $akses);
+                if (count($grup) === 1 && array_keys($grup)[0] == '*') {
+                    $grupAkses = Modul::get();
+                    $rbac      = array_values($grup)[0];
+                } else {
+                    $grupAkses = Modul::whereIn('slug', array_keys($grup))->get();
+                }
+
+                return $grupAkses->mapWithKeys(static function ($item) use ($idGrup, $rbac, $grup) {
+                    $rbac ??= $grup[$item->slug];
+                    $rbac = $rbac === 0 ? 1 : $rbac;
+
+                    return [
+                        $item->slug => [
+                            'id_modul' => $item->id,
+                            'id_grup'  => $idGrup,
+                            'akses'    => $rbac,
+                            'baca'     => $rbac >= 1,
+                            'ubah'     => $rbac >= 3,
+                            'hapus'    => $rbac >= 7,
+                        ],
+                    ];
+                })->toArray();
+            }
+            $grupAkses = GrupAkses::leftJoin('setting_modul', 'grup_akses.id_modul', '=', 'setting_modul.id')
+                ->where('id_grup', $idGrup)
+                ->select('grup_akses.*')
+                ->selectRaw('setting_modul.slug as slug')
+                ->get();
+
+            return $grupAkses->mapWithKeys(static fn ($item) => [
+                $item->slug => [
+                    'id_modul' => $item->id_modul,
+                    'id_grup'  => $item->id_grup,
+                    'akses'    => $item->akses,
+                    'baca'     => $item->akses >= 1,
+                    'ubah'     => $item->akses >= 3,
+                    'hapus'    => $item->akses >= 7,
+                ],
+            ])->toArray();
+        });
+
+        if (null === $akses) {
+            return $data;
         }
 
-        return false;
+        if (null === $slugModul) {
+            $slugModul = get_instance()->akses_modul ?? get_instance()->sub_modul_ini ?? get_instance()->modul_ini;
+        }
+
+        $alias = [
+            'b' => 'baca',
+            'u' => 'ubah',
+            'h' => 'hapus',
+        ];
+
+        if (! array_key_exists($akses, $alias)) {
+            return false;
+        }
+
+        if ($adminOnly) {
+            return (bool) super_admin();
+        }
+
+        // dd($data);
+
+        return $data[$slugModul][$alias[$akses]];
+    }
+}
+
+if (! function_exists('isCan')) {
+    /**
+     * Cek akses user
+     *
+     * @param string|null $akses
+     * @param string|null $slugModul
+     * @param bool        $adminOnly
+     *
+     * @return array|bool
+     */
+    function isCan($akses = null, $slugModul = null, $adminOnly = false): void
+    {
+        $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
+        if (! can('b', $slugModul, $adminOnly)) {
+            set_session('error', $pesan);
+            session_error($pesan);
+
+            redirect('beranda');
+        } elseif (! can($akses, $slugModul, $adminOnly)) {
+            set_session('error', $pesan);
+            session_error($pesan);
+
+            redirect(get_instance()->controller);
+        }
     }
 }
 
@@ -173,9 +279,13 @@ if (! function_exists('json')) {
 
 // redirect()->route('example')->with('success', 'information');
 if (! function_exists('redirect_with')) {
-    function redirect_with($key = 'success', $value = '', $to = '')
+    function redirect_with($key = 'success', $value = '', $to = '', $autodismis = null)
     {
         set_session($key, $value);
+
+        if ($autodismis) {
+            set_session('autodismiss', true);
+        }
 
         if (empty($to)) {
             $to = get_instance()->controller;
@@ -230,14 +340,7 @@ if (! function_exists('identitas')) {
      */
     function identitas(?string $params = null)
     {
-        $cache    = 'identitas_desa';
-        $instance = get_instance();
-
-        if (null === $instance->cache) {
-            return null;
-        }
-
-        $identitas = $instance->cache->pakai_cache(static function () {
+        $identitas = cache()->remember('identitas_desa', 604800, static function () {
             if (! Schema::hasColumn('config', 'app_key')) {
                 return null;
             }
@@ -246,7 +349,7 @@ if (! function_exists('identitas')) {
             }
 
             return Config::appKey()->first();
-        }, $cache, 24 * 60 * 60);
+        });
 
         if ($params) {
             return $identitas->{$params};
@@ -426,12 +529,10 @@ if (! function_exists('folder_desa')) {
             folder($folder, $lainnya[0], $lainnya[1], $lainnya[2] ?? []);
         }
 
-        // Buat file offline_mode.php, config.php dan database.php awal
         write_file(LOKASI_CONFIG_DESA . 'config.php', config_item('config'), 'x');
         write_file(LOKASI_CONFIG_DESA . 'database.php', config_item('database'), 'x');
         write_file(DESAPATH . 'pengaturan/siteman/siteman.css', config_item('siteman_css'), 'x');
         write_file(DESAPATH . 'pengaturan/siteman/siteman_mandiri.css', config_item('siteman_mandiri_css'), 'x');
-        write_file(DESAPATH . 'offline_mode.php', config_item('offline_mode'), 'x');
         write_file(DESAPATH . 'app_key', set_app_key(), 'x');
 
         return true;
@@ -824,6 +925,10 @@ if (! function_exists('jenis_surat')) {
 if (! function_exists('cek_lokasi_peta')) {
     function cek_lokasi_peta(array $wilayah): bool
     {
+        if ($wilayah['dusun'] == '-') {
+            $wilayah = identitas();
+        }
+
         return $wilayah['path'] && ($wilayah['lat'] && ! empty($wilayah['lng']));
     }
 }
@@ -924,5 +1029,121 @@ if (! function_exists('batal')) {
     function batal(): string
     {
         return '<button type="reset" class="btn btn-social btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>';
+    }
+}
+
+if (! function_exists('sensorEmail')) {
+    function sensorEmail($email): string
+    {
+        if (! $email || null === $email) {
+            return '';
+        }
+        $atPosition = strpos($email, '@');
+
+        $firstPart  = substr($email, 0, 2);
+        $secondPart = substr($email, 1, $atPosition - 2);
+        $lastPart   = substr($email, $atPosition);
+
+        return $firstPart . str_repeat('*', strlen($secondPart)) . $lastPart;
+    }
+}
+
+if (! function_exists('gis_simbols')) {
+    function gis_simbols()
+    {
+        $simbols = DB::table('gis_simbol')->get('simbol');
+
+        return $simbols->map(static fn ($item): array => (array) $item)->toArray();
+    }
+}
+
+if (! function_exists('config')) {
+    /**
+     * Get / set the specified configuration value.
+     *
+     * If an array is passed as the key, we will assume you want to set an array of values.
+     *
+     * @param array|string|null $key
+     * @param mixed             $default
+     *
+     * @return \Illuminate\Config\Repository|mixed
+     */
+    function config($key = null, $default = null)
+    {
+        if (null === $key) {
+            return new \Illuminate\Config\Repository();
+        }
+
+        if (is_array($key)) {
+            return (new \Illuminate\Config\Repository())->set($key);
+        }
+
+        $file   = explode('.', $key)[0];
+        $config = require APPPATH . 'config/' . $file . '.php';
+
+        return (new \Illuminate\Config\Repository([$file => $config]))->get($key, $default);
+    }
+}
+
+if (! function_exists('cache')) {
+    /**
+     * Get / set the specified cache value.
+     *
+     * If an array is passed, we'll assume you want to put to the cache.
+     *
+     * @param  dynamic  key|key,default|data,expiration|null
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return \Illuminate\Cache\CacheManager|mixed
+     */
+    function cache()
+    {
+        $container           = new \Illuminate\Container\Container();
+        $container['config'] = [
+            'cache.default'     => config('cache.default'),
+            'cache.stores.file' => config('cache.stores.file'),
+        ];
+        $container['files'] = new \Illuminate\Filesystem\Filesystem();
+        $cacheManager       = new \Illuminate\Cache\CacheManager($container);
+        $store              = $cacheManager->store();
+
+        if (empty($arguments)) {
+            return $store;
+        }
+
+        if (is_string($arguments[0])) {
+            return $store->get(...$arguments);
+        }
+
+        if (! is_array($arguments[0])) {
+            throw new InvalidArgumentException(
+                'When setting a value in the cache, you must pass an array of key / value pairs.'
+            );
+        }
+
+        [$key, $value, $minutes] = $arguments[0];
+
+        return $store->put($key, $value, $minutes ?? null);
+    }
+}
+
+if (! function_exists('resource_path')) {
+    /**
+     * Get the path to the resources folder.
+     */
+    function resource_path(string $path = ''): string
+    {
+        return RESOURCESPATH . $path;
+    }
+}
+
+if (! function_exists('storage_path')) {
+    /**
+     * Get the path to the storage folder.
+     */
+    function storage_path(string $path = ''): string
+    {
+        return STORAGEPATH . $path;
     }
 }

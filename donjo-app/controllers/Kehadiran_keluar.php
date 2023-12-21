@@ -136,7 +136,7 @@ class Kehadiran_keluar extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    protected static function validated($request = [], $id = null)
+    protected static function validated($request = [], $id = null): array
     {
         $validated = [
             'alasan'     => strip_tags($request['alasan']),

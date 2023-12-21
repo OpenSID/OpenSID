@@ -744,16 +744,52 @@ function extensionSort($x, $y)
 
 switch ($sort_by) {
     case 'date':
-        usort($sorted, 'dateSort');
+        //usort($sorted, 'dateSort');
+        usort($sorted, function($x, $y) use ($descending) {
+            if ($x['is_dir'] !== $y['is_dir']) {
+                return $y['is_dir'] ? 1 : -1;
+            } else {
+                return ($descending)
+                    ?  $x['date'] <=> $y['date']
+                    :  $y['date'] <=> $x['date'];
+            }
+        });
         break;
     case 'size':
-        usort($sorted, 'sizeSort');
+        //usort($sorted, 'sizeSort');
+        usort($sorted, function($x, $y) use ($descending) {
+            if ($x['is_dir'] !== $y['is_dir']) {
+                return $y['is_dir'] ? 1 : -1;
+            } else {
+                return ($descending)
+                    ?  $x['size'] <=> $y['size']
+                    :  $y['size'] <=> $x['size'];
+            }
+        });
         break;
     case 'extension':
-        usort($sorted, 'extensionSort');
+        //usort($sorted, 'extensionSort');
+        usort($sorted, function($x, $y) use ($descending) {
+            if ($x['is_dir'] !== $y['is_dir']) {
+                return $y['is_dir'] ? 1 : -1;
+            } else {
+                return ($descending)
+                    ?  $x['extension'] <=> $y['extension']
+                    :  $y['extension'] <=> $x['extension'];
+            }
+        });
         break;
     default:
-        usort($sorted, 'filenameSort');
+        // usort($sorted, 'filenameSort');
+        usort($sorted, function($x, $y) use ($descending) {
+            if ($x['is_dir'] !== $y['is_dir']) {
+                return $y['is_dir'] ? 1 : -1;
+            } else {
+                return ($descending)
+                ? ($x['file_lcase'] < $y['file_lcase'] ? 1 : ($x['file_lcase'] == $y['file_lcase'] ? 0 : -1))
+                : ($x['file_lcase'] >= $y['file_lcase'] ? 1 : ($x['file_lcase'] == $y['file_lcase'] ? 0 : -1));
+            }
+        });
         break;
 }
 

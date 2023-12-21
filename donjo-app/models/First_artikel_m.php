@@ -278,6 +278,7 @@ class First_artikel_m extends MY_Model
     public function slider_gambar()
     {
         $sumber = $this->setting->sumber_gambar_slider;
+        $limit = $this->setting->jumlah_gambar_slider ?? 10;
 
         $slider_gambar = [];
 
@@ -291,7 +292,7 @@ class First_artikel_m extends MY_Model
                     ->where('tgl_upload <', date('Y-m-d H:i:s'))
                     ->where('slider', 1)
                     ->order_by('tgl_upload DESC')
-                    ->limit(10)
+                    ->limit($limit)
                     ->get('artikel')
                     ->result_array();
                 $slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
@@ -316,6 +317,7 @@ class First_artikel_m extends MY_Model
         }
 
         $slider_gambar['sumber'] = $sumber;
+        $slider_gambar['gambar'] = array_slice($slider_gambar['gambar'], 0, $limit);
 
         return $slider_gambar;
     }
@@ -547,7 +549,7 @@ class First_artikel_m extends MY_Model
             ->row()->id;
 
         //membatasi hit hanya satu kali dalam setiap session
-        if (in_array($id, $_SESSION['artikel']) || $this->agent->is_robot() || crawler() === true) {
+        if (in_array($id, $_SESSION['artikel']) || $this->agent->is_robot() || crawler()) {
             return;
         }
 

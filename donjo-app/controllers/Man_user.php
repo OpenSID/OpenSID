@@ -43,6 +43,8 @@ use App\Models\UserGrup;
 
 class Man_user extends Admin_Controller
 {
+    private int $tab_ini = 10;
+
     public function __construct()
     {
         parent::__construct();
@@ -55,7 +57,7 @@ class Man_user extends Admin_Controller
 
     public function index()
     {
-        $this->tab_ini = 10;
+        $data['tab_ini'] = $this->tab_ini;
 
         $data['status'] = [
             ['id' => '1', 'nama' => 'Aktif'],
@@ -106,8 +108,8 @@ class Man_user extends Admin_Controller
                 ->addColumn('pamong_status', static fn ($row): string => $row->pamong->pamong_status == 1
                     ? '<span class="label label-success">Staf</span>'
                     : '<span class="label label-info">Bukan Staf</span>')
-                ->editColumn('last_login', static fn ($row) => tgl_indo($row->last_login))
-                ->editColumn('email_verified_at', static fn ($row) => tgl_indo($row->email_verified_at))
+                ->editColumn('last_login', static fn ($row) => tgl_indo2($row->last_login))
+                ->editColumn('email_verified_at', static fn ($row) => tgl_indo2($row->email_verified_at))
                 ->rawColumns(['ceklist', 'aksi', 'pamong_status'])
                 ->make();
         }
@@ -172,7 +174,7 @@ class Man_user extends Admin_Controller
     }
 
     // Kata sandi harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil
-    public function syarat_sandi($str)
+    public function syarat_sandi($str): bool
     {
         return (bool) (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/', $str));
     }
@@ -270,15 +272,14 @@ class Man_user extends Admin_Controller
         $user->delete();
     }
 
-    protected function validate($request = [], $id = '')
+    protected function validate($request = [], $id = ''): array
     {
         $data = [
             'active'         => (int) ($request['aktif'] ?? 0),
             'username'       => isset($request['username']) ? alfanumerik($request['username']) : null,
-            'password'       => isset($request['password']) ? generatePasswordHash($request['password']) : null,
             'nama'           => isset($request['nama']) ? strip_tags(nama($request['nama'])) : null,
-            'phone'          => isset($request['email']) ? htmlentities($request['phone']) : null,
-            'email'          => isset($request['email']) ? htmlentities($request['email']) : null,
+            'phone'          => isset($request['phone']) ? htmlentities($request['phone']) : null,
+            'email'          => empty($request['email']) ? null : htmlentities($request['email']),
             'id_grup'        => $request['id_grup'] ?? null,
             'pamong_id'      => empty($request['pamong_id']) ? null : $request['pamong_id'],
             'foto'           => isset($request['foto']) ? $this->user_model->urusFoto($id) : null,
@@ -286,6 +287,10 @@ class Man_user extends Admin_Controller
             'id_telegram'    => (int) ($request['id_telegram'] ?? 0),
             'config_id'      => identitas('id'),
         ];
+
+        if (! empty($request['password'])) {
+            $data['password'] = generatePasswordHash($request['password']);
+        }
 
         if (empty($id)) {
             $data['session'] = md5(now());

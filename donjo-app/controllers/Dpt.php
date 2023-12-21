@@ -35,7 +35,10 @@
  *
  */
 
+use Carbon\Carbon;
 use App\Enums\StatusEnum;
+use App\Models\Pemilihan;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -43,19 +46,22 @@ class Dpt extends Admin_Controller
 {
     private array $set_page     = ['50', '100', '200', [0, 'Semua']];
     private array $list_session = ['cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umurx', 'umur_min', 'umur_max', 'cacatx', 'menahunx', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'tag_id_card'];
+    private $tanggal_pemilihan;
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['penduduk_model', 'dpt_model', 'wilayah_model']);
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'calon-pemilih';
+        $this->modul_ini         = 'kependudukan';
+        $this->sub_modul_ini     = 'calon-pemilih';
+        $this->tanggal_pemilihan = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
     }
 
     public function clear(): void
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->per_page = $this->set_page[0];
+        $this->session->tanggal_pemilihan = $this->tanggal_pemilihan;
 
         redirect($this->controller);
     }

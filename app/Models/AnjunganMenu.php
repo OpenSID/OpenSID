@@ -102,28 +102,26 @@ class AnjunganMenu extends BaseModel
 
     /**
      * The "booted" method of the model.
-     *
-     * @return void
      */
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 
-        static::updating(static function ($model) {
-            static::deleteFile($model->getOriginal('icon'));
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'icon');
         });
 
-        static::deleting(static function ($model) {
-            static::deleteFile($model->getOriginal('icon'));
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'icon', true);
         });
     }
 
-    private function deleteFile($file)
+    public static function deleteFile($model, ?string $file, $deleting = false): void
     {
-        if ($file) {
-            $icon = LOKASI_ICON_MENU_ANJUNGAN . $file;
-            if (file_exists($icon)) {
-                unlink($icon);
+        if ($model->isDirty($file) || $deleting) {
+            $logo = LOKASI_ICON_MENU_ANJUNGAN . $model->getOriginal($file);
+            if (file_exists($logo)) {
+                unlink($logo);
             }
         }
     }

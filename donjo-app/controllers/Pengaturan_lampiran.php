@@ -78,7 +78,7 @@ class Pengaturan_lampiran extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    private function validate($request)
+    private function validate($request): array
     {
         return [
             'lampiran_margin' => json_encode($request['lampiran_margin'], JSON_THROW_ON_ERROR),

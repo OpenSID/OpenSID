@@ -338,7 +338,7 @@ class Penduduk extends BaseModel
      */
     public function dokumen()
     {
-        return $this->hasMany(Dokumen::class, 'id_pend')->select('id', 'id_pend', 'nama', 'id_syarat', 'tgl_upload')->with(['jenisDokumen'])->hidup();
+        return $this->hasMany(Dokumen::class, 'id_pend')->select('id', 'id_pend', 'nama', 'id_syarat', 'tgl_upload', 'dok_warga')->with(['jenisDokumen'])->hidup();
     }
 
     /**
@@ -516,5 +516,10 @@ class Penduduk extends BaseModel
     public function scopeIbu($query, $idKk)
     {
         return $query->where('id_kk', $idKk)->whereIn('kk_level', [SHDKEnum::KEPALA_KELUARGA, SHDKEnum::ISTRI])->where('sex', JenisKelaminEnum::PEREMPUAN);
+    }
+
+    public function isKepalaKeluarga()
+    {
+        return $this->attributes['kk_level'] == SHDKEnum::KEPALA_KELUARGA;
     }
 }

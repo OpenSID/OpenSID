@@ -54,7 +54,7 @@ class Data_awal extends MY_Model
     {
         $hasil = true;
 
-        hapus_cache('identitas_desa');
+        cache()->forget('identitas_desa');
 
         if ($this->config_id) {
             // Ubah config
@@ -150,7 +150,7 @@ class Data_awal extends MY_Model
                 log_message('error', 'Gagal menggunakan kode desa dari file config');
             }
 
-            hapus_cache('identitas_desa');
+            cache()->forget('identitas_desa');
         }
 
         return $hasil;
@@ -1642,7 +1642,7 @@ class Data_awal extends MY_Model
             [
                 'judul'      => 'Api Gform Redirect Uri',
                 'key'        => 'api_gform_redirect_uri',
-                'value'      => 'https://berputar.opensid.or.id/index.php/first/get_form_info',
+                'value'      => 'https://berputar.opendesa.id/index.php/first/get_form_info',
                 'keterangan' => 'Redirecet URI untuk Google API',
                 'jenis'      => 'text',
                 'option'     => null,
@@ -7723,7 +7723,7 @@ class Data_awal extends MY_Model
                 'enabled' => 1,
             ],
             [
-                'kode'    => '472.3',
+                'kode'    => '472.8',
                 'nama'    => 'Pengangkatan, Pengakuan, Dan Pengesahan Anak Serta Perubahan Dan Pembatalan Akta Dan Advokasi Pengangkatan Anak',
                 'uraian'  => '-',
                 'enabled' => 1,
@@ -7765,7 +7765,7 @@ class Data_awal extends MY_Model
                 'enabled' => 1,
             ],
             [
-                'kode'    => '472.4',
+                'kode'    => '472.37',
                 'nama'    => 'Pencatatan Kewarganegaraan',
                 'uraian'  => '-',
                 'enabled' => 1,
@@ -12103,18 +12103,6 @@ class Data_awal extends MY_Model
                 'enabled' => 1,
             ],
             [
-                'kode'    => '623',
-                'nama'    => '-',
-                'uraian'  => '-',
-                'enabled' => 1,
-            ],
-            [
-                'kode'    => '623',
-                'nama'    => '-',
-                'uraian'  => '-',
-                'enabled' => 1,
-            ],
-            [
                 'kode'    => '630',
                 'nama'    => 'JEMBATAN',
                 'uraian'  => '-',
@@ -15945,12 +15933,6 @@ class Data_awal extends MY_Model
             [
                 'kode'    => '907',
                 'nama'    => 'Dekonsentrasi (Pelimpahan Dana Dari Pusat Ke Daerah)',
-                'uraian'  => '-',
-                'enabled' => 1,
-            ],
-            [
-                'kode'    => '907',
-                'nama'    => '-',
                 'uraian'  => '-',
                 'enabled' => 1,
             ],

@@ -223,7 +223,7 @@ class Opendk_pesan extends Admin_Controller
     }
 
     // Hanya filter inputan
-    protected static function validate($request = [])
+    protected static function validate($request = []): array
     {
         return [
             'judul' => alfanumerik_spasi($request['judul']),

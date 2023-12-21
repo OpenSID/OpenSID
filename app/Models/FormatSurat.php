@@ -288,8 +288,6 @@ class FormatSurat extends BaseModel
 
     /**
      * Getter form surat attribute.
-     *
-     * @return mixed
      */
     public function getFormSuratAttribute(): void
     {

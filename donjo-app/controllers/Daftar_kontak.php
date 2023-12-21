@@ -187,7 +187,7 @@ class Daftar_kontak extends Admin_Controller
     }
 
     // Hanya filter inputan
-    protected static function validate($request = [])
+    protected static function validate($request = []): array
     {
         return [
             'nama'         => nama_terbatas($request['nama']),

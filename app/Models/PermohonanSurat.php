@@ -136,8 +136,6 @@ class PermohonanSurat extends BaseModel
      * Scope query untuk pengguna.
      *
      * @param Builder $query
-     *
-     * @return Builder
      */
     public function scopePengguna($query): void
     {

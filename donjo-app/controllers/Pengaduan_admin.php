@@ -56,7 +56,7 @@ class Pengaduan_admin extends Admin_Controller
         return view('admin.pengaduan_warga.index', $data);
     }
 
-    protected function widget()
+    protected function widget(): array
     {
         return [
             'allstatus'   => Pengaduan::pengaduan()->count(),
@@ -82,7 +82,7 @@ class Pengaduan_admin extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -99,7 +99,7 @@ class Pengaduan_admin extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('status', static function ($row) {
+                ->editColumn('status', static function ($row): string {
                     if ($row->status == StatusPengaduanEnum::MENUNGGU_DIPROSES) {
                         $tipe = 'danger';
                     } elseif ($row->status == StatusPengaduanEnum::SEDANG_DIPROSES) {
@@ -127,10 +127,10 @@ class Pengaduan_admin extends Admin_Controller
             $pengaduan_warga = Pengaduan::findOrFail($id);
         }
 
-        return view('admin.pengaduan_warga.form', compact('action', 'form_action', 'pengaduan_warga'));
+        return view('admin.pengaduan_warga.form', ['action' => $action, 'form_action' => $form_action, 'pengaduan_warga' => $pengaduan_warga]);
     }
 
-    public function kirim($id)
+    public function kirim($id): void
     {
         $this->redirect_hak_akses('u');
 
@@ -166,10 +166,10 @@ class Pengaduan_admin extends Admin_Controller
             $tanggapan       = Pengaduan::where('id_pengaduan', $id)->get();
         }
 
-        return view('admin.pengaduan_warga.detail', compact('action', 'pengaduan_warga', 'tanggapan'));
+        return view('admin.pengaduan_warga.detail', ['action' => $action, 'pengaduan_warga' => $pengaduan_warga, 'tanggapan' => $tanggapan]);
     }
 
-    public function delete($id = null)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
 

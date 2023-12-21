@@ -88,6 +88,7 @@ $finder = Symfony\Component\Finder\Finder::create()
     ->append([
         __DIR__ . '/index.php',
         __DIR__ . '/.php-cs-fixer.php',
+        __DIR__ . '/.rector.php',
     ])
     ->name('*.php')
     ->notName(['*.blade.php', 'Data_awal_seeder.php', 'Data_awal.php'])

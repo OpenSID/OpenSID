@@ -153,9 +153,7 @@ class MY_Controller extends CI_Controller
 
             return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
         })
-            ->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static function ($query) {
-                return $query->orWhereNull('pamong_id');
-            })
+            ->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static fn ($query) => $query->orWhereNull('pamong_id'))
             ->get();
 
         if (is_array($isi) && $users->count() > 0) {
@@ -168,22 +166,18 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    public function kirim_notifikasi_admin($next, $pesan, $judul, $payload = '')
+    public function kirim_notifikasi_admin($next, $pesan, $judul, $payload = ''): void
     {
-        $allToken = FcmToken::whereHas('user', static function ($user) use ($next) {
-            return $user->WhereHas('pamong', static function ($query) use ($next) {
-                if ($next == 'verifikasi_sekdes') {
-                    return $query->where('jabatan_id', '=', sekdes()->id);
-                }
-                if ($next == 'verifikasi_kades') {
-                    return $query->where('jabatan_id', '=', kades()->id);
-                }
+        $allToken = FcmToken::whereHas('user', static fn ($user) => $user->WhereHas('pamong', static function ($query) use ($next) {
+            if ($next == 'verifikasi_sekdes') {
+                return $query->where('jabatan_id', '=', sekdes()->id);
+            }
+            if ($next == 'verifikasi_kades') {
+                return $query->where('jabatan_id', '=', kades()->id);
+            }
 
-                return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
-            })->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static function ($query) {
-                return $query->orWhereNull('pamong_id');
-            });
-        })->get();
+            return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
+        })->when(next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static fn ($query) => $query->orWhereNull('pamong_id')))->get();
 
         if (cek_koneksi_internet()) {
             // kirim ke aplikasi android admin.
@@ -213,14 +207,14 @@ class MY_Controller extends CI_Controller
         $this->create_log_notifikasi_admin($next, $isi);
     }
 
-    public function create_log_notifikasi_penduduk($isi)
+    public function create_log_notifikasi_penduduk($isi): void
     {
         if (is_array($isi)) {
             LogNotifikasiMandiri::create($isi);
         }
     }
 
-    public function kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul, $payload = '')
+    public function kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul, $payload = ''): void
     {
         $allToken = FcmTokenMandiri::where('id_user_mandiri', $id_penduduk)->get();
 
@@ -264,6 +258,16 @@ class Web_Controller extends MY_Controller
         parent::__construct();
 
         $this->header = identitas();
+
+        $this->load->model('theme_model');
+        $this->load->helper('theme');
+        $this->theme        = $this->theme_model->tema;
+        $this->theme_folder = $this->theme_model->folder;
+
+        // Variabel untuk tema
+        $this->set_template();
+        $this->includes['folder_themes'] = "../../{$this->theme_folder}/{$this->theme}";
+
         if ($this->setting->offline_mode == 2) {
             $this->view_maintenance();
         } elseif ($this->setting->offline_mode == 1) {
@@ -273,14 +277,6 @@ class Web_Controller extends MY_Controller
                 $this->view_maintenance();
             }
         }
-
-        $this->load->model('theme_model');
-        $this->theme        = $this->theme_model->tema;
-        $this->theme_folder = $this->theme_model->folder;
-
-        // Variabel untuk tema
-        $this->set_template();
-        $this->includes['folder_themes'] = "../../{$this->theme_folder}/{$this->theme}";
 
         $this->load->model('web_menu_model');
     }
@@ -341,14 +337,15 @@ class Web_Controller extends MY_Controller
         }
     }
 
-    private function view_maintenance(): void
+    private function view_maintenance()
     {
-        $main                    = $this->header;
-        $pamong_kades['jabatan'] = kades()->nama;
+        $data['jabatan']          = kades()->nama;
+        $data['nama_kepala_desa'] = $this->header['nama_kepala_desa'];
+        $data['nip_kepala_desa']  = $this->header['nip_kepala_desa'];
 
-        include DESAPATH . 'offline_mode.php';
+        $this->config->set_item('views_blade', array_merge(config_item('views_blade'), ["{$this->theme_folder}/{$this->theme}"]));
 
-        exit();
+        return view('layouts.maintenance', $data);
     }
 }
 
@@ -400,6 +397,7 @@ class Admin_Controller extends MY_Controller
     public $CI;
     public $modul_ini;
     public $sub_modul_ini;
+    public $akses_modul;
     protected $aliasController;
 
     public function __construct()
@@ -518,6 +516,7 @@ class Admin_Controller extends MY_Controller
         return $pengumuman;
     }
 
+    // TODO:: hapus method ini jika sudah tidak digunakan
     // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
     protected function redirect_hak_akses_url($akses, $redirect = '', $controller = '')
     {
@@ -533,6 +532,7 @@ class Admin_Controller extends MY_Controller
         }
     }
 
+    // TODO:: hapus method ini jika sudah tidak digunakan
     protected function redirect_hak_akses($akses, $redirect = '', $controller = '', $admin_only = false)
     {
         if (empty($controller)) {
@@ -549,6 +549,7 @@ class Admin_Controller extends MY_Controller
         }
     }
 
+    // TODO:: hapus method ini jika sudah tidak digunakan
     // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
     public function cek_hak_akses_url($akses, $controller = '')
     {
@@ -559,6 +560,7 @@ class Admin_Controller extends MY_Controller
         return $this->user_model->hak_akses_url($this->grup, $controller, $akses);
     }
 
+    // TODO:: hapus method ini jika sudah tidak digunakan
     public function cek_hak_akses($akses, $controller = '')
     {
         if (empty($controller)) {
@@ -568,6 +570,7 @@ class Admin_Controller extends MY_Controller
         return $this->user_model->hak_akses($this->grup, $controller, $akses);
     }
 
+    // TODO:: hapus method ini jika sudah tidak digunakan
     public function redirect_tidak_valid($valid): void
     {
         if ($valid) {

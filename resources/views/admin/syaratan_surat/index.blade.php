@@ -84,6 +84,7 @@
 
             if (hapus == 0) {
                 TableData.column(0).visible(false);
+                $('.akses-hapus').remove();
             }
 
             if (ubah == 0) {

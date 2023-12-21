@@ -60,7 +60,7 @@ class Klasifikasi extends Admin_Controller
 
             return datatables()->of(KlasifikasiSurat::filter($enable))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     if (can('u')) {
                         $aksi .= '<a href="' . route('klasifikasi.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right:4px;"><i class="fa fa-edit"></i></a>';
@@ -77,7 +77,7 @@ class Klasifikasi extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('checkbox', static function ($row) {
+                ->addColumn('checkbox', static function ($row): string {
                     $checkbox = '';
                     if (can('u')) {
                         $checkbox .= '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />';
@@ -121,7 +121,7 @@ class Klasifikasi extends Admin_Controller
         redirect_with('success', 'Klasifikasi surat berhasil ditambahkan');
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data = static::validated($this->request);
@@ -137,14 +137,14 @@ class Klasifikasi extends Admin_Controller
         redirect_with('success', 'Klasifikasi surat berhasil diperbarui');
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         $this->redirect_hak_akses('h', 'klasifikasi');
         KlasifikasiSurat::where('id', (int) $id)->delete();
         redirect_with('success', 'Klasifikasi surat berhasil dihapus');
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->redirect_hak_akses('h', 'klasifikasi');
         KlasifikasiSurat::whereIn('id', $this->request['id_cb'])->delete();
@@ -152,14 +152,14 @@ class Klasifikasi extends Admin_Controller
         redirect_with('success', 'Klasifikasi surat berhasil dihapus');
     }
 
-    public function lock($id = '')
+    public function lock($id = ''): void
     {
         $this->redirect_hak_akses('u');
         KlasifikasiSurat::where('id', (int) $id)->update(['enabled' => 0]);
         redirect_with('success', 'Klasifikasi surat berhasil dinonaktifkan');
     }
 
-    public function unlock($id = '')
+    public function unlock($id = ''): void
     {
         $this->redirect_hak_akses('u');
         KlasifikasiSurat::where('id', (int) $id)->update(['enabled' => 1]);
@@ -242,7 +242,7 @@ class Klasifikasi extends Admin_Controller
         }
     }
 
-    protected static function validated($data)
+    protected static function validated($data): array
     {
         return [
             'kode'   => alfanumerik_titik($data['kode']),

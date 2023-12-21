@@ -48,7 +48,7 @@ class Validasi
     protected $ci;
 
     protected $kecuali = [
-        'beranda', 'identitas_desa', 'pelanggan', 'pengguna', 'pendaftaran_kerjasama', 'setting', 'notif', 'user_setting', 'main', 'info_sistem',
+        'beranda', 'identitas_desa', 'pelanggan', 'pengguna', 'pendaftaran_kerjasama', 'setting', 'notif', 'main', 'info_sistem',
     ];
 
     public function __construct()
@@ -197,7 +197,7 @@ class Validasi
 
     private function isDomainMismatch($jwtPayload): bool
     {
-        return get_domain($jwtPayload->domain) != get_domain(APP_URL);
+        return get_domain($jwtPayload->domain) !== get_domain(APP_URL);
     }
 
     private function isPremiumDisabled(): bool

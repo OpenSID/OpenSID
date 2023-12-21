@@ -196,7 +196,7 @@
                                                             <div class="mlr-10">
                                                                 <div class="grider mlr-min5">
                                                                     <div class="col-2">
-                                                                        <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i])) }}" class="popup">
+                                                                        <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i]->toArray())) }}" class="popup">
                                                                             <div class="imagecrop-grid">
                                                                                 @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i]['gambar']))
                                                                                     <img src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i][gambar]) }}">
@@ -215,7 +215,7 @@
 
                                                                     @if ($arsip_terkini[$i + 1])
                                                                         <div class="col-2">
-                                                                            <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i + 1])) }}" class="popup">
+                                                                            <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i + 1]->toArray())) }}" class="popup">
                                                                                 <div class="imagecrop-grid">
                                                                                     @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i + 1]['gambar']))
                                                                                         <img src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i + 1][gambar]) }}">
@@ -257,7 +257,7 @@
                                             <div class="marquee-top">
                                                 <div class="track-top">
                                                     @foreach ($arsip_populer as $arsip)
-                                                        <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}" class="popup">
+                                                        <a data-value="{{ site_url('artikel/' . buat_slug($arsip->toArray())) }}" class="popup">
                                                             <div class="article-row">
                                                                 <div class="relhid mlr-min5">
                                                                     <div class="article-image">

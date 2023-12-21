@@ -196,7 +196,7 @@ class Anjungan_menu extends Anjungan_Controller
         return redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    protected static function validated($request = [], $id = null)
+    protected static function validated($request = [], $id = null): array
     {
         $urut = $id ? Menu::find($id)->urut : Menu::max('urut') + 1;
 
@@ -225,7 +225,7 @@ class Anjungan_menu extends Anjungan_Controller
     protected static function unggah($jenis = '')
     {
         $CI = &get_instance();
-        $CI->load->library('upload');
+        $CI->load->library('MY_Upload', null, 'upload');
         folder(LOKASI_ICON_MENU_ANJUNGAN);
 
         $CI->uploadConfig = [
