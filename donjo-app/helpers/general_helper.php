@@ -79,7 +79,7 @@ if (! function_exists('view')) {
         // sementara dimatikan karena koneksi ke elequent saat installasi tidak terdeteksi
         // $container->instance('db', Container::getInstance()->get('db'));
 
-        if (get_instance()->db) {
+        if (get_instance()->session->installasi) {
             $desa = identitas();
         }
 
