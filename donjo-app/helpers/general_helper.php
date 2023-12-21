@@ -76,11 +76,9 @@ if (! function_exists('view')) {
 
         $container = new Container();
 
-        // sementara dimatikan karena koneksi ke elequent saat installasi tidak terdeteksi
-        // $container->instance('db', Container::getInstance()->get('db'));
-
-        if (get_instance()->db) {
+        if (! get_instance()->session->instalasi) {
             $desa = identitas();
+            $container->instance('db', Container::getInstance()->get('db'));
         }
 
         // TODO:: sementara gunakan config yang ada di CI3 karena masalah instance laravel

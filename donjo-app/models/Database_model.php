@@ -264,7 +264,7 @@ class Database_model extends MY_Model
             echo json_encode(['message' => 'Versi database sudah terbaru', 'status' => 0]);
         }
 
-        if (cek_koneksi_internet() && ! config_item('demo_mode')) {
+        if (cek_koneksi_internet() || ! config_item('demo_mode') || empty(config_item('kode_desa'))) {
             $index = file_get_contents('https://raw.githubusercontent.com/OpenSID/rilis-premium/master/index.php');
             if (file_get_contents(FCPATH . 'index.php') != $index) {
                 file_put_contents(FCPATH . 'index.php', $index);
