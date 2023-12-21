@@ -79,6 +79,10 @@ if (! function_exists('view')) {
         // sementara dimatikan karena koneksi ke elequent saat installasi tidak terdeteksi
         // $container->instance('db', Container::getInstance()->get('db'));
 
+        if (get_instance()->db) {
+            $desa = identitas();
+        }
+
         // TODO:: sementara gunakan config yang ada di CI3 karena masalah instance laravel
         // $factory = new \Jenssegers\Blade\Blade(config('view.paths'), config('view.compiled'), $container);
 
@@ -108,7 +112,7 @@ if (! function_exists('view')) {
                 'ci'           => get_instance(),
                 'auth'         => $CI->session->isAdmin,
                 'controller'   => $CI->controller,
-                'desa'         => identitas(),
+                'desa'         => $desa ?? null,
                 'list_setting' => $CI->list_setting,
                 'modul'        => $CI->header['modul'],
                 'modul_ini'    => $CI->modul_ini,
