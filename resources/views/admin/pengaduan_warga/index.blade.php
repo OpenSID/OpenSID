@@ -22,9 +22,9 @@
                 <div class="col-sm-2">
                     <select class="form-control input-sm select2" id="status" name="status">
                         <option value="">Semua Status</option>
-                        <option value="1">Menunggu Diproses</option>
-                        <option value="2">Sedang Diproses</option>
-                        <option value="3">Selesai Diproses</option>
+                        @foreach (\App\Enums\StatusPengaduanEnum::all() as $key => $item)
+                            <option value="{{ $key }}">{{ $item }}</option>
+                        @endforeach
                     </select>
                 </div>
                 @if (can('h'))

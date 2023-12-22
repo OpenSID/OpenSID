@@ -240,6 +240,7 @@ class Dtks extends BaseModel
     public static function boot(): void
     {
         parent::boot();
+
         static::deleting(static function ($model): void {
             $id_lampiran = DB::table('dtks_ref_lampiran')->where('id_dtks', $model->id)->pluck('id_lampiran')->toArray();
             if (count($id_lampiran) > 0) {

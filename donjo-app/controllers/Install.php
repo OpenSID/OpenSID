@@ -70,6 +70,8 @@ class Install extends CI_Controller
      */
     public function index()
     {
+        $this->session->instalasi = true;
+
         // disable install
         if (file_exists(DESAPATH)) {
             show_404();
@@ -381,6 +383,7 @@ class Install extends CI_Controller
             'username',
             'password',
             'database',
+            'instalasi'
         ]);
 
         redirect('/');

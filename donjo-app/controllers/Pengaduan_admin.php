@@ -46,7 +46,6 @@ class Pengaduan_admin extends Admin_Controller
     {
         parent::__construct();
         $this->modul_ini = 'pengaduan';
-        $this->load->model('pengaduan_model');
     }
 
     public function index()
@@ -59,14 +58,14 @@ class Pengaduan_admin extends Admin_Controller
     protected function widget(): array
     {
         return [
-            'allstatus'   => Pengaduan::pengaduan()->count(),
-            'status1'     => Pengaduan::pengaduan(1)->count(),
-            'status2'     => Pengaduan::pengaduan(2)->count(),
-            'status3'     => Pengaduan::pengaduan(3)->count(),
+            'allstatus'   => Pengaduan::status()->count(),
+            'status1'     => Pengaduan::status(StatusPengaduanEnum::MENUNGGU_DIPROSES)->count(),
+            'status2'     => Pengaduan::status(StatusPengaduanEnum::SEDANG_DIPROSES)->count(),
+            'status3'     => Pengaduan::status(StatusPengaduanEnum::SELESAI_DIPROSES)->count(),
             'm_allstatus' => Pengaduan::bulanan()->count(),
-            'm_status1'   => Pengaduan::bulanan(1)->count(),
-            'm_status2'   => Pengaduan::bulanan(2)->count(),
-            'm_status3'   => Pengaduan::bulanan(3)->count(),
+            'm_status1'   => Pengaduan::bulanan(StatusPengaduanEnum::MENUNGGU_DIPROSES)->count(),
+            'm_status2'   => Pengaduan::bulanan(StatusPengaduanEnum::SEDANG_DIPROSES)->count(),
+            'm_status3'   => Pengaduan::bulanan(StatusPengaduanEnum::SELESAI_DIPROSES)->count(),
         ];
     }
 
@@ -75,7 +74,7 @@ class Pengaduan_admin extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status');
 
-            return datatables()->of(Pengaduan::pengaduan()->filter($status))
+            return datatables()->of(Pengaduan::tipe()->filter($status))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -100,15 +99,10 @@ class Pengaduan_admin extends Admin_Controller
                     return $aksi;
                 })
                 ->editColumn('status', static function ($row): string {
-                    if ($row->status == StatusPengaduanEnum::MENUNGGU_DIPROSES) {
-                        $tipe = 'danger';
-                    } elseif ($row->status == StatusPengaduanEnum::SEDANG_DIPROSES) {
-                        $tipe = 'info';
-                    } elseif ($row->status == StatusPengaduanEnum::SELESAI_DIPROSES) {
-                        $tipe = 'success';
-                    }
-
-                    return '<span class="label label-' . $tipe . '">' . ucwords(StatusPengaduanEnum::valueOf($row->status)) . ' </span>';
+                    return '<span class="label ' . StatusPengaduanEnum::label()[$row->status] . '">' . ucwords(StatusPengaduanEnum::valueOf($row->status)) . ' </span>';
+                })
+                ->editColumn('created_at', static function ($row): string {
+                    return tgl_indo2($row->created_at);
                 })
                 ->rawColumns(['ceklist', 'aksi', 'status'])
                 ->make();
@@ -141,6 +135,7 @@ class Pengaduan_admin extends Admin_Controller
             Pengaduan::where('id_pengaduan', $id)->update(['status' => $this->request['status']]);
 
             Pengaduan::create([
+                'config_id'    => $pengaduan->config_id,
                 'id_pengaduan' => $id,
                 'nama'         => $this->session->nama,
                 'isi'          => bersihkan_xss($this->request['isi']),
@@ -161,12 +156,11 @@ class Pengaduan_admin extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         if ($id) {
-            $action          = 'Detail Pengaduan';
-            $pengaduan_warga = Pengaduan::findOrFail($id);
-            $tanggapan       = Pengaduan::where('id_pengaduan', $id)->get();
+            $action    = 'Detail Pengaduan';
+            $pengaduan = Pengaduan::findOrFail($id);
         }
 
-        return view('admin.pengaduan_warga.detail', ['action' => $action, 'pengaduan_warga' => $pengaduan_warga, 'tanggapan' => $tanggapan]);
+        return view('admin.pengaduan_warga.detail', ['action' => $action, 'pengaduan' => $pengaduan]);
     }
 
     public function delete($id = null): void

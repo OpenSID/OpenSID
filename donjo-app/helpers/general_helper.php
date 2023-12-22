@@ -75,7 +75,11 @@ if (! function_exists('view')) {
         $CI = &get_instance();
 
         $container = new Container();
-        $container->instance('db', Container::getInstance()->get('db'));
+
+        if (! get_instance()->session->instalasi) {
+            $desa = identitas();
+            $container->instance('db', Container::getInstance()->get('db'));
+        }
 
         // TODO:: sementara gunakan config yang ada di CI3 karena masalah instance laravel
         // $factory = new \Jenssegers\Blade\Blade(config('view.paths'), config('view.compiled'), $container);
@@ -106,7 +110,7 @@ if (! function_exists('view')) {
                 'ci'           => get_instance(),
                 'auth'         => $CI->session->isAdmin,
                 'controller'   => $CI->controller,
-                'desa'         => identitas(),
+                'desa'         => $desa ?? null,
                 'list_setting' => $CI->list_setting,
                 'modul'        => $CI->header['modul'],
                 'modul_ini'    => $CI->modul_ini,

@@ -196,6 +196,8 @@ class Config extends BaseModel
      */
     public static function boot(): void
     {
+        parent::boot();
+
         static::creating(static function ($model): void {
             $model->app_key = get_app_key();
         });
