@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -110,6 +111,14 @@ class LogSurat extends BaseModel
     }
 
     /**
+     * Get the user that owns the LogSurat
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    /**
      * Scope query untuk pengguna.
      *
      * @param Builder $query
@@ -155,5 +164,120 @@ class LogSurat extends BaseModel
         if ($this->lampiran != null) {
             return FCPATH . LOKASI_ARSIP . pathinfo($this->nama_surat, PATHINFO_FILENAME);
         }
+    }
+
+    public function statusPeriksa($jabatanId, $idJabatanKades, $idJabatanSekdes): int
+    {
+        $statusPeriksa = 0;
+        if ($jabatanId == $idJabatanKades && setting('verifikasi_kades') == 1) {
+            if ($this->verifikasi_kades == 1) {
+                if ($this->tte == null) {
+                    $statusPeriksa = $this->verifikasi_kades;
+                } else {
+                    $statusPeriksa = 2;
+                }
+            }
+        } elseif ($jabatanId == $idJabatanSekdes && setting('verifikasi_sekdes') == 1) {
+            if ($this->verifikasi_sekdes == 1) {
+                if ($this->tte == null) {
+                    if ($this->verifikasi_kades == null) {
+                        $statusPeriksa = 1;
+                    } else {
+                        $statusPeriksa = $this->verifikasi_kades;
+                    }
+                } else {
+                    $statusPeriksa = $this->tte;
+                }
+            }
+        } else {
+            if ($this->verifikasi_operator == 1) {
+                if ($this->tte == null) {
+                    if ($this->verifikasi_kades === null) {
+                        if ($this->verifikasi_sekdes === null) {
+                            $statusPeriksa = 1;
+                        } else {
+                            $statusPeriksa = $this->verifikasi_sekdes;
+                        }
+                    } else {
+                        $statusPeriksa = $this->verifikasi_kades;
+                    }
+                } else {
+                    $statusPeriksa = $this->tte;
+                }
+            }
+        }
+
+        return $statusPeriksa;
+    }
+
+    public function rtfFile(): string
+    {
+        $nama_surat = pathinfo($this->nama_surat, PATHINFO_FILENAME);
+
+        if ($nama_surat !== '' && $nama_surat !== '0') {
+            $berkas_rtf = $nama_surat . '.rtf';
+        } else {
+            $berkas_rtf = $this->formatSurat->url_surat . '_' . $this->penduduk->nik . '_' . date('Y-m-d') . '.rtf';
+        }
+
+        return LOKASI_ARSIP . $berkas_rtf;
+    }
+
+    public function pdfFile(): string
+    {
+        $nama_surat = pathinfo($this->nama_surat, PATHINFO_FILENAME);
+
+        if ($nama_surat !== '' && $nama_surat !== '0') {
+            $berkas_pdf = $nama_surat . '.pdf';
+        } else {
+            $berkas_pdf = $this->formatSurat->url_surat . '_' . $this->penduduk->nik . '_' . date('Y-m-d') . '.pdf';
+        }
+
+        return LOKASI_ARSIP . $berkas_pdf;
+    }
+
+    public function lampiranFile(): string
+    {
+        $nama_surat = pathinfo($this->nama_surat, PATHINFO_FILENAME);
+
+        if ($nama_surat !== '' && $nama_surat !== '0') {
+            $berkas_lampiran = $nama_surat . '_lampiran.pdf';
+        } else {
+            $berkas_lampiran = $this->formatSurat->url_surat . '_' . $this->penduduk->nik . '_' . date('Y-m-d') . '._lampiran.pdf';
+        }
+
+        return LOKASI_ARSIP . $berkas_lampiran;
+    }
+
+    public function scopeMasuk($query, $isAdmin, $listJabatan = [])
+    {
+        $jabatanId       = $listJabatan['jabatan_id'];
+        $jabatanKadesId  = $listJabatan['jabatan_kades_id'];
+        $jabatanSekdesId = $listJabatan['jabatan_sekdes_id'];
+
+        return $query->when($jabatanId == $jabatanKadesId, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where(static fn ($r) => $r->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0)))
+            ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '0')))
+            ->when($jabatanId == $jabatanSekdesId, static fn ($q) => $q->where('verifikasi_sekdes', '=', '0'))
+            ->when($isAdmin == null || ! in_array($jabatanId, [$jabatanKadesId, $jabatanSekdesId]), static fn ($q) => $q->where('verifikasi_operator', '=', '0'));
+    }
+
+    public function scopeArsip($query, $isAdmin, $listJabatan = [])
+    {
+        $jabatanId       = $listJabatan['jabatan_id'];
+        $jabatanKadesId  = $listJabatan['jabatan_kades_id'];
+        $jabatanSekdesId = $listJabatan['jabatan_sekdes_id'];
+
+        return $query->when($jabatanId == $jabatanKadesId, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+            ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+            ->orWhere(static function ($verifikasi): void {
+                $verifikasi->whereNull('verifikasi_operator');
+            }))
+            ->when($jabatanId == $jabatanSekdesId, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
+            ->when($isAdmin == null || ! in_array($jabatanId, [$jabatanKadesId, $jabatanSekdesId]), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'));
+    }
+
+    public function scopeDitolak($query)
+    {
+        return $query->where('verifikasi_operator', '=', '-1');
     }
 }

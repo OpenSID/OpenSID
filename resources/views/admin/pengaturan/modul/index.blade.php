@@ -25,13 +25,13 @@
                 @if (can('u'))
                     <div class="row">
                         <div class="col-xs-12 text-center">
-                            <a href="{{ route('modul.default_server') }}" class="btn btn-social btn-success btn-sm" @disabled(! setting('penggunaan_server'))><i class="fa fa-refresh"></i>Kembalikan ke default penggunaan server</a>
+                            <a href="{{ route('modul.default_server') }}" class="btn btn-social btn-success btn-sm" @disabled(!setting('penggunaan_server'))><i class="fa fa-refresh"></i>Kembalikan ke default penggunaan server</a>
                         </div>
                     </div>
                 @endif
             @else
                 <a href="{{ route('modul') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
-                <div  style="margin-top: 15px;">
+                <div style="margin-top: 15px;">
                     <strong> Modul Utama : {{ SebutanDesa($parentName) }} </strong>
                 </div>
             @endif

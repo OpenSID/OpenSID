@@ -67,7 +67,15 @@ class Migrasi_dev extends MY_model
 
         // Migrasi tanpa config_id
 
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023120751($hasil);
+    }
+
+    protected function migrasi_2023120751($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'arsip-layanan', 'url' => 'keluar/clear'],
+            ['url' => 'keluar']
+        );
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)

@@ -39,6 +39,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 14. [#7511](https://github.com/OpenSID/OpenSID/issues/7511) Penyesuaian modul pengaturan peta > lokasi menggunakan ORM dan Blade.
 15. [#7528](https://github.com/OpenSID/OpenSID/issues/7528) Penyesuaian pengaturan mapbox_key dan google recaptcha ambil dari config jika belum tersedia.
 16. [#7529](https://github.com/OpenSID/OpenSID/issues/7529) Penyesuaian modul pengaturan modul menggunakan ORM dan Blade.
+17. [#7518](https://github.com/OpenSID/OpenSID/issues/7518) Penyesuaian modul arsip layanan menggunakan ORM dan Blade.
 
 
 #### Peningkatan Keamanan
