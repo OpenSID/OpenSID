@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\OfflineModeEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
 use App\Models\Config;
@@ -1283,14 +1284,10 @@ class Data_awal extends MY_Model
             [
                 'judul'      => 'Offline Mode',
                 'key'        => 'offline_mode',
-                'value'      => '0',
+                'value'      => OfflineModeEnum::PUBLIK,
                 'keterangan' => 'Apakah modul web akan ditampilkan atau tidak',
                 'jenis'      => 'option',
-                'option'     => json_encode([
-                    '0' => 'Web bisa diakses publik',
-                    '1' => 'Web hanya bisa diakses petugas web',
-                    '2' => 'Web non-aktif sama sekali',
-                ]),
+                'option'     => OfflineModeEnum::allToJson(),
                 'attribute' => null,
                 'kategori'  => 'web',
             ],

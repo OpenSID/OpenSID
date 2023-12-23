@@ -365,7 +365,7 @@ class Ekspor_model extends MY_Model
             'fcm_token_mandiri',
             'log_login',
             'fcm_token',
-            
+
         ];
 
         $prefs = [
