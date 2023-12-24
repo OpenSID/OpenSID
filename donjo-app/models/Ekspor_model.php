@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -73,7 +74,7 @@ class Ekspor_model extends MY_Model
     }
 
     // Expor data penduduk ke format Impor Excel
-    public function expor()
+    public function expor($huruf = null)
     {
         $filter = $this->config_id('p')
             ->select(['k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.status_dasar', 'p.suku', 'p.tag_id_card', 'p.id_asuransi as asuransi', 'p.no_asuransi'])
@@ -133,10 +134,37 @@ class Ekspor_model extends MY_Model
             if (empty($baris->rw)) {
                 $baris->rw = '-';
             }
+
+            if ($huruf) {
+                $baris = $this->ekspor_huruf($baris);
+            }
+
             $data[$i] = $baris;
         }
 
         return $data;
+    }
+
+    private function ekspor_huruf(&$baris)
+    {
+        $baris->sex = DB::table('tweb_penduduk_sex')->find($baris->sex)->nama;
+        $baris->agama_id = DB::table('tweb_penduduk_agama')->find($baris->agama_id)->nama;
+        $baris->pendidikan_kk_id = DB::table('tweb_penduduk_pendidikan_kk')->find($baris->pendidikan_kk_id)->nama;
+        $baris->pendidikan_sedang_id = DB::table('tweb_penduduk_pendidikan')->find($baris->pendidikan_sedang_id)->nama;
+        $baris->pekerjaan_id = DB::table('tweb_penduduk_pekerjaan')->find($baris->pekerjaan_id)->nama;
+        $baris->status_kawin = DB::table('tweb_penduduk_kawin')->find($baris->status_kawin)->nama;
+        $baris->kk_level = DB::table('tweb_penduduk_hubungan')->find($baris->kk_level)->nama;
+        $baris->warganegara_id = DB::table('tweb_penduduk_warganegara')->find($baris->warganegara_id)->nama;
+        $baris->golongan_darah_id = DB::table('tweb_golongan_darah')->find($baris->golongan_darah_id)->nama;
+        $baris->cacat_id = DB::table('tweb_cacat')->find($baris->cacat_id)->nama;
+        $baris->cara_kb_id = DB::table('tweb_cara_kb')->find($baris->cara_kb_id)->nama;
+        $baris->status_dasar = DB::table('tweb_penduduk_status')->find($baris->status_dasar)->nama;
+        $baris->warganegara_id = DB::table('tweb_penduduk_warganegara')->find($baris->warganegara_id)->nama;
+        $baris->hamil = $baris->hamil == 1 ? 'YA' : 'TIDAK';
+        $baris->ktp_el = DB::table('tweb_penduduk_warganegara')->find($baris->warganegara_id)->nama;
+        $baris->status_rekam = DB::table('tweb_penduduk_warganegara')->find($baris->warganegara_id)->nama;
+
+        return $baris;
     }
 
     // ====================== End expor_by_keluarga ========================

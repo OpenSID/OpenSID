@@ -1166,7 +1166,7 @@ class Penduduk extends Admin_Controller
         redirect('penduduk/impor_bip');
     }
 
-    public function ekspor(): void
+    public function ekspor($huruf = null): void
     {
         try {
             $daftar_kolom = $this->impor_model->daftar_kolom;
@@ -1176,7 +1176,7 @@ class Penduduk extends Admin_Controller
             $writer->addRow(WriterEntityFactory::createRowFromArray($daftar_kolom));
 
             //Isi Tabel
-            $get = $this->ekspor_model->expor();
+            $get = $this->ekspor_model->expor($huruf);
 
             foreach ($get as $row) {
                 $penduduk = [];

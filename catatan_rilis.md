@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#5141](https://github.com/OpenSID/OpenSID/issues/5141) Penambahan pengaturan jumlah slider yang ditampilkan pada halaman web.
 3. [#1772](https://github.com/OpenSID/OpenSID/issues/1772) Penambahan jadwal pemilihan pada modul dpt.
 4. [#4630](https://github.com/OpenSID/OpenSID/issues/4630) Penambahan jenis link/embed file pada modul galeri.
+5. [#5223](https://github.com/OpenSID/OpenSID/issues/5223) Penambahan jenis ekspor data penduduk berupa data isian yang dikonversi jadi huruf.
 
 
 #### BUG
