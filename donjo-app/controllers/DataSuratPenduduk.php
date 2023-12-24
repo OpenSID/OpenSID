@@ -37,7 +37,7 @@
 
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
-use App\Enums\StatusHubunganEnum;
+use App\Enums\SHDKEnum;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\LogPenduduk;
@@ -79,21 +79,21 @@ class DataSuratPenduduk extends CI_Controller
                 $data['ayah'] = Penduduk::where('nik', $data['individu']->ayah_nik)->first();
                 $data['ibu']  = Penduduk::where('nik', $data['individu']->ibu_nik)->first();
 
-                if (! $data['ayah'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
+                if (! $data['ayah'] && $data['individu']->kk_level == SHDKEnum::ANAK) {
                     $data['ayah'] = Penduduk::where('id_kk', $data['individu']->id_kk)
                         ->where(static function ($query): void {
-                            $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                                ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
+                            $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                                ->orWhere('kk_level', SHDKEnum::SUAMI);
                         })
                         ->where('sex', JenisKelaminEnum::LAKI_LAKI)
                         ->first();
                 }
 
-                if (! $data['ibu'] && $data['individu']->kk_level == StatusHubunganEnum::ANAK) {
+                if (! $data['ibu'] && $data['individu']->kk_level == SHDKEnum::ANAK) {
                     $data['ibu'] = Penduduk::where('id_kk', $data['individu']->id_kk)
                         ->where(static function ($query): void {
-                            $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                                ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
+                            $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                                ->orWhere('kk_level', SHDKEnum::ISTRI);
                         })
                         ->where('sex', JenisKelaminEnum::PEREMPUAN)
                         ->first();
@@ -106,8 +106,8 @@ class DataSuratPenduduk extends CI_Controller
             if ($surat->form_isian->individu->data_pasangan && in_array($data['individu']->kk_level, [1, 2, 3])) {
                 $data['pasangan'] = Penduduk::where('id_kk', $data['individu']->id_kk)
                     ->where(static function ($query): void {
-                        $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                            ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
+                        $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                            ->orWhere('kk_level', SHDKEnum::ISTRI);
                     })
                     ->where('sex', JenisKelaminEnum::PEREMPUAN)
                     ->first();
@@ -115,8 +115,8 @@ class DataSuratPenduduk extends CI_Controller
                 if ($data['individu']->sex == JenisKelaminEnum::PEREMPUAN) {
                     $data['pasangan'] = Penduduk::where('id_kk', $data['individu']->id_kk)
                         ->where(static function ($query): void {
-                            $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                                ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
+                            $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                                ->orWhere('kk_level', SHDKEnum::SUAMI);
                         })
                         ->where('sex', JenisKelaminEnum::LAKI_LAKI)
                         ->first();
