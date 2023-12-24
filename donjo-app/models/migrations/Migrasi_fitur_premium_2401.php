@@ -61,8 +61,9 @@ class Migrasi_fitur_premium_2401 extends MY_model
 
         $hasil = $hasil && $this->migrasi_2023120351($hasil);
         $hasil = $hasil && $this->migrasi_2023120752($hasil);
+        $hasil = $hasil && $this->migrasi_2023121951($hasil);
 
-        return $hasil && $this->migrasi_2023121951($hasil);
+        return $hasil && $this->migrasi_2023122471($hasil);
     }
 
     // Migrasi perubahan data
@@ -249,6 +250,27 @@ class Migrasi_fitur_premium_2401 extends MY_model
                 $table->integer('batch');
             });
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023122471($hasil)
+    {
+        $this->dbforge->modify_column('gambar_gallery', [
+            'gambar' => [
+                'type'       => 'TEXT',
+                'null'       => true,
+            ],
+        ]);
+
+        $this->dbforge->add_column('gambar_gallery', [
+            'jenis' => [
+                'type'       => 'TINYINT',
+                'constraint' => 4,
+                'null'       => false,
+                'default'    => 1,
+            ],
+        ]);
 
         return $hasil;
     }
