@@ -38,7 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\JenisKelaminEnum;
-use App\Enums\StatusHubunganEnum;
+use App\Enums\SHDKEnum;
 use App\Models\Anak;
 use App\Models\IbuHamil;
 use App\Models\KIA;
@@ -216,17 +216,17 @@ class Stunting extends Admin_Controller
         $data             = $this->widget();
         $data['navigasi'] = 'kia';
         $data['ibu']      = Penduduk::where(static function ($query): void {
-            $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                ->orWhere('kk_level', StatusHubunganEnum::ISTRI)
-                ->orWhere('kk_level', StatusHubunganEnum::ANAK)
-                ->orWhere('kk_level', StatusHubunganEnum::MENANTU);
+            $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                ->orWhere('kk_level', SHDKEnum::ISTRI)
+                ->orWhere('kk_level', SHDKEnum::ANAK)
+                ->orWhere('kk_level', SHDKEnum::MENANTU);
         })
             ->where('sex', JenisKelaminEnum::PEREMPUAN)
             ->get();
 
         $data['anak'] = Penduduk::select(['id', 'nik', 'nama'])
             ->whereNotIn('id', KIA::pluck('anak_id'))
-            ->whereIn('kk_level', [StatusHubunganEnum::ANAK, StatusHubunganEnum::CUCU, StatusHubunganEnum::FAMILI_LAIN])
+            ->whereIn('kk_level', [SHDKEnum::ANAK, SHDKEnum::CUCU, SHDKEnum::FAMILI_LAIN])
             ->where('tanggallahir', '>=', Carbon::now()->subYears(6))
             ->get();
 
@@ -257,10 +257,10 @@ class Stunting extends Admin_Controller
                         ->orWhere('nama', 'like', "%{$cari}%");
                 })
                 ->where(static function ($query): void {
-                    $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                        ->orWhere('kk_level', StatusHubunganEnum::ISTRI)
-                        ->orWhere('kk_level', StatusHubunganEnum::ANAK)
-                        ->orWhere('kk_level', StatusHubunganEnum::MENANTU);
+                    $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                        ->orWhere('kk_level', SHDKEnum::ISTRI)
+                        ->orWhere('kk_level', SHDKEnum::ANAK)
+                        ->orWhere('kk_level', SHDKEnum::MENANTU);
                 })
                 ->where('sex', JenisKelaminEnum::PEREMPUAN)
                 ->paginate(10);
@@ -294,7 +294,7 @@ class Stunting extends Admin_Controller
             if ($penduduk) {
                 $anak = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where('id', '!=', $ibu)->whereNotIn('id', $anakId)
-                    ->whereIn('kk_level', [StatusHubunganEnum::ANAK, StatusHubunganEnum::CUCU, StatusHubunganEnum::FAMILI_LAIN])->where('tanggallahir', '>=', Carbon::now()
+                    ->whereIn('kk_level', [SHDKEnum::ANAK, SHDKEnum::CUCU, SHDKEnum::FAMILI_LAIN])->where('tanggallahir', '>=', Carbon::now()
                     ->subYears(6))
                     ->get();
 

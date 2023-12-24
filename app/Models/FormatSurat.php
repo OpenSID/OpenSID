@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -501,5 +502,13 @@ class FormatSurat extends BaseModel
         $this->nonAktifkanRTF = $nonAktifkanRTF;
 
         return $this;
+    }
+
+    /**
+     * Get the logSurat that owns the FormatSurat
+     */
+    public function logSurat(): BelongsTo
+    {
+        return $this->belongsTo(LogSurat::class, 'id', 'id_format_surat');
     }
 }

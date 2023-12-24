@@ -216,4 +216,12 @@ abstract class BaseEnum
 
         return static::all()[$key];
     }
+
+    /**
+     * Get all the items in the enum as json
+     */
+    public static function allToJson(): string
+    {
+        return json_encode(static::all());
+    }
 }

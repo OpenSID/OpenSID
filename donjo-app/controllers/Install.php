@@ -383,7 +383,7 @@ class Install extends CI_Controller
             'username',
             'password',
             'database',
-            'instalasi'
+            'instalasi',
         ]);
 
         redirect('/');

@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Enums\StatusHubunganEnum;
+use App\Enums\SHDKEnum;
 use App\Libraries\DateConv;
 use App\Models\LogPenduduk;
 use App\Models\LogSurat;
@@ -456,8 +456,8 @@ class Surat_model extends MY_Model
 
     public function get_data_istri($id = 0)
     {
-        $id_kk    = Penduduk::where('id', $id)->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)->first('id_kk')->id_kk;
-        $penduduk = Penduduk::where('id_kk', $id_kk)->where('kk_level', StatusHubunganEnum::ISTRI)->first('id')->id;
+        $id_kk    = Penduduk::where('id', $id)->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->first('id_kk')->id_kk;
+        $penduduk = Penduduk::where('id_kk', $id_kk)->where('kk_level', SHDKEnum::ISTRI)->first('id')->id;
         $data     = Penduduk::where('id', $penduduk)->first('id');
 
         $istri_id = $data['id'];
@@ -468,8 +468,8 @@ class Surat_model extends MY_Model
 
     public function get_data_suami($id = 0)
     {
-        $id_kk    = Penduduk::where('id', $id)->where('kk_level', StatusHubunganEnum::ISTRI)->first('id_kk')->id_kk;
-        $penduduk = Penduduk::where('id_kk', $id_kk)->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)->first('id')->id;
+        $id_kk    = Penduduk::where('id', $id)->where('kk_level', SHDKEnum::ISTRI)->first('id_kk')->id_kk;
+        $penduduk = Penduduk::where('id_kk', $id_kk)->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->first('id')->id;
         $data     = Penduduk::where('id', $penduduk)->first('id');
 
         $suami_id = $data['id'];

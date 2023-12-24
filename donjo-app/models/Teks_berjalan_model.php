@@ -67,11 +67,11 @@ class Teks_berjalan_model extends MY_Model
         $this->sql();
 
         if ($tipe) {
-            $this->db->where('tipe', $tipe);
+            $this->db->where('t.tipe', $tipe);
         }
 
         if ($web === true) {
-            $this->db->where('status', 1);
+            $this->db->where('t.status', 1);
         }
 
         $data    = $this->db->get()->result_array();

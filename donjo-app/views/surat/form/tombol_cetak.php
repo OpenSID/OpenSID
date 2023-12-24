@@ -19,7 +19,7 @@
             <button type="button" onclick="tambah_elemen_cetak('cetak_pdf');" class="btn btn-social btn-flat bg-fuchsia btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-word-o"></i> Cetak PDF</button>
         <?php endif; ?>
     <?php endif; ?>
-    <a href="<?= site_url('keluar/clear/masuk') ?>" id="next" class="btn btn-social btn-info btn-sm btn-sm pull-right visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" style="display: none !important;">
+    <a href="<?= site_url('keluar/masuk') ?>" id="next" class="btn btn-social btn-info btn-sm btn-sm pull-right visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" style="display: none !important;">
             ke Permohonan Surat<i class="fa fa-arrow-circle-right"></i></a>
 </div>
 <script type="text/javascript">

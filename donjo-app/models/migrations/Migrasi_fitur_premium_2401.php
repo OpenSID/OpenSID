@@ -35,9 +35,9 @@
  *
  */
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -122,9 +122,14 @@ class Migrasi_fitur_premium_2401 extends MY_model
             ['url' => 'point']
         );
 
-        return $hasil && $this->ubah_modul(
+        $hasil && $this->ubah_modul(
             ['slug' => 'arsip-layanan', 'url' => 'keluar/clear/masuk'],
             ['url' => 'keluar/clear']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'modul', 'url' => 'modul/clear'],
+            ['url' => 'modul']
         );
     }
 
