@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Artikel;
 use App\Models\UserGrup;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -55,7 +56,7 @@ class Web_artikel_model extends MY_Model
             $this->db->like($kolom, $cari);
         }
 
-        $data = $this->config_id_exist('artikel', 'a')
+        $data = $this->config_id('a')
             ->distinct()
             ->select('a.judul')
             ->order_by('a.judul')
@@ -114,14 +115,14 @@ class Web_artikel_model extends MY_Model
         $this->config_id('a')
             ->from('artikel a')
             ->join('kategori k', 'a.id_kategori = k.id', 'left');
-        if ($cat > 0) {
-            $this->db->where('id_kategori', $cat);
+        if (in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL)) {
+            $this->db->where('id_kategori')->where('a.tipe', $cat);
         } elseif ($cat == -1) {
             // Semua artikel dinamis (tidak termasuk artikel statis)
-            $this->db->where_not_in('id_kategori', ['999', '1000', '1001']);
+            $this->db->where('a.tipe', 'dinamis');
         } else {
             // Artikel dinamis tidak berkategori
-            $this->db->where_not_in('id_kategori', ['999', '1000', '1001'])->where('k.id', null);
+            $this->db->where('a.tipe', 'dinamis')->where('k.id', null);
         }
         $this->search_sql();
         $this->filter_sql();
@@ -245,7 +246,8 @@ class Web_artikel_model extends MY_Model
                 }
             }
         }
-        $data['id_kategori'] = $cat;
+        $data['id_kategori'] = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? null : $cat;
+        $data['tipe']        = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? $cat : 'dinamis';
         $data['id_user']     = $_SESSION['user'];
 
         // Kontributor tidak dapat mengaktifkan artikel

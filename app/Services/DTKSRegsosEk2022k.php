@@ -155,7 +155,7 @@ class DTKSRegsosEk2022k
             }
         }
 
-        return view('admin.dtks.' . \App\Enums\Dtks\DtksEnum::VERSION_CODE . '.info', $data);
+        return view('admin.dtks.' . DtksEnum::VERSION_CODE . '.info', $data);
     }
 
     public function impor()

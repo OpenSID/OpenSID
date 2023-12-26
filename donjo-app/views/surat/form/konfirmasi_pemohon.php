@@ -4,7 +4,7 @@
 		<input class="form-control input-sm" type="text" value="<?= strtoupper($individu['tempatlahir']); ?> " disabled="">
 	</div>
 	<div class="col-sm-2">
-  	<input class="form-control input-sm" type="text" value="<?= strtoupper(tgl_indo($individu['tanggallahir'])); ?> " disabled="">
+		<input class="form-control input-sm" type="text" value="<?= strtoupper(tgl_indo($individu['tanggallahir'])); ?> " disabled="">
 	</div>
 	<div class="col-sm-2">
 		<input class="form-control input-sm" type="text" value="<?= strtoupper($individu['umur']); ?> TAHUN" disabled="">

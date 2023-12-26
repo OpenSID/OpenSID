@@ -18,8 +18,7 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ route('pemilihan.') }}"
-                class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <a href="{{ route('pemilihan.') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Pemilihan
             </a>
         </div>
@@ -30,15 +29,13 @@
                     <div class="col-sm-9">
                         <div class="form-group">
                             <label class="control-label">Judul</label>
-                            <input type="text" class="form-control input-sm nama_terbatas required" id="judul"
-                                name="judul" placeholder="Judul" value="{{ $pemilihan->judul }}" />
+                            <input type="text" class="form-control input-sm nama_terbatas required" id="judul" name="judul" placeholder="Judul" value="{{ $pemilihan->judul }}" />
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label class="control-label">Tanggal </label>
-                            <input type="date" class="form-control input-sm required" name="tanggal"
-                                placeholder="Tanggal" value="{{ $pemilihan->tanggal }}" />
+                            <input type="date" class="form-control input-sm required" name="tanggal" placeholder="Tanggal" value="{{ $pemilihan->tanggal }}" />
                         </div>
                     </div>
                 </div>

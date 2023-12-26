@@ -329,7 +329,7 @@ class Shortcode_model extends MY_Model
         return preg_replace_callback($regex, function (array $matches) {
             $params_explode = explode(',', $matches[1]);
 
-            return $this->converted_sc_list($params_explode[0], $params_explode[1]);
+            return $this->converted_sc_list($params_explode[0] ?? '', $params_explode[1] ?? '');
         }, $str);
     }
 

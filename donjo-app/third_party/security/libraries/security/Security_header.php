@@ -38,7 +38,7 @@
 class Security_header
 {
     /**
-     * @var \CI_Controller
+     * @var CI_Controller
      */
     protected $ci;
 

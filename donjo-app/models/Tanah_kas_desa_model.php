@@ -289,7 +289,7 @@ class Tanah_kas_desa_model extends MY_Model
 
     public function list_letter_c()
     {
-        return $this->config_id_exist('cdesa', 'c')
+        return $this->config_id('c')
             ->select('c.id, c.nomor, c.nama_kepemilikan')
             ->from('cdesa c')
             ->get()

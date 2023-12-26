@@ -73,6 +73,7 @@ class Koneksi_database extends CI_Controller
         if ($this->session->cek_app_key) {
             // Tambahkan data sementara
             Config::create([
+                'app_key'           => get_app_key(),
                 'nama_desa'         => '',
                 'kode_desa'         => '',
                 'nama_kecamatan'    => '',

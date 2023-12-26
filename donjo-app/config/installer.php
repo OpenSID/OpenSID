@@ -45,7 +45,6 @@ $config = [
         'desa/pengaturan/'         => [0775],
         'desa/pengaturan/siteman/' => [0775],
         LATAR_LOGIN                => [0775],
-        LOKASI_SURAT_DESA          => [0775],
         LOKASI_LAMPIRAN_SURAT_DESA => [0775],
         LOKASI_TEMA_DESA           => [0775],
         LOKASI_UPLOAD              => [0775, 'htaccess1'],

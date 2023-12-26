@@ -393,6 +393,7 @@ $config['cache_query_string'] = false;
 |
 */
 $config['encryption_key'] = 'lumbungkomunitas';
+$config['cipher']         = 'AES-256-CBC';
 
 /*
 |--------------------------------------------------------------------------

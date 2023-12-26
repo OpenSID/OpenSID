@@ -231,7 +231,7 @@
 
 		$("#cetak_id").attr("href", `<?= site_url("keluarga/ajax_cetak/{$p}/{$o}/cetak") ?>?id_cb=${id}`);
 		$("#unduh_id").attr("href", `<?= site_url("keluarga/ajax_cetak/{$p}/{$o}/unduh") ?>?id_cb=${id}`);
-		
+
 		var newHref = SITE_URL + "keluarga/pindah_kolektif?id_cb=" + id;
 
 		$("#pindah_kolektif").attr("href", newHref);

@@ -34,10 +34,10 @@
             @if ($tolak != '-1')
                 <a onclick="formAction('validasi', '{{ $aksi_konsep }}')" id="konsep" class="btn btn-social btn-warning btn-sm"><i class="fa fa-file-code-o"></i>
                     Konsep</a>
-                <a href="{{ route('keluar/clear/masuk') }}" id="next" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hide">
+                <a href="{{ route('keluar/masuk') }}" id="next" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hide">
                     ke Permohonan Surat<i class="fa fa-arrow-circle-right"></i>
                 @else
-                    <a href="{{ route('keluar/clear/ditolak') }}" id="next" style="display:none" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <a href="{{ route('keluar/ditolak') }}" id="next" style="display:none" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                         Ke Daftar Surat Ditolak <i class="fa fa-arrow-circle-right"></i>
             @endif
 

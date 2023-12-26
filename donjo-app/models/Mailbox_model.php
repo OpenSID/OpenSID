@@ -77,7 +77,8 @@ class Mailbox_model extends MY_Model
         $data['subjek']     = strip_tags($post['subjek']);
         $data['komentar']   = strip_tags($post['komentar']);
         $data['permohonan'] = bilangan($post['permohonan']);
-        $data['id_artikel'] = 775;
+        $data['id_artikel'] = null;
+        $data['jenis']      = LAPORAN_MANDIRI;
         $data['tgl_upload'] = date('Y-m-d H:i:s');
         $data['updated_at'] = date('Y-m-d H:i:s');
         $outp               = $this->db->insert('komentar', $data);
@@ -108,10 +109,14 @@ class Mailbox_model extends MY_Model
      */
     public function get_all_pesan($nik = '', $tipe = 1)
     {
+        if (! $this->db->field_exists('jenis', $this->table)) {
+            return null;
+        }
+
         return $this->config_id()
             ->where('email', $nik)
             ->where('tipe', $tipe)
-            ->where('id_artikel', 775)
+            ->where('jenis', 'pesan-mandiri')
             ->from($this->table)
             ->order_by('id', 'DESC')
             ->get()
@@ -120,10 +125,14 @@ class Mailbox_model extends MY_Model
 
     public function get_pesan($nik = '', $id = '')
     {
+        if (! $this->db->field_exists('jenis', $this->table)) {
+            return null;
+        }
+
         return $this->config_id()
             ->where('email', $nik)
             ->where('id', $id)
-            ->where('id_artikel', 775)
+            ->where('jenis', 'pesan-mandiri')
             ->from($this->table)
             ->get()
             ->row_array();
@@ -131,21 +140,29 @@ class Mailbox_model extends MY_Model
 
     public function ubah_status_pesan($nik = '', $id = '', $status = 1)
     {
+        if (! $this->db->field_exists('jenis', $this->table)) {
+            return null;
+        }
+
         return $this->config_id()
             ->where('email', $nik)
             ->where('id', $id)
             ->where('tipe', 2)
-            ->where('id_artikel', 775)
+            ->where('jenis', 'pesan-mandiri')
             ->update('komentar', ['status' => $status]);
     }
 
     public function count_inbox_pesan($nik = '')
     {
+        if (! $this->db->field_exists('jenis', $this->table)) {
+            return null;
+        }
+
         return $this->config_id()
             ->where('email', $nik)
             ->where('tipe', 2)
             ->where('status', 2)
-            ->where('id_artikel', 775)
+            ->where('jenis', 'pesan-mandiri')
             ->from($this->table)
             ->count_all_results();
     }

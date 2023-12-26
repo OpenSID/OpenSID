@@ -67,9 +67,9 @@
 						</div>
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
-								<li class="<?= jecho($cat, 999, 'active'); ?>"><a href="<?= site_url('web/tab/999') ?>">Halaman Statis</a></li>
-								<li class="<?= jecho($cat, 1000, 'active'); ?>"><a href="<?= site_url('web/tab/1000') ?>">Agenda</a></li>
-								<li class="<?= jecho($cat, 1001, 'active'); ?>"><a href="<?= site_url('web/tab/1001') ?>">Keuangan</a></li>
+								<li class="<?= jecho($cat, 'statis', 'active'); ?>"><a href="<?= site_url('web/tab/statis') ?>">Halaman Statis</a></li>
+								<li class="<?= jecho($cat, 'agenda', 'active'); ?>"><a href="<?= site_url('web/tab/agenda') ?>">Agenda</a></li>
+								<li class="<?= jecho($cat, 'keuangan', 'active'); ?>"><a href="<?= site_url('web/tab/keuangan') ?>">Keuangan</a></li>
 							</ul>
 						</div>
 					</div>
@@ -82,9 +82,9 @@
 									<i class="fa fa-plus"></i>Tambah
 									<?php if ($kategori) : ?>
 										<?= $kategori['kategori']; ?>
-									<?php elseif ($cat == 1000) : ?>
+									<?php elseif ($cat == 'agenda') : ?>
 										Agenda
-									<?php elseif ($cat == 1001) : ?>
+									<?php elseif ($cat == 'keuangan') : ?>
 										Artikel Keuangan
 									<?php else : ?>
 										Artikel Statis

@@ -51,7 +51,7 @@ class First_artikel_m extends MY_Model
 
     public function get_headline()
     {
-        return $this->config_id_exist('artikel', 'a')
+        return $this->config_id('a')
             ->select('a.*, u.nama AS owner, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
             ->from('artikel a')
             ->join('user u', 'a.id_user = u.id', 'LEFT')
@@ -78,7 +78,7 @@ class First_artikel_m extends MY_Model
 
     public function get_widget()
     {
-        return $this->config_id_exist('widget')->get('widget', 1)->result_array();
+        return $this->config_id()->get('widget', 1)->result_array();
     }
 
     public function paging($p = 1)
@@ -104,7 +104,7 @@ class First_artikel_m extends MY_Model
 
     private function paging_artikel_sql(): void
     {
-        $this->config_id_exist('artikel', 'a')
+        $this->config_id('a')
             ->from('artikel a')
             ->join('user u', 'a.id_user = u.id', 'LEFT')
             ->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
@@ -157,7 +157,7 @@ class First_artikel_m extends MY_Model
     public function arsip_show($type = '')
     {
         // Artikel agenda (kategori=1000) tidak ditampilkan
-        $this->config_id_exist('artikel', 'a')
+        $this->config_id('a')
             ->select('a.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
             ->where('a.enabled', 1)
             ->where('a.id_kategori NOT IN (1000)')
@@ -244,7 +244,7 @@ class First_artikel_m extends MY_Model
 
     private function sql_gambar_slide_show(string $gambar)
     {
-        $this->config_id_exist('artikel')
+        $this->config_id()
             ->select('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
             ->from('artikel')
             ->where('enabled', 1)
@@ -278,14 +278,14 @@ class First_artikel_m extends MY_Model
     public function slider_gambar()
     {
         $sumber = $this->setting->sumber_gambar_slider;
-        $limit = $this->setting->jumlah_gambar_slider ?? 10;
+        $limit  = $this->setting->jumlah_gambar_slider ?? 10;
 
         $slider_gambar = [];
 
         switch ($sumber) {
             case '1':
                 // 10 gambar utama semua artikel terbaru
-                $slider_gambar['gambar'] = $this->config_id_exist('artikel')
+                $slider_gambar['gambar'] = $this->config_id()
                     ->select('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
                     ->where('enabled', 1)
                     ->where('gambar !=', '')
@@ -339,7 +339,7 @@ class First_artikel_m extends MY_Model
                 break;
         }
 
-        return $this->config_id_exist('agenda', 'g')
+        return $this->config_id('g')
             ->select('a.*, g.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
             ->join('artikel a', 'a.id = g.id_artikel', 'LEFT')
             ->where('a.enabled', 1)
@@ -352,7 +352,7 @@ class First_artikel_m extends MY_Model
     {
         $this->for_slug();
 
-        return $this->config_id_exist('komentar', 'k')
+        return $this->config_id('k')
             ->select('k.*')
             ->from('komentar k')
             ->join('artikel a', 'k.id_artikel = a.id')
@@ -371,7 +371,7 @@ class First_artikel_m extends MY_Model
 
     public function get_kategori($id = 0)
     {
-        $data = $this->config_id_exist('kategori', '', true)
+        $data = $this->config_id(null, true)
             ->group_start()
             ->where('id', $id)
             ->or_where('slug', $id)
@@ -523,7 +523,7 @@ class First_artikel_m extends MY_Model
     // Tampilan di widget sosmed
     public function list_sosmed()
     {
-        $query = $this->config_id_exist('media_sosial')->where('enabled', 1)->get('media_sosial');
+        $query = $this->config_id()->where('enabled', 1)->get('media_sosial');
 
         if ($query->num_rows() > 0) {
             $data    = $query->result_array();
@@ -562,7 +562,7 @@ class First_artikel_m extends MY_Model
 
     public function get_artikel_by_id($id)
     {
-        return $this->config_id_exist('artikel')
+        return $this->config_id()
             ->select('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, judul, tgl_upload')
             ->where(['id' => $id])
             ->get('artikel')

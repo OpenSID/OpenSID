@@ -11,7 +11,7 @@
 	<section class="content-header">
 		<h1>Daftar Gambar Album</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
+			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('gallery') ?>"><i class="fa fa-dashboard"></i> Daftar Album</a></li>
 			<li class="active">Daftar Gambar Album</li>
 		</ol>
@@ -122,7 +122,9 @@
 																			</td>
 																		<?php endif; ?>
 																		<td width="60%">
-																			<label style="cursor: pointer;" class="tampil" data-img="<?= AmbilGaleri($data['gambar'], 'sedang') ?>" data-rel="popover" data-content="<img width=200 height=134 src=<?= AmbilGaleri($data['gambar'], 'kecil') ?>>"><?= $data['nama'] ?></label>
+																			<?php $gambar_sedang = ($data['jenis'] == 1 ? AmbilGaleri($data['gambar'], 'sedang') : $data['gambar']) ?>
+																			<?php $gambar_kecil  = ($data['jenis'] == 1 ? AmbilGaleri($data['gambar'], 'kecil') : $data['gambar']) ?>
+																			<label style="cursor: pointer;" class="tampil" data-img="<?= $gambar_sedang ?>" data-rel="popover" data-content="<img width=200 height=134 src=<?= $gambar_kecil ?>>"><?= $data['nama'] ?> AKAS</label>
 																		</td>
 																		<td><?= $data['aktif'] ?></td>
 																		<td nowrap><?= tgl_indo2($data['tgl_upload']) ?></td>
@@ -192,7 +194,7 @@
 	$(function() {
 
 		$('.tampil').click(function(event) {
-			var gambar = $(this).data('img')
+			var gambar = $(this).data('img');
 			Swal.fire({
 				customClass: {
 					popup: 'swal-lg',

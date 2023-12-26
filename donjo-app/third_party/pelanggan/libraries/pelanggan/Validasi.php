@@ -36,14 +36,13 @@
  */
 
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Validasi
 {
     /**
-     * @var \CI_Controller
+     * @var CI_Controller
      */
     protected $ci;
 
@@ -128,11 +127,6 @@ class Validasi
 
         $token = $this->ci->setting->layanan_opendesa_token;
         if (empty($token)) {
-            if (Schema::hasColumn('config', 'app_key')) {
-                log_message('notice', 'Token pelanggan kosong');
-
-                return false;
-            }
             $this->ci->session->token_kosong = true;
             redirect('token');
         }

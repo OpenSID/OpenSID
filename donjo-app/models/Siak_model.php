@@ -182,7 +182,7 @@ class Siak_model extends Impor_model
     /**
      * Proses impor data bip
      *
-     * @param		sheet		data excel berisi bip
+     * @param sheet		data excel berisi bip
      * @param mixed $data
      *
      * @return setting $_SESSION untuk info hasil impor

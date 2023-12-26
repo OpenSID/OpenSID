@@ -93,6 +93,9 @@
 								<li>
 									<a href="<?= route('penduduk.ekspor') ?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm" title="Ekspor Penduduk"><i class="fa fa-download"></i> Ekspor Penduduk</a>
 								</li>
+								<li>
+									<a href="<?= route('penduduk.ekspor.1') ?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm" title="Ekspor Penduduk Berupa Isian Lengkap (Huruf)"><i class="fa fa-download"></i> Ekspor Penduduk Huruf</a>
+								</li>
 							</ul>
 						</div>
 						<a href="<?= site_url("{$this->controller}/clear"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>

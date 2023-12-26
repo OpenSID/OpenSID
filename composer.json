@@ -11,24 +11,25 @@
 		"php": "^7.4 || ^8.0 || ^8.1",
 		"agungsugiarto/codeigniter-datables": "1.x-dev",
 		"codeigniter/framework": "^3.1",
+		"doctrine/dbal": "^3.7",
 		"edwinhoksberg/php-fcm": "^1.2",
 		"google/apiclient": "^2.11",
+		"illuminate/cache": "^8.83",
+		"illuminate/config": "^8.83",
 		"illuminate/database": "^8.78",
+		"illuminate/encryption": "^8.83",
 		"illuminate/pagination": "^8.79",
 		"jenssegers/blade": "^1.4",
 		"karriere/pdf-merge": "^2.1",
 		"mike42/escpos-php": "^3.0",
 		"openspout/openspout": "^3.7",
 		"ramsey/uuid": "^4.2",
-		"simplehtmldom/simplehtmldom": "^2.0@RC",
 		"spipu/html2pdf": "^5.2",
 		"symfony/process": "^5.4",
 		"symfony/var-dumper": "^5.4",
 		"themes/esensi": "dev-main",
 		"themes/natra": "dev-premium",
-		"voku/anti-xss": "^4.1",
-		"illuminate/config": "^8.83",
-		"illuminate/cache": "^8.83"
+		"voku/anti-xss": "^4.1"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.1.*",
@@ -40,6 +41,9 @@
 		"psr-4": {
 			"App\\": "app/"
 		}
+	},
+	"config": {
+		"sort-packages": true
 	},
 	"extra": {
 		"google/apiclient-services": [

@@ -53,7 +53,7 @@ class Anjungan_model extends MY_Model
                 $this->db->or_where('mac_address', $mac_address);
             }
 
-            return $this->config_id_exist('anjungan')
+            return $this->config_id()
                 ->group_end()
                 ->where('status', 1)
                 ->order_by('tipe', 'asc')

@@ -36,7 +36,6 @@
  */
 
 use App\Models\Config;
-use App\Models\FormatSurat;
 use App\Models\GrupAkses;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
@@ -44,8 +43,8 @@ use App\Models\Modul;
 use App\Models\UserGrup;
 use Carbon\Carbon;
 use Illuminate\Container\Container;
+use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 if (! function_exists('asset')) {
     function asset($uri = '', $default = true)
@@ -68,14 +67,18 @@ if (! function_exists('view')) {
      * @param array                                         $mergeData
      * @param mixed                                         $returnView
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     function view($view = null, $data = [], $mergeData = [], $returnView = false)
     {
         $CI = &get_instance();
 
         $container = new Container();
-        $container->instance('db', Container::getInstance()->get('db'));
+
+        if (! get_instance()->session->instalasi) {
+            $desa = identitas();
+            $container->instance('db', Container::getInstance()->get('db'));
+        }
 
         // TODO:: sementara gunakan config yang ada di CI3 karena masalah instance laravel
         // $factory = new \Jenssegers\Blade\Blade(config('view.paths'), config('view.compiled'), $container);
@@ -106,7 +109,7 @@ if (! function_exists('view')) {
                 'ci'           => get_instance(),
                 'auth'         => $CI->session->isAdmin,
                 'controller'   => $CI->controller,
-                'desa'         => identitas(),
+                'desa'         => $desa ?? null,
                 'list_setting' => $CI->list_setting,
                 'modul'        => $CI->header['modul'],
                 'modul_ini'    => $CI->modul_ini,
@@ -243,8 +246,6 @@ if (! function_exists('isCan')) {
      * @param string|null $akses
      * @param string|null $slugModul
      * @param bool        $adminOnly
-     *
-     * @return array|bool
      */
     function isCan($akses = null, $slugModul = null, $adminOnly = false): void
     {
@@ -340,16 +341,7 @@ if (! function_exists('identitas')) {
      */
     function identitas(?string $params = null)
     {
-        $identitas = cache()->remember('identitas_desa', 604800, static function () {
-            if (! Schema::hasColumn('config', 'app_key')) {
-                return null;
-            }
-            if (! DB::table('config')->where('app_key', get_app_key())->exists()) {
-                return null;
-            }
-
-            return Config::appKey()->first();
-        });
+        $identitas = cache()->remember('identitas_desa', 604800, static fn () => Config::appKey()->first());
 
         if ($params) {
             return $identitas->{$params};
@@ -570,7 +562,7 @@ if (! function_exists('cek_kehadiran')) {
      */
     function cek_kehadiran(): void
     {
-        if (Schema::hasTable('kehadiran_jam_kerja') && (! empty(setting('rentang_waktu_kehadiran')) || setting('rentang_waktu_kehadiran'))) {
+        if (! empty(setting('rentang_waktu_kehadiran')) || setting('rentang_waktu_kehadiran')) {
             $cek_libur = JamKerja::libur()->first();
             $cek_jam   = JamKerja::jamKerja()->first();
             $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
@@ -911,17 +903,6 @@ if (! function_exists('buat_class')) {
     }
 }
 
-if (! function_exists('jenis_surat')) {
-    function jenis_surat($jenis): string
-    {
-        if (in_array($jenis, FormatSurat::RTF)) {
-            return 'RTF';
-        }
-
-        return 'TinyMCE';
-    }
-}
-
 if (! function_exists('cek_lokasi_peta')) {
     function cek_lokasi_peta(array $wilayah): bool
     {
@@ -1066,22 +1047,19 @@ if (! function_exists('config')) {
      * @param array|string|null $key
      * @param mixed             $default
      *
-     * @return \Illuminate\Config\Repository|mixed
+     * @return Illuminate\Config\Repository|mixed
      */
     function config($key = null, $default = null)
     {
         if (null === $key) {
-            return new \Illuminate\Config\Repository();
+            return app('new_config');
         }
 
         if (is_array($key)) {
-            return (new \Illuminate\Config\Repository())->set($key);
+            return app('new_config')->set($key);
         }
 
-        $file   = explode('.', $key)[0];
-        $config = require APPPATH . 'config/' . $file . '.php';
-
-        return (new \Illuminate\Config\Repository([$file => $config]))->get($key, $default);
+        return app('new_config')->get($key, $default);
     }
 }
 
@@ -1091,29 +1069,20 @@ if (! function_exists('cache')) {
      *
      * If an array is passed, we'll assume you want to put to the cache.
      *
-     * @param  dynamic  key|key,default|data,expiration|null
+     * @param dynamic  key|key,default|data,expiration|null
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @return \Illuminate\Cache\CacheManager|mixed
+     * @return Illuminate\Cache\CacheManager|mixed
      */
-    function cache()
+    function cache(...$arguments)
     {
-        $container           = new \Illuminate\Container\Container();
-        $container['config'] = [
-            'cache.default'     => config('cache.default'),
-            'cache.stores.file' => config('cache.stores.file'),
-        ];
-        $container['files'] = new \Illuminate\Filesystem\Filesystem();
-        $cacheManager       = new \Illuminate\Cache\CacheManager($container);
-        $store              = $cacheManager->store();
-
-        if (empty($arguments)) {
-            return $store;
+        if ($arguments === []) {
+            return app('cache');
         }
 
         if (is_string($arguments[0])) {
-            return $store->get(...$arguments);
+            return app('cache')->get(...$arguments);
         }
 
         if (! is_array($arguments[0])) {
@@ -1122,9 +1091,7 @@ if (! function_exists('cache')) {
             );
         }
 
-        [$key, $value, $minutes] = $arguments[0];
-
-        return $store->put($key, $value, $minutes ?? null);
+        return app('cache')->put(key($arguments[0]), reset($arguments[0]), $arguments[1] ?? null);
     }
 }
 
@@ -1134,7 +1101,8 @@ if (! function_exists('resource_path')) {
      */
     function resource_path(string $path = ''): string
     {
-        return RESOURCESPATH . $path;
+        // return app()->resourcePath($path);
+        return app('path.resources') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
 
@@ -1144,6 +1112,67 @@ if (! function_exists('storage_path')) {
      */
     function storage_path(string $path = ''): string
     {
-        return STORAGEPATH . $path;
+        // return app()->storagePath($path);
+        return app('path.storage') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+    }
+}
+
+if (! function_exists('app')) {
+    /**
+     * Get the available container instance.
+     *
+     * @param string|null $abstract
+     *
+     * @return Illuminate\Contracts\Foundation\Application|mixed
+     */
+    function app($abstract = null, array $parameters = [])
+    {
+        if (null === $abstract) {
+            return Container::getInstance();
+        }
+
+        return Container::getInstance()->make($abstract, $parameters);
+    }
+}
+
+if (! function_exists('encrypt')) {
+    /**
+     * - Fungsi untuk encrypt string.
+     *
+     * @param string $str
+     */
+    function encrypt($str): string
+    {
+        // Belum support instace jika belum ada koneksi
+        // return app('encrypter')->encryptString($str);
+        $key = base64_decode(\Illuminate\Support\Str::after(get_app_key(), 'base64:'));
+
+        return (new Encrypter($key, config_item('cipher')))->encryptString($str);
+    }
+}
+
+if (! function_exists('decrypt')) {
+    /**
+     * - Fungsi untuk decrypt string.
+     *
+     * @param string $str
+     */
+    function decrypt($str): string
+    {
+        // Belum support instace jika belum ada koneksi
+        // return app('encrypter')->decryptString($str);
+        $key = base64_decode(\Illuminate\Support\Str::after(get_app_key(), 'base64:'));
+
+        return (new Encrypter($key, config_item('cipher')))->decryptString($str);
+    }
+}
+
+if (! function_exists('config_path')) {
+    /**
+     * Get the configuration path.
+     */
+    function config_path(?string $path = ''): string
+    {
+        return app('path.config') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }

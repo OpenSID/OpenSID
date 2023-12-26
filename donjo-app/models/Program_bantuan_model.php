@@ -790,7 +790,6 @@ class Program_bantuan_model extends MY_Model
     public function set_program()
     {
         $data              = $this->validasi_bantuan($this->input->post());
-        $data['userid']    = auth()->id;
         $data['config_id'] = $this->config_id;
 
         return $this->db->insert('program', $data);

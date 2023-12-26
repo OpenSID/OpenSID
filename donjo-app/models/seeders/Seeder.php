@@ -36,8 +36,6 @@
  */
 
 use App\Models\Config;
-use App\Models\Migrasi;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -102,10 +100,14 @@ class Seeder extends CI_Model
         $this->db->close();
         $this->load->database();
         $this->load->model('database_model');
-        $this->database_model->impor_data_awal_analisis();
-        $this->database_model->cek_migrasi(true);
+        // $this->database_model->impor_data_awal_analisis();
         $this->isi_config();
-        Migrasi::latest('id')->first()->delete();
+        // Migrasi::latest('id')->first()->delete();
+        // Tetap jalankan Data awal
+        $this->load->model('migrations/data_awal', 'data_awal');
+        $this->data_awal->up();
+
+        $this->database_model->cek_migrasi(true);
         session_destroy();
         log_message('notice', 'Selesai memasang data awal');
     }
@@ -113,35 +115,33 @@ class Seeder extends CI_Model
     // Kalau belum diisi, buat identitas desa jika kode_desa ada di file desa/config/config.php
     private function isi_config(): void
     {
-        if (! Schema::hasTable('config') || identitas() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
-            return;
-        }
-
-        // Ambil data desa dari tracksid
-        $data_desa = get_data_desa($kode_desa);
-
-        if (null === $data_desa) {
-            set_session('error', "Kode desa {$kode_desa} di desa/config/config.php tidak ditemukan di " . config_item('server_pantau'));
-        } else {
-            $desa = $data_desa;
-            $data = [
-                'nama_desa'         => nama_desa($desa->nama_desa),
-                'kode_desa'         => bilangan($kode_desa),
-                'nama_kecamatan'    => nama_terbatas($desa->nama_kec),
-                'kode_kecamatan'    => bilangan($desa->kode_kec),
-                'nama_kabupaten'    => ucwords(hapus_kab_kota(nama_terbatas($desa->nama_kab))),
-                'kode_kabupaten'    => bilangan($desa->kode_kab),
-                'nama_propinsi'     => ucwords(nama_terbatas($desa->nama_prov)),
-                'kode_propinsi'     => bilangan($desa->kode_prov),
-                'nama_kepala_camat' => '',
-                'nip_kepala_camat'  => '',
-            ];
-            if (Config::create($data)) {
-                set_session('success', "Kode desa {$kode_desa} diambil dari desa/config/config.php");
-
-                // Data awal
-                $this->load->model('migrations/data_awal', 'data_awal');
-                $this->data_awal->up();
+        $kode_desa = config_item('kode_desa');
+        if ($kode_desa) {
+            if (identitas() || ! cek_koneksi_internet()) {
+                return;
+            }
+            // Ambil data desa dari tracksid
+            $data_desa = get_data_desa($kode_desa);
+            if (null === $data_desa) {
+                set_session('error', "Kode desa {$kode_desa} di desa/config/config.php tidak ditemukan di " . config_item('server_pantau'));
+            } else {
+                $desa = $data_desa;
+                $data = [
+                    'nama_desa'         => nama_desa($desa->nama_desa),
+                    'kode_desa'         => bilangan($kode_desa),
+                    'nama_kecamatan'    => nama_terbatas($desa->nama_kec),
+                    'kode_kecamatan'    => bilangan($desa->kode_kec),
+                    'nama_kabupaten'    => ucwords(hapus_kab_kota(nama_terbatas($desa->nama_kab))),
+                    'kode_kabupaten'    => bilangan($desa->kode_kab),
+                    'nama_propinsi'     => ucwords(nama_terbatas($desa->nama_prov)),
+                    'kode_propinsi'     => bilangan($desa->kode_prov),
+                    'nama_kepala_camat' => '',
+                    'nip_kepala_camat'  => '',
+                ];
+                // tabel config selalu terisi dari data_awal_seeder
+                if (Config::appKey()->update($data)) {
+                    set_session('success', "Kode desa {$kode_desa} diambil dari desa/config/config.php");
+                }
             }
         }
     }

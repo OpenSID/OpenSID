@@ -89,7 +89,6 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php if($main) : ?>
 																<?php foreach ($main as $data) : ?>
 																	<tr>
 																		<?php if ($this->CI->cek_hak_akses('h')) : ?>
@@ -111,7 +110,7 @@
 																				<?php endif; ?>
 																				<?php if ($data['enabled'] == '2') : ?>
 																					<a href="<?= site_url('gallery/gallery_lock/' . encrypt($data['id'])) ?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Album"><i class="fa fa-lock"></i></a>
-																				<?php elseif ($data['enabled'] == '1' && $data['slider'] != '1') : ?>
+																				<?php elseif ($data['enabled'] == '1') : ?>
 																					<a href="<?= site_url('gallery/gallery_unlock/' . encrypt($data['id'])) ?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Album"><i class="fa fa-unlock"></i></a>
 																				<?php endif ?>
 																			<?php endif; ?>
@@ -120,13 +119,14 @@
 																			<?php endif; ?>
 																		</td>
 																		<td width="60%">
-																			<label style="cursor: pointer;" class="tampil" data-img="<?= AmbilGaleri($data['gambar'], 'sedang') ?>" data-rel="popover" data-content="<img width=200 height=134 src=<?= AmbilGaleri($data['gambar'], 'kecil') ?>>"><?= $data['nama'] ?></label>
+																			<?php $gambar_sedang = ($data['jenis'] == 1 ? AmbilGaleri($data['gambar'], 'sedang') : $data['gambar']) ?>
+																			<?php $gambar_kecil  = ($data['jenis'] == 1 ? AmbilGaleri($data['gambar'], 'kecil') : $data['gambar']) ?>
+																			<label style="cursor: pointer;" class="tampil" data-img="<?= $gambar_sedang ?>" data-rel="popover" data-content="<img width=200 height=134 src=<?= $gambar_kecil ?>>"><?= $data['nama'] ?></label>
 																		</td>
 																		<td><?= $data['aktif'] ?></td>
 																		<td nowrap><?= tgl_indo2($data['tgl_upload']) ?></td>
 																	</tr>
 																<?php endforeach; ?>
-																<?php else: tidak_ada_data(6); endif; ?>
 															</tbody>
 														</table>
 													</div>
@@ -191,7 +191,7 @@
 	$(function() {
 
 		$('.tampil').click(function(event) {
-			var gambar = $(this).data('img')
+			var gambar = $(this).data('img');
 			Swal.fire({
 				customClass: {
 					popup: 'swal-lg',

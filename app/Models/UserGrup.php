@@ -40,7 +40,6 @@ namespace App\Models;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -80,7 +79,7 @@ class UserGrup extends BaseModel
 
     public static function getGrupId($slug)
     {
-        return self::where(Schema::hasColumn('user_grup', 'slug') ? 'slug' : 'nama', $slug)->value('id');
+        return self::where('slug', $slug)->value('id');
     }
 
     /**

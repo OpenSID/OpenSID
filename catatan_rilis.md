@@ -3,9 +3,16 @@ Di rilis ini, versi 2312.1.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 #### FITUR
-1. [#3604](https://github.com/OpenSID/OpenSID/issues/3604) Penambahan fungsi pindah keluarga secara kolektif atar wilayah dusun/rw/rt.
-2. [#5141](https://github.com/OpenSID/OpenSID/issues/5141) Penambahan pengaturan jumlah slider yang ditampilkan pada halaman web.
-3. [#1772](https://github.com/OpenSID/OpenSID/issues/1772) Penambahan jadwal pemilihan pada modul dpt.
+1. [#4333](https://github.com/OpenSID/OpenSID/issues/4333) Penambahan data rumah tanggal pada modul pementaan.
+2. [#5949](https://github.com/OpenSID/OpenSID/issues/5949) Penambahan status hari libur.
+
+3. [#3604](https://github.com/OpenSID/OpenSID/issues/3604) Penambahan fungsi pindah keluarga secara kolektif atar wilayah dusun/rw/rt.
+4. [#5141](https://github.com/OpenSID/OpenSID/issues/5141) Penambahan pengaturan jumlah slider yang ditampilkan pada halaman web.
+5. [#1772](https://github.com/OpenSID/OpenSID/issues/1772) Penambahan jadwal pemilihan pada modul dpt.
+6. [#4630](https://github.com/OpenSID/OpenSID/issues/4630) Penambahan jenis link/embed file pada modul galeri.
+7. [#5223](https://github.com/OpenSID/OpenSID/issues/5223) Penambahan jenis ekspor data penduduk berupa data isian yang dikonversi jadi huruf.
+8. [#3315](https://github.com/OpenSID/OpenSID/issues/3315) Penambahan fitur backup / restore OpenSID Database Gabungan.
+9. [#2599](https://github.com/OpenSID/OpenSID/issues/2599) Penambahan pengaturan tagline / motto desa.
 
 
 #### BUG
@@ -43,8 +50,13 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#7512](https://github.com/OpenSID/OpenSID/issues/7512) Penyesuaian modul pengaturan peta > simbol lokasi menggunakan ORM dan Blade.
 14. [#7511](https://github.com/OpenSID/OpenSID/issues/7511) Penyesuaian modul pengaturan peta > lokasi menggunakan ORM dan Blade.
 15. [#7528](https://github.com/OpenSID/OpenSID/issues/7528) Penyesuaian pengaturan mapbox_key dan google recaptcha ambil dari config jika belum tersedia.
+16. [#7529](https://github.com/OpenSID/OpenSID/issues/7529) Penyesuaian modul pengaturan modul menggunakan ORM dan Blade.
+17. [#7518](https://github.com/OpenSID/OpenSID/issues/7518) Penyesuaian modul arsip layanan menggunakan ORM dan Blade.
+18. [#7507](https://github.com/OpenSID/OpenSID/issues/7507) Penyesuaian modul daftar pemilih tetap menggunakan ORM dan Blade.
+19. [#3084](https://github.com/OpenSID/premium/issues/3084) Penyesuaian ulang migrasi.
 
 
 #### KEAMANAN
 
 1. [#3200](https://github.com/OpenSID/premium/issues/3200) Peningkatan keamanan pada form unggah file pada modul menu anjungan.
+2. [#3243](https://github.com/OpenSID/premium/issues/3243) Peningkatan keamanan password database.

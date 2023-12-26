@@ -42,7 +42,7 @@ class Penomoran_surat_model extends MY_Model
     /**
      * Cari surat dengan nomor terakhir sesuai setting aplikasi
      *
-     * @param		string 	nama tabel surat
+     * @param string 	nama tabel surat
      * @param mixed      $type
      * @param mixed|null $url
      *
@@ -133,9 +133,9 @@ class Penomoran_surat_model extends MY_Model
     /**
      * Periksa apakah nomor surat sudah digunakan sesuai setting aplikasi
      *
-     * @param		string 		nama tabel surat
-     * @param		int 	nomor urut atau nomor surat
-     * @param		string 		url surat untuk layanan surat
+     * @param string 		nama tabel surat
+     * @param int 	nomor urut atau nomor surat
+     * @param string 		url surat untuk layanan surat
      * @param mixed      $type
      * @param mixed      $nomor_surat
      * @param mixed|null $url
