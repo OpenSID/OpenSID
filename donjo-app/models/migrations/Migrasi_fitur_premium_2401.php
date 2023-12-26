@@ -76,58 +76,9 @@ class Migrasi_fitur_premium_2401 extends MY_model
         }
 
         // Migrasi tanpa config_id
-        $hasil = $hasil && $this->migrasi_2023120451($hasil);
         $hasil = $hasil && $this->migrasi_2023120553($hasil);
 
         return $hasil && $this->migrasi_2023120751($hasil);
-    }
-
-    protected function migrasi_2023120451($hasil)
-    {
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'klasifikasi-surat', 'url' => 'klasifikasi/clear'],
-            ['url' => 'klasifikasi']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'polygon', 'url' => 'polygon/clear'],
-            ['url' => 'polygon']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'area', 'url' => 'area/clear'],
-            ['url' => 'area']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'garis', 'url' => 'garis/clear'],
-            ['url' => 'garis']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'widget', 'url' => 'web_widget/clear'],
-            ['url' => 'web_widget']
-        );
-
-        $hasil = $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'line', 'url' => 'line/clear'],
-            ['url' => 'line']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'point', 'url' => 'point/clear'],
-            ['url' => 'point']
-        );
-
-        $hasil && $this->ubah_modul(
-            ['slug' => 'arsip-layanan', 'url' => 'keluar/clear/masuk'],
-            ['url' => 'keluar/clear']
-        );
-
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'modul', 'url' => 'modul/clear'],
-            ['url' => 'modul']
-        );
     }
 
     protected function migrasi_2023120351($hasil)
@@ -195,9 +146,64 @@ class Migrasi_fitur_premium_2401 extends MY_model
             ['url' => 'wilayah']
         );
 
-        return $hasil && $this->ubah_modul(
+        $hasil = $hasil && $this->ubah_modul(
             ['slug' => 'pengunjung', 'url' => 'pengunjung/clear'],
             ['url' => 'pengunjung']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'klasifikasi-surat', 'url' => 'klasifikasi/clear'],
+            ['url' => 'klasifikasi']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'polygon', 'url' => 'polygon/clear'],
+            ['url' => 'polygon']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'area', 'url' => 'area/clear'],
+            ['url' => 'area']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'garis', 'url' => 'garis/clear'],
+            ['url' => 'garis']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'widget', 'url' => 'web_widget/clear'],
+            ['url' => 'web_widget']
+        );
+
+        $hasil = $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'line', 'url' => 'line/clear'],
+            ['url' => 'line']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'point', 'url' => 'point/clear'],
+            ['url' => 'point']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'arsip-layanan', 'url' => 'keluar/clear/masuk'],
+            ['url' => 'keluar/clear']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'modul', 'url' => 'modul/clear'],
+            ['url' => 'modul']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'arsip-layanan', 'url' => 'keluar/clear'],
+            ['url' => 'keluar']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'calon-pemilih', 'url' => 'dpt/clear'],
+            ['url' => 'dpt']
         );
     }
 
