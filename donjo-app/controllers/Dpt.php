@@ -36,16 +36,18 @@
  */
 
 use Carbon\Carbon;
-use App\Enums\StatusEnum;
+use App\Models\Sex;
 use App\Models\Agama;
+use App\Models\Wilayah;
+use App\Models\Penduduk;
+use App\Enums\StatusEnum;
 use App\Models\Pekerjaan;
 use App\Models\Pendidikan;
-use App\Models\PendidikanKK;
-use App\Models\Penduduk;
-use App\Models\PendudukStatus;
-use App\Models\Sex;
 use App\Models\StatusKawin;
-use App\Models\Wilayah;
+use App\Models\PendidikanKK;
+use App\Models\PendudukStatus;
+use Illuminate\Support\Facades\Schema;
+use App\Models\Pemilihan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -63,7 +65,7 @@ class Dpt extends Admin_Controller
         isCan('b');
         $data['jenis_kelamin']        = Sex::get();
         $data['dusun']                = Wilayah::dusun()->get();
-        $data['tanggal_pemilihan']    = date('d-m-Y');
+        $data['tanggal_pemilihan']    = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
         $data['input_umur']           = true;
         $data['list_agama']           = Agama::get()->toArray();
         $data['list_pendidikan']      = Pendidikan::get()->toArray();
