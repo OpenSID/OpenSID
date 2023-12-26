@@ -120,7 +120,7 @@
 																		</td>
 																		<td width="60%">
 																			<?php $gambar_sedang = ($data['jenis'] == 1 ? AmbilGaleri($data['gambar'], 'sedang') : $data['gambar']) ?>
-																			<?php $gambar_kecil = ($data['jenis'] == 1 ? AmbilGaleri($data['gambar'], 'kecil') : $data['gambar']) ?>
+																			<?php $gambar_kecil  = ($data['jenis'] == 1 ? AmbilGaleri($data['gambar'], 'kecil') : $data['gambar']) ?>
 																			<label style="cursor: pointer;" class="tampil" data-img="<?= $gambar_sedang ?>" data-rel="popover" data-content="<img width=200 height=134 src=<?= $gambar_kecil ?>>"><?= $data['nama'] ?></label>
 																		</td>
 																		<td><?= $data['aktif'] ?></td>

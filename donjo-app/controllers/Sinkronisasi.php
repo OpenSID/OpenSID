@@ -441,7 +441,6 @@ class Sinkronisasi extends Admin_Controller
             'ndesc',
             'sdate',
             'edate',
-            'userid',
             'status',
             'asaldana',
         ];

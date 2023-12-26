@@ -200,9 +200,9 @@ class Permohonan_surat_model extends MY_Model
 
         return collect($data)->map(static function ($item, $key): array {
             $item['no']     = $key + 1;
-            $item['nomor']  = json_decode($item['isian_form'], true)['nomor'];
-            $item['status'] = PermohonanSurat::STATUS_PERMOHONAN[$item['status']];
-            $logSurat       = LogSurat::where('id_format_surat', $item['id_surat'])->where('no_surat', $item['nomor'])->first();
+            $item['nomor']  = json_decode($item->isian_form, true)['nomor'];
+            $item['status'] = PermohonanSurat::STATUS_PERMOHONAN[$item->status];
+            $logSurat       = LogSurat::where('id_format_surat', $item->id_surat)->where('no_surat', $item->nomor)->first();
             $item['id_log'] = $logSurat ? $logSurat->id : null;
             $item['tte']    = $logSurat ? $logSurat->tte : null;
 

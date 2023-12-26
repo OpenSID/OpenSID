@@ -257,6 +257,7 @@
 									</div>
 								<?php endforeach; ?>
 							</div>
+							<?php if ($disable_functions['functions']): ?>
 							<div class="col-sm-6">
 								<h4>FUNGSI</h4>
 								<?php foreach ($disable_functions['functions'] as $func => $val) : ?>
@@ -265,6 +266,7 @@
 									</div>
 								<?php endforeach; ?>
 							</div>
+							<?php endif ?>
 						</div>
 						<div class="row">
 							<div class="col-sm-6">

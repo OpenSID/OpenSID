@@ -257,7 +257,7 @@ class Referensi_model extends MY_Model
 
     public function list_by_id($tabel, $id = 'id')
     {
-        $data = $this->config_id_exist($tabel)
+        $data = $this->config_id()
             ->order_by($id)
             ->get($tabel)
             ->result_array();

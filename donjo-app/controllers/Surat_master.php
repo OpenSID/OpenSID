@@ -41,7 +41,6 @@ use App\Libraries\TinyMCE;
 use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
-use App\Models\LampiranSurat;
 use App\Models\LogSurat;
 use App\Models\SettingAplikasi;
 use App\Models\Sex;
@@ -56,33 +55,28 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat_master extends Admin_Controller
 {
-    protected \App\Libraries\TinyMCE $tinymce;
+    protected TinyMCE $tinymce;
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['surat_master_model', 'surat_model']);
-        $this->tinymce            = new TinyMCE();
-        $this->modul_ini          = 'layanan-surat';
-        $this->sub_modul_ini      = 'pengaturan-surat';
-        $this->header['kategori'] = 'pengaturan-surat';
+        $this->tinymce       = new TinyMCE();
+        $this->modul_ini     = 'layanan-surat';
+        $this->sub_modul_ini = 'pengaturan-surat';
         $this->load->library('MY_Upload', null, 'upload');
     }
 
     public function index()
     {
-        $nonAktifkanRTF = setting('nonaktifkan_rtf');
-
         return view('admin.pengaturan_surat.index', [
-            'jenisSurat' => $nonAktifkanRTF ? FormatSurat::JENIS_SURAT_TANPA_RTF : FormatSurat::JENIS_SURAT,
+            'jenisSurat' => FormatSurat::JENIS_SURAT,
         ]);
     }
 
     public function datatables()
     {
-        $nonAktifkanRTF = setting('nonaktifkan_rtf');
         if ($this->input->is_ajax_request()) {
-            return datatables((new FormatSurat())->setNonAktifkanRTF($nonAktifkanRTF)->jenis($this->input->get('jenis')))
+            return datatables((new FormatSurat())->jenis($this->input->get('jenis')))
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
@@ -104,13 +98,12 @@ class Surat_master extends Admin_Controller
                         }
                     }
 
-                    if (can('h') && ($row->jenis === 2 || $row->jenis === 4)) {
+                    if (can('h') && ($row->jenis === FormatSurat::TINYMCE_DESA)) {
                         $aksi .= '<a href="#" data-href="' . site_url("surat_master/delete/{$row->id}") . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
                 })
-                ->addColumn('jenis', static fn ($row): string => in_array($row->jenis, FormatSurat::RTF) ? 'RTF' : 'TinyMCE')
                 ->editColumn('lampiran', static fn ($row): string => kode_format($row->lampiran))
                 ->rawColumns(['ceklist', 'aksi', 'template_surat'])
                 ->make();
@@ -148,35 +141,25 @@ class Surat_master extends Admin_Controller
 
             $data['klasifikasiSurat'] = KlasifikasiSurat::where('kode', $data['suratMaster']->kode_surat)->first();
 
-            if (in_array($data['suratMaster']->jenis, FormatSurat::RTF)) {
-                $data['formAction'] = route('surat_master.update', $id);
-                $data['qrCode']     = QRCodeExist($data['suratMaster']->url_surat);
-            } else {
-                $data['formAction'] = route('surat_master.update_baru', $id);
-            }
+            $data['formAction'] = route('surat_master.update', $id);
         }
 
-        if (in_array($data['suratMaster']->jenis, [3, 4, null])) {
-            $data['margins']              = json_decode($data['suratMaster']->margin, null) ?? FormatSurat::MARGINS;
-            $data['margin_global']        = $data['suratMaster']->margin_global;
-            $data['orientations']         = FormatSurat::ORIENTATAIONS;
-            $data['sizes']                = FormatSurat::SIZES;
-            $data['default_orientations'] = FormatSurat::DEFAULT_ORIENTATAIONS;
-            $data['default_sizes']        = FormatSurat::DEFAULT_SIZES;
-            $data['qrCode']               = true;
-            $data['header']               = $data['suratMaster']->header ?? 1;
-            $data['footer']               = $data['suratMaster']->footer ?? 1;
-            $data['daftar_lampiran']      = $this->tinymce->getDaftarLampiran();
-            // $data['daftar_lampiran']      = LampiranSurat::pluck('nama', 'slug')->toArray();
-            $data['format_nomor'] = $data['suratMaster']->format_nomor;
-        }
-
-        $data['form_isian']       = $this->form_isian();
-        $data['simpan_sementara'] = site_url('surat_master/simpan_sementara');
-        $data['masaBerlaku']      = FormatSurat::MASA_BERLAKU;
-        $data['attributes']       = FormatSurat::ATTRIBUTES;
-        $data['pengaturanSurat']  = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
-        $data['pendudukLuar']     = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
+        $data['margins']              = json_decode($data['suratMaster']->margin, null) ?? FormatSurat::MARGINS;
+        $data['margin_global']        = $data['suratMaster']->margin_global;
+        $data['orientations']         = FormatSurat::ORIENTATAIONS;
+        $data['sizes']                = FormatSurat::SIZES;
+        $data['default_orientations'] = FormatSurat::DEFAULT_ORIENTATAIONS;
+        $data['default_sizes']        = FormatSurat::DEFAULT_SIZES;
+        $data['header']               = $data['suratMaster']->header ?? 1;
+        $data['footer']               = $data['suratMaster']->footer ?? 1;
+        $data['daftar_lampiran']      = $this->tinymce->getDaftarLampiran();
+        $data['format_nomor']         = $data['suratMaster']->format_nomor;
+        $data['form_isian']           = $this->form_isian();
+        $data['simpan_sementara']     = site_url('surat_master/simpan_sementara');
+        $data['masaBerlaku']          = FormatSurat::MASA_BERLAKU;
+        $data['attributes']           = FormatSurat::ATTRIBUTES;
+        // $data['pengaturanSurat']      = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
+        $data['pendudukLuar'] = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
 
         return view('admin.pengaturan_surat.form', $data);
     }
@@ -268,7 +251,7 @@ class Surat_master extends Admin_Controller
         redirect_with('error', 'Gagal Simpan Data');
     }
 
-    public function update_baru($id = null): void
+    public function update($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -283,28 +266,6 @@ class Surat_master extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Ubah Data');
-    }
-
-    public function update($id = null): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->load->model('setting_model');
-
-        if (! empty($this->request['surat'])) {
-            $this->surat_master_model->upload($this->request['url_surat']);
-        }
-
-        $syarat  = $this->request['id_cb'];
-        $mandiri = $this->request['mandiri'];
-        unset($_POST['id_cb'], $_POST['tabeldata_length'], $_POST['surat']);
-
-        $id = $this->surat_master_model->update($id);
-
-        if (! empty($id) && $mandiri == 1) {
-            FormatSurat::where('id', $id)->update(['syarat_surat' => json_encode($syarat, JSON_THROW_ON_ERROR)]);
-        }
-
-        redirect_with('success', 'Berhasil Ubah Data');
     }
 
     private function validate($request = [], $jenis = 4, $id = null)
@@ -461,11 +422,7 @@ class Surat_master extends Admin_Controller
         ];
 
         if (null === $id) {
-            if (in_array($jenis, FormatSurat::RTF)) {
-                $data['url_surat'] = unique_slug('tweb_surat_format', "surat_{$data['nama']}", $id, 'url_surat', '_');
-            } else {
-                $data['url_surat'] = unique_slug('tweb_surat_format', "surat-{$data['nama']}", $id, 'url_surat', '-');
-            }
+            $data['url_surat'] = unique_slug('tweb_surat_format', "surat-{$data['nama']}", $id, 'url_surat', '-');
         }
 
         // Margin
@@ -511,33 +468,11 @@ class Surat_master extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
 
-        if ($this->surat_master_model->delete($id)) {
+        if (FormatSurat::destroy($this->request['id_cb'] ?? $id)) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
         redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    public function deleteAll(): void
-    {
-        $this->redirect_hak_akses('h');
-
-        if ($this->surat_master_model->deleteAll()) {
-            redirect_with('success', 'Berhasil Hapus Data');
-        }
-
-        redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    public function delete_template_desa($url_surat = ''): void
-    {
-        $this->redirect_hak_akses('h');
-
-        if ($this->surat_master_model->delete_template_desa($url_surat)) {
-            redirect_with('success', 'Berhasil Hapus Template Desa');
-        }
-
-        redirect_with('error', 'Gagal Hapus Template Desa');
     }
 
     public function restore_surat_bawaan($url_surat = ''): void
@@ -558,56 +493,6 @@ class Surat_master extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Mengembalikan Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
-    }
-
-    // Tambahkan surat desa jika folder surat tidak ada di surat master
-    public function perbarui(): void
-    {
-        if (setting('nonaktifkan_rtf')) {
-            redirect_with('error', 'Anda tidak dapat mengakses halaman ini');
-        }
-
-        $this->redirect_hak_akses('u', null, null, true);
-
-        $folderSuratDesa = glob(LOKASI_SURAT_DESA . '*', GLOB_ONLYDIR);
-        $daftarSurat     = [];
-
-        if ($folderSuratDesa) {
-            foreach ($folderSuratDesa as $surat) {
-                $url_surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
-
-                // Hanya folder dengan nama depat surat_ yg akan di simpan
-                if (preg_match('/surat_/i', $url_surat)) {
-                    $surat_baru  = underscore(trim(preg_replace('/[^a-zA-Z0-9 \\_]/', ' ', $url_surat)), true, true);
-                    $lokasi_baru = LOKASI_SURAT_DESA . $surat_baru;
-
-                    // Ubah nama folder penyimpanan template surat
-                    rename($surat, $lokasi_baru);
-
-                    // Ubah nama file surat
-                    rename($lokasi_baru . '/' . $url_surat . '.rtf', $lokasi_baru . '/' . $surat_baru . '.rtf');
-                    rename($lokasi_baru . '/' . $url_surat . '.php', $lokasi_baru . '/' . $surat_baru . '.php');
-                    rename($lokasi_baru . '/data_rtf_' . $url_surat . '.php', $lokasi_baru . '/data_rtf_' . $surat_baru . '.php');
-                    rename($lokasi_baru . '/data_form_' . $url_surat . '.php', $lokasi_baru . '/data_form_' . $surat_baru . '.php');
-
-                    if (! FormatSurat::isExist($url_surat)) {
-                        $data              = [];
-                        $data['jenis']     = 2;
-                        $data['nama']      = ucwords(trim(str_replace(['surat_', '_'], ' ', $surat_baru)));
-                        $data['url_surat'] = $surat_baru;
-
-                        FormatSurat::create($data);
-                    }
-
-                    $daftarSurat[] = $url_surat;
-                }
-            }
-
-            // Hapus surat ubahan desa yg sudah tidak ada
-            FormatSurat::where('jenis', 2)->whereNotIn('url_surat', $daftarSurat)->delete();
-        }
-
-        redirect_with('success', 'Berhasil Perbaharui Data');
     }
 
     public function pengaturan()

@@ -253,7 +253,7 @@ class Analisis_master_model extends MY_Model
 
     public function get_analisis_master($id = 0)
     {
-        return $this->config_id_exist('analisis_master', 'u')
+        return $this->config_id('u')
             ->select('u.*, s.subjek as subjek_nama')
             ->from('analisis_master u')
             ->join('analisis_ref_subjek s', 'u.subjek_tipe = s.id', 'left')

@@ -41,7 +41,6 @@ use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\RefJabatan;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -476,12 +475,7 @@ class Pamong_model extends MY_Model
     // Ambil data untuk widget aparatur desa
     public function list_aparatur_desa()
     {
-        // Jika kolom jabatan_id tidak tersedia, jangan tampilkan dulu.
-        if (! Schema::hasColumn('tweb_desa_pamong', 'jabatan_id')) {
-            return null;
-        }
-
-        $data_query = $this->config_id_exist('tweb_desa_pamong', 'dp')
+        $data_query = $this->config_id('dp')
             ->select(
                 'dp.pamong_id, rj.nama AS jabatan, dp.pamong_niap, dp.gelar_depan, dp.gelar_belakang, dp.kehadiran,
                 CASE WHEN dp.id_pend IS NULL THEN dp.foto ELSE p.foto END as foto,

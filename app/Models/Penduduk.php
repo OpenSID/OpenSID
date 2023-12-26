@@ -524,6 +524,17 @@ class Penduduk extends BaseModel
         return $this->attributes['kk_level'] == SHDKEnum::KEPALA_KELUARGA;
     }
 
+    public function formIndividu()
+    {
+        $individu                = $this->toArray();
+        $individu['pendidikan']  = $individu['pendidikan_k_k']['nama'] ?? ($individu['pendidikan']['nama'] ?? '');
+        $individu['warganegara'] = $individu['warga_negara']['nama'] ?? '';
+        $individu['agama']       = $this->agama->nama ?? '';
+        $individu['umur']        = $this->umur;
+
+        return $individu;
+    }
+
     protected function scopeDpt($query, $tglPemilihan = null)
     {
         $tglPemilihan = $tglPemilihan ?? date('d-m-Y');

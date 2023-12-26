@@ -35,16 +35,20 @@
  *
  */
 
-use App\Libraries\Release;
+use App\Models\Rtm;
 use App\Models\Bantuan;
+use App\Models\Wilayah;
 use App\Models\Kelompok;
 use App\Models\Keluarga;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
-use App\Models\PendudukMandiri;
+use App\Libraries\Release;
 use App\Models\RefJabatan;
-use App\Models\Rtm;
-use App\Models\Wilayah;
+use Illuminate\Support\Str;
+use App\Models\PendudukMandiri;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -109,6 +113,23 @@ class Beranda extends Admin_Controller
         }
 
         return $info;
+    }
+
+    public function hapus_foreign_key($tabel, $nama_constraint, $drop)
+    {
+        $query = $this->db
+            ->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+            ->where('CONSTRAINT_SCHEMA', $this->db->database)
+            ->where('REFERENCED_TABLE_NAME', $tabel)
+            ->where('CONSTRAINT_NAME', $nama_constraint)
+            ->get();
+
+        $hasil = true;
+        if ($query->num_rows() > 0) {
+            return $hasil && $this->db->query("ALTER TABLE `{$drop}` DROP FOREIGN KEY `{$nama_constraint}`");
+        }
+
+        return $hasil;
     }
 
     private function bantuan()

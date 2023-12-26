@@ -58,3 +58,9 @@ vendor/mikey179/*
 /node_modules
 .cache-rector/*
 !.cache-rector/.gitkeep
+
+storage/framework
+storage/logs
+
+php.ini
+

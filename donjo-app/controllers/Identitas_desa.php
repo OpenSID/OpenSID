@@ -54,12 +54,10 @@ class Identitas_desa extends Admin_Controller
         $this->modul_ini     = 'info-desa';
         $this->sub_modul_ini = 'identitas-desa';
         isCan('b');
-        if (Schema::hasTable('ref_jabatan')) {
-            $this->cek_kades = Pamong::kepalaDesa()->exists();
-            // TODO: Cek bagian ini selalu bermasalah jika model penduduk atau pamong aktifkan global observer config_id
-            $config               = Config::appKey()->first();
-            $this->identitas_desa = $config ? $config->toArray() : null;
-        }
+        $this->cek_kades = Pamong::kepalaDesa()->exists();
+        // TODO: Cek bagian ini selalu bermasalah jika model penduduk atau pamong aktifkan global observer config_id
+        $config               = Config::appKey()->first();
+        $this->identitas_desa = $config ? $config->toArray() : null;
     }
 
     /**
@@ -86,7 +84,6 @@ class Identitas_desa extends Admin_Controller
         $data['main']           = $this->identitas_desa;
         $data['cek_kades']      = $this->cek_kades;
         $data['form_action']    = route('identitas_desa.update');
-        $data['nomor_operator'] = Schema::hasColumn('config', 'nomor_operator');
         $data['status_pantau']  = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
 
         return view('admin.identitas_desa.form', $data);
@@ -207,7 +204,7 @@ class Identitas_desa extends Admin_Controller
             $request['ukuran'] = 100;
         }
 
-        $config = [
+        return [
             'logo'              => static::unggah('logo', true, bilangan($request['ukuran'])) ?? $old->logo,
             'kantor_desa'       => static::unggah('kantor_desa') ?? $old->kantor_desa,
             'nama_desa'         => nama_desa($request['nama_desa']),
@@ -225,29 +222,8 @@ class Identitas_desa extends Admin_Controller
             'kode_kabupaten'    => substr(bilangan($request['kode_kabupaten']), 0, 4),
             'nama_propinsi'     => nama_terbatas($request['nama_propinsi']),
             'kode_propinsi'     => substr(bilangan($request['kode_propinsi']), 0, 2),
+            'nomor_operator'    => bilangan($request['nomor_operator']),
         ];
-
-        if (Schema::hasColumn('config', 'nomor_operator')) {
-            $config['nomor_operator'] = bilangan($request['nomor_operator']);
-        }
-
-        if (Schema::hasColumn('config', 'nama_kepala_desa')) {
-            $config['nama_kepala_desa'] = '';
-        }
-
-        if (Schema::hasColumn('config', 'nip_kepala_desa')) {
-            $config['nip_kepala_desa'] = '';
-        }
-
-        if (Schema::hasColumn('config', 'g_analitic')) {
-            $config['g_analitic'] = '';
-        }
-
-        if (Schema::hasColumn('config', 'pamong_id')) {
-            $config['pamong_id'] = 0;
-        }
-
-        return $config;
     }
 
     // TODO : Ganti cara ini

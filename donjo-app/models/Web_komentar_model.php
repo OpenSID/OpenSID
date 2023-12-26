@@ -39,6 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_komentar_model extends MY_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        if (! $this->db->field_exists('jenis', 'komentar')) {
+            return null;
+        }
+    }
+
     public function autocomplete()
     {
         return $this->autocomplete_str('komentar', 'komentar');
@@ -94,12 +102,13 @@ class Web_komentar_model extends MY_Model
             ->join('artikel a', 'k.id_artikel = a.id', 'left');
 
         if ($kat != 0) {
-            $this->db->where('id_artikel', 775)
+            $this->db
+                ->where('jenis', LAPORAN_MANDIRI)
                 ->where('tipe', $kat);
             $this->filter_nik_sql();
             $this->filter_archived_sql();
         } else {
-            $this->db->where('id_artikel <>', 775);
+            $this->db->where('jenis !=', LAPORAN_MANDIRI);
         }
 
         $this->search_sql();

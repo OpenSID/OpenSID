@@ -143,7 +143,7 @@ class Web_gallery_model extends MY_Model
         $data['nama']      = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi karakter yg diizinkan seperti pada nomor sk
         $data['urut']      = $this->urut_model->urut_max(['parrent' => 0]) + 1;
         $data['config_id'] = $this->config_id;
-        $data['jenis'] = $this->input->post('jenis');
+        $data['jenis']     = $this->input->post('jenis');
         if ($this->input->post('jenis') == 2) {
             $data['gambar'] = $this->input->post('url');
         } else {
@@ -153,8 +153,8 @@ class Web_gallery_model extends MY_Model
                 return;
             }
 
-            $lokasi_file  = $_FILES['gambar']['tmp_name'];
-            $tipe_file    = TipeFile($_FILES['gambar']);
+            $lokasi_file = $_FILES['gambar']['tmp_name'];
+            $tipe_file   = TipeFile($_FILES['gambar']);
             // Bolehkan album tidak ada gambar cover
             if (! empty($lokasi_file)) {
                 if (! CekGambar($_FILES['gambar'], $tipe_file)) {
@@ -183,8 +183,8 @@ class Web_gallery_model extends MY_Model
     {
         session_success();
 
-        $data         = [];
-        $data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi karakter yg diizinkan seperti pada nomor sk
+        $data          = [];
+        $data['nama']  = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi karakter yg diizinkan seperti pada nomor sk
         $data['jenis'] = $this->input->post('jenis');
         if ($this->input->post('jenis') == 2) {
             $data['gambar'] = $this->input->post('url');
@@ -195,8 +195,8 @@ class Web_gallery_model extends MY_Model
                 return;
             }
 
-            $lokasi_file  = $_FILES['gambar']['tmp_name'];
-            $tipe_file    = TipeFile($_FILES['gambar']);
+            $lokasi_file = $_FILES['gambar']['tmp_name'];
+            $tipe_file   = TipeFile($_FILES['gambar']);
             // Bolehkan album tidak ada gambar cover
             if (! empty($lokasi_file)) {
                 if (! CekGambar($_FILES['gambar'], $tipe_file)) {
@@ -347,7 +347,7 @@ class Web_gallery_model extends MY_Model
 
     public function list_slide_galeri()
     {
-        $gallery_slide_id = $this->config_id_exist('gambar_gallery')
+        $gallery_slide_id = $this->config_id()
             ->select('id')
             ->where('slider', 1)
             ->limit(1)
@@ -355,7 +355,7 @@ class Web_gallery_model extends MY_Model
             ->row()
             ->id;
 
-        return $this->config_id_exist('gambar_gallery')
+        return $this->config_id()
             ->select('id, nama as judul, gambar')
             ->where('parrent', $gallery_slide_id)
             ->where('tipe', 2)
@@ -434,9 +434,9 @@ class Web_gallery_model extends MY_Model
     {
         session_success();
 
-        $data         = [];
-        $data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi
-        $data['urut'] = $this->urut_model->urut_max(['parrent' => $parrent]) + 1;
+        $data          = [];
+        $data['nama']  = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi
+        $data['urut']  = $this->urut_model->urut_max(['parrent' => $parrent]) + 1;
         $data['jenis'] = $this->input->post('jenis');
         if ($this->input->post('jenis') == 2) {
             $data['gambar'] = $this->input->post('url');
@@ -447,8 +447,8 @@ class Web_gallery_model extends MY_Model
                 return;
             }
 
-            $lokasi_file  = $_FILES['gambar']['tmp_name'];
-            $tipe_file    = TipeFile($_FILES['gambar']);
+            $lokasi_file = $_FILES['gambar']['tmp_name'];
+            $tipe_file   = TipeFile($_FILES['gambar']);
             // Bolehkan album tidak ada gambar cover
             if (! empty($lokasi_file)) {
                 if (! CekGambar($_FILES['gambar'], $tipe_file)) {
@@ -480,8 +480,8 @@ class Web_gallery_model extends MY_Model
     {
         session_success();
 
-        $data         = [];
-        $data['nama'] = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi
+        $data          = [];
+        $data['nama']  = nomor_surat_keputusan($this->input->post('nama')); //pastikan nama album hanya berisi
         $data['jenis'] = $this->input->post('jenis');
         if ($this->input->post('jenis') == 2) {
             $data['gambar'] = $this->input->post('url');
@@ -492,8 +492,8 @@ class Web_gallery_model extends MY_Model
                 return;
             }
 
-            $lokasi_file  = $_FILES['gambar']['tmp_name'];
-            $tipe_file    = TipeFile($_FILES['gambar']);
+            $lokasi_file = $_FILES['gambar']['tmp_name'];
+            $tipe_file   = TipeFile($_FILES['gambar']);
             // Bolehkan album tidak ada gambar cover
             if (! empty($lokasi_file)) {
                 if (! CekGambar($_FILES['gambar'], $tipe_file)) {

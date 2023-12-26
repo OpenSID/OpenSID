@@ -34,21 +34,13 @@
 
             @include('admin.pengaturan_surat.umum')
 
-            @if (in_array($suratMaster->jenis, [1, 2]))
-                @include('admin.pengaturan_surat.rtf')
-            @else
-                @include('admin.pengaturan_surat.tinymce')
-            @endif
+            @include('admin.pengaturan_surat.tinymce')
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-                @if (in_array($suratMaster->jenis, [1, 2]))
-                    <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>Simpan</button>
-                @else
-                    <button type="submit" name="action" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>Simpan dan Keluar</button>
-                    <a onclick="formAction('validasi', '{{ $simpan_sementara }}')" id="konsep" class="btn btn-social btn-warning btn-sm pull-right" style="margin: 0 8px 0 0;"><i class="fa fa-file-code-o"></i>
-                        Simpan Sementara</a>
-                    <button id="preview" name="action" value="preview" class="btn btn-social btn-vk btn-success btn-sm pull-right" style="margin: 0 8px"><i class="fa fa-eye"></i>Tinjau PDF</button>
-                @endif
+                <button type="submit" name="action" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>Simpan dan Keluar</button>
+                <a onclick="formAction('validasi', '{{ $simpan_sementara }}')" id="konsep" class="btn btn-social btn-warning btn-sm pull-right" style="margin: 0 8px 0 0;"><i class="fa fa-file-code-o"></i>
+                    Simpan Sementara</a>
+                <button id="preview" name="action" value="preview" class="btn btn-social btn-vk btn-success btn-sm pull-right" style="margin: 0 8px"><i class="fa fa-eye"></i>Tinjau PDF</button>
             </div>
         </div>
     </div>
@@ -85,7 +77,7 @@
                 });
 
                 $.ajax({
-                    url: `{{ route('surat_master/update_baru', $suratMaster->id) }}`,
+                    url: `{{ route('surat_master/update', $suratMaster->id) }}`,
                     type: 'POST',
                     xhrFields: {
                         responseType: 'blob'

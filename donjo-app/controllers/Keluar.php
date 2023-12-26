@@ -56,7 +56,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Keluar extends Admin_Controller
 {
     private $isAdmin;
-    private $tinymce;
+    private \App\Libraries\TinyMCE $tinymce;
 
     public function __construct()
     {
@@ -176,9 +176,7 @@ class Keluar extends Admin_Controller
 
                     return $q->masuk($isAdmin, $listJabatan);
                 })
-                ->when($state == 'tolak', static function ($q) {
-                    return $q->ditolak();
-                })
+                ->when($state == 'tolak', static fn ($q) => $q->ditolak())
                 ->withOnly(['formatSurat', 'penduduk', 'pamong', 'user'])->whereNull('deleted_at'))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($state, $canUpdate, $canDelete, $operator, $jabatanId, $idJabatanKades, $idJabatanSekdes): string {
@@ -198,27 +196,20 @@ class Keluar extends Admin_Controller
                     }
 
                     // hanya untuk surat permohonan
-                    if (in_array($state, ['masuk', 'tolak'])) {
-                        if ($canUpdate) {
-                            if (in_array($row->formatSurat->jenis, FormatSurat::RTF) && $operator) {
-                                $aksi .= '<a href="' . route('keluar.edit_keterangan', $row->id) . '" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a> ';
-                            } else {
-                                if ($row->status == 0 || $row->verifikasi == '-1') {
-                                    $aksi .= '<a href="' . route('surat.cetak', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a> ';
-                                }
-                            }
-
-                            if ($row->verifikasi == '-1' && $row->mandiri == '1') {
-                                $aksi .= '<button data-id="' . $row->id . '" type="button" class="btn bg-blue btn-sm kembalikan" title="Kembalikan"> <i class="fa fa-undo"></i></button> ';
-                            }
-
-                            if ($statusPeriksa == 0 && $row->status != 0) {
-                                $aksi .= '<a href="' . route('keluar.periksa', $row->id) . '" class="btn bg-olive btn-sm" title="verifikasi"><i class="fa fa-check-square-o"></i></a> ';
-                            }
-
-                            if ($statusPeriksa == 2) {
-                                $aksi .= '<button data-id="' . $row->id . '" type="button" class="btn bg-blue btn-sm passphrase " title="passphrase"> <i class="fa fa-key"></i></button> ';
-                            }
+                    if (in_array($state, ['masuk', 'tolak']) && $canUpdate) {
+                        if (in_array($row->formatSurat->jenis, FormatSurat::RTF) && $operator) {
+                            $aksi .= '<a href="' . route('keluar.edit_keterangan', $row->id) . '" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a> ';
+                        } elseif ($row->status == 0 || $row->verifikasi == '-1') {
+                            $aksi .= '<a href="' . route('surat.cetak', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a> ';
+                        }
+                        if ($row->verifikasi == '-1' && $row->mandiri == '1') {
+                            $aksi .= '<button data-id="' . $row->id . '" type="button" class="btn bg-blue btn-sm kembalikan" title="Kembalikan"> <i class="fa fa-undo"></i></button> ';
+                        }
+                        if ($statusPeriksa == 0 && $row->status != 0) {
+                            $aksi .= '<a href="' . route('keluar.periksa', $row->id) . '" class="btn bg-olive btn-sm" title="verifikasi"><i class="fa fa-check-square-o"></i></a> ';
+                        }
+                        if ($statusPeriksa == 2) {
+                            $aksi .= '<button data-id="' . $row->id . '" type="button" class="btn bg-blue btn-sm passphrase " title="passphrase"> <i class="fa fa-key"></i></button> ';
                         }
                     }
 
@@ -265,12 +256,10 @@ class Keluar extends Admin_Controller
                 ->editColumn('penduduk_non_warga', static fn ($row) => $row->penduduk->nama ?? ($row->nama_non_warga ? '<strong>Non-warga: </strong>' . $row->nama_non_warga . '<br><strong>NIK: </strong>' . $row->nik_non_warga : ''))
                 ->addColumn('pemohon', static function ($row) {
                     if ($row->pemohon) {
-                        $result = (json_decode($row->pemohon))->nama ?? '<strong>Non-warga: </strong>' . ((json_decode($row->pemohon))->nama_non_warga ?? '') . '<br><strong>NIK: </strong>' . ((json_decode($row->pemohon))->nik_non_warga ?? '');
-                    } else {
-                        $result = $row->penduduk->nama ?? ($row->nama_non_warga ? '<strong>Non-warga: </strong>' . $row->nama_non_warga . '<br><strong>NIK: </strong>' . $row->nik_non_warga : '');
+                        return json_decode($row->pemohon)->nama ?? '<strong>Non-warga: </strong>' . ((json_decode($row->pemohon))->nama_non_warga ?? '') . '<br><strong>NIK: </strong>' . ((json_decode($row->pemohon))->nik_non_warga ?? '');
                     }
 
-                    return $result;
+                    return $row->penduduk->nama ?? ($row->nama_non_warga ? '<strong>Non-warga: </strong>' . $row->nama_non_warga . '<br><strong>NIK: </strong>' . $row->nik_non_warga : '');
                 })->addColumn('status_label', static function ($row) use ($jabatanId, $idJabatanKades, $idJabatanSekdes): string {
                     $status        = '';
                     $statusPeriksa = $row->statusPeriksa($jabatanId, $idJabatanKades, $idJabatanSekdes);
@@ -316,7 +305,7 @@ class Keluar extends Admin_Controller
             // verifikasi kades
             case kades()->id:
                 $current = 'verifikasi_kades';
-                $next    = (setting('tte') && ! in_array($surat->formatSurat->jenis, FormatSurat::RTF)) ? 'tte' : null;
+                $next    = (setting('tte') && in_array($surat->formatSurat->jenis, FormatSurat::TINYMCE)) ? 'tte' : null;
                 $log     = (setting('tte')) ? 'TTE' : null;
                 break;
 
@@ -732,7 +721,7 @@ class Keluar extends Admin_Controller
         view('admin.surat.keluar.graph', $data);
     }
 
-    public function unduh($tipe, $id, $preview = false)
+    public function unduh($tipe, $id, $preview = false): void
     {
         $berkas = LogSurat::find($id);
         if ($tipe == 'tinymce') {
@@ -876,7 +865,7 @@ class Keluar extends Admin_Controller
         return $surat->data;
     }
 
-    public function dataPenduduk(int $id)
+    public function dataPenduduk(int $id): void
     {
         $penduduk = Penduduk::withOnly(['wilayah', 'agama', 'pendidikanKK', 'wargaNegara'])->findOrFail($id);
         $data     = [

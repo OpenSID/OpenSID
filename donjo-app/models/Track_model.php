@@ -71,7 +71,7 @@ class Track_model extends CI_Model
          * Jangan kirim data ke pantau jika versi demo
          * cegah error karena tabel belum ada
          */
-        if (config_item('demo_mode') || ! $this->db->field_exists('deleted_at', 'log_surat')) {
+        if (config_item('demo_mode')) {
             return;
         }
 

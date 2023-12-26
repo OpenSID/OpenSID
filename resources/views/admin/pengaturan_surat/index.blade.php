@@ -20,11 +20,8 @@
                 <a href="{{ route('surat_master.form') }}" title="Tambah Format Surat" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
             @endif
             @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ route('surat_master/deleteAll') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                        class='fa fa-trash-o'></i> Hapus</a>
-            @endif
-            @if (!setting('nonaktifkan_rtf') && can('u', 'pengaturan-surat', true))
-                <a href="{{ route('surat_master.perbarui') }}" title="{{ SebutanDesa('Perbarui Surat [Desa]') }}" class="btn btn-social bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-recycle"></i> Perbarui</a>
+                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ route('surat_master/delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i>
+                    Hapus</a>
             @endif
             @if (can('u'))
                 <div class="btn-group-vertical radius-3">
@@ -40,10 +37,10 @@
                                 data-toggle="modal"
                                 data-backdrop="false"
                                 data-keyboard="false"
-                            ><i class="fa fa-upload"></i> Impor Surat TinyMCE</a>
+                            ><i class="fa fa-upload"></i> Impor Surat</a>
                         </li>
                         <li>
-                            <a target="_blank" class="btn btn-social btn-block btn-sm aksi-terpilih" title="Ekspor Surat TinyMCE" onclick="formAction('mainform', '{{ route('surat_master.ekspor') }}'); return false;"><i class="fa fa-download"></i> Ekspor Surat TinyMCE</a>
+                            <a target="_blank" class="btn btn-social btn-block btn-sm aksi-terpilih" title="Ekspor Surat" onclick="formAction('mainform', '{{ route('surat_master.ekspor') }}'); return false;"><i class="fa fa-download"></i> Ekspor Surat</a>
                         </li>
                     </ul>
                 </div>
@@ -53,7 +50,7 @@
             @endif
 
             @if (ENVIRONMENT === 'development')
-                <a href="{{ route('surat_master.templateTinyMCE') }}" title="Buat Template TinyMCE" class="btn btn-social bg-blue btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-code-fork"></i> Buat Template TinyMCE</a></a>
+                <a href="{{ route('surat_master.templateTinyMCE') }}" title="Buat Template" class="btn btn-social bg-blue btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-code-fork"></i> Buat Template</a></a>
             @endif
         </div>
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
@@ -78,7 +75,6 @@
                             <th class="padat">NO</th>
                             <th class="aksi">AKSI</th>
                             <th>NAMA SURAT</th>
-                            <th class="padat">JENIS</th>
                             <th class="padat">KODE / KLASIFIKASI</th>
                             <th class="padat">LAMPIRAN</th>
                         </tr>
@@ -128,13 +124,6 @@
                         name: 'nama',
                         searchable: true,
                         orderable: true
-                    },
-                    {
-                        data: 'jenis',
-                        name: 'jenis',
-                        class: 'padat',
-                        searchable: false,
-                        orderable: false
                     },
                     {
                         data: 'kode_surat',

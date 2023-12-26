@@ -98,7 +98,7 @@ class Web extends Admin_Controller
         $this->render('web/artikel/table', $data);
     }
 
-    public function tab($cat = 0): void
+    public function tab(?string $cat = '0'): void
     {
         $this->session->kategori = $cat;
 

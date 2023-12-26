@@ -101,5 +101,7 @@ if (file_exists(FCPATH . '.htaccess') && ENVIRONMENT != 'development') {
     $config['index_page'] = '';
 }
 
+$config['encryption_key'] = base64_decode(Illuminate\Support\Str::after(file_get_contents(DESAPATH . 'app_key'), 'base64:'));
+
 // End of file sid_ini.php
 // Location: ./application/config/sid_ini.php

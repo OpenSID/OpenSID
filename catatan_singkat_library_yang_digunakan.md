@@ -24,8 +24,6 @@ Library Javascript yang digunakan:
 
 Library PHP yang digunakan:
 
-- https://code.google.com/archive/p/php-excel-reader/, untuk membaca file Excel format 2003
-- http://sourceforge.net/projects/simplehtmldom/, parse form surat untuk tampilkan kode isian
 - https://github.com/monperrus/crawler-user-agents/, tambahan data crawler
 - http://phpqrcode.sourceforge.net/, Porting Ci https://github.com/dwisetiyadi/CodeIgniter-PHP-QR-Code, untuk membuat QRCode, Porting asli telah dimodifikasi untuk pemakaian di OpenSID dan ditambahkan fungsi Sisipan Logo dan Warna back/foreground
 - https://www.responsivefilemanager.com/, pengelolaan berkas

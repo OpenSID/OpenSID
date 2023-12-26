@@ -39,13 +39,13 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterval;
 use Carbon\CarbonPeriod;
+use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Pagination\Cursor;
 use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Facade;
 
 Carbon::setLocale('id');
 CarbonImmutable::setLocale('id');
@@ -53,13 +53,43 @@ CarbonPeriod::setLocale('id');
 CarbonInterval::setLocale('id');
 
 $capsule = new Capsule();
+
+$container = $capsule->getContainer();
+
+Container::setInstance($container);
+
+$container->instance('path', FCPATH . 'app');
+$container->instance('path.base', FCPATH);
+$container->instance('path.config', APPPATH . 'config');
+$container->instance('path.storage', FCPATH . 'storage');
+$container->instance('path.database', FCPATH . 'database');
+$container->instance('path.resources', FCPATH . 'resources');
+
+$new_config = new Repository([
+    'app'   => require config_path('app.php'),
+    'cache' => require config_path('cache.php'),
+    'view'  => require config_path('view.php'),
+]);
+
+$container->instance('new_config', $new_config);
+
+$container->singleton('events', static fn (): \Illuminate\Events\Dispatcher => new Dispatcher($container));
+$container->singleton('db', static fn () => $capsule->getDatabaseManager());
+$container->singleton('files', static fn (): \Illuminate\Filesystem\Filesystem => new \Illuminate\Filesystem\Filesystem());
+
+$container->singleton('filesystem', static fn (): \Illuminate\Filesystem\FilesystemManager => new \Illuminate\Filesystem\FilesystemManager($container));
+
+// $key = base64_decode(\Illuminate\Support\Str::after(config('app.key'), 'base64:'));
+$key = base64_decode(Illuminate\Support\Str::after(get_app_key(), 'base64:'));
+$container->singleton('encrypter', static fn (): \Illuminate\Encryption\Encrypter => new \Illuminate\Encryption\Encrypter($key, config('app.cipher')));
+
 $capsule->addConnection([
     'driver'    => $db['default']['dbdriver'] == 'mysqli' ? 'mysql' : $db['default']['dbdriver'],
     'host'      => $db['default']['hostname'],
     'port'      => $db['default']['port'],
     'database'  => $db['default']['database'],
     'username'  => $db['default']['username'],
-    'password'  => $db['default']['password'],
+    'password'  => strlen($db['default']['password']) > 80 ? decrypt($db['default']['password']) : $db['default']['password'],
     'charset'   => $db['default']['char_set'],
     'collation' => $db['default']['dbcollat'],
     'prefix'    => $db['default']['dbprefix'],
@@ -69,18 +99,24 @@ $capsule->addConnection([
     ],
 ]);
 
-Container::setInstance($capsule->getContainer());
+$newContainer           = new Container();
+$newContainer['config'] = [
+    'cache.default'     => config('cache.default'),
+    'cache.stores.file' => config('cache.stores.file'),
 
-$capsule->getContainer()->singleton('events', static fn (): \Illuminate\Events\Dispatcher => new Dispatcher($capsule->getContainer()));
+    'view.paths'    => config('view.paths'),
+    'view.compiled' => config('view.compiled'),
+];
+$newContainer['files'] = new \Illuminate\Filesystem\Filesystem();
 
-$capsule->getContainer()->singleton('db', static fn () => $capsule->getDatabaseManager());
+$container->singleton('cache', static fn (): \Illuminate\Cache\CacheManager => new \Illuminate\Cache\CacheManager($newContainer));
 
 $capsule->setAsGlobal();
-$capsule->setEventDispatcher($capsule->getContainer()->get('events'));
+$capsule->setEventDispatcher(new Dispatcher($container));
 $capsule->bootEloquent();
 
-Facade::clearResolvedInstances();
-Facade::setFacadeApplication($capsule->getContainer());
+\Illuminate\Support\Facades\Facade::clearResolvedInstances();
+\Illuminate\Support\Facades\Facade::setFacadeApplication($container);
 
 Paginator::$defaultView       = 'admin/layouts/components/pagination_default';
 Paginator::$defaultSimpleView = 'admin/layouts/components/pagination_simple_default';

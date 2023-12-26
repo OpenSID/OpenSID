@@ -136,3 +136,8 @@ $db['default']['save_queries'] = true;
 include LOKASI_CONFIG_DESA . 'database.php';
 
 require_once 'eloquent.php';
+
+// diletakkan dibawah, karena encrypter diload dalam eloquent.php
+if (strlen($db['default']['password']) > 80) {
+    $db['default']['password'] = decrypt($db['default']['password']);
+}

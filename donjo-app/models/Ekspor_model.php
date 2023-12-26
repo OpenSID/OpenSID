@@ -147,22 +147,22 @@ class Ekspor_model extends MY_Model
 
     private function ekspor_huruf(&$baris)
     {
-        $baris->sex = DB::table('tweb_penduduk_sex')->find($baris->sex)->nama;
-        $baris->agama_id = DB::table('tweb_penduduk_agama')->find($baris->agama_id)->nama;
-        $baris->pendidikan_kk_id = DB::table('tweb_penduduk_pendidikan_kk')->find($baris->pendidikan_kk_id)->nama;
+        $baris->sex                  = DB::table('tweb_penduduk_sex')->find($baris->sex)->nama;
+        $baris->agama_id             = DB::table('tweb_penduduk_agama')->find($baris->agama_id)->nama;
+        $baris->pendidikan_kk_id     = DB::table('tweb_penduduk_pendidikan_kk')->find($baris->pendidikan_kk_id)->nama;
         $baris->pendidikan_sedang_id = DB::table('tweb_penduduk_pendidikan')->find($baris->pendidikan_sedang_id)->nama;
-        $baris->pekerjaan_id = DB::table('tweb_penduduk_pekerjaan')->find($baris->pekerjaan_id)->nama;
-        $baris->status_kawin = DB::table('tweb_penduduk_kawin')->find($baris->status_kawin)->nama;
-        $baris->kk_level = DB::table('tweb_penduduk_hubungan')->find($baris->kk_level)->nama;
-        $baris->warganegara_id = DB::table('tweb_penduduk_warganegara')->find($baris->warganegara_id)->nama;
-        $baris->golongan_darah_id = DB::table('tweb_golongan_darah')->find($baris->golongan_darah_id)->nama;
-        $baris->cacat_id = DB::table('tweb_cacat')->find($baris->cacat_id)->nama;
-        $baris->cara_kb_id = DB::table('tweb_cara_kb')->find($baris->cara_kb_id)->nama;
-        $baris->status_dasar = DB::table('tweb_penduduk_status')->find($baris->status_dasar)->nama;
-        $baris->warganegara_id = DB::table('tweb_penduduk_warganegara')->find($baris->warganegara_id)->nama;
-        $baris->hamil = $baris->hamil == 1 ? 'YA' : 'TIDAK';
-        $baris->ktp_el = DB::table('tweb_penduduk_warganegara')->find($baris->warganegara_id)->nama;
-        $baris->status_rekam = DB::table('tweb_penduduk_warganegara')->find($baris->warganegara_id)->nama;
+        $baris->pekerjaan_id         = DB::table('tweb_penduduk_pekerjaan')->find($baris->pekerjaan_id)->nama;
+        $baris->status_kawin         = DB::table('tweb_penduduk_kawin')->find($baris->status_kawin)->nama;
+        $baris->kk_level             = DB::table('tweb_penduduk_hubungan')->find($baris->kk_level)->nama;
+        $baris->warganegara_id       = DB::table('tweb_penduduk_warganegara')->find($baris->warganegara_id)->nama;
+        $baris->golongan_darah_id    = DB::table('tweb_golongan_darah')->find($baris->golongan_darah_id)->nama;
+        $baris->cacat_id             = DB::table('tweb_cacat')->find($baris->cacat_id)->nama;
+        $baris->cara_kb_id           = DB::table('tweb_cara_kb')->find($baris->cara_kb_id)->nama;
+        $baris->status_dasar         = DB::table('tweb_penduduk_status')->find($baris->status_dasar)->nama;
+        $baris->warganegara_id       = DB::table('tweb_penduduk_warganegara')->find($baris->warganegara_id)->nama;
+        $baris->hamil                = $baris->hamil == 1 ? 'YA' : 'TIDAK';
+        $baris->ktp_el               = DB::table('tweb_penduduk_warganegara')->find($baris->warganegara_id)->nama;
+        $baris->status_rekam         = DB::table('tweb_penduduk_warganegara')->find($baris->warganegara_id)->nama;
 
         return $baris;
     }
@@ -563,15 +563,13 @@ class Ekspor_model extends MY_Model
         }
 
         // ganti isi file app_key dengan config yang baru sesuai dengan database yang di restore
-        if (Schema::hasColumn('config', 'app_key')) {
-            $app_key = Config::first()->app_key;
-            if (empty($app_key)) {
-                $app_key = set_app_key();
-                Config::first()->update(['app_key' => $app_key]);
-            }
-
-            file_put_contents(DESAPATH . 'app_key', $app_key);
+        $app_key = Config::first()->app_key;
+        if (empty($app_key)) {
+            $app_key = set_app_key();
+            Config::first()->update(['app_key' => $app_key]);
         }
+
+        file_put_contents(DESAPATH . 'app_key', $app_key);
 
         session_destroy();
 

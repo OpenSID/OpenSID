@@ -62,8 +62,8 @@ class Database extends Admin_Controller
     public function index(): void
     {
         $data = [
-            'content'      => 'database/backup',
-            'form_action'  => site_url('database/restore'),
+            'content'      => 'admin.database.backup',
+            'form_action'  => setting('multi_desa') ? route('multiDB.restore') : route('database.restore'),
             'size_folder'  => byte_format(dirSize(DESAPATH)),
             'size_sql'     => byte_format(getSizeDB()->size),
             'act_tab'      => 1,
@@ -72,7 +72,7 @@ class Database extends Admin_Controller
             'memory_limit' => Arr::get($this->setting_model->cekKebutuhanSistem(), 'memory_limit.result'),
         ];
 
-        $this->load->view('database/database.tpl.php', $data);
+        view('admin.database.index', $data);
     }
 
     public function migrasi_cri(): void
@@ -80,8 +80,8 @@ class Database extends Admin_Controller
         $data['form_action'] = site_url('database/migrasi_db_cri');
 
         $data['act_tab'] = 2;
-        $data['content'] = 'database/migrasi_cri';
-        $this->load->view('database/database.tpl.php', $data);
+        $data['content'] = 'admin.database.migrasi_cri';
+        view('admin.database.index', $data);
     }
 
     public function migrasi_db_cri(): void

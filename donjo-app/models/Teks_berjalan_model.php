@@ -88,7 +88,7 @@ class Teks_berjalan_model extends MY_Model
 
     private function sql(): void
     {
-        $this->config_id_exist('teks_berjalan', 't')
+        $this->config_id('t')
             ->select('t.*, a.judul, a.tgl_upload')
             ->from('teks_berjalan t')
             ->join('artikel a', 't.tautan = a.id', 'left')

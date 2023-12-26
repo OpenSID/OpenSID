@@ -59,7 +59,7 @@ class Urut_model extends MY_Model
      */
     public function urut_max($subset = ['1' => '1'])
     {
-        return $this->config_id_exist($this->tabel)
+        return $this->config_id()
             ->select_max('urut')
             ->where($subset)
             ->get($this->tabel)
@@ -68,7 +68,7 @@ class Urut_model extends MY_Model
 
     private function urut_semua($subset = ['1' => '1']): void
     {
-        $urut_duplikat = $this->config_id_exist($this->tabel)
+        $urut_duplikat = $this->config_id()
             ->select('urut, COUNT(*) c')
             ->where($subset)
             ->group_by('urut')
@@ -76,7 +76,7 @@ class Urut_model extends MY_Model
             ->get($this->tabel)
             ->result_array();
 
-        $belum_diurut = $this->config_id_exist($this->tabel)
+        $belum_diurut = $this->config_id()
             ->where($subset)
             ->where('urut IS NULL')
             ->limit(1)
@@ -85,7 +85,7 @@ class Urut_model extends MY_Model
 
         $daftar = [];
         if ($urut_duplikat || $belum_diurut) {
-            $daftar = $this->config_id_exist($this->tabel)
+            $daftar = $this->config_id()
                 ->select($this->kolom_id)
                 ->where($subset)
                 ->order_by('urut')
@@ -96,7 +96,7 @@ class Urut_model extends MY_Model
 
         for ($i = 0; $i < $counter; $i++) {
             $data['urut'] = $i + 1;
-            $this->config_id_exist($this->tabel)->where($this->kolom_id, $daftar[$i][$this->kolom_id])->update($this->tabel, $data);
+            $this->config_id()->where($this->kolom_id, $daftar[$i][$this->kolom_id])->update($this->tabel, $data);
         }
     }
 
@@ -110,12 +110,12 @@ class Urut_model extends MY_Model
     public function urut($id, $arah, $subset = ['1' => '1'])
     {
         $this->urut_semua($subset);
-        $unsur1 = $this->config_id_exist($this->tabel)
+        $unsur1 = $this->config_id()
             ->where($this->kolom_id, $id)
             ->get($this->tabel)
             ->row_array();
 
-        $daftar = $this->config_id_exist($this->tabel)
+        $daftar = $this->config_id()
             ->select("{$this->kolom_id}, urut")
             ->where($subset)
             ->order_by('urut')
@@ -149,11 +149,11 @@ class Urut_model extends MY_Model
         }
 
         // Tukar urutan
-        $this->config_id_exist($this->tabel)
+        $this->config_id()
             ->where($this->kolom_id, $unsur2[$this->kolom_id])
             ->update($this->tabel, ['urut' => $unsur1['urut']]);
 
-        $this->config_id_exist($this->tabel)
+        $this->config_id()
             ->where($this->kolom_id, $unsur1[$this->kolom_id])
             ->update($this->tabel, ['urut' => $unsur2['urut']]);
 

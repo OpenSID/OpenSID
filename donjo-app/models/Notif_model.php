@@ -46,6 +46,10 @@ class Notif_model extends MY_Model
 
     public function komentar_baru()
     {
+        if (! $this->db->field_exists('jenis', 'komentar')) {
+            return 0;
+        }
+        
         return $this->config_id()
             ->where('id_artikel !=', LAPORAN_MANDIRI)
             ->where('status', 2)
@@ -63,12 +67,16 @@ class Notif_model extends MY_Model
     // TODO : Gunakan id penduduk
     public function inbox_baru($tipe = 1, $nik = '')
     {
+        if (! $this->db->field_exists('jenis', 'komentar')) {
+            return 0;
+        }
+
         if ($nik) {
             $this->db->where('email', $nik);
         }
 
         return $this->config_id()
-            ->where('id_artikel', LAPORAN_MANDIRI)
+            ->where('jenis', LAPORAN_MANDIRI)
             ->where('status', 2)
             ->where('tipe', $tipe)
             ->where('is_archived', 0)

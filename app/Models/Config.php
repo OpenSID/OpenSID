@@ -87,12 +87,6 @@ class Config extends BaseModel
         'warna',
         'created_by',
         'updated_by',
-
-        // Field database lama
-        'nama_kepala_desa',
-        'nip_kepala_desa',
-        'g_analitic',
-        'pamong_id',
     ];
 
     /**
@@ -184,11 +178,7 @@ class Config extends BaseModel
 
     public function scopeAppKey($query)
     {
-        if (Schema::hasColumn($this->table, 'app_key')) {
-            $query->where('app_key', get_app_key());
-        }
-
-        return $query;
+        return $query->where('app_key', get_app_key());
     }
 
     /**

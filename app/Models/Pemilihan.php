@@ -37,10 +37,10 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Traits\Uuid;
 use App\Traits\Author;
 use App\Traits\ConfigId;
+use App\Traits\Uuid;
+use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -88,10 +88,11 @@ class Pemilihan extends BaseModel
 
     /**
      * Fungsi untuk mengambil tanggal pemilihan terdekat yang aktif
-     * 
+     *
      * @return string
      */
-    public static function tanggalPemilihan() {
+    public static function tanggalPemilihan()
+    {
         $tanggal = self::status()->orderBy('tanggal')->first()->tanggal ?? Carbon::now();
 
         return Carbon::parse($tanggal)->format('d-m-Y');

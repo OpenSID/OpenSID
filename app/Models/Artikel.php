@@ -49,9 +49,9 @@ class Artikel extends BaseModel
 {
     use ConfigId;
 
-    public const ENABLE         = 1;
-    public const HEADLINE       = 1;
-    public const NOT_IN_ARTIKEL = [999, 1000, 1001];
+    public const ENABLE              = 1;
+    public const HEADLINE            = 1;
+    public const TIPE_NOT_IN_ARTIKEL = ['statis', 'agenda', 'keuangan'];
 
     /**
      * The table associated with the model.
@@ -110,7 +110,7 @@ class Artikel extends BaseModel
      */
     public function scopeOnlyArticle($query): \Illuminate\Database\Query\Builder
     {
-        return $query->whereNotIn('id_kategori', static::NOT_IN_ARTIKEL);
+        return $query->whereNotIn('tipe', static::TIPE_NOT_IN_ARTIKEL);
     }
 
     /**

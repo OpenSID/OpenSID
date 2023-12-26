@@ -80,7 +80,7 @@ class UserGrup extends BaseModel
 
     public static function getGrupId($slug)
     {
-        return self::where(Schema::hasColumn('user_grup', 'slug') ? 'slug' : 'nama', $slug)->value('id');
+        return self::where('slug', $slug)->value('id');
     }
 
     /**

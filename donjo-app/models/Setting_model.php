@@ -38,7 +38,6 @@
 use App\Libraries\TinyMCE;
 use App\Models\Config;
 use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -134,10 +133,10 @@ class Setting_model extends MY_Model
 
         // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
-        $this->setting->sebutan_kepala_desa = Schema::hasTable('ref_jabatan') ? kades()->nama : null;
+        $this->setting->sebutan_kepala_desa = kades()->nama;
 
         // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan jenis = 2
-        $this->setting->sebutan_sekretaris_desa = Schema::hasTable('ref_jabatan') ? sekdes()->nama : null;
+        $this->setting->sebutan_sekretaris_desa = sekdes()->nama;
 
         // Setting Multi Database untuk OpenKab
         $this->setting->multi_desa = Config::count() > 1;
@@ -396,7 +395,7 @@ class Setting_model extends MY_Model
 
     public function disableFunctions()
     {
-        $wajib    = ['exec'];
+        $wajib    = [];
         $disabled = explode(',', ini_get('disable_functions'));
 
         $functions = [];

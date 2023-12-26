@@ -45,7 +45,7 @@ class Feed_model extends MY_Model
 
     public function list_feeds()
     {
-        return $this->config_id_exist('artikel', 'a')
+        return $this->config_id('a')
             ->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
             ->from('artikel a')
             ->join('user u', 'a.id_user = u.id', 'left')

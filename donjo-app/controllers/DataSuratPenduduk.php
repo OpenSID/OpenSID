@@ -37,7 +37,6 @@
 
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
-use App\Enums\SHDKEnum;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\LogPenduduk;
@@ -47,7 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class DataSuratPenduduk extends CI_Controller
 {
-    private \App\Models\LogPenduduk $logpenduduk;
+    private LogPenduduk $logpenduduk;
 
     public function __construct()
     {

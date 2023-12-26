@@ -46,11 +46,10 @@ class Komentar extends BaseModel
 {
     use ConfigId;
 
-    public const ACTIVE         = 1;
-    public const NONACTIVE      = 2;
-    public const TIPE_MASUK     = 2;
-    public const TIPE_KELUAR    = 1;
-    public const NOT_IN_ARTIKEL = 775;
+    public const ACTIVE      = 1;
+    public const NONACTIVE   = 2;
+    public const TIPE_MASUK  = 2;
+    public const TIPE_KELUAR = 1;
 
     /**
      * The name of the "created at" column.
@@ -72,15 +71,6 @@ class Komentar extends BaseModel
      * @var string
      */
     protected $table = 'komentar';
-
-    /**
-     * The model's default values for attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'id_artikel' => self::NOT_IN_ARTIKEL,
-    ];
 
     /**
      * The attributes that are mass assignable.

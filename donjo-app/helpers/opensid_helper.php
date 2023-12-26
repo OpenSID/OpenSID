@@ -41,6 +41,7 @@ use App\Models\RefJabatan;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Encryption\Encrypter;
 use voku\helper\AntiXSS;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -74,10 +75,10 @@ define('BELUM_MENGISI', 777);
 define('TOTAL', 888);
 
 // Kode laporan mandiri di tabel komentar
-define('LAPORAN_MANDIRI', 775);
+define('LAPORAN_MANDIRI', 'pesan-mandiri');
 
 // Kode artikel terkait agenda
-define('AGENDA', 1000);
+define('AGENDA', 'agenda');
 
 define('MAX_PINDAH', 7);
 define('MAX_ANGGOTA', 7);
@@ -569,7 +570,7 @@ function sql_in_list($list_array)
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
  * tampil : true kalau berkas akan ditampilkan inline (tidak diunduh)
  */
-function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil = false)
+function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, string $lokasi = LOKASI_ARSIP, $tampil = false)
 {
     $CI = &get_instance();
     $CI->load->helper('download');
@@ -1173,12 +1174,8 @@ function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug', 
         while ($cek_slug) {
             if ($id) {
                 $CI->db->where('id !=', $id);
-
-                if ($CI->db->field_exists('config_id', $tabel)) {
-                    $CI->db->where('config_id', $config ?? identitas('id'));
-                }
             }
-            $cek_slug = $CI->db->get_where($tabel, [$field => $slug_unik])->num_rows();
+            $cek_slug = $CI->db->where('config_id', $config ?? identitas('id'))->get_where($tabel, [$field => $slug_unik])->num_rows();
             if ($cek_slug) {
                 $slug_unik = $slug . '-' . $n++;
             }
@@ -1549,53 +1546,37 @@ function kasus_lain($kategori = null, $str = null)
     return str_ireplace($daftar_ganti, array_map('strtoupper', $daftar_ganti), $str);
 }
 
-if (! function_exists('encrypt')) {
-    /**
-     * - Fungsi untuk encrypt string.
-     *
-     * @param string $str
-     */
-    function encrypt($str = ''): string
+if (! function_exists('generateRandomKey')) {
+    function generateRandomKey(): string
     {
-        $CI = &get_instance();
-        $CI->load->library('encryption');
-
-        $result = $CI->encryption->encrypt($str);
-
-        return strtr(
-            $result,
-            [
-                '+' => '.',
-                '=' => '-',
-                '/' => '~',
-            ]
+        return 'base64:' . base64_encode(
+            Encrypter::generateKey(config_item('cipher'))
         );
     }
 }
 
-if (! function_exists('decrypt')) {
-    /**
-     * - Fungsi untuk decrypt string.
-     *
-     * @param string $str
-     *
-     * @return string
-     */
-    function decrypt($str = '')
+if (! function_exists('updateConfigFile')) {
+    function updateConfigFile(string $key, string $value): void
     {
-        $CI = &get_instance();
-        $CI->load->library('encryption');
+        log_message('error', 'updateConfigFile ' . $key . ' - ' . $value);
 
-        $str = strtr(
-            $str,
-            [
-                '.' => '+',
-                '-' => '=',
-                '~' => '/',
-            ]
-        );
+        if ($key === 'password') {
+            $file    = LOKASI_CONFIG_DESA . 'database.php';
+            $pattern = '/(\$db\[\'default\'\]\[\'password\'\]\s*=\s*\'.*\';)/';
+            $newKey  = "\$db['default']['password'] = '{$value}';";
+        }
+        $configContent = file_get_contents($file);
+        if (preg_match($pattern, $configContent)) {
+            $configContent = preg_replace(
+                $pattern,
+                $newKey,
+                $configContent
+            );
+        } else {
+            $configContent .= PHP_EOL . $newKey;
+        }
 
-        return $CI->encryption->decrypt($str);
+        file_put_contents($file, $configContent);
     }
 }
 

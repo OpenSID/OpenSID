@@ -357,7 +357,7 @@ class Analisis_statistik_jawaban_model extends MY_Model
     public function hapus_data_kosong()
     {
         // Hapus data analisis_parameter dengan responden 0 untuk tipe pertanyaan 3 dan 4
-        $hapus = $this->config_id_exist('analisis_respon', 'ar')
+        $hapus = $this->config_id('ar')
             ->select('ap.id')
             ->from('analisis_respon ar')
             ->join('analisis_parameter ap', 'ar.id_parameter = ap.id', 'right')

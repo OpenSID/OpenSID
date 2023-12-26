@@ -121,7 +121,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-surat" id="periksa-permohonan">
-            <?php $this->load->view($form_surat); ?>
+            <?php $this->load->view('surat/form_surat_tinymce'); ?>
         </div>
     </div>
 </div>
