@@ -383,6 +383,7 @@ class Wilayah extends Admin_Controller
         try {
             $data = $this->bersihkan_data($this->request);
             $obj  = WilayahModel::find($id);
+
             // update nama wilayah yang dibawahnya, karena hubungan parent - child diidentifikasi berdasarkan nama
             switch($level) {
                 case 'dusun':

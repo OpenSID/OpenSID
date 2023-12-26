@@ -1026,7 +1026,7 @@ function convertToBytes(string $from)
  * Disalin dari FeedParser.php
  * Load the whole contents of a web page
  *
- * @param    string
+ * @param string
  * @param mixed $url
  *
  * @return string
@@ -1692,9 +1692,9 @@ if (! function_exists('getFormatIsian')) {
 /**
  * Buat hash password (bcrypt) dari string sebuah password
  *
- * @param  [type]  $string  [description]
+ * @param [type]  $string  [description]
  *
- * @return  [type]  [description]
+ * @return [type]  [description]
  */
 function generatePasswordHash($string): string
 {

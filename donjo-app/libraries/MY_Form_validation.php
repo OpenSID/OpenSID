@@ -71,7 +71,7 @@ class MY_Form_validation extends CI_Form_validation
             return false;
         }
 
-        /** @var \CI_DB_query_builder */
+        /** @var CI_DB_query_builder */
         $row = $this->CI->db
             ->from($table)
             ->select('1')

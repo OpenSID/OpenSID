@@ -13,16 +13,17 @@
 		</table>
 
 		<?php
-			switch ($_SESSION['submenu']):
-			
-			case 'Laporan Keuangan Semester1 DD':
-			case 'Laporan Keuangan Akhir DD':
-				$this->load->view('keuangan/tabel_laporan_rp_apbd_isi.php');
-				break;
-			case 'Laporan Keuangan Semester1 Bidang DD':
-			case 'Laporan Keuangan Akhir Bidang DD':
-				$this->load->view('keuangan/tabel_laporan_rp_apbd_isi.php', ['jenis' => 'bidang']);
-				break;
-		endswitch ?>
+            switch ($_SESSION['submenu']):
+
+                case 'Laporan Keuangan Semester1 DD':
+                case 'Laporan Keuangan Akhir DD':
+                    $this->load->view('keuangan/tabel_laporan_rp_apbd_isi.php');
+                    break;
+
+                case 'Laporan Keuangan Semester1 Bidang DD':
+                case 'Laporan Keuangan Akhir Bidang DD':
+                    $this->load->view('keuangan/tabel_laporan_rp_apbd_isi.php', ['jenis' => 'bidang']);
+                    break;
+            endswitch ?>
 	</div>
 </div>

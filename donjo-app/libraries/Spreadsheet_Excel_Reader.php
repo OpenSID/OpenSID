@@ -340,7 +340,7 @@ class Spreadsheet_Excel_Reader
     public $data;
 
     /**
-     * @var \OLERead
+     * @var OLERead
      */
     public $_ole;
 

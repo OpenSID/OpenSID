@@ -52,7 +52,7 @@ class Urut_model extends MY_Model
     /**
      * Cari nomor urut terbesar untuk subset data
      *
-     * @param		array		syarat kolom data yang akan diperiksa
+     * @param array		syarat kolom data yang akan diperiksa
      * @param mixed $subset
      *
      * @return int nomor urut maksimum untuk subset

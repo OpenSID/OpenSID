@@ -63,7 +63,7 @@ abstract class Abstract_manager
      *
      * @param string|null $driver
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return mixed
      */
@@ -93,7 +93,7 @@ abstract class Abstract_manager
      *
      * @param string $driver
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return mixed
      */
