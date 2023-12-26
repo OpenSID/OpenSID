@@ -180,8 +180,8 @@ class Impor_model extends MY_Model
     /**
      * Konversi tulisan menjadi kode angka
      *
-     * @param		array		tulisan => kode angka
-     * @param 	string	tulisan yang akan dikonversi
+     * @param array		tulisan => kode angka
+     * @param string	tulisan yang akan dikonversi
      * @param mixed $daftar_kode
      * @param mixed $nilai
      *

@@ -101,9 +101,9 @@ function ikut_case(string $format, $str): string
 /**
  * Membuat string yang diisi &nbsp; di awal dan di akhir, dengan panjang yang ditentukan.
  *
- * @param            string      Text yang akan ditambahi awal dan akhiran
- * @param            awal     Jumlah karakter &nbsp; pada awal text
- * @param            panjang  Panjang string yang dihasilkan,
+ * @param string      Text yang akan ditambahi awal dan akhiran
+ * @param awal     Jumlah karakter &nbsp; pada awal text
+ * @param panjang  Panjang string yang dihasilkan,
  *                            di mana setiap &nbsp; dihitung sebagai satu karakter
  * @param mixed $str
  * @param mixed $awal

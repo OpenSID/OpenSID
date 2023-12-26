@@ -68,7 +68,7 @@ if (! function_exists('view')) {
      * @param array                                         $mergeData
      * @param mixed                                         $returnView
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     function view($view = null, $data = [], $mergeData = [], $returnView = false)
     {
@@ -1070,7 +1070,7 @@ if (! function_exists('config')) {
      * @param array|string|null $key
      * @param mixed             $default
      *
-     * @return \Illuminate\Config\Repository|mixed
+     * @return Illuminate\Config\Repository|mixed
      */
     function config($key = null, $default = null)
     {
@@ -1095,11 +1095,11 @@ if (! function_exists('cache')) {
      *
      * If an array is passed, we'll assume you want to put to the cache.
      *
-     * @param  dynamic  key|key,default|data,expiration|null
+     * @param dynamic  key|key,default|data,expiration|null
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @return \Illuminate\Cache\CacheManager|mixed
+     * @return Illuminate\Cache\CacheManager|mixed
      */
     function cache()
     {

@@ -42,7 +42,7 @@
  *
  * @license     GNU General Public License (GPL)
  *
- * @see        http://www.ajaxray.com/blog/2008/05/02/php-universal-feed-parser-lightweight-php-class-for-parsing-rss-and-atom-feeds/
+ * @see http://www.ajaxray.com/blog/2008/05/02/php-universal-feed-parser-lightweight-php-class-for-parsing-rss-and-atom-feeds/
  */
 class FeedParser
 {
@@ -115,7 +115,7 @@ class FeedParser
     /**
      * Get a feed item by index
      *
-     * @param    number  index of feed item
+     * @param number  index of feed item
      * @param mixed $index
      *
      * @return array feed item as associative array of it's elements
@@ -132,7 +132,7 @@ class FeedParser
     /**
      * Get a channel element by name
      *
-     * @param    string  the name of channel tag
+     * @param string  the name of channel tag
      * @param mixed $tagName
      *
      * @return string
@@ -173,7 +173,7 @@ class FeedParser
     /**
      * Parses a feed url
      *
-     * @param    srting  teh feed url
+     * @param srting  teh feed url
      * @param mixed $url
      *
      * @return void
@@ -257,9 +257,9 @@ class FeedParser
     /**
      * Handle the start event of a tag while parsing
      *
-     * @param    object  the xmlParser object
-     * @param    string  name of currently entering tag
-     * @param    array   array of attributes
+     * @param object  the xmlParser object
+     * @param string  name of currently entering tag
+     * @param array   array of attributes
      * @param mixed $parser
      * @param mixed $tagName
      * @param mixed $attrs
@@ -281,8 +281,8 @@ class FeedParser
     /**
      * Handle the end event of a tag while parsing
      *
-     * @param    object  the xmlParser object
-     * @param    string  name of currently ending tag
+     * @param object  the xmlParser object
+     * @param string  name of currently ending tag
      * @param mixed $parser
      * @param mixed $tagName
      *
@@ -301,8 +301,8 @@ class FeedParser
     /**
      * Handle character data of a tag while parsing
      *
-     * @param    object  the xmlParser object
-     * @param    string  tag value
+     * @param object  the xmlParser object
+     * @param string  tag value
      * @param mixed $parser
      * @param mixed $data
      *
@@ -388,8 +388,8 @@ class FeedParser
     /**
      * Find out the feed version
      *
-     * @param    string  name of current tag
-     * @param    array   array of attributes
+     * @param string  name of current tag
+     * @param array   array of attributes
      * @param mixed $tagName
      * @param mixed $attrs
      *
@@ -472,9 +472,9 @@ class FeedParser
     /**
      * Replace HTML entities &something; by real characters
      *
-     * @see     http://lastrss.oslab.net/
+     * @see http://lastrss.oslab.net/
      *
-     * @param    string
+     * @param string
      * @param mixed $string
      *
      * @return string

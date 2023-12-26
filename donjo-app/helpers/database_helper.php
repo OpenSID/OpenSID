@@ -41,7 +41,7 @@
  * Saat ini pemisah menggunakan ','
  * Acuan: https://stackoverflow.com/questions/4249432/export-to-csv-via-php
  *
- * @param	string	nama tabel yang akan diekspor
+ * @param string	nama tabel yang akan diekspor
  * @param mixed $table
  *
  * @return string
@@ -125,7 +125,7 @@ function get_csv($zip_file, $file_in_zip): array
 /**
  * Paksa download file
  *
- * @param	string	nama file untuk didownload
+ * @param string	nama file untuk didownload
  * @param mixed $filename
  *
  * @return string

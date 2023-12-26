@@ -57,7 +57,7 @@ class Bip_model extends CI_Model
     /**
      * Tentunkan format BIP yang akan digunakan
      *
-     * @param		sheet		data excel berisi bip
+     * @param sheet		data excel berisi bip
      * @param mixed $data
      *
      * @return model format BIP yang akan digunakan

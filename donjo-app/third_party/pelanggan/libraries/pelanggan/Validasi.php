@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Validasi
 {
     /**
-     * @var \CI_Controller
+     * @var CI_Controller
      */
     protected $ci;
 
