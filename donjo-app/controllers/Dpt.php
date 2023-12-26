@@ -134,7 +134,7 @@ class Dpt extends Admin_Controller
         }
 
         return Penduduk::batasiUmur($tglPemilihan, $umurFilter)->dpt($tglPemilihan)
-            ->when($tagIdFilter, static fn($q) => $tagIdFilter == '1' ? $q->whereNotNull('tag_id_card') : $q->whereNull('tag_id_card'))
+            ->when($tagIdFilter, static fn ($q) => $tagIdFilter == '1' ? $q->whereNotNull('tag_id_card') : $q->whereNull('tag_id_card'))
             ->when($filterKategori, static fn ($q) => $q->where($filterKategori))
             ->when($sex, static fn ($q) => $q->where('sex', $sex))
             ->when($listCluster, static fn ($q) => $q->whereIn('id_cluster', $listCluster))

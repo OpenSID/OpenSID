@@ -37,7 +37,6 @@
 
 use App\Models\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

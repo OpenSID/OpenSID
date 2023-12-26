@@ -39,7 +39,6 @@ namespace App\Models;
 
 use App\Casts\Path;
 use App\Traits\Author;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

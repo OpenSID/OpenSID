@@ -41,7 +41,6 @@ use App\Models\Config;
 use App\Models\Pamong;
 use App\Models\Wilayah;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Schema;
 
 class Identitas_desa extends Admin_Controller
 {
@@ -81,10 +80,10 @@ class Identitas_desa extends Admin_Controller
     public function form()
     {
         isCan('u');
-        $data['main']           = $this->identitas_desa;
-        $data['cek_kades']      = $this->cek_kades;
-        $data['form_action']    = route('identitas_desa.update');
-        $data['status_pantau']  = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
+        $data['main']          = $this->identitas_desa;
+        $data['cek_kades']     = $this->cek_kades;
+        $data['form_action']   = route('identitas_desa.update');
+        $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
 
         return view('admin.identitas_desa.form', $data);
     }

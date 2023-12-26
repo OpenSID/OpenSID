@@ -4943,7 +4943,7 @@ class KlasifikasiSurat extends CI_Model
                 'nama'    => '-',
                 'uraian'  => '-',
                 'enabled' => 1,
-            ],            
+            ],
             [
                 'kode'    => '458',
                 'nama'    => '-',
@@ -9749,7 +9749,7 @@ class KlasifikasiSurat extends CI_Model
                 'nama'    => 'Bronjong',
                 'uraian'  => '-',
                 'enabled' => 1,
-            ],            
+            ],
             [
                 'kode'    => '623',
                 'nama'    => '-',
@@ -13589,7 +13589,7 @@ class KlasifikasiSurat extends CI_Model
                 'nama'    => 'Dekonsentrasi (Pelimpahan Dana Dari Pusat Ke Daerah)',
                 'uraian'  => '-',
                 'enabled' => 1,
-            ],            
+            ],
             [
                 'kode'    => '908',
                 'nama'    => '-',

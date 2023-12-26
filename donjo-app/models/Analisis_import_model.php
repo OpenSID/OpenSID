@@ -155,8 +155,8 @@ class Analisis_import_model extends MY_Model
         }
         $master['kode_analisis'] = $kode;
         $master['jenis']         = $jenis;
-        $master['config_id'] = identitas('id');
-        
+        $master['config_id']     = identitas('id');
+
         if (! $this->db->insert('analisis_master', $master)) {
             return $this->impor_error();
         }
@@ -165,7 +165,7 @@ class Analisis_import_model extends MY_Model
         $periode['id_master'] = $id_master;
         $periode['aktif']     = 1;
         $periode['config_id'] = identitas('id');
-        
+
         if (! $this->db->insert('analisis_periode', $periode)) {
             return $this->impor_error();
         }
@@ -192,14 +192,14 @@ class Analisis_import_model extends MY_Model
             $indikator['pertanyaan']  = $cells[1]->getValue();
             $indikator['id_kategori'] = $this->get_id_kategori($cells[2]->getValue(), $id_master);
             $indikator['id_tipe']     = $cells[3]->getValue();
-            $indikator['config_id'] = identitas('id');
+            $indikator['config_id']   = identitas('id');
             if (! empty($cells[4]) && $cells[4]->getValue()) {
                 $indikator['bobot'] = (int) $cells[4]->getValue();
             }
             if (! empty($cells[5]) && $cells[5]->getValue()) {
                 $indikator['act_analisis'] = $cells[5]->getValue();
             }
-            
+
             if (! $this->db->insert('analisis_indikator', $indikator)) {
                 return $this->impor_error();
             }
@@ -240,14 +240,14 @@ class Analisis_import_model extends MY_Model
             $parameter                 = [];
             $parameter['id_indikator'] = $this->get_id_indikator($cells[0]->getValue(), $id_master);
             $parameter['jawaban']      = $cells[2]->getValue();
-            $parameter['config_id'] = identitas('id');
+            $parameter['config_id']    = identitas('id');
             if (! empty($cells[1]) && $cells[1]->getValue()) {
                 $parameter['kode_jawaban'] = $cells[1]->getValue();
             }
             if (! empty($cells[3]) && $cells[3]->getValue()) {
                 $parameter['nilai'] = $cells[3]->getValue();
             }
-            
+
             if (! $this->db->insert('analisis_parameter', $parameter)) {
                 return $this->impor_error();
             }
@@ -278,7 +278,7 @@ class Analisis_import_model extends MY_Model
             $klasifikasi['minval']    = $cells[1]->getValue();
             $klasifikasi['maxval']    = $cells[2]->getValue();
             $klasifikasi['config_id'] = identitas('id');
-            
+
             if (! $this->db->insert('analisis_klasifikasi', $klasifikasi)) {
                 return $this->impor_error();
             }

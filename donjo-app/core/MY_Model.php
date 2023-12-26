@@ -35,10 +35,10 @@
  *
  */
 
-use App\Models\SettingAplikasi;
-use App\Models\User;
 use App\Models\Config;
 use App\Models\FormatSurat;
+use App\Models\SettingAplikasi;
+use App\Models\User;
 use App\Models\UserGrup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -233,7 +233,7 @@ class MY_Model extends CI_Model
 
         return $this->db->insert('grup_akses', $insert);
     }
-    
+
     /**
      * Ubah modul setting menu.
      *
@@ -280,6 +280,7 @@ class MY_Model extends CI_Model
 
         return true;
     }
+
     public function tambah_surat_tinymce($data, $config_id = null)
     {
         $config_id ??= $this->config_id;

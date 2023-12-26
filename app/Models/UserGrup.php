@@ -40,7 +40,6 @@ namespace App\Models;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

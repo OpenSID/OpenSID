@@ -36,18 +36,16 @@
  */
 
 use App\Models\Migrasi;
-use Illuminate\Support\Str;
 use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Database_model extends MY_Model
 {
-    private $user         = 1;
-    private $engine       = 'InnoDB';
-    private int $showProgress = 0;    
+    private $user                  = 1;
+    private $engine                = 'InnoDB';
+    private int $showProgress      = 0;
     private string $minimumVersion = '2312';
 
     public function __construct()
@@ -84,7 +82,7 @@ class Database_model extends MY_Model
         if ($version == null) {
             // versi tidak terdeteksi dari modul periksa.
             return SettingAplikasi::where('key', 'current_version')->first()->value;
-        }        
+        }
 
         return $version;
     }
@@ -96,39 +94,38 @@ class Database_model extends MY_Model
         if (isset($this->session->sedang_restore) && $this->session->sedang_restore == 1) {
             return;
         }
-        
-        $migratedDatabase = Migrasi::pluck('versi_database', 'versi_database')->toArray();
-        $this->session->success        = 1;
 
-        $versi          = (int) str_replace('.','',$this->cekCurrentVersion());
-        $minimumVersi   = (int) str_replace('.','',$this->minimumVersion);
-        
-        if (!$install && $versi < $minimumVersi){
-            show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi '.$this->minimumVersion.'</h2>');
+        $migratedDatabase       = Migrasi::pluck('versi_database', 'versi_database')->toArray();
+        $this->session->success = 1;
+
+        $versi        = (int) str_replace('.', '', $this->cekCurrentVersion());
+        $minimumVersi = (int) str_replace('.', '', $this->minimumVersion);
+
+        if (! $install && $versi < $minimumVersi) {
+            show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi ' . $this->minimumVersion . '</h2>');
         }
-        
-        
+
         $migrations = directory_map('donjo-app/models/migrations', 1);
         // sort by name
-        usort($migrations, fn($a, $b): int => strcmp($a, $b));
+        usort($migrations, static fn ($a, $b): int => strcmp($a, $b));
+
         try {
-            foreach($migrations as $migrate)
-            {    
+            foreach ($migrations as $migrate) {
                 // Migrasi_2023102701.php contoh nama file yang valid
-                preg_match('/\d+/', $migrate, $matches);                
-                if ($matches){
-                    $migrateName = $matches[0];                    
-                    if (! isset($migratedDatabase[$migrateName])){                        
-                        $this->jalankan_migrasi('Migrasi_'.$migrateName);
-                        $migrasiDb =  Migrasi::firstOrCreate(['versi_database' => $migrateName]);
-                        $migrasiDb->update(['premium' => ['Migrasi_'.$migrateName]]);
-                        
+                preg_match('/\d+/', $migrate, $matches);
+                if ($matches) {
+                    $migrateName = $matches[0];
+                    if (! isset($migratedDatabase[$migrateName])) {
+                        $this->jalankan_migrasi('Migrasi_' . $migrateName);
+                        $migrasiDb = Migrasi::firstOrCreate(['versi_database' => $migrateName]);
+                        $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
+
                         if ($this->getShowProgress()) {
                             // sleep(1.5);
                             echo json_encode(['message' => 'Jalankan ' . $migrate, 'status' => 0]);
                         }
                     }
-                }                                
+                }
             }
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
@@ -153,16 +150,16 @@ class Database_model extends MY_Model
             }
         }
 
-        SettingAplikasi::withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => currentVersion()]);        
+        SettingAplikasi::withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => currentVersion()]);
         $this->load->model('track_model');
         $this->track_model->kirim_data();
-        
+
         log_message('notice', 'Versi database sudah terbaru');
         if ($this->getShowProgress()) {
             // sleep(1.5);
             echo json_encode(['message' => 'Versi database sudah terbaru', 'status' => 0]);
         }
-        
+
         if (strlen($this->db->password) < 80) {
             updateConfigFile('password', encrypt($this->db->password));
         }
@@ -199,7 +196,7 @@ class Database_model extends MY_Model
         $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
         $this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', 1);
     }
-    
+
     public function get_views()
     {
         $db    = $this->db->database;
@@ -235,6 +232,7 @@ class Database_model extends MY_Model
         $this->load->model('migrations/' . $migrasi);
         if ($this->{$migrasi}->up()) {
             log_message('notice', 'Berhasil Jalankan ' . $migrasi);
+
             return true;
         }
 

@@ -40,7 +40,6 @@ namespace App\Scopes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
-use Illuminate\Support\Facades\Schema;
 
 class ConfigIdScope implements Scope
 {
@@ -51,7 +50,7 @@ class ConfigIdScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        // semua model yang menerapkan trait ConfigId dipastikan memiliki kolom config_id        
+        // semua model yang menerapkan trait ConfigId dipastikan memiliki kolom config_id
         return $builder->where($model->getTable() . '.config_id', identitas('id'));
     }
 

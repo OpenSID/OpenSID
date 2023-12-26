@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * File ini bagian dari:
@@ -38,50 +39,50 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class PendudukSuku extends CI_Model
 {
-
-    public function getData() {
+    public function getData()
+    {
         return [
             [
-                
-                'id' => 1,
-                'suku' => 'Aceh',
-                'deskripsi' => 'Aceh'
+
+                'id'        => 1,
+                'suku'      => 'Aceh',
+                'deskripsi' => 'Aceh',
             ],
             [
-                
-                'id' => 2,
-                'suku' => 'Alas',
-                'deskripsi' => 'Aceh'
+
+                'id'        => 2,
+                'suku'      => 'Alas',
+                'deskripsi' => 'Aceh',
             ],
             [
-                
-                'id' => 3,
-                'suku' => 'Alor',
-                'deskripsi' => 'NTT'
+
+                'id'        => 3,
+                'suku'      => 'Alor',
+                'deskripsi' => 'NTT',
             ],
             [
-                
-                'id' => 4,
-                'suku' => 'Ambon',
-                'deskripsi' => 'Ambon'
+
+                'id'        => 4,
+                'suku'      => 'Ambon',
+                'deskripsi' => 'Ambon',
             ],
             [
-                
-                'id' => 5,
-                'suku' => 'Ampana',
-                'deskripsi' => 'Sulawesi Tengah'
+
+                'id'        => 5,
+                'suku'      => 'Ampana',
+                'deskripsi' => 'Sulawesi Tengah',
             ],
             [
-                
-                'id' => 6,
-                'suku' => 'Anak Dalam',
-                'deskripsi' => 'Jambi'
+
+                'id'        => 6,
+                'suku'      => 'Anak Dalam',
+                'deskripsi' => 'Jambi',
             ],
             [
-                
-                'id' => 7,
-                'suku' => 'Aneuk Jamee',
-                'deskripsi' => 'Aceh'
+
+                'id'        => 7,
+                'suku'      => 'Aneuk Jamee',
+                'deskripsi' => 'Aceh',
             ],
             [
                 'id'        => 8,
@@ -89,16 +90,16 @@ class PendudukSuku extends CI_Model
                 'deskripsi' => 'Arab: Orang Hadhrami',
             ],
             [
-                
-                'id' => 9,
-                'suku' => 'Aru',
-                'deskripsi' => 'Maluku'
+
+                'id'        => 9,
+                'suku'      => 'Aru',
+                'deskripsi' => 'Maluku',
             ],
             [
-                
-                'id' => 10,
-                'suku' => 'Asmat',
-                'deskripsi' => 'Papua'
+
+                'id'        => 10,
+                'suku'      => 'Asmat',
+                'deskripsi' => 'Papua',
             ],
             [
                 'id'        => 11,
@@ -106,9 +107,9 @@ class PendudukSuku extends CI_Model
                 'deskripsi' => 'Bare’e di Kabupaten Tojo Una-Una Tojo dan Tojo Barat',
             ],
             [
-                'id' => 12,
-                'suku' => 'Banten',
-                'deskripsi' => 'Banten di Banten'
+                'id'        => 12,
+                'suku'      => 'Banten',
+                'deskripsi' => 'Banten di Banten',
             ],
             [
                 'id'        => 13,
@@ -131,10 +132,10 @@ class PendudukSuku extends CI_Model
                 'deskripsi' => 'Banggai di Sulawesi Tengah (Kabupaten Banggai Kepulauan)',
             ],
             [
-                
-                'id' => 17,
-                'suku' => 'Baduy',
-                'deskripsi' => "Baduy\u{a0}di Banten"
+
+                'id'        => 17,
+                'suku'      => 'Baduy',
+                'deskripsi' => "Baduy\u{a0}di Banten",
             ],
             [
                 'id'        => 18,
@@ -147,9 +148,9 @@ class PendudukSuku extends CI_Model
                 'deskripsi' => 'Banjar di Kalimantan Selatan',
             ],
             [
-                'id' => 20,
-                'suku' => 'Batak',
-                'deskripsi' => 'Sumatera Utara'
+                'id'        => 20,
+                'suku'      => 'Batak',
+                'deskripsi' => 'Sumatera Utara',
             ],
             [
                 'id'        => 21,
@@ -162,22 +163,22 @@ class PendudukSuku extends CI_Model
                 'deskripsi' => 'Sumatera Utara',
             ],
             [
-                
-                'id' => 23,
-                'suku' => 'Angkola',
-                'deskripsi' => 'Sumatera Utara'
+
+                'id'        => 23,
+                'suku'      => 'Angkola',
+                'deskripsi' => 'Sumatera Utara',
             ],
             [
-                
-                'id' => 24,
-                'suku' => 'Toba',
-                'deskripsi' => 'Sumatera Utara'
+
+                'id'        => 24,
+                'suku'      => 'Toba',
+                'deskripsi' => 'Sumatera Utara',
             ],
             [
-                
-                'id' => 25,
-                'suku' => 'Pakpak',
-                'deskripsi' => 'Sumatera Utara'
+
+                'id'        => 25,
+                'suku'      => 'Pakpak',
+                'deskripsi' => 'Sumatera Utara',
             ],
             [
                 'id'        => 26,
@@ -185,10 +186,10 @@ class PendudukSuku extends CI_Model
                 'deskripsi' => 'Sumatera Utara',
             ],
             [
-                
-                'id' => 27,
-                'suku' => 'Batin',
-                'deskripsi' => 'Batin di Jambi'
+
+                'id'        => 27,
+                'suku'      => 'Batin',
+                'deskripsi' => 'Batin di Jambi',
             ],
             [
                 'id'        => 28,
@@ -261,9 +262,9 @@ class PendudukSuku extends CI_Model
                 'deskripsi' => 'Bonai di Riau (Kabupaten Rokan Hilir)',
             ],
             [
-                'id' => 42,
-                'suku' => 'Cham ',
-                'deskripsi' => 'Cham di Aceh'
+                'id'        => 42,
+                'suku'      => 'Cham ',
+                'deskripsi' => 'Cham di Aceh',
             ],
             [
                 'id'        => 43,
@@ -271,9 +272,9 @@ class PendudukSuku extends CI_Model
                 'deskripsi' => 'Cirebon di Jawa Barat (Kota Cirebon)',
             ],
             [
-                'id' => 44,
-                'suku' => 'Damal',
-                'deskripsi' => 'Damal di Mimika'
+                'id'        => 44,
+                'suku'      => 'Damal',
+                'deskripsi' => 'Damal di Mimika',
             ],
             [
                 'id'        => 45,
@@ -306,9 +307,9 @@ class PendudukSuku extends CI_Model
                 'deskripsi' => 'Dompu NTB (Kabupaten Dompu)',
             ],
             [
-                'id' => 51,
-                'suku' => 'Donggo',
-                'deskripsi' => 'Donggo, Bima'
+                'id'        => 51,
+                'suku'      => 'Donggo',
+                'deskripsi' => 'Donggo, Bima',
             ],
             [
                 'id'        => 52,
@@ -406,9 +407,9 @@ class PendudukSuku extends CI_Model
                 'deskripsi' => 'Kaili di Sulawesi Tengah (Kota Palu)',
             ],
             [
-                'id' => 71,
-                'suku' => 'Kampar',
-                'deskripsi' => 'Kampar'
+                'id'        => 71,
+                'suku'      => 'Kampar',
+                'deskripsi' => 'Kampar',
             ],
             [
                 'id'        => 72,
@@ -471,9 +472,9 @@ class PendudukSuku extends CI_Model
                 'deskripsi' => 'Korea di DKI Jakarta',
             ],
             [
-                'id' => 84,
-                'suku' => 'Krui',
-                'deskripsi' => 'Krui di Lampung'
+                'id'        => 84,
+                'suku'      => 'Krui',
+                'deskripsi' => 'Krui di Lampung',
             ],
             [
                 'id'        => 85,
@@ -696,9 +697,9 @@ class PendudukSuku extends CI_Model
                 'deskripsi' => 'Rongga di NTT Kabupaten Manggarai Timur',
             ],
             [
-                'id' => 129,
-                'suku' => 'Rohingya',
-                'deskripsi' => 'Rohingya'
+                'id'        => 129,
+                'suku'      => 'Rohingya',
+                'deskripsi' => 'Rohingya',
             ],
             [
                 'id'        => 130,

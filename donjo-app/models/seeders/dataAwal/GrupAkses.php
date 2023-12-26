@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * File ini bagian dari:
@@ -38,8 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class GrupAkses extends CI_Model
 {
-
-    public function getData(){
+    public function getData()
+    {
         return [
             [
                 'grup'  => 'Satgas Covid-19',

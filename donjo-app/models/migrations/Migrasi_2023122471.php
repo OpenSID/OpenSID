@@ -109,7 +109,7 @@ class Migrasi_2023122471 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2023122471($hasil)
+    protected function __construct($hasil)
     {
         $this->dbforge->modify_column('gambar_gallery', [
             'gambar' => [

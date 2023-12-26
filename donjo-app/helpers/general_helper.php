@@ -45,7 +45,6 @@ use Carbon\Carbon;
 use Illuminate\Container\Container;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 if (! function_exists('asset')) {
     function asset($uri = '', $default = true)
@@ -342,7 +341,7 @@ if (! function_exists('identitas')) {
      */
     function identitas(?string $params = null)
     {
-        $identitas = cache()->remember('identitas_desa', 604800, static fn() => Config::appKey()->first());
+        $identitas = cache()->remember('identitas_desa', 604800, static fn () => Config::appKey()->first());
 
         if ($params) {
             return $identitas->{$params};
@@ -1124,7 +1123,7 @@ if (! function_exists('app')) {
      *
      * @param string|null $abstract
      *
-     * @return \Illuminate\Contracts\Foundation\Application|mixed
+     * @return Illuminate\Contracts\Foundation\Application|mixed
      */
     function app($abstract = null, array $parameters = [])
     {
@@ -1147,6 +1146,7 @@ if (! function_exists('encrypt')) {
         // Belum support instace jika belum ada koneksi
         // return app('encrypter')->encryptString($str);
         $key = base64_decode(\Illuminate\Support\Str::after(get_app_key(), 'base64:'));
+
         return (new Encrypter($key, config_item('cipher')))->encryptString($str);
     }
 }
@@ -1162,6 +1162,7 @@ if (! function_exists('decrypt')) {
         // Belum support instace jika belum ada koneksi
         // return app('encrypter')->decryptString($str);
         $key = base64_decode(\Illuminate\Support\Str::after(get_app_key(), 'base64:'));
+
         return (new Encrypter($key, config_item('cipher')))->decryptString($str);
     }
 }
@@ -1169,8 +1170,6 @@ if (! function_exists('decrypt')) {
 if (! function_exists('config_path')) {
     /**
      * Get the configuration path.
-     *
-     * @param string $path
      */
     function config_path(?string $path = ''): string
     {

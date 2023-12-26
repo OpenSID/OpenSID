@@ -294,7 +294,7 @@ class Install extends CI_Controller
         try {
             folder_desa();
             require_once 'donjo-app/config/database.php';
-            $this->load->model('seeders/seeder');            
+            $this->load->model('seeders/seeder');
 
             // $this->load->model('migrations/data_awal', 'data_awal');
             // $this->data_awal->up();

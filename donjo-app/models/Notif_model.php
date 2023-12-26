@@ -49,7 +49,7 @@ class Notif_model extends MY_Model
         if (! $this->db->field_exists('jenis', 'komentar')) {
             return 0;
         }
-        
+
         return $this->config_id()
             ->where('id_artikel !=', LAPORAN_MANDIRI)
             ->where('status', 2)

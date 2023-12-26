@@ -164,8 +164,7 @@ class Statistik_pengunjung_model extends MY_Model
      * @return void
      */
     public function insert_visitor()
-    {        
-
+    {
         $insert = [
             'Tanggal'   => date('Y-m-d'),
             'ipAddress' => json_encode(['ip_address' => [$this->ip_address()]]),

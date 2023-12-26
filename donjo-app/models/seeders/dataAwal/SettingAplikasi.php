@@ -35,10 +35,10 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
 use App\Enums\OfflineModeEnum;
 use App\Libraries\TinyMCE;
 use App\Models\SettingAplikasi as SettingAplikasiModel;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

@@ -36,19 +36,14 @@
  */
 
 use App\Enums\StatusDasarEnum;
-use App\Models\CovidVaksin;
-use App\Models\InventarisAsset;
 use App\Models\Keluarga;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogPenduduk;
-use App\Models\LogPerubahanPenduduk;
 use App\Models\Penduduk;
-use App\Models\PendudukMandiri;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

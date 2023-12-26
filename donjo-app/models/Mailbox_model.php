@@ -112,7 +112,7 @@ class Mailbox_model extends MY_Model
         if (! $this->db->field_exists('jenis', $this->table)) {
             return null;
         }
-        
+
         return $this->config_id()
             ->where('email', $nik)
             ->where('tipe', $tipe)

@@ -35,11 +35,10 @@
  *
  */
 
-use Illuminate\Support\Str;
-use App\Models\SettingAplikasi;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -86,17 +85,17 @@ class Migrasi_dev extends MY_model
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        if (!Schema::hasColumn('setting_modul', 'uuid')) {
-            Schema::table('setting_modul', function (Blueprint $table) {
+        if (! Schema::hasColumn('setting_modul', 'uuid')) {
+            Schema::table('setting_modul', static function (Blueprint $table) {
                 $table->uuid('uuid')->after('id');
                 $table->uuid('parent_uuid')->after('parent')->nullable();
             });
 
-            Schema::table('grup_akses', function (Blueprint $table) {
+            Schema::table('grup_akses', static function (Blueprint $table) {
                 $table->uuid('modul_uuid')->after('id_grup')->nullable();
             });
 
-            DB::table('setting_modul')->orderBy('id')->chunk(100, function ($items) {
+            DB::table('setting_modul')->orderBy('id')->chunk(100, static function ($items) {
                 foreach ($items as $item) {
                     $uuid = Str::uuid();
                     DB::table('setting_modul')->where('id', $item->id)->update(['uuid' => $uuid]);
@@ -105,23 +104,23 @@ class Migrasi_dev extends MY_model
                 }
             });
 
-            Schema::table('setting_modul', function (Blueprint $table) {
+            Schema::table('setting_modul', static function (Blueprint $table) {
                 $table->unique(['uuid', 'config_id']);
             });
 
-            Schema::table('grup_akses', function (Blueprint $table) {
+            Schema::table('grup_akses', static function (Blueprint $table) {
                 $table->foreign('modul_uuid')->references('uuid')->on('setting_modul')->onDelete('cascade');
             });
 
             $this->hapus_foreign_key('setting_modul', 'fk_id_modul', 'grup_akses');
 
-            Schema::table('grup_akses', function (Blueprint $table) {
+            Schema::table('grup_akses', static function (Blueprint $table) {
                 $table->dropIndex('id_modul');
                 $table->dropColumn('id_modul');
             });
 
-            DB::statement("ALTER TABLE `setting_modul` CHANGE COLUMN `id` `id` INT(11) NULL DEFAULT NULL FIRST, DROP PRIMARY KEY");
-            Schema::table('setting_modul', function (Blueprint $table) {
+            DB::statement('ALTER TABLE `setting_modul` CHANGE COLUMN `id` `id` INT(11) NULL DEFAULT NULL FIRST, DROP PRIMARY KEY');
+            Schema::table('setting_modul', static function (Blueprint $table) {
                 $table->dropColumn('id');
                 $table->primary('uuid');
             });
