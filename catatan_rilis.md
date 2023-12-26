@@ -50,6 +50,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#7528](https://github.com/OpenSID/OpenSID/issues/7528) Penyesuaian pengaturan mapbox_key dan google recaptcha ambil dari config jika belum tersedia.
 16. [#7529](https://github.com/OpenSID/OpenSID/issues/7529) Penyesuaian modul pengaturan modul menggunakan ORM dan Blade.
 17. [#7518](https://github.com/OpenSID/OpenSID/issues/7518) Penyesuaian modul arsip layanan menggunakan ORM dan Blade.
+18. [#7507](https://github.com/OpenSID/OpenSID/issues/7507) Penyesuaian modul daftar pemilih tetap menggunakan ORM dan Blade.
 
 
 #### KEAMANAN
