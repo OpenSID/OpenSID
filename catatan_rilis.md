@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#4630](https://github.com/OpenSID/OpenSID/issues/4630) Penambahan jenis link/embed file pada modul galeri.
 7. [#5223](https://github.com/OpenSID/OpenSID/issues/5223) Penambahan jenis ekspor data penduduk berupa data isian yang dikonversi jadi huruf.
 8. [#3315](https://github.com/OpenSID/OpenSID/issues/3315) Penambahan fitur backup / restore OpenSID Database Gabungan.
+9. [#2599](https://github.com/OpenSID/OpenSID/issues/2599) Penambahan pengaturan tagline / motto desa.
 
 
 #### BUG

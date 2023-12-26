@@ -68,6 +68,7 @@ class Migrasi_2023122471 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023121551($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023122871($hasil, $id);
         }
 
         return $hasil;
@@ -394,5 +395,17 @@ class Migrasi_2023122471 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2023122871($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Tagline / Motto [desa]',
+            'key'        => 'motto_desa',
+            'value'      => '',
+            'jenis'      => 'text',
+            'attribute'  => '',
+            'keterangan' => 'Tagline / Motto [desa]',
+        ]);
     }
 }
