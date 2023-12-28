@@ -125,6 +125,9 @@ class Database_model extends MY_Model
                     }
                 }
             }
+            // untuk mencegah kesalahan nama file migrasi, tambahkan record berdasarkan VERSI_DATABASE saat ini
+            $migrasiDb = Migrasi::firstOrCreate(['versi_database' => VERSI_DATABASE]);
+            $migrasiDb->update(['premium' => ['Migrasi_' . VERSI_DATABASE]]);
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             if ($this->getShowProgress()) {
