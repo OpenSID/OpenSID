@@ -137,4 +137,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			$(elem).next('.perhatian').hide();
 		}
 	}
+
+	$(function() {
+		$(document).on("keydown", ":input:not(textarea):not(:submit)", function(event) {
+			if (event.key === "Enter" && !$("#validasi").valid()) {
+				event.preventDefault();
+				return false;
+			}
+		});
+	});
 </script>

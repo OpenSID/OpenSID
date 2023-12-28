@@ -267,14 +267,17 @@ class Migrasi_fitur_premium_2107 extends MY_Model
     // Menambahkan data ke setting_aplikasi
     protected function tambah_pengaturan_aplikasi($hasil)
     {
-        $hasil = $hasil && $this->db->query("
-            INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('tampilkan_lapak_web', '1', 'Aktif / Non-aktif Lapak di Halaman Website Url Terpisah', 'boolean', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
+        $list_setting = [
+            ['key' => 'tampilkan_lapak_web', 'value' => '1', 'keterangan' => 'Aktif / Non-aktif Lapak di Halaman Website Url Terpisah', 'jenis' => 'boolean', 'kategori' => 'lapak'],
+            ['key' => 'pesan_singkat_wa', 'value' => 'Saya ingin membeli [nama_produk] yang anda tawarkan di Lapak Desa [link_web]', 'keterangan' => 'Pesan Singkat WhatsApp', 'jenis' => 'textarea', 'kategori' => 'lapak'],
+            ['key' => 'banyak_foto_tiap_produk', 'value' => '3', 'keterangan' => 'Banyaknya foto tiap produk yang bisa di unggah', 'jenis' => 'int', 'kategori' => 'lapak'],
+        ];
 
-        $hasil = $hasil && $this->db->query("
-            INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('pesan_singkat_wa', 'Saya ingin membeli [nama_produk] yang anda tawarkan di Lapak Desa [link_web]', 'Pesan Singkat WhatsApp', 'textarea', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
+        foreach ($list_setting as $setting) {
+            $hasil = $hasil && $this->tambah_setting($setting);
+        }
 
-        return $hasil && $this->db->query("
-            INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('banyak_foto_tiap_produk', 3, 'Banyaknya foto tiap produk yang bisa di unggah', 'int', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
+        return $hasil;
     }
 
     protected function migrasi_2021061201($hasil)
@@ -312,8 +315,13 @@ class Migrasi_fitur_premium_2107 extends MY_Model
     // Menambahkan data ke setting_aplikasi
     protected function migrasi_2021061651($hasil)
     {
-        return $hasil && $this->db->query("
-            INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('jumlah_produk_perhalaman', '10', 'Jumlah produk yang ditampilkan dalam satu halaman', 'int', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
+        return $hasil && $this->tambah_setting([
+            'key'        => 'jumlah_produk_perhalaman',
+            'value'      => '10',
+            'keterangan' => 'Jumlah produk yang ditampilkan dalam satu halaman',
+            'jenis'      => 'int',
+            'kategori'   => 'lapak',
+        ]);
     }
 
     protected function migrasi_2021061652($hasil)

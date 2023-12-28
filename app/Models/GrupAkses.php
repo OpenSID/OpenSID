@@ -37,14 +37,13 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class GrupAkses extends BaseModel
 {
-    public const ADMINISTRATOR = 1;
-    public const OPERATOR      = 2;
-    public const REDAKSI       = 3;
-    public const KONTRIBUTOR   = 4;
+    use ConfigId;
 
     /**
      * The table associated with the model.

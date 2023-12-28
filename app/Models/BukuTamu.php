@@ -38,10 +38,13 @@
 namespace App\Models;
 
 use App\Enums\JenisKelaminEnum;
+use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
 
 class BukuTamu extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *

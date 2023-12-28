@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+// TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
 class Acak_model extends CI_Model
 {
     protected $nama_wanita = ['Yuni', 'Fatima', 'Sarah', 'Dewi', 'Hasnah'];

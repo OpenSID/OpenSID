@@ -196,6 +196,9 @@
         // Menampilkan baseLayers dan overlayLayers
         L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_wilayah);
 
+        // Menampilkan notif error path
+        view_error_path();
+
     }; // EOF window.onload
 </script>
 <script src="<?= asset('js/leaflet.filelayer.js') ?>"></script>

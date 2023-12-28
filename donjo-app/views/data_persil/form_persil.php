@@ -195,44 +195,44 @@
             set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa']?>", "<?= favico_desa()?>");
         <?php endif; ?>
 
-        //OVERLAY WILAYAH DUSUN
+        // OVERLAY WILAYAH DUSUN
         <?php if (! empty($dusun_gis)): ?>
-            set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
+            set_marker_multi(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun', "<?= favico_desa()?>");
         <?php endif; ?>
 
-        //OVERLAY WILAYAH RW
+        // OVERLAY WILAYAH RW
         <?php if (! empty($rw_gis)): ?>
-            set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
+            set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', 'RW', 'rw', "<?= favico_desa()?>");
         <?php endif; ?>
 
-        //OVERLAY WILAYAH RT
+        // OVERLAY WILAYAH RT
         <?php if (! empty($rt_gis)): ?>
-            set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
+            set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', 'RT', 'rt', "<?= favico_desa()?>");
         <?php endif; ?>
 
-        //Menampilkan overlayLayers Peta Semua Wilayah
+        // Menampilkan overlayLayers Peta Semua Wilayah
         <?php if (! empty($wil_atas['path'])): ?>
             var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt,"<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
         <?php else: ?>
             var overlayLayers = {};
         <?php endif; ?>
 
-        //Menampilkan BaseLayers Peta
+        // Menampilkan BaseLayers Peta
         var baseLayers = getBaseLayers(peta_area, MAPBOX_KEY, JENIS_PETA);
 
-            if ($('input[name="path"]').val() !== '' ) {
-                var wilayah = JSON.parse($('input[name="path"]').val());
-                showCurrentArea(wilayah, peta_area, TAMPIL_LUAS);
-            }
+        if ($('input[name="path"]').val() !== '' ) {
+            var wilayah = JSON.parse($('input[name="path"]').val());
+            showCurrentArea(wilayah, peta_area, TAMPIL_LUAS);
+        }
 
-            //Menambahkan zoom scale ke peta
+        // Menambahkan zoom scale ke peta
         L.control.scale().addTo(peta_area);
 
         <?php if ($this->CI->cek_hak_akses('u')): ?>
-            //Export/Import Peta dari file GPX
+            // Export/Import Peta dari file GPX
             eximGpxRegion(peta_area);
 
-            //Import Peta dari file SHP
+            // Import Peta dari file SHP
             eximShp(peta_area);
         <?php endif; ?>
 

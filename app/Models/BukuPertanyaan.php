@@ -37,8 +37,12 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 class BukuPertanyaan extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *

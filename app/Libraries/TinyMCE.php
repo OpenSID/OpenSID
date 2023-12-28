@@ -269,7 +269,7 @@ class TinyMCE
         $sebutan_nip_desa    = null;
 
         if ($id_penduduk) {
-            $config              = Config::first();
+            $config              = identitas();
             $sebutan_dusun       = setting('sebutan_dusun');
             $sebutan_desa        = setting('sebutan_desa');
             $sebutan_kecamatan   = setting('sebutan_kecamatan');
@@ -998,7 +998,7 @@ class TinyMCE
     public function formPenandatangan()
     {
         $atas_nama     = [];
-        $config        = Config::first();
+        $config        = identitas();
         $penandatangan = Pamong::penandaTangan()->get();
 
         // Kepala Desa

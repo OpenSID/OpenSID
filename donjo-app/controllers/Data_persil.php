@@ -134,7 +134,7 @@ class Data_persil extends Admin_Controller
     {
         $this->tab_ini  = 13;
         $data           = [];
-        $data['persil'] = $this->data_persil_model->get_persil($id);
+        $data['persil'] = $this->data_persil_model->get_persil($id) ?? show_404();
         $data['mutasi'] = $this->data_persil_model->get_list_mutasi($id);
         $this->render('data_persil/rincian_persil', $data);
     }
@@ -145,8 +145,10 @@ class Data_persil extends Admin_Controller
         $this->load->model('plan_area_model');
         $this->tab_ini = 13;
 
+        $data = $this->navigasi_peta();
+
         if ($id) {
-            $data['persil'] = $this->data_persil_model->get_persil($id);
+            $data['persil'] = $this->data_persil_model->get_persil($id) ?? show_404();
         }
         if ($id_cdesa) {
             $data['id_cdesa'] = $id_cdesa;
@@ -155,8 +157,6 @@ class Data_persil extends Admin_Controller
         $data['persil_lokasi'] = $this->wilayah_model->list_semua_wilayah();
         $data['persil_kelas']  = $this->data_persil_model->list_persil_kelas();
         $data['peta']          = $this->plan_area_model->list_data();
-        $data['desa']          = $this->header['desa'];
-        $data['wil_atas']      = $this->header['desa'];
 
         $this->render('data_persil/form_persil', $data);
     }

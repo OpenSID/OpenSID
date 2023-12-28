@@ -38,6 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\Pamong;
+use App\Models\UserGrup;
 
 class Man_user extends Admin_Controller
 {
@@ -101,16 +102,16 @@ class Man_user extends Admin_Controller
         $data['o'] = $o;
 
         if ($id) {
-            $data['user']        = $this->user_model->get_user($id);
+            $data['user']        = $this->user_model->get_user($id) ?? show_404();
             $data['form_action'] = site_url("man_user/update/{$p}/{$o}/{$id}");
         } else {
             $data['user']        = null;
             $data['form_action'] = site_url('man_user/insert');
         }
 
-        $data['user_group'] = $this->referensi_model->list_data('user_grup');
-
-        $data['pamong'] = Pamong::selectData()->daftar()->get();
+        $data['user_group'] = UserGrup::get(['id', 'nama']);
+        $data['akses']      = UserGrup::getGrupSistem();
+        $data['pamong']     = Pamong::selectData()->daftar()->get();
 
         $this->render('man_user/manajemen_user_form', $data);
     }

@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Keuangan_model extends CI_model
+class Keuangan_model extends MY_Model
 {
     private $zip_file = '';
     private $id_keuangan_master;
@@ -205,6 +205,7 @@ class Keuangan_model extends CI_model
             'tahun_anggaran' => $this->get_tahun_anggaran(),
             'tanggal_impor'  => date('Y-m-d'),
             'aktif'          => 1,
+            'config_id'      => identitas('id'),
         ];
         $this->db->insert('keuangan_master', $data_master);
         $this->id_keuangan_master = $this->db->insert_id();
@@ -218,6 +219,10 @@ class Keuangan_model extends CI_model
         foreach ($this->data_siskeudes as $tabel_opensid => $file_siskeudes) {
             $data_tabel_siskeudes = $this->extract_file($file_siskeudes);
             if (! empty($data_tabel_siskeudes)) {
+                foreach ($data_tabel_siskeudes as $key => $value) {
+                    $data_tabel_siskeudes[$key]['config_id'] = identitas('id');
+                }
+
                 if (! $this->db->insert_batch($tabel_opensid, $data_tabel_siskeudes)) {
                     $_SESSION['success'] = -1;
                 }
@@ -229,11 +234,9 @@ class Keuangan_model extends CI_model
     {
         $this->id_keuangan_master = (int) str_replace('"', '', $_POST['id_keuangan_master']);
         $tables                   = array_keys($this->data_siskeudes);
-        $this->db->where('id_keuangan_master', $this->id_keuangan_master);
-        $this->db->delete($tables);
+        $this->config_id()->where('id_keuangan_master', $this->id_keuangan_master)->delete($tables);
         $this->extract();
-        $this->db->where('id', $this->id_keuangan_master)
-            ->update('keuangan_master', ['tanggal_impor' => date('Y-m-d')]);
+        $this->config_id()->where('id', $this->id_keuangan_master)->update('keuangan_master', ['tanggal_impor' => date('Y-m-d')]);
     }
 
     private function cek_file_valid()
@@ -250,14 +253,14 @@ class Keuangan_model extends CI_model
         }
         $this->db->where('versi_database', $this->get_versi_database());
         $this->db->where('tahun_anggaran', $this->get_tahun_anggaran());
-        $result = $this->db->get('keuangan_master')->row();
+        $result = $this->config_id()->get('keuangan_master')->row();
 
         return $result;
     }
 
     public function list_data()
     {
-        $data = $this->db->select('*')->order_by('tanggal_impor')->get('keuangan_master')->result_array();
+        $data = $this->config_id()->order_by('tanggal_impor')->get('keuangan_master')->result_array();
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']         = $i + 1;
@@ -269,33 +272,29 @@ class Keuangan_model extends CI_model
 
     public function tahun_anggaran()
     {
-        $data = $this->db->select('*')->get('keuangan_master')->row();
-
-        return $data->tahun_anggaran;
+        return $this->config_id_exist('keuangan_master')->get('keuangan_master')->row()->tahun_anggaran;
     }
 
     // Daftar tahun anggaran tersimpan, diurut tahun terkini di atas
     public function list_tahun_anggaran()
     {
-        $data = $this->db->select('tahun_anggaran')
+        $data = $this->config_id_exist('keuangan_master')
+            ->select('tahun_anggaran')
             ->order_by('tahun_anggaran DESC')
-            ->get('keuangan_master')->result_array();
+            ->get('keuangan_master')
+            ->result_array();
 
         return array_column($data, 'tahun_anggaran');
     }
 
     public function data_id_keuangan_master()
     {
-        $data = $this->db->select('*')->order_by('tanggal_impor')->get('keuangan_master')->row();
-
-        return $data->id;
+        return $this->config_id_exist('keuangan_master')->order_by('tanggal_impor')->get('keuangan_master')->row()->id;
     }
 
     public function data_tahun_keuangan_master()
     {
-        $data = $this->db->select('*')->order_by('tanggal_impor')->get('keuangan_master')->row();
-
-        return $data->tahun_anggaran;
+        return $this->config_id_exist('keuangan_master')->order_by('tanggal_impor')->get('keuangan_master')->row()->tahun_anggaran;
     }
 
     public function artikel_statis_keuangan()
@@ -304,7 +303,7 @@ class Keuangan_model extends CI_model
         $this->db->where([
             'id_kategori' => 1001,
         ]);
-        $results = $this->db->get('artikel')->result_array();
+        $results = $this->config_id()->get('artikel')->result_array();
         $link    = [];
 
         foreach ($results as $result) {
@@ -316,12 +315,13 @@ class Keuangan_model extends CI_model
 
     public function delete($id = '')
     {
-        return $this->db->where('id', $id)->delete('keuangan_master');
+        return $this->config_id()->where('id', $id)->delete('keuangan_master');
     }
 
     public function cek_desa($id_master)
     {
-        return $this->db->select('a.Kd_Desa, d.Nama_Desa')
+        return $this->config_id('a')
+            ->select('a.Kd_Desa, d.Nama_Desa')
             ->where('a.id_keuangan_master', $id_master)
             ->distinct()
             ->from('keuangan_ta_rab a')

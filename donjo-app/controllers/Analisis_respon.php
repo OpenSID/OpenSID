@@ -218,7 +218,7 @@ class Analisis_respon extends Admin_Controller
         $data['id'] = $id;
 
         $data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
-        $data['subjek']          = $this->analisis_respon_model->get_subjek($id);
+        $data['subjek']          = $this->analisis_respon_model->get_subjek($id) ?? show_404();
         $data['list_jawab']      = $this->analisis_respon_model->list_indikator($id);
         $data['list_bukti']      = $this->analisis_respon_model->list_bukti($id);
         $data['list_anggota']    = $this->analisis_respon_model->list_anggota($id);

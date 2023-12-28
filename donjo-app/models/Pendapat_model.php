@@ -41,11 +41,6 @@ class Pendapat_model extends MY_Model
 {
     protected $table = 'pendapat';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function insert(array $data)
     {
         $this->db->insert($this->table, $data);
@@ -65,7 +60,7 @@ class Pendapat_model extends MY_Model
     {
         $kondisi = $this->kondisi($tipe);
 
-        return $this->db
+        return $this->config_id('u')
             ->select('p.nama, u.pengguna, DATE(tanggal) AS tanggal, pilihan')
             ->from('pendapat u')
             ->join('tweb_penduduk p', 'p.id = u.pengguna', 'left')
@@ -78,7 +73,7 @@ class Pendapat_model extends MY_Model
     public function get_pendapat($tipe)
     {
         $kondisi  = $this->kondisi($tipe);
-        $pendapat = $this->db
+        $pendapat = $this->config_id()
             ->select('COUNT(pilihan) AS jumlah, pilihan')
             ->where($kondisi['where'])
             ->group_by('pilihan')

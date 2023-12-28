@@ -39,7 +39,7 @@ use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Tanah_desa_model extends CI_Model
+class Tanah_desa_model extends MY_Model
 {
     public const ORDER_ABLE = [
         2 => 'nama_pemilik_asal',
@@ -47,20 +47,15 @@ class Tanah_desa_model extends CI_Model
 
     protected $table = 'tanah_desa';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function get_data(string $search = '')
     {
-        $builder = $this->db
+        $builder = $this->config_id('td')
             ->select('td.id,
-					td.nama_pemilik_asal,
-					p.nama,
-					td.luas,
-					td.mutasi,
-					td.keterangan')
+                td.nama_pemilik_asal,
+                p.nama,
+                td.luas,
+                td.mutasi,
+                td.keterangan')
             ->from("{$this->table} td")
             ->join('tweb_penduduk p', 'td.id_penduduk = p.id', 'left')
             ->where('td.visible', 1);
@@ -80,13 +75,11 @@ class Tanah_desa_model extends CI_Model
 
     public function view_tanah_desa_by_id($id)
     {
-        $this->db
+        return $this->config_id('td')
             ->select('td.*, p.nama, p.nik as nik_penduduk')
             ->from("{$this->table} td")
             ->join('tweb_penduduk p', 'td.id_penduduk = p.id', 'left')
-            ->where('td.id', $id);
-
-        return $this->db
+            ->where('td.id', $id)
             ->get()
             ->row();
     }
@@ -111,6 +104,7 @@ class Tanah_desa_model extends CI_Model
         }
 
         $result = [
+            'config_id'            => identitas('id'),
             'id_penduduk'          => $data['id_penduduk'],
             'nik'                  => $data['nik'],
             'jenis_pemilik'        => $data['jenis_pemilik'],
@@ -150,7 +144,7 @@ class Tanah_desa_model extends CI_Model
 
     public function delete_tanah_desa($id)
     {
-        $hasil = $this->db->update($this->table, ['visible' => 0], ['id' => $id]);
+        $hasil = $this->config_id()->update($this->table, ['visible' => 0], ['id' => $id]);
         status_sukses($hasil);
     }
 
@@ -209,7 +203,7 @@ class Tanah_desa_model extends CI_Model
 
         $id = $data['id'];
 
-        $hasil = $this->db->update($this->table, $result, ['id' => $id]);
+        $hasil = $this->config_id()->update($this->table, $result, ['id' => $id]);
         status_sukses($hasil);
     }
 
@@ -307,20 +301,18 @@ class Tanah_desa_model extends CI_Model
 
     public function cetak_tanah_desa()
     {
-        $this->db
+        return $this->config_id('td')
             ->select('td.*, p.nama')
             ->from("{$this->table} td")
             ->join('tweb_penduduk p', 'td.id_penduduk = p.id', 'left')
-            ->where('td.visible', 1);
-
-        return $this->db
+            ->where('td.visible', 1)
             ->get()
             ->result_array();
     }
 
     public function list_penduduk()
     {
-        return $this->db
+        return $this->config_id('p')
             ->select('p.id, p.nama, p.nik')
             ->from('tweb_penduduk p')
             ->order_by('p.nama', 'ASC')

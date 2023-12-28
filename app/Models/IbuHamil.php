@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class IbuHamil extends BaseModel
 {
+    use ConfigId;
+
     /**
      * Static data status kehamilan ibu
      *

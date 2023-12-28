@@ -39,11 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan_line_model extends MY_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function autocomplete()
     {
         return $this->autocomplete_str('nama', 'line');
@@ -51,36 +46,27 @@ class Plan_line_model extends MY_Model
 
     private function search_sql()
     {
-        if (isset($_SESSION['cari'])) {
-            $cari       = $_SESSION['cari'];
-            $kw         = $this->db->escape_like_str($cari);
-            $kw         = '%' . $kw . '%';
-            $search_sql = " AND (nama LIKE '{$kw}')";
-
-            return $search_sql;
+        if ($cari = $this->session->cari) {
+            $this->db->like('nama', $cari);
         }
     }
 
     private function filter_sql()
     {
-        if (isset($_SESSION['filter'])) {
-            $kf         = $_SESSION['filter'];
-            $filter_sql = " AND enabled = {$kf}";
-
-            return $filter_sql;
+        if ($filter = $this->session->filter) {
+            $this->db->where('enabled', $filter);
         }
     }
 
     public function paging($p = 1, $o = 0)
     {
-        $sql      = 'SELECT COUNT(*) AS jml ' . $this->list_data_sql();
-        $query    = $this->db->query($sql);
-        $row      = $query->row_array();
+        $this->list_data_sql();
+        $row      = $this->db->select('count(*) as jml')->get()->row_array();
         $jml_data = $row['jml'];
 
         $this->load->library('paging');
         $cfg['page']     = $p;
-        $cfg['per_page'] = $_SESSION['per_page'];
+        $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml_data;
         $this->paging->init($cfg);
 
@@ -89,39 +75,39 @@ class Plan_line_model extends MY_Model
 
     private function list_data_sql()
     {
-        $sql = 'FROM line WHERE tipe = 0 ';
-        $sql .= $this->search_sql();
-        $sql .= $this->filter_sql();
+        $this->config_id()
+            ->from('line')
+            ->where('tipe', '0');
 
-        return $sql;
+        $this->search_sql();
+        $this->filter_sql();
     }
 
     public function list_data($o = 0, $offset = 0, $limit = 1000)
     {
         switch ($o) {
-            case 1: $order_sql = ' ORDER BY nama';
+            case 1: $this->db->order_by('nama');
                 break;
 
-            case 2: $order_sql = ' ORDER BY nama DESC';
+            case 2: $this->db->order_by('nama', 'desc');
                 break;
 
-            case 3: $order_sql = ' ORDER BY enabled';
+            case 3: $this->db->order_by('enabled');
                 break;
 
-            case 4: $order_sql = ' ORDER BY enabled DESC';
+            case 4: $this->db->order_by('enabled', 'desc');
                 break;
 
-            default:$order_sql = ' ORDER BY id';
+            default:$this->db->order_by('id');
         }
 
-        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
+        $this->list_data_sql();
 
-        $sql = 'SELECT * ' . $this->list_data_sql();
-        $sql .= $order_sql;
-        $sql .= $paging_sql;
-
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        $data = $this->db
+            ->select('*')
+            ->limit($limit, $offset)
+            ->get()
+            ->result_array();
 
         $j = $offset;
 
@@ -152,11 +138,12 @@ class Plan_line_model extends MY_Model
 
     public function insert()
     {
-        $data        = $this->validasi($this->input->post());
-        $lokasi_file = $_FILES['simbol']['tmp_name'];
-        $tipe_file   = $_FILES['simbol']['type'];
-        $nama_file   = $_FILES['simbol']['name'];
-        $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+        $data              = $this->validasi($this->input->post());
+        $data['config_id'] = identitas('id');
+        $lokasi_file       = $_FILES['simbol']['tmp_name'];
+        $tipe_file         = $_FILES['simbol']['type'];
+        $nama_file         = $_FILES['simbol']['name'];
+        $nama_file         = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
         if (! empty($lokasi_file)) {
             if ($tipe_file == 'image/png' || $tipe_file == 'image/gif') {
                 UploadSimbol($nama_file);
@@ -183,14 +170,14 @@ class Plan_line_model extends MY_Model
                 UploadSimbol($nama_file);
                 $data['simbol'] = $nama_file;
                 $this->db->where('id', $id);
-                $outp = $this->db->update('line', $data);
+                $outp = $this->config_id()->update('line', $data);
             }
             $_SESSION['success'] = 1;
         }
 
         unset($data['simbol']);
         $this->db->where('id', $id);
-        $outp = $this->db->update('line', $data);
+        $outp = $this->config_id()->update('line', $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -201,7 +188,7 @@ class Plan_line_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete('line');
+        $outp = $this->config_id()->where('id', $id)->delete('line');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
@@ -210,7 +197,7 @@ class Plan_line_model extends MY_Model
     {
         $this->session->success = 1;
 
-        $id_cb = $_POST['id_cb'];
+        $id_cb = $this->input->post('id_cb');
 
         foreach ($id_cb as $id) {
             $this->delete($id, $semua = true);
@@ -219,10 +206,11 @@ class Plan_line_model extends MY_Model
 
     public function list_sub_line($line = 1)
     {
-        $sql = 'SELECT * FROM line WHERE parrent = ? AND tipe = 2 ';
-
-        $query = $this->db->query($sql, $line);
-        $data  = $query->result_array();
+        $data = $this->config_id()
+            ->where('parrent', $line)
+            ->where('tipe', 2)
+            ->get('line')
+            ->result_array();
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no'] = $i + 1;
@@ -239,11 +227,12 @@ class Plan_line_model extends MY_Model
 
     public function insert_sub_line($parrent = 0)
     {
-        $data        = $this->validasi($this->input->post());
-        $lokasi_file = $_FILES['simbol']['tmp_name'];
-        $tipe_file   = $_FILES['simbol']['type'];
-        $nama_file   = $_FILES['simbol']['name'];
-        $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+        $data              = $this->validasi($this->input->post());
+        $data['config_id'] = identitas('id');
+        $lokasi_file       = $_FILES['simbol']['tmp_name'];
+        $tipe_file         = $_FILES['simbol']['type'];
+        $nama_file         = $_FILES['simbol']['name'];
+        $nama_file         = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
         if (! empty($lokasi_file)) {
             if ($tipe_file == 'image/png' || $tipe_file == 'image/gif') {
                 UploadSimbol($nama_file);
@@ -279,13 +268,13 @@ class Plan_line_model extends MY_Model
                 UploadSimbol($nama_file);
                 $data['simbol'] = $nama_file;
                 $this->db->where('id', $id);
-                $outp = $this->db->update('line', $data);
+                $outp = $this->config_id()->update('line', $data);
             }
             $_SESSION['success'] = 1;
         } else {
             unset($data['simbol']);
             $this->db->where('id', $id);
-            $outp = $this->db->update('line', $data);
+            $outp = $this->config_id()->update('line', $data);
         }
         if ($outp) {
             $_SESSION['success'] = 1;
@@ -300,7 +289,7 @@ class Plan_line_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete('line');
+        $outp = $this->config_id()->where('id', $id)->delete('line');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
@@ -309,7 +298,7 @@ class Plan_line_model extends MY_Model
     {
         $this->session->success = 1;
 
-        $id_cb = $_POST['id_cb'];
+        $id_cb = $this->input->post('id_cb');
 
         foreach ($id_cb as $id) {
             $this->delete_sub_line($id, true);
@@ -318,17 +307,18 @@ class Plan_line_model extends MY_Model
 
     public function line_lock($id = '', $val = 0)
     {
-        $sql  = 'UPDATE line SET enabled = ? WHERE id = ?';
-        $outp = $this->db->query($sql, [$val, $id]);
+        $outp = $this->config_id()
+            ->where('id', $id)
+            ->update('line', ['enabled' => $val]);
 
-        status_sukses($outp); //Tampilkan Pesan
+        status_sukses($outp);
     }
 
     public function get_line($id = 0)
     {
-        $sql   = 'SELECT * FROM line WHERE id = ?';
-        $query = $this->db->query($sql, $id);
-
-        return $query->row_array();
+        return $this->config_id()
+            ->where('id', $id)
+            ->get('line')
+            ->row_array();
     }
 }

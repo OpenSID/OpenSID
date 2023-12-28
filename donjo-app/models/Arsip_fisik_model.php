@@ -59,6 +59,7 @@ class Arsip_fisik_model extends MY_Model
         foreach ($syarat_surat as $value) {
             $jenis['4-' . $value['ref_syarat_id']] = $value['ref_syarat_nama'];
         }
+        $this->config_id_exist('tweb_surat_format');
         $format_surat = $this->db->get('tweb_surat_format')->result_array();
 
         foreach ($format_surat as $value) {
@@ -72,8 +73,9 @@ class Arsip_fisik_model extends MY_Model
 
     public function ambil_dokumen_per_page($limit = true, $per_page = 50, $p = 1, $o = 4)
     {
-        $p                  = ($p - 1) * $per_page;
-        $query_dokumen_desa = $this->db
+        $p = ($p - 1) * $per_page;
+
+        $query_dokumen_desa = $this->config_id_exist('dokumen_hidup')
             ->select('`id` as id')
             ->select("if (kategori=3, TRIM(BOTH '\"' FROM JSON_EXTRACT(`attr`, '$.no_ditetapkan')), TRIM(BOTH '\"' FROM JSON_EXTRACT(`attr`, '$.no_kep_kades'))) as nomor_dokumen")
             ->select("if (kategori=2, STR_TO_DATE(TRIM(BOTH '\"' FROM JSON_EXTRACT(`attr`, '$.tgl_kep_kades')), '%d-%m-%Y'), if (kategori=3, STR_TO_DATE(TRIM(BOTH '\"' FROM JSON_EXTRACT(`attr`, '$.tgl_ditetapkan')), '%d-%m-%Y'), DATE(`updated_at`))) as tanggal_dokumen")
@@ -89,7 +91,7 @@ class Arsip_fisik_model extends MY_Model
             ->where('`id_pend` = 0 AND `satuan` IS NOT NULL')
             ->get_compiled_select();
 
-        $query_surat_masuk = $this->db
+        $query_surat_masuk = $this->config_id_exist('surat_masuk')
             ->select('`id` as id')
             ->select('`nomor_surat` as nomor_dokumen')
             ->select('`tanggal_surat` as tanggal_dokumen')
@@ -105,7 +107,7 @@ class Arsip_fisik_model extends MY_Model
             ->from('surat_masuk')
             ->get_compiled_select();
 
-        $query_surat_keluar = $this->db
+        $query_surat_keluar = $this->config_id_exist('surat_keluar')
             ->select('`id` as id')
             ->select('`nomor_surat` as nomor_dokumen')
             ->select('`tanggal_surat` as tanggal_dokumen')
@@ -121,7 +123,7 @@ class Arsip_fisik_model extends MY_Model
             ->where('`berkas_scan` IS NOT NULL')
             ->get_compiled_select();
 
-        $query_kependudukan = $this->db
+        $query_kependudukan = $this->config_id_exist('dokumen_hidup', 'd')
             ->select('d.`id` as id')
             ->select("'' as nomor_dokumen")
             ->select('DATE(d.`updated_at`) as tanggal_dokumen')
@@ -139,7 +141,7 @@ class Arsip_fisik_model extends MY_Model
             ->where('d.`id_pend` !=0 AND d.`satuan` IS NOT NULL')
             ->get_compiled_select();
 
-        $query_layanan_surat = $this->db
+        $query_layanan_surat = $this->config_id_exist('log_surat', 's')
             ->select('s.`id` as id')
             ->select('s.`no_surat` as nomor_dokumen')
             ->select('DATE(s.`tanggal`) as tanggal_dokumen')
@@ -241,6 +243,8 @@ class Arsip_fisik_model extends MY_Model
 
     public function update_lokasi($tabel, $id, $value)
     {
+        $this->config_id_exist($tabel);
+
         $outp = $this->db
             ->set('lokasi_arsip', $value)
             ->where('id', $id)
@@ -268,6 +272,8 @@ class Arsip_fisik_model extends MY_Model
                 break;
         }
 
+        $this->config_id_exist($tabel);
+
         return $this->db
             ->select("`{$berkas}` as berkas")
             ->where('id', $id)
@@ -276,6 +282,8 @@ class Arsip_fisik_model extends MY_Model
 
     public function get_lokasi_arsip($id, $tabel)
     {
+        $this->config_id_exist($tabel);
+
         return $this->db
             ->select('lokasi_arsip')
             ->where('id', $id)
@@ -288,6 +296,7 @@ class Arsip_fisik_model extends MY_Model
     {
         switch ($kategori) {
             case 'dokumen_desa':
+                $this->config_id_exist('dokumen_hidup');
                 $this->db
                     ->where('`satuan` IS NOT NULL')
                     ->where('`id_pend` = 0')
@@ -295,18 +304,21 @@ class Arsip_fisik_model extends MY_Model
                 break;
 
             case 'surat_masuk':
+                $this->config_id_exist('surat_masuk');
                 $this->db
                     ->where('`berkas_scan` IS NOT NULL')
                     ->from('surat_masuk');
                 break;
 
             case 'surat_keluar':
+                $this->config_id_exist('surat_keluar');
                 $this->db
                     ->where('`berkas_scan` IS NOT NULL')
                     ->from('surat_keluar');
                 break;
 
             case 'kependudukan':
+                $this->config_id_exist('dokumen_hidup');
                 $this->db
                     ->where('id_pend !=', 0)
                     ->from('dokumen_hidup')
@@ -314,6 +326,7 @@ class Arsip_fisik_model extends MY_Model
                 break;
 
             case 'layanan_surat':
+                $this->config_id_exist('log_surat');
                 $this->db->from('log_surat');
                 break;
         }

@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Koneksi_database extends CI_Controller
@@ -51,5 +53,74 @@ class Koneksi_database extends CI_Controller
         }
 
         return view('periksa.koneksi');
+    }
+
+    public function config()
+    {
+        return view('periksa.config', $this->cekConfig());
+    }
+
+    public function updateKey()
+    {
+        $this->cekConfig();
+
+        $appKeyDb = Config::first();
+        resetCacheDesa();
+        updateAppKey($appKeyDb->app_key);
+
+        redirect(site_url());
+    }
+
+    public function desaBaru()
+    {
+        if ($this->session->cek_app_key) {
+            // Tambahkan data sementara
+            Config::create([
+                'nama_desa'         => '',
+                'kode_desa'         => '',
+                'nama_kecamatan'    => '',
+                'kode_kecamatan'    => '',
+                'nama_kabupaten'    => '',
+                'kode_kabupaten'    => '',
+                'nama_propinsi'     => '',
+                'kode_propinsi'     => '',
+                'nama_kepala_camat' => '',
+                'nip_kepala_camat'  => '',
+            ]);
+
+            $this->load->model('migrations/data_awal', 'data_awal');
+            $this->data_awal->up();
+
+            // hapus cache
+            resetCacheDesa();
+
+            // hapus session
+            session_destroy();
+        }
+
+        redirect(site_url());
+    }
+
+    private function cekConfig()
+    {
+        if (! $this->session->cek_app_key) {
+            redirect(site_url());
+        }
+
+        $appKey   = get_app_key();
+        $appKeyDb = Config::first();
+
+        if (Config::count() > 1) {
+            $appKeyDb = Config::appKey()->first();
+        }
+
+        if ($appKey === $appKeyDb->app_key) {
+            redirect(site_url());
+        }
+
+        return [
+            'appKey'   => $appKey,
+            'appKeyDb' => $appKeyDb->app_key,
+        ];
     }
 }

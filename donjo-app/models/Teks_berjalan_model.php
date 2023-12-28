@@ -87,7 +87,7 @@ class Teks_berjalan_model extends MY_Model
 
     private function sql()
     {
-        $this->db
+        $this->config_id_exist('teks_berjalan', 't')
             ->select('t.*, a.judul, a.tgl_upload')
             ->from('teks_berjalan t')
             ->join('artikel a', 't.tautan = a.id', 'left')
@@ -111,7 +111,7 @@ class Teks_berjalan_model extends MY_Model
      */
     public function lock($id, $val)
     {
-        $this->db->where('id', $id)->update('teks_berjalan', ['status' => $val]);
+        $this->config_id()->where('id', $id)->update('teks_berjalan', ['status' => $val]);
     }
 
     public function insert()
@@ -150,7 +150,7 @@ class Teks_berjalan_model extends MY_Model
         $data['updated_by'] = $this->session->user;
         $data['updated_at'] = date('Y-m-d H:i:s');
 
-        $outp = $this->db->where('id', $id)->update('teks_berjalan', $data);
+        $outp = $this->config_id()->where('id', $id)->update('teks_berjalan', $data);
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
@@ -161,7 +161,7 @@ class Teks_berjalan_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete('teks_berjalan');
+        $outp = $this->config_id()->where('id', $id)->delete('teks_berjalan');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }

@@ -40,9 +40,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Libraries\FlxZipArchive;
 use App\Models\LogBackup;
 use App\Models\LogRestoreDesa;
+use App\Models\SettingAplikasi;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Process\Process;
 
 class Database extends Admin_Controller
@@ -66,8 +66,8 @@ class Database extends Admin_Controller
             'size_folder' => byte_format(dirSize(DESAPATH)),
             'size_sql'    => byte_format(getSizeDB()->size),
             'act_tab'     => 1,
-            'inkremental' => Schema::hasTable('log_backup') ? LogBackup::where('status', '<', 2)->latest()->first() : null,
-            'restore'     => Schema::hasTable('log_restore_desa') ? LogRestoreDesa::where('status', '=', 0)->exists() : false,
+            'inkremental' => LogBackup::where('status', '<', 2)->latest()->first(),
+            'restore'     => LogRestoreDesa::where('status', '=', 0)->exists(),
         ];
 
         $this->load->view('database/database.tpl.php', $data);
@@ -85,7 +85,7 @@ class Database extends Admin_Controller
     public function migrasi_db_cri()
     {
         $this->redirect_hak_akses('u');
-        $this->session->unset_userdata(['success', 'error_msg']);
+        session_error_clear();
         $this->database_model->migrasi_db_cri();
         redirect('database/migrasi_cri');
     }
@@ -155,6 +155,8 @@ class Database extends Admin_Controller
             redirect($this->controller);
         }
 
+        $token = $this->setting->layanan_opendesa_token;
+
         try {
             $this->session->success        = 1;
             $this->session->error_msg      = '';
@@ -164,6 +166,9 @@ class Database extends Admin_Controller
             $this->session->success   = -1;
             $this->session->error_msg = $e->getMessage();
         } finally {
+            if ($this->input->post('hapus_token') == 'N') {
+                SettingAplikasi::where('key', 'layanan_opendesa_token')->update(['value' => $token]);
+            }
             $this->session->sedang_restore = 0;
             redirect('database');
         }

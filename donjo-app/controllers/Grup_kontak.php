@@ -224,6 +224,7 @@ class Grup_kontak extends Admin_Controller
         $penduduk = [];
         if ($request['id_penduduk']) {
             foreach ($request['id_penduduk'] as $key => $value) {
+                $penduduk[$key]['config_id']   = identitas('id');
                 $penduduk[$key]['id_grup']     = (int) bilangan($request['id_grup']);
                 $penduduk[$key]['id_kontak']   = null;
                 $penduduk[$key]['id_penduduk'] = (int) bilangan($value);
@@ -235,6 +236,7 @@ class Grup_kontak extends Admin_Controller
         $kontak = [];
         if ($request['id_kontak']) {
             foreach ($request['id_kontak'] as $key => $value) {
+                $kontak[$key]['config_id']   = identitas('id');
                 $kontak[$key]['id_grup']     = (int) bilangan($request['id_grup']);
                 $kontak[$key]['id_kontak']   = (int) bilangan($value);
                 $kontak[$key]['id_penduduk'] = null;

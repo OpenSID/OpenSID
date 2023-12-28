@@ -39,7 +39,6 @@ use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
 use App\Models\KeuanganManualRinci;
-use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -69,19 +68,12 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     protected function migrasi_2022100671($hasil)
     {
-        $setting = SettingAplikasi::where('id', '!=', 177)->where('key', 'footer_surat_tte')->first();
-        if ($setting) {
-            $setting->delete();
-            $hasil = $hasil && $this->tambah_setting([
-                'id'         => 177,
-                'key'        => 'footer_surat_tte',
-                'value'      => TinyMCE::FOOTER_TTE,
-                'keterangan' => 'Footer Surat TTE',
-                'kategori'   => 'format_surat',
-            ]);
-        }
-
-        return $hasil;
+        return $hasil && $this->tambah_setting([
+            'key'        => 'footer_surat_tte',
+            'value'      => TinyMCE::FOOTER_TTE,
+            'keterangan' => 'Footer Surat TTE',
+            'kategori'   => 'format_surat',
+        ]);
     }
 
     public function migrasi_2022100851($hasil)
@@ -207,28 +199,28 @@ class Migrasi_fitur_premium_2211 extends MY_model
 
     protected function migrasi_2022101871($hasil)
     {
-        $hasil && $this->tambah_setting([
+        $hasil = $hasil && $this->tambah_setting([
             'key'        => 'anjungan_profil',
             'value'      => 3,
             'keterangan' => 'Pengaturan profil desa untuk anjungan', // 1 => slides; 2 => mp4; 3 => youtube
             'kategori'   => 'anjungan',
         ]);
 
-        $hasil && $this->tambah_setting([
+        $hasil = $hasil && $this->tambah_setting([
             'key'        => 'anjungan_slide',
             'value'      => '',
             'keterangan' => 'Pengaturan profil slide untuk anjungan',
             'kategori'   => 'anjungan',
         ]);
 
-        $hasil && $this->tambah_setting([
+        $hasil = $hasil && $this->tambah_setting([
             'key'        => 'anjungan_video',
             'value'      => '',
             'keterangan' => 'Pengaturan profil video untuk anjungan',
             'kategori'   => 'anjungan',
         ]);
 
-        $hasil && $this->tambah_setting([
+        $hasil = $hasil && $this->tambah_setting([
             'key'        => 'anjungan_youtube',
             'value'      => 'https://www.youtube.com/embed/PuxiuH-YUF4',
             'keterangan' => 'Pengaturan profil video youtube untuk anjungan',

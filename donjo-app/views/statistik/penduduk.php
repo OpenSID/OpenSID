@@ -87,11 +87,16 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						</div>
 						<hr>
 						<div class="box-body">
-							<?php if (($lap <= 20 || $lap == 'bantuan_penduduk') && $lap != 'kelas_sosial' && $lap != 'bdt' && $lap != 'bantuan_keluarga') : ?>
+							<?php if ($lap != 'kelas_sosial' && $lap != 'bdt') : ?>
 								<div class="row">
 									<div class="col-sm-12 form-inline">
 										<form id="mainform" method="post">
-											<?php if ($lap == 'bantuan_penduduk'): ?>
+											<?php if ($lap == 'bantuan_penduduk' || $lap == 'bantuan_keluarga'): ?>
+												<select class="form-control input-sm " name="status" onchange="formAction('mainform','<?= site_url('statistik/filter/status') ?>')">
+													<option value="" selected>Pilih Status</option>
+													<option value="1" <?= selected($status, '1'); ?>>Ya</option>
+													<option value="0" <?= selected($status, '0'); ?>>Tidak</option>
+												</select>
 												<select class="form-control input-sm" name="tahun" onchange="formAction('mainform','<?= site_url('statistik/filter/tahun') ?>')">
 													<option value="">Pilih Tahun</option>
 													<?php for ($t = date('Y'); $t >= $tahun_bantuan_pertama; $t--): ?>
@@ -121,25 +126,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 													<?php endforeach; ?>
 												</select>
 											<?php endif; ?>
-										</form>
-									</div>
-								</div>
-							<?php endif; ?>
-							<?php if ($lap == 'bantuan_keluarga'): ?>
-								<div class="row">
-									<div class="col-sm-12 form-inline">
-										<form id="mainform" method="post">
-											<select class="form-control input-sm " name="status" onchange="formAction('mainform','<?= site_url('statistik/filter/status') ?>')">
-												<option value="" selected>Pilih Status</option>
-												<option value="1" <?= selected($status, '1'); ?>>Ya</option>
-												<option value="0" <?= selected($status, '0'); ?>>Tidak</option>
-											</select>
-											<select class="form-control input-sm" name="tahun" onchange="formAction('mainform','<?= site_url('statistik/filter/tahun') ?>')">
-												<option value="">Pilih Tahun</option>
-												<?php for ($t = date('Y'); $t >= $tahun_bantuan_pertama; $t--): ?>
-												<option value=<?= $t ?> <?= selected($tahun, $t); ?>><?= $t ?></option>
-												<?php endfor; ?>
-											</select>
 										</form>
 									</div>
 								</div>

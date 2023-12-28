@@ -44,7 +44,7 @@ class Migrasi_xxxx_ke_xxxx extends MY_Model
         $hasil = true;
 
         // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_xxxx');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_xxxx', false);
 
         status_sukses($hasil);
 

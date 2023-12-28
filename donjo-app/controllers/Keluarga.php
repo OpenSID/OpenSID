@@ -35,8 +35,6 @@
  *
  */
 
-use App\Models\Config;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keluarga extends Admin_Controller
@@ -278,7 +276,7 @@ class Keluarga extends Admin_Controller
     public function edit_nokk($p = 1, $o = 0, $id = 0)
     {
         $this->redirect_hak_akses('u');
-        $data['kk']                 = $this->keluarga_model->get_keluarga($id);
+        $data['kk']                 = $this->keluarga_model->get_keluarga($id) ?? show_404();
         $data['dusun']              = $this->wilayah_model->list_dusun();
         $data['rw']                 = $this->wilayah_model->list_rw($data['kk']['dusun']);
         $data['rt']                 = $this->wilayah_model->list_rt($data['kk']['dusun'], $data['kk']['rw']);
@@ -365,7 +363,10 @@ class Keluarga extends Admin_Controller
     public function insert_a()
     {
         $this->redirect_hak_akses('u');
-        $id_kk = $this->input->post('id_kk');
+        $id_kk          = $this->input->post('id_kk');
+        $_POST['no_kk'] = $_POST['no_kk_keluarga'];
+        $_POST['id']    = $id_kk;
+        unset($_POST['no_kk_keluarga']);
         $this->keluarga_model->insert_a();
         $this->cache->hapus_cache_untuk_semua('_wilayah');
         if ($_SESSION['validation_error']) {
@@ -485,12 +486,12 @@ class Keluarga extends Admin_Controller
         $data['hubungan'] = $this->keluarga_model->list_hubungan();
         $data['main']     = $this->keluarga_model->list_anggota($id);
         $kk               = $this->keluarga_model->get_kepala_kk($id);
-        $data['desa']     = Config::first();
+        $data['desa']     = $this->header['desa'];
 
         if ($kk) {
             $data['kepala_kk'] = $kk;
         } else {
-            $data['kepala_kk'] = $this->keluarga_model->get_keluarga($id);
+            $data['kepala_kk'] = $this->keluarga_model->get_keluarga($id) ?? show_404();
         }
 
         $data['penduduk']    = $this->keluarga_model->list_penduduk_lepas();
@@ -603,10 +604,16 @@ class Keluarga extends Admin_Controller
             case $tipe > 50:
                 $program_id                     = preg_replace('/^50/', '', $tipe);
                 $this->session->program_bantuan = $program_id;
-                $nama                           = $this->db->select('nama')
+
+                // TODO: Sederhanakan query ini, pindahkan ke model
+                $nama = $this->db
+                    ->select('nama')
+                    ->where('config_id', identitas('id'))
                     ->where('id', $program_id)
-                    ->get('program')->row()
+                    ->get('program')
+                    ->row()
                     ->nama;
+
                 if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;

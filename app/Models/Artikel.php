@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -46,6 +47,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Artikel extends BaseModel
 {
+    use ConfigId;
+
     public const ENABLE         = 1;
     public const HEADLINE       = 1;
     public const NOT_IN_ARTIKEL = [999, 1000, 1001];

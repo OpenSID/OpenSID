@@ -45,7 +45,6 @@ use App\Models\PendudukMandiri;
 use App\Models\RefJabatan;
 use App\Models\Rtm;
 use App\Models\Wilayah;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -74,10 +73,10 @@ class Hom_sid extends Admin_Controller
             'penduduk'        => Penduduk::status()->count(),
             'keluarga'        => Keluarga::status()->count(),
             'rtm'             => Rtm::status()->count(),
-            'kelompok'        => Schema::hasColumn('kelompok', 'tipe') ? Kelompok::status()->tipe()->count() : 0,
+            'kelompok'        => Kelompok::status()->tipe()->count(),
             'dusun'           => Wilayah::dusun()->count(),
-            'pendaftaran'     => Schema::hasColumn('tweb_penduduk_mandiri', 'aktif') ? PendudukMandiri::status()->count() : 0,
-            'surat'           => (! $this->db->field_exists('deleted_at', 'log_surat')) ? 0 : $this->logSurat(), // jika kolom deleted_at tidak ada, kosongkan jumlah surat.
+            'pendaftaran'     => PendudukMandiri::status()->count(),
+            'surat'           => $this->logSurat(),
             'saas'            => $this->saas->peringatan(),
             'notif_langganan' => $this->pelanggan_model->status_langganan(),
         ];

@@ -37,12 +37,15 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class LogSurat extends BaseModel
 {
+    use ConfigId;
+
     public const KONSEP  = 0;
     public const CETAK   = 1;
     public const TOLAK   = -1;
@@ -136,14 +139,13 @@ class LogSurat extends BaseModel
         $thn                = $this->tahun ?? date('Y');
         $bln                = $this->bulan ?? date('m');
         $format_nomor_surat = ($this->formatSurat->format_nomor == '') ? setting('format_nomor_surat') : $this->formatSurat->format_nomor;
-        $config             = Config::first();
 
         $format_nomor_surat = str_replace('[nomor_surat]', "{$this->no_surat}", $format_nomor_surat);
         $array_replace      = [
             '[kode_surat]'   => $this->formatSurat->kode_surat,
             '[tahun]'        => $thn,
             '[bulan_romawi]' => bulan_romawi((int) $bln),
-            '[kode_desa]'    => $config->kode_desa,
+            '[kode_desa]'    => identitas()->kode_desa,
         ];
 
         return str_replace(array_keys($array_replace), array_values($array_replace), $format_nomor_surat);
