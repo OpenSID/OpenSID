@@ -198,7 +198,7 @@ class Pelanggan_Controller extends Admin_Controller
                 if (cek_anjungan()) {
                     $this->db
                         ->set(['status' => '1'])
-                        // ->where('config_id', identitas('id'))
+                        ->where('config_id', identitas('id'))
                         ->where('tipe', '1')
                         ->where('status', '0')
                         ->where('status_alasan', 'tidak berlangganan anjungan')

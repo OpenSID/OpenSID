@@ -138,7 +138,7 @@
         var isian_form = JSON.parse($('#isian_form').val(), function(key, value) {
 
             if (key) {
-                var elem = $('*[name=' + key + ']');
+                var elem = $('*[name="' + key + '"]');
                 elem.val(value);
                 elem.change();
                 // Kalau isian hidden, akan ada isian lain untuk menampilkan datanya

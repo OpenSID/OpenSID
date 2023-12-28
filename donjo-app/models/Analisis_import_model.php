@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 
-class Analisis_import_model extends CI_Model
+class Analisis_import_model extends MY_Model
 {
     public function __construct()
     {
@@ -156,6 +156,9 @@ class Analisis_import_model extends CI_Model
         $master['kode_analisis'] = $kode;
         $master['jenis']         = $jenis;
 
+        if ($this->db->field_exists('config_id', 'analisis_master')) {
+            $master['config_id'] = identitas('id');
+        }
         if (! $this->db->insert('analisis_master', $master)) {
             return $this->impor_error();
         }
@@ -163,6 +166,9 @@ class Analisis_import_model extends CI_Model
 
         $periode['id_master'] = $id_master;
         $periode['aktif']     = 1;
+        if ($this->db->field_exists('config_id', 'analisis_periode')) {
+            $periode['config_id'] = identitas('id');
+        }
         if (! $this->db->insert('analisis_periode', $periode)) {
             return $this->impor_error();
         }
@@ -195,6 +201,9 @@ class Analisis_import_model extends CI_Model
             if (! empty($cells[5]) && $cells[5]->getValue()) {
                 $indikator['act_analisis'] = $cells[5]->getValue();
             }
+            if ($this->db->field_exists('config_id', 'analisis_indikator')) {
+                $indikator['config_id'] = identitas('id');
+            }
             if (! $this->db->insert('analisis_indikator', $indikator)) {
                 return $this->impor_error();
             }
@@ -203,7 +212,7 @@ class Analisis_import_model extends CI_Model
 
     private function get_id_kategori($kategori, $id_master)
     {
-        $ada_kategori = $this->db
+        $ada_kategori = $this->config_id_exist('analisis_kategori_indikator')
             ->select('id')
             ->from('analisis_kategori_indikator')
             ->where('kategori', $kategori)
@@ -211,6 +220,10 @@ class Analisis_import_model extends CI_Model
             ->get();
         if ($ada_kategori->num_rows()) {
             return $ada_kategori->row()->id;
+        }
+
+        if ($this->db->field_exists('config_id', 'analisis_kategori_indikator')) {
+            $this->db->set('config_id', identitas('id'));
         }
 
         if (! $this->db
@@ -239,6 +252,9 @@ class Analisis_import_model extends CI_Model
             }
             if (! empty($cells[3]) && $cells[3]->getValue()) {
                 $parameter['nilai'] = $cells[3]->getValue();
+            }
+            if ($this->db->field_exists('config_id', 'analisis_parameter')) {
+                $parameter['config_id'] = identitas('id');
             }
             if (! $this->db->insert('analisis_parameter', $parameter)) {
                 return $this->impor_error();
@@ -269,6 +285,9 @@ class Analisis_import_model extends CI_Model
             $klasifikasi['nama']      = $cells[0]->getValue();
             $klasifikasi['minval']    = $cells[1]->getValue();
             $klasifikasi['maxval']    = $cells[2]->getValue();
+            if ($this->db->field_exists('config_id', 'analisis_klasifikasi')) {
+                $klasifikasi['config_id'] = identitas('id');
+            }
             if (! $this->db->insert('analisis_klasifikasi', $klasifikasi)) {
                 return $this->impor_error();
             }
@@ -292,6 +311,7 @@ class Analisis_import_model extends CI_Model
             'gform_id'          => $this->input->post('gform-form-id'),
             'gform_nik_item_id' => $this->input->post('gform-id-nik-kk'),
             'gform_last_sync'   => date('Y-m-d H:i:s'),
+            'config_id'         => identitas('id'),
         ];
 
         $outp      = $this->db->insert('analisis_master', $data_analisis_master);
@@ -317,6 +337,7 @@ class Analisis_import_model extends CI_Model
                 'id_master'     => $id_master,
                 'kategori'      => $val,
                 'kategori_kode' => '',
+                'config_id'     => identitas('id'),
             ];
 
             $outp        = $this->db->insert('analisis_kategori_indikator', $data_kategori);
@@ -352,8 +373,9 @@ class Analisis_import_model extends CI_Model
                     $data_indikator['bobot']        = 0;
                 }
 
-                $outp         = $this->db->insert('analisis_indikator', $data_indikator);
-                $id_indikator = $this->db->insert_id();
+                $data_indikator['config_id'] = identitas('id');
+                $outp                        = $this->db->insert('analisis_indikator', $data_indikator);
+                $id_indikator                = $this->db->insert_id();
 
                 // Simpan Parameter untuk setiap unique value pada masing-masing indikator
                 foreach ($this->input->post('unique-param-value-' . $key) as $param_key => $param_val) {
@@ -365,6 +387,7 @@ class Analisis_import_model extends CI_Model
                         'nilai'        => $param_nilai,
                         'kode_jawaban' => ($param_key + 1),
                         'asign'        => 0,
+                        'config_id'    => identitas('id'),
                     ];
 
                     $outp                              = $this->db->insert('analisis_parameter', $data_parameter);
@@ -386,6 +409,7 @@ class Analisis_import_model extends CI_Model
             'aktif'             => 1,
             'keterangan'        => 0,
             'tahun_pelaksanaan' => $this->input->post('tahun_pendataan') == '' ? date('Y') : $this->input->post('tahun_pendataan'),
+            'config_id'         => identitas('id'),
         ];
 
         $outp       = $this->db->insert('analisis_periode', $data_periode);
@@ -413,6 +437,7 @@ class Analisis_import_model extends CI_Model
                             'id_parameter' => array_search($val_jawaban[$key_pertanyaan], $db_idx_parameter[$key_pertanyaan], true),
                             'id_subjek'    => $id_subject,
                             'id_periode'   => $id_periode,
+                            'config_id'    => identitas('id'),
                         ];
 
                         $outp = $this->db->insert('analisis_respon', $data_respon);
@@ -610,6 +635,7 @@ class Analisis_import_model extends CI_Model
                                 'nilai'        => 0,
                                 'kode_jawaban' => 0,
                                 'asign'        => 0,
+                                'config_id'    => identitas('id'),
                             ];
 
                             $outp                         = $this->db->insert('analisis_parameter', $data_parameter);
@@ -665,6 +691,7 @@ class Analisis_import_model extends CI_Model
                                     'id_parameter' => $id_parameter,
                                     'id_subjek'    => $obj_respon['id_subjek'],
                                     'id_periode'   => $obj_respon['id_periode'],
+                                    'config_id'    => identitas('id'),
                                 ];
 
                                 $outp = $this->db->insert('analisis_respon', $data_respon);
@@ -676,6 +703,7 @@ class Analisis_import_model extends CI_Model
                                 'id_parameter' => $id_parameter,
                                 'id_subjek'    => $id_subject,
                                 'id_periode'   => $id_periode_aktif,
+                                'config_id'    => identitas('id'),
                             ];
 
                             $outp = $this->db->insert('analisis_respon', $data_respon);

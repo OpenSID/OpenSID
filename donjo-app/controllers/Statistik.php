@@ -47,7 +47,7 @@ class Statistik extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model']);
-        $this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt', 'status', 'tahun'];
+        $this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt', 'status', 'tahun', 'filter_global'];
         $this->modul_ini     = 'statistik';
         $this->sub_modul_ini = 'statistik-kependudukan';
     }
@@ -57,11 +57,9 @@ class Statistik extends Admin_Controller
         $data        = $this->get_cluster_session();
         $data['lap'] = $this->session->lap;
 
-        $data['order_by'] = $this->session->order_by;
-        $data['main']     = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
-
-        $data['tautan_data'] = $this->tautan_data($this->session->lap);
-
+        $data['order_by']              = $this->session->order_by;
+        $data['main']                  = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
+        $data['tautan_data']           = $this->tautan_data($this->session->lap);
         $data['list_dusun']            = $this->wilayah_model->list_dusun();
         $data['heading']               = $this->laporan_penduduk_model->judul_statistik($data['lap']);
         $data['stat_penduduk']         = $this->referensi_model->list_ref(STAT_PENDUDUK);
@@ -72,7 +70,15 @@ class Statistik extends Admin_Controller
         $data['tahun_bantuan_pertama'] = $this->program_bantuan_model->tahun_bantuan_pertama(($data['lap'] == 'bantuan_penduduk') ? '1' : '2') ?? date('Y');
         $data['tahun']                 = $this->session->tahun ?? null;
         $data['status']                = $this->session->status ?? null;
-        $data['judul_kelompok']        = 'Jenis Kelompok';
+        $this->session->filter_global  = [
+            'tahun'  => $data['tahun'],
+            'status' => $data['status'],
+            'dusun'  => $data['dusun'],
+            'rw'     => $data['rw'],
+            'rt'     => $data['rt'],
+        ];
+
+        $data['judul_kelompok'] = 'Jenis Kelompok';
         $this->get_data_stat($data, $data['lap']);
 
         $this->render('statistik/penduduk', $data);
@@ -82,11 +88,18 @@ class Statistik extends Admin_Controller
     {
         if ($lap > 50) {
             $program_id = preg_replace('/^50/', '', $lap);
-            $sasaran    = $this->db
+
+            // TODO: Sederhanakan query ini, pindahkan ke model
+            $sasaran = $this->db
                 ->select('sasaran')
-                ->from('program')
+                ->group_start()
+                ->where('config_id', identitas('id'))
+                ->or_where('config_id', null)
+                ->group_end()
                 ->where('id', $program_id)
-                ->get()->row()->sasaran;
+                ->get('program')
+                ->row()
+                ->sasaran;
         }
 
         switch (true) {
@@ -222,7 +235,7 @@ class Statistik extends Admin_Controller
             $data['rentang']['sampai'] = '';
         } else {
             $data['form_action'] = site_url("statistik/rentang_update/{$id}");
-            $data['rentang']     = $this->laporan_penduduk_model->get_rentang($id);
+            $data['rentang']     = $this->laporan_penduduk_model->get_rentang($id) ?? show_404();
         }
         $this->load->view('statistik/ajax_rentang_form', $data);
     }
@@ -346,46 +359,42 @@ class Statistik extends Admin_Controller
 
     public function load_chart_gis($lap = 0)
     {
-        $data         = $this->get_cluster_session();
         $data['main'] = $this->laporan_penduduk_model->list_data($lap);
         $data['lap']  = $lap;
         $this->get_data_stat($data, $lap);
         $this->load->view('gis/penduduk_gis', $data);
     }
 
-    public function chart_gis_desa($lap = 0, $desa = '')
+    public function chart_gis_desa($lap = 0, $desa = null)
     {
-        ($desa) ? $this->session->set_userdata('desa', underscore($desa, false)) : $this->session->unset_userdata('desa');
-        $this->session->unset_userdata('dusun');
-        $this->session->unset_userdata('rw');
-        $this->session->unset_userdata('rt');
+        $this->session->desa = $desa;
+        $this->session->unset_userdata(['dusun', 'rw', 'rt']);
 
         redirect("statistik/load_chart_gis/{$lap}");
     }
 
-    public function chart_gis_dusun($lap = 0, $dusun = '')
+    public function chart_gis_dusun($lap = 0, $dusun = null)
     {
-        ($dusun) ? $this->session->set_userdata('dusun', underscore($dusun, false)) : $this->session->unset_userdata('dusun');
-        $this->session->unset_userdata('rw');
-        $this->session->unset_userdata('rt');
+        $this->session->dusun = $dusun;
+        $this->session->unset_userdata(['rw', 'rt']);
 
         redirect("statistik/load_chart_gis/{$lap}");
     }
 
-    public function chart_gis_rw($lap = 0, $dusun = '', $rw = '')
+    public function chart_gis_rw($lap = 0, $dusun = null, $rw = null)
     {
-        ($dusun) ? $this->session->set_userdata('dusun', underscore($dusun, false)) : $this->session->unset_userdata('dusun');
-        ($rw) ? $this->session->set_userdata('rw', underscore($rw, false)) : $this->session->unset_userdata('rw');
-        $this->session->unset_userdata('rt');
+        $this->session->dusun = $dusun;
+        $this->session->rw    = $rw;
+        $this->session->unset_userdata(['rt']);
 
         redirect("statistik/load_chart_gis/{$lap}");
     }
 
-    public function chart_gis_rt($lap = 0, $dusun = '', $rw = '', $rt = '')
+    public function chart_gis_rt($lap = 0, $dusun = null, $rw = null, $rt = null)
     {
-        ($dusun) ? $this->session->set_userdata('dusun', underscore($dusun, false)) : $this->session->unset_userdata('dusun');
-        ($rw) ? $this->session->set_userdata('rw', underscore($rw, false)) : $this->session->unset_userdata('rw');
-        ($rt) ? $this->session->set_userdata('rt', underscore($rt, false)) : $this->session->unset_userdata('rt');
+        $this->session->dusun = $dusun;
+        $this->session->rw    = $rw;
+        $this->session->rt    = $rt;
 
         redirect("statistik/load_chart_gis/{$lap}");
     }
@@ -395,6 +404,9 @@ class Statistik extends Admin_Controller
         $filter = [
             'status' => $this->session->status,
             'tahun'  => $this->session->tahun,
+            'dusun'  => $this->session->dusun,
+            'rw'     => $this->session->rw,
+            'rt'     => $this->session->rt,
         ];
 
         $peserta = $this->program_bantuan_model->get_peserta_bantuan($filter);
@@ -402,6 +414,9 @@ class Statistik extends Admin_Controller
         $no      = $_POST['start'];
 
         foreach ($peserta as $baris) {
+            if (null === $baris['peserta']) {
+                continue;
+            }
             $no++;
             $row    = [];
             $row[]  = $no;

@@ -36,6 +36,7 @@
  */
 
 use App\Models\Pamong;
+use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -125,6 +126,35 @@ class Vaksin_covid extends Admin_Controller
         $this->render('covid19/vaksin/form', $data);
     }
 
+    public function apipendudukvaksin()
+    {
+        if ($this->input->is_ajax_request()) {
+            $cari = $this->input->get('q');
+
+            $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
+                ->when($cari, static function ($query) use ($cari) {
+                    $query->orWhere('nik', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%");
+                })
+                ->paginate(10);
+
+            return json([
+                'results' => collect($penduduk->items())
+                    ->map(static function ($item) {
+                        return [
+                            'id'   => $item->id,
+                            'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                        ];
+                    }),
+                'pagination' => [
+                    'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+                ],
+            ]);
+        }
+
+        return show_404();
+    }
+
     public function tampil_sertifikat($id_penduduk)
     {
         $data = [
@@ -174,6 +204,7 @@ class Vaksin_covid extends Admin_Controller
             'isi'          => 'covid19/vaksin/cetak',
             'list_dusun'   => $this->wilayah_model->list_dusun(),
             'list_vaksin'  => $this->vaksin_covid_model->jenis_vaksin(),
+            'sekdes_id'    => sekdes()->id,
         ];
 
         foreach ($this->_list_session as $list) {
@@ -215,6 +246,7 @@ class Vaksin_covid extends Admin_Controller
             'umur'         => $data['sekdes'] = $umur,
             'isi'          => 'covid19/vaksin/cetak_rekap',
             'aksi'         => 'Cetak',
+            'sekdes_id'    => sekdes()->id,
         ];
 
         $this->render('covid19/vaksin/laporan_rekap', $data);

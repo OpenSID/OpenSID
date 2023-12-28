@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\Author;
+use App\Traits\ConfigId;
 use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -45,6 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Penduduk extends BaseModel
 {
     use Author;
+    use ConfigId;
 
     /**
      * Static data tempat lahir.
@@ -121,6 +123,7 @@ class Penduduk extends BaseModel
         'statusKawin',
         'pendudukStatus',
         'wilayah',
+        'keluarga',
     ];
 
     /**
@@ -144,7 +147,7 @@ class Penduduk extends BaseModel
      */
     public function mandiri()
     {
-        return $this->hasOne(PendudukMandiri::class, 'id_pend');
+        return $this->hasOne(PendudukMandiri::class, 'id_pend')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     /**
@@ -154,7 +157,7 @@ class Penduduk extends BaseModel
      */
     public function kia_ibu()
     {
-        return $this->hasOne(KIA::class, 'ibu_id');
+        return $this->hasOne(KIA::class, 'ibu_id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     /**
@@ -164,7 +167,7 @@ class Penduduk extends BaseModel
      */
     public function kia_anak()
     {
-        return $this->hasOne(KIA::class, 'anak_id');
+        return $this->hasOne(KIA::class, 'anak_id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     /**
@@ -304,7 +307,7 @@ class Penduduk extends BaseModel
      */
     public function keluarga()
     {
-        return $this->belongsTo(Keluarga::class, 'id_kk')->withDefault();
+        return $this->belongsTo(Keluarga::class, 'id_kk')->withDefault()->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     /**
@@ -314,7 +317,7 @@ class Penduduk extends BaseModel
      */
     public function rtm()
     {
-        return $this->belongsTo(Rtm::class, 'id_rtm', 'no_kk')->withDefault();
+        return $this->belongsTo(Rtm::class, 'id_rtm', 'no_kk')->withDefault()->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     /**
@@ -324,7 +327,17 @@ class Penduduk extends BaseModel
      */
     public function Wilayah()
     {
-        return $this->belongsTo(Wilayah::class, 'id_cluster');
+        return $this->belongsTo(Wilayah::class, 'id_cluster')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+    }
+
+    /**
+     * Define a one-to-many relationship.
+     *
+     * @return HasMany
+     */
+    public function dokumen()
+    {
+        return $this->hasMany(Dokumen::class, 'id_pend')->select('id', 'id_pend', 'nama', 'id_syarat', 'tgl_upload')->with(['jenisDokumen'])->hidup();
     }
 
     /**

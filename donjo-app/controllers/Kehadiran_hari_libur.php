@@ -187,6 +187,7 @@ class Kehadiran_hari_libur extends Admin_Controller
 
         $batch = collect($tanggal)->map(static function ($item, $key) {
             return [
+                'config_id'  => identitas('id'),
                 'tanggal'    => date_format(date_create($key), 'Y-m-d'),
                 'keterangan' => $item['summary'][0],
             ];

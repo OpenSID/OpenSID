@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Mandiri_model extends CI_Model
+class Mandiri_model extends MY_Model
 {
     protected $table = 'tweb_penduduk_mandiri';
 
@@ -51,10 +51,11 @@ class Mandiri_model extends CI_Model
 
     public function autocomplete()
     {
-        $data = $this->db
+        $data = $this->config_id('pm')
             ->select('p.nama')
             ->from('tweb_penduduk_mandiri pm')
             ->join('penduduk_hidup p', 'p.id = pm.id_pend', 'left')
+            ->limit(15)
             ->get()
             ->result_array();
 
@@ -91,7 +92,7 @@ class Mandiri_model extends CI_Model
 
     private function list_data_sql()
     {
-        $this->db
+        $this->config_id('pm')
             ->from('tweb_penduduk_mandiri pm')
             ->join('penduduk_hidup p', 'pm.id_pend = p.id');
 
@@ -138,7 +139,7 @@ class Mandiri_model extends CI_Model
                 break;
 
             default:
-                '';
+                $this->db->order_by('p.nik');
         }
 
         $this->db->limit($limit, $offset);
@@ -148,9 +149,7 @@ class Mandiri_model extends CI_Model
 
     private function generate_pin()
     {
-        $pin = mt_rand(100000, 999999);
-
-        return strrev($pin);
+        return strrev(mt_rand(100000, 999999));
     }
 
     public function insert()
@@ -159,6 +158,7 @@ class Mandiri_model extends CI_Model
         $pin  = bilangan($post['pin'] ?: $this->generate_pin());
 
         $data['pin']          = hash_pin($pin); // Hash PIN
+        $data['config_id']    = $this->config_id;
         $data['tanggal_buat'] = date('Y-m-d H:i:s');
         $data['id_pend']      = $this->input->post('id_pend');
         $outp                 = $this->db->insert('tweb_penduduk_mandiri', $data);
@@ -178,7 +178,7 @@ class Mandiri_model extends CI_Model
 
         $post = $this->input->post();
         $pin  = bilangan($post['pin'] ?? $this->generate_pin());
-        $nama = $this->db->select('nama')->where('id', $id_pend)->get('penduduk_hidup')->row()->nama;
+        $nama = $this->config_id()->select('nama')->where('id', $id_pend)->get('penduduk_hidup')->row()->nama;
 
         $pilihan_kirim = $post['pilihan_kirim'];
 
@@ -205,7 +205,7 @@ class Mandiri_model extends CI_Model
                 $data['pin']       = hash_pin($pin); // Hash PIN
                 $data['ganti_pin'] = 1;
 
-                $this->db->where('id_pend', $id_pend)->update('tweb_penduduk_mandiri', $data);
+                $this->config_id()->where('id_pend', $id_pend)->update('tweb_penduduk_mandiri', $data);
 
                 // Ambil data sementara untuk ditampilkan
                 $flash        = $this->get_mandiri($id_pend);
@@ -221,7 +221,7 @@ class Mandiri_model extends CI_Model
     {
         akun_demo($id_pend);
 
-        $outp = $this->db->where('id_pend', $id_pend)->delete('tweb_penduduk_mandiri');
+        $outp = $this->config_id()->where('id_pend', $id_pend)->delete('tweb_penduduk_mandiri');
 
         status_sukses($outp);
     }
@@ -229,7 +229,7 @@ class Mandiri_model extends CI_Model
     // TODO : Digunakan dimana ?
     private function list_data_ajax_sql($cari = '')
     {
-        $this->db
+        $this->config_id('u')
             ->from('tweb_penduduk_mandiri u')
             ->join('penduduk_hidup n', 'u.id_pend = n.id', 'left')
             ->join('tweb_wil_clusterdesa w', 'n.id_cluster = w.id', 'left');
@@ -282,7 +282,7 @@ class Mandiri_model extends CI_Model
 
     public function get_pendaftar_mandiri($nik)
     {
-        return $this->db
+        return $this->config_id()
             ->select('id, nik, nama')
             ->from('penduduk_hidup')
             ->where('status', 1)
@@ -293,7 +293,7 @@ class Mandiri_model extends CI_Model
 
     public function list_penduduk()
     {
-        return $this->db
+        return $this->config_id()
             ->select('id, nik, nama')
             ->where('nik <>', '')
             ->where('nik <>', 0)
@@ -304,9 +304,9 @@ class Mandiri_model extends CI_Model
 
     public function get_penduduk($id_pend, $id_nik = false)
     {
-        ($id_nik === true) ? $this->db->where('nik', $id_pend) : $this->db->where('id', $id_pend);
+        ($id_nik === true) ? $this->config_id()->where('nik', $id_pend) : $this->config_id()->where('id', $id_pend);
 
-        return $this->db
+        return $this->config_id()
             ->select('id, nik, nama, telepon')
             ->get('penduduk_hidup')
             ->row_array();
@@ -316,7 +316,7 @@ class Mandiri_model extends CI_Model
     {
         ($id_nik === true) ? $this->db->where('p.nik', $id_pend) : $this->db->where('pm.id_pend', $id_pend);
 
-        return $this->db
+        return $this->config_id('pm')
             ->select('pm.*, p.nama, p.nik, p.email, p.telepon')
             ->from('tweb_penduduk_mandiri pm')
             ->join('penduduk_hidup p', 'pm.id_pend = p.id', 'LEFT')
@@ -347,7 +347,8 @@ class Mandiri_model extends CI_Model
                     'aksi'   => site_url('/layanan-mandiri/daftar/verifikasi/telegram'), // TODO issue
                 ];
             } elseif ($this->cek_layanan_mandiri($penduduk->id) && ! $this->otp_library->driver('telegram')->cek_verifikasi_otp($penduduk->id)) {
-                $data_penduduk['id'] = $penduduk->id;
+                $data_penduduk['id']        = $penduduk->id;
+                $data_penduduk['config_id'] = $this->config_id;
 
                 $session = [
                     'is_verifikasi' => $data_penduduk,
@@ -380,7 +381,8 @@ class Mandiri_model extends CI_Model
     //Cek di data Kependudukan
     public function cek_pendaftaran($nama, $nik, $tanggallahir, $kk)
     {
-        return $this->db->select('p.id, p.nik')
+        return $this->config_id('p')
+            ->select('p.id, p.nik')
             ->from('penduduk_hidup p')
             ->join('tweb_keluarga k', 'p.id_kk = k.id')
             ->where('nama', $nama)
@@ -394,7 +396,8 @@ class Mandiri_model extends CI_Model
     //Cek Penduduk sudah terdaftar di Layanan Mandiri
     public function cek_layanan_mandiri($id_pend)
     {
-        $cek = $this->db->from('tweb_penduduk_mandiri')
+        $cek = $this->config_id()
+            ->from('tweb_penduduk_mandiri')
             ->select('id_pend')
             ->where('id_pend', $id_pend)
             ->get()
@@ -418,6 +421,7 @@ class Mandiri_model extends CI_Model
         if (count($scan) == 3) {
             $this->db->insert('tweb_penduduk_mandiri', [
                 'id_pend'      => $data_penduduk['id'],
+                'config_id'    => $this->config_id,
                 'aktif'        => 0,
                 'scan_ktp'     => empty($scan[0]) ? null : $scan[0],
                 'scan_kk'      => empty($scan[1]) ? null : $scan[1],
@@ -480,7 +484,7 @@ class Mandiri_model extends CI_Model
         $nik   = bilangan(bilangan($masuk['nik']));
         $pin   = hash_pin(bilangan($masuk['pin']));
 
-        $data = $this->db
+        $data = $this->config_id('pm')
             ->select('pm.*, p.nama, p.nik, p.tag_id_card, p.sex, p.foto, p.kk_level, p.id_kk, k.no_kk, c.rt, c.rw, c.dusun')
             ->from('tweb_penduduk_mandiri pm')
             ->join('penduduk_hidup p', 'pm.id_pend = p.id')
@@ -535,7 +539,7 @@ class Mandiri_model extends CI_Model
         $pin   = hash_pin(bilangan($masuk['pin']));
         $tag   = bilangan(bilangan($masuk['tag']));
 
-        $data = $this->db
+        $data = $this->config_id('pm')
             ->select('pm.*, p.nama, p.nik, p.tag_id_card, p.foto, p.kk_level, p.id_kk, k.no_kk')
             ->from('tweb_penduduk_mandiri pm')
             ->join('penduduk_hidup p', 'pm.id_pend = p.id')
@@ -605,7 +609,7 @@ class Mandiri_model extends CI_Model
 
     public function update_login(array $data = [])
     {
-        $this->db->where('id_pend', $data['id_pend'])->update('tweb_penduduk_mandiri', $data);
+        $this->config_id()->where('id_pend', $data['id_pend'])->update('tweb_penduduk_mandiri', $data);
     }
 
     public function ganti_pin()
@@ -620,7 +624,7 @@ class Mandiri_model extends CI_Model
         $pilihan_kirim = $ganti['pilihan_kirim'];
 
         // Ganti password
-        $pin = $this->db
+        $pin = $this->config_id()
             ->select('pin')
             ->where('id_pend', $id_pend)
             ->get('tweb_penduduk_mandiri')
@@ -722,7 +726,7 @@ class Mandiri_model extends CI_Model
             $this->db->where('p.email_tgl_verifikasi !=', null);
         }
 
-        $data = $this->db
+        $data = $this->config_id('pm')
             ->select('p.id, p.telegram, p.email, p.nama')
             ->from("{$this->table} pm")
             ->join('penduduk_hidup p', 'p.id = pm.id_pend', 'left')
@@ -743,7 +747,7 @@ class Mandiri_model extends CI_Model
                         $this->otp_library->driver('email')->kirim_pin_baru($data->email, $pin_baru, $data->nama);
                     }
 
-                    $this->db->where('id_pend', $data->id)->update($this->table, ['pin' => hash_pin($pin_baru), 'ganti_pin' => 0]);
+                    $this->config_id()->where('id_pend', $data->id)->update($this->table, ['pin' => hash_pin($pin_baru), 'ganti_pin' => 0]);
                     $this->db->trans_commit();
                 } catch (\Exception $e) {
                     log_message('error', $e);
@@ -777,7 +781,7 @@ class Mandiri_model extends CI_Model
         $this->db->trans_begin();
 
         try {
-            $telegramID        = $this->db->where('id', $user['id_pend'])->get('penduduk_hidup')->row()->telegram;
+            $telegramID        = $this->config_id()->where('id', $user['id_pend'])->get('penduduk_hidup')->row()->telegram;
             $data['pin']       = hash_pin($user['pin']); // Hash PIN
             $data['ganti_pin'] = 0;
 
@@ -788,7 +792,7 @@ class Mandiri_model extends CI_Model
 
             $this->otp_library->driver('telegram')->kirim_pin_baru($telegramID, $user['pin'], $user['nama']);
 
-            $this->db->where('id_pend', $user['id_pend'])->update('tweb_penduduk_mandiri', $data);
+            $this->config_id()->where('id_pend', $user['id_pend'])->update('tweb_penduduk_mandiri', $data);
 
             $this->db->trans_commit();
         } catch (\Exception $e) {
@@ -807,7 +811,7 @@ class Mandiri_model extends CI_Model
         $this->db->trans_begin();
 
         try {
-            $email             = $this->db->where('id', $user['id_pend'])->get('penduduk_hidup')->row()->email;
+            $email             = $this->config_id()->where('id', $user['id_pend'])->get('penduduk_hidup')->row()->email;
             $data['pin']       = hash_pin($user['pin']); // Hash PIN
             $data['ganti_pin'] = 0;
 
@@ -818,7 +822,7 @@ class Mandiri_model extends CI_Model
 
             $this->otp_library->driver('email')->kirim_pin_baru($email, $user['pin'], $user['nama']);
 
-            $this->db->where('id_pend', $user['id_pend'])->update('tweb_penduduk_mandiri', $data);
+            $this->config_id()->where('id_pend', $user['id_pend'])->update('tweb_penduduk_mandiri', $data);
 
             $this->db->trans_commit();
         } catch (\Exception $e) {
@@ -835,7 +839,7 @@ class Mandiri_model extends CI_Model
     private function getLogin($where = [])
     {
         if ($where) {
-            return $this->db
+            return $this->config_id('pm')
                 ->select('pm.*, p.nama, p.nik, p.tag_id_card, p.sex, p.foto, p.kk_level, p.id_kk, p.telepon, k.no_kk, c.rt, c.rw, c.dusun')
                 ->from('tweb_penduduk_mandiri pm')
                 ->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')

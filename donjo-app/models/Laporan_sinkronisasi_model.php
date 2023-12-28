@@ -40,7 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Laporan_sinkronisasi_model extends MY_Model
 {
     public const ORDER = [
-        2 => 'nama',
+        2 => 'judul',
         3 => 'semester', // atau bulan
         4 => 'tahun',
         5 => 'updated_at',
@@ -59,12 +59,12 @@ class Laporan_sinkronisasi_model extends MY_Model
 
     public function get_data(string $search = '', $tahun = null)
     {
-        $this->db->from($this->table);
+        $this->config_id()->from($this->table);
 
         if ($search) {
             $this->db
                 ->group_start()
-                ->like('nama', $search)
+                ->like('judul', $search)
                 ->or_like('tahun', $search)
                 ->or_like('semester', $search)
                 ->or_like('nama_file', $search)
@@ -80,7 +80,7 @@ class Laporan_sinkronisasi_model extends MY_Model
 
     public function find($id)
     {
-        return $this->db
+        return $this->config_id()
             ->where('tipe', $this->tipe)
             ->where('id', $id)
             ->get($this->table)
@@ -89,7 +89,7 @@ class Laporan_sinkronisasi_model extends MY_Model
 
     public function get_tahun()
     {
-        return $this->db
+        return $this->config_id()
             ->distinct()
             ->select('tahun')
             ->where('tipe', $this->tipe)
@@ -100,8 +100,9 @@ class Laporan_sinkronisasi_model extends MY_Model
     public function insert($data = null)
     {
         // $data bisa dikirim dari laporan yg dibuat otomatis; kalau kosong ambil dari form
-        $data = $data ?: $this->validasi();
-        $outp = $this->db->insert($this->table, $data);
+        $data              = $data ?: $this->validasi();
+        $data['config_id'] = identitas('id');
+        $outp              = $this->db->insert($this->table, $data);
 
         status_sukses($outp);
     }
@@ -111,14 +112,14 @@ class Laporan_sinkronisasi_model extends MY_Model
         $data               = $data ?: $this->validasi();
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['kirim']      = null;
-        $outp               = $this->db->where('id', $id)->update($this->table, $data);
+        $outp               = $this->config_id()->where('id', $id)->update($this->table, $data);
 
         status_sukses($outp);
     }
 
     public function insert_or_update($where = null, $data = null)
     {
-        $id = $this->db->select('id')->get_where($this->table, $where)->row()->id;
+        $id = $this->config_id()->select('id')->get_where($this->table, $where)->row()->id;
 
         $outp = ($id) ? $this->update($id, $data) : $this->insert($data);
 
@@ -127,7 +128,7 @@ class Laporan_sinkronisasi_model extends MY_Model
 
     public function delete($id)
     {
-        $outp = $this->db->where('id', $id)->where('kirim', null)->delete($this->table);
+        $outp = $this->config_id()->where('id', $id)->where('kirim', null)->delete($this->table);
 
         if ($outp && ($nama_file = $this->find($id)->nama_file)) {
             unlink(LOKASI_DOKUMEN . $nama_file);
@@ -192,7 +193,7 @@ class Laporan_sinkronisasi_model extends MY_Model
 
     public function opendk($id)
     {
-        $list_data = $this->db
+        $list_data = $this->config_id()
             ->where_in('id', $id)
             ->get($this->table)
             ->result_array();
@@ -225,7 +226,7 @@ class Laporan_sinkronisasi_model extends MY_Model
     public function kirim($id)
     {
         $data['kirim'] = date('Y-m-d H:i:s');
-        $outp          = $this->db->where_in('id', $id)->update($this->table, $data);
+        $outp          = $this->config_id()->where_in('id', $id)->update($this->table, $data);
 
         status_sukses($outp);
     }

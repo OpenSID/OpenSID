@@ -37,11 +37,11 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Cdesa_model extends CI_Model
+class Cdesa_model extends MY_Model
 {
     public function __construct()
     {
-        $this->load->database();
+        parent::__construct();
         $this->load->model('data_persil_model');
     }
 
@@ -55,15 +55,18 @@ class Cdesa_model extends CI_Model
         ];
 
         foreach ($list_kolom as $kolom => $tabel) {
-            $this->db->select($kolom . ' as item')
-                ->distinct()->from($tabel)
+            $this->config_id()
+                ->select($kolom . ' as item')
+                ->distinct()
+                ->from($tabel)
                 ->order_by('item');
             if ($cari) {
                 $this->db->like($kolom, $cari);
             }
             $sql_kolom[] = $this->db->get_compiled_select();
         }
-        $this->db->select('u.nama as item')
+        $this->config_id('c')
+            ->select('u.nama as item')
             ->from('cdesa c')
             ->distinct()
             ->join('cdesa_penduduk cu', 'cu.id_cdesa = c.id', 'left')
@@ -96,7 +99,8 @@ class Cdesa_model extends CI_Model
 
     private function main_sql_c_desa()
     {
-        $this->db->from('cdesa c')
+        $this->config_id('c')
+            ->from('cdesa c')
             ->join('mutasi_cdesa m', 'm.id_cdesa_masuk = c.id or m.cdesa_keluar = c.id', 'left')
             ->join('persil p', 'p.id = m.id_persil or c.id = p.cdesa_awal', 'left')
             ->join('ref_persil_kelas k', 'k.id = p.kelas', 'left')
@@ -167,7 +171,7 @@ class Cdesa_model extends CI_Model
         // luas total = jumlah luas setiap persil untuk cdesa
         // luas persil = luas keseluruhan persil (kalau pemilik awal) +/- luas setiap mutasi tergantung masuk atau keluar
         // Jumlahkan sesuai dengan tipe kelas persil (basah atau kering)
-        $persil_awal = $this->db
+        $persil_awal = $this->config_id('p')
             ->select('p.id, luas_persil, k.tipe')
             ->from('persil p')
             ->join('ref_persil_kelas k', 'p.kelas = k.id')
@@ -181,14 +185,14 @@ class Cdesa_model extends CI_Model
             $luas_persil[$persil['tipe']][$persil['id']] = $persil['luas_persil'];
         }
 
-        $list_mutasi = $this->db
+        $list_mutasi = $this->config_id('m')
             ->select('m.id_persil, m.luas, m.cdesa_keluar, k.tipe')
             ->from('mutasi_cdesa m')
             ->join('persil p', 'p.id = m.id_persil')
             ->join('ref_persil_kelas k', 'p.kelas = k.id')
             ->where('m.id_cdesa_masuk', $id_cdesa)
             ->or_where('m.cdesa_keluar', $id_cdesa)
-            ->get('')
+            ->get()
             ->result_array();
 
         $luas_persil_mutasi = [];
@@ -212,7 +216,8 @@ class Cdesa_model extends CI_Model
 
     public function get_persil($id_mutasi)
     {
-        return $this->db->select('p.*, k.kode, k.tipe, k.ndesc')
+        return $this->config_id('m')
+            ->select('p.*, k.kode, k.tipe, k.ndesc')
             ->select('(CASE WHEN p.id_wilayah IS NOT NULL THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE p.lokasi END) AS alamat')
             ->from('mutasi_cdesa m')
             ->join('cdesa c', 'c.id = m.id_cdesa_masuk', 'left')
@@ -226,7 +231,8 @@ class Cdesa_model extends CI_Model
 
     public function get_mutasi($id_mutasi)
     {
-        return $this->db->select('m.*')
+        return $this->config_id('m')
+            ->select('m.*')
             ->from('mutasi_cdesa m')
             ->where('m.id', $id_mutasi)
             ->get('')
@@ -235,7 +241,8 @@ class Cdesa_model extends CI_Model
 
     public function get_cdesa($id)
     {
-        return $this->db->where('c.id', $id)
+        return $this->config_id('c')
+            ->where('c.id', $id)
             ->select('c.*')
             ->select('(CASE WHEN c.jenis_pemilik = 1 THEN u.nama ELSE c.nama_pemilik_luar END) AS namapemilik')
             ->select('(CASE WHEN c.jenis_pemilik = 1 THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE c.alamat_pemilik_luar END) AS alamat')
@@ -257,8 +264,10 @@ class Cdesa_model extends CI_Model
         $data['nama_pemilik_luar']   = nama($this->input->post('nama_pemilik_luar'));
         $data['alamat_pemilik_luar'] = strip_tags($this->input->post('alamat_pemilik_luar'));
         if ($id_cdesa = $this->input->post('id')) {
-            $data_lama = $this->db->where('id', $id_c_desa)
-                ->get('cdesa')->row_array();
+            $data_lama = $this->config_id()
+                ->where('id', $id_c_desa)
+                ->get('cdesa')
+                ->row_array();
             if ($data['nomor'] == $data_lama['nomor']) {
                 unset($data['nomor']);
             }
@@ -266,11 +275,13 @@ class Cdesa_model extends CI_Model
                 unset($data['nama_kepemilikan']);
             }
             $data['updated_by'] = $this->session->user;
-            $this->db->where('id', $id_cdesa)
+            $this->config_id()
+                ->where('id', $id_cdesa)
                 ->update('cdesa', $data);
         } else {
             $data['created_by'] = $this->session->user;
             $data['updated_by'] = $this->session->user;
+            $data['config_id']  = $this->config_id;
             $this->db->insert('cdesa', $data);
             $id_cdesa = $this->db->insert_id();
         }
@@ -286,7 +297,8 @@ class Cdesa_model extends CI_Model
 
     private function hapus_pemilik($id_cdesa)
     {
-        $this->db->where('id_cdesa', $id_cdesa)
+        $this->config_id()
+            ->where('id_cdesa', $id_cdesa)
             ->delete('cdesa_penduduk');
     }
 
@@ -295,9 +307,10 @@ class Cdesa_model extends CI_Model
         // Hapus pemilik lama
         $this->hapus_pemilik($id_cdesa);
         // Tambahkan pemiliki baru
-        $data             = [];
-        $data['id_cdesa'] = $id_cdesa;
-        $data['id_pend']  = $id_pend;
+        $data              = [];
+        $data['id_cdesa']  = $id_cdesa;
+        $data['id_pend']   = $id_pend;
+        $data['config_id'] = $this->config_id;
         $this->db->insert('cdesa_penduduk', $data);
     }
 
@@ -318,9 +331,10 @@ class Cdesa_model extends CI_Model
         $data['id_peta']          = $data['id_peta'] ?: null;
 
         if ($id_mutasi) {
-            $outp = $this->db->where('id', $id_mutasi)->update('mutasi_cdesa', $data);
+            $outp = $this->config_id()->where('id', $id_mutasi)->update('mutasi_cdesa', $data);
         } else {
-            $outp = $this->db->insert('mutasi_cdesa', $data);
+            $data['config_id'] = $this->config_id;
+            $outp              = $this->db->insert('mutasi_cdesa', $data);
         }
         if ($outp) {
             $_SESSION['success'] = 1;
@@ -335,14 +349,16 @@ class Cdesa_model extends CI_Model
 
     public function hapus_cdesa($id)
     {
-        $outp = $this->db->where('id', $id)
+        $this->config_id()
+            ->where('id', $id)
             ->delete('cdesa');
-        status_sukses($outp);
+        status_sukses($this->db->affected_rows());
     }
 
     public function get_pemilik($id_cdesa)
     {
-        $this->db->select('p.id, p.nik, p.nama, k.no_kk, w.rt, w.rw, w.dusun')
+        return $this->config_id('c')
+            ->select('p.id, p.nik, p.nama, k.no_kk, w.rt, w.rw, w.dusun')
             ->select('(CASE WHEN c.jenis_pemilik = 1 THEN p.nama ELSE c.nama_pemilik_luar END) AS namapemilik')
             ->select('(CASE WHEN c.jenis_pemilik = 1 THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE c.alamat_pemilik_luar END) AS alamat')
             ->from('cdesa c')
@@ -350,19 +366,22 @@ class Cdesa_model extends CI_Model
             ->join('tweb_penduduk p', 'p.id = cp.id_pend', 'left')
             ->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
             ->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
-            ->where('c.id', $id_cdesa);
-
-        return $this->db->get()->row_array();
+            ->where('c.id', $id_cdesa)
+            ->get()
+            ->row_array();
     }
 
     public function get_list_mutasi($id_cdesa, $id_persil = '')
     {
-        $nomor_cdesa = $this->db->select('nomor')
+        $nomor_cdesa = $this->config_id()
+            ->select('nomor')
             ->where('id', $id_cdesa)
             ->get('cdesa')
-            ->row()->nomor;
+            ->row()
+            ->nomor;
+
         $this->lokasi_persil_query();
-        $this->db
+        $this->config_id('m')
             ->select('m.*, p.nomor, rk.kode as kelas_tanah')
             ->select("IF (m.id_cdesa_masuk = {$id_cdesa}, m.luas, '') AS luas_masuk")
             ->select("IF (m.cdesa_keluar = {$id_cdesa}, m.luas, '') AS luas_keluar")
@@ -387,16 +406,16 @@ class Cdesa_model extends CI_Model
     private function lokasi_persil_query()
     {
         $this->db->select("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
-					(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
-					(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
-					w.dusun
-				) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat");
+            (CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
+            (CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
+            w.dusun
+        ) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat");
     }
 
     public function get_list_persil($id_cdesa)
     {
         $this->lokasi_persil_query();
-        $this->db
+        $this->config_id('p')
             ->select('p.*, rk.kode as kelas_tanah')
             ->select('COUNT(m.id) as jml_mutasi')
             ->from('persil p')
@@ -424,11 +443,15 @@ class Cdesa_model extends CI_Model
         $baris = $data->rowcount($sheet_index = $sheet);
         $kolom = $data->colcount($sheet_index = $sheet);
 
+        // TODO: Cek apakah ini masih digunakan
         for ($i = 2; $i <= $baris; $i++) {
             $nik            = $data->val($i, 2, $sheet);
-            $upd['id_pend'] = $this->db->select('id')->
-                        where('nik', $nik)->
-                        get('tweb_penduduk')->row()->id;
+            $upd['id_pend'] = $this->config_id()
+                ->select('id')
+                ->where('nik', $nik)
+                ->get('tweb_penduduk')
+                ->row()
+                ->id;
             $upd['nama']                 = $data->val($i, 3, $sheet);
             $upd['persil_jenis_id']      = $data->val($i, 4, $sheet);
             $upd['id_clusterdesa']       = $data->val($i, 5, $sheet);
@@ -445,7 +468,7 @@ class Cdesa_model extends CI_Model
     public function get_cetak_mutasi($id_cdesa, $tipe = '')
     {
         // Mutasi masuk
-        $this->db
+        $this->config_id('m')
             ->select('m.tanggal_mutasi, m.luas, m.cdesa_keluar as id_cdesa_keluar, p.id as id_persil, p.nomor as nopersil, p.nomor_urut_bidang, 0 as cdesa_awal, p.luas_persil, c.nomor as cdesa_masuk, 0 as cdesa_keluar, rk.kode as kelas_tanah, rm.nama as sebabmutasi')
             ->from('mutasi_cdesa m')
             ->join('persil p', 'p.id = m.id_persil', 'left')
@@ -457,7 +480,7 @@ class Cdesa_model extends CI_Model
             ->where('rk.tipe', $tipe);
         $sql_masuk = $this->db->get_compiled_select();
         // Mutasi keluar
-        $this->db
+        $this->config_id('m')
             ->select('m.tanggal_mutasi, m.luas, m.cdesa_keluar as id_cdesa_keluar, p.id as id_persil, p.nomor as nopersil, p.nomor_urut_bidang, 0 as cdesa_awal, p.luas_persil, 0 as cdesa_masuk, c.nomor as cdesa_keluar, rk.kode as kelas_tanah, rm.nama as sebabmutasi')
             ->from('mutasi_cdesa m')
             ->join('persil p', 'p.id = m.id_persil', 'left')
@@ -468,7 +491,7 @@ class Cdesa_model extends CI_Model
             ->where('rk.tipe', $tipe);
         $sql_keluar = $this->db->get_compiled_select();
         // Persil milik awal
-        $this->db
+        $this->config_id('p')
             ->select('"" as tanggal_mutasi, 0 as luas, 0 as id_cdesa_keluar, p.id as id_persil, p.nomor as nopersil, p.nomor_urut_bidang, p.cdesa_awal, p.luas_persil, 0 as cdesa_masuk, 0 as cdesa_keluar, rk.kode as kelas_tanah, "" as sebabmutasi')
             ->from('persil p')
             ->join('ref_persil_kelas rk', 'p.kelas = rk.id', 'left')
@@ -520,29 +543,34 @@ class Cdesa_model extends CI_Model
     // TODO: apakah bisa diambil dari penduduk_model?
     public function get_penduduk($id, $nik = false)
     {
-        $this->db->select('p.id, p.nik,p.nama,k.no_kk,w.rt,w.rw,w.dusun')
-            ->from('tweb_penduduk p')
-            ->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
-            ->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left');
         if ($nik) {
             $this->db->where('p.nik', $id);
         } else {
             $this->db->where('p.id', $id);
         }
 
-        return $this->db->get()->row_array();
+        return $this->config_id('p')
+            ->select('p.id, p.nik,p.nama,k.no_kk,w.rt,w.rw,w.dusun')
+            ->from('tweb_penduduk p')
+            ->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
+            ->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
+            ->get()
+            ->row_array();
     }
 
     // TODO: apakah bisa diambil dari penduduk_model?
     public function list_penduduk()
     {
-        $strSQL = 'SELECT p.nik,p.nama,k.no_kk,w.rt,w.rw,w.dusun FROM tweb_penduduk p
-			LEFT JOIN tweb_keluarga k ON k.id = p.id_kk
-			LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
-			WHERE 1 ORDER BY nama';
-        $query = $this->db->query($strSQL);
-        $data  = '';
-        $data  = $query->result_array();
+        $query = $this->config_id('p')
+            ->select('p.nik,p.nama,k.no_kk,w.rt,w.rw,w.dusun')
+            ->from('tweb_penduduk p')
+            ->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
+            ->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
+            ->order_by('nama')
+            ->get();
+
+        $data = $query->result_array();
+
         if ($query->num_rows() > 0) {
             $j = 0;
 

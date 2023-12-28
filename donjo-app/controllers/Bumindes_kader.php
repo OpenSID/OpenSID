@@ -74,7 +74,7 @@ class Bumindes_kader extends Admin_Controller
     public function form($id = 0)
     {
         if ($id) {
-            $data['main']        = $this->kader_model->find($id) ?? redirect($this->controller . '/form');
+            $data['main']        = $this->kader_model->find($id) ?? show_404();
             $data['form_action'] = site_url("{$this->controller}/ubah/{$id}");
         } else {
             $data['main']        = null;

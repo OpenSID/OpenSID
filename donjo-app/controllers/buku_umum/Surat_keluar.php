@@ -100,7 +100,7 @@ class Surat_keluar extends Admin_Controller
         $data['o']           = $o;
 
         if ($id) {
-            $data['surat_keluar'] = $this->surat_keluar_model->get_surat_keluar($id);
+            $data['surat_keluar'] = $this->surat_keluar_model->get_surat_keluar($id) ?? show_404();
             $data['form_action']  = site_url("surat_keluar/update/{$p}/{$o}/{$id}");
         } else {
             $last_surat                         = $this->penomoran_surat_model->get_surat_terakhir('surat_keluar');

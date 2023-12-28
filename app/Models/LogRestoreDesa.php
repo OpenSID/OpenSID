@@ -37,13 +37,15 @@
 
 namespace App\Models;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use App\Traits\Author;
+use App\Traits\ConfigId;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class LogRestoreDesa extends BaseModel
 {
     use Author;
+    use ConfigId;
 
     /**
      * The table associated with the model.

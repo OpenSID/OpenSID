@@ -37,22 +37,17 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Agenda_model extends CI_Model
+class Agenda_model extends MY_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function insert($data)
     {
+        $data['config_id'] = $this->config_id;
+
         return $this->db->insert('agenda', $data);
     }
 
     public function update($id, $data)
     {
-        $this->db->where('id', $id);
-
-        return $this->db->update('agenda', $data);
+        return $this->config_id()->where('id', $id)->update('agenda', $data);
     }
 }

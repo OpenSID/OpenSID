@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class DtksAnggota extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *
@@ -75,12 +79,12 @@ class DtksAnggota extends BaseModel
      */
     public function dtks()
     {
-        return $this->belongsTo(Dtks::class, 'id_dtks', 'id');
+        return $this->belongsTo(Dtks::class, 'id_dtks', 'id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     public function penduduk()
     {
-        return $this->belongsTo(Penduduk::class, 'id_penduduk', 'id');
+        return $this->belongsTo(Penduduk::class, 'id_penduduk', 'id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     public function getUmurAttribute()

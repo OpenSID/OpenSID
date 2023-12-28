@@ -118,11 +118,13 @@ class Beranda extends Mandiri_Controller
         redirect('layanan-mandiri/masuk');
     }
 
+    // TODO: Pindahkan ke model
     public function pendapat(int $pilihan = 1)
     {
         $data = [
-            'pengguna' => $this->is_login->id_pend,
-            'pilihan'  => $pilihan,
+            'config_id' => identitas('id'),
+            'pengguna'  => $this->is_login->id_pend,
+            'pilihan'   => $pilihan,
         ];
 
         $this->pendapat_model->insert($data);

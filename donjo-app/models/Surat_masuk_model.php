@@ -68,103 +68,85 @@ class Surat_masuk_model extends MY_Model
 
     private function search_sql()
     {
-        if (isset($_SESSION['cari'])) {
-            $cari       = $_SESSION['cari'];
-            $kw         = $this->db->escape_like_str($cari);
-            $kw         = '%' . $kw . '%';
-            $search_sql = " AND (u.pengirim LIKE '{$kw}' OR u.isi_singkat LIKE '{$kw}')";
-
-            return $search_sql;
+        if ($cari = $this->session->cari) {
+            $this->db
+                ->group_start()
+                ->like('u.pengirim', $cari)
+                ->or_like('u.isi_singkat', $cari)
+                ->group_end();
         }
     }
 
     private function filter_sql()
     {
-        if (isset($_SESSION['filter'])) {
-            $kf = $_SESSION['filter'];
-            if (! empty($kf)) {
-                $filter_sql = " AND YEAR(u.tanggal_penerimaan) = {$kf}";
-            }
-
-            return $filter_sql;
+        if ($filter = $this->session->filter) {
+            $this->db->where('YEAR(u.tanggal_penerimaan)', $filter);
         }
     }
 
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
     private function list_data_sql()
     {
-        $sql = ' FROM surat_masuk u WHERE 1 ';
-        $sql .= $this->search_sql();
-        $sql .= $this->filter_sql();
+        $this->config_id()->from('surat_masuk u');
+        $this->search_sql();
+        $this->filter_sql();
 
-        return $sql;
+        return $this->db;
     }
 
     public function paging($p = 1, $o = 0)
     {
-        $sql      = 'SELECT COUNT(*) AS jml ' . $this->list_data_sql();
-        $query    = $this->db->query($sql);
-        $row      = $query->row_array();
-        $jml_data = $row['jml'];
-
-        $this->load->library('paging');
-        $cfg['page']     = $p;
-        $cfg['per_page'] = $_SESSION['per_page'];
-        $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
-
-        return $this->paging;
+        return $this->paginasi($p, $this->list_data_sql()->count_all_results());
     }
 
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
+        $this->list_data_sql();
+
         //Ordering SQL
         switch ($o) {
-            case 1: $order_sql = ' ORDER BY YEAR(u.tanggal_penerimaan) ASC, u.nomor_urut ASC';
+            case 1: $order_sql = 'YEAR(u.tanggal_penerimaan) ASC, u.nomor_urut ASC';
                 break;
 
-            case 2: $order_sql = ' ORDER BY YEAR(u.tanggal_penerimaan) DESC, u.nomor_urut DESC';
+            case 2: $order_sql = 'YEAR(u.tanggal_penerimaan) DESC, u.nomor_urut DESC';
                 break;
 
-            case 3: $order_sql = ' ORDER BY u.tanggal_penerimaan';
+            case 3: $order_sql = 'u.tanggal_penerimaan';
                 break;
 
-            case 4: $order_sql = ' ORDER BY u.tanggal_penerimaan DESC';
+            case 4: $order_sql = 'u.tanggal_penerimaan DESC';
                 break;
 
-            case 5: $order_sql = ' ORDER BY u.pengirim';
+            case 5: $order_sql = 'u.pengirim';
                 break;
 
-            case 6: $order_sql = ' ORDER BY u.pengirim DESC';
+            case 6: $order_sql = 'u.pengirim DESC';
                 break;
 
-            default:$order_sql = ' ORDER BY u.id';
+            default:$order_sql = 'u.id';
         }
 
-        //Paging SQL
-        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
-
-        //Main Query
-        $sql = 'SELECT u.* ' . $this->list_data_sql();
-        $sql .= $order_sql;
-        $sql .= $paging_sql;
-
-        $query = $this->db->query($sql);
-
-        return $query->result_array();
+        return $this->db
+            ->select('u.*')
+            ->order_by($order_sql)
+            ->limit($limit, $offset)
+            ->get()
+            ->result_array();
     }
 
     public function list_tahun_penerimaan()
     {
-        return $this->db->distinct()->select('YEAR(tanggal_penerimaan) AS tahun')->order_by('YEAR(tanggal_penerimaan)', 'DESC')->get('surat_masuk')->result_array();
+        return $this->config_id()->distinct()->select('YEAR(tanggal_penerimaan) AS tahun')->order_by('YEAR(tanggal_penerimaan)', 'DESC')->get('surat_masuk')->result_array();
     }
 
     public function list_tahun_surat()
     {
-        return $this->db->distinct()->
-        select('YEAR(tanggal_penerimaan) AS tahun')->
-        order_by('YEAR(tanggal_penerimaan)', 'DESC')->
-        get('surat_masuk')->result_array();
+        return $this->config_id()
+            ->distinct()
+            ->select('YEAR(tanggal_penerimaan) AS tahun')
+            ->order_by('YEAR(tanggal_penerimaan)', 'DESC')
+            ->get('surat_masuk')
+            ->result_array();
     }
 
     /**
@@ -175,7 +157,9 @@ class Surat_masuk_model extends MY_Model
     public function insert()
     {
         // Ambil semua data dari var. global $_POST
-        $data = $this->input->post(null);
+        $data              = $this->input->post(null);
+        $data['config_id'] = identitas('id');
+
         unset($data['url_remote'], $data['nomor_urut_lama']);
 
         // ambil disposisi ke variabel lain karena
@@ -228,30 +212,33 @@ class Surat_masuk_model extends MY_Model
             // Upload gagal
             else {
                 $uploadError = $this->upload->display_errors(null, null);
+                session_error($uploadError);
+                redirect('surat_masuk');
             }
         }
         // Berkas lampiran
         $data['berkas_scan'] = $adaLampiran && null !== $uploadData
         ? $uploadData['file_name'] : null;
 
-        // penerapan transcation karena insert ke 2 tabel
-        $this->db->trans_start();
+        try {
+            $this->db->trans_start();
+            $this->db->insert('surat_masuk', $data);
+            $insert_id = $this->db->insert_id();
 
-        $indikatorSukses = null === $uploadError && $this->db->insert('surat_masuk', $data);
+            // insert ke tabel disposisi surat masuk
+            if ($jabatan) {
+                $this->disposisi_surat_masuk($insert_id, $jabatan);
+            }
 
-        $insert_id = $this->db->insert_id();
+            // transaction selesai
+            $this->db->trans_complete();
+            session_success();
+        } catch (Exception $e) {
+            var_dump('fdsd');
 
-        // insert ke tabel disposisi surat masuk
-        if ($jabatan) {
-            $this->disposisi_surat_masuk($insert_id, $jabatan);
+            exit();
+            session_error($e->getMessage());
         }
-
-        // transaction selesai
-        $this->db->trans_complete();
-
-        // Set session berdasarkan hasil operasi
-        $_SESSION['success']   = $indikatorSukses ? 1 : -1;
-        $_SESSION['error_msg'] = $_SESSION['success'] === 1 ? null : ' -> ' . $uploadError;
     }
 
     private function validasi_surat_masuk(&$data)
@@ -350,7 +337,7 @@ class Surat_masuk_model extends MY_Model
                 $data['berkas_scan'] = $uploadData['file_name'];
                 // Update database dengan `berkas_scan` berisi nama unik
                 $this->db->where('id', $idSuratMasuk);
-                $databaseUpdated = $this->db->update('surat_masuk', $data);
+                $databaseUpdated = $this->config_id()->update('surat_masuk', $data);
 
                 $_SESSION['error_msg'] = ($databaseUpdated === true)
                 ? null : 'Gagal memperbarui data di database';
@@ -371,7 +358,7 @@ class Surat_masuk_model extends MY_Model
                 ? null : ' -> Gagal menghapus berkas lama';
             }
             $this->db->where('id', $idSuratMasuk);
-            $databaseUpdated       = $this->db->update('surat_masuk', $data);
+            $databaseUpdated       = $this->config_id()->update('surat_masuk', $data);
             $_SESSION['error_msg'] = ($databaseUpdated === true)
             ? null : 'Gagal memperbarui data di database';
             $adaBerkasLamaDiDB = null !== $berkasLama;
@@ -388,7 +375,7 @@ class Surat_masuk_model extends MY_Model
 
     public function get_surat_masuk($id)
     {
-        return $this->db->where('id', $id)->get('surat_masuk')->row_array();
+        return $this->config_id()->where('id', $id)->get('surat_masuk')->row_array();
     }
 
     /**
@@ -430,12 +417,12 @@ class Surat_masuk_model extends MY_Model
             }
 
             if (null === $_SESSION['error_msg']) {
-                $hapusRecordDb         = $this->db->where('id', $idSuratMasuk)->delete('surat_masuk');
+                $hapusRecordDb         = $this->config_id()->where('id', $idSuratMasuk)->delete('surat_masuk');
                 $_SESSION['error_msg'] = $hapusRecordDb === true
                 ? null : ' -> Gagal menghapus record dari database';
             }
         } else {
-            $hapusRecordDb         = $this->db->where('id', $idSuratMasuk)->delete('surat_masuk');
+            $hapusRecordDb         = $this->config_id()->where('id', $idSuratMasuk)->delete('surat_masuk');
             $_SESSION['error_msg'] = $hapusRecordDb === true
             ? null : ' -> Gagal menghapus record dari database';
         }
@@ -469,11 +456,12 @@ class Surat_masuk_model extends MY_Model
     public function getNamaBerkasScan($idSuratMasuk)
     {
         // Ambil nama berkas dari database
-        $sql        = 'SELECT berkas_scan FROM surat_masuk WHERE id = ? LIMIT 1;';
-        $query      = $this->db->query($sql, [$idSuratMasuk]);
-        $namaBerkas = $query->row();
-
-        return is_object($namaBerkas) ? $namaBerkas->berkas_scan : null;
+        return $this->config_id()
+            ->select('berkas_scan')
+            ->where('id', $idSuratMasuk)
+            ->get('surat_masuk')
+            ->row()
+            ->berkas_scan;
     }
 
     public function disposisi_surat_masuk($id_surat_masuk, array $jabatan)
@@ -484,6 +472,7 @@ class Surat_masuk_model extends MY_Model
             $this->db->insert(
                 'disposisi_surat_masuk',
                 [
+                    'config_id'      => identitas('id'),
                     'id_surat_masuk' => $id_surat_masuk,
                     'id_desa_pamong' => Pamong::where('jabatan_id', $value)->first()->pamong_id,
                     'disposisi_ke'   => $value,
@@ -498,16 +487,17 @@ class Surat_masuk_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id_surat_masuk', $id_surat_masuk)->delete('disposisi_surat_masuk');
+        $outp = $this->config_id()->where('id_surat_masuk', $id_surat_masuk)->delete('disposisi_surat_masuk');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
     public function remove_character()
     {
-        $surat_masuk = $this->db->select('*')->get('surat_masuk')->result_array();
+        $surat_masuk = $this->config_id()->select('*')->get('surat_masuk')->result_array();
 
         foreach ($surat_masuk as $data) {
+            $this->config_id();
             $this->db->where('id', $data['id']);
             $this->db->update(
                 'surat_masuk',

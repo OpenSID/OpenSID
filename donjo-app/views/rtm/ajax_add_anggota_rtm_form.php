@@ -5,9 +5,6 @@
                 <label for="nik">NIK / Nama Penduduk</label>
                 <select class="form-control input-sm select2 required" id="nik" name="nik" style="width:100%;">
                     <option option value="">-- Silakan Cari NIK / Nama Penduduk--</option>
-                    <?php foreach ($penduduk as $data) : ?>
-                        <option value="<?= $data['id'] ?>">NIK : <?= $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['kk_level'] ?></option>
-                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="table-responsive">
@@ -31,8 +28,28 @@
     </form>
     <?php $this->load->view('global/validasi_form'); ?>
     <script>
-        $(function() {
-            $('#nik').select2();
+        $('document').ready(function() {
+            $('#nik').select2({
+                ajax: {
+                    url: SITE_URL + 'rtm/apipendudukrtm',
+                    dataType: 'json',
+                    data: function(params) {
+                        return {
+                            q: params.term || '',
+                            page: params.page || 1,
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: function() {
+                    $(this).data('placeholder');
+                },
+                minimumInputLength: 0,
+                allowClear: true,
+                escapeMarkup: function(markup) {
+                    return markup;
+                },
+            });
         });
 
         $('#nik').on('select2:select', function (e) {

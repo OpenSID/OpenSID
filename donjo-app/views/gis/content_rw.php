@@ -1,61 +1,27 @@
-<?php
-
-defined('BASEPATH') || exit('No direct script access allowed');
-
-/*
- * File ini:
- *
- * View untuk modul Peta
- *
- * donjo-app/views/gis/content_rw.php,
- */
-
-/*
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- *
- * @see 	https://github.com/OpenSID/OpenSID
- */
-?>
-
 <div id="isi_popup_rw">
 	<?php foreach ($rw_gis as $key_rw => $rw): ?>
 		<div id="isi_popup_rw_<?= $key_rw ?>" style="visibility: hidden;">
+		<?php $link       = underscore($rw['dusun']) . '/' . underscore($rw['rw']); ?>
+		<?php $data_title = " RW {$rw['rw']} {$wilayah} {$rw['dusun']}"; ?>
 			<div id="content">
-				<center><h5 id="firstHeading" class="firstHeading"><b>Wilayah RW <?= $rw['rw'] . ' ' . ucwords($this->setting->sebutan_dusun) . ' ' . $rw['dusun']; ?></b></h5></center>
-				<p><center><a href="#collapseStatGraph" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block btn-modal" title="Statistik Penduduk" data-toggle="collapse" data-target="#collapseStatGraph" aria-expanded="false" aria-controls="collapseStatGraph"><i class="fa fa-bar-chart"></i>Statistik Penduduk</a></center></p>
-				<div class="collapse box-body no-padding" id="collapseStatGraph">
+				<h5 id="firstHeading" class="firstHeading">Wilayah RW <?= $rw['rw'] . ' ' . ucwords($this->setting->sebutan_dusun) . ' ' . $rw['dusun']; ?></h5>
+				<p><a href="#collapseStatPenduduk" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block btn-modal" title="Statistik Penduduk" data-toggle="collapse" data-target="#collapseStatPenduduk" aria-expanded="false" aria-controls="collapseStatPenduduk"><i class="fa fa-bar-chart"></i>Statistik Penduduk</a></p>
+				<div class="collapse box-body no-padding" id="collapseStatPenduduk">
 					<div id="bodyContent">
 						<div class="card card-body">
 							<?php foreach ($list_ref as $key => $value): ?>
-								<li <?= jecho($lap, $key, 'class="active"'); ?>><a href="<?= site_url("statistik/chart_gis_rw/{$key}/" . underscore($rw['dusun']) . '/' . underscore($rw['rw'])) ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk RW <?= $rw['rw'] . ' ' . $wilayah . ' ' . $rw['dusun'] ?>"><?= $value; ?></a></li>
+								<li <?= jecho($lap, $key, 'class="active"'); ?>><a href="<?= site_url("statistik/chart_gis_rw/{$key}/{$link}") ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk <?= $data_title ?>"><?= $value; ?></a></li>
 							<?php endforeach; ?>
 						</div>
+					</div>
+				</div>
+
+				<p><a href="#collapseStatBantuan" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block btn-modal" title="Statistik Bantuan" data-toggle="collapse" data-target="#collapseStatBantuan" aria-expanded="false" aria-controls="collapseStatBantuan"><i class="fa fa-heart"></i>Statistik Bantuan</a></p>
+				<div class="collapse box-body no-padding" id="collapseStatBantuan">
+					<div class="card card-body">
+						<?php foreach ($list_bantuan as $key => $value): ?>
+							<li <?= jecho($lap, $key, 'class="active"'); ?>><a href="<?= site_url("statistik/chart_gis_rw/{$key}/{$link}") ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Bantuan RW <?= $data_title ?>"><?= $value; ?></a></li>
+						<?php endforeach; ?>
 					</div>
 				</div>
 			</div>

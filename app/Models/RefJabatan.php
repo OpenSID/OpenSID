@@ -38,12 +38,15 @@
 namespace App\Models;
 
 use App\Traits\Author;
+use App\Traits\ConfigId;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class RefJabatan extends BaseModel
 {
     use Author;
+    use ConfigId;
 
     public const KADES  = 1;
     public const SEKDES = 2;
@@ -61,11 +64,21 @@ class RefJabatan extends BaseModel
      * @var array
      */
     protected $fillable = [
+        'config_id',
         'nama',
         'jenis',
         'tupoksi',
         'created_by',
         'updated_by',
+    ];
+
+    /**
+     * The hidden with the model.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'config_id',
     ];
 
     // get data jabatan jenis kades
@@ -92,6 +105,6 @@ class RefJabatan extends BaseModel
     // scope
     public function scopeUrut($query, $order = 'ASC')
     {
-        return $query->orderByRaw('CASE WHEN jenis = 0 THEN 999999 ELSE jenis END', $order);
+        return $query->orderBy(DB::raw('CASE WHEN jenis = 0 THEN 9999 ELSE jenis END'), $order);
     }
 }

@@ -39,11 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_klasifikasi_model extends MY_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function autocomplete()
     {
         return $this->autocomplete_str('nama', 'analisis_klasifikasi');
@@ -73,7 +68,7 @@ class Analisis_klasifikasi_model extends MY_Model
 
     public function paging($p = 1, $o = 0)
     {
-        $sql = 'SELECT COUNT(id) AS id FROM analisis_klasifikasi u WHERE 1';
+        $sql = 'SELECT COUNT(id) AS id FROM analisis_klasifikasi u WHERE u.config_id = ' . identitas('id');
         $sql .= $this->search_sql();
         $sql .= $this->master_sql();
         $query    = $this->db->query($sql);
@@ -115,7 +110,7 @@ class Analisis_klasifikasi_model extends MY_Model
 
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
 
-        $sql = 'SELECT u.* FROM analisis_klasifikasi u WHERE 1 ';
+        $sql = 'SELECT u.* FROM analisis_klasifikasi u WHERE u.config_id = ' . identitas('id');
 
         $sql .= $this->search_sql();
         $sql .= $this->master_sql();
@@ -147,8 +142,9 @@ class Analisis_klasifikasi_model extends MY_Model
 
     public function insert()
     {
-        $data = $this->validasi_data($this->input->post());
-        $outp = $this->db->insert('analisis_klasifikasi', $data);
+        $data              = $this->validasi_data($this->input->post());
+        $data['config_id'] = $this->config_id;
+        $outp              = $this->db->insert('analisis_klasifikasi', $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -156,7 +152,7 @@ class Analisis_klasifikasi_model extends MY_Model
     public function update($id = 0)
     {
         $data = $this->validasi_data($this->input->post());
-        $outp = $this->db->where('id', $id)->update('analisis_klasifikasi', $data);
+        $outp = $this->config_id()->where('id', $id)->update('analisis_klasifikasi', $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -167,7 +163,7 @@ class Analisis_klasifikasi_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete('analisis_klasifikasi');
+        $outp = $this->config_id()->where('id', $id)->delete('analisis_klasifikasi');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
@@ -185,15 +181,15 @@ class Analisis_klasifikasi_model extends MY_Model
 
     public function get_analisis_klasifikasi($id = 0)
     {
-        $sql   = 'SELECT * FROM analisis_klasifikasi WHERE id = ?';
-        $query = $this->db->query($sql, $id);
-
-        return $query->row_array();
+        return $this->config_id()
+            ->where('id', $id)
+            ->get('analisis_klasifikasi')
+            ->row_array();
     }
 
     public function list_klasifikasi_by_id_master($id_master)
     {
-        return $this->db
+        return $this->config_id()
             ->select('nama, minval, maxval')
             ->from('analisis_klasifikasi')
             ->where('id_master', $id_master)

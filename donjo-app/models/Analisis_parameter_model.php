@@ -35,10 +35,14 @@
  *
  */
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_parameter_model extends MY_Model
 {
+    use ConfigId;
+
     public function __construct()
     {
         parent::__construct();
@@ -46,7 +50,7 @@ class Analisis_parameter_model extends MY_Model
 
     public function list_parameter_by_id_master($id_master)
     {
-        return $this->db
+        return $this->config_id('p')
             ->select('i.nomor, p.kode_jawaban, p.jawaban, p.nilai')
             ->from('analisis_indikator i')
             ->join('analisis_parameter p', 'i.id = p.id_indikator')

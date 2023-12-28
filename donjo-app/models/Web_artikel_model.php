@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\UserGrup;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_artikel_model extends MY_Model
@@ -49,9 +51,19 @@ class Web_artikel_model extends MY_Model
     {
         $this->group_akses();
 
-        $this->db->where('a.id_kategori', $cat);
+        if ($cari) {
+            $this->db->like($kolom, $cari);
+        }
 
-        return $this->autocomplete_str('a.judul', 'artikel a');
+        $data = $this->config_id_exist('artikel', 'a')
+            ->distinct()
+            ->select('a.judul')
+            ->order_by('a.judul')
+            ->where('a.id_kategori', $cat)
+            ->get('artikel a')
+            ->result_array();
+
+        return autocomplete_data_ke_str($data);
     }
 
     private function search_sql()
@@ -59,10 +71,7 @@ class Web_artikel_model extends MY_Model
         $cari = $this->session->cari;
 
         if (isset($cari)) {
-            $kw = $this->db->escape_like_str($cari);
-            $kw = '%' . $kw . '%';
-
-            return " AND (judul LIKE '{$kw}' OR isi LIKE '{$kw}')";
+            $this->db->like('judul', $cari, 'BOTH')->or_like('isi', $cari, 'BOTH');
         }
     }
 
@@ -71,7 +80,7 @@ class Web_artikel_model extends MY_Model
         $status = $this->session->status;
 
         if (isset($status)) {
-            return " AND a.enabled = {$status}";
+            $this->db->where('a.enabled', $status);
         }
     }
 
@@ -79,16 +88,16 @@ class Web_artikel_model extends MY_Model
     private function grup_sql()
     {
         // Kontributor dan lainnya (group yg dibuat sendiri) hanya dapat melihat artikel yg dibuatnya sendiri
-        if (! in_array($this->session->grup, [1, 2, 3, 4])) {
-            return " AND a.id_user = {$this->session->user}";
+        if (! in_array($this->session->grup, UserGrup::getGrupSistem())) {
+            $this->db->where('a.id_user', $this->session->user);
         }
     }
 
     public function paging($cat = 0, $p = 1, $o = 0)
     {
-        $sql      = 'SELECT COUNT(a.id) AS id ' . $this->list_data_sql($cat);
-        $query    = $this->db->query($sql, $cat);
-        $row      = $query->row_array();
+        $this->db->select('COUNT(a.id)');
+        $this->list_data_sql($cat);
+        $row      = $this->db->get()->row_array();
         $jml_data = $row['id'];
 
         $this->load->library('paging');
@@ -102,59 +111,52 @@ class Web_artikel_model extends MY_Model
 
     private function list_data_sql($cat)
     {
+        $this->config_id('a')
+            ->from('artikel a')
+            ->join('kategori k', 'a.id_kategori = k.id', 'left');
         if ($cat > 0) {
-            $sql = 'FROM artikel a
-				LEFT JOIN kategori k ON a.id_kategori = k.id
-				WHERE id_kategori = ? ';
+            $this->db->where('id_kategori', $cat);
         } elseif ($cat == -1) {
             // Semua artikel dinamis (tidak termasuk artikel statis)
-            $sql = "FROM artikel a
-				LEFT JOIN kategori k ON a.id_kategori = k.id
-				WHERE 1 AND id_kategori NOT IN ('999', '1000', '1001')";
-        } else { // Artikel dinamis tidak berkategori
-            $sql = 'FROM artikel a
-				LEFT JOIN kategori k ON a.id_kategori = k.id
-				WHERE a.id_kategori <> 999 AND a.id_kategori <> 1000 AND a.id_kategori <> 1001 AND k.id IS NULL ';
+            $this->db->where_not_in('id_kategori', ['999', '1000', '1001']);
+        } else {
+            // Artikel dinamis tidak berkategori
+            $this->db->where_not_in('id_kategori', ['999', '1000', '1001'])->where('k.id', null);
         }
-        $sql .= $this->search_sql();
-        $sql .= $this->filter_sql();
-        $sql .= $this->grup_sql();
-
-        return $sql;
+        $this->search_sql();
+        $this->filter_sql();
+        $this->grup_sql();
     }
 
     public function list_data($cat = 0, $o = 0, $offset = 0, $limit = 500)
     {
         switch ($o) {
-            case 1: $order_sql = ' ORDER BY judul';
+            case 1: $this->db->order_by('judul');
                 break;
 
-            case 2: $order_sql = ' ORDER BY judul DESC';
+            case 2: $this->db->order_by('judul', 'DESC');
                 break;
 
-            case 3: $order_sql = ' ORDER BY hit';
+            case 3: $this->db->order_by('hit');
                 break;
 
-            case 4: $order_sql = ' ORDER BY hit DESC';
+            case 4: $this->db->order_by('hit', 'DESC');
                 break;
 
-            case 5: $order_sql = ' ORDER BY tgl_upload';
+            case 5: $this->db->order_by('tgl_upload');
                 break;
 
-            case 6: $order_sql = ' ORDER BY tgl_upload DESC';
+            case 6: $this->db->order_by('tgl_upload', 'DESC');
                 break;
 
-            default:$order_sql = ' ORDER BY id DESC';
+            default: $this->db->order_by('id', 'DESC');
         }
 
-        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
+        $this->db->select('a.*, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri');
+        $this->db->limit($limit, $offset);
+        $this->list_data_sql($cat);
 
-        $sql = 'SELECT a.*, k.kategori AS kategori, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri ' . $this->list_data_sql($cat);
-        $sql .= $order_sql;
-        $sql .= $paging_sql;
-
-        $query = $this->db->query($sql, $cat);
-        $data  = $query->result_array();
+        $data = $this->db->get()->result_array();
 
         $j = $offset;
 
@@ -171,7 +173,7 @@ class Web_artikel_model extends MY_Model
     // TODO: pindahkan dan gunakan web_kategori_model
     private function kategori($id)
     {
-        return $this->db
+        return $this->config_id(null, true)
             ->where('parrent', $id)
             ->order_by('urut')
             ->get('kategori')
@@ -198,23 +200,23 @@ class Web_artikel_model extends MY_Model
     // TODO: pindahkan dan gunakan web_kategori_model
     public function get_kategori_artikel($id)
     {
-        return $this->db->select('id_kategori')->where('id', $id)->get('artikel')->row_array();
+        return $this->config_id()->select('id_kategori')->where('id', $id)->get('artikel')->row_array();
     }
 
     // TODO: pindahkan dan gunakan web_kategori_model
     public function get_kategori($cat = 0)
     {
-        $sql   = 'SELECT kategori FROM kategori WHERE id = ?';
-        $query = $this->db->query($sql, $cat);
-
-        return $query->row_array();
+        return $this->config_id()
+            ->select('kategori')
+            ->where('id', $cat)
+            ->get('kategori')
+            ->row_array();
     }
 
     public function insert($cat = 1)
     {
-        $_SESSION['success']   = 1;
-        $_SESSION['error_msg'] = '';
-        $data                  = $_POST;
+        session_error_clear();
+        $data = $this->input->post();
         if (empty($data['judul']) || empty($data['isi'])) {
             $_SESSION['error_msg'] .= ' -> Data harus diisi';
             $_SESSION['success'] = -1;
@@ -288,16 +290,15 @@ class Web_artikel_model extends MY_Model
             $data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
         }
 
-        $data['slug'] = unique_slug('artikel', $data['judul']);
+        $data['slug']      = unique_slug('artikel', $data['judul']);
+        $data['config_id'] = identitas('id');
 
         if ($cat == AGENDA) {
             $outp = $this->insert_agenda($data);
         } else {
             $outp = $this->db->insert('artikel', $data);
         }
-        if (! $outp) {
-            $_SESSION['success'] = -1;
-        }
+        status_sukses($outp);
     }
 
     private function ambil_data_agenda(&$data)
@@ -419,12 +420,11 @@ class Web_artikel_model extends MY_Model
         if ($cat == AGENDA) {
             $outp = $this->update_agenda($id, $data);
         } else {
-            $this->db->where('a.id', $id);
-            $outp = $this->db->update('artikel a', $data);
+            $outp = $this->config_id()->where('a.id', $id)->update('artikel a', $data);
         }
 
         if ($hapus_lampiran == 'true') {
-            $this->db->where('id', $id)->update('artikel', ['dokumen' => null, 'link_dokumen' => '']);
+            $this->config_id()->where('id', $id)->update('artikel', ['dokumen' => null, 'link_dokumen' => '']);
         }
 
         status_sukses($outp);
@@ -435,7 +435,7 @@ class Web_artikel_model extends MY_Model
         $agenda = $this->ambil_data_agenda($data);
         $id     = $data['id_agenda'];
         unset($data['id_agenda']);
-        $outp = $this->db->where('a.id', $id_artikel)->update('artikel a', $data);
+        $outp = $this->config_id()->where('a.id', $id_artikel)->update('artikel a', $data);
         if ($outp) {
             if (empty($id)) {
                 $agenda['id_artikel'] = $id_artikel;
@@ -450,7 +450,7 @@ class Web_artikel_model extends MY_Model
 
     public function update_kategori($id, $id_kategori)
     {
-        $this->db->where('id', $id)->update('artikel', ['id_kategori' => $id_kategori]);
+        $this->config_id()->where('id', $id)->update('artikel', ['id_kategori' => $id_kategori]);
     }
 
     public function delete($id = 0, $semua = false)
@@ -461,7 +461,7 @@ class Web_artikel_model extends MY_Model
 
         $this->group_akses();
 
-        $list_gambar = $this->db
+        $list_gambar = $this->config_id()
             ->select('a.gambar, a.gambar1, a.gambar2, a.gambar3')
             ->from('artikel a')
             ->where('a.id', $id)
@@ -474,11 +474,11 @@ class Web_artikel_model extends MY_Model
             }
         }
 
-        if (! in_array($this->session->grup, [1, 2, 3, 4])) {
+        if (! in_array($this->session->grup, UserGrup::getGrupSistem())) {
             $this->db->where('id_user', $this->session->user);
         }
 
-        $this->db->from('artikel')->where('id', $id)->delete();
+        $this->config_id()->from('artikel')->where('id', $id)->delete();
         $outp = $this->db->affected_rows();
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
@@ -503,7 +503,7 @@ class Web_artikel_model extends MY_Model
         if (! $semua) {
             $this->session->success = 1;
         }
-        $outp = $this->db->where('id', $id)->delete('kategori');
+        $outp = $this->config_id()->where('id', $id)->delete('kategori');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
@@ -512,14 +512,14 @@ class Web_artikel_model extends MY_Model
     {
         $this->group_akses();
 
-        $outp = $this->db->where('id', $id)->update('artikel a', ['a.enabled' => $val]);
+        $outp = $this->config_id()->where('id', $id)->update('artikel a', ['a.enabled' => $val]);
 
         status_sukses($outp); //Tampilkan Pesan
     }
 
     public function komentar_lock($id = 0, $val = 1)
     {
-        $outp = $this->db->where('id', $id)->update('artikel', ['boleh_komentar' => $val]);
+        $outp = $this->config_id()->where('id', $id)->update('artikel', ['boleh_komentar' => $val]);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -528,7 +528,7 @@ class Web_artikel_model extends MY_Model
     {
         $this->group_akses();
 
-        $data = $this->db
+        $data = $this->config_id('a')
             ->select('a.*, g.*, g.id as id_agenda, u.nama AS owner')
             ->select('YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
             ->from('artikel a')
@@ -561,13 +561,15 @@ class Web_artikel_model extends MY_Model
 
     public function get_headline()
     {
-        $sql = 'SELECT a.*, u.nama AS owner
-			FROM artikel a
-			LEFT JOIN user u ON a.id_user = u.id
-			WHERE headline = 1
-			ORDER BY tgl_upload DESC LIMIT 1 ';
-        $query = $this->db->query($sql);
-        $data  = $query->row_array();
+        $data = $this->config_id('a')
+            ->select('a.*, u.nama AS owner')
+            ->from('artikel a')
+            ->join('user u', 'a.id_user = u.id', 'LEFT')
+            ->where('headline', 1)
+            ->order_by('tgl_upload', 'DESC')
+            ->limit(1)
+            ->get()
+            ->row_array();
 
         if (empty($data)) {
             $data = null;
@@ -583,44 +585,41 @@ class Web_artikel_model extends MY_Model
     // TODO: pindahkan dan gunakan web_kategori_model
     public function insert_kategori()
     {
-        $data['kategori'] = $_POST['kategori'];
-        $data['tipe']     = '2';
-        $outp             = $this->db->insert('kategori', $data);
+        $data['kategori']  = $_POST['kategori'];
+        $data['tipe']      = '2';
+        $data['config_id'] = $this->config_id;
+
+        $outp = $this->db->insert('kategori', $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
 
     public function list_komentar($id = 0)
     {
-        $sql   = 'SELECT * FROM komentar WHERE id_artikel = ? ORDER BY tgl_upload DESC';
-        $query = $this->db->query($sql, $id);
-
-        return $query->result_array();
+        return $this->config_id()
+            ->where('id_artikel', $id)
+            ->order_by('tgl_upload', 'DESC')
+            ->get('komentar')
+            ->result_array();
     }
 
     public function headline($id = 0)
     {
-        $sql1 = 'UPDATE artikel SET headline = 0 WHERE headline = 1';
-        $this->db->query($sql1);
+        $outp = $this->config_id()->where('headline', 1)->update('artikel', ['headline' => 0]);
 
-        $sql  = 'UPDATE artikel SET headline = 1 WHERE id = ?';
-        $outp = $this->db->query($sql, $id);
+        $outp = $this->config_id()->where('headline', 1)->update('artikel', ['id' => $id]);
 
         status_sukses($outp); //Tampilkan Pesan
     }
 
     public function slide($id = 0)
     {
-        $sql   = 'SELECT * FROM artikel WHERE id = ?';
-        $query = $this->db->query($sql, $id);
-        $data  = $query->row_array();
+        $data = $this->config_id()->get_where('artikel', ['id' => $id])->row_array();
 
         if ($data['headline'] == '3') {
-            $sql  = 'UPDATE artikel SET headline = 0 WHERE id = ?';
-            $outp = $this->db->query($sql, $id);
+            $outp = $this->config_id()->where('id', $id)->update('artikel', ['headline' => 0]);
         } else {
-            $sql  = 'UPDATE artikel SET headline = 3 WHERE id = ?';
-            $outp = $this->db->query($sql, $id);
+            $outp = $this->config_id()->where('id', $id)->update('artikel', ['headline' => 3]);
         }
 
         status_sukses($outp); //Tampilkan Pesan
@@ -629,7 +628,7 @@ class Web_artikel_model extends MY_Model
     public function boleh_ubah($id, $user)
     {
         // Kontributor hanya boleh mengubah artikel yg ditulisnya sendiri
-        $id_user = $this->db->select('id_user')->where('id', $id)->get('artikel')->row()->id_user;
+        $id_user = $this->config_id()->select('id_user')->where('id', $id)->get('artikel')->row()->id_user;
 
         return $user == $id_user || $this->session->grup != 4;
     }
@@ -638,7 +637,7 @@ class Web_artikel_model extends MY_Model
     {
         // Normalkan kembali hit artikel kategori 999 (yg ditampilkan di menu) akibat robot (crawler)
         $persen    = $this->input->post('hit');
-        $list_menu = $this->db
+        $list_menu = $this->config_id()
             ->distinct()
             ->select('link')
             ->like('link', 'artikel/')
@@ -648,10 +647,10 @@ class Web_artikel_model extends MY_Model
 
         foreach ($list_menu as $list) {
             $id      = str_replace('artikel/', '', $list['link']);
-            $artikel = $this->db->where('id', $id)->get('artikel')->row_array();
+            $artikel = $this->config_id()->where('id', $id)->get('artikel')->row_array();
             $hit     = $artikel['hit'] * ($persen / 100);
             if ($artikel) {
-                $this->db->where('id', $id)->update('artikel', ['hit' => $hit]);
+                $this->config_id()->where('id', $id)->update('artikel', ['hit' => $hit]);
             }
         }
     }
@@ -661,7 +660,7 @@ class Web_artikel_model extends MY_Model
         // '999' adalah id_kategori untuk artikel statis
         $this->group_akses();
 
-        return $this->db
+        return $this->config_id()
             ->select('a.id, judul')
             ->where('a.id_kategori', '999')
             ->get('artikel a')
@@ -671,7 +670,7 @@ class Web_artikel_model extends MY_Model
     private function group_akses()
     {
         // Kontributor dan lainnya (group yg dibuat sendiri) hanya dapat melihat artikel yg dibuatnya sendiri
-        if (! in_array($this->session->grup, [1, 2, 3, 4])) {
+        if (! in_array($this->session->grup, UserGrup::getGrupSistem())) {
             $this->db->where('a.id_user', $this->session->user);
         }
     }

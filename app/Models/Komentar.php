@@ -37,12 +37,15 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Komentar extends BaseModel
 {
+    use ConfigId;
+
     public const ACTIVE         = 1;
     public const NONACTIVE      = 2;
     public const TIPE_MASUK     = 2;

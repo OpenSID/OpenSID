@@ -39,6 +39,7 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterval;
 use Carbon\CarbonPeriod;
+use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Pagination\Cursor;
@@ -67,12 +68,20 @@ $capsule->addConnection([
         \PDO::ATTR_EMULATE_PREPARES => true,
     ],
 ]);
-$capsule->setAsGlobal();
-$capsule->setEventDispatcher(new Dispatcher());
-$capsule->bootEloquent();
+
+Container::setInstance($capsule->getContainer());
+
+$capsule->getContainer()->singleton('events', static function () use ($capsule) {
+    return new Dispatcher($capsule->getContainer());
+});
+
 $capsule->getContainer()->singleton('db', static function () use ($capsule) {
     return $capsule->getDatabaseManager();
 });
+
+$capsule->setAsGlobal();
+$capsule->setEventDispatcher($capsule->getContainer()->get('events'));
+$capsule->bootEloquent();
 
 Facade::clearResolvedInstances();
 Facade::setFacadeApplication($capsule->getContainer());
@@ -115,3 +124,12 @@ CursorPaginator::currentCursorResolver(static function ($cursorName = 'cursor') 
 \Illuminate\Database\Eloquent\Builder::macro('toRawSql', function () {
     return $this->getQuery()->toRawSql();
 });
+
+/**
+ * Uncomment untuk listen semua query dari laravel database.
+ */
+// \Illuminate\Support\Facades\Event::listen(\Illuminate\Database\Events\QueryExecuted::class, function ($query) {
+//     log_message('notice', $query->time . ' | ' . array_reduce($query->bindings, static function ($sql, $binding) {
+//         return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
+//     }, $query->sql));
+// });

@@ -49,8 +49,11 @@ class Migrasi_fitur_premium_2101 extends MY_model
         $this->log_hapus_penduduk();
 
         // Tambahkan key sebutan_nip_desa
-        $hasil = $hasil && $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan) VALUES ('sebutan_nip_desa', 'NIPD', 'Pengganti sebutan label niap/nipd')
-            ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan)");
+        $hasil = $hasil && $this->tambah_setting([
+            'key'        => 'sebutan_nip_desa',
+            'value'      => 'NIPD',
+            'keterangan' => 'Pengganti sebutan label niap/nipd',
+        ]);
 
         $list_setting = [
             [

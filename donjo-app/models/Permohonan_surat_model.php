@@ -42,7 +42,7 @@ use App\Models\LogSurat;
 use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
 
-class Permohonan_surat_model extends CI_Model
+class Permohonan_surat_model extends MY_Model
 {
     public function __construct()
     {
@@ -52,6 +52,8 @@ class Permohonan_surat_model extends CI_Model
 
     public function insert($data)
     {
+        $data['config_id'] = identitas('id');
+
         return $this->db
             ->insert('permohonan_surat', array_merge(
                 ['no_antrian' => $this->generate_no_antrian()],
@@ -61,7 +63,7 @@ class Permohonan_surat_model extends CI_Model
 
     public function delete($id_permohonan)
     {
-        $outp = $this->db->where('id', $id_permohonan)
+        $outp = $this->config_id()->where('id', $id_permohonan)
             ->delete('permohonan_surat');
         if (! $outp) {
             $this->session->set_userdata('success', -1);
@@ -70,14 +72,14 @@ class Permohonan_surat_model extends CI_Model
 
     public function update($id_permohonan, $data)
     {
-        return $this->db
+        return $this->config_id()
             ->where('id', $id_permohonan)
             ->update('permohonan_surat', $data);
     }
 
     public function autocomplete()
     {
-        $data = $this->db->select('n.nik')
+        $data = $this->config_id('n')->select('n.nik')
             ->from('permohonan_surat u')
             ->join('tweb_penduduk n', 'u.id_pemohon = n.id', 'left')
             ->get()->result_array();
@@ -130,7 +132,7 @@ class Permohonan_surat_model extends CI_Model
 
     private function list_data_sql()
     {
-        $this->db->from('permohonan_surat u')
+        $this->config_id('u')->from('permohonan_surat u')
             ->join('tweb_penduduk n', 'u.id_pemohon = n.id', 'left')
             ->join('tweb_surat_format s', 'u.id_surat = s.id', 'left');
 
@@ -184,7 +186,7 @@ class Permohonan_surat_model extends CI_Model
             $this->db->where_not_in('u.status', [PermohonanSurat::SUDAH_DIAMBIL]);
         }
 
-        $data = $this->db
+        $data = $this->config_id('u')
             ->select('u.*, u.status as status_id, n.nama AS nama, n.nik AS nik, s.nama as jenis_surat')
             ->where('id_pemohon', $id_pemohon)
             ->from('permohonan_surat u')
@@ -211,18 +213,19 @@ class Permohonan_surat_model extends CI_Model
 
     public function get_permohonan($where = [])
     {
-        return $this->db
+        return $this->config_id()
             ->get_where('permohonan_surat', $where)
             ->row_array();
     }
 
     public function list_data_status($id)
     {
-        $this->db->select('id, status');
-        $this->db->from('permohonan_surat');
-        $this->db->where('id', $id);
-
-        return $this->db->get()->row_array();
+        return $this->config_id()
+            ->select('id, status')
+            ->from('permohonan_surat')
+            ->where('id', $id)
+            ->get()
+            ->row_array();
     }
 
     public function proses($id, $status, $id_pemohon = '')
@@ -242,7 +245,7 @@ class Permohonan_surat_model extends CI_Model
             $this->db->where('status', ($status - 1));
         }
 
-        $outp = $this->db
+        $outp = $this->config_id()
             ->where('id', $id)
             ->update('permohonan_surat', ['status' => $status, 'updated_at' => date('Y-m-d H:i:s')]);
 
@@ -285,7 +288,7 @@ class Permohonan_surat_model extends CI_Model
             return;
         }
 
-        $nomor_terakhir = $this->db
+        $nomor_terakhir = $this->config_id()
             ->select_max('no_antrian')
             ->from('permohonan_surat')
             ->where('CAST(created_at AS DATE) >= CURDATE()')

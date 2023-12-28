@@ -75,8 +75,27 @@ class Seeder extends CI_Model
 
     public function run()
     {
-        $this->load->model('seeders/data_awal_seeder', 'data_awal');
-        $this->data_awal->run();
+        $this->load->helper('directory');
+
+        log_message('notice', 'Mulai memasang data awal');
+
+        // Hapus isi folder desa/cache
+        $dir = config_item('cache_path');
+
+        foreach (directory_map($dir) as $file) {
+            if ($file !== 'index.html') {
+                unlink($dir . DIRECTORY_SEPARATOR . $file);
+            }
+        }
+
+        // Hapus file app_key
+        $file = DESAPATH . 'app_key';
+        if (file_exists($file)) {
+            unlink($file);
+        }
+
+        $this->load->model('seeders/data_awal_seeder', 'data_awal_seeder');
+        $this->data_awal_seeder->run();
 
         // Database perlu dibuka ulang supaya cachenya berfungsi benar setelah diubah
         $this->db->close();
@@ -85,12 +104,14 @@ class Seeder extends CI_Model
         $this->database_model->impor_data_awal_analisis();
         $this->database_model->cek_migrasi(true);
         $this->isi_config();
+        session_destroy();
+        log_message('notice', 'Selesai memasang data awal');
     }
 
     // Kalau belum diisi, buat identitas desa jika kode_desa ada di file desa/config/config.php
     private function isi_config()
     {
-        if (! Schema::hasTable('config') || Config::first() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
+        if (! Schema::hasTable('config') || identitas() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
             return;
         }
 
@@ -115,6 +136,10 @@ class Seeder extends CI_Model
             ];
             if (Config::create($data)) {
                 set_session('success', "Kode desa {$kode_desa} diambil dari desa/config/config.php");
+
+                // Data awal
+                $this->load->model('migrations/data_awal', 'data_awal');
+                $this->data_awal->up();
             }
         }
     }

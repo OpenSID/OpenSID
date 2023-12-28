@@ -37,14 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Anjungan_model extends CI_Model
+class Anjungan_model extends MY_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('notif_model');
-    }
-
     public function cek_anjungan()
     {
         $ip          = $this->input->ip_address();
@@ -59,7 +53,7 @@ class Anjungan_model extends CI_Model
                 $this->db->or_where('mac_address', $mac_address);
             }
 
-            return $this->db
+            return $this->config_id_exist('anjungan')
                 ->group_end()
                 ->where('status', 1)
                 ->order_by('tipe', 'asc')

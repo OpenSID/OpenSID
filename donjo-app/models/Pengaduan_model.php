@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Pengaduan_model extends CI_Model
+class Pengaduan_model extends MY_Model
 {
     public const ORDER_ABLE_PENGADUAN = [
         3 => 'nama',
@@ -114,7 +114,7 @@ class Pengaduan_model extends CI_Model
 
     protected function pengaduan()
     {
-        $this->db
+        $this->config_id('p')
             ->select('p.*')
             ->select('(SELECT COUNT(pp.id_pengaduan) FROM pengaduan pp WHERE pp.id_pengaduan = p.id) AS jumlah')
             ->from("{$this->table} p")
@@ -163,7 +163,8 @@ class Pengaduan_model extends CI_Model
 
         $data = $this->validasi($this->input->post());
 
-        $data['foto'] = $upload['file_name'];
+        $data['foto']      = $upload['file_name'];
+        $data['config_id'] = $this->config_id;
 
         return $this->db->insert('pengaduan', $data);
     }
@@ -183,14 +184,15 @@ class Pengaduan_model extends CI_Model
 
     public function m_insert($id = '')
     {
-        $updateinduk = $this->db->where('id', $id)->
+        $updateinduk = $this->config_id()->where('id', $id)->
                 update('pengaduan', ['status' => $this->input->post('status')]);
 
-        $update = $this->db->where('id_pengaduan', $id)->
+        $update = $this->config_id()->where('id_pengaduan', $id)->
                 update('pengaduan', ['status' => $this->input->post('status')]);
 
-        $post = $this->input->post();
-        $data = $this->m_validasi($post, $id);
+        $post              = $this->input->post();
+        $data              = $this->m_validasi($post, $id);
+        $data['config_id'] = $this->config_id;
 
         return $this->db->insert('pengaduan', $data) && $update && $updateinduk;
     }
@@ -208,7 +210,7 @@ class Pengaduan_model extends CI_Model
 
     public function get_data($search = '')
     {
-        $builder = $this->db
+        $builder = $this->config_id()
             ->select('*')
             ->from('pengaduan')
             ->where('id_pengaduan', null);
@@ -225,7 +227,7 @@ class Pengaduan_model extends CI_Model
 
     public function get_data_month($search = '')
     {
-        $builder = $this->db
+        $builder = $this->config_id()
             ->select('*')
             ->from('pengaduan')
             ->where('id_pengaduan', null)
@@ -251,7 +253,7 @@ class Pengaduan_model extends CI_Model
 
     public function pengaduan_detailna($id = 0)
     {
-        return $this->db
+        return $this->config_id('p')
             ->select('p.*')
             ->select('(SELECT COUNT(pp.id_pengaduan) FROM pengaduan pp WHERE pp.id_pengaduan = p.id) AS jumlah')
             ->where('p.id', $id)
@@ -262,8 +264,7 @@ class Pengaduan_model extends CI_Model
 
     public function pengaduan_delete($id = 0)
     {
-        $outp = $this->db->where('id', $id)->delete('pengaduan');
-        $outp = $this->db->where('id_pengaduan', $id)->delete('pengaduan');
+        $outp = $this->config_id()->where('id', $id)->or_where('id_pengaduan', $id)->delete('pengaduan');
 
         status_sukses($outp);
     }
@@ -279,7 +280,7 @@ class Pengaduan_model extends CI_Model
 
     public function status($table, $id, $status = 1)
     {
-        $outp = $this->db
+        $outp = $this->config_id()
             ->where('id', $id)
             ->update($table, ['status' => $status]);
 

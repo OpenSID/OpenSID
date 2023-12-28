@@ -51,9 +51,12 @@ class Log_ekspor_model extends CI_Model
 
     public function log_terakhir($kode_ekspor, $semua = true)
     {
-        return $this->db->where('kode_ekspor', $kode_ekspor)
+        return $this->db
+            ->where('kode_ekspor', $kode_ekspor)
             ->where('semua', $semua)
             ->order_by('tgl_ekspor DESC')
-            ->limit(1)->get('log_ekspor')->row();
+            ->limit(1)
+            ->get('log_ekspor')
+            ->row();
     }
 }

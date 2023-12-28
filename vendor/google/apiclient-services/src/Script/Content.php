@@ -20,8 +20,16 @@ namespace Google\Service\Script;
 class Content extends \Google\Collection
 {
   protected $collection_key = 'files';
+  /**
+   * @var ScriptFile[]
+   */
+  public $files;
   protected $filesType = ScriptFile::class;
   protected $filesDataType = 'array';
+  /**
+   * @var bool
+   */
+  public $revertFlumeInvoked;
   /**
    * @var string
    */
@@ -40,6 +48,20 @@ class Content extends \Google\Collection
   public function getFiles()
   {
     return $this->files;
+  }
+  /**
+   * @param bool
+   */
+  public function setRevertFlumeInvoked($revertFlumeInvoked)
+  {
+    $this->revertFlumeInvoked = $revertFlumeInvoked;
+  }
+  /**
+   * @return bool
+   */
+  public function getRevertFlumeInvoked()
+  {
+    return $this->revertFlumeInvoked;
   }
   /**
    * @param string
