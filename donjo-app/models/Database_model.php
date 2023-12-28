@@ -43,8 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Database_model extends MY_Model
 {
-    private $user                  = 1;
-    private $engine                = 'InnoDB';
+    private $engine         = 'InnoDB';
     private int $showProgress      = 0;
     private string $minimumVersion = '2312';
 
@@ -59,7 +58,6 @@ class Database_model extends MY_Model
 
         $this->cek_engine_db();
         $this->load->dbforge();
-        $this->user = $this->session_user ?: 1;
     }
 
     private function cek_engine_db(): void
@@ -95,9 +93,9 @@ class Database_model extends MY_Model
             return;
         }
 
-        $migratedDatabase       = Migrasi::pluck('versi_database', 'versi_database')->toArray();
-        $this->session->success = 1;
+        $migratedDatabase = Migrasi::pluck('versi_database')->toArray();
 
+        session_success();
         $versi        = (int) str_replace('.', '', $this->cekCurrentVersion());
         $minimumVersi = (int) str_replace('.', '', $this->minimumVersion);
 
@@ -139,16 +137,8 @@ class Database_model extends MY_Model
 
         // Lengkapi folder desa
         folder_desa();
-
-        // Hapus cache blade
-        $this->load->helper('directory');
-        $dir = config_item('cache_blade');
-
-        foreach (directory_map($dir) as $file) {
-            if ($file !== 'index.html') {
-                unlink($dir . DIRECTORY_SEPARATOR . $file);
-            }
-        }
+        kosongkanFolder(config_item('cache_blade'));
+        cache()->flush();
 
         SettingAplikasi::withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => currentVersion()]);
         $this->load->model('track_model');

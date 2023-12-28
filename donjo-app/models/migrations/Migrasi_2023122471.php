@@ -47,9 +47,8 @@ class Migrasi_2023122471 extends MY_model
     {
         $hasil = true;
         $hasil = $hasil && $this->migrasi_tabel($hasil);
-        $hasil = $hasil && $this->migrasi_data($hasil);
 
-        return $hasil && $this->buat_tabel_migrations($hasil);
+        return $hasil && $this->migrasi_data($hasil);
     }
 
     protected function migrasi_tabel($hasil)
@@ -109,21 +108,25 @@ class Migrasi_2023122471 extends MY_model
 
     protected function migrasi_2023121971($hasil)
     {
-        $this->dbforge->modify_column('gambar_gallery', [
-            'gambar' => [
-                'type' => 'TEXT',
-                'null' => true,
-            ],
-        ]);
+        if ($this->db->field_exists('gambar', 'gambar_gallery')) {
+            $hasil = $hasil && $this->dbforge->modify_column('gambar_gallery', [
+                'gambar' => [
+                    'type' => 'TEXT',
+                    'null' => true,
+                ],
+            ]);
+        }
 
-        $this->dbforge->add_column('gambar_gallery', [
-            'jenis' => [
-                'type'       => 'TINYINT',
-                'constraint' => 4,
-                'null'       => false,
-                'default'    => 1,
-            ],
-        ]);
+        if (! $this->db->field_exists('gambar', 'gambar_gallery')) {
+            $this->dbforge->add_column('gambar_gallery', [
+                'jenis' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 4,
+                    'null'       => false,
+                    'default'    => 1,
+                ],
+            ]);
+        }
 
         return $hasil;
     }
@@ -537,19 +540,6 @@ class Migrasi_2023122471 extends MY_model
     protected function migrasi_2023120752($hasil)
     {
         $this->db->query('ALTER TABLE config MODIFY path LONGTEXT DEFAULT NULL;');
-
-        return $hasil;
-    }
-
-    protected function buat_tabel_migrations($hasil)
-    {
-        if (! Schema::hasTable('migrations')) {
-            Schema::create('migrations', static function (Blueprint $table): void {
-                $table->increments('id');
-                $table->string('migration');
-                $table->integer('batch');
-            });
-        }
 
         return $hasil;
     }
