@@ -44,6 +44,8 @@ use App\Models\Penduduk;
 class KodeIsianPenduduk
 {
     private $idPenduduk;
+    private $prefix;
+    private $prefixJudul;
 
     public function __construct($idPenduduk = null, $prefix = '', $prefixJudul = false)
     {

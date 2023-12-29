@@ -49,7 +49,7 @@ use Illuminate\Support\Str;
 class FakeDataIsian
 {
     private $request;
-    private \App\Libraries\TinyMCE $tinymce;
+    private $tinymce;
     private $result;
     private array $data = [];
 

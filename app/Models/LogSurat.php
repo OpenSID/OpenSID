@@ -280,4 +280,104 @@ class LogSurat extends BaseModel
     {
         return $query->where('verifikasi_operator', '=', '-1');
     }
+
+    /**
+     * Cari surat dengan nomor terakhir sesuai setting aplikasi
+     *
+     * @param		string 	nama tabel surat
+     * @param mixed      $type
+     * @param mixed|null $url
+     *
+     * @return array surat terakhir
+     */
+    public static function suratTerakhir($type, $url = null)
+    {
+        $setting = setting('penomoran_surat');
+
+        if ($setting == 3) {
+            $last_sl = self::suratTerakhirType('log_surat', null, 1);
+            $last_sm = self::suratTerakhirType('surat_masuk', null, 1);
+            $last_sk = self::suratTerakhirType('surat_keluar', null, 1);
+
+            $surat[$last_sl['no_surat']]   = $last_sl;
+            $surat[$last_sm['nomor_urut']] = $last_sm;
+            $surat[$last_sk['nomor_urut']] = $last_sk;
+            krsort($surat);
+
+            return current($surat);
+        }
+
+        return self::suratTerakhirType($type, $url);
+    }
+
+    public static function suratTerakhirType($type, $url = null, $setting = null)
+    {
+        $thn                 = date('Y');
+        $setting || $setting = setting('penomoran_surat');
+
+        switch ($type) {
+                // no break
+            case 'log_surat':
+                if ($setting == 1) {
+                    $surat = LogSurat::whereNull('deleted_at')
+                        ->whereYear('tanggal', $thn)
+                        ->whereStatus(1)
+                        ->orderBy(DB::raw('CAST(no_surat as unsigned)'), 'desc')
+                        ->first();                        
+                } else {
+                    $surat = LogSurat::whereNull('deleted_at')
+                        ->whereYear('tanggal', $thn)                        
+                        ->rightJoin('tweb_surat_format','tweb_surat_format.id', '=', 'log_surat.id_format_surat')
+                        ->where(function($q) use ($url){
+                            return $q->where('url_surat', $url)->orWhereRaw("url_surat = REPLACE(REPLACE('{$url}', 'erangan', ''), '-', '_')");
+                        })
+                        ->orderBy(DB::raw('CAST(no_surat as unsigned)'), 'desc')
+                        ->first();                        
+                }
+                break;
+
+            case 'surat_masuk':
+                $surat = SuratMasuk::whereYear('tanggal_surat', $thn)                        
+                        ->orderBy(DB::raw('CAST(nomor_urut as unsigned)'), 'desc')
+                        ->first();         
+                break;
+
+            case 'surat_keluar':
+                $surat = SuratKeluar::whereYear('tanggal_surat', $thn)                        
+                        ->orderBy(DB::raw('CAST(nomor_urut as unsigned)'), 'desc')
+                        ->first();
+        }
+        if ($surat) {
+            $surat = $surat->toArray();
+        } else {
+            $surat = ['no_surat' => 0];
+        }
+        $surat['nomor_urut']    || $surat['nomor_urut']    = $surat['no_surat'];
+        $surat['no_surat']      || $surat['no_surat']      = $surat['nomor_urut'];
+        $surat['tanggal_surat'] || $surat['tanggal_surat'] = $surat['tanggal'];
+        $surat['tanggal']       || $surat['tanggal']       = $surat['tanggal_surat'];
+        $surat['tanggal']                                  = tgl_indo2($surat['tanggal']);
+
+        return $surat;
+    }
+
+    public static function lastNomerSurat($url)
+    {
+        $settingNomer = setting('penomoran_surat');
+        $data = self::suratTerakhir('log_surat', $url);
+        if ($settingNomer == 2 && empty($data['nama'])) {
+            $surat        = FormatSurat::find($url);
+            $data['nama'] = $surat['nama'];
+        }
+        $ket = [
+            1 => 'Terakhir untuk semua surat layanan: ',
+            2 => "Terakhir untuk jenis surat {$data['nama']}: ",
+            3 => 'Terakhir untuk semua surat layanan, keluar dan masuk: ',
+        ];
+        $data['no_surat_berikutnya'] = $data['no_surat'] + 1;
+        $data['no_surat_berikutnya'] = str_pad((string) $data['no_surat_berikutnya'], (int) setting('panjang_nomor_surat'), '0', STR_PAD_LEFT);
+        $data['ket_nomor']           = $ket[$settingNomer];
+
+        return $data;
+    }
 }

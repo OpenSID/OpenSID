@@ -18,11 +18,7 @@
         <div class="box-header with-border">
             <div class="col-sm-8 col-lg-9">
                 <div class="row">
-                    <a
-                        href="{{ site_url('pemilihan') }}"
-                        class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                        title="Daftar Pemilihan"
-                    ><i class="fa fa-list"></i>Daftar Pemilihan</a>
+                    <a href="{{ site_url('pemilihan') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Daftar Pemilihan"><i class="fa fa-list"></i>Daftar Pemilihan</a>
                     <a
                         href="{{ route('dpt.ajax_cetak.cetak') }}"
                         class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"

@@ -1138,7 +1138,7 @@ class Keluarga_model extends MY_Model
                 ->result_array();
 
             foreach ($data2 as $datanya) {
-                $this->penduduk_model->tulis_log_penduduk($datanya[\ID], '6', date('m'), date('Y'));
+                $this->penduduk_model->tulis_log_penduduk($datanya['id'], '6', date('m'), date('Y'));
             }
         }
     }

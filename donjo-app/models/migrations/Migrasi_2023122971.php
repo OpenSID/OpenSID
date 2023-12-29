@@ -41,12 +41,11 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2023122471 extends MY_model
+class Migrasi_2023122971 extends MY_model
 {
     public function up()
     {
         $hasil = true;
-
         $hasil = $hasil && $this->migrasi_tabel($hasil);
 
         return $hasil && $this->migrasi_data($hasil);
@@ -54,10 +53,12 @@ class Migrasi_2023122471 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
+        $hasil = $hasil && $this->migrasi_2023120752($hasil);
+        $hasil = $hasil && $this->migrasi_2023120351($hasil);
         $hasil = $hasil && $this->migrasi_2023121951($hasil);
-        $hasil = $hasil && $this->migrasi_2023122471($hasil);
+        $hasil = $hasil && $this->migrasi_2023122751($hasil);
 
-        return $hasil && $this->migrasi_2023122751($hasil);
+        return $hasil && $this->migrasi_2023121971($hasil);
     }
 
     // Migrasi perubahan data
@@ -67,25 +68,21 @@ class Migrasi_2023122471 extends MY_model
         $config_id = DB::table('config')->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2023121551($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023120554($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023122871($hasil, $id);
         }
+
+        $hasil = $hasil && $this->migrasi_2023120751($hasil);
+        $hasil = $hasil && $this->migrasi_2023120553($hasil);
 
         return $hasil;
     }
 
-    protected function migrasi_2023121551($hasil, $id)
+    protected function migrasi_2023120351($hasil)
     {
-        return $hasil && $this->tambah_setting([
-            'judul'      => 'Jumlah Gambar Slider',
-            'key'        => 'jumlah_gambar_slider',
-            'value'      => '10',
-            'keterangan' => 'Jumlah Gambar Slider Yang di Tampilkan',
-            'jenis'      => 'text',
-            'option'     => null,
-            'attribute'  => null,
-            'kategori'   => 'artikel',
-        ], $id);
+        $this->tambahIndeks('klasifikasi_surat', 'config_id, kode', 'UNIQUE', true);
+
+        return $hasil;
     }
 
     protected function migrasi_2023121951($hasil)
@@ -109,23 +106,27 @@ class Migrasi_2023122471 extends MY_model
         return $hasil;
     }
 
-    protected function __construct($hasil)
+    protected function migrasi_2023121971($hasil)
     {
-        $this->dbforge->modify_column('gambar_gallery', [
-            'gambar' => [
-                'type' => 'TEXT',
-                'null' => true,
-            ],
-        ]);
+        if ($this->db->field_exists('gambar', 'gambar_gallery')) {
+            $hasil = $hasil && $this->dbforge->modify_column('gambar_gallery', [
+                'gambar' => [
+                    'type' => 'TEXT',
+                    'null' => true,
+                ],
+            ]);
+        }
 
-        $this->dbforge->add_column('gambar_gallery', [
-            'jenis' => [
-                'type'       => 'TINYINT',
-                'constraint' => 4,
-                'null'       => false,
-                'default'    => 1,
-            ],
-        ]);
+        if (! $this->db->field_exists('gambar', 'gambar_gallery')) {
+            $this->dbforge->add_column('gambar_gallery', [
+                'jenis' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 4,
+                    'null'       => false,
+                    'default'    => 1,
+                ],
+            ]);
+        }
 
         return $hasil;
     }
@@ -397,15 +398,149 @@ class Migrasi_2023122471 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2023122871($hasil)
+    protected function migrasi_2023120553($hasil)
     {
+        DB::table('tweb_penduduk')->where('kk_level', 0)->update(['kk_level' => null]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023120554($hasil, $config_id)
+    {
+        return $hasil && $this->tambah_modul([
+            'config_id'  => $config_id,
+            'modul'      => 'Simbol',
+            'slug'       => 'simbol',
+            'url'        => 'simbol',
+            'aktif'      => 1,
+            'ikon'       => 'fa-location-arrow',
+            'urut'       => 3,
+            'level'      => 1,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-location-arrow',
+            'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'simbol'])->row()->id,
+        ]);
+    }
+
+    protected function migrasi_2023120751($hasil)
+    {
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'data-suplemen', 'url' => 'suplemen/clear'],
+            ['url' => 'suplemen']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'wilayah-administratif', 'url' => 'wilayah/clear'],
+            ['url' => 'wilayah']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'pengunjung', 'url' => 'pengunjung/clear'],
+            ['url' => 'pengunjung']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'klasifikasi-surat', 'url' => 'klasifikasi/clear'],
+            ['url' => 'klasifikasi']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'polygon', 'url' => 'polygon/clear'],
+            ['url' => 'polygon']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'area', 'url' => 'area/clear'],
+            ['url' => 'area']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'garis', 'url' => 'garis/clear'],
+            ['url' => 'garis']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'widget', 'url' => 'web_widget/clear'],
+            ['url' => 'web_widget']
+        );
+
+        $hasil = $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'line', 'url' => 'line/clear'],
+            ['url' => 'line']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'point', 'url' => 'point/clear'],
+            ['url' => 'point']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'arsip-layanan', 'url' => 'keluar/clear/masuk'],
+            ['url' => 'keluar/clear']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'modul', 'url' => 'modul/clear'],
+            ['url' => 'modul']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'arsip-layanan', 'url' => 'keluar/clear'],
+            ['url' => 'keluar']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'calon-pemilih', 'url' => 'dpt/clear'],
+            ['url' => 'dpt']
+        );
+    }
+
+    protected function migrasi_2023122871($hasil, $id)
+    {
+        $hasil = $hasil && $this->tambah_setting([
+            'judul' => 'Notifikasi Reset PIN',
+            'key'   => 'notifikasi_reset_pin',
+            'value' => 'HALO [nama],
+            BERIKUT ADALAH KODE PIN YANG BARU SAJA DIHASILKAN,
+            KODE PIN INI SANGAT RAHASIA
+            JANGAN BERIKAN KODE PIN KEPADA SIAPA PUN,
+            TERMASUK PIHAK YANG MENGAKU DARI DESA ANDA.
+            KODE PIN: [pin]
+            JIKA BUKAN ANDA YANG MELAKUKAN RESET PIN TERSEBUT
+            SILAHKAN LAPORKAN KEPADA OPERATOR DESA
+            LINK : [website]',
+            'keterangan' => 'Pesan notifikasi reset PIN',
+            'jenis'      => 'textarea',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'sistem',
+        ], $id);
+
+        $hasil = $hasil && $this->tambah_setting([
+            'judul'      => 'Jumlah Gambar Slider',
+            'key'        => 'jumlah_gambar_slider',
+            'value'      => '10',
+            'keterangan' => 'Jumlah Gambar Slider Yang di Tampilkan',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'artikel',
+        ], $id);
+
         return $hasil && $this->tambah_setting([
             'judul'      => 'Tagline / Motto [desa]',
             'key'        => 'motto_desa',
             'value'      => '',
-            'jenis'      => 'text',
-            'attribute'  => '',
             'keterangan' => 'Tagline / Motto [desa]',
-        ]);
+            'jenis'      => 'text',
+            'attribute'  => null,
+        ], $id);
+    }
+
+    protected function migrasi_2023120752($hasil)
+    {
+        $this->db->query('ALTER TABLE config MODIFY path LONGTEXT DEFAULT NULL;');
+
+        return $hasil;
     }
 }
