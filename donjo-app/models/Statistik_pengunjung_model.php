@@ -193,7 +193,7 @@ class Statistik_pengunjung_model extends MY_Model
         $this->config_id_exist($this->table)
             ->where('Tanggal', date('Y-m-d'))
             ->update($this->table, [
-                'ipAddress' => json_encode(['ip_address' => array_merge([$this->ip_address()], $ip_address['ip_address'])], JSON_THROW_ON_ERROR),
+                'ipAddress' => json_encode(['ip_address' => array_merge([$this->ip_address()], $ip_address['ip_address'] ?? [])], JSON_THROW_ON_ERROR),
                 'Jumlah'    => $jumlah + 1,
             ]);
     }
