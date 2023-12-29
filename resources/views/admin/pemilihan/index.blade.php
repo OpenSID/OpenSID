@@ -25,8 +25,7 @@
                 <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('pemilihan.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i>
                     Hapus</a>
             @endif
-            <a href="{{ route('dpt') }}"
-                class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <a href="{{ route('dpt') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <i class="fa fa-arrow-circle-left"></i>Kembali ke DPT
             </a>
         </div>
