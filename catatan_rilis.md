@@ -41,6 +41,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#7529](https://github.com/OpenSID/OpenSID/issues/7529) Penyesuaian modul pengaturan modul menggunakan ORM dan Blade.
 17. [#7518](https://github.com/OpenSID/OpenSID/issues/7518) Penyesuaian modul arsip layanan menggunakan ORM dan Blade.
 18. [#7507](https://github.com/OpenSID/OpenSID/issues/7507) Penyesuaian modul daftar pemilih tetap menggunakan ORM dan Blade.
+19. [#237](https://github.com/OpenSID/opensid-api/issues/237) Penyesuian teknis unit testing sisipkan id arsip saat cetak pdf.
 
 
 #### Peningkatan Keamanan
