@@ -69,6 +69,11 @@ define('PREMIUM', true);
  */
 define('VERSI_DATABASE', '2023122971');
 
+/**
+ * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
+ */
+define('MINIMUM_VERSI', '2312');
+
 // Kode laporan statistik
 define('JUMLAH', 666);
 define('BELUM_MENGISI', 777);
@@ -1656,7 +1661,7 @@ if (! function_exists('getFormatIsian')) {
      */
     function getFormatIsian($kode_isian, $case_sentence = false)
     {
-        $netral = str_replace(['[', ']'], '', $kode_isian);
+        $netral = str_replace([' ', '[', ']'], '', $kode_isian);
 
         if ($case_sentence) {
             // jika gambar maka langsung kembalikan tanpa [ ]

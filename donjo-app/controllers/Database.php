@@ -173,8 +173,7 @@ class Database extends Admin_Controller
         $token = $this->setting->layanan_opendesa_token;
 
         try {
-            $this->session->success        = 1;
-            $this->session->error_msg      = '';
+            session_success();
             $this->session->sedang_restore = 1;
             $this->ekspor_model->restore();
         } catch (Exception $e) {

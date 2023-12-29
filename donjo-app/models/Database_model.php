@@ -45,7 +45,7 @@ class Database_model extends MY_Model
 {
     private $engine         = 'InnoDB';
     private int $showProgress      = 0;
-    private string $minimumVersion = '2312';
+    public string $minimumVersion;
 
     public function __construct()
     {
@@ -56,6 +56,7 @@ class Database_model extends MY_Model
             return;
         }
 
+        $this->minimumVersion = MINIMUM_VERSI;
         $this->cek_engine_db();
         $this->load->dbforge();
     }

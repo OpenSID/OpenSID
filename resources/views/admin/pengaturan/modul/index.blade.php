@@ -122,7 +122,7 @@
                     },
                 ],
                 pageLength: 25,
-                "aaSorting": []
+                aaSorting: []
             });
 
             if (ubah == 0) {

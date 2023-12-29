@@ -206,7 +206,7 @@ class Wilayah extends Admin_Controller
         return show_404();
     }
 
-    public function tukar(): void
+    public function tukar()
     {
         $wilayah = $this->input->post('data');
         if ($wilayah) {
@@ -216,7 +216,7 @@ class Wilayah extends Admin_Controller
             // setiap ada perubahan urutan maka harus diupdate lagi, karena berimbas ke urutan cetak
             WilayahModel::updateUrutan();
         }
-        $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 1], JSON_THROW_ON_ERROR));
+        return json(['status' => 1]);
     }
 
     // $aksi = cetak/unduh

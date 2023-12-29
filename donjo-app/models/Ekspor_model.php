@@ -393,7 +393,6 @@ class Ekspor_model extends MY_Model
             'fcm_token_mandiri',
             'log_login',
             'fcm_token',
-
         ];
 
         $prefs = [
@@ -496,8 +495,10 @@ class Ekspor_model extends MY_Model
         $this->upload->initialize($this->uploadConfig);
         // Upload sukses
         if (! $this->upload->do_upload('userfile')) {
-            $this->session->success   = -1;
-            $this->session->error_msg = $this->upload->display_errors(null, null) . ': ' . $this->upload->file_type;
+            $pesan = $this->upload->display_errors(null, null) . ': ' . $this->upload->file_type;
+
+            session_error($pesan);
+            set_session('error', $pesan);
 
             return false;
         }
@@ -515,9 +516,25 @@ class Ekspor_model extends MY_Model
 
         $lines = file($filename);
 
+        $versi = 0;
+        foreach ($lines as $line) {
+            if (strpos($line, 'current_version') !== false) {
+                $line  = substr($line, strpos($line, 'current_version') + 19, 5);
+                $versi  = str_replace('.', '', $line);
+                break;
+            }
+        }
+
+        if ((int) $versi < (int) MINIMUM_VERSI) {
+            $pesan = 'Versi OpenSID yang bisa di restore minimal backup dari v' . MINIMUM_VERSI;
+            set_session('error', $pesan);
+            log_message('error', $pesan);
+
+            return false;
+        }
+
         if (count($lines) < 20) {
-            $_SESSION['success']   = -1;
-            $_SESSION['error_msg'] = 'Sepertinya bukan file backup';
+            set_session('error', 'Sepertinya bukan file backup');
 
             return false;
         }

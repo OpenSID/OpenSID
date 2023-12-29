@@ -400,8 +400,7 @@ class TinyMCE
 
         // Kode isian yang berupa alias harus didahulukan
         $alias = KodeIsianPendudukLuar::get($data['surat'], $data['input']);
-
-        if ($alias) {
+        if ($alias && (! is_null($alias['nik']) || ! is_null($alias['nama']))) {
             $newKodeIsian = array_replace($newKodeIsian, $alias);
         }
 

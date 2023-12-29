@@ -52,8 +52,6 @@ class Web_widget extends Admin_Controller
         // tidak perlu menampilkan halaman website
         if ($this->setting->offline_mode >= 2) {
             redirect('beranda');
-
-            exit;
         }
 
         $this->load->model(['web_widget_model']);
@@ -108,7 +106,6 @@ class Web_widget extends Admin_Controller
 
                     return ['style' => $style];
                 })
-                ->editColumn('enabled', static fn ($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
                 ->editColumn('isi', static function ($row): string {
                     if ($row->jenis_widget == Widget::WIDGET_DINAMIS) {
                         return Str::limit($row->isi, 200, '...');
@@ -124,7 +121,7 @@ class Web_widget extends Admin_Controller
         return show_404();
     }
 
-    public function tukar(): void
+    public function tukar()
     {
         $widget = $this->input->post('data');
         if ($widget) {
@@ -133,7 +130,8 @@ class Web_widget extends Admin_Controller
             }
             Widget::updateUrutan();
         }
-        $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 1], JSON_THROW_ON_ERROR));
+
+        return json(['status' => 1]);
     }
 
     public function form($id = '')
@@ -188,7 +186,6 @@ class Web_widget extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Tambah Data');
-        redirect('web_widget');
     }
 
     private function upload_gambar(string $jenis)
@@ -276,22 +273,18 @@ class Web_widget extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function urut($id = 0, $arah = 0): void
-    {
-        isCan('u');
-
-        Widget::nomorUrut($id, $arah);
-
-        redirect('web_widget');
-    }
-
     public function lock($id = 0): void
     {
         isCan('u');
 
+        if ($this->session->error_msg) {
+            redirect_with('error', $this->session->error_msg);
+        }
+
         if (Widget::gantiStatus($id, 'enabled')) {
             redirect_with('success', 'Berhasil Ubah Status');
         }
+
         redirect_with('error', 'Gagal Ubah Status');
     }
 
@@ -299,8 +292,6 @@ class Web_widget extends Admin_Controller
     {
         if (! in_array('tidy', get_loaded_extensions())) {
             $pesan = '<br/>Ektensi <code>tidy</code> tidak aktif. Silahkan cek <a href="' . site_url('info_sistem') . '"><b>Pengaturan > Info Sistem > Kebutuhan Sistem.</a></b>';
-
-            session_error($pesan);
 
             redirect_with('error', $pesan);
         }
