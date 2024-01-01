@@ -377,6 +377,7 @@ class Surat extends Admin_Controller
             unset($log_surat['surat'], $log_surat['input']);
             $id    = LogSurat::updateOrCreate(['id' => $cetak['id']], $log_surat)->id;
             $surat = LogSurat::findOrFail($id);
+            header('id_arsip: ' . $id); // sisipkan id
 
             // Replace Gambar
             $data_gambar    = KodeIsianGambar::set($cetak['surat'], $isi_cetak, $surat);
