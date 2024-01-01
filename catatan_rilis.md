@@ -1,6 +1,6 @@
-Di rilis ini, versi 2401.0.0 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2401.0.0 berisi penambahan fungsi pindah keluarga secara kolektif atar wilayah dusun/rw/rt dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] telah ikut berkontribusi.
+Terima kasih pada @ariandi dan @arifpriadi telah ikut berkontribusi.
 
 #### FITUR
 1. [#4333](https://github.com/OpenSID/OpenSID/issues/4333) Penambahan data rumah tanggal pada modul pementaan.
