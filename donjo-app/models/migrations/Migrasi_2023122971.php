@@ -534,6 +534,7 @@ class Migrasi_2023122971 extends MY_model
             'keterangan' => 'Tagline / Motto [desa]',
             'jenis'      => 'text',
             'attribute'  => null,
+            'kategori'   => 'sistem',
         ], $id);
     }
 
