@@ -5,7 +5,6 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### FITUR
 1. [#4333](https://github.com/OpenSID/OpenSID/issues/4333) Penambahan data rumah tanggal pada modul pementaan.
 2. [#5949](https://github.com/OpenSID/OpenSID/issues/5949) Penambahan status hari libur.
-
 3. [#3604](https://github.com/OpenSID/OpenSID/issues/3604) Penambahan fungsi pindah keluarga secara kolektif atar wilayah dusun/rw/rt.
 4. [#5141](https://github.com/OpenSID/OpenSID/issues/5141) Penambahan pengaturan jumlah slider yang ditampilkan pada halaman web.
 5. [#1772](https://github.com/OpenSID/OpenSID/issues/1772) Penambahan jadwal pemilihan pada modul dpt.
