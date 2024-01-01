@@ -288,6 +288,7 @@
 
 				var layer_penduduk = '<?= $layer_penduduk ?>';
 				var layer_keluarga = '<?= $layer_keluarga ?>';
+				var layer_rtm = '<?= $layer_rtm ?>';
 
 				//Data penduduk
 				var penduduk = JSON.parse('<?= addslashes(json_encode($penduduk, JSON_THROW_ON_ERROR)) ?>');
@@ -405,7 +406,7 @@
 	function handle_rtm(cb) {
 		formAction('mainform_map', '<?= site_url('gis/layer_rtm') ?>');
 	}
-	
+
 	function AmbilFotoLokasi(foto, ukuran = "kecil_") {
 		ukuran_foto = ukuran || null
 		file_foto = '<?= base_url(LOKASI_FOTO_LOKASI) ?>' + ukuran_foto + foto;
