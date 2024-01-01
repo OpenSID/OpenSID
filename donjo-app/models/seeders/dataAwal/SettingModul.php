@@ -45,7 +45,7 @@ class SettingModul extends CI_Model
             [
                 'modul'      => 'Home',
                 'slug'       => 'home',
-                'url'        => 'hom_sid',
+                'url'        => 'beranda',
                 'aktif'      => 1,
                 'ikon'       => 'fa-home',
                 'urut'       => 10,

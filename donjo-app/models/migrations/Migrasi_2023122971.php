@@ -117,7 +117,7 @@ class Migrasi_2023122971 extends MY_model
             ]);
         }
 
-        if (! $this->db->field_exists('gambar', 'gambar_gallery')) {
+        if (! $this->db->field_exists('jenis', 'gambar_gallery')) {
             $this->dbforge->add_column('gambar_gallery', [
                 'jenis' => [
                     'type'       => 'TINYINT',

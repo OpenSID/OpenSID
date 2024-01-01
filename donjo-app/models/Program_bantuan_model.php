@@ -81,7 +81,7 @@ class Program_bantuan_model extends MY_Model
         }
 
         return $this->config_id('p', true)
-            ->select('p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status')
+            ->select('p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.status')
             ->get('program p')
             ->result_array();
     }
@@ -92,7 +92,7 @@ class Program_bantuan_model extends MY_Model
         $no_kk   = $this->keluarga_model->get_nokk($kk_id);
         $sasaran = 2;
         $strSQL  = "
-            SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, CONCAT('50',p.id) as lap, pp.peserta
+            SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.status, CONCAT('50',p.id) as lap, pp.peserta
             FROM program p
             LEFT OUTER JOIN program_peserta pp ON p.id = pp.program_id AND pp.peserta = '{$no_kk}'
             WHERE p.sasaran = {$sasaran} AND p.config_id = {$this->config_id}";
