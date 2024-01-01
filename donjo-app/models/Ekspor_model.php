@@ -193,213 +193,14 @@ class Ekspor_model extends MY_Model
 
         // Tabel dengan foreign key dan
         // semua views ditambah di belakang.
-        $views = $this->database_model->get_views();
-
-        // Cek tabel yang memiliki FK (SELECT DISTINCT TABLE_NAME FROM information_schema.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = 'nama_database')
-        // Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang.
-        // Yang ditambahkan hanya tabel, view tidak ditambahkan.
-        $ada_foreign_key = [
-            'program',
-            'dokumen',
-            'inventaris_jalan',
-            'suplemen',
-            'lokasi',
-            'analisis_indikator',
-            'buku_tamu',
-            'artikel',
-            'inventaris_peralatan',
-            'surat_masuk',
-            'keuangan_master',
-            'inbox',
-            'kategori',
-            'pelapak',
-            'produk_kategori',
-            'setting_modul',
-            'inventaris_gedung',
-            'inventaris_asset',
-            'inventaris_tanah',
-            'pembangunan',
-            'cdesa',
-            'tweb_penduduk',
-            'tweb_wil_clusterdesa',
-            'tweb_keluarga',
-            'tweb_rtm',
-            'tweb_desa_pamong',
-            'kontak_grup',
-            'user_grup',
-            'suplemen_terdata',
-            'kontak',
-            'anggota_grup_kontak',
-            'mutasi_inventaris_asset',
-            'mutasi_inventaris_gedung',
-            'mutasi_inventaris_jalan',
-            'mutasi_inventaris_peralatan',
-            'mutasi_inventaris_tanah',
-            'disposisi_surat_masuk',
-            'tweb_penduduk_mandiri',
-            'log_penduduk',
-            'agenda',
-            'covid19_pemudik',
-            'covid19_pantau',
-            'log_keluarga',
-            'grup_akses',
-            'produk',
-            'keuangan_ref_bank_desa',
-            'keuangan_ref_bel_operasional',
-            'keuangan_ref_bidang',
-            'keuangan_ref_bunga',
-            'keuangan_ref_desa',
-            'keuangan_ref_kecamatan',
-            'keuangan_ref_kegiatan',
-            'keuangan_ref_korolari',
-            'keuangan_ref_neraca_close',
-            'keuangan_ref_perangkat',
-            'keuangan_ref_potongan',
-            'keuangan_ref_rek1',
-            'keuangan_ref_rek2',
-            'keuangan_ref_rek3',
-            'keuangan_ref_rek4',
-            'keuangan_ref_sbu',
-            'keuangan_ref_sumber',
-            'keuangan_ta_anggaran',
-            'keuangan_ta_anggaran_log',
-            'keuangan_ta_anggaran_rinci',
-            'keuangan_ta_bidang',
-            'keuangan_ta_desa',
-            'keuangan_ta_jurnal_umum',
-            'keuangan_ta_jurnal_umum_rinci',
-            'keuangan_ta_kegiatan',
-            'keuangan_ta_mutasi',
-            'keuangan_ta_pajak',
-            'keuangan_ta_pajak_rinci',
-            'keuangan_ta_pemda',
-            'keuangan_ta_pencairan',
-            'keuangan_ta_perangkat',
-            'keuangan_ta_rab',
-            'keuangan_ta_rab_rinci',
-            'keuangan_ta_rab_sub',
-            'keuangan_ta_rpjm_bidang',
-            'keuangan_ta_rpjm_kegiatan',
-            'keuangan_ta_rpjm_misi',
-            'keuangan_ta_rpjm_pagu_indikatif',
-            'keuangan_ta_rpjm_pagu_tahunan',
-            'keuangan_ta_rpjm_sasaran',
-            'keuangan_ta_rpjm_tujuan',
-            'keuangan_ta_rpjm_visi',
-            'keuangan_ta_saldo_awal',
-            'keuangan_ta_spj',
-            'keuangan_ta_spj_bukti',
-            'keuangan_ta_spj_rinci',
-            'keuangan_ta_spj_sisa',
-            'keuangan_ta_spjpot',
-            'keuangan_ta_spp',
-            'keuangan_ta_spp_rinci',
-            'keuangan_ta_sppbukti',
-            'keuangan_ta_spppot',
-            'keuangan_ta_sts',
-            'keuangan_ta_sts_rinci',
-            'keuangan_ta_tbp',
-            'keuangan_ta_tbp_rinci',
-            'keuangan_ta_triwulan',
-            'keuangan_ta_triwulan_rinci',
-            'cdesa_penduduk',
-            'mutasi_cdesa',
-            'hubung_warga',
-            'dtks',
-            'dtks_anggota',
-            'dtks_lampiran',
-            'dtks_pengaturan_program',
-            'dtks_ref_lampiran',
-            'laporan_sinkronisasi',
-            'log_sinkronisasi',
-            'menu',
-            'ibu_hamil',
-            'tweb_surat_format',
-            'posyandu',
-            'widget',
-            'anjungan',
-            'login_attempts',
-            'setting_aplikasi',
-            'media_sosial',
-            'kehadiran_alasan_keluar',
-            'sys_traffic',
-            'keuangan_manual_rinci',
-            'urls',
-            'inventaris_kontruksi',
-            'analisis_respon_hasil',
-            'polygon',
-            'log_tte',
-            'tweb_penduduk_umur',
-            'outbox',
-            'analisis_master',
-            'pengaduan',
-            'permohonan_surat',
-            'analisis_respon_bukti',
-            'log_tolak',
-            'log_restore_desa',
-            'kia',
-            'komentar',
-            'covid19_vaksin',
-            'statistics',
-            'user',
-            'klasifikasi_surat',
-            'bulanan_anak',
-            'surat_keluar',
-            'log_perubahan_penduduk',
-            'anjungan_menu',
-            'gambar_gallery',
-            'tanah_kas_desa',
-            'tanah_desa',
-            'sasaran_paud',
-            'program_peserta',
-            'pesan_detail',
-            'kehadiran_pengaduan',
-            'ref_jabatan',
-            'gis_simbol',
-            'area',
-            'buku_keperluan',
-            'ref_syarat_surat',
-            'log_surat',
-            'analisis_respon',
-            'buku_pertanyaan',
-            'point',
-            'persil',
-            'pendapat',
-            'kehadiran_hari_libur',
-            'buku_kepuasan',
-            'sentitems',
-            'kehadiran_jam_kerja',
-            'notifikasi',
-            'log_hapus_penduduk',
-            'log_backup',
-            'kehadiran_perangkat_desa',
-            'line',
-            'kelompok_master',
-            'kelompok',
-            'kelompok_anggota',
-            'pembangunan_ref_dokumentasi',
-            'teks_berjalan',
-            'kader_pemberdayaan_masyarakat',
-            'garis',
-            'analisis_periode',
-            'analisis_kategori_indikator',
-            'pesan',
-            'analisis_klasifikasi',
-            'analisis_parameter',
-            'alias_kodeisian',
-            'log_login',
-            'log_notifikasi_admin',
-            'log_notifikasi_mandiri',
-            'fcm_token_mandiri',
-            'log_login',
-            'fcm_token',
-        ];
+        $views = $this->database_model->get_views();        
 
         $prefs = [
             'format' => 'sql',
-            'tables' => $ada_foreign_key,
+            'tables' => [],
+            'ignore' => $views
         ];
-        $tabel_foreign_key = $this->do_backup($prefs);
+        $tabelBackup = $this->do_backup($prefs);
 
         $prefs = [
             'format'     => 'sql',
@@ -417,17 +218,12 @@ class Ekspor_model extends MY_Model
         }
 
         // Hapus tabel dgn foreign key
-        foreach (array_reverse($ada_foreign_key) as $table) {
-            $backup .= 'DROP TABLE IF EXISTS ' . $table . ";\n";
-        }
-
-        // Semua views dan tabel dgn foreign key di-backup terpisah
-        $prefs = [
-            'format' => 'sql',
-            'ignore' => array_merge(['data_surat'], $views, $ada_foreign_key),
-        ];
-        $backup .= $this->do_backup($prefs);
-        $backup .= $tabel_foreign_key;
+        // $allTables = $this->db->list_tables();
+        // foreach ($allTables as $table) {
+        //     $backup .= 'DROP TABLE IF EXISTS ' . $table . ";\n";
+        // }
+                
+        $backup .= $tabelBackup;
         $backup .= $create_views;
 
         // Hilangkan ketentuan user dan baris-baris lain yang
@@ -540,9 +336,9 @@ class Ekspor_model extends MY_Model
         }
 
         $_SESSION['success'] = 1;
-        $this->drop_views();
-        $this->drop_tables();
-
+        // $this->drop_views();
+        // $this->drop_tables();
+        $this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
         $query = '';
 
         foreach ($lines as $key => $sql_line) {
@@ -565,7 +361,7 @@ class Ekspor_model extends MY_Model
                 }
             }
         }
-
+        $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
         $this->perbaiki_collation();
 
         $this->load->helper('directory');

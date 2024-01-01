@@ -56,7 +56,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Keluar extends Admin_Controller
 {
     private $isAdmin;
-    private \App\Libraries\TinyMCE $tinymce;
+    private TinyMCE $tinymce;
 
     public function __construct()
     {
@@ -150,7 +150,7 @@ class Keluar extends Admin_Controller
                 $operator = ! in_array($jabatanId, [$idJabatanKades, $idJabatanKades]);
             }
 
-            return datatables()->of(LogSurat::selectRaw('*')
+            return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak'])->selectRaw('*')
                 ->when($tahun, static fn ($q) => $q->whereYear('tanggal', $tahun))
                 ->when($bulan, static fn ($q) => $q->whereMonth('tanggal', $bulan))
                 ->when($jenis, static fn ($q) => $q->where('id_format_surat', $jenis))
@@ -183,10 +183,10 @@ class Keluar extends Admin_Controller
                     $aksi          = '';
                     $statusPeriksa = $row->statusPeriksa($jabatanId, $idJabatanKades, $idJabatanSekdes);
                     if ($state == 'arsip' && $canUpdate) {
-                        if (in_array($row->formatSurat->jenis, FormatSurat::RTF)) {
+                        if (in_array($row->formatSuratArsip->jenis, FormatSurat::RTF)) {
                             $aksi .= '<a href="' . route('keluar.edit_keterangan', $row->id) . '" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a> ';
                         }
-                        if (! in_array($row->formatSurat->jenis, FormatSurat::RTF) && $row->status == 0) {
+                        if (! in_array($row->formatSuratArsip->jenis, FormatSurat::RTF) && $row->status == 0) {
                             $aksi .= '<a href="' . route('surat.cetak', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a> ';
                             // hapus surat draft
                             if ($canDelete) {
@@ -197,7 +197,7 @@ class Keluar extends Admin_Controller
 
                     // hanya untuk surat permohonan
                     if (in_array($state, ['masuk', 'tolak']) && $canUpdate) {
-                        if (in_array($row->formatSurat->jenis, FormatSurat::RTF) && $operator) {
+                        if (in_array($row->formatSuratArsip->jenis, FormatSurat::RTF) && $operator) {
                             $aksi .= '<a href="' . route('keluar.edit_keterangan', $row->id) . '" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a> ';
                         } elseif ($row->status == 0 || $row->verifikasi == '-1') {
                             $aksi .= '<a href="' . route('surat.cetak', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a> ';
@@ -214,8 +214,8 @@ class Keluar extends Admin_Controller
                     }
 
                     // hanya untuk arsip surat -->
-                    if ($row->status == '1') {
-                        if (in_array($row->formatSurat->jenis, FormatSurat::RTF)) {
+                    if ($row->status == '1') {                        
+                        if (in_array($row->formatSuratArsip->jenis, FormatSurat::RTF)) {                                                    
                             if (is_file($row->rtfFile())) {
                                 $aksi .= '<a href="' . route('keluar.unduh.rtf', $row->id) . '" class="btn bg-purple btn-sm" title="Unduh Surat RTF" target="_blank"><i class="fa fa-file-word-o"></i></a> ';
                             }
@@ -248,8 +248,8 @@ class Keluar extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('kode_surat', static fn ($row) => $row->formatSurat->kode_surat ?? '')
-                ->editColumn('id_format_surat', static fn ($row) => $row->formatSurat->nama ?? '')
+                ->addColumn('kode_surat', static fn ($row) => $row->formatSuratArsip->kode_surat ?? '')
+                ->editColumn('id_format_surat', static fn ($row) => $row->formatSuratArsip->nama ?? '')
                 ->editColumn('id_user', static fn ($row) => $row->user->nama ?? '')
                 ->editColumn('keterangan', static fn ($row) => $row->keterangan ?? '-')
                 ->editColumn('tanggal', static fn ($row) => tgl_indo2($row->tanggal))
