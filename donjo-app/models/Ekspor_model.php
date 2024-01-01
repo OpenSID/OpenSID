@@ -383,7 +383,11 @@ class Ekspor_model extends MY_Model
         }
 
         file_put_contents(DESAPATH . 'app_key', $app_key);
-
+        // enkripsi ulang password menggunakan appkey baru
+        updateConfigFile('password', encrypt($this->db->password));
+        // reset cache blade
+        kosongkanFolder(config_item('cache_blade'));
+        cache()->flush();
         session_destroy();
 
         return true;
