@@ -265,7 +265,7 @@ class Gis extends Admin_Controller
         $agama = $this->input->post('agama');
         if ($agama != '') {
             $_SESSION['agama'] = $agama;
-            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga'])) && empty($_SESSION['layer_rtm'])) {
+            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga']) && empty($_SESSION['layer_rtm'])) {
                 $_SESSION['layer_penduduk'] = 1;
             }
         } else {
