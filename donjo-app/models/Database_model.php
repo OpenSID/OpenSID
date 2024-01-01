@@ -152,6 +152,7 @@ class Database_model extends MY_Model
         if ($this->getShowProgress()) {
             // sleep(1.5);
             echo json_encode(['message' => 'Versi database sudah terbaru', 'status' => 0]);
+            set_session('success', 'Migrasi berhasil dilakukan');
         }
 
         if (strlen($this->db->password) < 80) {

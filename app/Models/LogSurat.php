@@ -95,6 +95,9 @@ class LogSurat extends BaseModel
         return $this->belongsTo(FormatSurat::class, 'id_format_surat');
     }
 
+    public function formatSuratArsip(){
+        return $this->formatSurat()->withoutGlobalScope(\App\Scopes\RemoveRtfScope::class);
+    }    
     public function penduduk()
     {
         return $this->belongsTo(Penduduk::class, 'id_pend');
@@ -219,7 +222,7 @@ class LogSurat extends BaseModel
         } else {
             $berkas_rtf = $this->formatSurat->url_surat . '_' . $this->penduduk->nik . '_' . date('Y-m-d') . '.rtf';
         }
-
+        
         return LOKASI_ARSIP . $berkas_rtf;
     }
 
