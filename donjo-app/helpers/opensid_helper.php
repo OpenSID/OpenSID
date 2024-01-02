@@ -1766,3 +1766,18 @@ if (! function_exists('getVariableName')) {
         return $variableName !== false ? $variableName : null;
     }
 }
+
+/**
+ * @param string
+ *
+ * @return string
+ */
+if (! function_exists('bersihkan_xss')) {
+    function bersihkan_xss($str)
+    {
+        $antiXSS = new AntiXSS();
+        $antiXSS->removeEvilHtmlTags(['iframe']);
+
+        return $antiXSS->xss_clean($str);
+    }
+}
