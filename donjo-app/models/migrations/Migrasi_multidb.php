@@ -281,6 +281,7 @@ class Migrasi_multidb extends MY_model
     // OpenKAB - Modul Web artikel
     protected function admin_artikel($hasil)
     {
+        $this->db->query('ALTER TABLE agenda MODIFY COLUMN tgl_agenda timestamp DEFAULT current_timestamp() NOT NULL');
         $hasil = $hasil && $this->tambah_config_id('agenda');
 
         return $hasil && $this->tambah_config_id('artikel');
@@ -380,6 +381,7 @@ class Migrasi_multidb extends MY_model
     {
         $table = 'log_penduduk';
 
+        $this->db->query('ALTER TABLE log_perubahan_penduduk MODIFY COLUMN tanggal timestamp DEFAULT current_timestamp() NOT NULL');
         // Tambah kolom config_id pada tabel tweb_penduduk
         $hasil = $hasil && $this->tambah_config_id($table);
 
@@ -576,9 +578,10 @@ class Migrasi_multidb extends MY_model
 
     protected function rtm($hasil)
     {
-        $table = 'tweb_rtm';
+        $tabel = 'tweb_rtm';
 
-        $hasil = $hasil && $this->tambah_config_id($table);
+        $this->db->query('ALTER TABLE tweb_rtm MODIFY COLUMN tgl_daftar timestamp DEFAULT current_timestamp() NOT NULL');
+        $hasil = $hasil && $this->tambah_config_id($tabel);
 
         $hasil = $hasil && $this->hapus_indeks($tabel, 'no_kk_2');
 
@@ -1045,6 +1048,7 @@ class Migrasi_multidb extends MY_model
     {
         $tabel = 'notifikasi';
 
+        $this->db->query('ALTER TABLE notifikasi MODIFY COLUMN tgl_berikutnya timestamp DEFAULT current_timestamp() NOT NULL');
         $hasil = $hasil && $this->tambah_config_id('notifikasi');
 
         // Sesuaikan ulang index kode pada tabel notifikasi

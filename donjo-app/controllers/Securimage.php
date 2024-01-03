@@ -37,30 +37,10 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-<<<<<<<< HEAD:donjo-app/controllers/Securimage.php
 class Securimage extends CI_Controller
-========
-class Migrasi_2305_ke_2306 extends MY_Model
->>>>>>>> 764072a2d (Gabungkan rilis premium 2306.0.3-clear):donjo-app/models/migrations/Migrasi_2305_ke_2306.php
 {
-    public function up()
-    {
-<<<<<<<< HEAD:donjo-app/controllers/Securimage.php
-        parent::__construct();
-    }
-
-    public function show()
+    public function show(): void
     {
         App\Libraries\Captcha::make();
-========
-        $hasil = true;
-
-        // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2306', false);
-
-        status_sukses($hasil);
-
-        return $hasil;
->>>>>>>> 764072a2d (Gabungkan rilis premium 2306.0.3-clear):donjo-app/models/migrations/Migrasi_2305_ke_2306.php
     }
 }
