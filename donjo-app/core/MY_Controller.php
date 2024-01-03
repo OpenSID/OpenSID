@@ -263,14 +263,17 @@ class Web_Controller extends MY_Controller
         // Variabel untuk tema
         $this->set_template();
         $this->includes['folder_themes'] = "../../{$this->theme_folder}/{$this->theme}";
-
         if ($this->setting->offline_mode == 2) {
             $this->view_maintenance();
-        } elseif ($this->setting->offline_mode == 1) {
+            exit;
+        }
+
+        if ($this->setting->offline_mode == 1) {
             $this->load->model('user_model');
             $grup = $this->user_model->sesi_grup($this->session->sesi);
             if (! $this->user_model->hak_akses($grup, 'web', 'b')) {
                 $this->view_maintenance();
+                exit;
             }
         }
 
