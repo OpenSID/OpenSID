@@ -54,8 +54,8 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
         'zh' => 'Han-Latin',
     ];
 
-    private ?string $defaultLocale;
-    private \Closure|array $symbolsMap = [
+    private $defaultLocale;
+    private $symbolsMap = [
         'en' => ['@' => 'at', '&' => 'and'],
     ];
 
@@ -64,10 +64,17 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
      *
      * @var \Transliterator[]
      */
-    private array $transliterators = [];
+    private $transliterators = [];
 
-    public function __construct(string $defaultLocale = null, array|\Closure $symbolsMap = null)
+    /**
+     * @param array|\Closure|null $symbolsMap
+     */
+    public function __construct(string $defaultLocale = null, $symbolsMap = null)
     {
+        if (null !== $symbolsMap && !\is_array($symbolsMap) && !$symbolsMap instanceof \Closure) {
+            throw new \TypeError(sprintf('Argument 2 passed to "%s()" must be array, Closure or null, "%s" given.', __METHOD__, \gettype($symbolsMap)));
+        }
+
         $this->defaultLocale = $defaultLocale;
         $this->symbolsMap = $symbolsMap ?? $this->symbolsMap;
     }
@@ -75,7 +82,7 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function setLocale(string $locale)
+    public function setLocale($locale)
     {
         $this->defaultLocale = $locale;
     }
@@ -83,7 +90,7 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function getLocale(): string
+    public function getLocale()
     {
         return $this->defaultLocale;
     }

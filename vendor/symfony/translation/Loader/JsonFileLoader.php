@@ -23,7 +23,7 @@ class JsonFileLoader extends FileLoader
     /**
      * {@inheritdoc}
      */
-    protected function loadResource(string $resource): array
+    protected function loadResource(string $resource)
     {
         $messages = [];
         if ($data = file_get_contents($resource)) {

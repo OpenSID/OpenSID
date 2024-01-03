@@ -19,7 +19,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 class ProviderException extends RuntimeException implements ProviderExceptionInterface
 {
     private $response;
-    private string $debug;
+    private $debug;
 
     public function __construct(string $message, ResponseInterface $response, int $code = 0, \Exception $previous = null)
     {

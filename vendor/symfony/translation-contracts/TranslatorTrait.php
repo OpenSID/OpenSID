@@ -20,7 +20,7 @@ use Symfony\Component\Translation\Exception\InvalidArgumentException;
  */
 trait TranslatorTrait
 {
-    private ?string $locale = null;
+    private $locale;
 
     /**
      * {@inheritdoc}
@@ -32,8 +32,10 @@ trait TranslatorTrait
 
     /**
      * {@inheritdoc}
+     *
+     * @return string
      */
-    public function getLocale(): string
+    public function getLocale()
     {
         return $this->locale ?: (class_exists(\Locale::class) ? \Locale::getDefault() : 'en');
     }

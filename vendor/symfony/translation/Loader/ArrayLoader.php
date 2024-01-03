@@ -23,7 +23,7 @@ class ArrayLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function load(mixed $resource, string $locale, string $domain = 'messages'): MessageCatalogue
+    public function load($resource, string $locale, string $domain = 'messages')
     {
         $resource = $this->flatten($resource);
         $catalogue = new MessageCatalogue($locale);
@@ -46,9 +46,11 @@ class ArrayLoader implements LoaderInterface
         foreach ($messages as $key => $value) {
             if (\is_array($value)) {
                 foreach ($this->flatten($value) as $k => $v) {
-                    $result[$key.'.'.$k] = $v;
+                    if (null !== $v) {
+                        $result[$key.'.'.$k] = $v;
+                    }
                 }
-            } else {
+            } elseif (null !== $value) {
                 $result[$key] = $value;
             }
         }

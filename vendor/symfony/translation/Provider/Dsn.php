@@ -20,30 +20,30 @@ use Symfony\Component\Translation\Exception\MissingRequiredOptionException;
  */
 final class Dsn
 {
-    private ?string $scheme;
-    private ?string $host;
-    private ?string $user;
-    private ?string $password;
-    private ?int $port;
-    private ?string $path;
-    private array $options = [];
-    private string $originalDsn;
+    private $scheme;
+    private $host;
+    private $user;
+    private $password;
+    private $port;
+    private $path;
+    private $options;
+    private $originalDsn;
 
     public function __construct(string $dsn)
     {
         $this->originalDsn = $dsn;
 
         if (false === $parsedDsn = parse_url($dsn)) {
-            throw new InvalidArgumentException(sprintf('The "%s" translation provider DSN is invalid.', $dsn));
+            throw new InvalidArgumentException('The translation provider DSN is invalid.');
         }
 
         if (!isset($parsedDsn['scheme'])) {
-            throw new InvalidArgumentException(sprintf('The "%s" translation provider DSN must contain a scheme.', $dsn));
+            throw new InvalidArgumentException('The translation provider DSN must contain a scheme.');
         }
         $this->scheme = $parsedDsn['scheme'];
 
         if (!isset($parsedDsn['host'])) {
-            throw new InvalidArgumentException(sprintf('The "%s" translation provider DSN must contain a host (use "default" by default).', $dsn));
+            throw new InvalidArgumentException('The translation provider DSN must contain a host (use "default" by default).');
         }
         $this->host = $parsedDsn['host'];
 
@@ -79,7 +79,7 @@ final class Dsn
         return $this->port ?? $default;
     }
 
-    public function getOption(string $key, mixed $default = null)
+    public function getOption(string $key, $default = null)
     {
         return $this->options[$key] ?? $default;
     }

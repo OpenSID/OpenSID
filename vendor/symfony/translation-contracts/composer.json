@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": ">=8.0.2"
+        "php": ">=7.2.5"
     },
     "suggest": {
         "symfony/translation-implementation": ""
@@ -27,7 +27,7 @@
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-main": "3.0-dev"
+            "dev-main": "2.5-dev"
         },
         "thanks": {
             "name": "symfony/contracts",

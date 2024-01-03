@@ -60,7 +60,7 @@ class PoFileLoader extends FileLoader
      *
      * {@inheritdoc}
      */
-    protected function loadResource(string $resource): array
+    protected function loadResource(string $resource)
     {
         $stream = fopen($resource, 'r');
 
